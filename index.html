@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Agenda cultural pública de Valparaíso y Viña del Mar.">
+  <title>Agenda Cultural Valparaíso / Viña</title>
+  <link rel="stylesheet" href="./assets/agenda.css">
+</head>
+<body>
+  <a class="skip-link" href="#agenda-results">Saltar a las actividades</a>
+
+  <header class="site-header">
+    <div class="shell header-layout">
+      <div>
+        <p class="eyebrow">Panoramas culturales de la región</p>
+        <h1>Agenda Cultural<br><span>Valparaíso / Viña</span></h1>
+        <p class="intro">Eventos, cursos y talleres públicos reunidos desde fuentes verificables.</p>
+      </div>
+      <div class="dataset-summary" aria-label="Resumen de la agenda">
+        <p><strong id="public-count">—</strong> actividades públicas</p>
+        <p id="last-updated">Actualizando información…</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell main-content" id="main-content">
+    <section class="status-panel" id="app-status" aria-live="polite" aria-atomic="true">
+      <span class="loading-mark" aria-hidden="true"></span>
+      <div>
+        <h2 id="status-title">Cargando agenda</h2>
+        <p id="status-message">Estamos preparando las actividades disponibles.</p>
+      </div>
+    </section>
+
+    <section id="agenda-results" aria-labelledby="results-title" hidden>
+      <section class="filter-panel" aria-labelledby="filters-title">
+        <div class="filter-heading">
+          <div>
+            <p class="eyebrow">Explorar la agenda</p>
+            <h2 id="filters-title">Encuentra tu panorama</h2>
+          </div>
+          <button type="button" id="clear-filters" class="text-button">Limpiar filtros</button>
+        </div>
+
+        <div class="filter-grid">
+          <label class="filter-field filter-search">
+            <span>Buscar</span>
+            <input id="filter-query" type="search" name="q" placeholder="Título, lugar, organizador…" autocomplete="off">
+          </label>
+          <label class="filter-field">
+            <span>Ciudad</span>
+            <select id="filter-city" name="ciudad">
+              <option value="">Todas las ciudades</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>Precio</span>
+            <select id="filter-price" name="precio">
+              <option value="todos">Todos los precios</option>
+              <option value="gratis">Gratis</option>
+              <option value="pagado">Pagado</option>
+              <option value="desconocido">Precio por confirmar</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>Cuándo</span>
+            <select id="filter-period" name="periodo">
+              <option value="todos">Todas las fechas</option>
+              <option value="hoy">Hoy</option>
+              <option value="manana">Mañana</option>
+              <option value="fin-de-semana">Este fin de semana</option>
+              <option value="rango">Rango personalizado</option>
+            </select>
+          </label>
+        </div>
+
+        <fieldset class="category-filter">
+          <legend>Categorías <span>(puedes elegir varias)</span></legend>
+          <div id="filter-categories" class="category-options"></div>
+        </fieldset>
+
+        <div id="custom-range" class="custom-range" hidden>
+          <label class="filter-field">
+            <span>Desde</span>
+            <input id="filter-from" type="date" name="desde">
+          </label>
+          <label class="filter-field">
+            <span>Hasta</span>
+            <input id="filter-to" type="date" name="hasta">
+          </label>
+        </div>
+
+        <p class="filter-note">Los cursos y talleres de fecha flexible aparecen solo al consultar todas las fechas.</p>
+        <div id="active-filters" class="active-filters" aria-label="Filtros activos"></div>
+      </section>
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Selección pública</p>
+          <h2 id="results-title">Próximas actividades</h2>
+        </div>
+        <p id="results-count" class="results-count" aria-live="polite"></p>
+      </div>
+      <div id="event-grid" class="event-grid"></div>
+      <div id="no-results" class="no-results" hidden>
+        <h3>No encontramos actividades con esos filtros</h3>
+        <p>Prueba quitando una categoría o ampliando el rango de fechas.</p>
+        <button type="button" id="no-results-clear" class="button">Limpiar filtros</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="event-detail" class="detail-dialog" aria-labelledby="detail-title">
+    <div class="detail-frame">
+      <button type="button" id="detail-close" class="icon-button" aria-label="Cerrar detalle">×</button>
+      <article id="detail-content"></article>
+    </div>
+  </dialog>
+
+  <noscript>
+    <div class="shell noscript-message">Esta agenda necesita JavaScript para cargar el dataset público.</div>
+  </noscript>
+
+  <script type="module" src="./assets/agenda.js"></script>
+</body>
+</html>
