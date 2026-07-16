@@ -9,7 +9,6 @@ import {
   eventsForSection,
   fetchChangesDataset,
   fetchDataset,
-  filterPublicAlerts,
   filterEvents,
   filtersFromSearchParams,
   filtersToSearchParams,
@@ -51,39 +50,9 @@ const elements = {
   clear: document.querySelector("#clear-filters"),
   noResults: document.querySelector("#no-results"),
   noResultsClear: document.querySelector("#no-results-clear"),
-  changes: document.querySelector("#agenda-changes"),
-  changesCount: document.querySelector("#changes-count"),
-  changesContent: document.querySelector("#changes-content"),
-  changesFilter: document.querySelector("#changes-filter"),
   sectionLinks: document.querySelector("#section-links"),
   resultsTitle: document.querySelector("#results-title"),
 };
-
-function renderChanges(changes) {
-  state.alerts = changes.alerts;
-  const visible = filterPublicAlerts(state.alerts, elements.changesFilter.value);
-  const cards = visible.map((item) => {
-    const article = element("article", "change-card"); article.id = `aviso-${item.id}`;
-    article.append(element("span", `change-type change-type-${item.change_type}`, publicChangeLabel(item.change_type)));
-    article.append(element("h3", null, item.title), element("p", "change-message", item.message));
-    if (item.old_value !== null) article.append(detailParagraph("Valor anterior", item.old_value));
-    if (item.new_value !== null && item.new_value !== true) article.append(detailParagraph("Valor nuevo", item.new_value));
-    article.append(detailParagraph("Detectado o verificado", new Intl.DateTimeFormat("es-CL", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Santiago" }).format(new Date(item.detected_at))));
-    const links = element("div", "detail-links");
-    const permalink = element("a", "button-link button-secondary", "Ver evento"); permalink.href = item.permalink; links.append(permalink);
-    if (item.official_source) {
-      const source = externalLink(`Fuente oficial: ${item.official_source.name}`, item.official_source.url);
-      if (source) links.append(source);
-    }
-    article.append(links); return article;
-  });
-  if (!cards.length) cards.push(element("p", "no-alerts", state.alerts.length ? "No hay avisos de este tipo." : "No hay avisos confirmados recientes."));
-  elements.changesContent.replaceChildren(...cards);
-  elements.changesCount.textContent = `${visible.length} ${visible.length === 1 ? "aviso" : "avisos"}`;
-  elements.changes.hidden = false;
-}
-
-elements.changesFilter.addEventListener("change", () => renderChanges({ alerts: state.alerts }));
 
 const state = {
   events: [],
@@ -280,12 +249,39 @@ function verificationLabels(event) {
   return wrapper;
 }
 
-function changedEventLabel(event) {
+function changedEventLabel(event, { opensDetail = false } = {}) {
   const alert = latestEventAlert(state.alerts, event.id);
   if (!alert) return null;
-  const link = element("a", "change-event-label", publicChangeLabel(alert.change_type));
-  link.href = `#aviso-${alert.id}`;
-  return link;
+  const label = element(opensDetail ? "button" : "span", "change-event-label", publicChangeLabel(alert.change_type));
+  if (opensDetail) {
+    label.type = "button";
+    label.addEventListener("click", () => openDetail(event.id, label, true));
+  }
+  return label;
+}
+
+function eventChangeNotice(event) {
+  const alert = latestEventAlert(state.alerts, event.id);
+  if (!alert) return null;
+  const notice = element("section", "event-change-notice");
+  notice.setAttribute("aria-label", `Cambio confirmado: ${publicChangeLabel(alert.change_type)}`);
+  notice.append(
+    element("span", `change-type change-type-${alert.change_type}`, publicChangeLabel(alert.change_type)),
+    element("h3", null, "Cambio confirmado"),
+    element("p", "change-message", alert.message),
+  );
+  if (alert.old_value !== null) notice.append(detailParagraph("Valor anterior", alert.old_value));
+  if (alert.new_value !== null && alert.new_value !== true) notice.append(detailParagraph("Valor nuevo", alert.new_value));
+  notice.append(detailParagraph("Detectado o verificado", new Intl.DateTimeFormat("es-CL", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Santiago" }).format(new Date(alert.detected_at))));
+  if (alert.official_source) {
+    const source = externalLink(`Fuente oficial: ${alert.official_source.name}`, alert.official_source.url);
+    if (source) {
+      const links = element("div", "detail-links");
+      links.append(source);
+      notice.append(links);
+    }
+  }
+  return notice;
 }
 
 function eventImage(event, className) {
@@ -307,7 +303,7 @@ function createCard(event) {
   const body = element("div", "event-card-body");
   const labels = element("div", "card-labels");
   labels.append(element("span", "type-label", eventTypeLabel(event.event_type)));
-  const changed = changedEventLabel(event); if (changed) labels.append(changed);
+  const changed = changedEventLabel(event, { opensDetail: true }); if (changed) labels.append(changed);
   body.append(labels, categoryLabels(event), verificationLabels(event), element("h3", null, event.title));
   const meta = element("dl", "event-meta");
   addMeta(meta, "Cuándo", scheduleLabel(event.schedule));
@@ -379,6 +375,7 @@ function openDetail(id, trigger = null, updateUrl = false) {
   if (event.public_status?.advisory_text) {
     content.append(element("p", "verification-advisory", event.public_status.advisory_text));
   }
+  const changeNotice = eventChangeNotice(event); if (changeNotice) content.append(changeNotice);
   const links = element("div", "detail-links");
   appendPublicLinks(links, event.links);
   if (links.childElementCount) content.append(links);
@@ -551,12 +548,9 @@ async function initialize() {
     elements.publicCount.textContent = String(dataset.events.length);
     elements.updated.textContent = formatGeneratedAt(dataset.generated_at);
     try {
-      renderChanges(await fetchChangesDataset());
+      state.alerts = (await fetchChangesDataset()).alerts;
     } catch {
       state.alerts = [];
-      elements.changesContent.replaceChildren(element("p", "no-alerts", "Los avisos no están disponibles temporalmente."));
-      elements.changesCount.textContent = "—";
-      elements.changes.hidden = false;
     }
     if (!dataset.events.length) {
       elements.results.hidden = true;
