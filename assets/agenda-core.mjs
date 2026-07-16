@@ -2,6 +2,11 @@ export const DATASET_PATH = "./agenda_web.json";
 export const CHANGES_DATASET_PATH = "./agenda_changes.json";
 export const SUPPORTED_SCHEMA_MAJOR = 1;
 export const DISPLAY_TIME_ZONE = "America/Santiago";
+export const PUBLIC_CHANGE_TYPES = [
+  "date_changed", "time_changed", "venue_changed", "cancelled",
+  "registration_opened", "registration_closed", "sold_out",
+  "price_changed", "price_stage_changed",
+];
 
 export class AgendaDataError extends Error {
   constructor(message, code = "invalid") {
@@ -101,16 +106,39 @@ export async function fetchDataset(fetchImplementation = globalThis.fetch, path 
 }
 
 export function validateChangesDataset(data) {
-  const groups = ["added", "updated", "removed_from_public", "cancelled"];
-  if (!data || data.schema_version !== "1.0.0" || !data.counts) {
-    throw new AgendaDataError("El archivo de novedades no tiene una estructura compatible.");
+  if (!data || data.schema_version !== "2.0.0" || !Array.isArray(data.alerts) || data.retention_days !== 90) {
+    throw new AgendaDataError("El archivo de avisos no tiene una estructura compatible.");
   }
-  groups.forEach((group) => {
-    if (!Array.isArray(data[group]) || data.counts[group] !== data[group].length) {
-      throw new AgendaDataError(`La sección ${group} de novedades es inválida.`);
+  let previousTime = Number.POSITIVE_INFINITY;
+  const ids = new Set();
+  data.alerts.forEach((alert) => {
+    const time = Date.parse(alert?.detected_at);
+    if (!alert || ids.has(alert.id) || !PUBLIC_CHANGE_TYPES.includes(alert.change_type)
+      || !String(alert.event_id || "").startsWith("agenda_") || !Number.isFinite(time)
+      || time > previousTime || !String(alert.permalink || "").startsWith("./?evento=agenda_")) {
+      throw new AgendaDataError("La colección de avisos es inválida.");
     }
+    ids.add(alert.id); previousTime = time;
   });
   return data;
+}
+
+export function filterPublicAlerts(alerts, changeType = "all") {
+  return changeType === "all" ? [...alerts] : alerts.filter((alert) => alert.change_type === changeType);
+}
+
+export function publicChangeLabel(changeType) {
+  return ({
+    date_changed: "Fecha actualizada", time_changed: "Horario actualizado",
+    venue_changed: "Recinto actualizado", cancelled: "Cancelado",
+    registration_opened: "Inscripciones abiertas", registration_closed: "Inscripciones cerradas",
+    sold_out: "Agotado", price_changed: "Precio actualizado",
+    price_stage_changed: "Etapa de precio actualizada",
+  })[changeType] || "Evento actualizado";
+}
+
+export function latestEventAlert(alerts, eventId) {
+  return alerts.find((alert) => alert.event_id === eventId) || null;
 }
 
 export async function fetchChangesDataset(

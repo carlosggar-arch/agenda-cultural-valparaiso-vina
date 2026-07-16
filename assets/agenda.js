@@ -9,15 +9,18 @@ import {
   eventsForSection,
   fetchChangesDataset,
   fetchDataset,
+  filterPublicAlerts,
   filterEvents,
   filtersFromSearchParams,
   filtersToSearchParams,
   findEventById,
   formatGeneratedAt,
   googleCalendarUrl,
+  latestEventAlert,
   permanentEventUrl,
   priceLabel,
   publicStatusLabels,
+  publicChangeLabel,
   safeHttpUrl,
   scheduleLabel,
   sectionCounts,
@@ -51,55 +54,36 @@ const elements = {
   changes: document.querySelector("#agenda-changes"),
   changesCount: document.querySelector("#changes-count"),
   changesContent: document.querySelector("#changes-content"),
+  changesFilter: document.querySelector("#changes-filter"),
   sectionLinks: document.querySelector("#section-links"),
   resultsTitle: document.querySelector("#results-title"),
 };
 
 function renderChanges(changes) {
-  const definitions = [
-    ["added", "Nuevos"], ["updated", "Actualizados"],
-    ["removed_from_public", "Ya no aparecen en la agenda"], ["cancelled", "Cancelados"],
-  ];
-  const total = definitions.reduce((sum, [key]) => sum + changes[key].length, 0);
-  if (!total) {
-    elements.changes.hidden = true;
-    return;
-  }
-  const groups = definitions.flatMap(([key, label]) => {
-    if (!changes[key].length) return [];
-    const section = element("section", "change-group");
-    section.append(element("h3", null, `${label} (${changes[key].length})`));
-    const list = element("ul");
-    changes[key].slice(0, 8).forEach((item) => {
-      const row = element("li");
-      const event = findEventById(state.events, item.id);
-      if (event) {
-        const button = element("button", "text-button", item.title);
-        button.type = "button";
-        button.addEventListener("click", () => openDetail(item.id, button, true));
-        row.append(button);
-      } else {
-        row.append(document.createTextNode(item.title));
-      }
-      if (key === "updated") {
-        const labels = {
-          title: "título", date: "fecha", time: "hora", venue: "lugar",
-          city: "ciudad", price: "precio", registration: "inscripción",
-          public_status: "estado público",
-        };
-        row.append(document.createTextNode(
-          ` — ${Object.keys(item.changes).map((field) => labels[field] || field).join(", ")}`,
-        ));
-      }
-      list.append(row);
-    });
-    section.append(list);
-    return [section];
+  state.alerts = changes.alerts;
+  const visible = filterPublicAlerts(state.alerts, elements.changesFilter.value);
+  const cards = visible.map((item) => {
+    const article = element("article", "change-card"); article.id = `aviso-${item.id}`;
+    article.append(element("span", `change-type change-type-${item.change_type}`, publicChangeLabel(item.change_type)));
+    article.append(element("h3", null, item.title), element("p", "change-message", item.message));
+    if (item.old_value !== null) article.append(detailParagraph("Valor anterior", item.old_value));
+    if (item.new_value !== null && item.new_value !== true) article.append(detailParagraph("Valor nuevo", item.new_value));
+    article.append(detailParagraph("Detectado o verificado", new Intl.DateTimeFormat("es-CL", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Santiago" }).format(new Date(item.detected_at))));
+    const links = element("div", "detail-links");
+    const permalink = element("a", "button-link button-secondary", "Ver evento"); permalink.href = item.permalink; links.append(permalink);
+    if (item.official_source) {
+      const source = externalLink(`Fuente oficial: ${item.official_source.name}`, item.official_source.url);
+      if (source) links.append(source);
+    }
+    article.append(links); return article;
   });
-  elements.changesContent.replaceChildren(...groups);
-  elements.changesCount.textContent = `${total} ${total === 1 ? "novedad" : "novedades"}`;
+  if (!cards.length) cards.push(element("p", "no-alerts", state.alerts.length ? "No hay avisos de este tipo." : "No hay avisos confirmados recientes."));
+  elements.changesContent.replaceChildren(...cards);
+  elements.changesCount.textContent = `${visible.length} ${visible.length === 1 ? "aviso" : "avisos"}`;
   elements.changes.hidden = false;
 }
+
+elements.changesFilter.addEventListener("change", () => renderChanges({ alerts: state.alerts }));
 
 const state = {
   events: [],
@@ -110,6 +94,7 @@ const state = {
   detailTrigger: null,
   syncingHistory: false,
   publicationDate: null,
+  alerts: [],
 };
 
 function setSection(sectionId, updateUrl = true) {
@@ -295,6 +280,14 @@ function verificationLabels(event) {
   return wrapper;
 }
 
+function changedEventLabel(event) {
+  const alert = latestEventAlert(state.alerts, event.id);
+  if (!alert) return null;
+  const link = element("a", "change-event-label", publicChangeLabel(alert.change_type));
+  link.href = `#aviso-${alert.id}`;
+  return link;
+}
+
 function eventImage(event, className) {
   const url = safeHttpUrl(event.image?.url);
   if (!url) return null;
@@ -314,6 +307,7 @@ function createCard(event) {
   const body = element("div", "event-card-body");
   const labels = element("div", "card-labels");
   labels.append(element("span", "type-label", eventTypeLabel(event.event_type)));
+  const changed = changedEventLabel(event); if (changed) labels.append(changed);
   body.append(labels, categoryLabels(event), verificationLabels(event), element("h3", null, event.title));
   const meta = element("dl", "event-meta");
   addMeta(meta, "Cuándo", scheduleLabel(event.schedule));
@@ -371,6 +365,7 @@ function openDetail(id, trigger = null, updateUrl = false) {
   const title = element("h2", null, event.title);
   title.id = "detail-title";
   content.append(title, categoryLabels(event), verificationLabels(event));
+  const changed = changedEventLabel(event); if (changed) content.append(changed);
   [
     detailParagraph("Cuándo", scheduleLabel(event.schedule)),
     detailParagraph("Ciudad", event.location?.city),
@@ -558,7 +553,10 @@ async function initialize() {
     try {
       renderChanges(await fetchChangesDataset());
     } catch {
-      elements.changes.hidden = true;
+      state.alerts = [];
+      elements.changesContent.replaceChildren(element("p", "no-alerts", "Los avisos no están disponibles temporalmente."));
+      elements.changesCount.textContent = "—";
+      elements.changes.hidden = false;
     }
     if (!dataset.events.length) {
       elements.results.hidden = true;

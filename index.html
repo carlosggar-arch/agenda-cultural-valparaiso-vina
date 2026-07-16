@@ -34,6 +34,10 @@
         <p><strong id="public-count">—</strong> actividades públicas</p>
         <p id="last-updated">Actualizando información…</p>
       </div>
+      <nav class="primary-nav" aria-label="Navegación principal">
+        <a href="#agenda-results">Agenda</a>
+        <a href="#agenda-changes">Avisos y cambios</a>
+      </nav>
     </div>
   </header>
 
@@ -121,11 +125,25 @@
       <section id="agenda-changes" class="changes-panel" aria-labelledby="changes-title" hidden>
         <div class="section-heading compact-heading">
           <div>
-            <p class="eyebrow">Última actualización</p>
-            <h2 id="changes-title">Nuevos y cambios</h2>
+            <p class="eyebrow">Cambios confirmados en eventos públicos</p>
+            <h2 id="changes-title">Avisos y cambios</h2>
           </div>
           <p id="changes-count" class="results-count"></p>
         </div>
+        <label class="changes-filter">Filtrar por tipo
+          <select id="changes-filter">
+            <option value="all">Todos los avisos</option>
+            <option value="cancelled">Cancelaciones</option>
+            <option value="date_changed">Cambios de fecha</option>
+            <option value="time_changed">Cambios de horario</option>
+            <option value="venue_changed">Cambios de recinto</option>
+            <option value="registration_opened">Inscripciones abiertas</option>
+            <option value="registration_closed">Inscripciones cerradas</option>
+            <option value="sold_out">Entradas agotadas</option>
+            <option value="price_changed">Cambios de precio</option>
+            <option value="price_stage_changed">Cambios de etapa de precio</option>
+          </select>
+        </label>
         <div id="changes-content" class="changes-content"></div>
       </section>
 
@@ -149,6 +167,10 @@
     <div class="shell footer-layout">
       <p>Agenda pública elaborada desde fuentes verificables. Confirma los detalles con cada organizador antes de asistir.</p>
       <nav aria-label="Información de la agenda">
+        <a href="./proponer-evento.html">Proponer evento</a>
+        <a href="./registrar-organizacion.html">Registrar organización</a>
+        <a href="./privacidad.html">Privacidad</a>
+        <a href="./terminos-alertas.html">Términos de alertas</a>
         <a href="https://github.com/carlosggar-arch/agenda-cultural-valparaiso-vina/issues/new?template=reportar-error.yml" rel="noopener noreferrer">Informar un error</a>
         <a href="./sitemap.xml">Mapa del sitio</a>
       </nav>
