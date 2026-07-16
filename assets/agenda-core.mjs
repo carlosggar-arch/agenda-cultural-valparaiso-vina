@@ -1,4 +1,5 @@
 export const DATASET_PATH = "./agenda_web.json";
+export const CHANGES_DATASET_PATH = "./agenda_changes.json";
 export const SUPPORTED_SCHEMA_MAJOR = 1;
 export const DISPLAY_TIME_ZONE = "America/Santiago";
 
@@ -19,6 +20,7 @@ const REQUIRED_ENTRY_FIELDS = [
   "location",
   "price",
   "links",
+  "public_status",
 ];
 
 export function validateDataset(data) {
@@ -52,6 +54,26 @@ export function validateDataset(data) {
   return data;
 }
 
+export function publicStatusLabels(event, referenceDate) {
+  const status = event?.public_status || {};
+  const labels = [];
+  if (status.source_official === true) labels.push("Fuente oficial");
+  const verified = String(status.last_verified_at || "").slice(0, 10);
+  const reference = String(referenceDate || "").slice(0, 10);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(verified) && /^\d{4}-\d{2}-\d{2}$/.test(reference)) {
+    const days = (Date.parse(`${reference}T12:00:00Z`) - Date.parse(`${verified}T12:00:00Z`)) / 86400000;
+    if (days === 0) labels.push("Verificado hoy");
+    else if (days > 0 && days <= 7) labels.push("Verificado recientemente");
+  }
+  if (status.registration_open === true) labels.push("Inscripción abierta");
+  if (status.price_confirmed === true) {
+    labels.push(event?.price?.is_free === true ? "Entrada liberada" : "Precio confirmado");
+  }
+  if (status.information_completeness === "partial") labels.push("Información parcial");
+  if (status.advisory_text) labels.push("Confirmar con el organizador");
+  return labels;
+}
+
 export async function fetchDataset(fetchImplementation = globalThis.fetch, path = DATASET_PATH) {
   let response;
   try {
@@ -76,6 +98,32 @@ export async function fetchDataset(fetchImplementation = globalThis.fetch, path 
     throw new AgendaDataError("El archivo de agenda no contiene JSON válido.", "load", { cause: error });
   }
   return validateDataset(data);
+}
+
+export function validateChangesDataset(data) {
+  const groups = ["added", "updated", "removed_from_public", "cancelled"];
+  if (!data || data.schema_version !== "1.0.0" || !data.counts) {
+    throw new AgendaDataError("El archivo de novedades no tiene una estructura compatible.");
+  }
+  groups.forEach((group) => {
+    if (!Array.isArray(data[group]) || data.counts[group] !== data[group].length) {
+      throw new AgendaDataError(`La sección ${group} de novedades es inválida.`);
+    }
+  });
+  return data;
+}
+
+export async function fetchChangesDataset(
+  fetchImplementation = globalThis.fetch,
+  path = CHANGES_DATASET_PATH,
+) {
+  try {
+    const response = await fetchImplementation(path, { headers: { Accept: "application/json" } });
+    if (!response?.ok) throw new Error(`HTTP ${response?.status}`);
+    return validateChangesDataset(await response.json());
+  } catch (error) {
+    throw new AgendaDataError("No fue posible cargar los cambios de la última actualización.", "changes", { cause: error });
+  }
 }
 
 export function safeHttpUrl(value) {
@@ -156,6 +204,123 @@ export function priceLabel(price) {
 export function findEventById(events, id) {
   if (!id || !Array.isArray(events)) return null;
   return events.find((event) => event.id === id) || null;
+}
+
+function isStructuredCalendarStart(value) {
+  return /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?(?:Z|[+-]\d{2}:\d{2}))?$/.test(String(value || ""));
+}
+
+export function calendarOccurrences(event) {
+  if (!event || event.event_type === "flexible_offer" || event.event_type === "program") return [];
+  const occurrences = event.schedule?.occurrences?.length
+    ? event.schedule.occurrences
+    : [{ start: event.schedule?.start, end: event.schedule?.end }];
+  return occurrences.filter((occurrence) => isStructuredCalendarStart(occurrence?.start));
+}
+
+function addCalendarDefaultEnd(start) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(start)) return addUtcDays(start, 1);
+  const date = new Date(start);
+  if (Number.isNaN(date.getTime())) return start;
+  date.setTime(date.getTime() + 60 * 60 * 1000);
+  return date.toISOString();
+}
+
+function compactCalendarValue(value, { utc = false } = {}) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value.replaceAll("-", "");
+  if (utc) {
+    return new Date(value).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+  }
+  const local = localParts(value);
+  if (!local) return null;
+  const date = value instanceof Date ? value : new Date(value);
+  const timeParts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: DISPLAY_TIME_ZONE, hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23",
+  }).formatToParts(date);
+  const get = (type) => timeParts.find((part) => part.type === type)?.value;
+  return `${local.date.replaceAll("-", "")}T${get("hour")}${get("minute")}${get("second")}`;
+}
+
+export function escapeIcsText(value) {
+  return String(value || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\r?\n/g, "\\n")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,");
+}
+
+function foldIcsLine(line) {
+  const encoder = new TextEncoder();
+  const folded = [];
+  let current = "";
+  for (const character of line) {
+    if (encoder.encode(current + character).length > 73) {
+      folded.push(current);
+      current = ` ${character}`;
+    } else {
+      current += character;
+    }
+  }
+  folded.push(current);
+  return folded.join("\r\n");
+}
+
+export function permanentEventUrl(eventId, locationLike = globalThis.location) {
+  const url = new URL(locationLike.href || String(locationLike));
+  url.search = "";
+  url.hash = "";
+  url.searchParams.set("evento", eventId);
+  return url.href;
+}
+
+function calendarLocation(event) {
+  return [event.location?.venue, event.location?.address, event.location?.city].filter(Boolean).join(", ");
+}
+
+function calendarDescription(event, permalink) {
+  return [event.description, event.links?.official || event.links?.source, permalink].filter(Boolean).join("\n\n");
+}
+
+export function buildIcs(event, occurrence, permalink, now = new Date()) {
+  const start = occurrence?.start;
+  if (!calendarOccurrences({ ...event, schedule: { ...event.schedule, occurrences: [occurrence] } }).length) return null;
+  const end = occurrence.end || addCalendarDefaultEnd(start);
+  const allDay = /^\d{4}-\d{2}-\d{2}$/.test(start);
+  const startLine = allDay
+    ? `DTSTART;VALUE=DATE:${compactCalendarValue(start)}`
+    : `DTSTART;TZID=${DISPLAY_TIME_ZONE}:${compactCalendarValue(start)}`;
+  const endLine = allDay
+    ? `DTEND;VALUE=DATE:${compactCalendarValue(end)}`
+    : `DTEND;TZID=${DISPLAY_TIME_ZONE}:${compactCalendarValue(end)}`;
+  const occurrenceKey = compactCalendarValue(start, { utc: true }) || compactCalendarValue(start);
+  const lines = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+    "PRODID:-//Agenda Cultural Valparaiso Vina//ES",
+    "BEGIN:VTIMEZONE", `TZID:${DISPLAY_TIME_ZONE}`, `X-LIC-LOCATION:${DISPLAY_TIME_ZONE}`, "END:VTIMEZONE",
+    "BEGIN:VEVENT", `UID:${event.id}-${occurrenceKey}@agenda-cultural-valparaiso-vina`,
+    `DTSTAMP:${compactCalendarValue(now, { utc: true })}`,
+    startLine, endLine, `SUMMARY:${escapeIcsText(event.title)}`,
+    `DESCRIPTION:${escapeIcsText(calendarDescription(event, permalink))}`,
+    `LOCATION:${escapeIcsText(calendarLocation(event))}`, `URL:${permalink}`,
+    "END:VEVENT", "END:VCALENDAR",
+  ];
+  return `${lines.map(foldIcsLine).join("\r\n")}\r\n`;
+}
+
+export function googleCalendarUrl(event, occurrence, permalink) {
+  const start = occurrence?.start;
+  if (!isStructuredCalendarStart(start)) return null;
+  const end = occurrence.end || addCalendarDefaultEnd(start);
+  const allDay = /^\d{4}-\d{2}-\d{2}$/.test(start);
+  const dates = allDay
+    ? `${compactCalendarValue(start)}/${compactCalendarValue(end)}`
+    : `${compactCalendarValue(start, { utc: true })}/${compactCalendarValue(end, { utc: true })}`;
+  const params = new URLSearchParams({
+    action: "TEMPLATE", text: event.title, dates,
+    details: calendarDescription(event, permalink), location: calendarLocation(event),
+    ctz: DISPLAY_TIME_ZONE,
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
 export const FILTER_PARAM_NAMES = [
@@ -269,6 +434,32 @@ function addUtcDays(dateText, days) {
   return date.toISOString().slice(0, 10);
 }
 
+export const AGENDA_SECTIONS = [
+  { id: "hoy", label: "Hoy" },
+  { id: "manana", label: "Mañana" },
+  { id: "fin-de-semana", label: "Este fin de semana" },
+  { id: "siete-dias", label: "Próximos siete días" },
+  { id: "proximos", label: "Próximos eventos" },
+  { id: "inscripcion-anticipada", label: "Eventos destacados con inscripción anticipada" },
+  { id: "cursos-talleres", label: "Cursos y talleres" },
+  { id: "naturaleza-montana", label: "Naturaleza y montaña" },
+  { id: "gratis", label: "Actividades gratuitas" },
+  { id: "programas", label: "Carteleras completas aprobadas" },
+];
+
+export const DEFAULT_AGENDA_SECTION = "proximos";
+const AGENDA_SECTION_IDS = new Set(AGENDA_SECTIONS.map(({ id }) => id));
+
+export function normalizeAgendaSection(value) {
+  return AGENDA_SECTION_IDS.has(value) ? value : DEFAULT_AGENDA_SECTION;
+}
+
+export function sectionFromLocation(search = "", hash = "") {
+  const params = search instanceof URLSearchParams ? search : new URLSearchParams(search);
+  const fragment = String(hash || "").replace(/^#seccion-/, "");
+  return normalizeAgendaSection(params.get("seccion") || fragment);
+}
+
 export function periodBounds(period, now = new Date(), from = "", to = "") {
   const localNow = localParts(now);
   if (!localNow) return null;
@@ -288,26 +479,68 @@ export function periodBounds(period, now = new Date(), from = "", to = "") {
   return null;
 }
 
-function eventStarts(event) {
+export function eventStarts(event) {
   return [...new Set([
     event.schedule?.start,
     ...(event.schedule?.occurrences || []).map((occurrence) => occurrence?.start),
   ].filter(Boolean))];
 }
 
-function isWithinPeriod(event, filters, now) {
-  if (filters.period === "todos") return true;
-  const bounds = periodBounds(filters.period, now, filters.from, filters.to);
-  if (!bounds) return true;
+function hasCategory(event, categoryId) {
+  return (event.categories || []).some((category) => category?.id === categoryId);
+}
+
+function isDatedInBounds(event, bounds) {
+  if (event.event_type === "flexible_offer") return false;
   return eventStarts(event).some((value) => {
     const start = localParts(value);
     if (!start) return false;
     if (bounds.from && start.date < bounds.from) return false;
     if (bounds.to && start.date > bounds.to) return false;
-    if (filters.period === "fin-de-semana" && start.date === bounds.from && start.minutes < bounds.fromMinutes) return false;
-    if (filters.period === "fin-de-semana" && start.date === bounds.to && start.minutes > bounds.toMinutes) return false;
+    if (bounds.fromMinutes !== undefined && start.date === bounds.from && start.minutes < bounds.fromMinutes) return false;
+    if (bounds.toMinutes !== undefined && start.date === bounds.to && start.minutes > bounds.toMinutes) return false;
     return true;
   });
+}
+
+export function eventMatchesSection(event, sectionId, now = new Date()) {
+  const section = normalizeAgendaSection(sectionId);
+  const localNow = localParts(now);
+  if (!localNow) return false;
+  if (section === "hoy" || section === "manana" || section === "fin-de-semana") {
+    return isDatedInBounds(event, periodBounds(section, now));
+  }
+  if (section === "siete-dias") {
+    return isDatedInBounds(event, { from: localNow.date, to: addUtcDays(localNow.date, 6) });
+  }
+  if (section === "proximos") return isDatedInBounds(event, { from: localNow.date });
+  if (section === "inscripcion-anticipada") {
+    return Boolean(event.links?.registration) && isDatedInBounds(event, { from: localNow.date });
+  }
+  if (section === "cursos-talleres") {
+    return ["course", "workshop", "flexible_offer"].includes(event.event_type);
+  }
+  if (section === "naturaleza-montana") return hasCategory(event, "naturaleza-montana");
+  if (section === "gratis") return event.price?.is_free === true;
+  if (section === "programas") return event.event_type === "program";
+  return false;
+}
+
+export function eventsForSection(events, sectionId, now = new Date()) {
+  return (events || []).filter((event) => eventMatchesSection(event, sectionId, now));
+}
+
+export function sectionCounts(events, now = new Date()) {
+  return Object.fromEntries(
+    AGENDA_SECTIONS.map(({ id }) => [id, eventsForSection(events, id, now).length]),
+  );
+}
+
+function isWithinPeriod(event, filters, now) {
+  if (filters.period === "todos") return true;
+  const bounds = periodBounds(filters.period, now, filters.from, filters.to);
+  if (!bounds) return true;
+  return isDatedInBounds(event, bounds);
 }
 
 function matchesPrice(event, price) {

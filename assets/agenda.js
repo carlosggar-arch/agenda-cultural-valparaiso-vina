@@ -1,17 +1,27 @@
 import {
+  AGENDA_SECTIONS,
+  buildIcs,
+  calendarOccurrences,
   clearFilterParams,
   collectCategories,
   collectCities,
   eventTypeLabel,
+  eventsForSection,
+  fetchChangesDataset,
   fetchDataset,
   filterEvents,
   filtersFromSearchParams,
   filtersToSearchParams,
   findEventById,
   formatGeneratedAt,
+  googleCalendarUrl,
+  permanentEventUrl,
   priceLabel,
+  publicStatusLabels,
   safeHttpUrl,
   scheduleLabel,
+  sectionCounts,
+  sectionFromLocation,
 } from "./agenda-core.mjs";
 
 const elements = {
@@ -38,16 +48,101 @@ const elements = {
   clear: document.querySelector("#clear-filters"),
   noResults: document.querySelector("#no-results"),
   noResultsClear: document.querySelector("#no-results-clear"),
+  changes: document.querySelector("#agenda-changes"),
+  changesCount: document.querySelector("#changes-count"),
+  changesContent: document.querySelector("#changes-content"),
+  sectionLinks: document.querySelector("#section-links"),
+  resultsTitle: document.querySelector("#results-title"),
 };
+
+function renderChanges(changes) {
+  const definitions = [
+    ["added", "Nuevos"], ["updated", "Actualizados"],
+    ["removed_from_public", "Ya no aparecen en la agenda"], ["cancelled", "Cancelados"],
+  ];
+  const total = definitions.reduce((sum, [key]) => sum + changes[key].length, 0);
+  if (!total) {
+    elements.changes.hidden = true;
+    return;
+  }
+  const groups = definitions.flatMap(([key, label]) => {
+    if (!changes[key].length) return [];
+    const section = element("section", "change-group");
+    section.append(element("h3", null, `${label} (${changes[key].length})`));
+    const list = element("ul");
+    changes[key].slice(0, 8).forEach((item) => {
+      const row = element("li");
+      const event = findEventById(state.events, item.id);
+      if (event) {
+        const button = element("button", "text-button", item.title);
+        button.type = "button";
+        button.addEventListener("click", () => openDetail(item.id, button, true));
+        row.append(button);
+      } else {
+        row.append(document.createTextNode(item.title));
+      }
+      if (key === "updated") {
+        const labels = {
+          title: "título", date: "fecha", time: "hora", venue: "lugar",
+          city: "ciudad", price: "precio", registration: "inscripción",
+          public_status: "estado público",
+        };
+        row.append(document.createTextNode(
+          ` — ${Object.keys(item.changes).map((field) => labels[field] || field).join(", ")}`,
+        ));
+      }
+      list.append(row);
+    });
+    section.append(list);
+    return [section];
+  });
+  elements.changesContent.replaceChildren(...groups);
+  elements.changesCount.textContent = `${total} ${total === 1 ? "novedad" : "novedades"}`;
+  elements.changes.hidden = false;
+}
 
 const state = {
   events: [],
   categories: [],
   cities: [],
   filters: filtersFromSearchParams(location.search),
+  section: sectionFromLocation(location.search, location.hash),
   detailTrigger: null,
   syncingHistory: false,
+  publicationDate: null,
 };
+
+function setSection(sectionId, updateUrl = true) {
+  state.section = sectionId;
+  if (updateUrl) {
+    const params = new URLSearchParams(location.search);
+    params.set("seccion", sectionId);
+    const query = params.toString();
+    history.replaceState(null, "", `${location.pathname}${query ? `?${query}` : ""}#seccion-${sectionId}`);
+  }
+  applyFilters(false);
+}
+
+function renderSectionNavigation(filteredEvents) {
+  const counts = sectionCounts(filteredEvents);
+  const links = AGENDA_SECTIONS.map(({ id, label }) => {
+    const link = element("a", "section-link", `${label} (${counts[id]})`);
+    const params = new URLSearchParams(location.search);
+    params.set("seccion", id);
+    link.href = `?${params.toString()}#seccion-${id}`;
+    link.id = `seccion-${id}`;
+    if (id === state.section) {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "page");
+    }
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      setSection(id, true);
+    });
+    return link;
+  });
+  elements.sectionLinks.replaceChildren(...links);
+}
 
 function element(tagName, className, text) {
   const node = document.createElement(tagName);
@@ -97,10 +192,105 @@ function appendPublicLinks(container, links = {}) {
   });
 }
 
+function downloadIcs(event, occurrence, permalink) {
+  const content = buildIcs(event, occurrence, permalink);
+  if (!content) return;
+  const url = URL.createObjectURL(new Blob([content], { type: "text/calendar;charset=utf-8" }));
+  const anchor = element("a");
+  anchor.href = url;
+  anchor.download = `${event.id}-${String(occurrence.start).slice(0, 10)}.ics`;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function copyText(value) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+  const field = element("textarea");
+  field.value = value;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.append(field);
+  field.select();
+  const copied = document.execCommand("copy");
+  field.remove();
+  if (!copied) throw new Error("Clipboard unavailable");
+}
+
+function calendarAndShareActions(event) {
+  const section = element("section", "calendar-actions");
+  section.append(element("h3", null, "Guardar o compartir"));
+  const message = element("p", "action-message");
+  message.setAttribute("aria-live", "polite");
+  const permalink = permanentEventUrl(event.id);
+  const shareRow = element("div", "detail-links");
+  const copyButton = element("button", "button-link button-secondary", "Copiar enlace permanente");
+  copyButton.type = "button";
+  copyButton.addEventListener("click", async () => {
+    try {
+      await copyText(permalink);
+      message.textContent = "Enlace copiado.";
+    } catch {
+      message.textContent = "No fue posible copiar el enlace. Puedes copiarlo desde la barra del navegador.";
+    }
+  });
+  const shareButton = element("button", "button-link button-secondary", "Compartir");
+  shareButton.type = "button";
+  shareButton.addEventListener("click", async () => {
+    try {
+      if (navigator.share) await navigator.share({ title: event.title, url: permalink });
+      else {
+        await copyText(permalink);
+        message.textContent = "Enlace copiado para compartir.";
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        try {
+          await copyText(permalink);
+          message.textContent = "No se abrió el menú de compartir; el enlace quedó copiado.";
+        } catch {
+          message.textContent = "No fue posible compartir ni copiar el enlace.";
+        }
+      }
+    }
+  });
+  shareRow.append(copyButton, shareButton);
+  section.append(shareRow);
+
+  calendarOccurrences(event).forEach((occurrence) => {
+    const row = element("div", "calendar-occurrence");
+    row.append(element("p", "calendar-occurrence-label", scheduleLabel({ ...event.schedule, start: occurrence.start, occurrences: [] })));
+    const actions = element("div", "detail-links");
+    const download = element("button", "button-link button-secondary", "Descargar .ics");
+    download.type = "button";
+    download.addEventListener("click", () => downloadIcs(event, occurrence, permalink));
+    const google = externalLink("Añadir a Google Calendar", googleCalendarUrl(event, occurrence, permalink));
+    actions.append(download);
+    if (google) actions.append(google);
+    row.append(actions);
+    section.append(row);
+  });
+  section.append(message);
+  return section;
+}
+
 function categoryLabels(event) {
   const wrapper = element("div", "category-list");
   (event.categories || []).forEach((category) => {
     if (category?.label) wrapper.append(element("span", "category-label", category.label));
+  });
+  return wrapper;
+}
+
+function verificationLabels(event) {
+  const wrapper = element("div", "verification-list");
+  publicStatusLabels(event, state.publicationDate).forEach((label) => {
+    wrapper.append(element("span", "verification-label", label));
   });
   return wrapper;
 }
@@ -124,7 +314,7 @@ function createCard(event) {
   const body = element("div", "event-card-body");
   const labels = element("div", "card-labels");
   labels.append(element("span", "type-label", eventTypeLabel(event.event_type)));
-  body.append(labels, categoryLabels(event), element("h3", null, event.title));
+  body.append(labels, categoryLabels(event), verificationLabels(event), element("h3", null, event.title));
   const meta = element("dl", "event-meta");
   addMeta(meta, "Cuándo", scheduleLabel(event.schedule));
   addMeta(meta, "Ciudad", event.location?.city);
@@ -180,7 +370,7 @@ function openDetail(id, trigger = null, updateUrl = false) {
   content.append(element("span", "type-label", eventTypeLabel(event.event_type)));
   const title = element("h2", null, event.title);
   title.id = "detail-title";
-  content.append(title, categoryLabels(event));
+  content.append(title, categoryLabels(event), verificationLabels(event));
   [
     detailParagraph("Cuándo", scheduleLabel(event.schedule)),
     detailParagraph("Ciudad", event.location?.city),
@@ -191,9 +381,13 @@ function openDetail(id, trigger = null, updateUrl = false) {
     detailParagraph("Requisitos", event.registration_requirements),
   ].filter(Boolean).forEach((node) => content.append(node));
   if (event.description) content.append(element("p", "detail-description", event.description));
+  if (event.public_status?.advisory_text) {
+    content.append(element("p", "verification-advisory", event.public_status.advisory_text));
+  }
   const links = element("div", "detail-links");
   appendPublicLinks(links, event.links);
   if (links.childElementCount) content.append(links);
+  content.append(calendarAndShareActions(event));
   elements.detailContent.replaceChildren(content);
   if (!elements.dialog.open) elements.dialog.showModal();
   elements.detailClose.focus();
@@ -303,7 +497,11 @@ function removeCategory(id) {
 
 function applyFilters(updateUrl = false) {
   const filtered = filterEvents(state.events, state.filters);
-  renderEvents(filtered);
+  const section = AGENDA_SECTIONS.find(({ id }) => id === state.section);
+  const sectionEvents = eventsForSection(filtered, state.section);
+  elements.resultsTitle.textContent = section?.label || "Próximos eventos";
+  renderSectionNavigation(filtered);
+  renderEvents(sectionEvents);
   renderChips();
   if (updateUrl) {
     const params = filtersToSearchParams(state.filters, location.search);
@@ -340,6 +538,7 @@ elements.dialog.addEventListener("close", () => {
 
 window.addEventListener("popstate", () => {
   state.filters = filtersFromSearchParams(location.search);
+  state.section = sectionFromLocation(location.search, location.hash);
   syncControls();
   applyFilters(false);
   const id = new URLSearchParams(location.search).get("evento");
@@ -351,10 +550,16 @@ async function initialize() {
   try {
     const dataset = await fetchDataset();
     state.events = dataset.events;
+    state.publicationDate = dataset.publication_date || String(dataset.generated_at || "").slice(0, 10);
     state.categories = collectCategories(dataset.events);
     state.cities = collectCities(dataset.events);
     elements.publicCount.textContent = String(dataset.events.length);
     elements.updated.textContent = formatGeneratedAt(dataset.generated_at);
+    try {
+      renderChanges(await fetchChangesDataset());
+    } catch {
+      elements.changes.hidden = true;
+    }
     if (!dataset.events.length) {
       elements.results.hidden = true;
       setStatus("empty", "Agenda disponible, sin actividades", "El dataset es válido, pero todavía no contiene actividades públicas.");

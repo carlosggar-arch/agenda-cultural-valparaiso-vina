@@ -1,0 +1,36 @@
+name: Informar un error en la agenda
+description: Reporta información pública incorrecta o desactualizada de una actividad.
+title: "[Agenda] Corrección: "
+labels: ["corrección"]
+body:
+  - type: markdown
+    attributes:
+      value: Gracias por ayudar a mantener la agenda actualizada. No incluyas datos personales ni privados.
+  - type: input
+    id: event_url
+    attributes:
+      label: Enlace de la actividad
+      description: Copia el enlace permanente de la actividad o la URL donde viste el problema.
+      placeholder: https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/?evento=...
+    validations:
+      required: true
+  - type: dropdown
+    id: error_type
+    attributes:
+      label: Tipo de error
+      options:
+        - Fecha u hora
+        - Lugar o dirección
+        - Precio o inscripción
+        - Actividad cancelada o reprogramada
+        - Enlace incorrecto
+        - Otro dato público
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Detalle y fuente de la corrección
+      description: Explica el error y añade, si existe, un enlace público que confirme la información correcta.
+    validations:
+      required: true

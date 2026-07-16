@@ -3,7 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Agenda cultural pública de Valparaíso y Viña del Mar.">
+  <meta name="description" content="Eventos, cursos, talleres y panoramas culturales verificados de Valparaíso y Viña del Mar.">
+  <meta name="theme-color" content="#174f46">
+  <link rel="canonical" href="https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:title" content="Agenda Cultural Valparaíso / Viña del Mar">
+  <meta property="og:description" content="Eventos, cursos, talleres y panoramas culturales verificados de Valparaíso y Viña del Mar.">
+  <meta property="og:url" content="https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/">
+  <meta property="og:site_name" content="Agenda Cultural Valparaíso / Viña del Mar">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Agenda Cultural Valparaíso / Viña del Mar">
+  <meta name="twitter:description" content="Eventos, cursos, talleres y panoramas culturales verificados de Valparaíso y Viña del Mar.">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
   <title>Agenda Cultural Valparaíso / Viña</title>
   <link rel="stylesheet" href="./assets/agenda.css">
 </head>
@@ -95,10 +108,31 @@
         <div id="active-filters" class="active-filters" aria-label="Filtros activos"></div>
       </section>
 
+      <nav class="section-navigation" aria-labelledby="sections-title">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="eyebrow">Secciones</p>
+            <h2 id="sections-title">Explora por momento o tipo</h2>
+          </div>
+        </div>
+        <div id="section-links" class="section-links"></div>
+      </nav>
+
+      <section id="agenda-changes" class="changes-panel" aria-labelledby="changes-title" hidden>
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="eyebrow">Última actualización</p>
+            <h2 id="changes-title">Nuevos y cambios</h2>
+          </div>
+          <p id="changes-count" class="results-count"></p>
+        </div>
+        <div id="changes-content" class="changes-content"></div>
+      </section>
+
       <div class="section-heading">
         <div>
           <p class="eyebrow">Selección pública</p>
-          <h2 id="results-title">Próximas actividades</h2>
+          <h2 id="results-title">Próximos eventos</h2>
         </div>
         <p id="results-count" class="results-count" aria-live="polite"></p>
       </div>
@@ -110,6 +144,16 @@
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-layout">
+      <p>Agenda pública elaborada desde fuentes verificables. Confirma los detalles con cada organizador antes de asistir.</p>
+      <nav aria-label="Información de la agenda">
+        <a href="https://github.com/carlosggar-arch/agenda-cultural-valparaiso-vina/issues/new?template=reportar-error.yml" rel="noopener noreferrer">Informar un error</a>
+        <a href="./sitemap.xml">Mapa del sitio</a>
+      </nav>
+    </div>
+  </footer>
 
   <dialog id="event-detail" class="detail-dialog" aria-labelledby="detail-title">
     <div class="detail-frame">
