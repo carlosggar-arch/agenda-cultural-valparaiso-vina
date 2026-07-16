@@ -1,16 +1,77 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-07-13T04:54:34-04:00",
-  "publication_date": "2026-07-13",
+  "generated_at": "2026-07-16T08:14:46-04:00",
+  "publication_date": "2026-07-16",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 57,
-    "events": 53,
-    "courses": 1,
-    "flexible_offers": 3,
+    "total": 63,
+    "events": 59,
+    "courses": 0,
+    "flexible_offers": 4,
     "programs": 0
   },
   "events": [
+    {
+      "id": "agenda_53ce8c2bc16978778ce699d9",
+      "title": "Museo Baburizza – Cartelera Mensual",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-07-16",
+        "end": "2026-07-31",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-16",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo Baburizza",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://valpocultura.cl/evento/museo-baburizza-cartelera-mensual-2/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://valpocultura.cl/evento/museo-baburizza-cartelera-mensual-2/"
+      },
+      "organizer": "Museo Baburizza",
+      "source_name": "Museo Baburizza",
+      "source_url": "https://valpocultura.cl/evento/museo-baburizza-cartelera-mensual-2/",
+      "last_verified_at": null,
+      "description": "¡Bienvenido julio! Durante este mes tendremos exposiciones temporales, talleres artísticos, presentación de una nueva guía pedagógica y exposición itinerante, actividades poéticas, visitas guiadas, muestras itinerantes y muchas cosas más. ¡Lo mejor de todo es...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
     {
       "id": "agenda_c16d049f287e6bc4922b56de",
       "title": "Museo Baburizza – «Requiem para Pianos»",
@@ -31,10 +92,10 @@
       ],
       "schedule": {
         "mode": "multi_day",
-        "start": "2026-07-13",
+        "start": "2026-07-16",
         "end": "2026-08-20",
         "timezone": "America/Santiago",
-        "display_text": "2026-07-13",
+        "display_text": "2026-07-16",
         "occurrences": []
       },
       "location": {
@@ -73,63 +134,6 @@
       }
     },
     {
-      "id": "agenda_3593225593d1cb447b1e3d4f",
-      "title": "1ra jornada Masterclass de Contrabajo",
-      "event_type": "course",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-13T09:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "13 de julio, 09:00–19:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Ex Hotel O'Higgins",
-        "address": "Plaza Vergara s/n",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://visitavina.munivina.cl/actividad/1ra-jornada-masterclass-contrabajo/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://visitavina.munivina.cl/actividad/1ra-jornada-masterclass-contrabajo/"
-      },
-      "organizer": "Conservatorio Municipal Izidor Handler",
-      "source_name": "Conservatorio Municipal Izidor Handler",
-      "source_url": "https://visitavina.munivina.cl/actividad/1ra-jornada-masterclass-contrabajo/",
-      "last_verified_at": "2026-07-12",
-      "description": "Jornada de perfeccionamiento con María Teresa Molina.",
-      "tags": [],
-      "audience": "estudiantes de contrabajo de instituciones afines de la región",
-      "registration_requirements": "inscripción por correo institucional",
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
       "id": "agenda_b36f5b9522bb33d2af797112",
       "title": "Exposición // Día de Sol",
       "event_type": "event",
@@ -149,10 +153,10 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-07-13T09:00:00-04:00",
+        "start": "2026-07-16T09:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 09:00, 14:00, 15:30, 17:00",
+        "display_text": "2026-07-16 · 09:00, 14:00, 15:30, 17:00",
         "occurrences": []
       },
       "location": {
@@ -181,539 +185,7 @@
       "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/exposicion-dia-de-sol/",
       "last_verified_at": null,
-      "description": "Inicio actividad - Visita Viña Exposición // Día de Sol Fecha 13-julio-2026 HoraLunes a viernes de 09:00 a 14:00 y 15:30 a 17:00 horas Te invitamos a la inauguración de la exposición Día de Sol de la artista Claudia Adriazola Rodríguez, una muestra curada por...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_1fc7f26116c35385f32b01c3",
-      "title": "El séptimo sello.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-13T15:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 15:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2021/09/22/el-septimo-sello/",
-        "tickets": "https://www.passline.com/eventos/el-septimo-sello",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2021/09/22/el-septimo-sello/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2021/09/22/el-septimo-sello/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Lunes 13 de julio, 15:00 hrs Género: Drama. Duración: 96 min. País: Suecia. Dirección: Ingmar Bergman. Idioma / audio: Subtitulada Suecia, mediados del siglo XIV. La Peste Negra asola Europa. Tras diez años de in...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_419eac0176dc6df2552300c6",
-      "title": "La invitación.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-07-13T15:00:00-04:00",
-        "end": "2026-07-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 15:00, 17:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2026/06/29/la-invitacion/",
-        "tickets": "https://www.passline.com/eventos/la-invitacion-530621",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2026/06/29/la-invitacion/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/06/29/la-invitacion/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 12 de julio, 15:00 hrs; Martes 14 de julio, 17:00 hrs; Jueves 16 de julio, 15:00 hrs Género: Comedia, Drama. Duración: 108 min. País: Estados Unidos. Dirección: Olivia Wilde. Idioma / audio: Subtitulada U...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_de735f512085cf99a39a90a5",
-      "title": "Mil Pedazos",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-13T15:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 15:00",
-        "occurrences": [
-          {
-            "start": "2026-07-13T15:00:00-04:00",
-            "end": null
-          }
-        ]
-      },
-      "location": {
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-mil-pedazos-cine-arte-vina-del-mar-531582",
-        "tickets": "https://www.passline.com/eventos/mil-pedazos-cine-arte-vina-del-mar-531582",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-mil-pedazos-cine-arte-vina-del-mar-531582"
-      },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-mil-pedazos-cine-arte-vina-del-mar-531582",
-      "last_verified_at": "2026-07-12",
-      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: lunes 13 de julio de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/mil-pedazos-cine-arte-vina-del-mar-531582",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_282c2b82dd75cc2e5fa7dd62",
-      "title": "Una sombra oscilante (2024).",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-07-13T17:00:00-04:00",
-        "end": "2026-07-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 17:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2026/07/06/una-sombra-oscilante-2024/",
-        "tickets": "https://www.passline.com/eventos/una-sombra-oscilante-530862",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2026/07/06/una-sombra-oscilante-2024/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/07/06/una-sombra-oscilante-2024/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Lunes 13 de julio, 17:00 hrs; Jueves 16 de julio, 17:00 hrs Género: Documental. Duración: 77 min. País: Chile. Dirección: Celeste Rojas Mugica. Idioma / audio: Idioma Original La directora, una fotógrafa de 35 añ...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_26867aab483b145b86a49501",
-      "title": "La Misteriosa Mirada del Flamenco",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "recurring",
-        "start": "2026-07-13T17:00:00-04:00",
-        "end": "2026-07-15",
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 17:00, 15:00",
-        "occurrences": [
-          {
-            "start": "2026-07-13T17:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-07-15T15:00:00-04:00",
-            "end": null
-          }
-        ]
-      },
-      "location": {
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-531574",
-        "tickets": "https://www.passline.com/eventos/la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-531574",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-531574"
-      },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-531574",
-      "last_verified_at": "2026-07-12",
-      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: lunes 13 de julio de 2026, 17:00 hrs; miércoles 15 de julio de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-misteriosa-mirada-del-flamenco-cine-arte-vina-del...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_ed4f8615ac78306e95fd0847",
-      "title": "The Handmaiden.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-13T18:30:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 18:30",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2022/12/29/the-handmaiden/",
-        "tickets": "https://www.passline.com/eventos/the-handmaiden-la-doncella",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2022/12/29/the-handmaiden/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2022/12/29/the-handmaiden/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Lunes 13 de julio, 18:30 hrs Género: Thriller. Duración: 145 min. País: Corea del Sur. Dirección: Park Chan-wook. Idioma / audio: Subtitulada Corea, década de 1930, durante la colonización japonesa. La resuelta j...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_ded57b5a36720a1e785831f0",
-      "title": "Leviticus: Ritual de sangre.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-07-13T19:30:00-04:00",
-        "end": "2026-07-15",
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 19:30, 18:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2026/06/29/leviticus-ritual-de-sangre/",
-        "tickets": "https://www.passline.com/eventos/leviticus-ritual-de-sangre-530626",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2026/06/29/leviticus-ritual-de-sangre/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/06/29/leviticus-ritual-de-sangre/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 12 de julio, 19:30 hrs; Miércoles 15 de julio, 18:00 hrs Género: Terror. Duración: 86 min. País: Australia. Dirección: Adrian Chiarella. Dos adolescentes enfrentados deben escapar de un ente violento que...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_3dbc6846cb373efb3af9b1bc",
-      "title": "Pulp Fiction",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-13T19:30:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 19:30",
-        "occurrences": [
-          {
-            "start": "2026-07-13T19:30:00-04:00",
-            "end": null
-          }
-        ]
-      },
-      "location": {
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 3000,
-        "max_amount": 3000,
-        "display_text": "Entrada Especial · $3.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-pulp-fiction-cine-arte-vina-del-mar-521797",
-        "tickets": "https://www.passline.com/eventos/pulp-fiction-cine-arte-vina-del-mar-521797",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-pulp-fiction-cine-arte-vina-del-mar-521797"
-      },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-pulp-fiction-cine-arte-vina-del-mar-521797",
-      "last_verified_at": "2026-07-12",
-      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: lunes 13 de julio de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/pulp-fiction-cine-arte-vina-del-mar-521797",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_6ce788ad6d2e9849ff255e31",
-      "title": "PCdV-Ex Cárcel – Ciclo de Música «Postales»",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-07-13T20:00:00-04:00",
-        "end": "2026-07-25",
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-13 · 20:00, 22:00, 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Parque Cultural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 12000,
-        "max_amount": 20000,
-        "display_text": "$12.000 · $20.000"
-      },
-      "links": {
-        "official": "https://valpocultura.cl/evento/pcdv-ex-carcel-ciclo-de-musica-postales/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://valpocultura.cl/evento/pcdv-ex-carcel-ciclo-de-musica-postales/"
-      },
-      "organizer": "Parque Cultural de Valparaíso",
-      "source_name": "Parque Cultural de Valparaíso",
-      "source_url": "https://valpocultura.cl/evento/pcdv-ex-carcel-ciclo-de-musica-postales/",
-      "last_verified_at": null,
-      "description": "Tres conciertos. Tres experiencias únicas. POSTALES: Sesiones de Invierno llega al Teatro del Parque Cultural de Valparaíso con Tata Barahona & LSD, Nano Stern y Vicente Cifuentes. Tres noches especialmente diseñadas para el encuentro entre artistas y público,...",
+      "description": "Inicio actividad - Visita Viña Exposición // Día de Sol Fecha 16-julio-2026 HoraLunes a viernes de 09:00 a 14:00 y 15:30 a 17:00 horas Te invitamos a la inauguración de la exposición Día de Sol de la artista Claudia Adriazola Rodríguez, una muestra curada por...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -742,10 +214,10 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-07-14T10:00:00-04:00",
+        "start": "2026-07-16T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 10:00, 17:30",
+        "display_text": "2026-07-16 · 10:00, 17:30",
         "occurrences": []
       },
       "location": {
@@ -774,7 +246,7 @@
       "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "last_verified_at": null,
-      "description": "Inicio actividad - Visita Viña Exhibición temporal // Mientras tanto Fecha 14-julio-2026 Hora Mientras tanto” de María José Mir Consiste en una serie de obras que toman como punto de partida los recuerdos de textiles domésticos que son asociados a experiencias...",
+      "description": "Inicio actividad - Visita Viña Exhibición temporal // Mientras tanto Fecha 16-julio-2026 Hora Mientras tanto” de María José Mir Consiste en una serie de obras que toman como punto de partida los recuerdos de textiles domésticos que son asociados a experiencias...",
       "tags": [],
       "audience": "Familiar",
       "registration_requirements": null,
@@ -803,10 +275,10 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-07-14T10:00:00-04:00",
+        "start": "2026-07-16T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 10:00, 17:30",
+        "display_text": "2026-07-16 · 10:00, 17:30",
         "occurrences": []
       },
       "location": {
@@ -835,7 +307,7 @@
       "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/",
       "last_verified_at": null,
-      "description": "Inicio actividad - Visita Viña Exposición // Horario de verano: Memorias fuera de temporada Fecha 14-julio-2026 Hora La muestra propone una reflexión visual sobre la memoria, el ocio y los imaginarios del habitar costero, a través de una serie de acuarelas rea...",
+      "description": "Inicio actividad - Visita Viña Exposición // Horario de verano: Memorias fuera de temporada Fecha 16-julio-2026 Hora La muestra propone una reflexión visual sobre la memoria, el ocio y los imaginarios del habitar costero, a través de una serie de acuarelas rea...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -864,10 +336,10 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-07-14T10:00:00-04:00",
+        "start": "2026-07-16T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 10:00, 17:30",
+        "display_text": "2026-07-16 · 10:00, 17:30",
         "occurrences": []
       },
       "location": {
@@ -896,7 +368,7 @@
       "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-tapies-coleccion-del-grabador-barbara/",
       "last_verified_at": null,
-      "description": "Inicio actividad - Visita Viña Exposición temporal // Tàpies, colección del grabador Barbara Fecha 14-julio-2026 Hora Presentada por el Departamento de Cultura junto a la Fundación Universitaria Iberoamericana y la Universidad Adolfo Ibáñez, a través de su Cen...",
+      "description": "Inicio actividad - Visita Viña Exposición temporal // Tàpies, colección del grabador Barbara Fecha 16-julio-2026 Hora Presentada por el Departamento de Cultura junto a la Fundación Universitaria Iberoamericana y la Universidad Adolfo Ibáñez, a través de su Cen...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -906,8 +378,8 @@
       }
     },
     {
-      "id": "agenda_db7a5baa5e4d52ab3ff3cc28",
-      "title": "Mil pedazos.",
+      "id": "agenda_419eac0176dc6df2552300c6",
+      "title": "La invitación.",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -920,11 +392,11 @@
         }
       ],
       "schedule": {
-        "mode": "multi_day",
-        "start": "2026-07-14T15:00:00-04:00",
-        "end": "2026-07-17",
+        "mode": "dated",
+        "start": "2026-07-16T15:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 15:00",
+        "display_text": "2026-07-16 · 15:00",
         "occurrences": []
       },
       "location": {
@@ -944,18 +416,18 @@
         "display_text": "$4.000"
       },
       "links": {
-        "official": "https://www.insomniacine.cl/2026/05/30/mil-pedazos/",
-        "tickets": "https://www.passline.com/eventos/mil-pedazos-530632",
+        "official": "https://www.insomniacine.cl/2026/06/29/la-invitacion/",
+        "tickets": "https://www.passline.com/eventos/la-invitacion-533732",
         "registration": null,
-        "source": "https://www.insomniacine.cl/2026/05/30/mil-pedazos/"
+        "source": "https://www.insomniacine.cl/2026/06/29/la-invitacion/"
       },
       "organizer": "Insomnia Cine",
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/05/30/mil-pedazos/",
+      "source_url": "https://www.insomniacine.cl/2026/06/29/la-invitacion/",
       "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Martes 14 de julio, 15:00 hrs; Viernes 17 de julio, 15:00 hrs Género: Drama | Familia. Duración: 90 min. País: Chile. Dirección: Sergio Castro San Martín. Idioma / audio: Idioma Original Miguel (55), Isabel (45)...",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 16 de julio, 15:00 hrs Género: Comedia, Drama. Duración: 108 min. País: Estados Unidos. Dirección: Olivia Wilde. Idioma / audio: Subtitulada Una pareja invita a los vecinos a su casa, lo que desencadena un...",
       "tags": [],
-      "audience": "Familiar",
+      "audience": null,
       "registration_requirements": null,
       "image": {
         "url": null,
@@ -963,8 +435,8 @@
       }
     },
     {
-      "id": "agenda_190e185969a8f5a5b16dfd2d",
-      "title": "Leviticus Ritual de Sangre",
+      "id": "agenda_5964e0627238a4d08bf8d368",
+      "title": "La Invitación",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -977,308 +449,18 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
-        "start": "2026-07-14T17:30:00-04:00",
-        "end": null,
+        "mode": "recurring",
+        "start": "2026-07-16T15:00:00-04:00",
+        "end": "2026-07-20",
         "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 17:30",
+        "display_text": "2026-07-16 · 15:00, 17:00",
         "occurrences": [
           {
-            "start": "2026-07-14T17:30:00-04:00",
+            "start": "2026-07-16T15:00:00-04:00",
             "end": null
-          }
-        ]
-      },
-      "location": {
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "Entrada General · $4.000 · Estudiantes y Personas Mayores"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-leviticus-ritual-de-sangre-cine-arte-vina-del-mar-531577",
-        "tickets": "https://www.passline.com/eventos/leviticus-ritual-de-sangre-cine-arte-vina-del-mar-531577",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-leviticus-ritual-de-sangre-cine-arte-vina-del-mar-531577"
-      },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-leviticus-ritual-de-sangre-cine-arte-vina-del-mar-531577",
-      "last_verified_at": "2026-07-12",
-      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: martes 14 de julio de 2026, 17:30 hrs.Comprar entradas: https://www.passline.com/eventos/leviticus-ritu...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_ce83fad8f3484ed5da9f3036",
-      "title": "Ed Wood.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-14T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2026/07/12/ed-wood/",
-        "tickets": "https://www.passline.com/eventos/ed-wood-1994",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2026/07/12/ed-wood/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/07/12/ed-wood/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Martes 14 de julio, 19:00 hrs Género: Drama. Comedia. Duración: 124 min. País: Estados Unidos. Dirección: Tim Burton. Idioma / audio: Subtitulada Ed Wood es un joven director de cine, un visionario sin ninguna fo...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_f9488a820d2b6b100079e144",
-      "title": "Obra Pan Caliente",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-14T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-14 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Teatro Municipal de Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://teatrovina.cl/evento/obra-pan-caliente/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://teatrovina.cl/evento/obra-pan-caliente/"
-      },
-      "organizer": "Teatro Municipal de Viña del Mar",
-      "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/obra-pan-caliente/",
-      "last_verified_at": null,
-      "description": "Inicio Eventos - Teatro Municipal Viña del Mar Teatro Obra Pan Caliente Teatro “Pan Caliente” llega al Teatro Municipal de Viña del Mar con una puesta en escena dirigida por Claudio Marín. Una obra para público joven y adulto que forma parte de la programación...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_bec9f8edbce2da39d85541f3",
-      "title": "Drácula, de Bram Stoker.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-15T15:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-15 · 15:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2021/12/29/dracula-de-bram-stoker/",
-        "tickets": "https://www.passline.com/eventos/dracula-de-bram-stoker",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2021/12/29/dracula-de-bram-stoker/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2021/12/29/dracula-de-bram-stoker/",
-      "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Miércoles 15 de julio, 15:00 hrs Género: Terror. Duración: 132 min. País: EEUU. Dirección: Francis Ford Coppola. Idioma / audio: Subtitulada En el año 1890 el joven abogado Jonathan Harker viaja a un castillo per...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_d2cc4fbbdd3cbaf542d857de",
-      "title": "Aromas de invierno, vino navegado",
-      "event_type": "event",
-      "primary_category": {
-        "id": "gastronomia",
-        "label": "Gastronomía"
-      },
-      "categories": [
-        {
-          "id": "gastronomia",
-          "label": "Gastronomía"
-        },
-        {
-          "id": "ferias",
-          "label": "Ferias"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-15T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-15 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Edificio Cousiño, Errázuriz 1020",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://valpocultura.cl/evento/extension-duocuc-cartelera-cultural-julio-2026/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DaAsVNSHK4p/#slide-8-aromas-de-invierno"
-      },
-      "organizer": "Centro de Extensión Duoc UC Valparaíso",
-      "source_name": "Centro de Extensión Duoc UC Valparaíso",
-      "source_url": "https://www.instagram.com/p/DaAsVNSHK4p/#slide-8-aromas-de-invierno",
-      "last_verified_at": null,
-      "description": "Inscripción: formulario publicado dos días antes en extension.duoc.cl y redes sociales, según disponibilidad de cupos",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_7308b4c34f14da4cffcb5911",
-      "title": "Manchester By The Sea 2016",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-07-15T19:30:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-15 · 19:30",
-        "occurrences": [
+          },
           {
-            "start": "2026-07-15T19:30:00-04:00",
+            "start": "2026-07-20T17:00:00-04:00",
             "end": null
           }
         ]
@@ -1300,16 +482,16 @@
         "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
-        "official": "https://cineartevina.cl/#funcion-manchester-by-the-sea-2016-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/manchester-by-the-sea-2016-cine-arte-vina-del-mar",
+        "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-533921",
+        "tickets": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-533921",
         "registration": null,
-        "source": "https://cineartevina.cl/#funcion-manchester-by-the-sea-2016-cine-arte-vina-del-mar"
+        "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-533921"
       },
       "organizer": null,
       "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-manchester-by-the-sea-2016-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-07-12",
-      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: miércoles 15 de julio de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/manchester-by-the-sea-2016-cine-arte-vina-del-mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-533921",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: jueves 16 de julio de 2026, 15:00 hrs; lunes 20 de julio de 2026, 17:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-533921",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1319,8 +501,71 @@
       }
     },
     {
-      "id": "agenda_a3a174402bbdf0c1cddce584",
-      "title": "Backrooms.",
+      "id": "agenda_95c0bb16a09607c019db1bda",
+      "title": "Peques en Acción LOS COLORES DEL ARTE",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-07-16T16:15:00-04:00",
+        "end": "2026-07-19",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-16 · 16:15",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Artequin Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://artequinvina.cl/events/peques-en-accion-los-colores-del-arte-jul/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://artequinvina.cl/events/peques-en-accion-los-colores-del-arte-jul/"
+      },
+      "organizer": "Artequin Viña del Mar",
+      "source_name": "Artequin Viña del Mar",
+      "source_url": "https://artequinvina.cl/events/peques-en-accion-los-colores-del-arte-jul/",
+      "last_verified_at": null,
+      "description": "🌈 ¡Qué hermoso es descubrir el arte a través de los colores, las luces y el juego! En Los Colores del Arte, los más pequeños explorarán un mundo lleno de luces, sombras, formas y texturas junto a sus personas cuidadoras. Jugaremos con proyecciones, linternas,...",
+      "tags": [
+        "museo"
+      ],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_282c2b82dd75cc2e5fa7dd62",
+      "title": "Una sombra oscilante (2024).",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -1334,10 +579,10 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-07-15T19:45:00-04:00",
+        "start": "2026-07-16T17:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-15 · 19:45",
+        "display_text": "2026-07-16 · 17:00",
         "occurrences": []
       },
       "location": {
@@ -1357,16 +602,16 @@
         "display_text": "$4.000"
       },
       "links": {
-        "official": "https://www.insomniacine.cl/2026/05/25/backrooms/",
-        "tickets": "https://www.passline.com/eventos/backrooms-530636",
+        "official": "https://www.insomniacine.cl/2026/07/06/una-sombra-oscilante-2024/",
+        "tickets": "https://www.passline.com/eventos/una-sombra-oscilante-533733",
         "registration": null,
-        "source": "https://www.insomniacine.cl/2026/05/25/backrooms/"
+        "source": "https://www.insomniacine.cl/2026/07/06/una-sombra-oscilante-2024/"
       },
       "organizer": "Insomnia Cine",
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/05/25/backrooms/",
+      "source_url": "https://www.insomniacine.cl/2026/07/06/una-sombra-oscilante-2024/",
       "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Miércoles 15 de julio, 19:45 hrs Género: Thriller. Duración: 105 min. País: Estados Unidos. Dirección: Kane Parsons. Idioma / audio: Subtitulada Una extraña puerta aparece en el sótano de una exposición de mueble...",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 16 de julio, 17:00 hrs Género: Documental. Duración: 77 min. País: Chile. Dirección: Celeste Rojas Mugica. Idioma / audio: Idioma Original La directora, una fotógrafa de 35 años, se sumerge en la antigua c...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1376,7 +621,81 @@
       }
     },
     {
-      "id": "agenda_d4d6975606a8fe9dd9e7f875",
+      "id": "agenda_295c5239a36a7b2071255223",
+      "title": "Obsesión",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-07-16T17:00:00-04:00",
+        "end": "2026-07-21",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-16 · 17:00, 15:00, 19:45",
+        "occurrences": [
+          {
+            "start": "2026-07-16T17:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-18T15:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-19T19:45:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-21T15:00:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-533929",
+        "tickets": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-533929",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-533929"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-533929",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: jueves 16 de julio de 2026, 17:00 hrs; sábado 18 de julio de 2026, 15:00 hrs; domingo 19 de julio de 2026, 19:45 hrs; martes 21 de julio de 2026, 15:00 hrs.Comprar entradas: https://...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_36c0a5d3646485069581fd62",
       "title": "La odisea.",
       "event_type": "event",
       "primary_category": {
@@ -1414,16 +733,16 @@
         "display_text": "$4.000"
       },
       "links": {
-        "official": "https://www.passline.com/eventos/la-odisea-533728",
+        "official": "https://www.insomniacine.cl/2026/07/13/la-odisea/",
         "tickets": "https://www.passline.com/eventos/la-odisea-533728",
         "registration": null,
-        "source": "https://www.passline.com/eventos/la-odisea-533728"
+        "source": "https://www.insomniacine.cl/2026/07/13/la-odisea/"
       },
       "organizer": "Insomnia Cine",
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/la-odisea-533728",
+      "source_url": "https://www.insomniacine.cl/2026/07/13/la-odisea/",
       "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 16 de julio, 18:30 hrs; Viernes 17 de julio, 17:00 hrs; Sábado 18 de julio, 17:00 hrs; Domingo 19 de julio, 17:00 hrs",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 16 de julio, 18:30 hrs; Viernes 17 de julio, 17:00 hrs; Sábado 18 de julio, 17:00 hrs; Domingo 19 de julio, 17:00 hrs Género: Cine epico. Duración: 172 min. País: Estados Unidos. Dirección: Christopher Nol...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1495,6 +814,88 @@
       }
     },
     {
+      "id": "agenda_73093eaa080e0579b2ea0e46",
+      "title": "La Odisea (2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-07-16T19:00:00-04:00",
+        "end": "2026-07-22",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-16 · 19:00, 16:30, 19:30, 15:00",
+        "occurrences": [
+          {
+            "start": "2026-07-16T19:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-17T16:30:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-18T19:30:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-19T15:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-20T19:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-22T15:00:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: jueves 16 de julio de 2026, 19:00 hrs; viernes 17 de julio de 2026, 16:30 hrs; sábado 18 de julio de 2026, 19:30 hrs; domingo 19 de julio de 2026, 15:00 hrs; lunes 20 de julio de 2026, 19:00 hrs; miércoles 22 de julio de 2026, 15:00 hrs...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_d4de9a8d9045d5a860aea6d2",
       "title": "Obra Vampyr",
       "event_type": "event",
@@ -1543,6 +944,186 @@
       "source_url": "https://teatrovina.cl/evento/obra-vampyr/",
       "last_verified_at": null,
       "description": "Inicio Eventos - Teatro Municipal Viña del Mar Teatro Obra Vampyr Teatro Con dirección y dramaturgia de Manuela Infante, “Vampyr” llega al II Festival de Teatro de Viña del Mar TMVM. Una propuesta escénica contemporánea protagonizada por Marcela Salinas y Davi...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_6ce788ad6d2e9849ff255e31",
+      "title": "PCdV-Ex Cárcel – Ciclo de Música «Postales»",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-07-16T20:00:00-04:00",
+        "end": "2026-07-25",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-16 · 20:00, 22:00, 19:00",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Parque Cultural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 12000,
+        "max_amount": 20000,
+        "display_text": "$12.000 · $20.000"
+      },
+      "links": {
+        "official": "https://valpocultura.cl/evento/pcdv-ex-carcel-ciclo-de-musica-postales/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://valpocultura.cl/evento/pcdv-ex-carcel-ciclo-de-musica-postales/"
+      },
+      "organizer": "Parque Cultural de Valparaíso",
+      "source_name": "Parque Cultural de Valparaíso",
+      "source_url": "https://valpocultura.cl/evento/pcdv-ex-carcel-ciclo-de-musica-postales/",
+      "last_verified_at": null,
+      "description": "Tres conciertos. Tres experiencias únicas. POSTALES: Sesiones de Invierno llega al Teatro del Parque Cultural de Valparaíso con Tata Barahona & LSD, Nano Stern y Vicente Cifuentes. Tres noches especialmente diseñadas para el encuentro entre artistas y público,...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_db7a5baa5e4d52ab3ff3cc28",
+      "title": "Mil pedazos.",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-17T15:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-17 · 15:00",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Insomnia Teatro Condell",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.insomniacine.cl/2026/05/30/mil-pedazos/",
+        "tickets": "https://www.passline.com/eventos/mil-pedazos-533734",
+        "registration": null,
+        "source": "https://www.insomniacine.cl/2026/05/30/mil-pedazos/"
+      },
+      "organizer": "Insomnia Cine",
+      "source_name": "Insomnia Cine",
+      "source_url": "https://www.insomniacine.cl/2026/05/30/mil-pedazos/",
+      "last_verified_at": null,
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Viernes 17 de julio, 15:00 hrs Género: Drama | Familia. Duración: 90 min. País: Chile. Dirección: Sergio Castro San Martín. Idioma / audio: Idioma Original Miguel (55), Isabel (45) y Emilia (9) salen de vacacione...",
+      "tags": [],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_6b2eb17d93a03dbad6507a00",
+      "title": "Leviticus Ritual de Sangre",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-07-17T15:00:00-04:00",
+        "end": "2026-07-22",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-17 · 15:00, 18:00",
+        "occurrences": [
+          {
+            "start": "2026-07-17T15:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-22T18:00:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-leviticus-ritual-de-sangre-cine-arte-vina-del-mar-533925",
+        "tickets": "https://www.passline.com/eventos/leviticus-ritual-de-sangre-cine-arte-vina-del-mar-533925",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-leviticus-ritual-de-sangre-cine-arte-vina-del-mar-533925"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-leviticus-ritual-de-sangre-cine-arte-vina-del-mar-533925",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: viernes 17 de julio de 2026, 15:00 hrs; miércoles 22 de julio de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/leviticus-ritual-de-sangre-cine-arte-vina-del-mar-...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1609,8 +1190,65 @@
       }
     },
     {
-      "id": "agenda_27c7131f91c05f1a7446e3d0",
-      "title": "La leyenda del jinete sin cabeza - Sleepy Hollow.",
+      "id": "agenda_49ce0375197215ef11d3cda3",
+      "title": "The Room.",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-17T20:15:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-17 · 20:15",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Insomnia Teatro Condell",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.insomniacine.cl/2026/07/13/the-room/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.insomniacine.cl/2026/07/13/the-room/"
+      },
+      "organizer": "Insomnia Cine",
+      "source_name": "Insomnia Cine",
+      "source_url": "https://www.insomniacine.cl/2026/07/13/the-room/",
+      "last_verified_at": null,
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Viernes 17 de julio, 20:15 hrs Género: Drama. Duración: 99 min. País: Estados Unidos. Dirección: Tommy Wiseau. Idioma / audio: Subtitulada Cuenta la historia de Johnny, un tipo especial, un buenazo que vive feliz...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_47db022fea25da3ae4e53941",
+      "title": "La leyenda del jinete sin cabeza.",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -1647,16 +1285,78 @@
         "display_text": "$4.000"
       },
       "links": {
-        "official": "https://www.passline.com/eventos/la-leyenda-del-jinete-sin-cabeza-sleepy-hollow",
+        "official": "https://www.insomniacine.cl/2026/07/13/la-leyenda-del-jinete-sin-cabeza/",
         "tickets": "https://www.passline.com/eventos/la-leyenda-del-jinete-sin-cabeza-sleepy-hollow",
         "registration": null,
-        "source": "https://www.passline.com/eventos/la-leyenda-del-jinete-sin-cabeza-sleepy-hollow"
+        "source": "https://www.insomniacine.cl/2026/07/13/la-leyenda-del-jinete-sin-cabeza/"
       },
       "organizer": "Insomnia Cine",
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/la-leyenda-del-jinete-sin-cabeza-sleepy-hollow",
+      "source_url": "https://www.insomniacine.cl/2026/07/13/la-leyenda-del-jinete-sin-cabeza/",
       "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Sábado 18 de julio, 15:00 hrs",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Sábado 18 de julio, 15:00 hrs Género: Intriga. Aventuras. Terror. Fantástico. Duración: 105 min. País: Estados Unidos. Dirección: Tim Burton. Idioma / audio: Subtitulada Norteamérica, finales del siglo XVIII. El...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_fc4300271b6076a00d9df476",
+      "title": "El Faro 2019",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-18T17:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-18 · 17:00",
+        "occurrences": [
+          {
+            "start": "2026-07-18T17:00:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-el-faro-2019-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/el-faro-2019-cine-arte-vina-del-mar",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-el-faro-2019-cine-arte-vina-del-mar"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-el-faro-2019-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: sábado 18 de julio de 2026, 17:00 hrs.Comprar entradas: https://www.passline.com/eventos/el-faro-2019-cine-arte-vina-del-mar",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1780,8 +1480,8 @@
       }
     },
     {
-      "id": "agenda_5409eced9a29a6c310282342",
-      "title": "Generación Perdida (The Lost Boys).",
+      "id": "agenda_a3efb01b3342f58c0077958f",
+      "title": "Generación perdida.",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -1818,16 +1518,16 @@
         "display_text": "$4.000"
       },
       "links": {
-        "official": "https://www.passline.com/eventos/generacion-perdida-the-lost-boys-533738",
+        "official": "https://www.insomniacine.cl/2025/12/15/generacion-perdida/",
         "tickets": "https://www.passline.com/eventos/generacion-perdida-the-lost-boys-533738",
         "registration": null,
-        "source": "https://www.passline.com/eventos/generacion-perdida-the-lost-boys-533738"
+        "source": "https://www.insomniacine.cl/2025/12/15/generacion-perdida/"
       },
       "organizer": "Insomnia Cine",
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/generacion-perdida-the-lost-boys-533738",
+      "source_url": "https://www.insomniacine.cl/2025/12/15/generacion-perdida/",
       "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Sábado 18 de julio, 20:15 hrs",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Sábado 18 de julio, 20:15 hrs Género: Thriller. Duración: 98 min. País: Estados Unidos. Dirección: Joel Schumacher. Sam (Corey Haim) y Michael Emerson (Jason Patric) son dos chicos americanos muy convencionales....",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1894,8 +1594,126 @@
       }
     },
     {
-      "id": "agenda_f27f3612641379998eac3963",
-      "title": "El Joven manos de tijera - Edward Scissorhands.",
+      "id": "agenda_d3b73d324741f0cd5800921e",
+      "title": "Exploradores EL LIENZO REBELDE",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-19T11:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-19 · 11:30",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Artequin Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4500,
+        "max_amount": 4500,
+        "display_text": "$4.500"
+      },
+      "links": {
+        "official": "https://artequinvina.cl/events/exploradores-el-lienzo-rebelde/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://artequinvina.cl/events/exploradores-el-lienzo-rebelde/"
+      },
+      "organizer": "Artequin Viña del Mar",
+      "source_name": "Artequin Viña del Mar",
+      "source_url": "https://artequinvina.cl/events/exploradores-el-lienzo-rebelde/",
+      "last_verified_at": null,
+      "description": "🎨 ¡Los pinceles se toman un descanso! Taller Exploradores EL LIENZO REBELDE descubriremos que existen muchas formas de pintar. Lanzaremos colores, haremos rodar canicas, moveremos lanas empapadas en pintura y dejaremos que la música inspire cada movimiento par...",
+      "tags": [
+        "taller"
+      ],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_aa159ce4a3dc70d967eb8411",
+      "title": "Talleres en Patota: DES ENCUADRE",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-19T13:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-19 · 13:00",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Artequin Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://artequinvina.cl/events/talleres-en-patota-des-encuadre/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://artequinvina.cl/events/talleres-en-patota-des-encuadre/"
+      },
+      "organizer": "Artequin Viña del Mar",
+      "source_name": "Artequin Viña del Mar",
+      "source_url": "https://artequinvina.cl/events/talleres-en-patota-des-encuadre/",
+      "last_verified_at": null,
+      "description": "🌟 ¡¿Y si el papel dejara de ser un rectángulo antes de comenzar a dibujar?! Talleres en Patota Des-Encuadre jugaremos a cambiar las reglas de la creación. Recortaremos, doblaremos, rasgaremos y transformaremos el papel para descubrir cómo una nueva forma puede...",
+      "tags": [
+        "taller"
+      ],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_a50052b4b31ae182c70a44b6",
+      "title": "El joven manos de tijera.",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -1932,16 +1750,142 @@
         "display_text": "$4.000"
       },
       "links": {
-        "official": "https://www.passline.com/eventos/el-joven-manos-de-tijera-edward-scissorhands-533739",
+        "official": "https://www.insomniacine.cl/2022/09/27/el-joven-manos-de-tijera/",
         "tickets": "https://www.passline.com/eventos/el-joven-manos-de-tijera-edward-scissorhands-533739",
         "registration": null,
-        "source": "https://www.passline.com/eventos/el-joven-manos-de-tijera-edward-scissorhands-533739"
+        "source": "https://www.insomniacine.cl/2022/09/27/el-joven-manos-de-tijera/"
       },
       "organizer": "Insomnia Cine",
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/el-joven-manos-de-tijera-edward-scissorhands-533739",
+      "source_url": "https://www.insomniacine.cl/2022/09/27/el-joven-manos-de-tijera/",
       "last_verified_at": null,
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 19 de julio, 15:00 hrs",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 19 de julio, 15:00 hrs Género: Fantasía. Duración: 98 min. País: Estados Unidos. Dirección: Tim Burton. Idioma / audio: Subtitulada Durante una noche de Navidad, una anciana le cuenta a su nieta la histor...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_c0d145ee38518773683119f7",
+      "title": "Juegos en Patota CARAS REVUELTAS",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-19T15:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-19 · 15:30, 17:15",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Artequin Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://artequinvina.cl/events/juegos-en-patota-caras-revueltas/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://artequinvina.cl/events/juegos-en-patota-caras-revueltas/"
+      },
+      "organizer": "Artequin Viña del Mar",
+      "source_name": "Artequin Viña del Mar",
+      "source_url": "https://artequinvina.cl/events/juegos-en-patota-caras-revueltas/",
+      "last_verified_at": null,
+      "description": "🎭 ¡Ups! Parece que los personajes de las pinturas despertaron con las caras cambiadas… En Caras Revueltas jugaremos a transformar retratos y personajes de famosas obras de arte intercambiando ojos, bocas, narices y orejas. Descubriremos cómo un pequeño cambio...",
+      "tags": [
+        "museo",
+        "pintura"
+      ],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_df24e2fc549faacbb1f7e0bd",
+      "title": "La Misteriosa Mirada del Flamenco",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-19T18:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-19 · 18:00",
+        "occurrences": [
+          {
+            "start": "2026-07-19T18:00:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-533933",
+        "tickets": "https://www.passline.com/eventos/la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-533933",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-533933"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-533933",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: domingo 19 de julio de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-misteriosa-mirada-del-flamenco-cine-arte-vina-del-mar-533933",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1999,6 +1943,72 @@
       "source_url": "https://teatrovina.cl/evento/obra-carrera/",
       "last_verified_at": null,
       "description": "Inicio Eventos - Teatro Municipal Viña del Mar Teatro Obra Carrera Teatro Tryo Teatro Banda presenta “Carrera”, una obra que une teatro, música e historia en una puesta en escena dinámica. La función dará cierre al II Festival de Teatro de Viña del Mar TMVM.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_fd43197830a4885a8e70ce0e",
+      "title": "Mil Pedazos",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-07-20T15:00:00-04:00",
+        "end": "2026-07-21",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-20 · 15:00, 17:30",
+        "occurrences": [
+          {
+            "start": "2026-07-20T15:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-07-21T17:30:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-mil-pedazos-cine-arte-vina-del-mar-533927",
+        "tickets": "https://www.passline.com/eventos/mil-pedazos-cine-arte-vina-del-mar-533927",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-mil-pedazos-cine-arte-vina-del-mar-533927"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-mil-pedazos-cine-arte-vina-del-mar-533927",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: lunes 20 de julio de 2026, 15:00 hrs; martes 21 de julio de 2026, 17:30 hrs.Comprar entradas: https://www.passline.com/eventos/mil-pedazos-cine-arte-vina-del-mar-533927",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -2113,6 +2123,130 @@
       "source_url": "https://teatrovina.cl/evento/colores-de-latinoamerica/",
       "last_verified_at": null,
       "description": "Inicio Eventos - Teatro Municipal Viña del Mar Concierto Colores de Latinoamérica Concierto La Banda Sinfónica de la Policía de Investigaciones presenta un concierto dedicado a sonidos y repertorios de Latinoamérica. Una presentación musical dirigida por Danie...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_a079d786329f3e1390776bcd",
+      "title": "The Love Witch",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-21T19:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-21 · 19:30",
+        "occurrences": [
+          {
+            "start": "2026-07-21T19:30:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "Entrada general · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-the-love-witch-cine-arte-vina-del-mar-16",
+        "tickets": "https://www.passline.com/eventos/the-love-witch-cine-arte-vina-del-mar-16",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-the-love-witch-cine-arte-vina-del-mar-16"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-the-love-witch-cine-arte-vina-del-mar-16",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: martes 21 de julio de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/the-love-witch-cine-arte-vina-del-mar-16",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_635ccb040ced429a00450431",
+      "title": "Eterno Resplandor de Una Mente Sin Recuerdos",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-07-22T19:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-22 · 19:30",
+        "occurrences": [
+          {
+            "start": "2026-07-22T19:30:00-04:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-eterno-resplandor-de-una-mente-sin-recuerdos-cine-arte-vina-del-mar-533917",
+        "tickets": "https://www.passline.com/eventos/eterno-resplandor-de-una-mente-sin-recuerdos-cine-arte-vina-del-mar-533917",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-eterno-resplandor-de-una-mente-sin-recuerdos-cine-arte-vina-del-mar-533917"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-eterno-resplandor-de-una-mente-sin-recuerdos-cine-arte-vina-del-mar-533917",
+      "last_verified_at": "2026-07-16",
+      "description": "Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: miércoles 22 de julio de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/eterno-resplandor-de-una-mente-sin-recuerdos-cine-arte-vina-del-mar-533917",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -2486,7 +2620,7 @@
         "start": "2026-07-26T18:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-07-26 · 18:00",
+        "display_text": "2026-07-26 · 18:00, 20:30",
         "occurrences": []
       },
       "location": {
@@ -2643,6 +2777,71 @@
       }
     },
     {
+      "id": "agenda_b8ee1eaef6c6eba0ee1a531e",
+      "title": "Trekking Familiar 5K — 2 Desafío El Totoral 2026",
+      "event_type": "event",
+      "primary_category": {
+        "id": "naturaleza-montana",
+        "label": "Naturaleza y montaña"
+      },
+      "categories": [
+        {
+          "id": "naturaleza-montana",
+          "label": "Naturaleza y montaña"
+        },
+        {
+          "id": "deportes",
+          "label": "Deportes"
+        },
+        {
+          "id": "familia",
+          "label": "Familia"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-08T07:40:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-08 · 07:40, 09:00, 09:45",
+        "occurrences": []
+      },
+      "location": {
+        "city": "El Quisco",
+        "commune": "El Quisco",
+        "venue": "Estacionamientos Restaurante La Estancia del Totoral",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 15000,
+        "max_amount": 15000,
+        "display_text": "$15.000"
+      },
+      "links": {
+        "official": "https://corre.cl/evento/12136",
+        "tickets": null,
+        "registration": "https://cronometrajeinstantaneo.com/inscripciones/2-desafio-el-totoral-2026",
+        "source": "https://cronometrajeinstantaneo.com/inscripciones/2-desafio-el-totoral-2026"
+      },
+      "organizer": "Sociedad de Turismo Rural La Estancia del Totoral Ltda.",
+      "source_name": "Sociedad de Turismo Rural La Estancia del Totoral Ltda.",
+      "source_url": "https://cronometrajeinstantaneo.com/inscripciones/2-desafio-el-totoral-2026",
+      "last_verified_at": "2026-07-16",
+      "description": "Actividad: Trekking familiar. Ruta: Trekking familiar 5K del Desafío El Totoral. Dificultad: Familiar, desde 8 años. Distancia: 5 km. Edad mínima: 8 años. Cupos: Sujeto a cupos del formulario. Precio: $15.000 en etapa final. Seguridad: La organización puede modificar fecha, lugar o circuito por clima, fuerza mayor o seguridad pública. Inscripciones abiertas hasta el 31 de julio de 2026. Inscripción: https://cronometrajeinstantaneo.com/inscripciones/2-desafio-el-totoral-2026",
+      "tags": [],
+      "audience": "Familiar",
+      "registration_requirements": "Inscripciones abiertas hasta el 31 de julio de 2026",
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_14c6a0858f8a2ecc62dca533",
       "title": "Teatrocinema presenta Kaori, una obra sublime para toda la familia",
       "event_type": "event",
@@ -2694,6 +2893,67 @@
       "tags": [],
       "audience": "Familiar",
       "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_ea30071d5d99e48b12b87c3b",
+      "title": "Liderfest Winter Trail 2026",
+      "event_type": "event",
+      "primary_category": {
+        "id": "deportes",
+        "label": "Deportes"
+      },
+      "categories": [
+        {
+          "id": "deportes",
+          "label": "Deportes"
+        },
+        {
+          "id": "naturaleza-montana",
+          "label": "Naturaleza y montaña"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-22T08:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 08:00, 09:30, 11:00",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Quilpué",
+        "commune": "Quilpué",
+        "venue": "Fundo Los Lunes, Paso Hondo",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 14000,
+        "max_amount": 16000,
+        "display_text": "$14.000 · $16.000 · 3K desde $14.000 / 6K desde $16.000, más cargos"
+      },
+      "links": {
+        "official": "https://corre.cl/evento/12118",
+        "tickets": null,
+        "registration": "https://liderfest.evently.cl/LIDERFEST-WINTER-TRAIL-16-06-2026",
+        "source": "https://liderfest.evently.cl/LIDERFEST-WINTER-TRAIL-16-06-2026"
+      },
+      "organizer": "Centro de Liderazgo Liderfest",
+      "source_name": "Centro de Liderazgo Liderfest",
+      "source_url": "https://liderfest.evently.cl/LIDERFEST-WINTER-TRAIL-16-06-2026",
+      "last_verified_at": "2026-07-16",
+      "description": "Disciplina: Trail running. Inscripciones abiertas; 500 cupos limitados y valores por periodo o hasta agotar cupos. Distancias o modalidades: 3K Kids, 6K Trail. Precio: 3K desde $14.000 / 6K desde $16.000, más cargos. Inscripción: https://liderfest.evently.cl/LIDERFEST-WINTER-TRAIL-16-06-2026",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "Inscripciones abiertas; 500 cupos limitados y valores por periodo o hasta agotar cupos",
       "image": {
         "url": null,
         "alt": null
@@ -2757,6 +3017,63 @@
       }
     },
     {
+      "id": "agenda_9701e4902fd6be84c7f43035",
+      "title": "Concón 21K 2026",
+      "event_type": "event",
+      "primary_category": {
+        "id": "deportes",
+        "label": "Deportes"
+      },
+      "categories": [
+        {
+          "id": "deportes",
+          "label": "Deportes"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-30T07:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-30 · 07:30, 08:30, 09:00, 11:00",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Concón",
+        "commune": "Concón",
+        "venue": "Playa Amarilla",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 15000,
+        "max_amount": 25000,
+        "display_text": "$15.000 · $20.000 · $25.000 · 3K $15.000 / 10K $20.000 / 21K $25.000, más cargos"
+      },
+      "links": {
+        "official": "https://corre.cl/evento/11837",
+        "tickets": null,
+        "registration": "https://www.concon21k.cl/",
+        "source": "https://www.concon21k.cl/"
+      },
+      "organizer": "Ilustre Municipalidad de Concón y Quinta Sport SpA",
+      "source_name": "Ilustre Municipalidad de Concón y Quinta Sport SpA",
+      "source_url": "https://www.concon21k.cl/",
+      "last_verified_at": "2026-07-16",
+      "description": "Disciplina: Running. Inscripciones abiertas; 4.000 cupos limitados. Distancias o modalidades: 3K recreativa, 10K, 21K. Precio: 3K $15.000 / 10K $20.000 / 21K $25.000, más cargos. Inscripción: https://www.concon21k.cl/",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "Inscripciones abiertas; 4.000 cupos limitados",
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_7d6d45b67ce8c34608b88fa3",
       "title": "Media Maratón TPS Valparaíso 2026",
       "event_type": "event",
@@ -2804,7 +3121,7 @@
       "source_name": "Prokart SpA y Terminal Pacífico Sur Valparaíso",
       "source_url": "https://mediamaratontps.cl/",
       "last_verified_at": "2026-07-13",
-      "description": "Disciplina: Running. Inscripciones abiertas; apertura 08:00, largada 2K 08:30 y largadas 10K/21K 09:00. Inscripción: https://www.bibnumberticket.com/events/media-maraton-tps-2026/",
+      "description": "Disciplina: Running. Inscripciones abiertas; apertura 08:00, largada 2K 08:30 y largadas 10K/21K 09:00. Precio: 2K $8.000 / 10K $15.990 / 21K $17.990, más 15% por servicio. Inscripción: https://www.bibnumberticket.com/events/media-maraton-tps-2026/",
       "tags": [
         "maratón"
       ],
@@ -2867,6 +3184,65 @@
       "tags": [],
       "audience": "Familiar",
       "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_f3e785e192964ffa6f49e58d",
+      "title": "Itaú Maratón de Viña 2026",
+      "event_type": "event",
+      "primary_category": {
+        "id": "deportes",
+        "label": "Deportes"
+      },
+      "categories": [
+        {
+          "id": "deportes",
+          "label": "Deportes"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-10-04T06:30:00-03:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-10-04 · 06:30",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Av. Ignacio Carrera Pinto, Reñaca Sector 1",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 32000,
+        "max_amount": 42000,
+        "display_text": "$32.000 · $37.000 · $42.000 · 10K $32.000 / 21K $37.000 / 42K $42.000, más cargos"
+      },
+      "links": {
+        "official": "https://maratonvina.cl/",
+        "tickets": null,
+        "registration": "https://www.bibnumberticket.com/events/maraton-de-vina-2026",
+        "source": "https://maratonvina.cl/"
+      },
+      "organizer": "Prokart SpA",
+      "source_name": "Prokart SpA",
+      "source_url": "https://maratonvina.cl/",
+      "last_verified_at": "2026-07-16",
+      "description": "Disciplina: Running. Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock. Distancias o modalidades: 10K, 21K, 42K. Precio: 10K $32.000 / 21K $37.000 / 42K $42.000, más cargos. Inscripción: https://www.bibnumberticket.com/events/maraton-de-vina-2026",
+      "tags": [
+        "maratón"
+      ],
+      "audience": null,
+      "registration_requirements": "Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock",
       "image": {
         "url": null,
         "alt": null
@@ -3152,6 +3528,63 @@
       "tags": [],
       "audience": null,
       "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_10ba69e08963eace52ab8593",
+      "title": "Tours guiados de Valparaíso Trekking — consulta de fecha",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "naturaleza-montana",
+        "label": "Naturaleza y montaña"
+      },
+      "categories": [
+        {
+          "id": "naturaleza-montana",
+          "label": "Naturaleza y montaña"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario flexible",
+        "occurrences": []
+      },
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Región de Valparaíso; operador con sede en Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking",
+        "tickets": null,
+        "registration": "https://valparaisotrekking.cl/pages/servicios",
+        "source": "https://valparaisotrekking.cl/pages/servicios"
+      },
+      "organizer": "Valparaíso Trekking SpA",
+      "source_name": "Valparaíso Trekking SpA",
+      "source_url": "https://valparaisotrekking.cl/pages/servicios",
+      "last_verified_at": "2026-07-16",
+      "description": "Actividad: Tours guiados de trekking. Consulta de fecha y disponibilidad; no se asigna una fecha artificial. Inscripción: https://valparaisotrekking.cl/pages/servicios",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "Consulta de fecha y disponibilidad; no se asigna una fecha artificial",
       "image": {
         "url": null,
         "alt": null
