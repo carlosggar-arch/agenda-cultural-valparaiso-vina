@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Proponer una actividad para revisión editorial."><meta name="community-api-base" content="https://agenda-cultural-community.carlosggar.workers.dev">
+<meta name="publication-cities-url" content="./assets/publication-cities.json">
+<title>Proponer evento · Agenda Cultural</title><link rel="stylesheet" href="./assets/agenda.css">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script></head>
+<body><main class="shell main-content"><section class="form-page"><p class="eyebrow">Participación comunitaria</p><h1>Proponer un evento</h1>
+<p class="verification-advisory">Las propuestas son revisadas manualmente y no se publican automáticamente.</p>
+<form class="public-submission-form" data-community-form="event">
+<label>Título<input required name="title" maxlength="180"></label><label>Fecha<input required type="date" name="start_date"></label>
+<label>Hora<input required type="time" name="start_time"></label><label>Fecha de término opcional<input type="date" name="end_date"></label>
+<label>Hora de término opcional<input type="time" name="end_time"></label><label>Lugar<input required name="venue" maxlength="180"></label>
+<label>Ciudad<select required name="city" data-publication-city-select></select></label><label>Organizador<input required name="organizer" maxlength="180"></label>
+<label>Categoría<input required name="category" maxlength="100"></label><label>Enlace oficial<input required type="url" name="official_url" maxlength="1000"></label>
+<label>Precio<input name="price_text" maxlength="120"></label><label class="checkbox-label"><input type="checkbox" name="is_free"> Actividad gratuita</label>
+<label class="full-row">Descripción breve<textarea required name="description" maxlength="1200"></textarea></label>
+<label>Nombre de contacto<input required name="contact_name" maxlength="160" aria-describedby="contact-privacy"></label><label>Correo de contacto<input required type="email" name="contact_email" maxlength="254" aria-describedby="contact-privacy"></label>
+<p id="contact-privacy" class="full-row">Usaremos el contacto únicamente para revisar la propuesta. Nunca se incluirá en datasets ni páginas públicas. Consulta la <a href="./privacidad.html">política de privacidad</a>.</p>
+<label class="full-row">URL pública de imagen opcional<input type="url" name="image_url" maxlength="1000"></label>
+<p class="full-row">La imagen debe pertenecer al organizador o contar con autorización y quedará pendiente de revisión.</p>
+<label class="checkbox-label full-row"><input required type="checkbox" name="consent"> Consiento el tratamiento de estos datos para revisar la propuesta.</label>
+<label class="honeypot" aria-hidden="true">Sitio web<input name="website" tabindex="-1" autocomplete="off"></label>
+<div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2"></div>
+<button class="button-link" type="submit">Enviar propuesta</button><p class="action-message full-row" data-form-message aria-live="polite"></p>
+</form><p><a href="./">Volver a la agenda</a></p></section></main><script type="module" src="./assets/community-forms.js"></script></body></html>
