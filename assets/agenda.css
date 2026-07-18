@@ -674,6 +674,28 @@ button.change-event-label { cursor: pointer; }
   font-weight: 800;
 }
 
+.category-ferias-gastronomia {
+  border-color: #d57a54;
+  background: #fff0e8;
+  color: #873b25;
+}
+
+.category-ferias-gastronomia::before {
+  content: "☕";
+  margin-right: 0.35rem;
+}
+
+.category-naturaleza-deportes {
+  border-color: #39988d;
+  background: #e4f5f1;
+  color: #155f59;
+}
+
+.category-naturaleza-deportes::before {
+  content: "△";
+  margin-right: 0.35rem;
+}
+
 .type-label {
   background: var(--ink);
   color: white;

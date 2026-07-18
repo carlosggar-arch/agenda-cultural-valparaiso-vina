@@ -29,6 +29,8 @@ form?.addEventListener("submit", async (event) => {
   const values = Object.fromEntries(new FormData(form));
   const cities = form.querySelector('select[name="cities"]');
   if (cities) values.cities = [...cities.selectedOptions].map((option) => option.value).join(",");
+  const categories = form.querySelector('select[name="categories"]');
+  if (categories) values.categories = [...categories.selectedOptions].map((option) => option.value).join(",");
   for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) values[checkbox.name] = checkbox.checked;
   values.turnstile_token = values["cf-turnstile-response"] || "";
   delete values["cf-turnstile-response"];

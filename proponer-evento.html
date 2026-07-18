@@ -11,7 +11,7 @@
 <label>Hora<input required type="time" name="start_time"></label><label>Fecha de término opcional<input type="date" name="end_date"></label>
 <label>Hora de término opcional<input type="time" name="end_time"></label><label>Lugar<input required name="venue" maxlength="180"></label>
 <label>Ciudad<select required name="city" data-publication-city-select></select></label><label>Organizador<input required name="organizer" maxlength="180"></label>
-<label>Categoría<input required name="category" maxlength="100"></label><label>Enlace oficial<input required type="url" name="official_url" maxlength="1000"></label>
+<label>Categoría<select required name="category"><option value="">Selecciona una categoría</option><option>Cine</option><option>Teatro</option><option>Música</option><option>Danza</option><option>Exposiciones</option><option>Museos</option><option>Ferias y gastronomía</option><option>Naturaleza y deportes</option><option>Cursos y talleres</option><option>Literatura</option><option>Patrimonio</option><option>Familia</option><option>Otros panoramas</option></select></label><label>Enlace oficial<input required type="url" name="official_url" maxlength="1000"></label>
 <label>Precio<input name="price_text" maxlength="120"></label><label class="checkbox-label"><input type="checkbox" name="is_free"> Actividad gratuita</label>
 <label class="full-row">Descripción breve<textarea required name="description" maxlength="1200"></textarea></label>
 <label>Nombre de contacto<input required name="contact_name" maxlength="160" aria-describedby="contact-privacy"></label><label>Correo de contacto<input required type="email" name="contact_email" maxlength="254" aria-describedby="contact-privacy"></label>

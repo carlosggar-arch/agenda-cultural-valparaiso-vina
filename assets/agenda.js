@@ -16,6 +16,7 @@ import {
   formatGeneratedAt,
   googleCalendarUrl,
   latestEventAlert,
+  normalizePublicEvents,
   permanentEventUrl,
   priceLabel,
   publicStatusLabels,
@@ -236,7 +237,7 @@ function calendarAndShareActions(event) {
 function categoryLabels(event) {
   const wrapper = element("div", "category-list");
   (event.categories || []).forEach((category) => {
-    if (category?.label) wrapper.append(element("span", "category-label", category.label));
+    if (category?.label) wrapper.append(element("span", `category-label category-${category.id}`, category.label));
   });
   return wrapper;
 }
@@ -541,11 +542,11 @@ async function initialize() {
   setStatus("loading", "Cargando agenda", "Estamos preparando las actividades disponibles.");
   try {
     const dataset = await fetchDataset();
-    state.events = dataset.events;
+    state.events = normalizePublicEvents(dataset.events);
     state.publicationDate = dataset.publication_date || String(dataset.generated_at || "").slice(0, 10);
-    state.categories = collectCategories(dataset.events);
-    state.cities = collectCities(dataset.events);
-    elements.publicCount.textContent = String(dataset.events.length);
+    state.categories = collectCategories(state.events);
+    state.cities = collectCities(state.events);
+    elements.publicCount.textContent = String(state.events.length);
     elements.updated.textContent = formatGeneratedAt(dataset.generated_at);
     try {
       state.alerts = (await fetchChangesDataset()).alerts;

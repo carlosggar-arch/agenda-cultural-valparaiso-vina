@@ -372,6 +372,46 @@ export function slugifyFilterValue(value) {
     .replace(/^-|-$/g, "");
 }
 
+const LEGACY_PUBLIC_CATEGORY_IDS = new Map([
+  ["ferias", "ferias-gastronomia"],
+  ["gastronomia", "ferias-gastronomia"],
+  ["naturaleza", "naturaleza-deportes"],
+  ["naturaleza-montana", "naturaleza-deportes"],
+  ["deportes", "naturaleza-deportes"],
+]);
+
+const MERGED_PUBLIC_CATEGORY_LABELS = new Map([
+  ["ferias-gastronomia", "Ferias y gastronomía"],
+  ["naturaleza-deportes", "Naturaleza y deportes"],
+]);
+
+export function normalizePublicCategoryId(value) {
+  const id = String(value || "").trim().toLocaleLowerCase("es-CL");
+  return LEGACY_PUBLIC_CATEGORY_IDS.get(id) || id;
+}
+
+export function normalizePublicEventCategories(event) {
+  const categories = new Map();
+  for (const category of event?.categories || []) {
+    const id = normalizePublicCategoryId(category?.id);
+    if (!id || categories.has(id)) continue;
+    categories.set(id, {
+      id,
+      label: MERGED_PUBLIC_CATEGORY_LABELS.get(id) || category?.label,
+    });
+  }
+  const primaryId = normalizePublicCategoryId(event?.primary_category?.id);
+  const primary = categories.get(primaryId) || {
+    id: primaryId,
+    label: MERGED_PUBLIC_CATEGORY_LABELS.get(primaryId) || event?.primary_category?.label,
+  };
+  return { ...event, primary_category: primary, categories: [...categories.values()] };
+}
+
+export function normalizePublicEvents(events) {
+  return (events || []).map(normalizePublicEventCategories);
+}
+
 export function collectCategories(events) {
   const categories = new Map();
   (events || []).forEach((event) => {
@@ -413,7 +453,7 @@ export function filtersFromSearchParams(input) {
   const state = defaultFilterState();
   state.query = (params.get("q") || "").trim();
   state.city = slugifyFilterValue(params.get("ciudad") || "");
-  state.categories = [...new Set((params.get("categoria") || "").split(",").map((value) => value.trim().toLocaleLowerCase("es-CL")).filter(Boolean))];
+  state.categories = [...new Set((params.get("categoria") || "").split(",").map(normalizePublicCategoryId).filter(Boolean))];
   const price = params.get("precio") || (params.get("gratis") === "true" ? "gratis" : "todos");
   state.price = PRICE_FILTERS.has(price) ? price : "todos";
   const period = params.get("periodo") || ((params.has("desde") || params.has("hasta")) ? "rango" : "todos");
@@ -470,7 +510,7 @@ export const AGENDA_SECTIONS = [
   { id: "proximos", label: "Próximos eventos" },
   { id: "inscripcion-anticipada", label: "Eventos destacados con inscripción anticipada" },
   { id: "cursos-talleres", label: "Cursos y talleres" },
-  { id: "naturaleza-montana", label: "Naturaleza y montaña" },
+  { id: "naturaleza-deportes", label: "Naturaleza y deportes" },
   { id: "gratis", label: "Actividades gratuitas" },
   { id: "programas", label: "Carteleras completas aprobadas" },
 ];
@@ -479,6 +519,7 @@ export const DEFAULT_AGENDA_SECTION = "proximos";
 const AGENDA_SECTION_IDS = new Set(AGENDA_SECTIONS.map(({ id }) => id));
 
 export function normalizeAgendaSection(value) {
+  if (value === "naturaleza-montana") return "naturaleza-deportes";
   return AGENDA_SECTION_IDS.has(value) ? value : DEFAULT_AGENDA_SECTION;
 }
 
@@ -548,7 +589,7 @@ export function eventMatchesSection(event, sectionId, now = new Date()) {
   if (section === "cursos-talleres") {
     return ["course", "workshop", "flexible_offer"].includes(event.event_type);
   }
-  if (section === "naturaleza-montana") return hasCategory(event, "naturaleza-montana");
+  if (section === "naturaleza-deportes") return hasCategory(event, "naturaleza-deportes");
   if (section === "gratis") return event.price?.is_free === true;
   if (section === "programas") return event.event_type === "program";
   return false;
