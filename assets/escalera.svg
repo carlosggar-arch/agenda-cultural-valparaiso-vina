@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-labelledby="title desc">
+  <title id="title">Escalera porteña de mosaicos</title>
+  <desc id="desc">Ilustración original de una escalera colorida entre casas de Valparaíso.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#72d3e5"/><stop offset=".72" stop-color="#d9f3f3"/><stop offset="1" stop-color="#f9f2df"/></linearGradient>
+    <linearGradient id="stairs" x1="0" x2="1"><stop stop-color="#178c9d"/><stop offset=".3" stop-color="#38b8c8"/><stop offset=".6" stop-color="#1766a5"/><stop offset="1" stop-color="#0b3d78"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#062a58" flood-opacity=".18"/></filter>
+    <pattern id="mosaicA" width="92" height="34" patternUnits="userSpaceOnUse">
+      <rect width="92" height="34" fill="#0f8f9b"/>
+      <rect x="2" y="2" width="22" height="13" rx="2" fill="#ffd23f"/>
+      <rect x="27" y="2" width="31" height="13" rx="2" fill="#ff7a1a"/>
+      <rect x="61" y="2" width="29" height="13" rx="2" fill="#e94158"/>
+      <rect x="2" y="18" width="34" height="14" rx="2" fill="#37c3d7"/>
+      <rect x="39" y="18" width="18" height="14" rx="2" fill="#7245b5"/>
+      <rect x="60" y="18" width="30" height="14" rx="2" fill="#0c3f76"/>
+      <path d="M25 1 38 16M58 1 42 17M36 17 59 33" stroke="#fff" stroke-width="2" opacity=".4"/>
+    </pattern>
+    <pattern id="mosaicB" width="110" height="36" patternUnits="userSpaceOnUse">
+      <rect width="110" height="36" fill="#185e9e"/>
+      <path d="M2 2h25v13H2z" fill="#62d0dd"/><path d="M30 2h19v13H30z" fill="#f7c63d"/><path d="M52 2h31v13H52z" fill="#e8434e"/><path d="M86 2h22v13H86z" fill="#119a8f"/>
+      <path d="M2 18h34v16H2z" fill="#e64c88"/><path d="M39 18h24v16H39z" fill="#ff8b20"/><path d="M66 18h42v16H66z" fill="#3cc1d6"/>
+      <path d="m28 1 13 15m40-15L64 17m-28 0 28 17" stroke="#fff" stroke-width="2" opacity=".35"/>
+    </pattern>
+  </defs>
+
+  <rect width="920" height="500" fill="url(#sky)"/>
+  <circle cx="735" cy="68" r="34" fill="#ffd23f" opacity=".92"/>
+  <g opacity=".35" fill="#fff"><path d="M80 75c34-31 70-30 105 0 29-24 59-21 82 4H80Z"/><path d="M600 108c31-29 64-29 97-1 28-20 54-18 75 3H600Z"/></g>
+
+  <!-- Casas del cerro -->
+  <g filter="url(#shadow)">
+    <g transform="translate(32 80)"><path d="M0 62 76 5l75 57v144H0Z" fill="#f4b640"/><path d="m-5 63 81-63 81 63Z" fill="#d34a31"/><rect x="23" y="92" width="31" height="37" rx="2" fill="#0d6b93"/><rect x="89" y="87" width="32" height="42" rx="2" fill="#fff1d1"/><rect x="59" y="139" width="35" height="67" fill="#0b3a6c"/></g>
+    <g transform="translate(168 50)"><path d="M0 69 86 4l87 65v170H0Z" fill="#e84a72"/><path d="m-7 70 93-70 94 70Z" fill="#0b3a70"/><rect x="25" y="105" width="34" height="40" fill="#fff4d6"/><rect x="111" y="100" width="32" height="45" fill="#22a89a"/><rect x="67" y="160" width="39" height="79" fill="#f4b73f"/></g>
+    <g transform="translate(326 94)"><path d="M0 56 67 4l68 52v129H0Z" fill="#13a09a"/><path d="m-5 57 72-57 73 57Z" fill="#f07a1c"/><rect x="18" y="82" width="27" height="34" fill="#fff6df"/><rect x="87" y="80" width="27" height="36" fill="#173e72"/><rect x="49" y="125" width="37" height="60" fill="#e7424f"/></g>
+    <g transform="translate(706 98)"><path d="M0 52 62 3l62 49v124H0Z" fill="#f17c26"/><path d="m-4 53 66-53 67 53Z" fill="#173e72"/><rect x="18" y="79" width="25" height="32" fill="#fff4cf"/><rect x="81" y="77" width="24" height="34" fill="#37bfd3"/><rect x="46" y="119" width="34" height="57" fill="#6d45a9"/></g>
+    <g transform="translate(806 70)"><path d="M0 61 55 8l57 53v136H0Z" fill="#d94b81"/><path d="m-5 62 60-58 62 58Z" fill="#0b7f89"/><rect x="17" y="91" width="23" height="32" fill="#ffd44a"/><rect x="72" y="91" width="22" height="32" fill="#fff4d1"/><rect x="40" y="136" width="33" height="61" fill="#173e72"/></g>
+  </g>
+
+  <!-- Muros laterales -->
+  <path d="M0 248 232 212 262 500H0Z" fill="#8b745b"/>
+  <path d="M920 214 697 195 665 500h255Z" fill="#7a674f"/>
+  <path d="M0 260 232 230" stroke="#574735" stroke-width="8" opacity=".55"/>
+  <path d="m920 228-223-18" stroke="#574735" stroke-width="8" opacity=".55"/>
+
+  <!-- Escalera -->
+  <path d="M230 190h470L660 500H265Z" fill="#c8b69c"/>
+  <g>
+    <path d="M245 208h438l-5 29H249Z" fill="url(#mosaicA)"/>
+    <path d="M249 240h429l-6 31H253Z" fill="url(#mosaicB)"/>
+    <path d="M254 274h417l-7 33H258Z" fill="url(#mosaicA)"/>
+    <path d="M259 310h404l-8 35H264Z" fill="url(#mosaicB)"/>
+    <path d="M265 348h389l-9 38H271Z" fill="url(#mosaicA)"/>
+    <path d="M272 389h372l-10 41H279Z" fill="url(#mosaicB)"/>
+    <path d="M280 433h353l-11 46H289Z" fill="url(#mosaicA)"/>
+    <path d="M289 482h332l-5 18H294Z" fill="url(#mosaicB)"/>
+  </g>
+  <g stroke="#6e5a46" stroke-width="7" opacity=".55"><path d="M245 238h433"/><path d="M250 272h421"/><path d="M255 308h408"/><path d="M260 346h394"/><path d="M266 387h378"/><path d="M273 431h361"/><path d="M281 480h340"/></g>
+
+  <!-- Barandas -->
+  <g fill="none" stroke="#07473d" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M196 500 214 225l104-93 109 100 102-112 101 88"/>
+    <path d="M724 500 701 205l-73-67-101 108-98-100-107 89"/>
+    <path d="M214 322 318 224l109 99 102-108 101 87"/>
+    <path d="M700 315 628 248l-101 107-98-100-107 89"/>
+  </g>
+  <g stroke="#07473d" stroke-width="8"><path d="M214 225v275"/><path d="M318 132v368"/><path d="M427 232v268"/><path d="M529 120v380"/><path d="M630 208v292"/><path d="M701 205v295"/></g>
+
+  <!-- Mosaicos laterales y detalles -->
+  <g opacity=".95"><path d="M0 328 242 293l5 45L0 378Z" fill="url(#mosaicB)"/><path d="M920 300 687 286l-5 45 238 19Z" fill="url(#mosaicA)"/><path d="M0 405 255 366l5 54L0 465Z" fill="url(#mosaicA)"/><path d="M920 382 676 361l-6 55 250 25Z" fill="url(#mosaicB)"/></g>
+  <path d="M0 478c145-17 233-9 308 22H0Z" fill="#1686a5"/><path d="M920 468c-137-19-224-4-302 32h302Z" fill="#1385a0"/>
+  <path d="M0 493c140-15 220-6 294 7H0Z" fill="#5bc8da"/>
+</svg>

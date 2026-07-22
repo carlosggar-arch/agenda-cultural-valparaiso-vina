@@ -1,18 +1,51 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Registrar una organización o fuente cultural para revisión."><meta name="community-api-base" content="https://agenda-cultural-community.carlosggar.workers.dev"><meta name="publication-cities-url" content="./assets/publication-cities.json"><title>Registrar organización · Agenda Cultural</title><link rel="stylesheet" href="./assets/agenda.css"><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script></head>
-<body><main class="shell main-content"><section class="form-page"><p class="eyebrow">Fuentes comunitarias</p><h1>Registrar organización o fuente</h1>
-<p class="verification-advisory">Registrar una organización o fuente no implica su incorporación automática a la agenda.</p>
-<form class="public-submission-form" data-community-form="organization">
-<label>Organización o colectivo<input required name="organization_name" maxlength="180"></label><label>Ciudades cubiertas<select required multiple size="2" name="cities" data-publication-city-select></select></label>
-<label class="full-row">Descripción<textarea name="description" maxlength="1200"></textarea></label><label>Categorías<select required multiple size="7" name="categories"><option>Cine</option><option>Teatro</option><option>Música</option><option>Danza</option><option>Exposiciones</option><option>Museos</option><option>Ferias y gastronomía</option><option>Naturaleza y deportes</option><option>Cursos y talleres</option><option>Literatura</option><option>Patrimonio</option><option>Familia</option><option>Otros panoramas</option></select></label>
-<label>Sitio web<input type="url" name="website_url" maxlength="1000"></label><label>Instagram<input type="url" name="instagram_url" maxlength="1000"></label>
-<label>Facebook<input type="url" name="facebook_url" maxlength="1000"></label><label>Calendario público<input type="url" name="calendar_url" maxlength="1000"></label>
-<label>Feed RSS, Atom, JSON o iCal<input type="url" name="feed_url" maxlength="1000"></label><label>Frecuencia aproximada<input name="publication_frequency" maxlength="120"></label>
-<p class="full-row">Indica al menos un sitio web, red social, calendario o feed. No se realizará scraping durante este envío.</p>
-<label>Nombre de contacto<input required name="contact_name" maxlength="160" aria-describedby="organization-contact-privacy"></label><label>Correo privado<input required type="email" name="contact_email" maxlength="254" aria-describedby="organization-contact-privacy"></label>
-<p id="organization-contact-privacy" class="full-row">Usaremos el contacto únicamente para revisar la organización o fuente. Nunca se incluirá en datasets ni páginas públicas. Consulta la <a href="./privacidad.html">política de privacidad</a>.</p>
-<label class="full-row">Observaciones<textarea name="notes" maxlength="1200"></textarea></label><label class="checkbox-label full-row"><input required type="checkbox" name="consent"> Consiento el uso privado de mis datos para revisar esta fuente.</label>
-<label class="honeypot" aria-hidden="true">Sitio web alternativo<input name="website" tabindex="-1" autocomplete="off"></label>
-<div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2"></div>
-<button class="button-link" type="submit">Enviar registro</button><p class="action-message full-row" data-form-message aria-live="polite"></p>
-</form><p><a href="./">Volver a la agenda</a></p></section></main><script type="module" src="./assets/community-forms.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Registrar una organización o fuente cultural para revisión.">
+  <meta name="community-api-base" content="https://agenda-cultural-community.carlosggar.workers.dev">
+  <meta name="publication-cities-url" content="./assets/publication-cities.json">
+  <title>Registrar organización · Agenda Cultural</title>
+  <link rel="icon" href="./assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/agenda.css">
+  <link rel="stylesheet" href="./assets/reference.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body class="form-shell">
+  <a class="skip-link" href="#formulario">Saltar al formulario</a>
+  <div class="mosaic-top" aria-hidden="true"></div>
+  <header class="compact-header"><div class="shell masthead"><a class="brand" href="./"><img src="./assets/isotipo.svg" width="54" height="54" alt=""><span><strong>Agenda Cultural</strong><small>Valparaíso / Viña del Mar</small></span></a><a class="button button-secondary" href="./">Volver a la agenda</a></div></header>
+  <main class="shell form-main" id="formulario">
+    <section class="form-page">
+      <p class="eyebrow">Fuentes comunitarias</p>
+      <h1>Registrar organización o fuente</h1>
+      <p class="verification-advisory">Registrar una organización o fuente no implica su incorporación automática a la agenda.</p>
+      <form class="public-submission-form" data-community-form="organization">
+        <label>Organización o colectivo<input required name="organization_name" maxlength="180"></label>
+        <label>Ciudades cubiertas<select required multiple size="2" name="cities" data-publication-city-select></select></label>
+        <label class="full-row">Descripción<textarea name="description" maxlength="1200"></textarea></label>
+        <label>Categorías<select required multiple size="7" name="categories"><option>Cine</option><option>Teatro</option><option>Música</option><option>Danza</option><option>Exposiciones</option><option>Museos</option><option>Ferias y gastronomía</option><option>Naturaleza y deportes</option><option>Cursos y talleres</option><option>Literatura</option><option>Patrimonio</option><option>Familia</option><option>Otros panoramas</option></select></label>
+        <label>Sitio web<input type="url" name="website_url" maxlength="1000"></label>
+        <label>Instagram<input type="url" name="instagram_url" maxlength="1000"></label>
+        <label>Facebook<input type="url" name="facebook_url" maxlength="1000"></label>
+        <label>Calendario público<input type="url" name="calendar_url" maxlength="1000"></label>
+        <label>Feed RSS, Atom, JSON o iCal<input type="url" name="feed_url" maxlength="1000"></label>
+        <label>Frecuencia aproximada<input name="publication_frequency" maxlength="120"></label>
+        <p class="full-row">Indica al menos un sitio web, red social, calendario o feed. No se realizará scraping durante este envío.</p>
+        <label>Nombre de contacto<input required name="contact_name" maxlength="160" aria-describedby="organization-contact-privacy"></label>
+        <label>Correo privado<input required type="email" name="contact_email" maxlength="254" aria-describedby="organization-contact-privacy"></label>
+        <p id="organization-contact-privacy" class="full-row">Usaremos el contacto únicamente para revisar la organización o fuente. Nunca se incluirá en datasets ni páginas públicas. Consulta la <a href="./privacidad.html">política de privacidad</a>.</p>
+        <label class="full-row">Observaciones<textarea name="notes" maxlength="1200"></textarea></label>
+        <label class="checkbox-label full-row"><input required type="checkbox" name="consent"> Consiento el uso privado de mis datos para revisar esta fuente.</label>
+        <label class="honeypot" aria-hidden="true">Sitio web alternativo<input name="website" tabindex="-1" autocomplete="off"></label>
+        <div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2"></div>
+        <button class="button-link" type="submit">Enviar registro</button>
+        <p class="action-message full-row" data-form-message aria-live="polite"></p>
+      </form>
+      <a class="form-back" href="./">← Volver a la agenda</a>
+    </section>
+  </main>
+  <script type="module" src="./assets/community-forms.js"></script>
+</body>
+</html>
