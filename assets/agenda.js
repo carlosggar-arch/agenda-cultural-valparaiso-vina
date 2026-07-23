@@ -18,8 +18,8 @@ import {
 } from "./agenda-core.mjs";
 import { selectFeatured } from "./featured.mjs";
 
-const DATASET_PATH = "../agenda_web.json";
-const CHANGES_PATH = "../agenda_changes.json";
+const DATASET_PATH = "./agenda_web.json";
+const CHANGES_PATH = "./agenda_changes.json";
 const SECTIONS = [
   { id: "destacados", label: "Destacados" },
   { id: "hoy", label: "Hoy" },
