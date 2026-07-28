@@ -55,6 +55,7 @@ const dom = {
   error: document.querySelector("[data-load-error]"),
   dialog: document.querySelector("[data-detail-dialog]"),
   detail: document.querySelector("[data-detail-content]"),
+  detailActions: document.querySelector("[data-detail-actions]"),
   detailMedia: document.querySelector("[data-detail-media]"),
   close: document.querySelector("[data-dialog-close]"),
   back: document.querySelector("[data-dialog-back]"),
@@ -461,6 +462,7 @@ function openDetail(event, trigger, alertId) {
   state.trigger = trigger;
   dom.detailMedia.replaceChildren(createMedia(event));
   dom.detail.replaceChildren();
+  dom.detailActions.replaceChildren();
   const eyebrow = element("p", "eyebrow", `${eventTypeLabel(event.event_type)} · ${primaryCategory(event)}`);
   const title = element("h2", "", event.title);
   title.id = "detail-title";
@@ -486,7 +488,7 @@ function openDetail(event, trigger, alertId) {
   dom.detail.append(eyebrow, title, facts, description);
   if (status) dom.detail.append(status);
   for (const alert of eventAlerts(event.id)) dom.detail.append(renderChange(alert));
-  dom.detail.append(actions);
+  dom.detailActions.append(actions);
   dom.shareStatus.textContent = "";
   const url = new URL(location.href);
   url.searchParams.set("evento", event.id);

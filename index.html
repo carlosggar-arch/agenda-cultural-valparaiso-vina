@@ -191,10 +191,17 @@
     <div class="detail-layout">
       <div class="detail-media" data-detail-media></div>
       <div class="detail-content">
-        <button class="dialog-close" type="button" data-dialog-close aria-label="Cerrar detalle">×</button>
-        <button class="back-button" type="button" data-dialog-back>← Volver a la agenda</button>
-        <div data-detail-content></div>
-        <p class="share-status" data-share-status aria-live="polite"></p>
+        <div class="detail-header">
+          <button class="back-button" type="button" data-dialog-back>← Volver a la agenda</button>
+          <button class="dialog-close" type="button" data-dialog-close aria-label="Cerrar detalle">×</button>
+        </div>
+        <div class="detail-scroll">
+          <div data-detail-content></div>
+        </div>
+        <div class="detail-footer">
+          <div data-detail-actions></div>
+          <p class="share-status" data-share-status aria-live="polite"></p>
+        </div>
       </div>
     </div>
   </dialog>
