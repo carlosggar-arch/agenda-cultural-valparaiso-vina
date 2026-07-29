@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Consulta las fuentes integradas que utiliza Agenda Cultural en Valparaíso y Viña del Mar.">
+  <meta name="theme-color" content="#082b59">
+  <link rel="canonical" href="https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/fuentes.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:title" content="Fuentes de la Agenda Cultural">
+  <meta property="og:description" content="Instituciones, recintos, organizaciones y carteleras integradas a Agenda Cultural.">
+  <meta property="og:url" content="https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/fuentes.html">
+  <title>Fuentes de la Agenda Cultural</title>
+  <link rel="icon" href="./assets/isotipo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/agenda.css">
+  <link rel="stylesheet" href="./assets/reference.css">
+</head>
+<body class="form-shell">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="mosaic-top" aria-hidden="true"></div>
+  <header class="compact-header">
+    <div class="shell masthead">
+      <a class="brand" href="./" aria-label="Agenda Cultural, inicio">
+        <img src="./assets/isotipo.svg" width="64" height="64" alt="">
+        <span><strong>Agenda Cultural</strong><small>Valparaíso / Viña del Mar</small></span>
+      </a>
+      <nav class="compact-navigation" aria-label="Navegación principal">
+        <a href="./">Agenda</a><a href="./fuentes.html" aria-current="page">Fuentes</a><a href="./proponer-evento.html">Proponer evento</a>
+      </nav>
+    </div>
+  </header>
+  <main class="form-main" id="contenido">
+    <article class="shell sources-page">
+      <header class="sources-intro">
+        <p class="eyebrow">Transparencia editorial</p>
+        <h1>Fuentes de la Agenda Cultural</h1>
+        <p>Agenda Cultural reúne actividades publicadas por instituciones, recintos, organizaciones y carteleras culturales de Valparaíso y Viña del Mar. Aquí puedes consultar las fuentes que actualmente forman parte de nuestro sistema de seguimiento.</p>
+        <p class="verification-advisory">La inclusión no implica patrocinio. Normalizamos, resumimos y verificamos la información; confirma siempre los datos de cada actividad en su enlace oficial. Las fuentes pueden incorporarse, suspenderse o actualizarse según su disponibilidad y confiabilidad.</p>
+      </header>
+      <section class="sources-summary" aria-label="Resumen"><strong data-source-total>—</strong><span>fuentes integradas</span><span data-source-updated></span></section>
+      <form class="sources-filters" role="search" aria-labelledby="sources-filter-title" data-sources-form>
+        <div class="filter-title-row"><h2 id="sources-filter-title">Buscar y filtrar fuentes</h2><button class="text-button" type="reset">Limpiar</button></div>
+        <label class="filter-field search-field"><span>Nombre</span><input type="search" data-source-query placeholder="Institución, recinto o cartelera" autocomplete="off"></label>
+        <label class="filter-field"><span>Ciudad</span><select data-source-city><option value="">Todas</option><option>Valparaíso</option><option>Viña del Mar</option><option value="ambas">Ambas</option></select></label>
+        <label class="filter-field"><span>Tipo</span><select data-source-type><option value="">Todos</option></select></label>
+        <label class="filter-field"><span>Categoría</span><select data-source-category><option value="">Todas</option></select></label>
+      </form>
+      <p class="sources-result-line" data-source-result aria-live="polite"></p>
+      <div class="sources-grid" data-sources-grid></div>
+      <div class="empty-state" data-sources-empty hidden><h2>No encontramos fuentes</h2><p>Prueba con otro nombre o quita alguno de los filtros.</p></div>
+      <div class="load-error" data-sources-error role="alert" hidden></div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-mosaic" aria-hidden="true"></div>
+    <div class="shell footer-layout">
+      <div class="footer-brand"><img src="./assets/isotipo.svg" width="54" height="54" alt=""><p><strong>Agenda Cultural</strong><br>Valparaíso / Viña del Mar</p></div>
+      <p>Agenda pública elaborada desde fuentes verificables. Confirma los detalles con cada organizador antes de asistir.</p>
+      <nav aria-label="Información"><a href="./">Agenda</a><a href="./fuentes.html" aria-current="page">Fuentes</a><a href="./registrar-organizacion.html">Registrar organización</a><a href="./privacidad.html">Privacidad</a></nav>
+    </div>
+  </footer>
+  <nav class="mobile-nav" aria-label="Navegación móvil">
+    <a href="./"><span aria-hidden="true">⌂</span><span>Inicio</span></a><a href="./fuentes.html" aria-current="page"><span aria-hidden="true">◎</span><span>Fuentes</span></a><a href="./proponer-evento.html"><span aria-hidden="true">＋</span><span>Proponer</span></a><a href="./registrar-organizacion.html"><span aria-hidden="true">◇</span><span>Registrar</span></a><a href="./privacidad.html"><span aria-hidden="true">ⓘ</span><span>Información</span></a>
+  </nav>
+  <script type="module" src="./assets/fuentes.js"></script>
+</body>
+</html>
