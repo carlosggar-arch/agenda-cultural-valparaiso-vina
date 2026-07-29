@@ -19,8 +19,8 @@ import {
 } from "./agenda-core.mjs?v=20260729-recommended-hidden";
 import { selectFeatured } from "./featured.mjs";
 
-const DATASET_PATH = "../agenda_web.json";
-const CHANGES_PATH = "../agenda_changes.json";
+const DATASET_PATH = "./agenda_web.json";
+const CHANGES_PATH = "./agenda_changes.json";
 const SECTIONS = publicNavigationSections();
 
 const dom = {
