@@ -120,8 +120,6 @@ img, svg { display: block; max-width: 100%; }
 .hero-art-frame { position: relative; overflow: hidden; border-radius: 1.7rem .75rem 1.7rem .75rem; background: #dff2f2; box-shadow: var(--shadow); transform: rotate(-.35deg); }
 .hero-art-frame::after { position: absolute; inset: 0; border: 1px solid rgb(6 42 88 / 10%); border-radius: inherit; content: ""; pointer-events: none; }
 .hero-art-frame img { width: 100%; aspect-ratio: 1.85 / 1; object-fit: cover; }
-.hero-visual figcaption { position: absolute; right: 1.2rem; bottom: -.7rem; display: flex; min-height: 3.25rem; align-items: center; gap: .65rem; border: .35rem solid var(--cream); border-radius: 1rem; padding: .6rem 1rem; background: var(--navy); color: white; box-shadow: var(--shadow); font-size: .86rem; font-weight: 850; }
-.hero-visual figcaption svg { width: 1.4rem; height: 1.4rem; fill: white; }
 .hero-dots { display: flex; justify-content: center; gap: .45rem; margin-top: 1.15rem; }
 .hero-dots span { width: .55rem; height: .55rem; border-radius: 50%; background: #c5ccd4; }
 .hero-dots .active { background: var(--navy); }
@@ -349,7 +347,6 @@ img, svg { display: block; max-width: 100%; }
   .trust-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: .45rem; }
   .trust-list li { display: grid; justify-items: center; gap: .25rem; font-size: .64rem; text-align: center; }
   .trust-list svg { width: 1.35rem; height: 1.35rem; }
-  .hero-visual figcaption { right: .45rem; bottom: -.4rem; min-height: 2.7rem; padding: .45rem .7rem; font-size: .68rem; }
   .hero-art-frame { border-radius: 1rem .45rem 1rem .45rem; }
   .mosaic-wave { height: 1.4rem; }
   .featured-section { padding-block: 1.8rem; }
