@@ -11,23 +11,17 @@ import {
   formatContractDate,
   formatGeneratedAt,
   priceLabel,
+  publicNavigationSections,
   publicChangeLabel,
   publicStatusLabels,
   safeHttpUrl,
   scheduleLabel,
-} from "./agenda-core.mjs";
+} from "./agenda-core.mjs?v=20260729-recommended-hidden";
 import { selectFeatured } from "./featured.mjs";
 
-const DATASET_PATH = "./agenda_web.json";
-const CHANGES_PATH = "./agenda_changes.json";
-const SECTIONS = [
-  { id: "destacados", label: "Destacados" },
-  { id: "hoy", label: "Hoy" },
-  { id: "fin-de-semana", label: "Este fin de semana" },
-  { id: "proximos", label: "Próximamente" },
-  { id: "gratis", label: "Gratis" },
-  { id: "talleres-cursos", label: "Talleres y cursos" },
-];
+const DATASET_PATH = "../agenda_web.json";
+const CHANGES_PATH = "../agenda_changes.json";
+const SECTIONS = publicNavigationSections();
 
 const dom = {
   status: document.querySelector("[data-status]"),
@@ -121,16 +115,11 @@ function categoryId(event) {
 
 function createCategoryArtwork(event) {
   const theme = categoryId(event);
-  const artworkAliases = {
-    "ferias-gastronomia": "gastronomia",
-    "naturaleza-deportes": "deportes",
-  };
   const supported = new Set([
     "musica", "cine", "exposiciones", "museos", "teatro", "cursos-talleres",
     "deportes", "gastronomia", "ferias", "naturaleza-montana",
   ]);
-  const resolvedTheme = artworkAliases[theme] || theme;
-  const artworkTheme = supported.has(resolvedTheme) ? resolvedTheme : "cultura";
+  const artworkTheme = supported.has(theme) ? theme : "cultura";
   const placeholder = element("div", "placeholder");
   placeholder.dataset.theme = artworkTheme;
   placeholder.setAttribute("role", "img");

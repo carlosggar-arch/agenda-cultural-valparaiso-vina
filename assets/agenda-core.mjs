@@ -2,11 +2,34 @@ export const DATASET_PATH = "./agenda_web.json";
 export const CHANGES_DATASET_PATH = "./agenda_changes.json";
 export const SUPPORTED_SCHEMA_MAJOR = 1;
 export const DISPLAY_TIME_ZONE = "America/Santiago";
+export const PUBLIC_FEATURES = Object.freeze({
+  showRecommendedEvents: false,
+});
 export const PUBLIC_CHANGE_TYPES = [
   "date_changed", "time_changed", "venue_changed", "cancelled",
   "registration_opened", "registration_closed", "sold_out",
   "price_changed", "price_stage_changed",
 ];
+
+const PUBLIC_NAVIGATION_SECTIONS = [
+  { id: "destacados", label: "Destacados" },
+  { id: "hoy", label: "Hoy" },
+  { id: "fin-de-semana", label: "Este fin de semana" },
+  { id: "proximos", label: "Próximamente" },
+  { id: "gratis", label: "Gratis" },
+  { id: "talleres-cursos", label: "Talleres y cursos" },
+  {
+    id: "recomendados",
+    label: "Recomendados",
+    feature: "showRecommendedEvents",
+  },
+];
+
+export function publicNavigationSections(features = PUBLIC_FEATURES) {
+  return PUBLIC_NAVIGATION_SECTIONS
+    .filter(({ feature }) => !feature || features[feature] === true)
+    .map(({ id, label }) => ({ id, label }));
+}
 
 export class AgendaDataError extends Error {
   constructor(message, code = "invalid") {
