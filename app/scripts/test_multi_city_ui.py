@@ -22,6 +22,7 @@ assert 'event?.event_type === "program"' in app_js
 assert 'event?.event_type === "flexible_offer"' in app_js
 assert 'return "dated";' in app_js
 assert 'groups = { dated: [], program: [], flexible: [] }' in app_js
+assert "renderGroup(dom.datedGrid" in app_js
 assert "renderGroup(dom.programGrid" in app_js
 assert "renderGroup(dom.flexibleGrid" in app_js
 assert "dataset público todavía no ha sido conectado" not in app_js
