@@ -36,7 +36,7 @@ jobs:
       - name: Generate Gijon dataset candidate
         run: |
           set -euo pipefail
-          python app/scripts/update_gijon.py --output /tmp/gijon-agenda.json --look-ahead-days 14
+          python app/scripts/fetch_gijon_xhtml.py --output /tmp/gijon-agenda.json --look-ahead-days 14
 
       - name: Validate candidate and detect material changes
         id: compare
