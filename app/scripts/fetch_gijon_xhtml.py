@@ -20,16 +20,15 @@ CP1252_BYTES = {
     "ž": 0x9E, "Ÿ": 0x9F,
 }
 GENERIC_VENUES = {"", "gijón/xixón", "gijón", "xixón"}
-FLEXIBLE_MARKERS = (
+FLEXIBLE_TITLE_MARKERS = (
     "visita comentada",
     "visitas comentadas",
     "visita guiada",
     "visitas guiadas",
     "conoce el muséu",
     "conoce el museo",
-    "museos",
-    "museo",
-    "turismo",
+    "recorrido",
+    "recorridos",
 )
 PROGRAM_MARKERS = (
     "super evento (programa)",
@@ -190,9 +189,10 @@ def editorial_text(event: dict) -> str:
 
 
 def classify_editorial(event: dict) -> tuple[str, str]:
-    """Separate concrete events, umbrella programs and long-running flexible offers."""
+    """Separate concrete events, umbrella programs and genuinely reusable long-running offers."""
     days = duration_days(event)
     text = editorial_text(event)
+    title_text = str(event.get("title") or "").casefold()
     venue = str(event.get("location", {}).get("venue") or "").strip().casefold()
     category_id = str(event.get("primary_category", {}).get("id") or "")
 
@@ -205,11 +205,13 @@ def classify_editorial(event: dict) -> tuple[str, str]:
     if days >= 365 and any(marker in text for marker in PROGRAM_MARKERS):
         return "program", "very_long_program_signal"
 
-    if days >= 90 and category_id == "museos" and any(marker in text for marker in FLEXIBLE_MARKERS):
-        return "flexible_offer", "long_running_museum_offer"
+    # Temporary exhibitions remain dated events even when they run for months.
+    if category_id == "exposiciones" or "exposición temporal" in text:
+        return "event", "dated_exhibition"
 
-    if days >= 180 and any(marker in text for marker in FLEXIBLE_MARKERS):
-        return "flexible_offer", "long_running_reusable_offer"
+    # Flexible offers are reusable experiences, not merely long-running museum content.
+    if days >= 90 and category_id == "museos" and any(marker in title_text for marker in FLEXIBLE_TITLE_MARKERS):
+        return "flexible_offer", "long_running_reusable_museum_offer"
 
     return "event", "dated_event"
 
