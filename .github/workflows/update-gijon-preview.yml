@@ -46,6 +46,7 @@ jobs:
           import json
           import os
           from pathlib import Path
+          from urllib.parse import urlparse
 
           candidate = json.loads(Path('/tmp/gijon-agenda.json').read_text(encoding='utf-8'))
           target = Path('app/data/gijon/agenda_web.json')
@@ -59,12 +60,42 @@ jobs:
               raise SystemExit("Unexpected schema version")
           if candidate["timezone"] != "Europe/Madrid":
               raise SystemExit("Unexpected timezone")
-          if not isinstance(candidate["events"], list):
+          events = candidate["events"]
+          if not isinstance(events, list):
               raise SystemExit("events must be a list")
-          if any(event.get("location", {}).get("city") != "Gijón" for event in candidate["events"]):
+          if any(event.get("location", {}).get("city") != "Gijón" for event in events):
               raise SystemExit("Candidate contains a non-Gijon event")
-          if len(candidate["events"]) == 0 and len(current.get("events", [])) > 0:
+          if len(events) == 0 and len(current.get("events", [])) > 0:
               raise SystemExit("Refusing to replace a non-empty Gijon dataset with an empty candidate")
+
+          ids = [event.get("id") for event in events]
+          if any(not event_id for event_id in ids) or len(ids) != len(set(ids)):
+              raise SystemExit("Candidate contains missing or duplicate event IDs")
+
+          expected_counts = {
+              "total": len(events),
+              "events": sum(event.get("event_type") == "event" for event in events),
+              "courses": sum(event.get("event_type") == "course" for event in events),
+              "flexible_offers": sum(event.get("event_type") == "flexible_offer" for event in events),
+              "programs": sum(event.get("event_type") == "program" for event in events),
+          }
+          if candidate.get("counts") != expected_counts:
+              raise SystemExit(f"Candidate counts mismatch: {candidate.get('counts')} != {expected_counts}")
+
+          bad_urls = []
+          for event in events:
+              official = event.get("links", {}).get("official")
+              parsed = urlparse(str(official or ""))
+              if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+                  bad_urls.append((event.get("id"), official))
+          if bad_urls:
+              raise SystemExit(f"Candidate contains invalid official URLs: {bad_urls[:3]}")
+
+          serialized = json.dumps(candidate, ensure_ascii=False)
+          mojibake_markers = ("Ã", "Â", "â€", "ðŸ", "�", "\u0081", "\u008d", "\u008f", "\u0090", "\u009d")
+          found_markers = [marker for marker in mojibake_markers if marker in serialized]
+          if found_markers:
+              raise SystemExit(f"Candidate contains mojibake markers: {found_markers}")
 
           def stable(payload):
               payload = json.loads(json.dumps(payload))
