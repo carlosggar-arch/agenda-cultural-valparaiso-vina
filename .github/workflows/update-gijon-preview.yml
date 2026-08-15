@@ -33,6 +33,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Test Gijon editorial classification
+        run: |
+          set -euo pipefail
+          python app/scripts/test_gijon_editorial.py
+
       - name: Generate Gijon dataset candidate
         run: |
           set -euo pipefail
@@ -45,6 +50,7 @@ jobs:
           python - <<'PY'
           import json
           import os
+          from datetime import date
           from pathlib import Path
           from urllib.parse import urlparse
 
@@ -68,6 +74,11 @@ jobs:
           if len(events) == 0 and len(current.get("events", [])) > 0:
               raise SystemExit("Refusing to replace a non-empty Gijon dataset with an empty candidate")
 
+          allowed_types = {"event", "course", "flexible_offer", "program"}
+          bad_types = [(event.get("id"), event.get("event_type")) for event in events if event.get("event_type") not in allowed_types]
+          if bad_types:
+              raise SystemExit(f"Candidate contains invalid event types: {bad_types[:3]}")
+
           ids = [event.get("id") for event in events]
           if any(not event_id for event_id in ids) or len(ids) != len(set(ids)):
               raise SystemExit("Candidate contains missing or duplicate event IDs")
@@ -81,6 +92,24 @@ jobs:
           }
           if candidate.get("counts") != expected_counts:
               raise SystemExit(f"Candidate counts mismatch: {candidate.get('counts')} != {expected_counts}")
+
+          generic_venues = {"", "gijón/xixón", "gijón", "xixón"}
+          editorial_errors = []
+          for event in events:
+              editorial = event.get("editorial") or {}
+              if editorial.get("classification") != event.get("event_type"):
+                  editorial_errors.append((event.get("id"), "classification mismatch"))
+                  continue
+              try:
+                  duration = int(editorial.get("duration_days", 0))
+              except (TypeError, ValueError):
+                  editorial_errors.append((event.get("id"), "invalid duration"))
+                  continue
+              venue = str(event.get("location", {}).get("venue") or "").strip().casefold()
+              if event.get("event_type") == "event" and duration >= 90 and venue in generic_venues:
+                  editorial_errors.append((event.get("id"), "long generic entry classified as event"))
+          if editorial_errors:
+              raise SystemExit(f"Candidate editorial classification errors: {editorial_errors[:3]}")
 
           bad_urls = []
           for event in events:
