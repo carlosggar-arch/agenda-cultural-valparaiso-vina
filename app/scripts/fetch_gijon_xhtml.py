@@ -10,10 +10,30 @@ from update_gijon import build_dataset
 
 SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
 MOJIBAKE_MARKERS = ("Ã", "Â", "â", "ð", "�", "\x81", "\x8d", "\x8f", "\x90", "\x9d")
+CP1252_BYTES = {
+    "€": 0x80, "‚": 0x82, "ƒ": 0x83, "„": 0x84, "…": 0x85,
+    "†": 0x86, "‡": 0x87, "ˆ": 0x88, "‰": 0x89, "Š": 0x8A,
+    "‹": 0x8B, "Œ": 0x8C, "Ž": 0x8E, "‘": 0x91, "’": 0x92,
+    "“": 0x93, "”": 0x94, "•": 0x95, "–": 0x96, "—": 0x97,
+    "˜": 0x98, "™": 0x99, "š": 0x9A, "›": 0x9B, "œ": 0x9C,
+    "ž": 0x9E, "Ÿ": 0x9F,
+}
+
+
+def legacy_bytes(value: str) -> bytes:
+    data = bytearray()
+    for character in value:
+        if character in CP1252_BYTES:
+            data.append(CP1252_BYTES[character])
+        elif ord(character) <= 0xFF:
+            data.append(ord(character))
+        else:
+            raise UnicodeEncodeError("legacy", character, 0, 1, "not representable")
+    return bytes(data)
 
 
 def repair_mojibake(value: str) -> str:
-    """Repair local UTF-8 sequences mis-decoded as Latin-1/Windows-1252."""
+    """Repair local UTF-8 sequences exposed through mixed Latin-1/Windows-1252 decoding."""
     current = value
     for _ in range(3):
         if not any(marker in current for marker in MOJIBAKE_MARKERS):
@@ -28,16 +48,13 @@ def repair_mojibake(value: str) -> str:
                 chunk = current[index:index + length]
                 if len(chunk) < 2:
                     continue
-                for encoding in ("latin1", "cp1252"):
-                    try:
-                        decoded = chunk.encode(encoding).decode("utf-8")
-                    except (UnicodeEncodeError, UnicodeDecodeError):
-                        continue
-                    if decoded != chunk:
-                        replacement = decoded
-                        consumed = length
-                        break
-                if replacement is not None:
+                try:
+                    decoded = legacy_bytes(chunk).decode("utf-8")
+                except (UnicodeEncodeError, UnicodeDecodeError):
+                    continue
+                if decoded != chunk:
+                    replacement = decoded
+                    consumed = length
                     break
             if replacement is not None:
                 output.append(replacement)
