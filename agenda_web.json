@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-14T06:55:12-04:00",
-  "publication_date": "2026-08-14",
+  "generated_at": "2026-08-15T06:35:28-04:00",
+  "publication_date": "2026-08-15",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 66,
-    "events": 62,
+    "total": 64,
+    "events": 60,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -31,11 +31,13 @@
       ],
       "schedule": {
         "mode": "multi_day",
-        "start": "2026-08-14",
+        "start": "2026-08-15",
         "end": "2026-08-20",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14",
-        "occurrences": []
+        "display_text": "2026-08-15",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "museo-baburizza",
@@ -105,11 +107,13 @@
       ],
       "schedule": {
         "mode": "multi_day",
-        "start": "2026-08-14T08:00:00-04:00",
+        "start": "2026-08-15T08:00:00-04:00",
         "end": "2026-08-31",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 08:00, 17:00",
-        "occurrences": []
+        "display_text": "2026-08-15 · 08:00, 17:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -161,7 +165,7 @@
     },
     {
       "id": "agenda_34217eb7dfa4b6e6d0c247ed",
-      "title": "Galería Municipal de Arte de Valparaíso",
+      "title": "PRÁCTICAS SITUADAS | 46 Salón de Estudiantes de la Escuela Municipal de Bellas Artes",
       "event_type": "event",
       "primary_category": {
         "id": "cursos-talleres",
@@ -175,11 +179,13 @@
       ],
       "schedule": {
         "mode": "multi_day",
-        "start": "2026-08-14T10:00:00-04:00",
+        "start": "2026-08-15T10:00:00-04:00",
         "end": "2026-08-21",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00, 18:00, 11:00, 17:00",
-        "occurrences": []
+        "display_text": "2026-08-15 · 10:00, 18:00, 11:00, 17:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -223,7 +229,91 @@
       "description": "🎨 PRÁCTICAS SITUADAS | 46° Salón de Estudiantes de la Escuela Municipal de Bellas Artes La Escuela Municipal de Bellas Artes de Valparaíso presentó una nueva edición de su tradicional Salón de Estudiantes, una muestra que reúne los procesos creativos de quiene...",
       "tags": [
         "escuela",
-        "formación"
+        "formación",
+        "title-recovered-from-context"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_8c2b6ba0de30c34fe3529930",
+      "title": "A veces un mar dulce",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T10:00:00-04:00",
+        "end": "2026-08-30",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 10:00, 17:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "museo-palacio-rioja",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Palacio Rioja",
+        "address": "Quillota 214, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DbtU4Tst0CB/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DbtU4Tst0CB/"
+      },
+      "organizer": "Museo Palacio Rioja",
+      "source_name": "Museo Palacio Rioja",
+      "source_url": "https://www.instagram.com/p/DbtU4Tst0CB/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "🌊 “A veces un mar dulce” llegó al Museo Palacio Rioja. Esta exposición reúne las obras de Rocío Mercado, Rosario Sotomayor, Krishna Escovedo y Kokó Acevedo, quienes, desde la pintura, la escultura, el dibujo, la fotografía y la performance, proponen una reflex...",
+      "tags": [
+        "exposicion",
+        "exposición",
+        "fotografía",
+        "muestra",
+        "museo",
+        "pintura"
       ],
       "audience": null,
       "registration_requirements": null,
@@ -252,11 +342,13 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-08-14T10:00:00-04:00",
+        "start": "2026-08-15T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00, 17:30",
-        "occurrences": []
+        "display_text": "2026-08-15 · 10:00, 17:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": "palacio-vergara",
@@ -297,7 +389,7 @@
         "information_completeness": "complete",
         "advisory_text": null
       },
-      "description": "Inicio actividad - Visita Viña Exhibición temporal // Mientras tanto Fecha 14-agosto-2026 Hora Mientras tanto” de María José Mir Consiste en una serie de obras que toman como punto de partida los recuerdos de textiles domésticos que son asociados a experiencia...",
+      "description": "Inicio actividad - Visita Viña Exhibición temporal // Mientras tanto Fecha 15-agosto-2026 Hora Mientras tanto” de María José Mir Consiste en una serie de obras que toman como punto de partida los recuerdos de textiles domésticos que son asociados a experiencia...",
       "tags": [],
       "audience": "Familiar",
       "registration_requirements": null,
@@ -326,11 +418,13 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-08-14T10:00:00-04:00",
+        "start": "2026-08-15T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00, 17:30",
-        "occurrences": []
+        "display_text": "2026-08-15 · 10:00, 17:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": "palacio-vergara",
@@ -371,81 +465,7 @@
         "information_completeness": "complete",
         "advisory_text": null
       },
-      "description": "Inicio actividad - Visita Viña Exposición // Horario de verano: Memorias fuera de temporada Fecha 14-agosto-2026 Hora La muestra propone una reflexión visual sobre la memoria, el ocio y los imaginarios del habitar costero, a través de una serie de acuarelas re...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_eb89b5ee606c6cb270ea04c4",
-      "title": "Exposición temporal // A veces un mar dulce",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-14T10:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00, 17:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "museo-palacio-rioja",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja",
-        "address": "Quillota 214, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
-      },
-      "organizer": "Culturas Viña",
-      "source_name": "Culturas Viña",
-      "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Inicio actividad - Visita Viña Exposición temporal // A veces un mar dulce Fecha 14-agosto-2026 Hora De: Josefina Acevedo, Rocio Mercado, Rosario Sotomayor, Krishna Escovedo y Javiera Sepúlveda. El eje curatorial es el concepto de balneario. Las artistas reuni...",
+      "description": "Inicio actividad - Visita Viña Exposición // Horario de verano: Memorias fuera de temporada Fecha 15-agosto-2026 Hora La muestra propone una reflexión visual sobre la memoria, el ocio y los imaginarios del habitar costero, a través de una serie de acuarelas re...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -474,11 +494,13 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-08-14T10:00:00-04:00",
+        "start": "2026-08-15T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00, 17:30",
-        "occurrences": []
+        "display_text": "2026-08-15 · 10:00, 17:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": "palacio-vergara",
@@ -519,7 +541,7 @@
         "information_completeness": "complete",
         "advisory_text": null
       },
-      "description": "Inicio actividad - Visita Viña Exposición temporal // Tàpies, colección del grabador Barbara Fecha 14-agosto-2026 Hora Presentada por el Departamento de Cultura junto a la Fundación Universitaria Iberoamericana y la Universidad Adolfo Ibáñez, a través de su Ce...",
+      "description": "Inicio actividad - Visita Viña Exposición temporal // Tàpies, colección del grabador Barbara Fecha 15-agosto-2026 Hora Presentada por el Departamento de Cultura junto a la Fundación Universitaria Iberoamericana y la Universidad Adolfo Ibáñez, a través de su Ce...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -548,11 +570,13 @@
       ],
       "schedule": {
         "mode": "dated",
-        "start": "2026-08-14T10:00:00-04:00",
+        "start": "2026-08-15T10:00:00-04:00",
         "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00, 17:30",
-        "occurrences": []
+        "display_text": "2026-08-15 · 10:00, 17:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": "palacio-vergara",
@@ -593,1104 +617,7 @@
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
-      "description": "Inicio actividad - Visita Viña Exposición transitoria // “Entre mareas” Fecha 14-agosto-2026 Hora Exposición transitoria “Entre mareas”, de Fernanda Larraín y Mari López. esta muestra utiliza imágenes de rocas y aves, donde los artistas abordan temas como la p...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_37b4d191a6dfbcf785bfae0a",
-      "title": "INFORMACIÓN IMPORTANTE",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "recurring",
-        "start": "2026-08-14T10:00:00-04:00",
-        "end": "2026-08-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 10:00",
-        "occurrences": [
-          {
-            "start": "2026-08-14T10:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-16T10:00:00-04:00",
-            "end": null
-          }
-        ]
-      },
-      "location": {
-        "venue_id": "museo-fonck",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Fonck",
-        "address": "4 Norte 784, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db_-csCCV0R/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db_-csCCV0R/"
-      },
-      "organizer": "Museo Fonck",
-      "source_name": "Museo Fonck",
-      "source_url": "https://www.instagram.com/p/Db_-csCCV0R/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "📢 ¡INFORMACIÓN IMPORTANTE! 📅⌚ Les recomendamos planificar con anticipación su visita al museo para que no se queden sin disfrutar de nuestras exhibiciones. 🔸VIERNES 14 DE AGOSTO DE 2026 🔸SÁBADO 15 DE AGOSTO DE 2026 Asunción de la Virgen 🔸DOMINGO 16 DE AGOSTO D...",
-      "tags": [
-        "formación"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_f6647381f1d7d96eb2310366",
-      "title": "Cráneos, esenciales para la vida",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T11:00:00-04:00",
-        "end": "2026-12-31",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 11:00, 16:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/craneos-esenciales-para-la-vida",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/craneos-esenciales-para-la-vida"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/craneos-esenciales-para-la-vida",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Ciencias Naturales Exposición 01 Ene 2026 Condell 1546, Valparaíso, Chile. Presencial 01/Enero/2026 hasta el 31/Diciembre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso Exhibición desarrollada...",
-      "tags": [],
-      "audience": "Familiar",
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_54d56b27750666c06a32331b",
-      "title": "Insectos Imaginarios",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T11:00:00-04:00",
-        "end": "2026-10-03",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 11:00, 16:00, 15:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Arte y naturaleza se encuentran en nueva exposición temporal. Artes gráficas Exposición 08 Jul 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Julio/2026 hasta el 03/Octubre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_36389cc23695fcadb72ab9c8",
-      "title": "Vida v/s muerte, el costo del tráfico ilícito",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T11:00:00-04:00",
-        "end": "2026-08-24",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 11:00, 16:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/vida-vs-muerte-el-costo-del-trafico-ilicito",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/vida-vs-muerte-el-costo-del-trafico-ilicito"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/vida-vs-muerte-el-costo-del-trafico-ilicito",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Zoología Exposición 04 Jun 2026 Condell 1546, Valparaíso, Chile. Presencial 04/Junio/2026 hasta el 24/Agosto/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso La exhibición temporal, fue desarroll...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_594dc3fdc258edd0f6c190b0",
-      "title": "Exposición “Micromundos, ciencia y arte en tus manos”",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T11:30:00-04:00",
-        "end": "2026-12-31",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 11:30, 12:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/exposicion-micromundos-ciencia-y-arte-en-tus-manos",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/exposicion-micromundos-ciencia-y-arte-en-tus-manos"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/exposicion-micromundos-ciencia-y-arte-en-tus-manos",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Ciencia Exposición 01 Ago 2024 Condell 1546, Valparaíso, Chile. Presencial 01/Agosto/2024 hasta el 31/Diciembre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso La exposición tiene como objetivo...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
-      "title": "¿Cuáles serán los fósiles del futuro?",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T11:30:00-04:00",
-        "end": "2026-11-07",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 11:30, 13:00, 11:45",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_90a0809c176e71d6c52b24a8",
-      "title": "Edición: @anemij_napalm",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-14T12:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 12:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "museo-baburizza",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo Baburizza",
-        "address": "Paseo Yugoslavo 176, Cerro Alegre, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db3QXtbkaDh/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db3QXtbkaDh/"
-      },
-      "organizer": "Museo Baburizza",
-      "source_name": "Museo Baburizza",
-      "source_url": "https://www.instagram.com/p/Db3QXtbkaDh/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "👉 La exposición de la investigadora y fotógrafa Fernanda Soto Mastrantonio, se inaugurará el próximo 14 de agosto a las 12:00 horas en el Museo de Bellas Artes de Valparaíso, Palacio Baburizza. Según explicó la artista, se trata de un trabajo de cinco años don...",
-      "tags": [
-        "exposición",
-        "museo"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_36c0a5d3646485069581fd62",
-      "title": "La odisea.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T15:00:00-04:00",
-        "end": "2026-08-15",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 15:00, 16:45, 17:45",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2026/07/13/la-odisea/",
-        "tickets": "https://www.passline.com/eventos/la-odisea-542159",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2026/07/13/la-odisea/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/07/13/la-odisea/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Lunes 10 de agosto, 15:00 hrs; Miércoles 12 de agosto, 15:00 hrs; Jueves 13 de agosto, 16:45 hrs; Sábado 15 de agosto, 17:45 hrs Género: Cine epico. Duración: 172 min. País: Estados Unidos. Dirección: Christopher...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_01ed8cf7ac89b82f225cb3d8",
-      "title": "Spider-Man: Un nuevo día.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T15:00:00-04:00",
-        "end": "2026-08-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 15:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.insomniacine.cl/2026/07/27/spider-man-un-nuevo-dia/",
-        "tickets": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-541121",
-        "registration": null,
-        "source": "https://www.insomniacine.cl/2026/07/27/spider-man-un-nuevo-dia/"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.insomniacine.cl/2026/07/27/spider-man-un-nuevo-dia/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 9 de agosto, 15:00 hrs; Viernes 14 de agosto, 15:00 hrs; Sábado 15 de agosto, 15:00 hrs; Domingo 16 de agosto, 15:00 hrs Género: Acción. Fantástico | MCU. Cómic. Superhéroes. Marvel Comics. Secuela. Durac...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_650e95f9b205b8665b0bce6d",
-      "title": "Ciclo taller EL ARTE ES NATURAL",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T15:00:00-04:00",
-        "end": "2026-08-28",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 15:00, 16:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Artequin Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 3000,
-        "max_amount": 10000,
-        "display_text": "$3.000 · $10.000"
-      },
-      "links": {
-        "official": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/"
-      },
-      "organizer": "Artequin Viña del Mar",
-      "source_name": "Artequin Viña del Mar",
-      "source_url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "🌿 ¡Este agosto la naturaleza se transforma en nuestra mejor maestra! 🍃🎨 Aprendamos que el arte también puede nacer de una hoja, una piedra, un poco de tierra o una flor. En “El Arte es Natural”, exploraremos el Parque Quinta Vergara para crear, experimentar y...",
-      "tags": [],
-      "audience": "Familiar",
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_1fdce1f7e8f6faa7c465ca47",
-      "title": "Centro de Investigación Teatro La Peste.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-14T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "centro-investigacion-teatro-la-peste",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Centro de Investigación Teatro La Peste",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Dbnp8inFiv1/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Dbnp8inFiv1/"
-      },
-      "organizer": "Teatro La Peste",
-      "source_name": "Teatro La Peste",
-      "source_url": "https://www.instagram.com/p/Dbnp8inFiv1/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "💥Volver a Bertolt Brecht para mirar el presente.💥 A 70 años del fallecimiento de Bertolt Brecht, Teatro La Peste y Escena Crítica y Memoria se reúnen para conversar sobre la vigencia de su pensamiento y los desafíos que enfrenta hoy el teatro frente al avance...",
-      "tags": [
-        "curso"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_590f7ec146ac96ceff1b1c54",
-      "title": "LA NARRACIÓN ORAL TIENE CITA CON ANA WONKA",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T19:00:00-04:00",
-        "end": "2026-08-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 19:00, 10:30, 12:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "SANTIAGO: Jueves 13 de agosto, 19:00 hrs.Teatro Novedades (Cueto 257). 🎟 Entradas: Portaltickets. @oralitante",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db9KLeiCemK/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db9KLeiCemK/"
-      },
-      "organizer": "Valparaíso Profundo",
-      "source_name": "Valparaíso Profundo",
-      "source_url": "https://www.instagram.com/p/Db9KLeiCemK/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "¡LA NARRACIÓN ORAL TIENE CITA CON ANA WONKA! 🇨🇴✨ Estamos listos para recibir en Chile a la gran narradora colombiana Ana Wonka (@anawonka20 ), quien llega con una gira imperdible para cuestionar, reflexionar y jugar con las historias. 📖❤️¡Anota las fechas y as...",
-      "tags": [
-        "taller"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_1dc8ffa04bb24b2a20906194",
-      "title": "Adolescencia, sexo y muerte en Campamento Miasma.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T20:00:00-04:00",
-        "end": "2026-08-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 20:00, 18:00, 21:00, 17:45",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-542232",
-        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma",
-        "registration": null,
-        "source": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 13 de agosto, 20:00 hrs; Viernes 14 de agosto, 18:00 hrs; Sábado 15 de agosto, 21:00 hrs; Domingo 16 de agosto, 17:45 hrs",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_49ceaec06025f3078f900525",
-      "title": "V de Venganza (2006)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-14T20:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 20:00",
-        "occurrences": [
-          {
-            "start": "2026-08-14T20:00:00-04:00",
-            "end": null
-          }
-        ]
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-v-de-venganza-2006-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/v-de-venganza-2006-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-v-de-venganza-2006-cine-arte-vina-del-mar"
-      },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-v-de-venganza-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-14",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: viernes 14 de agosto de 2026, 20:00 hrs.Comprar entradas: https://www.passline.com/eventos/v-de-venganza-2006-cine-arte-vina-del-mar",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_9aa35d87a35f5a2afaaecd87",
-      "title": "Basket Case - Puerto Bizarro.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-14T20:15:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 · 20:15",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.passline.com/eventos/basket-case-puerto-bizarro-543711",
-        "tickets": "https://www.passline.com/eventos/basket-case-puerto-bizarro-543711",
-        "registration": null,
-        "source": "https://www.passline.com/eventos/basket-case-puerto-bizarro-543711"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/basket-case-puerto-bizarro-543711",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Viernes 14 de agosto, 20:15 hrs",
+      "description": "Inicio actividad - Visita Viña Exposición transitoria // “Entre mareas” Fecha 15-agosto-2026 Hora Exposición transitoria “Entre mareas”, de Fernanda Larraín y Mari López. esta muestra utiliza imágenes de rocas y aves, donde los artistas abordan temas como la p...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -1719,7 +646,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-15 · 10:00, 17:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -1796,7 +725,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-15 · 10:30, 17:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": "palacio-vergara",
@@ -1847,6 +778,234 @@
       }
     },
     {
+      "id": "agenda_f6647381f1d7d96eb2310366",
+      "title": "Cráneos, esenciales para la vida",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:00:00-04:00",
+        "end": "2026-12-31",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:00, 16:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/craneos-esenciales-para-la-vida",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/craneos-esenciales-para-la-vida"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/craneos-esenciales-para-la-vida",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Ciencias Naturales Exposición 01 Ene 2026 Condell 1546, Valparaíso, Chile. Presencial 01/Enero/2026 hasta el 31/Diciembre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso Exhibición desarrollada...",
+      "tags": [],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_54d56b27750666c06a32331b",
+      "title": "Insectos Imaginarios",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:00:00-04:00",
+        "end": "2026-10-03",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:00, 16:00, 15:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Arte y naturaleza se encuentran en nueva exposición temporal. Artes gráficas Exposición 08 Jul 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Julio/2026 hasta el 03/Octubre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_36389cc23695fcadb72ab9c8",
+      "title": "Vida v/s muerte, el costo del tráfico ilícito",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:00:00-04:00",
+        "end": "2026-08-24",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:00, 16:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/vida-vs-muerte-el-costo-del-trafico-ilicito",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/vida-vs-muerte-el-costo-del-trafico-ilicito"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/vida-vs-muerte-el-costo-del-trafico-ilicito",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Zoología Exposición 04 Jun 2026 Condell 1546, Valparaíso, Chile. Presencial 04/Junio/2026 hasta el 24/Agosto/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso La exhibición temporal, fue desarroll...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_c235f3d24c1eea1a2c3fcb2f",
       "title": "Yoga y meditación",
       "event_type": "event",
@@ -1866,7 +1025,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-15 · 11:00, 12:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -1919,6 +1080,302 @@
       }
     },
     {
+      "id": "agenda_594dc3fdc258edd0f6c190b0",
+      "title": "Exposición “Micromundos, ciencia y arte en tus manos”",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:30:00-04:00",
+        "end": "2026-12-31",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:30, 12:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/exposicion-micromundos-ciencia-y-arte-en-tus-manos",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/exposicion-micromundos-ciencia-y-arte-en-tus-manos"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/exposicion-micromundos-ciencia-y-arte-en-tus-manos",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Ciencia Exposición 01 Ago 2024 Condell 1546, Valparaíso, Chile. Presencial 01/Agosto/2024 hasta el 31/Diciembre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso La exposición tiene como objetivo...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
+      "title": "¿Cuáles serán los fósiles del futuro?",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:30:00-04:00",
+        "end": "2026-11-07",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_36c0a5d3646485069581fd62",
+      "title": "La odisea.",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-15T15:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 15:00, 16:45, 17:45",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomnia-teatro-condell",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Insomnia Teatro Condell",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.insomniacine.cl/2026/07/13/la-odisea/",
+        "tickets": "https://www.passline.com/eventos/la-odisea-542159",
+        "registration": null,
+        "source": "https://www.insomniacine.cl/2026/07/13/la-odisea/"
+      },
+      "organizer": "Insomnia Cine",
+      "source_name": "Insomnia Cine",
+      "source_url": "https://www.insomniacine.cl/2026/07/13/la-odisea/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Lunes 10 de agosto, 15:00 hrs; Miércoles 12 de agosto, 15:00 hrs; Jueves 13 de agosto, 16:45 hrs; Sábado 15 de agosto, 17:45 hrs Género: Cine epico. Duración: 172 min. País: Estados Unidos. Dirección: Christopher...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_01ed8cf7ac89b82f225cb3d8",
+      "title": "Spider-Man: Un nuevo día.",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T15:00:00-04:00",
+        "end": "2026-08-16",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 15:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomnia-teatro-condell",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Insomnia Teatro Condell",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.insomniacine.cl/2026/07/27/spider-man-un-nuevo-dia/",
+        "tickets": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-541121",
+        "registration": null,
+        "source": "https://www.insomniacine.cl/2026/07/27/spider-man-un-nuevo-dia/"
+      },
+      "organizer": "Insomnia Cine",
+      "source_name": "Insomnia Cine",
+      "source_url": "https://www.insomniacine.cl/2026/07/27/spider-man-un-nuevo-dia/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 9 de agosto, 15:00 hrs; Viernes 14 de agosto, 15:00 hrs; Sábado 15 de agosto, 15:00 hrs; Domingo 16 de agosto, 15:00 hrs Género: Acción. Fantástico | MCU. Cómic. Superhéroes. Marvel Comics. Secuela. Durac...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_715ea4f9e63afda3995119cb",
       "title": "Calle Malaga (2025)",
       "event_type": "event",
@@ -1947,7 +1404,9 @@
             "start": "2026-08-18T17:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -1998,6 +1457,304 @@
       }
     },
     {
+      "id": "agenda_650e95f9b205b8665b0bce6d",
+      "title": "Ciclo taller EL ARTE ES NATURAL",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T15:00:00-04:00",
+        "end": "2026-08-28",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 15:00, 16:00",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Artequin Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 3000,
+        "max_amount": 10000,
+        "display_text": "$3.000 · $10.000"
+      },
+      "links": {
+        "official": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/"
+      },
+      "organizer": "Artequin Viña del Mar",
+      "source_name": "Artequin Viña del Mar",
+      "source_url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "🌿 ¡Este agosto la naturaleza se transforma en nuestra mejor maestra! 🍃🎨 Aprendamos que el arte también puede nacer de una hoja, una piedra, un poco de tierra o una flor. En “El Arte es Natural”, exploraremos el Parque Quinta Vergara para crear, experimentar y...",
+      "tags": [],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_09e3ddbc6965e9eeb3f72343",
+      "title": "Les esperamos",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T16:00:00-04:00",
+        "end": "2026-08-30",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 16:00, 10:00, 17:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "palacio-vergara",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Palacio Vergara",
+        "address": "Errázuriz 563, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Db_p9-OCLFl/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/Db_p9-OCLFl/"
+      },
+      "organizer": "Culturas Viña",
+      "source_name": "Culturas Viña",
+      "source_url": "https://www.instagram.com/p/Db_p9-OCLFl/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "El Municipio de Cuidados de Viña del Mar, a través de su Departamento de Cultura, invita a la ceremonia de inauguración de la Muestra 2026 de la Corporación Quinta Bonsái, el viernes 28 de agosto, a las 16:00 horas, en el Museo Palacio Vergara, ubicado en Errá...",
+      "tags": [
+        "exposición",
+        "muestra",
+        "museo"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_590f7ec146ac96ceff1b1c54",
+      "title": "LA NARRACIÓN ORAL TIENE CITA CON ANA WONKA",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T19:00:00-04:00",
+        "end": "2026-08-16",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 19:00, 10:30, 12:30",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "SANTIAGO: Jueves 13 de agosto, 19:00 hrs.Teatro Novedades (Cueto 257). 🎟 Entradas: Portaltickets. @oralitante",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Db9KLeiCemK/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/Db9KLeiCemK/"
+      },
+      "organizer": "Valparaíso Profundo",
+      "source_name": "Valparaíso Profundo",
+      "source_url": "https://www.instagram.com/p/Db9KLeiCemK/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "¡LA NARRACIÓN ORAL TIENE CITA CON ANA WONKA! 🇨🇴✨ Estamos listos para recibir en Chile a la gran narradora colombiana Ana Wonka (@anawonka20 ), quien llega con una gira imperdible para cuestionar, reflexionar y jugar con las historias. 📖❤️¡Anota las fechas y as...",
+      "tags": [
+        "taller"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_1dc8ffa04bb24b2a20906194",
+      "title": "Adolescencia, sexo y muerte en Campamento Miasma.",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T20:00:00-04:00",
+        "end": "2026-08-16",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 20:00, 18:00, 21:00, 17:45",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomnia-teatro-condell",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Insomnia Teatro Condell",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-542232",
+        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma"
+      },
+      "organizer": "Insomnia Cine",
+      "source_name": "Insomnia Cine",
+      "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 13 de agosto, 20:00 hrs; Viernes 14 de agosto, 18:00 hrs; Sábado 15 de agosto, 21:00 hrs; Domingo 16 de agosto, 17:45 hrs",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_127a51a92f3f149fb8c5c8ed",
       "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
       "event_type": "event",
@@ -2026,7 +1783,9 @@
             "start": "2026-08-19T18:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2096,7 +1855,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-15 · 20:00, 19:30",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -2171,7 +1932,9 @@
             "start": "2026-08-16T10:30:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "parque-cultural-valparaiso",
@@ -2250,7 +2013,9 @@
             "start": "2026-08-18T15:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2301,6 +2066,78 @@
       }
     },
     {
+      "id": "agenda_427e2c41d43ae68fe462d897",
+      "title": "CARTELERA",
+      "event_type": "event",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro"
+      },
+      "categories": [
+        {
+          "id": "teatro",
+          "label": "Teatro"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-16T16:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-16 · 16:30, 19:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "teatromuseo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "TeatroMuseo del Títere y el Payaso",
+        "address": "Cumming 795, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820"
+      },
+      "organizer": "TeatroMuseo",
+      "source_name": "TeatroMuseo",
+      "source_url": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Historia de Gatitos de Colores Nosotros Prensa Noticias Videos Publicaciones Teatroescuela Curso Actuales Curso Históricos Cartelera Actual Cartelera Histórica Extensión Museo Visitas Guiadas Eventos Masivos Venta de funciones Venta de talleres Festivales Upa...",
+      "tags": [],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_c13609807fc2fc765f338823",
       "title": "Children of Men (2006)",
       "event_type": "event",
@@ -2325,7 +2162,9 @@
             "start": "2026-08-17T19:30:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2353,10 +2192,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-children-of-men-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -2400,7 +2239,9 @@
             "start": "2026-08-18T19:30:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2428,10 +2269,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -2470,7 +2311,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-18 · 20:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -2540,7 +2383,9 @@
         "end": "2026-08-22",
         "timezone": "America/Santiago",
         "display_text": "2026-08-19 · 18:30, 20:00, 10:00, 14:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2610,7 +2455,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-19 · 19:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -2685,7 +2532,9 @@
             "start": "2026-08-19T20:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2713,10 +2562,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -2727,6 +2576,87 @@
         "advisory_text": null
       },
       "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs.Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_78a395c8d6980d1679196a95",
+      "title": "La Muerte de Robin Hood",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-20T18:00:00-04:00",
+        "end": "2026-08-21",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-20 · 18:00, 15:00",
+        "occurrences": [
+          {
+            "start": "2026-08-20T18:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-21T15:00:00-04:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-15",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-15",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -2755,7 +2685,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-20 · 19:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -2806,6 +2738,163 @@
       }
     },
     {
+      "id": "agenda_611565f0e8baa963ee0e0be5",
+      "title": "The Doors: The Final Cut (1991-2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-20T20:30:00-04:00",
+        "end": "2026-08-23",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-20 · 20:30, 18:00",
+        "occurrences": [
+          {
+            "start": "2026-08-20T20:30:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T18:00:00-04:00",
+            "end": null
+          }
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
+      },
+      "organizer": null,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-15",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-15",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vin...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
+      "id": "agenda_ffec605015840bafa9a42844",
+      "title": "Conversatorio sobre Émile Dubois y su vínculo con la historia porteña",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-21T17:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-21 · 17:00, 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/conversatorio-sobre-emile-dubois-y-su-vinculo-con-la-historia-portena",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/conversatorio-sobre-emile-dubois-y-su-vinculo-con-la-historia-portena"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/conversatorio-sobre-emile-dubois-y-su-vinculo-con-la-historia-portena",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Charla 21 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 21/Agosto/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso La actividad abordará las distintas versiones construidas en torno a uno...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      }
+    },
+    {
       "id": "agenda_1740e4aa552f79135839e5b9",
       "title": "Marie Antoinette (20 Aniversario)",
       "event_type": "event",
@@ -2830,7 +2919,9 @@
             "start": "2026-08-21T19:30:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2858,10 +2949,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -2900,7 +2991,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-22 · 10:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -2978,7 +3071,9 @@
             "start": "2026-08-22T18:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "parque-cultural-valparaiso",
@@ -3048,7 +3143,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-22 · 21:00, 23:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -3118,7 +3215,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-23 · 19:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -3193,7 +3292,9 @@
             "start": "2026-08-24T19:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -3221,10 +3322,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -3263,7 +3364,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-25 · 19:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -3333,7 +3436,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-26 · 19:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -3403,7 +3508,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-27 · 20:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "teatro-municipal-vina-del-mar",
@@ -3454,84 +3561,6 @@
       }
     },
     {
-      "id": "agenda_09e3ddbc6965e9eeb3f72343",
-      "title": "Les esperamos",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-28T16:00:00-04:00",
-        "end": "2026-08-30",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 16:00, 10:00, 17:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "palacio-vergara",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Palacio Vergara",
-        "address": "Errázuriz 563, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db_p9-OCLFl/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db_p9-OCLFl/"
-      },
-      "organizer": "Culturas Viña",
-      "source_name": "Culturas Viña",
-      "source_url": "https://www.instagram.com/p/Db_p9-OCLFl/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "El Municipio de Cuidados de Viña del Mar, a través de su Departamento de Cultura, invita a la ceremonia de inauguración de la Muestra 2026 de la Corporación Quinta Bonsái, el viernes 28 de agosto, a las 16:00 horas, en el Museo Palacio Vergara, ubicado en Errá...",
-      "tags": [
-        "exposición",
-        "muestra",
-        "museo"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
       "id": "agenda_b0f00a5bde1ece295138e869",
       "title": "Little Miss Sunshine (2006)",
       "event_type": "event",
@@ -3556,7 +3585,9 @@
             "start": "2026-08-28T18:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -3584,10 +3615,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -3626,7 +3657,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-29 · 19:00, 20:30",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -3701,7 +3734,9 @@
             "start": "2026-08-29T19:00:00-04:00",
             "end": null
           }
-        ]
+        ],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -3729,10 +3764,10 @@
       "organizer": null,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-14",
+      "last_verified_at": "2026-08-15",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-14",
+        "last_verified_at": "2026-08-15",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -3744,78 +3779,6 @@
       },
       "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: sábado 29 de agosto de 2026, 19:00 hrs.Comprar entradas: https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
       "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
-      "id": "agenda_8c2b6ba0de30c34fe3529930",
-      "title": "Museo Palacio Rioja",
-      "event_type": "event",
-      "primary_category": {
-        "id": "ferias-gastronomia",
-        "label": "Ferias y gastronomía"
-      },
-      "categories": [
-        {
-          "id": "ferias-gastronomia",
-          "label": "Ferias y gastronomía"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-30T10:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-30 · 10:00, 17:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "museo-palacio-rioja",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja",
-        "address": "Quillota 214, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DbtU4Tst0CB/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DbtU4Tst0CB/"
-      },
-      "organizer": "Museo Palacio Rioja",
-      "source_name": "Museo Palacio Rioja",
-      "source_url": "https://www.instagram.com/p/DbtU4Tst0CB/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "🌊 “A veces un mar dulce” llegó al Museo Palacio Rioja. Esta exposición reúne las obras de Rocío Mercado, Rosario Sotomayor, Krishna Escovedo y Kokó Acevedo, quienes, desde la pintura, la escultura, el dibujo, la fotografía y la performance, proponen una reflex...",
-      "tags": [
-        "mercado"
-      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -3843,7 +3806,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-09-06 · 08:00, 08:30, 09:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -3915,7 +3880,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-10-03 · 20:00, 21:30",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -3985,7 +3952,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-10-04 · 06:30",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": null,
@@ -4057,7 +4026,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-10-10 · 19:00, 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4127,7 +4098,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-10-24 · 19:00, 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4197,7 +4170,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-11-07 · 19:30, 21:30",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4267,7 +4242,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-11-14 · 19:00, 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4337,7 +4314,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-11-21 · 19:00, 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4407,7 +4386,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-12-05 · 19:00, 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4477,7 +4458,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-12-12 · 19:00, 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
         "venue_id": "aula-magna-usm",
@@ -4547,7 +4530,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "Lunes a viernes, desde las 18:20",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "unknown",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": null,
@@ -4617,7 +4602,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "Miércoles 09:00–11:30; jueves 09:00–11:30 o 15:30–18:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "unknown",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": null,
@@ -4687,7 +4674,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "Viernes 11:00–13:00 o sábado 15:00–17:00; otros horarios flexibles",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "unknown",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": null,
@@ -4757,7 +4746,9 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "Horario flexible",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "unknown",
+        "end_confidence": "unknown"
       },
       "location": {
         "venue_id": null,
