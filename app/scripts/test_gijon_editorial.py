@@ -43,6 +43,16 @@ def main() -> None:
     )
     check(
         make_event(
+            title="Cartelos n'asturianu (1976-2005)",
+            days=221,
+            venue="Muséu del Pueblu d'Asturies",
+            category="exposiciones",
+            tags=["Museos", "Exposición temporal"],
+        ),
+        "event",
+    )
+    check(
+        make_event(
             title="Escena Amateur",
             days=800,
             venue="Gijón/Xixón",
