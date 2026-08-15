@@ -96,6 +96,28 @@ def fetch_rows(url: str = SOURCE_URL) -> list[dict]:
     return items
 
 
+def deduplicate_dataset(dataset: dict) -> tuple[dict, int]:
+    unique: dict[str, dict] = {}
+    duplicates = 0
+    for event in dataset["events"]:
+        event_id = event.get("id")
+        if event_id in unique:
+            duplicates += 1
+            continue
+        unique[event_id] = event
+
+    events = list(unique.values())
+    dataset["events"] = events
+    dataset["counts"] = {
+        "total": len(events),
+        "events": sum(event.get("event_type") == "event" for event in events),
+        "courses": sum(event.get("event_type") == "course" for event in events),
+        "flexible_offers": sum(event.get("event_type") == "flexible_offer" for event in events),
+        "programs": sum(event.get("event_type") == "program" for event in events),
+    }
+    return dataset, duplicates
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
@@ -104,11 +126,15 @@ def main() -> None:
 
     rows = fetch_rows()
     dataset = build_dataset(rows, look_ahead_days=args.look_ahead_days)
+    dataset, duplicates = deduplicate_dataset(dataset)
     for event in dataset["events"]:
         event["source_url"] = SOURCE_URL
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Gijón XHTML rows: {len(rows)}; dataset: {len(dataset['events'])} entradas")
+    print(
+        f"Gijón XHTML rows: {len(rows)}; dataset: {len(dataset['events'])} entradas; "
+        f"duplicados eliminados: {duplicates}"
+    )
 
 
 if __name__ == "__main__":
