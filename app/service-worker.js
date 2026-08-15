@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -7,6 +7,7 @@ const SHELL_ASSETS = [
   "./index.html",
   "./app.css",
   "./app.js",
+  "./pwa.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
@@ -45,19 +46,16 @@ async function networkFirstNavigation(request) {
   }
 }
 
-async function cacheFirstShell(request) {
-  const cached = await caches.match(request, { ignoreSearch: true });
-  if (cached) return cached;
-
+async function networkFirstShell(request) {
+  const cache = await caches.open(SHELL_CACHE);
   try {
-    const response = await fetch(request);
+    const response = await fetch(request, { cache: "no-store" });
     if (response.ok && new URL(request.url).origin === self.location.origin) {
-      const cache = await caches.open(SHELL_CACHE);
       await cache.put(request, response.clone());
     }
     return response;
   } catch {
-    return Response.error();
+    return (await cache.match(request, { ignoreSearch: true })) || Response.error();
   }
 }
 
@@ -105,6 +103,6 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (requestUrl.origin === self.location.origin) {
-    event.respondWith(cacheFirstShell(request));
+    event.respondWith(networkFirstShell(request));
   }
 });
