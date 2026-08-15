@@ -11,6 +11,16 @@ from update_gijon import build_dataset
 SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
 
 
+def repair_mojibake(value: str) -> str:
+    """Repair the UTF-8-as-Windows-1252 text exposed by the XHTML export."""
+    if not any(marker in value for marker in ("Ã", "Â", "â€", "ðŸ")):
+        return value
+    try:
+        return value.encode("cp1252").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return value
+
+
 class TableParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -34,7 +44,7 @@ class TableParser(HTMLParser):
 
     def handle_endtag(self, tag: str) -> None:
         if tag in {"th", "td"} and self.current_cell is not None and self.current_row is not None:
-            text = " ".join("".join(self.current_cell).split())
+            text = repair_mojibake(" ".join("".join(self.current_cell).split()))
             if self.cell_href:
                 text = f'<a href="{self.cell_href}">{text}</a>'
             self.current_row.append(text)
@@ -64,7 +74,16 @@ def fetch_rows(url: str = SOURCE_URL) -> list[dict]:
     for row in parser.rows[1:]:
         if len(row) != len(headers):
             continue
-        items.append(dict(zip(headers, row)))
+        item = dict(zip(headers, row))
+        # Keep registration markup for the downstream extractor, but use raw hrefs
+        # for ordinary linked fields such as alias and images.
+        for key, value in list(item.items()):
+            if key == "field_boton_asistencia_registro_":
+                continue
+            if value.startswith('<a href="'):
+                href = value.split('"', 2)[1]
+                item[key] = href
+        items.append(item)
     if not items:
         raise ValueError("No se pudieron extraer eventos de la tabla XHTML de Gijón")
     return items
@@ -78,6 +97,8 @@ def main() -> None:
 
     rows = fetch_rows()
     dataset = build_dataset(rows, look_ahead_days=args.look_ahead_days)
+    for event in dataset["events"]:
+        event["source_url"] = SOURCE_URL
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Gijón XHTML rows: {len(rows)}; dataset: {len(dataset['events'])} entradas")
