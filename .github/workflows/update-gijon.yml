@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: update-gijon-agenda
+  group: update-gijon-agenda-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -20,8 +20,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: feature/multi-city-pwa
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,11 +31,13 @@ jobs:
           set -euo pipefail
           python app/scripts/update_gijon.py --output /tmp/gijon-agenda.json --look-ahead-days 14
 
-      - name: Validate candidate and guard against accidental emptying
+      - name: Validate candidate and detect material changes
+        id: compare
         run: |
           set -euo pipefail
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
 
           candidate = json.loads(Path('/tmp/gijon-agenda.json').read_text(encoding='utf-8'))
@@ -59,7 +59,6 @@ jobs:
           if len(candidate["events"]) == 0 and len(current.get("events", [])) > 0:
               raise SystemExit("Refusing to replace a non-empty Gijon dataset with an empty candidate")
 
-          # Ignore volatile timestamps when deciding whether content really changed.
           def stable(payload):
               payload = json.loads(json.dumps(payload))
               payload.pop("generated_at", None)
@@ -70,18 +69,21 @@ jobs:
                       event["public_status"]["last_verified_at"] = None
               return payload
 
-          if stable(candidate) == stable(current):
-              Path('/tmp/no-gijon-change').write_text('1', encoding='utf-8')
-          else:
+          changed = stable(candidate) != stable(current)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"changed={'true' if changed else 'false'}\n")
+
+          if changed:
+              target.parent.mkdir(parents=True, exist_ok=True)
               target.write_text(json.dumps(candidate, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
           PY
 
-      - name: Stop when there is no material change
-        if: ${{ hashFiles('/tmp/no-gijon-change') != '' }}
+      - name: Report no material change
+        if: steps.compare.outputs.changed == 'false'
         run: echo "No material Gijon agenda changes."
 
       - name: Commit Gijon dataset only
-        if: ${{ hashFiles('/tmp/no-gijon-change') == '' }}
+        if: steps.compare.outputs.changed == 'true'
         run: |
           set -euo pipefail
           git config user.name "agenda-cultural-bot"
@@ -93,4 +95,4 @@ jobs:
             exit 1
           fi
           git commit -m "Update Gijon agenda dataset"
-          git push origin HEAD:feature/multi-city-pwa
+          git push origin HEAD:${GITHUB_REF_NAME}
