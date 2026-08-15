@@ -9,23 +9,45 @@ from urllib.request import Request, urlopen
 from update_gijon import build_dataset
 
 SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
-MOJIBAKE_MARKERS = ("Ã", "Â", "â€", "ðŸ", "�", "\x81", "\x8d", "\x8f", "\x90", "\x9d")
+MOJIBAKE_MARKERS = ("Ã", "Â", "â", "ð", "�", "\x81", "\x8d", "\x8f", "\x90", "\x9d")
 
 
 def repair_mojibake(value: str) -> str:
-    """Repair UTF-8 text that the XHTML export exposes through a legacy byte interpretation."""
+    """Repair local UTF-8 sequences mis-decoded as Latin-1/Windows-1252."""
     current = value
     for _ in range(3):
         if not any(marker in current for marker in MOJIBAKE_MARKERS):
             break
-        repaired = None
-        for encoding in ("latin1", "cp1252"):
-            try:
-                repaired = current.encode(encoding).decode("utf-8")
-                break
-            except (UnicodeEncodeError, UnicodeDecodeError):
-                continue
-        if not repaired or repaired == current:
+        output: list[str] = []
+        index = 0
+        changed = False
+        while index < len(current):
+            replacement = None
+            consumed = 0
+            for length in (4, 3, 2):
+                chunk = current[index:index + length]
+                if len(chunk) < 2:
+                    continue
+                for encoding in ("latin1", "cp1252"):
+                    try:
+                        decoded = chunk.encode(encoding).decode("utf-8")
+                    except (UnicodeEncodeError, UnicodeDecodeError):
+                        continue
+                    if decoded != chunk:
+                        replacement = decoded
+                        consumed = length
+                        break
+                if replacement is not None:
+                    break
+            if replacement is not None:
+                output.append(replacement)
+                index += consumed
+                changed = True
+            else:
+                output.append(current[index])
+                index += 1
+        repaired = "".join(output)
+        if not changed or repaired == current:
             break
         current = repaired
     return current
