@@ -40,7 +40,15 @@ const dom = {
   agenda: document.querySelector("[data-agenda]"),
   agendaTitle: document.querySelector("[data-agenda-title]"),
   total: document.querySelector("[data-total]"),
-  grid: document.querySelector("[data-event-grid]"),
+  datedSection: document.querySelector("[data-dated-section]"),
+  datedTotal: document.querySelector("[data-dated-total]"),
+  datedGrid: document.querySelector("[data-dated-grid]"),
+  programSection: document.querySelector("[data-program-section]"),
+  programTotal: document.querySelector("[data-program-total]"),
+  programGrid: document.querySelector("[data-program-grid]"),
+  flexibleSection: document.querySelector("[data-flexible-section]"),
+  flexibleTotal: document.querySelector("[data-flexible-total]"),
+  flexibleGrid: document.querySelector("[data-flexible-grid]"),
   empty: document.querySelector("[data-empty]"),
   emptyCopy: document.querySelector("[data-empty-copy]"),
   searchRow: document.querySelector("[data-search-row]"),
@@ -88,22 +96,33 @@ function saveCity(id) {
 }
 
 function formatSchedule(event, city) {
-  const value = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
-  if (!value) return event?.schedule?.display_text || "Horario por confirmar";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return event?.schedule?.display_text || String(value);
-  try {
+  const start = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
+  const end = event?.schedule?.end;
+  if (!start) return event?.schedule?.display_text || "Horario por confirmar";
+
+  const formatValue = (value, withWeekday = true) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
     return new Intl.DateTimeFormat(city.locale, {
       timeZone: city.timezone,
-      weekday: "short",
+      weekday: withWeekday ? "short" : undefined,
       day: "numeric",
       month: "short",
       hour: String(value).includes("T") ? "2-digit" : undefined,
       minute: String(value).includes("T") ? "2-digit" : undefined,
       hour12: false,
     }).format(date);
+  };
+
+  try {
+    const startDate = String(start).slice(0, 10);
+    const endDate = end ? String(end).slice(0, 10) : null;
+    if (endDate && endDate !== startDate) {
+      return `${formatValue(start)} – ${formatValue(end, false)}`;
+    }
+    return formatValue(start);
   } catch {
-    return event?.schedule?.display_text || String(value);
+    return event?.schedule?.display_text || String(start);
   }
 }
 
@@ -119,27 +138,57 @@ function eventLink(event) {
   } catch { return null; }
 }
 
+function contentGroup(event) {
+  if (event?.event_type === "program") return "program";
+  if (event?.event_type === "flexible_offer") return "flexible";
+  return "dated";
+}
+
+function typeBadge(event) {
+  if (event?.event_type === "program") return "Programa";
+  if (event?.event_type === "flexible_offer") return "Actividad disponible";
+  if (event?.event_type === "course") return "Curso / taller";
+  return null;
+}
+
+function createEventCard(event) {
+  const card = document.createElement("article");
+  const group = contentGroup(event);
+  card.className = `event-card event-card--${group}`;
+  const location = [event?.location?.venue, event?.location?.city].filter(Boolean).join(" · ") || "Lugar por confirmar";
+  const link = eventLink(event);
+  const badge = typeBadge(event);
+  card.innerHTML = `
+    <div class="card-meta-row">
+      <span class="meta">${escapeHtml(eventCategory(event))}</span>
+      ${badge ? `<span class="type-badge">${escapeHtml(badge)}</span>` : ""}
+    </div>
+    <h4>${escapeHtml(event?.title || "Actividad sin título")}</h4>
+    <p>${escapeHtml(formatSchedule(event, activeCity))}</p>
+    <p>${escapeHtml(location)}</p>
+    <div class="event-bottom">
+      <span>${event?.price?.is_free === true ? "Gratis" : escapeHtml(event?.price?.display_text || "Precio por confirmar")}</span>
+      ${link ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Ver fuente →</a>` : ""}
+    </div>`;
+  return card;
+}
+
+function renderGroup(grid, section, total, events, { alwaysShow = false } = {}) {
+  grid.replaceChildren();
+  total.textContent = String(events.length);
+  section.hidden = !alwaysShow && events.length === 0;
+  for (const event of events) grid.append(createEventCard(event));
+}
+
 function renderEvents(events) {
-  dom.grid.replaceChildren();
+  const groups = { dated: [], program: [], flexible: [] };
+  for (const event of events) groups[contentGroup(event)].push(event);
+
   dom.total.textContent = String(events.length);
   dom.empty.hidden = events.length !== 0;
-
-  for (const event of events) {
-    const card = document.createElement("article");
-    card.className = "event-card";
-    const location = [event?.location?.venue, event?.location?.city].filter(Boolean).join(" · ") || "Lugar por confirmar";
-    const link = eventLink(event);
-    card.innerHTML = `
-      <span class="meta">${escapeHtml(eventCategory(event))}</span>
-      <h3>${escapeHtml(event?.title || "Actividad sin título")}</h3>
-      <p>${escapeHtml(formatSchedule(event, activeCity))}</p>
-      <p>${escapeHtml(location)}</p>
-      <div class="event-bottom">
-        <span>${event?.price?.is_free === true ? "Gratis" : escapeHtml(event?.price?.display_text || "Precio por confirmar")}</span>
-        ${link ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Ver fuente →</a>` : ""}
-      </div>`;
-    dom.grid.append(card);
-  }
+  renderGroup(dom.datedGrid, dom.datedSection, dom.datedTotal, groups.dated);
+  renderGroup(dom.programGrid, dom.programSection, dom.programTotal, groups.program);
+  renderGroup(dom.flexibleGrid, dom.flexibleSection, dom.flexibleTotal, groups.flexible);
 }
 
 function filterEvents() {
@@ -152,6 +201,7 @@ function filterEvents() {
       event?.location?.venue,
       event?.location?.city,
       event?.description,
+      typeBadge(event),
     ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
     return haystack.includes(query);
   }));
@@ -183,17 +233,13 @@ async function loadCity(id) {
     allEvents = dataset.events;
     dom.agenda.hidden = false;
     dom.status.hidden = true;
-    dom.emptyCopy.textContent = `Todavía no hay eventos publicados para ${city.label}.`;
+    dom.emptyCopy.textContent = `Todavía no hay actividades publicadas para ${city.label}.`;
     renderEvents(allEvents);
   } catch (error) {
     allEvents = [];
     dom.agenda.hidden = false;
     renderEvents([]);
-    if (id === "gijon") {
-      setStatus("Gijón está preparado", "La instancia de Gijón ya existe en la aplicación, pero su dataset público todavía no ha sido conectado. Valparaíso / Viña sigue funcionando de forma independiente.");
-    } else {
-      setStatus("No pudimos cargar la agenda", "La aplicación no pudo leer el dataset público de Valparaíso / Viña. Intenta nuevamente más tarde.");
-    }
+    setStatus("No pudimos cargar la agenda", `La aplicación no pudo leer el dataset de ${city.label}. Intenta nuevamente más tarde.`);
   }
 }
 
