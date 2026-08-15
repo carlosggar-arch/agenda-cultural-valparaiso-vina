@@ -6,7 +6,8 @@
   <meta name="theme-color" content="#174f46">
   <meta name="description" content="Agenda Cultural: descubre actividades cercanas y elige tu ciudad.">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="../assets/isotipo.svg" type="image/svg+xml">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./app.css">
   <title>Agenda Cultural</title>
 </head>
@@ -15,7 +16,7 @@
 
   <header class="app-header">
     <a class="brand" href="./" aria-label="Agenda Cultural, inicio">
-      <img src="../assets/isotipo.svg" width="48" height="48" alt="">
+      <img src="./icons/icon.svg" width="48" height="48" alt="">
       <span><strong>Agenda Cultural</strong><small data-city-subtitle>Elige tu ciudad</small></span>
     </a>
     <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog">
@@ -123,5 +124,6 @@
   </div>
 
   <script type="module" src="./app.js"></script>
+  <script type="module" src="./pwa.js"></script>
 </body>
 </html>
