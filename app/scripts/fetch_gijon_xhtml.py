@@ -9,16 +9,26 @@ from urllib.request import Request, urlopen
 from update_gijon import build_dataset
 
 SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
+MOJIBAKE_MARKERS = ("Ã", "Â", "â€", "ðŸ", "�", "\x81", "\x8d", "\x8f", "\x90", "\x9d")
 
 
 def repair_mojibake(value: str) -> str:
-    """Repair the UTF-8-as-Windows-1252 text exposed by the XHTML export."""
-    if not any(marker in value for marker in ("Ã", "Â", "â€", "ðŸ")):
-        return value
-    try:
-        return value.encode("cp1252").decode("utf-8")
-    except (UnicodeEncodeError, UnicodeDecodeError):
-        return value
+    """Repair UTF-8 text that the XHTML export exposes through a legacy byte interpretation."""
+    current = value
+    for _ in range(3):
+        if not any(marker in current for marker in MOJIBAKE_MARKERS):
+            break
+        repaired = None
+        for encoding in ("latin1", "cp1252"):
+            try:
+                repaired = current.encode(encoding).decode("utf-8")
+                break
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                continue
+        if not repaired or repaired == current:
+            break
+        current = repaired
+    return current
 
 
 class TableParser(HTMLParser):
@@ -75,14 +85,11 @@ def fetch_rows(url: str = SOURCE_URL) -> list[dict]:
         if len(row) != len(headers):
             continue
         item = dict(zip(headers, row))
-        # Keep registration markup for the downstream extractor, but use raw hrefs
-        # for ordinary linked fields such as alias and images.
         for key, value in list(item.items()):
             if key == "field_boton_asistencia_registro_":
                 continue
             if value.startswith('<a href="'):
-                href = value.split('"', 2)[1]
-                item[key] = href
+                item[key] = value.split('"', 2)[1]
         items.append(item)
     if not items:
         raise ValueError("No se pudieron extraer eventos de la tabla XHTML de Gijón")
