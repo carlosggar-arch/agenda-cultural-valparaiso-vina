@@ -10,8 +10,10 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-# Publication-side adapter kept in sync with the canonical importer in agenda-cultural-core.
-SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=JSON"
+# Publication-side normalization helper kept in parity with agenda-cultural-core.
+# The old JSON machine feed is intentionally no longer used: the municipal XHTML
+# resource is the operational source of truth for the preview pipeline.
+SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
 TIMEZONE = "Europe/Madrid"
 MADRID = ZoneInfo(TIMEZONE)
 
@@ -37,12 +39,12 @@ def clean(value: object) -> str:
 
 
 def fetch_events(url: str = SOURCE_URL) -> list[dict]:
-    request = Request(url, headers={"Accept": "application/json", "User-Agent": "AgendaCultural/1.0"})
-    with urlopen(request, timeout=30) as response:  # nosec B310 - official configured URL
-        payload = json.load(response)
-    if not isinstance(payload, list):
-        raise ValueError("El Open Data de Gijón no devolvió una lista de eventos")
-    return payload
+    """Compatibility entry point: read the current XHTML feed, never the stale JSON feed."""
+    # Import lazily to avoid a module cycle: fetch_gijon_xhtml imports build_dataset
+    # from this module as its normalization base.
+    from fetch_gijon_xhtml import fetch_rows
+
+    return fetch_rows(url)
 
 
 def date_bounds(item: dict) -> tuple[str | None, str | None]:
@@ -196,15 +198,10 @@ def build_dataset(items: list[dict], look_ahead_days: int = 14) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--look-ahead-days", type=int, default=14)
-    args = parser.parse_args()
+    """Keep the historical CLI name but execute the validated XHTML/editorial pipeline."""
+    from fetch_gijon_xhtml import main as xhtml_main
 
-    dataset = build_dataset(fetch_events(), look_ahead_days=args.look_ahead_days)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Gijón dataset: {len(dataset['events'])} entradas")
+    xhtml_main()
 
 
 if __name__ == "__main__":
