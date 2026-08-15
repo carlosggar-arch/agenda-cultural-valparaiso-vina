@@ -49,7 +49,43 @@
         </div>
         <p><strong data-total>0</strong> actividades</p>
       </div>
-      <div class="event-grid" data-event-grid></div>
+
+      <section class="content-section" data-dated-section>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Con fecha y hora</p>
+            <h3>Agenda fechada</h3>
+            <p>Eventos y actividades vinculados a días concretos.</p>
+          </div>
+          <span class="section-count"><strong data-dated-total>0</strong> citas</span>
+        </div>
+        <div class="event-grid" data-dated-grid></div>
+      </section>
+
+      <section class="content-section secondary-section" hidden data-program-section>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ciclos y temporadas</p>
+            <h3>Programas</h3>
+            <p>Programaciones amplias que agrupan varias citas o se desarrollan durante un periodo extenso.</p>
+          </div>
+          <span class="section-count"><strong data-program-total>0</strong> programas</span>
+        </div>
+        <div class="event-grid compact-grid" data-program-grid></div>
+      </section>
+
+      <section class="content-section secondary-section" hidden data-flexible-section>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Cuando te venga bien</p>
+            <h3>Actividades disponibles</h3>
+            <p>Experiencias o visitas que pueden realizarse durante un periodo amplio y no dependen de una única cita.</p>
+          </div>
+          <span class="section-count"><strong data-flexible-total>0</strong> opciones</span>
+        </div>
+        <div class="event-grid compact-grid" data-flexible-grid></div>
+      </section>
+
       <div class="empty" hidden data-empty>
         <h3>No hay actividades disponibles</h3>
         <p data-empty-copy>La instancia está preparada, pero todavía no tiene eventos publicados.</p>
