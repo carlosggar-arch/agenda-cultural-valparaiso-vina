@@ -38,6 +38,11 @@ jobs:
           set -euo pipefail
           python app/scripts/test_gijon_editorial.py
 
+      - name: Test multi-city UI partition
+        run: |
+          set -euo pipefail
+          python app/scripts/test_multi_city_ui.py
+
       - name: Generate Gijon dataset candidate
         run: |
           set -euo pipefail
