@@ -1,0 +1,81 @@
+name: Multi-city pre-release validation
+
+on:
+  push:
+    branches:
+      - feature/multi-city-pwa
+    paths:
+      - "app/**"
+      - ".github/workflows/multi-city-pre-release.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "app/**"
+      - ".github/workflows/multi-city-pre-release.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile preview Python and JavaScript
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/update_gijon.py \
+            app/scripts/fetch_gijon_xhtml.py \
+            app/scripts/test_gijon_editorial.py \
+            app/scripts/test_multi_city_ui.py \
+            app/scripts/test_pwa.py \
+            app/scripts/test_pre_release.py
+          node --check app/app.js
+          node --check app/pwa.js
+          node --check app/service-worker.js
+
+      - name: Run existing multi-city contracts
+        run: |
+          set -euo pipefail
+          python app/scripts/test_gijon_editorial.py
+          python app/scripts/test_multi_city_ui.py
+          python app/scripts/test_pwa.py
+
+      - name: Run joint pre-release contract
+        run: python app/scripts/test_pre_release.py
+
+      - name: Verify production root isolation
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          BASE="$(git merge-base origin/main HEAD)"
+          PROTECTED=(index.html agenda.js agenda-core.mjs agenda_web.json)
+          if ! git diff --quiet "$BASE" HEAD -- "${PROTECTED[@]}"; then
+            echo "A protected production-root file changed in the multi-city preview branch:"
+            git diff --name-only "$BASE" HEAD -- "${PROTECTED[@]}"
+            exit 1
+          fi
+
+          CHANGED="$(git diff --name-only "$BASE" HEAD)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          if [ -n "$UNEXPECTED" ]; then
+            echo "Unexpected paths in multi-city PR:"
+            printf '%s\n' "$UNEXPECTED"
+            exit 1
+          fi
+
+          echo "Production root isolation: OK"
