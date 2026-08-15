@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -18,6 +19,28 @@ CP1252_BYTES = {
     "˜": 0x98, "™": 0x99, "š": 0x9A, "›": 0x9B, "œ": 0x9C,
     "ž": 0x9E, "Ÿ": 0x9F,
 }
+GENERIC_VENUES = {"", "gijón/xixón", "gijón", "xixón"}
+FLEXIBLE_MARKERS = (
+    "visita comentada",
+    "visitas comentadas",
+    "visita guiada",
+    "visitas guiadas",
+    "conoce el muséu",
+    "conoce el museo",
+    "museos",
+    "museo",
+    "turismo",
+)
+PROGRAM_MARKERS = (
+    "super evento (programa)",
+    "programa",
+    "programación",
+    "ciclo",
+    "temporada",
+    "compañías",
+    "escena xixón",
+    "escena amateur",
+)
 
 
 def legacy_bytes(value: str) -> bytes:
@@ -135,6 +158,84 @@ def fetch_rows(url: str = SOURCE_URL) -> list[dict]:
     return items
 
 
+def event_dates(event: dict) -> tuple[date | None, date | None]:
+    schedule = event.get("schedule") or {}
+    try:
+        start = date.fromisoformat(str(schedule.get("start") or "")[:10])
+    except ValueError:
+        start = None
+    try:
+        end = date.fromisoformat(str(schedule.get("end") or schedule.get("start") or "")[:10])
+    except ValueError:
+        end = start
+    return start, end
+
+
+def duration_days(event: dict) -> int:
+    start, end = event_dates(event)
+    if not start or not end:
+        return 0
+    return max(0, (end - start).days)
+
+
+def editorial_text(event: dict) -> str:
+    values = [
+        event.get("title"),
+        event.get("description"),
+        event.get("primary_category", {}).get("label"),
+        event.get("location", {}).get("venue"),
+        *(event.get("tags") or []),
+    ]
+    return " ".join(str(value or "") for value in values).casefold()
+
+
+def classify_editorial(event: dict) -> tuple[str, str]:
+    """Separate concrete events, umbrella programs and long-running flexible offers."""
+    days = duration_days(event)
+    text = editorial_text(event)
+    venue = str(event.get("location", {}).get("venue") or "").strip().casefold()
+    category_id = str(event.get("primary_category", {}).get("id") or "")
+
+    if event.get("event_type") == "program" or "super evento (programa)" in text:
+        return "program", "explicit_program"
+
+    if days >= 90 and venue in GENERIC_VENUES:
+        return "program", "long_running_generic_program"
+
+    if days >= 365 and any(marker in text for marker in PROGRAM_MARKERS):
+        return "program", "very_long_program_signal"
+
+    if days >= 90 and category_id == "museos" and any(marker in text for marker in FLEXIBLE_MARKERS):
+        return "flexible_offer", "long_running_museum_offer"
+
+    if days >= 180 and any(marker in text for marker in FLEXIBLE_MARKERS):
+        return "flexible_offer", "long_running_reusable_offer"
+
+    return "event", "dated_event"
+
+
+def apply_editorial_classification(dataset: dict) -> dict:
+    reference = date.fromisoformat(dataset["publication_date"])
+    priority = {"event": 0, "program": 1, "flexible_offer": 2, "course": 3}
+
+    for event in dataset["events"]:
+        event_type, reason = classify_editorial(event)
+        event["event_type"] = event_type
+        event["editorial"] = {
+            "classification": event_type,
+            "reason": reason,
+            "duration_days": duration_days(event),
+        }
+
+    def sort_key(event: dict) -> tuple:
+        start, _ = event_dates(event)
+        effective = max(start or reference, reference)
+        return (priority.get(event.get("event_type"), 9), effective.isoformat(), event.get("title") or "")
+
+    dataset["events"].sort(key=sort_key)
+    return dataset
+
+
 def deduplicate_dataset(dataset: dict) -> tuple[dict, int]:
     unique: dict[str, dict] = {}
     duplicates = 0
@@ -145,8 +246,12 @@ def deduplicate_dataset(dataset: dict) -> tuple[dict, int]:
             continue
         unique[event_id] = event
 
-    events = list(unique.values())
-    dataset["events"] = events
+    dataset["events"] = list(unique.values())
+    return dataset, duplicates
+
+
+def refresh_counts(dataset: dict) -> dict:
+    events = dataset["events"]
     dataset["counts"] = {
         "total": len(events),
         "events": sum(event.get("event_type") == "event" for event in events),
@@ -154,7 +259,7 @@ def deduplicate_dataset(dataset: dict) -> tuple[dict, int]:
         "flexible_offers": sum(event.get("event_type") == "flexible_offer" for event in events),
         "programs": sum(event.get("event_type") == "program" for event in events),
     }
-    return dataset, duplicates
+    return dataset
 
 
 def main() -> None:
@@ -166,13 +271,17 @@ def main() -> None:
     rows = fetch_rows()
     dataset = build_dataset(rows, look_ahead_days=args.look_ahead_days)
     dataset, duplicates = deduplicate_dataset(dataset)
+    dataset = apply_editorial_classification(dataset)
+    dataset = refresh_counts(dataset)
     for event in dataset["events"]:
         event["source_url"] = SOURCE_URL
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    counts = dataset["counts"]
     print(
-        f"Gijón XHTML rows: {len(rows)}; dataset: {len(dataset['events'])} entradas; "
-        f"duplicados eliminados: {duplicates}"
+        f"Gijón XHTML rows: {len(rows)}; total: {counts['total']}; "
+        f"eventos: {counts['events']}; programas: {counts['programs']}; "
+        f"ofertas flexibles: {counts['flexible_offers']}; duplicados eliminados: {duplicates}"
     )
 
 
