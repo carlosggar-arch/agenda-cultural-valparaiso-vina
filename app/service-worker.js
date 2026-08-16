@@ -12,6 +12,7 @@ const SHELL_ASSETS = [
   "./event-detail.js",
   "./card-experience.css",
   "./card-image-fallback.js",
+  "./compact-top.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

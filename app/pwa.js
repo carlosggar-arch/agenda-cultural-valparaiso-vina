@@ -1,5 +1,6 @@
 import "./card-experience.js";
 import "./card-image-fallback.js";
+import "./compact-top.js";
 
 const APP_VERSION = "PWA v8";
 const versionNode = document.querySelector("[data-app-version]");

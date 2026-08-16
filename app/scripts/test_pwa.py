@@ -10,6 +10,7 @@ index = (APP / "index.html").read_text(encoding="utf-8")
 pwa_js = (APP / "pwa.js").read_text(encoding="utf-8")
 sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
+compact_top_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 
 assert manifest["start_url"] == "./"
 assert manifest["scope"] == "./"
@@ -49,6 +50,7 @@ assert "data-app-version" in index
 
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
+assert 'import "./compact-top.js";' in pwa_js
 assert 'const APP_VERSION = "PWA v8";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
@@ -58,6 +60,12 @@ assert "event.preventDefault()" in pwa_js
 assert "deferredInstallPrompt" in pwa_js
 assert '"appinstalled"' in pwa_js
 assert '"(display-mode: standalone)"' in pwa_js
+
+assert '.hero > h1' in compact_top_js
+assert '.hero > .hero-copy' in compact_top_js
+assert 'display: none !important' in compact_top_js
+assert '.hero .search-row input' in compact_top_js
+assert 'width: 100% !important' in compact_top_js
 
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
@@ -80,6 +88,7 @@ for asset in (
     '"./card-experience.js"',
     '"./card-experience.css"',
     '"./card-image-fallback.js"',
+    '"./compact-top.js"',
     '"./manifest.webmanifest"',
     '"./icons/icon.svg"',
     '"./icons/icon-192.png"',

@@ -37,7 +37,8 @@ def make_test_page(city: str) -> None:
         + marker
         + '\n  <script type="module" src="./card-experience.js"></script>'
         + '\n  <script type="module" src="./card-image-fallback.js"></script>'
-        + '\n  <script>setTimeout(() => { const root = getComputedStyle(document.documentElement); const card = document.querySelector(".event-card"); const before = card ? getComputedStyle(card, "::before") : null; document.body.dataset.visualBrand = root.getPropertyValue("--brand").trim(); document.body.dataset.visualStripe = before ? before.height : ""; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
+        + '\n  <script type="module" src="./compact-top.js"></script>'
+        + '\n  <script>setTimeout(() => { const root = getComputedStyle(document.documentElement); const card = document.querySelector(".event-card"); const before = card ? getComputedStyle(card, "::before") : null; const heroTitle = document.querySelector(".hero h1"); document.body.dataset.visualBrand = root.getPropertyValue("--brand").trim(); document.body.dataset.visualStripe = before ? before.height : ""; document.body.dataset.heroTitleDisplay = heroTitle ? getComputedStyle(heroTitle).display : "missing"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
     )
     if marker not in source or pwa_marker not in source:
         raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
@@ -94,6 +95,8 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError(f"Computed city visual theme did not apply for {city}")
         if 'data-visual-stripe="5px"' not in dom:
             raise AssertionError(f"Computed category card accent did not apply for {city}")
+        if 'data-hero-title-display="none"' not in dom:
+            raise AssertionError(f"Redundant hero title remained visible for {city}")
         if 'data-detail-open="true"' not in dom:
             raise AssertionError(f"Internal event detail did not open for {city}")
         if 'data-detail-has-source="true"' not in dom:
