@@ -14,6 +14,7 @@ lean_filters_js = Path("app/lean-filters.js").read_text(encoding="utf-8")
 community_source_js = Path("app/community-source.js").read_text(encoding="utf-8")
 source_form = Path("app/proponer-fuente.html").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
+vivamos_brand_js = Path("app/vivamos-brand.js").read_text(encoding="utf-8")
 
 required_index_markers = (
     "data-dated-section",
@@ -88,12 +89,15 @@ assert '.gijon-mark' in city_header_css
 assert '.masthead-valpo span:nth-child(8)' in city_header_css
 assert '.brand img{width:72px;height:72px' in city_header_css
 
+assert 'import "./vivamos-brand.js";' in pwa_js
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
 assert 'import "./compact-top.js";' in pwa_js
 assert 'import "./gijon-visual-reference.js";' in pwa_js
 assert 'import "./lean-filters.js";' in pwa_js
 assert 'import "./community-source.js";' in pwa_js
+assert 'const BRAND_NAME = "¡Vivamos!";' in vivamos_brand_js
+assert 'const BRAND_TAGLINE = "Descubre y vive lo que hay cerca de ti.";' in vivamos_brand_js
 assert 'dataset: "../agenda_web.json"' in card_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in card_js
 assert 'event?.image?.url' in card_js
@@ -152,11 +156,12 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v14";' in service_worker
+assert 'const CACHE_VERSION = "v15";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 assert '"./city-header.css"' in shell_block
+assert '"./vivamos-brand.js"' in shell_block
 assert '"./card-experience.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
 assert '"./card-image-fallback.js"' in shell_block
@@ -169,4 +174,4 @@ assert '"./proponer-fuente.html"' in shell_block
 assert '"./proponer-fuente.js"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, lean discovery and visual identity tests: OK")
+print("Multi-city persistent header, lean discovery and Vivamos brand tests: OK")

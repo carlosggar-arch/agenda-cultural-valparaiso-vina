@@ -1,3 +1,5 @@
+import "./vivamos-brand.js";
+
 const STORAGE_KEY = "agenda-cultural-city";
 const CITIES = {
   valparaiso: {

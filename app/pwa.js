@@ -1,3 +1,4 @@
+import "./vivamos-brand.js";
 import "./card-experience.js";
 import "./card-image-fallback.js";
 import "./compact-top.js";
@@ -6,7 +7,7 @@ import "./lean-filters.js";
 import "./sources-toggle.js";
 import "./community-source.js";
 
-const APP_VERSION = "PWA v12";
+const APP_VERSION = "PWA v13";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -52,7 +53,7 @@ function setupInstallExperience() {
     } catch (error) {
       installButton.disabled = false;
       installButton.hidden = false;
-      console.warn("Agenda Cultural: install prompt unavailable", error);
+      console.warn("¡Vivamos!: install prompt unavailable", error);
     }
   });
 
@@ -70,7 +71,7 @@ async function registerAgendaServiceWorker() {
 
     registration.update().catch(() => {});
   } catch (error) {
-    console.warn("Agenda Cultural: service worker unavailable", error);
+    console.warn("¡Vivamos!: service worker unavailable", error);
   }
 }
 

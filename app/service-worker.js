@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v14";
+const CACHE_VERSION = "v15";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -10,6 +10,7 @@ const SHELL_ASSETS = [
   "./app.js",
   "./contextual-filters.js",
   "./pwa.js",
+  "./vivamos-brand.js",
   "./card-experience.js",
   "./event-detail.js",
   "./card-experience.css",
