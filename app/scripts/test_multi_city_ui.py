@@ -4,6 +4,7 @@ index = Path("app/index.html").read_text(encoding="utf-8")
 app_js = Path("app/app.js").read_text(encoding="utf-8")
 pwa_js = Path("app/pwa.js").read_text(encoding="utf-8")
 css = Path("app/app.css").read_text(encoding="utf-8")
+city_header_css = Path("app/city-header.css").read_text(encoding="utf-8")
 card_js = Path("app/card-experience.js").read_text(encoding="utf-8")
 card_css = Path("app/card-experience.css").read_text(encoding="utf-8")
 fallback_js = Path("app/card-image-fallback.js").read_text(encoding="utf-8")
@@ -31,6 +32,9 @@ required_index_markers = (
     "data-sources-section",
     "data-sources-grid",
     "data-sources-total",
+    "data-city-masthead",
+    "masthead-valpo",
+    "masthead-gijon",
 )
 for marker in required_index_markers:
     assert marker in index, f"missing UI marker: {marker}"
@@ -57,6 +61,30 @@ assert 'weekendBounds(today)' in app_js
 assert 'sectionId === "terminan-pronto"' in app_js
 assert 'collectCategoryCounts(allEvents)' in app_js
 assert 'eventMatchesCategory(event, activeCategory)' in app_js
+
+# City preference contract: the static bootstrap seeds a safe default so app.js
+# will not force the chooser on ordinary first visits, while explicit city URLs
+# and subsequent manual switches remain persistent.
+assert 'const STORAGE_KEY = "agenda-cultural-city";' in index
+assert 'new Set(["valparaiso", "gijon"])' in index
+assert 'URLSearchParams(window.location.search).get("city")' in index
+assert 'supported.has(saved) ? saved : "valparaiso"' in index
+assert 'localStorage.setItem(STORAGE_KEY, city)' in index
+assert 'document.documentElement.dataset.city = city' in index
+assert 'new MutationObserver(applyCityChrome)' in index
+assert 'url.searchParams.set("city", city)' in index
+assert '<h2 id="chooser-title">Cambiar ciudad</h2>' in index
+assert 'document.documentElement.dataset.city = id' in app_js
+assert 'dom.citySwitch.addEventListener("click", () => showChooser(false))' in app_js
+assert 'else showChooser(true);' in app_js  # fallback only when storage is unavailable
+
+# Distinctive but shared city header.
+assert 'html[data-city="valparaiso"] .masthead-valpo' in city_header_css
+assert 'html[data-city="gijon"] .masthead-gijon' in city_header_css
+assert '.gijon-wave' in city_header_css
+assert '.gijon-mark' in city_header_css
+assert '.masthead-valpo span:nth-child(8)' in city_header_css
+assert '.brand img{width:64px;height:64px' in city_header_css
 
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
@@ -89,7 +117,6 @@ assert '../assets/categoria-exposiciones.jpg' in fallback_js
 assert '../assets/categoria-cultura.jpg' in fallback_js
 assert 'Imagen representativa de la categoría' in fallback_js
 
-# Compact discovery: time/free controls and categories are kept separate.
 assert '.discovery-heading' in compact_js
 assert '.category-explorer-heading' in compact_js
 assert '.quick-sections button' in compact_js
@@ -102,8 +129,6 @@ assert 'new Set(["hoy", "fin-de-semana", "terminan-pronto", "gratis", "todos"])'
 assert 'data-section-filter="todos"' in lean_filters_js
 assert "MutationObserver" in lean_filters_js
 
-# Gijon keeps Open Data as the canonical source while exposing a separate,
-# official visual browsing reference for users.
 assert 'https://www.gijon.es/app/actividades/oferta' in gijon_visual_js
 assert 'data-gijon-visual-reference' in gijon_visual_js
 assert 'Explorar actividades en Gijón' in gijon_visual_js
@@ -117,10 +142,11 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v11";' in service_worker
+assert 'const CACHE_VERSION = "v12";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
+assert '"./city-header.css"' in shell_block
 assert '"./card-experience.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
 assert '"./card-image-fallback.js"' in shell_block
@@ -129,4 +155,4 @@ assert '"./gijon-visual-reference.js"' in shell_block
 assert '"./lean-filters.js"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city lean time/free discovery, Gijon visual reference and partition tests: OK")
+print("Multi-city persistent header, lean discovery and visual identity tests: OK")

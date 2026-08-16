@@ -9,6 +9,7 @@
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./city-header.css">
   <title>Agenda Cultural</title>
 </head>
 <body>
@@ -16,24 +17,37 @@
 
   <header class="app-header">
     <a class="brand" href="./" aria-label="Agenda Cultural, inicio">
-      <img src="./icons/icon.svg" width="48" height="48" alt="">
-      <span><strong>Agenda Cultural</strong><small data-city-subtitle>Elige tu ciudad</small></span>
+      <img src="./icons/icon.svg" width="64" height="64" alt="">
+      <span><strong>Agenda Cultural</strong><small data-city-subtitle>Agenda local</small></span>
     </a>
     <div class="header-actions">
       <button class="install-button" type="button" data-install-app hidden>
         <span aria-hidden="true">↓</span><span>Instalar</span>
       </button>
-      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog">
-        <span aria-hidden="true">📍</span><span data-city-switch-label>Elegir ciudad</span><span aria-hidden="true">⌄</span>
+      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog" aria-label="Cambiar ciudad">
+        <span aria-hidden="true">📍</span><span data-city-switch-label>Cambiar ciudad</span><span aria-hidden="true">⌄</span>
       </button>
     </div>
   </header>
+
+  <div class="city-masthead" data-city-masthead aria-hidden="true">
+    <div class="masthead-valpo">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="masthead-gijon">
+      <span class="gijon-sun"></span>
+      <span class="gijon-horizon"></span>
+      <span class="gijon-wave wave-one"></span>
+      <span class="gijon-wave wave-two"></span>
+      <span class="gijon-mark"></span>
+    </div>
+  </div>
 
   <main id="contenido">
     <section class="hero">
       <p class="eyebrow">Cultura cerca, siempre</p>
       <h1 data-hero-title>Tu agenda cultural, donde estés</h1>
-      <p class="hero-copy" data-hero-copy>Selecciona una ciudad para cargar únicamente sus actividades.</p>
+      <p class="hero-copy" data-hero-copy>La aplicación recuerda tu ciudad y carga únicamente sus actividades.</p>
       <div class="search-row" hidden data-search-row>
         <label>
           <span class="sr-only">Buscar actividades</span>
@@ -44,7 +58,7 @@
 
     <section class="status" data-status role="status" aria-live="polite">
       <strong>Preparando la agenda</strong>
-      <p>Selecciona tu ciudad para comenzar.</p>
+      <p>Cargando tu ciudad habitual.</p>
     </section>
 
     <section class="discovery" hidden data-discovery aria-labelledby="discovery-title">
@@ -149,17 +163,17 @@
     <section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser>
       <button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button>
       <p class="eyebrow">Agenda Cultural</p>
-      <h2 id="chooser-title">¿Dónde quieres buscar?</h2>
-      <p>Solo cargaremos los eventos de la ciudad que elijas. Puedes cambiarla en cualquier momento.</p>
+      <h2 id="chooser-title">Cambiar ciudad</h2>
+      <p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p>
       <div class="city-options">
-        <button type="button" data-city-option="valparaiso">
-          <span class="flag" aria-hidden="true">🇨🇱</span>
-          <span><strong>Valparaíso / Viña del Mar</strong><small>Chile</small></span>
+        <button type="button" class="city-option city-option--valpo" data-city-option="valparaiso">
+          <span class="city-symbol valpo-symbol" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span><strong>Valparaíso / Viña del Mar</strong><small>Chile · costa, cerros y color</small></span>
           <span aria-hidden="true">→</span>
         </button>
-        <button type="button" data-city-option="gijon">
-          <span class="flag" aria-hidden="true">🇪🇸</span>
-          <span><strong>Gijón / Xixón</strong><small>Asturias, España</small></span>
+        <button type="button" class="city-option city-option--gijon" data-city-option="gijon">
+          <span class="city-symbol gijon-symbol" aria-hidden="true"><i></i><i></i></span>
+          <span><strong>Gijón / Xixón</strong><small>Asturias · Cantábrico y horizonte</small></span>
           <span aria-hidden="true">→</span>
         </button>
       </div>
@@ -169,6 +183,42 @@
     </section>
   </div>
 
+  <script>
+    (() => {
+      const STORAGE_KEY = "agenda-cultural-city";
+      const supported = new Set(["valparaiso", "gijon"]);
+      const requested = new URLSearchParams(window.location.search).get("city");
+      let saved = null;
+      try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
+
+      let city = supported.has(requested) ? requested : supported.has(saved) ? saved : "valparaiso";
+      try { localStorage.setItem(STORAGE_KEY, city); } catch {}
+      document.documentElement.dataset.city = city;
+
+      const themeColors = { valparaiso: "#174f46", gijon: "#0d5e73" };
+      const applyCityChrome = () => {
+        const nextCity = supported.has(document.documentElement.dataset.city)
+          ? document.documentElement.dataset.city
+          : "valparaiso";
+        const theme = document.querySelector('meta[name="theme-color"]');
+        if (theme) theme.setAttribute("content", themeColors[nextCity]);
+
+        if (nextCity !== city) {
+          city = nextCity;
+          try { localStorage.setItem(STORAGE_KEY, city); } catch {}
+          const url = new URL(window.location.href);
+          url.searchParams.set("city", city);
+          history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+        }
+      };
+
+      applyCityChrome();
+      new MutationObserver(applyCityChrome).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-city"],
+      });
+    })();
+  </script>
   <script type="module" src="./app.js"></script>
   <script type="module" src="./pwa.js"></script>
 </body>

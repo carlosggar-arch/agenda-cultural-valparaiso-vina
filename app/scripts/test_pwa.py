@@ -47,6 +47,7 @@ for src, (width, height, purpose) in expected.items():
 
 assert '<link rel="manifest" href="./manifest.webmanifest">' in index
 assert '<link rel="apple-touch-icon" href="./icons/icon-192.png">' in index
+assert '<link rel="stylesheet" href="./city-header.css">' in index
 assert '<script type="module" src="./pwa.js"></script>' in index
 assert "data-install-app" in index
 assert "data-app-version" in index
@@ -97,13 +98,13 @@ assert 'Fuentes' in sources_toggle_js
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v11"' in sw
+assert 'const CACHE_VERSION = "v12"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 
 shell_block = sw.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
-    '"./"', '"./index.html"', '"./app.css"', '"./app.js"', '"./pwa.js"',
+    '"./"', '"./index.html"', '"./app.css"', '"./city-header.css"', '"./app.js"', '"./pwa.js"',
     '"./card-experience.js"', '"./card-experience.css"', '"./card-image-fallback.js"',
     '"./compact-top.js"', '"./gijon-visual-reference.js"', '"./lean-filters.js"',
     '"./sources-toggle.js"', '"./manifest.webmanifest"', '"./icons/icon.svg"',
