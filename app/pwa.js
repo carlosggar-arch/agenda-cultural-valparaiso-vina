@@ -8,7 +8,7 @@ import "./sources-toggle.js";
 import "./community-source.js";
 import "./header-redesign.js";
 
-const APP_VERSION = "PWA v15";
+const APP_VERSION = "PWA v16";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
