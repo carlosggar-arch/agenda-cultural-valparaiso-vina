@@ -88,7 +88,7 @@ for module in (
 ):
     assert f'import "{module}";' in pwa_js
 assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
-assert 'const APP_VERSION = "PWA v18";' in pwa_js
+assert 'const APP_VERSION = "PWA v19";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -138,6 +138,9 @@ assert 'button.dataset.sourcesToggle' in sources_toggle_js
 assert 'sources-user-open' in sources_toggle_js
 assert 'aria-expanded' in sources_toggle_js
 assert 'Fuentes' in sources_toggle_js
+assert 'dataset?.sources' in sources_toggle_js
+assert 'Fuente activa · sin actividades en la ventana actual' in sources_toggle_js
+assert 'Fuentes${count ? ` · ${count}` : ""}' in sources_toggle_js
 
 assert 'data-source-proposal-cta' in community_source_js
 assert 'proponer-fuente.html' in community_source_js
@@ -147,7 +150,7 @@ assert 'cf-turnstile' in source_form
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v18"' in sw
+assert 'const CACHE_VERSION = "v19"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 
