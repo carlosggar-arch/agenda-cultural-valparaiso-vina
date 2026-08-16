@@ -1,11 +1,14 @@
 from pathlib import Path
 
 # Dependency-free static contract for the multi-city shell. It protects the
-# three-way editorial partition plus the discovery/navigation layer shared by
-# Valparaiso/Vina and Gijon.
+# three-way editorial partition plus the discovery/navigation and card layers
+# shared by Valparaiso/Vina and Gijon.
 index = Path("app/index.html").read_text(encoding="utf-8")
 app_js = Path("app/app.js").read_text(encoding="utf-8")
+pwa_js = Path("app/pwa.js").read_text(encoding="utf-8")
 css = Path("app/app.css").read_text(encoding="utf-8")
+card_js = Path("app/card-experience.js").read_text(encoding="utf-8")
+card_css = Path("app/card-experience.css").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 
 required_index_markers = (
@@ -48,6 +51,24 @@ assert 'sectionId === "terminan-pronto"' in app_js
 assert 'collectCategoryCounts(allEvents)' in app_js
 assert 'eventMatchesCategory(event, activeCategory)' in app_js
 
+# Rich cards are a presentation layer only: they consume the same selected-city
+# public dataset and do not duplicate source extraction or editorial ingestion.
+assert 'import "./card-experience.js";' in pwa_js
+assert 'dataset: "../agenda_web.json"' in card_js
+assert 'dataset: "./data/gijon/agenda_web.json"' in card_js
+assert 'event?.image?.url' in card_js
+assert 'event-card-media' in card_js
+assert 'event-facts' in card_js
+assert 'priceLabel(event)' in card_js
+assert 'locationLabel(event)' in card_js
+assert '"No te lo pierdas"' in card_js
+assert '"Termina pronto"' in card_js
+assert 'event?.links?.registration' in card_js
+assert 'card-action--primary' in card_js
+assert '.event-card-photo' in card_css
+assert '.context-badge--featured' in card_css
+assert '.event-card-actions' in card_css
+
 assert "dataset público todavía no ha sido conectado" not in app_js
 assert "No pudimos cargar la agenda" in app_js
 assert '.quick-sections' in css
@@ -56,10 +77,13 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-# The installed-shell recovery must invalidate v3 and force open /app/ windows
-# to navigate under the newly activated worker.
+# The installed-shell recovery remains active and the richer-card module/CSS are
+# part of the offline shell so presentation parity survives an offline reopen.
 assert 'const CACHE_VERSION = "v4";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
+shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
+assert '"./card-experience.js"' in shell_block
+assert '"./card-experience.css"' in shell_block
 
-print("Multi-city discovery, render and partition tests: OK")
+print("Multi-city discovery, rich-card render and partition tests: OK")
