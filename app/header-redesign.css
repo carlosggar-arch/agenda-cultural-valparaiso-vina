@@ -21,8 +21,8 @@ html[data-city="gijon"]{
   top:auto!important;
   isolation:isolate;
   display:block!important;
-  min-height:258px!important;
-  padding:1.55rem max(1rem,calc((100vw - 1120px)/2)) 1.45rem!important;
+  min-height:218px!important;
+  padding:1.35rem max(1rem,calc((100vw - 1120px)/2)) 1.15rem!important;
   overflow:hidden!important;
   background:var(--header-bg)!important;
   border-bottom:0!important;
@@ -46,14 +46,14 @@ html[data-city="gijon"]{
   display:flex!important;
   align-items:flex-start!important;
   gap:1rem!important;
-  width:min(650px,58vw)!important;
+  width:min(780px,72vw)!important;
   max-width:none!important;
   color:inherit;
   text-decoration:none;
 }
 .brand img{
-  width:70px!important;
-  height:70px!important;
+  width:68px!important;
+  height:68px!important;
   flex:0 0 auto;
   margin:.1rem 0 0!important;
   filter:drop-shadow(0 6px 12px rgba(20,55,48,.14));
@@ -61,17 +61,17 @@ html[data-city="gijon"]{
 .brand span{display:block!important;min-width:0;padding:0!important}
 .brand strong{
   display:block;
-  margin:0 0 .5rem;
+  margin:0 0 .42rem;
   font-family:Georgia,serif!important;
-  font-size:1.7rem!important;
+  font-size:1.55rem!important;
   line-height:1!important;
   color:var(--header-accent)!important;
 }
 .brand small{display:none!important}
 .header-kicker{
   display:block;
-  margin:0 0 .28rem;
-  font-size:.68rem;
+  margin:0 0 .25rem;
+  font-size:.66rem;
   line-height:1;
   letter-spacing:.19em;
   text-transform:uppercase;
@@ -80,50 +80,32 @@ html[data-city="gijon"]{
 }
 .header-city-title{
   display:block;
-  max-width:15ch;
+  max-width:none;
+  white-space:nowrap;
   font-family:Georgia,serif;
-  font-size:clamp(2.55rem,4.4vw,3.55rem);
-  line-height:.98;
-  letter-spacing:-.025em;
+  font-size:clamp(1.6rem,3.65vw,3.25rem);
+  line-height:1;
+  letter-spacing:-.028em;
   font-weight:800;
   color:var(--header-ink);
 }
 .header-tagline{
   display:block;
   max-width:530px;
-  margin-top:.65rem;
-  font-size:1.02rem;
-  line-height:1.45;
+  margin-top:.52rem;
+  font-size:.98rem;
+  line-height:1.38;
   font-weight:520;
   color:var(--header-muted);
 }
 
 .header-bottom{
   position:relative;
-  z-index:5;
+  z-index:6;
   display:flex;
   align-items:center;
-  gap:.7rem;
-  width:min(720px,62vw);
-  margin:1.15rem 0 0 86px;
-}
-.header-bottom .search-row{
-  display:block!important;
-  flex:1 1 360px;
-  min-width:220px;
-  margin:0!important;
-}
-.header-bottom .search-row label{display:block;width:100%}
-.header-bottom .search-row input{
-  width:100%!important;
-  max-width:none!important;
-  min-height:44px!important;
-  padding:.72rem 1rem!important;
-  border:1px solid rgba(23,79,70,.18)!important;
-  border-radius:14px!important;
-  background:rgba(255,255,255,.88)!important;
-  box-shadow:0 8px 24px rgba(24,60,52,.08)!important;
-  color:var(--header-ink)!important;
+  width:auto;
+  margin:.78rem 0 0 84px;
 }
 .header-actions{
   position:static!important;
@@ -136,27 +118,75 @@ html[data-city="gijon"]{
   margin:0!important;
   gap:.45rem!important;
 }
+.header-search-toggle,
 .install-button,.city-switch{
-  min-height:44px!important;
-  padding:.68rem .88rem!important;
+  min-height:42px!important;
   border-radius:12px!important;
   font-size:.84rem!important;
   font-weight:780!important;
   box-shadow:none!important;
   white-space:nowrap;
 }
-.install-button{
-  background:var(--header-control)!important;
-  border-color:var(--header-control)!important;
-  color:#fff!important;
-}
-.city-switch{
-  background:rgba(255,255,255,.78)!important;
-  border-color:rgba(23,79,70,.2)!important;
-  color:var(--header-ink)!important;
+.header-search-toggle{
+  width:42px;
+  min-width:42px;
+  padding:0!important;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(23,79,70,.2);
+  background:rgba(255,255,255,.78);
+  color:var(--header-ink);
+  cursor:pointer;
   backdrop-filter:blur(8px);
 }
+.header-search-toggle span{
+  display:block;
+  font-family:Arial,sans-serif;
+  font-size:1.45rem;
+  line-height:1;
+  transform:rotate(-18deg) translateY(-1px);
+}
+.header-search-toggle:hover,.header-search-toggle:focus-visible,
+.header-search-toggle[aria-expanded="true"]{
+  border-color:var(--header-control);
+  color:var(--header-control);
+  background:#fff;
+}
+.install-button{padding:.64rem .84rem!important;background:var(--header-control)!important;border-color:var(--header-control)!important;color:#fff!important}
+.city-switch{padding:.64rem .84rem!important;background:rgba(255,255,255,.78)!important;border-color:rgba(23,79,70,.2)!important;color:var(--header-ink)!important;backdrop-filter:blur(8px)}
 .city-switch:hover,.city-switch:focus-visible{border-color:var(--header-control)!important;color:var(--header-control)!important}
+
+/* Search exists only on demand: the icon is permanent, the field floats over
+   the hero and therefore consumes no normal horizontal or vertical space. */
+.header-search-popover{
+  position:absolute;
+  z-index:30;
+  left:50%;
+  top:52%;
+  transform:translate(-50%,-50%);
+  width:min(520px,calc(100% - 2rem));
+  padding:.5rem;
+  border:1px solid color-mix(in srgb,var(--header-control) 18%,transparent);
+  border-radius:18px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 18px 50px rgba(24,60,52,.2);
+  backdrop-filter:blur(14px);
+}
+.header-search-popover[hidden]{display:none!important}
+.header-search-popover .search-row{display:block!important;margin:0!important}
+.header-search-popover .search-row label{display:block;width:100%}
+.header-search-popover .search-row input{
+  width:100%!important;
+  max-width:none!important;
+  min-height:46px!important;
+  margin:0!important;
+  padding:.72rem 1rem!important;
+  border:1px solid rgba(23,79,70,.18)!important;
+  border-radius:13px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  color:var(--header-ink)!important;
+}
 
 .header-art{
   position:absolute;
@@ -181,50 +211,53 @@ html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-
 .hero{display:none!important}
 
 @media(max-width:900px){
-  .app-header{min-height:270px!important}
-  .brand{width:68%!important}
-  .header-city-title{font-size:clamp(2.25rem,5.8vw,3.05rem)}
-  .header-art{width:54%;opacity:.78}
-  .header-bottom{width:68%;margin-left:86px}
-  .header-actions{flex-wrap:wrap!important}
+  .app-header{min-height:224px!important}
+  .brand{width:82%!important}
+  .header-city-title{font-size:clamp(1.55rem,4.7vw,2.7rem)}
+  .header-art{width:54%;opacity:.72}
 }
 
 @media(max-width:700px){
-  .app-header{min-height:326px!important;padding:1.15rem 1rem 1rem!important}
-  .brand{width:100%!important;max-width:100%!important;gap:.75rem!important}
-  .brand img{width:56px!important;height:56px!important}
-  .brand strong{font-size:1.35rem!important;margin-bottom:.38rem}
-  .header-kicker{font-size:.6rem}
-  .header-city-title{max-width:12ch;font-size:2.25rem;line-height:1}
-  .header-tagline{max-width:78%;font-size:.92rem;line-height:1.35;margin-top:.5rem}
+  .app-header{min-height:236px!important;padding:1rem 1rem .95rem!important}
+  .brand{width:100%!important;max-width:100%!important;gap:.68rem!important}
+  .brand img{width:52px!important;height:52px!important}
+  .brand strong{font-size:1.22rem!important;margin-bottom:.3rem}
+  .header-kicker{font-size:.56rem;margin-bottom:.2rem}
+  .header-city-title{
+    max-width:none;
+    white-space:nowrap;
+    font-size:clamp(1.28rem,5.55vw,2rem);
+    letter-spacing:-.035em;
+  }
+  .header-tagline{max-width:82%;font-size:.86rem;line-height:1.3;margin-top:.42rem}
   .header-art{
     top:auto;
     bottom:0;
     width:100%;
-    height:48%;
-    opacity:.42;
+    height:46%;
+    opacity:.3;
     background-size:cover;
-    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 38%,#000 100%);
-    mask-image:linear-gradient(180deg,transparent 0,#000 38%,#000 100%);
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 42%,#000 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 42%,#000 100%);
   }
-  .header-bottom{
-    width:100%;
-    margin:.9rem 0 0!important;
-    align-items:stretch;
-    flex-direction:column;
-    gap:.5rem;
-  }
-  .header-bottom .search-row{flex:0 0 auto;width:100%;min-width:0}
-  .header-bottom .search-row input{min-height:43px!important;background:rgba(255,255,255,.92)!important}
-  .header-actions{width:100%!important;gap:.4rem!important}
-  .install-button,.city-switch{min-height:40px!important;padding:.58rem .7rem!important;font-size:.8rem!important}
+  .header-bottom{margin:.68rem 0 0 64px!important}
+  .header-actions{width:auto!important;gap:.38rem!important;flex-wrap:nowrap!important}
+  .header-search-toggle,.install-button,.city-switch{min-height:39px!important;font-size:.78rem!important}
+  .header-search-toggle{width:39px;min-width:39px}
+  .install-button,.city-switch{padding:.54rem .64rem!important}
   .city-switch span[data-city-switch-label]{font-size:0}
-  .city-switch span[data-city-switch-label]::after{content:"Cambiar ciudad";font-size:.8rem}
+  .city-switch span[data-city-switch-label]::after{content:"Ciudad";font-size:.78rem}
+  .header-search-popover{top:55%;width:calc(100% - 1.4rem);padding:.4rem;border-radius:15px}
+  .header-search-popover .search-row input{min-height:44px!important;font-size:.92rem!important}
 }
 
 @media(max-width:430px){
-  .app-header{min-height:338px!important}
-  .header-city-title{font-size:2.05rem}
-  .header-tagline{max-width:92%;font-size:.88rem}
-  .header-art{height:44%;opacity:.34}
+  .app-header{min-height:230px!important}
+  .brand img{width:46px!important;height:46px!important}
+  .brand{gap:.55rem!important}
+  .brand strong{font-size:1.08rem!important}
+  .header-city-title{font-size:clamp(1.12rem,5.25vw,1.42rem)}
+  .header-tagline{max-width:92%;font-size:.82rem}
+  .header-art{height:42%;opacity:.25}
+  .header-bottom{margin-left:56px!important}
 }

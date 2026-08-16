@@ -91,18 +91,27 @@ assert '.gijon-mark' in city_header_css
 assert '.masthead-valpo span:nth-child(8)' in city_header_css
 assert '.brand img{width:72px;height:72px' in city_header_css
 
-# Full hero redesign must override the compact-top !important rules and carry
-# city-specific local art while keeping one shared structure.
+# The current hero keeps the city identity strong but removes the permanent
+# search bar. Search remains available through a compact magnifier control and
+# a floating field. Long city names must stay on one line.
 assert 'import "./header-redesign.js";' in pwa_js
 assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
-assert 'header.dataset.headerRedesign = "hero-v2"' in header_redesign_js
-assert 'bottom.append(searchRow)' in header_redesign_js
+assert 'header.dataset.headerRedesign = "hero-v3"' in header_redesign_js
+assert 'actions.prepend(toggle)' in header_redesign_js
+assert 'searchPopover.append(searchRow)' in header_redesign_js
+assert 'toggle.setAttribute("aria-label", "Buscar actividades")' in header_redesign_js
+assert 'requestAnimationFrame(() => input?.focus())' in header_redesign_js
+assert 'bottom.append(searchRow)' not in header_redesign_js
 assert 'bottom.append(actions)' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
-assert 'min-height:258px!important' in header_redesign_css
+assert 'min-height:218px!important' in header_redesign_css
 assert 'position:relative!important' in header_redesign_css
 assert '.header-city-title' in header_redesign_css
-assert 'font-size:clamp(2.55rem,4.4vw,3.55rem)' in header_redesign_css
+assert 'white-space:nowrap' in header_redesign_css
+assert 'font-size:clamp(1.6rem,3.65vw,3.25rem)' in header_redesign_css
+assert '.header-search-toggle' in header_redesign_css
+assert '.header-search-popover' in header_redesign_css
+assert '.header-search-popover[hidden]{display:none!important}' in header_redesign_css
 assert './illustrations/valparaiso-header.svg' in header_redesign_css
 assert './illustrations/gijon-header.svg' in header_redesign_css
 assert Path("app/illustrations/valparaiso-header.svg").exists()
@@ -188,7 +197,7 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v16";' in service_worker
+assert 'const CACHE_VERSION = "v17";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
@@ -210,4 +219,4 @@ assert '"./illustrations/valparaiso-header.svg"' in shell_block
 assert '"./illustrations/gijon-header.svg"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, full city hero, visible filter grid and Vivamos brand tests: OK")
+print("Multi-city persistent header, compact search hero, visible filter grid and Vivamos brand tests: OK")

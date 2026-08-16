@@ -41,7 +41,8 @@ def make_test_page(city: str) -> None:
         + '\n  <script type="module" src="./gijon-visual-reference.js"></script>'
         + '\n  <script type="module" src="./lean-filters.js"></script>'
         + '\n  <script type="module" src="./sources-toggle.js"></script>'
-        + '\n  <script>setTimeout(() => { const quickFilters = [...document.querySelectorAll("[data-section-filter]")].map((button) => button.dataset.sectionFilter); const activeQuick = document.querySelector("[data-section-filter].active"); const sourceSection = document.querySelector("[data-sources-section]"); const sourceToggle = document.querySelector("[data-sources-toggle]"); document.body.dataset.gijonVisualReference = document.querySelector("[data-gijon-visual-reference]") ? "true" : "false"; document.body.dataset.quickFilters = quickFilters.join(","); document.body.dataset.activeQuickFilter = activeQuick?.dataset.sectionFilter || ""; document.body.dataset.sourcesDefaultHidden = sourceSection && getComputedStyle(sourceSection).display === "none" ? "true" : "false"; if (sourceToggle) sourceToggle.click(); document.body.dataset.sourcesAfterOpen = sourceSection && getComputedStyle(sourceSection).display !== "none" ? "true" : "false"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
+        + '\n  <script type="module" src="./header-redesign.js"></script>'
+        + '\n  <script>setTimeout(() => { const quickFilters = [...document.querySelectorAll("[data-section-filter]")].map((button) => button.dataset.sectionFilter); const activeQuick = document.querySelector("[data-section-filter].active"); const sourceSection = document.querySelector("[data-sources-section]"); const sourceToggle = document.querySelector("[data-sources-toggle]"); document.body.dataset.gijonVisualReference = document.querySelector("[data-gijon-visual-reference]") ? "true" : "false"; document.body.dataset.quickFilters = quickFilters.join(","); document.body.dataset.activeQuickFilter = activeQuick?.dataset.sectionFilter || ""; document.body.dataset.sourcesDefaultHidden = sourceSection && getComputedStyle(sourceSection).display === "none" ? "true" : "false"; if (sourceToggle) sourceToggle.click(); document.body.dataset.sourcesAfterOpen = sourceSection && getComputedStyle(sourceSection).display !== "none" ? "true" : "false"; const cityTitle = document.querySelector("[data-header-city-title]"); const searchToggle = document.querySelector("[data-header-search-toggle]"); const searchPopover = document.querySelector("[data-header-search-popover]"); document.body.dataset.cityTitle = cityTitle?.textContent || ""; document.body.dataset.cityTitleWhiteSpace = cityTitle ? getComputedStyle(cityTitle).whiteSpace : ""; document.body.dataset.searchTogglePresent = searchToggle ? "true" : "false"; document.body.dataset.searchInitiallyHidden = searchPopover?.hidden ? "true" : "false"; if (searchToggle) searchToggle.click(); document.body.dataset.searchAfterOpen = searchPopover && !searchPopover.hidden ? "true" : "false"; document.body.dataset.searchInputVisible = document.querySelector("[data-search]") && searchPopover && !searchPopover.hidden ? "true" : "false"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
     )
     if marker not in source or pwa_marker not in source:
         raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
@@ -71,11 +72,19 @@ def run_city(city: str, base_url: str) -> None:
             ('data-quick-filters="hoy,fin-de-semana,terminan-pronto,gratis,todos"', "Quick filters are not limited to time/free controls"),
             ('data-sources-default-hidden="true"', "Agenda sources are visible without explicit user action"),
             ('data-sources-after-open="true"', "Agenda sources did not open after explicit user action"),
+            ('data-search-toggle-present="true"', "Compact search trigger did not render"),
+            ('data-search-initially-hidden="true"', "Search field consumes space before explicit user action"),
+            ('data-search-after-open="true"', "Compact search trigger did not open the floating field"),
+            ('data-search-input-visible="true"', "Search input was not available after opening search"),
+            ('data-city-title-white-space="nowrap"', "City title is allowed to wrap"),
             ('data-detail-open="true"', "Internal event detail did not open"),
             ('data-detail-has-source="true"', "Internal event detail did not expose source"),
         ):
             if marker not in dom:
                 raise AssertionError(f"{message} for {city}")
+        expected_title = "Valparaíso / Viña del Mar" if city == "valparaiso" else "Gijón / Xixón"
+        if f'data-city-title="{expected_title}"' not in dom:
+            raise AssertionError(f"Unexpected one-line city title for {city}")
         if 'data-active-quick-filter=""' in dom:
             raise AssertionError(f"No visible quick filter is active for {city}")
         if 'class="event-card-source"' not in dom or 'class="source-card"' not in dom:
@@ -91,7 +100,7 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError("Gijon should expose at least one official event image")
         if 'No te lo pierdas' not in dom:
             raise AssertionError(f"Featured editorial badge did not render for {city}")
-        print(f"Browser runtime {city}: {card_count} rich cards rendered with lean controls and opt-in sources")
+        print(f"Browser runtime {city}: {card_count} rich cards rendered with compact search, one-line city title and lean controls")
 
 
 def main() -> None:
