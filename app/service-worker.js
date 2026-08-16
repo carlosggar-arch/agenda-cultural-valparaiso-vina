@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v5";
+const CACHE_VERSION = "v6";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 

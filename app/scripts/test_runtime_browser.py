@@ -88,6 +88,14 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError(f"Date/location/price facts did not render for {city}")
         if 'card-action--primary' not in dom:
             raise AssertionError(f"Primary event action did not render for {city}")
+        if 'class="event-card-source"' not in dom:
+            raise AssertionError(f"Per-card source attribution did not render for {city}")
+        if 'class="source-card"' not in dom:
+            raise AssertionError(f"City source explorer did not render for {city}")
+        if city == "valparaiso" and "Valpo Cultura" not in dom and "Museo Palacio Rioja" not in dom:
+            raise AssertionError("Valparaiso/Vina source names did not render")
+        if city == "gijon" and "Open Data Ayuntamiento de Gijón/Xixón" not in dom:
+            raise AssertionError("Gijon Open Data source did not render")
         if city == "valparaiso":
             if 'data-image-kind="category-fallback"' not in dom:
                 raise AssertionError("Valparaiso should replace missing event images with category photos")

@@ -159,6 +159,14 @@ function priceLabel(event) {
   return event?.price?.is_free === false ? "Actividad pagada" : "Consultar precio";
 }
 
+function sourceName(event) {
+  return String(event?.source_name || event?.organizer || "").trim();
+}
+
+function sourceUrl(event) {
+  return safeHttpUrl(event?.source_url || event?.links?.source || event?.links?.official);
+}
+
 function meaningfulDescription(event) {
   const description = String(event?.description || "").replace(/\s+/g, " ").trim();
   if (!description || /^actividad publicada en la agenda/i.test(description)) return null;
@@ -305,6 +313,26 @@ function renderRichCard(card, event) {
 
   const description = meaningfulDescription(event);
   if (description) addTextElement(body, "p", "event-card-description", description);
+
+  const sourceLabel = sourceName(event);
+  if (sourceLabel) {
+    const source = document.createElement("p");
+    source.className = "event-card-source";
+    addTextElement(source, "span", "event-card-source-prefix", "Fuente: ");
+    const sourceHref = sourceUrl(event);
+    if (sourceHref) {
+      const link = document.createElement("a");
+      link.className = "event-card-source-link";
+      link.href = sourceHref;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = sourceLabel;
+      source.append(link);
+    } else {
+      source.append(document.createTextNode(sourceLabel));
+    }
+    body.append(source);
+  }
 
   const footer = document.createElement("div");
   footer.className = "event-card-footer";
