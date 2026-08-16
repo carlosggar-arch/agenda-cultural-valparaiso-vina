@@ -9,6 +9,7 @@ pwa_js = Path("app/pwa.js").read_text(encoding="utf-8")
 css = Path("app/app.css").read_text(encoding="utf-8")
 card_js = Path("app/card-experience.js").read_text(encoding="utf-8")
 card_css = Path("app/card-experience.css").read_text(encoding="utf-8")
+fallback_js = Path("app/card-image-fallback.js").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 
 required_index_markers = (
@@ -54,6 +55,7 @@ assert 'eventMatchesCategory(event, activeCategory)' in app_js
 # Rich cards are a presentation layer only: they consume the same selected-city
 # public dataset and do not duplicate source extraction or editorial ingestion.
 assert 'import "./card-experience.js";' in pwa_js
+assert 'import "./card-image-fallback.js";' in pwa_js
 assert 'dataset: "../agenda_web.json"' in card_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in card_js
 assert 'event?.image?.url' in card_js
@@ -69,6 +71,14 @@ assert '.event-card-photo' in card_css
 assert '.context-badge--featured' in card_css
 assert '.event-card-actions' in card_css
 
+# Valparaiso/Vina must use the legacy category-photo library only when a real
+# event image is missing; Gijon is deliberately excluded from this fallback.
+assert 'activeCity() !== "valparaiso"' in fallback_js
+assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
+assert '../assets/categoria-exposiciones.jpg' in fallback_js
+assert '../assets/categoria-cultura.jpg' in fallback_js
+assert 'Imagen representativa de la categoría' in fallback_js
+
 assert "dataset público todavía no ha sido conectado" not in app_js
 assert "No pudimos cargar la agenda" in app_js
 assert '.quick-sections' in css
@@ -77,13 +87,15 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-# The installed-shell recovery remains active and the richer-card module/CSS are
-# part of the offline shell so presentation parity survives an offline reopen.
-assert 'const CACHE_VERSION = "v4";' in service_worker
+# The installed-shell recovery remains active and the card/fallback resources
+# are part of the offline shell so presentation survives an offline reopen.
+assert 'const CACHE_VERSION = "v5";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 assert '"./card-experience.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
+assert '"./card-image-fallback.js"' in shell_block
+assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city discovery, rich-card render and partition tests: OK")
+print("Multi-city discovery, rich-card render, Valpo image fallback and partition tests: OK")
