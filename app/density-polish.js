@@ -57,16 +57,15 @@ function ensureDensityStyles() {
       mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
     }
 
-    /* The desktop web hero is extremely wide and shallow. With cover scaling,
-       a 56% vertical anchor places the top of Gijón's boat/monument outside the
-       visible slice. A 41% anchor keeps the complete structure inside the hero
-       while leaving the horizon almost at the bottom, so we do not restore the
-       large empty sea band that was removed earlier. Mobile keeps its own crop. */
+    /* Desktop needs a compromise between the two previous crops: 41% showed the
+       complete structure but almost no water, while 56% showed more sea and cut
+       the top. At 47% the full structure remains visible and a narrow band of sea
+       stays below the horizon without recreating the old empty lower block. */
     @media (min-width: 701px) {
       html[data-city="gijon"] .app-header .header-art {
         width: 62% !important;
         opacity: .74 !important;
-        background-position: right 41% !important;
+        background-position: right 47% !important;
         -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
         mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
       }
