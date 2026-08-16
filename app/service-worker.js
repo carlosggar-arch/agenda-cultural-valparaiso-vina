@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v4";
+const CACHE_VERSION = "v5";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -10,11 +10,21 @@ const SHELL_ASSETS = [
   "./pwa.js",
   "./card-experience.js",
   "./card-experience.css",
+  "./card-image-fallback.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
+  "../assets/categoria-cine.jpg",
+  "../assets/categoria-cultura.jpg",
+  "../assets/categoria-deportes.jpg",
+  "../assets/categoria-exposiciones.jpg",
+  "../assets/categoria-gastronomia.jpg",
+  "../assets/categoria-musica.jpg",
+  "../assets/categoria-naturaleza.jpg",
+  "../assets/categoria-talleres.jpg",
+  "../assets/categoria-teatro.jpg",
 ];
 
 const DATASET_URLS = new Set([
