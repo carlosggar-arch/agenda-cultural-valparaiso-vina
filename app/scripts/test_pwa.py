@@ -85,7 +85,7 @@ for module in (
 ):
     assert f'import "{module}";' in pwa_js
 assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
-assert 'const APP_VERSION = "PWA v16";' in pwa_js
+assert 'const APP_VERSION = "PWA v17";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -95,14 +95,22 @@ assert 'const BRAND_TAGLINE = "Descubre y vive lo que hay cerca de ti.";' in viv
 assert 'import "./vivamos-brand.js";' in source_form_js
 
 assert 'const TAGLINE = "Cultura, panoramas y experiencias para disfrutar cerca de ti.";' in header_redesign_js
-assert 'header.dataset.headerRedesign = "hero-v2"' in header_redesign_js
-assert 'bottom.append(searchRow)' in header_redesign_js
+assert 'header.dataset.headerRedesign = "hero-v3"' in header_redesign_js
+assert 'actions.prepend(toggle)' in header_redesign_js
+assert 'searchPopover.append(searchRow)' in header_redesign_js
+assert 'toggle.setAttribute("aria-label", "Buscar actividades")' in header_redesign_js
+assert 'requestAnimationFrame(() => input?.focus())' in header_redesign_js
+assert 'bottom.append(searchRow)' not in header_redesign_js
 assert 'bottom.append(actions)' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
 assert '.app-header{' in header_redesign_css
-assert 'min-height:258px!important' in header_redesign_css
+assert 'min-height:218px!important' in header_redesign_css
 assert 'position:relative!important' in header_redesign_css
-assert 'font-size:clamp(2.55rem,4.4vw,3.55rem)' in header_redesign_css
+assert 'white-space:nowrap' in header_redesign_css
+assert 'font-size:clamp(1.6rem,3.65vw,3.25rem)' in header_redesign_css
+assert '.header-search-toggle' in header_redesign_css
+assert '.header-search-popover' in header_redesign_css
+assert '.header-search-popover[hidden]{display:none!important}' in header_redesign_css
 assert './illustrations/valparaiso-header.svg' in header_redesign_css
 assert './illustrations/gijon-header.svg' in header_redesign_css
 assert (APP / "illustrations" / "valparaiso-header.svg").exists()
@@ -134,7 +142,7 @@ assert 'cf-turnstile' in source_form
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v16"' in sw
+assert 'const CACHE_VERSION = "v17"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 
