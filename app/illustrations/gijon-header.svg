@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" role="img" aria-label="Ilustración abstracta del mar y el horizonte de Gijón/Xixón">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#edf6f7" stop-opacity="0"/>
+      <stop offset="0.36" stop-color="#dceef2" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#a8d3dc" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5f9baa"/>
+      <stop offset="1" stop-color="#255b70"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="360" fill="url(#sky)"/>
+  <circle cx="744" cy="72" r="26" fill="#d8c06e" opacity="0.92"/>
+  <rect y="223" width="900" height="137" fill="url(#sea)"/>
+  <path d="M0 238C100 223 177 228 270 242C369 258 466 256 565 239C680 219 774 220 900 239" fill="none" stroke="#f5fbfc" stroke-width="5" opacity="0.78"/>
+  <path d="M0 274C115 259 209 265 307 279C414 295 525 292 623 274C728 255 810 257 900 272" fill="none" stroke="#bfe0e6" stroke-width="4" opacity="0.65"/>
+  <path d="M0 306C108 292 194 299 284 310C394 325 495 324 603 306C712 288 805 292 900 306" fill="none" stroke="#91c3cf" stroke-width="3" opacity="0.6"/>
+  <path d="M198 223H900" stroke="#315f6b" stroke-width="3" opacity="0.34"/>
+  <g opacity="0.72">
+    <rect x="540" y="174" width="48" height="49" rx="2" fill="#f1efe5"/>
+    <rect x="595" y="154" width="62" height="69" rx="2" fill="#e5ddc9"/>
+    <rect x="664" y="181" width="46" height="42" rx="2" fill="#f7f3e8"/>
+    <rect x="716" y="163" width="59" height="60" rx="2" fill="#d8d4c6"/>
+    <rect x="783" y="187" width="42" height="36" rx="2" fill="#f4efe4"/>
+  </g>
+  <g transform="translate(320 103)" fill="none" stroke="#173c47" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 118C14 68 48 23 91 5C133 22 169 69 184 118" stroke-width="14" opacity="0.82"/>
+    <path d="M91 7V122" stroke-width="10" opacity="0.82"/>
+    <path d="M31 114H153" stroke-width="9" opacity="0.82"/>
+  </g>
+  <path d="M270 222C320 208 363 203 412 207" fill="none" stroke="#d8c6a0" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+</svg>
