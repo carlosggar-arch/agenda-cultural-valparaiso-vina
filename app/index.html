@@ -16,15 +16,15 @@
 
   <header class="app-header">
     <a class="brand" href="./" aria-label="Agenda Cultural, inicio">
-      <img src="./icons/icon.svg" width="64" height="64" alt="">
+      <img src="./icons/icon.svg" width="72" height="72" alt="">
       <span><strong>Agenda Cultural</strong><small data-city-subtitle>Elige tu ciudad</small></span>
     </a>
     <div class="header-actions">
       <button class="install-button" type="button" data-install-app hidden>
         <span aria-hidden="true">↓</span><span>Instalar</span>
       </button>
-      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog">
-        <span aria-hidden="true">📍</span><span data-city-switch-label>Elegir ciudad</span><span aria-hidden="true">⌄</span>
+      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog" aria-label="Cambiar ciudad">
+        <span aria-hidden="true">📍</span><span data-city-switch-label>Cambiar ciudad</span><span aria-hidden="true">⌄</span>
       </button>
     </div>
   </header>
@@ -68,6 +68,26 @@
         </div>
         <p><strong data-total>0</strong> actividades</p>
       </div>
+
+      <section class="filters" hidden data-filters aria-label="Filtros de la agenda">
+        <div class="filter-group">
+          <p class="filter-label">Vista rápida</p>
+          <div class="filter-chips filter-chips--primary" data-time-filters>
+            <button class="filter-chip" type="button" data-time-filter="today" aria-pressed="false">Hoy</button>
+            <button class="filter-chip" type="button" data-time-filter="weekend" aria-pressed="false">Fin de semana</button>
+            <button class="filter-chip" type="button" data-time-filter="ending" aria-pressed="false">Terminan pronto</button>
+            <button class="filter-chip" type="button" data-time-filter="free" aria-pressed="false">Gratis</button>
+            <button class="filter-chip is-active" type="button" data-time-filter="all" aria-pressed="true">Todo</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-heading-row">
+            <p class="filter-label">Categorías</p>
+            <span class="filter-hint">Los números responden al filtro y a la búsqueda actuales.</span>
+          </div>
+          <div class="filter-chips filter-chips--categories" data-category-filters aria-label="Filtrar por categoría"></div>
+        </div>
+      </section>
 
       <section class="content-section" data-dated-section>
         <div class="section-heading">
