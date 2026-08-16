@@ -85,7 +85,7 @@ for module in (
 ):
     assert f'import "{module}";' in pwa_js
 assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
-assert 'const APP_VERSION = "PWA v15";' in pwa_js
+assert 'const APP_VERSION = "PWA v16";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
