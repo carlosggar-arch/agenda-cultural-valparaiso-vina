@@ -434,23 +434,20 @@ function renderSources() {
 
 function renderCategories() {
   const categories = collectCategoryCounts(allEvents);
+  const scopedCategoryCounts = new Map(
+    collectCategoryCounts(allEvents.filter((event) => eventMatchesSection(event, activeSection)))
+      .map((category) => [category.id, category.count]),
+  );
   dom.categoryFilters.replaceChildren();
 
-  const allButton = document.createElement("button");
-  allButton.type = "button";
-  allButton.dataset.categoryFilter = "";
-  allButton.className = `category-chip${activeCategory === "" ? " active" : ""}`;
-  allButton.setAttribute("aria-pressed", activeCategory === "" ? "true" : "false");
-  allButton.innerHTML = `<span>Todas</span><small>${allEvents.length}</small>`;
-  dom.categoryFilters.append(allButton);
-
   for (const category of categories) {
+    const count = scopedCategoryCounts.get(category.id) || 0;
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.categoryFilter = category.id;
     button.className = `category-chip${activeCategory === category.id ? " active" : ""}`;
     button.setAttribute("aria-pressed", activeCategory === category.id ? "true" : "false");
-    button.innerHTML = `<span>${escapeHtml(category.label)}</span><small>${category.count}</small>`;
+    button.innerHTML = `<span>${escapeHtml(category.label)}</span><small>${count}</small>`;
     dom.categoryFilters.append(button);
   }
 }
@@ -634,7 +631,8 @@ dom.sectionFilters.addEventListener("click", (event) => {
 dom.categoryFilters.addEventListener("click", (event) => {
   const button = event.target.closest("[data-category-filter]");
   if (!button) return;
-  activeCategory = button.dataset.categoryFilter || "";
+  const categoryId = button.dataset.categoryFilter || "";
+  activeCategory = activeCategory === categoryId ? "" : categoryId;
   renderEvents();
   dom.agenda.scrollIntoView({ behavior: "smooth", block: "start" });
 });
