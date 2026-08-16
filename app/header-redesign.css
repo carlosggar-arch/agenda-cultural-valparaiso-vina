@@ -1,0 +1,85 @@
+/* ¡Vivamos! multi-city header redesign. Keeps the same app structure and swaps only local identity. */
+:root{
+  --header-bg:#f7f3e9;
+  --header-ink:#153f3a;
+  --header-accent:#d85a44;
+  --header-secondary:#397f96;
+  --header-warm:#e2a83b;
+  --header-muted:#4f625d;
+}
+html[data-city="gijon"]{
+  --header-bg:#edf6f7;
+  --header-ink:#173c47;
+  --header-accent:#397c91;
+  --header-secondary:#5d8b7d;
+  --header-warm:#d8c6a0;
+  --header-muted:#4f6870;
+}
+
+.app-header{
+  position:relative;
+  isolation:isolate;
+  min-height:172px;
+  padding:1.45rem max(1rem,calc((100vw - 1120px)/2));
+  overflow:hidden;
+  align-items:flex-start;
+  background:color-mix(in srgb,var(--header-bg) 94%,white 6%);
+  border-bottom:0;
+  box-shadow:0 14px 38px rgba(25,61,53,.07);
+}
+.app-header::before,.app-header::after{content:"";position:absolute;z-index:-2;pointer-events:none}
+.app-header::before{inset:0;background:linear-gradient(110deg,var(--header-bg) 0 56%,rgba(255,255,255,.35) 76%,rgba(255,255,255,.08) 100%)}
+.app-header::after{right:-3%;bottom:-58px;width:47%;height:155px;opacity:.82;transform:rotate(-1deg)}
+html[data-city="valparaiso"] .app-header::after{
+  background:
+    linear-gradient(90deg,transparent 0 5%,#d85a44 5% 17%,transparent 17% 21%,#e2a83b 21% 33%,transparent 33% 38%,#397f96 38% 52%,transparent 52% 57%,#c86c72 57% 70%,transparent 70% 75%,#5d8b7d 75% 88%,transparent 88%),
+    linear-gradient(180deg,transparent 0 37%,rgba(23,79,70,.14) 37% 39%,transparent 39% 100%);
+  clip-path:polygon(0 64%,9% 50%,18% 59%,27% 33%,36% 45%,45% 21%,54% 40%,64% 27%,75% 48%,84% 37%,100% 54%,100% 100%,0 100%);
+}
+html[data-city="gijon"] .app-header::after{
+  right:-2%;bottom:-26px;width:48%;height:140px;
+  background:
+    radial-gradient(circle at 78% 14%,#d8c06e 0 14px,transparent 15px),
+    linear-gradient(180deg,transparent 0 48%,rgba(57,124,145,.23) 48% 50%,transparent 50% 100%),
+    repeating-radial-gradient(ellipse at 50% 118%,transparent 0 21px,rgba(57,124,145,.3) 22px 24px,transparent 25px 38px);
+}
+
+.brand{position:relative;z-index:2;align-items:flex-start;gap:1rem;max-width:min(720px,68vw)}
+.brand img{width:66px;height:66px;flex:0 0 auto;margin-top:.15rem}
+.brand span{display:grid;gap:.12rem;padding-top:.08rem}
+.brand strong{font-family:Georgia,serif;font-size:clamp(1.45rem,2vw,1.8rem);line-height:1;color:var(--header-accent)}
+.brand small{font-size:0;line-height:1.1;margin:0;color:var(--header-ink)}
+.brand small::before{content:"AGENDA CULTURAL";display:block;margin:.18rem 0 .45rem;font-family:Inter,system-ui,sans-serif;font-size:.68rem;letter-spacing:.17em;font-weight:850;color:var(--header-muted)}
+.brand small::after{content:attr(data-header-city);display:block;font-family:Georgia,serif;font-size:clamp(1.75rem,3.2vw,2.75rem);line-height:1.04;font-weight:800;color:var(--header-ink);max-width:18ch}
+
+.header-actions{position:relative;z-index:3;gap:.6rem;margin-top:.1rem}
+.install-button,.city-switch{min-height:42px;border-radius:12px;padding:.7rem .95rem;box-shadow:none}
+.install-button{background:#174f46;border-color:#174f46;color:#fff}
+html[data-city="gijon"] .install-button{background:#255b70;border-color:#255b70}
+.city-switch{background:rgba(255,255,255,.68);border-color:rgba(23,79,70,.2);color:var(--header-ink);backdrop-filter:blur(8px)}
+
+.city-masthead{display:none!important}
+.hero{padding:1.45rem 0 1.4rem}
+.hero .eyebrow{display:none}
+.hero h1{font-family:Inter,system-ui,sans-serif;font-size:1rem;line-height:1.4;max-width:720px;font-weight:500;color:var(--header-muted);margin:0}
+.hero-copy{display:none}
+.search-row{margin-top:1.05rem}
+.search-row input{width:min(760px,100%);border-radius:14px;padding:.9rem 1rem;box-shadow:0 9px 26px rgba(24,60,52,.06)}
+
+@media(max-width:800px){
+  .app-header{min-height:190px;flex-wrap:wrap;gap:.9rem;padding-top:1.2rem;padding-bottom:1.2rem}
+  .brand{max-width:100%;width:100%}.brand img{width:58px;height:58px}
+  .brand small::after{font-size:clamp(1.7rem,7vw,2.35rem);max-width:15ch}
+  .header-actions{width:100%;justify-content:flex-start;margin-left:74px;margin-top:-.15rem}
+  .app-header::after{width:55%;opacity:.6}
+}
+@media(max-width:560px){
+  .app-header{min-height:214px;padding:1rem;align-content:flex-start}
+  .brand{gap:.75rem}.brand img{width:52px;height:52px}
+  .brand strong{font-size:1.3rem}.brand small::before{font-size:.6rem;margin-bottom:.35rem}.brand small::after{font-size:1.8rem;max-width:12ch}
+  .header-actions{margin-left:0;justify-content:flex-start;gap:.45rem}
+  .install-button,.city-switch{padding:.62rem .72rem;min-height:40px;font-size:.84rem}
+  .city-switch span[data-city-switch-label]{font-size:0}.city-switch span[data-city-switch-label]::after{content:"Ciudad";font-size:.84rem}
+  .app-header::after{width:68%;height:118px;right:-20%;bottom:-32px;opacity:.48}
+  .hero{padding-top:1rem}
+}
