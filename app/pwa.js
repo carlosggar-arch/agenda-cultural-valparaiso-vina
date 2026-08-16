@@ -1,3 +1,5 @@
+import "./card-experience.js";
+
 let deferredInstallPrompt = null;
 const installButton = document.querySelector("[data-install-app]");
 
