@@ -62,6 +62,15 @@ assert 'sectionId === "terminan-pronto"' in app_js
 assert 'collectCategoryCounts(allEvents)' in app_js
 assert 'eventMatchesCategory(event, activeCategory)' in app_js
 
+# Category chips are exclusively categories: the duplicated "Todas" chip is gone.
+# Their counters reflect the active top-level section (Hoy, Fin de semana,
+# Terminan pronto, Gratis or Todo), while keeping all categories visible with 0.
+assert 'allButton.innerHTML = `<span>Todas</span>' not in app_js
+assert 'const scopedCategoryCounts = new Map(' in app_js
+assert 'allEvents.filter((event) => eventMatchesSection(event, activeSection))' in app_js
+assert 'const count = scopedCategoryCounts.get(category.id) || 0;' in app_js
+assert 'activeCategory = activeCategory === categoryId ? "" : categoryId;' in app_js
+
 # City preference contract: the static bootstrap seeds a safe default so app.js
 # will not force the chooser on ordinary first visits, while explicit city URLs
 # and subsequent manual switches remain persistent.
@@ -155,4 +164,4 @@ assert '"./gijon-visual-reference.js"' in shell_block
 assert '"./lean-filters.js"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, lean discovery and visual identity tests: OK")
+print("Multi-city persistent header, contextual category counts and visual identity tests: OK")
