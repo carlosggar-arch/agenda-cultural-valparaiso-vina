@@ -15,6 +15,7 @@ const SHELL_ASSETS = [
   "./compact-top.js",
   "./gijon-visual-reference.js",
   "./lean-filters.js",
+  "./sources-toggle.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
