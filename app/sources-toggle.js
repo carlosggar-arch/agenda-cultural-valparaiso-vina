@@ -58,7 +58,7 @@ function configuredSourceCard(source) {
   const status = document.createElement("small");
   status.textContent = count > 0
     ? `${count} ${count === 1 ? "actividad" : "actividades"} en esta agenda`
-    : "Fuente activa · sin actividades en la ventana actual";
+    : "Fuente incorporada · sin eventos importados en esta ejecución";
   card.append(status);
 
   const scope = String(source?.scope || "").trim();

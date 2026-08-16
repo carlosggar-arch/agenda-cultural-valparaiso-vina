@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import struct
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,6 +18,11 @@ def png_size(path: Path) -> tuple[int, int]:
 
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def normalized(value: object) -> str:
+    text = unicodedata.normalize("NFD", str(value or "").casefold())
+    return "".join(ch for ch in text if unicodedata.category(ch) != "Mn")
 
 
 def check_manifest_and_icons() -> None:
@@ -67,7 +73,7 @@ def check_ui_contract() -> None:
     assert 'event?.event_type === "flexible_offer"' in app_js
 
 
-def validate_dataset(path: Path, *, expected_city: str | None = None) -> dict:
+def validate_dataset(path: Path) -> dict:
     data = load_json(path)
     events = data.get("events")
     assert isinstance(events, list), f"events must be a list in {path}"
@@ -79,16 +85,45 @@ def validate_dataset(path: Path, *, expected_city: str | None = None) -> dict:
         assert event.get("title"), f"missing title in {path}"
         assert isinstance(event.get("schedule"), dict), f"missing schedule in {path}"
         assert isinstance(event.get("location"), dict), f"missing location in {path}"
-        if expected_city:
-            assert event.get("location", {}).get("city") == expected_city
 
     return data
 
 
+def check_gijon_geographic_scope(event: dict) -> None:
+    location = event.get("location") or {}
+    city = normalized(location.get("city"))
+    if city in {"gijon", "gijon / xixon", "xixon"}:
+        return
+
+    category = (event.get("primary_category") or {}).get("id")
+    region = normalized(location.get("region"))
+    assert category == "deporte-bienestar", f"non-Gijon cultural event leaked into dataset: {event.get('title')}"
+    assert region == "asturias", f"regional sport must remain in Asturias: {event.get('title')}"
+    title = normalized(event.get("title"))
+    assert "futbol" not in title and "futsal" not in title, f"regional football must stay excluded: {event.get('title')}"
+
+
 def check_gijon_dataset() -> None:
-    data = validate_dataset(APP / "data/gijon/agenda_web.json", expected_city="Gijón")
-    assert data.get("schema_version") == "1.2.0"
+    data = validate_dataset(APP / "data/gijon/agenda_web.json")
+    assert data.get("schema_version") == "1.3.0"
     assert data.get("timezone") == "Europe/Madrid"
+
+    source_ids = {
+        source.get("id")
+        for source in data.get("sources", [])
+        if isinstance(source, dict)
+    }
+    assert {
+        "gijon_opendata_events",
+        "la_revoltosa_gijon",
+        "toma3_xixon",
+        "meidinerz_jazz_club",
+        "cafe_dindurra",
+        "agenda_gijon",
+        "ciclismo_asturias",
+        "turismo_asturias_deporte",
+    } <= source_ids
+
     events = data["events"]
     expected_counts = {
         "total": len(events),
@@ -99,6 +134,7 @@ def check_gijon_dataset() -> None:
     }
     assert data.get("counts") == expected_counts
     for event in events:
+        check_gijon_geographic_scope(event)
         assert event.get("event_type") in {"event", "course", "program", "flexible_offer"}
         editorial = event.get("editorial") or {}
         assert editorial.get("classification") == event.get("event_type")
