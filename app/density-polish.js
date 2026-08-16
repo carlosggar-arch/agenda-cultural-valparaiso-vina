@@ -57,15 +57,18 @@ function ensureDensityStyles() {
       mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
     }
 
-    /* Desktop needs a compromise between the two previous crops: 41% showed the
-       complete structure but almost no water, while 56% showed more sea and cut
-       the top. At 47% the full structure remains visible and a narrow band of sea
-       stays below the horizon without recreating the old empty lower block. */
+    /* On the very wide desktop hero, cover scaling makes the SVG taller than
+       the available header and forces either the structure or the sea to be
+       cropped. Scale the Gijón artwork by width instead: this keeps the whole
+       structure visible while preserving only a narrow strip of sea. Mobile
+       keeps its own crop below. */
     @media (min-width: 701px) {
       html[data-city="gijon"] .app-header .header-art {
         width: 62% !important;
         opacity: .74 !important;
-        background-position: right 47% !important;
+        background-size: 78% auto !important;
+        background-repeat: no-repeat !important;
+        background-position: right 38% !important;
         -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
         mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
       }
