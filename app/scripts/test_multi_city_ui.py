@@ -8,6 +8,7 @@ card_js = Path("app/card-experience.js").read_text(encoding="utf-8")
 card_css = Path("app/card-experience.css").read_text(encoding="utf-8")
 fallback_js = Path("app/card-image-fallback.js").read_text(encoding="utf-8")
 compact_js = Path("app/compact-top.js").read_text(encoding="utf-8")
+gijon_visual_js = Path("app/gijon-visual-reference.js").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 
 required_index_markers = (
@@ -55,6 +56,7 @@ assert 'eventMatchesCategory(event, activeCategory)' in app_js
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
 assert 'import "./compact-top.js";' in pwa_js
+assert 'import "./gijon-visual-reference.js";' in pwa_js
 assert 'dataset: "../agenda_web.json"' in card_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in card_js
 assert 'event?.image?.url' in card_js
@@ -81,16 +83,22 @@ assert '../assets/categoria-exposiciones.jpg' in fallback_js
 assert '../assets/categoria-cultura.jpg' in fallback_js
 assert 'Imagen representativa de la categoría' in fallback_js
 
-# Compact discovery: time and category choices stay directly accessible while
-# explanatory headings/copy are removed from the visual flow.
+# Compact discovery: only the actual controls and useful section labels remain.
 assert '.discovery-heading' in compact_js
 assert '.category-explorer-heading' in compact_js
 assert '.quick-sections button' in compact_js
 assert '.category-filters' in compact_js
 assert 'flex-wrap: nowrap !important' in compact_js
 assert '.section-heading p:not(.eyebrow)' in compact_js
-assert '.agenda-heading .eyebrow' in compact_js
+assert '.agenda-heading' in compact_js
 assert '.app-header' in compact_js
+
+# Gijon keeps Open Data as the canonical source while exposing a separate,
+# official visual browsing reference for users.
+assert 'https://www.gijon.es/app/actividades/oferta' in gijon_visual_js
+assert 'data-gijon-visual-reference' in gijon_visual_js
+assert 'Explorar actividades en Gijón' in gijon_visual_js
+assert 'grid.prepend(buildVisualReference())' in gijon_visual_js
 
 assert "dataset público todavía no ha sido conectado" not in app_js
 assert "No pudimos cargar la agenda" in app_js
@@ -100,7 +108,7 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v9";' in service_worker
+assert 'const CACHE_VERSION = "v10";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
@@ -108,6 +116,7 @@ assert '"./card-experience.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
 assert '"./card-image-fallback.js"' in shell_block
 assert '"./compact-top.js"' in shell_block
+assert '"./gijon-visual-reference.js"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city compact discovery, rich-card render and partition tests: OK")
+print("Multi-city compact discovery, Gijon visual reference and partition tests: OK")

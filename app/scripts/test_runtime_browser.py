@@ -38,7 +38,8 @@ def make_test_page(city: str) -> None:
         + '\n  <script type="module" src="./card-experience.js"></script>'
         + '\n  <script type="module" src="./card-image-fallback.js"></script>'
         + '\n  <script type="module" src="./compact-top.js"></script>'
-        + '\n  <script>setTimeout(() => { const root = getComputedStyle(document.documentElement); const card = document.querySelector(".event-card"); const before = card ? getComputedStyle(card, "::before") : null; const heroTitle = document.querySelector(".hero h1"); const discoveryHeading = document.querySelector(".discovery-heading"); const categoryHeading = document.querySelector(".category-explorer-heading"); const sectionCopy = document.querySelector(".content-section .section-heading p:not(.eyebrow)"); const search = document.querySelector("[data-search]"); const categories = document.querySelector(".category-filters"); document.body.dataset.visualBrand = root.getPropertyValue("--brand").trim(); document.body.dataset.visualStripe = before ? before.height : ""; document.body.dataset.heroTitleDisplay = heroTitle ? getComputedStyle(heroTitle).display : "missing"; document.body.dataset.discoveryHeadingDisplay = discoveryHeading ? getComputedStyle(discoveryHeading).display : "missing"; document.body.dataset.categoryHeadingDisplay = categoryHeading ? getComputedStyle(categoryHeading).display : "missing"; document.body.dataset.sectionCopyDisplay = sectionCopy ? getComputedStyle(sectionCopy).display : "missing"; document.body.dataset.searchCompact = search && search.getBoundingClientRect().height <= 50 ? "true" : "false"; document.body.dataset.categoryNoWrap = categories && getComputedStyle(categories).flexWrap === "nowrap" ? "true" : "false"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
+        + '\n  <script type="module" src="./gijon-visual-reference.js"></script>'
+        + '\n  <script>setTimeout(() => { const root = getComputedStyle(document.documentElement); const card = document.querySelector(".event-card"); const before = card ? getComputedStyle(card, "::before") : null; const heroTitle = document.querySelector(".hero h1"); const discoveryHeading = document.querySelector(".discovery-heading"); const categoryHeading = document.querySelector(".category-explorer-heading"); const agendaHeading = document.querySelector(".agenda-heading"); const sectionCopy = document.querySelector(".content-section .section-heading p:not(.eyebrow)"); const search = document.querySelector("[data-search]"); const categories = document.querySelector(".category-filters"); document.body.dataset.visualBrand = root.getPropertyValue("--brand").trim(); document.body.dataset.visualStripe = before ? before.height : ""; document.body.dataset.heroTitleDisplay = heroTitle ? getComputedStyle(heroTitle).display : "missing"; document.body.dataset.discoveryHeadingDisplay = discoveryHeading ? getComputedStyle(discoveryHeading).display : "missing"; document.body.dataset.categoryHeadingDisplay = categoryHeading ? getComputedStyle(categoryHeading).display : "missing"; document.body.dataset.agendaHeadingDisplay = agendaHeading ? getComputedStyle(agendaHeading).display : "missing"; document.body.dataset.sectionCopyDisplay = sectionCopy ? getComputedStyle(sectionCopy).display : "missing"; document.body.dataset.searchCompact = search && search.getBoundingClientRect().height <= 50 ? "true" : "false"; document.body.dataset.categoryNoWrap = categories && getComputedStyle(categories).flexWrap === "nowrap" ? "true" : "false"; document.body.dataset.gijonVisualReference = document.querySelector("[data-gijon-visual-reference]") ? "true" : "false"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
     )
     if marker not in source or pwa_marker not in source:
         raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
@@ -98,6 +99,8 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError(f"Discovery explanation remained visible for {city}")
         if 'data-category-heading-display="none"' not in dom:
             raise AssertionError(f"Category explanation remained visible for {city}")
+        if 'data-agenda-heading-display="none"' not in dom:
+            raise AssertionError(f"Redundant result summary remained visible for {city}")
         if 'data-section-copy-display="none"' not in dom:
             raise AssertionError(f"Section explanatory copy remained visible for {city}")
         if 'data-search-compact="true"' not in dom:
@@ -116,6 +119,13 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError("Valparaiso/Vina source names did not render")
         if city == "gijon" and "Open Data Ayuntamiento de Gijón/Xixón" not in dom:
             raise AssertionError("Gijon Open Data source did not render")
+        if city == "gijon":
+            if 'data-gijon-visual-reference="true"' not in dom:
+                raise AssertionError("Gijon official visual activity reference did not render")
+            if "https://www.gijon.es/app/actividades/oferta" not in dom:
+                raise AssertionError("Gijon visual reference URL is missing")
+        elif 'data-gijon-visual-reference="true"' in dom:
+            raise AssertionError("Gijon visual reference leaked into Valparaiso")
         if city == "valparaiso":
             if 'data-image-kind="category-fallback"' not in dom:
                 raise AssertionError("Valparaiso should replace missing event images with category photos")
