@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#174f46">
+  <meta name="description" content="Propón una organización o fuente para la Agenda Cultural.">
+  <meta name="community-api-base" content="https://agenda-cultural-community.carlosggar.workers.dev">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./city-header.css">
+  <link rel="stylesheet" href="./community-source.css">
+  <title>Proponer una fuente · Agenda Cultural</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="./" aria-label="Volver a Agenda Cultural">
+      <img src="./icons/icon.svg" width="72" height="72" alt="">
+      <span><strong>Agenda Cultural</strong><small data-city-subtitle>Proponer una fuente</small></span>
+    </a>
+    <div class="header-actions"><a class="city-switch" href="./">← Volver</a></div>
+  </header>
+
+  <main class="community-form-page">
+    <section class="community-form-card">
+      <p class="eyebrow">Fuentes comunitarias</p>
+      <h1>Proponer una fuente</h1>
+      <p>¿Conoces una organización, espacio, colectivo o canal que publique actividades culturales? Puedes proponerlo para revisión. La propuesta no se incorpora automáticamente.</p>
+      <div class="community-city-badge" data-city-badge>📍 Ciudad activa</div>
+
+      <form class="community-form" data-community-source-form>
+        <input type="hidden" name="cities" data-city-input>
+        <label>Organización o colectivo<input required name="organization_name" maxlength="180" autocomplete="organization"></label>
+        <label>Frecuencia aproximada<input name="publication_frequency" maxlength="120" placeholder="Ej. semanal, mensual"></label>
+        <label class="full-row">Descripción<textarea name="description" maxlength="1200" placeholder="Qué tipo de actividades publica y por qué sería una fuente útil"></textarea></label>
+        <label>Categorías<select required multiple size="7" name="categories"><option>Cine</option><option>Teatro</option><option>Música</option><option>Danza</option><option>Exposiciones</option><option>Museos</option><option>Ferias y gastronomía</option><option>Naturaleza y deportes</option><option>Cursos y talleres</option><option>Literatura</option><option>Patrimonio</option><option>Familia</option><option>Otros panoramas</option></select></label>
+        <div>
+          <label>Sitio web<input type="url" name="website_url" maxlength="1000" placeholder="https://…"></label>
+          <label>Instagram<input type="url" name="instagram_url" maxlength="1000" placeholder="https://instagram.com/…"></label>
+          <label>Facebook<input type="url" name="facebook_url" maxlength="1000" placeholder="https://facebook.com/…"></label>
+        </div>
+        <label>Calendario público<input type="url" name="calendar_url" maxlength="1000" placeholder="https://…"></label>
+        <label>Feed RSS, Atom, JSON o iCal<input type="url" name="feed_url" maxlength="1000" placeholder="https://…"></label>
+        <p class="full-row">Indica al menos un sitio web, red social, calendario o feed. La fuente se revisará antes de activarse.</p>
+        <label>Nombre de contacto<input required name="contact_name" maxlength="160" autocomplete="name"></label>
+        <label>Correo privado<input required type="email" name="contact_email" maxlength="254" autocomplete="email"></label>
+        <p class="full-row">El contacto se usa únicamente para revisar la propuesta y no se publica. Consulta la <a href="../privacidad.html">política de privacidad</a>.</p>
+        <label class="full-row">Observaciones<textarea name="notes" maxlength="1200"></textarea></label>
+        <label class="checkbox-label full-row"><input required type="checkbox" name="consent"> Consiento el uso privado de mis datos para revisar esta fuente.</label>
+        <label class="honeypot" aria-hidden="true">Sitio web alternativo<input name="website" tabindex="-1" autocomplete="off"></label>
+        <div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2"></div>
+        <button class="community-submit" type="submit">Enviar para revisión</button>
+        <p class="community-message" data-form-message aria-live="polite"></p>
+      </form>
+      <a class="community-back" href="./">← Volver a la agenda</a>
+    </section>
+  </main>
+
+  <script type="module" src="./proponer-fuente.js"></script>
+</body>
+</html>
