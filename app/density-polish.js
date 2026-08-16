@@ -18,15 +18,17 @@ function ensureDensityStyles() {
       align-items: flex-start !important;
     }
     .app-header .brand img {
-      width: 58px !important;
-      height: 58px !important;
+      width: 62px !important;
+      height: 62px !important;
     }
     .app-header .brand strong {
-      font-size: 1.32rem !important;
-      margin-bottom: .28rem !important;
+      font-size: 1.52rem !important;
+      margin-bottom: .3rem !important;
     }
     .app-header .header-kicker {
-      margin-bottom: .18rem !important;
+      margin-bottom: .2rem !important;
+      font-size: .72rem !important;
+      font-weight: 900 !important;
     }
     .app-header .header-city-title {
       font-size: clamp(1.55rem, 3.35vw, 3rem) !important;
@@ -55,16 +57,16 @@ function ensureDensityStyles() {
       mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
     }
 
-    /* Gijón's beige boat sits in the left-middle of the SVG. On a wide desktop
-       hero the generic fade used to hide most of its bow, making it look cut.
-       Give that illustration a little more horizontal room and finish the fade
-       before the boat begins, without changing the compact height or typography. */
+    /* The SVG now makes the Gijón boat 45% larger. Give it enough horizontal
+       room that the larger hull remains fully visible instead of falling back
+       into the left fade on wide screens. */
     @media (min-width: 701px) {
       html[data-city="gijon"] .app-header .header-art {
-        width: 60% !important;
+        width: 62% !important;
+        opacity: .74 !important;
         background-position: right 56% !important;
-        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.48) 7%, #000 22%, #000 100%) !important;
-        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.48) 7%, #000 22%, #000 100%) !important;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
+        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
       }
     }
 
@@ -97,19 +99,20 @@ function ensureDensityStyles() {
       }
       .app-header .brand {
         width: 100% !important;
-        gap: .5rem !important;
+        gap: .52rem !important;
       }
       .app-header .brand img {
-        width: 44px !important;
-        height: 44px !important;
+        width: 48px !important;
+        height: 48px !important;
       }
       .app-header .brand strong {
-        font-size: 1.02rem !important;
-        margin-bottom: .2rem !important;
+        font-size: 1.18rem !important;
+        margin-bottom: .22rem !important;
       }
       .app-header .header-kicker {
-        font-size: .52rem !important;
-        margin-bottom: .1rem !important;
+        font-size: .62rem !important;
+        margin-bottom: .12rem !important;
+        font-weight: 900 !important;
       }
       .app-header .header-city-title {
         margin-top: .2rem !important;
@@ -124,9 +127,9 @@ function ensureDensityStyles() {
       .app-header .header-art {
         top: 0 !important;
         bottom: auto !important;
-        width: 72% !important;
+        width: 74% !important;
         height: 100% !important;
-        opacity: .3 !important;
+        opacity: .34 !important;
         background-position: 58% center !important;
         -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.13) 20%, #000 55%, #000 100%) !important;
         mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.13) 20%, #000 55%, #000 100%) !important;
