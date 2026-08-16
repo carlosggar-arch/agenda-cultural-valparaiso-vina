@@ -25,6 +25,16 @@ const CITIES = Object.freeze({
   },
 });
 
+const SECTION_META = Object.freeze({
+  hoy: { label: "Hoy", empty: "No hay actividades con fecha para hoy." },
+  "fin-de-semana": { label: "Este fin de semana", empty: "No hay actividades fechadas para este fin de semana." },
+  proximos: { label: "Próximamente", empty: "No hay próximas actividades fechadas." },
+  "terminan-pronto": { label: "Terminan pronto", empty: "No hay actividades en curso que terminen en los próximos días." },
+  gratis: { label: "Gratis", empty: "No hay actividades gratuitas con los filtros actuales." },
+  "talleres-cursos": { label: "Talleres y cursos", empty: "No hay talleres o cursos con los filtros actuales." },
+  todos: { label: "Todas las actividades", empty: "No hay actividades con los filtros actuales." },
+});
+
 const dom = {
   chooserBackdrop: document.querySelector("[data-chooser-backdrop]"),
   chooserClose: document.querySelector("[data-chooser-close]"),
@@ -37,8 +47,15 @@ const dom = {
   heroTitle: document.querySelector("[data-hero-title]"),
   heroCopy: document.querySelector("[data-hero-copy]"),
   status: document.querySelector("[data-status]"),
+  discovery: document.querySelector("[data-discovery]"),
+  sectionFilters: document.querySelector("[data-section-filters]"),
+  sectionButtons: document.querySelectorAll("[data-section-filter]"),
+  categoryFilters: document.querySelector("[data-category-filters]"),
   agenda: document.querySelector("[data-agenda]"),
+  agendaKicker: document.querySelector("[data-agenda-kicker]"),
   agendaTitle: document.querySelector("[data-agenda-title]"),
+  filterSummary: document.querySelector("[data-filter-summary]"),
+  filterClear: document.querySelector("[data-filter-clear]"),
   total: document.querySelector("[data-total]"),
   datedSection: document.querySelector("[data-dated-section]"),
   datedTotal: document.querySelector("[data-dated-total]"),
@@ -57,6 +74,8 @@ const dom = {
 
 let activeCity = null;
 let allEvents = [];
+let activeSection = "proximos";
+let activeCategory = "";
 
 function showChooser(force = false) {
   dom.chooserBackdrop.hidden = false;
@@ -101,6 +120,16 @@ function formatSchedule(event, city) {
   if (!start) return event?.schedule?.display_text || "Horario por confirmar";
 
   const formatValue = (value, withWeekday = true) => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(String(value))) {
+      const [year, month, day] = String(value).split("-").map(Number);
+      const date = new Date(Date.UTC(year, month - 1, day, 12));
+      return new Intl.DateTimeFormat(city.locale, {
+        timeZone: "UTC",
+        weekday: withWeekday ? "short" : undefined,
+        day: "numeric",
+        month: "short",
+      }).format(date);
+    }
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
     return new Intl.DateTimeFormat(city.locale, {
@@ -108,18 +137,16 @@ function formatSchedule(event, city) {
       weekday: withWeekday ? "short" : undefined,
       day: "numeric",
       month: "short",
-      hour: String(value).includes("T") ? "2-digit" : undefined,
-      minute: String(value).includes("T") ? "2-digit" : undefined,
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false,
     }).format(date);
   };
 
   try {
-    const startDate = String(start).slice(0, 10);
-    const endDate = end ? String(end).slice(0, 10) : null;
-    if (endDate && endDate !== startDate) {
-      return `${formatValue(start)} – ${formatValue(end, false)}`;
-    }
+    const startDate = dateKeyForValue(start, city);
+    const endDate = end ? dateKeyForValue(end, city) : null;
+    if (endDate && endDate !== startDate) return `${formatValue(start)} – ${formatValue(end, false)}`;
     return formatValue(start);
   } catch {
     return event?.schedule?.display_text || String(start);
@@ -128,6 +155,32 @@ function formatSchedule(event, city) {
 
 function eventCategory(event) {
   return event?.primary_category?.label || event?.categories?.[0]?.label || "Actividad cultural";
+}
+
+function eventCategoryId(event) {
+  return event?.primary_category?.id || event?.categories?.[0]?.id || slugify(eventCategory(event));
+}
+
+function eventCategories(event) {
+  const values = [];
+  if (event?.primary_category?.id || event?.primary_category?.label) values.push(event.primary_category);
+  for (const category of event?.categories || []) values.push(category);
+  const unique = new Map();
+  for (const category of values) {
+    const label = String(category?.label || "").trim();
+    const id = String(category?.id || slugify(label)).trim();
+    if (label && id && !unique.has(id)) unique.set(id, label);
+  }
+  return unique;
+}
+
+function slugify(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "cultura";
 }
 
 function eventLink(event) {
@@ -148,6 +201,7 @@ function typeBadge(event) {
   if (event?.event_type === "program") return "Programa";
   if (event?.event_type === "flexible_offer") return "Actividad disponible";
   if (event?.event_type === "course") return "Curso / taller";
+  if (event?.event_type === "workshop") return "Taller";
   return null;
 }
 
@@ -155,6 +209,7 @@ function createEventCard(event) {
   const card = document.createElement("article");
   const group = contentGroup(event);
   card.className = `event-card event-card--${group}`;
+  card.dataset.eventId = event?.id || "";
   const location = [event?.location?.venue, event?.location?.city].filter(Boolean).join(" · ") || "Lugar por confirmar";
   const link = eventLink(event);
   const badge = typeBadge(event);
@@ -173,31 +228,185 @@ function createEventCard(event) {
   return card;
 }
 
-function renderGroup(grid, section, total, events, { alwaysShow = false } = {}) {
+function dateKeyForDate(date, city) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: city.timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const get = (type) => parts.find((part) => part.type === type)?.value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+function dateKeyForValue(value, city) {
+  const text = String(value || "");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  const date = new Date(text);
+  return Number.isNaN(date.getTime()) ? null : dateKeyForDate(date, city);
+}
+
+function addDays(dateKey, days) {
+  const date = new Date(`${dateKey}T12:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function weekdayForKey(dateKey) {
+  return new Date(`${dateKey}T12:00:00Z`).getUTCDay();
+}
+
+function weekendBounds(todayKey) {
+  const weekday = weekdayForKey(todayKey);
+  const daysToSaturday = weekday === 6 ? 0 : weekday === 0 ? -1 : 6 - weekday;
+  const saturday = addDays(todayKey, daysToSaturday);
+  return { start: saturday, end: addDays(saturday, 1) };
+}
+
+function scheduleWindows(event) {
+  if (["program", "flexible_offer"].includes(event?.event_type)) return [];
+  const occurrences = event?.schedule?.occurrences;
+  if (Array.isArray(occurrences) && occurrences.length) {
+    return occurrences.map((occurrence) => ({ start: occurrence?.start, end: occurrence?.end || occurrence?.start }));
+  }
+  if (event?.schedule?.start) return [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
+  return [];
+}
+
+function eventDateRanges(event) {
+  return scheduleWindows(event)
+    .map((window) => ({
+      start: dateKeyForValue(window.start, activeCity),
+      end: dateKeyForValue(window.end, activeCity),
+    }))
+    .filter((range) => range.start && range.end);
+}
+
+function rangesOverlap(range, start, end) {
+  return range.start <= end && range.end >= start;
+}
+
+function isWorkshop(event) {
+  if (["course", "workshop"].includes(event?.event_type)) return true;
+  const text = [...eventCategories(event).entries()]
+    .flat()
+    .join(" ")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es");
+  return /taller|curso|formacion/.test(text);
+}
+
+function eventMatchesSection(event, sectionId) {
+  if (sectionId === "todos") return true;
+  if (sectionId === "gratis") return event?.price?.is_free === true;
+  if (sectionId === "talleres-cursos") return isWorkshop(event);
+
+  const today = dateKeyForDate(new Date(), activeCity);
+  const ranges = eventDateRanges(event);
+  if (!ranges.length) return false;
+
+  if (sectionId === "hoy") return ranges.some((range) => rangesOverlap(range, today, today));
+  if (sectionId === "fin-de-semana") {
+    const weekend = weekendBounds(today);
+    return ranges.some((range) => rangesOverlap(range, weekend.start, weekend.end));
+  }
+  if (sectionId === "terminan-pronto") {
+    const limit = addDays(today, 3);
+    return ranges.some((range) => range.start <= today && range.end > today && range.end <= limit);
+  }
+  if (sectionId === "proximos") return ranges.some((range) => range.end >= today);
+  return true;
+}
+
+function eventMatchesCategory(event, categoryId) {
+  if (!categoryId) return true;
+  return eventCategories(event).has(categoryId) || eventCategoryId(event) === categoryId;
+}
+
+function eventSortKey(event) {
+  const windows = scheduleWindows(event);
+  const candidate = windows[0]?.start || event?.schedule?.start;
+  if (!candidate) return Number.POSITIVE_INFINITY;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(candidate))) return Date.parse(`${candidate}T12:00:00Z`);
+  const value = Date.parse(candidate);
+  return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;
+}
+
+function sortEvents(events) {
+  return [...events].sort((a, b) => {
+    const aGroup = contentGroup(a) === "dated" ? 0 : contentGroup(a) === "program" ? 1 : 2;
+    const bGroup = contentGroup(b) === "dated" ? 0 : contentGroup(b) === "program" ? 1 : 2;
+    if (aGroup !== bGroup) return aGroup - bGroup;
+    const dateDiff = eventSortKey(a) - eventSortKey(b);
+    if (Number.isFinite(dateDiff) && dateDiff !== 0) return dateDiff;
+    return String(a?.title || "").localeCompare(String(b?.title || ""), activeCity?.locale || "es");
+  });
+}
+
+function renderGroup(grid, section, total, events) {
   grid.replaceChildren();
   total.textContent = String(events.length);
-  section.hidden = !alwaysShow && events.length === 0;
+  section.hidden = events.length === 0;
   for (const event of events) grid.append(createEventCard(event));
 }
 
-function renderEvents(events) {
-  const groups = { dated: [], program: [], flexible: [] };
-  for (const event of events) groups[contentGroup(event)].push(event);
-
-  dom.total.textContent = String(events.length);
-  dom.empty.hidden = events.length !== 0;
-  renderGroup(dom.datedGrid, dom.datedSection, dom.datedTotal, groups.dated);
-  renderGroup(dom.programGrid, dom.programSection, dom.programTotal, groups.program);
-  renderGroup(dom.flexibleGrid, dom.flexibleSection, dom.flexibleTotal, groups.flexible);
+function collectCategoryCounts(events) {
+  const categories = new Map();
+  for (const event of events) {
+    for (const [id, label] of eventCategories(event)) {
+      const current = categories.get(id) || { id, label, count: 0 };
+      current.count += 1;
+      categories.set(id, current);
+    }
+  }
+  return [...categories.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, activeCity?.locale || "es"));
 }
 
-function filterEvents() {
+function renderCategories() {
+  const categories = collectCategoryCounts(allEvents);
+  dom.categoryFilters.replaceChildren();
+
+  const allButton = document.createElement("button");
+  allButton.type = "button";
+  allButton.dataset.categoryFilter = "";
+  allButton.className = `category-chip${activeCategory === "" ? " active" : ""}`;
+  allButton.setAttribute("aria-pressed", activeCategory === "" ? "true" : "false");
+  allButton.innerHTML = `<span>Todas</span><small>${allEvents.length}</small>`;
+  dom.categoryFilters.append(allButton);
+
+  for (const category of categories) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.categoryFilter = category.id;
+    button.className = `category-chip${activeCategory === category.id ? " active" : ""}`;
+    button.setAttribute("aria-pressed", activeCategory === category.id ? "true" : "false");
+    button.innerHTML = `<span>${escapeHtml(category.label)}</span><small>${category.count}</small>`;
+    dom.categoryFilters.append(button);
+  }
+}
+
+function updateSectionCounts() {
+  for (const button of dom.sectionButtons) {
+    const section = button.dataset.sectionFilter;
+    const count = allEvents.filter((event) => eventMatchesSection(event, section)).length;
+    const countNode = button.querySelector("[data-section-count]");
+    if (countNode) countNode.textContent = String(count);
+    const active = section === activeSection;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  }
+}
+
+function currentFilteredEvents() {
   const query = dom.search.value.trim().toLocaleLowerCase(activeCity?.locale || "es");
-  if (!query) return renderEvents(allEvents);
-  renderEvents(allEvents.filter((event) => {
+  return sortEvents(allEvents.filter((event) => {
+    if (!eventMatchesSection(event, activeSection)) return false;
+    if (!eventMatchesCategory(event, activeCategory)) return false;
+    if (!query) return true;
     const haystack = [
       event?.title,
-      eventCategory(event),
+      ...eventCategories(event).values(),
       event?.location?.venue,
       event?.location?.city,
       event?.description,
@@ -205,6 +414,48 @@ function filterEvents() {
     ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
     return haystack.includes(query);
   }));
+}
+
+function updateResultHeading(events) {
+  const meta = SECTION_META[activeSection] || SECTION_META.todos;
+  dom.agendaKicker.textContent = activeSection === "hoy" ? "Qué hacer hoy" : "Agenda actual";
+  dom.agendaTitle.textContent = meta.label;
+  dom.total.textContent = String(events.length);
+
+  const parts = [`${events.length} ${events.length === 1 ? "actividad" : "actividades"}`];
+  if (activeCategory) {
+    const category = collectCategoryCounts(allEvents).find((item) => item.id === activeCategory);
+    if (category) parts.push(category.label);
+  }
+  if (dom.search.value.trim()) parts.push(`“${dom.search.value.trim()}”`);
+  dom.filterSummary.textContent = parts.join(" · ");
+  dom.filterClear.hidden = activeCategory === "" && !dom.search.value.trim() && activeSection === defaultSection();
+  dom.emptyCopy.textContent = meta.empty;
+}
+
+function renderEvents() {
+  const events = currentFilteredEvents();
+  const groups = { dated: [], program: [], flexible: [] };
+  for (const event of events) groups[contentGroup(event)].push(event);
+
+  dom.empty.hidden = events.length !== 0;
+  renderGroup(dom.datedGrid, dom.datedSection, dom.datedTotal, groups.dated);
+  renderGroup(dom.programGrid, dom.programSection, dom.programTotal, groups.program);
+  renderGroup(dom.flexibleGrid, dom.flexibleSection, dom.flexibleTotal, groups.flexible);
+  updateResultHeading(events);
+  updateSectionCounts();
+  renderCategories();
+}
+
+function defaultSection() {
+  return allEvents.some((event) => eventMatchesSection(event, "hoy")) ? "hoy" : "proximos";
+}
+
+function resetDiscoveryFilters() {
+  activeSection = defaultSection();
+  activeCategory = "";
+  dom.search.value = "";
+  renderEvents();
 }
 
 async function loadCity(id) {
@@ -219,10 +470,11 @@ async function loadCity(id) {
   dom.citySwitchLabel.textContent = city.label;
   dom.citySubtitle.textContent = city.subtitle;
   dom.heroTitle.textContent = `Descubre qué hacer en ${city.label}`;
-  dom.heroCopy.textContent = `La aplicación carga únicamente las actividades de ${city.label}. Puedes cambiar de ciudad cuando quieras.`;
-  dom.agendaTitle.textContent = city.label;
+  dom.heroCopy.textContent = `Agenda local de ${city.label}: explora qué hay hoy, este fin de semana o por categoría.`;
   dom.searchRow.hidden = false;
   dom.search.value = "";
+  dom.discovery.hidden = true;
+  dom.agenda.hidden = true;
   setStatus("Cargando agenda", `Estamos buscando las actividades disponibles en ${city.label}.`);
 
   try {
@@ -231,14 +483,19 @@ async function loadCity(id) {
     const dataset = await response.json();
     if (!Array.isArray(dataset.events)) throw new Error("Dataset inválido");
     allEvents = dataset.events;
+    activeCategory = "";
+    activeSection = defaultSection();
+    dom.discovery.hidden = false;
     dom.agenda.hidden = false;
     dom.status.hidden = true;
-    dom.emptyCopy.textContent = `Todavía no hay actividades publicadas para ${city.label}.`;
-    renderEvents(allEvents);
+    renderEvents();
   } catch (error) {
     allEvents = [];
+    activeCategory = "";
+    activeSection = "todos";
+    dom.discovery.hidden = true;
     dom.agenda.hidden = false;
-    renderEvents([]);
+    renderEvents();
     setStatus("No pudimos cargar la agenda", `La aplicación no pudo leer el dataset de ${city.label}. Intenta nuevamente más tarde.`);
   }
 }
@@ -292,7 +549,22 @@ dom.cityOptions.forEach((button) => button.addEventListener("click", () => loadC
 dom.citySwitch.addEventListener("click", () => showChooser(false));
 dom.chooserClose.addEventListener("click", hideChooser);
 dom.useLocation.addEventListener("click", useLocation);
-dom.search.addEventListener("input", filterEvents);
+dom.search.addEventListener("input", renderEvents);
+dom.filterClear.addEventListener("click", resetDiscoveryFilters);
+dom.sectionFilters.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-section-filter]");
+  if (!button) return;
+  activeSection = button.dataset.sectionFilter;
+  renderEvents();
+  dom.agenda.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+dom.categoryFilters.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-category-filter]");
+  if (!button) return;
+  activeCategory = button.dataset.categoryFilter || "";
+  renderEvents();
+  dom.agenda.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 dom.chooserBackdrop.addEventListener("click", (event) => { if (event.target === dom.chooserBackdrop && activeCity) hideChooser(); });
 
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && activeCity) hideChooser(); });
