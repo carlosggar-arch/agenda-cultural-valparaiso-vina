@@ -1,5 +1,6 @@
 import "./vivamos-brand.js";
 import "./card-experience.js";
+import "./schedule-display.js";
 import "./card-image-fallback.js";
 import "./compact-top.js";
 import "./gijon-visual-reference.js";
@@ -9,7 +10,7 @@ import "./community-source.js";
 import "./header-redesign.js";
 import "./density-polish.js";
 
-const APP_VERSION = "PWA v22";
+const APP_VERSION = "PWA v23";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
