@@ -1,85 +1,230 @@
-/* ¡Vivamos! multi-city header redesign. Keeps the same app structure and swaps only local identity. */
+/* ¡Vivamos! city hero. Intentionally overrides the older compact header layer. */
 :root{
   --header-bg:#f7f3e9;
   --header-ink:#153f3a;
   --header-accent:#d85a44;
   --header-secondary:#397f96;
-  --header-warm:#e2a83b;
   --header-muted:#4f625d;
+  --header-control:#174f46;
 }
 html[data-city="gijon"]{
   --header-bg:#edf6f7;
   --header-ink:#173c47;
   --header-accent:#397c91;
   --header-secondary:#5d8b7d;
-  --header-warm:#d8c6a0;
   --header-muted:#4f6870;
+  --header-control:#255b70;
 }
 
 .app-header{
-  position:relative;
+  position:relative!important;
+  top:auto!important;
   isolation:isolate;
-  min-height:172px;
-  padding:1.45rem max(1rem,calc((100vw - 1120px)/2));
-  overflow:hidden;
-  align-items:flex-start;
-  background:color-mix(in srgb,var(--header-bg) 94%,white 6%);
-  border-bottom:0;
-  box-shadow:0 14px 38px rgba(25,61,53,.07);
+  display:block!important;
+  min-height:258px!important;
+  padding:1.55rem max(1rem,calc((100vw - 1120px)/2)) 1.45rem!important;
+  overflow:hidden!important;
+  background:var(--header-bg)!important;
+  border-bottom:0!important;
+  box-shadow:0 16px 42px rgba(25,61,53,.09)!important;
 }
-.app-header::before,.app-header::after{content:"";position:absolute;z-index:-2;pointer-events:none}
-.app-header::before{inset:0;background:linear-gradient(110deg,var(--header-bg) 0 56%,rgba(255,255,255,.35) 76%,rgba(255,255,255,.08) 100%)}
-.app-header::after{right:-3%;bottom:-58px;width:47%;height:155px;opacity:.82;transform:rotate(-1deg)}
-html[data-city="valparaiso"] .app-header::after{
+.app-header::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  pointer-events:none;
   background:
-    linear-gradient(90deg,transparent 0 5%,#d85a44 5% 17%,transparent 17% 21%,#e2a83b 21% 33%,transparent 33% 38%,#397f96 38% 52%,transparent 52% 57%,#c86c72 57% 70%,transparent 70% 75%,#5d8b7d 75% 88%,transparent 88%),
-    linear-gradient(180deg,transparent 0 37%,rgba(23,79,70,.14) 37% 39%,transparent 39% 100%);
-  clip-path:polygon(0 64%,9% 50%,18% 59%,27% 33%,36% 45%,45% 21%,54% 40%,64% 27%,75% 48%,84% 37%,100% 54%,100% 100%,0 100%);
+    radial-gradient(circle at 12% 15%,rgba(255,255,255,.9),transparent 28%),
+    linear-gradient(105deg,var(--header-bg) 0 54%,rgba(255,255,255,.52) 72%,rgba(255,255,255,.08) 100%);
 }
-html[data-city="gijon"] .app-header::after{
-  right:-2%;bottom:-26px;width:48%;height:140px;
-  background:
-    radial-gradient(circle at 78% 14%,#d8c06e 0 14px,transparent 15px),
-    linear-gradient(180deg,transparent 0 48%,rgba(57,124,145,.23) 48% 50%,transparent 50% 100%),
-    repeating-radial-gradient(ellipse at 50% 118%,transparent 0 21px,rgba(57,124,145,.3) 22px 24px,transparent 25px 38px);
+.app-header::after{display:none!important}
+
+.brand{
+  position:relative;
+  z-index:4;
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:1rem!important;
+  width:min(650px,58vw)!important;
+  max-width:none!important;
+  color:inherit;
+  text-decoration:none;
+}
+.brand img{
+  width:70px!important;
+  height:70px!important;
+  flex:0 0 auto;
+  margin:.1rem 0 0!important;
+  filter:drop-shadow(0 6px 12px rgba(20,55,48,.14));
+}
+.brand span{display:block!important;min-width:0;padding:0!important}
+.brand strong{
+  display:block;
+  margin:0 0 .5rem;
+  font-family:Georgia,serif!important;
+  font-size:1.7rem!important;
+  line-height:1!important;
+  color:var(--header-accent)!important;
+}
+.brand small{display:none!important}
+.header-kicker{
+  display:block;
+  margin:0 0 .28rem;
+  font-size:.68rem;
+  line-height:1;
+  letter-spacing:.19em;
+  text-transform:uppercase;
+  font-weight:850;
+  color:var(--header-muted);
+}
+.header-city-title{
+  display:block;
+  max-width:15ch;
+  font-family:Georgia,serif;
+  font-size:clamp(2.55rem,4.4vw,3.55rem);
+  line-height:.98;
+  letter-spacing:-.025em;
+  font-weight:800;
+  color:var(--header-ink);
+}
+.header-tagline{
+  display:block;
+  max-width:530px;
+  margin-top:.65rem;
+  font-size:1.02rem;
+  line-height:1.45;
+  font-weight:520;
+  color:var(--header-muted);
 }
 
-.brand{position:relative;z-index:2;align-items:flex-start;gap:1rem;max-width:min(720px,68vw)}
-.brand img{width:66px;height:66px;flex:0 0 auto;margin-top:.15rem}
-.brand span{display:grid;gap:.12rem;padding-top:.08rem}
-.brand strong{font-family:Georgia,serif;font-size:clamp(1.45rem,2vw,1.8rem);line-height:1;color:var(--header-accent)}
-.brand small{font-size:0;line-height:1.1;margin:0;color:var(--header-ink)}
-.brand small::before{content:"AGENDA CULTURAL";display:block;margin:.18rem 0 .45rem;font-family:Inter,system-ui,sans-serif;font-size:.68rem;letter-spacing:.17em;font-weight:850;color:var(--header-muted)}
-.brand small::after{content:attr(data-header-city);display:block;font-family:Georgia,serif;font-size:clamp(1.75rem,3.2vw,2.75rem);line-height:1.04;font-weight:800;color:var(--header-ink);max-width:18ch}
+.header-bottom{
+  position:relative;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+  width:min(720px,62vw);
+  margin:1.15rem 0 0 86px;
+}
+.header-bottom .search-row{
+  display:block!important;
+  flex:1 1 360px;
+  min-width:220px;
+  margin:0!important;
+}
+.header-bottom .search-row label{display:block;width:100%}
+.header-bottom .search-row input{
+  width:100%!important;
+  max-width:none!important;
+  min-height:44px!important;
+  padding:.72rem 1rem!important;
+  border:1px solid rgba(23,79,70,.18)!important;
+  border-radius:14px!important;
+  background:rgba(255,255,255,.88)!important;
+  box-shadow:0 8px 24px rgba(24,60,52,.08)!important;
+  color:var(--header-ink)!important;
+}
+.header-actions{
+  position:static!important;
+  z-index:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex:0 0 auto;
+  width:auto!important;
+  margin:0!important;
+  gap:.45rem!important;
+}
+.install-button,.city-switch{
+  min-height:44px!important;
+  padding:.68rem .88rem!important;
+  border-radius:12px!important;
+  font-size:.84rem!important;
+  font-weight:780!important;
+  box-shadow:none!important;
+  white-space:nowrap;
+}
+.install-button{
+  background:var(--header-control)!important;
+  border-color:var(--header-control)!important;
+  color:#fff!important;
+}
+.city-switch{
+  background:rgba(255,255,255,.78)!important;
+  border-color:rgba(23,79,70,.2)!important;
+  color:var(--header-ink)!important;
+  backdrop-filter:blur(8px);
+}
+.city-switch:hover,.city-switch:focus-visible{border-color:var(--header-control)!important;color:var(--header-control)!important}
 
-.header-actions{position:relative;z-index:3;gap:.6rem;margin-top:.1rem}
-.install-button,.city-switch{min-height:42px;border-radius:12px;padding:.7rem .95rem;box-shadow:none}
-.install-button{background:#174f46;border-color:#174f46;color:#fff}
-html[data-city="gijon"] .install-button{background:#255b70;border-color:#255b70}
-.city-switch{background:rgba(255,255,255,.68);border-color:rgba(23,79,70,.2);color:var(--header-ink);backdrop-filter:blur(8px)}
+.header-art{
+  position:absolute;
+  z-index:1;
+  top:0;
+  right:0;
+  width:49%;
+  height:100%;
+  pointer-events:none;
+  background-position:center right;
+  background-repeat:no-repeat;
+  background-size:cover;
+  opacity:.98;
+  filter:saturate(1.04);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 100%);
+}
+html[data-city="valparaiso"] .header-art{background-image:url("./illustrations/valparaiso-header.svg")}
+html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-header.svg")}
 
 .city-masthead{display:none!important}
-.hero{padding:1.45rem 0 1.4rem}
-.hero .eyebrow{display:none}
-.hero h1{font-family:Inter,system-ui,sans-serif;font-size:1rem;line-height:1.4;max-width:720px;font-weight:500;color:var(--header-muted);margin:0}
-.hero-copy{display:none}
-.search-row{margin-top:1.05rem}
-.search-row input{width:min(760px,100%);border-radius:14px;padding:.9rem 1rem;box-shadow:0 9px 26px rgba(24,60,52,.06)}
+.hero{display:none!important}
 
-@media(max-width:800px){
-  .app-header{min-height:190px;flex-wrap:wrap;gap:.9rem;padding-top:1.2rem;padding-bottom:1.2rem}
-  .brand{max-width:100%;width:100%}.brand img{width:58px;height:58px}
-  .brand small::after{font-size:clamp(1.7rem,7vw,2.35rem);max-width:15ch}
-  .header-actions{width:100%;justify-content:flex-start;margin-left:74px;margin-top:-.15rem}
-  .app-header::after{width:55%;opacity:.6}
+@media(max-width:900px){
+  .app-header{min-height:270px!important}
+  .brand{width:68%!important}
+  .header-city-title{font-size:clamp(2.25rem,5.8vw,3.05rem)}
+  .header-art{width:54%;opacity:.78}
+  .header-bottom{width:68%;margin-left:86px}
+  .header-actions{flex-wrap:wrap!important}
 }
-@media(max-width:560px){
-  .app-header{min-height:214px;padding:1rem;align-content:flex-start}
-  .brand{gap:.75rem}.brand img{width:52px;height:52px}
-  .brand strong{font-size:1.3rem}.brand small::before{font-size:.6rem;margin-bottom:.35rem}.brand small::after{font-size:1.8rem;max-width:12ch}
-  .header-actions{margin-left:0;justify-content:flex-start;gap:.45rem}
-  .install-button,.city-switch{padding:.62rem .72rem;min-height:40px;font-size:.84rem}
-  .city-switch span[data-city-switch-label]{font-size:0}.city-switch span[data-city-switch-label]::after{content:"Ciudad";font-size:.84rem}
-  .app-header::after{width:68%;height:118px;right:-20%;bottom:-32px;opacity:.48}
-  .hero{padding-top:1rem}
+
+@media(max-width:700px){
+  .app-header{min-height:326px!important;padding:1.15rem 1rem 1rem!important}
+  .brand{width:100%!important;max-width:100%!important;gap:.75rem!important}
+  .brand img{width:56px!important;height:56px!important}
+  .brand strong{font-size:1.35rem!important;margin-bottom:.38rem}
+  .header-kicker{font-size:.6rem}
+  .header-city-title{max-width:12ch;font-size:2.25rem;line-height:1}
+  .header-tagline{max-width:78%;font-size:.92rem;line-height:1.35;margin-top:.5rem}
+  .header-art{
+    top:auto;
+    bottom:0;
+    width:100%;
+    height:48%;
+    opacity:.42;
+    background-size:cover;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 38%,#000 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 38%,#000 100%);
+  }
+  .header-bottom{
+    width:100%;
+    margin:.9rem 0 0!important;
+    align-items:stretch;
+    flex-direction:column;
+    gap:.5rem;
+  }
+  .header-bottom .search-row{flex:0 0 auto;width:100%;min-width:0}
+  .header-bottom .search-row input{min-height:43px!important;background:rgba(255,255,255,.92)!important}
+  .header-actions{width:100%!important;gap:.4rem!important}
+  .install-button,.city-switch{min-height:40px!important;padding:.58rem .7rem!important;font-size:.8rem!important}
+  .city-switch span[data-city-switch-label]{font-size:0}
+  .city-switch span[data-city-switch-label]::after{content:"Cambiar ciudad";font-size:.8rem}
+}
+
+@media(max-width:430px){
+  .app-header{min-height:338px!important}
+  .header-city-title{font-size:2.05rem}
+  .header-tagline{max-width:92%;font-size:.88rem}
+  .header-art{height:44%;opacity:.34}
 }
