@@ -1,4 +1,9 @@
 import "./card-experience.js";
+import "./card-image-fallback.js";
+
+const APP_VERSION = "PWA v5";
+const versionNode = document.querySelector("[data-app-version]");
+if (versionNode) versionNode.textContent = APP_VERSION;
 
 let deferredInstallPrompt = null;
 const installButton = document.querySelector("[data-install-app]");
