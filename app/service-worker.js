@@ -13,6 +13,7 @@ const SHELL_ASSETS = [
   "./pwa.js",
   "./vivamos-brand.js",
   "./header-redesign.js",
+  "./density-polish.js",
   "./card-experience.js",
   "./event-detail.js",
   "./card-experience.css",
