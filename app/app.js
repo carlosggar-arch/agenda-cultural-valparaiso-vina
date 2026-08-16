@@ -66,6 +66,9 @@ const dom = {
   flexibleSection: document.querySelector("[data-flexible-section]"),
   flexibleTotal: document.querySelector("[data-flexible-total]"),
   flexibleGrid: document.querySelector("[data-flexible-grid]"),
+  sourcesSection: document.querySelector("[data-sources-section]"),
+  sourcesTotal: document.querySelector("[data-sources-total]"),
+  sourcesGrid: document.querySelector("[data-sources-grid]"),
   empty: document.querySelector("[data-empty]"),
   emptyCopy: document.querySelector("[data-empty-copy]"),
   searchRow: document.querySelector("[data-search-row]"),
@@ -185,6 +188,18 @@ function slugify(value) {
 
 function eventLink(event) {
   const candidate = event?.links?.official || event?.links?.source;
+  try {
+    const url = new URL(candidate);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : null;
+  } catch { return null; }
+}
+
+function eventSourceName(event) {
+  return String(event?.source_name || event?.organizer || "").trim();
+}
+
+function eventSourceUrl(event) {
+  const candidate = event?.source_url || event?.links?.source || event?.links?.official;
   try {
     const url = new URL(candidate);
     return ["http:", "https:"].includes(url.protocol) ? url.href : null;
@@ -363,6 +378,59 @@ function collectCategoryCounts(events) {
   return [...categories.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label, activeCity?.locale || "es"));
 }
 
+function collectSources(events) {
+  const sources = new Map();
+  for (const event of events) {
+    const name = eventSourceName(event);
+    if (!name) continue;
+    const key = name.toLocaleLowerCase(activeCity?.locale || "es");
+    const current = sources.get(key) || { name, url: null, count: 0, official: false };
+    current.count += 1;
+    current.official ||= event?.public_status?.source_official === true;
+    current.url ||= eventSourceUrl(event);
+    sources.set(key, current);
+  }
+  return [...sources.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, activeCity?.locale || "es"));
+}
+
+function renderSources() {
+  const sources = collectSources(allEvents);
+  dom.sourcesGrid.replaceChildren();
+  dom.sourcesTotal.textContent = String(sources.length);
+  dom.sourcesSection.hidden = sources.length === 0;
+
+  for (const source of sources) {
+    const card = document.createElement("article");
+    card.className = "source-card";
+    const heading = document.createElement("div");
+    heading.className = "source-card-heading";
+    const name = document.createElement("strong");
+    name.textContent = source.name;
+    heading.append(name);
+    if (source.official) {
+      const badge = document.createElement("span");
+      badge.className = "source-official-badge";
+      badge.textContent = "Oficial";
+      heading.append(badge);
+    }
+    card.append(heading);
+
+    const count = document.createElement("small");
+    count.textContent = `${source.count} ${source.count === 1 ? "actividad" : "actividades"} en esta agenda`;
+    card.append(count);
+
+    if (source.url) {
+      const link = document.createElement("a");
+      link.href = source.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Abrir referencia →";
+      card.append(link);
+    }
+    dom.sourcesGrid.append(card);
+  }
+}
+
 function renderCategories() {
   const categories = collectCategoryCounts(allEvents);
   dom.categoryFilters.replaceChildren();
@@ -410,6 +478,8 @@ function currentFilteredEvents() {
       event?.location?.venue,
       event?.location?.city,
       event?.description,
+      eventSourceName(event),
+      event?.organizer,
       typeBadge(event),
     ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
     return haystack.includes(query);
@@ -445,6 +515,7 @@ function renderEvents() {
   updateResultHeading(events);
   updateSectionCounts();
   renderCategories();
+  renderSources();
 }
 
 function defaultSection() {

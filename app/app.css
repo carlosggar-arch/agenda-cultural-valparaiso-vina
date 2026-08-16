@@ -114,3 +114,16 @@ footer strong{color:#174f46}
   .category-filters{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.25rem}
   .category-chip{flex:0 0 auto;white-space:nowrap}
 }
+
+.sources-section{padding:1.7rem 0 0;border-top:1px solid #dce5e2;margin-top:1rem}
+.sources-section[hidden]{display:none}
+.source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+.source-card{background:#fbfaf7;border:1px solid #d9e3e0;border-radius:1rem;padding:1rem;display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.source-card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem}
+.source-card strong{color:#174f46;line-height:1.3}
+.source-card small{color:#697c76;line-height:1.4}
+.source-card a{color:#174f46;font-weight:800;text-decoration:none;width:max-content;max-width:100%}
+.source-card a:hover,.source-card a:focus-visible{text-decoration:underline}
+.source-official-badge{flex:0 0 auto;font-size:.68rem;font-weight:800;background:#e5f1ed;color:#174f46;border-radius:999px;padding:.22rem .45rem}
+@media(max-width:800px){.source-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.source-grid{grid-template-columns:1fr}}

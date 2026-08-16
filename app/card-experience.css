@@ -47,3 +47,8 @@
   .event-card:hover{transform:none}
   .event-card:hover .event-card-photo{transform:none}
 }
+
+.event-card-source{font-size:.82rem!important;color:#6b7d78!important;display:flex;gap:.25rem;flex-wrap:wrap;align-items:baseline}
+.event-card-source-prefix{font-weight:700;color:#7b8b86}
+.event-card-source-link{color:#174f46!important;font-weight:800;text-decoration:none}
+.event-card-source-link:hover,.event-card-source-link:focus-visible{text-decoration:underline}

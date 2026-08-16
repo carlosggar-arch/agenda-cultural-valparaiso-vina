@@ -29,6 +29,9 @@ required_index_markers = (
     "data-filter-clear",
     "data-filter-summary",
     "data-total",
+    "data-sources-section",
+    "data-sources-grid",
+    "data-sources-total",
 )
 for marker in required_index_markers:
     assert marker in index, f"missing UI marker: {marker}"
@@ -67,6 +70,11 @@ assert '"No te lo pierdas"' in card_js
 assert '"Termina pronto"' in card_js
 assert 'event?.links?.registration' in card_js
 assert 'card-action--primary' in card_js
+assert 'event?.source_name' in card_js
+assert 'event-card-source' in card_js
+assert 'collectSources(allEvents)' in app_js
+assert 'renderSources()' in app_js
+assert 'source-card' in css
 assert '.event-card-photo' in card_css
 assert '.context-badge--featured' in card_css
 assert '.event-card-actions' in card_css
@@ -89,7 +97,7 @@ assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
 # The installed-shell recovery remains active and the card/fallback resources
 # are part of the offline shell so presentation survives an offline reopen.
-assert 'const CACHE_VERSION = "v5";' in service_worker
+assert 'const CACHE_VERSION = "v6";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
