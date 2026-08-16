@@ -56,8 +56,10 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-# A rendering hotfix must invalidate the previous installed shell cache so a
-# standalone PWA does not keep serving the broken UI contract.
-assert 'const CACHE_VERSION = "v3";' in service_worker
+# The installed-shell recovery must invalidate v3 and force open /app/ windows
+# to navigate under the newly activated worker.
+assert 'const CACHE_VERSION = "v4";' in service_worker
+assert "refreshOpenWindows" in service_worker
+assert "client.navigate(client.url)" in service_worker
 
 print("Multi-city discovery, render and partition tests: OK")
