@@ -60,6 +60,9 @@ assert '<link rel="stylesheet" href="./city-header.css">' in index
 assert '<script type="module" src="./pwa.js"></script>' in index
 assert "data-install-app" in index
 assert "data-app-version" in index
+assert '<meta name="description" content="¡Vivamos!: Descubre y vive lo que hay cerca de ti.">' in index
+assert '<strong>¡Vivamos!</strong>' in index
+assert '<span>Descubre y vive lo que hay cerca de ti.</span>' in index
 
 for marker in (
     'data-section-filter="hoy"',
@@ -85,7 +88,7 @@ for module in (
 ):
     assert f'import "{module}";' in pwa_js
 assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
-assert 'const APP_VERSION = "PWA v17";' in pwa_js
+assert 'const APP_VERSION = "PWA v18";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -94,7 +97,9 @@ assert 'const BRAND_NAME = "¡Vivamos!";' in vivamos_brand_js
 assert 'const BRAND_TAGLINE = "Descubre y vive lo que hay cerca de ti.";' in vivamos_brand_js
 assert 'import "./vivamos-brand.js";' in source_form_js
 
-assert 'const TAGLINE = "Cultura, panoramas y experiencias para disfrutar cerca de ti.";' in header_redesign_js
+assert 'import { BRAND_TAGLINE } from "./vivamos-brand.js";' in header_redesign_js
+assert 'const TAGLINE = BRAND_TAGLINE;' in header_redesign_js
+assert 'Cultura, panoramas y experiencias para disfrutar cerca de ti.' not in header_redesign_js
 assert 'header.dataset.headerRedesign = "hero-v3"' in header_redesign_js
 assert 'actions.prepend(toggle)' in header_redesign_js
 assert 'searchPopover.append(searchRow)' in header_redesign_js
@@ -142,7 +147,7 @@ assert 'cf-turnstile' in source_form
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v17"' in sw
+assert 'const CACHE_VERSION = "v18"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 

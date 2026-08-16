@@ -1,9 +1,11 @@
+import { BRAND_TAGLINE } from "./vivamos-brand.js";
+
 const CITY_LABELS = {
   valparaiso: "Valparaíso / Viña del Mar",
   gijon: "Gijón / Xixón",
 };
 
-const TAGLINE = "Cultura, panoramas y experiencias para disfrutar cerca de ti.";
+const TAGLINE = BRAND_TAGLINE;
 
 function ensureHeaderStylesheet() {
   if (document.querySelector('link[href="./header-redesign.css"]')) return;
