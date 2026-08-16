@@ -1,0 +1,48 @@
+name: Apply v8 app fix
+
+on:
+  push:
+    branches:
+      - fix/internal-event-details-v8
+    paths:
+      - .github/workflows/apply-v8-app-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/internal-event-details-v8
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply patch
+        run: python app/scripts/apply_v8_patch.py
+      - name: Remove retired visual stylesheet
+        run: git rm app/visual-identity.css
+      - name: Compile
+        run: |
+          node --check app/app.js
+          node --check app/pwa.js
+          node --check app/card-experience.js
+          node --check app/card-image-fallback.js
+          node --check app/event-detail.js
+          python -m py_compile app/scripts/test_internal_details_v8.py app/scripts/test_pwa.py app/scripts/test_multi_city_ui.py app/scripts/test_runtime_browser.py
+      - name: Test contracts and Chrome runtime
+        run: |
+          python app/scripts/test_internal_details_v8.py
+          python app/scripts/test_multi_city_ui.py
+          python app/scripts/test_pwa.py
+          python app/scripts/test_runtime_browser.py
+      - name: Commit validated app files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app
+          git commit -m "Open event details inside the PWA and harden visual refresh"
+          git push origin HEAD:fix/internal-event-details-v8
