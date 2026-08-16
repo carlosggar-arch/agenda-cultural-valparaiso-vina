@@ -31,12 +31,17 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 def make_test_page(city: str) -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
     marker = '<script type="module" src="./app.js"></script>'
+    pwa_marker = '<script type="module" src="./pwa.js"></script>'
     injection = (
         f'<script>localStorage.setItem("agenda-cultural-city", "{city}");</script>\n  '
         + marker
     )
-    if marker not in source:
-        raise AssertionError("app.js script marker not found in app/index.html")
+    if marker not in source or pwa_marker not in source:
+        raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
+    # Runtime rendering and service-worker lifecycle are separate contracts.
+    # Omitting pwa.js here prevents an activation-triggered navigation from
+    # interfering with Chrome --dump-dom while still executing the real app.js.
+    source = source.replace(pwa_marker, "", 1)
     TEST_PAGE.write_text(source.replace(marker, injection, 1), encoding="utf-8")
 
 
@@ -73,7 +78,7 @@ def run_city(city: str, base_url: str) -> None:
                 f"Chrome diagnostics:\n{diagnostic[-4000:]}\n"
                 f"DOM tail:\n{dom[-5000:]}"
             )
-        if 'data-total>0<' in dom or '<strong data-total="">0</strong>' in dom:
+        if '<strong data-total="">0</strong>' in dom:
             raise AssertionError(f"Rendered cards but total stayed at zero for {city}")
         print(f"Browser runtime {city}: {card_count} cards rendered")
 
