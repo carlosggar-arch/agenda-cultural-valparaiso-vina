@@ -13,6 +13,25 @@ function ensureHeaderStylesheet() {
   document.head.append(link);
 }
 
+function closeSearch() {
+  const popover = document.querySelector("[data-header-search-popover]");
+  const toggle = document.querySelector("[data-header-search-toggle]");
+  if (!popover || !toggle || popover.hidden) return;
+  popover.hidden = true;
+  toggle.setAttribute("aria-expanded", "false");
+}
+
+function toggleSearch() {
+  const popover = document.querySelector("[data-header-search-popover]");
+  const toggle = document.querySelector("[data-header-search-toggle]");
+  const input = document.querySelector("[data-search]");
+  if (!popover || !toggle) return;
+  const opening = popover.hidden;
+  popover.hidden = !opening;
+  toggle.setAttribute("aria-expanded", opening ? "true" : "false");
+  if (opening) requestAnimationFrame(() => input?.focus());
+}
+
 function buildHeaderStructure() {
   const header = document.querySelector(".app-header");
   const brandCopy = document.querySelector(".brand span");
@@ -50,8 +69,29 @@ function buildHeaderStructure() {
     bottom.className = "header-bottom";
     header.append(bottom);
   }
-  if (searchRow && searchRow.parentElement !== bottom) bottom.append(searchRow);
   if (actions && actions.parentElement !== bottom) bottom.append(actions);
+
+  if (actions && !actions.querySelector("[data-header-search-toggle]")) {
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "header-search-toggle";
+    toggle.dataset.headerSearchToggle = "";
+    toggle.setAttribute("aria-label", "Buscar actividades");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = '<span aria-hidden="true">⌕</span>';
+    actions.prepend(toggle);
+    toggle.addEventListener("click", toggleSearch);
+  }
+
+  let searchPopover = header.querySelector("[data-header-search-popover]");
+  if (!searchPopover) {
+    searchPopover = document.createElement("div");
+    searchPopover.className = "header-search-popover";
+    searchPopover.dataset.headerSearchPopover = "";
+    searchPopover.hidden = true;
+    header.append(searchPopover);
+  }
+  if (searchRow && searchRow.parentElement !== searchPopover) searchPopover.append(searchRow);
 
   let art = header.querySelector(".header-art");
   if (!art) {
@@ -61,7 +101,7 @@ function buildHeaderStructure() {
     header.append(art);
   }
 
-  header.dataset.headerRedesign = "hero-v2";
+  header.dataset.headerRedesign = "hero-v3";
 }
 
 function applyHeaderIdentity() {
@@ -81,6 +121,18 @@ applyHeaderIdentity();
 new MutationObserver(applyHeaderIdentity).observe(document.documentElement, {
   attributes: true,
   attributeFilter: ["data-city"],
+});
+
+document.addEventListener("pointerdown", (event) => {
+  const popover = document.querySelector("[data-header-search-popover]");
+  const toggle = document.querySelector("[data-header-search-toggle]");
+  if (!popover || popover.hidden) return;
+  if (popover.contains(event.target) || toggle?.contains(event.target)) return;
+  closeSearch();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeSearch();
 });
 
 export { TAGLINE, applyHeaderIdentity };
