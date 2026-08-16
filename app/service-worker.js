@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v22";
+const CACHE_VERSION = "v23";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -15,6 +15,7 @@ const SHELL_ASSETS = [
   "./header-redesign.js",
   "./density-polish.js",
   "./card-experience.js",
+  "./schedule-display.js",
   "./event-detail.js",
   "./card-experience.css",
   "./card-image-fallback.js",
@@ -34,6 +35,7 @@ const SHELL_ASSETS = [
   "./illustrations/valparaiso-header.svg",
   "./illustrations/gijon-header.svg",
   "../assets/event-media-layout.css",
+  "../assets/event-schedule-display.mjs",
   "../assets/categoria-cine.jpg",
   "../assets/categoria-cultura.jpg",
   "../assets/categoria-deportes.jpg",
