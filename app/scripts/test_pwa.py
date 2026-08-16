@@ -93,9 +93,9 @@ assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
 
+assert 'import "./vivamos-brand.js";' in source_form_js
 assert 'const BRAND_NAME = "¡Vivamos!";' in vivamos_brand_js
 assert 'const BRAND_TAGLINE = "Descubre y vive lo que hay cerca de ti.";' in vivamos_brand_js
-assert 'import "./vivamos-brand.js";' in source_form_js
 
 assert 'import { BRAND_TAGLINE } from "./vivamos-brand.js";' in header_redesign_js
 assert 'const TAGLINE = BRAND_TAGLINE;' in header_redesign_js
@@ -139,7 +139,7 @@ assert 'sources-user-open' in sources_toggle_js
 assert 'aria-expanded' in sources_toggle_js
 assert 'Fuentes' in sources_toggle_js
 assert 'dataset?.sources' in sources_toggle_js
-assert 'Fuente activa · sin actividades en la ventana actual' in sources_toggle_js
+assert 'Fuente incorporada · sin eventos importados en esta ejecución' in sources_toggle_js
 assert 'Fuentes${count ? ` · ${count}` : ""}' in sources_toggle_js
 
 assert 'data-source-proposal-cta' in community_source_js
