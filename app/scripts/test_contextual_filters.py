@@ -3,6 +3,10 @@ from pathlib import Path
 source = Path("app/contextual-filters.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
+sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
+pwa = Path("app/pwa.js").read_text(encoding="utf-8")
+service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
+root_index = Path("index.html").read_text(encoding="utf-8")
 
 assert "const nextCountValue = counts.get(id) || 0;" in source
 assert "button.hidden = nextCountValue === 0;" in source
@@ -37,4 +41,18 @@ assert 'id="gijon-boat"' in gijon_svg
 assert 'scale(1.45)' in gijon_svg
 assert 'opacity="0.96"' in gijon_svg
 
-print("Contextual filter and compact density tests: OK")
+assert "function sourceDiagnosticText(source)" in sources_toggle
+assert "reviewed_items" in sources_toggle
+assert "filtered_or_deduplicated" in sources_toggle
+assert "without_start_time" in sources_toggle
+assert "source_diagnostics" in sources_toggle
+assert "cinearte_vina" in sources_toggle
+assert "insomniacine" in sources_toggle
+
+assert 'const APP_VERSION = "PWA v21"' in pwa
+assert 'const CACHE_VERSION = "v21"' in service_worker
+assert 'url=./app/?city=valparaiso' in root_index
+assert 'target.searchParams.set("city", city)' in root_index
+assert 'window.location.replace(target.href)' in root_index
+
+print("Contextual filter, source diagnostics and canonical parity tests: OK")
