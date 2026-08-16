@@ -14,10 +14,11 @@ assert 'id !== "todos" && count === 0' in density
 assert '.quick-sections [data-section-filter][hidden]' in density
 assert 'container.querySelector(\'[data-section-filter="todos"]\')' in density
 assert "white-space: nowrap !important" in density
-assert "min-height: 124px !important" in density
-assert "min-height: 132px !important" in density
-assert "width: 55% !important" in density
-assert "opacity: .62 !important" in density
+assert "min-height: 0 !important" in density
+assert "width: 58px !important" in density
+assert "font-size: 1.32rem !important" in density
+assert "font-size: clamp(1.55rem, 3.35vw, 3rem) !important" in density
+assert "background-position: right 58% !important" in density
 assert "grid-template-columns: repeat(3, minmax(0, 1fr)) !important" in density
 
 print("Contextual filter and compact density tests: OK")
