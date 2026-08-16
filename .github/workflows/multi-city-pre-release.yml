@@ -6,12 +6,14 @@ on:
       - feature/multi-city-pwa
     paths:
       - "app/**"
+      - "index.html"
       - ".github/workflows/multi-city-pre-release.yml"
   pull_request:
     branches:
       - main
     paths:
       - "app/**"
+      - "index.html"
       - ".github/workflows/multi-city-pre-release.yml"
   workflow_dispatch:
 
@@ -52,6 +54,7 @@ jobs:
           node --check app/service-worker.js
           node --check app/contextual-filters.js
           node --check app/density-polish.js
+          node --check app/sources-toggle.js
 
       - name: Run existing multi-city contracts
         run: |
@@ -60,6 +63,18 @@ jobs:
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_pwa.py
           python app/scripts/test_contextual_filters.py
+
+      - name: Verify canonical root entry
+        run: |
+          set -euo pipefail
+          grep -F 'url=./app/?city=valparaiso' index.html
+          grep -F 'new URL("./app/", window.location.href)' index.html
+          grep -F 'target.searchParams.set("city", city)' index.html
+          grep -F 'window.location.replace(target.href)' index.html
+          grep -F 'const APP_VERSION = "PWA v21"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v21"' app/service-worker.js
+          grep -F 'sourceDiagnosticText' app/sources-toggle.js
+          grep -F 'source_diagnostics' app/sources-toggle.js
 
       - name: Run browser runtime contract
         run: |
@@ -75,19 +90,19 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin main
           BASE="$(git merge-base origin/main HEAD)"
-          PROTECTED=(index.html agenda.js agenda-core.mjs agenda_web.json)
+          PROTECTED=(agenda.js agenda-core.mjs agenda_web.json)
           if ! git diff --quiet "$BASE" HEAD -- "${PROTECTED[@]}"; then
-            echo "A protected production-root file changed in the multi-city preview branch:"
+            echo "A protected production-root data/runtime file changed in the multi-city PR:"
             git diff --name-only "$BASE" HEAD -- "${PROTECTED[@]}"
             exit 1
           fi
 
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in multi-city PR:"
             printf '%s\n' "$UNEXPECTED"
             exit 1
           fi
 
-          echo "Production root isolation: OK"
+          echo "Canonical root parity and production data isolation: OK"
