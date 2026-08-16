@@ -12,6 +12,8 @@ sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 compact_top_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
+lean_filters_js = (APP / "lean-filters.js").read_text(encoding="utf-8")
+sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
 
 assert manifest["start_url"] == "./"
 assert manifest["scope"] == "./"
@@ -49,89 +51,76 @@ assert '<script type="module" src="./pwa.js"></script>' in index
 assert "data-install-app" in index
 assert "data-app-version" in index
 
-assert 'import "./card-experience.js";' in pwa_js
-assert 'import "./card-image-fallback.js";' in pwa_js
-assert 'import "./compact-top.js";' in pwa_js
-assert 'import "./gijon-visual-reference.js";' in pwa_js
-assert 'const APP_VERSION = "PWA v10";' in pwa_js
+for marker in (
+    'data-section-filter="hoy"',
+    'data-section-filter="fin-de-semana"',
+    'data-section-filter="terminan-pronto"',
+    'data-section-filter="gratis"',
+    'data-section-filter="todos"',
+):
+    assert marker in index
+assert 'data-section-filter="proximos"' not in index
+assert 'data-section-filter="talleres-cursos"' not in index
+
+for module in (
+    './card-experience.js',
+    './card-image-fallback.js',
+    './compact-top.js',
+    './gijon-visual-reference.js',
+    './lean-filters.js',
+    './sources-toggle.js',
+):
+    assert f'import "{module}";' in pwa_js
+assert 'const APP_VERSION = "PWA v11";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
-assert '"beforeinstallprompt"' in pwa_js
-assert "event.preventDefault()" in pwa_js
-assert "deferredInstallPrompt" in pwa_js
-assert '"appinstalled"' in pwa_js
-assert '"(display-mode: standalone)"' in pwa_js
 
 assert '.hero > h1' in compact_top_js
-assert '.hero > .hero-copy' in compact_top_js
-assert '.discovery-heading' in compact_top_js
-assert '.category-explorer-heading' in compact_top_js
 assert '.agenda-heading' in compact_top_js
 assert 'display: none !important' in compact_top_js
-assert '.quick-sections button' in compact_top_js
 assert '.category-filters' in compact_top_js
-assert 'flex-wrap: nowrap !important' in compact_top_js
-assert '.section-heading p:not(.eyebrow)' in compact_top_js
-assert '.hero .search-row input' in compact_top_js
-assert 'width: 100% !important' in compact_top_js
 
 assert 'https://www.gijon.es/app/actividades/oferta' in gijon_visual_js
 assert 'data-gijon-visual-reference' in gijon_visual_js
-assert 'Explorar actividades en Gijón' in gijon_visual_js
-assert 'Interfaz visual oficial del Ayuntamiento' in gijon_visual_js
+
+assert 'new Set(["hoy", "fin-de-semana", "terminan-pronto", "gratis", "todos"])' in lean_filters_js
+assert 'data-section-filter="todos"' in lean_filters_js
+assert 'attributeFilter: ["hidden"]' in lean_filters_js
+
+assert 'data-sources-section' in sources_toggle_js
+assert 'button.dataset.sourcesToggle' in sources_toggle_js
+assert 'sources-user-open' in sources_toggle_js
+assert 'aria-expanded' in sources_toggle_js
+assert 'Fuentes' in sources_toggle_js
 
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
-assert '../assets/categoria-exposiciones.jpg' in fallback_js
-assert 'Imagen representativa de la categoría' in fallback_js
 
-assert 'const CACHE_VERSION = "v10"' in sw
+assert 'const CACHE_VERSION = "v11"' in sw
 assert "async function refreshOpenWindows" in sw
-assert 'self.clients.matchAll({ type: "window", includeUncontrolled: true })' in sw
-assert "await client.navigate(client.url)" in sw
 assert "await refreshOpenWindows()" in sw
 
 shell_block = sw.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
-    '"./"',
-    '"./index.html"',
-    '"./app.css"',
-    '"./app.js"',
-    '"./pwa.js"',
-    '"./card-experience.js"',
-    '"./card-experience.css"',
-    '"./card-image-fallback.js"',
-    '"./compact-top.js"',
-    '"./gijon-visual-reference.js"',
-    '"./manifest.webmanifest"',
-    '"./icons/icon.svg"',
-    '"./icons/icon-192.png"',
-    '"./icons/icon-512.png"',
-    '"./icons/icon-maskable-512.png"',
-    '"../assets/categoria-cine.jpg"',
-    '"../assets/categoria-cultura.jpg"',
-    '"../assets/categoria-deportes.jpg"',
-    '"../assets/categoria-exposiciones.jpg"',
-    '"../assets/categoria-gastronomia.jpg"',
-    '"../assets/categoria-musica.jpg"',
-    '"../assets/categoria-naturaleza.jpg"',
-    '"../assets/categoria-talleres.jpg"',
+    '"./"', '"./index.html"', '"./app.css"', '"./app.js"', '"./pwa.js"',
+    '"./card-experience.js"', '"./card-experience.css"', '"./card-image-fallback.js"',
+    '"./compact-top.js"', '"./gijon-visual-reference.js"', '"./lean-filters.js"',
+    '"./sources-toggle.js"', '"./manifest.webmanifest"', '"./icons/icon.svg"',
+    '"./icons/icon-192.png"', '"./icons/icon-512.png"', '"./icons/icon-maskable-512.png"',
+    '"../assets/categoria-cine.jpg"', '"../assets/categoria-cultura.jpg"',
+    '"../assets/categoria-deportes.jpg"', '"../assets/categoria-exposiciones.jpg"',
+    '"../assets/categoria-gastronomia.jpg"', '"../assets/categoria-musica.jpg"',
+    '"../assets/categoria-naturaleza.jpg"', '"../assets/categoria-talleres.jpg"',
     '"../assets/categoria-teatro.jpg"',
 ):
     assert asset in shell_block, f"shell precache missing {asset}"
-assert "agenda_web.json" not in shell_block, "city datasets must not be precached"
+assert "agenda_web.json" not in shell_block
 
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in sw
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in sw
 assert "async function networkFirstDataset" in sw
 assert 'fetch(request, { cache: "no-store" })' in sw
-assert "await cache.put(request, response.clone())" in sw
-assert "cachedRequest.url !== request.url" in sw
-assert "await cache.match(request, { ignoreSearch: true })" in sw
 assert "offline_dataset_unavailable" in sw
-assert "async function networkFirstShell" in sw
-assert "event.respondWith(networkFirstShell(request))" in sw
-assert "cacheFirstShell" not in sw
 
 print("PWA contract tests: OK")

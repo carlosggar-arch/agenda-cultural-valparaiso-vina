@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v10";
+const CACHE_VERSION = "v11";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -14,6 +14,8 @@ const SHELL_ASSETS = [
   "./card-image-fallback.js",
   "./compact-top.js",
   "./gijon-visual-reference.js",
+  "./lean-filters.js",
+  "./sources-toggle.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
