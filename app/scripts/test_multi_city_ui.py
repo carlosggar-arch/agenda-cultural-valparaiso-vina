@@ -147,7 +147,20 @@ assert '.discovery-heading' in compact_js
 assert '.category-explorer-heading' in compact_js
 assert '.quick-sections button' in compact_js
 assert '.category-filters' in compact_js
-assert 'flex-wrap: nowrap !important' in compact_js
+# Filter visibility contract: options must wrap into an adaptive grid rather
+# than being hidden behind a horizontal carousel.
+assert 'display: grid !important' in compact_js
+assert 'grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)) !important' in compact_js
+assert 'grid-template-columns: repeat(auto-fit, minmax(138px, 1fr)) !important' in compact_js
+assert 'grid-template-columns: repeat(2, minmax(0, 1fr)) !important' in compact_js
+assert 'overflow: visible !important' in compact_js
+assert 'white-space: normal !important' in compact_js
+assert 'flex-wrap: nowrap !important' not in compact_js
+assert 'overflow-x: auto !important' not in compact_js
+# The dated section is already the main result list, so its redundant heading
+# and count stay visually hidden while secondary sections keep their headings.
+assert '.content-section[data-dated-section] > .section-heading' in compact_js
+assert '.content-section[data-dated-section]' in compact_js
 assert '.section-heading p:not(.eyebrow)' in compact_js
 assert '.agenda-heading' in compact_js
 assert '.app-header' in compact_js
@@ -197,4 +210,4 @@ assert '"./illustrations/valparaiso-header.svg"' in shell_block
 assert '"./illustrations/gijon-header.svg"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, full city hero, lean discovery and Vivamos brand tests: OK")
+print("Multi-city persistent header, full city hero, visible filter grid and Vivamos brand tests: OK")
