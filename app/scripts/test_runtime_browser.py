@@ -38,13 +38,10 @@ def make_test_page(city: str) -> None:
         + '\n  <script type="module" src="./card-experience.js"></script>'
         + '\n  <script type="module" src="./card-image-fallback.js"></script>'
         + '\n  <script type="module" src="./compact-top.js"></script>'
-        + '\n  <script>setTimeout(() => { const root = getComputedStyle(document.documentElement); const card = document.querySelector(".event-card"); const before = card ? getComputedStyle(card, "::before") : null; const heroTitle = document.querySelector(".hero h1"); document.body.dataset.visualBrand = root.getPropertyValue("--brand").trim(); document.body.dataset.visualStripe = before ? before.height : ""; document.body.dataset.heroTitleDisplay = heroTitle ? getComputedStyle(heroTitle).display : "missing"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
+        + '\n  <script>setTimeout(() => { const root = getComputedStyle(document.documentElement); const card = document.querySelector(".event-card"); const before = card ? getComputedStyle(card, "::before") : null; const heroTitle = document.querySelector(".hero h1"); const discoveryHeading = document.querySelector(".discovery-heading"); const categoryHeading = document.querySelector(".category-explorer-heading"); const sectionCopy = document.querySelector(".content-section .section-heading p:not(.eyebrow)"); const search = document.querySelector("[data-search]"); const categories = document.querySelector(".category-filters"); document.body.dataset.visualBrand = root.getPropertyValue("--brand").trim(); document.body.dataset.visualStripe = before ? before.height : ""; document.body.dataset.heroTitleDisplay = heroTitle ? getComputedStyle(heroTitle).display : "missing"; document.body.dataset.discoveryHeadingDisplay = discoveryHeading ? getComputedStyle(discoveryHeading).display : "missing"; document.body.dataset.categoryHeadingDisplay = categoryHeading ? getComputedStyle(categoryHeading).display : "missing"; document.body.dataset.sectionCopyDisplay = sectionCopy ? getComputedStyle(sectionCopy).display : "missing"; document.body.dataset.searchCompact = search && search.getBoundingClientRect().height <= 50 ? "true" : "false"; document.body.dataset.categoryNoWrap = categories && getComputedStyle(categories).flexWrap === "nowrap" ? "true" : "false"; const trigger = document.querySelector("[data-open-event]"); if (trigger) trigger.click(); const detail = document.querySelector("dialog[data-event-detail]"); document.body.dataset.detailOpen = detail && detail.hasAttribute("open") ? "true" : "false"; document.body.dataset.detailHasSource = detail && detail.textContent.includes("Fuente oficial") ? "true" : "false"; }, 6000);</script>'
     )
     if marker not in source or pwa_marker not in source:
         raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
-    # Runtime rendering and service-worker lifecycle are separate contracts.
-    # Omit pwa.js to avoid activation-triggered navigation, but execute the real
-    # presentation modules explicitly so Chrome validates the final card UI.
     source = source.replace(pwa_marker, "", 1)
     TEST_PAGE.write_text(source.replace(marker, injection, 1), encoding="utf-8")
 
@@ -97,6 +94,16 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError(f"Computed category card accent did not apply for {city}")
         if 'data-hero-title-display="none"' not in dom:
             raise AssertionError(f"Redundant hero title remained visible for {city}")
+        if 'data-discovery-heading-display="none"' not in dom:
+            raise AssertionError(f"Discovery explanation remained visible for {city}")
+        if 'data-category-heading-display="none"' not in dom:
+            raise AssertionError(f"Category explanation remained visible for {city}")
+        if 'data-section-copy-display="none"' not in dom:
+            raise AssertionError(f"Section explanatory copy remained visible for {city}")
+        if 'data-search-compact="true"' not in dom:
+            raise AssertionError(f"Search control is not compact for {city}")
+        if 'data-category-no-wrap="true"' not in dom:
+            raise AssertionError(f"Category controls do not stay on a compact horizontal row for {city}")
         if 'data-detail-open="true"' not in dom:
             raise AssertionError(f"Internal event detail did not open for {city}")
         if 'data-detail-has-source="true"' not in dom:
@@ -121,7 +128,7 @@ def run_city(city: str, base_url: str) -> None:
                 raise AssertionError("Gijon must not use the Valparaiso category-photo fallback")
         if 'No te lo pierdas' not in dom:
             raise AssertionError(f"Featured editorial badge did not render for {city}")
-        print(f"Browser runtime {city}: {card_count} rich cards rendered")
+        print(f"Browser runtime {city}: {card_count} rich cards rendered with compact controls")
 
 
 def main() -> None:
