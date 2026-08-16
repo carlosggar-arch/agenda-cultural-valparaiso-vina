@@ -9,6 +9,7 @@ header_redesign_css = (APP / "header-redesign.css").read_text(encoding="utf-8")
 header_redesign_js = (APP / "header-redesign.js").read_text(encoding="utf-8")
 card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
 card_css = (APP / "card-experience.css").read_text(encoding="utf-8")
+schedule_display_js = (APP / "schedule-display.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 compact_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
@@ -17,6 +18,7 @@ community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
+schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 
 assert 'data-city-option="valparaiso"' in index
 assert 'data-city-option="gijon"' in index
@@ -63,10 +65,15 @@ assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
 assert 'MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816"' in card_js
 assert '.event-card-media' in card_css
+assert 'from "../assets/event-schedule-display.mjs"' in schedule_display_js
+assert 'formatSchedule(event.schedule, activeConfig)' in schedule_display_js
+assert 'stripMediaControls' in schedule_display_js
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert 'object-fit: contain !important' in media_layout
 assert '.card-meta-right' in media_layout
+assert '.event-card-media > button' in media_layout
+assert 'export function formatSchedule' in schedule_module
 
 assert '.hero > h1' in compact_js
 assert '.hero > .hero-copy' in compact_js
@@ -105,7 +112,7 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v22";' in service_worker
+assert 'const CACHE_VERSION = "v23";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
@@ -114,6 +121,7 @@ assert '"./header-redesign.css"' in shell_block
 assert '"./vivamos-brand.js"' in shell_block
 assert '"./header-redesign.js"' in shell_block
 assert '"./card-experience.js"' in shell_block
+assert '"./schedule-display.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
 assert '"./card-image-fallback.js"' in shell_block
 assert '"./compact-top.js"' in shell_block
@@ -126,6 +134,7 @@ assert '"./proponer-fuente.js"' in shell_block
 assert '"./illustrations/valparaiso-header.svg"' in shell_block
 assert '"./illustrations/gijon-header.svg"' in shell_block
 assert '"../assets/event-media-layout.css"' in shell_block
+assert '"../assets/event-schedule-display.mjs"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, compact search hero, unified media grid and Vivamos brand tests: OK")
+print("Multi-city persistent header, shared schedules, clean media grid and Vivamos brand tests: OK")
