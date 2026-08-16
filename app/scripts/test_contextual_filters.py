@@ -52,8 +52,13 @@ assert "insomniacine" in sources_toggle
 
 assert 'const APP_VERSION = "PWA v21"' in pwa
 assert 'const CACHE_VERSION = "v21"' in service_worker
-assert 'url=./app/?city=valparaiso' in root_index
-assert 'target.searchParams.set("city", city)' in root_index
-assert 'window.location.replace(target.href)' in root_index
 
-print("Contextual filter, source diagnostics and canonical parity tests: OK")
+# The root website is intentionally a Valparaíso/Viña web experience again;
+# the multi-city PWA remains available independently under /app/.
+assert '<div class="mosaic-top"' in root_index
+assert '<div class="mosaic-wave"' in root_index
+assert '<div class="footer-mosaic"' in root_index
+assert './assets/web-event-enhancements.js' in root_index
+assert 'window.location.replace(target.href)' not in root_index
+
+print("Contextual filter, source diagnostics, independent web and app tests: OK")
