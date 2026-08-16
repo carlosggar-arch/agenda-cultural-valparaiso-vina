@@ -7,6 +7,7 @@ on:
     paths:
       - "app/**"
       - "index.html"
+      - "assets/web-event-enhancements.js"
       - ".github/workflows/multi-city-pre-release.yml"
   pull_request:
     branches:
@@ -14,6 +15,7 @@ on:
     paths:
       - "app/**"
       - "index.html"
+      - "assets/web-event-enhancements.js"
       - ".github/workflows/multi-city-pre-release.yml"
   workflow_dispatch:
 
@@ -55,6 +57,7 @@ jobs:
           node --check app/contextual-filters.js
           node --check app/density-polish.js
           node --check app/sources-toggle.js
+          node --check assets/web-event-enhancements.js
 
       - name: Run existing multi-city contracts
         run: |
@@ -64,13 +67,14 @@ jobs:
           python app/scripts/test_pwa.py
           python app/scripts/test_contextual_filters.py
 
-      - name: Verify canonical root entry
+      - name: Verify independent Valparaiso web and multi-city app
         run: |
           set -euo pipefail
-          grep -F 'url=./app/?city=valparaiso' index.html
-          grep -F 'new URL("./app/", window.location.href)' index.html
-          grep -F 'target.searchParams.set("city", city)' index.html
-          grep -F 'window.location.replace(target.href)' index.html
+          grep -F '<div class="mosaic-top"' index.html
+          grep -F '<div class="mosaic-wave"' index.html
+          grep -F '<div class="footer-mosaic"' index.html
+          grep -F './assets/web-event-enhancements.js' index.html
+          ! grep -F 'window.location.replace(target.href)' index.html
           grep -F 'const APP_VERSION = "PWA v21"' app/pwa.js
           grep -F 'const CACHE_VERSION = "v21"' app/service-worker.js
           grep -F 'sourceDiagnosticText' app/sources-toggle.js
@@ -85,24 +89,24 @@ jobs:
       - name: Run joint pre-release contract
         run: python app/scripts/test_pre_release.py
 
-      - name: Verify production root isolation
+      - name: Verify production data/runtime isolation
         run: |
           set -euo pipefail
           git fetch --no-tags origin main
           BASE="$(git merge-base origin/main HEAD)"
-          PROTECTED=(agenda.js agenda-core.mjs agenda_web.json)
+          PROTECTED=(agenda.js agenda-core.mjs agenda_web.json assets/agenda.js assets/agenda-core.mjs)
           if ! git diff --quiet "$BASE" HEAD -- "${PROTECTED[@]}"; then
-            echo "A protected production-root data/runtime file changed in the multi-city PR:"
+            echo "A protected production data/runtime file changed unexpectedly:"
             git diff --name-only "$BASE" HEAD -- "${PROTECTED[@]}"
             exit 1
           fi
 
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|assets/web-event-enhancements\.js$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
-            echo "Unexpected paths in multi-city PR:"
+            echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
             exit 1
           fi
 
-          echo "Canonical root parity and production data isolation: OK"
+          echo "Independent Valparaiso web and app isolation: OK"
