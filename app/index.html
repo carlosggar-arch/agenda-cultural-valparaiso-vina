@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#174f46">
+  <meta name="description" content="Agenda Cultural: descubre actividades cercanas y elige tu ciudad.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./app.css">
+  <title>Agenda Cultural</title>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="app-header">
+    <a class="brand" href="./" aria-label="Agenda Cultural, inicio">
+      <img src="./icons/icon.svg" width="48" height="48" alt="">
+      <span><strong>Agenda Cultural</strong><small data-city-subtitle>Elige tu ciudad</small></span>
+    </a>
+    <div class="header-actions">
+      <button class="install-button" type="button" data-install-app hidden>
+        <span aria-hidden="true">↓</span><span>Instalar</span>
+      </button>
+      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog">
+        <span aria-hidden="true">📍</span><span data-city-switch-label>Elegir ciudad</span><span aria-hidden="true">⌄</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero">
+      <p class="eyebrow">Cultura cerca, siempre</p>
+      <h1 data-hero-title>Tu agenda cultural, donde estés</h1>
+      <p class="hero-copy" data-hero-copy>Selecciona una ciudad para cargar únicamente sus actividades.</p>
+      <div class="search-row" hidden data-search-row>
+        <label>
+          <span class="sr-only">Buscar actividades</span>
+          <input type="search" data-search placeholder="Buscar evento, recinto o categoría…" autocomplete="off">
+        </label>
+      </div>
+    </section>
+
+    <section class="status" data-status role="status" aria-live="polite">
+      <strong>Preparando la agenda</strong>
+      <p>Selecciona tu ciudad para comenzar.</p>
+    </section>
+
+    <section class="agenda" hidden data-agenda>
+      <div class="agenda-heading">
+        <div>
+          <p class="eyebrow">Agenda actual</p>
+          <h2 data-agenda-title>Actividades</h2>
+        </div>
+        <p><strong data-total>0</strong> actividades</p>
+      </div>
+
+      <section class="content-section" data-dated-section>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Con fecha y hora</p>
+            <h3>Agenda fechada</h3>
+            <p>Eventos y actividades vinculados a días concretos.</p>
+          </div>
+          <span class="section-count"><strong data-dated-total>0</strong> citas</span>
+        </div>
+        <div class="event-grid" data-dated-grid></div>
+      </section>
+
+      <section class="content-section secondary-section" hidden data-program-section>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Ciclos y temporadas</p>
+            <h3>Programas</h3>
+            <p>Programaciones amplias que agrupan varias citas o se desarrollan durante un periodo extenso.</p>
+          </div>
+          <span class="section-count"><strong data-program-total>0</strong> programas</span>
+        </div>
+        <div class="event-grid compact-grid" data-program-grid></div>
+      </section>
+
+      <section class="content-section secondary-section" hidden data-flexible-section>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Cuando te venga bien</p>
+            <h3>Actividades disponibles</h3>
+            <p>Experiencias o visitas que pueden realizarse durante un periodo amplio y no dependen de una única cita.</p>
+          </div>
+          <span class="section-count"><strong data-flexible-total>0</strong> opciones</span>
+        </div>
+        <div class="event-grid compact-grid" data-flexible-grid></div>
+      </section>
+
+      <div class="empty" hidden data-empty>
+        <h3>No hay actividades disponibles</h3>
+        <p data-empty-copy>La instancia está preparada, pero todavía no tiene eventos publicados.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Agenda Cultural</strong>
+    <span>Una base técnica, agendas locales independientes.</span>
+  </footer>
+
+  <div class="chooser-backdrop" hidden data-chooser-backdrop>
+    <section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser>
+      <button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button>
+      <p class="eyebrow">Agenda Cultural</p>
+      <h2 id="chooser-title">¿Dónde quieres buscar?</h2>
+      <p>Solo cargaremos los eventos de la ciudad que elijas. Puedes cambiarla en cualquier momento.</p>
+      <div class="city-options">
+        <button type="button" data-city-option="valparaiso">
+          <span class="flag" aria-hidden="true">🇨🇱</span>
+          <span><strong>Valparaíso / Viña del Mar</strong><small>Chile</small></span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <button type="button" data-city-option="gijon">
+          <span class="flag" aria-hidden="true">🇪🇸</span>
+          <span><strong>Gijón / Xixón</strong><small>Asturias, España</small></span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button>
+      <p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p>
+      <p class="chooser-message" data-chooser-message aria-live="polite"></p>
+    </section>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>
