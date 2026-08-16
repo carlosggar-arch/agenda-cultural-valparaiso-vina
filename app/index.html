@@ -47,16 +47,45 @@
       <p>Selecciona tu ciudad para comenzar.</p>
     </section>
 
+    <section class="discovery" hidden data-discovery aria-labelledby="discovery-title">
+      <div class="discovery-heading">
+        <div>
+          <p class="eyebrow">Explora la agenda</p>
+          <h2 id="discovery-title">¿Qué te apetece hacer?</h2>
+        </div>
+        <p>Elige un momento o una categoría. Los resultados se adaptan a la ciudad activa.</p>
+      </div>
+
+      <nav class="quick-sections" data-section-filters aria-label="Filtros rápidos por fecha o tipo">
+        <button type="button" data-section-filter="hoy" aria-pressed="false"><span>Hoy</span><small data-section-count>0</small></button>
+        <button type="button" data-section-filter="fin-de-semana" aria-pressed="false"><span>Este fin de semana</span><small data-section-count>0</small></button>
+        <button type="button" data-section-filter="proximos" aria-pressed="false"><span>Próximamente</span><small data-section-count>0</small></button>
+        <button type="button" data-section-filter="terminan-pronto" aria-pressed="false"><span>Terminan pronto</span><small data-section-count>0</small></button>
+        <button type="button" data-section-filter="gratis" aria-pressed="false"><span>Gratis</span><small data-section-count>0</small></button>
+        <button type="button" data-section-filter="talleres-cursos" aria-pressed="false"><span>Talleres y cursos</span><small data-section-count>0</small></button>
+        <button type="button" data-section-filter="todos" aria-pressed="false"><span>Ver todo</span><small data-section-count>0</small></button>
+      </nav>
+
+      <div class="category-explorer">
+        <div class="category-explorer-heading">
+          <h3>Explora por categoría</h3>
+          <p>Las categorías se generan desde la agenda de la ciudad seleccionada.</p>
+        </div>
+        <div class="category-filters" data-category-filters aria-label="Categorías de actividades"></div>
+      </div>
+    </section>
+
     <section class="agenda" hidden data-agenda>
       <div class="agenda-heading">
         <div>
-          <p class="eyebrow">Agenda actual</p>
+          <p class="eyebrow" data-agenda-kicker>Agenda actual</p>
           <h2 data-agenda-title>Actividades</h2>
+          <p class="filter-summary" data-filter-summary aria-live="polite"></p>
         </div>
-        <p><strong data-total>0</strong> actividades</p>
+        <button class="clear-filters" type="button" data-filter-clear hidden>Limpiar filtros</button>
       </div>
 
-      <section class="content-section" data-dated-section>
+      <section class="content-section" hidden data-dated-section>
         <div class="section-heading">
           <div>
             <p class="eyebrow">Con fecha y hora</p>
@@ -93,8 +122,8 @@
       </section>
 
       <div class="empty" hidden data-empty>
-        <h3>No hay actividades disponibles</h3>
-        <p data-empty-copy>La instancia está preparada, pero todavía no tiene eventos publicados.</p>
+        <h3>No encontramos actividades</h3>
+        <p data-empty-copy>No hay actividades con los filtros actuales.</p>
       </div>
     </section>
   </main>
