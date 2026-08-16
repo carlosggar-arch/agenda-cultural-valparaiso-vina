@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v13";
+const CACHE_VERSION = "v14";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -18,6 +18,10 @@ const SHELL_ASSETS = [
   "./gijon-visual-reference.js",
   "./lean-filters.js",
   "./sources-toggle.js",
+  "./community-source.js",
+  "./community-source.css",
+  "./proponer-fuente.html",
+  "./proponer-fuente.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
@@ -74,9 +78,12 @@ self.addEventListener("activate", (event) => {
 
 async function networkFirstNavigation(request) {
   try {
-    return await fetch(request);
+    return await fetch(request, { cache: "no-store" });
   } catch {
-    return (await caches.match("./index.html")) || (await caches.match("./")) || Response.error();
+    return (await caches.match(request, { ignoreSearch: true }))
+      || (await caches.match("./index.html"))
+      || (await caches.match("./"))
+      || Response.error();
   }
 }
 
