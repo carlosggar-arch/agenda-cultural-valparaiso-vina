@@ -214,12 +214,15 @@ async function loadCity(id) {
   saveCity(id);
   hideChooser();
 
+  document.body.dataset.city = id;
   document.documentElement.lang = id === "gijon" ? "es-ES" : "es-CL";
   document.title = `Agenda Cultural · ${city.label}`;
   dom.citySwitchLabel.textContent = city.label;
   dom.citySubtitle.textContent = city.subtitle;
   dom.heroTitle.textContent = `Descubre qué hacer en ${city.label}`;
-  dom.heroCopy.textContent = `La aplicación carga únicamente las actividades de ${city.label}. Puedes cambiar de ciudad cuando quieras.`;
+  dom.heroCopy.textContent = id === "gijon"
+    ? "Cultura junto al Cantábrico: agenda local de Gijón/Xixón con horarios adaptados a Asturias."
+    : "Cultura entre el mar y los cerros: agenda local de Valparaíso y Viña del Mar.";
   dom.agendaTitle.textContent = city.label;
   dom.searchRow.hidden = false;
   dom.search.value = "";
