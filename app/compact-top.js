@@ -69,22 +69,27 @@ if (!document.getElementById(STYLE_ID)) {
     .category-explorer-heading {
       display: none !important;
     }
+
+    /* All quick filters stay visible. The grid grows vertically instead of
+       hiding options behind a horizontal swipe. */
     .quick-sections {
-      gap: .38rem !important;
-      padding: .12rem 0 .34rem !important;
-      scrollbar-width: none;
-    }
-    .quick-sections::-webkit-scrollbar,
-    .category-filters::-webkit-scrollbar {
-      display: none;
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)) !important;
+      gap: .42rem !important;
+      padding: .12rem 0 .38rem !important;
+      overflow: visible !important;
     }
     .quick-sections button {
-      padding: .46rem .62rem !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      justify-content: center !important;
+      padding: .5rem .62rem !important;
       gap: .38rem !important;
       font-size: .8rem !important;
-      line-height: 1 !important;
+      line-height: 1.05 !important;
     }
     .quick-sections button small {
+      flex: 0 0 auto !important;
       min-width: 1.35rem !important;
       height: 1.35rem !important;
       padding: 0 .28rem !important;
@@ -92,29 +97,36 @@ if (!document.getElementById(STYLE_ID)) {
     }
 
     .category-explorer {
-      margin-top: .08rem !important;
+      margin-top: .12rem !important;
       padding: 0 !important;
       border: 0 !important;
       border-radius: 0 !important;
       background: transparent !important;
     }
     .category-filters {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      gap: .38rem !important;
-      overflow-x: auto !important;
-      padding: .06rem 0 .28rem !important;
-      scrollbar-width: none;
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(138px, 1fr)) !important;
+      gap: .42rem !important;
+      overflow: visible !important;
+      padding: .06rem 0 .34rem !important;
     }
     .category-chip {
-      flex: 0 0 auto !important;
-      white-space: nowrap !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      white-space: normal !important;
+      justify-content: space-between !important;
+      text-align: left !important;
       border-radius: 999px !important;
-      padding: .43rem .58rem !important;
-      gap: .36rem !important;
+      padding: .46rem .62rem !important;
+      gap: .38rem !important;
       font-size: .8rem !important;
+      line-height: 1.12 !important;
+    }
+    .category-chip span {
+      min-width: 0 !important;
     }
     .category-chip small {
+      flex: 0 0 auto !important;
       font-size: .66rem !important;
       min-width: 1.2rem !important;
       padding: .08rem .28rem !important;
@@ -129,6 +141,15 @@ if (!document.getElementById(STYLE_ID)) {
 
     .content-section {
       padding: .8rem 0 1.15rem !important;
+    }
+    /* The dated agenda is already the primary content immediately below the
+       filters. Repeating "Agenda fechada" plus a count adds no decision value. */
+    .content-section[data-dated-section] {
+      padding-top: .22rem !important;
+      border-top: 0 !important;
+    }
+    .content-section[data-dated-section] > .section-heading {
+      display: none !important;
     }
     .secondary-section {
       margin-top: .25rem !important;
@@ -162,6 +183,15 @@ if (!document.getElementById(STYLE_ID)) {
       font-size: .78rem !important;
     }
 
+    @media (max-width: 760px) {
+      .quick-sections {
+        grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)) !important;
+      }
+      .category-filters {
+        grid-template-columns: repeat(auto-fit, minmax(124px, 1fr)) !important;
+      }
+    }
+
     @media (max-width: 560px) {
       .app-header {
         gap: .55rem !important;
@@ -186,6 +216,13 @@ if (!document.getElementById(STYLE_ID)) {
       }
       .discovery {
         padding-bottom: .4rem !important;
+      }
+      .quick-sections,
+      .category-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      .category-chip {
+        border-radius: .8rem !important;
       }
       .section-heading {
         gap: .45rem !important;

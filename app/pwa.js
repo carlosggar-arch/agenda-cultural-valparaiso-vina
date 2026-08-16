@@ -6,8 +6,9 @@ import "./gijon-visual-reference.js";
 import "./lean-filters.js";
 import "./sources-toggle.js";
 import "./community-source.js";
+import "./header-redesign.js";
 
-const APP_VERSION = "PWA v13";
+const APP_VERSION = "PWA v16";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
