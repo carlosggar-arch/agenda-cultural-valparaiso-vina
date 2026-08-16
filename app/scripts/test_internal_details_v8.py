@@ -11,8 +11,9 @@ assert "event-detail-dialog" in css
 assert 'import { openEventDetail } from "./event-detail.js";' in card
 assert "dataset.openEvent" in card
 assert 'buildAction(official, "Ver evento' not in card
-assert 'const APP_VERSION = "PWA v10";' in pwa
-assert 'const CACHE_VERSION = "v10";' in sw
+assert 'const APP_VERSION = "PWA v11";' in pwa
+assert 'const CACHE_VERSION = "v11";' in sw
 assert '"./event-detail.js"' in sw
 assert '"./gijon-visual-reference.js"' in sw
-print("Internal event detail + compact visual shell v10 contract: OK")
+assert '"./lean-filters.js"' in sw
+print("Internal event detail + lean compact visual shell v11 contract: OK")
