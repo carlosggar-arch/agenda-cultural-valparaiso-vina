@@ -8,6 +8,8 @@ const SHELL_ASSETS = [
   "./app.css",
   "./app.js",
   "./pwa.js",
+  "./card-experience.js",
+  "./card-experience.css",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

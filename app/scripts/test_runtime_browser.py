@@ -35,12 +35,13 @@ def make_test_page(city: str) -> None:
     injection = (
         f'<script>localStorage.setItem("agenda-cultural-city", "{city}");</script>\n  '
         + marker
+        + '\n  <script type="module" src="./card-experience.js"></script>'
     )
     if marker not in source or pwa_marker not in source:
         raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
     # Runtime rendering and service-worker lifecycle are separate contracts.
-    # Omitting pwa.js here prevents an activation-triggered navigation from
-    # interfering with Chrome --dump-dom while still executing the real app.js.
+    # Omit pwa.js to avoid activation-triggered navigation, but execute the real
+    # card presentation module explicitly so the browser validates the final UI.
     source = source.replace(pwa_marker, "", 1)
     TEST_PAGE.write_text(source.replace(marker, injection, 1), encoding="utf-8")
 
@@ -55,12 +56,12 @@ def run_city(city: str, base_url: str) -> None:
             "--disable-gpu",
             "--disable-dev-shm-usage",
             "--disable-background-networking",
-            "--virtual-time-budget=7000",
+            "--virtual-time-budget=9000",
             f"--user-data-dir={profile}",
             "--dump-dom",
             f"{base_url}/app/__runtime_test.html",
         ]
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
+        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
         if result.returncode != 0:
             raise AssertionError(
                 f"Chrome failed for {city}: exit={result.returncode}\nSTDERR:\n{result.stderr[-4000:]}"
@@ -80,7 +81,17 @@ def run_city(city: str, base_url: str) -> None:
             )
         if '<strong data-total="">0</strong>' in dom:
             raise AssertionError(f"Rendered cards but total stayed at zero for {city}")
-        print(f"Browser runtime {city}: {card_count} cards rendered")
+        if 'class="event-card-media' not in dom:
+            raise AssertionError(f"Rich card media did not render for {city}")
+        if 'class="event-facts"' not in dom or 'class="card-fact"' not in dom:
+            raise AssertionError(f"Date/location/price facts did not render for {city}")
+        if 'card-action--primary' not in dom:
+            raise AssertionError(f"Primary event action did not render for {city}")
+        if city == "gijon" and 'class="event-card-photo"' not in dom:
+            raise AssertionError("Gijon should expose at least one official event image")
+        if 'No te lo pierdas' not in dom:
+            raise AssertionError(f"Featured editorial badge did not render for {city}")
+        print(f"Browser runtime {city}: {card_count} rich cards rendered")
 
 
 def main() -> None:
