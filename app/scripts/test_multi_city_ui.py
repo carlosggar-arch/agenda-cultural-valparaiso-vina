@@ -5,6 +5,8 @@ app_js = Path("app/app.js").read_text(encoding="utf-8")
 pwa_js = Path("app/pwa.js").read_text(encoding="utf-8")
 css = Path("app/app.css").read_text(encoding="utf-8")
 city_header_css = Path("app/city-header.css").read_text(encoding="utf-8")
+header_redesign_css = Path("app/header-redesign.css").read_text(encoding="utf-8")
+header_redesign_js = Path("app/header-redesign.js").read_text(encoding="utf-8")
 card_js = Path("app/card-experience.js").read_text(encoding="utf-8")
 card_css = Path("app/card-experience.css").read_text(encoding="utf-8")
 fallback_js = Path("app/card-image-fallback.js").read_text(encoding="utf-8")
@@ -81,13 +83,30 @@ assert 'document.documentElement.dataset.city = id' in app_js
 assert 'dom.citySwitch.addEventListener("click", () => showChooser(false))' in app_js
 assert 'else showChooser(true);' in app_js  # fallback only when storage is unavailable
 
-# Distinctive but shared city header.
+# Legacy city identity remains available underneath the stronger hero layer.
 assert 'html[data-city="valparaiso"] .masthead-valpo' in city_header_css
 assert 'html[data-city="gijon"] .masthead-gijon' in city_header_css
 assert '.gijon-wave' in city_header_css
 assert '.gijon-mark' in city_header_css
 assert '.masthead-valpo span:nth-child(8)' in city_header_css
 assert '.brand img{width:72px;height:72px' in city_header_css
+
+# Full hero redesign must override the compact-top !important rules and carry
+# city-specific local art while keeping one shared structure.
+assert 'import "./header-redesign.js";' in pwa_js
+assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
+assert 'header.dataset.headerRedesign = "hero-v2"' in header_redesign_js
+assert 'bottom.append(searchRow)' in header_redesign_js
+assert 'bottom.append(actions)' in header_redesign_js
+assert 'art.className = "header-art"' in header_redesign_js
+assert 'min-height:258px!important' in header_redesign_css
+assert 'position:relative!important' in header_redesign_css
+assert '.header-city-title' in header_redesign_css
+assert 'font-size:clamp(2.55rem,4.4vw,3.55rem)' in header_redesign_css
+assert './illustrations/valparaiso-header.svg' in header_redesign_css
+assert './illustrations/gijon-header.svg' in header_redesign_css
+assert Path("app/illustrations/valparaiso-header.svg").exists()
+assert Path("app/illustrations/gijon-header.svg").exists()
 
 assert 'import "./vivamos-brand.js";' in pwa_js
 assert 'import "./card-experience.js";' in pwa_js
@@ -156,12 +175,14 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v15";' in service_worker
+assert 'const CACHE_VERSION = "v16";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 assert '"./city-header.css"' in shell_block
+assert '"./header-redesign.css"' in shell_block
 assert '"./vivamos-brand.js"' in shell_block
+assert '"./header-redesign.js"' in shell_block
 assert '"./card-experience.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
 assert '"./card-image-fallback.js"' in shell_block
@@ -172,6 +193,8 @@ assert '"./community-source.js"' in shell_block
 assert '"./community-source.css"' in shell_block
 assert '"./proponer-fuente.html"' in shell_block
 assert '"./proponer-fuente.js"' in shell_block
+assert '"./illustrations/valparaiso-header.svg"' in shell_block
+assert '"./illustrations/gijon-header.svg"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, lean discovery and Vivamos brand tests: OK")
+print("Multi-city persistent header, full city hero, lean discovery and Vivamos brand tests: OK")
