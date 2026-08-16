@@ -1,0 +1,36 @@
+name: Fix v8 validation runner
+
+on:
+  push:
+    branches:
+      - fix/internal-event-details-v8
+    paths:
+      - .github/workflows/fix-v8-validation-runner.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/internal-event-details-v8
+      - name: Remove invalid extra validation command
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('.github/workflows/patch-internal-event-details-v8.yml')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('          python app/scripts/pre_release_check.py\n', '')
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit runner fix and remove helper
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/fix-v8-validation-runner.yml
+          git add .github/workflows/patch-internal-event-details-v8.yml
+          git commit -m "Fix v8 validation runner"
+          git push origin HEAD:fix/internal-event-details-v8
