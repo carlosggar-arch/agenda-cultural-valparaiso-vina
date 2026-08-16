@@ -53,10 +53,16 @@ const dom = {
   emptyCopy: document.querySelector("[data-empty-copy]"),
   searchRow: document.querySelector("[data-search-row]"),
   search: document.querySelector("[data-search]"),
+  filters: document.querySelector("[data-filters]"),
+  timeFilters: document.querySelectorAll("[data-time-filter]"),
+  categoryFilters: document.querySelector("[data-category-filters]"),
 };
 
 let activeCity = null;
 let allEvents = [];
+let activeTimeFilter = "all";
+let activeCategory = null;
+let categoryCatalog = [];
 
 function showChooser(force = false) {
   dom.chooserBackdrop.hidden = false;
@@ -95,21 +101,28 @@ function saveCity(id) {
   try { localStorage.setItem(STORAGE_KEY, id); } catch {}
 }
 
+function dateOnlyToDisplayDate(value) {
+  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return new Date(value);
+  return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12, 0, 0);
+}
+
 function formatSchedule(event, city) {
   const start = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
   const end = event?.schedule?.end;
   if (!start) return event?.schedule?.display_text || "Horario por confirmar";
 
   const formatValue = (value, withWeekday = true) => {
-    const date = new Date(value);
+    const date = dateOnlyToDisplayDate(value);
     if (Number.isNaN(date.getTime())) return String(value);
+    const hasTime = String(value).includes("T");
     return new Intl.DateTimeFormat(city.locale, {
-      timeZone: city.timezone,
+      timeZone: hasTime ? city.timezone : undefined,
       weekday: withWeekday ? "short" : undefined,
       day: "numeric",
       month: "short",
-      hour: String(value).includes("T") ? "2-digit" : undefined,
-      minute: String(value).includes("T") ? "2-digit" : undefined,
+      hour: hasTime ? "2-digit" : undefined,
+      minute: hasTime ? "2-digit" : undefined,
       hour12: false,
     }).format(date);
   };
@@ -117,9 +130,7 @@ function formatSchedule(event, city) {
   try {
     const startDate = String(start).slice(0, 10);
     const endDate = end ? String(end).slice(0, 10) : null;
-    if (endDate && endDate !== startDate) {
-      return `${formatValue(start)} – ${formatValue(end, false)}`;
-    }
+    if (endDate && endDate !== startDate) return `${formatValue(start)} – ${formatValue(end, false)}`;
     return formatValue(start);
   } catch {
     return event?.schedule?.display_text || String(start);
@@ -128,6 +139,22 @@ function formatSchedule(event, city) {
 
 function eventCategory(event) {
   return event?.primary_category?.label || event?.categories?.[0]?.label || "Actividad cultural";
+}
+
+function eventCategoryEntries(event) {
+  const entries = [];
+  const seen = new Set();
+  const raw = [event?.primary_category, ...(Array.isArray(event?.categories) ? event.categories : [])];
+  for (const category of raw) {
+    const label = category?.label;
+    if (!label) continue;
+    const id = String(category?.id || label).trim().toLocaleLowerCase(activeCity?.locale || "es");
+    if (seen.has(id)) continue;
+    seen.add(id);
+    entries.push({ id, label });
+  }
+  if (!entries.length) entries.push({ id: "actividad-cultural", label: "Actividad cultural" });
+  return entries;
 }
 
 function eventLink(event) {
@@ -173,10 +200,10 @@ function createEventCard(event) {
   return card;
 }
 
-function renderGroup(grid, section, total, events, { alwaysShow = false } = {}) {
+function renderGroup(grid, section, total, events) {
   grid.replaceChildren();
   total.textContent = String(events.length);
-  section.hidden = !alwaysShow && events.length === 0;
+  section.hidden = events.length === 0;
   for (const event of events) grid.append(createEventCard(event));
 }
 
@@ -191,20 +218,159 @@ function renderEvents(events) {
   renderGroup(dom.flexibleGrid, dom.flexibleSection, dom.flexibleTotal, groups.flexible);
 }
 
-function filterEvents() {
+function cityDateKey(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: activeCity.timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+function addDays(dateKey, amount) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day + amount, 12));
+  return date.toISOString().slice(0, 10);
+}
+
+function weekdayForDateKey(dateKey) {
+  const [year, month, day] = dateKey.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day, 12)).getUTCDay();
+}
+
+function eventDateRange(event) {
+  const schedule = event?.schedule || {};
+  const occurrenceStarts = Array.isArray(schedule.occurrences)
+    ? schedule.occurrences.map((item) => item?.start).filter(Boolean)
+    : [];
+  const start = schedule.start || occurrenceStarts[0] || null;
+  const end = schedule.end || start;
+  return {
+    start: start ? String(start).slice(0, 10) : null,
+    end: end ? String(end).slice(0, 10) : null,
+    occurrences: occurrenceStarts.map((value) => String(value).slice(0, 10)),
+  };
+}
+
+function eventTouchesDate(event, dateKey) {
+  const range = eventDateRange(event);
+  if (range.occurrences.includes(dateKey)) return true;
+  if (!range.start) return false;
+  return range.start <= dateKey && dateKey <= (range.end || range.start);
+}
+
+function weekendRange(today) {
+  const weekday = weekdayForDateKey(today);
+  if (weekday === 6) return { start: today, end: addDays(today, 1) };
+  if (weekday === 0) return { start: addDays(today, -1), end: today };
+  const daysUntilSaturday = 6 - weekday;
+  const start = addDays(today, daysUntilSaturday);
+  return { start, end: addDays(start, 1) };
+}
+
+function eventMatchesTimeFilter(event) {
+  if (activeTimeFilter === "all") return true;
+  if (activeTimeFilter === "free") return event?.price?.is_free === true;
+
+  const today = cityDateKey();
+  if (activeTimeFilter === "today") return eventTouchesDate(event, today);
+
+  if (activeTimeFilter === "weekend") {
+    const weekend = weekendRange(today);
+    return eventTouchesDate(event, weekend.start) || eventTouchesDate(event, weekend.end);
+  }
+
+  if (activeTimeFilter === "ending") {
+    const { end } = eventDateRange(event);
+    if (!end) return false;
+    return end >= today && end <= addDays(today, 3);
+  }
+
+  return true;
+}
+
+function eventMatchesSearch(event) {
   const query = dom.search.value.trim().toLocaleLowerCase(activeCity?.locale || "es");
-  if (!query) return renderEvents(allEvents);
-  renderEvents(allEvents.filter((event) => {
-    const haystack = [
-      event?.title,
-      eventCategory(event),
-      event?.location?.venue,
-      event?.location?.city,
-      event?.description,
-      typeBadge(event),
-    ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
-    return haystack.includes(query);
-  }));
+  if (!query) return true;
+  const haystack = [
+    event?.title,
+    eventCategory(event),
+    ...eventCategoryEntries(event).map((category) => category.label),
+    event?.location?.venue,
+    event?.location?.city,
+    event?.description,
+    typeBadge(event),
+  ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
+  return haystack.includes(query);
+}
+
+function eventMatchesCategory(event, categoryId = activeCategory) {
+  if (!categoryId) return true;
+  return eventCategoryEntries(event).some((category) => category.id === categoryId);
+}
+
+function buildCategoryCatalog(events) {
+  const categories = new Map();
+  for (const event of events) {
+    for (const category of eventCategoryEntries(event)) {
+      if (!categories.has(category.id)) categories.set(category.id, category.label);
+    }
+  }
+  return [...categories.entries()]
+    .map(([id, label]) => ({ id, label }))
+    .sort((a, b) => a.label.localeCompare(b.label, activeCity.locale, { sensitivity: "base" }));
+}
+
+function renderCategoryFilters(contextEvents) {
+  dom.categoryFilters.replaceChildren();
+  const counts = new Map(categoryCatalog.map((category) => [category.id, 0]));
+  for (const event of contextEvents) {
+    for (const category of eventCategoryEntries(event)) counts.set(category.id, (counts.get(category.id) || 0) + 1);
+  }
+
+  for (const category of categoryCatalog) {
+    const button = document.createElement("button");
+    const count = counts.get(category.id) || 0;
+    const active = activeCategory === category.id;
+    button.type = "button";
+    button.className = `filter-chip category-chip${active ? " is-active" : ""}`;
+    button.dataset.categoryFilter = category.id;
+    button.setAttribute("aria-pressed", String(active));
+    button.innerHTML = `<span>${escapeHtml(category.label)}</span><strong>${count}</strong>`;
+    button.addEventListener("click", () => {
+      activeCategory = activeCategory === category.id ? null : category.id;
+      applyFilters();
+    });
+    dom.categoryFilters.append(button);
+  }
+}
+
+function updateTimeFilterButtons() {
+  dom.timeFilters.forEach((button) => {
+    const active = button.dataset.timeFilter === activeTimeFilter;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function applyFilters() {
+  if (!activeCity) return;
+  const contextEvents = allEvents.filter((event) => eventMatchesTimeFilter(event) && eventMatchesSearch(event));
+  renderCategoryFilters(contextEvents);
+  const visibleEvents = contextEvents.filter((event) => eventMatchesCategory(event));
+  renderEvents(visibleEvents);
+  dom.emptyCopy.textContent = visibleEvents.length
+    ? ""
+    : `No hay actividades que coincidan con los filtros actuales en ${activeCity.label}.`;
+}
+
+function resetFilters() {
+  activeTimeFilter = "all";
+  activeCategory = null;
+  dom.search.value = "";
+  updateTimeFilterButtons();
 }
 
 async function loadCity(id) {
@@ -213,11 +379,12 @@ async function loadCity(id) {
   activeCity = city;
   saveCity(id);
   hideChooser();
+  resetFilters();
 
   document.body.dataset.city = id;
   document.documentElement.lang = id === "gijon" ? "es-ES" : "es-CL";
   document.title = `Agenda Cultural · ${city.label}`;
-  dom.citySwitchLabel.textContent = city.label;
+  dom.citySwitchLabel.textContent = "Cambiar ciudad";
   dom.citySubtitle.textContent = city.subtitle;
   dom.heroTitle.textContent = `Descubre qué hacer en ${city.label}`;
   dom.heroCopy.textContent = id === "gijon"
@@ -225,7 +392,7 @@ async function loadCity(id) {
     : "Cultura entre el mar y los cerros: agenda local de Valparaíso y Viña del Mar.";
   dom.agendaTitle.textContent = city.label;
   dom.searchRow.hidden = false;
-  dom.search.value = "";
+  dom.filters.hidden = true;
   setStatus("Cargando agenda", `Estamos buscando las actividades disponibles en ${city.label}.`);
 
   try {
@@ -234,13 +401,17 @@ async function loadCity(id) {
     const dataset = await response.json();
     if (!Array.isArray(dataset.events)) throw new Error("Dataset inválido");
     allEvents = dataset.events;
+    categoryCatalog = buildCategoryCatalog(allEvents);
     dom.agenda.hidden = false;
+    dom.filters.hidden = false;
     dom.status.hidden = true;
     dom.emptyCopy.textContent = `Todavía no hay actividades publicadas para ${city.label}.`;
-    renderEvents(allEvents);
+    applyFilters();
   } catch (error) {
     allEvents = [];
+    categoryCatalog = [];
     dom.agenda.hidden = false;
+    dom.filters.hidden = true;
     renderEvents([]);
     setStatus("No pudimos cargar la agenda", `La aplicación no pudo leer el dataset de ${city.label}. Intenta nuevamente más tarde.`);
   }
@@ -295,11 +466,17 @@ dom.cityOptions.forEach((button) => button.addEventListener("click", () => loadC
 dom.citySwitch.addEventListener("click", () => showChooser(false));
 dom.chooserClose.addEventListener("click", hideChooser);
 dom.useLocation.addEventListener("click", useLocation);
-dom.search.addEventListener("input", filterEvents);
+dom.search.addEventListener("input", applyFilters);
+dom.timeFilters.forEach((button) => button.addEventListener("click", () => {
+  activeTimeFilter = button.dataset.timeFilter;
+  updateTimeFilterButtons();
+  applyFilters();
+}));
 dom.chooserBackdrop.addEventListener("click", (event) => { if (event.target === dom.chooserBackdrop && activeCity) hideChooser(); });
 
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && activeCity) hideChooser(); });
 
-const savedCity = readSavedCity();
-if (savedCity) loadCity(savedCity);
+const urlCity = new URLSearchParams(window.location.search).get("city");
+const initialCity = CITIES[urlCity] ? urlCity : readSavedCity();
+if (initialCity) loadCity(initialCity);
 else showChooser(true);
