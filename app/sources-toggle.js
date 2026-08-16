@@ -8,6 +8,21 @@ const DATASETS = Object.freeze({
   gijon: "./data/gijon/agenda_web.json",
 });
 
+const DIAGNOSTIC_SOURCE_META = Object.freeze({
+  cinearte_vina: {
+    name: "Cine Arte Viña del Mar",
+    url: "https://cineartevina.cl/",
+    official: true,
+    scope: "Viña del Mar",
+  },
+  insomniacine: {
+    name: "INSOMNIA Teatro Condell",
+    url: "https://www.insomniacine.cl/",
+    official: true,
+    scope: "Valparaíso",
+  },
+});
+
 let configuredSources = [];
 let loadGeneration = 0;
 
@@ -24,14 +39,71 @@ function safeHttpUrl(value) {
   }
 }
 
-function gridSourceNames() {
-  const names = new Set();
-  if (!sourcesGrid) return names;
+function finiteMetric(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function sourceDiagnosticText(source) {
+  const diagnostic = source?.diagnostics;
+  if (!diagnostic || typeof diagnostic !== "object") return "";
+
+  const pieces = [];
+  const reviewedItems = finiteMetric(diagnostic.reviewed_items);
+  const reviewedTitles = finiteMetric(diagnostic.reviewed_titles);
+  const datedCandidates = finiteMetric(diagnostic.dated_candidates);
+  const sessionsDetected = finiteMetric(diagnostic.sessions_detected);
+  const publishedEvents = finiteMetric(diagnostic.published_events);
+  const sessionsPublished = finiteMetric(diagnostic.sessions_published);
+  const filtered = finiteMetric(diagnostic.filtered_or_deduplicated);
+  const withoutTime = finiteMetric(diagnostic.without_start_time);
+
+  if (reviewedItems !== null) pieces.push(`${reviewedItems} revisados`);
+  else if (reviewedTitles !== null) pieces.push(`${reviewedTitles} títulos revisados`);
+
+  if (datedCandidates !== null) pieces.push(`${datedCandidates} candidatos con fecha`);
+  else if (sessionsDetected !== null) pieces.push(`${sessionsDetected} sesiones detectadas`);
+
+  if (publishedEvents !== null) pieces.push(`${publishedEvents} publicados`);
+  else if (sessionsPublished !== null) pieces.push(`${sessionsPublished} sesiones publicadas`);
+
+  if (filtered !== null) pieces.push(`${filtered} filtrados/duplicados`);
+  if (withoutTime !== null) pieces.push(`${withoutTime} sin hora de inicio`);
+
+  return pieces.join(" · ");
+}
+
+function appendDiagnostic(card, source) {
+  if (!card || card.querySelector(".source-diagnostics")) return;
+  const text = sourceDiagnosticText(source);
+  if (!text) return;
+
+  const diagnostic = document.createElement("small");
+  diagnostic.className = "source-diagnostics";
+  diagnostic.textContent = text;
+  card.append(diagnostic);
+
+  const note = String(source?.diagnostics?.note || "").trim();
+  if (note) {
+    const noteNode = document.createElement("small");
+    noteNode.className = "source-diagnostics-note";
+    noteNode.textContent = note;
+    card.append(noteNode);
+  }
+}
+
+function gridSourceCards() {
+  const cards = new Map();
+  if (!sourcesGrid) return cards;
   for (const card of sourcesGrid.querySelectorAll(".source-card")) {
     const name = card.querySelector("strong")?.textContent;
-    if (name) names.add(sourceKey(name));
+    if (name) cards.set(sourceKey(name), card);
   }
-  return names;
+  return cards;
+}
+
+function gridSourceNames() {
+  return new Set(gridSourceCards().keys());
 }
 
 function configuredSourceCard(source) {
@@ -69,6 +141,8 @@ function configuredSourceCard(source) {
     card.append(scopeNode);
   }
 
+  appendDiagnostic(card, source);
+
   const href = safeHttpUrl(source?.url);
   if (href) {
     const link = document.createElement("a");
@@ -87,13 +161,20 @@ function mergeConfiguredSourcesIntoGrid() {
     return;
   }
 
-  const present = gridSourceNames();
+  const cards = gridSourceCards();
   let appended = false;
   for (const source of configuredSources) {
     const name = String(source?.name || "").trim();
-    if (!name || present.has(sourceKey(name))) continue;
-    sourcesGrid.append(configuredSourceCard(source));
-    present.add(sourceKey(name));
+    if (!name) continue;
+    const key = sourceKey(name);
+    const existing = cards.get(key);
+    if (existing) {
+      appendDiagnostic(existing, source);
+      continue;
+    }
+    const card = configuredSourceCard(source);
+    sourcesGrid.append(card);
+    cards.set(key, card);
     appended = true;
   }
 
@@ -110,6 +191,33 @@ function updateSourceCount() {
   button.textContent = opening
     ? `Ocultar fuentes${count ? ` · ${count}` : ""}`
     : `Fuentes${count ? ` · ${count}` : ""}`;
+}
+
+function sourcesFromDataset(dataset) {
+  const sources = Array.isArray(dataset?.sources)
+    ? dataset.sources.filter((source) => source && source.name).map((source) => ({ ...source }))
+    : [];
+  const byId = new Map(sources.map((source) => [String(source?.id || ""), source]));
+
+  for (const [id, diagnostics] of Object.entries(dataset?.source_diagnostics || {})) {
+    if (!diagnostics || typeof diagnostics !== "object") continue;
+    const existing = byId.get(id);
+    if (existing) {
+      existing.diagnostics = diagnostics;
+      continue;
+    }
+    const meta = DIAGNOSTIC_SOURCE_META[id];
+    if (!meta) continue;
+    const source = {
+      id,
+      ...meta,
+      event_count: Number(diagnostics.sessions_published || 0),
+      diagnostics,
+    };
+    sources.push(source);
+    byId.set(id, source);
+  }
+  return sources;
 }
 
 async function loadConfiguredSources() {
@@ -130,9 +238,7 @@ async function loadConfiguredSources() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const dataset = await response.json();
     if (generation !== loadGeneration) return;
-    configuredSources = Array.isArray(dataset?.sources)
-      ? dataset.sources.filter((source) => source && source.name)
-      : [];
+    configuredSources = sourcesFromDataset(dataset);
   } catch {
     if (generation !== loadGeneration) return;
     configuredSources = [];
@@ -151,6 +257,8 @@ if (sourcesSection && sourcesGrid && footer) {
     .sources-toggle{border:1px solid color-mix(in srgb,var(--brand) 24%,#fff);background:#fff;color:var(--brand);border-radius:999px;padding:.5rem .8rem;font-weight:800;cursor:pointer}
     .sources-toggle:hover,.sources-toggle:focus-visible{border-color:var(--accent)}
     .source-card--catalog .source-scope{display:block;margin-top:.12rem;color:var(--muted,#64726f)}
+    .source-diagnostics{display:block;margin-top:.35rem;font-weight:700;color:var(--brand,#153e52)}
+    .source-diagnostics-note{display:block;margin-top:.18rem;color:var(--muted,#64726f);line-height:1.35}
   `;
   document.head.append(style);
 
