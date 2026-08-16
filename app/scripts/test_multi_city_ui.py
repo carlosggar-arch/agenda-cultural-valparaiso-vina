@@ -126,6 +126,10 @@ assert 'import "./lean-filters.js";' in pwa_js
 assert 'import "./community-source.js";' in pwa_js
 assert 'const BRAND_NAME = "¡Vivamos!";' in vivamos_brand_js
 assert 'const BRAND_TAGLINE = "Descubre y vive lo que hay cerca de ti.";' in vivamos_brand_js
+assert 'import { BRAND_TAGLINE } from "./vivamos-brand.js";' in header_redesign_js
+assert 'const TAGLINE = BRAND_TAGLINE;' in header_redesign_js
+assert 'Cultura, panoramas y experiencias para disfrutar cerca de ti.' not in header_redesign_js
+assert '<span>Descubre y vive lo que hay cerca de ti.</span>' in index
 assert 'dataset: "../agenda_web.json"' in card_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in card_js
 assert 'event?.image?.url' in card_js
@@ -197,7 +201,7 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v17";' in service_worker
+assert 'const CACHE_VERSION = "v18";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
