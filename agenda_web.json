@@ -4,8 +4,8 @@
   "publication_date": "2026-08-15",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 72,
-    "events": 68,
+    "total": 71,
+    "events": 67,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -1384,80 +1384,6 @@
       }
     },
     {
-      "id": "agenda_590f7ec146ac96ceff1b1c54",
-      "title": "LA NARRACIÓN ORAL TIENE CITA CON ANA WONKA",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-15T19:00:00-04:00",
-        "end": "2026-08-16",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-15 · 19:00, 10:30, 12:30",
-        "occurrences": [],
-        "start_confidence": "technical_fallback",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "SANTIAGO: Jueves 13 de agosto, 19:00 hrs.Teatro Novedades (Cueto 257). 🎟 Entradas: Portaltickets. @oralitante",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db9KLeiCemK/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db9KLeiCemK/"
-      },
-      "organizer": "Valparaíso Profundo",
-      "source_name": "Valparaíso Profundo",
-      "source_url": "https://www.instagram.com/p/Db9KLeiCemK/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "¡LA NARRACIÓN ORAL TIENE CITA CON ANA WONKA! 🇨🇴✨ Estamos listos para recibir en Chile a la gran narradora colombiana Ana Wonka (@anawonka20 ), quien llega con una gira imperdible para cuestionar, reflexionar y jugar con las historias. 📖❤️¡Anota las fechas y as...",
-      "tags": [
-        "taller"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      }
-    },
-    {
       "id": "agenda_085d8ed3106c899432ee8117",
       "title": "Los Jaivas – Gira 45 años “Alturas de Machu Picchu”",
       "event_type": "event",
@@ -1770,7 +1696,7 @@
     },
     {
       "id": "agenda_427e2c41d43ae68fe462d897",
-      "title": "CARTELERA",
+      "title": "Historia de Gatitos de Colores",
       "event_type": "event",
       "primary_category": {
         "id": "teatro",
@@ -1838,6 +1764,9 @@
       "image": {
         "url": null,
         "alt": null
+      },
+      "editorial": {
+        "title_recovered_from_official_url": true
       }
     },
     {
@@ -5517,5 +5446,10 @@
       "refreshed_at": "2026-08-16T14:43:46-04:00",
       "mode": "official_session_refresh"
     }
+  },
+  "publication_guard": {
+    "titles_recovered": 1,
+    "removed_title_quality": 0,
+    "removed_location_mismatch": 1
   }
 }
