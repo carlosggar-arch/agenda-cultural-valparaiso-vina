@@ -225,6 +225,7 @@ function createEventCard(event) {
   const group = contentGroup(event);
   card.className = `event-card event-card--${group}`;
   card.dataset.eventId = event?.id || "";
+  card.dataset.category = eventCategoryId(event);
   const location = [event?.location?.venue, event?.location?.city].filter(Boolean).join(" · ") || "Lugar por confirmar";
   const link = eventLink(event);
   const badge = typeBadge(event);
@@ -537,6 +538,7 @@ async function loadCity(id) {
   hideChooser();
 
   document.documentElement.lang = id === "gijon" ? "es-ES" : "es-CL";
+  document.documentElement.dataset.city = id;
   document.title = `Agenda Cultural · ${city.label}`;
   dom.citySwitchLabel.textContent = city.label;
   dom.citySubtitle.textContent = city.subtitle;
