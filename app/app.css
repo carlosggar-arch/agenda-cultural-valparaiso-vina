@@ -10,7 +10,11 @@ button,input{font:inherit}
 .brand span{display:flex;flex-direction:column}
 .brand strong{font-size:1rem}
 .brand small{color:#60746f}
-.city-switch{border:1px solid #b7c7c3;background:#fff;color:#174f46;border-radius:999px;padding:.7rem 1rem;display:flex;align-items:center;gap:.4rem;cursor:pointer}
+.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:.5rem;margin-left:auto}
+.install-button,.city-switch{border:1px solid #b7c7c3;background:#fff;color:#174f46;border-radius:999px;padding:.7rem 1rem;display:flex;align-items:center;gap:.4rem;cursor:pointer}
+.install-button{background:#174f46;border-color:#174f46;color:#fff;font-weight:800}
+.install-button[hidden]{display:none}
+.install-button:disabled{opacity:.6;cursor:default}
 .hero,.agenda,.status{width:min(1120px,calc(100% - 2rem));margin-inline:auto}
 .hero{padding:4rem 0 2rem}
 .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;font-weight:800;color:#8d5a3b;margin:0 0 .7rem}
@@ -68,8 +72,8 @@ footer strong{color:#174f46}
 @media(max-width:800px){
   .event-grid,.compact-grid{grid-template-columns:1fr 1fr}
   .hero{padding-top:2.5rem}
-  .app-header{align-items:flex-start}
-  .city-switch{padding:.6rem .75rem;font-size:.88rem}
+  .app-header{align-items:flex-start;flex-wrap:wrap}
+  .install-button,.city-switch{padding:.6rem .75rem;font-size:.88rem}
   .section-heading{align-items:flex-start}
 }
 @media(max-width:560px){
@@ -77,6 +81,7 @@ footer strong{color:#174f46}
   .agenda-heading,.section-heading{align-items:flex-start;flex-direction:column}
   .section-count{align-self:flex-start}
   .brand small{max-width:150px}
+  .header-actions{width:100%;justify-content:flex-end}
   .chooser{padding:1.5rem}
   .chooser h2{font-size:1.7rem}
   .event-card{min-height:0}
