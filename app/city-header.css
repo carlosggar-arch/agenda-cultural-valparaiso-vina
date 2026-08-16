@@ -2,34 +2,37 @@
 html{--city-accent:#174f46;--city-soft:#e9f2ef;--city-ink:#17342f}
 html[data-city="gijon"]{--city-accent:#0d5e73;--city-soft:#e8f4f6;--city-ink:#173c47}
 
-.app-header{padding-top:.85rem;padding-bottom:.85rem}
-.brand{gap:.9rem;min-width:0}
-.brand img{width:64px;height:64px;filter:drop-shadow(0 4px 8px rgba(20,55,48,.12))}
+.app-header{min-height:96px;padding-top:1rem;padding-bottom:1rem}
+.brand{gap:1rem;min-width:0}
+.brand img{width:72px;height:72px;filter:drop-shadow(0 4px 8px rgba(20,55,48,.12))}
 .brand span{min-width:0}
-.brand strong{font-family:Georgia,serif;font-size:1.28rem;line-height:1.05;color:var(--city-ink)}
-.brand small{margin-top:.22rem;font-weight:650;font-size:.86rem}
-.city-switch{color:var(--city-accent);font-weight:750}
+.brand strong{font-family:Georgia,serif;font-size:1.55rem;line-height:1.05;color:var(--city-ink)}
+.brand small{margin-top:.3rem;font-weight:750;font-size:.96rem;color:var(--city-accent)}
+.city-switch{color:#62746f;font-weight:700;font-size:.9rem;background:rgba(255,255,255,.76);border-color:rgba(98,116,111,.3)}
+.city-switch:hover,.city-switch:focus-visible{color:var(--city-accent);border-color:var(--city-accent)}
 .install-button{background:var(--city-accent);border-color:var(--city-accent)}
 
-.city-masthead{height:68px;overflow:hidden;position:relative;background:#fff;border-bottom:1px solid rgba(20,60,52,.08)}
+.city-masthead{height:82px;overflow:hidden;position:relative;background:#fff;border-bottom:1px solid rgba(20,60,52,.08)}
 .masthead-valpo,.masthead-gijon{position:absolute;inset:0;display:none}
 
 html[data-city="valparaiso"] .masthead-valpo{display:grid;grid-template-columns:1.15fr .7fr 1.35fr .65fr 1fr .75fr 1.2fr .8fr}
 .masthead-valpo span:nth-child(1){background:#ef6d48}.masthead-valpo span:nth-child(2){background:#f1bd3c}.masthead-valpo span:nth-child(3){background:#2c8c84}.masthead-valpo span:nth-child(4){background:#6e5fa8}.masthead-valpo span:nth-child(5){background:#e24b5f}.masthead-valpo span:nth-child(6){background:#35a8bf}.masthead-valpo span:nth-child(7){background:#ef8e38}.masthead-valpo span:nth-child(8){background:#8aaf50}
-.masthead-valpo span{position:relative}.masthead-valpo span:nth-child(odd):after{content:"";position:absolute;right:-18px;top:0;border-top:34px solid transparent;border-bottom:34px solid transparent;border-left:18px solid rgba(255,255,255,.18);z-index:1}
+.masthead-valpo span{position:relative}.masthead-valpo span:nth-child(odd):after{content:"";position:absolute;right:-22px;top:0;border-top:41px solid transparent;border-bottom:41px solid transparent;border-left:22px solid rgba(255,255,255,.18);z-index:1}
 
 html[data-city="gijon"] .masthead-gijon{display:block;background:linear-gradient(180deg,#a9d7df 0 50%,#f0d8a6 50% 59%,#397f92 59% 100%)}
-.gijon-sun{position:absolute;width:28px;height:28px;border-radius:50%;background:#f5c65d;right:13%;top:10px;box-shadow:0 0 0 7px rgba(245,198,93,.16)}
-.gijon-horizon{position:absolute;left:0;right:0;top:39px;height:2px;background:rgba(18,75,88,.35)}
-.gijon-wave{position:absolute;left:-3%;width:106%;height:24px;border-radius:50%;border-top:3px solid rgba(255,255,255,.74)}
-.wave-one{top:45px}.wave-two{top:55px;left:7%;width:95%;opacity:.72}
-.gijon-mark{position:absolute;left:12%;bottom:8px;width:48px;height:32px;border:5px solid #294e58;border-bottom:0;border-radius:50% 50% 0 0;transform:skewX(-7deg);opacity:.9}
-.gijon-mark:after{content:"";position:absolute;left:17px;bottom:-8px;width:5px;height:22px;background:#294e58;transform:rotate(18deg);transform-origin:bottom}
+.gijon-sun{position:absolute;width:32px;height:32px;border-radius:50%;background:#f5c65d;right:13%;top:11px;box-shadow:0 0 0 8px rgba(245,198,93,.16)}
+.gijon-horizon{position:absolute;left:0;right:0;top:47px;height:2px;background:rgba(18,75,88,.35)}
+.gijon-wave{position:absolute;left:-3%;width:106%;height:28px;border-radius:50%;border-top:3px solid rgba(255,255,255,.74)}
+.wave-one{top:54px}.wave-two{top:67px;left:7%;width:95%;opacity:.72}
+.gijon-mark{position:absolute;left:12%;bottom:9px;width:54px;height:38px;border:5px solid #294e58;border-bottom:0;border-radius:50% 50% 0 0;transform:skewX(-7deg);opacity:.9}
+.gijon-mark:after{content:"";position:absolute;left:19px;bottom:-9px;width:5px;height:24px;background:#294e58;transform:rotate(18deg);transform-origin:bottom}
 
 html[data-city="gijon"] body{background:linear-gradient(180deg,#edf6f7 0,#fff 46%,#f2f0e8 100%)}
 html[data-city="gijon"] .app-header{background:rgba(237,246,247,.96);border-bottom-color:rgba(13,94,115,.14)}
 html[data-city="gijon"] .hero h1,html[data-city="gijon"] .agenda-heading h2,html[data-city="gijon"] .section-heading h3{color:var(--city-accent)}
 html[data-city="gijon"] .event-card a,html[data-city="gijon"] footer strong{color:var(--city-accent)}
+
+.category-chip[data-category-filter=""]{display:none!important}
 
 .city-options button{grid-template-columns:58px 1fr auto;gap:.9rem;border-radius:1.15rem;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
 .city-options button:hover,.city-options button:focus-visible{transform:translateY(-1px);box-shadow:0 10px 26px rgba(25,61,53,.08)}
@@ -38,5 +41,5 @@ html[data-city="gijon"] .event-card a,html[data-city="gijon"] footer strong{colo
 .valpo-symbol{display:grid;grid-template-columns:1fr 1fr 1fr}.valpo-symbol i:nth-child(1){background:#ec704b}.valpo-symbol i:nth-child(2){background:#e9b63f}.valpo-symbol i:nth-child(3){background:#2c8c84}
 .gijon-symbol{background:linear-gradient(#add8e0 0 55%,#327e91 55% 100%)}.gijon-symbol i:first-child{position:absolute;width:13px;height:13px;border-radius:50%;background:#f4c85e;right:7px;top:6px}.gijon-symbol i:last-child{position:absolute;left:10px;bottom:6px;width:24px;height:17px;border:3px solid #294e58;border-bottom:0;border-radius:50% 50% 0 0}
 
-@media(max-width:800px){.brand img{width:56px;height:56px}.city-masthead{height:58px}}
-@media(max-width:560px){.brand{gap:.65rem}.brand img{width:52px;height:52px}.brand strong{font-size:1.08rem}.brand small{max-width:165px;font-size:.78rem}.city-options button{grid-template-columns:50px 1fr auto;padding:.85rem}.city-symbol{width:48px;height:40px}.city-masthead{height:48px}.gijon-horizon{top:28px}.wave-one{top:34px}.wave-two{top:42px}.gijon-mark{bottom:4px}}
+@media(max-width:800px){.app-header{min-height:88px}.brand img{width:62px;height:62px}.brand strong{font-size:1.35rem}.city-masthead{height:68px}}
+@media(max-width:560px){.app-header{min-height:82px}.brand{gap:.7rem}.brand img{width:56px;height:56px}.brand strong{font-size:1.2rem}.brand small{max-width:180px;font-size:.82rem}.city-switch{padding:.6rem .72rem}.city-options button{grid-template-columns:50px 1fr auto;padding:.85rem}.city-symbol{width:48px;height:40px}.city-masthead{height:58px}.gijon-horizon{top:34px}.wave-one{top:41px}.wave-two{top:50px}.gijon-mark{bottom:4px}}
