@@ -3,6 +3,7 @@ import "./card-image-fallback.js";
 import "./compact-top.js";
 import "./gijon-visual-reference.js";
 import "./lean-filters.js";
+import "./sources-toggle.js";
 
 const APP_VERSION = "PWA v11";
 const versionNode = document.querySelector("[data-app-version]");
