@@ -1,6 +1,8 @@
 import { openEventDetail } from "./event-detail.js";
 
 const STORAGE_KEY = "agenda-cultural-city";
+const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
+const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
 
 const CITY_PRESENTATION = Object.freeze({
   valparaiso: {
@@ -44,6 +46,15 @@ function safeHttpUrl(value) {
   }
 }
 
+function fold(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 function cityId() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -71,6 +82,21 @@ function contentTypeLabel(event) {
   if (event?.event_type === "course") return "Curso";
   if (event?.event_type === "workshop") return "Taller";
   return null;
+}
+
+function looksLikeGenericSchedule(event) {
+  if (event?.image?.relevance === "generic_schedule") return true;
+  const title = fold(event?.title);
+  const description = fold(event?.description);
+  if (/\b(agenda|cartelera|programacion|calendario|panoramas?)\b/.test(title)) return true;
+  if (new RegExp(`^(?:destino|panoramas?) .+ (?:${MONTH_PATTERN}) 20\\d{2}$`).test(title)) return true;
+  const mentions = (String(event?.description || "").match(/@[a-z0-9_.]+/gi) || []).length;
+  return /\beste mes (?:tenemos|incluye|trae|hay)\b/.test(description) && mentions >= 2;
+}
+
+function relevantImageUrl(event) {
+  if (looksLikeGenericSchedule(event)) return null;
+  return safeHttpUrl(event?.image?.url);
 }
 
 function dateKeyForDate(date, config) {
@@ -136,8 +162,19 @@ function formatDateValue(value, config, { weekday = true, time = true } = {}) {
 }
 
 function scheduleLabel(event, config) {
+  const opening = String(event?.schedule?.opening_time || "");
+  const closing = String(event?.schedule?.closing_time || "");
   const start = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
   const end = event?.schedule?.end;
+  if (opening && closing && /^\d{2}:\d{2}$/.test(opening) && /^\d{2}:\d{2}$/.test(closing)) {
+    const startDate = start ? formatDateValue(start, config, { time: false }) : null;
+    const endKey = end ? dateKeyForValue(end, config) : null;
+    const startKey = start ? dateKeyForValue(start, config) : null;
+    if (startDate && endKey && startKey && endKey !== startKey) {
+      return `${startDate} – ${formatDateValue(end, config, { weekday: false, time: false })} · ${opening}–${closing}`;
+    }
+    return `${startDate || "Horario de visita"} · ${opening}–${closing}`;
+  }
   if (!start) return event?.schedule?.display_text || "Horario por confirmar";
   const startKey = dateKeyForValue(start, config);
   const endKey = end ? dateKeyForValue(end, config) : null;
@@ -145,6 +182,19 @@ function scheduleLabel(event, config) {
     return `${formatDateValue(start, config)} – ${formatDateValue(end, config, { weekday: false })}`;
   }
   return formatDateValue(start, config) || event?.schedule?.display_text || "Horario por confirmar";
+}
+
+function compactDayLabel(event, config) {
+  const ranges = scheduleRanges(event, config);
+  const today = dateKeyForDate(new Date(), config);
+  if (ranges.some((range) => range.start <= today && range.end >= today)) return { text: "Hoy", today: true };
+  const start = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
+  const key = dateKeyForValue(start, config);
+  if (!key) return null;
+  const [year, month, day] = key.split("-").map(Number);
+  const text = new Intl.DateTimeFormat(config.locale, { timeZone: "UTC", day: "numeric", month: "short" })
+    .format(new Date(Date.UTC(year, month - 1, day, 12)));
+  return { text, today: false };
 }
 
 function locationLabel(event) {
@@ -230,28 +280,41 @@ function addTextElement(parent, tag, className, text) {
   return node;
 }
 
+function addPlaceholder(media, event, genericSchedule = false) {
+  media.classList.add("event-card-media--placeholder");
+  media.classList.remove("has-relevant-image");
+  media.style.removeProperty("--event-image");
+  addTextElement(media, "span", "event-card-symbol", CATEGORY_SYMBOLS[categoryId(event)] || "✦");
+  addTextElement(
+    media,
+    "small",
+    "event-card-placeholder-label",
+    genericSchedule ? "Sin imagen específica" : primaryCategory(event),
+  );
+  if (genericSchedule) media.dataset.genericScheduleFallback = "true";
+}
+
 function buildMedia(event) {
   const media = document.createElement("div");
   media.className = "event-card-media";
-  const imageUrl = safeHttpUrl(event?.image?.url);
+  const imageUrl = relevantImageUrl(event);
   if (imageUrl) {
+    media.classList.add("has-relevant-image");
+    media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
     const image = document.createElement("img");
     image.className = "event-card-photo";
+    image.dataset.eventImage = "relevant";
     image.src = imageUrl;
     image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
     image.loading = "lazy";
     image.decoding = "async";
     image.addEventListener("error", () => {
-      image.remove();
-      media.classList.add("event-card-media--placeholder");
-      addTextElement(media, "span", "event-card-symbol", CATEGORY_SYMBOLS[categoryId(event)] || "✦");
-      addTextElement(media, "small", "event-card-placeholder-label", primaryCategory(event));
+      media.replaceChildren();
+      addPlaceholder(media, event);
     }, { once: true });
     media.append(image);
   } else {
-    media.classList.add("event-card-media--placeholder");
-    addTextElement(media, "span", "event-card-symbol", CATEGORY_SYMBOLS[categoryId(event)] || "✦");
-    addTextElement(media, "small", "event-card-placeholder-label", primaryCategory(event));
+    addPlaceholder(media, event, looksLikeGenericSchedule(event));
   }
   return media;
 }
@@ -293,26 +356,33 @@ function renderRichCard(card, event) {
   const body = document.createElement("div");
   body.className = "event-card-body";
 
-  const top = document.createElement("div");
-  top.className = "card-meta-row";
-  addTextElement(top, "span", "meta", primaryCategory(event));
-  const type = contentTypeLabel(event);
-  if (type) addTextElement(top, "span", "type-badge", type);
-  body.append(top);
-
   const labels = contextLabels(event, config);
   if (featuredIds.has(event.id)) labels.push("No te lo pierdas");
-  if (labels.length) {
-    const context = document.createElement("div");
-    context.className = "card-context-row";
-    for (const label of [...new Set(labels)]) {
-      const badge = addTextElement(context, "span", "context-badge", label);
-      if (label === "No te lo pierdas") badge.classList.add("context-badge--featured");
-      if (label === "Hoy") badge.classList.add("context-badge--today");
-      if (label === "Termina pronto") badge.classList.add("context-badge--ending");
-    }
-    body.append(context);
+  const uniqueLabels = [...new Set(labels)];
+  const day = compactDayLabel(event, config);
+
+  const top = document.createElement("div");
+  top.className = "card-meta-row";
+  const left = document.createElement("div");
+  left.className = "card-meta-left";
+  addTextElement(left, "span", "meta", primaryCategory(event));
+  const type = contentTypeLabel(event);
+  if (type) addTextElement(left, "span", "type-badge", type);
+  top.append(left);
+
+  const right = document.createElement("div");
+  right.className = "card-meta-right";
+  if (day) {
+    const badge = addTextElement(right, "span", `card-day-badge${day.today ? " is-today" : ""}`, day.text);
+    badge.setAttribute("aria-label", day.today ? "Actividad disponible hoy" : `Fecha: ${day.text}`);
   }
+  for (const label of uniqueLabels.filter((label) => label !== "Hoy")) {
+    const badge = addTextElement(right, "span", "context-badge", label);
+    if (label === "No te lo pierdas") badge.classList.add("context-badge--featured");
+    if (label === "Termina pronto") badge.classList.add("context-badge--ending");
+  }
+  if (right.childElementCount) top.append(right);
+  body.append(top);
 
   addTextElement(body, "h4", "", event?.title || "Actividad sin título");
 
@@ -362,7 +432,7 @@ function renderRichCard(card, event) {
   actions.append(buildDetailAction(event, {
     category: primaryCategory(event),
     type,
-    labels: [...new Set(labels)],
+    labels: uniqueLabels,
     schedule: scheduleLabel(event, config),
     location: locationLabel(event),
     price: priceLabel(event),
@@ -370,6 +440,7 @@ function renderRichCard(card, event) {
     sourceUrl: sourceUrl(event),
     officialUrl: official,
     registrationUrl: registration,
+    imageRelevant: Boolean(relevantImageUrl(event)),
   }));
   footer.append(actions);
   body.append(footer);
@@ -431,16 +502,17 @@ function scheduleEnhancement() {
   queueMicrotask(runEnhancement);
 }
 
-function installStylesheet() {
-  if (document.querySelector('link[data-card-experience]')) return;
+function installStylesheet(href, marker) {
+  if (document.querySelector(`link[${marker}]`)) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./card-experience.css";
-  link.dataset.cardExperience = "true";
+  link.href = href;
+  link.setAttribute(marker, "true");
   document.head.append(link);
 }
 
-installStylesheet();
+installStylesheet("./card-experience.css", "data-card-experience");
+installStylesheet(MEDIA_STYLESHEET, "data-event-media-layout");
 const observer = new MutationObserver(scheduleEnhancement);
 observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 scheduleEnhancement();

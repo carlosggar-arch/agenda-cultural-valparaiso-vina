@@ -48,6 +48,45 @@ function detailDescription(event) {
   return text;
 }
 
+function buildMedia(event, presentation) {
+  const media = document.createElement("div");
+  media.className = "event-detail-media";
+  const imageUrl = presentation?.imageRelevant === false ? null : safeHttpUrl(event?.image?.url);
+  if (imageUrl) {
+    media.classList.add("has-relevant-image");
+    media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
+    const image = document.createElement("img");
+    image.src = imageUrl;
+    image.dataset.eventImage = "relevant";
+    image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
+    image.decoding = "async";
+    image.addEventListener("error", () => {
+      media.classList.remove("has-relevant-image");
+      media.style.removeProperty("--event-image");
+      media.replaceChildren();
+      const fallback = document.createElement("div");
+      fallback.className = "event-media-fallback";
+      addText(fallback, "span", "event-media-fallback-symbol", "✦")?.setAttribute("aria-hidden", "true");
+      addText(fallback, "span", "event-media-fallback-label", presentation?.category || "Actividad cultural");
+      media.append(fallback);
+    }, { once: true });
+    media.append(image);
+    return media;
+  }
+
+  const fallback = document.createElement("div");
+  fallback.className = "event-media-fallback";
+  addText(fallback, "span", "event-media-fallback-symbol", "✦")?.setAttribute("aria-hidden", "true");
+  addText(
+    fallback,
+    "span",
+    "event-media-fallback-label",
+    presentation?.imageRelevant === false ? "Sin imagen específica del evento" : presentation?.category || "Actividad cultural",
+  );
+  media.append(fallback);
+  return media;
+}
+
 export function openEventDetail(event, presentation = {}) {
   document.querySelector("dialog[data-event-detail]")?.remove();
 
@@ -66,17 +105,7 @@ export function openEventDetail(event, presentation = {}) {
   close.addEventListener("click", () => dialog.close());
   panel.append(close);
 
-  const imageUrl = safeHttpUrl(event?.image?.url);
-  if (imageUrl) {
-    const media = document.createElement("div");
-    media.className = "event-detail-media";
-    const image = document.createElement("img");
-    image.src = imageUrl;
-    image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
-    image.decoding = "async";
-    media.append(image);
-    panel.append(media);
-  }
+  panel.append(buildMedia(event, presentation));
 
   const content = document.createElement("div");
   content.className = "event-detail-content";

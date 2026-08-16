@@ -9,7 +9,7 @@ import "./community-source.js";
 import "./header-redesign.js";
 import "./density-polish.js";
 
-const APP_VERSION = "PWA v21";
+const APP_VERSION = "PWA v22";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -78,4 +78,4 @@ async function registerAgendaServiceWorker() {
 }
 
 setupInstallExperience();
-window.addEventListener("load", registerAgendaServiceWorker, { once: true });
+registerAgendaServiceWorker();

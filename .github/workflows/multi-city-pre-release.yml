@@ -8,6 +8,7 @@ on:
       - "app/**"
       - "index.html"
       - "assets/web-event-enhancements.js"
+      - "assets/event-media-layout.css"
       - ".github/workflows/multi-city-pre-release.yml"
   pull_request:
     branches:
@@ -16,6 +17,7 @@ on:
       - "app/**"
       - "index.html"
       - "assets/web-event-enhancements.js"
+      - "assets/event-media-layout.css"
       - ".github/workflows/multi-city-pre-release.yml"
   workflow_dispatch:
 
@@ -75,8 +77,9 @@ jobs:
           grep -F '<div class="footer-mosaic"' index.html
           grep -F './assets/web-event-enhancements.js' index.html
           ! grep -F 'window.location.replace(target.href)' index.html
-          grep -F 'const APP_VERSION = "PWA v21"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v21"' app/service-worker.js
+          grep -F 'const APP_VERSION = "PWA v22"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v22"' app/service-worker.js
+          grep -F 'object-fit: contain !important' assets/event-media-layout.css
           grep -F 'sourceDiagnosticText' app/sources-toggle.js
           grep -F 'source_diagnostics' app/sources-toggle.js
 
@@ -102,7 +105,7 @@ jobs:
           fi
 
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|assets/web-event-enhancements\.js$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
