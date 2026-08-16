@@ -2,8 +2,9 @@ import "./card-experience.js";
 import "./card-image-fallback.js";
 import "./compact-top.js";
 import "./gijon-visual-reference.js";
+import "./lean-filters.js";
 
-const APP_VERSION = "PWA v10";
+const APP_VERSION = "PWA v11";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
