@@ -41,7 +41,8 @@
 .event-detail-media.has-relevant-image > img,
 .card-media > img[data-event-image="relevant"],
 .event-card-media > img[data-event-image="relevant"],
-.event-detail-media > img[data-event-image="relevant"] {
+.event-detail-media > img[data-event-image="relevant"],
+.event-card-media > img[data-image-kind="category-fallback"] {
   position: relative;
   z-index: 1;
   display: block;
@@ -142,7 +143,6 @@
   margin: 0;
 }
 
-/* The old separate context line is no longer needed once badges live up top. */
 .event-card-body > .card-context-row:empty {
   display: none;
 }
@@ -150,7 +150,8 @@
 @media (max-width: 560px) {
   .card-media.has-relevant-image > img,
   .event-card-media.has-relevant-image > img,
-  .event-detail-media.has-relevant-image > img {
+  .event-detail-media.has-relevant-image > img,
+  .event-card-media > img[data-image-kind="category-fallback"] {
     padding: .22rem;
   }
 
