@@ -7,7 +7,7 @@ import "./lean-filters.js";
 import "./sources-toggle.js";
 import "./community-source.js";
 
-const APP_VERSION = "PWA v12";
+const APP_VERSION = "PWA v13";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
