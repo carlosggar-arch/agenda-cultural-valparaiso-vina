@@ -1,38 +1,19 @@
 {
-  "id": "./app/",
-  "name": "Agenda Cultural",
+  "name": "Agenda Cultural Valparaíso / Viña del Mar",
   "short_name": "Agenda Cultural",
-  "description": "Agenda cultural multi-ciudad con experiencias locales para Valparaíso / Viña del Mar y Gijón / Xixón.",
-  "start_url": "./app/",
+  "description": "Eventos, cursos, talleres y panoramas culturales verificados de Valparaíso y Viña del Mar.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "lang": "es",
-  "background_color": "#f6f3eb",
+  "lang": "es-CL",
+  "background_color": "#f5f1e8",
   "theme_color": "#174f46",
   "icons": [
     {
-      "src": "./app/icons/icon.svg",
+      "src": "./assets/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "./app/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./app/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./app/icons/icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }
