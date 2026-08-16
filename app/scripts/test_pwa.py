@@ -11,8 +11,10 @@ pwa_js = (APP / "pwa.js").read_text(encoding="utf-8")
 sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 card_experience_js = (APP / "card-experience.js").read_text(encoding="utf-8")
+schedule_display_js = (APP / "schedule-display.js").read_text(encoding="utf-8")
 event_detail_js = (APP / "event-detail.js").read_text(encoding="utf-8")
 media_css = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
+schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 compact_top_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
 lean_filters_js = (APP / "lean-filters.js").read_text(encoding="utf-8")
@@ -81,6 +83,7 @@ assert 'data-section-filter="talleres-cursos"' not in index
 for module in (
     './vivamos-brand.js',
     './card-experience.js',
+    './schedule-display.js',
     './card-image-fallback.js',
     './compact-top.js',
     './gijon-visual-reference.js',
@@ -91,7 +94,7 @@ for module in (
 ):
     assert f'import "{module}";' in pwa_js
 assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
-assert 'const APP_VERSION = "PWA v22";' in pwa_js
+assert 'const APP_VERSION = "PWA v23";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -109,6 +112,19 @@ assert 'object-fit: contain !important' in media_css
 assert '.card-day-badge' in media_css
 assert '.event-media-fallback' in media_css
 assert 'filter: blur(18px)' in media_css
+assert '.card-media > button' in media_css
+assert '.event-card-media > button' in media_css
+assert 'display: none !important' in media_css
+
+assert 'from "../assets/event-schedule-display.mjs"' in schedule_display_js
+assert 'formatSchedule(event.schedule, activeConfig)' in schedule_display_js
+assert 'Fecha y horario' in schedule_display_js
+assert 'stripMediaControls' in schedule_display_js
+assert 'export function formatSchedule' in schedule_module
+assert 'schedule?.opening_time' in schedule_module
+assert 'schedule?.opening_hours' in schedule_module
+assert 'Cerrado hoy' in schedule_module
+assert 'export function compactScheduleDayLabel' in schedule_module
 
 assert 'import "./vivamos-brand.js";' in source_form_js
 assert 'const BRAND_NAME = "¡Vivamos!";' in vivamos_brand_js
@@ -167,7 +183,7 @@ assert 'cf-turnstile' in source_form
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v22"' in sw
+assert 'const CACHE_VERSION = "v23"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 
@@ -175,13 +191,13 @@ shell_block = sw.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
     '"./"', '"./index.html"', '"./app.css"', '"./city-header.css"', '"./header-redesign.css"',
     '"./app.js"', '"./pwa.js"', '"./vivamos-brand.js"', '"./header-redesign.js"',
-    '"./card-experience.js"', '"./card-experience.css"', '"./card-image-fallback.js"',
+    '"./card-experience.js"', '"./schedule-display.js"', '"./card-experience.css"', '"./card-image-fallback.js"',
     '"./compact-top.js"', '"./gijon-visual-reference.js"', '"./lean-filters.js"',
     '"./sources-toggle.js"', '"./community-source.js"', '"./community-source.css"',
     '"./proponer-fuente.html"', '"./proponer-fuente.js"', '"./manifest.webmanifest"', '"./icons/icon.svg"',
     '"./icons/icon-192.png"', '"./icons/icon-512.png"', '"./icons/icon-maskable-512.png"',
     '"./illustrations/valparaiso-header.svg"', '"./illustrations/gijon-header.svg"',
-    '"../assets/event-media-layout.css"',
+    '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs"',
     '"../assets/categoria-cine.jpg"', '"../assets/categoria-cultura.jpg"',
     '"../assets/categoria-deportes.jpg"', '"../assets/categoria-exposiciones.jpg"',
     '"../assets/categoria-gastronomia.jpg"', '"../assets/categoria-musica.jpg"',
