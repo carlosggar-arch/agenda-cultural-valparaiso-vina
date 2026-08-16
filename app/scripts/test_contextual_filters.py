@@ -25,7 +25,7 @@ assert '@media (min-width: 701px)' in density
 assert 'html[data-city="gijon"] .app-header .header-art' in density
 assert "width: 62% !important" in density
 assert "opacity: .74 !important" in density
-assert "background-position: right 41% !important" in density
+assert "background-position: right 47% !important" in density
 assert "#000 18%" in density
 assert "font-size: 1.18rem !important" in density
 assert "font-size: .62rem !important" in density
