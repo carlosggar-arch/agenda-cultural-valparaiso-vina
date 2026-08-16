@@ -163,9 +163,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png",
-        "alt": "Destino Valparaíso – Agosto 2026",
-        "source": "official_page_metadata"
+        "url": null,
+        "alt": null,
+        "relevance": "generic_schedule",
+        "rejection_reason": "generic_schedule_not_event_specific"
       }
     },
     {
@@ -5856,10 +5857,11 @@
     }
   },
   "media_diagnostics": {
-    "existing_images": 30,
-    "images_from_cache": 21,
-    "images_fetched": 1,
-    "pages_fetched": 2,
+    "existing_images": 51,
+    "images_from_cache": 0,
+    "images_fetched": 0,
+    "generic_schedule_images_rejected": 1,
+    "pages_fetched": 0,
     "pages_skipped_by_limit": 0
   }
 }
