@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -28,6 +28,20 @@ self.addEventListener("install", (event) => {
   })());
 });
 
+async function refreshOpenWindows() {
+  const scopeUrl = new URL(self.registration.scope);
+  const windowClients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  await Promise.all(windowClients.map(async (client) => {
+    try {
+      const clientUrl = new URL(client.url);
+      if (clientUrl.origin !== scopeUrl.origin || !clientUrl.pathname.startsWith(scopeUrl.pathname)) return;
+      await client.navigate(client.url);
+    } catch {
+      // A closed or non-navigable client must not block service-worker activation.
+    }
+  }));
+}
+
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const names = await caches.keys();
@@ -35,6 +49,10 @@ self.addEventListener("activate", (event) => {
       .filter((name) => name.startsWith("agenda-cultural-") && ![SHELL_CACHE, DATA_CACHE].includes(name))
       .map((name) => caches.delete(name)));
     await self.clients.claim();
+    // Existing standalone installations can otherwise remain visually stuck on
+    // an older shell until the user performs a hard reload. Activation happens
+    // once per worker version, so navigating each in-scope window is bounded.
+    await refreshOpenWindows();
   })());
 });
 
