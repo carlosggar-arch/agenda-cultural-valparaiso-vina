@@ -197,9 +197,10 @@ function patchCategoryChips() {
       button.hidden = true;
       continue;
     }
-    button.hidden = false;
+    const nextCountValue = counts.get(id) || 0;
+    button.hidden = nextCountValue === 0;
     const count = button.querySelector("small");
-    const nextCount = String(counts.get(id) || 0);
+    const nextCount = String(nextCountValue);
     if (count && count.textContent !== nextCount) count.textContent = nextCount;
   }
 }
