@@ -1,7 +1,7 @@
 import "./card-experience.js";
 import "./card-image-fallback.js";
 
-const APP_VERSION = "PWA v6";
+const APP_VERSION = "PWA v7";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
