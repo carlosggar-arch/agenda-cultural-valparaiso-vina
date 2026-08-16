@@ -9,6 +9,8 @@ service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 root_index = Path("index.html").read_text(encoding="utf-8")
 web_enhancements = Path("assets/web-event-enhancements.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
+schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
+app_schedule = Path("app/schedule-display.js").read_text(encoding="utf-8")
 
 assert "const nextCountValue = counts.get(id) || 0;" in source
 assert "button.hidden = nextCountValue === 0;" in source
@@ -52,8 +54,8 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v22"' in pwa
-assert 'const CACHE_VERSION = "v22"' in service_worker
+assert 'const APP_VERSION = "PWA v23"' in pwa
+assert 'const CACHE_VERSION = "v23"' in service_worker
 
 # The root website is intentionally a Valparaíso/Viña web experience again;
 # the multi-city PWA remains available independently under /app/.
@@ -64,13 +66,25 @@ assert './assets/web-event-enhancements.js' in root_index
 assert 'window.location.replace(target.href)' not in root_index
 
 # WEB and APP share one non-cropping event-media contract.
-assert 'MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816"' in web_enhancements
-assert 'function compactMetaRow(card, event)' in web_enhancements
+assert 'MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b"' in web_enhancements
+assert 'compactScheduleDayLabel' in web_enhancements
+assert 'formatSchedule(event?.schedule, SCHEDULE_OPTIONS)' in web_enhancements
+assert 'removeMediaOverlays' in web_enhancements
 assert 'looksLikeGenericSchedule(event)' in web_enhancements
 assert 'card-day-badge' in web_enhancements
 assert 'object-fit: contain !important' in media_layout
 assert 'filter: blur(18px)' in media_layout
+assert '.card-media > button' in media_layout
+assert '.event-card-media > button' in media_layout
 assert '.card-topline,' in media_layout
 assert '.event-card-body .card-meta-row' in media_layout
 
-print("Contextual filter, source diagnostics, unified media, independent web and app tests: OK")
+# One formatter owns final schedule rendering in WEB and APP.
+assert 'export function formatSchedule' in schedule_module
+assert 'schedule?.opening_time' in schedule_module
+assert 'schedule?.opening_hours' in schedule_module
+assert 'Cerrado hoy' in schedule_module
+assert 'from "../assets/event-schedule-display.mjs"' in app_schedule
+assert 'formatSchedule(event.schedule, activeConfig)' in app_schedule
+
+print("Contextual filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
