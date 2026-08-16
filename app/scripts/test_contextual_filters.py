@@ -19,6 +19,11 @@ assert "width: 58px !important" in density
 assert "font-size: 1.32rem !important" in density
 assert "font-size: clamp(1.55rem, 3.35vw, 3rem) !important" in density
 assert "background-position: right 58% !important" in density
+assert '@media (min-width: 701px)' in density
+assert 'html[data-city="gijon"] .app-header .header-art' in density
+assert "width: 60% !important" in density
+assert "background-position: right 56% !important" in density
+assert "#000 22%" in density
 assert "grid-template-columns: repeat(3, minmax(0, 1fr)) !important" in density
 
 print("Contextual filter and compact density tests: OK")

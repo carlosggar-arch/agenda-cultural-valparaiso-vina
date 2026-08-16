@@ -55,6 +55,19 @@ function ensureDensityStyles() {
       mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
     }
 
+    /* Gijón's beige boat sits in the left-middle of the SVG. On a wide desktop
+       hero the generic fade used to hide most of its bow, making it look cut.
+       Give that illustration a little more horizontal room and finish the fade
+       before the boat begins, without changing the compact height or typography. */
+    @media (min-width: 701px) {
+      html[data-city="gijon"] .app-header .header-art {
+        width: 60% !important;
+        background-position: right 56% !important;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.48) 7%, #000 22%, #000 100%) !important;
+        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.48) 7%, #000 22%, #000 100%) !important;
+      }
+    }
+
     /* Header actions are utilities, not a second content row. */
     .app-header .header-bottom {
       position: absolute !important;
