@@ -89,7 +89,7 @@ assert 'data-section-filter="todos"' in lean_filters_js
 assert 'attributeFilter: ["hidden"]' in lean_filters_js
 
 assert 'data-sources-section' in sources_toggle_js
-assert 'data-sources-toggle' in sources_toggle_js
+assert 'button.dataset.sourcesToggle' in sources_toggle_js
 assert 'sources-user-open' in sources_toggle_js
 assert 'aria-expanded' in sources_toggle_js
 assert 'Fuentes' in sources_toggle_js
