@@ -29,5 +29,9 @@
     <path d="M91 7V122" stroke-width="10" opacity="0.82"/>
     <path d="M31 114H153" stroke-width="9" opacity="0.82"/>
   </g>
-  <path d="M270 222C320 208 363 203 412 207" fill="none" stroke="#d8c6a0" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+  <!-- El barco se escala sobre su propio centro para que el cambio de tamaño sea
+       perceptible sin desplazarlo hacia el borde izquierdo del hero. -->
+  <g id="gijon-boat" transform="translate(-153 -97) scale(1.45)">
+    <path d="M270 222C320 208 363 203 412 207" fill="none" stroke="#d8c6a0" stroke-width="8" stroke-linecap="round" opacity="0.96"/>
+  </g>
 </svg>
