@@ -122,6 +122,11 @@ def check_gijon_source_path() -> None:
     assert "tipo=XHTML" in adapter
 
 
+def check_duplicate_public_writer_retired() -> None:
+    duplicate = ROOT / ".github/workflows/update-gijon-preview.yml"
+    assert not duplicate.exists(), "duplicate public Gijon writer must remain retired"
+
+
 def main() -> None:
     check_manifest_and_icons()
     check_service_worker()
@@ -129,6 +134,7 @@ def main() -> None:
     check_gijon_dataset()
     check_valparaiso_dataset_compatibility()
     check_gijon_source_path()
+    check_duplicate_public_writer_retired()
     print("Joint multi-city pre-release contract: OK")
 
 
