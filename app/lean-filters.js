@@ -3,6 +3,9 @@ const allowedFilters = new Set(["hoy", "fin-de-semana", "terminan-pronto", "grat
 
 function ensureVisibleActiveFilter() {
   if (!sectionFilters) return;
+  const discovery = sectionFilters.closest("[data-discovery]");
+  if (discovery?.hidden) return;
+
   const buttons = [...sectionFilters.querySelectorAll("[data-section-filter]")];
   const active = buttons.find((button) => button.getAttribute("aria-pressed") === "true");
   if (active && allowedFilters.has(active.dataset.sectionFilter || "")) return;
