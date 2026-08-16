@@ -51,7 +51,7 @@ assert "data-app-version" in index
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
 assert 'import "./compact-top.js";' in pwa_js
-assert 'const APP_VERSION = "PWA v8";' in pwa_js
+assert 'const APP_VERSION = "PWA v9";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -63,7 +63,13 @@ assert '"(display-mode: standalone)"' in pwa_js
 
 assert '.hero > h1' in compact_top_js
 assert '.hero > .hero-copy' in compact_top_js
+assert '.discovery-heading' in compact_top_js
+assert '.category-explorer-heading' in compact_top_js
 assert 'display: none !important' in compact_top_js
+assert '.quick-sections button' in compact_top_js
+assert '.category-filters' in compact_top_js
+assert 'flex-wrap: nowrap !important' in compact_top_js
+assert '.section-heading p:not(.eyebrow)' in compact_top_js
 assert '.hero .search-row input' in compact_top_js
 assert 'width: 100% !important' in compact_top_js
 
@@ -72,7 +78,7 @@ assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert '../assets/categoria-exposiciones.jpg' in fallback_js
 assert 'Imagen representativa de la categoría' in fallback_js
 
-assert 'const CACHE_VERSION = "v8"' in sw
+assert 'const CACHE_VERSION = "v9"' in sw
 assert "async function refreshOpenWindows" in sw
 assert 'self.clients.matchAll({ type: "window", includeUncontrolled: true })' in sw
 assert "await client.navigate(client.url)" in sw

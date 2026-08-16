@@ -2,7 +2,7 @@ import "./card-experience.js";
 import "./card-image-fallback.js";
 import "./compact-top.js";
 
-const APP_VERSION = "PWA v8";
+const APP_VERSION = "PWA v9";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -64,8 +64,6 @@ async function registerAgendaServiceWorker() {
       updateViaCache: "none",
     });
 
-    // Ask for a fresh worker definition on each full app load. The worker itself
-    // uses versioned caches, so an update remains atomic and scoped to /app/.
     registration.update().catch(() => {});
   } catch (error) {
     console.warn("Agenda Cultural: service worker unavailable", error);

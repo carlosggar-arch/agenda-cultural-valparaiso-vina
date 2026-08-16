@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v8";
+const CACHE_VERSION = "v9";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -63,9 +63,6 @@ self.addEventListener("activate", (event) => {
       .filter((name) => name.startsWith("agenda-cultural-") && ![SHELL_CACHE, DATA_CACHE].includes(name))
       .map((name) => caches.delete(name)));
     await self.clients.claim();
-    // Existing standalone installations can otherwise remain visually stuck on
-    // an older shell until the user performs a hard reload. Activation happens
-    // once per worker version, so navigating each in-scope window is bounded.
     await refreshOpenWindows();
   })());
 });
@@ -100,7 +97,6 @@ async function networkFirstDataset(request) {
 
     await cache.put(request, response.clone());
 
-    // Keep only the most recently used city dataset. We never precache both cities.
     const cachedRequests = await cache.keys();
     await Promise.all(cachedRequests
       .filter((cachedRequest) => cachedRequest.url !== request.url)
