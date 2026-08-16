@@ -1,0 +1,159 @@
+name: One-shot city source attribution patch
+
+on:
+  push:
+    branches:
+      - fix/city-source-attribution
+    paths:
+      - .github/workflows/patch-city-source-attribution.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/city-source-attribution
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Patch source attribution and city source explorer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new, label):
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              if old not in text:
+                  raise SystemExit(f'{label}: anchor not found in {path}')
+              if text.count(old) != 1:
+                  raise SystemExit(f'{label}: anchor not unique in {path}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # index.html: city-specific source explorer and visible version marker.
+          replace_once(
+              'app/index.html',
+              '''      <div class="empty" hidden data-empty>\n        <h3>No encontramos actividades</h3>\n        <p data-empty-copy>No hay actividades con los filtros actuales.</p>\n      </div>''',
+              '''      <section class="sources-section" hidden data-sources-section aria-labelledby="sources-title">\n        <div class="section-heading">\n          <div>\n            <p class="eyebrow">Transparencia y procedencia</p>\n            <h3 id="sources-title">Fuentes de esta agenda</h3>\n            <p>Organizaciones y canales que respaldan las actividades disponibles en la ciudad seleccionada.</p>\n          </div>\n          <span class="section-count"><strong data-sources-total>0</strong> fuentes</span>\n        </div>\n        <div class="source-grid" data-sources-grid></div>\n      </section>\n\n      <div class="empty" hidden data-empty>\n        <h3>No encontramos actividades</h3>\n        <p data-empty-copy>No hay actividades con los filtros actuales.</p>\n      </div>''',
+              'source section',
+          )
+          replace_once('app/index.html', '<small data-app-version>PWA v4</small>', '<small data-app-version>PWA v6</small>', 'index version')
+
+          # app.js: source DOM, normalized source fields, source aggregation and rendering.
+          replace_once(
+              'app/app.js',
+              '''  flexibleSection: document.querySelector("[data-flexible-section]"),\n  flexibleTotal: document.querySelector("[data-flexible-total]"),\n  flexibleGrid: document.querySelector("[data-flexible-grid]"),\n  empty: document.querySelector("[data-empty]"),''',
+              '''  flexibleSection: document.querySelector("[data-flexible-section]"),\n  flexibleTotal: document.querySelector("[data-flexible-total]"),\n  flexibleGrid: document.querySelector("[data-flexible-grid]"),\n  sourcesSection: document.querySelector("[data-sources-section]"),\n  sourcesTotal: document.querySelector("[data-sources-total]"),\n  sourcesGrid: document.querySelector("[data-sources-grid]"),\n  empty: document.querySelector("[data-empty]"),''',
+              'source DOM refs',
+          )
+
+          replace_once(
+              'app/app.js',
+              '''function eventLink(event) {\n  const candidate = event?.links?.official || event?.links?.source;\n  try {\n    const url = new URL(candidate);\n    return ["http:", "https:"].includes(url.protocol) ? url.href : null;\n  } catch { return null; }\n}\n''',
+              '''function eventLink(event) {\n  const candidate = event?.links?.official || event?.links?.source;\n  try {\n    const url = new URL(candidate);\n    return ["http:", "https:"].includes(url.protocol) ? url.href : null;\n  } catch { return null; }\n}\n\nfunction eventSourceName(event) {\n  return String(event?.source_name || event?.organizer || "").trim();\n}\n\nfunction eventSourceUrl(event) {\n  const candidate = event?.source_url || event?.links?.source || event?.links?.official;\n  try {\n    const url = new URL(candidate);\n    return ["http:", "https:"].includes(url.protocol) ? url.href : null;\n  } catch { return null; }\n}\n''',
+              'source helpers',
+          )
+
+          replace_once(
+              'app/app.js',
+              '''function renderCategories() {\n  const categories = collectCategoryCounts(allEvents);''',
+              '''function collectSources(events) {\n  const sources = new Map();\n  for (const event of events) {\n    const name = eventSourceName(event);\n    if (!name) continue;\n    const key = name.toLocaleLowerCase(activeCity?.locale || "es");\n    const current = sources.get(key) || { name, url: null, count: 0, official: false };\n    current.count += 1;\n    current.official ||= event?.public_status?.source_official === true;\n    current.url ||= eventSourceUrl(event);\n    sources.set(key, current);\n  }\n  return [...sources.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, activeCity?.locale || "es"));\n}\n\nfunction renderSources() {\n  const sources = collectSources(allEvents);\n  dom.sourcesGrid.replaceChildren();\n  dom.sourcesTotal.textContent = String(sources.length);\n  dom.sourcesSection.hidden = sources.length === 0;\n\n  for (const source of sources) {\n    const card = document.createElement("article");\n    card.className = "source-card";\n    const heading = document.createElement("div");\n    heading.className = "source-card-heading";\n    const name = document.createElement("strong");\n    name.textContent = source.name;\n    heading.append(name);\n    if (source.official) {\n      const badge = document.createElement("span");\n      badge.className = "source-official-badge";\n      badge.textContent = "Oficial";\n      heading.append(badge);\n    }\n    card.append(heading);\n\n    const count = document.createElement("small");\n    count.textContent = `${source.count} ${source.count === 1 ? "actividad" : "actividades"} en esta agenda`;\n    card.append(count);\n\n    if (source.url) {\n      const link = document.createElement("a");\n      link.href = source.url;\n      link.target = "_blank";\n      link.rel = "noopener noreferrer";\n      link.textContent = "Abrir referencia →";\n      card.append(link);\n    }\n    dom.sourcesGrid.append(card);\n  }\n}\n\nfunction renderCategories() {\n  const categories = collectCategoryCounts(allEvents);''',
+              'source aggregation',
+          )
+
+          replace_once(
+              'app/app.js',
+              '''      event?.description,\n      typeBadge(event),''',
+              '''      event?.description,\n      eventSourceName(event),\n      event?.organizer,\n      typeBadge(event),''',
+              'search source fields',
+          )
+
+          replace_once(
+              'app/app.js',
+              '''  updateResultHeading(events);\n  updateSectionCounts();\n  renderCategories();\n}''',
+              '''  updateResultHeading(events);\n  updateSectionCounts();\n  renderCategories();\n  renderSources();\n}''',
+              'render sources call',
+          )
+
+          # card-experience.js: visible source attribution on each rich card.
+          replace_once(
+              'app/card-experience.js',
+              '''function meaningfulDescription(event) {''',
+              '''function sourceName(event) {\n  return String(event?.source_name || event?.organizer || "").trim();\n}\n\nfunction sourceUrl(event) {\n  return safeHttpUrl(event?.source_url || event?.links?.source || event?.links?.official);\n}\n\nfunction meaningfulDescription(event) {''',
+              'rich card source helpers',
+          )
+
+          replace_once(
+              'app/card-experience.js',
+              '''  const description = meaningfulDescription(event);\n  if (description) addTextElement(body, "p", "event-card-description", description);\n\n  const footer = document.createElement("div");''',
+              '''  const description = meaningfulDescription(event);\n  if (description) addTextElement(body, "p", "event-card-description", description);\n\n  const sourceLabel = sourceName(event);\n  if (sourceLabel) {\n    const source = document.createElement("p");\n    source.className = "event-card-source";\n    addTextElement(source, "span", "event-card-source-prefix", "Fuente: ");\n    const sourceHref = sourceUrl(event);\n    if (sourceHref) {\n      const link = document.createElement("a");\n      link.className = "event-card-source-link";\n      link.href = sourceHref;\n      link.target = "_blank";\n      link.rel = "noopener noreferrer";\n      link.textContent = sourceLabel;\n      source.append(link);\n    } else {\n      source.append(document.createTextNode(sourceLabel));\n    }\n    body.append(source);\n  }\n\n  const footer = document.createElement("div");''',
+              'rich card source attribution',
+          )
+
+          # CSS: source list and per-card attribution.
+          p = Path('app/app.css')
+          text = p.read_text(encoding='utf-8')
+          source_css = '''\n.sources-section{padding:1.7rem 0 0;border-top:1px solid #dce5e2;margin-top:1rem}\n.sources-section[hidden]{display:none}\n.source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}\n.source-card{background:#fbfaf7;border:1px solid #d9e3e0;border-radius:1rem;padding:1rem;display:flex;flex-direction:column;gap:.45rem;min-width:0}\n.source-card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem}\n.source-card strong{color:#174f46;line-height:1.3}\n.source-card small{color:#697c76;line-height:1.4}\n.source-card a{color:#174f46;font-weight:800;text-decoration:none;width:max-content;max-width:100%}\n.source-card a:hover,.source-card a:focus-visible{text-decoration:underline}\n.source-official-badge{flex:0 0 auto;font-size:.68rem;font-weight:800;background:#e5f1ed;color:#174f46;border-radius:999px;padding:.22rem .45rem}\n@media(max-width:800px){.source-grid{grid-template-columns:1fr 1fr}}\n@media(max-width:560px){.source-grid{grid-template-columns:1fr}}\n'''
+          if '.source-grid{' not in text:
+              p.write_text(text + source_css, encoding='utf-8')
+
+          p = Path('app/card-experience.css')
+          text = p.read_text(encoding='utf-8')
+          card_source_css = '''\n.event-card-source{font-size:.82rem!important;color:#6b7d78!important;display:flex;gap:.25rem;flex-wrap:wrap;align-items:baseline}\n.event-card-source-prefix{font-weight:700;color:#7b8b86}\n.event-card-source-link{color:#174f46!important;font-weight:800;text-decoration:none}\n.event-card-source-link:hover,.event-card-source-link:focus-visible{text-decoration:underline}\n'''
+          if '.event-card-source{' not in text:
+              p.write_text(text + card_source_css, encoding='utf-8')
+
+          # Force installed shells to refresh atomically.
+          replace_once('app/service-worker.js', 'const CACHE_VERSION = "v5";', 'const CACHE_VERSION = "v6";', 'service worker version')
+          replace_once('app/pwa.js', 'const APP_VERSION = "PWA v5";', 'const APP_VERSION = "PWA v6";', 'runtime app version')
+          replace_once('app/scripts/test_pwa.py', 'const APP_VERSION = "PWA v5";', 'const APP_VERSION = "PWA v6";', 'PWA app version test')
+          replace_once('app/scripts/test_pwa.py', 'const CACHE_VERSION = "v5"', 'const CACHE_VERSION = "v6"', 'PWA cache version test')
+
+          # Static contract coverage.
+          p = Path('app/scripts/test_multi_city_ui.py')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('    "data-total",\n)', '    "data-total",\n    "data-sources-section",\n    "data-sources-grid",\n    "data-sources-total",\n)', 1)
+          text = text.replace('assert \'card-action--primary\' in card_js\n', 'assert \'card-action--primary\' in card_js\nassert \'event?.source_name\' in card_js\nassert \'event-card-source\' in card_js\nassert \'collectSources(allEvents)\' in app_js\nassert \'renderSources()\' in app_js\nassert \'source-card\' in css\n', 1)
+          text = text.replace('assert \'const CACHE_VERSION = "v5";\' in service_worker', 'assert \'const CACHE_VERSION = "v6";\' in service_worker', 1)
+          p.write_text(text, encoding='utf-8')
+
+          # Browser contract: both cities must expose card attribution and a populated source explorer.
+          p = Path('app/scripts/test_runtime_browser.py')
+          text = p.read_text(encoding='utf-8')
+          anchor = '''        if 'card-action--primary' not in dom:\n            raise AssertionError(f"Primary event action did not render for {city}")\n'''
+          replacement = anchor + '''        if 'class="event-card-source"' not in dom:\n            raise AssertionError(f"Per-card source attribution did not render for {city}")\n        if 'class="source-card"' not in dom:\n            raise AssertionError(f"City source explorer did not render for {city}")\n        if city == "valparaiso" and "Valpo Cultura" not in dom and "Museo Palacio Rioja" not in dom:\n            raise AssertionError("Valparaiso/Vina source names did not render")\n        if city == "gijon" and "Open Data Ayuntamiento de Gijón/Xixón" not in dom:\n            raise AssertionError("Gijon Open Data source did not render")\n'''
+          if anchor not in text:
+              raise SystemExit('runtime source assertion anchor not found')
+          p.write_text(text.replace(anchor, replacement, 1), encoding='utf-8')
+          PY
+
+      - name: Compile JavaScript and Python
+        run: |
+          node --check app/app.js
+          node --check app/card-experience.js
+          node --check app/pwa.js
+          node --check app/service-worker.js
+          python -m py_compile app/scripts/test_multi_city_ui.py app/scripts/test_runtime_browser.py app/scripts/test_pwa.py app/scripts/test_pre_release.py
+
+      - name: Run source, PWA and browser contracts
+        run: |
+          python app/scripts/test_multi_city_ui.py
+          python app/scripts/test_pwa.py
+          python app/scripts/test_runtime_browser.py
+          python app/scripts/test_pre_release.py
+
+      - name: Commit validated patch and remove one-shot workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/patch-city-source-attribution.yml
+          git add app/index.html app/app.js app/app.css app/card-experience.js app/card-experience.css app/pwa.js app/service-worker.js app/scripts/test_multi_city_ui.py app/scripts/test_runtime_browser.py app/scripts/test_pwa.py
+          git commit -m "Expose city sources across the PWA"
+          git push origin HEAD:fix/city-source-attribution
