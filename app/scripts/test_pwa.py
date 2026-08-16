@@ -17,6 +17,8 @@ sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
 community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 vivamos_brand_js = (APP / "vivamos-brand.js").read_text(encoding="utf-8")
+header_redesign_js = (APP / "header-redesign.js").read_text(encoding="utf-8")
+header_redesign_css = (APP / "header-redesign.css").read_text(encoding="utf-8")
 source_form_js = (APP / "proponer-fuente.js").read_text(encoding="utf-8")
 
 assert manifest["start_url"] == "./"
@@ -79,9 +81,11 @@ for module in (
     './lean-filters.js',
     './sources-toggle.js',
     './community-source.js',
+    './header-redesign.js',
 ):
     assert f'import "{module}";' in pwa_js
-assert 'const APP_VERSION = "PWA v13";' in pwa_js
+assert pwa_js.rfind('import "./header-redesign.js";') > pwa_js.rfind('import "./compact-top.js";')
+assert 'const APP_VERSION = "PWA v15";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -89,6 +93,20 @@ assert 'updateViaCache: "none"' in pwa_js
 assert 'const BRAND_NAME = "¡Vivamos!";' in vivamos_brand_js
 assert 'const BRAND_TAGLINE = "Descubre y vive lo que hay cerca de ti.";' in vivamos_brand_js
 assert 'import "./vivamos-brand.js";' in source_form_js
+
+assert 'const TAGLINE = "Cultura, panoramas y experiencias para disfrutar cerca de ti.";' in header_redesign_js
+assert 'header.dataset.headerRedesign = "hero-v2"' in header_redesign_js
+assert 'bottom.append(searchRow)' in header_redesign_js
+assert 'bottom.append(actions)' in header_redesign_js
+assert 'art.className = "header-art"' in header_redesign_js
+assert '.app-header{' in header_redesign_css
+assert 'min-height:258px!important' in header_redesign_css
+assert 'position:relative!important' in header_redesign_css
+assert 'font-size:clamp(2.55rem,4.4vw,3.55rem)' in header_redesign_css
+assert './illustrations/valparaiso-header.svg' in header_redesign_css
+assert './illustrations/gijon-header.svg' in header_redesign_css
+assert (APP / "illustrations" / "valparaiso-header.svg").exists()
+assert (APP / "illustrations" / "gijon-header.svg").exists()
 
 assert '.hero > h1' in compact_top_js
 assert '.agenda-heading' in compact_top_js
@@ -116,19 +134,20 @@ assert 'cf-turnstile' in source_form
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v15"' in sw
+assert 'const CACHE_VERSION = "v16"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 
 shell_block = sw.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
-    '"./"', '"./index.html"', '"./app.css"', '"./city-header.css"', '"./app.js"', '"./pwa.js"',
-    '"./vivamos-brand.js"',
+    '"./"', '"./index.html"', '"./app.css"', '"./city-header.css"', '"./header-redesign.css"',
+    '"./app.js"', '"./pwa.js"', '"./vivamos-brand.js"', '"./header-redesign.js"',
     '"./card-experience.js"', '"./card-experience.css"', '"./card-image-fallback.js"',
     '"./compact-top.js"', '"./gijon-visual-reference.js"', '"./lean-filters.js"',
     '"./sources-toggle.js"', '"./community-source.js"', '"./community-source.css"',
     '"./proponer-fuente.html"', '"./proponer-fuente.js"', '"./manifest.webmanifest"', '"./icons/icon.svg"',
     '"./icons/icon-192.png"', '"./icons/icon-512.png"', '"./icons/icon-maskable-512.png"',
+    '"./illustrations/valparaiso-header.svg"', '"./illustrations/gijon-header.svg"',
     '"../assets/categoria-cine.jpg"', '"../assets/categoria-cultura.jpg"',
     '"../assets/categoria-deportes.jpg"', '"../assets/categoria-exposiciones.jpg"',
     '"../assets/categoria-gastronomia.jpg"', '"../assets/categoria-musica.jpg"',
