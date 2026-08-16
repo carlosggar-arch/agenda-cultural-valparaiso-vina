@@ -1,3 +1,5 @@
+import { openEventDetail } from "./event-detail.js";
+
 const STORAGE_KEY = "agenda-cultural-city";
 
 const CITY_PRESENTATION = Object.freeze({
@@ -276,6 +278,16 @@ function buildAction(href, label, className) {
   return action;
 }
 
+function buildDetailAction(event, presentation) {
+  const action = document.createElement("button");
+  action.type = "button";
+  action.className = "card-action card-action--primary";
+  action.dataset.openEvent = event?.id || "event";
+  action.textContent = "Ver evento →";
+  action.addEventListener("click", () => openEventDetail(event, presentation));
+  return action;
+}
+
 function renderRichCard(card, event) {
   const config = cityConfig();
   const body = document.createElement("div");
@@ -347,8 +359,18 @@ function renderRichCard(card, event) {
   const official = safeHttpUrl(event?.links?.official || event?.links?.source);
   const registration = safeHttpUrl(event?.links?.registration || event?.links?.tickets);
   if (registration && registration !== official) actions.append(buildAction(registration, "Inscribirme", "card-action--secondary"));
-  if (official) actions.append(buildAction(official, "Ver evento →", "card-action--primary"));
-  else if (registration) actions.append(buildAction(registration, "Ver detalles →", "card-action--primary"));
+  actions.append(buildDetailAction(event, {
+    category: primaryCategory(event),
+    type,
+    labels: [...new Set(labels)],
+    schedule: scheduleLabel(event, config),
+    location: locationLabel(event),
+    price: priceLabel(event),
+    sourceName: sourceLabel,
+    sourceUrl: sourceUrl(event),
+    officialUrl: official,
+    registrationUrl: registration,
+  }));
   footer.append(actions);
   body.append(footer);
 
