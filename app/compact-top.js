@@ -121,28 +121,10 @@ if (!document.getElementById(STYLE_ID)) {
     }
 
     .agenda {
-      padding: .45rem 0 3rem !important;
+      padding: .1rem 0 3rem !important;
     }
     .agenda-heading {
-      align-items: center !important;
-      margin-bottom: .72rem !important;
-    }
-    .agenda-heading .eyebrow {
       display: none !important;
-    }
-    .agenda-heading h2 {
-      font-size: 1.32rem !important;
-      line-height: 1.15 !important;
-    }
-    .filter-summary,
-    .agenda-total {
-      margin: .2rem 0 0 !important;
-      font-size: .78rem !important;
-      line-height: 1.3 !important;
-    }
-    .clear-filters {
-      padding: .3rem !important;
-      font-size: .78rem !important;
     }
 
     .content-section {
@@ -205,7 +187,6 @@ if (!document.getElementById(STYLE_ID)) {
       .discovery {
         padding-bottom: .4rem !important;
       }
-      .agenda-heading,
       .section-heading {
         gap: .45rem !important;
       }
