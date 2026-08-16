@@ -199,12 +199,15 @@ function patchCategoryChips() {
     }
     button.hidden = false;
     const count = button.querySelector("small");
-    if (count) count.textContent = String(counts.get(id) || 0);
+    const nextCount = String(counts.get(id) || 0);
+    if (count && count.textContent !== nextCount) count.textContent = nextCount;
   }
 }
 
 function patchCityControl() {
-  if (citySwitchLabel) citySwitchLabel.textContent = "Cambiar ciudad";
+  if (citySwitchLabel && citySwitchLabel.textContent !== "Cambiar ciudad") {
+    citySwitchLabel.textContent = "Cambiar ciudad";
+  }
 }
 
 function ensureVisibleSectionSelection() {
@@ -242,7 +245,7 @@ sectionFilters?.addEventListener("click", queueUpdate);
 categoryContainer?.addEventListener("click", queueUpdate);
 
 if (categoryContainer) {
-  new MutationObserver(queueUpdate).observe(categoryContainer, { childList: true, subtree: true });
+  new MutationObserver(queueUpdate).observe(categoryContainer, { childList: true });
 }
 
 new MutationObserver(() => {
