@@ -44,6 +44,8 @@ assert '<link rel="manifest" href="./manifest.webmanifest">' in index
 assert '<link rel="apple-touch-icon" href="./icons/icon-192.png">' in index
 assert '<script type="module" src="./pwa.js"></script>' in index
 assert "data-install-app" in index
+assert "data-app-version" in index
+assert "PWA v4" in index
 
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
@@ -53,6 +55,12 @@ assert "event.preventDefault()" in pwa_js
 assert "deferredInstallPrompt" in pwa_js
 assert '"appinstalled"' in pwa_js
 assert '"(display-mode: standalone)"' in pwa_js
+
+assert 'const CACHE_VERSION = "v4"' in sw
+assert "async function refreshOpenWindows" in sw
+assert 'self.clients.matchAll({ type: "window", includeUncontrolled: true })' in sw
+assert "await client.navigate(client.url)" in sw
+assert "await refreshOpenWindows()" in sw
 
 shell_block = sw.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
