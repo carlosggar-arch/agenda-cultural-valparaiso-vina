@@ -6,6 +6,7 @@ from pathlib import Path
 index = Path("app/index.html").read_text(encoding="utf-8")
 app_js = Path("app/app.js").read_text(encoding="utf-8")
 css = Path("app/app.css").read_text(encoding="utf-8")
+service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 
 required_index_markers = (
     "data-dated-section",
@@ -23,6 +24,7 @@ required_index_markers = (
     "data-category-filters",
     "data-filter-clear",
     "data-filter-summary",
+    "data-total",
 )
 for marker in required_index_markers:
     assert marker in index, f"missing UI marker: {marker}"
@@ -34,6 +36,8 @@ assert 'groups = { dated: [], program: [], flexible: [] }' in app_js
 assert "renderGroup(dom.datedGrid" in app_js
 assert "renderGroup(dom.programGrid" in app_js
 assert "renderGroup(dom.flexibleGrid" in app_js
+assert 'total: document.querySelector("[data-total]")' in app_js
+assert "dom.total.textContent" in app_js
 
 # Discovery must be city-timezone aware and data-driven, not hard-coded to Chile.
 assert 'timeZone: city.timezone' in app_js
@@ -46,10 +50,14 @@ assert 'eventMatchesCategory(event, activeCategory)' in app_js
 
 assert "dataset público todavía no ha sido conectado" not in app_js
 assert "No pudimos cargar la agenda" in app_js
-assert ".quick-sections" in css
-assert ".category-filters" in css
-assert ".category-chip.active" in css
-assert "@media(max-width:560px)" in css
-assert ".event-grid,.compact-grid{grid-template-columns:1fr}" in css
+assert '.quick-sections' in css
+assert '.category-filters' in css
+assert '.category-chip.active' in css
+assert '@media(max-width:560px)' in css
+assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-print("Multi-city discovery and partition tests: OK")
+# A rendering hotfix must invalidate the previous installed shell cache so a
+# standalone PWA does not keep serving the broken UI contract.
+assert 'const CACHE_VERSION = "v3";' in service_worker
+
+print("Multi-city discovery, render and partition tests: OK")
