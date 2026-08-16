@@ -52,6 +52,7 @@
   padding: .34rem;
   object-fit: contain !important;
   object-position: center !important;
+  border-radius: .55rem;
   filter: drop-shadow(0 5px 10px rgba(18,43,38,.14));
   transform: none !important;
 }
@@ -59,6 +60,35 @@
 .event-card:hover .event-card-photo,
 .event-card:hover .card-media img {
   transform: none !important;
+}
+
+/* Media is visual, never navigation. Details/actions live below the image.
+   This also removes legacy/carousel arrows that could intrude into a poster. */
+.card-media > button,
+.event-card-media > button,
+.event-detail-media > button,
+.card-media > a,
+.event-card-media > a,
+.event-detail-media > a,
+.card-media .carousel-control,
+.event-card-media .carousel-control,
+.event-detail-media .carousel-control,
+.card-media .carousel-control-next,
+.card-media .carousel-control-prev,
+.event-card-media .carousel-control-next,
+.event-card-media .carousel-control-prev,
+.event-detail-media .carousel-control-next,
+.event-detail-media .carousel-control-prev,
+.card-media .swiper-button-next,
+.card-media .swiper-button-prev,
+.event-card-media .swiper-button-next,
+.event-card-media .swiper-button-prev,
+.event-detail-media .swiper-button-next,
+.event-detail-media .swiper-button-prev,
+.card-media [data-media-nav],
+.event-card-media [data-media-nav],
+.event-detail-media [data-media-nav] {
+  display: none !important;
 }
 
 .event-media-fallback {
