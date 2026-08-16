@@ -97,7 +97,7 @@ assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
 # The installed-shell recovery remains active and the card/fallback resources
 # are part of the offline shell so presentation survives an offline reopen.
-assert 'const CACHE_VERSION = "v7";' in service_worker
+assert 'const CACHE_VERSION = "v8";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]

@@ -49,7 +49,7 @@ assert "data-app-version" in index
 
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
-assert 'const APP_VERSION = "PWA v7";' in pwa_js
+assert 'const APP_VERSION = "PWA v8";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -64,7 +64,7 @@ assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert '../assets/categoria-exposiciones.jpg' in fallback_js
 assert 'Imagen representativa de la categoría' in fallback_js
 
-assert 'const CACHE_VERSION = "v7"' in sw
+assert 'const CACHE_VERSION = "v8"' in sw
 assert "async function refreshOpenWindows" in sw
 assert 'self.clients.matchAll({ type: "window", includeUncontrolled: true })' in sw
 assert "await client.navigate(client.url)" in sw
