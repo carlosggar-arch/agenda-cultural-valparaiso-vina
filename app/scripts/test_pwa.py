@@ -9,6 +9,7 @@ manifest = json.loads((APP / "manifest.webmanifest").read_text(encoding="utf-8")
 index = (APP / "index.html").read_text(encoding="utf-8")
 pwa_js = (APP / "pwa.js").read_text(encoding="utf-8")
 sw = (APP / "service-worker.js").read_text(encoding="utf-8")
+fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 
 assert manifest["start_url"] == "./"
 assert manifest["scope"] == "./"
@@ -45,8 +46,10 @@ assert '<link rel="apple-touch-icon" href="./icons/icon-192.png">' in index
 assert '<script type="module" src="./pwa.js"></script>' in index
 assert "data-install-app" in index
 assert "data-app-version" in index
-assert "PWA v4" in index
 
+assert 'import "./card-experience.js";' in pwa_js
+assert 'import "./card-image-fallback.js";' in pwa_js
+assert 'const APP_VERSION = "PWA v5";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -56,7 +59,12 @@ assert "deferredInstallPrompt" in pwa_js
 assert '"appinstalled"' in pwa_js
 assert '"(display-mode: standalone)"' in pwa_js
 
-assert 'const CACHE_VERSION = "v4"' in sw
+assert 'activeCity() !== "valparaiso"' in fallback_js
+assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
+assert '../assets/categoria-exposiciones.jpg' in fallback_js
+assert 'Imagen representativa de la categoría' in fallback_js
+
+assert 'const CACHE_VERSION = "v5"' in sw
 assert "async function refreshOpenWindows" in sw
 assert 'self.clients.matchAll({ type: "window", includeUncontrolled: true })' in sw
 assert "await client.navigate(client.url)" in sw
@@ -69,11 +77,23 @@ for asset in (
     '"./app.css"',
     '"./app.js"',
     '"./pwa.js"',
+    '"./card-experience.js"',
+    '"./card-experience.css"',
+    '"./card-image-fallback.js"',
     '"./manifest.webmanifest"',
     '"./icons/icon.svg"',
     '"./icons/icon-192.png"',
     '"./icons/icon-512.png"',
     '"./icons/icon-maskable-512.png"',
+    '"../assets/categoria-cine.jpg"',
+    '"../assets/categoria-cultura.jpg"',
+    '"../assets/categoria-deportes.jpg"',
+    '"../assets/categoria-exposiciones.jpg"',
+    '"../assets/categoria-gastronomia.jpg"',
+    '"../assets/categoria-musica.jpg"',
+    '"../assets/categoria-naturaleza.jpg"',
+    '"../assets/categoria-talleres.jpg"',
+    '"../assets/categoria-teatro.jpg"',
 ):
     assert asset in shell_block, f"shell precache missing {asset}"
 assert "agenda_web.json" not in shell_block, "city datasets must not be precached"

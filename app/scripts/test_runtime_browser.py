@@ -36,12 +36,13 @@ def make_test_page(city: str) -> None:
         f'<script>localStorage.setItem("agenda-cultural-city", "{city}");</script>\n  '
         + marker
         + '\n  <script type="module" src="./card-experience.js"></script>'
+        + '\n  <script type="module" src="./card-image-fallback.js"></script>'
     )
     if marker not in source or pwa_marker not in source:
         raise AssertionError("app.js/pwa.js script marker not found in app/index.html")
     # Runtime rendering and service-worker lifecycle are separate contracts.
     # Omit pwa.js to avoid activation-triggered navigation, but execute the real
-    # card presentation module explicitly so the browser validates the final UI.
+    # presentation modules explicitly so Chrome validates the final card UI.
     source = source.replace(pwa_marker, "", 1)
     TEST_PAGE.write_text(source.replace(marker, injection, 1), encoding="utf-8")
 
@@ -87,8 +88,16 @@ def run_city(city: str, base_url: str) -> None:
             raise AssertionError(f"Date/location/price facts did not render for {city}")
         if 'card-action--primary' not in dom:
             raise AssertionError(f"Primary event action did not render for {city}")
-        if city == "gijon" and 'class="event-card-photo"' not in dom:
-            raise AssertionError("Gijon should expose at least one official event image")
+        if city == "valparaiso":
+            if 'data-image-kind="category-fallback"' not in dom:
+                raise AssertionError("Valparaiso should replace missing event images with category photos")
+            if '../assets/categoria-' not in dom:
+                raise AssertionError("Valparaiso category-photo asset did not render")
+        if city == "gijon":
+            if 'class="event-card-photo"' not in dom:
+                raise AssertionError("Gijon should expose at least one official event image")
+            if 'data-image-kind="category-fallback"' in dom:
+                raise AssertionError("Gijon must not use the Valparaiso category-photo fallback")
         if 'No te lo pierdas' not in dom:
             raise AssertionError(f"Featured editorial badge did not render for {city}")
         print(f"Browser runtime {city}: {card_count} rich cards rendered")
