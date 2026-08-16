@@ -12,6 +12,7 @@ sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 compact_top_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
+lean_filters_js = (APP / "lean-filters.js").read_text(encoding="utf-8")
 
 assert manifest["start_url"] == "./"
 assert manifest["scope"] == "./"
@@ -49,11 +50,23 @@ assert '<script type="module" src="./pwa.js"></script>' in index
 assert "data-install-app" in index
 assert "data-app-version" in index
 
+for marker in (
+    'data-section-filter="hoy"',
+    'data-section-filter="fin-de-semana"',
+    'data-section-filter="terminan-pronto"',
+    'data-section-filter="gratis"',
+    'data-section-filter="todos"',
+):
+    assert marker in index
+assert 'data-section-filter="proximos"' not in index
+assert 'data-section-filter="talleres-cursos"' not in index
+
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
 assert 'import "./compact-top.js";' in pwa_js
 assert 'import "./gijon-visual-reference.js";' in pwa_js
-assert 'const APP_VERSION = "PWA v10";' in pwa_js
+assert 'import "./lean-filters.js";' in pwa_js
+assert 'const APP_VERSION = "PWA v11";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -81,12 +94,16 @@ assert 'data-gijon-visual-reference' in gijon_visual_js
 assert 'Explorar actividades en Gijón' in gijon_visual_js
 assert 'Interfaz visual oficial del Ayuntamiento' in gijon_visual_js
 
+assert 'new Set(["hoy", "fin-de-semana", "terminan-pronto", "gratis", "todos"])' in lean_filters_js
+assert 'data-section-filter="todos"' in lean_filters_js
+assert "MutationObserver" in lean_filters_js
+
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert '../assets/categoria-exposiciones.jpg' in fallback_js
 assert 'Imagen representativa de la categoría' in fallback_js
 
-assert 'const CACHE_VERSION = "v10"' in sw
+assert 'const CACHE_VERSION = "v11"' in sw
 assert "async function refreshOpenWindows" in sw
 assert 'self.clients.matchAll({ type: "window", includeUncontrolled: true })' in sw
 assert "await client.navigate(client.url)" in sw
@@ -104,6 +121,7 @@ for asset in (
     '"./card-image-fallback.js"',
     '"./compact-top.js"',
     '"./gijon-visual-reference.js"',
+    '"./lean-filters.js"',
     '"./manifest.webmanifest"',
     '"./icons/icon.svg"',
     '"./icons/icon-192.png"',
