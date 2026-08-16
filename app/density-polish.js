@@ -5,50 +5,54 @@ function ensureDensityStyles() {
   const style = document.createElement("style");
   style.id = STYLE_ID;
   style.textContent = `
-    /* Keep the city illustration, but let content determine the hero height.
-       The previous minimum height left a visibly empty band below the tagline. */
+    /* Keep the typography legible and let the copy determine the hero height.
+       The visual compaction comes from cropping the illustration around the
+       horizon/monument instead of shrinking the brand text. */
     .app-header {
-      min-height: 124px !important;
-      padding-top: .72rem !important;
-      padding-bottom: .5rem !important;
+      min-height: 0 !important;
+      padding-top: .85rem !important;
+      padding-bottom: .6rem !important;
     }
     .app-header .brand {
-      width: min(760px, 70vw) !important;
+      width: min(840px, 78vw) !important;
       align-items: flex-start !important;
     }
     .app-header .brand img {
-      width: 52px !important;
-      height: 52px !important;
+      width: 58px !important;
+      height: 58px !important;
     }
     .app-header .brand strong {
-      font-size: 1.18rem !important;
-      margin-bottom: .18rem !important;
+      font-size: 1.32rem !important;
+      margin-bottom: .28rem !important;
     }
     .app-header .header-kicker {
-      margin-bottom: .08rem !important;
+      margin-bottom: .18rem !important;
     }
     .app-header .header-city-title {
-      font-size: clamp(1.48rem, 3vw, 2.65rem) !important;
-      line-height: .95 !important;
+      font-size: clamp(1.55rem, 3.35vw, 3rem) !important;
+      line-height: .98 !important;
     }
     .app-header .header-tagline {
       max-width: none !important;
-      margin-top: .24rem !important;
+      margin-top: .34rem !important;
       margin-bottom: 0 !important;
       white-space: nowrap !important;
-      font-size: clamp(.78rem, 1.2vw, .9rem) !important;
-      line-height: 1.12 !important;
+      font-size: clamp(.82rem, 1.35vw, .95rem) !important;
+      line-height: 1.2 !important;
     }
     .app-header .header-art {
       top: 0 !important;
       bottom: auto !important;
       width: 55% !important;
       height: 100% !important;
-      opacity: .62 !important;
+      opacity: .68 !important;
       background-size: cover !important;
-      background-position: center bottom !important;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.15) 18%, #000 48%, #000 100%) !important;
-      mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.15) 18%, #000 48%, #000 100%) !important;
+      /* In a shallow desktop hero, `bottom` crops the 900x360 SVG down to
+         almost only its lower sea band. Centering around 58% keeps the
+         Elogio/horizon and only a narrow amount of sea visible. */
+      background-position: right 58% !important;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
+      mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
     }
 
     /* Header actions are utilities, not a second content row. */
@@ -75,59 +79,59 @@ function ensureDensityStyles() {
 
     @media (max-width: 700px) {
       .app-header {
-        min-height: 132px !important;
-        padding: .58rem .68rem .46rem !important;
+        min-height: 0 !important;
+        padding: .72rem .78rem .58rem !important;
       }
       .app-header .brand {
         width: 100% !important;
-        gap: .42rem !important;
+        gap: .5rem !important;
       }
       .app-header .brand img {
-        width: 40px !important;
-        height: 40px !important;
+        width: 44px !important;
+        height: 44px !important;
       }
       .app-header .brand strong {
-        font-size: .96rem !important;
-        margin-bottom: .12rem !important;
+        font-size: 1.02rem !important;
+        margin-bottom: .2rem !important;
       }
       .app-header .header-kicker {
-        font-size: .48rem !important;
-        margin-bottom: .04rem !important;
+        font-size: .52rem !important;
+        margin-bottom: .1rem !important;
       }
       .app-header .header-city-title {
-        margin-top: .18rem !important;
-        font-size: clamp(1.02rem, 5vw, 1.58rem) !important;
+        margin-top: .2rem !important;
+        font-size: clamp(1.08rem, 5.25vw, 1.75rem) !important;
       }
       .app-header .header-tagline {
         max-width: none !important;
         white-space: nowrap !important;
-        font-size: clamp(.64rem, 2.55vw, .76rem) !important;
-        margin-top: .2rem !important;
+        font-size: clamp(.68rem, 2.7vw, .8rem) !important;
+        margin-top: .28rem !important;
       }
       .app-header .header-art {
         top: 0 !important;
         bottom: auto !important;
-        width: 70% !important;
+        width: 72% !important;
         height: 100% !important;
-        opacity: .26 !important;
-        background-position: 58% bottom !important;
-        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.11) 20%, #000 55%, #000 100%) !important;
-        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.11) 20%, #000 55%, #000 100%) !important;
+        opacity: .3 !important;
+        background-position: 58% center !important;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.13) 20%, #000 55%, #000 100%) !important;
+        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.13) 20%, #000 55%, #000 100%) !important;
       }
       .app-header .header-bottom {
-        top: .46rem !important;
-        right: .46rem !important;
+        top: .54rem !important;
+        right: .54rem !important;
       }
       .app-header .header-actions {
-        gap: .26rem !important;
+        gap: .3rem !important;
       }
       .app-header .header-search-toggle,
       .app-header .install-button,
       .app-header .city-switch {
-        width: 35px !important;
-        min-width: 35px !important;
-        height: 35px !important;
-        min-height: 35px !important;
+        width: 37px !important;
+        min-width: 37px !important;
+        height: 37px !important;
+        min-height: 37px !important;
         padding: 0 !important;
         display: inline-grid !important;
         place-items: center !important;
