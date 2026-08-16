@@ -47,9 +47,9 @@ function ensureDensityStyles() {
       height: 100% !important;
       opacity: .68 !important;
       background-size: cover !important;
-      /* In a shallow desktop hero, `bottom` crops the 900x360 SVG down to
-         almost only its lower sea band. Centering around 58% keeps the
-         Elogio/horizon and only a narrow amount of sea visible. */
+      /* In a shallow desktop hero, anchoring the art at the bottom crops the
+         900x360 SVG down to almost only its lower sea band. Centering around
+         58% keeps the Elogio/horizon and only a narrow amount of sea visible. */
       background-position: right 58% !important;
       -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
       mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
