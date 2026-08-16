@@ -45,11 +45,13 @@ jobs:
             app/scripts/test_pwa.py \
             app/scripts/test_pre_release.py \
             app/scripts/test_runtime_browser.py \
+            app/scripts/test_density_runtime.py \
             app/scripts/test_contextual_filters.py
           node --check app/app.js
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/contextual-filters.js
+          node --check app/density-polish.js
 
       - name: Run existing multi-city contracts
         run: |
@@ -60,7 +62,10 @@ jobs:
           python app/scripts/test_contextual_filters.py
 
       - name: Run browser runtime contract
-        run: python app/scripts/test_runtime_browser.py
+        run: |
+          set -euo pipefail
+          python app/scripts/test_runtime_browser.py
+          python app/scripts/test_density_runtime.py
 
       - name: Run joint pre-release contract
         run: python app/scripts/test_pre_release.py
