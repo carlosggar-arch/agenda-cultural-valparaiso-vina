@@ -14,6 +14,8 @@ compact_top_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
 lean_filters_js = (APP / "lean-filters.js").read_text(encoding="utf-8")
 sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
+community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
+source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 
 assert manifest["start_url"] == "./"
 assert manifest["scope"] == "./"
@@ -70,9 +72,10 @@ for module in (
     './gijon-visual-reference.js',
     './lean-filters.js',
     './sources-toggle.js',
+    './community-source.js',
 ):
     assert f'import "{module}";' in pwa_js
-assert 'const APP_VERSION = "PWA v11";' in pwa_js
+assert 'const APP_VERSION = "PWA v12";' in pwa_js
 assert 'navigator.serviceWorker.register("./service-worker.js"' in pwa_js
 assert 'scope: "./"' in pwa_js
 assert 'updateViaCache: "none"' in pwa_js
@@ -95,10 +98,15 @@ assert 'sources-user-open' in sources_toggle_js
 assert 'aria-expanded' in sources_toggle_js
 assert 'Fuentes' in sources_toggle_js
 
+assert 'data-source-proposal-cta' in community_source_js
+assert 'proponer-fuente.html' in community_source_js
+assert 'data-community-source-form' in source_form
+assert 'cf-turnstile' in source_form
+
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
-assert 'const CACHE_VERSION = "v12"' in sw
+assert 'const CACHE_VERSION = "v14"' in sw
 assert "async function refreshOpenWindows" in sw
 assert "await refreshOpenWindows()" in sw
 
@@ -107,7 +115,8 @@ for asset in (
     '"./"', '"./index.html"', '"./app.css"', '"./city-header.css"', '"./app.js"', '"./pwa.js"',
     '"./card-experience.js"', '"./card-experience.css"', '"./card-image-fallback.js"',
     '"./compact-top.js"', '"./gijon-visual-reference.js"', '"./lean-filters.js"',
-    '"./sources-toggle.js"', '"./manifest.webmanifest"', '"./icons/icon.svg"',
+    '"./sources-toggle.js"', '"./community-source.js"', '"./community-source.css"',
+    '"./proponer-fuente.html"', '"./proponer-fuente.js"', '"./manifest.webmanifest"', '"./icons/icon.svg"',
     '"./icons/icon-192.png"', '"./icons/icon-512.png"', '"./icons/icon-maskable-512.png"',
     '"../assets/categoria-cine.jpg"', '"../assets/categoria-cultura.jpg"',
     '"../assets/categoria-deportes.jpg"', '"../assets/categoria-exposiciones.jpg"',

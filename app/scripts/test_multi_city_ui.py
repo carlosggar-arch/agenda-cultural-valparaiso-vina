@@ -11,6 +11,8 @@ fallback_js = Path("app/card-image-fallback.js").read_text(encoding="utf-8")
 compact_js = Path("app/compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = Path("app/gijon-visual-reference.js").read_text(encoding="utf-8")
 lean_filters_js = Path("app/lean-filters.js").read_text(encoding="utf-8")
+community_source_js = Path("app/community-source.js").read_text(encoding="utf-8")
+source_form = Path("app/proponer-fuente.html").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 
 required_index_markers = (
@@ -84,13 +86,14 @@ assert 'html[data-city="gijon"] .masthead-gijon' in city_header_css
 assert '.gijon-wave' in city_header_css
 assert '.gijon-mark' in city_header_css
 assert '.masthead-valpo span:nth-child(8)' in city_header_css
-assert '.brand img{width:64px;height:64px' in city_header_css
+assert '.brand img{width:72px;height:72px' in city_header_css
 
 assert 'import "./card-experience.js";' in pwa_js
 assert 'import "./card-image-fallback.js";' in pwa_js
 assert 'import "./compact-top.js";' in pwa_js
 assert 'import "./gijon-visual-reference.js";' in pwa_js
 assert 'import "./lean-filters.js";' in pwa_js
+assert 'import "./community-source.js";' in pwa_js
 assert 'dataset: "../agenda_web.json"' in card_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in card_js
 assert 'event?.image?.url' in card_js
@@ -134,6 +137,13 @@ assert 'data-gijon-visual-reference' in gijon_visual_js
 assert 'Explorar actividades en Gijón' in gijon_visual_js
 assert 'grid.prepend(buildVisualReference())' in gijon_visual_js
 
+# Community source proposal stays in the active city and uses the existing review flow.
+assert 'proponer-fuente.html' in community_source_js
+assert 'data-source-proposal-cta' in community_source_js
+assert 'data-community-source-form' in source_form
+assert 'cf-turnstile' in source_form
+assert 'Enviar para revisión' in source_form
+
 assert "dataset público todavía no ha sido conectado" not in app_js
 assert "No pudimos cargar la agenda" in app_js
 assert '.quick-sections' in css
@@ -142,7 +152,7 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v12";' in service_worker
+assert 'const CACHE_VERSION = "v14";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
@@ -153,6 +163,10 @@ assert '"./card-image-fallback.js"' in shell_block
 assert '"./compact-top.js"' in shell_block
 assert '"./gijon-visual-reference.js"' in shell_block
 assert '"./lean-filters.js"' in shell_block
+assert '"./community-source.js"' in shell_block
+assert '"./community-source.css"' in shell_block
+assert '"./proponer-fuente.html"' in shell_block
+assert '"./proponer-fuente.js"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
 print("Multi-city persistent header, lean discovery and visual identity tests: OK")
