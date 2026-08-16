@@ -5,52 +5,56 @@ function ensureDensityStyles() {
   const style = document.createElement("style");
   style.id = STYLE_ID;
   style.textContent = `
-    /* The illustration shares the hero with the copy instead of reserving
-       a separate visual block. This keeps the identity while reducing height. */
+    /* Keep the city illustration, but let content determine the hero height.
+       The previous minimum height left a visibly empty band below the tagline. */
     .app-header {
-      min-height: 158px !important;
-      padding-top: 1rem !important;
-      padding-bottom: .78rem !important;
+      min-height: 124px !important;
+      padding-top: .72rem !important;
+      padding-bottom: .5rem !important;
     }
     .app-header .brand {
-      width: min(840px, 78vw) !important;
+      width: min(760px, 70vw) !important;
+      align-items: flex-start !important;
     }
     .app-header .brand img {
-      width: 58px !important;
-      height: 58px !important;
+      width: 52px !important;
+      height: 52px !important;
     }
     .app-header .brand strong {
-      font-size: 1.32rem !important;
-      margin-bottom: .28rem !important;
-    }
-    .app-header .header-kicker {
+      font-size: 1.18rem !important;
       margin-bottom: .18rem !important;
     }
+    .app-header .header-kicker {
+      margin-bottom: .08rem !important;
+    }
     .app-header .header-city-title {
-      font-size: clamp(1.55rem, 3.35vw, 3rem) !important;
+      font-size: clamp(1.48rem, 3vw, 2.65rem) !important;
+      line-height: .95 !important;
     }
     .app-header .header-tagline {
       max-width: none !important;
-      margin-top: .34rem !important;
+      margin-top: .24rem !important;
+      margin-bottom: 0 !important;
       white-space: nowrap !important;
-      font-size: clamp(.82rem, 1.35vw, .95rem) !important;
-      line-height: 1.2 !important;
+      font-size: clamp(.78rem, 1.2vw, .9rem) !important;
+      line-height: 1.12 !important;
     }
     .app-header .header-art {
       top: 0 !important;
       bottom: auto !important;
-      width: 62% !important;
+      width: 55% !important;
       height: 100% !important;
-      opacity: .7 !important;
+      opacity: .62 !important;
       background-size: cover !important;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.18) 16%, #000 46%, #000 100%) !important;
-      mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.18) 16%, #000 46%, #000 100%) !important;
+      background-position: center bottom !important;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.15) 18%, #000 48%, #000 100%) !important;
+      mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.15) 18%, #000 48%, #000 100%) !important;
     }
 
     /* Header actions are utilities, not a second content row. */
     .app-header .header-bottom {
       position: absolute !important;
-      top: 1rem !important;
+      top: .72rem !important;
       right: max(1rem, calc((100vw - 1120px) / 2)) !important;
       left: auto !important;
       width: auto !important;
@@ -71,57 +75,59 @@ function ensureDensityStyles() {
 
     @media (max-width: 700px) {
       .app-header {
-        min-height: 168px !important;
-        padding: .78rem .8rem .72rem !important;
+        min-height: 132px !important;
+        padding: .58rem .68rem .46rem !important;
       }
       .app-header .brand {
         width: 100% !important;
-        gap: .5rem !important;
+        gap: .42rem !important;
       }
       .app-header .brand img {
-        width: 44px !important;
-        height: 44px !important;
+        width: 40px !important;
+        height: 40px !important;
       }
       .app-header .brand strong {
-        font-size: 1.02rem !important;
-        margin-bottom: .2rem !important;
+        font-size: .96rem !important;
+        margin-bottom: .12rem !important;
       }
       .app-header .header-kicker {
-        font-size: .52rem !important;
+        font-size: .48rem !important;
+        margin-bottom: .04rem !important;
       }
       .app-header .header-city-title {
-        margin-top: .3rem !important;
-        font-size: clamp(1.08rem, 5.25vw, 1.75rem) !important;
+        margin-top: .18rem !important;
+        font-size: clamp(1.02rem, 5vw, 1.58rem) !important;
       }
       .app-header .header-tagline {
         max-width: none !important;
         white-space: nowrap !important;
-        font-size: clamp(.68rem, 2.7vw, .8rem) !important;
-        margin-top: .28rem !important;
+        font-size: clamp(.64rem, 2.55vw, .76rem) !important;
+        margin-top: .2rem !important;
       }
       .app-header .header-art {
         top: 0 !important;
         bottom: auto !important;
-        width: 78% !important;
+        width: 70% !important;
         height: 100% !important;
-        opacity: .32 !important;
-        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.14) 18%, #000 52%, #000 100%) !important;
-        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.14) 18%, #000 52%, #000 100%) !important;
+        opacity: .26 !important;
+        background-position: 58% bottom !important;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.11) 20%, #000 55%, #000 100%) !important;
+        mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.11) 20%, #000 55%, #000 100%) !important;
       }
       .app-header .header-bottom {
-        top: .58rem !important;
-        right: .58rem !important;
+        top: .46rem !important;
+        right: .46rem !important;
       }
       .app-header .header-actions {
-        gap: .3rem !important;
+        gap: .26rem !important;
       }
       .app-header .header-search-toggle,
       .app-header .install-button,
       .app-header .city-switch {
-        width: 37px !important;
-        min-width: 37px !important;
-        height: 37px !important;
-        min-height: 37px !important;
+        width: 35px !important;
+        min-width: 35px !important;
+        height: 35px !important;
+        min-height: 35px !important;
         padding: 0 !important;
         display: inline-grid !important;
         place-items: center !important;
@@ -130,6 +136,26 @@ function ensureDensityStyles() {
       .app-header .city-switch [data-city-switch-label],
       .app-header .city-switch > span:last-child {
         display: none !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      /* Three compact category choices per row substantially reduce vertical
+         scrolling in the installed app while preserving all non-empty choices. */
+      .category-filters {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: .32rem !important;
+      }
+      .category-chip {
+        padding: .4rem .42rem !important;
+        gap: .26rem !important;
+        font-size: .7rem !important;
+        line-height: 1.05 !important;
+      }
+      .category-chip small {
+        font-size: .6rem !important;
+        min-width: 1.05rem !important;
+        padding: .06rem .2rem !important;
       }
     }
   `;
