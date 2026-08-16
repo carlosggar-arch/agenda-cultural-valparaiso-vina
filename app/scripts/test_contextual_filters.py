@@ -42,6 +42,7 @@ assert 'scale(1.45)' in gijon_svg
 assert 'opacity="0.96"' in gijon_svg
 
 assert "function sourceDiagnosticText(source)" in sources_toggle
+assert 'if (value === null || value === undefined || value === "") return null;' in sources_toggle
 assert "reviewed_items" in sources_toggle
 assert "filtered_or_deduplicated" in sources_toggle
 assert "without_start_time" in sources_toggle
