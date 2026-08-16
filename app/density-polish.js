@@ -57,14 +57,16 @@ function ensureDensityStyles() {
       mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.16) 18%, #000 48%, #000 100%) !important;
     }
 
-    /* The SVG now makes the Gijón boat 45% larger. Give it enough horizontal
-       room that the larger hull remains fully visible instead of falling back
-       into the left fade on wide screens. */
+    /* The desktop web hero is extremely wide and shallow. With cover scaling,
+       a 56% vertical anchor places the top of Gijón's boat/monument outside the
+       visible slice. A 41% anchor keeps the complete structure inside the hero
+       while leaving the horizon almost at the bottom, so we do not restore the
+       large empty sea band that was removed earlier. Mobile keeps its own crop. */
     @media (min-width: 701px) {
       html[data-city="gijon"] .app-header .header-art {
         width: 62% !important;
         opacity: .74 !important;
-        background-position: right 56% !important;
+        background-position: right 41% !important;
         -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
         mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.5) 6%, #000 18%, #000 100%) !important;
       }
