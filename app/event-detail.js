@@ -55,6 +55,41 @@ function addButtonAction(parent, label, onClick) {
   return button;
 }
 
+function dismissDialog(dialog) {
+  if (!dialog) return;
+  try {
+    if (typeof dialog.close === "function" && dialog.hasAttribute("open")) dialog.close();
+  } catch (error) {
+    console.warn("No se pudo cerrar la ficha de forma nativa", error);
+  }
+  queueMicrotask(() => {
+    if (dialog.isConnected) dialog.remove();
+  });
+}
+
+async function copyPermanentUrl(value) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  } catch {}
+  try {
+    const input = document.createElement("textarea");
+    input.value = value;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.append(input);
+    input.select();
+    const copied = document.execCommand?.("copy") === true;
+    input.remove();
+    return copied;
+  } catch {
+    return false;
+  }
+}
+
 function detailDescription(event) {
   const text = String(event?.description || "")
     .replace(/<[^>]+>/g, " ")
@@ -147,7 +182,10 @@ export function openEventDetail(event, presentation = {}) {
   close.className = "event-detail-close";
   close.setAttribute("aria-label", "Cerrar ficha");
   close.textContent = "×";
-  close.addEventListener("click", () => dialog.close());
+  close.addEventListener("click", (eventClick) => {
+    eventClick.preventDefault();
+    dismissDialog(dialog);
+  }, { capture: true });
   panel.append(close);
 
   const media = buildMedia(event, presentation);
@@ -249,14 +287,10 @@ export function openEventDetail(event, presentation = {}) {
         }
         return;
       }
-      try {
-        await navigator.clipboard.writeText(permanent);
-        if (shareButton) {
-          shareButton.textContent = "Enlace copiado ✓";
-          window.setTimeout(() => { shareButton.textContent = "Compartir"; }, 1800);
-        }
-      } catch {
-        console.warn("No se pudo copiar el enlace del evento");
+      const copied = await copyPermanentUrl(permanent);
+      if (shareButton) {
+        shareButton.textContent = copied ? "Enlace copiado ✓" : "No se pudo copiar";
+        window.setTimeout(() => { shareButton.textContent = "Compartir"; }, 1800);
       }
     });
   }
@@ -276,8 +310,9 @@ export function openEventDetail(event, presentation = {}) {
   document.body.append(dialog);
 
   dialog.addEventListener("click", (eventClick) => {
-    if (eventClick.target === dialog) dialog.close();
+    if (eventClick.target === dialog) dismissDialog(dialog);
   });
+  dialog.addEventListener("cancel", () => queueMicrotask(() => dialog.remove()), { once: true });
   dialog.addEventListener("close", () => dialog.remove(), { once: true });
 
   if (typeof dialog.showModal === "function") dialog.showModal();
