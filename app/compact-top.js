@@ -81,12 +81,12 @@ if (!document.getElementById(STYLE_ID)) {
       border-radius: 0 !important;
       background: transparent !important;
     }
-    /* The date group gets extra breathing room. Its semantic fieldset legend
-       stays available to assistive technology; a CSS block renders the visual
-       title so browser-specific legend layout cannot crop “Cuándo”. */
+    /* Keep the semantic legend for accessibility but render “Cuándo” from the
+       ordinary date-row div. Chromium treats fieldset/legend geometry specially;
+       anchoring to the real div guarantees an unclipped title and reserved space. */
     .filter-group:has([data-combined-when]) {
       position: relative !important;
-      padding-top: .4rem !important;
+      padding-top: 1.55rem !important;
       padding-bottom: .34rem !important;
     }
     .filter-group-title {
@@ -105,19 +105,20 @@ if (!document.getElementById(STYLE_ID)) {
       clip: rect(0, 0, 0, 0) !important;
       white-space: nowrap !important;
       border: 0 !important;
-      line-height: 1.24 !important;
     }
-    .filter-group:has([data-combined-when])::before {
+    [data-combined-when]::before {
       content: "Cuándo";
+      position: absolute !important;
+      top: .36rem !important;
+      left: 0 !important;
       display: block !important;
-      margin: 0 0 .3rem !important;
-      padding-top: .04rem !important;
       color: var(--brand) !important;
       font-size: .68rem !important;
       font-weight: 850 !important;
       line-height: 1.28 !important;
       letter-spacing: .055em !important;
       text-transform: uppercase !important;
+      pointer-events: none !important;
     }
     .filter-choice-row { gap: .24rem !important; }
     .filter-choice {
@@ -195,12 +196,11 @@ if (!document.getElementById(STYLE_ID)) {
       .filter-grid { grid-template-columns: 1fr !important; gap: .18rem !important; }
       .filter-group { padding: .18rem 0 !important; }
       .filter-group:has([data-combined-when]) {
-        padding-top: .44rem !important;
+        padding-top: 1.62rem !important;
         padding-bottom: .34rem !important;
       }
-      .filter-group:has([data-combined-when])::before {
-        margin-bottom: .32rem !important;
-        padding-top: .05rem !important;
+      [data-combined-when]::before {
+        top: .4rem !important;
         line-height: 1.3 !important;
       }
       .filter-choice-row {
