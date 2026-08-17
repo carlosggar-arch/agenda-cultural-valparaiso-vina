@@ -14,7 +14,7 @@ import "./favorites.js";
 import "./mobile-experience.js";
 import "./stage31-accessibility-seo.js";
 
-const APP_VERSION = "PWA v33";
+const APP_VERSION = "PWA v34";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
