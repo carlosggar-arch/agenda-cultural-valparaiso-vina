@@ -67,8 +67,9 @@ test("marks limited capacity and prioritizes registration over ordinary ticket s
   assert.ok(selected[0].badges.includes("Cupos limitados"));
 });
 
-test("prefers direct registration, then tickets, then registration requirements", () => {
+test("recognizes registration, reservation, tickets and registration requirements", () => {
   assert.equal(planAheadAction(event({ links: { registration: "https://example.org/r", tickets: "https://example.org/t", official: "https://example.org" } })).kind, "registration");
+  assert.equal(planAheadAction(event({ links: { official: "https://example.org", tickets: null, registration: null, reservation: "https://example.org/book" } })).kind, "reservation");
   assert.equal(planAheadAction(event()).kind, "tickets");
   assert.equal(planAheadAction(event({ links: { official: "https://example.org", tickets: null, registration: null }, registration_requirements: "Inscripción previa" })).kind, "requirements");
 });
