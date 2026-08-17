@@ -12,6 +12,7 @@ const SHELL_ASSETS = [
   "./header-redesign.css",
   "./mobile-experience.css",
   "./stage31-accessibility.css",
+  "../assets/usage-analytics.js?v=20260817-stage32",
   "./app.js",
   "./cities.json",
   "./city-first-run.js",

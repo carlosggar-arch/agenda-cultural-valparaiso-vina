@@ -49,6 +49,8 @@
   });
 
   if (scriptUrl) {
+    import(new URL("./usage-analytics.js?v=20260817-stage32", scriptUrl).href)
+      .catch(() => {});
     import(new URL("./favorites-event-page.js?v=20260817", scriptUrl).href)
       .catch((error) => console.warn("Agenda Cultural: favoritos no disponibles en esta ficha", error));
   }

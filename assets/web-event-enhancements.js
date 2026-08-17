@@ -3,6 +3,7 @@ import "./root-combined-filters.js?v=20260817-root-search";
 // Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
 // Legacy contract marker: ./plan-ahead-web.js?v=20260817
 import "./favorites-web.js?v=20260817";
+import "./usage-analytics.js?v=20260817-stage32";
 
 const DATASET_URL = "./agenda_web.json";
 const MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b";
