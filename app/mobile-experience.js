@@ -25,7 +25,7 @@ function installMobileStyles() {
   if (existing) existing.remove();
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css?v=20260817-topnav7";
+  link.href = "./mobile-experience.css?v=20260817-topnav8";
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
@@ -35,11 +35,8 @@ function isStandalone() {
 }
 
 function isMobileClient() {
-  const ua = String(navigator.userAgent || "");
-  const mobileUa = /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua);
-  const touchDevice = Number(navigator.maxTouchPoints || 0) > 0;
-  const physicalWidth = Math.min(Number(screen.width || 9999), Number(screen.height || 9999));
-  return isStandalone() || mobileUa || physicalWidth <= 900 || (touchDevice && physicalWidth <= 1200);
+  const physicalShortSide = Math.min(Number(screen.width || 9999), Number(screen.height || 9999));
+  return isStandalone() || physicalShortSide <= 900;
 }
 
 function syncClientFlags() {
