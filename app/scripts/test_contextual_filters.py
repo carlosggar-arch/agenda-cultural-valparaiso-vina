@@ -34,11 +34,12 @@ assert "function eventMatchesPrice" not in combined
 
 for marker in (
     'data-smart-search', 'data-combined-when', 'data-combined-area',
-    'data-combined-access', 'data-combined-format', 'data-combined-audience',
     'data-combined-category-filters', 'data-date-from', 'data-date-to',
 ):
     assert marker in app_index
-assert 'data-combined-price' not in app_index
+for removed in ('data-combined-price', 'data-combined-access', 'data-combined-format', 'data-combined-audience'):
+    assert removed not in app_index
+assert '["access", "format", "aud"]' in app_index
 assert './combined-filters.js' in app_index
 assert './contextual-filters.js' not in app_index
 assert '.filter-workbench' in combined_css
@@ -50,8 +51,9 @@ assert '.event-card[hidden]{display:none!important}' in combined_css
 assert 'function removeNonActionableFilterCopy()' in polish
 assert 'document.querySelector(selector)?.remove()' in polish
 assert 'function removePriceFilter()' in polish
-assert 'url.searchParams.delete("price")' in polish
-assert '"access", "format", "aud"' in polish
+assert 'function clearRemovedFilterState()' in polish
+assert '["price", "access", "format", "aud"]' in polish
+assert '["when", "area", "cat", "q", "from", "to"]' in polish
 assert 'function queueFilterResync()' in polish
 assert 'new MutationObserver(queueFilterResync)' in polish
 assert '.discovery-heading { display: flex !important;' not in polish
@@ -110,4 +112,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact date/area/access/format/audience/category filters: OK")
+print("Semantic search plus compact date/area/category filters: OK")
