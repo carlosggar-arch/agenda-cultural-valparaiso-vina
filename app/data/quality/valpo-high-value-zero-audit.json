@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-17T18:34:22.885643-04:00",
+  "publication_date": "2026-08-17",
+  "policy_reviewed_on": "2026-08-17",
+  "counts": {
+    "tracked": 6,
+    "producing": 0,
+    "covered_elsewhere": 0,
+    "explained_zero": 5,
+    "actionable_zero": 1
+  },
+  "sources": [
+    {
+      "id": "museo_fonck",
+      "name": "Museo Fonck",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "verification_priority",
+      "attention": "review_priority",
+      "actionable": true,
+      "reason": "Hay señales contemporáneas 2026 en fuentes municipales/secundarias, pero la web histórica del museo mezcla artículos antiguos; exigir año explícito antes de publicar.",
+      "next_action": "Buscar respaldo municipal u oficial con fecha 2026 explícita; nunca inferir el año desde un artículo histórico.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "centro_extension_duoc_valpo",
+      "name": "Centro de Extensión Duoc UC Valparaíso",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "legacy_calendar_year_guard",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "Los listados antiguos de Duoc muestran días y meses sin año; eventos que parecían de agosto actual resultaron ser de 2022.",
+      "next_action": "Aceptar solo páginas individuales o metadatos que indiquen explícitamente 2026.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "balmaceda_arte_joven_valpo",
+      "name": "Balmaceda Arte Joven Valparaíso",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "monitored_no_verified_future",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La web oficial mantiene actividad y noticias de la sede, pero no se verificó programación futura fechada suficiente en la revisión del 17-08-2026.",
+      "next_action": "Seguir observando la web oficial; recuperar cuando aparezca fecha futura inequívoca.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "casa_cultura_valparaiso",
+      "name": "Casa de la Cultura de Valparaíso",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "recurring_but_incomplete",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La web oficial confirma Jarana cada viernes, pero la ficha no publica una hora concreta para materializar sesiones fiables.",
+      "next_action": "Usar Ticketnet, Valpo Cultura u otra fuente fechada cuando publique una sesión concreta; no inventar hora.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "casa_prisma_valpo",
+      "name": "Casa Prisma Valpo",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "instagram_budget_constrained",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "No se dispone hoy de una ruta web oficial estructurada y sostenible; la evidencia en ticketera encontrada corresponde a actividad pasada.",
+      "next_action": "Mantener monitorizada y priorizar una ruta web/ticketera estable antes de aumentar dependencia de Instagram.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "compania_la_paila",
+      "name": "Compañía La Paila",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "instagram_budget_constrained",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La fuente sigue dependiendo de Instagram y no se verificó una agenda web estructurada actual.",
+      "next_action": "Revisar de nuevo cuando exista programación futura verificable o una ruta oficial estructurada.",
+      "cross_covered_event_ids": []
+    }
+  ]
+}
