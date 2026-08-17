@@ -8,6 +8,7 @@ import "./sources-toggle.js";
 import "./community-source.js";
 import "./header-redesign.js";
 import "./density-polish.js";
+import "./combined-filters-polish.js";
 
 const APP_VERSION = "PWA v26";
 const versionNode = document.querySelector("[data-app-version]");
