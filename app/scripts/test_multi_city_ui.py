@@ -61,9 +61,11 @@ assert '.smart-search' in combined_css
 assert '.legacy-filter-hooks{display:none!important}' in combined_css
 assert '.filter-group:has([data-combined-price])' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
+assert 'function removeNonActionableFilterCopy()' in polish
 assert 'function removePriceFilter()' in polish
 assert 'url.searchParams.delete("price")' in polish
 assert 'function queueFilterResync()' in polish
+assert '.agenda-heading { display: flex !important;' not in polish
 
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
@@ -86,6 +88,8 @@ assert 'export function formatSchedule' in schedule_module
 
 assert '.hero > h1' in compact_js
 assert '.agenda-heading' in compact_js
+assert 'padding: 0 !important;' in compact_js
+assert 'background: transparent !important;' in compact_js
 assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
 assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
 assert 'authoritativeCatalogue' in sources_toggle_js
@@ -95,10 +99,10 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v28"' in pwa
+assert 'const APP_VERSION = "PWA v29"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v28";' in service_worker
+assert 'const CACHE_VERSION = "v29";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -114,4 +118,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city combined filters hide filtered cards, remove price UI and keep stable PWA activation: OK")
+print("Multi-city v29 keeps filters functional, compact and stable: OK")
