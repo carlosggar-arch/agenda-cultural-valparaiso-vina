@@ -58,6 +58,18 @@ if (!document.getElementById(STYLE_ID)) {
       background: transparent !important;
       box-shadow: none !important;
     }
+    /* Thin brand divider inspired by Valparaiso's colourful tile mosaics. */
+    .filter-workbench::before {
+      content: "";
+      display: block;
+      grid-column: 1 / -1;
+      width: 100%;
+      height: .72rem;
+      margin: .05rem 0 .38rem;
+      border-radius: .34rem;
+      background: #0b7f93 url("../assets/mosaic-top.png") center / 22rem 100% repeat-x;
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 28%);
+    }
     .filter-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
       gap: .34rem !important;
@@ -75,6 +87,44 @@ if (!document.getElementById(STYLE_ID)) {
       line-height: 1 !important;
       letter-spacing: .055em !important;
     }
+
+    /* Chromium lays out fieldset legends differently across viewports. Keep
+       the semantic legend for accessibility, but reserve the visible “Cuándo”
+       line in the ordinary date-row div so it can never look cropped. */
+    .filter-group:has([data-combined-when]) {
+      position: relative !important;
+      padding-bottom: .34rem !important;
+    }
+    .filter-group:has([data-combined-when]) > .filter-group-title {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    [data-combined-when] {
+      position: relative !important;
+      padding-top: 1.55rem !important;
+    }
+    [data-combined-when]::before {
+      content: "Cuándo";
+      position: absolute !important;
+      top: .08rem !important;
+      left: 0 !important;
+      display: block !important;
+      color: var(--brand) !important;
+      font-size: .68rem !important;
+      font-weight: 850 !important;
+      line-height: 1.28 !important;
+      letter-spacing: .055em !important;
+      text-transform: uppercase !important;
+      pointer-events: none !important;
+    }
+
     .filter-choice-row { gap: .24rem !important; }
     .filter-choice {
       padding: .32rem .46rem !important;
@@ -142,13 +192,28 @@ if (!document.getElementById(STYLE_ID)) {
       .hero { padding-top: .3rem !important; }
       .hero .search-row input { min-height: 2.4rem !important; }
       .discovery { padding-bottom: .12rem !important; }
+      .filter-workbench::before {
+        height: .64rem;
+        margin: .04rem 0 .34rem;
+        border-radius: .3rem;
+        background-size: 18rem 100%;
+      }
       .filter-grid { grid-template-columns: 1fr !important; gap: .18rem !important; }
       .filter-group { padding: .18rem 0 !important; }
+      .filter-group:has([data-combined-when]) { padding-bottom: .34rem !important; }
+      [data-combined-when]::before {
+        top: .1rem !important;
+        line-height: 1.3 !important;
+      }
       .filter-choice-row {
         flex-wrap: nowrap !important;
         overflow-x: auto !important;
         padding-bottom: .08rem !important;
         scrollbar-width: thin;
+      }
+      .filter-group:has([data-combined-when]) .filter-choice-row {
+        padding: 1.62rem .02rem .16rem !important;
+        scroll-padding-inline: .02rem;
       }
       .filter-choice { flex: 0 0 auto !important; white-space: nowrap !important; }
       .category-filters { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: .22rem !important; }
