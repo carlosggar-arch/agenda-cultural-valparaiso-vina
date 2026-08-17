@@ -3,6 +3,20 @@ const REJECTED_EVENT_IDS = new Set([
   "agenda_968c623b60b70d2976410175",
 ]);
 
+const EDITORIAL_SOCIAL_CUES = [
+  /\bsabias que\b/,
+  /\bte contamos\b/,
+  /\bcuriosidades?\b/,
+  /\bdatos (?:de|sobre)\b/,
+  /\bdetras de (?:camara|camaras|escena|escenas)\b/,
+  /\bmaking of\b/,
+  /\btrivia\b/,
+  /\bcine dentro del cine\b/,
+  /\bdesliza\b/,
+  /\bconoce (?:mas|la historia|los detalles|detalles)\b/,
+  /\bdescubre (?:mas|la historia|los detalles|detalles)\b/,
+];
+
 if (!document.getElementById(STYLE_ID)) {
   const style = document.createElement("style");
   style.id = STYLE_ID;
@@ -14,6 +28,63 @@ if (!document.getElementById(STYLE_ID)) {
     .event-card[data-event-id="agenda_968c623b60b70d2976410175"] { display: none !important; }
   `;
   document.head.append(style);
+}
+
+function fold(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function sourceUrl(event) {
+  return String(event?.source_url || event?.links?.source || event?.links?.official || "");
+}
+
+function hasConcreteEventEvidence(event) {
+  return Boolean(
+    String(event?.location?.venue || "").trim()
+    || String(event?.location?.address || "").trim()
+    || String(event?.organizer || "").trim()
+    || String(event?.links?.tickets || "").trim()
+    || String(event?.links?.registration || "").trim()
+    || String(event?.registration_requirements || "").trim()
+  );
+}
+
+function hasEditorialSocialLanguage(event) {
+  const text = fold(`${event?.title || ""} ${event?.description || ""}`);
+  return EDITORIAL_SOCIAL_CUES.some((pattern) => pattern.test(text));
+}
+
+function isEditorialSocialFalsePositive(event) {
+  if (!String(sourceUrl(event)).includes("instagram.com")) return false;
+  if (event?.event_type && event.event_type !== "event") return false;
+  if (event?.public_status?.information_completeness === "complete") return false;
+  if (hasConcreteEventEvidence(event)) return false;
+  return hasEditorialSocialLanguage(event);
+}
+
+function currentDatasetUrl() {
+  return document.documentElement.dataset.city === "gijon"
+    ? "./data/gijon/agenda_web.json"
+    : "../agenda_web.json";
+}
+
+async function refreshEditorialRejections() {
+  try {
+    const response = await fetch(currentDatasetUrl(), { headers: { Accept: "application/json" }, cache: "no-store" });
+    if (!response.ok) return;
+    const payload = await response.json();
+    for (const event of payload?.events || []) {
+      if (isEditorialSocialFalsePositive(event)) REJECTED_EVENT_IDS.add(String(event.id || ""));
+    }
+    removeRejectedEditorialCards();
+  } catch {
+    // La protección por IDs conocidos sigue activa aunque el diagnóstico adicional no pueda cargarse.
+  }
 }
 
 function removeNonActionableFilterCopy() {
@@ -76,12 +147,11 @@ function refreshVisibleTotals() {
 function shouldRejectEditorialCard(card) {
   const id = card.dataset.eventId || "";
   if (REJECTED_EVENT_IDS.has(id)) return true;
-  const text = String(card.textContent || "").toLocaleLowerCase("es");
-  const editorialCinemaPost = text.includes("instagram.com")
-    && text.includes("sabías que")
+  const text = fold(card.textContent || "");
+  return text.includes("instagram.com")
+    && text.includes("sabias que")
     && text.includes("campamento")
     && text.includes("cine dentro del cine");
-  return editorialCinemaPost;
 }
 
 function removeRejectedEditorialCards() {
@@ -115,10 +185,17 @@ for (const grid of document.querySelectorAll("[data-dated-grid], [data-program-g
   new MutationObserver(queueFilterResync).observe(grid, { childList: true });
 }
 
+new MutationObserver(() => {
+  REJECTED_EVENT_IDS.clear();
+  REJECTED_EVENT_IDS.add("agenda_968c623b60b70d2976410175");
+  refreshEditorialRejections();
+}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
+
 removeNonActionableFilterCopy();
 removePriceFilter();
 clearRemovedFilterState();
 removeRejectedEditorialCards();
+refreshEditorialRejections();
 preserveScrollDuringLegacyClick(document.querySelector("[data-section-filters]"));
 preserveScrollDuringLegacyClick(document.querySelector("[data-category-filters]"));
 
