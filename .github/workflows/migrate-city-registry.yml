@@ -6,6 +6,7 @@ on:
     paths:
       - ".github/workflows/migrate-city-registry.yml"
       - "app/scripts/migrate_city_registry_architecture.py"
+      - "app/scripts/run_city_registry_migration.py"
       - "app/scripts/test_third_city_architecture.py"
       - "app/cities.json"
       - "assets/city-registry.mjs"
@@ -39,7 +40,7 @@ jobs:
           if grep -q 'const CITIES = CITY_REGISTRY.byId' app/app.js; then
             echo "CITY_REGISTRY_MIGRATION_ALREADY_APPLIED"
           else
-            python app/scripts/migrate_city_registry_architecture.py
+            python app/scripts/run_city_registry_migration.py
           fi
 
       - name: Validate static multi-city contracts
