@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import http.server
 import os
+import re
 import shutil
 import socketserver
 import subprocess
@@ -66,6 +67,20 @@ def make_test_page() -> None:
     TEST_PAGE.write_text(source, encoding="utf-8")
 
 
+def observed_probe_state(dom: str) -> str:
+    attrs = re.findall(r'data-pwa-[a-z-]+="[^"]*"', dom)
+    return ", ".join(attrs[-8:]) or "no data-pwa-* probe attributes"
+
+
+def fail_contract(message: str, dom: str) -> None:
+    observed = observed_probe_state(dom)
+    print(
+        "::error file=app/scripts/test_pwa_install_browser.py,title=Installed PWA contract::"
+        f"{message}; observed: {observed}"
+    )
+    raise AssertionError(f"{message}. Observed: {observed}. DOM tail:\n{dom[-6000:]}")
+
+
 def main() -> None:
     os.chdir(ROOT)
     make_test_page()
@@ -95,12 +110,11 @@ def main() -> None:
     }
     for marker, message in required.items():
         if marker not in dom:
-            raise AssertionError(f"{message}. DOM tail:\n{dom[-6000:]}")
+            fail_contract(message, dom)
 
-    import re
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     if not match or int(match.group(1)) <= 0:
-        raise AssertionError(f"Installed PWA rendered no event cards. DOM tail:\n{dom[-6000:]}")
+        fail_contract("Installed PWA rendered no event cards", dom)
     print(f"Installed PWA browser test: service worker active and {match.group(1)} Valparaiso cards rendered")
 
 
