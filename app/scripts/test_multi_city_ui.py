@@ -28,11 +28,13 @@ for marker in (
     'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
     'data-use-location', 'data-search', 'data-smart-search', 'data-section-filters',
     'data-category-filters', 'data-combined-when', 'data-combined-area',
+    'data-combined-access', 'data-combined-format', 'data-combined-audience',
     'data-combined-category-filters', 'data-date-from', 'data-date-to',
     'data-dated-grid', 'data-program-grid', 'data-flexible-grid',
     'data-sources-grid', 'data-app-version', 'data-city-masthead',
 ):
     assert marker in index
+assert 'data-combined-price' not in index
 assert '<strong>¡Vivamos!</strong>' in index
 assert './combined-filters.css' in index
 assert './combined-filters.js' in index
@@ -47,23 +49,26 @@ assert 'renderCategories()' in app_js
 assert 'renderSources()' in app_js
 
 for marker in (
-    'function eventMatchesWhen', 'function eventMatchesArea', 'function eventMatchesPrice',
-    'function eventMatchesCategories', 'function eventMatchesQuery',
-    'tokens.every((token) => haystack.includes(token))', 'state.categories = new Set',
+    'function eventMatchesWhen', 'function eventMatchesArea',
+    'function eventMatchesAccess', 'function eventMatchesFormat',
+    'function eventMatchesAudience', 'function eventMatchesCategories',
+    'function eventMatchesQuery', 'function derivedSearchTerms',
+    'queryAlternatives(token)', 'state.categories = new Set',
     'history.replaceState', 'url.searchParams.set', 'forceBaseAppFilters',
 ):
     assert marker in combined
+assert 'function eventMatchesPrice' not in combined
 assert 'currentCityId() !== "valparaiso"' in combined
 assert '.filter-workbench' in combined_css
 assert '.filter-grid' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
 assert '.legacy-filter-hooks{display:none!important}' in combined_css
-assert '.filter-group:has([data-combined-price])' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
 assert 'function removeNonActionableFilterCopy()' in polish
 assert 'function removePriceFilter()' in polish
 assert 'url.searchParams.delete("price")' in polish
+assert '"access", "format", "aud"' in polish
 assert 'function queueFilterResync()' in polish
 assert '.agenda-heading { display: flex !important;' not in polish
 
@@ -118,4 +123,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v29 keeps filters functional, compact and stable: OK")
+print("Multi-city v29 keeps advanced search and combined filters functional, compact and stable: OK")
