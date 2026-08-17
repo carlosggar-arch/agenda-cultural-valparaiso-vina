@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v29";
+const CACHE_VERSION = "v30";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -38,6 +38,7 @@ const SHELL_ASSETS = [
   "./illustrations/gijon-header.svg",
   "../assets/event-media-layout.css",
   "../assets/event-schedule-display.mjs",
+  "../assets/mosaic-top.png",
   "../assets/categoria-cine.jpg",
   "../assets/categoria-cultura.jpg",
   "../assets/categoria-deportes.jpg",
