@@ -62,6 +62,7 @@ function cardNode(candidate) {
   const { event, action, badges, startsAt, deadline } = candidate;
   const article = document.createElement("article");
   article.className = "plan-ahead-card";
+  article.dataset.eventId = String(event?.id || "");
   article.append(mediaNode(event));
 
   const body = document.createElement("div");
