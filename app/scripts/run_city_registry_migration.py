@@ -53,5 +53,7 @@ def migrate_gijon_stability_contract() -> None:
 
 migration.regex_once = regex_once_multiline
 migration.migrate_favorites_core = migrate_favorites_core_robust
+# Workflow updates are committed separately with a token that has workflow permission.
+migration.migrate_workflow = lambda: None
 migration.main()
 migrate_gijon_stability_contract()
