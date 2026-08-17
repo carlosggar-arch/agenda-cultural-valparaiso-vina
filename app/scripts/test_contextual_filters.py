@@ -2,6 +2,8 @@ from pathlib import Path
 
 combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
 combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
+advanced = Path("app/search-filter-upgrade.js").read_text(encoding="utf-8")
+advanced_css = Path("app/search-filter-upgrade.css").read_text(encoding="utf-8")
 polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
@@ -39,6 +41,16 @@ assert '.legacy-filter-hooks' in combined_css
 assert '.agenda-heading { display: flex !important;' in polish
 assert 'preserveScrollDuringLegacyClick' in polish
 
+for marker in (
+    'data-extra-format-value="presencial"', 'data-extra-format-value="online"',
+    'data-extra-feature="family"', 'data-extra-feature="registration"',
+    'function suggestionCandidates', 'function isFamilyEvent', 'function hasRegistration',
+    'url.searchParams.set("features"', 'url.searchParams.set("format"',
+):
+    assert marker in advanced
+assert '.advanced-filter-grid' in advanced_css
+assert '.search-suggestions' in advanced_css
+
 assert "function enforceQuickFilterVisibility()" in density
 assert 'id !== "todos" && count === 0' in density
 assert '.quick-sections [data-section-filter][hidden]' in density
@@ -52,12 +64,15 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v27"' in pwa
+assert 'const APP_VERSION = "PWA v28"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'const CACHE_VERSION = "v27"' in service_worker
+assert 'import "./search-filter-upgrade.js";' in pwa
+assert 'const CACHE_VERSION = "v28"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
+assert '"./search-filter-upgrade.js"' in service_worker
+assert '"./search-filter-upgrade.css"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 
@@ -77,4 +92,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Combined filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
+print("Combined and advanced filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
