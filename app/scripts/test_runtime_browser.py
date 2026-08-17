@@ -103,6 +103,7 @@ def dump_dom_with_retry(city: str, url: str) -> str:
                 chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
                 "--disable-dev-shm-usage", "--disable-background-networking",
                 "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
+                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
                 "--virtual-time-budget=8000", f"--user-data-dir={profile}", "--dump-dom", url,
             ]
             try:
