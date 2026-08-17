@@ -8,6 +8,7 @@ on:
     paths:
       - "app/**"
       - "index.html"
+      - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
       - "assets/event-media-layout.css"
       - "assets/event-schedule-display.mjs"
@@ -18,6 +19,7 @@ on:
     paths:
       - "app/**"
       - "index.html"
+      - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
       - "assets/event-media-layout.css"
       - "assets/event-schedule-display.mjs"
@@ -86,6 +88,10 @@ jobs:
           grep -F '<div class="footer-mosaic"' index.html
           grep -F './assets/web-event-enhancements.js' index.html
           ! grep -F 'window.location.replace(target.href)' index.html
+          grep -F '"id": "./app/"' manifest.webmanifest
+          grep -F '"start_url": "./app/"' manifest.webmanifest
+          grep -F '"scope": "./app/"' manifest.webmanifest
+          grep -F '"name": "¡Vivamos!"' manifest.webmanifest
           grep -F 'const APP_VERSION = "PWA v25"' app/pwa.js
           grep -F 'const CACHE_VERSION = "v25"' app/service-worker.js
           grep -F '"./gijon-venue-hours.js"' app/service-worker.js
@@ -118,7 +124,7 @@ jobs:
           fi
 
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
