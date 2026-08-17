@@ -59,7 +59,9 @@ function buildTabbar() {
     createTabButton("plans", "★", "Mis planes"),
     createTabButton("city", "⌖", "Ciudad"),
   );
-  document.body.append(nav);
+  // The bottom tab bar duplicated controls already available in the top interface.
+  // Keep the internal object detached so the rest of the mobile helpers remain harmless.
+  nav.hidden = true;
   return nav;
 }
 
