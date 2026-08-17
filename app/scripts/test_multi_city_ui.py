@@ -1,9 +1,12 @@
+import json
 from pathlib import Path
 
 APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 city_first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
+city_registry = Path("assets/city-registry.mjs").read_text(encoding="utf-8")
+registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
 css = (APP / "app.css").read_text(encoding="utf-8")
 combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
 combined_css = (APP / "combined-filters.css").read_text(encoding="utf-8")
@@ -33,13 +36,18 @@ favorites_core = Path("assets/favorites-core.mjs").read_text(encoding="utf-8")
 favorites_view = Path("assets/favorites-view.mjs").read_text(encoding="utf-8")
 favorites_css = Path("assets/favorites.css").read_text(encoding="utf-8")
 
+city_ids = {str(city.get("id") or "") for city in registry.get("cities", [])}
+assert {"valparaiso", "gijon"}.issubset(city_ids)
+assert registry.get("default_city") in city_ids
+assert 'data-city-option="valparaiso"' not in index
+assert 'data-city-option="gijon"' not in index
+
 for marker in (
-    'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
-    'data-use-location', 'data-search', 'data-smart-search', 'data-section-filters',
-    'data-category-filters', 'data-combined-when', 'data-combined-area',
-    'data-combined-category-filters', 'data-date-from', 'data-date-to',
-    'data-dated-grid', 'data-program-grid', 'data-flexible-grid',
-    'data-sources-grid', 'data-app-version', 'data-city-masthead',
+    'data-city-options', 'data-city-switch', 'data-use-location', 'data-search',
+    'data-smart-search', 'data-section-filters', 'data-category-filters',
+    'data-combined-when', 'data-combined-area', 'data-combined-category-filters',
+    'data-date-from', 'data-date-to', 'data-dated-grid', 'data-program-grid',
+    'data-flexible-grid', 'data-sources-grid', 'data-app-version', 'data-city-masthead',
 ):
     assert marker in index
 for removed in ('data-combined-price', 'data-combined-access', 'data-combined-format', 'data-combined-audience'):
@@ -54,7 +62,8 @@ assert 'window.__agendaInitialCityPreference' in index
 assert '<script type="module" src="./city-first-run.js"></script>' in index
 
 for marker in (
-    'const SUPPORTED_CITIES = new Set(["valparaiso", "gijon"])',
+    'city-registry.mjs',
+    'const SUPPORTED_CITIES = new Set(CITY_REGISTRY.cities.map((city) => city.id))',
     'window.__agendaInitialCityPreference',
     'localStorage.removeItem(STORAGE_KEY)',
     'navigator.permissions.query({ name: "geolocation" })',
@@ -63,6 +72,8 @@ for marker in (
     'event.stopImmediatePropagation()',
 ):
     assert marker in city_first_run
+assert 'export function loadCityRegistry' in city_registry
+assert 'export function isSafeCityId' in city_registry
 
 compact_link = '<link rel="stylesheet" href="./compact-top.css">'
 header_link = '<link rel="stylesheet" href="./header-redesign.css">'
@@ -73,15 +84,20 @@ assert index.index("</head>") < index.index('<script type="module" src="./pwa.js
 assert 'document.createElement("style")' not in compact_js
 assert 'style.textContent' not in compact_js
 
-assert 'dataset: "../agenda_web.json"' in app_js
-assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
-assert 'const STORAGE_KEY = "agenda-cultural-city"' in app_js
-assert 'navigator.geolocation' in app_js
-assert 'function suggestCityFromCoordinates' in app_js
-assert 'fetch(city.dataset' in app_js
-assert 'cache: "no-store"' in app_js
-assert 'renderCategories()' in app_js
-assert 'renderSources()' in app_js
+for marker in (
+    'city-registry.mjs',
+    'const CITIES = CITY_REGISTRY.byId',
+    'const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId',
+    'function renderCityOptions()',
+    'button.dataset.cityOption = city.id',
+    'navigator.geolocation',
+    'function suggestCityFromCoordinates',
+    'fetch(city.dataset',
+    'cache: "no-store"',
+    'renderCategories()',
+    'renderSources()',
+):
+    assert marker in app_js
 
 for marker in (
     'function eventMatchesWhen', 'function eventMatchesArea',
@@ -149,20 +165,21 @@ assert '.category-filters' in css
 
 assert 'const APP_VERSION = "PWA v33"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
+assert 'import "./mobile-experience.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
 assert 'function isIosLike()' in pwa
 assert 'function showInstallHelp()' in pwa
 assert 'Añadir a pantalla de inicio' in pwa
 assert 'beforeinstallprompt' in pwa
-assert 'CONFIG = Object.freeze' in plan_ahead
-assert 'valparaiso: { dataset: "../agenda_web.json"' in plan_ahead
-assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in plan_ahead
+assert 'city-registry.mjs' in plan_ahead
+assert 'const CONFIG = CITY_REGISTRY.byId' in plan_ahead
 assert 'Planifica con anticipación' in plan_ahead
 assert 'selectPlanAhead' in plan_ahead
 assert 'article.dataset.eventId' in plan_ahead
 assert 'new MutationObserver' in plan_ahead
+assert 'minDays:14' in plan_ahead
+assert 'maxDays:56' in plan_ahead
 assert 'minDays: 14' in plan_ahead_core
 assert 'maxDays: 56' in plan_ahead_core
 assert 'Inscripción abierta' in plan_ahead_core
@@ -177,8 +194,8 @@ assert 'export function favoritesForCity' in favorites_core
 assert 'buildFavoriteToggle' in favorites_view
 assert 'buildMyPlansSection' in favorites_view
 assert 'Mis planes' in favorites_view
-assert 'valparaiso: { dataset: "../agenda_web.json"' in favorites
-assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in favorites
+assert 'city-registry.mjs' in favorites
+assert 'const CONFIG = CITY_REGISTRY.byId' in favorites
 assert 'dialog[data-event-detail]' in favorites
 assert 'data-favorite-toggle' in favorites
 assert '.my-plans-section' in favorites_css
@@ -188,23 +205,24 @@ assert 'const CACHE_VERSION = "v37";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
-assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
-assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
+assert '"./cities.json"' in service_worker
+assert 'new URL(city.dataset, self.registration.scope).href' in service_worker
 assert 'async function warmDatasetCache()' in service_worker
-assert 'Promise.allSettled([...DATASET_URLS]' in service_worker
+assert 'Promise.allSettled([...urls].map' in service_worker
 assert 'await warmDatasetCache()' in service_worker
 assert '"./city-first-run.js"' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
-    '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
+    '"./cities.json"', '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
-    '"./favorites.js"', '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
-    '"../assets/event-schedule-display.mjs"', '"../assets/plan-ahead-core.mjs"', '"../assets/plan-ahead.css"',
-    '"../assets/favorites-core.mjs"', '"../assets/favorites-view.mjs"', '"../assets/favorites.css"',
+    '"./favorites.js"', '"./sources-toggle.js"', '"./community-source.js"', '"../assets/usage-analytics.js"',
+    '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs"', '"../assets/plan-ahead-core.mjs"',
+    '"../assets/plan-ahead.css"', '"../assets/city-registry.mjs"', '"../assets/favorites-core.mjs"',
+    '"../assets/favorites-view.mjs"', '"../assets/favorites.css"',
 ):
     assert asset in shell_block
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v37 city selection, install and offline contracts: OK")
+print("Multi-city v37 registry-based city selection, install and offline contracts: OK")
