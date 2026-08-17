@@ -1,0 +1,82 @@
+name: Permanent event pages
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/generate_event_pages.py"
+      - "assets/event-page.css"
+      - "assets/event-page.js"
+      - "assets/event-permalink.css"
+      - "assets/web-event-enhancements.js"
+      - "app/event-detail.js"
+      - ".github/workflows/event-pages.yml"
+  push:
+    branches: [main]
+    paths:
+      - "agenda_web.json"
+      - "agenda_changes.json"
+      - "app/data/gijon/agenda_web.json"
+      - "scripts/generate_event_pages.py"
+      - "assets/event-page.css"
+      - "assets/event-page.js"
+      - "assets/event-permalink.css"
+      - "assets/web-event-enhancements.js"
+      - "app/event-detail.js"
+      - ".github/workflows/event-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: permanent-event-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate-and-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate generator and event-page runtime
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/generate_event_pages.py
+          node --check assets/event-page.js
+          node --check assets/web-event-enhancements.js
+          node --check app/event-detail.js
+          python scripts/generate_event_pages.py --check
+
+      - name: Generate permanent pages on public main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          python scripts/generate_event_pages.py
+          test -f sitemap.xml
+          test -d evento/valparaiso
+          test -d evento/gijon
+
+      - name: Commit generated pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          git config user.name "agenda-cultural-event-pages[bot]"
+          git config user.email "agenda-cultural-event-pages[bot]@users.noreply.github.com"
+          git add evento sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Permanent event pages already synchronized."
+            exit 0
+          fi
+          git commit -m "Actualiza fichas permanentes de eventos"
+          git pull --rebase origin main
+          git push origin HEAD:main
