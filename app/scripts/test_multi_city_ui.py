@@ -6,6 +6,7 @@ app_js = (APP / "app.js").read_text(encoding="utf-8")
 css = (APP / "app.css").read_text(encoding="utf-8")
 combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
 combined_css = (APP / "combined-filters.css").read_text(encoding="utf-8")
+polish = (APP / "combined-filters-polish.js").read_text(encoding="utf-8")
 city_header_css = (APP / "city-header.css").read_text(encoding="utf-8")
 header_redesign_css = (APP / "header-redesign.css").read_text(encoding="utf-8")
 header_redesign_js = (APP / "header-redesign.js").read_text(encoding="utf-8")
@@ -27,8 +28,8 @@ for marker in (
     'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
     'data-use-location', 'data-search', 'data-smart-search', 'data-section-filters',
     'data-category-filters', 'data-combined-when', 'data-combined-area',
-    'data-combined-price', 'data-combined-category-filters', 'data-date-from',
-    'data-date-to', 'data-dated-grid', 'data-program-grid', 'data-flexible-grid',
+    'data-combined-category-filters', 'data-date-from', 'data-date-to',
+    'data-dated-grid', 'data-program-grid', 'data-flexible-grid',
     'data-sources-grid', 'data-app-version', 'data-city-masthead',
 ):
     assert marker in index
@@ -58,6 +59,11 @@ assert '.filter-grid' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
 assert '.legacy-filter-hooks{display:none!important}' in combined_css
+assert '.filter-group:has([data-combined-price])' in combined_css
+assert '.event-card[hidden]{display:none!important}' in combined_css
+assert 'function removePriceFilter()' in polish
+assert 'url.searchParams.delete("price")' in polish
+assert 'function queueFilterResync()' in polish
 
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
@@ -89,10 +95,10 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v27"' in pwa
+assert 'const APP_VERSION = "PWA v28"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v27";' in service_worker
+assert 'const CACHE_VERSION = "v28";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -108,4 +114,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city combined search/filter UI, shared schedules and stable PWA activation tests: OK")
+print("Multi-city combined filters hide filtered cards, remove price UI and keep stable PWA activation: OK")
