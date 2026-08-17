@@ -191,3 +191,18 @@
     font-size: .66rem;
   }
 }
+
+/* Some category fallback JPGs contain source-carousel controls baked into the
+   extreme left/right edge. Crop only these generic illustrations so the WEB
+   and APP never expose the white semicircles/arrows, without touching real
+   event photography. */
+body .event-card .event-card-media > img[data-image-kind="category-fallback"],
+body .event-card .event-card-media > img[src*="categoria-"],
+body .event-card .card-media > img[src*="categoria-"],
+body .event-card .event-detail-media > img[src*="categoria-"] {
+  padding: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 0;
+  transform: scale(1.25) !important;
+}
