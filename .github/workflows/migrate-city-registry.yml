@@ -54,7 +54,7 @@ jobs:
           python app/scripts/test_runtime_browser.py
           python app/scripts/test_favorites_browser.py
 
-      - name: Commit validated architecture migration
+      - name: Commit and publish validated architecture migration safely
         run: |
           set -euo pipefail
           if git diff --quiet; then
@@ -65,4 +65,26 @@ jobs:
           git config user.email "agenda-cultural-architecture[bot]@users.noreply.github.com"
           git add app assets .github/workflows/gijon-v1-stability.yml
           git commit -m "Make PWA city registry extensible"
-          git push origin HEAD:main
+
+          for attempt in 1 2 3; do
+            echo "SAFE_PUBLISH_ATTEMPT=$attempt"
+            git fetch origin main
+            if ! git merge-base --is-ancestor origin/main HEAD; then
+              git rebase origin/main
+            fi
+
+            # A concurrent commit may touch the same runtime surface. Revalidate
+            # the rebased result before it is allowed to reach production.
+            python app/scripts/test_visual_multicity_v30.py
+            python app/scripts/test_third_city_architecture.py
+            python app/scripts/test_gijon_v1_stable.py
+            python app/scripts/test_runtime_browser.py
+            python app/scripts/test_favorites_browser.py
+
+            if git push origin HEAD:main; then
+              echo "CITY_REGISTRY_ARCHITECTURE_PUBLISHED"
+              exit 0
+            fi
+          done
+          echo "Could not publish safely after three validated rebases." >&2
+          exit 1
