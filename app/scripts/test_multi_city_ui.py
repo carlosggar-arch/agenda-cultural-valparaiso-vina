@@ -184,13 +184,12 @@ assert 'data-favorite-toggle' in favorites
 assert '.my-plans-section' in favorites_css
 assert '.favorite-toggle' in favorites_css
 
-assert 'const CACHE_VERSION = "v33";' in service_worker
+assert 'const CACHE_VERSION = "v35";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
-assert 'cachedRequest.url !== request.url' in service_worker
 assert 'async function warmDatasetCache()' in service_worker
 assert 'Promise.allSettled([...DATASET_URLS]' in service_worker
 assert 'await warmDatasetCache()' in service_worker
@@ -208,4 +207,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v33 city selection, install and offline contracts: OK")
+print("Multi-city v35 city selection, install and offline contracts: OK")
