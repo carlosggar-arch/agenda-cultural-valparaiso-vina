@@ -22,10 +22,11 @@ function memoryStorage(initial = {}) {
   };
 }
 
-test("favorite keys are city-scoped", () => {
+test("favorite keys are city-scoped and extensible", () => {
   assert.equal(favoriteKey("valparaiso", "abc"), "valparaiso:abc");
   assert.equal(favoriteKey("gijon", "abc"), "gijon:abc");
-  assert.equal(favoriteKey("unknown", "abc"), null);
+  assert.equal(favoriteKey("tercera-ciudad", "abc"), "tercera-ciudad:abc");
+  assert.equal(favoriteKey("../unsafe", "abc"), null);
 });
 
 test("saving and toggling persist favorites in browser-like storage", () => {
@@ -48,19 +49,22 @@ test("saving and toggling persist favorites in browser-like storage", () => {
   assert.equal(isFavorite("valparaiso", "evento-1", storage), false);
 });
 
-test("favorites remain independent between Valparaiso and Gijon", () => {
+test("favorites remain independent between cities", () => {
   const storage = memoryStorage();
   saveFavorite({ city: "valparaiso", id: "same", title: "Valpo", savedAt: "2026-08-17T16:00:00Z" }, storage);
   saveFavorite({ city: "gijon", id: "same", title: "Gijón", savedAt: "2026-08-17T16:01:00Z" }, storage);
+  saveFavorite({ city: "tercera-ciudad", id: "same", title: "Tercera", savedAt: "2026-08-17T16:02:00Z" }, storage);
 
-  assert.equal(loadFavorites(storage).length, 2);
+  assert.equal(loadFavorites(storage).length, 3);
   assert.equal(favoritesForCity("valparaiso", storage).length, 1);
   assert.equal(favoritesForCity("gijon", storage).length, 1);
+  assert.equal(favoritesForCity("tercera-ciudad", storage).length, 1);
   removeFavorite("valparaiso", "same", storage);
   assert.equal(isFavorite("gijon", "same", storage), true);
+  assert.equal(isFavorite("tercera-ciudad", "same", storage), true);
 });
 
-test("corrupt storage and duplicate records fail safely", () => {
+test("corrupt storage, unsafe cities and duplicate records fail safely", () => {
   const corrupt = memoryStorage({ [FAVORITES_STORAGE_KEY]: "not-json" });
   assert.deepEqual(loadFavorites(corrupt), []);
 
@@ -68,7 +72,7 @@ test("corrupt storage and duplicate records fail safely", () => {
     [FAVORITES_STORAGE_KEY]: JSON.stringify([
       { city: "valparaiso", id: "x", title: "Old", savedAt: "2026-08-17T10:00:00Z" },
       { city: "valparaiso", id: "x", title: "New", savedAt: "2026-08-17T11:00:00Z" },
-      { city: "invalid", id: "z", title: "Ignored", savedAt: "2026-08-17T12:00:00Z" },
+      { city: "../invalid", id: "z", title: "Ignored", savedAt: "2026-08-17T12:00:00Z" },
     ]),
   });
   const values = loadFavorites(duplicate);
