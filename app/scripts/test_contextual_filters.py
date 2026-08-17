@@ -59,7 +59,7 @@ assert '.category-filter-panel .category-explorer-heading { display: flex !impor
 assert '.agenda-heading { display: flex !important;' not in polish
 
 # Compactness remains the current production contract, with enough breathing
-# room for the date legend and a thin Valparaiso-mosaic brand divider.
+# room for the date title and a thin Valparaiso-mosaic brand divider.
 assert '.filter-workbench {' in compact
 assert 'padding: 0 !important;' in compact
 assert 'border: 0 !important;' in compact
@@ -70,14 +70,16 @@ assert 'height: .72rem;' in compact
 assert '.filter-group {' in compact
 assert 'padding: .24rem 0 !important;' in compact
 assert '.filter-group:has([data-combined-when]) {' in compact
-assert 'padding-top: .4rem !important;' in compact
-assert 'line-height: 1.24 !important;' in compact
+assert 'padding-top: 1.55rem !important;' in compact
+assert '[data-combined-when]::before {' in compact
+assert 'content: "Cuándo";' in compact
+assert 'line-height: 1.28 !important;' in compact
 assert '.filter-choice {' in compact
 assert 'padding: .32rem .46rem !important;' in compact
 assert '.category-filters {' in compact
 assert 'minmax(116px, 1fr)' in compact
 assert '@media (max-width: 560px)' in compact
-assert 'padding-top: .44rem !important;' in compact
+assert 'padding-top: 1.62rem !important;' in compact
 assert 'flex-wrap: nowrap !important;' in compact
 
 assert "function enforceQuickFilterVisibility()" in density
