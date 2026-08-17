@@ -13,6 +13,51 @@
 @media(max-width:700px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
 
+  /* Keep the four primary shortcuts in the top header. The former bottom
+     tabbar stays retired; this nav is part of .header-bottom instead. */
+  .header-bottom{flex-wrap:wrap!important}
+  .app-header .mobile-tabbar{
+    order:2;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:.35rem;
+    width:100%;
+    margin:.45rem 0 0!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    position:static!important;
+    inset:auto!important;
+    box-shadow:none!important;
+  }
+  .app-header .mobile-tabbar[hidden]{display:none!important}
+  .app-header .mobile-tabbar button{
+    min-width:0;
+    min-height:44px;
+    padding:.42rem .25rem;
+    display:grid;
+    justify-items:center;
+    align-content:center;
+    gap:.12rem;
+    border:1px solid rgba(23,79,70,.18);
+    border-radius:12px;
+    background:rgba(255,255,255,.82);
+    color:var(--header-ink,var(--brand));
+    font:inherit;
+    font-size:.7rem;
+    font-weight:760;
+    line-height:1.05;
+    cursor:pointer;
+    box-shadow:none;
+    backdrop-filter:blur(8px);
+  }
+  .app-header .mobile-tabbar button[aria-current="page"]{
+    border-color:var(--header-control,var(--brand));
+    background:var(--header-control,var(--brand));
+    color:#fff;
+  }
+  .mobile-tab-icon{font-size:1rem;line-height:1}
+
   /* Let the mobile header size itself from its real content. A fixed ~200px
      minimum left a large empty block above the agenda on phones. */
   .app-header{
