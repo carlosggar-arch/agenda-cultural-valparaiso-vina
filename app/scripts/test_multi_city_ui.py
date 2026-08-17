@@ -1,9 +1,12 @@
+import json
 from pathlib import Path
 
 APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 city_first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
+city_registry_module = Path("assets/city-registry.mjs").read_text(encoding="utf-8")
+city_registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
 css = (APP / "app.css").read_text(encoding="utf-8")
 combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
 combined_css = (APP / "combined-filters.css").read_text(encoding="utf-8")
@@ -34,7 +37,7 @@ favorites_view = Path("assets/favorites-view.mjs").read_text(encoding="utf-8")
 favorites_css = Path("assets/favorites.css").read_text(encoding="utf-8")
 
 for marker in (
-    'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
+    'data-city-options', 'data-city-switch',
     'data-use-location', 'data-search', 'data-smart-search', 'data-section-filters',
     'data-category-filters', 'data-combined-when', 'data-combined-area',
     'data-combined-category-filters', 'data-date-from', 'data-date-to',
@@ -53,13 +56,29 @@ assert '["access", "format", "aud"]' in index
 assert 'window.__agendaInitialCityPreference' in index
 assert '<script type="module" src="./city-first-run.js"></script>' in index
 
+city_ids = {city["id"] for city in city_registry["cities"]}
+assert city_registry["default_city"] == "valparaiso"
+assert {"valparaiso", "gijon"}.issubset(city_ids)
+city_by_id = {city["id"]: city for city in city_registry["cities"]}
+assert city_by_id["valparaiso"]["dataset"] == "../agenda_web.json"
+assert city_by_id["gijon"]["dataset"] == "./data/gijon/agenda_web.json"
 for marker in (
-    'const SUPPORTED_CITIES = new Set(["valparaiso", "gijon"])',
+    'export const CITY_STORAGE_KEY = "agenda-cultural-city"',
+    'export function loadCityRegistry',
+    'function validateRegistry',
+    'export function cityFromRegistry',
+):
+    assert marker in city_registry_module
+
+for marker in (
+    'loadCityRegistry',
+    'const SUPPORTED_CITIES = new Set(CITY_REGISTRY.cities.map((city) => city.id))',
     'window.__agendaInitialCityPreference',
     'localStorage.removeItem(STORAGE_KEY)',
     'navigator.permissions.query({ name: "geolocation" })',
     'permission.state === "granted"',
     'dataset.selectionRequired = "true"',
+    'cityOptions?.addEventListener("click"',
     'event.stopImmediatePropagation()',
 ):
     assert marker in city_first_run
@@ -73,15 +92,21 @@ assert index.index("</head>") < index.index('<script type="module" src="./pwa.js
 assert 'document.createElement("style")' not in compact_js
 assert 'style.textContent' not in compact_js
 
-assert 'dataset: "../agenda_web.json"' in app_js
-assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
-assert 'const STORAGE_KEY = "agenda-cultural-city"' in app_js
+for marker in (
+    'CITY_STORAGE_KEY, loadCityRegistry',
+    'const CITY_REGISTRY = await loadCityRegistry()',
+    'const CITIES = CITY_REGISTRY.byId',
+    'const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId',
+    'function renderCityOptions()',
+    'button.dataset.cityOption = city.id',
+    'fetch(city.dataset',
+    'cache: "no-store"',
+    'renderCategories()',
+    'renderSources()',
+):
+    assert marker in app_js
 assert 'navigator.geolocation' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
-assert 'fetch(city.dataset' in app_js
-assert 'cache: "no-store"' in app_js
-assert 'renderCategories()' in app_js
-assert 'renderSources()' in app_js
 
 for marker in (
     'function eventMatchesWhen', 'function eventMatchesArea',
@@ -188,14 +213,17 @@ assert 'const CACHE_VERSION = "v37";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
+assert 'const CITY_REGISTRY_URL = new URL("./cities.json", self.registration.scope).href' in service_worker
+assert 'async function datasetUrls()' in service_worker
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
 assert 'async function warmDatasetCache()' in service_worker
-assert 'Promise.allSettled([...DATASET_URLS]' in service_worker
+assert 'await datasetUrls()' in service_worker
 assert 'await warmDatasetCache()' in service_worker
 assert '"./city-first-run.js"' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
+    '"./cities.json"', '"../assets/city-registry.mjs"',
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
@@ -207,4 +235,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v37 city selection, install and offline contracts: OK")
+print("Multi-city v37 shared-registry, install and offline contracts: OK")
