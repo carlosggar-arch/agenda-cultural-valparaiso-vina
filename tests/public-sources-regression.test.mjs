@@ -7,11 +7,15 @@ const catalogue = JSON.parse(
 );
 
 const PROTECTED_BASELINE = [
+  "Casa de la Cultura de Valparaíso",
+  "Estadio Español Recreo",
+  "Estrella Negra Club de Jazz",
   "Masita Rica",
   "Trotamundos Valparaíso",
   "Valparaíso Profundo",
   "La Escala Galería",
   "Culturas Viña",
+  "Teatro Municipal de Valparaíso",
   "Teatro Municipal de Viña del Mar",
   "Valpo Cultura",
   "Artequin Viña del Mar",
@@ -21,6 +25,7 @@ const PROTECTED_BASELINE = [
   "Museo Fonck",
   "Museo Palacio Rioja",
   "CONAF — Reserva Nacional Lago Peñuelas",
+  "Casa Prisma Valpo",
   "Compañía La Paila",
   "EcoLiderazgo",
   "Itaú Maratón de Viña — sitio oficial",
@@ -77,6 +82,22 @@ test("public sources catalogue has stable unique public records", () => {
       source.cities.every((city) => city === "Valparaíso" || city === "Viña del Mar"),
       `${source.name} contains an out-of-scope city`,
     );
+  }
+});
+
+test("priority source expansion is present and BAJ remains single", () => {
+  assert.equal(catalogue.sources.length, 34);
+  const names = catalogue.sources.map((source) => source.name);
+  assert.equal(names.filter((name) => name === "Balmaceda Arte Joven Valparaíso").length, 1);
+
+  for (const name of [
+    "Teatro Municipal de Valparaíso",
+    "Casa de la Cultura de Valparaíso",
+    "Estrella Negra Club de Jazz",
+    "Casa Prisma Valpo",
+    "Estadio Español Recreo",
+  ]) {
+    assert.ok(names.includes(name), `${name} must remain integrated`);
   }
 });
 
