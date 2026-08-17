@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T17:23:24+00:00",
+  "generated_at": "2026-08-17T21:02:47+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -10,21 +10,20 @@
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
-        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T13:21:07-04:00",
-        "generated_age_hours": 0.0
+        "generated_at": "2026-08-17T16:27:15-04:00",
+        "generated_age_hours": 0.6
       },
       "counts": {
-        "total_events": 83,
-        "schedule_expected_events": 79,
-        "dated_events": 79,
-        "timed_events": 79,
-        "relevant_image_events": 62,
+        "total_events": 111,
+        "schedule_expected_events": 107,
+        "dated_events": 107,
+        "timed_events": 107,
+        "relevant_image_events": 95,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -33,7 +32,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 74.7
+        "relevant_image_pct": 85.6
       },
       "samples": {
         "missing_time": [],
@@ -41,10 +40,6 @@
           {
             "id": "agenda_e7e2a4a89dc447f9bd2633e7",
             "title": "Destino Valparaíso – Agosto 2026"
-          },
-          {
-            "id": "agenda_3baeb85a553ae7e1f2a0730d",
-            "title": ".:: CORPORACIÓN MUSEO FONCK ::."
           },
           {
             "id": "agenda_67defc9c064344e04c20aca6",
@@ -69,6 +64,10 @@
           {
             "id": "agenda_bdc6269a0b11d9323cf2dd1f",
             "title": "Feria // Invierno mágico"
+          },
+          {
+            "id": "agenda_bdeeb33b91baec73d91f6284",
+            "title": "Taller // “Fluir con la Acuarela: profundización en paisaje urbano y natural”"
           }
         ],
         "suspicious_titles": [],
@@ -83,8 +82,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 15,
-            "venue_events": 15,
+            "direct_events": 29,
+            "venue_events": 29,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -94,16 +93,40 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 2,
-            "indirect_venue_events": 2,
+            "venue_events": 18,
+            "indirect_venue_events": 18,
             "indirect_samples": [
               {
-                "id": "agenda_c4796df823a3e4bf9d1091cc",
-                "title": "La Odisea."
+                "id": "agenda_cinema_910efa5e83617e2fc0b2",
+                "title": "La Odisea"
               },
               {
-                "id": "agenda_3603f81124e0895e2c542a86",
-                "title": "La leyenda del Caballero Verde."
+                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
+                "title": "La leyenda del Caballero Verde"
+              },
+              {
+                "id": "agenda_cinema_44ab43b85cc473b16183",
+                "title": "Mil pedazos"
+              },
+              {
+                "id": "agenda_cinema_1e08ffff4a06cf9bae27",
+                "title": "La Odisea"
+              },
+              {
+                "id": "agenda_cinema_94fe0a4864dbb6ad343c",
+                "title": "Gattaca: Experimento genético"
+              },
+              {
+                "id": "agenda_cinema_12c87725d899d24a8316",
+                "title": "La invitación"
+              },
+              {
+                "id": "agenda_cinema_89fad76159b4f9f63f23",
+                "title": "La invitación"
+              },
+              {
+                "id": "agenda_cinema_ba27d66cc859b30a8f0a",
+                "title": "La Odisea"
               }
             ]
           },
@@ -155,9 +178,9 @@
             "city": "Valparaíso",
             "primary_recovery_attempted": null,
             "primary_recovery_sessions": null,
-            "secondary_probe_status": null,
-            "secondary_probe_current_candidates": null,
-            "secondary_probe_reason": null
+            "secondary_probe_status": "no_current_candidates",
+            "secondary_probe_current_candidates": 0,
+            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
           }
         ],
         "indirect_source_warnings": [
@@ -167,47 +190,72 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 2,
-            "indirect_venue_events": 2,
+            "venue_events": 18,
+            "indirect_venue_events": 18,
             "indirect_samples": [
               {
-                "id": "agenda_c4796df823a3e4bf9d1091cc",
-                "title": "La Odisea."
+                "id": "agenda_cinema_910efa5e83617e2fc0b2",
+                "title": "La Odisea"
               },
               {
-                "id": "agenda_3603f81124e0895e2c542a86",
-                "title": "La leyenda del Caballero Verde."
+                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
+                "title": "La leyenda del Caballero Verde"
+              },
+              {
+                "id": "agenda_cinema_44ab43b85cc473b16183",
+                "title": "Mil pedazos"
+              },
+              {
+                "id": "agenda_cinema_1e08ffff4a06cf9bae27",
+                "title": "La Odisea"
+              },
+              {
+                "id": "agenda_cinema_94fe0a4864dbb6ad343c",
+                "title": "Gattaca: Experimento genético"
+              },
+              {
+                "id": "agenda_cinema_12c87725d899d24a8316",
+                "title": "La invitación"
+              },
+              {
+                "id": "agenda_cinema_89fad76159b4f9f63f23",
+                "title": "La invitación"
+              },
+              {
+                "id": "agenda_cinema_ba27d66cc859b30a8f0a",
+                "title": "La Odisea"
               }
             ]
           }
         ],
-        "checked_zero_sources": []
+        "checked_zero_sources": [
+          {
+            "id": "valparaiso_profundo",
+            "name": "Valparaíso Profundo",
+            "city": "Valparaíso",
+            "primary_recovery_attempted": null,
+            "primary_recovery_sessions": null,
+            "secondary_probe_status": "no_current_candidates",
+            "secondary_probe_current_candidates": 0,
+            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
+          }
+        ]
       },
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 16,
-        "venue_hours_enriched": 4,
+        "visit_hours_enriched": 0,
+        "venue_hours_enriched": 1,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0,
-        "removed_deadline_only_call": 1,
-        "removed_retrospective_post": 1
+        "removed_deadline_only_call": 0,
+        "removed_retrospective_post": 0
       },
       "publication_corrections": {
         "checked_at": "2026-08-17",
         "active_corrections": 1,
-        "applied_count": 1,
-        "applied": [
-          {
-            "correction_id": "baburizza_requiem_2026_end",
-            "event_id": "agenda_c16d049f287e6bc4922b56de",
-            "title": "Museo Baburizza – «Requiem para Pianos»",
-            "action": "drop_after_end",
-            "official_end_date": "2026-08-06",
-            "official_url": "https://www.museobaburizza.cl/agenda/",
-            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
-          }
-        ]
+        "applied_count": 0,
+        "applied": []
       }
     },
     "gijon": {
@@ -221,27 +269,32 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T18:25:04+02:00",
-        "generated_age_hours": 1.0
+        "generated_at": "2026-08-17T20:58:47+02:00",
+        "generated_age_hours": 2.1
       },
       "counts": {
-        "total_events": 97,
-        "schedule_expected_events": 88,
-        "dated_events": 88,
-        "timed_events": 69,
-        "relevant_image_events": 87,
+        "total_events": 100,
+        "schedule_expected_events": 91,
+        "dated_events": 91,
+        "timed_events": 70,
+        "relevant_image_events": 100,
         "suspicious_titles": 0,
-        "title_review_candidates": 41,
+        "title_review_candidates": 42,
         "duplicate_groups": 0,
         "generic_schedule_images_rejected": 0
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 78.4,
-        "relevant_image_pct": 89.7
+        "time_pct": 76.9,
+        "relevant_image_pct": 100.0
       },
       "samples": {
         "missing_time": [
+          {
+            "id": "gijon_laboral_centro_arte_6dc372af4182b5d5",
+            "title": "De rerum natura",
+            "venue": "LABoral Centro de Arte y Creación Industrial"
+          },
           {
             "id": "agenda_gijon_05ecc658bf6d8162",
             "title": "Alejandro Sirio. La caligrafía del dibujo",
@@ -258,6 +311,11 @@
             "venue": "Muséu del Pueblu d'Asturies"
           },
           {
+            "id": "gijon_laboral_centro_arte_700d56873f7975c9",
+            "title": "La Sociedad Automática",
+            "venue": "LABoral Centro de Arte y Creación Industrial"
+          },
+          {
             "id": "agenda_gijon_ee08bcce65967e5b",
             "title": "La Isla: la pieza que faltaba",
             "venue": "Jardín Botánico Atlántico de Gijón"
@@ -268,55 +326,12 @@
             "venue": "Museo Casa Natal de Jovellanos"
           },
           {
-            "id": "agenda_gijon_98d5f4adbfb66753",
-            "title": "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970)",
-            "venue": "Muséu del Pueblu d'Asturies"
-          },
-          {
-            "id": "agenda_gijon_beade99160cde96f",
-            "title": "Diviértete en familia en Veranes",
-            "venue": "Museo Villa Romana de Veranes"
-          },
-          {
-            "id": "agenda_gijon_8f6f14c0a4154038",
-            "title": "La Escuela de Gijón. La ciudad como motivo",
-            "venue": "Centro de Cultura Antiguo Instituto"
+            "id": "gijon_laboral_centro_arte_01db953cc05a4204",
+            "title": "La ciudad que somos",
+            "venue": "LABoral Centro de Arte y Creación Industrial"
           }
         ],
-        "missing_relevant_image": [
-          {
-            "id": "gijon_laboral_ciudad_cultura_5d2b922724b49fc0",
-            "title": "Campus de Verano de la Laboral 2026"
-          },
-          {
-            "id": "gijon_juventud_gijon_1678d25a1de266ba",
-            "title": "EXPLORA Y CREA EN REALIDAD VIRTUAL Y AUMENTADA"
-          },
-          {
-            "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
-            "title": "Noche mágica de Valdrero. Ruta en Cudillero"
-          },
-          {
-            "id": "gijon_ciclismo_asturias_eaf7ca5e40efb9bd",
-            "title": "LIGA DE PISTA 2026 TERCERA PRUEBA AVILES"
-          },
-          {
-            "id": "gijon_turismo_asturias_deporte_833178867a48d515",
-            "title": "Rutas de montaña por Laviana"
-          },
-          {
-            "id": "gijon_juventud_gijon_0276923666951d7a",
-            "title": "MISIÓN DRONE: VUELA EN PRIMERA PERSONA"
-          },
-          {
-            "id": "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
-            "title": "Concurso Hípico de Gijón"
-          },
-          {
-            "id": "gijon_ciclismo_asturias_1c3d794a96c92b40",
-            "title": "XIX MEMORIAL JAIRO GARCIA"
-          }
-        ],
+        "missing_relevant_image": [],
         "suspicious_titles": [],
         "title_review_candidates": [
           {
@@ -350,6 +365,12 @@
             "decision": "review"
           },
           {
+            "id": "gijon_laboral_centro_arte_2c8d731061161ec2",
+            "title": "Entre especies. Formas de estar juntas",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
             "id": "agenda_gijon_274ac55a35c8b33f",
             "title": "FESTIVAL ARCU ATLÁNTICU. Exposición. Postales N’alcordanza d’Ígor y Carlos",
             "issue": "suspicious_title_structure",
@@ -358,12 +379,6 @@
           {
             "id": "agenda_gijon_32234a75b037c601",
             "title": "FESTIVAL ARCU ATLÁNTICU. Exposición. Pablo Casanueva, La imaxe, lo tapecío",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_gijon_32d73fb96b746f95",
-            "title": "Instalación. Ficción sonora. CÁPSULA RADIO: \"La tercera Luz\"",
             "issue": "suspicious_title_structure",
             "decision": "review"
           }
@@ -377,11 +392,11 @@
             "id": "gijon_opendata_events",
             "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
             "role": null,
-            "event_count": 80,
+            "event_count": 79,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 57,
+            "with_start_time": 56,
             "without_start_time": 23
           },
           {
@@ -449,6 +464,17 @@
             "filtered_or_deduplicated": null,
             "with_start_time": 2,
             "without_start_time": 0
+          },
+          {
+            "id": "laboral_centro_arte",
+            "name": "LABoral Centro de Arte y Creación Industrial",
+            "role": null,
+            "event_count": 5,
+            "reviewed_items": null,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 1,
+            "without_start_time": 4
           },
           {
             "id": "teatro_albeniz_gijon",
@@ -542,22 +568,15 @@
             "id": "turismo_asturias_deporte",
             "name": "Turismo Asturias — Agenda deportiva",
             "role": null,
-            "event_count": 3,
+            "event_count": 2,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 1,
-            "without_start_time": 2
+            "with_start_time": 2,
+            "without_start_time": 0
           }
         ],
         "zero_event_sources": [
-          {
-            "id": "la_revoltosa_gijon",
-            "name": "La Revoltosa Gijón",
-            "role": null,
-            "web_probe_status": "secondary_checked",
-            "zero_event_reason": "direct_instagram_pending_secondary_only"
-          },
           {
             "id": "teatro_albeniz_gijon",
             "name": "Teatro Albéniz Gijón",
@@ -595,6 +614,13 @@
           }
         ],
         "explained_zero_sources": [
+          {
+            "id": "la_revoltosa_gijon",
+            "name": "La Revoltosa Gijón",
+            "role": null,
+            "web_probe_status": "seasonal_secondary_empty",
+            "zero_event_reason": "documented_periodic_program_summer_pause"
+          },
           {
             "id": "toma3_xixon",
             "name": "Toma 3 Xixón",
@@ -634,7 +660,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539923848992973,
+    "usage_usd": 4.540026064293611,
     "remaining_usd": 0.0
   }
 }
