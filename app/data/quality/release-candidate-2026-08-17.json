@@ -5,6 +5,17 @@
   "scope": ["valparaiso-vina", "gijon"],
   "data_refresh_performed": false,
   "external_queries_performed": false,
-  "status": "validating",
-  "purpose": "Final multi-city pre-release validation of the current production candidate without modifying published datasets."
+  "status": "ready",
+  "validation": {
+    "valparaiso_vina_duplicate_groups": 0,
+    "gijon_duplicate_groups": 0,
+    "valparaiso_vina_suspicious_titles": 0,
+    "gijon_suspicious_titles": 0,
+    "gijon_preserved": true,
+    "production_dataset_modified_by_closure": false
+  },
+  "notes": [
+    "Candidate closure is based on the current multi-city production state, not the superseded 64-entry snapshot.",
+    "Existing source-coverage/editorial warnings remain operational monitoring signals and are not treated as release blockers."
+  ]
 }
