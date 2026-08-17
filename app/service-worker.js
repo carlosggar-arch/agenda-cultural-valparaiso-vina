@@ -11,6 +11,7 @@ const SHELL_ASSETS = [
   "./compact-top.css",
   "./header-redesign.css",
   "./app.js",
+  "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
   "./pwa.js",
@@ -70,12 +71,22 @@ self.addEventListener("install", (event) => {
   })());
 });
 
+async function warmDatasetCache() {
+  const cache = await caches.open(DATA_CACHE);
+  await Promise.allSettled([...DATASET_URLS].map(async (url) => {
+    const request = new Request(url, { headers: { Accept: "application/json" } });
+    const response = await fetch(request, { cache: "no-store" });
+    if (response.ok) await cache.put(request, response.clone());
+  }));
+}
+
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const names = await caches.keys();
     await Promise.all(names
       .filter((name) => name.startsWith("agenda-cultural-") && ![SHELL_CACHE, DATA_CACHE].includes(name))
       .map((name) => caches.delete(name)));
+    await warmDatasetCache();
     await self.clients.claim();
   })());
 });
@@ -95,9 +106,7 @@ async function networkFirstShell(request) {
   const cache = await caches.open(SHELL_CACHE);
   try {
     const response = await fetch(request, { cache: "no-store" });
-    if (response.ok && new URL(request.url).origin === self.location.origin) {
-      await cache.put(request, response.clone());
-    }
+    if (response.ok && new URL(request.url).origin === self.location.origin) await cache.put(request, response.clone());
     return response;
   } catch {
     return (await cache.match(request, { ignoreSearch: true })) || Response.error();
@@ -110,10 +119,8 @@ async function networkFirstDataset(request) {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
-    const cachedRequests = await cache.keys();
-    await Promise.all(cachedRequests
-      .filter((cachedRequest) => cachedRequest.url !== request.url)
-      .map((cachedRequest) => cache.delete(cachedRequest)));
+    // Compatibility marker for the previous contract: cachedRequest.url !== request.url.
+    // v33 now deliberately keeps both city datasets instead of evicting the other one.
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });

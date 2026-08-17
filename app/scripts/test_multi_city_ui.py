@@ -3,6 +3,7 @@ from pathlib import Path
 APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
+city_first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
 css = (APP / "app.css").read_text(encoding="utf-8")
 combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
 combined_css = (APP / "combined-filters.css").read_text(encoding="utf-8")
@@ -49,6 +50,19 @@ assert './combined-filters.js' in index
 assert './contextual-filters.js' not in index
 assert 'new URLSearchParams(window.location.search).get("city")' in index
 assert '["access", "format", "aud"]' in index
+assert 'window.__agendaInitialCityPreference' in index
+assert '<script type="module" src="./city-first-run.js"></script>' in index
+
+for marker in (
+    'const SUPPORTED_CITIES = new Set(["valparaiso", "gijon"])',
+    'window.__agendaInitialCityPreference',
+    'localStorage.removeItem(STORAGE_KEY)',
+    'navigator.permissions.query({ name: "geolocation" })',
+    'permission.state === "granted"',
+    'dataset.selectionRequired = "true"',
+    'event.stopImmediatePropagation()',
+):
+    assert marker in city_first_run
 
 compact_link = '<link rel="stylesheet" href="./compact-top.css">'
 header_link = '<link rel="stylesheet" href="./header-redesign.css">'
@@ -138,6 +152,10 @@ assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
+assert 'function isIosLike()' in pwa
+assert 'function showInstallHelp()' in pwa
+assert 'Añadir a pantalla de inicio' in pwa
+assert 'beforeinstallprompt' in pwa
 assert 'CONFIG = Object.freeze' in plan_ahead
 assert 'valparaiso: { dataset: "../agenda_web.json"' in plan_ahead
 assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in plan_ahead
@@ -173,6 +191,10 @@ assert "refreshOpenWindows" not in service_worker
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
 assert 'cachedRequest.url !== request.url' in service_worker
+assert 'async function warmDatasetCache()' in service_worker
+assert 'Promise.allSettled([...DATASET_URLS]' in service_worker
+assert 'await warmDatasetCache()' in service_worker
+assert '"./city-first-run.js"' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
@@ -186,4 +208,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v33 keeps filters, plan-ahead and persistent favorites stable: OK")
+print("Multi-city v33 city selection, install and offline contracts: OK")
