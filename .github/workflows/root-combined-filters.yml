@@ -1,0 +1,37 @@
+name: Root combined search filters
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "assets/root-combined-filter-core.mjs"
+      - "assets/root-combined-filters.js"
+      - "assets/root-combined-filters.css"
+      - "assets/web-event-enhancements.js"
+      - "tests/root-combined-filters.test.mjs"
+      - ".github/workflows/root-combined-filters.yml"
+  push:
+    branches: [main]
+    paths:
+      - "assets/root-combined-filter-core.mjs"
+      - "assets/root-combined-filters.js"
+      - "assets/root-combined-filters.css"
+      - "assets/web-event-enhancements.js"
+      - "tests/root-combined-filters.test.mjs"
+      - ".github/workflows/root-combined-filters.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run root combined-filter contracts
+        run: node --test tests/root-combined-filters.test.mjs
