@@ -55,6 +55,7 @@ jobs:
             app/scripts/test_pre_release.py \
             app/scripts/test_runtime_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
+            app/scripts/test_pwa_install_browser.py \
             app/scripts/test_density_runtime.py \
             app/scripts/test_contextual_filters.py
           node --check app/app.js
@@ -99,6 +100,7 @@ jobs:
           set -euo pipefail
           python app/scripts/test_runtime_browser.py
           python app/scripts/test_schedule_interaction_browser.py
+          python app/scripts/test_pwa_install_browser.py
           python app/scripts/test_density_runtime.py
 
       - name: Verify production data/runtime isolation
