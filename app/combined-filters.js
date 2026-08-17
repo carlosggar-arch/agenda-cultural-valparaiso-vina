@@ -77,8 +77,11 @@ const state = {
 
 let datasetEvents = [];
 let loadedCity = null;
-let updateQueued = false;
-let baseResetQueued = false;
+let applying = false;
+let updateScheduled = false;
+let updatePending = false;
+let persistPending = false;
+let categoryRenderSignature = "";
 
 function currentCityId() {
   const id = document.documentElement.dataset.city;
@@ -275,19 +278,23 @@ function eventMatches(event, options = {}) {
 }
 
 function forceBaseAppFilters() {
-  if (baseResetQueued) return;
-  baseResetQueued = true;
-  queueMicrotask(() => {
-    baseResetQueued = false;
-    if (dom.internalSearch && dom.internalSearch.value) {
-      dom.internalSearch.value = "";
-      dom.internalSearch.dispatchEvent(new Event("input", { bubbles: true }));
-    }
-    const allSection = dom.internalSections?.querySelector('[data-section-filter="todos"]');
-    if (allSection && allSection.getAttribute("aria-pressed") !== "true") allSection.click();
-    const allCategory = dom.internalCategories?.querySelector('[data-category-filter=""]');
-    if (allCategory && allCategory.getAttribute("aria-pressed") !== "true") allCategory.click();
-  });
+  let changed = false;
+  if (dom.internalSearch && dom.internalSearch.value) {
+    dom.internalSearch.value = "";
+    dom.internalSearch.dispatchEvent(new Event("input", { bubbles: true }));
+    changed = true;
+  }
+  const allSection = dom.internalSections?.querySelector('[data-section-filter="todos"]');
+  if (allSection && allSection.getAttribute("aria-pressed") !== "true") {
+    allSection.click();
+    changed = true;
+  }
+  const allCategory = dom.internalCategories?.querySelector('[data-category-filter=""]');
+  if (allCategory && allCategory.getAttribute("aria-pressed") !== "true") {
+    allCategory.click();
+    changed = true;
+  }
+  return changed;
 }
 
 async function loadDataset() {
@@ -295,6 +302,7 @@ async function loadDataset() {
   if (loadedCity === cityId && datasetEvents.length) return;
   loadedCity = cityId;
   datasetEvents = [];
+  categoryRenderSignature = "";
   try {
     const response = await fetch(CITY_CONFIG[cityId].dataset, {
       headers: { Accept: "application/json" },
@@ -320,6 +328,16 @@ function categoryCatalog() {
     .sort((a, b) => a.label.localeCompare(b.label, currentConfig().locale));
 }
 
+function setText(node, value) {
+  if (!node) return;
+  const next = String(value ?? "");
+  if (node.textContent !== next) node.textContent = next;
+}
+
+function setHidden(node, hidden) {
+  if (node && node.hidden !== hidden) node.hidden = hidden;
+}
+
 function renderCategoryFilters() {
   if (!dom.categories) return;
   const catalog = categoryCatalog();
@@ -329,19 +347,28 @@ function renderCategoryFilters() {
     for (const id of eventCategories(event).keys()) counts.set(id, (counts.get(id) || 0) + 1);
   }
 
-  dom.categories.replaceChildren();
-  for (const category of catalog) {
-    const count = counts.get(category.id) || 0;
-    const selected = state.categories.has(category.id);
-    if (!selected && count === 0) continue;
+  const rows = catalog
+    .map((category) => ({
+      ...category,
+      count: counts.get(category.id) || 0,
+      selected: state.categories.has(category.id),
+    }))
+    .filter((category) => category.selected || category.count > 0);
+  const signature = JSON.stringify(rows);
+  if (signature === categoryRenderSignature) return;
+  categoryRenderSignature = signature;
+
+  const fragment = document.createDocumentFragment();
+  for (const category of rows) {
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.combinedCategory = category.id;
-    button.className = `category-chip${selected ? " active" : ""}`;
-    button.setAttribute("aria-pressed", selected ? "true" : "false");
-    button.innerHTML = `<span>${escapeHtml(category.label)}</span><small>${count}</small>`;
-    dom.categories.append(button);
+    button.className = `category-chip${category.selected ? " active" : ""}`;
+    button.setAttribute("aria-pressed", category.selected ? "true" : "false");
+    button.innerHTML = `<span>${escapeHtml(category.label)}</span><small>${category.count}</small>`;
+    fragment.append(button);
   }
+  dom.categories.replaceChildren(fragment);
 }
 
 function escapeHtml(value) {
@@ -356,8 +383,9 @@ function escapeHtml(value) {
 function setPressed(container, selector, value) {
   for (const button of container?.querySelectorAll(selector) || []) {
     const active = button.dataset.filterValue === value;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", active ? "true" : "false");
+    if (button.classList.contains("active") !== active) button.classList.toggle("active", active);
+    const pressed = active ? "true" : "false";
+    if (button.getAttribute("aria-pressed") !== pressed) button.setAttribute("aria-pressed", pressed);
   }
 }
 
@@ -368,8 +396,8 @@ function updateControls() {
   if (dom.search && dom.search.value !== state.query) dom.search.value = state.query;
   if (dom.dateFrom && dom.dateFrom.value !== state.from) dom.dateFrom.value = state.from;
   if (dom.dateTo && dom.dateTo.value !== state.to) dom.dateTo.value = state.to;
-  if (dom.customDates) dom.customDates.hidden = state.when !== "personalizado";
-  if (dom.areaGroup) dom.areaGroup.hidden = currentCityId() !== "valparaiso";
+  setHidden(dom.customDates, state.when !== "personalizado");
+  setHidden(dom.areaGroup, currentCityId() !== "valparaiso");
 }
 
 function visibleCards(grid) {
@@ -378,8 +406,8 @@ function visibleCards(grid) {
 
 function patchGroup(section, total, grid) {
   const count = visibleCards(grid).length;
-  if (total) total.textContent = String(count);
-  if (section) section.hidden = count === 0;
+  setText(total, count);
+  setHidden(section, count === 0);
   return count;
 }
 
@@ -415,23 +443,23 @@ function hasActiveFilters() {
 function patchResults(filtered) {
   const ids = new Set(filtered.map((event) => String(event?.id || "")).filter(Boolean));
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-    card.hidden = !ids.has(card.dataset.eventId || "");
+    const hidden = !ids.has(card.dataset.eventId || "");
+    if (card.hidden !== hidden) card.hidden = hidden;
   }
 
   const dated = patchGroup(dom.datedSection, dom.datedTotal, dom.datedGrid);
   const program = patchGroup(dom.programSection, dom.programTotal, dom.programGrid);
   const flexible = patchGroup(dom.flexibleSection, dom.flexibleTotal, dom.flexibleGrid);
   const total = dated + program + flexible;
+  const active = hasActiveFilters();
 
-  if (dom.total) dom.total.textContent = String(total);
-  if (dom.agendaKicker) dom.agendaKicker.textContent = hasActiveFilters() ? "Agenda filtrada" : "Agenda actual";
-  if (dom.agendaTitle) dom.agendaTitle.textContent = hasActiveFilters() ? "Resultados" : "Todas las actividades";
-  if (dom.filterSummary) dom.filterSummary.textContent = activeFilterParts(total).join(" · ");
-  if (dom.clear) dom.clear.hidden = !hasActiveFilters();
-  if (dom.empty) dom.empty.hidden = total !== 0;
-  if (dom.emptyCopy) dom.emptyCopy.textContent = total === 0
-    ? "Prueba a quitar algún filtro o ampliar el rango de fechas."
-    : "";
+  setText(dom.total, total);
+  setText(dom.agendaKicker, active ? "Agenda filtrada" : "Agenda actual");
+  setText(dom.agendaTitle, active ? "Resultados" : "Todas las actividades");
+  setText(dom.filterSummary, activeFilterParts(total).join(" · "));
+  setHidden(dom.clear, !active);
+  setHidden(dom.empty, total !== 0);
+  setText(dom.emptyCopy, total === 0 ? "Prueba a quitar algún filtro o ampliar el rango de fechas." : "");
 }
 
 function updateDimensionCounts() {
@@ -445,8 +473,7 @@ function updateDimensionCounts() {
         if (dimension === "price") return eventMatchesPrice(event, value);
         return true;
       }).length;
-      const countNode = button.querySelector("[data-combined-count]");
-      if (countNode) countNode.textContent = String(count);
+      setText(button.querySelector("[data-combined-count]"), count);
     }
   };
   update(dom.when, "when");
@@ -467,7 +494,9 @@ function writeUrl() {
   setOrDelete("q", state.query);
   setOrDelete("from", state.when === "personalizado" ? state.from : "");
   setOrDelete("to", state.when === "personalizado" ? state.to : "");
-  history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  const next = `${url.pathname}${url.search}${url.hash}`;
+  const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  if (next !== current) history.replaceState(null, "", next);
 }
 
 function readUrl() {
@@ -493,6 +522,7 @@ function resetFilters() {
   state.query = "";
   state.from = "";
   state.to = "";
+  categoryRenderSignature = "";
   updateControls();
   queueUpdate(true);
 }
@@ -511,13 +541,27 @@ async function applyFilters({ persist = true } = {}) {
   if (persist) writeUrl();
 }
 
-function queueUpdate(persist = true) {
-  if (updateQueued) return;
-  updateQueued = true;
-  queueMicrotask(async () => {
-    updateQueued = false;
+async function runQueuedUpdate() {
+  updateScheduled = false;
+  if (applying || !updatePending) return;
+  applying = true;
+  const persist = persistPending;
+  updatePending = false;
+  persistPending = false;
+  try {
     await applyFilters({ persist });
-  });
+  } finally {
+    applying = false;
+    if (updatePending) queueUpdate(persistPending);
+  }
+}
+
+function queueUpdate(persist = true) {
+  updatePending = true;
+  persistPending = persistPending || persist;
+  if (updateScheduled || applying) return;
+  updateScheduled = true;
+  queueMicrotask(runQueuedUpdate);
 }
 
 function handleChoice(container, dimension, event) {
@@ -542,6 +586,7 @@ dom.categories?.addEventListener("click", (event) => {
   const id = button.dataset.combinedCategory;
   if (state.categories.has(id)) state.categories.delete(id);
   else state.categories.add(id);
+  categoryRenderSignature = "";
   queueUpdate(true);
 });
 
@@ -566,33 +611,26 @@ dom.clear?.addEventListener("click", (event) => {
   resetFilters();
 }, true);
 
-for (const grid of [dom.datedGrid, dom.programGrid, dom.flexibleGrid]) {
-  if (grid) new MutationObserver(() => queueUpdate(false)).observe(grid, { childList: true });
-}
-
 if (dom.discovery) {
   new MutationObserver(() => {
-    if (!dom.discovery.hidden) {
-      forceBaseAppFilters();
-      queueUpdate(false);
-    }
+    if (!dom.discovery.hidden) queueUpdate(false);
   }).observe(dom.discovery, { attributes: true, attributeFilter: ["hidden"] });
 }
 
 new MutationObserver(() => {
   loadedCity = null;
+  categoryRenderSignature = "";
   state.area = "todos";
-  forceBaseAppFilters();
   queueUpdate(true);
 }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
 
 window.addEventListener("popstate", () => {
   readUrl();
+  categoryRenderSignature = "";
   updateControls();
   queueUpdate(false);
 });
 
 readUrl();
 updateControls();
-forceBaseAppFilters();
 queueUpdate(false);
