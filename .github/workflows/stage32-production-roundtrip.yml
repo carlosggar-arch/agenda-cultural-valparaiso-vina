@@ -1,0 +1,26 @@
+name: Stage 3.2 production round-trip
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send one synthetic aggregate event
+        shell: bash
+        run: |
+          set -euo pipefail
+          body='{"events":[{"event":"landing_view","city":"valparaiso","dimension":"surface","value":"stage32-validation"}]}'
+          code=$(curl --silent --show-error --output /tmp/analytics-response.json --write-out '%{http_code}' \
+            --request POST \
+            --header 'Origin: https://carlosggar-arch.github.io' \
+            --header 'Content-Type: application/json' \
+            --data "$body" \
+            'https://agenda-cultural-community.carlosggar.workers.dev/community/v1/analytics/events')
+          cat /tmp/analytics-response.json
+          echo "HTTP_STATUS=$code"
+          test "$code" = "202"
+          grep -Eq '"accepted"[[:space:]]*:[[:space:]]*1' /tmp/analytics-response.json
