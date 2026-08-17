@@ -5,13 +5,16 @@
   :root{--mobile-nav-height:68px}
   body{padding-bottom:calc(var(--mobile-nav-height) + env(safe-area-inset-bottom,0px))}
 
+  /* Let the mobile header size itself from its real content. A fixed ~200px
+     minimum left a large empty block above the agenda on phones. */
   .app-header{
-    min-height:204px!important;
-    padding-top:calc(.9rem + env(safe-area-inset-top,0px))!important;
-    padding-bottom:.78rem!important;
+    min-height:0!important;
+    height:auto!important;
+    padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;
+    padding-bottom:.55rem!important;
   }
-  .header-art{height:40%!important;opacity:.28!important}
-  .header-bottom{margin-top:.5rem!important}
+  .header-art{height:100%!important;opacity:.22!important}
+  .header-bottom{margin-top:.35rem!important}
 
   .header-search-toggle,.install-button,.city-switch,
   .filter-choice,.category-chip,.clear-filters,
@@ -122,7 +125,7 @@
   html[data-city="gijon"] .mobile-tabbar{border-top-color:rgba(15,130,165,.22)}
 
   html[data-standalone="true"] .app-header{
-    padding-top:calc(1rem + env(safe-area-inset-top,0px))!important;
+    padding-top:calc(.8rem + env(safe-area-inset-top,0px))!important;
   }
   html[data-standalone="true"] .mobile-tabbar{
     background:color-mix(in srgb,var(--paper) 97%,#fff);
@@ -131,9 +134,9 @@
 }
 
 @media(max-width:430px){
-  .app-header{min-height:198px!important}
+  .app-header{min-height:0!important;height:auto!important}
   .header-tagline{max-width:96%!important}
-  .header-art{height:37%!important}
+  .header-art{height:100%!important;opacity:.2!important}
   .city-options button{grid-template-columns:50px 1fr auto!important}
   .city-symbol{width:48px!important;height:40px!important}
 }
