@@ -65,6 +65,7 @@ def assert_runtime_contract() -> dict[str, bool]:
     pwa_js = (APP / "pwa.js").read_text(encoding="utf-8")
     first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
     favorites = (APP / "favorites.js").read_text(encoding="utf-8")
+    mis_planes = (APP / "mis-planes.html").read_text(encoding="utf-8")
     plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
 
     checks = {
@@ -88,7 +89,8 @@ def assert_runtime_contract() -> dict[str, bool]:
         "favorites_wired": (
             'import "./favorites.js";' in pwa_js
             and "FAVORITES_STORAGE_KEY" in favorites
-            and "data-my-plans" in favorites
+            and "data-favorites-access" in favorites
+            and "data-my-plans-page" in mis_planes
         ),
         "plan_ahead_wired": (
             'import "./plan-ahead.js";' in pwa_js
