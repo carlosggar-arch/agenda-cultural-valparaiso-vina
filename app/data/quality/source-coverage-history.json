@@ -5,12 +5,17 @@
     "valparaiso-vina": [
       {
         "date": "2026-08-17",
+        "metrics": {
+          "total_events": 111,
+          "attributed_events": 103,
+          "unattributed_events": 8
+        },
         "sources": {
           "artequinvina": {
             "name": "Artequin Viña del Mar",
             "role": "venue",
             "source_type": "jsonld",
-            "count": 0
+            "count": 2
           },
           "balmaceda_arte_joven_valpo": {
             "name": "Balmaceda Arte Joven Valparaíso",
@@ -34,7 +39,7 @@
             "name": "CENTEX",
             "role": "venue",
             "source_type": "instagram",
-            "count": 0
+            "count": 1
           },
           "centro_extension_duoc_valpo": {
             "name": "Centro de Extensión Duoc UC Valparaíso",
@@ -52,19 +57,19 @@
             "name": "Cultura PUCV",
             "role": "aggregator",
             "source_type": "instagram",
-            "count": 0
+            "count": 1
           },
           "cultura_usm": {
             "name": "Cultura USM",
             "role": "venue",
             "source_type": "instagram",
-            "count": 0
+            "count": 10
           },
           "culturasvina": {
             "name": "Culturas Viña",
             "role": "aggregator",
             "source_type": "web",
-            "count": 0
+            "count": 9
           },
           "estadio_espanol_recreo": {
             "name": "Estadio Español Recreo",
@@ -100,7 +105,7 @@
             "name": "Museo de Historia Natural de Valparaíso",
             "role": "venue",
             "source_type": "web",
-            "count": 0
+            "count": 8
           },
           "museo_fonck": {
             "name": "Museo Fonck",
@@ -112,7 +117,7 @@
             "name": "Museo Palacio Rioja",
             "role": "venue",
             "source_type": "instagram",
-            "count": 0
+            "count": 5
           },
           "museobaburizza": {
             "name": "Museo Baburizza",
@@ -124,7 +129,7 @@
             "name": "Parque Cultural de Valparaíso",
             "role": "venue",
             "source_type": "instagram",
-            "count": 0
+            "count": 2
           },
           "sala_secreta": {
             "name": "Sala Secreta",
@@ -148,7 +153,7 @@
             "name": "Teatro Mauri SCD",
             "role": "venue",
             "source_type": "web",
-            "count": 0
+            "count": 1
           },
           "teatro_municipal_valparaiso": {
             "name": "Teatro Municipal de Valparaíso",
@@ -160,7 +165,7 @@
             "name": "Teatro Municipal de Viña del Mar",
             "role": "venue",
             "source_type": "web",
-            "count": 0
+            "count": 10
           },
           "teatromuseo": {
             "name": "TeatroMuseo",
@@ -184,7 +189,7 @@
             "name": "Valpo Cultura",
             "role": "aggregator",
             "source_type": "instagram",
-            "count": 0
+            "count": 3
           }
         }
       }
@@ -192,6 +197,11 @@
     "gijon": [
       {
         "date": "2026-08-17",
+        "metrics": {
+          "total_events": 100,
+          "attributed_events": 100,
+          "unattributed_events": 0
+        },
         "sources": {
           "agenda_gijon": {
             "name": "Agenda Gijón",
