@@ -4,6 +4,20 @@ import "./root-combined-filters.js?v=20260817-root-search";
 const DATASET_URL = "./agenda_web.json";
 const MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b";
 const SCHEDULE_OPTIONS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
+const REJECTED_EVENT_IDS = new Set(["agenda_968c623b60b70d2976410175"]);
+const EDITORIAL_SOCIAL_CUES = [
+  /\bsabias que\b/,
+  /\bte contamos\b/,
+  /\bcuriosidades?\b/,
+  /\bdatos (?:de|sobre)\b/,
+  /\bdetras de (?:camara|camaras|escena|escenas)\b/,
+  /\bmaking of\b/,
+  /\btrivia\b/,
+  /\bcine dentro del cine\b/,
+  /\bdesliza\b/,
+  /\bconoce (?:mas|la historia|los detalles|detalles)\b/,
+  /\bdescubre (?:mas|la historia|los detalles|detalles)\b/,
+];
 
 const CATEGORY_SYMBOLS = Object.freeze({
   musica: "♪",
@@ -43,6 +57,35 @@ function fold(value) {
     .toLocaleLowerCase("es")
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
+}
+
+function sourceUrl(event) {
+  return String(event?.source_url || event?.links?.source || event?.links?.official || "");
+}
+
+function hasConcreteEventEvidence(event) {
+  return Boolean(
+    String(event?.location?.venue || "").trim()
+    || String(event?.location?.address || "").trim()
+    || String(event?.organizer || "").trim()
+    || String(event?.links?.tickets || "").trim()
+    || String(event?.links?.registration || "").trim()
+    || String(event?.registration_requirements || "").trim()
+  );
+}
+
+function hasEditorialSocialLanguage(event) {
+  const text = fold(`${event?.title || ""} ${event?.description || ""}`);
+  return EDITORIAL_SOCIAL_CUES.some((pattern) => pattern.test(text));
+}
+
+function isEditorialSocialFalsePositive(event) {
+  if (REJECTED_EVENT_IDS.has(String(event?.id || ""))) return true;
+  if (!sourceUrl(event).includes("instagram.com")) return false;
+  if (event?.event_type && event.event_type !== "event") return false;
+  if (event?.public_status?.information_completeness === "complete") return false;
+  if (hasConcreteEventEvidence(event)) return false;
+  return hasEditorialSocialLanguage(event);
 }
 
 function categoryId(event) {
@@ -190,14 +233,34 @@ async function start() {
     if (!response.ok) return;
     payload = await response.json();
   } catch { return; }
-  const events = new Map((payload.events || []).map((event) => [String(event.id), event]));
+
+  const sourceEvents = payload.events || [];
+  const rejectedIds = new Set(
+    sourceEvents.filter(isEditorialSocialFalsePositive).map((event) => String(event.id)),
+  );
+  const events = new Map(
+    sourceEvents
+      .filter((event) => !rejectedIds.has(String(event.id)))
+      .map((event) => [String(event.id), event]),
+  );
 
   const apply = () => {
     document.querySelectorAll(".event-card[data-event-id]").forEach((card) => {
-      const event = events.get(card.dataset.eventId);
+      const id = String(card.dataset.eventId || "");
+      if (rejectedIds.has(id)) {
+        card.remove();
+        return;
+      }
+      const event = events.get(id);
       if (event) enhanceCard(card, event);
     });
+    const total = document.querySelector("[data-total]");
+    if (total) total.textContent = String(sourceEvents.length - rejectedIds.size);
     const requested = new URL(window.location.href).searchParams.get("evento");
+    if (rejectedIds.has(String(requested || ""))) {
+      document.querySelector("[data-detail-dialog]")?.close?.();
+      return;
+    }
     const event = events.get(String(requested || ""));
     if (event) enhanceDetail(event);
   };
