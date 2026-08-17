@@ -63,7 +63,6 @@ function enhanceDynamicUi() {
   enhanceQueued = false;
   installCardFavorites();
   installDetailFavorite();
-  syncFavoriteButtons(CITY, eventMap);
 }
 
 function queueEnhance() {
@@ -74,7 +73,9 @@ function queueEnhance() {
 
 function refreshFavorites() {
   renderMyPlans();
-  queueEnhance();
+  installCardFavorites();
+  installDetailFavorite();
+  syncFavoriteButtons(CITY, eventMap);
 }
 
 async function start() {
