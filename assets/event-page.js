@@ -8,6 +8,18 @@
     setStatus.timer = window.setTimeout(() => { status.textContent = ""; }, 3500);
   };
 
+  const heroImage = document.querySelector(".event-hero-media img");
+  const removeBrokenHero = () => {
+    const media = heroImage?.closest(".event-hero-media");
+    const sheet = heroImage?.closest(".event-sheet");
+    media?.remove();
+    sheet?.classList.add("event-sheet--no-media");
+  };
+  if (heroImage) {
+    heroImage.addEventListener("error", removeBrokenHero, { once: true });
+    if (heroImage.complete && heroImage.naturalWidth === 0) removeBrokenHero();
+  }
+
   document.querySelector("[data-native-share]")?.addEventListener("click", async () => {
     const data = { title: document.title.replace(/ · Agenda Cultural$/, ""), url: window.location.href };
     if (!navigator.share) {
