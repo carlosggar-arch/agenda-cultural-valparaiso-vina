@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-17T18:17:35-04:00",
+  "generated_at": "2026-08-17T18:43:19-04:00",
   "publication_date": "2026-08-17",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 107,
-    "events": 103,
+    "total": 109,
+    "events": 105,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -62,10 +62,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-17T18:17:35-04:00",
+      "last_verified_at": "2026-08-17T18:43:19-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:17:35-04:00",
+        "last_verified_at": "2026-08-17T18:43:19-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -164,10 +164,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-17T18:17:35-04:00",
+      "last_verified_at": "2026-08-17T18:43:19-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:17:35-04:00",
+        "last_verified_at": "2026-08-17T18:43:19-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -198,8 +198,6 @@
       }
     },
     {
-      "tags": [],
-      "source_name": "Museo de Historia Natural de Valparaíso",
       "categories": [
         {
           "id": "exposiciones",
@@ -210,65 +208,67 @@
           "label": "Museos"
         }
       ],
-      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "event_type": "event",
-      "schedule": {
-        "start": "2026-08-15T11:30:00-04:00",
-        "mode": "multi_day",
-        "occurrences": [],
-        "end": "2026-11-07",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-15 · 11:30, 13:00, 11:45"
-      },
       "registration_requirements": null,
-      "image": {
-        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
-        "alt": "¿Cuáles serán los fósiles del futuro?"
+      "price": {
+        "display_text": "Gratis",
+        "min_amount": 0,
+        "is_free": true,
+        "max_amount": 0,
+        "currency": "CLP"
       },
-      "last_verified_at": null,
+      "public_status": {
+        "advisory_text": null,
+        "price_confirmed": true,
+        "registration_open": null,
+        "last_verified_at": null,
+        "price_stage": null,
+        "registration_closed": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "cancelled": null,
+        "source_official": true
+      },
+      "title": "¿Cuáles serán los fósiles del futuro?",
+      "image": {
+        "alt": "¿Cuáles serán los fósiles del futuro?",
+        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg"
+      },
+      "source_name": "Museo de Historia Natural de Valparaíso",
       "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
+      "audience": null,
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "online": false,
+        "address": null,
+        "latitude": null,
+        "longitude": null,
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "venue_id": null
+      },
+      "tags": [],
+      "last_verified_at": null,
       "primary_category": {
         "id": "exposiciones",
         "label": "Exposiciones"
       },
-      "organizer": "Museo de Historia Natural de Valparaíso",
+      "event_type": "event",
+      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
       "links": {
-        "registration": null,
         "tickets": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
+        "registration": null,
+        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
       },
-      "title": "¿Cuáles serán los fósiles del futuro?",
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "display_text": "Gratis",
-        "max_amount": 0
-      },
-      "audience": null,
-      "location": {
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "online": false,
-        "city": "Valparaíso",
-        "longitude": null,
-        "commune": "Valparaíso",
-        "venue_id": null,
-        "address": null,
-        "latitude": null
-      },
-      "public_status": {
-        "price_stage": null,
-        "source_official": true,
-        "registration_closed": null,
-        "cancelled": null,
-        "information_completeness": "complete",
-        "advisory_text": null,
-        "registration_open": null,
-        "price_confirmed": true,
-        "sold_out": null,
-        "last_verified_at": null
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "schedule": {
+        "mode": "multi_day",
+        "end": "2026-11-07",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
+        "occurrences": [],
+        "start": "2026-08-15T11:30:00-04:00"
       }
     },
     {
@@ -395,7 +395,7 @@
         "registration": null,
         "source": "https://www.instagram.com/p/Db8-KzxhYDA/"
       },
-      "organizer": null,
+      "organizer": "Valpo Cultura",
       "source_name": "Valpo Cultura",
       "source_url": "https://www.instagram.com/p/Db8-KzxhYDA/",
       "last_verified_at": null,
@@ -1282,6 +1282,79 @@
       }
     },
     {
+      "id": "agenda_968c623b60b70d2976410175",
+      "title": "¿Sabías que la película también juega con el concepto de “cine dentro del cine”?",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-17T20:00:00-04:00",
+        "end": "2026-08-19",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-17 · 20:00, 18:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": null,
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcEiB9kkWLt/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcEiB9kkWLt/"
+      },
+      "organizer": null,
+      "source_name": "instagram.com",
+      "source_url": "https://www.instagram.com/p/DcEiB9kkWLt/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "🎬🩸 ¡Nos vamos de campamento… pero no precisamente de vacaciones! ⛺😱 Te contamos curiosidades y detalles de Campamento Miasma, la nueva película de terror que llega para mezclar adolescencia, sexo, misterio, sangre y mucho delirio. 🔪🎥👀 La cinta, dirigida por Ja...",
+      "tags": [
+        "cine",
+        "película"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/774267636_17965176123136744_5853614887623188334_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzk2NDQ0MjIzMzI2NDE2NjgyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2FKo3QTCF7oQ7kNvwFPKD_r&_nc_oc=Adpdh7TT5Q7XXlPN7b5KoCE9q8B1YN2rcVJbAQKx1zKKz3mm05OizgQ6h8gc8fU9uXaeP3vJOXzcjgPRtyX9zYwQ&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=YBzKfLhn4DyLFba0ytoxOA&_nc_ss=7c689&oh=00_AQGtffmWUIWerok1nWUb-Uke7hAixToEggDbs6jkcWH0Cw&oe=6A889081",
+        "alt": "¿Sabías que la película también juega con el concepto de “cine dentro del cine”?"
+      }
+    },
+    {
       "id": "agenda_67defc9c064344e04c20aca6",
       "title": "Exhibición temporal // Mientras tanto",
       "event_type": "event",
@@ -1487,8 +1560,8 @@
         "registration": null,
         "source": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
       },
-      "organizer": "Museo Palacio Rioja",
-      "source_name": "Museo Palacio Rioja",
+      "organizer": "Culturas Viña",
+      "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
       "last_verified_at": null,
       "public_status": {
@@ -1945,8 +2018,8 @@
         "registration": null,
         "source": "https://www.instagram.com/p/DcGhYQXDWgu/"
       },
-      "organizer": "CENTEX",
-      "source_name": "CENTEX",
+      "organizer": "Centro de Extensión Duoc UC Valparaíso",
+      "source_name": "Centro de Extensión Duoc UC Valparaíso",
       "source_url": "https://www.instagram.com/p/DcGhYQXDWgu/",
       "last_verified_at": null,
       "public_status": {
@@ -2707,8 +2780,8 @@
         "registration": null,
         "source": "https://parquecultural.cl/events/ii-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/"
       },
-      "organizer": "Teatro Municipal de Viña del Mar",
-      "source_name": "Teatro Municipal de Viña del Mar",
+      "organizer": "Parque Cultural de Valparaíso",
+      "source_name": "Parque Cultural de Valparaíso",
       "source_url": "https://parquecultural.cl/events/ii-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
       "last_verified_at": null,
       "public_status": {
@@ -3224,10 +3297,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3824,7 +3897,7 @@
         "registration": null,
         "source": "https://www.instagram.com/p/Db9Z8GaDY1C/"
       },
-      "organizer": null,
+      "organizer": "Culturas Viña",
       "source_name": "Culturas Viña",
       "source_url": "https://www.instagram.com/p/Db9Z8GaDY1C/",
       "last_verified_at": null,
@@ -4074,6 +4147,79 @@
       "image": {
         "url": null,
         "alt": null
+      }
+    },
+    {
+      "id": "agenda_945f71310fa732b881b34f74",
+      "title": "CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS”",
+      "event_type": "event",
+      "primary_category": {
+        "id": "otros",
+        "label": "Otros panoramas"
+      },
+      "categories": [
+        {
+          "id": "otros",
+          "label": "Otros panoramas"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-22T12:00:00-04:00",
+        "end": "2026-11-22",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 12:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Biblioteca Municipal de Playa Ancha",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcB2cjWOC9W/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcB2cjWOC9W/"
+      },
+      "organizer": "Valpo Cultura",
+      "source_name": "Valpo Cultura",
+      "source_url": "https://www.instagram.com/p/DcB2cjWOC9W/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "📚✨ CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS” 🌊📖 ¡Las historias están esperando por ti! 💫 Te invitamos a vivir una entretenida experiencia de lectura, juego, imaginación y creación en “Caleta de Historias”, un club pensado especialmente para niñas y...",
+      "tags": [
+        "cupos",
+        "inscripciones"
+      ],
+      "audience": "Familiar",
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772819232_18440915059193806_2025580751508280498_n.webp?stp=dst-jpg_e35_p1080x1080_sh2.08_tt6&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gEoP7r_p7hWAdrMTbGJqGuOYQoXhL8nTvKbUvic99l1tA2ngnn9z0m8Fa_QDkleDOk&_nc_ohc=RA_uJoz9aCoQ7kNvwF7pawZ&_nc_gid=0CSuxJr8K-2PcXnEKb8AMQ&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQEwk4zqRbvpH3txg7mc53o3hHQd9Swh5v3LJJTgJyx6HA&oe=6A88A0A9&_nc_sid=c6f216",
+        "alt": "CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS”"
       }
     },
     {
@@ -4422,10 +4568,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4528,73 +4674,73 @@
       }
     },
     {
-      "tags": [],
-      "source_name": "Valpo Cultura",
       "categories": [
         {
           "id": "musica",
           "label": "Música"
         }
       ],
-      "id": "agenda_afb203aa4212cb1d9e290e66",
-      "source_url": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
-      "event_type": "event",
-      "schedule": {
-        "start": "2026-08-22T21:00:00-04:00",
-        "mode": "dated",
-        "occurrences": [],
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-22 · 21:00, 23:00"
-      },
       "registration_requirements": null,
-      "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/07/Screenshot-2026-07-31-112601.png",
-        "alt": "Club Segundo Piso – De Kiruza"
+      "price": {
+        "display_text": "$15.000",
+        "min_amount": 15000,
+        "is_free": false,
+        "max_amount": 15000,
+        "currency": "CLP"
       },
-      "last_verified_at": null,
+      "public_status": {
+        "advisory_text": null,
+        "price_confirmed": true,
+        "registration_open": null,
+        "last_verified_at": null,
+        "price_stage": null,
+        "registration_closed": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "cancelled": null,
+        "source_official": false
+      },
+      "title": "Club Segundo Piso – De Kiruza",
+      "image": {
+        "alt": "Club Segundo Piso – De Kiruza",
+        "url": "https://valpocultura.cl/wp-content/uploads/2026/07/Screenshot-2026-07-31-112601.png"
+      },
+      "source_name": "Valpo Cultura",
       "description": "“¡Revive los grandes clásicos de De Kiruza Asegura tu lugar para el show más encendido de Valparaiso. No dejes que te lo cuenten!",
+      "audience": null,
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "online": false,
+        "address": null,
+        "latitude": null,
+        "longitude": null,
+        "venue": "Av Brasil 1395",
+        "venue_id": null
+      },
+      "tags": [],
+      "last_verified_at": null,
       "primary_category": {
         "id": "musica",
         "label": "Música"
       },
-      "organizer": "Valpo Cultura",
+      "event_type": "event",
+      "id": "agenda_afb203aa4212cb1d9e290e66",
+      "source_url": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
       "links": {
-        "registration": null,
         "tickets": null,
-        "source": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
-        "official": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/"
+        "registration": null,
+        "official": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
+        "source": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/"
       },
-      "title": "Club Segundo Piso – De Kiruza",
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 15000,
-        "display_text": "$15.000",
-        "max_amount": 15000
-      },
-      "audience": null,
-      "location": {
-        "venue": "Av Brasil 1395",
-        "online": false,
-        "city": "Valparaíso",
-        "longitude": null,
-        "commune": "Valparaíso",
-        "venue_id": null,
-        "address": null,
-        "latitude": null
-      },
-      "public_status": {
-        "price_stage": null,
-        "source_official": false,
-        "registration_closed": null,
-        "cancelled": null,
-        "information_completeness": "complete",
-        "advisory_text": null,
-        "registration_open": null,
-        "price_confirmed": true,
-        "sold_out": null,
-        "last_verified_at": null
+      "organizer": "Valpo Cultura",
+      "schedule": {
+        "mode": "dated",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 21:00, 23:00",
+        "occurrences": [],
+        "start": "2026-08-22T21:00:00-04:00"
       }
     },
     {
@@ -4792,10 +4938,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-17T18:17:26-04:00",
+      "last_verified_at": "2026-08-17T18:43:14-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:17:26-04:00",
+        "last_verified_at": "2026-08-17T18:43:14-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5315,10 +5461,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5510,6 +5656,7 @@
         "exposición",
         "muestra",
         "museo",
+        "exposicion",
         "curso"
       ],
       "audience": "Familiar",
@@ -5593,10 +5740,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar-rec.jpg",
-        "alt": "Little Miss Sunshine (2006)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       }
     },
     {
@@ -5797,10 +5942,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6041,10 +6186,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar-rec.jpg",
-        "alt": "High School Musical Sing Along (2006)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       }
     },
     {
@@ -6099,8 +6242,8 @@
         "registration": null,
         "source": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/"
       },
-      "organizer": "Museo Palacio Rioja",
-      "source_name": "Museo Palacio Rioja",
+      "organizer": "Culturas Viña",
+      "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/",
       "last_verified_at": null,
       "public_status": {
@@ -6272,10 +6415,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-17T18:17:26-04:00",
+      "last_verified_at": "2026-08-17T18:43:14-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:17:26-04:00",
+        "last_verified_at": "2026-08-17T18:43:14-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6424,10 +6567,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6507,10 +6650,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6590,10 +6733,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6746,10 +6889,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6829,10 +6972,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6912,10 +7055,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6995,10 +7138,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7026,6 +7169,78 @@
         "classification": "event",
         "reason": "official_linktree_passline_refresh",
         "ticket_url": "https://www.passline.com/eventos/largo-tour-ensamble-en-trotamundos-valparaiso"
+      }
+    },
+    {
+      "id": "agenda_8fdb648a4006f282d5228bb1",
+      "title": "PORQUE NO NOS BASTA CON GOZAR EN VALPARADAIS A LA FLORI UNA VEZ AL AÑO.",
+      "event_type": "event",
+      "primary_category": {
+        "id": "ferias-gastronomia",
+        "label": "Ferias y gastronomía"
+      },
+      "categories": [
+        {
+          "id": "ferias-gastronomia",
+          "label": "Ferias y gastronomía"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-09-17",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-09-17",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Trotamundos Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcDApbjuhfe/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcDApbjuhfe/"
+      },
+      "organizer": "Trotamundos Valparaíso",
+      "source_name": "Trotamundos Valparaíso",
+      "source_url": "https://www.instagram.com/p/DcDApbjuhfe/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "🐙 ⚓️ Jueves 17 de septiembre • 22:00HRS. ••FIESTAS PATRIAS 🇨🇱 pasao a vino! 🍷 Llega toda la psicodelia y la fiesta brutal de @lafloripondio_oficial para hacer retumbar el puerto💥acompañados por la tremenda energía de @lakitaseternajuventud 🐲 y los ritmos de Dj...",
+      "tags": [
+        "vino"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-lhr6-1.cdninstagram.com/v/t51.82787-15/775591717_17904072072536883_1183065543932535726_n.jpg?stp=dst-jpg_e35_p1080x1080_sh2.08_tt6&_nc_ht=scontent-lhr6-1.cdninstagram.com&_nc_cat=103&_nc_oc=Q6cZ2gHkskl88c7K__7rAOAZej_EkipDuAQGFl0R2rA7Y02Yo6coap1uD3hrtp9DSAoWzSs&_nc_ohc=jXm07xWcuekQ7kNvwGn39cT&_nc_gid=V9EqzANMBarlE1-EuBZfAg&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQGUeyz-8q7wtYkoMPR4z6SkQiLoWdfZyWetq0pINMN9Ww&oe=6A88852E&_nc_sid=c6f216",
+        "alt": "PORQUE NO NOS BASTA CON GOZAR EN VALPARADAIS A LA FLORI UNA VEZ AL AÑO."
       }
     },
     {
@@ -7078,10 +7293,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7161,10 +7376,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T18:16:52-04:00",
+      "last_verified_at": "2026-08-17T18:42:38-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T18:16:52-04:00",
+        "last_verified_at": "2026-08-17T18:42:38-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7332,10 +7547,8 @@
       "audience": null,
       "registration_requirements": "Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock",
       "image": {
-        "url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
-        "alt": "Itaú Maratón de Viña 2026",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       },
       "source_id": "maraton_vina_official"
     },
@@ -7477,87 +7690,6 @@
       "image": {
         "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/041-1-scaled-e1773428623606-1024x481.jpg",
         "alt": "Orquesta Sinfónica Nacional Juvenil junto al director Helmuth Reichel"
-      }
-    },
-    {
-      "id": "agenda_d48e5fdef7524c672649fbf8",
-      "title": "Les esperamos",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-11-01T10:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-11-01 · 10:00, 17:30",
-        "occurrences": [],
-        "opening_time": "10:00",
-        "closing_time": "17:30",
-        "hours_confidence": "source_schedule_pair"
-      },
-      "location": {
-        "venue_id": "palacio-vergara",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Palacio Vergara",
-        "address": "Errázuriz 563, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db9GrejCZ-p/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db9GrejCZ-p/"
-      },
-      "organizer": "Museo Palacio Rioja",
-      "source_name": "Museo Palacio Rioja",
-      "source_url": "https://www.instagram.com/p/Db9GrejCZ-p/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "El Municipio de Cuidados de Viña del Mar, a través de su Departamento de Cultura, inauguró la exposición “Historias Mínimas” del Colectivo Tropos, en el Museo Palacio Vergara, ubicado en Errázuriz Nº 596. Las obras que emergen en el Colectivo Tropos en torno a...",
-      "tags": [
-        "exposicion",
-        "exposición",
-        "museo"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.frtm1-3.fna.fbcdn.net/v/t51.82787-15/765069549_18097938086579071_5351449811327157358_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=instagram.frtm1-3.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2gHOvz4tAniQnF14bVPplRlWS7M8NFyyDz_F_-TgoK6sKFLRbMxvOowc8LggmKmYOwA&_nc_ohc=bRfCAkJFqRUQ7kNvwHJMEr6&_nc_gid=qWHQra5S7NiVIJ036liXFQ&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQFmdk0d04OTwqo9U4o3XmQZS-N056PIJ_6VZe3JFjd0Ww&oe=6A889A77&_nc_sid=c6f216",
-        "alt": "Les esperamos"
       }
     },
     {
@@ -7771,73 +7903,73 @@
       }
     },
     {
-      "tags": [],
-      "source_name": "Cultura USM",
       "categories": [
         {
           "id": "musica",
           "label": "Música"
         }
       ],
-      "id": "agenda_d8ec40944baa69699c7fe878",
-      "source_url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
-      "event_type": "event",
-      "schedule": {
-        "start": "2026-12-05T19:00:00-03:00",
-        "mode": "dated",
-        "occurrences": [],
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-12-05 · 19:00, 21:00"
-      },
       "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
+      "price": {
+        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000",
+        "min_amount": 3000,
+        "is_free": false,
+        "max_amount": 12000,
+        "currency": "CLP"
       },
-      "last_verified_at": null,
+      "public_status": {
+        "advisory_text": null,
+        "price_confirmed": true,
+        "registration_open": null,
+        "last_verified_at": null,
+        "price_stage": null,
+        "registration_closed": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "cancelled": null,
+        "source_official": true
+      },
+      "title": "Música del mundo",
+      "image": {
+        "alt": null,
+        "url": null
+      },
+      "source_name": "Cultura USM",
       "description": "La cantante Andrea Tessa presenta el concierto. La Temporada Artística de la Universidad Técnica Federico Santa María presentará el concierto “Música del mundo”, protagonizado por la reconocida cantante chilena Andrea Tessa, una de las voces más versátiles y e...",
+      "audience": null,
+      "location": {
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "online": false,
+        "address": null,
+        "latitude": null,
+        "longitude": null,
+        "venue": "Teatro Aula Magna USM",
+        "venue_id": "aula-magna-usm"
+      },
+      "tags": [],
+      "last_verified_at": null,
       "primary_category": {
         "id": "musica",
         "label": "Música"
       },
-      "organizer": "Cultura USM",
+      "event_type": "event",
+      "id": "agenda_d8ec40944baa69699c7fe878",
+      "source_url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
       "links": {
-        "registration": null,
         "tickets": null,
-        "source": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
-        "official": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/"
+        "registration": null,
+        "official": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
+        "source": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/"
       },
-      "title": "Música del mundo",
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 3000,
-        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000",
-        "max_amount": 12000
-      },
-      "audience": null,
-      "location": {
-        "venue": "Teatro Aula Magna USM",
-        "online": false,
-        "city": "Valparaíso",
-        "longitude": null,
-        "commune": "Valparaíso",
-        "venue_id": "aula-magna-usm",
-        "address": null,
-        "latitude": null
-      },
-      "public_status": {
-        "price_stage": null,
-        "source_official": true,
-        "registration_closed": null,
-        "cancelled": null,
-        "information_completeness": "complete",
-        "advisory_text": null,
-        "registration_open": null,
-        "price_confirmed": true,
-        "sold_out": null,
-        "last_verified_at": null
+      "organizer": "Cultura USM",
+      "schedule": {
+        "mode": "dated",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-12-05 · 19:00, 21:00",
+        "occurrences": [],
+        "start": "2026-12-05T19:00:00-03:00"
       }
     },
     {
@@ -7976,10 +8108,8 @@
       "audience": null,
       "registration_requirements": "inscripción disponible en el sitio oficial",
       "image": {
-        "url": "https://redsalsa.cl/img/gal3.jpg",
-        "alt": "Clases de salsa y bachata RED Studio",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       },
       "source_id": "red_studio"
     },
@@ -8049,10 +8179,8 @@
       "audience": null,
       "registration_requirements": "consulta y confirmación directa con la tallerista",
       "image": {
-        "url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
-        "alt": "Curso particular de joyería 2026 — Natalia Saldías",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       },
       "source_id": "natalia_saldias"
     },
@@ -8122,10 +8250,8 @@
       "audience": null,
       "registration_requirements": "permite incorporarse durante el año",
       "image": {
-        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
-        "alt": "Taller permanente de cerámica Le Chat",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       },
       "source_id": "instituto_le_chat"
     },
@@ -8204,14 +8330,34 @@
   "publication_corrections": {
     "checked_at": "2026-08-17",
     "active_corrections": 1,
-    "applied_count": 0,
-    "applied": []
+    "applied_count": 1,
+    "applied": [
+      {
+        "correction_id": "baburizza_requiem_2026_end",
+        "event_id": "agenda_c16d049f287e6bc4922b56de",
+        "title": "Museo Baburizza – «Requiem para Pianos»",
+        "action": "drop_after_end",
+        "official_end_date": "2026-08-06",
+        "official_url": "https://www.museobaburizza.cl/agenda/",
+        "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
+      }
+    ]
   },
   "source_diagnostics": {
+    "trotamundosvalpo": {
+      "discovery_url": "https://linktr.ee/trotavalparaiso",
+      "links_discovered": 16,
+      "pages_fetched": 16,
+      "events_detected": 14,
+      "refreshed_at": "2026-08-17T18:42:38-04:00",
+      "mode": "official_linktree_passline_refresh",
+      "events_published": 14,
+      "preserved_existing": false
+    },
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-17T18:17:26-04:00",
+      "refreshed_at": "2026-08-17T18:43:14-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
@@ -8219,47 +8365,10 @@
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-17T18:17:35-04:00",
+      "refreshed_at": "2026-08-17T18:43:19-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
-    },
-    "cinema_event_hygiene": {
-      "mode": "social_promotional_non_screening",
-      "removed_events": 0,
-      "removed": []
-    },
-    "trotamundosvalpo": {
-      "discovery_url": "https://linktr.ee/trotavalparaiso",
-      "links_discovered": 16,
-      "pages_fetched": 16,
-      "events_detected": 14,
-      "refreshed_at": "2026-08-17T18:16:52-04:00",
-      "mode": "official_linktree_passline_refresh",
-      "events_published": 14,
-      "preserved_existing": false
-    },
-    "insomniacine": {
-      "secondary_probe_status": "current_candidates",
-      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 1,
-      "secondary_probe_current_candidates": 1,
-      "secondary_probe_candidate_titles": [
-        "Cine Insomnia - Ojo de Pescado"
-      ],
-      "secondary_probe_actionable": true,
-      "secondary_probe_reason": "secondary_calendar_has_current_candidates",
-      "secondary_probe_checked_on": "2026-08-17"
-    },
-    "valparaiso_profundo": {
-      "secondary_probe_status": "no_current_candidates",
-      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 1,
-      "secondary_probe_current_candidates": 0,
-      "secondary_probe_candidate_titles": [],
-      "secondary_probe_actionable": true,
-      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
-      "secondary_probe_checked_on": "2026-08-17"
     }
   },
   "media_cache": {
@@ -8462,154 +8571,24 @@
       "image_url": "https://www.passline.com/imagenes/eventos/melancholia-2011-cine-arte-vina-del-mar-rec.jpg",
       "checked_at": "2026-08-17",
       "source": "official_page_metadata"
-    },
-    "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar": {
-      "image_url": "https://www.passline.com/imagenes/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar-rec.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar": {
-      "image_url": "https://www.passline.com/imagenes/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar-rec.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/exposicion-temporal-tapies-coleccion-del-grabador-barbara/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/exposicion-y-feria-expo-plantas-y-puntadas-910/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/taller-fluir-con-la-acuarela-profundizacion-en-paisaje-urbano-y-natural-2/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/actividades-juega-y-explora-el-museo-palacio-vergara/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.teatromuseo.cl/obra/pionero_822": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://mediamaratontps.cl/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://maratonvina.cl/": {
-      "image_url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.redstudio.cl/": {
-      "image_url": "https://redsalsa.cl/img/gal3.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.nataliasaldias.com/clases-particulares/": {
-      "image_url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/": {
-      "image_url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://valparaisotrekking.cl/pages/servicios": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 92,
+    "existing_images": 65,
     "images_from_cache": 0,
-    "images_fetched": 0,
-    "generic_schedule_images_rejected": 0,
-    "pages_fetched": 0,
-    "pages_skipped_by_limit": 0
+    "images_fetched": 25,
+    "generic_schedule_images_rejected": 1,
+    "pages_fetched": 40,
+    "pages_skipped_by_limit": 24
   },
   "publication_guard": {
     "titles_recovered": 0,
     "target_city_blocks_recovered": 0,
-    "visit_hours_enriched": 0,
-    "venue_hours_enriched": 1,
+    "visit_hours_enriched": 15,
+    "venue_hours_enriched": 4,
     "removed_title_quality": 1,
     "removed_location_mismatch": 0,
-    "removed_deadline_only_call": 0,
-    "removed_retrospective_post": 0
-  },
-  "enrichment": {
-    "zero_source_secondary_probe": {
-      "checked_on": "2026-08-17",
-      "sources": [
-        "insomniacine",
-        "valparaiso_profundo"
-      ],
-      "apify_used": false
-    }
+    "removed_deadline_only_call": 1,
+    "removed_retrospective_post": 1
   }
 }
