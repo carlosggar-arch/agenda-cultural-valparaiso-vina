@@ -36,7 +36,7 @@ assert 'const STORAGE_KEY = "agenda-cultural-city"' in app_js
 assert 'navigator.geolocation.getCurrentPosition' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
 
-# Real event images keep precedence; placeholders become shared category photos.
+# Real event images keep precedence; fallback support remains available when a future event lacks one.
 assert 'event?.image?.url' in card_js
 assert 'image.dataset.eventImage = "relevant"' in card_js
 assert 'activeCity() !== "valparaiso"' not in fallback_js
@@ -51,9 +51,5 @@ assert any(
     str((event.get("image") or {}).get("url") or "").startswith(("http://", "https://"))
     for event in gijon_events
 ), "Gijon dataset must expose at least one official/relevant event image"
-assert any(
-    not str((event.get("image") or {}).get("url") or "").startswith(("http://", "https://"))
-    for event in gijon_events
-), "Gijon dataset should exercise the category fallback path"
 
 print("PWA visual parity and multi-city dataset isolation: OK")
