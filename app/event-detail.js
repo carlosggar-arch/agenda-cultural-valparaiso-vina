@@ -168,7 +168,7 @@ export function openEventDetail(event, presentation = {}) {
       provenance,
       "p",
       "",
-      "Esta ficha se construye con los datos oficiales publicados por Open Data del Ayuntamiento de Gijón/Xixón. La página municipal individual puede aparecer vacía; los datos mostrados aquí siguen procediendo de la fuente oficial.",
+      "Esta ficha reproduce los datos oficiales publicados por Open Data del Ayuntamiento de Gijón/Xixón. Para evitar páginas municipales individuales que no muestran contenido, la Agenda ofrece directamente la inscripción cuando está disponible y conserva Open Data como referencia oficial.",
     );
     content.append(provenance);
   }
@@ -181,9 +181,6 @@ export function openEventDetail(event, presentation = {}) {
   if (registration) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
   if (gijonOpenData) {
     if (source && source !== registration) addExternalAction(actions, source, "Open Data oficial ↗");
-    if (official && official !== source && official !== registration) {
-      addExternalAction(actions, official, "Página municipal ↗");
-    }
   } else {
     if (official && official !== registration) addExternalAction(actions, official, "Fuente oficial ↗");
     if (source && source !== official && source !== registration) addExternalAction(actions, source, "Fuente de datos ↗");
