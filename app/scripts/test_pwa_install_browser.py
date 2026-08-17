@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__pwa_install_test.html"
+FIRST_OPEN_PAGE = APP / "__pwa_first_open_test.html"
 
 REQUIRED_MARKERS = {
     'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
@@ -25,6 +26,17 @@ REQUIRED_MARKERS = {
     'data-mobile-touch-target="true"': "Mobile navigation touch targets are smaller than 44px",
     'data-mobile-city-current="true"': "Current city is not reflected in the mobile city chooser",
     'data-mobile-styles-loaded="true"': "Mobile experience stylesheet did not load",
+}
+
+FIRST_OPEN_MARKERS = {
+    'data-first-open-done="true"': "First-open probe did not finish",
+    'data-first-open-required="true"': "First-open city selection is not mandatory",
+    'data-first-open-visible="true"': "First-open chooser is not visible",
+    'data-first-open-copy="true"': "First-open chooser copy is not tailored to choosing a city",
+    'data-first-open-close-hidden="true"': "First-open chooser can be dismissed before choosing a city",
+    'data-first-open-bottom-sheet="true"': "Phone-width chooser is not anchored as a bottom sheet",
+    'data-first-open-option-target="true"': "First-open city option is too small for touch",
+    'data-first-open-nav-hidden="true"': "Bottom navigation competes visually with first-open chooser",
 }
 
 
@@ -41,12 +53,17 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-def make_test_page() -> None:
+def source_index() -> str:
     source = (APP / "index.html").read_text(encoding="utf-8")
     if '<script type="module" src="./pwa.js"></script>' not in source:
         raise AssertionError("Production pwa.js marker not found")
+    return source
+
+
+def make_test_pages() -> None:
+    source = source_index()
     bootstrap = '<script>localStorage.setItem("agenda-cultural-city", "valparaiso");</script>\n  '
-    probe = r'''
+    installed_probe = r'''
   <script>
     (() => {
       const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -84,9 +101,32 @@ def make_test_page() -> None:
     })();
   </script>
 '''
-    source = source.replace("<body>", "<body>\n  " + bootstrap, 1)
-    source = source.replace("</body>", probe + "\n</body>", 1)
-    TEST_PAGE.write_text(source, encoding="utf-8")
+    installed_source = source.replace("<body>", "<body>\n  " + bootstrap, 1)
+    TEST_PAGE.write_text(installed_source.replace("</body>", installed_probe + "\n</body>", 1), encoding="utf-8")
+
+    first_open_probe = r'''
+  <script>
+    setTimeout(() => {
+      const backdrop = document.querySelector("[data-chooser-backdrop]");
+      const chooser = document.querySelector("[data-chooser]");
+      const close = document.querySelector("[data-chooser-close]");
+      const title = document.querySelector("#chooser-title")?.textContent?.trim() || "";
+      const option = document.querySelector('[data-city-option="valparaiso"]');
+      const nav = document.querySelector("[data-mobile-tabbar]");
+      const rect = chooser?.getBoundingClientRect();
+      const bottomSheet = Boolean(rect && Math.abs(rect.bottom - window.innerHeight) <= 2);
+      document.body.dataset.firstOpenDone = "true";
+      document.body.dataset.firstOpenRequired = String(backdrop?.dataset.selectionRequired === "true");
+      document.body.dataset.firstOpenVisible = String(Boolean(backdrop && !backdrop.hidden));
+      document.body.dataset.firstOpenCopy = String(title.includes("Dónde quieres descubrir planes"));
+      document.body.dataset.firstOpenCloseHidden = String(Boolean(close?.hidden));
+      document.body.dataset.firstOpenBottomSheet = String(bottomSheet);
+      document.body.dataset.firstOpenOptionTarget = String(Boolean(option && option.getBoundingClientRect().height >= 72));
+      document.body.dataset.firstOpenNavHidden = String(Boolean(nav?.hidden));
+    }, 2600);
+  </script>
+'''
+    FIRST_OPEN_PAGE.write_text(source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
 
 
 def probe_state(dom: str) -> tuple[bool, str]:
@@ -98,20 +138,29 @@ def probe_state(dom: str) -> tuple[bool, str]:
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no probe attributes'}"
 
 
+def first_open_state(dom: str) -> tuple[bool, str]:
+    missing = [message for marker, message in FIRST_OPEN_MARKERS.items() if marker not in dom]
+    observed = ", ".join(re.findall(r'data-first-open-[a-z-]+="[^"]*"', dom)[-10:])
+    return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no first-open attributes'}"
+
+
+def chrome_command(url: str, profile: str, budget: int) -> list[str]:
+    return [
+        chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
+        "--disable-dev-shm-usage", "--disable-background-networking",
+        "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
+        "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
+        "--window-size=390,844", f"--virtual-time-budget={budget}",
+        f"--user-data-dir={profile}", "--dump-dom", url,
+    ]
+
+
 def run_chrome(url: str) -> str:
     errors: list[str] = []
     for attempt in range(1, 4):
         with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
-            cmd = [
-                chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
-                "--disable-dev-shm-usage", "--disable-background-networking",
-                "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
-                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--window-size=390,844", "--virtual-time-budget=18000",
-                f"--user-data-dir={profile}", "--dump-dom", url,
-            ]
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=50)
+                result = subprocess.run(chrome_command(url, profile, 18000), cwd=ROOT, text=True, capture_output=True, timeout=50)
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
@@ -128,25 +177,41 @@ def run_chrome(url: str) -> str:
     raise AssertionError(f"Installed-PWA probe failed after three isolated attempts: {' | '.join(errors)}")
 
 
+def run_first_open(url: str) -> str:
+    with tempfile.TemporaryDirectory(prefix="agenda-first-open-", ignore_cleanup_errors=True) as profile:
+        result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=30)
+    if result.returncode != 0 or not result.stdout:
+        raise AssertionError(f"First-open Chrome probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    ok, state = first_open_state(result.stdout)
+    if not ok:
+        raise AssertionError(state)
+    return result.stdout
+
+
 def main() -> None:
     os.chdir(ROOT)
-    make_test_page()
+    make_test_pages()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start(); time.sleep(0.2)
         try:
+            first_open_dom = run_first_open(f"http://127.0.0.1:{port}/app/__pwa_first_open_test.html")
             dom = run_chrome(f"http://127.0.0.1:{port}/app/__pwa_install_test.html")
         finally:
-            server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
+            server.shutdown(); thread.join(timeout=2)
+            TEST_PAGE.unlink(missing_ok=True); FIRST_OPEN_PAGE.unlink(missing_ok=True)
 
+    ok, state = first_open_state(first_open_dom)
+    if not ok:
+        raise AssertionError(state)
     ok, state = probe_state(dom)
     if not ok:
         raise AssertionError(state)
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     assert match is not None
-    print(f"Installed PWA mobile test: service worker active, one-hand navigation visible, and {match.group(1)} Valparaiso cards rendered")
+    print(f"Mobile PWA test: first-open chooser, one-hand navigation, touch targets and {match.group(1)} Valparaiso cards validated")
 
 
 if __name__ == "__main__":
