@@ -74,13 +74,21 @@ jobs:
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
 
-      - name: Run current multi-city contracts
+      - name: Run Gijon editorial contracts
         run: |
           set -euo pipefail
           python app/scripts/test_gijon_editorial.py
           python app/scripts/test_gijon_source_detail.py
+
+      - name: Run advanced filter contracts
+        run: |
+          set -euo pipefail
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_contextual_filters.py
+
+      - name: Run schedule and joint pre-release contracts
+        run: |
+          set -euo pipefail
           node app/scripts/test_schedule_display.mjs
           python app/scripts/test_pre_release.py
 
