@@ -48,20 +48,24 @@ function createTabButton(action, icon, label) {
 
 function buildTabbar() {
   let nav = document.querySelector("[data-mobile-tabbar]");
-  if (nav) return nav;
-  nav = document.createElement("nav");
-  nav.className = "mobile-tabbar";
-  nav.dataset.mobileTabbar = "true";
-  nav.setAttribute("aria-label", "Navegación rápida");
-  nav.append(
-    createTabButton("agenda", "⌂", "Agenda"),
-    createTabButton("search", "⌕", "Buscar"),
-    createTabButton("plans", "★", "Mis planes"),
-    createTabButton("city", "⌖", "Ciudad"),
-  );
-  // The bottom tab bar duplicated controls already available in the top interface.
-  // Keep the internal object detached so the rest of the mobile helpers remain harmless.
-  nav.hidden = true;
+  if (!nav) {
+    nav = document.createElement("nav");
+    nav.className = "mobile-tabbar mobile-topnav";
+    nav.dataset.mobileTabbar = "true";
+    nav.setAttribute("aria-label", "Navegación rápida");
+    nav.append(
+      createTabButton("agenda", "⌂", "Agenda"),
+      createTabButton("search", "⌕", "Buscar"),
+      createTabButton("plans", "★", "Mis planes"),
+      createTabButton("city", "⌖", "Ciudad"),
+    );
+  }
+
+  // The old bottom bar was intentionally removed. Keep these four shortcuts
+  // in the top header instead, where the app already exposes its main controls.
+  const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
+  if (host && nav.parentElement !== host) host.append(nav);
+  nav.hidden = false;
   return nav;
 }
 
@@ -130,7 +134,7 @@ function modalIsOpen() {
 
 function syncModalVisibility() {
   const openModal = modalIsOpen();
-  if (tabbar.hidden !== openModal) tabbar.hidden = openModal;
+  tabbar.hidden = openModal;
   if (!openModal && document.documentElement.dataset.city) setActive("agenda");
 }
 
