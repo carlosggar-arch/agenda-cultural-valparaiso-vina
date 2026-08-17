@@ -148,11 +148,12 @@ def main() -> None:
             actionable_time.append(event_id)
 
         if event.get("source_id") == "gijon_opendata_events":
-            for key in ("official", "source"):
-                candidate = clean(links.get(key))
-                host = (urlparse(candidate).hostname or "").casefold() if candidate else ""
-                if host in {"gijon.es", "www.gijon.es"}:
-                    bad_opendata_aliases.append((event_id, key, candidate))
+            municipal_page = clean(links.get("municipal_page")).rstrip("/")
+            if municipal_page:
+                for key in ("official", "source"):
+                    candidate = clean(links.get(key)).rstrip("/")
+                    if candidate and candidate == municipal_page:
+                        bad_opendata_aliases.append((event_id, key, candidate))
 
     if invalid_links:
         raise AssertionError(f"Invalid official links: {invalid_links[:8]}")
