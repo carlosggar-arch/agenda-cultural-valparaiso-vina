@@ -1,6 +1,4 @@
-const CACHE_VERSION = "v25";
-// Runtime revision 26 refreshes the shell so installed apps receive the improved
-// Gijon official-data event detail without changing the stable cache contract.
+const CACHE_VERSION = "v27";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -8,10 +6,12 @@ const SHELL_ASSETS = [
   "./",
   "./index.html",
   "./app.css",
+  "./combined-filters.css",
   "./city-header.css",
   "./header-redesign.css",
   "./app.js",
-  "./contextual-filters.js",
+  "./combined-filters.js",
+  "./combined-filters-polish.js",
   "./pwa.js",
   "./vivamos-brand.js",
   "./header-redesign.js",
@@ -24,7 +24,6 @@ const SHELL_ASSETS = [
   "./card-image-fallback.js",
   "./compact-top.js",
   "./gijon-visual-reference.js",
-  "./lean-filters.js",
   "./sources-toggle.js",
   "./community-source.js",
   "./community-source.css",
@@ -69,8 +68,6 @@ self.addEventListener("activate", (event) => {
     await Promise.all(names
       .filter((name) => name.startsWith("agenda-cultural-") && ![SHELL_CACHE, DATA_CACHE].includes(name))
       .map((name) => caches.delete(name)));
-    // Claim already-open pages without forcing any navigation. Reloading during
-    // first install/update can loop before the standalone app becomes stable.
     await self.clients.claim();
   })());
 });
@@ -101,23 +98,18 @@ async function networkFirstShell(request) {
 
 async function networkFirstDataset(request) {
   const cache = await caches.open(DATA_CACHE);
-
   try {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
     await cache.put(request, response.clone());
-
     const cachedRequests = await cache.keys();
     await Promise.all(cachedRequests
       .filter((cachedRequest) => cachedRequest.url !== request.url)
       .map((cachedRequest) => cache.delete(cachedRequest)));
-
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
     if (cached) return cached;
-
     return new Response(JSON.stringify({ error: "offline_dataset_unavailable" }), {
       status: 503,
       headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -128,20 +120,14 @@ async function networkFirstDataset(request) {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
-
   const requestUrl = new URL(request.url);
-
   if (request.mode === "navigate") {
     event.respondWith(networkFirstNavigation(request));
     return;
   }
-
   if (DATASET_URLS.has(requestUrl.href)) {
     event.respondWith(networkFirstDataset(request));
     return;
   }
-
-  if (requestUrl.origin === self.location.origin) {
-    event.respondWith(networkFirstShell(request));
-  }
+  if (requestUrl.origin === self.location.origin) event.respondWith(networkFirstShell(request));
 });
