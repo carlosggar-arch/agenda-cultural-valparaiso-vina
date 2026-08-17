@@ -48,8 +48,8 @@ def check_manifest_and_icons() -> None:
 def check_service_worker() -> None:
     sw = (APP / "service-worker.js").read_text(encoding="utf-8")
     assert "networkFirstDataset" in sw
-    assert "../agenda_web.json" in sw
-    assert "./data/gijon/agenda_web.json" in sw
+    assert '"./cities.json"' in sw
+    assert "new URL(city.dataset, self.registration.scope).href" in sw
     assert "DATA_CACHE" in sw
     assert "SHELL_CACHE" in sw
 
@@ -64,12 +64,20 @@ def check_ui_contract() -> None:
     app_js = (APP / "app.js").read_text(encoding="utf-8")
     pwa_js = (APP / "pwa.js").read_text(encoding="utf-8") if (APP / "pwa.js").exists() else ""
     event_detail_js = (APP / "event-detail.js").read_text(encoding="utf-8")
+    registry_js = (ROOT / "assets/city-registry.mjs").read_text(encoding="utf-8")
+    registry = load_json(APP / "cities.json")
 
     assert './manifest.webmanifest' in index
     assert './icons/icon-192.png' in index
     assert ('./service-worker.js' in app_js) or ('./service-worker.js' in pwa_js)
-    assert '../agenda_web.json' in app_js
-    assert './data/gijon/agenda_web.json' in app_js
+    assert 'data-city-options' in index
+    assert 'city-registry.mjs' in app_js
+    assert 'const CITIES = CITY_REGISTRY.byId' in app_js
+    assert 'fetch(city.dataset' in app_js
+    assert 'export function loadCityRegistry' in registry_js
+    by_id = {city["id"]: city for city in registry.get("cities", [])}
+    assert by_id["valparaiso"]["dataset"] == "../agenda_web.json"
+    assert by_id["gijon"]["dataset"] == "./data/gijon/agenda_web.json"
     assert 'event?.event_type === "program"' in app_js
     assert 'event?.event_type === "flexible_offer"' in app_js
 
@@ -181,7 +189,7 @@ def main() -> None:
     check_valparaiso_dataset_compatibility()
     check_gijon_source_path()
     check_duplicate_public_writer_retired()
-    print("Joint multi-city pre-release contract: OK")
+    print("Joint registry-driven multi-city pre-release contract: OK")
 
 
 if __name__ == "__main__":
