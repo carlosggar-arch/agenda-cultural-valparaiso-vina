@@ -5,6 +5,7 @@ const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 const SHELL_ASSETS = [
   "./",
   "./index.html",
+  "./mis-planes.html",
   "./app.css",
   "./combined-filters.css",
   "./city-header.css",
@@ -51,6 +52,9 @@ const SHELL_ASSETS = [
   "../assets/favorites-core.mjs",
   "../assets/favorites-view.mjs",
   "../assets/favorites.css",
+  "../assets/favorites-access.css",
+  "../assets/mis-planes-page.mjs",
+  "../assets/mis-planes-page.css",
   "../assets/categoria-cine.jpg",
   "../assets/categoria-cultura.jpg",
   "../assets/categoria-deportes.jpg",
@@ -123,7 +127,6 @@ async function networkFirstDataset(request) {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
-    // v34 deliberately keeps both city datasets instead of evicting the other one.
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
