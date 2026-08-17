@@ -1,0 +1,32 @@
+name: Sync Stage 3.2 public branch with main
+
+on:
+  push:
+    branches: [feature/stage32-private-analytics]
+    paths:
+      - ".github/workflows/sync-stage32-public-main.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-stage32-public-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/stage32-private-analytics
+          fetch-depth: 0
+      - name: Merge current main without forcing
+        run: |
+          set -euo pipefail
+          git config user.name "agenda-cultural-stage32[bot]"
+          git config user.email "agenda-cultural-stage32[bot]@users.noreply.github.com"
+          git fetch origin main
+          git merge --no-edit origin/main
+          git push origin HEAD:feature/stage32-private-analytics
