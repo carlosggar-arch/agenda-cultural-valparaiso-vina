@@ -2,6 +2,15 @@ const MOBILE_QUERY = "(max-width: 700px)";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
 
+function installMobileStyles() {
+  if (document.querySelector('link[data-mobile-experience-styles]')) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "./mobile-experience.css";
+  link.dataset.mobileExperienceStyles = "true";
+  document.head.append(link);
+}
+
 function isStandalone() {
   return Boolean(standaloneQuery?.matches || window.navigator.standalone === true);
 }
@@ -36,6 +45,7 @@ function buildTabbar() {
   return nav;
 }
 
+installMobileStyles();
 const tabbar = buildTabbar();
 
 function setActive(action) {
@@ -104,9 +114,10 @@ function restoreChooserCopyForManualSwitch() {
 
 document.querySelector("[data-city-switch]")?.addEventListener("click", restoreChooserCopyForManualSwitch);
 
-new MutationObserver(() => {
-  syncCityOptionState();
-}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
+new MutationObserver(syncCityOptionState).observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ["data-city"],
+});
 
 new MutationObserver(syncModalVisibility).observe(document.body, {
   childList: true,
