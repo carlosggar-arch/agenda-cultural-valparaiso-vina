@@ -31,9 +31,10 @@ def prepare_page(city: str) -> None:
       });
       const workbench = document.querySelector(".filter-workbench");
       const dividerStyle = workbench ? getComputedStyle(workbench, "::before") : null;
-      const whenGroup = document.querySelector("[data-combined-when]")?.closest(".filter-group");
+      const whenRow = document.querySelector("[data-combined-when]");
+      const whenGroup = whenRow?.closest(".filter-group");
       const whenGroupStyle = whenGroup ? getComputedStyle(whenGroup) : null;
-      const whenTitleStyle = whenGroup ? getComputedStyle(whenGroup, "::before") : null;
+      const whenTitleStyle = whenRow ? getComputedStyle(whenRow, "::before") : null;
 
       document.body.dataset.densityControlsPosition = controls ? getComputedStyle(controls).position : "missing";
       document.body.dataset.densityControlsTopGap = headerRect && controlsRect ? String(Math.round(controlsRect.top - headerRect.top)) : "999";
@@ -50,6 +51,7 @@ def prepare_page(city: str) -> None:
         && whenTitleStyle.content.includes("Cuándo")
         && whenTitleStyle.display !== "none"
         && whenTitleStyle.visibility !== "hidden"
+        && Number.parseFloat(whenTitleStyle.top || "-1") >= 0
       ));
       document.body.dataset.densityWhenLineHeight = String(
         Math.round(Number.parseFloat(whenTitleStyle?.lineHeight || "0"))
@@ -118,7 +120,7 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError(f"Header controls are not near the right edge for {city}: {right_gap}px")
     if line_height < 10:
         raise AssertionError(f"When title line-height remains cramped for {city}: {line_height}px")
-    if padding_top < 5:
+    if padding_top < 20:
         raise AssertionError(f"When group has insufficient top breathing room for {city}: {padding_top}px")
 
     print(f"Density runtime {city}: compact header, mosaic divider and readable When filter OK")
