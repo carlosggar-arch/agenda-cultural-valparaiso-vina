@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T21:09:22+00:00",
+  "generated_at": "2026-08-17T21:14:03+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -10,20 +10,21 @@
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
+        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T16:27:15-04:00",
-        "generated_age_hours": 0.7
+        "generated_at": "2026-08-17T17:11:18-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 111,
-        "schedule_expected_events": 107,
-        "dated_events": 107,
-        "timed_events": 107,
-        "relevant_image_events": 95,
+        "total_events": 94,
+        "schedule_expected_events": 90,
+        "dated_events": 90,
+        "timed_events": 90,
+        "relevant_image_events": 72,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -32,7 +33,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 85.6
+        "relevant_image_pct": 76.6
       },
       "samples": {
         "missing_time": [],
@@ -82,8 +83,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 29,
-            "venue_events": 29,
+            "direct_events": 17,
+            "venue_events": 17,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -93,40 +94,40 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 18,
-            "indirect_venue_events": 18,
+            "venue_events": 10,
+            "indirect_venue_events": 10,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_910efa5e83617e2fc0b2",
-                "title": "La Odisea"
+                "id": "agenda_c4796df823a3e4bf9d1091cc",
+                "title": "La Odisea."
               },
               {
-                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
-                "title": "La leyenda del Caballero Verde"
+                "id": "agenda_3603f81124e0895e2c542a86",
+                "title": "La leyenda del Caballero Verde."
               },
               {
-                "id": "agenda_cinema_44ab43b85cc473b16183",
-                "title": "Mil pedazos"
+                "id": "agenda_33be80711267454b771e5406",
+                "title": "Mil pedazos."
               },
               {
-                "id": "agenda_cinema_1e08ffff4a06cf9bae27",
-                "title": "La Odisea"
+                "id": "agenda_4ab52ce49d07e0e9b85121e4",
+                "title": "Gattaca: Experimento genético."
               },
               {
-                "id": "agenda_cinema_94fe0a4864dbb6ad343c",
-                "title": "Gattaca: Experimento genético"
+                "id": "agenda_7e1120584cb46a5a56180f88",
+                "title": "La invitación."
               },
               {
-                "id": "agenda_cinema_12c87725d899d24a8316",
-                "title": "La invitación"
+                "id": "agenda_b173bd3c93b9cb2b2acc821e",
+                "title": "Pearl."
               },
               {
-                "id": "agenda_cinema_89fad76159b4f9f63f23",
-                "title": "La invitación"
+                "id": "agenda_c69d51a400cea7ba8e9e29f8",
+                "title": "Spider-Man: Un nuevo día."
               },
               {
-                "id": "agenda_cinema_ba27d66cc859b30a8f0a",
-                "title": "La Odisea"
+                "id": "agenda_1a55c8e4c92db5d2263ba2a8",
+                "title": "Crash: Extraños placeres."
               }
             ]
           },
@@ -178,9 +179,9 @@
             "city": "Valparaíso",
             "primary_recovery_attempted": null,
             "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
           }
         ],
         "indirect_source_warnings": [
@@ -190,72 +191,71 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 18,
-            "indirect_venue_events": 18,
+            "venue_events": 10,
+            "indirect_venue_events": 10,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_910efa5e83617e2fc0b2",
-                "title": "La Odisea"
+                "id": "agenda_c4796df823a3e4bf9d1091cc",
+                "title": "La Odisea."
               },
               {
-                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
-                "title": "La leyenda del Caballero Verde"
+                "id": "agenda_3603f81124e0895e2c542a86",
+                "title": "La leyenda del Caballero Verde."
               },
               {
-                "id": "agenda_cinema_44ab43b85cc473b16183",
-                "title": "Mil pedazos"
+                "id": "agenda_33be80711267454b771e5406",
+                "title": "Mil pedazos."
               },
               {
-                "id": "agenda_cinema_1e08ffff4a06cf9bae27",
-                "title": "La Odisea"
+                "id": "agenda_4ab52ce49d07e0e9b85121e4",
+                "title": "Gattaca: Experimento genético."
               },
               {
-                "id": "agenda_cinema_94fe0a4864dbb6ad343c",
-                "title": "Gattaca: Experimento genético"
+                "id": "agenda_7e1120584cb46a5a56180f88",
+                "title": "La invitación."
               },
               {
-                "id": "agenda_cinema_12c87725d899d24a8316",
-                "title": "La invitación"
+                "id": "agenda_b173bd3c93b9cb2b2acc821e",
+                "title": "Pearl."
               },
               {
-                "id": "agenda_cinema_89fad76159b4f9f63f23",
-                "title": "La invitación"
+                "id": "agenda_c69d51a400cea7ba8e9e29f8",
+                "title": "Spider-Man: Un nuevo día."
               },
               {
-                "id": "agenda_cinema_ba27d66cc859b30a8f0a",
-                "title": "La Odisea"
+                "id": "agenda_1a55c8e4c92db5d2263ba2a8",
+                "title": "Crash: Extraños placeres."
               }
             ]
           }
         ],
-        "checked_zero_sources": [
-          {
-            "id": "valparaiso_profundo",
-            "name": "Valparaíso Profundo",
-            "city": "Valparaíso",
-            "primary_recovery_attempted": null,
-            "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
-          }
-        ]
+        "checked_zero_sources": []
       },
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 0,
-        "venue_hours_enriched": 1,
+        "visit_hours_enriched": 16,
+        "venue_hours_enriched": 4,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0,
-        "removed_deadline_only_call": 0,
-        "removed_retrospective_post": 0
+        "removed_deadline_only_call": 1,
+        "removed_retrospective_post": 1
       },
       "publication_corrections": {
         "checked_at": "2026-08-17",
         "active_corrections": 1,
-        "applied_count": 0,
-        "applied": []
+        "applied_count": 1,
+        "applied": [
+          {
+            "correction_id": "baburizza_requiem_2026_end",
+            "event_id": "agenda_c16d049f287e6bc4922b56de",
+            "title": "Museo Baburizza – «Requiem para Pianos»",
+            "action": "drop_after_end",
+            "official_end_date": "2026-08-06",
+            "official_url": "https://www.museobaburizza.cl/agenda/",
+            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
+          }
+        ]
       }
     },
     "gijon": {
@@ -270,7 +270,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T20:58:47+02:00",
-        "generated_age_hours": 2.2
+        "generated_age_hours": 2.3
       },
       "counts": {
         "total_events": 100,
@@ -660,7 +660,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.54002672925793,
+    "usage_usd": 4.540027394222248,
     "remaining_usd": 0.0
   }
 }
