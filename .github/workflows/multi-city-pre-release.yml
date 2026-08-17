@@ -66,6 +66,7 @@ jobs:
           node --check app/service-worker.js
           node --check app/combined-filters.js
           node --check app/combined-filters-polish.js
+          node --check app/search-filter-upgrade.js
           node --check app/density-polish.js
           node --check app/sources-toggle.js
           node --check app/schedule-display.js
@@ -96,11 +97,13 @@ jobs:
           grep -F '"start_url": "./app/"' manifest.webmanifest
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
-          grep -F 'const APP_VERSION = "PWA v27"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v27"' app/service-worker.js
+          grep -F 'const APP_VERSION = "PWA v28"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v28"' app/service-worker.js
           grep -F '"./combined-filters.js"' app/service-worker.js
           grep -F '"./combined-filters.css"' app/service-worker.js
           grep -F '"./combined-filters-polish.js"' app/service-worker.js
+          grep -F '"./search-filter-upgrade.js"' app/service-worker.js
+          grep -F '"./search-filter-upgrade.css"' app/service-worker.js
           grep -F '"./gijon-venue-hours.js"' app/service-worker.js
           grep -F '"./event-detail.js"' app/service-worker.js
           ! grep -F 'client.navigate(' app/service-worker.js
