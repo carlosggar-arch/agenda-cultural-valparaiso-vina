@@ -24,7 +24,9 @@ assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
 assert 'fetch(city.dataset' in app_js
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
-assert 'cachedRequest.url !== request.url' in service_worker
+assert 'async function warmDatasetCache()' in service_worker
+assert 'Promise.allSettled([...DATASET_URLS]' in service_worker
+assert 'await cache.put(request, response.clone())' in service_worker
 
 # City can be chosen explicitly, remembered, or suggested from device location.
 assert index.count('data-city-option="valparaiso"') == 1
