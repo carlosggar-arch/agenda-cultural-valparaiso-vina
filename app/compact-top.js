@@ -81,12 +81,11 @@ if (!document.getElementById(STYLE_ID)) {
       border-radius: 0 !important;
       background: transparent !important;
     }
-    /* Keep the semantic legend for accessibility but render “Cuándo” from the
-       ordinary date-row div. Chromium treats fieldset/legend geometry specially;
-       anchoring to the real div guarantees an unclipped title and reserved space. */
+    /* Keep the semantic legend for accessibility but render and space “Cuándo”
+       from the ordinary date-row div. Chromium treats fieldset/legend geometry
+       specially, while padding on the real div is stable and measurable. */
     .filter-group:has([data-combined-when]) {
       position: relative !important;
-      padding-top: 1.55rem !important;
       padding-bottom: .34rem !important;
     }
     .filter-group-title {
@@ -106,10 +105,14 @@ if (!document.getElementById(STYLE_ID)) {
       white-space: nowrap !important;
       border: 0 !important;
     }
+    [data-combined-when] {
+      position: relative !important;
+      padding-top: 1.55rem !important;
+    }
     [data-combined-when]::before {
       content: "Cuándo";
       position: absolute !important;
-      top: .36rem !important;
+      top: .08rem !important;
       left: 0 !important;
       display: block !important;
       color: var(--brand) !important;
@@ -195,12 +198,9 @@ if (!document.getElementById(STYLE_ID)) {
       }
       .filter-grid { grid-template-columns: 1fr !important; gap: .18rem !important; }
       .filter-group { padding: .18rem 0 !important; }
-      .filter-group:has([data-combined-when]) {
-        padding-top: 1.62rem !important;
-        padding-bottom: .34rem !important;
-      }
+      .filter-group:has([data-combined-when]) { padding-bottom: .34rem !important; }
       [data-combined-when]::before {
-        top: .4rem !important;
+        top: .1rem !important;
         line-height: 1.3 !important;
       }
       .filter-choice-row {
@@ -210,7 +210,7 @@ if (!document.getElementById(STYLE_ID)) {
         scrollbar-width: thin;
       }
       .filter-group:has([data-combined-when]) .filter-choice-row {
-        padding: .02rem .02rem .16rem !important;
+        padding: 1.62rem .02rem .16rem !important;
         scroll-padding-inline: .02rem;
       }
       .filter-choice { flex: 0 0 auto !important; white-space: nowrap !important; }
