@@ -9,6 +9,7 @@
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./combined-filters.css">
   <link rel="stylesheet" href="./city-header.css">
   <title>¡Vivamos!</title>
 </head>
@@ -49,10 +50,13 @@
       <h1 data-hero-title>Tu agenda cultural, donde estés</h1>
       <p class="hero-copy" data-hero-copy>La aplicación recuerda tu ciudad y carga únicamente sus actividades.</p>
       <div class="search-row" hidden data-search-row>
-        <label>
-          <span class="sr-only">Buscar actividades</span>
-          <input type="search" data-search placeholder="Buscar evento, recinto o categoría…" autocomplete="off">
-        </label>
+        <div class="smart-search">
+          <label>
+            <span class="sr-only">Buscar actividades</span>
+            <input type="search" data-smart-search placeholder="Buscar evento, artista, recinto, fuente o categoría…" autocomplete="off">
+          </label>
+        </div>
+        <input class="legacy-filter-hooks" type="search" data-search tabindex="-1" aria-hidden="true" autocomplete="off">
       </div>
     </section>
 
@@ -65,26 +69,74 @@
       <div class="discovery-heading">
         <div>
           <p class="eyebrow">Explora la agenda</p>
-          <h2 id="discovery-title">¿Qué te apetece hacer?</h2>
+          <h2 id="discovery-title">Encuentra justo lo que buscas</h2>
         </div>
-        <p>Elige un momento o una categoría. Los resultados se adaptan a la ciudad activa.</p>
+        <p>Combina fecha, zona, precio, categorías y palabras clave. Los filtros funcionan juntos y puedes compartir el resultado por URL.</p>
       </div>
 
-      <nav class="quick-sections" data-section-filters aria-label="Filtros rápidos por tiempo y precio">
+      <nav class="quick-sections legacy-filter-hooks" data-section-filters aria-hidden="true">
         <button type="button" data-section-filter="hoy" aria-pressed="false"><span>Hoy</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="fin-de-semana" aria-pressed="false"><span>Fin de semana</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="terminan-pronto" aria-pressed="false"><span>Terminan pronto</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="gratis" aria-pressed="false"><span>Gratis</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="todos" aria-pressed="false"><span>Todo</span><small data-section-count>0</small></button>
       </nav>
+      <div class="legacy-filter-hooks" data-category-filters aria-hidden="true"></div>
 
-      <div class="category-explorer">
-        <div class="category-explorer-heading">
-          <h3>Explora por categoría</h3>
-          <p>Los contadores se adaptan al filtro y a la búsqueda actuales.</p>
+      <section class="filter-workbench" aria-label="Filtros combinados de actividades">
+        <div class="filter-workbench-heading">
+          <div>
+            <h3>Combina tus filtros</h3>
+            <p>Las dimensiones se cruzan entre sí: por ejemplo, música gratis en Viña durante los próximos siete días.</p>
+          </div>
+          <p class="filter-help">Las categorías permiten selección múltiple.</p>
         </div>
-        <div class="category-filters" data-category-filters aria-label="Categorías de actividades"></div>
-      </div>
+
+        <div class="filter-grid">
+          <fieldset class="filter-group">
+            <legend class="filter-group-title">Cuándo</legend>
+            <div class="filter-choice-row" data-combined-when>
+              <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquier fecha <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="hoy" aria-pressed="false">Hoy <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="manana" aria-pressed="false">Mañana <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="fin-de-semana" aria-pressed="false">Fin de semana <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="7-dias" aria-pressed="false">7 días <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="terminan-pronto" aria-pressed="false">Terminan pronto <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="personalizado" aria-pressed="false">Elegir fechas</button>
+            </div>
+            <div class="custom-date-range" data-custom-dates hidden>
+              <label>Desde <input type="date" data-date-from></label>
+              <label>Hasta <input type="date" data-date-to></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group" data-area-filter-group>
+            <legend class="filter-group-title">Dónde</legend>
+            <div class="filter-choice-row" data-combined-area>
+              <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Valpo + Viña <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="valparaiso" aria-pressed="false">Valparaíso <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="vina" aria-pressed="false">Viña del Mar <small data-combined-count>0</small></button>
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend class="filter-group-title">Precio</legend>
+            <div class="filter-choice-row" data-combined-price>
+              <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Todos <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="gratis" aria-pressed="false">Gratis <small data-combined-count>0</small></button>
+              <button class="filter-choice" type="button" data-filter-value="pago" aria-pressed="false">De pago <small data-combined-count>0</small></button>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="category-filter-panel">
+          <div class="category-explorer-heading">
+            <h3>Categorías</h3>
+            <p>Puedes marcar varias a la vez; dentro de esta dimensión se combinan como alternativas.</p>
+          </div>
+          <div class="category-filters" data-combined-category-filters aria-label="Categorías combinables"></div>
+        </div>
+      </section>
     </section>
 
     <section class="agenda" hidden data-agenda>
@@ -156,7 +208,7 @@
   <footer>
     <strong>¡Vivamos!</strong>
     <span>Descubre y vive lo que hay cerca de ti.</span>
-    <small data-app-version>PWA v18</small>
+    <small data-app-version>PWA v26</small>
   </footer>
 
   <div class="chooser-backdrop" hidden data-chooser-backdrop>
@@ -220,7 +272,7 @@
     })();
   </script>
   <script type="module" src="./app.js"></script>
-  <script type="module" src="./contextual-filters.js"></script>
+  <script type="module" src="./combined-filters.js"></script>
   <script type="module" src="./pwa.js"></script>
 </body>
 </html>
