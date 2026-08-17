@@ -38,7 +38,7 @@ if new not in text:
         raise SystemExit("EVENT_JSONLD_ANCHOR_MISSING")
     text = text.replace(old, new, 1)
 
-if '"BreadcrumbList", "itemListElement"' not in text:
+if "landing_primary = dict(ld)" not in text:
     old = '''    if image:\n        ld["image"] = image\n    og_image ='''
     new = '''    if image:\n        ld["image"] = image\n    landing_primary = dict(ld)\n    landing_primary.pop("@context", None)\n    ld = {\n        "@context": "https://schema.org",\n        "@graph": [\n            landing_primary,\n            {"@type": "BreadcrumbList", "itemListElement": [\n                {"@type": "ListItem", "position": 1, "name": "¡Vivamos! · Agenda Cultural", "item": f"{SITE_BASE}/"},\n                {"@type": "ListItem", "position": 2, "name": "Agenda Cultural Gijón / Xixón", "item": canonical},\n            ]},\n        ],\n    }\n    og_image ='''
     if old not in text:
