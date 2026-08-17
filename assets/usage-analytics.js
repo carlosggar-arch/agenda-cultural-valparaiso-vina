@@ -7,10 +7,17 @@
   let appOpenSent = false;
   const searchTimers = new WeakMap();
 
+  const safeCity = (value) => {
+    const city = String(value ?? "").normalize("NFKC").trim().toLocaleLowerCase("en-US");
+    return /^[a-z0-9][a-z0-9-]{0,63}$/.test(city) ? city : "";
+  };
+
   const currentCity = () => {
-    const dataCity = document.documentElement.dataset.city || document.body?.dataset.city;
-    if (dataCity === "gijon" || dataCity === "valparaiso") return dataCity;
-    if (/\/gijon\//.test(location.pathname) || /\/evento\/gijon\//.test(location.pathname)) return "gijon";
+    const dataCity = safeCity(document.documentElement.dataset.city || document.body?.dataset.city);
+    if (dataCity) return dataCity;
+    const match = location.pathname.match(/\/evento\/([a-z0-9][a-z0-9-]{0,63})\//i);
+    if (match) return safeCity(match[1]) || "valparaiso";
+    if (/\/gijon\//.test(location.pathname)) return "gijon";
     return "valparaiso";
   };
 
@@ -50,7 +57,7 @@
       value: cleanToken(options.value || "", 80),
       event_id: eventIdFor(options.node || null),
     };
-    if (!item.event) return;
+    if (!item.event || !item.city) return;
     queue.push(item);
     if (queue.length >= 10) flush();
     else if (!timer) timer = window.setTimeout(flush, 700);
@@ -73,7 +80,7 @@
       if (discovery && !appOpenSent) new MutationObserver(send).observe(discovery, { attributes: true, attributeFilter: ["hidden"] });
       return;
     }
-    track("landing_view", { dimension: "surface", value: currentCity() === "gijon" ? "city-landing" : "root" });
+    track("landing_view", { dimension: "surface", value: currentCity() === "valparaiso" ? "root" : "city-landing" });
   };
 
   document.addEventListener("click", (event) => {
@@ -81,7 +88,7 @@
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
     const city = target.closest("[data-city-option]");
-    if (city) track("city_select", { dimension: "city", value: city.dataset.cityOption });
+    if (city) track("city_select", { dimension: "city", value: safeCity(city.dataset.cityOption) });
 
     const when = target.closest("[data-combined-when] [data-filter-value]");
     if (when) track("filter_use", { dimension: "when", value: when.dataset.filterValue });
