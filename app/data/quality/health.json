@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T13:06:47+00:00",
+  "generated_at": "2026-08-17T13:11:38+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -9,20 +9,21 @@
       "today": "2026-08-17",
       "status": "warning",
       "warnings": [
+        "direct_source_preferred",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T07:08:55-04:00",
-        "generated_age_hours": 2.0
+        "generated_at": "2026-08-17T09:10:36-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 82,
-        "schedule_expected_events": 78,
-        "dated_events": 78,
-        "timed_events": 76,
-        "relevant_image_events": 66,
+        "total_events": 86,
+        "schedule_expected_events": 82,
+        "dated_events": 82,
+        "timed_events": 80,
+        "relevant_image_events": 70,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -30,8 +31,8 @@
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 97.4,
-        "relevant_image_pct": 80.5
+        "time_pct": 97.6,
+        "relevant_image_pct": 81.4
       },
       "samples": {
         "missing_time": [
@@ -92,8 +93,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 15,
-            "venue_events": 15,
+            "direct_events": 18,
+            "venue_events": 18,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -103,9 +104,14 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 0,
-            "indirect_venue_events": 0,
-            "indirect_samples": []
+            "venue_events": 1,
+            "indirect_venue_events": 1,
+            "indirect_samples": [
+              {
+                "id": "agenda_cinema_1a49202480b0c737110a",
+                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
+              }
+            ]
           },
           {
             "id": "teatromuseo",
@@ -150,16 +156,6 @@
         ],
         "zero_event_sources": [
           {
-            "id": "insomniacine",
-            "name": "INSOMNIA Teatro Condell",
-            "city": "Valparaíso",
-            "primary_recovery_attempted": null,
-            "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
-          },
-          {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
             "city": "Valparaíso",
@@ -170,18 +166,24 @@
             "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
           }
         ],
-        "indirect_source_warnings": [],
-        "checked_zero_sources": [
+        "indirect_source_warnings": [
           {
             "id": "insomniacine",
             "name": "INSOMNIA Teatro Condell",
             "city": "Valparaíso",
-            "primary_recovery_attempted": null,
-            "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
-          },
+            "agenda_url": "https://www.insomniacine.cl/cartelera/",
+            "direct_events": 0,
+            "venue_events": 1,
+            "indirect_venue_events": 1,
+            "indirect_samples": [
+              {
+                "id": "agenda_cinema_1a49202480b0c737110a",
+                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
+              }
+            ]
+          }
+        ],
+        "checked_zero_sources": [
           {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
@@ -197,9 +199,9 @@
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 2,
-        "venue_hours_enriched": 4,
-        "removed_title_quality": 1,
+        "visit_hours_enriched": 0,
+        "venue_hours_enriched": 1,
+        "removed_title_quality": 0,
         "removed_location_mismatch": 0
       },
       "publication_corrections": {
@@ -221,7 +223,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T15:06:09+02:00",
-        "generated_age_hours": 0.0
+        "generated_age_hours": 0.1
       },
       "counts": {
         "total_events": 97,
@@ -622,7 +624,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539762922787988,
+    "usage_usd": 4.539763586820984,
     "remaining_usd": 0.0
   }
 }
