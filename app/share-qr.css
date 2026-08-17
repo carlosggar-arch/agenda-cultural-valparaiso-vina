@@ -1,0 +1,78 @@
+/* Share QR entry point and dialog for ¡Vivamos! */
+.share-qr-button{
+  width:44px;
+  min-width:44px;
+  min-height:44px;
+  padding:0;
+  border:1px solid color-mix(in srgb,var(--brand,#174f46) 18%,#d5dfdd);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--paper,#fff) 92%,#fff);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(15,48,42,.08);
+}
+.share-qr-button:hover{transform:translateY(-1px)}
+.share-qr-button:focus-visible{
+  outline:3px solid color-mix(in srgb,var(--brand,#174f46) 28%,transparent);
+  outline-offset:2px;
+}
+.share-qr-button img{
+  width:20px;
+  height:20px;
+  display:block;
+}
+.share-qr-panel{max-width:28rem}
+.share-qr-preview{
+  display:flex;
+  justify-content:center;
+  margin:1rem 0 .75rem;
+}
+.share-qr-preview img{
+  width:min(220px,62vw);
+  height:auto;
+  aspect-ratio:1;
+  border-radius:1rem;
+  background:#fff;
+  padding:.8rem;
+  box-shadow:0 14px 34px rgba(15,48,42,.12);
+}
+.share-qr-link{
+  margin:.25rem 0 0;
+  text-align:center;
+  overflow-wrap:anywhere;
+  color:var(--muted,#5b6b68);
+  font-size:.92rem;
+}
+.share-qr-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.75rem;
+  margin-top:1rem;
+}
+.share-qr-action{
+  min-height:46px;
+  border:0;
+  border-radius:.95rem;
+  padding:.8rem 1rem;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  color:#fff;
+  background:var(--brand,#174f46);
+}
+.share-qr-action-secondary{
+  color:var(--brand,#174f46);
+  background:color-mix(in srgb,var(--brand,#174f46) 9%,#fff);
+  border:1px solid color-mix(in srgb,var(--brand,#174f46) 18%,#d5dfdd);
+}
+.share-qr-feedback{
+  min-height:1.25rem;
+  margin-top:.8rem;
+  text-align:center;
+}
+@media(max-width:700px){
+  .share-qr-button{width:44px;min-width:44px}
+  .share-qr-actions{grid-template-columns:1fr}
+}
