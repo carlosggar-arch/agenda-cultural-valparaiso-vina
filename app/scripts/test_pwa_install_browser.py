@@ -21,6 +21,10 @@ REQUIRED_MARKERS = {
     'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
     'data-pwa-version="PWA v33"': "Installed app did not load the current PWA v33 runtime",
     'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
+    'data-mobile-nav-visible="true"': "Mobile one-hand navigation is not visible at phone width",
+    'data-mobile-touch-target="true"': "Mobile navigation touch targets are smaller than 44px",
+    'data-mobile-city-current="true"': "Current city is not reflected in the mobile city chooser",
+    'data-mobile-styles-loaded="true"': "Mobile experience stylesheet did not load",
 }
 
 
@@ -59,12 +63,22 @@ def make_test_page() -> None:
         const cards = document.querySelectorAll(".event-card[data-event-id]").length;
         const version = document.querySelector("[data-app-version]")?.textContent?.trim() || "";
         const status = document.querySelector("[data-status]")?.textContent?.trim() || "";
+        const mobileNav = document.querySelector("[data-mobile-tabbar]");
+        const mobileCityButton = document.querySelector('[data-mobile-action="city"]');
+        const currentCity = document.querySelector('[data-city-option="valparaiso"][aria-current="true"]');
+        const mobileStyles = document.querySelector('link[data-mobile-experience-styles]');
+        const navVisible = Boolean(mobileNav && !mobileNav.hidden && getComputedStyle(mobileNav).display !== "none");
+        const touchTarget = mobileCityButton ? mobileCityButton.getBoundingClientRect().height >= 44 : false;
         document.body.dataset.pwaProbeDone = "true";
         document.body.dataset.pwaReady = String(ready);
         document.body.dataset.pwaControlled = String(Boolean(navigator.serviceWorker.controller));
         document.body.dataset.pwaCards = String(cards);
         document.body.dataset.pwaVersion = version;
         document.body.dataset.pwaStillPreparing = String(status.includes("Preparando la agenda"));
+        document.body.dataset.mobileNavVisible = String(navVisible);
+        document.body.dataset.mobileTouchTarget = String(touchTarget);
+        document.body.dataset.mobileCityCurrent = String(Boolean(currentCity));
+        document.body.dataset.mobileStylesLoaded = String(Boolean(mobileStyles));
       };
       probe();
     })();
@@ -80,7 +94,7 @@ def probe_state(dom: str) -> tuple[bool, str]:
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     if not match or int(match.group(1)) <= 0:
         missing.append("Installed PWA rendered no event cards")
-    observed = ", ".join(re.findall(r'data-pwa-[a-z-]+="[^"]*"', dom)[-8:])
+    observed = ", ".join(re.findall(r'data-(?:pwa|mobile)-[a-z-]+="[^"]*"', dom)[-12:])
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no probe attributes'}"
 
 
@@ -93,7 +107,8 @@ def run_chrome(url: str) -> str:
                 "--disable-dev-shm-usage", "--disable-background-networking",
                 "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
                 "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--virtual-time-budget=18000", f"--user-data-dir={profile}", "--dump-dom", url,
+                "--window-size=390,844", "--virtual-time-budget=18000",
+                f"--user-data-dir={profile}", "--dump-dom", url,
             ]
             try:
                 result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=50)
@@ -131,7 +146,7 @@ def main() -> None:
         raise AssertionError(state)
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     assert match is not None
-    print(f"Installed PWA browser test: service worker active and {match.group(1)} Valparaiso cards rendered")
+    print(f"Installed PWA mobile test: service worker active, one-hand navigation visible, and {match.group(1)} Valparaiso cards rendered")
 
 
 if __name__ == "__main__":
