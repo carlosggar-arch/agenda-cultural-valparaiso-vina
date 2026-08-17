@@ -6,6 +6,7 @@ import {
   removeFavorite,
   toggleFavorite,
 } from "./favorites-core.mjs";
+import { downloadReminderIcs, reminderOptionsForEvent } from "./favorites-reminders.mjs?v=20260817-reminders";
 
 function text(value) {
   return String(value ?? "").trim();
@@ -116,6 +117,40 @@ function removeButton(city, favorite, onChanged) {
   return button;
 }
 
+function reminderControl(city, event, pageUrl) {
+  const options = reminderOptionsForEvent(event);
+  if (!options.length) return null;
+
+  const disclosure = document.createElement("details");
+  disclosure.className = "my-plan-reminder";
+  const summary = document.createElement("summary");
+  summary.className = "my-plan-reminder-summary";
+  summary.textContent = "Recordarme";
+  summary.setAttribute("aria-label", `Crear recordatorio de calendario para ${event?.title || "esta actividad"}`);
+
+  const menu = document.createElement("div");
+  menu.className = "my-plan-reminder-menu";
+  for (const option of options) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "my-plan-reminder-option";
+    button.textContent = option.label;
+    button.addEventListener("click", (clickEvent) => {
+      clickEvent.preventDefault();
+      clickEvent.stopPropagation();
+      const prepared = downloadReminderIcs({ city, event, pageUrl, lead: option.id });
+      disclosure.open = false;
+      if (!prepared) return;
+      const original = summary.textContent;
+      summary.textContent = "Calendario ✓";
+      window.setTimeout(() => { summary.textContent = original; }, 1800);
+    });
+    menu.append(button);
+  }
+  disclosure.append(summary, menu);
+  return disclosure;
+}
+
 export function buildMyPlansSection({ city, locale, eventMap, eventPageHref, onChanged }) {
   const favorites = favoritesForCity(city);
   const section = document.createElement("section");
@@ -184,6 +219,8 @@ export function buildMyPlansSection({ city, locale, eventMap, eventPageHref, onC
       const actions = document.createElement("div");
       actions.className = "my-plan-actions";
       const href = favorite.url || eventPageHref(event || { id: favorite.id });
+      const reminder = event ? reminderControl(city, event, href) : null;
+      if (reminder) actions.append(reminder);
       if (href) {
         const link = document.createElement("a");
         link.className = "my-plan-action my-plan-action--primary";
