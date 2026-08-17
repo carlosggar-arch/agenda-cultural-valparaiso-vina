@@ -3,7 +3,8 @@ from pathlib import Path
 combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
 combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
 polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
-compact = Path("app/compact-top.js").read_text(encoding="utf-8")
+compact = Path("app/compact-top.css").read_text(encoding="utf-8")
+compact_js = Path("app/compact-top.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
 sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
@@ -42,6 +43,9 @@ for removed in ('data-combined-price', 'data-combined-access', 'data-combined-fo
 assert '["access", "format", "aud"]' in app_index
 assert './combined-filters.js' in app_index
 assert './contextual-filters.js' not in app_index
+assert '<link rel="stylesheet" href="./compact-top.css">' in app_index
+assert '<link rel="stylesheet" href="./header-redesign.css">' in app_index
+assert app_index.index('./compact-top.css') < app_index.index('./header-redesign.css') < app_index.index('</head>')
 assert '.filter-workbench' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
@@ -60,19 +64,27 @@ assert '.discovery-heading { display: flex !important;' not in polish
 assert '.category-filter-panel .category-explorer-heading { display: flex !important;' not in polish
 assert '.agenda-heading { display: flex !important;' not in polish
 
-# Compactness remains the current production contract.
+# Compactness is now critical CSS, available before first paint rather than injected by JS.
 assert '.filter-workbench {' in compact
 assert 'padding: 0 !important;' in compact
 assert 'border: 0 !important;' in compact
 assert 'background: transparent !important;' in compact
+assert '.filter-workbench::before {' in compact
+assert 'url("../assets/mosaic-top.png")' in compact
 assert '.filter-group {' in compact
 assert 'padding: .24rem 0 !important;' in compact
+assert '[data-combined-when] {' in compact
+assert 'padding-top: 1.55rem !important;' in compact
+assert '[data-combined-when]::before {' in compact
+assert 'content: "Cuándo";' in compact
 assert '.filter-choice {' in compact
 assert 'padding: .32rem .46rem !important;' in compact
 assert '.category-filters {' in compact
 assert 'minmax(116px, 1fr)' in compact
 assert '@media (max-width: 560px)' in compact
 assert 'flex-wrap: nowrap !important;' in compact
+assert 'document.createElement("style")' not in compact_js
+assert 'style.textContent' not in compact_js
 
 assert "function enforceQuickFilterVisibility()" in density
 assert 'id !== "todos" && count === 0' in density
@@ -87,12 +99,13 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v30"' in pwa
+assert 'const APP_VERSION = "PWA v31"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'const CACHE_VERSION = "v30"' in service_worker
+assert 'const CACHE_VERSION = "v31"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
+assert '"./compact-top.css"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 
@@ -112,4 +125,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact date/area/category filters: OK")
+print("Semantic search plus static critical compact date/area/category filters: OK")
