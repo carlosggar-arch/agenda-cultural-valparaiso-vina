@@ -34,6 +34,21 @@ const baburizza = {
 };
 assert.match(formatSchedule(baburizza, valpo), /10:00–18:00/);
 
+const nestedWeeklyHours = {
+  mode: "multi_day",
+  start: "2026-08-14",
+  end: "2026-10-04",
+  display_text: "2026-08-14 – 2026-10-04",
+  opening_hours: {
+    opening_time: "10:00",
+    closing_time: "18:00",
+    display_text: "Martes a domingo · 10:00–18:00",
+    is_open_on_reference_date: true,
+  },
+};
+assert.match(formatSchedule(nestedWeeklyHours, valpo), /Martes a domingo/);
+assert.match(formatSchedule(nestedWeeklyHours, valpo), /10:00–18:00/);
+
 const closedMuseum = {
   ...baburizza,
   opening_time: null,
@@ -53,6 +68,30 @@ const cinema = {
 };
 const cinemaLabel = formatSchedule(cinema, valpo);
 assert.match(cinemaLabel, /15:00–17:05/);
+
+const sourceDisplayHours = {
+  mode: "multi_day",
+  start: "2026-08-17",
+  end: "2026-08-23",
+  display_text: "2026-08-17 · 11:30, 13:00, 18:30",
+  occurrences: [],
+};
+assert.equal(formatSchedule(sourceDisplayHours, valpo), "2026-08-17 · 11:30, 13:00, 18:30");
+
+const repeatedFunctions = {
+  mode: "single",
+  start: "2026-08-18",
+  end: "2026-08-18",
+  occurrences: [
+    { start: "2026-08-18T11:00:00-04:00" },
+    { start: "2026-08-18T15:30:00-04:00" },
+    { start: "2026-08-18T19:00:00-04:00" },
+  ],
+};
+const repeatedLabel = formatSchedule(repeatedFunctions, valpo);
+assert.match(repeatedLabel, /11:00/);
+assert.match(repeatedLabel, /15:30/);
+assert.match(repeatedLabel, /19:00/);
 
 const noTime = {
   mode: "multi_day",
