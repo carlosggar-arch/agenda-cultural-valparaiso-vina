@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T15:58:44+00:00",
+  "generated_at": "2026-08-17T16:03:04+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -15,15 +15,15 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T11:58:14-04:00",
+        "generated_at": "2026-08-17T12:01:56-04:00",
         "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 85,
-        "schedule_expected_events": 81,
-        "dated_events": 81,
-        "timed_events": 81,
-        "relevant_image_events": 68,
+        "total_events": 86,
+        "schedule_expected_events": 82,
+        "dated_events": 82,
+        "timed_events": 82,
+        "relevant_image_events": 69,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -32,7 +32,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 80.0
+        "relevant_image_pct": 80.2
       },
       "samples": {
         "missing_time": [],
@@ -93,8 +93,8 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 2,
-            "indirect_venue_events": 2,
+            "venue_events": 3,
+            "indirect_venue_events": 3,
             "indirect_samples": [
               {
                 "id": "agenda_cinema_910efa5e83617e2fc0b2",
@@ -103,6 +103,10 @@
               {
                 "id": "agenda_cinema_0bef34873f39b4e8f3c1",
                 "title": "La leyenda del Caballero Verde"
+              },
+              {
+                "id": "agenda_cinema_3dbe6cea935ecc258b88",
+                "title": "La voz de Hind Rajab"
               }
             ]
           },
@@ -166,8 +170,8 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 2,
-            "indirect_venue_events": 2,
+            "venue_events": 3,
+            "indirect_venue_events": 3,
             "indirect_samples": [
               {
                 "id": "agenda_cinema_910efa5e83617e2fc0b2",
@@ -176,6 +180,10 @@
               {
                 "id": "agenda_cinema_0bef34873f39b4e8f3c1",
                 "title": "La leyenda del Caballero Verde"
+              },
+              {
+                "id": "agenda_cinema_3dbe6cea935ecc258b88",
+                "title": "La voz de Hind Rajab"
               }
             ]
           }
@@ -634,7 +642,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539871270310707,
+    "usage_usd": 4.539871934902496,
     "remaining_usd": 0.0
   }
 }
