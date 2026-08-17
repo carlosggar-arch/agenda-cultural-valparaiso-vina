@@ -9,6 +9,7 @@
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./combined-filters.css">
   <link rel="stylesheet" href="./city-header.css">
   <title>¡Vivamos!</title>
 </head>
@@ -21,26 +22,14 @@
       <span><strong>¡Vivamos!</strong><small data-city-subtitle>Agenda local</small></span>
     </a>
     <div class="header-actions">
-      <button class="install-button" type="button" data-install-app hidden>
-        <span aria-hidden="true">↓</span><span>Instalar</span>
-      </button>
-      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog" aria-label="Cambiar ciudad">
-        <span aria-hidden="true">📍</span><span data-city-switch-label>Cambiar ciudad</span><span aria-hidden="true">⌄</span>
-      </button>
+      <button class="install-button" type="button" data-install-app hidden><span aria-hidden="true">↓</span><span>Instalar</span></button>
+      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog" aria-label="Cambiar ciudad"><span aria-hidden="true">📍</span><span data-city-switch-label>Cambiar ciudad</span><span aria-hidden="true">⌄</span></button>
     </div>
   </header>
 
   <div class="city-masthead" data-city-masthead aria-hidden="true">
-    <div class="masthead-valpo">
-      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="masthead-gijon">
-      <span class="gijon-sun"></span>
-      <span class="gijon-horizon"></span>
-      <span class="gijon-wave wave-one"></span>
-      <span class="gijon-wave wave-two"></span>
-      <span class="gijon-mark"></span>
-    </div>
+    <div class="masthead-valpo"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="masthead-gijon"><span class="gijon-sun"></span><span class="gijon-horizon"></span><span class="gijon-wave wave-one"></span><span class="gijon-wave wave-two"></span><span class="gijon-mark"></span></div>
   </div>
 
   <main id="contenido">
@@ -49,139 +38,67 @@
       <h1 data-hero-title>Tu agenda cultural, donde estés</h1>
       <p class="hero-copy" data-hero-copy>La aplicación recuerda tu ciudad y carga únicamente sus actividades.</p>
       <div class="search-row" hidden data-search-row>
-        <label>
-          <span class="sr-only">Buscar actividades</span>
-          <input type="search" data-search placeholder="Buscar evento, recinto o categoría…" autocomplete="off">
-        </label>
+        <div class="smart-search"><label><span class="sr-only">Buscar actividades</span><input type="search" data-smart-search placeholder="Buscar evento, artista, recinto, fuente o categoría…" autocomplete="off"></label></div>
+        <input class="legacy-filter-hooks" type="search" data-search tabindex="-1" aria-hidden="true" autocomplete="off">
       </div>
     </section>
 
-    <section class="status" data-status role="status" aria-live="polite">
-      <strong>Preparando la agenda</strong>
-      <p>Cargando tu ciudad habitual.</p>
-    </section>
+    <section class="status" data-status role="status" aria-live="polite"><strong>Preparando la agenda</strong><p>Cargando tu ciudad habitual.</p></section>
 
     <section class="discovery" hidden data-discovery aria-labelledby="discovery-title">
-      <div class="discovery-heading">
-        <div>
-          <p class="eyebrow">Explora la agenda</p>
-          <h2 id="discovery-title">¿Qué te apetece hacer?</h2>
-        </div>
-        <p>Elige un momento o una categoría. Los resultados se adaptan a la ciudad activa.</p>
-      </div>
+      <div class="discovery-heading"><div><p class="eyebrow">Explora la agenda</p><h2 id="discovery-title">Encuentra justo lo que buscas</h2></div><p>Combina fecha, zona, precio, categorías y palabras clave. Los filtros funcionan juntos y puedes compartir el resultado por URL.</p></div>
 
-      <nav class="quick-sections" data-section-filters aria-label="Filtros rápidos por tiempo y precio">
+      <nav class="quick-sections legacy-filter-hooks" data-section-filters aria-hidden="true">
         <button type="button" data-section-filter="hoy" aria-pressed="false"><span>Hoy</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="fin-de-semana" aria-pressed="false"><span>Fin de semana</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="terminan-pronto" aria-pressed="false"><span>Terminan pronto</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="gratis" aria-pressed="false"><span>Gratis</span><small data-section-count>0</small></button>
         <button type="button" data-section-filter="todos" aria-pressed="false"><span>Todo</span><small data-section-count>0</small></button>
       </nav>
+      <div class="legacy-filter-hooks" data-category-filters aria-hidden="true"></div>
 
-      <div class="category-explorer">
-        <div class="category-explorer-heading">
-          <h3>Explora por categoría</h3>
-          <p>Los contadores se adaptan al filtro y a la búsqueda actuales.</p>
+      <section class="filter-workbench" aria-label="Filtros combinados de actividades">
+        <div class="filter-workbench-heading"><div><h3>Combina tus filtros</h3><p>Por ejemplo: música gratis en Viña durante los próximos siete días.</p></div><p class="filter-help">Las categorías permiten selección múltiple.</p></div>
+        <div class="filter-grid">
+          <fieldset class="filter-group"><legend class="filter-group-title">Cuándo</legend><div class="filter-choice-row" data-combined-when>
+            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquier fecha <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="hoy" aria-pressed="false">Hoy <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="manana" aria-pressed="false">Mañana <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="fin-de-semana" aria-pressed="false">Fin de semana <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="7-dias" aria-pressed="false">7 días <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="terminan-pronto" aria-pressed="false">Terminan pronto <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="personalizado" aria-pressed="false">Elegir fechas</button>
+          </div><div class="custom-date-range" data-custom-dates hidden><label>Desde <input type="date" data-date-from></label><label>Hasta <input type="date" data-date-to></label></div></fieldset>
+
+          <fieldset class="filter-group" data-area-filter-group><legend class="filter-group-title">Dónde</legend><div class="filter-choice-row" data-combined-area>
+            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Valpo + Viña <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="valparaiso" aria-pressed="false">Valparaíso <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="vina" aria-pressed="false">Viña del Mar <small data-combined-count>0</small></button>
+          </div></fieldset>
+
+          <fieldset class="filter-group"><legend class="filter-group-title">Precio</legend><div class="filter-choice-row" data-combined-price>
+            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Todos <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="gratis" aria-pressed="false">Gratis <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="pago" aria-pressed="false">De pago <small data-combined-count>0</small></button>
+          </div></fieldset>
         </div>
-        <div class="category-filters" data-category-filters aria-label="Categorías de actividades"></div>
-      </div>
+        <div class="category-filter-panel"><div class="category-explorer-heading"><h3>Categorías</h3><p>Puedes marcar varias a la vez; se combinan con la fecha, zona, precio y búsqueda.</p></div><div class="category-filters" data-combined-category-filters aria-label="Categorías combinables"></div></div>
+      </section>
     </section>
 
     <section class="agenda" hidden data-agenda>
-      <div class="agenda-heading">
-        <div>
-          <p class="eyebrow" data-agenda-kicker>Agenda actual</p>
-          <h2 data-agenda-title>Actividades</h2>
-          <p class="filter-summary" data-filter-summary aria-live="polite"></p>
-          <p class="agenda-total"><strong data-total>0</strong> actividades</p>
-        </div>
-        <button class="clear-filters" type="button" data-filter-clear hidden>Limpiar filtros</button>
-      </div>
-
-      <section class="content-section" hidden data-dated-section>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Con fecha y hora</p>
-            <h3>Agenda fechada</h3>
-            <p>Eventos y actividades vinculados a días concretos.</p>
-          </div>
-          <span class="section-count"><strong data-dated-total>0</strong> citas</span>
-        </div>
-        <div class="event-grid" data-dated-grid></div>
-      </section>
-
-      <section class="content-section secondary-section" hidden data-program-section>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Ciclos y temporadas</p>
-            <h3>Programas</h3>
-            <p>Programaciones amplias que agrupan varias citas o se desarrollan durante un periodo extenso.</p>
-          </div>
-          <span class="section-count"><strong data-program-total>0</strong> programas</span>
-        </div>
-        <div class="event-grid compact-grid" data-program-grid></div>
-      </section>
-
-      <section class="content-section secondary-section" hidden data-flexible-section>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Cuando te venga bien</p>
-            <h3>Actividades disponibles</h3>
-            <p>Experiencias o visitas que pueden realizarse durante un periodo amplio y no dependen de una única cita.</p>
-          </div>
-          <span class="section-count"><strong data-flexible-total>0</strong> opciones</span>
-        </div>
-        <div class="event-grid compact-grid" data-flexible-grid></div>
-      </section>
-
-      <section class="sources-section" hidden data-sources-section aria-labelledby="sources-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Transparencia y procedencia</p>
-            <h3 id="sources-title">Fuentes de esta agenda</h3>
-            <p>Organizaciones y canales que respaldan las actividades disponibles en la ciudad seleccionada.</p>
-          </div>
-          <span class="section-count"><strong data-sources-total>0</strong> fuentes</span>
-        </div>
-        <div class="source-grid" data-sources-grid></div>
-      </section>
-
-      <div class="empty" hidden data-empty>
-        <h3>No encontramos actividades</h3>
-        <p data-empty-copy>No hay actividades con los filtros actuales.</p>
-      </div>
+      <div class="agenda-heading"><div><p class="eyebrow" data-agenda-kicker>Agenda actual</p><h2 data-agenda-title>Actividades</h2><p class="filter-summary" data-filter-summary aria-live="polite"></p><p class="agenda-total"><strong data-total>0</strong> actividades</p></div><button class="clear-filters" type="button" data-filter-clear hidden>Limpiar filtros</button></div>
+      <section class="content-section" hidden data-dated-section><div class="section-heading"><div><p class="eyebrow">Con fecha y hora</p><h3>Agenda fechada</h3><p>Eventos y actividades vinculados a días concretos.</p></div><span class="section-count"><strong data-dated-total>0</strong> citas</span></div><div class="event-grid" data-dated-grid></div></section>
+      <section class="content-section secondary-section" hidden data-program-section><div class="section-heading"><div><p class="eyebrow">Ciclos y temporadas</p><h3>Programas</h3><p>Programaciones amplias que agrupan varias citas o se desarrollan durante un periodo extenso.</p></div><span class="section-count"><strong data-program-total>0</strong> programas</span></div><div class="event-grid compact-grid" data-program-grid></div></section>
+      <section class="content-section secondary-section" hidden data-flexible-section><div class="section-heading"><div><p class="eyebrow">Cuando te venga bien</p><h3>Actividades disponibles</h3><p>Experiencias o visitas que pueden realizarse durante un periodo amplio y no dependen de una única cita.</p></div><span class="section-count"><strong data-flexible-total>0</strong> opciones</span></div><div class="event-grid compact-grid" data-flexible-grid></div></section>
+      <section class="sources-section" hidden data-sources-section aria-labelledby="sources-title"><div class="section-heading"><div><p class="eyebrow">Transparencia y procedencia</p><h3 id="sources-title">Fuentes de esta agenda</h3><p>Organizaciones y canales que respaldan las actividades disponibles en la ciudad seleccionada.</p></div><span class="section-count"><strong data-sources-total>0</strong> fuentes</span></div><div class="source-grid" data-sources-grid></div></section>
+      <div class="empty" hidden data-empty><h3>No encontramos actividades</h3><p data-empty-copy>No hay actividades con los filtros actuales.</p></div>
     </section>
   </main>
 
-  <footer>
-    <strong>¡Vivamos!</strong>
-    <span>Descubre y vive lo que hay cerca de ti.</span>
-    <small data-app-version>PWA v18</small>
-  </footer>
+  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v27</small></footer>
 
-  <div class="chooser-backdrop" hidden data-chooser-backdrop>
-    <section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser>
-      <button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button>
-      <p class="eyebrow">¡Vivamos!</p>
-      <h2 id="chooser-title">Cambiar ciudad</h2>
-      <p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p>
-      <div class="city-options">
-        <button type="button" class="city-option city-option--valpo" data-city-option="valparaiso">
-          <span class="city-symbol valpo-symbol" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span><strong>Valparaíso / Viña del Mar</strong><small>Chile · costa, cerros y color</small></span>
-          <span aria-hidden="true">→</span>
-        </button>
-        <button type="button" class="city-option city-option--gijon" data-city-option="gijon">
-          <span class="city-symbol gijon-symbol" aria-hidden="true"><i></i><i></i></span>
-          <span><strong>Gijón / Xixón</strong><small>Asturias · Cantábrico y horizonte</small></span>
-          <span aria-hidden="true">→</span>
-        </button>
-      </div>
-      <button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button>
-      <p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p>
-      <p class="chooser-message" data-chooser-message aria-live="polite"></p>
-    </section>
-  </div>
+  <div class="chooser-backdrop" hidden data-chooser-backdrop><section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser><button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button><p class="eyebrow">¡Vivamos!</p><h2 id="chooser-title">Cambiar ciudad</h2><p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p><div class="city-options"><button type="button" class="city-option city-option--valpo" data-city-option="valparaiso"><span class="city-symbol valpo-symbol" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Valparaíso / Viña del Mar</strong><small>Chile · costa, cerros y color</small></span><span aria-hidden="true">→</span></button><button type="button" class="city-option city-option--gijon" data-city-option="gijon"><span class="city-symbol gijon-symbol" aria-hidden="true"><i></i><i></i></span><span><strong>Gijón / Xixón</strong><small>Asturias · Cantábrico y horizonte</small></span><span aria-hidden="true">→</span></button></div><button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button><p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p><p class="chooser-message" data-chooser-message aria-live="polite"></p></section></div>
 
   <script>
     (() => {
@@ -190,19 +107,14 @@
       const requested = new URLSearchParams(window.location.search).get("city");
       let saved = null;
       try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
-
       let city = supported.has(requested) ? requested : supported.has(saved) ? saved : "valparaiso";
       try { localStorage.setItem(STORAGE_KEY, city); } catch {}
       document.documentElement.dataset.city = city;
-
       const themeColors = { valparaiso: "#174f46", gijon: "#0d5e73" };
       const applyCityChrome = () => {
-        const nextCity = supported.has(document.documentElement.dataset.city)
-          ? document.documentElement.dataset.city
-          : "valparaiso";
+        const nextCity = supported.has(document.documentElement.dataset.city) ? document.documentElement.dataset.city : "valparaiso";
         const theme = document.querySelector('meta[name="theme-color"]');
         if (theme) theme.setAttribute("content", themeColors[nextCity]);
-
         if (nextCity !== city) {
           city = nextCity;
           try { localStorage.setItem(STORAGE_KEY, city); } catch {}
@@ -211,16 +123,12 @@
           history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
         }
       };
-
       applyCityChrome();
-      new MutationObserver(applyCityChrome).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["data-city"],
-      });
+      new MutationObserver(applyCityChrome).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
     })();
   </script>
   <script type="module" src="./app.js"></script>
-  <script type="module" src="./contextual-filters.js"></script>
+  <script type="module" src="./combined-filters.js"></script>
   <script type="module" src="./pwa.js"></script>
 </body>
 </html>
