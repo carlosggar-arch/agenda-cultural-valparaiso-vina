@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T10:35:27+00:00",
+  "generated_at": "2026-08-17T10:36:43+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -227,15 +227,15 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T12:30:59+02:00",
-        "generated_age_hours": 0.1
+        "generated_at": "2026-08-17T12:35:57+02:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 89,
-        "schedule_expected_events": 80,
-        "dated_events": 80,
-        "timed_events": 59,
-        "relevant_image_events": 83,
+        "total_events": 98,
+        "schedule_expected_events": 89,
+        "dated_events": 89,
+        "timed_events": 69,
+        "relevant_image_events": 90,
         "suspicious_titles": 0,
         "title_review_candidates": 41,
         "duplicate_groups": 0,
@@ -243,8 +243,8 @@
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 73.8,
-        "relevant_image_pct": 93.3
+        "time_pct": 77.5,
+        "relevant_image_pct": 91.8
       },
       "samples": {
         "missing_time": [
@@ -291,6 +291,10 @@
         ],
         "missing_relevant_image": [
           {
+            "id": "gijon_laboral_ciudad_cultura_5d2b922724b49fc0",
+            "title": "Campus de Verano de la Laboral 2026"
+          },
+          {
             "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
             "title": "Noche mágica de Valdrero. Ruta en Cudillero"
           },
@@ -309,6 +313,10 @@
           {
             "id": "gijon_ciclismo_asturias_1c3d794a96c92b40",
             "title": "XIX MEMORIAL JAIRO GARCIA"
+          },
+          {
+            "id": "gijon_laboral_ciudad_cultura_007f72a9ba5b31fc",
+            "title": "Trialogfem Show"
           },
           {
             "id": "gijon_ciclismo_asturias_7ddfb3c853b236fa",
@@ -379,8 +387,8 @@
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 58,
-            "without_start_time": 25
+            "with_start_time": 59,
+            "without_start_time": 24
           },
           {
             "id": "la_revoltosa_gijon",
@@ -418,6 +426,83 @@
           {
             "id": "cafe_dindurra",
             "name": "Café Dindurra",
+            "role": null,
+            "event_count": 0,
+            "reviewed_items": 0,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 0,
+            "without_start_time": 0
+          },
+          {
+            "id": "laboral_ciudad_cultura",
+            "name": "Laboral Ciudad de la Cultura — Agenda",
+            "role": null,
+            "event_count": 2,
+            "reviewed_items": null,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 2,
+            "without_start_time": 0
+          },
+          {
+            "id": "teatro_albeniz_gijon",
+            "name": "Teatro Albéniz Gijón",
+            "role": null,
+            "event_count": 0,
+            "reviewed_items": null,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 0,
+            "without_start_time": 0
+          },
+          {
+            "id": "bioparc_acuario_gijon",
+            "name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+            "role": null,
+            "event_count": 7,
+            "reviewed_items": null,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 7,
+            "without_start_time": 0
+          },
+          {
+            "id": "jardin_botanico_atlantico",
+            "name": "Jardín Botánico Atlántico",
+            "role": null,
+            "event_count": 0,
+            "reviewed_items": 0,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 0,
+            "without_start_time": 0
+          },
+          {
+            "id": "ateneo_jovellanos",
+            "name": "Ateneo Jovellanos — Actividades",
+            "role": null,
+            "event_count": 0,
+            "reviewed_items": null,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 0,
+            "without_start_time": 0
+          },
+          {
+            "id": "sala_acapulco_conciertos",
+            "name": "Sala Acapulco — Conciertos",
+            "role": null,
+            "event_count": 0,
+            "reviewed_items": 0,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 0,
+            "without_start_time": 0
+          },
+          {
+            "id": "la_caja_de_musicos",
+            "name": "La Caja de Músicos",
             "role": null,
             "event_count": 0,
             "reviewed_items": 0,
@@ -467,6 +552,41 @@
             "role": null,
             "web_probe_status": "secondary_checked",
             "zero_event_reason": "direct_instagram_pending_secondary_only"
+          },
+          {
+            "id": "teatro_albeniz_gijon",
+            "name": "Teatro Albéniz Gijón",
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
+          },
+          {
+            "id": "jardin_botanico_atlantico",
+            "name": "Jardín Botánico Atlántico",
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
+          },
+          {
+            "id": "ateneo_jovellanos",
+            "name": "Ateneo Jovellanos — Actividades",
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
+          },
+          {
+            "id": "sala_acapulco_conciertos",
+            "name": "Sala Acapulco — Conciertos",
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
+          },
+          {
+            "id": "la_caja_de_musicos",
+            "name": "La Caja de Músicos",
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
           }
         ],
         "explained_zero_sources": [
@@ -509,7 +629,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.012815557102302,
+    "usage_usd": 4.0128162246743235,
     "remaining_usd": 0.0
   }
 }
