@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v34";
+const CACHE_VERSION = "v35";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -123,7 +123,7 @@ async function networkFirstDataset(request) {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
-    // v34 deliberately keeps both city datasets instead of evicting the other one.
+    // v35 deliberately keeps both city datasets instead of evicting the other one.
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
