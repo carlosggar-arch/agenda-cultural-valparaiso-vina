@@ -1,0 +1,65 @@
+name: Apply Stage 3.2 frontend analytics
+
+on:
+  push:
+    branches: [feature/stage32-private-analytics]
+    paths:
+      - "scripts/stage32_patch_frontend.py"
+      - ".github/workflows/apply-stage32-frontend.yml"
+      - "assets/usage-analytics.js"
+      - "tests/test_stage32_analytics.py"
+      - ".github/workflows/stage32-analytics.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32-frontend-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  apply-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/stage32-private-analytics
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Apply frontend integration
+        run: |
+          set -euo pipefail
+          python scripts/stage32_patch_frontend.py
+          python scripts/stage31_site_generator.py
+      - name: Validate Stage 3.2 frontend
+        run: |
+          set -euo pipefail
+          node --check assets/usage-analytics.js
+          node --check app/service-worker.js
+          python -m py_compile scripts/generate_event_pages.py scripts/stage31_site_generator.py tests/test_stage32_analytics.py
+          python -m unittest discover -s tests -p 'test_stage32_analytics.py' -v
+          python -m unittest discover -s tests -p 'test_stage31.py' -v
+          python scripts/stage31_site_generator.py --check
+          grep -q 'usage-analytics.js' index.html
+          grep -q 'usage-analytics.js' app/index.html
+          grep -q 'usage-analytics.js' gijon/index.html
+          grep -R -m1 -q 'usage-analytics.js' evento/valparaiso evento/gijon
+          git diff --check
+      - name: Commit permanent integration and remove temporary patcher
+        run: |
+          set -euo pipefail
+          rm -f scripts/stage32_patch_frontend.py .github/workflows/apply-stage32-frontend.yml
+          git config user.name "agenda-cultural-stage32[bot]"
+          git config user.email "agenda-cultural-stage32[bot]@users.noreply.github.com"
+          git add -A assets app index.html privacidad.html scripts tests evento gijon sitemap.xml .github/workflows
+          if git diff --cached --quiet; then
+            echo "Stage 3.2 frontend integration already applied."
+            exit 0
+          fi
+          git commit -m "Add privacy-preserving usage analytics frontend"
+          git pull --rebase origin feature/stage32-private-analytics
+          git push origin HEAD:feature/stage32-private-analytics
