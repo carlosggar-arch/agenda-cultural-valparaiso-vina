@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-17T07:06:48-04:00",
+  "generated_at": "2026-08-17T07:08:55-04:00",
   "publication_date": "2026-08-17",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 83,
-    "events": 79,
+    "total": 82,
+    "events": 78,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -62,10 +62,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-17T07:06:48-04:00",
+      "last_verified_at": "2026-08-17T07:08:55-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T07:06:48-04:00",
+        "last_verified_at": "2026-08-17T07:08:55-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -164,10 +164,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-17T07:06:48-04:00",
+      "last_verified_at": "2026-08-17T07:08:55-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T07:06:48-04:00",
+        "last_verified_at": "2026-08-17T07:08:55-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -270,86 +270,6 @@
       },
       "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
       "last_verified_at": null
-    },
-    {
-      "id": "agenda_cd7e7ee7f612925156e4fdcc",
-      "title": "Programación sujeta a cambios.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-17",
-        "end": "2026-08-23",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-17",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcHzZ1hDIjU/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcHzZ1hDIjU/"
-      },
-      "organizer": "Museo Palacio Rioja",
-      "source_name": "Museo Palacio Rioja",
-      "source_url": "https://www.instagram.com/p/DcHzZ1hDIjU/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "✨ ¡Panoramas para disfrutar, compartir y vivir la cultura en Viña del Mar! Del 17 al 23 de agosto, el Museo Palacio Rioja te espera con una nueva semana de actividades gratuitas para encontrarse con el arte, la creatividad, el bienestar y la cultura. 🏛️🎬🎶 Hay...",
-      "tags": [
-        "museo",
-        "cine",
-        "documental"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null,
-        "relevance": "generic_schedule",
-        "rejection_reason": "generic_schedule_not_event_specific"
-      }
     },
     {
       "id": "agenda_e7e2a4a89dc447f9bd2633e7",
@@ -1052,7 +972,26 @@
         "end": "2026-11-14",
         "timezone": "America/Santiago",
         "display_text": "2026-08-17 · 18:00",
-        "occurrences": []
+        "occurrences": [],
+        "opening_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "17:30",
+          "display_text": "Martes a domingo · 10:00–17:30",
+          "reference_date": "2026-08-17",
+          "is_open_on_reference_date": false,
+          "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+          "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+          "verified_at": "2026-08-17"
+        }
       },
       "location": {
         "venue_id": null,
@@ -1103,6 +1042,9 @@
       "image": {
         "url": "https://instagram.frns1-1.fna.fbcdn.net/v/t51.82787-15/764855462_18401170309094191_5072454852139773972_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=instagram.frns1-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2gFAvNnBxgA5njSQacld3KM5vTXTAN3Hg2Ea8P0N3o3bropwdGbdcLa27CbfrSqW90_PvBDO1DoESz2fjz7DEy0y&_nc_ohc=b2_ghowYEXUQ7kNvwGsBG2W&_nc_gid=n1g_i4kvo6vITbr9QDo9HA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQGLE2QsCUBDQN_cBqQaONKLdt9Jzf1xi14J9LVMWionmw&oe=6A889C39&_nc_sid=c6f216",
         "alt": "Fortalece tus herramientas para la gestión cultural"
+      },
+      "editorial": {
+        "venue_hours_enriched": true
       }
     },
     {
@@ -3848,10 +3790,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-17T07:06:41-04:00",
+      "last_verified_at": "2026-08-17T07:08:51-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T07:06:41-04:00",
+        "last_verified_at": "2026-08-17T07:08:51-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4261,7 +4203,29 @@
         "end": "2026-08-30",
         "timezone": "America/Santiago",
         "display_text": "2026-08-28 · 16:00, 10:00, 17:30",
-        "occurrences": []
+        "occurrences": [],
+        "opening_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "17:30",
+          "display_text": "Martes a domingo · 10:00–17:30",
+          "reference_date": "2026-08-28",
+          "is_open_on_reference_date": true,
+          "source_url": "https://visitavina.munivina.cl/museo-palacio-vergara/",
+          "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+          "verified_at": "2026-08-17"
+        },
+        "opening_time": "10:00",
+        "closing_time": "17:30",
+        "hours_confidence": "official_venue_schedule"
       },
       "location": {
         "venue_id": "palacio-vergara",
@@ -4314,6 +4278,9 @@
       "image": {
         "url": "https://instagram.fmad7-1.fna.fbcdn.net/v/t51.82787-15/773144807_18098064878579071_5811367942305180573_n.jpg?stp=dst-jpg_e35_p1080x1080_sh2.08_tt6&_nc_ht=instagram.fmad7-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2gGeqfMSEdTLOmiJx0yhns3SERhD4yHmpN-M4cgXQu276s_pO5cu9BxIswoHXPY3Gis&_nc_ohc=I_jkV63wC_sQ7kNvwFOH7Pv&_nc_gid=n5E9PrBtFVJujjDzoPO7Lw&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQGNg94tdI_bCV3AEH1wRRt7BABqG2OBRXm2qxI1_ZdVFQ&oe=6A887924&_nc_sid=c6f216",
         "alt": "Les esperamos"
+      },
+      "editorial": {
+        "venue_hours_enriched": true
       }
     },
     {
@@ -4855,7 +4822,29 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-30 · 10:00, 17:30",
-        "occurrences": []
+        "occurrences": [],
+        "opening_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "17:30",
+          "display_text": "Martes a domingo · 10:00–17:30",
+          "reference_date": "2026-08-30",
+          "is_open_on_reference_date": true,
+          "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+          "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+          "verified_at": "2026-08-17"
+        },
+        "opening_time": "10:00",
+        "closing_time": "17:30",
+        "hours_confidence": "official_venue_schedule"
       },
       "location": {
         "venue_id": null,
@@ -4905,6 +4894,9 @@
       "image": {
         "url": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFlE3fdTZhOl0VMa_HwamrWmdUs_MQIkGloqoTF2fE8oQGa5E1dHC__Bi7VxUixFr5DtihP2cToZieJZQ9yT52w&_nc_ohc=h6IK9MlftDkQ7kNvwFh2dGX&_nc_gid=5wD9mnd4Trwl5fasjyNvOA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQFzXCO57AukmVD9LPBjfUioJYI_5bZX4rnPMeVu9my81A&oe=6A888B33&_nc_sid=c6f216",
         "alt": "Museo Palacio Rioja"
+      },
+      "editorial": {
+        "venue_hours_enriched": true
       }
     },
     {
@@ -4958,10 +4950,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-17T07:06:41-04:00",
+      "last_verified_at": "2026-08-17T07:08:51-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T07:06:41-04:00",
+        "last_verified_at": "2026-08-17T07:08:51-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5340,8 +5332,10 @@
       "audience": null,
       "registration_requirements": "Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
+        "alt": "Itaú Maratón de Viña 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       }
     },
     {
@@ -5981,8 +5975,10 @@
       "audience": null,
       "registration_requirements": "inscripción disponible en el sitio oficial",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://redsalsa.cl/img/gal3.jpg",
+        "alt": "Clases de salsa y bachata RED Studio",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       }
     },
     {
@@ -6051,8 +6047,10 @@
       "audience": null,
       "registration_requirements": "consulta y confirmación directa con la tallerista",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
+        "alt": "Curso particular de joyería 2026 — Natalia Saldías",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       }
     },
     {
@@ -6121,8 +6119,10 @@
       "audience": null,
       "registration_requirements": "permite incorporarse durante el año",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+        "alt": "Taller permanente de cerámica Le Chat",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       }
     },
     {
@@ -6199,24 +6199,14 @@
   "publication_corrections": {
     "checked_at": "2026-08-17",
     "active_corrections": 1,
-    "applied_count": 1,
-    "applied": [
-      {
-        "correction_id": "baburizza_requiem_2026_end",
-        "event_id": "agenda_c16d049f287e6bc4922b56de",
-        "title": "Museo Baburizza – «Requiem para Pianos»",
-        "action": "drop_after_end",
-        "official_end_date": "2026-08-06",
-        "official_url": "https://www.museobaburizza.cl/agenda/",
-        "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
-      }
-    ]
+    "applied_count": 0,
+    "applied": []
   },
   "source_diagnostics": {
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-17T07:06:41-04:00",
+      "refreshed_at": "2026-08-17T07:08:51-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
@@ -6224,10 +6214,30 @@
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-17T07:06:48-04:00",
+      "refreshed_at": "2026-08-17T07:08:55-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
+    },
+    "insomniacine": {
+      "secondary_probe_status": "no_current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 0,
+      "secondary_probe_current_candidates": 0,
+      "secondary_probe_candidate_titles": [],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
+      "secondary_probe_checked_on": "2026-08-17"
+    },
+    "valparaiso_profundo": {
+      "secondary_probe_status": "no_current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 1,
+      "secondary_probe_current_candidates": 0,
+      "secondary_probe_candidate_titles": [],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
+      "secondary_probe_checked_on": "2026-08-17"
     }
   },
   "media_cache": {
@@ -6430,22 +6440,82 @@
       "image_url": null,
       "checked_at": "2026-08-17",
       "source": "official_page_metadata"
+    },
+    "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://www.teatromuseo.cl/obra/pionero_822": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://mediamaratontps.cl/": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://maratonvina.cl/": {
+      "image_url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://www.redstudio.cl/": {
+      "image_url": "https://redsalsa.cl/img/gal3.jpg",
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://www.nataliasaldias.com/clases-particulares/": {
+      "image_url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/": {
+      "image_url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://valparaisotrekking.cl/pages/servicios": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 47,
+    "existing_images": 62,
     "images_from_cache": 0,
-    "images_fetched": 15,
-    "generic_schedule_images_rejected": 2,
-    "pages_fetched": 40,
-    "pages_skipped_by_limit": 10
+    "images_fetched": 4,
+    "generic_schedule_images_rejected": 0,
+    "pages_fetched": 10,
+    "pages_skipped_by_limit": 0
   },
   "publication_guard": {
     "titles_recovered": 0,
     "target_city_blocks_recovered": 0,
-    "visit_hours_enriched": 14,
-    "venue_hours_enriched": 1,
-    "removed_title_quality": 0,
+    "visit_hours_enriched": 2,
+    "venue_hours_enriched": 4,
+    "removed_title_quality": 1,
     "removed_location_mismatch": 0
+  },
+  "enrichment": {
+    "zero_source_secondary_probe": {
+      "checked_on": "2026-08-17",
+      "sources": [
+        "insomniacine",
+        "valparaiso_profundo"
+      ],
+      "apify_used": false
+    }
   }
 }
