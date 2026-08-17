@@ -1,0 +1,145 @@
+name: Final Valpo Vina quality audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/audit-final-quality-2026-08-17.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit current public dataset
+        run: |
+          python - <<'PY'
+          import json, re, unicodedata
+          from collections import Counter, defaultdict
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          payload = json.loads(Path('agenda_web.json').read_text(encoding='utf-8'))
+          items = [e for e in payload.get('events', []) if isinstance(e, dict)]
+          events = [e for e in items if e.get('event_type') == 'event']
+          flexible = [e for e in items if e.get('event_type') == 'flexible_offer']
+
+          def fold(value):
+              text = unicodedata.normalize('NFKD', str(value or ''))
+              text = ''.join(c for c in text if not unicodedata.combining(c))
+              return re.sub(r'[^a-z0-9]+', ' ', text.casefold()).strip()
+
+          time_re = re.compile(r'(?<!\d)([01]?\d|2[0-3]):[0-5]\d(?!\d)')
+          generic_exact = {
+              'presentacion','presentaciones','programacion','programacion sujeta a cambios',
+              'informacion','actividades','agenda','cartelera','cartelera actual','eventos','sin titulo'
+          }
+
+          def useful_hour(e):
+              s = e.get('schedule') or {}
+              if s.get('opening_time') and s.get('closing_time'):
+                  return True
+              oh = s.get('opening_hours') or {}
+              if oh.get('display_text') or (oh.get('opening_time') and oh.get('closing_time')):
+                  return True
+              if time_re.search(str(s.get('display_text') or '')):
+                  return True
+              for occ in s.get('occurrences') or []:
+                  if time_re.search(str(occ)):
+                      return True
+                  if isinstance(occ, dict) and any(time_re.search(str(occ.get(k) or '')) for k in ('start','end','time','display_text')):
+                      return True
+              start = str(s.get('start') or '')
+              m = re.search(r'T(\d{2}):(\d{2})', start)
+              return bool(m and (m.group(1), m.group(2)) != ('00','00'))
+
+          def deadline_only(e):
+              text = fold(' '.join(str(e.get(k) or '') for k in ('title','description')))
+              s = e.get('schedule') or {}
+              start = str(s.get('start') or '')[:10]
+              if useful_hour(e):
+                  return False
+              if not any(x in text for x in ('postula','postulacion','convocatoria','convocatoria abierta','plazo para postular','inscripciones hasta')):
+                  return False
+              # Flag only likely deadline cards, not all calls.
+              return any(x in text for x in ('hasta el','hasta ')) and bool(start)
+
+          def retrospective(e):
+              text = fold(' '.join(str(e.get(k) or '') for k in ('title','description')))
+              if useful_hour(e):
+                  return False
+              markers = ('asi vivimos','se trato de una jornada','inauguramos este ciclo','revivimos','asi fue','compartimos lo que fue')
+              return any(m in text for m in markers)
+
+          missing_hours = [e for e in events if not useful_hour(e)]
+          generic = [e for e in events if fold(e.get('title')) in generic_exact]
+          calls = [e for e in events if deadline_only(e)]
+          retros = [e for e in events if retrospective(e)]
+
+          ids = [str(e.get('id') or '') for e in items]
+          duplicate_ids = sorted(k for k,v in Counter(ids).items() if k and v > 1)
+
+          groups = defaultdict(list)
+          for e in events:
+              s = e.get('schedule') or {}
+              date = str(s.get('start') or '')[:10]
+              city = fold((e.get('location') or {}).get('city'))
+              key = (fold(e.get('title')), date, city)
+              if key[0] and key[1]:
+                  groups[key].append(e)
+          duplicate_keys = {k:[x.get('id') for x in v] for k,v in groups.items() if len(v)>1}
+
+          invalid_links = []
+          for e in events:
+              u = str((e.get('links') or {}).get('official') or e.get('source_url') or '')
+              p = urlparse(u)
+              if not (p.scheme in {'http','https'} and p.netloc):
+                  invalid_links.append((e.get('id'), e.get('title'), u))
+
+          missing_dates = [e for e in events if not (e.get('schedule') or {}).get('start')]
+          cities = Counter(str((e.get('location') or {}).get('city') or 'SIN_CIUDAD') for e in events)
+          sources = Counter(str(e.get('source_name') or e.get('source_id') or 'SIN_FUENTE') for e in events)
+
+          guard = payload.get('publication_guard') or {}
+          result = {
+              'generated_at': payload.get('generated_at'),
+              'total_cards': len(items),
+              'events': len(events),
+              'flexible_offers': len(flexible),
+              'events_with_useful_hour': len(events)-len(missing_hours),
+              'events_without_useful_hour': len(missing_hours),
+              'hour_coverage_pct': round(100*(len(events)-len(missing_hours))/len(events), 1) if events else 100.0,
+              'generic_titles': len(generic),
+              'deadline_only_calls': len(calls),
+              'retrospective_posts': len(retros),
+              'duplicate_ids': len(duplicate_ids),
+              'duplicate_title_date_city_groups': len(duplicate_keys),
+              'invalid_official_links': len(invalid_links),
+              'missing_start_dates': len(missing_dates),
+              'cities': dict(cities),
+              'publication_guard': guard,
+          }
+          print('FINAL_QUALITY_AUDIT', json.dumps(result, ensure_ascii=False, sort_keys=True))
+          print('MISSING_HOURS', json.dumps([(e.get('id'),e.get('title'),(e.get('location') or {}).get('city'),e.get('source_name'),e.get('schedule')) for e in missing_hours], ensure_ascii=False))
+          print('GENERIC_TITLES', json.dumps([(e.get('id'),e.get('title')) for e in generic], ensure_ascii=False))
+          print('DEADLINE_ONLY_CALLS', json.dumps([(e.get('id'),e.get('title')) for e in calls], ensure_ascii=False))
+          print('RETROSPECTIVE_POSTS', json.dumps([(e.get('id'),e.get('title')) for e in retros], ensure_ascii=False))
+          print('DUPLICATE_IDS', json.dumps(duplicate_ids, ensure_ascii=False))
+          print('DUPLICATE_KEYS', json.dumps({str(k):v for k,v in duplicate_keys.items()}, ensure_ascii=False))
+          print('INVALID_LINKS', json.dumps(invalid_links, ensure_ascii=False))
+          print('MISSING_DATES', json.dumps([(e.get('id'),e.get('title')) for e in missing_dates], ensure_ascii=False))
+          print('TOP_SOURCES', json.dumps(sources.most_common(), ensure_ascii=False))
+
+          # Closure criteria for the quality block.
+          assert not generic, 'Generic headings remain in event cards'
+          assert not calls, 'Deadline-only calls remain classified as events'
+          assert not retros, 'Retrospective posts remain classified as future events'
+          assert not duplicate_ids, 'Duplicate event IDs remain'
+          assert not invalid_links, 'Invalid official/source links remain'
+          assert not missing_dates, 'Events without start dates remain'
+          # Flexible offers are intentionally outside the hour coverage target.
+          assert not missing_hours, 'Valid event cards without useful hours remain'
+          PY
