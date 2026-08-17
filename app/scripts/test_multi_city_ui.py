@@ -95,6 +95,10 @@ assert '.hero > h1' in compact_js
 assert '.agenda-heading' in compact_js
 assert 'padding: 0 !important;' in compact_js
 assert 'background: transparent !important;' in compact_js
+assert '.filter-workbench::before {' in compact_js
+assert 'url("../assets/mosaic-top.png")' in compact_js
+assert '.filter-group:has([data-combined-when]) {' in compact_js
+assert 'line-height: 1.24 !important;' in compact_js
 assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
 assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
 assert 'authoritativeCatalogue' in sources_toggle_js
@@ -104,10 +108,10 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v29"' in pwa
+assert 'const APP_VERSION = "PWA v30"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v29";' in service_worker
+assert 'const CACHE_VERSION = "v30";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -117,10 +121,10 @@ for asset in (
     '"./city-header.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"',
     '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
-    '"../assets/event-schedule-display.mjs"',
+    '"../assets/event-schedule-display.mjs"', '"../assets/mosaic-top.png"',
 ):
     assert asset in shell_block
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v29 keeps advanced search and combined filters functional, compact and stable: OK")
+print("Multi-city v30 keeps advanced search and combined filters functional, compact, legible and stable: OK")
