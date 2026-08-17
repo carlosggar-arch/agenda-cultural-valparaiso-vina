@@ -1,6 +1,7 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260817-hours";
 import "./root-combined-filters.js?v=20260817-root-search";
 import "./plan-ahead-web.js?v=20260817";
+import "./favorites-web.js?v=20260817";
 
 const DATASET_URL = "./agenda_web.json";
 const MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b";

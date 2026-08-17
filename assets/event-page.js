@@ -1,4 +1,5 @@
 (() => {
+  const scriptUrl = document.currentScript?.src || null;
   const status = document.querySelector("[data-share-status]");
   const setStatus = (message) => {
     if (!status) return;
@@ -34,4 +35,9 @@
       setStatus("Copia el enlace desde la barra del navegador");
     }
   });
+
+  if (scriptUrl) {
+    import(new URL("./favorites-event-page.js?v=20260817", scriptUrl).href)
+      .catch((error) => console.warn("Agenda Cultural: favoritos no disponibles en esta ficha", error));
+  }
 })();

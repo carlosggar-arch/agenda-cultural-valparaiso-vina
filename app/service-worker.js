@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v32";
+const CACHE_VERSION = "v33";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -15,6 +15,7 @@ const SHELL_ASSETS = [
   "./combined-filters-polish.js",
   "./pwa.js",
   "./plan-ahead.js",
+  "./favorites.js",
   "./vivamos-brand.js",
   "./header-redesign.js",
   "./density-polish.js",
@@ -42,6 +43,9 @@ const SHELL_ASSETS = [
   "../assets/event-schedule-display.mjs",
   "../assets/plan-ahead-core.mjs",
   "../assets/plan-ahead.css",
+  "../assets/favorites-core.mjs",
+  "../assets/favorites-view.mjs",
+  "../assets/favorites.css",
   "../assets/categoria-cine.jpg",
   "../assets/categoria-cultura.jpg",
   "../assets/categoria-deportes.jpg",
