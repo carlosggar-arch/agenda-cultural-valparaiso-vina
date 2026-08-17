@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_date": "2026-08-17",
+  "candidate_head": "0c22908975a480c5c0b8da72eb1abf1570adab00",
+  "scope": ["valparaiso-vina", "gijon"],
+  "data_refresh_performed": false,
+  "external_queries_performed": false,
+  "status": "ready",
+  "validation": {
+    "valparaiso_vina_duplicate_groups": 0,
+    "gijon_duplicate_groups": 0,
+    "valparaiso_vina_suspicious_titles": 0,
+    "gijon_suspicious_titles": 0,
+    "gijon_preserved": true,
+    "production_dataset_modified_by_closure": false
+  },
+  "notes": [
+    "Candidate closure is based on the current multi-city production state, not the superseded 64-entry snapshot.",
+    "Existing source-coverage/editorial warnings remain operational monitoring signals and are not treated as release blockers."
+  ]
+}
