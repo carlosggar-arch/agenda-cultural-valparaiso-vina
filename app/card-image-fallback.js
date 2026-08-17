@@ -1,5 +1,3 @@
-const STORAGE_KEY = "agenda-cultural-city";
-
 const CATEGORY_PHOTOS = Object.freeze([
   { markers: ["cine"], src: "../assets/categoria-cine.jpg" },
   { markers: ["música", "musica"], src: "../assets/categoria-musica.jpg" },
@@ -10,14 +8,6 @@ const CATEGORY_PHOTOS = Object.freeze([
   { markers: ["gastronomía", "gastronomia", "feria"], src: "../assets/categoria-gastronomia.jpg" },
   { markers: ["naturaleza", "montaña", "montana", "caminata"], src: "../assets/categoria-naturaleza.jpg" },
 ]);
-
-function activeCity() {
-  try {
-    return localStorage.getItem(STORAGE_KEY);
-  } catch {
-    return null;
-  }
-}
 
 function normalize(value) {
   return String(value || "").trim().toLocaleLowerCase("es");
@@ -31,7 +21,6 @@ function categoryPhoto(label) {
 
 function upgradePlaceholder(media) {
   if (!(media instanceof HTMLElement) || media.dataset.categoryPhotoApplied === "true") return;
-  if (activeCity() !== "valparaiso") return;
 
   const label = media.querySelector(".event-card-placeholder-label")?.textContent?.trim() || "Cultura";
   const image = document.createElement("img");
@@ -52,7 +41,6 @@ function upgradePlaceholder(media) {
 }
 
 function scan() {
-  if (activeCity() !== "valparaiso") return;
   document.querySelectorAll(".event-card-media--placeholder").forEach(upgradePlaceholder);
 }
 
