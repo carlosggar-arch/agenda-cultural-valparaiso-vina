@@ -26,6 +26,7 @@ REQUIRED_MARKERS = {
     'data-mobile-touch-target="true"': "Mobile navigation touch targets are smaller than 44px",
     'data-mobile-city-current="true"': "Current city is not reflected in the mobile city chooser",
     'data-mobile-styles-loaded="true"': "Mobile experience stylesheet did not load",
+    'data-mobile-install-meta="true"': "Installed-app title/capable metadata is incomplete",
 }
 
 FIRST_OPEN_MARKERS = {
@@ -86,6 +87,9 @@ def make_test_pages() -> None:
         const mobileStyles = document.querySelector('link[data-mobile-experience-styles]');
         const navVisible = Boolean(mobileNav && !mobileNav.hidden && getComputedStyle(mobileNav).display !== "none");
         const touchTarget = mobileCityButton ? mobileCityButton.getBoundingClientRect().height >= 44 : false;
+        const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]')?.content === "¡Vivamos!";
+        const appleCapable = document.querySelector('meta[name="apple-mobile-web-app-capable"]')?.content === "yes";
+        const mobileCapable = document.querySelector('meta[name="mobile-web-app-capable"]')?.content === "yes";
         document.body.dataset.pwaProbeDone = "true";
         document.body.dataset.pwaReady = String(ready);
         document.body.dataset.pwaControlled = String(Boolean(navigator.serviceWorker.controller));
@@ -96,6 +100,7 @@ def make_test_pages() -> None:
         document.body.dataset.mobileTouchTarget = String(touchTarget);
         document.body.dataset.mobileCityCurrent = String(Boolean(currentCity));
         document.body.dataset.mobileStylesLoaded = String(Boolean(mobileStyles));
+        document.body.dataset.mobileInstallMeta = String(appleTitle && appleCapable && mobileCapable);
       };
       probe();
     })();
@@ -134,7 +139,7 @@ def probe_state(dom: str) -> tuple[bool, str]:
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     if not match or int(match.group(1)) <= 0:
         missing.append("Installed PWA rendered no event cards")
-    observed = ", ".join(re.findall(r'data-(?:pwa|mobile)-[a-z-]+="[^"]*"', dom)[-12:])
+    observed = ", ".join(re.findall(r'data-(?:pwa|mobile)-[a-z-]+="[^"]*"', dom)[-14:])
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no probe attributes'}"
 
 
@@ -211,7 +216,7 @@ def main() -> None:
         raise AssertionError(state)
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     assert match is not None
-    print(f"Mobile PWA test: first-open chooser, one-hand navigation, touch targets and {match.group(1)} Valparaiso cards validated")
+    print(f"Mobile PWA test: first-open chooser, install metadata, one-hand navigation, touch targets and {match.group(1)} Valparaiso cards validated")
 
 
 if __name__ == "__main__":
