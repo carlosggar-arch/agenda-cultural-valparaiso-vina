@@ -11,6 +11,7 @@ index = (APP / "index.html").read_text(encoding="utf-8")
 card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
+media_layout = (ROOT / "assets" / "event-media-layout.css").read_text(encoding="utf-8")
 manifest = json.loads((APP / "manifest.webmanifest").read_text(encoding="utf-8"))
 registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
 gijon = json.loads((APP / "data/gijon/agenda_web.json").read_text(encoding="utf-8"))
@@ -49,10 +50,31 @@ assert 'image.dataset.eventImage = "relevant"' in card_js
 assert 'activeCity() !== "valparaiso"' not in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
+# WEB + APP media must remain presentation-only. Generic source illustrations are
+# cropped enough to hide baked-in white carousel strips/arrows; real event photos
+# keep their contain treatment and are not subjected to this crop.
+for selector in (
+    '.card-media > button',
+    '.event-card-media > button',
+    '.event-detail-media > button',
+    '.card-media .carousel-control-next',
+    '.card-media .carousel-control-prev',
+    '.card-media .swiper-button-next',
+    '.card-media .swiper-button-prev',
+    '.card-media [data-media-nav]',
+):
+    assert selector in media_layout
+assert 'display: none !important;' in media_layout
+assert 'img[data-image-kind="category-fallback"]' in media_layout
+assert 'img[src*="categoria-"]' in media_layout
+assert 'object-fit: cover !important;' in media_layout
+assert 'transform: scale(1.25) !important;' in media_layout
+assert 'object-fit: contain !important;' in media_layout
+
 assert gijon.get("timezone") == cities["gijon"]["timezone"]
 assert valpo.get("timezone") != cities["gijon"]["timezone"]
 gijon_events = [event for event in gijon.get("events", []) if isinstance(event, dict)]
 assert gijon_events, "Gijon dataset is unexpectedly empty"
 assert any(str((event.get("image") or {}).get("url") or "").startswith(("http://", "https://")) for event in gijon_events)
 
-print("PWA registry-driven multi-city dataset isolation: OK")
+print("PWA registry-driven multi-city dataset isolation and WEB/APP media cleanup: OK")
