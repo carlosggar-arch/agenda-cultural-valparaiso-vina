@@ -3,10 +3,12 @@ name: Multi-city pre-release validation
 on:
   push:
     branches:
+      - main
       - feature/multi-city-pwa
     paths:
       - "app/**"
       - "index.html"
+      - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
       - "assets/event-media-layout.css"
       - "assets/event-schedule-display.mjs"
@@ -17,6 +19,7 @@ on:
     paths:
       - "app/**"
       - "index.html"
+      - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
       - "assets/event-media-layout.css"
       - "assets/event-schedule-display.mjs"
@@ -54,6 +57,7 @@ jobs:
             app/scripts/test_pre_release.py \
             app/scripts/test_runtime_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
+            app/scripts/test_pwa_install_browser.py \
             app/scripts/test_density_runtime.py \
             app/scripts/test_contextual_filters.py
           node --check app/app.js
@@ -63,19 +67,20 @@ jobs:
           node --check app/density-polish.js
           node --check app/sources-toggle.js
           node --check app/schedule-display.js
+          node --check app/gijon-venue-hours.js
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
 
-      - name: Run existing multi-city contracts
+      - name: Run current multi-city contracts
         run: |
           set -euo pipefail
           python app/scripts/test_gijon_editorial.py
           python app/scripts/test_multi_city_ui.py
-          python app/scripts/test_pwa.py
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
+          python app/scripts/test_pre_release.py
 
-      - name: Verify independent Valparaiso web and multi-city app
+      - name: Verify independent Valparaiso web and current PWA shell
         run: |
           set -euo pipefail
           grep -F '<div class="mosaic-top"' index.html
@@ -83,8 +88,15 @@ jobs:
           grep -F '<div class="footer-mosaic"' index.html
           grep -F './assets/web-event-enhancements.js' index.html
           ! grep -F 'window.location.replace(target.href)' index.html
-          grep -F 'const APP_VERSION = "PWA v23"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v23"' app/service-worker.js
+          grep -F '"id": "./app/"' manifest.webmanifest
+          grep -F '"start_url": "./app/"' manifest.webmanifest
+          grep -F '"scope": "./app/"' manifest.webmanifest
+          grep -F '"name": "¡Vivamos!"' manifest.webmanifest
+          grep -F 'const APP_VERSION = "PWA v25"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v25"' app/service-worker.js
+          grep -F '"./gijon-venue-hours.js"' app/service-worker.js
+          ! grep -F 'client.navigate(' app/service-worker.js
+          ! grep -F 'refreshOpenWindows' app/service-worker.js
           grep -F 'object-fit: contain !important' assets/event-media-layout.css
           grep -F '.card-media > button' assets/event-media-layout.css
           grep -F 'export function formatSchedule' assets/event-schedule-display.mjs
@@ -96,10 +108,8 @@ jobs:
           set -euo pipefail
           python app/scripts/test_runtime_browser.py
           python app/scripts/test_schedule_interaction_browser.py
+          python app/scripts/test_pwa_install_browser.py
           python app/scripts/test_density_runtime.py
-
-      - name: Run joint pre-release contract
-        run: python app/scripts/test_pre_release.py
 
       - name: Verify production data/runtime isolation
         run: |
@@ -114,7 +124,7 @@ jobs:
           fi
 
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"

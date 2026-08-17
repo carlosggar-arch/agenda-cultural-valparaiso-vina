@@ -1,19 +1,38 @@
 {
-  "name": "Agenda Cultural Valparaíso / Viña del Mar",
-  "short_name": "Agenda Cultural",
-  "description": "Eventos, cursos, talleres y panoramas culturales verificados de Valparaíso y Viña del Mar.",
-  "start_url": "./",
-  "scope": "./",
+  "id": "./app/",
+  "name": "¡Vivamos!",
+  "short_name": "¡Vivamos!",
+  "description": "Descubre y vive lo que hay cerca de ti. Planes, cultura y actividades en tu ciudad.",
+  "start_url": "./app/",
+  "scope": "./app/",
   "display": "standalone",
-  "lang": "es-CL",
-  "background_color": "#f5f1e8",
+  "lang": "es",
+  "background_color": "#f6f3eb",
   "theme_color": "#174f46",
   "icons": [
     {
-      "src": "./assets/favicon.svg",
+      "src": "./app/icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
+    },
+    {
+      "src": "./app/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./app/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./app/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

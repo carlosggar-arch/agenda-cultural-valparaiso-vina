@@ -54,8 +54,10 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v23"' in pwa
-assert 'const CACHE_VERSION = "v23"' in service_worker
+assert 'const APP_VERSION = "PWA v25"' in pwa
+assert 'const CACHE_VERSION = "v25"' in service_worker
+assert "client.navigate(" not in service_worker
+assert "refreshOpenWindows" not in service_worker
 
 # The root website is intentionally a Valparaíso/Viña web experience again;
 # the multi-city PWA remains available independently under /app/.
@@ -84,7 +86,8 @@ assert 'export function formatSchedule' in schedule_module
 assert 'schedule?.opening_time' in schedule_module
 assert 'schedule?.opening_hours' in schedule_module
 assert 'Cerrado hoy' in schedule_module
-assert 'from "../assets/event-schedule-display.mjs"' in app_schedule
-assert 'formatSchedule(event.schedule, activeConfig)' in app_schedule
+assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_schedule
+assert 'formatSchedule(schedule, activeConfig)' in app_schedule
+assert 'scheduleForGijonEvent' in app_schedule
 
 print("Contextual filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
