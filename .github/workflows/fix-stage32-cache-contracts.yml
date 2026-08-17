@@ -1,0 +1,48 @@
+name: Fix remaining Stage 3.2 cache contracts
+
+on:
+  push:
+    branches: [feature/stage32-private-analytics]
+    paths:
+      - ".github/workflows/fix-stage32-cache-contracts.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/stage32-private-analytics
+          fetch-depth: 0
+      - name: Refresh stale cache assertions
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          changed=[]
+          for root in (Path('app/scripts'), Path('tests')):
+              for p in root.rglob('*'):
+                  if not p.is_file() or p.suffix not in {'.py','.js','.mjs'}:
+                      continue
+                  s=p.read_text(encoding='utf-8')
+                  n=s.replace('const CACHE_VERSION = "v36"', 'const CACHE_VERSION = "v37"')
+                  if n != s:
+                      p.write_text(n, encoding='utf-8')
+                      changed.append(str(p))
+          print('UPDATED', *changed)
+          PY
+          if grep -R 'const CACHE_VERSION = "v36"' app/scripts tests; then exit 1; fi
+          python app/scripts/test_contextual_filters.py
+          python app/scripts/test_multi_city_ui.py
+      - name: Commit refreshed contracts
+        run: |
+          set -euo pipefail
+          git config user.name "agenda-cultural-stage32[bot]"
+          git config user.email "agenda-cultural-stage32[bot]@users.noreply.github.com"
+          git add app/scripts tests
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Refresh PWA v37 cache contracts"
+          git pull --rebase origin feature/stage32-private-analytics
+          git push origin HEAD:feature/stage32-private-analytics
