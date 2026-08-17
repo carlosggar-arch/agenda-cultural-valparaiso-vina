@@ -26,11 +26,25 @@ def prepare_page(city: str) -> None:
         const count = Number.parseInt(button.querySelector("small")?.textContent || "", 10);
         return count === 0 && getComputedStyle(button).display !== "none" && !button.hidden;
       });
+      const workbench = document.querySelector(".filter-workbench");
+      const dividerStyle = workbench ? getComputedStyle(workbench, "::before") : null;
+      const whenGroup = document.querySelector("[data-combined-when]")?.closest(".filter-group");
+      const whenLegend = whenGroup?.querySelector(".filter-group-title");
+      const whenGroupStyle = whenGroup ? getComputedStyle(whenGroup) : null;
+      const whenLegendRect = whenLegend?.getBoundingClientRect();
 
       document.body.dataset.densityControlsPosition = controls ? getComputedStyle(controls).position : "missing";
       document.body.dataset.densityControlsTopGap = headerRect && controlsRect ? String(Math.round(controlsRect.top - headerRect.top)) : "999";
       document.body.dataset.densityControlsRightGap = headerRect && controlsRect ? String(Math.round(headerRect.right - controlsRect.right)) : "999";
       document.body.dataset.densityZeroCategoriesVisible = String(zeroVisible.length);
+      document.body.dataset.densityMosaicVisible = String(Boolean(
+        dividerStyle
+        && dividerStyle.content !== "none"
+        && Number.parseFloat(dividerStyle.height) >= 8
+        && dividerStyle.backgroundImage.includes("mosaic-top.png")
+      ));
+      document.body.dataset.densityWhenLegendHeight = String(Math.round(whenLegendRect?.height || 0));
+      document.body.dataset.densityWhenPaddingTop = String(Math.round(Number.parseFloat(whenGroupStyle?.paddingTop || "0")));
     }, 7000);
   </script>
 '''
@@ -68,20 +82,32 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError(f"Header controls still consume a layout row for {city}")
     if 'data-density-zero-categories-visible="0"' not in dom:
         raise AssertionError(f"A zero-count category remains visible for {city}")
+    if 'data-density-mosaic-visible="true"' not in dom:
+        raise AssertionError(f"The compact mosaic divider is not visible for {city}")
 
     import re
     top_match = re.search(r'data-density-controls-top-gap="(-?\d+)"', dom)
     right_match = re.search(r'data-density-controls-right-gap="(-?\d+)"', dom)
+    legend_match = re.search(r'data-density-when-legend-height="(\d+)"', dom)
+    padding_match = re.search(r'data-density-when-padding-top="(\d+)"', dom)
     if not top_match or not right_match:
         raise AssertionError(f"Could not measure header controls for {city}")
+    if not legend_match or not padding_match:
+        raise AssertionError(f"Could not measure the When filter spacing for {city}")
     top_gap = int(top_match.group(1))
     right_gap = int(right_match.group(1))
+    legend_height = int(legend_match.group(1))
+    padding_top = int(padding_match.group(1))
     if not 0 <= top_gap <= 28:
         raise AssertionError(f"Header controls are not near the top edge for {city}: {top_gap}px")
     if not 0 <= right_gap <= 28:
         raise AssertionError(f"Header controls are not near the right edge for {city}: {right_gap}px")
+    if legend_height < 10:
+        raise AssertionError(f"When legend remains visually cramped for {city}: {legend_height}px")
+    if padding_top < 5:
+        raise AssertionError(f"When group has insufficient top breathing room for {city}: {padding_top}px")
 
-    print(f"Density runtime {city}: top-right controls and zero empty categories OK")
+    print(f"Density runtime {city}: compact header, mosaic divider and readable When filter OK")
 
 
 def main() -> None:
