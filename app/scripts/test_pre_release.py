@@ -48,6 +48,8 @@ def check_manifest_and_icons() -> None:
 def check_service_worker() -> None:
     sw = (APP / "service-worker.js").read_text(encoding="utf-8")
     assert "networkFirstDataset" in sw
+    assert "CITY_REGISTRY_URL" in sw
+    assert "datasetUrls" in sw
     assert "../agenda_web.json" in sw
     assert "./data/gijon/agenda_web.json" in sw
     assert "DATA_CACHE" in sw
@@ -57,6 +59,8 @@ def check_service_worker() -> None:
     shell_end = sw.index("];", shell_start)
     shell_block = sw[shell_start:shell_end]
     assert "agenda_web.json" not in shell_block, "city datasets must never be precached"
+    assert '"./cities.json"' in shell_block
+    assert '"../assets/city-registry.mjs"' in shell_block
 
 
 def check_ui_contract() -> None:
@@ -64,12 +68,19 @@ def check_ui_contract() -> None:
     app_js = (APP / "app.js").read_text(encoding="utf-8")
     pwa_js = (APP / "pwa.js").read_text(encoding="utf-8") if (APP / "pwa.js").exists() else ""
     event_detail_js = (APP / "event-detail.js").read_text(encoding="utf-8")
+    city_registry = load_json(APP / "cities.json")
+    city_registry_js = (ROOT / "assets/city-registry.mjs").read_text(encoding="utf-8")
 
     assert './manifest.webmanifest' in index
     assert './icons/icon-192.png' in index
     assert ('./service-worker.js' in app_js) or ('./service-worker.js' in pwa_js)
-    assert '../agenda_web.json' in app_js
-    assert './data/gijon/agenda_web.json' in app_js
+    assert 'loadCityRegistry' in app_js
+    assert 'const CITIES = CITY_REGISTRY.byId' in app_js
+    assert 'fetch(city.dataset' in app_js
+    assert 'loadCityRegistry' in city_registry_js
+    by_id = {city["id"]: city for city in city_registry.get("cities", [])}
+    assert by_id["valparaiso"]["dataset"] == "../agenda_web.json"
+    assert by_id["gijon"]["dataset"] == "./data/gijon/agenda_web.json"
     assert 'event?.event_type === "program"' in app_js
     assert 'event?.event_type === "flexible_offer"' in app_js
 
