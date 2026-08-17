@@ -48,6 +48,13 @@ function detailDescription(event) {
   return text;
 }
 
+function isGijonOpenDataEvent(event, presentation) {
+  const name = String(presentation?.sourceName || event?.source_name || "").toLocaleLowerCase("es");
+  const source = safeHttpUrl(presentation?.sourceUrl || event?.source_url || event?.links?.source);
+  return (name.includes("open data") && name.includes("gij"))
+    || Boolean(source?.startsWith("https://opendata.gijon.es/"));
+}
+
 function buildMedia(event, presentation) {
   const media = document.createElement("div");
   media.className = "event-detail-media";
@@ -143,12 +150,28 @@ export function openEventDetail(event, presentation = {}) {
     content.append(section);
   }
 
+  const gijonOpenData = isGijonOpenDataEvent(event, presentation);
   const extra = document.createElement("div");
   extra.className = "event-detail-extra";
   if (event?.organizer) addFact(extra, "Organiza", event.organizer, "•");
   if (event?.audience) addFact(extra, "Público", event.audience, "◎");
-  if (presentation.sourceName) addFact(extra, "Fuente", presentation.sourceName, "✓");
+  if (presentation.sourceName) {
+    addFact(extra, gijonOpenData ? "Datos oficiales" : "Fuente", presentation.sourceName, "✓");
+  }
   if (extra.childElementCount) content.append(extra);
+
+  if (gijonOpenData) {
+    const provenance = document.createElement("section");
+    provenance.className = "event-detail-description event-detail-provenance";
+    addText(provenance, "h3", "", "Información oficial disponible");
+    addText(
+      provenance,
+      "p",
+      "",
+      "Esta ficha se construye con los datos oficiales publicados por Open Data del Ayuntamiento de Gijón/Xixón. La página municipal individual puede aparecer vacía; los datos mostrados aquí siguen procediendo de la fuente oficial.",
+    );
+    content.append(provenance);
+  }
 
   const actions = document.createElement("div");
   actions.className = "event-detail-actions";
@@ -156,8 +179,15 @@ export function openEventDetail(event, presentation = {}) {
   const official = safeHttpUrl(presentation.officialUrl);
   const source = safeHttpUrl(presentation.sourceUrl);
   if (registration) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
-  if (official && official !== registration) addExternalAction(actions, official, "Fuente oficial ↗");
-  if (source && source !== official && source !== registration) addExternalAction(actions, source, "Fuente de datos ↗");
+  if (gijonOpenData) {
+    if (source && source !== registration) addExternalAction(actions, source, "Open Data oficial ↗");
+    if (official && official !== source && official !== registration) {
+      addExternalAction(actions, official, "Página municipal ↗");
+    }
+  } else {
+    if (official && official !== registration) addExternalAction(actions, official, "Fuente oficial ↗");
+    if (source && source !== official && source !== registration) addExternalAction(actions, source, "Fuente de datos ↗");
+  }
   if (actions.childElementCount) content.append(actions);
 
   panel.append(content);
