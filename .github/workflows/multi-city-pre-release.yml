@@ -12,6 +12,11 @@ on:
       - "assets/web-event-enhancements.js"
       - "assets/event-media-layout.css"
       - "assets/event-schedule-display.mjs"
+      - "assets/root-combined-filter-core.mjs"
+      - "assets/root-combined-filters.js"
+      - "assets/root-combined-filters.css"
+      - "tests/root-combined-filters.test.mjs"
+      - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/multi-city-pre-release.yml"
   pull_request:
     branches:
@@ -23,6 +28,11 @@ on:
       - "assets/web-event-enhancements.js"
       - "assets/event-media-layout.css"
       - "assets/event-schedule-display.mjs"
+      - "assets/root-combined-filter-core.mjs"
+      - "assets/root-combined-filters.js"
+      - "assets/root-combined-filters.css"
+      - "tests/root-combined-filters.test.mjs"
+      - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/multi-city-pre-release.yml"
   workflow_dispatch:
 
@@ -73,6 +83,8 @@ jobs:
           node --check app/event-detail.js
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
+          node --check assets/root-combined-filters.js
+          node --check assets/root-combined-filter-core.mjs
 
       - name: Run current multi-city contracts
         run: |
@@ -83,6 +95,7 @@ jobs:
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
           python app/scripts/test_pre_release.py
+          node --test tests/root-combined-filters.test.mjs
 
       - name: Verify independent Valparaiso web and current PWA shell
         run: |
@@ -131,7 +144,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|tests/root-combined-filters\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
