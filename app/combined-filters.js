@@ -20,7 +20,9 @@ const dom = {
   when: document.querySelector("[data-combined-when]"),
   areaGroup: document.querySelector("[data-area-filter-group]"),
   area: document.querySelector("[data-combined-area]"),
-  price: document.querySelector("[data-combined-price]"),
+  access: document.querySelector("[data-combined-access]"),
+  format: document.querySelector("[data-combined-format]"),
+  audience: document.querySelector("[data-combined-audience]"),
   categories: document.querySelector("[data-combined-category-filters]"),
   customDates: document.querySelector("[data-custom-dates]"),
   dateFrom: document.querySelector("[data-date-from]"),
@@ -59,16 +61,51 @@ const AREA_LABELS = Object.freeze({
   vina: "Viña del Mar",
 });
 
-const PRICE_LABELS = Object.freeze({
-  todos: "Cualquier precio",
-  gratis: "Gratis",
-  pago: "De pago",
+const ACCESS_LABELS = Object.freeze({
+  todos: "Cualquier acceso",
+  entradas: "Con entradas",
+  inscripcion: "Con inscripción",
+});
+
+const FORMAT_LABELS = Object.freeze({
+  todos: "Cualquier formato",
+  presencial: "Presencial",
+  "en-linea": "En línea",
+});
+
+const AUDIENCE_LABELS = Object.freeze({
+  todos: "Cualquier público",
+  familiar: "Para familias",
+});
+
+const SEARCH_ALIASES = Object.freeze({
+  valpo: ["valpo", "valparaiso"],
+  valparaiso: ["valparaiso", "valpo"],
+  vina: ["vina", "vina del mar"],
+  gratis: ["gratis", "gratuito", "gratuita", "liberado", "liberada"],
+  gratuito: ["gratis", "gratuito", "gratuita", "liberado", "liberada"],
+  gratuita: ["gratis", "gratuito", "gratuita", "liberado", "liberada"],
+  inscripcion: ["inscripcion", "registro", "reserva"],
+  registro: ["inscripcion", "registro", "reserva"],
+  entradas: ["entradas", "tickets", "ticket"],
+  ticket: ["entradas", "tickets", "ticket"],
+  tickets: ["entradas", "tickets", "ticket"],
+  online: ["online", "virtual", "en linea"],
+  virtual: ["online", "virtual", "en linea"],
+  familiar: ["familiar", "familia", "familias", "infantil", "ninos", "ninas", "todo publico", "todas las edades"],
+  familia: ["familiar", "familia", "familias", "infantil", "ninos", "ninas", "todo publico", "todas las edades"],
+  familias: ["familiar", "familia", "familias", "infantil", "ninos", "ninas", "todo publico", "todas las edades"],
+  infantil: ["familiar", "familia", "familias", "infantil", "ninos", "ninas"],
+  ninos: ["familiar", "familia", "infantil", "ninos", "ninas"],
+  ninas: ["familiar", "familia", "infantil", "ninos", "ninas"],
 });
 
 const state = {
   when: "todos",
   area: "todos",
-  price: "todos",
+  access: "todos",
+  format: "todos",
+  audience: "todos",
   categories: new Set(),
   query: "",
   from: "",
@@ -226,13 +263,51 @@ function eventMatchesArea(event, area = state.area) {
   return true;
 }
 
-function eventMatchesPrice(event, price = state.price) {
-  if (price === "todos") return true;
-  const isFree = event?.price?.is_free;
-  if (price === "gratis") return isFree === true;
-  if (price === "pago") {
-    return isFree === false || Number(event?.price?.min_amount || 0) > 0 || Number(event?.price?.max_amount || 0) > 0;
-  }
+function hasTicketLink(event) {
+  return Boolean(String(event?.links?.tickets || "").trim());
+}
+
+function hasRegistration(event) {
+  return Boolean(
+    String(event?.links?.registration || "").trim()
+    || String(event?.registration_requirements || "").trim()
+    || event?.public_status?.registration_open === true
+  );
+}
+
+function eventMatchesAccess(event, access = state.access) {
+  if (access === "todos") return true;
+  if (access === "entradas") return hasTicketLink(event);
+  if (access === "inscripcion") return hasRegistration(event);
+  return true;
+}
+
+function eventMatchesFormat(event, format = state.format) {
+  if (format === "todos") return true;
+  const online = event?.location?.online === true;
+  if (format === "en-linea") return online;
+  if (format === "presencial") return !online;
+  return true;
+}
+
+function familySearchText(event) {
+  return normalizeText([
+    event?.audience,
+    ...(event?.tags || []),
+    event?.title,
+    event?.description,
+    event?.primary_category?.label,
+  ].filter(Boolean).join(" "));
+}
+
+function isFamilyFriendly(event) {
+  const text = familySearchText(event);
+  return /\bfamiliar(?:es)?\b|\bfamilias?\b|\binfantil(?:es)?\b|\bninos?\b|\bninas?\b|\btodo publico\b|\btodas las edades\b/.test(text);
+}
+
+function eventMatchesAudience(event, audience = state.audience) {
+  if (audience === "todos") return true;
+  if (audience === "familiar") return isFamilyFriendly(event);
   return true;
 }
 
@@ -240,6 +315,17 @@ function eventMatchesCategories(event, categories = state.categories) {
   if (!categories.size) return true;
   const eventIds = eventCategories(event);
   return [...categories].some((id) => eventIds.has(id));
+}
+
+function derivedSearchTerms(event) {
+  const terms = [];
+  if (event?.price?.is_free === true) terms.push("gratis gratuito gratuita liberado liberada");
+  if (hasTicketLink(event)) terms.push("entradas ticket tickets");
+  if (hasRegistration(event)) terms.push("inscripcion registro reserva");
+  if (event?.location?.online === true) terms.push("online virtual en linea");
+  else terms.push("presencial");
+  if (isFamilyFriendly(event)) terms.push("familiar familia familias infantil ninos ninas todo publico todas las edades");
+  return terms;
 }
 
 function eventSearchText(event) {
@@ -252,26 +338,34 @@ function eventSearchText(event) {
     event?.location?.commune,
     event?.description,
     event?.source_name,
+    event?.source_id,
     event?.organizer,
     ...(event?.tags || []),
     event?.audience,
     event?.price?.display_text,
     event?.schedule?.display_text,
+    ...derivedSearchTerms(event),
   ].filter(Boolean).join(" "));
+}
+
+function queryAlternatives(token) {
+  return SEARCH_ALIASES[token] || [token];
 }
 
 function eventMatchesQuery(event, query = state.query) {
   const tokens = normalizeText(query).split(" ").filter(Boolean);
   if (!tokens.length) return true;
   const haystack = eventSearchText(event);
-  return tokens.every((token) => haystack.includes(token));
+  return tokens.every((token) => queryAlternatives(token).some((candidate) => haystack.includes(candidate)));
 }
 
 function eventMatches(event, options = {}) {
   const ignore = new Set(options.ignore || []);
   if (!ignore.has("when") && !eventMatchesWhen(event)) return false;
   if (!ignore.has("area") && !eventMatchesArea(event)) return false;
-  if (!ignore.has("price") && !eventMatchesPrice(event)) return false;
+  if (!ignore.has("access") && !eventMatchesAccess(event)) return false;
+  if (!ignore.has("format") && !eventMatchesFormat(event)) return false;
+  if (!ignore.has("audience") && !eventMatchesAudience(event)) return false;
   if (!ignore.has("categories") && !eventMatchesCategories(event)) return false;
   if (!ignore.has("query") && !eventMatchesQuery(event)) return false;
   return true;
@@ -392,7 +486,9 @@ function setPressed(container, selector, value) {
 function updateControls() {
   setPressed(dom.when, "[data-filter-value]", state.when);
   setPressed(dom.area, "[data-filter-value]", state.area);
-  setPressed(dom.price, "[data-filter-value]", state.price);
+  setPressed(dom.access, "[data-filter-value]", state.access);
+  setPressed(dom.format, "[data-filter-value]", state.format);
+  setPressed(dom.audience, "[data-filter-value]", state.audience);
   if (dom.search && dom.search.value !== state.query) dom.search.value = state.query;
   if (dom.dateFrom && dom.dateFrom.value !== state.from) dom.dateFrom.value = state.from;
   if (dom.dateTo && dom.dateTo.value !== state.to) dom.dateTo.value = state.to;
@@ -421,7 +517,9 @@ function activeFilterParts(total) {
     }
   }
   if (currentCityId() === "valparaiso" && state.area !== "todos") parts.push(AREA_LABELS[state.area]);
-  if (state.price !== "todos") parts.push(PRICE_LABELS[state.price]);
+  if (state.access !== "todos") parts.push(ACCESS_LABELS[state.access]);
+  if (state.format !== "todos") parts.push(FORMAT_LABELS[state.format]);
+  if (state.audience !== "todos") parts.push(AUDIENCE_LABELS[state.audience]);
   if (state.categories.size) {
     const labels = new Map(categoryCatalog().map(({ id, label }) => [id, label]));
     parts.push([...state.categories].map((id) => labels.get(id) || id).join(" + "));
@@ -433,7 +531,9 @@ function activeFilterParts(total) {
 function hasActiveFilters() {
   return state.when !== "todos"
     || state.area !== "todos"
-    || state.price !== "todos"
+    || state.access !== "todos"
+    || state.format !== "todos"
+    || state.audience !== "todos"
     || state.categories.size > 0
     || Boolean(state.query)
     || Boolean(state.from)
@@ -454,31 +554,39 @@ function patchResults(filtered) {
   const active = hasActiveFilters();
 
   setText(dom.total, total);
-  setText(dom.agendaKicker, active ? "Agenda filtrada" : "Agenda actual");
-  setText(dom.agendaTitle, active ? "Resultados" : "Todas las actividades");
+  setText(dom.agendaKicker, state.query ? "Búsqueda" : active ? "Agenda filtrada" : "Agenda actual");
+  setText(dom.agendaTitle, state.query ? "Resultados de búsqueda" : active ? "Resultados" : "Todas las actividades");
   setText(dom.filterSummary, activeFilterParts(total).join(" · "));
   setHidden(dom.clear, !active);
   setHidden(dom.empty, total !== 0);
-  setText(dom.emptyCopy, total === 0 ? "Prueba a quitar algún filtro o ampliar el rango de fechas." : "");
+  setText(dom.emptyCopy, total === 0 ? "Prueba con menos palabras, quita algún filtro o amplía el rango de fechas." : "");
 }
 
 function updateDimensionCounts() {
-  const update = (container, dimension) => {
+  const matchers = {
+    when: eventMatchesWhen,
+    area: eventMatchesArea,
+    access: eventMatchesAccess,
+    format: eventMatchesFormat,
+    audience: eventMatchesAudience,
+  };
+  const containers = {
+    when: dom.when,
+    area: dom.area,
+    access: dom.access,
+    format: dom.format,
+    audience: dom.audience,
+  };
+  for (const [dimension, container] of Object.entries(containers)) {
+    const matcher = matchers[dimension];
     for (const button of container?.querySelectorAll("[data-filter-value]") || []) {
       const value = button.dataset.filterValue;
-      const count = datasetEvents.filter((event) => {
-        if (!eventMatches(event, { ignore: [dimension] })) return false;
-        if (dimension === "when") return eventMatchesWhen(event, value);
-        if (dimension === "area") return eventMatchesArea(event, value);
-        if (dimension === "price") return eventMatchesPrice(event, value);
-        return true;
-      }).length;
+      const count = datasetEvents.filter((event) => (
+        eventMatches(event, { ignore: [dimension] }) && matcher(event, value)
+      )).length;
       setText(button.querySelector("[data-combined-count]"), count);
     }
-  };
-  update(dom.when, "when");
-  update(dom.area, "area");
-  update(dom.price, "price");
+  }
 }
 
 function writeUrl() {
@@ -489,11 +597,14 @@ function writeUrl() {
   };
   setOrDelete("when", state.when, "todos");
   setOrDelete("area", currentCityId() === "valparaiso" ? state.area : "todos", "todos");
-  setOrDelete("price", state.price, "todos");
+  setOrDelete("access", state.access, "todos");
+  setOrDelete("format", state.format, "todos");
+  setOrDelete("aud", state.audience, "todos");
   setOrDelete("cat", [...state.categories].sort().join(","));
   setOrDelete("q", state.query);
   setOrDelete("from", state.when === "personalizado" ? state.from : "");
   setOrDelete("to", state.when === "personalizado" ? state.to : "");
+  url.searchParams.delete("price");
   const next = `${url.pathname}${url.search}${url.hash}`;
   const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
   if (next !== current) history.replaceState(null, "", next);
@@ -505,8 +616,12 @@ function readUrl() {
   state.when = Object.hasOwn(WHEN_LABELS, when) ? when : "todos";
   const area = params.get("area") || "todos";
   state.area = currentCityId() === "valparaiso" && Object.hasOwn(AREA_LABELS, area) ? area : "todos";
-  const price = params.get("price") || "todos";
-  state.price = Object.hasOwn(PRICE_LABELS, price) ? price : "todos";
+  const access = params.get("access") || "todos";
+  state.access = Object.hasOwn(ACCESS_LABELS, access) ? access : "todos";
+  const format = params.get("format") || "todos";
+  state.format = Object.hasOwn(FORMAT_LABELS, format) ? format : "todos";
+  const audience = params.get("aud") || "todos";
+  state.audience = Object.hasOwn(AUDIENCE_LABELS, audience) ? audience : "todos";
   state.categories = new Set((params.get("cat") || "").split(",").map((item) => item.trim()).filter(Boolean));
   state.query = params.get("q") || "";
   state.from = params.get("from") || "";
@@ -517,7 +632,9 @@ function readUrl() {
 function resetFilters() {
   state.when = "todos";
   state.area = "todos";
-  state.price = "todos";
+  state.access = "todos";
+  state.format = "todos";
+  state.audience = "todos";
   state.categories.clear();
   state.query = "";
   state.from = "";
@@ -578,7 +695,9 @@ function handleChoice(container, dimension, event) {
 
 dom.when?.addEventListener("click", (event) => handleChoice(dom.when, "when", event));
 dom.area?.addEventListener("click", (event) => handleChoice(dom.area, "area", event));
-dom.price?.addEventListener("click", (event) => handleChoice(dom.price, "price", event));
+dom.access?.addEventListener("click", (event) => handleChoice(dom.access, "access", event));
+dom.format?.addEventListener("click", (event) => handleChoice(dom.format, "format", event));
+dom.audience?.addEventListener("click", (event) => handleChoice(dom.audience, "audience", event));
 
 dom.categories?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-combined-category]");

@@ -17,41 +17,48 @@ schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="
 app_schedule = Path("app/schedule-display.js").read_text(encoding="utf-8")
 
 for marker in (
-    "function eventMatchesWhen", "function eventMatchesArea", "function eventMatchesPrice",
-    "function eventMatchesCategories", "function eventMatchesQuery",
-    'ignore.has("categories")', 'state.categories.has(id)',
-    'tokens.every((token) => haystack.includes(token))', 'normalize("NFD")',
+    "function eventMatchesWhen", "function eventMatchesArea",
+    "function eventMatchesAccess", "function eventMatchesFormat",
+    "function eventMatchesAudience", "function eventMatchesCategories",
+    "function eventMatchesQuery", "function derivedSearchTerms",
+    "const SEARCH_ALIASES", "function queryAlternatives",
+    'ignore.has("access")', 'ignore.has("format")', 'ignore.has("audience")',
+    'state.categories.has(id)', 'queryAlternatives(token)', 'normalize("NFD")',
     'state.when = "personalizado"', 'history.replaceState', 'url.searchParams.set',
-    'currentCityId() !== "valparaiso"', 'forceBaseAppFilters',
+    'setOrDelete("access"', 'setOrDelete("format"', 'setOrDelete("aud"',
+    'url.searchParams.delete("price")', 'currentCityId() !== "valparaiso"',
+    'forceBaseAppFilters', 'state.query ? "Resultados de búsqueda"',
 ):
     assert marker in combined
+assert "function eventMatchesPrice" not in combined
 
 for marker in (
     'data-smart-search', 'data-combined-when', 'data-combined-area',
+    'data-combined-access', 'data-combined-format', 'data-combined-audience',
     'data-combined-category-filters', 'data-date-from', 'data-date-to',
 ):
     assert marker in app_index
+assert 'data-combined-price' not in app_index
 assert './combined-filters.js' in app_index
 assert './contextual-filters.js' not in app_index
 assert '.filter-workbench' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
 assert '.legacy-filter-hooks' in combined_css
-assert '.filter-group:has([data-combined-price])' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
 
 assert 'function removeNonActionableFilterCopy()' in polish
 assert 'document.querySelector(selector)?.remove()' in polish
 assert 'function removePriceFilter()' in polish
-assert 'document.querySelector("[data-combined-price]")?.closest(".filter-group")?.remove()' in polish
 assert 'url.searchParams.delete("price")' in polish
+assert '"access", "format", "aud"' in polish
 assert 'function queueFilterResync()' in polish
 assert 'new MutationObserver(queueFilterResync)' in polish
 assert '.discovery-heading { display: flex !important;' not in polish
 assert '.category-filter-panel .category-explorer-heading { display: flex !important;' not in polish
 assert '.agenda-heading { display: flex !important;' not in polish
 
-# Compactness is structural and visual: no nested filter cards or explanatory copy.
+# Compactness remains the current production contract.
 assert '.filter-workbench {' in compact
 assert 'padding: 0 !important;' in compact
 assert 'border: 0 !important;' in compact
@@ -103,4 +110,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Combined filters stay functional and the v29 filter surface is structurally compact: OK")
+print("Semantic search plus compact date/area/access/format/audience/category filters: OK")

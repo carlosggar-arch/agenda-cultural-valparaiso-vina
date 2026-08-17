@@ -47,7 +47,7 @@ function preserveScrollDuringLegacyClick(container) {
 
 function hasCombinedFilterState() {
   const params = new URLSearchParams(window.location.search);
-  return ["when", "area", "cat", "q", "from", "to"].some((key) => params.has(key));
+  return ["when", "area", "access", "format", "aud", "cat", "q", "from", "to"].some((key) => params.has(key));
 }
 
 let resyncQueued = false;

@@ -46,7 +46,7 @@
     <section class="status" data-status role="status" aria-live="polite"><strong>Preparando la agenda</strong><p>Cargando tu ciudad habitual.</p></section>
 
     <section class="discovery" hidden data-discovery aria-labelledby="discovery-title">
-      <div class="discovery-heading"><div><p class="eyebrow">Explora la agenda</p><h2 id="discovery-title">Encuentra justo lo que buscas</h2></div><p>Combina fecha, zona, precio, categorías y palabras clave. Los filtros funcionan juntos y puedes compartir el resultado por URL.</p></div>
+      <div class="discovery-heading"><div><p class="eyebrow">Explora la agenda</p><h2 id="discovery-title">Encuentra justo lo que buscas</h2></div><p>Combina fecha, zona, acceso, formato, público, categorías y palabras clave.</p></div>
 
       <nav class="quick-sections legacy-filter-hooks" data-section-filters aria-hidden="true">
         <button type="button" data-section-filter="hoy" aria-pressed="false"><span>Hoy</span><small data-section-count>0</small></button>
@@ -58,7 +58,7 @@
       <div class="legacy-filter-hooks" data-category-filters aria-hidden="true"></div>
 
       <section class="filter-workbench" aria-label="Filtros combinados de actividades">
-        <div class="filter-workbench-heading"><div><h3>Combina tus filtros</h3><p>Por ejemplo: música gratis en Viña durante los próximos siete días.</p></div><p class="filter-help">Las categorías permiten selección múltiple.</p></div>
+        <div class="filter-workbench-heading"><div><h3>Combina tus filtros</h3><p>Fecha, zona, acceso, formato, público y categorías funcionan a la vez.</p></div><p class="filter-help">Los contadores se actualizan con el contexto.</p></div>
         <div class="filter-grid">
           <fieldset class="filter-group"><legend class="filter-group-title">Cuándo</legend><div class="filter-choice-row" data-combined-when>
             <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquier fecha <small data-combined-count>0</small></button>
@@ -76,13 +76,24 @@
             <button class="filter-choice" type="button" data-filter-value="vina" aria-pressed="false">Viña del Mar <small data-combined-count>0</small></button>
           </div></fieldset>
 
-          <fieldset class="filter-group"><legend class="filter-group-title">Precio</legend><div class="filter-choice-row" data-combined-price>
-            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Todos <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="gratis" aria-pressed="false">Gratis <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="pago" aria-pressed="false">De pago <small data-combined-count>0</small></button>
+          <fieldset class="filter-group"><legend class="filter-group-title">Acceso</legend><div class="filter-choice-row" data-combined-access>
+            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquiera <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="entradas" aria-pressed="false">Entradas <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="inscripcion" aria-pressed="false">Inscripción <small data-combined-count>0</small></button>
+          </div></fieldset>
+
+          <fieldset class="filter-group"><legend class="filter-group-title">Formato</legend><div class="filter-choice-row" data-combined-format>
+            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquiera <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="presencial" aria-pressed="false">Presencial <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="en-linea" aria-pressed="false">En línea <small data-combined-count>0</small></button>
+          </div></fieldset>
+
+          <fieldset class="filter-group"><legend class="filter-group-title">Público</legend><div class="filter-choice-row" data-combined-audience>
+            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquiera <small data-combined-count>0</small></button>
+            <button class="filter-choice" type="button" data-filter-value="familiar" aria-pressed="false">Familias <small data-combined-count>0</small></button>
           </div></fieldset>
         </div>
-        <div class="category-filter-panel"><div class="category-explorer-heading"><h3>Categorías</h3><p>Puedes marcar varias a la vez; se combinan con la fecha, zona, precio y búsqueda.</p></div><div class="category-filters" data-combined-category-filters aria-label="Categorías combinables"></div></div>
+        <div class="category-filter-panel"><div class="category-explorer-heading"><h3>Categorías</h3><p>Puedes marcar varias a la vez.</p></div><div class="category-filters" data-combined-category-filters aria-label="Categorías combinables"></div></div>
       </section>
     </section>
 
@@ -96,7 +107,7 @@
     </section>
   </main>
 
-  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v27</small></footer>
+  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v29</small></footer>
 
   <div class="chooser-backdrop" hidden data-chooser-backdrop><section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser><button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button><p class="eyebrow">¡Vivamos!</p><h2 id="chooser-title">Cambiar ciudad</h2><p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p><div class="city-options"><button type="button" class="city-option city-option--valpo" data-city-option="valparaiso"><span class="city-symbol valpo-symbol" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Valparaíso / Viña del Mar</strong><small>Chile · costa, cerros y color</small></span><span aria-hidden="true">→</span></button><button type="button" class="city-option city-option--gijon" data-city-option="gijon"><span class="city-symbol gijon-symbol" aria-hidden="true"><i></i><i></i></span><span><strong>Gijón / Xixón</strong><small>Asturias · Cantábrico y horizonte</small></span><span aria-hidden="true">→</span></button></div><button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button><p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p><p class="chooser-message" data-chooser-message aria-live="polite"></p></section></div>
 
