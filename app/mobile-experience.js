@@ -97,11 +97,20 @@ function syncCityOptionState() {
   }
 }
 
+function modalIsOpen() {
+  return [...document.querySelectorAll(".chooser-backdrop")].some((node) => !node.hidden);
+}
+
 function syncModalVisibility() {
-  const openModal = [...document.querySelectorAll(".chooser-backdrop")]
-    .some((node) => !node.hidden);
-  tabbar.hidden = openModal;
+  const openModal = modalIsOpen();
+  if (tabbar.hidden !== openModal) tabbar.hidden = openModal;
   if (!openModal && document.documentElement.dataset.city) setActive("agenda");
+}
+
+function observeModal(node) {
+  if (!node || node.dataset.mobileObserved === "true") return;
+  node.dataset.mobileObserved = "true";
+  new MutationObserver(syncModalVisibility).observe(node, { attributes: true, attributeFilter: ["hidden"] });
 }
 
 function restoreChooserCopyForManualSwitch() {
@@ -119,12 +128,18 @@ new MutationObserver(syncCityOptionState).observe(document.documentElement, {
   attributeFilter: ["data-city"],
 });
 
-new MutationObserver(syncModalVisibility).observe(document.body, {
-  childList: true,
-  subtree: true,
-  attributes: true,
-  attributeFilter: ["hidden"],
-});
+observeModal(chooserBackdrop);
+for (const modal of document.querySelectorAll(".chooser-backdrop")) observeModal(modal);
+new MutationObserver((records) => {
+  for (const record of records) {
+    for (const node of record.addedNodes) {
+      if (!(node instanceof Element)) continue;
+      if (node.matches?.(".chooser-backdrop")) observeModal(node);
+      for (const modal of node.querySelectorAll?.(".chooser-backdrop") || []) observeModal(modal);
+    }
+  }
+  syncModalVisibility();
+}).observe(document.body, { childList: true, subtree: true });
 
 window.addEventListener("appinstalled", syncStandaloneFlag);
 standaloneQuery?.addEventListener?.("change", syncStandaloneFlag);
