@@ -87,7 +87,7 @@ def assert_runtime_contract() -> dict[str, bool]:
         ),
         "favorites_wired": (
             'import "./favorites.js";' in pwa_js
-            and "agenda-cultural-favorites" in favorites
+            and "FAVORITES_STORAGE_KEY" in favorites
             and "data-my-plans" in favorites
         ),
         "plan_ahead_wired": (
