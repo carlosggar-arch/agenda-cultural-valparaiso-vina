@@ -54,6 +54,7 @@ jobs:
             app/scripts/test_gijon_editorial.py \
             app/scripts/test_gijon_source_detail.py \
             app/scripts/test_multi_city_ui.py \
+            app/scripts/test_visual_multicity_v30.py \
             app/scripts/test_pwa.py \
             app/scripts/test_pre_release.py \
             app/scripts/test_runtime_browser.py \
@@ -80,6 +81,7 @@ jobs:
           python app/scripts/test_gijon_editorial.py
           python app/scripts/test_gijon_source_detail.py
           python app/scripts/test_multi_city_ui.py
+          python app/scripts/test_visual_multicity_v30.py
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
           python app/scripts/test_pre_release.py
@@ -96,8 +98,8 @@ jobs:
           grep -F '"start_url": "./app/"' manifest.webmanifest
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
-          grep -F 'const APP_VERSION = "PWA v29"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v29"' app/service-worker.js
+          grep -F 'const APP_VERSION = "PWA v30"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v30"' app/service-worker.js
           grep -F '"./combined-filters.js"' app/service-worker.js
           grep -F '"./combined-filters.css"' app/service-worker.js
           grep -F '"./combined-filters-polish.js"' app/service-worker.js
