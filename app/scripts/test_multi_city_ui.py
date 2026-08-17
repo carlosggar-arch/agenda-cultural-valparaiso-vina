@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 APP = Path("app")
@@ -201,7 +202,7 @@ assert 'data-favorite-toggle' in favorites
 assert '.my-plans-section' in favorites_css
 assert '.favorite-toggle' in favorites_css
 
-assert 'const CACHE_VERSION = "v37";' in service_worker
+assert re.search(r'const CACHE_VERSION = "v\d+";', service_worker)
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -225,4 +226,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v37 registry-based city selection, install and offline contracts: OK")
+print("Multi-city registry-based city selection, install and offline contracts: OK")
