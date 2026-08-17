@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T02:33:29+00:00",
+  "generated_at": "2026-08-17T02:38:06+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -15,7 +15,7 @@
         "publication_date": "2026-08-15",
         "publication_age_days": 1,
         "generated_at": "2026-08-16T22:26:19-04:00",
-        "generated_age_hours": 0.1
+        "generated_age_hours": 0.2
       },
       "counts": {
         "total_events": 70,
@@ -172,14 +172,13 @@
       "today": "2026-08-17",
       "status": "warning",
       "warnings": [
-        "suspicious_titles",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T03:54:44+02:00",
-        "generated_age_hours": 0.6
+        "generated_at": "2026-08-17T04:33:41+02:00",
+        "generated_age_hours": 0.1
       },
       "counts": {
         "total_events": 89,
@@ -187,8 +186,8 @@
         "dated_events": 80,
         "timed_events": 59,
         "relevant_image_events": 83,
-        "suspicious_titles": 5,
-        "title_review_candidates": 44,
+        "suspicious_titles": 0,
+        "title_review_candidates": 41,
         "duplicate_groups": 0,
         "generic_schedule_images_rejected": 0
       },
@@ -201,7 +200,7 @@
         "missing_time": [
           {
             "id": "agenda_gijon_05ecc658bf6d8162",
-            "title": "Alejandro Sirio. La caligrafía del dibujo l Exposición",
+            "title": "Alejandro Sirio. La caligrafía del dibujo",
             "venue": "Museo Nicanor Piñole"
           },
           {
@@ -216,12 +215,12 @@
           },
           {
             "id": "agenda_gijon_ee08bcce65967e5b",
-            "title": "EXPOSICIÓN. La Isla: la pieza que faltaba",
+            "title": "La Isla: la pieza que faltaba",
             "venue": "Jardín Botánico Atlántico de Gijón"
           },
           {
             "id": "agenda_gijon_2d2ecbaf56972462",
-            "title": "Centenario AMADOR (1926-2026) | Exposición",
+            "title": "Centenario AMADOR (1926-2026)",
             "venue": "Museo Casa Natal de Jovellanos"
           },
           {
@@ -236,7 +235,7 @@
           },
           {
             "id": "agenda_gijon_8f6f14c0a4154038",
-            "title": "La Escuela de Gijón. La ciudad como motivo | Exposición",
+            "title": "La Escuela de Gijón. La ciudad como motivo",
             "venue": "Gijón/Xixón"
           }
         ],
@@ -266,48 +265,11 @@
             "title": "Concurso Hípico de Gijón"
           }
         ],
-        "suspicious_titles": [
-          {
-            "id": "agenda_gijon_6d1efd370091c858",
-            "title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_gijon_05ecc658bf6d8162",
-            "title": "Alejandro Sirio. La caligrafía del dibujo l Exposición",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_gijon_ee08bcce65967e5b",
-            "title": "EXPOSICIÓN. La Isla: la pieza que faltaba",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_gijon_02ffe8fe9652408f",
-            "title": "Gijón Verano. Plazos de inscripción",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_gijon_8f6f14c0a4154038",
-            "title": "La Escuela de Gijón. La ciudad como motivo | Exposición",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          }
-        ],
+        "suspicious_titles": [],
         "title_review_candidates": [
           {
-            "id": "agenda_gijon_6d1efd370091c858",
-            "title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
             "id": "agenda_gijon_05ecc658bf6d8162",
-            "title": "Alejandro Sirio. La caligrafía del dibujo l Exposición",
+            "title": "Alejandro Sirio. La caligrafía del dibujo",
             "issue": "suspicious_title_structure",
             "decision": "review"
           },
@@ -324,18 +286,6 @@
             "decision": "review"
           },
           {
-            "id": "agenda_gijon_ee08bcce65967e5b",
-            "title": "EXPOSICIÓN. La Isla: la pieza que faltaba",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_gijon_02ffe8fe9652408f",
-            "title": "Gijón Verano. Plazos de inscripción",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
             "id": "agenda_gijon_98d5f4adbfb66753",
             "title": "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970)",
             "issue": "suspicious_title_structure",
@@ -343,7 +293,25 @@
           },
           {
             "id": "agenda_gijon_8f6f14c0a4154038",
-            "title": "La Escuela de Gijón. La ciudad como motivo | Exposición",
+            "title": "La Escuela de Gijón. La ciudad como motivo",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_274ac55a35c8b33f",
+            "title": "FESTIVAL ARCU ATLÁNTICU. Exposición. Postales N’alcordanza d’Ígor y Carlos",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_32234a75b037c601",
+            "title": "FESTIVAL ARCU ATLÁNTICU. Exposición. Pablo Casanueva, La imaxe, lo tapecío",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_32d73fb96b746f95",
+            "title": "Instalación. Ficción sonora. CÁPSULA RADIO: \"La tercera Luz\"",
             "issue": "suspicious_title_structure",
             "decision": "review"
           }
@@ -479,7 +447,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "ok",
-    "usage_usd": 2.559275574003101,
-    "remaining_usd": 0.940724425996899
+    "usage_usd": 2.5592762292816644,
+    "remaining_usd": 0.9407237707183356
   }
 }
