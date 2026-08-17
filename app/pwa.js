@@ -4,13 +4,13 @@ import "./schedule-display.js";
 import "./card-image-fallback.js";
 import "./compact-top.js";
 import "./gijon-visual-reference.js";
-import "./lean-filters.js";
 import "./sources-toggle.js";
 import "./community-source.js";
 import "./header-redesign.js";
 import "./density-polish.js";
+import "./combined-filters-polish.js";
 
-const APP_VERSION = "PWA v26";
+const APP_VERSION = "PWA v27";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -39,17 +39,14 @@ function setupInstallExperience() {
 
   installButton.addEventListener("click", async () => {
     if (!deferredInstallPrompt) return;
-
     const promptEvent = deferredInstallPrompt;
     deferredInstallPrompt = null;
     installButton.disabled = true;
-
     try {
       await promptEvent.prompt();
       const choice = await promptEvent.userChoice;
-      if (choice?.outcome === "accepted") {
-        hideInstallButton();
-      } else {
+      if (choice?.outcome === "accepted") hideInstallButton();
+      else {
         installButton.disabled = false;
         installButton.hidden = false;
       }
@@ -65,13 +62,11 @@ function setupInstallExperience() {
 
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
-
   try {
     const registration = await navigator.serviceWorker.register("./service-worker.js", {
       scope: "./",
       updateViaCache: "none",
     });
-
     registration.update().catch(() => {});
   } catch (error) {
     console.warn("¡Vivamos!: service worker unavailable", error);
