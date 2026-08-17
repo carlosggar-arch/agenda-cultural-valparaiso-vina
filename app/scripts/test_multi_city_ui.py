@@ -22,11 +22,15 @@ community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 pwa = (APP / "pwa.js").read_text(encoding="utf-8")
 plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
+favorites = (APP / "favorites.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
 schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 plan_ahead_core = Path("assets/plan-ahead-core.mjs").read_text(encoding="utf-8")
 plan_ahead_css = Path("assets/plan-ahead.css").read_text(encoding="utf-8")
+favorites_core = Path("assets/favorites-core.mjs").read_text(encoding="utf-8")
+favorites_view = Path("assets/favorites-view.mjs").read_text(encoding="utf-8")
+favorites_css = Path("assets/favorites.css").read_text(encoding="utf-8")
 
 for marker in (
     'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
@@ -46,7 +50,6 @@ assert './contextual-filters.js' not in index
 assert 'new URLSearchParams(window.location.search).get("city")' in index
 assert '["access", "format", "aud"]' in index
 
-# Critical visual CSS must be available before the browser can paint the body.
 compact_link = '<link rel="stylesheet" href="./compact-top.css">'
 header_link = '<link rel="stylesheet" href="./header-redesign.css">'
 assert compact_link in index
@@ -130,15 +133,17 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v32"' in pwa
+assert 'const APP_VERSION = "PWA v33"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
+assert 'import "./favorites.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
 assert 'CONFIG = Object.freeze' in plan_ahead
 assert 'valparaiso: { dataset: "../agenda_web.json"' in plan_ahead
 assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in plan_ahead
 assert 'Planifica con anticipación' in plan_ahead
 assert 'selectPlanAhead' in plan_ahead
+assert 'article.dataset.eventId' in plan_ahead
 assert 'new MutationObserver' in plan_ahead
 assert 'minDays: 14' in plan_ahead_core
 assert 'maxDays: 56' in plan_ahead_core
@@ -148,7 +153,20 @@ assert 'Entradas disponibles' in plan_ahead_core
 assert 'Cupos limitados' in plan_ahead_core
 assert '.plan-ahead-grid' in plan_ahead_css
 
-assert 'const CACHE_VERSION = "v32";' in service_worker
+assert 'agenda-cultural-favorites-v1' in favorites_core
+assert 'export function toggleFavorite' in favorites_core
+assert 'export function favoritesForCity' in favorites_core
+assert 'buildFavoriteToggle' in favorites_view
+assert 'buildMyPlansSection' in favorites_view
+assert 'Mis planes' in favorites_view
+assert 'valparaiso: { dataset: "../agenda_web.json"' in favorites
+assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in favorites
+assert 'dialog[data-event-detail]' in favorites
+assert 'data-favorite-toggle' in favorites
+assert '.my-plans-section' in favorites_css
+assert '.favorite-toggle' in favorites_css
+
+assert 'const CACHE_VERSION = "v33";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -160,11 +178,12 @@ for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
-    '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
+    '"./favorites.js"', '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
     '"../assets/event-schedule-display.mjs"', '"../assets/plan-ahead-core.mjs"', '"../assets/plan-ahead.css"',
+    '"../assets/favorites-core.mjs"', '"../assets/favorites-view.mjs"', '"../assets/favorites.css"',
 ):
     assert asset in shell_block
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v32 keeps final visual CSS, simplified filters and plan-ahead stable: OK")
+print("Multi-city v33 keeps filters, plan-ahead and persistent favorites stable: OK")
