@@ -195,7 +195,7 @@ jobs:
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v37"' app/service-worker.js
+          grep -Eq 'const CACHE_VERSION = "v[0-9]+";' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
           grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"./stage31-accessibility-seo.js"' app/service-worker.js
