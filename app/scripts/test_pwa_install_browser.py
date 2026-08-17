@@ -131,7 +131,10 @@ def make_test_pages() -> None:
     }, 2600);
   </script>
 '''
-    first_open_source = source.replace('<script type="module" src="./pwa.js"></script>', '')
+    first_open_source = source.replace(
+        '<script type="module" src="./pwa.js"></script>',
+        '<script type="module" src="./mobile-experience.js"></script>',
+    )
     FIRST_OPEN_PAGE.write_text(first_open_source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
 
 
