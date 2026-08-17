@@ -5,41 +5,26 @@ if (!document.getElementById(STYLE_ID)) {
   style.id = STYLE_ID;
   style.textContent = `
     .legacy-filter-hooks { display: none !important; }
-    .discovery-heading { display: flex !important; }
-    .category-filter-panel .category-explorer-heading { display: flex !important; }
-    .agenda-heading { display: flex !important; margin-bottom: .9rem !important; }
     .hero .smart-search input { padding-left: 2.75rem !important; }
-    .filter-workbench { margin-top: .2rem !important; }
+    .filter-workbench { margin-top: 0 !important; }
     .event-card[hidden] { display: none !important; }
-    @media (max-width: 800px) {
-      .discovery-heading,
-      .agenda-heading,
-      .category-filter-panel .category-explorer-heading {
-        align-items: flex-start !important;
-        flex-direction: column !important;
-      }
-    }
   `;
   document.head.append(style);
 }
 
+function removeNonActionableFilterCopy() {
+  for (const selector of [
+    ".discovery-heading",
+    ".filter-workbench-heading",
+    ".category-explorer-heading",
+    ".filter-help",
+  ]) {
+    document.querySelector(selector)?.remove();
+  }
+}
+
 function removePriceFilter() {
   document.querySelector("[data-combined-price]")?.closest(".filter-group")?.remove();
-
-  const discoveryCopy = document.querySelector(".discovery-heading > p");
-  if (discoveryCopy) {
-    discoveryCopy.textContent = "Combina fecha, zona, categorías y palabras clave. Los filtros funcionan juntos y puedes compartir el resultado por URL.";
-  }
-
-  const workbenchExample = document.querySelector(".filter-workbench-heading p:not(.filter-help)");
-  if (workbenchExample) {
-    workbenchExample.textContent = "Por ejemplo: música en Viña durante los próximos siete días.";
-  }
-
-  const categoryCopy = document.querySelector(".category-filter-panel .category-explorer-heading p");
-  if (categoryCopy) {
-    categoryCopy.textContent = "Puedes marcar varias a la vez; se combinan con la fecha, zona y búsqueda.";
-  }
 }
 
 function clearLegacyPriceState() {
@@ -79,6 +64,7 @@ for (const grid of document.querySelectorAll("[data-dated-grid], [data-program-g
   new MutationObserver(queueFilterResync).observe(grid, { childList: true });
 }
 
+removeNonActionableFilterCopy();
 removePriceFilter();
 clearLegacyPriceState();
 preserveScrollDuringLegacyClick(document.querySelector("[data-section-filters]"));
