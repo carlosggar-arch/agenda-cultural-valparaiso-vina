@@ -7,6 +7,7 @@ on:
       - feature/multi-city-pwa
     paths:
       - "app/**"
+      - "mis-planes/**"
       - "index.html"
       - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
@@ -28,6 +29,9 @@ on:
       - "assets/favorites-web.js"
       - "assets/favorites-event-page.js"
       - "assets/favorites.css"
+      - "assets/favorites-access.css"
+      - "assets/mis-planes-page.mjs"
+      - "assets/mis-planes-page.css"
       - "scripts/generate_event_pages.py"
       - "scripts/stage31_site_generator.py"
       - "tests/test_stage31.py"
@@ -42,6 +46,7 @@ on:
       - main
     paths:
       - "app/**"
+      - "mis-planes/**"
       - "index.html"
       - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
@@ -63,6 +68,9 @@ on:
       - "assets/favorites-web.js"
       - "assets/favorites-event-page.js"
       - "assets/favorites.css"
+      - "assets/favorites-access.css"
+      - "assets/mis-planes-page.mjs"
+      - "assets/mis-planes-page.css"
       - "scripts/generate_event_pages.py"
       - "scripts/stage31_site_generator.py"
       - "tests/test_stage31.py"
@@ -138,6 +146,7 @@ jobs:
           node --check assets/favorites-event-page.js
           node --check assets/favorites-core.mjs
           node --check assets/favorites-view.mjs
+          node --check assets/mis-planes-page.mjs
 
       - name: Run current multi-city contracts
         run: |
@@ -166,6 +175,11 @@ jobs:
           grep -F './plan-ahead-web.js?v=20260817' assets/web-event-enhancements.js
           grep -F './favorites-web.js?v=20260817' assets/web-event-enhancements.js
           grep -F 'favorites-event-page.js?v=20260817' assets/event-page.js
+          grep -F 'data-favorites-mode="web"' mis-planes/index.html
+          grep -F 'data-favorites-mode="app"' app/mis-planes.html
+          grep -F 'const MY_PLANS_URL = "./mis-planes/"' assets/favorites-web.js
+          ! grep -F 'buildMyPlansSection' assets/favorites-web.js
+          ! grep -F 'buildMyPlansSection' app/favorites.js
           ! grep -F 'window.location.replace(target.href)' index.html
           grep -F '"id": "./app/"' manifest.webmanifest
           grep -F '"start_url": "./app/"' manifest.webmanifest
@@ -178,7 +192,8 @@ jobs:
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v33"' app/service-worker.js
+          grep -F 'const CACHE_VERSION = "v34"' app/service-worker.js
+          grep -F '"./mis-planes.html"' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
           grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"./stage31-accessibility-seo.js"' app/service-worker.js
@@ -188,6 +203,9 @@ jobs:
           grep -F '"../assets/favorites-core.mjs"' app/service-worker.js
           grep -F '"../assets/favorites-view.mjs"' app/service-worker.js
           grep -F '"../assets/favorites.css"' app/service-worker.js
+          grep -F '"../assets/favorites-access.css"' app/service-worker.js
+          grep -F '"../assets/mis-planes-page.mjs"' app/service-worker.js
+          grep -F '"../assets/mis-planes-page.css"' app/service-worker.js
           grep -F '"./compact-top.css"' app/service-worker.js
           grep -F '"./combined-filters.js"' app/service-worker.js
           grep -F '"./combined-filters.css"' app/service-worker.js
@@ -223,7 +241,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|mis-planes/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|assets/favorites-access\.css$|assets/mis-planes-page\.mjs$|assets/mis-planes-page\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
