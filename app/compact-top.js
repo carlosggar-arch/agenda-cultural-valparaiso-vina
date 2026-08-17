@@ -82,8 +82,8 @@ if (!document.getElementById(STYLE_ID)) {
       background: transparent !important;
     }
     /* The date group gets extra breathing room. Its semantic fieldset legend
-       stays available to assistive technology; a normal block renders the
-       visual title so browser-specific legend layout cannot crop “Cuándo”. */
+       stays available to assistive technology; a CSS block renders the visual
+       title so browser-specific legend layout cannot crop “Cuándo”. */
     .filter-group:has([data-combined-when]) {
       position: relative !important;
       padding-top: .4rem !important;
@@ -107,7 +107,8 @@ if (!document.getElementById(STYLE_ID)) {
       border: 0 !important;
       line-height: 1.24 !important;
     }
-    .when-filter-title {
+    .filter-group:has([data-combined-when])::before {
+      content: "Cuándo";
       display: block !important;
       margin: 0 0 .3rem !important;
       padding-top: .04rem !important;
@@ -197,7 +198,7 @@ if (!document.getElementById(STYLE_ID)) {
         padding-top: .44rem !important;
         padding-bottom: .34rem !important;
       }
-      .when-filter-title {
+      .filter-group:has([data-combined-when])::before {
         margin-bottom: .32rem !important;
         padding-top: .05rem !important;
         line-height: 1.3 !important;
@@ -218,17 +219,4 @@ if (!document.getElementById(STYLE_ID)) {
     }
   `;
   document.head.append(style);
-}
-
-const whenGroup = document.querySelector("[data-combined-when]")?.closest(".filter-group");
-if (whenGroup && !whenGroup.querySelector(".when-filter-title")) {
-  const legend = whenGroup.querySelector(".filter-group-title");
-  const row = whenGroup.querySelector("[data-combined-when]");
-  if (row) {
-    const visualTitle = document.createElement("div");
-    visualTitle.className = "when-filter-title";
-    visualTitle.setAttribute("aria-hidden", "true");
-    visualTitle.textContent = legend?.textContent?.trim() || "Cuándo";
-    whenGroup.insertBefore(visualTitle, row);
-  }
 }
