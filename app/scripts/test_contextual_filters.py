@@ -3,6 +3,7 @@ from pathlib import Path
 combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
 combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
 polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
+compact = Path("app/compact-top.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
 sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
@@ -48,6 +49,22 @@ assert 'fecha, zona y búsqueda' in polish
 assert '.agenda-heading { display: flex !important;' in polish
 assert 'preserveScrollDuringLegacyClick' in polish
 
+# The production app intentionally strips explanatory filter copy from the
+# visual surface and keeps only actionable controls.
+assert '.filter-workbench-heading,' in compact
+assert '.filter-help {' in compact
+assert 'display: none !important;' in compact
+assert '.filter-workbench {' in compact
+assert 'padding: .58rem !important;' in compact
+assert '.filter-group {' in compact
+assert 'padding: .56rem .62rem !important;' in compact
+assert '.filter-choice {' in compact
+assert 'padding: .39rem .54rem !important;' in compact
+assert '.category-filters {' in compact
+assert 'gap: .32rem !important;' in compact
+assert '@media (max-width: 560px)' in compact
+assert 'padding: .46rem !important;' in compact
+
 assert "function enforceQuickFilterVisibility()" in density
 assert 'id !== "todos" && count === 0' in density
 assert '.quick-sections [data-section-filter][hidden]' in density
@@ -86,4 +103,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Combined filters hide real cards, remove price UI and preserve source/schedule contracts: OK")
+print("Combined filters stay functional while the production filter surface remains compact: OK")
