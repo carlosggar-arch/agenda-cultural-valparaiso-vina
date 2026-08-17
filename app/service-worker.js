@@ -10,11 +10,13 @@ const SHELL_ASSETS = [
   "./city-header.css",
   "./compact-top.css",
   "./header-redesign.css",
+  "./mobile-experience.css",
   "./app.js",
   "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
   "./pwa.js",
+  "./mobile-experience.js",
   "./plan-ahead.js",
   "./favorites.js",
   "./vivamos-brand.js",
@@ -120,7 +122,7 @@ async function networkFirstDataset(request) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
     // Compatibility marker for the previous contract: cachedRequest.url !== request.url.
-    // v33 now deliberately keeps both city datasets instead of evicting the other one.
+    // v33 deliberately keeps both city datasets instead of evicting the other one.
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
