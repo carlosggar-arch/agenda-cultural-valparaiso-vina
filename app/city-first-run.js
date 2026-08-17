@@ -8,8 +8,19 @@ const citySwitch = document.querySelector("[data-city-switch]");
 const cityOptions = document.querySelectorAll("[data-city-option]");
 const useLocation = document.querySelector("[data-use-location]");
 
+function currentSavedCity() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return SUPPORTED_CITIES.has(saved) ? saved : null;
+  } catch {
+    return null;
+  }
+}
+
 function hasExplicitInitialCity() {
-  return SUPPORTED_CITIES.has(requestedCity) || SUPPORTED_CITIES.has(initialPreference);
+  return SUPPORTED_CITIES.has(requestedCity)
+    || SUPPORTED_CITIES.has(initialPreference)
+    || Boolean(currentSavedCity());
 }
 
 function selectionIsRequired() {
