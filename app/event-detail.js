@@ -112,41 +112,23 @@ function statusNotices(event) {
 }
 
 function buildMedia(event, presentation) {
-  const media = document.createElement("div");
-  media.className = "event-detail-media";
   const imageUrl = presentation?.imageRelevant === false ? null : safeHttpUrl(event?.image?.url);
-  if (imageUrl) {
-    media.classList.add("has-relevant-image");
-    media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
-    const image = document.createElement("img");
-    image.src = imageUrl;
-    image.dataset.eventImage = "relevant";
-    image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
-    image.decoding = "async";
-    image.addEventListener("error", () => {
-      media.classList.remove("has-relevant-image");
-      media.style.removeProperty("--event-image");
-      media.replaceChildren();
-      const fallback = document.createElement("div");
-      fallback.className = "event-media-fallback";
-      addText(fallback, "span", "event-media-fallback-symbol", "✦")?.setAttribute("aria-hidden", "true");
-      addText(fallback, "span", "event-media-fallback-label", presentation?.category || "Actividad cultural");
-      media.append(fallback);
-    }, { once: true });
-    media.append(image);
-    return media;
-  }
+  if (!imageUrl) return null;
 
-  const fallback = document.createElement("div");
-  fallback.className = "event-media-fallback";
-  addText(fallback, "span", "event-media-fallback-symbol", "✦")?.setAttribute("aria-hidden", "true");
-  addText(
-    fallback,
-    "span",
-    "event-media-fallback-label",
-    presentation?.imageRelevant === false ? "Sin imagen específica del evento" : presentation?.category || "Actividad cultural",
-  );
-  media.append(fallback);
+  const media = document.createElement("div");
+  media.className = "event-detail-media has-relevant-image";
+  media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
+  const image = document.createElement("img");
+  image.src = imageUrl;
+  image.dataset.eventImage = "relevant";
+  image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
+  image.decoding = "async";
+  image.addEventListener("error", () => {
+    const panel = media.closest(".event-detail-panel");
+    media.remove();
+    panel?.classList.add("event-detail-panel--no-media");
+  }, { once: true });
+  media.append(image);
   return media;
 }
 
@@ -168,7 +150,9 @@ export function openEventDetail(event, presentation = {}) {
   close.addEventListener("click", () => dialog.close());
   panel.append(close);
 
-  panel.append(buildMedia(event, presentation));
+  const media = buildMedia(event, presentation);
+  if (media) panel.append(media);
+  else panel.classList.add("event-detail-panel--no-media");
 
   const content = document.createElement("div");
   content.className = "event-detail-content";
