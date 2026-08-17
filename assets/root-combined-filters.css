@@ -1,0 +1,24 @@
+.legacy-advanced-hidden{display:none!important}
+.advanced-filter-panel{grid-column:1/-1;display:grid;gap:14px;padding:14px 0 2px;border-top:1px solid rgba(8,43,89,.12)}
+.advanced-search-row{display:grid;grid-template-columns:minmax(260px,1fr) minmax(220px,.8fr);gap:14px;align-items:end}
+.advanced-search-field{margin:0}
+.advanced-search-help{margin:0 0 4px;color:#56677e;font-size:.86rem;line-height:1.45}
+.advanced-dimensions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.advanced-dimensions fieldset{min-width:0;margin:0;padding:10px;border:1px solid rgba(8,43,89,.12);border-radius:14px;background:#fff}
+.advanced-dimensions legend{padding:0 5px;color:#173a64;font-weight:700;font-size:.84rem}
+.advanced-choice-row{display:flex;flex-wrap:wrap;gap:6px}
+.advanced-choice-row button,.advanced-category-list button,.advanced-active button{border:1px solid rgba(8,43,89,.18);background:#fff;color:#173a64;border-radius:999px;padding:7px 10px;font:inherit;font-size:.82rem;cursor:pointer}
+.advanced-choice-row button[aria-pressed="true"],.advanced-category-list button[aria-pressed="true"]{background:#082b59;color:#fff;border-color:#082b59}
+.advanced-category-panel{display:grid;gap:8px}
+.advanced-category-panel>div:first-child{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;color:#173a64}
+.advanced-category-panel small{color:#64748b}
+.advanced-category-list{display:flex;flex-wrap:wrap;gap:7px}
+.advanced-category-list button{display:inline-flex;align-items:center;gap:7px}
+.advanced-category-list button small{color:inherit;opacity:.72}
+.advanced-active{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:2px}
+.advanced-active>span{font-size:.82rem;font-weight:700;color:#52657c}
+.advanced-active>div{display:flex;gap:6px;flex-wrap:wrap}
+.advanced-active button{padding:5px 9px;background:#eef4fb}
+.event-card[hidden]{display:none!important}
+@media (max-width:980px){.advanced-dimensions{grid-template-columns:repeat(2,minmax(0,1fr))}.advanced-search-row{grid-template-columns:1fr}}
+@media (max-width:620px){.advanced-filter-panel{gap:11px;padding-top:10px}.advanced-dimensions{grid-template-columns:1fr}.advanced-dimensions fieldset{padding:9px}.advanced-choice-row button,.advanced-category-list button{min-height:40px}.advanced-search-help{font-size:.8rem}}
