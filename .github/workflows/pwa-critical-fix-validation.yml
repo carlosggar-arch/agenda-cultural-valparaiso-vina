@@ -1,0 +1,33 @@
+name: PWA critical fix validation
+
+on:
+  push:
+    branches:
+      - fix/pwa-favorites-loop-v39
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repair branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate syntax and cache
+        run: |
+          set -euo pipefail
+          python -m py_compile app/scripts/test_pwa_critical_features_browser.py app/scripts/test_pwa_install_browser.py
+          node --check app/favorites.js
+          node --check app/service-worker.js
+          grep -F 'const CACHE_VERSION = "v39"' app/service-worker.js
+      - name: Validate critical PWA features
+        run: python app/scripts/test_pwa_critical_features_browser.py
+      - name: Validate installed PWA
+        run: python app/scripts/test_pwa_install_browser.py
