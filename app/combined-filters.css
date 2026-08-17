@@ -4,15 +4,16 @@
 .smart-search input{width:100%;padding:1.05rem 1.2rem 1.05rem 3rem;border:1px solid color-mix(in srgb,var(--brand) 24%,#fff);border-radius:1rem;background:#fff;box-shadow:var(--shadow-soft);color:var(--ink)}
 .smart-search input:focus{outline:3px solid color-mix(in srgb,var(--accent-2) 48%,transparent);border-color:var(--brand)}
 .smart-search::before{content:"⌕";position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--brand);pointer-events:none}
+.search-help{width:min(820px,100%);margin:.55rem 0 0;color:var(--muted);font-size:.82rem;line-height:1.45}
 
 .filter-workbench{display:grid;gap:1rem;padding:1.2rem;border:1px solid var(--line);border-radius:1.35rem;background:color-mix(in srgb,var(--surface) 90%,var(--surface-tint));box-shadow:var(--shadow-soft)}
 .filter-workbench-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem}
 .filter-workbench-heading h3{margin:0;font-family:Georgia,serif;font-size:1.45rem;color:var(--brand)}
 .filter-workbench-heading p{margin:.25rem 0 0;color:var(--muted);font-size:.92rem;line-height:1.45}
-.filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+.filter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem}
 .filter-group{min-width:0;padding:.9rem;border:1px solid color-mix(in srgb,var(--brand) 12%,#fff);border-radius:1rem;background:#fff}
 .filter-group[hidden]{display:none}
-.filter-group:has([data-combined-price]){display:none!important}
+.filter-group--wide{grid-column:span 2}
 .filter-group-title{display:block;margin:0 0 .6rem;font-size:.77rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
 .filter-choice-row{display:flex;flex-wrap:wrap;gap:.45rem}
 .filter-choice{border:1px solid #d2dedb;background:#fff;color:#365a52;border-radius:999px;padding:.52rem .7rem;display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem;font-weight:700}
@@ -24,6 +25,7 @@
 .custom-date-range[hidden]{display:none}
 .custom-date-range label{display:grid;gap:.25rem;color:var(--muted);font-size:.78rem;font-weight:700}
 .custom-date-range input{width:100%;border:1px solid #d1ddd9;border-radius:.65rem;padding:.55rem .6rem;background:#fff;color:var(--ink)}
+.filter-note{margin:.6rem 0 0;color:var(--muted);font-size:.75rem;line-height:1.4}
 .category-filter-panel{padding-top:.15rem}
 .category-filter-panel .category-explorer-heading{margin-bottom:.65rem}
 .category-filter-panel .category-explorer-heading p{max-width:680px}
@@ -36,14 +38,18 @@
    the hidden attribute applied by combined-filters.js. */
 .event-card[hidden]{display:none!important}
 
-@media(max-width:860px){
+@media(max-width:1040px){
   .filter-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:860px){
   .filter-workbench-heading{align-items:flex-start;flex-direction:column}
 }
 
 @media(max-width:560px){
   .filter-workbench{padding:.9rem;border-radius:1rem}
   .filter-grid{grid-template-columns:1fr}
+  .filter-group--wide{grid-column:auto}
   .filter-choice-row{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.2rem;scrollbar-width:thin}
   .filter-choice{flex:0 0 auto;white-space:nowrap}
   .custom-date-range{grid-template-columns:1fr}
