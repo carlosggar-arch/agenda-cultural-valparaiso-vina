@@ -81,9 +81,11 @@ if (!document.getElementById(STYLE_ID)) {
       border-radius: 0 !important;
       background: transparent !important;
     }
-    /* The first date group gets slightly more breathing room so its legend
-       never looks cropped while the rest of the surface stays compact. */
+    /* The date group gets extra breathing room. Its semantic fieldset legend
+       stays available to assistive technology; a normal block renders the
+       visual title so browser-specific legend layout cannot crop “Cuándo”. */
     .filter-group:has([data-combined-when]) {
+      position: relative !important;
       padding-top: .4rem !important;
       padding-bottom: .34rem !important;
     }
@@ -93,10 +95,28 @@ if (!document.getElementById(STYLE_ID)) {
       line-height: 1.18 !important;
       letter-spacing: .055em !important;
     }
-    .filter-group:has([data-combined-when]) .filter-group-title {
-      margin-bottom: .3rem !important;
-      padding-top: .04rem !important;
+    .filter-group:has([data-combined-when]) > .filter-group-title {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
       line-height: 1.24 !important;
+    }
+    .when-filter-title {
+      display: block !important;
+      margin: 0 0 .3rem !important;
+      padding-top: .04rem !important;
+      color: var(--brand) !important;
+      font-size: .68rem !important;
+      font-weight: 850 !important;
+      line-height: 1.28 !important;
+      letter-spacing: .055em !important;
+      text-transform: uppercase !important;
     }
     .filter-choice-row { gap: .24rem !important; }
     .filter-choice {
@@ -177,9 +197,10 @@ if (!document.getElementById(STYLE_ID)) {
         padding-top: .44rem !important;
         padding-bottom: .34rem !important;
       }
-      .filter-group:has([data-combined-when]) .filter-group-title {
+      .when-filter-title {
         margin-bottom: .32rem !important;
         padding-top: .05rem !important;
+        line-height: 1.3 !important;
       }
       .filter-choice-row {
         flex-wrap: nowrap !important;
@@ -197,4 +218,17 @@ if (!document.getElementById(STYLE_ID)) {
     }
   `;
   document.head.append(style);
+}
+
+const whenGroup = document.querySelector("[data-combined-when]")?.closest(".filter-group");
+if (whenGroup && !whenGroup.querySelector(".when-filter-title")) {
+  const legend = whenGroup.querySelector(".filter-group-title");
+  const row = whenGroup.querySelector("[data-combined-when]");
+  if (row) {
+    const visualTitle = document.createElement("div");
+    visualTitle.className = "when-filter-title";
+    visualTitle.setAttribute("aria-hidden", "true");
+    visualTitle.textContent = legend?.textContent?.trim() || "Cuándo";
+    whenGroup.insertBefore(visualTitle, row);
+  }
 }
