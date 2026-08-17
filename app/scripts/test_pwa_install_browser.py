@@ -183,25 +183,14 @@ def run_chrome(url: str) -> str:
 
 
 def run_first_open(url: str) -> str:
-    errors: list[str] = []
-    for attempt in range(1, 4):
-        with tempfile.TemporaryDirectory(prefix=f"agenda-first-open-{attempt}-", ignore_cleanup_errors=True) as profile:
-            try:
-                result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=50)
-            except subprocess.TimeoutExpired:
-                errors.append(f"attempt {attempt}: Chrome timed out")
-                time.sleep(1)
-                continue
-            if result.returncode != 0 or not result.stdout:
-                errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
-                time.sleep(1)
-                continue
-            ok, state = first_open_state(result.stdout)
-            if ok:
-                return result.stdout
-            errors.append(f"attempt {attempt}: {state}")
-            time.sleep(1)
-    raise AssertionError(f"First-open probe failed after three isolated attempts: {' | '.join(errors)}")
+    with tempfile.TemporaryDirectory(prefix="agenda-first-open-", ignore_cleanup_errors=True) as profile:
+        result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=30)
+    if result.returncode != 0 or not result.stdout:
+        raise AssertionError(f"First-open Chrome probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    ok, state = first_open_state(result.stdout)
+    if not ok:
+        raise AssertionError(state)
+    return result.stdout
 
 
 def main() -> None:
