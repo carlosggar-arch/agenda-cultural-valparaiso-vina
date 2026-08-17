@@ -21,9 +21,15 @@ on:
       - "assets/plan-ahead-core.mjs"
       - "assets/plan-ahead-web.js"
       - "assets/plan-ahead.css"
+      - "assets/favorites-core.mjs"
+      - "assets/favorites-view.mjs"
+      - "assets/favorites-web.js"
+      - "assets/favorites-event-page.js"
+      - "assets/favorites.css"
       - "scripts/generate_event_pages.py"
       - "tests/root-combined-filters.test.mjs"
       - "tests/plan-ahead-core.test.mjs"
+      - "tests/favorites-core.test.mjs"
       - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/event-pages.yml"
       - ".github/workflows/multi-city-pre-release.yml"
@@ -46,9 +52,15 @@ on:
       - "assets/plan-ahead-core.mjs"
       - "assets/plan-ahead-web.js"
       - "assets/plan-ahead.css"
+      - "assets/favorites-core.mjs"
+      - "assets/favorites-view.mjs"
+      - "assets/favorites-web.js"
+      - "assets/favorites-event-page.js"
+      - "assets/favorites.css"
       - "scripts/generate_event_pages.py"
       - "tests/root-combined-filters.test.mjs"
       - "tests/plan-ahead-core.test.mjs"
+      - "tests/favorites-core.test.mjs"
       - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/event-pages.yml"
       - ".github/workflows/multi-city-pre-release.yml"
@@ -102,6 +114,7 @@ jobs:
           node --check app/gijon-venue-hours.js
           node --check app/event-detail.js
           node --check app/plan-ahead.js
+          node --check app/favorites.js
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
           node --check assets/root-combined-filters.js
@@ -109,6 +122,10 @@ jobs:
           node --check assets/event-page.js
           node --check assets/plan-ahead-web.js
           node --check assets/plan-ahead-core.mjs
+          node --check assets/favorites-web.js
+          node --check assets/favorites-event-page.js
+          node --check assets/favorites-core.mjs
+          node --check assets/favorites-view.mjs
 
       - name: Run current multi-city contracts
         run: |
@@ -122,6 +139,7 @@ jobs:
           python app/scripts/test_pre_release.py
           node --test tests/root-combined-filters.test.mjs
           node --test tests/plan-ahead-core.test.mjs
+          node --test tests/favorites-core.test.mjs
           python scripts/generate_event_pages.py --check
 
       - name: Verify independent Valparaiso web and current PWA shell
@@ -132,6 +150,8 @@ jobs:
           grep -F '<div class="footer-mosaic"' index.html
           grep -F './assets/web-event-enhancements.js' index.html
           grep -F './plan-ahead-web.js?v=20260817' assets/web-event-enhancements.js
+          grep -F './favorites-web.js?v=20260817' assets/web-event-enhancements.js
+          grep -F 'favorites-event-page.js?v=20260817' assets/event-page.js
           ! grep -F 'window.location.replace(target.href)' index.html
           grep -F '"id": "./app/"' manifest.webmanifest
           grep -F '"start_url": "./app/"' manifest.webmanifest
@@ -140,12 +160,17 @@ jobs:
           grep -F '<link rel="stylesheet" href="./compact-top.css">' app/index.html
           grep -F '<link rel="stylesheet" href="./header-redesign.css">' app/index.html
           ! grep -F 'document.createElement("style")' app/compact-top.js
-          grep -F 'const APP_VERSION = "PWA v32"' app/pwa.js
+          grep -F 'const APP_VERSION = "PWA v33"' app/pwa.js
           grep -F 'import "./plan-ahead.js";' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v32"' app/service-worker.js
+          grep -F 'import "./favorites.js";' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v33"' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
+          grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"../assets/plan-ahead-core.mjs"' app/service-worker.js
           grep -F '"../assets/plan-ahead.css"' app/service-worker.js
+          grep -F '"../assets/favorites-core.mjs"' app/service-worker.js
+          grep -F '"../assets/favorites-view.mjs"' app/service-worker.js
+          grep -F '"../assets/favorites.css"' app/service-worker.js
           grep -F '"./compact-top.css"' app/service-worker.js
           grep -F '"./combined-filters.js"' app/service-worker.js
           grep -F '"./combined-filters.css"' app/service-worker.js
@@ -180,7 +205,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|scripts/generate_event_pages\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
