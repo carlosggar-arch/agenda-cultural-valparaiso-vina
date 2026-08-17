@@ -39,6 +39,7 @@ export function planAheadAction(event) {
   const status = event?.public_status || {};
   const tickets = safeUrl(links.tickets);
   const registration = safeUrl(links.registration);
+  const reservation = safeUrl(links.reservation || links.booking);
   const official = safeUrl(links.official) || safeUrl(event?.source_url) || safeUrl(links.source);
   const requirements = text(event?.registration_requirements);
 
@@ -47,6 +48,12 @@ export function planAheadAction(event) {
   }
   if (status.registration_open === true && official && status.registration_closed !== true) {
     return { kind: "registration", label: "Inscripción abierta", actionLabel: "Ver inscripción", url: official };
+  }
+  if (reservation && status.reservation_closed !== true) {
+    return { kind: "reservation", label: "Reserva disponible", actionLabel: "Reservar", url: reservation };
+  }
+  if (status.reservation_open === true && official && status.reservation_closed !== true) {
+    return { kind: "reservation", label: "Reserva disponible", actionLabel: "Ver reserva", url: official };
   }
   if (tickets && status.sold_out !== true) {
     return { kind: "tickets", label: "Entradas disponibles", actionLabel: "Comprar entradas", url: tickets };
@@ -76,7 +83,8 @@ function registrationDeadline(event) {
 }
 
 function actionPriority(kind) {
-  if (kind === "registration") return 3;
+  if (kind === "registration") return 4;
+  if (kind === "reservation") return 3;
   if (kind === "requirements") return 2;
   if (kind === "tickets") return 1;
   return 0;
