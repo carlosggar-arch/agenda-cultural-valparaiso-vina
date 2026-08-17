@@ -50,11 +50,14 @@ function updateAccess() {
   const city = cityId();
   const link = document.querySelector("[data-favorites-access]");
   if (!link) return;
-  link.href = myPlansHref(city);
+  const href = myPlansHref(city);
+  if (link.getAttribute("href") !== href) link.href = href;
   const count = favoriteCount(city);
+  const countText = String(count);
   const badge = link.querySelector("[data-favorites-count]");
-  if (badge) badge.textContent = String(count);
-  link.setAttribute("aria-label", `Mis planes, ${count} ${count === 1 ? "actividad guardada" : "actividades guardadas"}`);
+  if (badge && badge.textContent !== countText) badge.textContent = countText;
+  const label = `Mis planes, ${count} ${count === 1 ? "actividad guardada" : "actividades guardadas"}`;
+  if (link.getAttribute("aria-label") !== label) link.setAttribute("aria-label", label);
 }
 
 function installAccess() {
