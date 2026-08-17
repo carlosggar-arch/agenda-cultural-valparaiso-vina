@@ -70,6 +70,7 @@ assert 'height: .72rem;' in compact
 assert '.filter-group {' in compact
 assert 'padding: .24rem 0 !important;' in compact
 assert '.filter-group:has([data-combined-when]) {' in compact
+assert '[data-combined-when] {' in compact
 assert 'padding-top: 1.55rem !important;' in compact
 assert '[data-combined-when]::before {' in compact
 assert 'content: "Cuándo";' in compact
@@ -79,7 +80,7 @@ assert 'padding: .32rem .46rem !important;' in compact
 assert '.category-filters {' in compact
 assert 'minmax(116px, 1fr)' in compact
 assert '@media (max-width: 560px)' in compact
-assert 'padding-top: 1.62rem !important;' in compact
+assert 'padding: 1.62rem .02rem .16rem !important;' in compact
 assert 'flex-wrap: nowrap !important;' in compact
 
 assert "function enforceQuickFilterVisibility()" in density
