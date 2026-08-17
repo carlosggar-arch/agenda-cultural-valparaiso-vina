@@ -98,11 +98,26 @@ function formatDate(event, locale) {
   const moment = eventMoment(event);
   if (!moment) return null;
   try {
-    return new Intl.DateTimeFormat(locale, { weekday: "short", day: "numeric", month: "short" }).format(moment);
+    return new Intl.DateTimeFormat(locale, { day: "numeric", month: "short" }).format(moment);
   } catch { return null; }
 }
 
+function removeButton(city, favorite, onChanged) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "my-plan-remove";
+  button.textContent = "Quitar";
+  button.setAttribute("aria-label", `Quitar ${favorite.title || "actividad"} de Mis planes`);
+  button.addEventListener("click", () => {
+    removeFavorite(city, favorite.id);
+    emitFavoritesChanged({ city, id: favorite.id, active: false });
+    onChanged?.();
+  });
+  return button;
+}
+
 export function buildMyPlansSection({ city, locale, eventMap, eventPageHref, onChanged }) {
+  const favorites = favoritesForCity(city);
   const section = document.createElement("section");
   section.className = "my-plans-section";
   section.id = "mis-planes";
@@ -110,106 +125,79 @@ export function buildMyPlansSection({ city, locale, eventMap, eventPageHref, onC
   section.dataset.city = city;
   section.setAttribute("aria-labelledby", `my-plans-title-${city}`);
 
-  const inner = document.createElement("div");
-  inner.className = "my-plans-inner";
-  const heading = document.createElement("header");
-  heading.className = "my-plans-heading";
-  const copy = document.createElement("div");
-  copy.className = "my-plans-heading-copy";
-  const eyebrow = document.createElement("p");
-  eyebrow.className = "my-plans-eyebrow";
-  eyebrow.textContent = "Tu agenda personal";
-  const title = document.createElement("h2");
+  const disclosure = document.createElement("details");
+  disclosure.className = "my-plans-disclosure";
+  const summary = document.createElement("summary");
+  summary.className = "my-plans-summary";
+
+  const icon = document.createElement("span");
+  icon.className = "my-plans-summary-icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = "★";
+  const title = document.createElement("strong");
   title.id = `my-plans-title-${city}`;
-  title.textContent = "★ Mis planes";
-  const intro = document.createElement("p");
-  intro.textContent = "Guarda actividades y encuéntralas aquí aunque cierres la aplicación o el navegador.";
-  copy.append(eyebrow, title, intro);
+  title.className = "my-plans-summary-title";
+  title.textContent = "Mis planes";
   const count = document.createElement("span");
   count.className = "my-plans-count";
-  heading.append(copy, count);
-  inner.append(heading);
-
-  const favorites = favoritesForCity(city);
-  count.textContent = String(favorites.length);
+  count.textContent = `${favorites.length} ${favorites.length === 1 ? "guardado" : "guardados"}`;
   count.setAttribute("aria-label", `${favorites.length} actividades guardadas`);
+  const chevron = document.createElement("span");
+  chevron.className = "my-plans-summary-chevron";
+  chevron.setAttribute("aria-hidden", "true");
+  chevron.textContent = "›";
+  summary.append(icon, title, count, chevron);
 
+  const list = document.createElement("div");
+  list.className = "my-plans-list";
   if (!favorites.length) {
-    const empty = document.createElement("div");
+    const empty = document.createElement("p");
     empty.className = "my-plans-empty";
-    const strong = document.createElement("strong");
-    strong.textContent = "Aún no tienes planes guardados";
-    const paragraph = document.createElement("p");
-    paragraph.textContent = "Pulsa ☆ en cualquier actividad para añadirla aquí.";
-    empty.append(strong, paragraph);
-    inner.append(empty);
-    section.append(inner);
-    return section;
+    empty.textContent = "Pulsa ☆ en una actividad para guardarla aquí.";
+    list.append(empty);
+  } else {
+    const resolved = favorites.map((favorite) => ({ favorite, event: eventMap.get(favorite.id) || null }));
+    resolved.sort((left, right) => {
+      const leftMoment = eventMoment(left.event)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+      const rightMoment = eventMoment(right.event)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+      return leftMoment - rightMoment || right.favorite.savedAt.localeCompare(left.favorite.savedAt);
+    });
+
+    for (const { favorite, event } of resolved) {
+      const article = document.createElement("article");
+      article.className = "my-plan-row";
+      article.dataset.eventId = favorite.id;
+
+      const when = document.createElement("span");
+      when.className = "my-plan-date";
+      when.textContent = event && formatDate(event, locale) || "Guardado";
+
+      const main = document.createElement("div");
+      main.className = "my-plan-main";
+      const rowTitle = document.createElement("strong");
+      rowTitle.textContent = event?.title || favorite.title;
+      main.append(rowTitle);
+      const meta = document.createElement("small");
+      meta.textContent = event ? eventLocation(event) : "Ya no aparece en la agenda actual";
+      main.append(meta);
+
+      const actions = document.createElement("div");
+      actions.className = "my-plan-actions";
+      const href = favorite.url || eventPageHref(event || { id: favorite.id });
+      if (href) {
+        const link = document.createElement("a");
+        link.className = "my-plan-action my-plan-action--primary";
+        link.href = href;
+        link.textContent = "Ver →";
+        actions.append(link);
+      }
+      actions.append(removeButton(city, favorite, onChanged));
+      article.append(when, main, actions);
+      list.append(article);
+    }
   }
 
-  const resolved = favorites.map((favorite) => ({ favorite, event: eventMap.get(favorite.id) || null }));
-  resolved.sort((left, right) => {
-    const leftMoment = eventMoment(left.event)?.getTime() ?? Number.MAX_SAFE_INTEGER;
-    const rightMoment = eventMoment(right.event)?.getTime() ?? Number.MAX_SAFE_INTEGER;
-    return leftMoment - rightMoment || right.favorite.savedAt.localeCompare(left.favorite.savedAt);
-  });
-
-  const grid = document.createElement("div");
-  grid.className = "my-plans-grid";
-  for (const { favorite, event } of resolved) {
-    const card = document.createElement("article");
-    card.className = "my-plan-card";
-    card.dataset.eventId = favorite.id;
-
-    const cardTitle = document.createElement("h3");
-    cardTitle.textContent = event?.title || favorite.title;
-    card.append(cardTitle);
-
-    const meta = document.createElement("p");
-    meta.className = "my-plan-meta";
-    meta.textContent = [event && formatDate(event, locale), event && eventLocation(event)].filter(Boolean).join(" · ") || "Actividad guardada";
-    card.append(meta);
-
-    if (!event) {
-      const stale = document.createElement("p");
-      stale.className = "my-plan-status";
-      stale.textContent = "Ya no aparece en la agenda actual; conservamos tu guardado para que puedas revisarlo o quitarlo.";
-      card.append(stale);
-    }
-
-    const remove = buildFavoriteToggle({
-      city,
-      event: event || { id: favorite.id, title: favorite.title },
-      pageUrl: favorite.url || eventPageHref({ id: favorite.id }),
-      compact: true,
-    });
-    card.classList.add("favorite-host");
-    card.append(remove);
-
-    const actions = document.createElement("div");
-    actions.className = "my-plan-actions";
-    const href = favorite.url || eventPageHref(event || { id: favorite.id });
-    if (href) {
-      const link = document.createElement("a");
-      link.className = "my-plan-action my-plan-action--primary";
-      link.href = href;
-      link.textContent = "Ver ficha →";
-      actions.append(link);
-    }
-    const removeText = document.createElement("button");
-    removeText.type = "button";
-    removeText.className = "my-plan-action";
-    removeText.textContent = "Quitar";
-    removeText.addEventListener("click", () => {
-      removeFavorite(city, favorite.id);
-      emitFavoritesChanged({ city, id: favorite.id, active: false });
-      onChanged?.();
-    });
-    actions.append(removeText);
-    card.append(actions);
-    grid.append(card);
-  }
-  inner.append(grid);
-  section.append(inner);
+  disclosure.append(summary, list);
+  section.append(disclosure);
   return section;
 }
