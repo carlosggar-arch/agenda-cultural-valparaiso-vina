@@ -28,18 +28,19 @@ for marker in (
     'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
     'data-use-location', 'data-search', 'data-smart-search', 'data-section-filters',
     'data-category-filters', 'data-combined-when', 'data-combined-area',
-    'data-combined-access', 'data-combined-format', 'data-combined-audience',
     'data-combined-category-filters', 'data-date-from', 'data-date-to',
     'data-dated-grid', 'data-program-grid', 'data-flexible-grid',
     'data-sources-grid', 'data-app-version', 'data-city-masthead',
 ):
     assert marker in index
-assert 'data-combined-price' not in index
+for removed in ('data-combined-price', 'data-combined-access', 'data-combined-format', 'data-combined-audience'):
+    assert removed not in index
 assert '<strong>¡Vivamos!</strong>' in index
 assert './combined-filters.css' in index
 assert './combined-filters.js' in index
 assert './contextual-filters.js' not in index
 assert 'new URLSearchParams(window.location.search).get("city")' in index
+assert '["access", "format", "aud"]' in index
 
 assert 'dataset: "../agenda_web.json"' in app_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
@@ -70,8 +71,9 @@ assert '.legacy-filter-hooks{display:none!important}' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
 assert 'function removeNonActionableFilterCopy()' in polish
 assert 'function removePriceFilter()' in polish
-assert 'url.searchParams.delete("price")' in polish
-assert '"access", "format", "aud"' in polish
+assert 'function clearRemovedFilterState()' in polish
+assert '["price", "access", "format", "aud"]' in polish
+assert '["when", "area", "cat", "q", "from", "to"]' in polish
 assert 'function queueFilterResync()' in polish
 assert '.agenda-heading { display: flex !important;' not in polish
 
@@ -133,4 +135,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v30 keeps separate city datasets, shared visuals and advanced filters stable: OK")
+print("Multi-city v30 keeps separate city datasets, shared visuals and simplified filters stable: OK")
