@@ -105,7 +105,6 @@ function enhanceDynamicUi() {
   cleanOldButtons(city);
   installCardFavorites(city);
   installDetailFavorite(city);
-  syncFavoriteButtons(city, eventMap);
 }
 
 function queueEnhance() {
@@ -124,7 +123,10 @@ async function refreshFavorites() {
   await ensureDataset();
   if (city !== cityId()) return queueRefresh();
   renderMyPlans(city);
-  queueEnhance();
+  cleanOldButtons(city);
+  installCardFavorites(city);
+  installDetailFavorite(city);
+  syncFavoriteButtons(city, eventMap);
 }
 
 function queueRefresh() {
