@@ -1,4 +1,4 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs";
+import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260817-hours";
 
 const CITY_CONFIG = Object.freeze({
   valparaiso: {
