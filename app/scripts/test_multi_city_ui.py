@@ -98,7 +98,10 @@ assert 'background: transparent !important;' in compact_js
 assert '.filter-workbench::before {' in compact_js
 assert 'url("../assets/mosaic-top.png")' in compact_js
 assert '.filter-group:has([data-combined-when]) {' in compact_js
-assert 'line-height: 1.24 !important;' in compact_js
+assert 'padding-top: 1.55rem !important;' in compact_js
+assert '[data-combined-when]::before {' in compact_js
+assert 'content: "Cuándo";' in compact_js
+assert 'line-height: 1.28 !important;' in compact_js
 assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
 assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
 assert 'authoritativeCatalogue' in sources_toggle_js
