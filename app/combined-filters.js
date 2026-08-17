@@ -1,15 +1,8 @@
-const CITY_CONFIG = Object.freeze({
-  valparaiso: {
-    locale: "es-CL",
-    timezone: "America/Santiago",
-    dataset: "../agenda_web.json",
-  },
-  gijon: {
-    locale: "es-ES",
-    timezone: "Europe/Madrid",
-    dataset: "./data/gijon/agenda_web.json",
-  },
-});
+import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+
+const CITY_REGISTRY = await loadCityRegistry();
+const CITY_CONFIG = CITY_REGISTRY.byId;
+const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId;
 
 const dom = {
   discovery: document.querySelector("[data-discovery]"),
@@ -53,12 +46,6 @@ const WHEN_LABELS = Object.freeze({
   "7-dias": "Próximos 7 días",
   "terminan-pronto": "Terminan pronto",
   personalizado: "Rango personalizado",
-});
-
-const AREA_LABELS = Object.freeze({
-  todos: "Toda la ciudad",
-  valparaiso: "Valparaíso",
-  vina: "Viña del Mar",
 });
 
 const ACCESS_LABELS = Object.freeze({
@@ -119,10 +106,11 @@ let updateScheduled = false;
 let updatePending = false;
 let persistPending = false;
 let categoryRenderSignature = "";
+let areaRenderSignature = "";
 
 function currentCityId() {
   const id = document.documentElement.dataset.city;
-  return CITY_CONFIG[id] ? id : "valparaiso";
+  return CITY_CONFIG[id] ? id : DEFAULT_CITY_ID;
 }
 
 function currentConfig() {
@@ -255,12 +243,17 @@ function eventMatchesWhen(event, when = state.when) {
   return ranges.some((range) => rangesOverlap(range, window.start, window.end));
 }
 
+function currentAreas() {
+  return Array.isArray(currentConfig()?.areas) ? currentConfig().areas : [];
+}
+
 function eventMatchesArea(event, area = state.area) {
-  if (area === "todos" || currentCityId() !== "valparaiso") return true;
-  const city = normalizeText(event?.location?.city || event?.location?.commune);
-  if (area === "valparaiso") return city.includes("valparaiso");
-  if (area === "vina") return city.includes("vina del mar") || city === "vina";
-  return true;
+  if (area === "todos") return true;
+  const rule = currentAreas().find((candidate) => candidate.id === area);
+  if (!rule) return true;
+  const location = normalizeText(event?.location?.city || event?.location?.commune);
+  const matches = Array.isArray(rule.match) ? rule.match.map(normalizeText).filter(Boolean) : [];
+  return matches.length ? matches.some((candidate) => location.includes(candidate)) : true;
 }
 
 function hasTicketLink(event) {
@@ -397,6 +390,7 @@ async function loadDataset() {
   loadedCity = cityId;
   datasetEvents = [];
   categoryRenderSignature = "";
+  areaRenderSignature = "";
   try {
     const response = await fetch(CITY_CONFIG[cityId].dataset, {
       headers: { Accept: "application/json" },
@@ -483,7 +477,32 @@ function setPressed(container, selector, value) {
   }
 }
 
+function renderAreaControls() {
+  if (!dom.area) return;
+  const areas = currentAreas();
+  const signature = JSON.stringify(areas.map(({ id, label }) => ({ id, label })));
+  if (signature === areaRenderSignature) return;
+  areaRenderSignature = signature;
+  const fragment = document.createDocumentFragment();
+  for (const area of areas) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `filter-choice${state.area === area.id ? " active" : ""}`;
+    button.dataset.filterValue = area.id;
+    button.setAttribute("aria-pressed", state.area === area.id ? "true" : "false");
+    button.append(document.createTextNode(`${area.label} `));
+    const count = document.createElement("small");
+    count.dataset.combinedCount = "";
+    count.textContent = "0";
+    button.append(count);
+    fragment.append(button);
+  }
+  dom.area.replaceChildren(fragment);
+  if (!areas.some((area) => area.id === state.area)) state.area = "todos";
+}
+
 function updateControls() {
+  renderAreaControls();
   setPressed(dom.when, "[data-filter-value]", state.when);
   setPressed(dom.area, "[data-filter-value]", state.area);
   setPressed(dom.access, "[data-filter-value]", state.access);
@@ -493,7 +512,7 @@ function updateControls() {
   if (dom.dateFrom && dom.dateFrom.value !== state.from) dom.dateFrom.value = state.from;
   if (dom.dateTo && dom.dateTo.value !== state.to) dom.dateTo.value = state.to;
   setHidden(dom.customDates, state.when !== "personalizado");
-  setHidden(dom.areaGroup, currentCityId() !== "valparaiso");
+  setHidden(dom.areaGroup, currentAreas().length <= 1);
 }
 
 function visibleCards(grid) {
@@ -516,7 +535,7 @@ function activeFilterParts(total) {
       parts.push(WHEN_LABELS[state.when]);
     }
   }
-  if (currentCityId() === "valparaiso" && state.area !== "todos") parts.push(AREA_LABELS[state.area]);
+  if (state.area !== "todos") { const area = currentAreas().find((candidate) => candidate.id === state.area); if (area) parts.push(area.label); }
   if (state.access !== "todos") parts.push(ACCESS_LABELS[state.access]);
   if (state.format !== "todos") parts.push(FORMAT_LABELS[state.format]);
   if (state.audience !== "todos") parts.push(AUDIENCE_LABELS[state.audience]);
@@ -596,7 +615,7 @@ function writeUrl() {
     else url.searchParams.delete(key);
   };
   setOrDelete("when", state.when, "todos");
-  setOrDelete("area", currentCityId() === "valparaiso" ? state.area : "todos", "todos");
+  setOrDelete("area", currentAreas().some((area) => area.id === state.area) ? state.area : "todos", "todos");
   setOrDelete("access", state.access, "todos");
   setOrDelete("format", state.format, "todos");
   setOrDelete("aud", state.audience, "todos");
@@ -615,7 +634,7 @@ function readUrl() {
   const when = params.get("when") || "todos";
   state.when = Object.hasOwn(WHEN_LABELS, when) ? when : "todos";
   const area = params.get("area") || "todos";
-  state.area = currentCityId() === "valparaiso" && Object.hasOwn(AREA_LABELS, area) ? area : "todos";
+  state.area = currentAreas().some((candidate) => candidate.id === area) ? area : "todos";
   const access = params.get("access") || "todos";
   state.access = Object.hasOwn(ACCESS_LABELS, access) ? access : "todos";
   const format = params.get("format") || "todos";

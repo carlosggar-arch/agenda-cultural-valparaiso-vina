@@ -68,10 +68,13 @@ def assert_runtime_contract() -> dict[str, bool]:
     mis_planes = (APP / "mis-planes.html").read_text(encoding="utf-8")
     plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
 
+    registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
+    registry_ids = {str(city.get("id") or "") for city in registry.get("cities", [])}
     checks = {
         "manual_city_choice": (
-            'data-city-option="valparaiso"' in index
-            and 'data-city-option="gijon"' in index
+            "data-city-options" in index
+            and {"valparaiso", "gijon"}.issubset(registry_ids)
+            and "renderCityOptions" in app_js
         ),
         "location_choice": (
             "data-use-location" in index
@@ -79,12 +82,13 @@ def assert_runtime_contract() -> dict[str, bool]:
             and "suggestCityFromCoordinates" in app_js
         ),
         "city_persistence": (
-            'const STORAGE_KEY = "agenda-cultural-city"' in app_js
+            "CITY_STORAGE_KEY" in app_js
             and "localStorage.setItem(STORAGE_KEY" in app_js
         ),
         "first_run_city_flow": (
             "city-first-run.js" in index
-            and "agenda-cultural-city" in first_run
+            and "CITY_STORAGE_KEY" in first_run
+            and "loadCityRegistry" in first_run
         ),
         "favorites_wired": (
             'import "./favorites.js";' in pwa_js
@@ -98,8 +102,9 @@ def assert_runtime_contract() -> dict[str, bool]:
         ),
         "mobile_experience_wired": 'import "./mobile-experience.js";' in pwa_js,
         "single_shell_two_datasets": (
-            'dataset: "../agenda_web.json"' in app_js
-            and 'dataset: "./data/gijon/agenda_web.json"' in app_js
+            "const CITIES = CITY_REGISTRY.byId" in app_js
+            and "fetch(city.dataset" in app_js
+            and {"valparaiso", "gijon"}.issubset(registry_ids)
         ),
     }
     failed = sorted(name for name, passed in checks.items() if not passed)

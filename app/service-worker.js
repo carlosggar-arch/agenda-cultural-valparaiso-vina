@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v36";
+const CACHE_VERSION = "v37";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -13,6 +13,7 @@ const SHELL_ASSETS = [
   "./mobile-experience.css",
   "./stage31-accessibility.css",
   "./app.js",
+  "./cities.json",
   "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
@@ -48,6 +49,7 @@ const SHELL_ASSETS = [
   "../assets/event-schedule-display.mjs",
   "../assets/plan-ahead-core.mjs",
   "../assets/plan-ahead.css",
+  "../assets/city-registry.mjs",
   "../assets/favorites-core.mjs",
   "../assets/favorites-view.mjs",
   "../assets/favorites.css",
@@ -62,10 +64,29 @@ const SHELL_ASSETS = [
   "../assets/categoria-teatro.jpg",
 ];
 
-const DATASET_URLS = new Set([
-  new URL("../agenda_web.json", self.registration.scope).href,
-  new URL("./data/gijon/agenda_web.json", self.registration.scope).href,
-]);
+const CITY_REGISTRY_URL = new URL("./cities.json", self.registration.scope).href;
+let datasetUrlsPromise = null;
+
+async function datasetUrls() {
+  if (!datasetUrlsPromise) {
+    datasetUrlsPromise = (async () => {
+      try {
+        const response = await fetch(CITY_REGISTRY_URL, { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const registry = await response.json();
+        const urls = new Set((registry.cities || []).map((city) => new URL(city.dataset, self.registration.scope).href));
+        if (!urls.size) throw new Error("Empty city registry");
+        return urls;
+      } catch {
+        return new Set([
+          new URL("../agenda_web.json", self.registration.scope).href,
+          new URL("./data/gijon/agenda_web.json", self.registration.scope).href,
+        ]);
+      }
+    })();
+  }
+  return datasetUrlsPromise;
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil((async () => {
@@ -77,7 +98,8 @@ self.addEventListener("install", (event) => {
 
 async function warmDatasetCache() {
   const cache = await caches.open(DATA_CACHE);
-  await Promise.allSettled([...DATASET_URLS].map(async (url) => {
+  const urls = await datasetUrls();
+  await Promise.allSettled([...urls].map(async (url) => {
     const request = new Request(url, { headers: { Accept: "application/json" } });
     const response = await fetch(request, { cache: "no-store" });
     if (response.ok) await cache.put(request, response.clone());
@@ -143,9 +165,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(networkFirstNavigation(request));
     return;
   }
-  if (DATASET_URLS.has(requestUrl.href)) {
-    event.respondWith(networkFirstDataset(request));
-    return;
-  }
-  if (requestUrl.origin === self.location.origin) event.respondWith(networkFirstShell(request));
+  if (requestUrl.origin !== self.location.origin) return;
+  event.respondWith((async () => {
+    const urls = await datasetUrls();
+    if (urls.has(requestUrl.href)) return networkFirstDataset(request);
+    return networkFirstShell(request);
+  })());
 });

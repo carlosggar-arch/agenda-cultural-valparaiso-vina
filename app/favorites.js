@@ -1,9 +1,11 @@
 import { FAVORITES_CHANGED_EVENT, FAVORITES_STORAGE_KEY, favoritesForCity } from "../assets/favorites-core.mjs?v=20260817";
 import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButtons } from "../assets/favorites-view.mjs?v=20260817";
+import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 
-const CONFIG = Object.freeze({ valparaiso: { dataset: "../agenda_web.json" }, gijon: { dataset: "./data/gijon/agenda_web.json" } });
+const CITY_REGISTRY = await loadCityRegistry();
+const CONFIG = CITY_REGISTRY.byId;
 let loadedCity = null, eventMap = new Map(), loadPromise = null, enhanceQueued = false, refreshQueued = false;
-function cityId(){return CONFIG[document.documentElement.dataset.city]?document.documentElement.dataset.city:"valparaiso"}
+function cityId(){return CONFIG[document.documentElement.dataset.city]?document.documentElement.dataset.city:CITY_REGISTRY.defaultCityId}
 function eventPageHref(event,city=cityId()){const id=String(event?.id||"").trim();return id?new URL(`../evento/${city}/${encodeURIComponent(id)}/`,location.href).href:null}
 function installAccessStyles(){if(document.querySelector("style[data-favorites-access-styles]"))return;const s=document.createElement("style");s.dataset.favoritesAccessStyles="true";s.textContent='.favorites-access--app{display:inline-flex;align-items:center;gap:.35rem;min-height:2.45rem;padding:.48rem .65rem;border:1px solid rgba(23,79,70,.18);border-radius:.75rem;background:#fff;color:inherit;text-decoration:none;font-size:.78rem;font-weight:800;white-space:nowrap}.favorites-access-star{color:#d59a00}.favorites-access-count{display:inline-flex;align-items:center;justify-content:center;min-width:1.4rem;height:1.4rem;padding:0 .35rem;border-radius:999px;background:rgba(6,42,88,.08);font-size:.68rem;font-weight:900}@media(max-width:42rem){.favorites-access--app{padding:.42rem .52rem}.favorites-access-label{display:none}}';document.head.append(s)}
 function updateAccess(){const city=cityId(),link=document.querySelector("[data-favorites-access]");if(!link)return;link.href=`./mis-planes.html?city=${encodeURIComponent(city)}`;const count=favoritesForCity(city).length,badge=link.querySelector("[data-favorites-count]");if(badge)badge.textContent=String(count);link.setAttribute("aria-label",`Mis planes, ${count} ${count===1?"actividad guardada":"actividades guardadas"}`)}
