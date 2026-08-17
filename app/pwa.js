@@ -10,7 +10,7 @@ import "./header-redesign.js";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
 
-const APP_VERSION = "PWA v27";
+const APP_VERSION = "PWA v28";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 

@@ -40,6 +40,9 @@ def make_test_page(city: str) -> None:
     diagnostic = r'''
   <script>
     setTimeout(() => {
+      const visibleCards = () => [...document.querySelectorAll(".event-card[data-event-id]")]
+        .filter((card) => !card.hidden && getComputedStyle(card).display !== "none");
+      const allCards = () => [...document.querySelectorAll(".event-card[data-event-id]")];
       const sourceSection = document.querySelector("[data-sources-section]");
       const sourceToggle = document.querySelector("[data-sources-toggle]");
       document.body.dataset.gijonVisualReference = document.querySelector("[data-gijon-visual-reference]") ? "true" : "false";
@@ -58,24 +61,47 @@ def make_test_page(city: str) -> None:
       document.body.dataset.searchInputVisible = document.querySelector("[data-smart-search]") && searchPopover && !searchPopover.hidden ? "true" : "false";
       document.body.dataset.combinedWorkbench = document.querySelector(".filter-workbench") ? "true" : "false";
       document.body.dataset.combinedWhen = document.querySelector("[data-combined-when]") ? "true" : "false";
-      document.body.dataset.combinedPrice = document.querySelector("[data-combined-price]") ? "true" : "false";
       document.body.dataset.combinedCategories = document.querySelectorAll("[data-combined-category]").length > 0 ? "true" : "false";
+      document.body.dataset.priceFilterAbsent = document.querySelector("[data-combined-price]") ? "false" : "true";
       const areaGroup = document.querySelector("[data-area-filter-group]");
       document.body.dataset.areaFilterHidden = areaGroup && getComputedStyle(areaGroup).display === "none" ? "true" : "false";
-      const city = document.documentElement.dataset.city;
-      if (city === "valparaiso") document.querySelector('[data-combined-area] [data-filter-value="valparaiso"]')?.click();
-      document.querySelector('[data-combined-price] [data-filter-value="gratis"]')?.click();
+
+      const initialVisible = visibleCards().length;
+      document.body.dataset.visibleBeforeFilter = String(initialVisible);
+      const candidates = [...document.querySelectorAll('[data-combined-when] [data-filter-value]')]
+        .filter((button) => !["todos", "personalizado"].includes(button.dataset.filterValue))
+        .map((button) => ({ button, count: Number(button.querySelector("[data-combined-count]")?.textContent || -1) }))
+        .filter((item) => Number.isFinite(item.count) && item.count !== initialVisible);
+      const dateChoice = candidates[0]?.button || document.querySelector('[data-combined-when] [data-filter-value="7-dias"]');
+      dateChoice?.click();
+
       setTimeout(() => {
-        const params = new URLSearchParams(location.search);
-        document.body.dataset.filterUrlPrice = params.get("price") || "";
-        document.body.dataset.filterUrlArea = params.get("area") || "";
-        const trigger = document.querySelector("[data-open-event]");
-        trigger?.click();
-        const detail = document.querySelector("dialog[data-event-detail]");
-        const detailText = detail?.textContent || "";
-        document.body.dataset.detailOpen = detail?.hasAttribute("open") ? "true" : "false";
-        document.body.dataset.detailHasSource = detail && (detailText.includes("Fuente oficial") || detailText.includes("Datos oficiales")) ? "true" : "false";
-      }, 450);
+        const afterDate = visibleCards().length;
+        const hiddenCards = allCards().filter((card) => card.hidden);
+        document.body.dataset.visibleAfterFilter = String(afterDate);
+        document.body.dataset.filterActuallyChanged = String(afterDate !== initialVisible);
+        document.body.dataset.hiddenCardsSuppressed = String(
+          hiddenCards.length > 0 && hiddenCards.every((card) => getComputedStyle(card).display === "none")
+        );
+        const paramsAfterDate = new URLSearchParams(location.search);
+        document.body.dataset.filterUrlWhen = paramsAfterDate.get("when") || "";
+
+        const city = document.documentElement.dataset.city;
+        if (city === "valparaiso") {
+          document.querySelector('[data-combined-area] [data-filter-value="valparaiso"]')?.click();
+        }
+
+        setTimeout(() => {
+          const params = new URLSearchParams(location.search);
+          document.body.dataset.filterUrlArea = params.get("area") || "";
+          const trigger = document.querySelector("[data-open-event]");
+          trigger?.click();
+          const detail = document.querySelector("dialog[data-event-detail]");
+          const detailText = detail?.textContent || "";
+          document.body.dataset.detailOpen = detail?.hasAttribute("open") ? "true" : "false";
+          document.body.dataset.detailHasSource = detail && (detailText.includes("Fuente oficial") || detailText.includes("Datos oficiales")) ? "true" : "false";
+        }, 350);
+      }, 500);
     }, 5200);
   </script>'''
 
@@ -104,7 +130,7 @@ def dump_dom_with_retry(city: str, url: str) -> str:
                 "--disable-dev-shm-usage", "--disable-background-networking",
                 "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
                 "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--virtual-time-budget=8000", f"--user-data-dir={profile}", "--dump-dom", url,
+                "--virtual-time-budget=9000", f"--user-data-dir={profile}", "--dump-dom", url,
             ]
             try:
                 result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=40)
@@ -129,9 +155,10 @@ def run_city(city: str, base_url: str) -> None:
     for marker, message in (
         ('data-combined-workbench="true"', "Combined workbench missing"),
         ('data-combined-when="true"', "Date filter missing"),
-        ('data-combined-price="true"', "Price filter missing"),
         ('data-combined-categories="true"', "Category filters missing"),
-        ('data-filter-url-price="gratis"', "Price filter URL persistence failed"),
+        ('data-price-filter-absent="true"', "Price filter still visible"),
+        ('data-filter-actually-changed="true"', "Filter click did not change visible results"),
+        ('data-hidden-cards-suppressed="true"', "Filtered cards remain visually displayed"),
         ('data-sources-default-hidden="true"', "Sources visible by default"),
         ('data-sources-after-open="true"', "Sources did not open"),
         ('data-search-toggle-present="true"', "Search trigger missing"),
@@ -144,6 +171,8 @@ def run_city(city: str, base_url: str) -> None:
     ):
         if marker not in dom:
             raise AssertionError(f"{message} for {city}")
+    if 'data-filter-url-when=""' in dom:
+        raise AssertionError(f"Date filter did not persist in URL for {city}")
     expected_title = "Valparaíso / Viña del Mar" if city == "valparaiso" else "Gijón / Xixón"
     if f'data-city-title="{expected_title}"' not in dom:
         raise AssertionError(f"Unexpected city title for {city}")
@@ -159,12 +188,9 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError(f"Source data unavailable for {city}")
     if city == "valparaiso" and 'data-image-kind="category-fallback"' not in dom:
         raise AssertionError("Valparaiso category image fallback missing")
-    # External hosts are intentionally mapped away in this runtime contract so
-    # a slow third-party event image cannot stall the browser. Gijón's official
-    # image/source integrity has its own dedicated static/source-detail tests.
     if 'No te lo pierdas' not in dom:
         raise AssertionError(f"Featured badge missing for {city}")
-    print(f"Browser runtime {city}: combined filters and shareable URL state OK")
+    print(f"Browser runtime {city}: filters change visible cards and hidden results stay hidden")
 
 
 def main() -> None:

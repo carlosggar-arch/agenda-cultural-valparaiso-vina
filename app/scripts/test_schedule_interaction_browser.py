@@ -35,8 +35,8 @@ def make_test_page() -> None:
         raise AssertionError("pwa.js script marker not found in app/index.html")
 
     # Load the same enhancement stack as pwa.js without registering a service
-    # worker. schedule-display.js is intentionally included: the production
-    # freeze was caused by its MutationObserver reacting to its own DOM writes.
+    # worker. This contract is about UI responsiveness and observer stability,
+    # so external image hosts are deliberately isolated by the Chrome command.
     enhancement_stack = '''<script type="module">
       import "./vivamos-brand.js";
       import "./card-experience.js";
@@ -44,18 +44,18 @@ def make_test_page() -> None:
       import "./card-image-fallback.js";
       import "./compact-top.js";
       import "./gijon-visual-reference.js";
-      import "./lean-filters.js";
       import "./sources-toggle.js";
       import "./community-source.js";
       import "./header-redesign.js";
       import "./density-polish.js";
+      import "./combined-filters-polish.js";
     </script>
     <script>
       setTimeout(() => {
         const citySwitch = document.querySelector("[data-city-switch]");
         const chooser = document.querySelector("[data-chooser-backdrop]");
-        const valpoImages = document.querySelectorAll(".event-card img, .event-card-photo").length;
-        document.body.dataset.valpoImagesBeforeSwitch = String(valpoImages);
+        const valpoMedia = document.querySelectorAll(".event-card-media").length;
+        document.body.dataset.valpoMediaBeforeSwitch = String(valpoMedia);
 
         citySwitch?.click();
         document.body.dataset.cityChooserOpened = chooser && !chooser.hidden ? "true" : "false";
@@ -65,8 +65,8 @@ def make_test_page() -> None:
 
         setTimeout(() => {
           document.body.dataset.cityAfterSwitch = document.documentElement.dataset.city || "";
-          document.body.dataset.gijonImagesAfterSwitch = String(
-            document.querySelectorAll(".event-card img, .event-card-photo").length,
+          document.body.dataset.gijonMediaAfterSwitch = String(
+            document.querySelectorAll(".event-card-media").length,
           );
           const searchToggle = document.querySelector("[data-header-search-toggle]");
           const searchPopover = document.querySelector("[data-header-search-popover]");
@@ -93,7 +93,7 @@ def main() -> None:
         thread.start()
         time.sleep(0.2)
         try:
-            with tempfile.TemporaryDirectory(prefix="agenda-schedule-interaction-") as profile:
+            with tempfile.TemporaryDirectory(prefix="agenda-schedule-interaction-", ignore_cleanup_errors=True) as profile:
                 cmd = [
                     chrome_binary(),
                     "--headless=new",
@@ -101,6 +101,11 @@ def main() -> None:
                     "--disable-gpu",
                     "--disable-dev-shm-usage",
                     "--disable-background-networking",
+                    "--disable-extensions",
+                    "--disable-sync",
+                    "--no-first-run",
+                    "--no-default-browser-check",
+                    "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
                     "--virtual-time-budget=11000",
                     f"--user-data-dir={profile}",
                     "--dump-dom",
@@ -131,14 +136,14 @@ def main() -> None:
 
     import re
 
-    valpo_match = re.search(r'data-valpo-images-before-switch="(\d+)"', dom)
-    gijon_match = re.search(r'data-gijon-images-after-switch="(\d+)"', dom)
+    valpo_match = re.search(r'data-valpo-media-before-switch="(\d+)"', dom)
+    gijon_match = re.search(r'data-gijon-media-after-switch="(\d+)"', dom)
     if not valpo_match or int(valpo_match.group(1)) <= 0:
-        raise AssertionError("Valparaiso enhancement stack did not render event images")
+        raise AssertionError("Valparaiso enhancement stack did not render event media")
     if not gijon_match or int(gijon_match.group(1)) <= 0:
-        raise AssertionError("Gijon enhancement stack did not render event images after city switch")
+        raise AssertionError("Gijon enhancement stack did not render event media after city switch")
 
-    print("Schedule observer interaction test: UI responsive, city switch works and images render")
+    print("Schedule observer interaction test: production stack responsive, city switch and media containers render")
 
 
 if __name__ == "__main__":

@@ -9,9 +9,10 @@
 .filter-workbench-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem}
 .filter-workbench-heading h3{margin:0;font-family:Georgia,serif;font-size:1.45rem;color:var(--brand)}
 .filter-workbench-heading p{margin:.25rem 0 0;color:var(--muted);font-size:.92rem;line-height:1.45}
-.filter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem}
+.filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
 .filter-group{min-width:0;padding:.9rem;border:1px solid color-mix(in srgb,var(--brand) 12%,#fff);border-radius:1rem;background:#fff}
 .filter-group[hidden]{display:none}
+.filter-group:has([data-combined-price]){display:none!important}
 .filter-group-title{display:block;margin:0 0 .6rem;font-size:.77rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
 .filter-choice-row{display:flex;flex-wrap:wrap;gap:.45rem}
 .filter-choice{border:1px solid #d2dedb;background:#fff;color:#365a52;border-radius:999px;padding:.52rem .7rem;display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.88rem;font-weight:700}
@@ -30,6 +31,10 @@
 .category-filter-panel .category-chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
 .category-filter-panel .category-chip.active small{background:rgba(255,255,255,.16);color:#fff}
 .filter-help{margin:0;color:var(--muted);font-size:.82rem;line-height:1.45}
+
+/* Filtering is semantic as well as visual. Never let card layout rules override
+   the hidden attribute applied by combined-filters.js. */
+.event-card[hidden]{display:none!important}
 
 @media(max-width:860px){
   .filter-grid{grid-template-columns:1fr 1fr}
