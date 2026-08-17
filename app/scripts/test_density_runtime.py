@@ -32,8 +32,7 @@ def prepare_page(city: str) -> None:
       const workbench = document.querySelector(".filter-workbench");
       const dividerStyle = workbench ? getComputedStyle(workbench, "::before") : null;
       const whenRow = document.querySelector("[data-combined-when]");
-      const whenGroup = whenRow?.closest(".filter-group");
-      const whenGroupStyle = whenGroup ? getComputedStyle(whenGroup) : null;
+      const whenRowStyle = whenRow ? getComputedStyle(whenRow) : null;
       const whenTitleStyle = whenRow ? getComputedStyle(whenRow, "::before") : null;
 
       document.body.dataset.densityControlsPosition = controls ? getComputedStyle(controls).position : "missing";
@@ -57,7 +56,7 @@ def prepare_page(city: str) -> None:
         Math.round(Number.parseFloat(whenTitleStyle?.lineHeight || "0"))
       );
       document.body.dataset.densityWhenPaddingTop = String(
-        Math.round(Number.parseFloat(whenGroupStyle?.paddingTop || "0"))
+        Math.round(Number.parseFloat(whenRowStyle?.paddingTop || "0"))
       );
     }, 7000);
   </script>
@@ -121,7 +120,7 @@ def run_city(city: str, base_url: str) -> None:
     if line_height < 10:
         raise AssertionError(f"When title line-height remains cramped for {city}: {line_height}px")
     if padding_top < 20:
-        raise AssertionError(f"When group has insufficient top breathing room for {city}: {padding_top}px")
+        raise AssertionError(f"When row has insufficient top breathing room for {city}: {padding_top}px")
 
     print(f"Density runtime {city}: compact header, mosaic divider and readable When filter OK")
 
