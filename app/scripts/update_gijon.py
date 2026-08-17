@@ -110,8 +110,12 @@ def normalize_event(item: dict) -> dict | None:
     category_id, category_label = category(item)
     source_id = clean(item.get("id"))
     digest = hashlib.sha1(f"{source_id}|{start_date}|{title}".encode("utf-8")).hexdigest()[:16]
-    official = clean(item.get("alias")) or SOURCE_URL
+    municipal_page = clean(item.get("alias")) or None
     registration = registration_url(item)
+    # Some municipal aliases resolve to visually empty Drupal pages. When Open Data
+    # supplies a registration/action URL, make that the useful official destination;
+    # keep Open Data itself as the stable source of record.
+    official = registration or municipal_page or SOURCE_URL
     venue = clean(item.get("titulo_directorio")) or clean(item.get("field_lo_name")) or "Gijón/Xixón"
     address = clean(item.get("direccion_directorio")) or clean(item.get("field_lo_address")) or None
     tags = [tag.strip() for tag in clean(item.get("etiquetas")).split(",") if tag.strip()]
@@ -148,7 +152,12 @@ def normalize_event(item: dict) -> dict | None:
             "max_amount": None,
             "display_text": "Consultar condiciones",
         },
-        "links": {"official": official, "tickets": None, "registration": registration, "source": official},
+        "links": {
+            "official": official,
+            "tickets": None,
+            "registration": registration,
+            "source": SOURCE_URL,
+        },
         "organizer": clean(item.get("organismo")) or "Ayuntamiento de Gijón/Xixón",
         "source_name": "Open Data Ayuntamiento de Gijón/Xixón",
         "source_url": SOURCE_URL,
