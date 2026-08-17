@@ -1,4 +1,4 @@
-import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs";
+import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260817-hours";
 
 const DATASET_URL = "./agenda_web.json";
 const MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b";
