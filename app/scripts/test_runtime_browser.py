@@ -61,9 +61,9 @@ def make_test_page(city: str) -> None:
       document.body.dataset.searchInputVisible = document.querySelector("[data-smart-search]") && searchPopover && !searchPopover.hidden ? "true" : "false";
       document.body.dataset.combinedWorkbench = document.querySelector(".filter-workbench") ? "true" : "false";
       document.body.dataset.combinedWhen = document.querySelector("[data-combined-when]") ? "true" : "false";
-      document.body.dataset.combinedAccess = document.querySelector("[data-combined-access]") ? "true" : "false";
-      document.body.dataset.combinedFormat = document.querySelector("[data-combined-format]") ? "true" : "false";
-      document.body.dataset.combinedAudience = document.querySelector("[data-combined-audience]") ? "true" : "false";
+      document.body.dataset.accessFilterAbsent = document.querySelector("[data-combined-access]") ? "false" : "true";
+      document.body.dataset.formatFilterAbsent = document.querySelector("[data-combined-format]") ? "false" : "true";
+      document.body.dataset.audienceFilterAbsent = document.querySelector("[data-combined-audience]") ? "false" : "true";
       document.body.dataset.combinedCategories = document.querySelectorAll("[data-combined-category]").length > 0 ? "true" : "false";
       document.body.dataset.priceFilterAbsent = document.querySelector("[data-combined-price]") ? "false" : "true";
       const areaGroup = document.querySelector("[data-area-filter-group]");
@@ -97,6 +97,7 @@ def make_test_page(city: str) -> None:
         setTimeout(() => {
           const params = new URLSearchParams(location.search);
           document.body.dataset.filterUrlArea = params.get("area") || "";
+          document.body.dataset.removedParamsAbsent = String(!params.has("access") && !params.has("format") && !params.has("aud"));
           const trigger = document.querySelector("[data-open-event]");
           trigger?.click();
           const detail = document.querySelector("dialog[data-event-detail]");
@@ -158,11 +159,12 @@ def run_city(city: str, base_url: str) -> None:
     for marker, message in (
         ('data-combined-workbench="true"', "Combined workbench missing"),
         ('data-combined-when="true"', "Date filter missing"),
-        ('data-combined-access="true"', "Access filter missing"),
-        ('data-combined-format="true"', "Format filter missing"),
-        ('data-combined-audience="true"', "Audience filter missing"),
+        ('data-access-filter-absent="true"', "Access filter still visible"),
+        ('data-format-filter-absent="true"', "Format filter still visible"),
+        ('data-audience-filter-absent="true"', "Audience filter still visible"),
         ('data-combined-categories="true"', "Category filters missing"),
         ('data-price-filter-absent="true"', "Price filter still visible"),
+        ('data-removed-params-absent="true"', "Removed filter parameters still active"),
         ('data-filter-actually-changed="true"', "Filter click did not change visible results"),
         ('data-hidden-cards-suppressed="true"', "Filtered cards remain visually displayed"),
         ('data-sources-default-hidden="true"', "Sources visible by default"),
@@ -196,7 +198,7 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError("Valparaiso category image fallback missing")
     if 'No te lo pierdas' not in dom:
         raise AssertionError(f"Featured badge missing for {city}")
-    print(f"Browser runtime {city}: advanced controls render and filters change visible cards")
+    print(f"Browser runtime {city}: simplified controls render and filters change visible cards")
 
 
 def main() -> None:
