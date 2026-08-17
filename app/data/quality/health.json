@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T13:11:38+00:00",
+  "generated_at": "2026-08-17T13:19:47+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -15,15 +15,15 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T09:10:36-04:00",
+        "generated_at": "2026-08-17T09:19:13-04:00",
         "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 86,
-        "schedule_expected_events": 82,
-        "dated_events": 82,
+        "total_events": 84,
+        "schedule_expected_events": 80,
+        "dated_events": 80,
         "timed_events": 80,
-        "relevant_image_events": 70,
+        "relevant_image_events": 68,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -31,22 +31,11 @@
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 97.6,
-        "relevant_image_pct": 81.4
+        "time_pct": 100.0,
+        "relevant_image_pct": 81.0
       },
       "samples": {
-        "missing_time": [
-          {
-            "id": "agenda_baaf655dfce1a942408c3660",
-            "title": "Consultas a: infobiav@munivalpo.cl",
-            "venue": "Valpo Cultura"
-          },
-          {
-            "id": "agenda_9f708ccb1c8986209342fcbf",
-            "title": "Así vivimos nuestro primer diálogo del Seminario de Preguntas Fundamentales",
-            "venue": "Museo de Historia Natural de Valparaíso"
-          }
-        ],
+        "missing_time": [],
         "missing_relevant_image": [
           {
             "id": "agenda_e7e2a4a89dc447f9bd2633e7",
@@ -202,7 +191,9 @@
         "visit_hours_enriched": 0,
         "venue_hours_enriched": 1,
         "removed_title_quality": 0,
-        "removed_location_mismatch": 0
+        "removed_location_mismatch": 0,
+        "removed_deadline_only_call": 1,
+        "removed_retrospective_post": 1
       },
       "publication_corrections": {
         "checked_at": "2026-08-17",
@@ -223,7 +214,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T15:06:09+02:00",
-        "generated_age_hours": 0.1
+        "generated_age_hours": 0.2
       },
       "counts": {
         "total_events": 97,
@@ -624,7 +615,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539763586820984,
+    "usage_usd": 4.539764251040244,
     "remaining_usd": 0.0
   }
 }
