@@ -19,7 +19,7 @@ REQUIRED_MARKERS = {
     'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
     'data-pwa-ready="true"': "Service worker never reached ready state",
     'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
-    'data-pwa-version="PWA v30"': "Installed app did not load the current PWA v30 runtime",
+    'data-pwa-version="PWA v31"': "Installed app did not load the current PWA v31 runtime",
     'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
 }
 

@@ -14,6 +14,7 @@ card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
 card_css = (APP / "card-experience.css").read_text(encoding="utf-8")
 schedule_display_js = (APP / "schedule-display.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
+compact_css = (APP / "compact-top.css").read_text(encoding="utf-8")
 compact_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
 sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
@@ -41,6 +42,16 @@ assert './combined-filters.js' in index
 assert './contextual-filters.js' not in index
 assert 'new URLSearchParams(window.location.search).get("city")' in index
 assert '["access", "format", "aud"]' in index
+
+# Critical visual CSS must be available before the browser can paint the body.
+compact_link = '<link rel="stylesheet" href="./compact-top.css">'
+header_link = '<link rel="stylesheet" href="./header-redesign.css">'
+assert compact_link in index
+assert header_link in index
+assert index.index(compact_link) < index.index(header_link) < index.index("</head>")
+assert index.index("</head>") < index.index('<script type="module" src="./pwa.js"></script>')
+assert 'document.createElement("style")' not in compact_js
+assert 'style.textContent' not in compact_js
 
 assert 'dataset: "../agenda_web.json"' in app_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
@@ -100,10 +111,13 @@ assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert 'object-fit: contain !important' in media_layout
 assert 'export function formatSchedule' in schedule_module
 
-assert '.hero > h1' in compact_js
-assert '.agenda-heading' in compact_js
-assert 'padding: 0 !important;' in compact_js
-assert 'background: transparent !important;' in compact_js
+assert '.hero > h1' in compact_css
+assert '.agenda-heading' in compact_css
+assert 'padding: 0 !important;' in compact_css
+assert 'background: transparent !important;' in compact_css
+assert '.filter-workbench::before {' in compact_css
+assert 'url("../assets/mosaic-top.png")' in compact_css
+assert '[data-combined-when]::before {' in compact_css
 assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
 assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
 assert 'authoritativeCatalogue' in sources_toggle_js
@@ -113,10 +127,10 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v30"' in pwa
+assert 'const APP_VERSION = "PWA v31"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v30";' in service_worker
+assert 'const CACHE_VERSION = "v31";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -126,7 +140,7 @@ assert 'cachedRequest.url !== request.url' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
-    '"./city-header.css"', '"./header-redesign.css"', '"./card-experience.js"',
+    '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"',
     '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
     '"../assets/event-schedule-display.mjs"',
@@ -135,4 +149,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v30 keeps separate city datasets, shared visuals and simplified filters stable: OK")
+print("Multi-city v31 keeps the final visual CSS in the critical path and simplified filters stable: OK")
