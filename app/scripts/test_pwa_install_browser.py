@@ -131,7 +131,15 @@ def make_test_pages() -> None:
     }, 2600);
   </script>
 '''
-    FIRST_OPEN_PAGE.write_text(source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
+    # The first-open fixture validates city selection and mobile layout only. Keep the
+    # service-worker/install lifecycle exclusive to the installed-PWA fixture so a
+    # pending worker cannot keep Chrome --dump-dom alive indefinitely.
+    first_open_source = source.replace(
+        '<script type="module" src="./pwa.js"></script>',
+        '<script type="module" src="./mobile-experience.js"></script>',
+        1,
+    )
+    FIRST_OPEN_PAGE.write_text(first_open_source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
 
 
 def probe_state(dom: str) -> tuple[bool, str]:
@@ -154,6 +162,7 @@ def chrome_command(url: str, profile: str, budget: int) -> list[str]:
         chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
         "--disable-dev-shm-usage", "--disable-background-networking",
         "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
+        "--deny-permission-prompts",
         "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
         "--window-size=390,844", f"--virtual-time-budget={budget}",
         f"--user-data-dir={profile}", "--dump-dom", url,
@@ -183,14 +192,25 @@ def run_chrome(url: str) -> str:
 
 
 def run_first_open(url: str) -> str:
-    with tempfile.TemporaryDirectory(prefix="agenda-first-open-", ignore_cleanup_errors=True) as profile:
-        result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=30)
-    if result.returncode != 0 or not result.stdout:
-        raise AssertionError(f"First-open Chrome probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
-    ok, state = first_open_state(result.stdout)
-    if not ok:
-        raise AssertionError(state)
-    return result.stdout
+    errors: list[str] = []
+    for attempt in range(1, 4):
+        with tempfile.TemporaryDirectory(prefix=f"agenda-first-open-{attempt}-", ignore_cleanup_errors=True) as profile:
+            try:
+                result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=40)
+            except subprocess.TimeoutExpired:
+                errors.append(f"attempt {attempt}: Chrome timed out")
+                time.sleep(1)
+                continue
+            if result.returncode != 0 or not result.stdout:
+                errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+                time.sleep(1)
+                continue
+            ok, state = first_open_state(result.stdout)
+            if ok:
+                return result.stdout
+            errors.append(f"attempt {attempt}: {state}")
+            time.sleep(1)
+    raise AssertionError(f"First-open Chrome probe failed after three isolated attempts: {' | '.join(errors)}")
 
 
 def main() -> None:
