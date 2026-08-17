@@ -72,7 +72,55 @@
   margin-top:.8rem;
   text-align:center;
 }
+
+/* On phones, keep quick actions together and treat city as contextual navigation.
+   This avoids five controls competing with the city title/tagline on one line. */
 @media(max-width:700px){
-  .share-qr-button{width:44px;min-width:44px}
+  .header-actions{
+    display:grid!important;
+    grid-template-columns:repeat(4,max-content)!important;
+    grid-template-rows:auto auto;
+    align-items:center!important;
+    justify-content:start!important;
+    column-gap:.38rem!important;
+    row-gap:.38rem!important;
+    width:max-content!important;
+    max-width:100%!important;
+  }
+  .header-actions .share-qr-button{
+    width:39px;
+    min-width:39px;
+    min-height:39px;
+    border-radius:12px;
+    box-shadow:none;
+  }
+  .header-actions .share-qr-button img{
+    width:18px;
+    height:18px;
+  }
+  .header-actions .city-switch{
+    grid-column:1 / -1;
+    grid-row:2;
+    justify-self:start;
+    width:auto!important;
+    min-height:36px!important;
+    padding:.46rem .62rem!important;
+    background:rgba(255,255,255,.66)!important;
+    border-style:dashed!important;
+  }
+  .header-actions .favorites-access--app{
+    min-height:39px!important;
+  }
   .share-qr-actions{grid-template-columns:1fr}
+}
+
+@media(max-width:430px){
+  .header-actions{
+    column-gap:.32rem!important;
+    row-gap:.32rem!important;
+  }
+  .header-actions .city-switch{
+    min-height:34px!important;
+    padding:.4rem .58rem!important;
+  }
 }
