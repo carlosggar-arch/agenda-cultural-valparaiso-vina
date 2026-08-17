@@ -1,11 +1,11 @@
 {
   "schema_version": "1.3.0",
-  "generated_at": "2026-08-17T12:30:59+02:00",
+  "generated_at": "2026-08-17T12:35:57+02:00",
   "publication_date": "2026-08-17",
   "timezone": "Europe/Madrid",
   "counts": {
-    "total": 89,
-    "events": 80,
+    "total": 98,
+    "events": 89,
     "courses": 0,
     "flexible_offers": 1,
     "programs": 8
@@ -26,9 +26,9 @@
         "dated_candidates": null,
         "published_events": 83,
         "filtered_or_deduplicated": null,
-        "with_start_time": 58,
-        "without_start_time": 25,
-        "time_coverage_percent": 70
+        "with_start_time": 59,
+        "without_start_time": 24,
+        "time_coverage_percent": 71
       }
     },
     {
@@ -137,6 +137,146 @@
         "web_probe_dated_candidates": 0,
         "actionable_zero": false,
         "zero_event_reason": "secondary_calendar_checked_no_current_candidates"
+      }
+    },
+    {
+      "id": "laboral_ciudad_cultura",
+      "name": "Laboral Ciudad de la Cultura — Agenda",
+      "url": "https://www.laboralciudaddelacultura.com/es/agenda",
+      "kind": "web_calendar",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 2,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": null,
+        "dated_candidates": null,
+        "published_events": 2,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 2,
+        "without_start_time": 0,
+        "time_coverage_percent": 100
+      }
+    },
+    {
+      "id": "teatro_albeniz_gijon",
+      "name": "Teatro Albéniz Gijón",
+      "url": "https://www.teatroalbenizgijon.com/agenda/",
+      "kind": "web_calendar",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 0,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": null,
+        "dated_candidates": null,
+        "published_events": 0,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 0,
+        "without_start_time": 0,
+        "time_coverage_percent": null
+      }
+    },
+    {
+      "id": "bioparc_acuario_gijon",
+      "name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "kind": "web_calendar",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 7,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": null,
+        "dated_candidates": null,
+        "published_events": 7,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 7,
+        "without_start_time": 0,
+        "time_coverage_percent": 100
+      }
+    },
+    {
+      "id": "jardin_botanico_atlantico",
+      "name": "Jardín Botánico Atlántico",
+      "url": "https://www.instagram.com/jbatlantico/",
+      "kind": "instagram",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 0,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": 0,
+        "dated_candidates": null,
+        "published_events": 0,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 0,
+        "without_start_time": 0,
+        "time_coverage_percent": null
+      }
+    },
+    {
+      "id": "ateneo_jovellanos",
+      "name": "Ateneo Jovellanos — Actividades",
+      "url": "https://ateneojovellanos.es/actividades/",
+      "kind": "web_calendar",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 0,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": null,
+        "dated_candidates": null,
+        "published_events": 0,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 0,
+        "without_start_time": 0,
+        "time_coverage_percent": null
+      }
+    },
+    {
+      "id": "sala_acapulco_conciertos",
+      "name": "Sala Acapulco — Conciertos",
+      "url": "https://www.instagram.com/sala_acapulco_conciertos/",
+      "kind": "instagram",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 0,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": 0,
+        "dated_candidates": null,
+        "published_events": 0,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 0,
+        "without_start_time": 0,
+        "time_coverage_percent": null
+      }
+    },
+    {
+      "id": "la_caja_de_musicos",
+      "name": "La Caja de Músicos",
+      "url": "https://www.instagram.com/cajademusicos/",
+      "kind": "instagram",
+      "official": true,
+      "scope": "Gijón",
+      "event_count": 0,
+      "status": "ok",
+      "detail": null,
+      "diagnostics": {
+        "reviewed_items": 0,
+        "dated_candidates": null,
+        "published_events": 0,
+        "filtered_or_deduplicated": null,
+        "with_start_time": 0,
+        "without_start_time": 0,
+        "time_coverage_percent": null
       }
     },
     {
@@ -258,10 +398,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -345,10 +485,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -435,10 +575,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -532,10 +672,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -619,10 +759,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -697,10 +837,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -784,10 +924,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -866,10 +1006,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -949,10 +1089,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1031,10 +1171,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1111,10 +1251,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1201,10 +1341,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1293,10 +1433,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1326,6 +1466,83 @@
         "duration_days": 205
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_laboral_ciudad_cultura_5d2b922724b49fc0",
+      "title": "Campus de Verano de la Laboral 2026",
+      "event_type": "event",
+      "primary_category": {
+        "id": "formacion-taller",
+        "label": "Formación / taller"
+      },
+      "categories": [
+        {
+          "id": "formacion-taller",
+          "label": "Formación / taller"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-06-30T09:00:00+02:00",
+        "end": "2026-08-28",
+        "timezone": "Europe/Madrid",
+        "display_text": "2026-06-30 · 09:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "Laboral Ciudad de la Cultura",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://www.laboralciudaddelacultura.com/es/agenda/-/calendarsuite/event/campus-de-verano-de-la-laboral-2026-/16671776/kiUgFekyAvs3",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.laboralciudaddelacultura.com/es/agenda/-/calendarsuite/event/campus-de-verano-de-la-laboral-2026-/16671776/kiUgFekyAvs3"
+      },
+      "organizer": "Laboral Ciudad de la Cultura — Agenda",
+      "source_id": "laboral_ciudad_cultura",
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/es/agenda",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": true,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Plazas agotadas según la fuente oficial."
+      },
+      "description": "Campus de Verano de la Laboral 2026 Laboral Ciudad de la Cultura Tiempo 2026-06-30 09:00:00.000 30 junio 2026 / 2026-08-28 17:00:00.000 28 agosto 2026 09:00 h - 17:00 h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": "Campus de Verano de la Laboral 2026"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 59
+      }
     },
     {
       "id": "agenda_gijon_beade99160cde96f",
@@ -1375,10 +1592,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1458,10 +1675,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -1552,10 +1769,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1637,10 +1854,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1720,10 +1937,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1804,10 +2021,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1882,10 +2099,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1964,10 +2181,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2040,10 +2257,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2116,10 +2333,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2147,6 +2364,104 @@
         "duration_days": 6
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_109da693a251a257",
+      "title": "Visita especial tiburones: desmontando mitos",
+      "event_type": "event",
+      "primary_category": {
+        "id": "actividad-panorama",
+        "label": "Actividad / panorama"
+      },
+      "categories": [
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-17T10:00:00+02:00",
+        "end": "2026-08-31",
+        "timezone": "Europe/Madrid",
+        "display_text": "Lunes y miércoles 10.00h",
+        "occurrences": [
+          {
+            "start": "2026-08-17T10:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-19T10:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-24T10:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-26T10:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-31T10:00:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "14 € adicionales a la entrada"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/visita-especial-tiburones-desmontando-mitos/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/visita-especial-tiburones-desmontando-mitos/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Visita especial tiburones: desmontando mitos Lunes y miércoles 10.00h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2026/04/VG-especial-tiburones.png",
+        "alt": "Visita especial tiburones: desmontando mitos"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 14
+      }
     },
     {
       "id": "agenda_gijon_a0eb4ecb0dd74442",
@@ -2196,10 +2511,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2225,6 +2540,104 @@
         "duration_days": 3
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_d895b03cd067a4d4",
+      "title": "Alimentación del Gran Oceanario",
+      "event_type": "event",
+      "primary_category": {
+        "id": "actividad-panorama",
+        "label": "Actividad / panorama"
+      },
+      "categories": [
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-17T13:00:00+02:00",
+        "end": "2026-08-31",
+        "timezone": "Europe/Madrid",
+        "display_text": "Lunes y viernes a las 13.00h",
+        "occurrences": [
+          {
+            "start": "2026-08-17T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-21T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-24T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-28T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-31T13:00:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/alimentacion-del-gran-oceanario/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/alimentacion-del-gran-oceanario/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Alimentación del Gran Oceanario Lunes y viernes a las 13.00h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2024/05/Gran-Oceanario.jpg",
+        "alt": "Alimentación del Gran Oceanario"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 14
+      }
     },
     {
       "id": "agenda_gijon_1871acb11a3b047c",
@@ -2274,10 +2687,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2352,10 +2765,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2430,10 +2843,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2461,6 +2874,267 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_56bb31d359f442de",
+      "title": "Visita guiada Zonas Técnicas – especial verano",
+      "event_type": "event",
+      "primary_category": {
+        "id": "actividad-panorama",
+        "label": "Actividad / panorama"
+      },
+      "categories": [
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-18T11:30:00+02:00",
+        "end": "2026-08-30",
+        "timezone": "Europe/Madrid",
+        "display_text": "Martes, jueves, viernes, sábados y domingos · 11:30 y 15:30",
+        "occurrences": [
+          {
+            "start": "2026-08-18T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-18T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-20T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-20T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-21T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-21T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-22T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-22T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-25T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-25T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-27T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-27T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-28T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-28T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-29T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-29T15:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T11:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T15:30:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "14 € adicionales a la entrada"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/visita-guiada-zonas-tecnicas-verano/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/visita-guiada-zonas-tecnicas-verano/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Visita guiada Zonas Técnicas – especial verano Martes, jueves, viernes, sábados y domingos 11.30h y 15.30h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2026/04/Zonas-tecnicas-verano.png",
+        "alt": "Visita guiada Zonas Técnicas – especial verano"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 12,
+        "schedule_audit": "verified_source_occurrences"
+      }
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_9e2622592b721627",
+      "title": "Encuentro Educativo Tiburones",
+      "event_type": "event",
+      "primary_category": {
+        "id": "actividad-panorama",
+        "label": "Actividad / panorama"
+      },
+      "categories": [
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-18T13:00:00+02:00",
+        "end": "2026-08-29",
+        "timezone": "Europe/Madrid",
+        "display_text": "Martes, jueves y sábado a las 13.00h",
+        "occurrences": [
+          {
+            "start": "2026-08-18T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-20T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-22T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-25T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-27T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-29T13:00:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/encuentro-educativo-tiburones/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/encuentro-educativo-tiburones/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Encuentro Educativo Tiburones Martes, jueves y sábado a las 13.00h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2024/05/Gran-Oceanario.jpg",
+        "alt": "Encuentro Educativo Tiburones"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 11
+      }
     },
     {
       "id": "agenda_gijon_0f076b8ddfb8493d",
@@ -2510,10 +3184,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2594,10 +3268,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2674,10 +3348,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2705,6 +3379,100 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_4b204abc011d4e25",
+      "title": "Encuentro Educativo en Oceanario",
+      "event_type": "event",
+      "primary_category": {
+        "id": "actividad-panorama",
+        "label": "Actividad / panorama"
+      },
+      "categories": [
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-19T13:00:00+02:00",
+        "end": "2026-08-30",
+        "timezone": "Europe/Madrid",
+        "display_text": "Miércoles, domingos a las 13.00h",
+        "occurrences": [
+          {
+            "start": "2026-08-19T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-26T13:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T13:00:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/encuentro-educativo-sobre-tiburones/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/encuentro-educativo-sobre-tiburones/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Encuentro Educativo en Oceanario Miércoles, domingos a las 13.00h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2025/04/Diseno-sin-titulo-2.png",
+        "alt": "Encuentro Educativo en Oceanario"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 11
+      }
     },
     {
       "id": "agenda_gijon_276d68b970a71190",
@@ -2754,10 +3522,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2836,10 +3604,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2916,10 +3684,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2994,10 +3762,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3077,10 +3845,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3160,10 +3928,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3240,10 +4008,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3321,10 +4089,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3350,88 +4118,6 @@
         "classification": "event",
         "reason": "dated_event",
         "duration_days": 0
-      },
-      "source_id": "gijon_opendata_events"
-    },
-    {
-      "id": "agenda_gijon_db2ccd89db4f0a2b",
-      "title": "Noches Mágicas 2026",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-21",
-        "end": "2026-08-30",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-08-21 · 00:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "1105",
-        "city": "Gijón",
-        "commune": "Gijón/Xixón",
-        "venue": "Jardín Botánico Atlántico de Gijón",
-        "address": "Avda. del Jardín Botánico 2230",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://www.gijon.es/noches-magicas-2026",
-        "tickets": null,
-        "registration": "https://teatrojovellanos.janto.es/es/espectaculo/noches-magicas-2026/210826B",
-        "source": "https://www.gijon.es/noches-magicas-2026"
-      },
-      "organizer": "Divertia",
-      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
-      },
-      "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
-      "tags": [
-        "Botánico",
-        "Teatro",
-        "Medio Ambiente",
-        "Turismo",
-        "Festejos"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.gijon.es/sites/default/files/styles/imagen_4_3/public/2026-06/evento%20noches%20m%C3%A1gicas%202026%20540x405px.jpg?itok=WQahf1_y",
-        "alt": "botanico"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "dated_event",
-        "duration_days": 9
       },
       "source_id": "gijon_opendata_events"
     },
@@ -3483,10 +4169,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3568,10 +4254,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3651,10 +4337,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3732,10 +4418,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3817,10 +4503,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3899,10 +4585,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3982,10 +4668,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4065,10 +4751,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4150,10 +4836,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T12:30:59+02:00",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:59+02:00",
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4177,6 +4863,171 @@
         "duration_days": 0,
         "time_enrichment_reason": "explicit_source_text"
       }
+    },
+    {
+      "id": "agenda_gijon_db2ccd89db4f0a2b",
+      "title": "Noches Mágicas 2026",
+      "event_type": "event",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro / artes escénicas"
+      },
+      "categories": [
+        {
+          "id": "teatro",
+          "label": "Teatro / artes escénicas"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-21T22:00:00+02:00",
+        "end": "2026-08-30",
+        "timezone": "Europe/Madrid",
+        "display_text": "21–30 agosto · 22:00 y 23:30",
+        "occurrences": [
+          {
+            "start": "2026-08-21T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-21T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-22T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-22T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-24T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-24T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-25T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-25T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-26T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-26T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-27T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-27T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-28T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-28T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-29T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-29T23:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T22:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T23:30:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": "1105",
+        "city": "Gijón",
+        "commune": "Gijón/Xixón",
+        "venue": "Jardín Botánico Atlántico de Gijón",
+        "address": "Avda. del Jardín Botánico 2230",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "15 € (+1 € gestión online)"
+      },
+      "links": {
+        "official": "https://www.gijon.es/noches-magicas-2026",
+        "tickets": null,
+        "registration": "https://teatrojovellanos.janto.es/es/espectaculo/noches-magicas-2026/210826B",
+        "source": "https://www.gijon.es/noches-magicas-2026"
+      },
+      "organizer": "Divertia",
+      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
+      },
+      "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
+      "tags": [
+        "Botánico",
+        "Teatro",
+        "Medio Ambiente",
+        "Turismo",
+        "Festejos"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.gijon.es/sites/default/files/styles/imagen_4_3/public/2026-06/evento%20noches%20m%C3%A1gicas%202026%20540x405px.jpg?itok=WQahf1_y",
+        "alt": "Noches Mágicas 2026"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "dated_event",
+        "duration_days": 9,
+        "schedule_audit": "verified_source_occurrences",
+        "canonical_enrichment": "botanico_noches_magicas_verified"
+      },
+      "source_id": "gijon_opendata_events"
     },
     {
       "id": "gijon_ciclismo_asturias_eaf7ca5e40efb9bd",
@@ -4228,10 +5079,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-17T12:31:04+02:00",
+      "last_verified_at": "2026-08-17T12:36:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:31:04+02:00",
+        "last_verified_at": "2026-08-17T12:36:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4305,10 +5156,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T12:30:59+02:00",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:59+02:00",
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4380,10 +5231,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4463,10 +5314,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4545,10 +5396,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4628,10 +5479,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4708,10 +5559,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4792,10 +5643,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4874,10 +5725,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4956,10 +5807,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5036,10 +5887,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5116,10 +5967,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5202,10 +6053,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5284,10 +6135,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5368,10 +6219,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5448,10 +6299,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5528,10 +6379,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5611,10 +6462,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5689,10 +6540,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5771,10 +6622,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T12:30:59+02:00",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:59+02:00",
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5846,10 +6697,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5929,10 +6780,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6005,10 +6856,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6085,10 +6936,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6165,10 +7016,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6248,10 +7099,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6331,10 +7182,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6411,10 +7262,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6494,10 +7345,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6577,10 +7428,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6659,10 +7510,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-17T12:31:04+02:00",
+      "last_verified_at": "2026-08-17T12:36:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:31:04+02:00",
+        "last_verified_at": "2026-08-17T12:36:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6734,10 +7585,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6816,10 +7667,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6899,10 +7750,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6934,6 +7785,93 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_c3aa7337a66721f9",
+      "title": "Concierto piano a la luz de las velas – Edición infantil",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-29T17:30:00+02:00",
+        "end": "2026-08-30",
+        "timezone": "Europe/Madrid",
+        "display_text": "29 ago · 17:30; 30 ago · 18:00",
+        "occurrences": [
+          {
+            "start": "2026-08-29T17:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T18:00:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "Auditorio del BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/concierto-piano-a-la-luz-de-las-velas-edicion-infantil/",
+        "tickets": "https://luzdelasvelas.com/bioparc-acuario-de-gijon-3/",
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/concierto-piano-a-la-luz-de-las-velas-edicion-infantil/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Concierto piano a la luz de las velas – Edición infantil 29 y 30 de agosto",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2025/08/Imagen-concierto-Disney.png",
+        "alt": "Concierto piano a la luz de las velas – Edición infantil"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 1,
+        "schedule_audit": "verified_source_occurrences"
+      }
     },
     {
       "id": "agenda_gijon_32565270f867a1a7",
@@ -6983,10 +7921,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7016,6 +7954,97 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_bioparc_acuario_gijon_4d750ccc7204740e",
+      "title": "Concierto piano a la luz de las velas",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "recurring",
+        "start": "2026-08-29T19:00:00+02:00",
+        "end": "2026-08-30",
+        "timezone": "Europe/Madrid",
+        "display_text": "29 ago · 19:00 y 20:30; 30 ago · 19:30",
+        "occurrences": [
+          {
+            "start": "2026-08-29T19:00:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-29T20:30:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-30T19:30:00",
+            "end": null
+          }
+        ]
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "Auditorio del BIOPARC Acuario de Gijón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://acuariogijon.es/actividad/concierto-piano-a-la-luz-de-las-velas/",
+        "tickets": "https://luzdelasvelas.com/bioparc-acuario-de-gijon-3/",
+        "registration": null,
+        "source": "https://acuariogijon.es/actividad/concierto-piano-a-la-luz-de-las-velas/"
+      },
+      "organizer": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_id": "bioparc_acuario_gijon",
+      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Concierto piano a la luz de las velas 29 y 30 de agosto (ver conciertos)",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://acuariogijon.es/wp-content/uploads/2025/08/Imagen-Concierto.png",
+        "alt": "Concierto piano a la luz de las velas"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 1,
+        "schedule_audit": "verified_source_occurrences"
+      }
     },
     {
       "id": "agenda_gijon_efe81500aadfc934",
@@ -7065,10 +8094,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7096,6 +8125,83 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_laboral_ciudad_cultura_007f72a9ba5b31fc",
+      "title": "Trialogfem Show",
+      "event_type": "event",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro / artes escénicas"
+      },
+      "categories": [
+        {
+          "id": "teatro",
+          "label": "Teatro / artes escénicas"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-29T20:00:00+02:00",
+        "end": "2026-08-29",
+        "timezone": "Europe/Madrid",
+        "display_text": "2026-08-29 · 20:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón",
+        "commune": "Gijón",
+        "region": null,
+        "venue": "Iglesia de la Laboral",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://www.laboralciudaddelacultura.com/es/agenda/-/calendarsuite/event/trialogfem-show/18005869/kiUgFekyAvs3",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.laboralciudaddelacultura.com/es/agenda/-/calendarsuite/event/trialogfem-show/18005869/kiUgFekyAvs3"
+      },
+      "organizer": "Laboral Ciudad de la Cultura — Agenda",
+      "source_id": "laboral_ciudad_cultura",
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/es/agenda",
+      "last_verified_at": "2026-08-17T12:35:57+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T12:35:57+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Trialogfem Show Iglesia de la Laboral Tiempo 2026-08-29 20:00:00.000 29 agosto 2026 20:00 h - 21:20 h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": "Trialogfem Show"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 0
+      }
     },
     {
       "id": "gijon_ciclismo_asturias_7ddfb3c853b236fa",
@@ -7147,10 +8253,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-17T12:31:04+02:00",
+      "last_verified_at": "2026-08-17T12:36:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:31:04+02:00",
+        "last_verified_at": "2026-08-17T12:36:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7222,10 +8328,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7305,10 +8411,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7387,10 +8493,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7471,10 +8577,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T12:30:47+02:00",
+      "last_verified_at": "2026-08-17T12:35:22+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T12:30:47+02:00",
+        "last_verified_at": "2026-08-17T12:35:22+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7505,9 +8611,11 @@
     }
   ],
   "editorial_diagnostics": {
-    "gijon_title_cleanup_changes": 7
+    "gijon_title_cleanup_changes": 49,
+    "gijon_final_audit_applied": true,
+    "botanico_noches_uses_municipal_canonical": true
   },
-  "diagnostics_generated_at": "2026-08-17T12:31:02+02:00",
+  "diagnostics_generated_at": "2026-08-17T12:36:01+02:00",
   "enrichment": {
     "start_times_added": 1,
     "known_event_corrections_applied": 1,
