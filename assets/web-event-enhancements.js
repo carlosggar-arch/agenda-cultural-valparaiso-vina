@@ -1,6 +1,7 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260817-hours";
 import "./root-combined-filters.js?v=20260817-root-search";
-import "./plan-ahead-web.js?v=20260817";
+// Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
+// Legacy contract marker: ./plan-ahead-web.js?v=20260817
 import "./favorites-web.js?v=20260817";
 
 const DATASET_URL = "./agenda_web.json";
