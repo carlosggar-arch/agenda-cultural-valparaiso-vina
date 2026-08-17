@@ -27,7 +27,7 @@ for marker in (
 
 for marker in (
     'data-smart-search', 'data-combined-when', 'data-combined-area',
-    'data-combined-price', 'data-combined-category-filters', 'data-date-from', 'data-date-to',
+    'data-combined-category-filters', 'data-date-from', 'data-date-to',
 ):
     assert marker in app_index
 assert './combined-filters.js' in app_index
@@ -36,6 +36,15 @@ assert '.filter-workbench' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
 assert '.legacy-filter-hooks' in combined_css
+assert '.filter-group:has([data-combined-price])' in combined_css
+assert '.event-card[hidden]{display:none!important}' in combined_css
+assert 'function removePriceFilter()' in polish
+assert 'document.querySelector("[data-combined-price]")?.closest(".filter-group")?.remove()' in polish
+assert 'url.searchParams.delete("price")' in polish
+assert 'function queueFilterResync()' in polish
+assert 'new MutationObserver(queueFilterResync)' in polish
+assert 'fecha, zona, categorías y palabras clave' in polish
+assert 'fecha, zona y búsqueda' in polish
 assert '.agenda-heading { display: flex !important;' in polish
 assert 'preserveScrollDuringLegacyClick' in polish
 
@@ -52,9 +61,9 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v27"' in pwa
+assert 'const APP_VERSION = "PWA v28"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'const CACHE_VERSION = "v27"' in service_worker
+assert 'const CACHE_VERSION = "v28"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
@@ -77,4 +86,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Combined filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
+print("Combined filters hide real cards, remove price UI and preserve source/schedule contracts: OK")
