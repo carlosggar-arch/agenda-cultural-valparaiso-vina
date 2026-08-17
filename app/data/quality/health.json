@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T07:33:04+00:00",
+  "generated_at": "2026-08-17T07:37:37+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -16,7 +16,7 @@
         "publication_date": "2026-08-15",
         "publication_age_days": 2,
         "generated_at": "2026-08-17T03:32:29-04:00",
-        "generated_age_hours": 0.0
+        "generated_age_hours": 0.1
       },
       "counts": {
         "total_events": 68,
@@ -210,8 +210,8 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T04:33:41+02:00",
-        "generated_age_hours": 5.0
+        "generated_at": "2026-08-17T09:36:49+02:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
         "total_events": 89,
@@ -274,8 +274,20 @@
         ],
         "missing_relevant_image": [
           {
+            "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
+            "title": "Noche mágica de Valdrero. Ruta en Cudillero"
+          },
+          {
             "id": "gijon_ciclismo_asturias_eaf7ca5e40efb9bd",
             "title": "LIGA DE PISTA 2026 TERCERA PRUEBA AVILES"
+          },
+          {
+            "id": "gijon_turismo_asturias_deporte_833178867a48d515",
+            "title": "Rutas de montaña por Laviana"
+          },
+          {
+            "id": "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
+            "title": "Concurso Hípico de Gijón"
           },
           {
             "id": "gijon_ciclismo_asturias_1c3d794a96c92b40",
@@ -284,18 +296,6 @@
           {
             "id": "gijon_ciclismo_asturias_7ddfb3c853b236fa",
             "title": "JORNADA TECNIFICACION CICLO-CROSS 2026"
-          },
-          {
-            "id": "gijon_turismo_asturias_deporte_833178867a48d515",
-            "title": "Rutas de montaña por Laviana"
-          },
-          {
-            "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
-            "title": "Noche mágica de Valdrero. Ruta en Cudillero"
-          },
-          {
-            "id": "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
-            "title": "Concurso Hípico de Gijón"
           }
         ],
         "suspicious_titles": [],
@@ -448,39 +448,40 @@
             "id": "la_revoltosa_gijon",
             "name": "La Revoltosa Gijón",
             "role": null,
-            "web_probe_status": null,
-            "zero_event_reason": null
-          },
+            "web_probe_status": "secondary_checked",
+            "zero_event_reason": "direct_instagram_pending_secondary_only"
+          }
+        ],
+        "explained_zero_sources": [
           {
             "id": "toma3_xixon",
             "name": "Toma 3 Xixón",
             "role": null,
-            "web_probe_status": null,
-            "zero_event_reason": null
+            "web_probe_status": "monitored_empty",
+            "zero_event_reason": "secondary_calendar_checked_no_current_candidates"
           },
           {
             "id": "meidinerz_jazz_club",
             "name": "Meidinerz Jazz Club",
             "role": null,
-            "web_probe_status": null,
-            "zero_event_reason": null
+            "web_probe_status": "expected_empty",
+            "zero_event_reason": "official_august_break"
           },
           {
             "id": "cafe_dindurra",
             "name": "Café Dindurra",
             "role": null,
-            "web_probe_status": null,
-            "zero_event_reason": null
+            "web_probe_status": "monitored_empty",
+            "zero_event_reason": "secondary_calendar_checked_no_current_candidates"
           },
           {
             "id": "agenda_gijon",
             "name": "Agenda Gijón",
             "role": null,
-            "web_probe_status": null,
-            "zero_event_reason": null
+            "web_probe_status": "discovery_only",
+            "zero_event_reason": "discovery_aggregator"
           }
-        ],
-        "explained_zero_sources": []
+        ]
       },
       "publication_guard": {},
       "publication_corrections": {}
@@ -491,7 +492,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "ok",
-    "usage_usd": 2.559333840842673,
-    "remaining_usd": 0.940666159157327
+    "usage_usd": 2.55933449668003,
+    "remaining_usd": 0.94066550331997
   }
 }
