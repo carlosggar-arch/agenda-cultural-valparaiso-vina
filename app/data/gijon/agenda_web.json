@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3.0",
-  "generated_at": "2026-08-17T19:35:23+02:00",
+  "generated_at": "2026-08-17T19:43:02+02:00",
   "publication_date": "2026-08-17",
   "timezone": "Europe/Madrid",
   "counts": {
@@ -531,10 +531,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -546,7 +546,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -575,7 +578,13 @@
         "original_municipal_alias": "https://www.gijon.es/el-cine-del-centro-0",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 1096
+        "time_audit_duration_days": 1096,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "weak_venue",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -628,10 +637,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -643,7 +652,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -675,7 +687,13 @@
         "original_municipal_alias": "https://www.gijon.es/escena-amateur",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 1096
+        "time_audit_duration_days": 1096,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "weak_venue",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -728,10 +746,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -743,7 +761,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -782,7 +803,13 @@
         "original_municipal_alias": "https://www.gijon.es/EscenaXixon",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 365
+        "time_audit_duration_days": 365,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "weak_venue",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -835,10 +862,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -850,7 +877,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -879,7 +909,11 @@
         "original_municipal_alias": "https://www.gijon.es/conoce-el-museu-del-pueblu-dasturies-visitas-comentadas",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "flexible_offer",
-        "time_audit_duration_days": 365
+        "time_audit_duration_days": 365,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -932,10 +966,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -947,7 +981,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -967,7 +1004,13 @@
         "original_municipal_alias": "https://www.gijon.es/feten-companias",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 7274
+        "time_audit_duration_days": 7274,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "weak_venue",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1028,10 +1071,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1043,7 +1086,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1074,7 +1120,12 @@
         "original_municipal_alias": "https://www.gijon.es/alejandro-sirio-la-caligrafia-del-dibujo-l-exposicion",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 165
+        "time_audit_duration_days": 165,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1135,10 +1186,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1150,7 +1201,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1176,7 +1230,12 @@
         "original_municipal_alias": "https://www.gijon.es/cartelos-nasturianu-1976-2005",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 222
+        "time_audit_duration_days": 222,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1229,10 +1288,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1244,7 +1303,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1269,7 +1331,12 @@
         "original_municipal_alias": "https://www.gijon.es/exposicion-convivium-arqueologia-de-la-dieta-mediterranea",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 175
+        "time_audit_duration_days": 175,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1330,10 +1397,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1345,7 +1412,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1371,7 +1441,12 @@
         "original_municipal_alias": "https://www.gijon.es/la-ceramica-de-cangas-del-narcea-tradicion-adaptacion-e-innovacion",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 231
+        "time_audit_duration_days": 231,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1432,10 +1507,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1447,7 +1522,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "La Isla: la pieza que faltaba",
       "tags": [],
@@ -1471,7 +1549,12 @@
         "original_municipal_alias": "https://www.gijon.es/exposicion-la-isla-la-pieza-que-faltaba",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 191
+        "time_audit_duration_days": 191,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "title_only_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1532,10 +1615,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1547,7 +1630,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1581,7 +1667,12 @@
         "original_municipal_alias": "https://www.gijon.es/centenario-amador-1926-2026-exposicion",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 151
+        "time_audit_duration_days": 151,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1634,10 +1725,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1649,7 +1740,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1683,7 +1777,13 @@
         "original_municipal_alias": "https://www.gijon.es/gijon-verano-plazos-de-inscripcion",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 113
+        "time_audit_duration_days": 113,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "weak_venue",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1744,10 +1844,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1759,7 +1859,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -1785,7 +1888,12 @@
         "original_municipal_alias": "https://www.gijon.es/vidas-de-un-mismo-tiempo-fotografia-social-de-mario-pascual-1959-1970",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 206
+        "time_audit_duration_days": 206,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -1839,10 +1947,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/es/agenda",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1853,7 +1961,10 @@
         "advisory_text": "Plazas agotadas según la fuente oficial.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Campus de Verano de la Laboral 2026 Laboral Ciudad de la Cultura Tiempo 2026-06-30 09:00:00.000 30 junio 2026 / 2026-08-28 17:00:00.000 28 agosto 2026 09:00 h - 17:00 h",
       "tags": [],
@@ -1869,7 +1980,11 @@
         "duration_days": 59,
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 60
+        "time_audit_duration_days": 60,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -1929,10 +2044,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1944,7 +2059,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -1971,7 +2089,11 @@
         "original_municipal_alias": "https://www.gijon.es/diviertete-en-familia-en-veranes",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 82
+        "time_audit_duration_days": 82,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2024,10 +2146,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2039,7 +2161,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -2067,7 +2192,12 @@
         "original_municipal_alias": "https://www.gijon.es/verano-la-romana-museos-arqueologicos-de-gijonxixon-0",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 82
+        "time_audit_duration_days": 82,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "weak_venue"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2128,10 +2258,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2143,7 +2273,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -2170,7 +2303,12 @@
         "original_municipal_alias": "https://www.gijon.es/la-escuela-de-gijon-la-ciudad-como-motivo-exposicion",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 67
+        "time_audit_duration_days": 67,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2231,10 +2369,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2246,7 +2384,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "FESTIVAL ARCU ATLÁNTICU",
       "tags": [
@@ -2273,7 +2414,11 @@
         "original_municipal_alias": "https://www.gijon.es/festival-arcu-atlanticu-exposicion-postales-nalcordanza-digor-y-carlos",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 33
+        "time_audit_duration_days": 33,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2334,10 +2479,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2349,7 +2494,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "FESTIVAL ARCU ATLÁNTICU",
       "tags": [
@@ -2377,7 +2525,11 @@
         "original_municipal_alias": "https://www.gijon.es/festival-arcu-atlanticu-exposicion-pablo-casanueva-la-imaxe-lo-tapecio",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 41
+        "time_audit_duration_days": 41,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2438,10 +2590,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2453,7 +2605,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -2475,7 +2630,12 @@
         "original_municipal_alias": "https://www.gijon.es/exposicion-mientras-tu-dormias",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 29
+        "time_audit_duration_days": 29,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2536,10 +2696,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2551,7 +2711,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -2577,7 +2740,12 @@
         "original_municipal_alias": "https://www.gijon.es/instalacion-ficcion-sonora-capsula-radio-la-tercera-luz",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 27
+        "time_audit_duration_days": 27,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2638,10 +2806,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2653,7 +2821,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [],
@@ -2673,7 +2844,12 @@
         "original_municipal_alias": "https://www.gijon.es/lantigua-xixon-mirando-al-mar",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 25
+        "time_audit_duration_days": 25,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2734,10 +2910,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2749,7 +2925,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "venue_hours_available",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [],
@@ -2769,7 +2948,12 @@
         "original_municipal_alias": "https://www.gijon.es/nunca-es-tarde-para-pintar",
         "time_audit_status": "venue_hours_available",
         "time_audit_reason": "official_opening_hours_replace_single_start",
-        "time_audit_duration_days": 25
+        "time_audit_duration_days": 25,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2822,10 +3006,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2837,7 +3021,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -2859,7 +3046,11 @@
         "original_municipal_alias": "https://www.gijon.es/musica-en-el-botanico-2026-0",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 7
+        "time_audit_duration_days": 7,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -2934,10 +3125,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2948,7 +3139,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Visita especial tiburones: desmontando mitos Lunes y miércoles 10.00h",
       "tags": [],
@@ -2964,7 +3158,9 @@
         "duration_days": 14,
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 15
+        "time_audit_duration_days": 15,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -3019,10 +3215,10 @@
       "source_id": "juventud_gijon",
       "source_name": "Juventud Gijón/Xixón — Oficina de Juventud",
       "source_url": "https://juventudgijon.wordpress.com/2026/05/15/actividades-jovenes-creativos-gijon-verano-2026/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3033,7 +3229,10 @@
         "advisory_text": "Consulta plazas disponibles y posibles bonificaciones en la inscripción oficial.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Descubre el mundo de la Realidad Virtual y Realidad Aumentada de forma práctica y creativa, utilizando la plataforma educativa Delightex. Aprenderás paso a paso, cómo funcionan estas tecnologías, mientras diseñas y construyes tu propio entorno virtual. Diseñarás escenas que incluirán objetos y personajes 3D, crearás animaciones y programarás acciones para que tus proyectos sean interactivos y dinámicos. También podrás experimentar y probar diferentes juegos y experiencias inmersivas utilizando ditintos dispositivos de Realidad Virtual, como gafas Cardboard y Meta Quest, para descubrir de primera mano cómo se viven estos mundos digitales. Impartido por: Víctor Álvarez, Universidad de Oviedo..",
       "tags": [
@@ -3055,7 +3254,11 @@
         "teacher": "Víctor Álvarez, Universidad de Oviedo.",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 4
+        "time_audit_duration_days": 4,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -3129,10 +3332,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3143,7 +3346,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Alimentación del Gran Oceanario Lunes y viernes a las 13.00h",
       "tags": [],
@@ -3159,7 +3365,9 @@
         "duration_days": 14,
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 15
+        "time_audit_duration_days": 15,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -3211,10 +3419,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3226,7 +3434,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Programa de Festejos Verano Gijón/Xixón 2026",
       "tags": [
@@ -3246,7 +3457,9 @@
         "original_municipal_alias": "https://www.gijon.es/mario-marzo-piano-y-nacho-castellanos-contratenor",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -3299,10 +3512,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3314,7 +3527,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -3336,7 +3552,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-fiebre-rocafort-pop-rock-1",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -3471,10 +3692,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3485,7 +3706,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Visita guiada Zonas Técnicas – especial verano Martes, jueves, viernes, sábados y domingos 11.30h y 15.30h",
       "tags": [],
@@ -3502,7 +3726,9 @@
         "schedule_audit": "verified_source_occurrences",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 13
+        "time_audit_duration_days": 13,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -3580,10 +3806,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3594,7 +3820,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Encuentro Educativo Tiburones Martes, jueves y sábado a las 13.00h",
       "tags": [],
@@ -3610,7 +3839,9 @@
         "duration_days": 11,
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 12
+        "time_audit_duration_days": 12,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -3662,10 +3893,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3677,7 +3908,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -3703,7 +3937,12 @@
         "original_municipal_alias": "https://www.gijon.es/v-muestra-de-cine-documental-musical-de-gijon",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 4
+        "time_audit_duration_days": 4,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -3756,10 +3995,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3771,7 +4010,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -3793,7 +4035,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-la-faraona-asturiana-copla-y-rancheras",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -3846,10 +4093,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3861,7 +4108,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -3883,7 +4133,11 @@
         "original_municipal_alias": "https://www.gijon.es/festival-internacional-de-piano-de-gijon-jesus-gonzalez-alonso-martin-garcia-garcia-piano",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -3954,10 +4208,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3968,7 +4222,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Encuentro Educativo en Oceanario Miércoles, domingos a las 13.00h",
       "tags": [],
@@ -3984,7 +4241,9 @@
         "duration_days": 11,
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 12
+        "time_audit_duration_days": 12,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -4036,10 +4295,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4051,7 +4310,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4075,7 +4337,12 @@
         "original_municipal_alias": "https://www.gijon.es/conciertos-festival-internacional-de-piano-de-gijon",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4128,10 +4395,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4143,7 +4410,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4165,7 +4435,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-bohemes-ensemble-chanson-francesa-gypsy-jazz-swing",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4218,10 +4493,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4233,7 +4508,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -4258,7 +4536,9 @@
         "original_municipal_alias": "https://www.gijon.es/autobus-lanzadera-veranes-y-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4311,10 +4591,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4326,7 +4606,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4351,7 +4634,11 @@
         "original_municipal_alias": "https://www.gijon.es/vidas-de-un-mismo-tiempo-fotografia-social-de-mario-pascual-1959-1970-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4404,10 +4691,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4419,7 +4706,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4441,7 +4731,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-alba-moral-pop-indie-y-rock",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4494,10 +4789,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4509,7 +4804,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4532,7 +4830,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-plazuela-de-san-miguel-grupo-de-coros-y-danzas-del-real-grupo-de-cultura-covadonga",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4585,10 +4888,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4600,7 +4903,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4622,7 +4928,11 @@
         "original_municipal_alias": "https://www.gijon.es/festival-internacional-de-piano-de-gijon-jesus-gonzalez-alonso-orquesta-sinfonica-del-principado-de",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4679,10 +4989,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4694,7 +5004,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4716,7 +5029,11 @@
         "time_enrichment_source": "https://www.bringthenoise.events/evento/jorge-drexler-gijon-2026/",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4769,10 +5086,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4784,7 +5101,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4811,7 +5131,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-circo-bajo-el-tejado-las-historias-de-muscario",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4864,10 +5189,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4879,7 +5204,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -4904,7 +5232,9 @@
         "original_municipal_alias": "https://www.gijon.es/autobus-lanzadera-veranes-y-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -4957,10 +5287,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4972,7 +5302,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -4995,7 +5328,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-la-sonrisa-del-lagarto-la-ratita-presumida",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5048,10 +5386,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5063,7 +5401,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -5090,7 +5431,11 @@
         "original_municipal_alias": "https://www.gijon.es/visita-al-museo-casa-natal-de-jovellanos-visita-guiada-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5143,10 +5488,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5158,7 +5503,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -5182,7 +5530,12 @@
         "original_municipal_alias": "https://www.gijon.es/conciertos-festival-internacional-de-piano-de-gijon",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5235,10 +5588,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5250,7 +5603,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -5275,7 +5631,12 @@
         "original_municipal_alias": "https://www.gijon.es/presentacion-del-libro-donde-florece-el-alma",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5328,10 +5689,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5343,7 +5704,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -5368,7 +5732,11 @@
         "original_municipal_alias": "https://www.gijon.es/teatro-en-veranes-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5421,10 +5789,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5436,7 +5804,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -5460,7 +5831,11 @@
         "original_municipal_alias": "https://www.gijon.es/la-desconquista",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5515,10 +5890,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5529,7 +5904,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Noche mágica de Valdrero. Ruta en Cudillero Cudillero Tiempo 2026-08-21 22:00:00.000 21 agosto 2026 22:00 h - 23:59 h",
       "tags": [],
@@ -5546,7 +5924,11 @@
         "time_enrichment_reason": "explicit_source_text",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -5679,10 +6061,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5694,7 +6076,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -5720,7 +6105,11 @@
         "original_municipal_alias": "https://www.gijon.es/noches-magicas-2026",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 10
+        "time_audit_duration_days": 10,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5774,10 +6163,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-17T19:35:29+02:00",
+      "last_verified_at": "2026-08-17T19:43:08+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:29+02:00",
+        "last_verified_at": "2026-08-17T19:43:08+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5788,7 +6177,10 @@
         "advisory_text": "Fecha confirmada por la Federación de Ciclismo del Principado de Asturias; horario aún no publicado en la ficha oficial.",
         "time_information_quality": "awaiting_official_time",
         "time_followup_needed": false,
-        "time_external_update_pending": true
+        "time_external_update_pending": true,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Pista. AVILES (ASTURIAS). Fuente: Federación de Ciclismo del Principado de Asturias.",
       "tags": [],
@@ -5804,7 +6196,11 @@
         "duration_days": 0,
         "time_audit_status": "awaiting_official_time",
         "time_audit_reason": "federation_date_confirmed_time_not_published",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -5856,10 +6252,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5871,7 +6267,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -5896,7 +6295,11 @@
         "original_municipal_alias": "https://www.gijon.es/el-gijonxixon-de-la-guerra-civil-itinerario-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -5949,10 +6352,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5964,7 +6367,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -5988,7 +6394,9 @@
         "original_municipal_alias": "https://www.gijon.es/la-mirada-de-voconia-visita-teatralizada-en-veranes",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6041,10 +6449,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6056,7 +6464,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -6081,7 +6492,11 @@
         "original_municipal_alias": "https://www.gijon.es/vidas-de-un-mismo-tiempo-fotografia-social-de-mario-pascual-1959-1970-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6134,10 +6549,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6149,7 +6564,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -6171,7 +6589,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-tesela-rock-pop-rock-funky",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6224,10 +6647,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6239,7 +6662,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -6265,7 +6691,9 @@
         "original_municipal_alias": "https://www.gijon.es/arqueobus-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6318,10 +6746,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6333,7 +6761,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
       "tags": [
@@ -6357,7 +6788,11 @@
         "original_municipal_alias": "https://www.gijon.es/visitas-guiadas-la-exposicion-convivium-arqueologia-de-la-dieta-mediterranea",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6410,10 +6845,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6425,7 +6860,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -6449,7 +6887,12 @@
         "original_municipal_alias": "https://www.gijon.es/conciertos-festival-internacional-de-piano-de-gijon",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6502,10 +6945,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6517,7 +6960,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -6539,7 +6985,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-blues-roots-blues-y-ragtime",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6592,10 +7043,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6607,7 +7058,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -6629,7 +7083,11 @@
         "original_municipal_alias": "https://www.gijon.es/dona-josefa",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6682,10 +7140,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6697,7 +7155,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -6725,7 +7186,11 @@
         "original_municipal_alias": "https://www.gijon.es/gijon-la-ciudad-que-retrato-pinole-itinerario",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6778,10 +7243,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6793,7 +7258,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
       "tags": [
@@ -6817,7 +7285,11 @@
         "original_municipal_alias": "https://www.gijon.es/visitas-guiadas-la-exposicion-convivium-arqueologia-de-la-dieta-mediterranea",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6870,10 +7342,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6885,7 +7357,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -6911,7 +7386,9 @@
         "original_municipal_alias": "https://www.gijon.es/arqueobus-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -6964,10 +7441,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6979,7 +7456,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7001,7 +7481,11 @@
         "original_municipal_alias": "https://www.gijon.es/dona-josefa",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7054,10 +7538,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7069,7 +7553,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7091,7 +7578,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-huyendo-con-asteria-rock-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7144,10 +7636,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7159,7 +7651,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "no_single_start_expected",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7184,7 +7679,12 @@
         "original_municipal_alias": "https://www.gijon.es/peor-imposible-xxvii",
         "time_audit_status": "no_single_start_expected",
         "time_audit_reason": "explicit_program",
-        "time_audit_duration_days": 7
+        "time_audit_duration_days": 7,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7240,10 +7740,10 @@
       "source_id": "juventud_gijon",
       "source_name": "Juventud Gijón/Xixón — Oficina de Juventud",
       "source_url": "https://juventudgijon.wordpress.com/2026/05/15/actividades-jovenes-creativos-gijon-verano-2026/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7254,7 +7754,10 @@
         "advisory_text": "Consulta plazas disponibles y posibles bonificaciones en la inscripción oficial.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Experiencia tecnológica donde los participantes descubrirán distintas formas de pilotaje combinando simulación, drones y vuelo inmersivo. Durante el taller se trabajará el pilotaje de diversas formas, desde el uso de un simulador, vuelo simulado a través de las gafas de realidad virtual y drones FPV, lo que les permitirá experimentar el vuelo en primera persona.",
       "tags": [
@@ -7275,7 +7778,11 @@
         "places_text": "10.",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 5
+        "time_audit_duration_days": 5,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -7327,10 +7834,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7342,7 +7849,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7364,7 +7874,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-mas-que-mal-rock",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7417,10 +7932,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7432,7 +7947,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7457,7 +7975,11 @@
         "original_municipal_alias": "https://www.gijon.es/un-paseo-con-jovellanos-itinerario-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7580,10 +8102,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7594,7 +8116,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Concurso Hípico de Gijón Gijón / Xixón Tiempo 2026-08-25 00:00:00.000 25 agosto 2026 / 2026-08-30 23:59:00.000 30 agosto 2026 Todo el dia",
       "tags": [],
@@ -7612,7 +8137,11 @@
         "time_enrichment_source": "https://www.fei.org/events/2026_CI_1089/",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 6
+        "time_audit_duration_days": 6,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "weak_venue"
+        ]
       }
     },
     {
@@ -7664,10 +8193,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7679,7 +8208,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [],
@@ -7697,7 +8229,12 @@
         "original_municipal_alias": "https://www.gijon.es/cantando-con-la-coral-amanecer-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7750,10 +8287,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7765,7 +8302,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7787,7 +8327,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-triple-malta-rock-pop-indie",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7840,10 +8385,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7855,7 +8400,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -7877,7 +8425,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-negra-flor-indie-y-rock-en-espanol",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -7930,10 +8483,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7945,7 +8498,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -7970,7 +8526,9 @@
         "original_municipal_alias": "https://www.gijon.es/autobus-lanzadera-veranes-y-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8023,10 +8581,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8038,7 +8596,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -8063,7 +8624,11 @@
         "original_municipal_alias": "https://www.gijon.es/vidas-de-un-mismo-tiempo-fotografia-social-de-mario-pascual-1959-1970-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8116,10 +8681,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8131,7 +8696,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -8153,7 +8721,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-tangerine-rock-y-metal",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8206,10 +8779,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8221,7 +8794,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -8246,7 +8822,9 @@
         "original_municipal_alias": "https://www.gijon.es/autobus-lanzadera-veranes-y-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8299,10 +8877,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8314,7 +8892,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -8339,7 +8920,11 @@
         "original_municipal_alias": "https://www.gijon.es/teatro-en-veranes-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8392,10 +8977,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8407,7 +8992,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -8429,7 +9017,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-moriarty-pop-rockl",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8483,10 +9076,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-17T19:35:29+02:00",
+      "last_verified_at": "2026-08-17T19:43:08+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:29+02:00",
+        "last_verified_at": "2026-08-17T19:43:08+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8497,7 +9090,10 @@
         "advisory_text": "Fecha confirmada por la Federación de Ciclismo del Principado de Asturias; horario aún no publicado en la ficha oficial.",
         "time_information_quality": "awaiting_official_time",
         "time_followup_needed": false,
-        "time_external_update_pending": true
+        "time_external_update_pending": true,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Carretera. NAVA (ASTURIAS). Fuente: Federación de Ciclismo del Principado de Asturias.",
       "tags": [],
@@ -8513,7 +9109,11 @@
         "duration_days": 0,
         "time_audit_status": "awaiting_official_time",
         "time_audit_reason": "federation_date_confirmed_time_not_published",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -8565,10 +9165,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8580,7 +9180,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -8604,7 +9207,9 @@
         "original_municipal_alias": "https://www.gijon.es/la-mirada-de-voconia-visita-teatralizada-en-veranes",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8657,10 +9262,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8672,7 +9277,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -8697,7 +9305,11 @@
         "original_municipal_alias": "https://www.gijon.es/vidas-de-un-mismo-tiempo-fotografia-social-de-mario-pascual-1959-1970-visita-guiada",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8750,10 +9362,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8765,7 +9377,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -8791,7 +9406,9 @@
         "original_municipal_alias": "https://www.gijon.es/arqueobus-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -8854,10 +9471,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8868,7 +9485,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Concierto piano a la luz de las velas – Edición infantil 29 y 30 de agosto",
       "tags": [],
@@ -8885,7 +9505,9 @@
         "schedule_audit": "verified_source_occurrences",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 2
+        "time_audit_duration_days": 2,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -8937,10 +9559,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8952,7 +9574,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
       "tags": [
@@ -8976,7 +9601,11 @@
         "original_municipal_alias": "https://www.gijon.es/visitas-guiadas-la-exposicion-convivium-arqueologia-de-la-dieta-mediterranea",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -9043,10 +9672,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9057,7 +9686,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Concierto piano a la luz de las velas 29 y 30 de agosto (ver conciertos)",
       "tags": [],
@@ -9074,7 +9706,9 @@
         "schedule_audit": "verified_source_occurrences",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 2
+        "time_audit_duration_days": 2,
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -9126,10 +9760,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9141,7 +9775,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -9163,7 +9800,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-soul-company-soul-funk-juke-box",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -9217,10 +9859,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/es/agenda",
-      "last_verified_at": "2026-08-17T19:35:23+02:00",
+      "last_verified_at": "2026-08-17T19:43:02+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:23+02:00",
+        "last_verified_at": "2026-08-17T19:43:02+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9231,7 +9873,10 @@
         "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Trialogfem Show Iglesia de la Laboral Tiempo 2026-08-29 20:00:00.000 29 agosto 2026 20:00 h - 21:20 h",
       "tags": [],
@@ -9247,7 +9892,11 @@
         "duration_days": 0,
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -9300,10 +9949,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-17T19:35:29+02:00",
+      "last_verified_at": "2026-08-17T19:43:08+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:35:29+02:00",
+        "last_verified_at": "2026-08-17T19:43:08+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9314,7 +9963,10 @@
         "advisory_text": "Fecha confirmada por la Federación de Ciclismo del Principado de Asturias; horario aún no publicado en la ficha oficial.",
         "time_information_quality": "awaiting_official_time",
         "time_followup_needed": false,
-        "time_external_update_pending": true
+        "time_external_update_pending": true,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Tecnificación. LA MORGAL (LLANERA) (ASTURIAS). Fuente: Federación de Ciclismo del Principado de Asturias.",
       "tags": [],
@@ -9330,7 +9982,11 @@
         "duration_days": 0,
         "time_audit_status": "awaiting_official_time",
         "time_audit_reason": "federation_date_confirmed_time_not_published",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -9382,10 +10038,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9397,7 +10053,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": false
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -9422,7 +10081,11 @@
         "original_municipal_alias": "https://www.gijon.es/voces-de-sal-de-mar-itinerario-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -9475,10 +10138,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9490,7 +10153,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "adequate_with_source_fallback",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": true
       },
       "description": "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
       "tags": [
@@ -9514,7 +10180,11 @@
         "original_municipal_alias": "https://www.gijon.es/visitas-guiadas-la-exposicion-convivium-arqueologia-de-la-dieta-mediterranea",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "adequate_with_source_fallback",
+        "content_quality_issues": [
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     },
@@ -9567,10 +10237,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9582,7 +10252,10 @@
         "external_link_quality": "direct_registration",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
+        "source_enrichment_opportunity": false
       },
       "description": "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
       "tags": [
@@ -9608,7 +10281,9 @@
         "original_municipal_alias": "https://www.gijon.es/arqueobus-0",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "rich",
+        "content_quality_issues": []
       },
       "source_id": "gijon_opendata_events"
     },
@@ -9661,10 +10336,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T19:34:27+02:00",
+      "last_verified_at": "2026-08-17T19:42:04+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T19:34:27+02:00",
+        "last_verified_at": "2026-08-17T19:42:04+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9676,7 +10351,10 @@
         "external_link_quality": "opendata_fallback",
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
-        "time_external_update_pending": false
+        "time_external_update_pending": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
+        "source_enrichment_opportunity": true
       },
       "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
       "tags": [
@@ -9698,7 +10376,12 @@
         "original_municipal_alias": "https://www.gijon.es/arte-en-la-calle-begona-kfk-organ-trio-funk-soul-acid-jazz",
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
-        "time_audit_duration_days": 1
+        "time_audit_duration_days": 1,
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "generic_description",
+          "opendata_only_link"
+        ]
       },
       "source_id": "gijon_opendata_events"
     }
@@ -9802,7 +10485,268 @@
       ],
       "checked_on": "2026-08-17",
       "apify_used": false
+    },
+    "gijon_content_quality_audit": {
+      "events_reviewed": 96,
+      "rich": 18,
+      "adequate": 0,
+      "adequate_with_source_fallback": 9,
+      "needs_enrichment": 69,
+      "issue_counts": {
+        "generic_description": 59,
+        "missing_image": 8,
+        "opendata_only_link": 50,
+        "title_only_description": 1,
+        "weak_venue": 7
+      },
+      "actionable_event_ids": [
+        "agenda_gijon_8a530d15722db829",
+        "agenda_gijon_19af95fc6c8ea453",
+        "agenda_gijon_130059b49bc0c8c0",
+        "agenda_gijon_6d1efd370091c858",
+        "agenda_gijon_b75e38d8a368a290",
+        "agenda_gijon_05ecc658bf6d8162",
+        "agenda_gijon_272929dcd85cd088",
+        "agenda_gijon_63f1aef6e873e3b5",
+        "agenda_gijon_6fb58f98d9761c56",
+        "agenda_gijon_ee08bcce65967e5b",
+        "agenda_gijon_2d2ecbaf56972462",
+        "agenda_gijon_02ffe8fe9652408f",
+        "agenda_gijon_98d5f4adbfb66753",
+        "gijon_laboral_ciudad_cultura_5d2b922724b49fc0",
+        "agenda_gijon_deeb2b7e5acc984e",
+        "agenda_gijon_8f6f14c0a4154038",
+        "agenda_gijon_b034ca0ffc281bb1",
+        "agenda_gijon_32d73fb96b746f95",
+        "agenda_gijon_3f3d1405cc2fec78",
+        "agenda_gijon_a3925dadc26ffa27",
+        "agenda_gijon_53759d3b801f924a",
+        "gijon_juventud_gijon_1678d25a1de266ba",
+        "agenda_gijon_3265ad3474da7593",
+        "agenda_gijon_0f076b8ddfb8493d",
+        "agenda_gijon_53c69b66a6b87cd7",
+        "agenda_gijon_fe37659509f0b6c5",
+        "agenda_gijon_276d68b970a71190",
+        "agenda_gijon_e014d93243d1fd71",
+        "agenda_gijon_8da5920f45f60bc5",
+        "agenda_gijon_10cf86f4d9b1b8e6",
+        "agenda_gijon_4bbb40318627512e",
+        "agenda_gijon_de1e4f93b1f21838",
+        "agenda_gijon_99af25f40e951202",
+        "agenda_gijon_82cf5d5fedf2c92c",
+        "agenda_gijon_b2fb12b13e21eda9",
+        "agenda_gijon_51609fe74185a111",
+        "agenda_gijon_468cac0a622e9e5e",
+        "agenda_gijon_6d0e5fd4b1a36ddc",
+        "agenda_gijon_6301a462245336a3",
+        "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
+        "agenda_gijon_db2ccd89db4f0a2b",
+        "gijon_ciclismo_asturias_eaf7ca5e40efb9bd",
+        "agenda_gijon_a18a86fb97539eaf",
+        "agenda_gijon_7270154e7792ece2",
+        "agenda_gijon_8cfa60d39cf76712",
+        "agenda_gijon_1b33d8445670cfc6",
+        "agenda_gijon_06e93a038745910e",
+        "agenda_gijon_1a7bc1b034e20dec",
+        "agenda_gijon_41f2954cbc430f30",
+        "agenda_gijon_af952f1c2b5bbcc8",
+        "agenda_gijon_813b55a53bf9a161",
+        "agenda_gijon_dd6710d237bee6e2",
+        "gijon_juventud_gijon_0276923666951d7a",
+        "agenda_gijon_a566ef051ed7dcca",
+        "agenda_gijon_6539f9c296dc8dc0",
+        "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
+        "agenda_gijon_e3e740f04640c91b",
+        "agenda_gijon_660ec8dbfd69b4f2",
+        "agenda_gijon_0351d662f9955ab2",
+        "agenda_gijon_c5e072624da63fba",
+        "agenda_gijon_7817635512359238",
+        "agenda_gijon_7dbec5623ced1c02",
+        "gijon_ciclismo_asturias_1c3d794a96c92b40",
+        "agenda_gijon_d67102bb9164bdb6",
+        "agenda_gijon_efe81500aadfc934",
+        "gijon_laboral_ciudad_cultura_007f72a9ba5b31fc",
+        "gijon_ciclismo_asturias_7ddfb3c853b236fa",
+        "agenda_gijon_24df33e10f4e192d",
+        "agenda_gijon_aa4e9ba205f01389"
+      ],
+      "actionable_titles": [
+        "El cine del centro",
+        "Escena Amateur",
+        "Escena Xixón",
+        "Visitas comentadas al Muséu del Pueblu d'Asturies",
+        "FETEN COMPAÑÍAS",
+        "Alejandro Sirio. La caligrafía del dibujo",
+        "Cartelos n'asturianu (1976-2005)",
+        "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
+        "La cerámica de Cangas del Narcea. Tradición, adaptación e innovación",
+        "La Isla: la pieza que faltaba",
+        "Centenario AMADOR (1926-2026)",
+        "Gijón Verano: inscripciones",
+        "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970)",
+        "Campus de Verano de la Laboral 2026",
+        "Verano a la Romana | Museos Arqueológicos de Gijón/Xixón",
+        "La Escuela de Gijón. La ciudad como motivo",
+        "Exposición \"Mientras tu dormías\"",
+        "Instalación. Ficción sonora. CÁPSULA RADIO: \"La tercera Luz\"",
+        "L’antigua Xixón mirando al mar",
+        "Nunca es tarde para pintar",
+        "Música en el Botánico 2026",
+        "EXPLORA Y CREA EN REALIDAD VIRTUAL Y AUMENTADA",
+        "Arte en la Calle. Begoña. FIEBRE ROCAFORT. (Pop Rock)",
+        "V Muestra de Cine Documental Musical de Gijón",
+        "Arte en la Calle. Begoña. LA FARAONA ASTURIANA. (Copla y rancheras)",
+        "FESTIVAL INTERNACIONAL DE PIANO DE GIJÓN 'JESÚS GONZÁLEZ ALONSO'. MARTÍN GARCÍA GARCÍA – PIANO",
+        "Conciertos. Festival Internacional de Piano de Gijón",
+        "Arte en la Calle. Begoña. BOHÉMES ENSEMBLE. (Chanson francesa, Gypsy, Jazz, Swing)",
+        "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970) | Visita guiada",
+        "Arte en la Calle. Begoña. ALBA MORAL. (Pop, Indie y Rock)",
+        "Arte en la calle. Plazuela de San Miguel. GRUPO DE COROS Y DANZAS DEL REAL GRUPO DE CULTURA COVADONGA",
+        "FESTIVAL INTERNACIONAL DE PIANO DE GIJÓN 'JESÚS GONZÁLEZ ALONSO'. ORQUESTA SINFÓNICA DEL PRINCIPADO DE ASTURIAS",
+        "Concierto de Jorge Drexler en La Isla del Jardín Botánico",
+        "Arte en la Calle. Begoña. CIRCO BAJO EL TEJADO. Las historias de Muscario",
+        "Arte en la Calle. Begoña. LA SONRISA DEL LAGARTO. La Ratita presumida",
+        "Visita al Museo Casa Natal de Jovellanos | Visita guiada",
+        "Conciertos. Festival Internacional de Piano de Gijón",
+        "Presentación del libro \"Donde florece el alma”",
+        "LA DESCONQUISTA",
+        "Noche mágica de Valdrero. Ruta en Cudillero",
+        "Noches Mágicas 2026",
+        "LIGA DE PISTA 2026 TERCERA PRUEBA AVILES",
+        "El Gijón/Xixón de la Guerra Civil | Itinerario",
+        "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970) | Visita guiada",
+        "Arte en la Calle. Begoña. TESELA. (Rock, Pop Rock, Funky)",
+        "Conciertos. Festival Internacional de Piano de Gijón",
+        "Arte en la Calle. Begoña. BLUES ROOTS. (Blues y Ragtime)",
+        "DOÑA JOSEFA",
+        "Gijón, la ciudad que retrató Piñole | Itinerario",
+        "DOÑA JOSEFA",
+        "Arte en la Calle. Begoña. HUYENDO CON ASTERIA. (Rock)",
+        "Peor… ¡Imposible! XXVII",
+        "MISIÓN DRONE: VUELA EN PRIMERA PERSONA",
+        "Arte en la Calle. Begoña. MAS QUÉ MAL. (Rock)",
+        "Un paseo con Jovellanos | Itinerario",
+        "Concurso Hípico de Gijón",
+        "Cantando con la Coral Amanecer",
+        "Arte en la Calle. Begoña. TRIPLE MALTA. (Rock, Pop, Indie)",
+        "Arte en la Calle. Begoña. NEGRA FLOR. (Indie y Rock en español)",
+        "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970) | Visita guiada",
+        "Arte en la Calle. Begoña. TANGERINE. (Rock y Metal)",
+        "Arte en la Calle. Begoña. MORIARTY. (Pop-Rockl)",
+        "XIX MEMORIAL JAIRO GARCIA",
+        "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970) | Visita guiada",
+        "Arte en la Calle. Begoña. THE SOUL COMPANY. (Soul, Funk, Juke Box)",
+        "Trialogfem Show",
+        "JORNADA TECNIFICACION CICLO-CROSS 2026",
+        "Voces de sal de mar | Itinerario",
+        "Arte en la Calle. Begoña. KFK ORGAN TRIO. (Funk, soul, Acid-Jazz)"
+      ],
+      "source_enrichment_opportunities": 50,
+      "source_enrichment_event_ids": [
+        "agenda_gijon_8a530d15722db829",
+        "agenda_gijon_19af95fc6c8ea453",
+        "agenda_gijon_130059b49bc0c8c0",
+        "agenda_gijon_b75e38d8a368a290",
+        "agenda_gijon_05ecc658bf6d8162",
+        "agenda_gijon_272929dcd85cd088",
+        "agenda_gijon_63f1aef6e873e3b5",
+        "agenda_gijon_6fb58f98d9761c56",
+        "agenda_gijon_ee08bcce65967e5b",
+        "agenda_gijon_2d2ecbaf56972462",
+        "agenda_gijon_02ffe8fe9652408f",
+        "agenda_gijon_98d5f4adbfb66753",
+        "agenda_gijon_beade99160cde96f",
+        "agenda_gijon_8f6f14c0a4154038",
+        "agenda_gijon_274ac55a35c8b33f",
+        "agenda_gijon_32234a75b037c601",
+        "agenda_gijon_b034ca0ffc281bb1",
+        "agenda_gijon_32d73fb96b746f95",
+        "agenda_gijon_3f3d1405cc2fec78",
+        "agenda_gijon_a3925dadc26ffa27",
+        "agenda_gijon_3265ad3474da7593",
+        "agenda_gijon_0f076b8ddfb8493d",
+        "agenda_gijon_53c69b66a6b87cd7",
+        "agenda_gijon_276d68b970a71190",
+        "agenda_gijon_e014d93243d1fd71",
+        "agenda_gijon_10cf86f4d9b1b8e6",
+        "agenda_gijon_4bbb40318627512e",
+        "agenda_gijon_82cf5d5fedf2c92c",
+        "agenda_gijon_b2fb12b13e21eda9",
+        "agenda_gijon_468cac0a622e9e5e",
+        "agenda_gijon_6d0e5fd4b1a36ddc",
+        "agenda_gijon_4206e43e0dec46fd",
+        "agenda_gijon_8cfa60d39cf76712",
+        "agenda_gijon_461ab8f19f91f8b7",
+        "agenda_gijon_1b33d8445670cfc6",
+        "agenda_gijon_06e93a038745910e",
+        "agenda_gijon_b8c78452ba65dd37",
+        "agenda_gijon_813b55a53bf9a161",
+        "agenda_gijon_dd6710d237bee6e2",
+        "agenda_gijon_a566ef051ed7dcca",
+        "agenda_gijon_e3e740f04640c91b",
+        "agenda_gijon_660ec8dbfd69b4f2",
+        "agenda_gijon_0351d662f9955ab2",
+        "agenda_gijon_7817635512359238",
+        "agenda_gijon_3952ae6b56beb4fe",
+        "agenda_gijon_7dbec5623ced1c02",
+        "agenda_gijon_32565270f867a1a7",
+        "agenda_gijon_efe81500aadfc934",
+        "agenda_gijon_2e1d24b9431b935a",
+        "agenda_gijon_aa4e9ba205f01389"
+      ],
+      "source_enrichment_titles": [
+        "El cine del centro",
+        "Escena Amateur",
+        "Escena Xixón",
+        "FETEN COMPAÑÍAS",
+        "Alejandro Sirio. La caligrafía del dibujo",
+        "Cartelos n'asturianu (1976-2005)",
+        "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
+        "La cerámica de Cangas del Narcea. Tradición, adaptación e innovación",
+        "La Isla: la pieza que faltaba",
+        "Centenario AMADOR (1926-2026)",
+        "Gijón Verano: inscripciones",
+        "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970)",
+        "Diviértete en familia en Veranes",
+        "La Escuela de Gijón. La ciudad como motivo",
+        "FESTIVAL ARCU ATLÁNTICU. Exposición. Postales N’alcordanza d’Ígor y Carlos",
+        "FESTIVAL ARCU ATLÁNTICU. Exposición. Pablo Casanueva, La imaxe, lo tapecío",
+        "Exposición \"Mientras tu dormías\"",
+        "Instalación. Ficción sonora. CÁPSULA RADIO: \"La tercera Luz\"",
+        "L’antigua Xixón mirando al mar",
+        "Nunca es tarde para pintar",
+        "Arte en la Calle. Begoña. FIEBRE ROCAFORT. (Pop Rock)",
+        "V Muestra de Cine Documental Musical de Gijón",
+        "Arte en la Calle. Begoña. LA FARAONA ASTURIANA. (Copla y rancheras)",
+        "Conciertos. Festival Internacional de Piano de Gijón",
+        "Arte en la Calle. Begoña. BOHÉMES ENSEMBLE. (Chanson francesa, Gypsy, Jazz, Swing)",
+        "Arte en la Calle. Begoña. ALBA MORAL. (Pop, Indie y Rock)",
+        "Arte en la calle. Plazuela de San Miguel. GRUPO DE COROS Y DANZAS DEL REAL GRUPO DE CULTURA COVADONGA",
+        "Arte en la Calle. Begoña. CIRCO BAJO EL TEJADO. Las historias de Muscario",
+        "Arte en la Calle. Begoña. LA SONRISA DEL LAGARTO. La Ratita presumida",
+        "Conciertos. Festival Internacional de Piano de Gijón",
+        "Presentación del libro \"Donde florece el alma”",
+        "Teatro en Veranes",
+        "Arte en la Calle. Begoña. TESELA. (Rock, Pop Rock, Funky)",
+        "Visitas guiadas a la exposición ''Convivium. Arqueología de la dieta mediterránea''",
+        "Conciertos. Festival Internacional de Piano de Gijón",
+        "Arte en la Calle. Begoña. BLUES ROOTS. (Blues y Ragtime)",
+        "Visitas guiadas a la exposición ''Convivium. Arqueología de la dieta mediterránea''",
+        "Arte en la Calle. Begoña. HUYENDO CON ASTERIA. (Rock)",
+        "Peor… ¡Imposible! XXVII",
+        "Arte en la Calle. Begoña. MAS QUÉ MAL. (Rock)",
+        "Cantando con la Coral Amanecer",
+        "Arte en la Calle. Begoña. TRIPLE MALTA. (Rock, Pop, Indie)",
+        "Arte en la Calle. Begoña. NEGRA FLOR. (Indie y Rock en español)",
+        "Arte en la Calle. Begoña. TANGERINE. (Rock y Metal)",
+        "Teatro en Veranes",
+        "Arte en la Calle. Begoña. MORIARTY. (Pop-Rockl)",
+        "Visitas guiadas a la exposición ''Convivium. Arqueología de la dieta mediterránea''",
+        "Arte en la Calle. Begoña. THE SOUL COMPANY. (Soul, Funk, Juke Box)",
+        "Visitas guiadas a la exposición ''Convivium. Arqueología de la dieta mediterránea''",
+        "Arte en la Calle. Begoña. KFK ORGAN TRIO. (Funk, soul, Acid-Jazz)"
+      ]
     }
   },
-  "diagnostics_generated_at": "2026-08-17T19:35:28+02:00"
+  "diagnostics_generated_at": "2026-08-17T19:43:06+02:00"
 }
