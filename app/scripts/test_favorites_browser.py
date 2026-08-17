@@ -31,55 +31,41 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def make_test_page() -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
-    source = source.replace(
-        "<body>",
-        '<body>\n<script>localStorage.setItem("agenda-cultural-city", "valparaiso"); localStorage.removeItem("agenda-cultural-favorites-v1");</script>',
-        1,
-    )
+    source = source.replace("<body>", '<body>\n<script>localStorage.setItem("agenda-cultural-city", "valparaiso"); localStorage.removeItem("agenda-cultural-favorites-v1");</script>', 1)
     probe = r'''
 <script>
-(() => {
+(async () => {
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const run = async () => {
-    let button = null;
-    for (let attempt = 0; attempt < 30; attempt += 1) {
-      button = document.querySelector('.event-card[data-event-id] > [data-favorite-toggle]');
-      if (button) break;
-      await sleep(300);
-    }
-    if (!button) {
-      document.body.dataset.favoritesProbe = 'missing-toggle';
-      return;
-    }
-    const card = button.closest('.event-card[data-event-id]');
-    const id = card?.dataset.eventId || '';
-    button.click();
-    await sleep(700);
-    let stored = [];
-    try { stored = JSON.parse(localStorage.getItem('agenda-cultural-favorites-v1') || '[]'); } catch {}
-    const saved = stored.some((item) => item.city === 'valparaiso' && item.id === id);
-    const row = document.querySelector(`[data-my-plans] .my-plan-row[data-event-id="${CSS.escape(id)}"]`);
-    const disclosure = document.querySelector('[data-my-plans] .my-plans-disclosure');
-    const pressed = button.getAttribute('aria-pressed') === 'true';
-    const count = document.querySelector('[data-my-plans] .my-plans-count')?.textContent?.trim() || '';
-    const compactInitially = Boolean(disclosure) && !disclosure.open;
-    document.querySelector('[data-mobile-action="plans"]')?.click();
-    await sleep(200);
-    const openedByPlansTab = Boolean(disclosure?.open);
-    document.body.dataset.favoritesSaved = String(saved);
-    document.body.dataset.favoritesInPlans = String(Boolean(row));
-    document.body.dataset.favoritesPressed = String(pressed);
-    document.body.dataset.favoritesCount = count;
-    document.body.dataset.favoritesCompactInitially = String(compactInitially);
-    document.body.dataset.favoritesOpenedByTab = String(openedByPlansTab);
-    document.body.dataset.favoritesProbe = saved && row && pressed && count.startsWith('1 ') && compactInitially && openedByPlansTab ? 'pass' : 'fail';
-  };
-  run();
+  let button = null;
+  for (let attempt = 0; attempt < 30; attempt += 1) {
+    button = document.querySelector('.event-card[data-event-id] > [data-favorite-toggle]');
+    if (button) break;
+    await sleep(300);
+  }
+  if (!button) { document.body.dataset.favoritesProbe = 'missing-toggle'; return; }
+  const id = button.closest('.event-card[data-event-id]')?.dataset.eventId || '';
+  button.click();
+  await sleep(700);
+  let stored = [];
+  try { stored = JSON.parse(localStorage.getItem('agenda-cultural-favorites-v1') || '[]'); } catch {}
+  const saved = stored.some((item) => item.city === 'valparaiso' && item.id === id);
+  const pressed = button.getAttribute('aria-pressed') === 'true';
+  const count = document.querySelector('[data-favorites-access] [data-favorites-count]')?.textContent?.trim() || '';
+  document.body.dataset.favoritesEventId = id;
+  document.body.dataset.favoritesProbe = saved && pressed && count === '1' && !document.querySelector('[data-my-plans]') ? 'pass' : 'fail';
 })();
 </script>
 '''
     source = source.replace("</body>", probe + "\n</body>", 1)
     TEST_PAGE.write_text(source, encoding="utf-8")
+
+
+def run_chrome(url: str, profile: str, budget: int) -> str:
+    cmd = [chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--disable-background-networking", "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check", "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1", f"--virtual-time-budget={budget}", f"--user-data-dir={profile}", "--dump-dom", url]
+    result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=50)
+    if result.returncode != 0 or not result.stdout:
+        raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    return result.stdout
 
 
 def main() -> None:
@@ -90,26 +76,20 @@ def main() -> None:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start(); time.sleep(0.2)
-        with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
-            cmd = [
-                chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
-                "--disable-dev-shm-usage", "--disable-background-networking", "--disable-extensions",
-                "--disable-sync", "--no-first-run", "--no-default-browser-check",
-                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--virtual-time-budget=14000", f"--user-data-dir={profile}", "--dump-dom",
-                f"http://127.0.0.1:{port}/app/__favorites_test.html",
-            ]
-            try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
-            finally:
-                server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
-
-    if result.returncode != 0 or not result.stdout:
-        raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
-    if 'data-favorites-probe="pass"' not in result.stdout:
-        observed = ", ".join(re.findall(r'data-favorites-[a-z-]+="[^"]*"', result.stdout)[-12:])
-        raise AssertionError(f"Favorites compact browser contract failed; observed: {observed or 'no probe attributes'}")
-    print("Favorites browser test: Mis planes stays compact and opens from the mobile tab")
+        try:
+            with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
+                home = run_chrome(f"http://127.0.0.1:{port}/app/__favorites_test.html", profile, 14000)
+                if 'data-favorites-probe="pass"' not in home:
+                    raise AssertionError("Favorites compact-home contract failed")
+                match = re.search(r'data-favorites-event-id="([^"]+)"', home)
+                if not match:
+                    raise AssertionError("Favorites test did not capture a saved event id")
+                plans = run_chrome(f"http://127.0.0.1:{port}/app/mis-planes.html?city=valparaiso", profile, 9000)
+                if 'data-my-plans="true"' not in plans or f'data-event-id="{match.group(1)}"' not in plans:
+                    raise AssertionError("Standalone Mis planes page did not render the saved activity")
+        finally:
+            server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
+    print("Favorites browser test: homepage stays compact and standalone Mis planes renders saved activities")
 
 
 if __name__ == "__main__":
