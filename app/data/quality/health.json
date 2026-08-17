@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T16:34:54+00:00",
+  "generated_at": "2026-08-17T17:22:49+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -10,20 +10,21 @@
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
+        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T12:11:13-04:00",
-        "generated_age_hours": 0.4
+        "generated_at": "2026-08-17T13:21:07-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 85,
-        "schedule_expected_events": 81,
-        "dated_events": 81,
-        "timed_events": 81,
-        "relevant_image_events": 48,
+        "total_events": 83,
+        "schedule_expected_events": 79,
+        "dated_events": 79,
+        "timed_events": 79,
+        "relevant_image_events": 62,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -32,7 +33,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 56.5
+        "relevant_image_pct": 74.7
       },
       "samples": {
         "missing_time": [],
@@ -42,24 +43,8 @@
             "title": "Destino Valparaíso – Agosto 2026"
           },
           {
-            "id": "agenda_cinema_f68f891c02d7288c3619",
-            "title": "La Invitación"
-          },
-          {
-            "id": "agenda_cinema_910efa5e83617e2fc0b2",
-            "title": "La Odisea"
-          },
-          {
-            "id": "agenda_cinema_92d4fd4d7601cce1f24e",
-            "title": "Obsesión"
-          },
-          {
-            "id": "agenda_cinema_0bef34873f39b4e8f3c1",
-            "title": "La leyenda del Caballero Verde"
-          },
-          {
-            "id": "agenda_cinema_925100f89d3012aef5dd",
-            "title": "Children of Men (2006)"
+            "id": "agenda_3baeb85a553ae7e1f2a0730d",
+            "title": ".:: CORPORACIÓN MUSEO FONCK ::."
           },
           {
             "id": "agenda_67defc9c064344e04c20aca6",
@@ -68,6 +53,22 @@
           {
             "id": "agenda_eeea936319edc98db3c75f29",
             "title": "Exposición // Horario de verano: Memorias fuera de temporada"
+          },
+          {
+            "id": "agenda_eb89b5ee606c6cb270ea04c4",
+            "title": "Exposición temporal // A veces un mar dulce"
+          },
+          {
+            "id": "agenda_909c0ee35fef43fe785f4eb4",
+            "title": "Exposición temporal // Tàpies, colección del grabador Barbara"
+          },
+          {
+            "id": "agenda_a933180663b5f1d4af1ec329",
+            "title": "Exposición transitoria // “Entre mareas”"
+          },
+          {
+            "id": "agenda_bdc6269a0b11d9323cf2dd1f",
+            "title": "Feria // Invierno mágico"
           }
         ],
         "suspicious_titles": [],
@@ -82,8 +83,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 18,
-            "venue_events": 18,
+            "direct_events": 15,
+            "venue_events": 15,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -97,12 +98,12 @@
             "indirect_venue_events": 2,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_910efa5e83617e2fc0b2",
-                "title": "La Odisea"
+                "id": "agenda_c4796df823a3e4bf9d1091cc",
+                "title": "La Odisea."
               },
               {
-                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
-                "title": "La leyenda del Caballero Verde"
+                "id": "agenda_3603f81124e0895e2c542a86",
+                "title": "La leyenda del Caballero Verde."
               }
             ]
           },
@@ -154,9 +155,9 @@
             "city": "Valparaíso",
             "primary_recovery_attempted": null,
             "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
           }
         ],
         "indirect_source_warnings": [
@@ -170,44 +171,43 @@
             "indirect_venue_events": 2,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_910efa5e83617e2fc0b2",
-                "title": "La Odisea"
+                "id": "agenda_c4796df823a3e4bf9d1091cc",
+                "title": "La Odisea."
               },
               {
-                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
-                "title": "La leyenda del Caballero Verde"
+                "id": "agenda_3603f81124e0895e2c542a86",
+                "title": "La leyenda del Caballero Verde."
               }
             ]
           }
         ],
-        "checked_zero_sources": [
-          {
-            "id": "valparaiso_profundo",
-            "name": "Valparaíso Profundo",
-            "city": "Valparaíso",
-            "primary_recovery_attempted": null,
-            "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
-          }
-        ]
+        "checked_zero_sources": []
       },
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 0,
-        "venue_hours_enriched": 1,
+        "visit_hours_enriched": 16,
+        "venue_hours_enriched": 4,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0,
-        "removed_deadline_only_call": 0,
-        "removed_retrospective_post": 0
+        "removed_deadline_only_call": 1,
+        "removed_retrospective_post": 1
       },
       "publication_corrections": {
         "checked_at": "2026-08-17",
         "active_corrections": 1,
-        "applied_count": 0,
-        "applied": []
+        "applied_count": 1,
+        "applied": [
+          {
+            "correction_id": "baburizza_requiem_2026_end",
+            "event_id": "agenda_c16d049f287e6bc4922b56de",
+            "title": "Museo Baburizza – «Requiem para Pianos»",
+            "action": "drop_after_end",
+            "official_end_date": "2026-08-06",
+            "official_url": "https://www.museobaburizza.cl/agenda/",
+            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
+          }
+        ]
       }
     },
     "gijon": {
@@ -222,7 +222,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T18:25:04+02:00",
-        "generated_age_hours": 0.2
+        "generated_age_hours": 1.0
       },
       "counts": {
         "total_events": 97,
@@ -634,7 +634,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539872596327788,
+    "usage_usd": 4.539923848992973,
     "remaining_usd": 0.0
   }
 }
