@@ -63,6 +63,7 @@ def check_ui_contract() -> None:
     index = (APP / "index.html").read_text(encoding="utf-8")
     app_js = (APP / "app.js").read_text(encoding="utf-8")
     pwa_js = (APP / "pwa.js").read_text(encoding="utf-8") if (APP / "pwa.js").exists() else ""
+    event_detail_js = (APP / "event-detail.js").read_text(encoding="utf-8")
 
     assert './manifest.webmanifest' in index
     assert './icons/icon-192.png' in index
@@ -71,6 +72,15 @@ def check_ui_contract() -> None:
     assert './data/gijon/agenda_web.json' in app_js
     assert 'event?.event_type === "program"' in app_js
     assert 'event?.event_type === "flexible_offer"' in app_js
+
+    # The permanent URL remains an internal share/SEO primitive, not a user-facing action.
+    assert 'function permanentEventUrl(event)' in event_detail_js
+    assert 'addButtonAction(actions, "Compartir"' in event_detail_js
+    assert 'Ficha permanente →' not in event_detail_js
+    assert 'Copiar enlace' not in event_detail_js
+    assert 'Fuente de datos ↗' not in event_detail_js
+    assert 'else if (registration)' in event_detail_js
+    assert 'else if (official)' in event_detail_js
 
 
 def validate_dataset(path: Path) -> dict:
