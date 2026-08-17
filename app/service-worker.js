@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v41";
+const CACHE_VERSION = "v42";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -10,7 +10,7 @@ const SHELL_ASSETS = [
   "./city-header.css",
   "./compact-top.css",
   "./header-redesign.css",
-  "./mobile-experience.css",
+  "./mobile-experience.css?v=20260817-topnav3",
   "./share-qr.css",
   "./stage31-accessibility.css",
   "../assets/usage-analytics.js?v=20260817-stage32",
@@ -19,8 +19,8 @@ const SHELL_ASSETS = [
   "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
-  "./pwa.js",
-  "./mobile-experience.js",
+  "./pwa.js?v=20260817-topnav3",
+  "./mobile-experience.js?v=20260817-topnav3",
   "./share-qr.js",
   "./stage31-accessibility-seo.js",
   "./plan-ahead.js",
@@ -151,7 +151,7 @@ async function networkFirstDataset(request) {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
-    // v41 deliberately keeps every registered city dataset instead of evicting another city.
+    // v42 deliberately keeps every registered city dataset instead of evicting another city.
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
