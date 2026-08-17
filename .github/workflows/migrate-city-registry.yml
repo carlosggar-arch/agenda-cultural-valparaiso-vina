@@ -1,0 +1,67 @@
+name: Migrate to canonical city registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/migrate-city-registry.yml"
+      - "app/scripts/migrate_city_registry_architecture.py"
+      - "app/scripts/test_third_city_architecture.py"
+      - "app/cities.json"
+      - "assets/city-registry.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: migrate-city-registry-main
+  cancel-in-progress: false
+
+jobs:
+  migrate-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply registry migration when needed
+        run: |
+          set -euo pipefail
+          if grep -q 'const CITIES = CITY_REGISTRY.byId' app/app.js; then
+            echo "CITY_REGISTRY_MIGRATION_ALREADY_APPLIED"
+          else
+            python app/scripts/migrate_city_registry_architecture.py
+          fi
+
+      - name: Validate static multi-city contracts
+        run: |
+          python app/scripts/test_visual_multicity_v30.py
+          python app/scripts/test_third_city_architecture.py
+          python app/scripts/test_gijon_v1_stable.py
+
+      - name: Validate runtime in real browser
+        run: |
+          python app/scripts/test_runtime_browser.py
+          python app/scripts/test_favorites_browser.py
+
+      - name: Commit validated architecture migration
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "No migration changes to commit."
+            exit 0
+          fi
+          git config user.name "agenda-cultural-architecture[bot]"
+          git config user.email "agenda-cultural-architecture[bot]@users.noreply.github.com"
+          git add app assets .github/workflows/gijon-v1-stability.yml
+          git commit -m "Make PWA city registry extensible"
+          git push origin HEAD:main
