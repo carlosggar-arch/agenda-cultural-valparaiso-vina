@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-16T22:26:19-04:00",
+  "generated_at": "2026-08-16T22:47:43-04:00",
   "publication_date": "2026-08-15",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 70,
-    "events": 66,
+    "total": 72,
+    "events": 68,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -62,10 +62,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-16T22:26:19-04:00",
+      "last_verified_at": "2026-08-16T22:47:43-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:26:19-04:00",
+        "last_verified_at": "2026-08-16T22:47:43-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -167,10 +167,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-16T22:26:19-04:00",
+      "last_verified_at": "2026-08-16T22:47:43-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:26:19-04:00",
+        "last_verified_at": "2026-08-16T22:47:43-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1768,7 +1768,7 @@
       }
     },
     {
-      "id": "agenda_427e2c41d43ae68fe462d897",
+      "id": "agenda_teatromuseo_dedfeec0f60d0283e27a",
       "title": "Historia de Gatitos de Colores",
       "event_type": "event",
       "primary_category": {
@@ -1782,11 +1782,11 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-16T16:30:00-04:00",
-        "end": null,
+        "end": "2026-08-16T16:30:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-16 · 16:30, 19:00",
+        "display_text": "2026-08-16 · 16:30",
         "occurrences": [],
         "start_confidence": "explicit",
         "end_confidence": "explicit"
@@ -1803,7 +1803,7 @@
       },
       "price": {
         "is_free": null,
-        "currency": null,
+        "currency": "CLP",
         "min_amount": null,
         "max_amount": null,
         "display_text": null
@@ -1815,31 +1815,39 @@
         "source": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820"
       },
       "organizer": "TeatroMuseo",
+      "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-16T22:47:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-16T22:47:36-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+        "price_confirmed": false,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
       },
-      "description": "Historia de Gatitos de Colores Nosotros Prensa Noticias Videos Publicaciones Teatroescuela Curso Actuales Curso Históricos Cartelera Actual Cartelera Histórica Extensión Museo Visitas Guiadas Eventos Masivos Venta de funciones Venta de talleres Festivales Upa...",
-      "tags": [],
-      "audience": "Familiar",
+      "description": "Trico y Negrín son 2 gatitos amigos de barrio, muy traviesos, que en un día de luna llena y sin haber comido bocado en todo el día, descubren unos pescaditos colgados en una ventana dejados por Don Pedro (el dueño de la casa). Ante tanta incertidumbre de poder comer, agotando toda idea, es que deciden sacarlos de donde estaban. En ese intento y por accidente caen en tarros de pintura que les cambia su color. A medida que transcurre la historia peor se pone la situación.",
+      "tags": [
+        "Teatro",
+        "TeatroMuseo"
+      ],
+      "audience": null,
       "registration_requirements": null,
       "image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "source": null,
+        "relevance": null
       },
       "editorial": {
-        "title_recovered_from_official_url": true
+        "classification": "event",
+        "reason": "official_teatromuseo_cartelera",
+        "duration_days": 0
       }
     },
     {
@@ -3768,6 +3776,89 @@
       }
     },
     {
+      "id": "agenda_teatromuseo_43ba6181f70d7b0b9058",
+      "title": "Un buen cuento maléfico",
+      "event_type": "event",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro"
+      },
+      "categories": [
+        {
+          "id": "teatro",
+          "label": "Teatro"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-23T16:30:00-04:00",
+        "end": "2026-08-23T16:30:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-23 · 16:30",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "teatromuseo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "TeatroMuseo del Títere y el Payaso",
+        "address": "Cumming 795, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "CLP",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821"
+      },
+      "organizer": "TeatroMuseo",
+      "source_id": "teatromuseo",
+      "source_name": "TeatroMuseo",
+      "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
+      "last_verified_at": "2026-08-16T22:47:36-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-16T22:47:36-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
+      },
+      "description": "Por medio de una narración lúdica que invita a la participación del público, nos encontramos frente a una historia que parece ser maléfica, pero en realidad es un cuento lleno de humor, aventuras y situaciones inesperadas que nos muestra cómo enfrentar problemas con ingenio.",
+      "tags": [
+        "Teatro",
+        "TeatroMuseo"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null,
+        "source": null,
+        "relevance": null
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_teatromuseo_cartelera",
+        "duration_days": 0
+      }
+    },
+    {
       "id": "agenda_cinema_fdc91967cf8e1f7706d7",
       "title": "The Doors: The Final Cut (1991-2026)",
       "event_type": "event",
@@ -4461,6 +4552,89 @@
       "editorial": {
         "classification": "event",
         "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_teatromuseo_397a4c357cfdd376130f",
+      "title": "Pionero",
+      "event_type": "event",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro"
+      },
+      "categories": [
+        {
+          "id": "teatro",
+          "label": "Teatro"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-30T16:30:00-04:00",
+        "end": "2026-08-30T16:30:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-30 · 16:30",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "teatromuseo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "TeatroMuseo del Títere y el Payaso",
+        "address": "Cumming 795, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "CLP",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.teatromuseo.cl/obra/pionero_822",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.teatromuseo.cl/obra/pionero_822"
+      },
+      "organizer": "TeatroMuseo",
+      "source_id": "teatromuseo",
+      "source_name": "TeatroMuseo",
+      "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
+      "last_verified_at": "2026-08-16T22:47:36-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-16T22:47:36-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
+      },
+      "description": "Alberto es siempre el último en ser retirado del colegio por su despistado padre, pero Patricia, su profesora de Historia, convierte esa espera en una misteriosa investigación; es posible que en la sala de clases una compañera esconda un gran secreto que Alberto está dispuesto a descubrir.",
+      "tags": [
+        "Teatro",
+        "TeatroMuseo"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null,
+        "source": null,
+        "relevance": null
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_teatromuseo_cartelera",
         "duration_days": 0
       }
     },
@@ -5509,9 +5683,16 @@
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-16T22:26:19-04:00",
+      "refreshed_at": "2026-08-16T22:47:43-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
+      "preserved_existing": false
+    },
+    "teatromuseo": {
+      "events_detected": 3,
+      "events_published": 3,
+      "refreshed_at": "2026-08-16T22:47:36-04:00",
+      "mode": "official_cartelera_refresh",
       "preserved_existing": false
     }
   },
@@ -5928,14 +6109,24 @@
       "image_url": "https://www.passline.com/imagenes/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718-rec.jpg",
       "checked_at": "2026-08-17",
       "source": "official_page_metadata"
+    },
+    "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://www.teatromuseo.cl/obra/pionero_822": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 30,
-    "images_from_cache": 21,
+    "existing_images": 51,
+    "images_from_cache": 0,
     "images_fetched": 0,
     "generic_schedule_images_rejected": 0,
-    "pages_fetched": 0,
+    "pages_fetched": 2,
     "pages_skipped_by_limit": 0
   },
   "publication_corrections": {
