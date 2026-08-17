@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#174f46"><meta name="robots" content="noindex,follow"><meta name="description" content="Tus actividades guardadas en ¡Vivamos!."><title>Mis planes · ¡Vivamos!</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icons/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icons/icon-192.png"><link rel="stylesheet" href="./app.css"><link rel="stylesheet" href="../assets/mis-planes-page.css?v=20260817">
+</head>
+<body class="my-plans-page" data-favorites-mode="app">
+<a class="skip-link" href="#contenido">Saltar al contenido</a><header class="plans-page-header"><a class="plans-page-brand" href="./" data-my-plans-back aria-label="Volver a ¡Vivamos!"><img src="./icons/icon.svg" width="38" height="38" alt=""><span><strong>★ Mis planes</strong><small data-my-plans-place>Agenda local</small></span></a><a class="plans-page-back" href="./" data-my-plans-back>← Volver a la agenda</a></header><main class="plans-page-main" id="contenido" data-my-plans-page></main>
+<script>(()=>{const supported=new Set(["valparaiso","gijon"]);const requested=new URLSearchParams(location.search).get("city");let saved=null;try{saved=localStorage.getItem("agenda-cultural-city")}catch{}const city=supported.has(requested)?requested:supported.has(saved)?saved:"valparaiso";document.body.dataset.favoritesCity=city;document.documentElement.dataset.city=city;const theme=document.querySelector('meta[name="theme-color"]');if(theme)theme.setAttribute("content",city==="gijon"?"#0d5e73":"#174f46");try{localStorage.setItem("agenda-cultural-city",city)}catch{}})();</script><script type="module" src="../assets/mis-planes-page.mjs?v=20260817"></script>
+</body></html>
