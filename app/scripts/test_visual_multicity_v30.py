@@ -24,7 +24,8 @@ assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
 assert 'fetch(city.dataset' in app_js
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
-assert 'cachedRequest.url !== request.url' in service_worker
+assert 'v34 deliberately keeps both city datasets' in service_worker
+assert 'await cache.put(request, response.clone())' in service_worker
 
 # City can be chosen explicitly, remembered, or suggested from device location.
 assert index.count('data-city-option="valparaiso"') == 1
@@ -55,4 +56,4 @@ assert any(
     for event in gijon_events
 ), "Gijon dataset should exercise the category fallback path"
 
-print("PWA v30 visual parity and multi-city dataset isolation: OK")
+print("PWA visual parity and multi-city dataset isolation: OK")
