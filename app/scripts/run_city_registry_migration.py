@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from app.scripts import migrate_city_registry_architecture as migration
+import migrate_city_registry_architecture as migration
 
 
 def regex_once_multiline(path: Path, pattern: str, replacement: str) -> None:
