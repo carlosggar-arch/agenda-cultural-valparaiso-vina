@@ -157,16 +157,18 @@ def first_open_state(dom: str) -> tuple[bool, str]:
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no first-open attributes'}"
 
 
-def chrome_command(url: str, profile: str, budget: int) -> list[str]:
-    return [
+def chrome_command(url: str, profile: str, budget: int, *, deny_permissions: bool = False) -> list[str]:
+    command = [
         chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
         "--disable-dev-shm-usage", "--disable-background-networking",
         "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
-        "--deny-permission-prompts",
         "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
         "--window-size=390,844", f"--virtual-time-budget={budget}",
         f"--user-data-dir={profile}", "--dump-dom", url,
     ]
+    if deny_permissions:
+        command.insert(10, "--deny-permission-prompts")
+    return command
 
 
 def run_chrome(url: str) -> str:
@@ -196,7 +198,13 @@ def run_first_open(url: str) -> str:
     for attempt in range(1, 4):
         with tempfile.TemporaryDirectory(prefix=f"agenda-first-open-{attempt}-", ignore_cleanup_errors=True) as profile:
             try:
-                result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=40)
+                result = subprocess.run(
+                    chrome_command(url, profile, 6000, deny_permissions=True),
+                    cwd=ROOT,
+                    text=True,
+                    capture_output=True,
+                    timeout=40,
+                )
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
