@@ -11,6 +11,7 @@ const SHELL_ASSETS = [
   "./header-redesign.css",
   "./app.js",
   "./combined-filters.js",
+  "./combined-filters-polish.js",
   "./pwa.js",
   "./vivamos-brand.js",
   "./header-redesign.js",
