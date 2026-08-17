@@ -17,6 +17,11 @@ def prepare_page(city: str) -> None:
   <script type="module" src="./density-polish.js"></script>
   <script>
     setTimeout(() => {
+      /* Geometry assertions need the filter surface visible even if the
+         synthetic runtime page is between render states at this instant. */
+      const discovery = document.querySelector("[data-discovery]");
+      if (discovery) discovery.hidden = false;
+
       const header = document.querySelector(".app-header");
       const controls = document.querySelector(".header-bottom");
       const headerRect = header?.getBoundingClientRect();
