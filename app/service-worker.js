@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v27";
+const CACHE_VERSION = "v28";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -7,11 +7,13 @@ const SHELL_ASSETS = [
   "./index.html",
   "./app.css",
   "./combined-filters.css",
+  "./search-filter-upgrade.css",
   "./city-header.css",
   "./header-redesign.css",
   "./app.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
+  "./search-filter-upgrade.js",
   "./pwa.js",
   "./vivamos-brand.js",
   "./header-redesign.js",
