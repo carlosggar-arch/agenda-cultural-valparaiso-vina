@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T14:23:36+00:00",
+  "generated_at": "2026-08-17T15:47:07+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -15,14 +15,14 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T09:19:13-04:00",
-        "generated_age_hours": 1.1
+        "generated_at": "2026-08-17T11:46:04-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 84,
-        "schedule_expected_events": 80,
-        "dated_events": 80,
-        "timed_events": 80,
+        "total_events": 85,
+        "schedule_expected_events": 81,
+        "dated_events": 81,
+        "timed_events": 81,
         "relevant_image_events": 68,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
@@ -32,7 +32,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 81.0
+        "relevant_image_pct": 80.0
       },
       "samples": {
         "missing_time": [],
@@ -93,12 +93,16 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 1,
-            "indirect_venue_events": 1,
+            "venue_events": 2,
+            "indirect_venue_events": 2,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_1a49202480b0c737110a",
-                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
+                "id": "agenda_cinema_910efa5e83617e2fc0b2",
+                "title": "La Odisea"
+              },
+              {
+                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
+                "title": "La leyenda del Caballero Verde"
               }
             ]
           },
@@ -162,12 +166,16 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 1,
-            "indirect_venue_events": 1,
+            "venue_events": 2,
+            "indirect_venue_events": 2,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_1a49202480b0c737110a",
-                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
+                "id": "agenda_cinema_910efa5e83617e2fc0b2",
+                "title": "La Odisea"
+              },
+              {
+                "id": "agenda_cinema_0bef34873f39b4e8f3c1",
+                "title": "La leyenda del Caballero Verde"
               }
             ]
           }
@@ -192,8 +200,8 @@
         "venue_hours_enriched": 1,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0,
-        "removed_deadline_only_call": 1,
-        "removed_retrospective_post": 1
+        "removed_deadline_only_call": 0,
+        "removed_retrospective_post": 0
       },
       "publication_corrections": {
         "checked_at": "2026-08-17",
@@ -213,15 +221,15 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T16:22:55+02:00",
-        "generated_age_hours": 0.0
+        "generated_at": "2026-08-17T17:33:40+02:00",
+        "generated_age_hours": 0.2
       },
       "counts": {
         "total_events": 97,
         "schedule_expected_events": 88,
         "dated_events": 88,
         "timed_events": 68,
-        "relevant_image_events": 89,
+        "relevant_image_events": 87,
         "suspicious_titles": 0,
         "title_review_candidates": 41,
         "duplicate_groups": 0,
@@ -230,7 +238,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 77.3,
-        "relevant_image_pct": 91.8
+        "relevant_image_pct": 89.7
       },
       "samples": {
         "missing_time": [
@@ -281,6 +289,10 @@
             "title": "Campus de Verano de la Laboral 2026"
           },
           {
+            "id": "gijon_juventud_gijon_1678d25a1de266ba",
+            "title": "EXPLORA Y CREA EN REALIDAD VIRTUAL Y AUMENTADA"
+          },
+          {
             "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
             "title": "Noche mágica de Valdrero. Ruta en Cudillero"
           },
@@ -293,20 +305,16 @@
             "title": "Rutas de montaña por Laviana"
           },
           {
+            "id": "gijon_juventud_gijon_0276923666951d7a",
+            "title": "MISIÓN DRONE: VUELA EN PRIMERA PERSONA"
+          },
+          {
             "id": "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
             "title": "Concurso Hípico de Gijón"
           },
           {
             "id": "gijon_ciclismo_asturias_1c3d794a96c92b40",
             "title": "XIX MEMORIAL JAIRO GARCIA"
-          },
-          {
-            "id": "gijon_laboral_ciudad_cultura_007f72a9ba5b31fc",
-            "title": "Trialogfem Show"
-          },
-          {
-            "id": "gijon_ciclismo_asturias_7ddfb3c853b236fa",
-            "title": "JORNADA TECNIFICACION CICLO-CROSS 2026"
           }
         ],
         "suspicious_titles": [],
@@ -369,12 +377,23 @@
             "id": "gijon_opendata_events",
             "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
             "role": null,
-            "event_count": 82,
+            "event_count": 80,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 58,
+            "with_start_time": 56,
             "without_start_time": 24
+          },
+          {
+            "id": "juventud_gijon",
+            "name": "Juventud Gijón/Xixón — Oficina de Juventud",
+            "role": null,
+            "event_count": 2,
+            "reviewed_items": null,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
+            "with_start_time": 2,
+            "without_start_time": 0
           },
           {
             "id": "la_revoltosa_gijon",
@@ -615,7 +634,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539815600325884,
+    "usage_usd": 4.539870606091446,
     "remaining_usd": 0.0
   }
 }
