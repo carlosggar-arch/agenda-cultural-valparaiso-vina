@@ -4,6 +4,8 @@ const requestedCity = new URLSearchParams(window.location.search).get("city");
 const initialPreference = window.__agendaInitialCityPreference ?? null;
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
 const chooserClose = document.querySelector("[data-chooser-close]");
+const chooserTitle = document.querySelector("#chooser-title");
+const chooserIntro = document.querySelector("[data-chooser] > p:not(.eyebrow)");
 const citySwitch = document.querySelector("[data-city-switch]");
 const cityOptions = document.querySelectorAll("[data-city-option]");
 const useLocation = document.querySelector("[data-use-location]");
@@ -32,11 +34,17 @@ function releaseRequiredSelection() {
   delete chooserBackdrop.dataset.selectionRequired;
 }
 
+function setFirstRunCopy() {
+  if (chooserTitle) chooserTitle.textContent = "¿Dónde quieres descubrir planes?";
+  if (chooserIntro) chooserIntro.textContent = "Elige tu ciudad para adaptar la agenda desde la primera apertura. La recordaremos en este dispositivo.";
+}
+
 function openRequiredChooser() {
   try { localStorage.removeItem(STORAGE_KEY); } catch {}
   if (!chooserBackdrop || !citySwitch) return;
   chooserBackdrop.dataset.selectionRequired = "true";
   citySwitch.click();
+  setFirstRunCopy();
   if (chooserClose) chooserClose.hidden = true;
 }
 
