@@ -80,11 +80,11 @@ jobs:
           python app/scripts/test_gijon_editorial.py
           python app/scripts/test_gijon_source_detail.py
 
-      - name: Run advanced filter contracts
-        run: |
-          set -euo pipefail
-          python app/scripts/test_multi_city_ui.py
-          python app/scripts/test_contextual_filters.py
+      - name: Run multi-city UI contract
+        run: python app/scripts/test_multi_city_ui.py
+
+      - name: Run contextual filter contract
+        run: python app/scripts/test_contextual_filters.py
 
       - name: Run schedule and joint pre-release contracts
         run: |
