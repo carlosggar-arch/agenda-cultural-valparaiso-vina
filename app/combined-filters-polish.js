@@ -23,25 +23,6 @@ if (!document.getElementById(STYLE_ID)) {
   document.head.append(style);
 }
 
-function removePriceFilter() {
-  document.querySelector("[data-combined-price]")?.closest(".filter-group")?.remove();
-
-  const discoveryCopy = document.querySelector(".discovery-heading > p");
-  if (discoveryCopy) {
-    discoveryCopy.textContent = "Combina fecha, zona, categorías y palabras clave. Los filtros funcionan juntos y puedes compartir el resultado por URL.";
-  }
-
-  const workbenchExample = document.querySelector(".filter-workbench-heading p:not(.filter-help)");
-  if (workbenchExample) {
-    workbenchExample.textContent = "Por ejemplo: música en Viña durante los próximos siete días.";
-  }
-
-  const categoryCopy = document.querySelector(".category-filter-panel .category-explorer-heading p");
-  if (categoryCopy) {
-    categoryCopy.textContent = "Puedes marcar varias a la vez; se combinan con la fecha, zona y búsqueda.";
-  }
-}
-
 function clearLegacyPriceState() {
   const url = new URL(window.location.href);
   if (!url.searchParams.has("price")) return;
@@ -62,7 +43,7 @@ function preserveScrollDuringLegacyClick(container) {
 
 function hasCombinedFilterState() {
   const params = new URLSearchParams(window.location.search);
-  return ["when", "area", "cat", "q", "from", "to"].some((key) => params.has(key));
+  return ["when", "area", "access", "format", "aud", "cat", "q", "from", "to"].some((key) => params.has(key));
 }
 
 let resyncQueued = false;
@@ -79,7 +60,6 @@ for (const grid of document.querySelectorAll("[data-dated-grid], [data-program-g
   new MutationObserver(queueFilterResync).observe(grid, { childList: true });
 }
 
-removePriceFilter();
 clearLegacyPriceState();
 preserveScrollDuringLegacyClick(document.querySelector("[data-section-filters]"));
 preserveScrollDuringLegacyClick(document.querySelector("[data-category-filters]"));

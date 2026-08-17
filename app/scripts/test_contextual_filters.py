@@ -3,7 +3,6 @@ from pathlib import Path
 combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
 combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
 polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
-compact = Path("app/compact-top.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
 sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
@@ -17,53 +16,46 @@ schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="
 app_schedule = Path("app/schedule-display.js").read_text(encoding="utf-8")
 
 for marker in (
-    "function eventMatchesWhen", "function eventMatchesArea", "function eventMatchesPrice",
-    "function eventMatchesCategories", "function eventMatchesQuery",
-    'ignore.has("categories")', 'state.categories.has(id)',
-    'tokens.every((token) => haystack.includes(token))', 'normalize("NFD")',
+    "function eventMatchesWhen", "function eventMatchesArea",
+    "function eventMatchesAccess", "function eventMatchesFormat",
+    "function eventMatchesAudience", "function eventMatchesCategories",
+    "function eventMatchesQuery", "function searchScore",
+    "function derivedSearchTerms", "const SEARCH_ALIASES",
+    'ignore.has("access")', 'ignore.has("format")', 'ignore.has("audience")',
+    'state.categories.has(id)', 'queryAlternatives(token)', 'normalize("NFD")',
     'state.when = "personalizado"', 'history.replaceState', 'url.searchParams.set',
+    'setOrDelete("access"', 'setOrDelete("format"', 'setOrDelete("aud"',
     'currentCityId() !== "valparaiso"', 'forceBaseAppFilters',
+    'setText(dom.agendaTitle, state.query ? "Resultados de búsqueda"',
+    'reorderCards(sorted)',
 ):
     assert marker in combined
 
 for marker in (
     'data-smart-search', 'data-combined-when', 'data-combined-area',
+    'data-combined-access', 'data-combined-format', 'data-combined-audience',
     'data-combined-category-filters', 'data-date-from', 'data-date-to',
 ):
     assert marker in app_index
+assert 'data-combined-price' not in app_index
+assert 'La búsqueda ignora tildes' in app_index
+assert 'Para familias' in app_index
 assert './combined-filters.js' in app_index
 assert './contextual-filters.js' not in app_index
 assert '.filter-workbench' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
+assert '.search-help' in combined_css
+assert '.filter-group--wide' in combined_css
 assert '.legacy-filter-hooks' in combined_css
-assert '.filter-group:has([data-combined-price])' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
-assert 'function removePriceFilter()' in polish
-assert 'document.querySelector("[data-combined-price]")?.closest(".filter-group")?.remove()' in polish
+assert 'function clearLegacyPriceState()' in polish
 assert 'url.searchParams.delete("price")' in polish
 assert 'function queueFilterResync()' in polish
 assert 'new MutationObserver(queueFilterResync)' in polish
-assert 'fecha, zona, categorías y palabras clave' in polish
-assert 'fecha, zona y búsqueda' in polish
+assert '"access", "format", "aud"' in polish
 assert '.agenda-heading { display: flex !important;' in polish
 assert 'preserveScrollDuringLegacyClick' in polish
-
-# The production app intentionally strips explanatory filter copy from the
-# visual surface and keeps only actionable controls.
-assert '.filter-workbench-heading,' in compact
-assert '.filter-help {' in compact
-assert 'display: none !important;' in compact
-assert '.filter-workbench {' in compact
-assert 'padding: .58rem !important;' in compact
-assert '.filter-group {' in compact
-assert 'padding: .56rem .62rem !important;' in compact
-assert '.filter-choice {' in compact
-assert 'padding: .39rem .54rem !important;' in compact
-assert '.category-filters {' in compact
-assert 'gap: .32rem !important;' in compact
-assert '@media (max-width: 560px)' in compact
-assert 'padding: .46rem !important;' in compact
 
 assert "function enforceQuickFilterVisibility()" in density
 assert 'id !== "todos" && count === 0' in density
@@ -78,9 +70,9 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v28"' in pwa
+assert 'const APP_VERSION = "PWA v29"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'const CACHE_VERSION = "v28"' in service_worker
+assert 'const CACHE_VERSION = "v29"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
@@ -103,4 +95,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Combined filters stay functional while the production filter surface remains compact: OK")
+print("Advanced semantic search and combined date/area/access/format/audience/category filters: OK")
