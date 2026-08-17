@@ -11,7 +11,7 @@ const DATASET_URL = "./agenda_web.json";
 const LOCALE = "es-CL";
 
 let eventMap = new Map();
-let renderQueued = false;
+let enhanceQueued = false;
 
 function eventPageHref(event) {
   const id = String(event?.id || "").trim();
@@ -53,25 +53,28 @@ function renderMyPlans() {
     locale: LOCALE,
     eventMap,
     eventPageHref,
-    onChanged: queueRender,
   });
   const anchor = document.querySelector(".status-panel");
   if (anchor) anchor.insertAdjacentElement("afterend", section);
   else document.querySelector("main")?.prepend(section);
 }
 
-function render() {
-  renderQueued = false;
-  renderMyPlans();
+function enhanceDynamicUi() {
+  enhanceQueued = false;
   installCardFavorites();
   installDetailFavorite();
   syncFavoriteButtons(CITY, eventMap);
 }
 
-function queueRender() {
-  if (renderQueued) return;
-  renderQueued = true;
-  queueMicrotask(render);
+function queueEnhance() {
+  if (enhanceQueued) return;
+  enhanceQueued = true;
+  queueMicrotask(enhanceDynamicUi);
+}
+
+function refreshFavorites() {
+  renderMyPlans();
+  queueEnhance();
 }
 
 async function start() {
@@ -83,13 +86,13 @@ async function start() {
     eventMap = new Map((payload?.events || []).map((event) => [String(event.id), event]));
   } catch { return; }
 
-  new MutationObserver(queueRender).observe(document.body, { childList: true, subtree: true });
-  window.addEventListener(FAVORITES_CHANGED_EVENT, queueRender);
+  new MutationObserver(queueEnhance).observe(document.body, { childList: true, subtree: true });
+  window.addEventListener(FAVORITES_CHANGED_EVENT, refreshFavorites);
   window.addEventListener("storage", (event) => {
-    if (event.key === FAVORITES_STORAGE_KEY) queueRender();
+    if (event.key === FAVORITES_STORAGE_KEY) refreshFavorites();
   });
-  window.addEventListener("popstate", queueRender);
-  queueRender();
+  window.addEventListener("popstate", queueEnhance);
+  refreshFavorites();
 }
 
 start();
