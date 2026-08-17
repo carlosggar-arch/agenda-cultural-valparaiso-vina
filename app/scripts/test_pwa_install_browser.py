@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__pwa_install_test.html"
 FIRST_OPEN_PAGE = APP / "__pwa_first_open_test.html"
+HEADLESS_MOBILE_WIDTH = 500  # Chromium headless en GitHub Actions no baja de este ancho CSS.
 
 REQUIRED_MARKERS = {
     'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
@@ -71,6 +72,26 @@ def source_index() -> str:
     if '<script type="module" src="./pwa.js"></script>' not in source:
         raise AssertionError("Production pwa.js marker not found")
     return source
+
+
+def assert_narrow_header_css_contract() -> None:
+    css = (APP / "share-qr.css").read_text(encoding="utf-8")
+    # Structural mobile layout applies through 700 px and the narrowest real
+    # phones get an additional <=430 px adjustment. This statically protects
+    # the 320/390/430 family that Chromium headless cannot represent exactly.
+    required = (
+        "@media(max-width:700px)",
+        "grid-template-rows:auto auto!important",
+        ".app-header > .header-bottom",
+        "grid-template-columns:repeat(4,max-content)!important",
+        ".header-actions .install-button",
+        "grid-column:1 / -1",
+        "grid-row:2",
+        "@media(max-width:430px)",
+        "max-width:calc(100vw - 66px)!important",
+    )
+    for marker in required:
+        assert marker in css, f"Missing narrow-header CSS contract: {marker}"
 
 
 def make_test_pages() -> None:
@@ -188,31 +209,36 @@ def make_test_pages() -> None:
     FIRST_OPEN_PAGE.write_text(source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
 
 
-def probe_state(dom: str) -> tuple[bool, str]:
-    missing = [message for marker, message in REQUIRED_MARKERS.items() if marker not in dom]
-    match = re.search(r'data-pwa-cards="(\d+)"', dom)
-    if not match or int(match.group(1)) <= 0:
-        missing.append("Installed PWA rendered no event cards")
-    observed = ", ".join(re.findall(r'data-(?:pwa|mobile)-[a-z-]+="[^"]*"', dom)[-14:])
+def marker_state(dom: str, markers: dict[str, str], pattern: str) -> tuple[bool, str]:
+    missing = [message for marker, message in markers.items() if marker not in dom]
+    observed = ", ".join(re.findall(pattern, dom)[-16:])
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no probe attributes'}"
 
 
-def header_layout_state(dom: str, expected_width: int) -> tuple[bool, str]:
-    missing = [message for marker, message in HEADER_LAYOUT_MARKERS.items() if marker not in dom]
+def probe_state(dom: str) -> tuple[bool, str]:
+    ok, state = marker_state(dom, REQUIRED_MARKERS, r'data-(?:pwa|mobile)-[a-z-]+="[^"]*"')
+    match = re.search(r'data-pwa-cards="(\d+)"', dom)
+    if not match or int(match.group(1)) <= 0:
+        return False, f"Installed PWA rendered no event cards; {state}"
+    return ok, state
+
+
+def header_layout_state(dom: str) -> tuple[bool, str]:
+    ok, state = marker_state(dom, HEADER_LAYOUT_MARKERS, r'data-header-[a-z-]+="[^"]*"')
     width_match = re.search(r'data-header-viewport-width="(\d+)"', dom)
-    if not width_match or abs(int(width_match.group(1)) - expected_width) > 1:
-        missing.append(f"Unexpected viewport width (expected {expected_width})")
-    observed = ", ".join(re.findall(r'data-header-[a-z-]+="[^"]*"', dom)[-14:])
-    return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no header probe attributes'}"
+    if not width_match:
+        return False, f"Missing observed viewport width; {state}"
+    observed_width = int(width_match.group(1))
+    if observed_width > HEADLESS_MOBILE_WIDTH + 1:
+        return False, f"Runner left the intended mobile breakpoint: {observed_width}px; {state}"
+    return ok, state
 
 
 def first_open_state(dom: str) -> tuple[bool, str]:
-    missing = [message for marker, message in FIRST_OPEN_MARKERS.items() if marker not in dom]
-    observed = ", ".join(re.findall(r'data-first-open-[a-z-]+="[^"]*"', dom)[-10:])
-    return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no first-open attributes'}"
+    return marker_state(dom, FIRST_OPEN_MARKERS, r'data-first-open-[a-z-]+="[^"]*"')
 
 
-def chrome_command(url: str, profile: str, budget: int, width: int = 390, height: int = 844) -> list[str]:
+def chrome_command(url: str, profile: str, budget: int, width: int = HEADLESS_MOBILE_WIDTH, height: int = 844) -> list[str]:
     return [
         chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
         "--disable-dev-shm-usage", "--disable-background-networking",
@@ -223,12 +249,12 @@ def chrome_command(url: str, profile: str, budget: int, width: int = 390, height
     ]
 
 
-def run_chrome(url: str, width: int = 390) -> str:
+def run_chrome(url: str) -> str:
     errors: list[str] = []
     for attempt in range(1, 4):
-        with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{width}-{attempt}-", ignore_cleanup_errors=True) as profile:
+        with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
             try:
-                result = subprocess.run(chrome_command(url, profile, 18000, width), cwd=ROOT, text=True, capture_output=True, timeout=50)
+                result = subprocess.run(chrome_command(url, profile, 18000), cwd=ROOT, text=True, capture_output=True, timeout=50)
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
@@ -245,20 +271,20 @@ def run_chrome(url: str, width: int = 390) -> str:
     raise AssertionError(f"Installed-PWA probe failed after three isolated attempts: {' | '.join(errors)}")
 
 
-def run_header_layout(url: str, width: int) -> str:
-    with tempfile.TemporaryDirectory(prefix=f"agenda-mobile-header-{width}-", ignore_cleanup_errors=True) as profile:
-        result = subprocess.run(chrome_command(url, profile, 18000, width), cwd=ROOT, text=True, capture_output=True, timeout=50)
+def run_header_layout(url: str) -> str:
+    with tempfile.TemporaryDirectory(prefix="agenda-mobile-header-", ignore_cleanup_errors=True) as profile:
+        result = subprocess.run(chrome_command(url, profile, 18000), cwd=ROOT, text=True, capture_output=True, timeout=50)
     if result.returncode != 0 or not result.stdout:
-        raise AssertionError(f"Header Chrome probe failed at {width}px: exit={result.returncode}; stderr={result.stderr[-1200:]}")
-    ok, state = header_layout_state(result.stdout, width)
+        raise AssertionError(f"Header Chrome probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    ok, state = header_layout_state(result.stdout)
     if not ok:
-        raise AssertionError(f"Header layout failed at {width}px: {state}")
+        raise AssertionError(f"Header layout failed: {state}")
     return result.stdout
 
 
 def run_first_open(url: str) -> str:
     with tempfile.TemporaryDirectory(prefix="agenda-first-open-", ignore_cleanup_errors=True) as profile:
-        result = subprocess.run(chrome_command(url, profile, 6000, 390), cwd=ROOT, text=True, capture_output=True, timeout=30)
+        result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=30)
     if result.returncode != 0 or not result.stdout:
         raise AssertionError(f"First-open Chrome probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
     ok, state = first_open_state(result.stdout)
@@ -269,6 +295,7 @@ def run_first_open(url: str) -> str:
 
 def main() -> None:
     os.chdir(ROOT)
+    assert_narrow_header_css_contract()
     make_test_pages()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
@@ -278,8 +305,7 @@ def main() -> None:
         try:
             first_open_dom = run_first_open(f"http://127.0.0.1:{port}/app/__pwa_first_open_test.html")
             dom = run_chrome(f"http://127.0.0.1:{port}/app/__pwa_install_test.html")
-            for width in (320, 390, 430):
-                run_header_layout(f"http://127.0.0.1:{port}/app/__pwa_install_test.html?install=1", width)
+            run_header_layout(f"http://127.0.0.1:{port}/app/__pwa_install_test.html?install=1")
         finally:
             server.shutdown(); thread.join(timeout=2)
             TEST_PAGE.unlink(missing_ok=True); FIRST_OPEN_PAGE.unlink(missing_ok=True)
@@ -293,8 +319,9 @@ def main() -> None:
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     assert match is not None
     print(
-        "Mobile PWA test: first-open chooser, installed shell, and header at "
-        f"320/390/430px with install-visible simulation validated; {match.group(1)} Valparaiso cards rendered"
+        "Mobile PWA test: first-open chooser, installed shell, live mobile-breakpoint header, "
+        "and 320/390/430 narrow CSS contract validated; "
+        f"{match.group(1)} Valparaiso cards rendered"
     )
 
 
