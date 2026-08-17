@@ -61,6 +61,9 @@ def make_test_page(city: str) -> None:
       document.body.dataset.searchInputVisible = document.querySelector("[data-smart-search]") && searchPopover && !searchPopover.hidden ? "true" : "false";
       document.body.dataset.combinedWorkbench = document.querySelector(".filter-workbench") ? "true" : "false";
       document.body.dataset.combinedWhen = document.querySelector("[data-combined-when]") ? "true" : "false";
+      document.body.dataset.combinedAccess = document.querySelector("[data-combined-access]") ? "true" : "false";
+      document.body.dataset.combinedFormat = document.querySelector("[data-combined-format]") ? "true" : "false";
+      document.body.dataset.combinedAudience = document.querySelector("[data-combined-audience]") ? "true" : "false";
       document.body.dataset.combinedCategories = document.querySelectorAll("[data-combined-category]").length > 0 ? "true" : "false";
       document.body.dataset.priceFilterAbsent = document.querySelector("[data-combined-price]") ? "false" : "true";
       const areaGroup = document.querySelector("[data-area-filter-group]");
@@ -155,6 +158,9 @@ def run_city(city: str, base_url: str) -> None:
     for marker, message in (
         ('data-combined-workbench="true"', "Combined workbench missing"),
         ('data-combined-when="true"', "Date filter missing"),
+        ('data-combined-access="true"', "Access filter missing"),
+        ('data-combined-format="true"', "Format filter missing"),
+        ('data-combined-audience="true"', "Audience filter missing"),
         ('data-combined-categories="true"', "Category filters missing"),
         ('data-price-filter-absent="true"', "Price filter still visible"),
         ('data-filter-actually-changed="true"', "Filter click did not change visible results"),
@@ -190,7 +196,7 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError("Valparaiso category image fallback missing")
     if 'No te lo pierdas' not in dom:
         raise AssertionError(f"Featured badge missing for {city}")
-    print(f"Browser runtime {city}: filters change visible cards and hidden results stay hidden")
+    print(f"Browser runtime {city}: advanced controls render and filters change visible cards")
 
 
 def main() -> None:
