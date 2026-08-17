@@ -17,8 +17,6 @@ def prepare_page(city: str) -> None:
   <script type="module" src="./density-polish.js"></script>
   <script>
     setTimeout(() => {
-      /* Geometry assertions need the filter surface visible even if the
-         synthetic runtime page is between render states at this instant. */
       const discovery = document.querySelector("[data-discovery]");
       if (discovery) discovery.hidden = false;
 
@@ -34,10 +32,8 @@ def prepare_page(city: str) -> None:
       const workbench = document.querySelector(".filter-workbench");
       const dividerStyle = workbench ? getComputedStyle(workbench, "::before") : null;
       const whenGroup = document.querySelector("[data-combined-when]")?.closest(".filter-group");
-      const whenTitle = whenGroup?.querySelector(".when-filter-title");
       const whenGroupStyle = whenGroup ? getComputedStyle(whenGroup) : null;
-      const whenTitleStyle = whenTitle ? getComputedStyle(whenTitle) : null;
-      const whenTitleRect = whenTitle?.getBoundingClientRect();
+      const whenTitleStyle = whenGroup ? getComputedStyle(whenGroup, "::before") : null;
 
       document.body.dataset.densityControlsPosition = controls ? getComputedStyle(controls).position : "missing";
       document.body.dataset.densityControlsTopGap = headerRect && controlsRect ? String(Math.round(controlsRect.top - headerRect.top)) : "999";
@@ -51,10 +47,9 @@ def prepare_page(city: str) -> None:
       ));
       document.body.dataset.densityWhenTitleVisible = String(Boolean(
         whenTitleStyle
+        && whenTitleStyle.content.includes("Cuándo")
         && whenTitleStyle.display !== "none"
         && whenTitleStyle.visibility !== "hidden"
-        && whenTitleStyle.opacity !== "0"
-        && (whenTitleRect?.height || 0) >= 10
       ));
       document.body.dataset.densityWhenLineHeight = String(
         Math.round(Number.parseFloat(whenTitleStyle?.lineHeight || "0"))
