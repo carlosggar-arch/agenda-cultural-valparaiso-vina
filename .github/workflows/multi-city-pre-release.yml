@@ -100,6 +100,7 @@ jobs:
             app/scripts/test_runtime_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
             app/scripts/test_pwa_install_browser.py \
+            app/scripts/test_favorites_browser.py \
             app/scripts/test_density_runtime.py \
             app/scripts/test_contextual_filters.py \
             scripts/generate_event_pages.py
@@ -191,6 +192,7 @@ jobs:
           python app/scripts/test_runtime_browser.py
           python app/scripts/test_schedule_interaction_browser.py
           python app/scripts/test_pwa_install_browser.py
+          python app/scripts/test_favorites_browser.py
           python app/scripts/test_density_runtime.py
 
       - name: Verify production data/runtime isolation
