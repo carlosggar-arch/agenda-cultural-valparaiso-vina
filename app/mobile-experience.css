@@ -1,7 +1,25 @@
 /* Mobile-first polish for the installed and browser PWA experience. */
-/* Desktop keeps the normal header controls. The four app shortcuts are only
-   shown on phone-like/touch layouts or in installed standalone mode. */
+/* Desktop keeps the normal header controls. */
 .mobile-tabbar{display:none!important}
+
+/* Runtime mobile detection is authoritative. This avoids relying on viewport
+   media queries that some Android/iOS browser and PWA combinations report oddly. */
+html[data-mobile-client="true"] .header-bottom{flex-wrap:wrap!important}
+html[data-mobile-client="true"] .app-header .mobile-tabbar,
+html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
+  order:2;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.35rem;
+  width:100%;
+  margin:.45rem 0 0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  position:static!important;
+  inset:auto!important;
+  box-shadow:none!important;
+}
 
 /* Shared visual treatment for the four app shortcuts once a mobile rule enables them. */
 .app-header .mobile-tabbar button{
@@ -31,8 +49,6 @@
 }
 .mobile-tab-icon{font-size:1rem;line-height:1}
 
-/* A dedicated install affordance for mobile browsers. JavaScript creates it
-   only when the page is not already running as an installed app. */
 .mobile-install-cta{
   display:none;
   position:fixed;
@@ -52,13 +68,11 @@
   box-shadow:0 10px 28px rgba(10,45,39,.28);
   white-space:nowrap;
 }
+html[data-mobile-client="true"] .mobile-install-cta{display:block}
 
-/* Event detail rule: no valid image means no decorative media block at all. */
 .event-detail-panel--no-media .event-detail-content{padding-top:1.15rem!important}
 .event-detail-panel--no-media .event-detail-meta{padding-right:3.4rem}
 
-/* Installed PWA: always show the four app shortcuts, regardless of the CSS
-   viewport reported by the standalone WebView. */
 @media(display-mode:standalone){
   .header-bottom{flex-wrap:wrap!important}
   .app-header .mobile-tabbar,
@@ -78,8 +92,6 @@
   }
 }
 
-/* Phone browser fallback. Pointer coarse catches Android/iOS cases where the
-   standalone/browser viewport reports wider than the usual 700 CSS pixels. */
 @media(max-width:700px), (pointer:coarse) and (max-width:1000px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
   .header-bottom{flex-wrap:wrap!important}
