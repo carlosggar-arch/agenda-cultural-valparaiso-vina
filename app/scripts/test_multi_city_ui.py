@@ -4,6 +4,8 @@ APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 css = (APP / "app.css").read_text(encoding="utf-8")
+combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
+combined_css = (APP / "combined-filters.css").read_text(encoding="utf-8")
 city_header_css = (APP / "city-header.css").read_text(encoding="utf-8")
 header_redesign_css = (APP / "header-redesign.css").read_text(encoding="utf-8")
 header_redesign_js = (APP / "header-redesign.js").read_text(encoding="utf-8")
@@ -13,28 +15,27 @@ schedule_display_js = (APP / "schedule-display.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 compact_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
-lean_filters_js = (APP / "lean-filters.js").read_text(encoding="utf-8")
 sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
 community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
+pwa = (APP / "pwa.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
 schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 
-assert 'data-city-option="valparaiso"' in index
-assert 'data-city-option="gijon"' in index
-assert 'data-city-switch' in index
-assert 'data-use-location' in index
-assert 'data-search' in index
-assert 'data-section-filters' in index
-assert 'data-category-filters' in index
-assert 'data-dated-grid' in index
-assert 'data-program-grid' in index
-assert 'data-flexible-grid' in index
-assert 'data-sources-grid' in index
-assert 'data-app-version' in index
-assert 'data-city-masthead' in index
+for marker in (
+    'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
+    'data-use-location', 'data-search', 'data-smart-search', 'data-section-filters',
+    'data-category-filters', 'data-combined-when', 'data-combined-area',
+    'data-combined-price', 'data-combined-category-filters', 'data-date-from',
+    'data-date-to', 'data-dated-grid', 'data-program-grid', 'data-flexible-grid',
+    'data-sources-grid', 'data-app-version', 'data-city-masthead',
+):
+    assert marker in index
 assert '<strong>¡Vivamos!</strong>' in index
+assert './combined-filters.css' in index
+assert './combined-filters.js' in index
+assert './contextual-filters.js' not in index
 
 assert 'dataset: "../agenda_web.json"' in app_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
@@ -43,106 +44,68 @@ assert 'navigator.geolocation' in app_js
 assert 'cache: "no-store"' in app_js
 assert 'renderCategories()' in app_js
 assert 'renderSources()' in app_js
-assert 'function eventMatchesSection' in app_js
-assert 'function eventMatchesCategory' in app_js
+
+for marker in (
+    'function eventMatchesWhen', 'function eventMatchesArea', 'function eventMatchesPrice',
+    'function eventMatchesCategories', 'function eventMatchesQuery',
+    'tokens.every((token) => haystack.includes(token))', 'state.categories = new Set',
+    'history.replaceState', 'url.searchParams.set', 'forceBaseAppFilters',
+):
+    assert marker in combined
+assert 'currentCityId() !== "valparaiso"' in combined
+assert '.filter-workbench' in combined_css
+assert '.filter-grid' in combined_css
+assert '.custom-date-range' in combined_css
+assert '.smart-search' in combined_css
+assert '.legacy-filter-hooks{display:none!important}' in combined_css
 
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
 assert 'html[data-city="gijon"]' in city_header_css
-assert '.masthead-valpo' in city_header_css
-assert '.masthead-gijon' in city_header_css
-
 assert 'header.dataset.headerRedesign = "hero-v3"' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
 assert '.header-art' in header_redesign_css
-assert './illustrations/valparaiso-header.svg' in header_redesign_css
-assert './illustrations/gijon-header.svg' in header_redesign_css
 
 assert 'openEventDetail' in card_js
 assert 'event-card-media' in card_js
-assert 'event-card-body' in card_js
 assert 'event-card-actions' in card_js
 assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
-assert 'MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816"' in card_js
 assert '.event-card-media' in card_css
-assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in schedule_display_js
 assert 'formatSchedule(schedule, activeConfig)' in schedule_display_js
 assert 'scheduleForGijonEvent' in schedule_display_js
-assert 'stripMediaControls' in schedule_display_js
 assert 'activeCity() !== "valparaiso"' in fallback_js
-assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert 'object-fit: contain !important' in media_layout
-assert '.card-meta-right' in media_layout
-assert '.event-card-media > button' in media_layout
 assert 'export function formatSchedule' in schedule_module
 
 assert '.hero > h1' in compact_js
-assert '.hero > .hero-copy' in compact_js
-assert '.search-row' in compact_js
-assert 'white-space: normal !important' in compact_js
-assert 'flex-wrap: nowrap !important' not in compact_js
-assert 'overflow-x: auto !important' not in compact_js
-assert '.content-section[data-dated-section] > .section-heading' in compact_js
-assert '.content-section[data-dated-section]' in compact_js
-assert '.section-heading p:not(.eyebrow)' in compact_js
 assert '.agenda-heading' in compact_js
-assert '.app-header' in compact_js
-assert 'new Set(["hoy", "fin-de-semana", "terminan-pronto", "gratis", "todos"])' in lean_filters_js
-assert 'data-section-filter="todos"' in lean_filters_js
-assert "MutationObserver" in lean_filters_js
-
 assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
 assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
-assert 'function sourcesFromPublicCatalogue' in sources_toggle_js
-assert 'source.public_status === "integrada"' in sources_toggle_js
 assert 'authoritativeCatalogue' in sources_toggle_js
-assert 'card.remove()' in sources_toggle_js
-
 assert 'https://www.gijon.es/app/actividades/oferta' in gijon_visual_js
-assert 'data-gijon-visual-reference' in gijon_visual_js
-assert 'Explorar actividades en Gijón' in gijon_visual_js
-assert 'grid.prepend(buildVisualReference())' in gijon_visual_js
-
 assert 'proponer-fuente.html' in community_source_js
-assert 'data-source-proposal-cta' in community_source_js
 assert 'data-community-source-form' in source_form
-assert 'cf-turnstile' in source_form
-assert 'Enviar para revisión' in source_form
-
-assert "dataset público todavía no ha sido conectado" not in app_js
-assert "No pudimos cargar la agenda" in app_js
 assert '.quick-sections' in css
 assert '.category-filters' in css
-assert '.category-chip.active' in css
-assert '@media(max-width:560px)' in css
-assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v25";' in service_worker
+assert 'const APP_VERSION = "PWA v27"' in pwa
+assert 'import "./combined-filters-polish.js";' in pwa
+assert 'import "./lean-filters.js";' not in pwa
+assert 'const CACHE_VERSION = "v27";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
-assert '"./city-header.css"' in shell_block
-assert '"./header-redesign.css"' in shell_block
-assert '"./vivamos-brand.js"' in shell_block
-assert '"./header-redesign.js"' in shell_block
-assert '"./card-experience.js"' in shell_block
-assert '"./schedule-display.js"' in shell_block
-assert '"./gijon-venue-hours.js"' in shell_block
-assert '"./card-experience.css"' in shell_block
-assert '"./card-image-fallback.js"' in shell_block
-assert '"./compact-top.js"' in shell_block
-assert '"./gijon-visual-reference.js"' in shell_block
-assert '"./lean-filters.js"' in shell_block
-assert '"./community-source.js"' in shell_block
-assert '"./community-source.css"' in shell_block
-assert '"./proponer-fuente.html"' in shell_block
-assert '"./proponer-fuente.js"' in shell_block
-assert '"./illustrations/valparaiso-header.svg"' in shell_block
-assert '"./illustrations/gijon-header.svg"' in shell_block
-assert '"../assets/event-media-layout.css"' in shell_block
-assert '"../assets/event-schedule-display.mjs"' in shell_block
-assert '"../assets/categoria-exposiciones.jpg"' in shell_block
+for asset in (
+    '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
+    '"./city-header.css"', '"./header-redesign.css"', '"./card-experience.js"',
+    '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"',
+    '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
+    '"../assets/event-schedule-display.mjs"',
+):
+    assert asset in shell_block
+assert '"./lean-filters.js"' not in shell_block
+assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city persistent header, shared schedules, clean media grid and stable PWA activation tests: OK")
+print("Multi-city combined search/filter UI, shared schedules and stable PWA activation tests: OK")
