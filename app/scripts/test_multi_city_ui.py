@@ -181,9 +181,9 @@ assert 'function isIosLike()' in pwa
 assert 'function showInstallHelp()' in pwa
 assert 'Añadir a pantalla de inicio' in pwa
 assert 'beforeinstallprompt' in pwa
-assert 'CONFIG = Object.freeze' in plan_ahead
-assert 'valparaiso: { dataset: "../agenda_web.json"' in plan_ahead
-assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in plan_ahead
+assert 'loadCityRegistry' in plan_ahead
+assert 'const CONFIG = CITY_REGISTRY.byId' in plan_ahead
+assert 'fetch(config.dataset' in plan_ahead
 assert 'Planifica con anticipación' in plan_ahead
 assert 'selectPlanAhead' in plan_ahead
 assert 'article.dataset.eventId' in plan_ahead
@@ -202,8 +202,9 @@ assert 'export function favoritesForCity' in favorites_core
 assert 'buildFavoriteToggle' in favorites_view
 assert 'buildMyPlansSection' in favorites_view
 assert 'Mis planes' in favorites_view
-assert 'valparaiso: { dataset: "../agenda_web.json"' in favorites
-assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in favorites
+assert 'loadCityRegistry' in favorites
+assert 'const CONFIG = CITY_REGISTRY.byId' in favorites
+assert 'fetch(CONFIG[city].dataset' in favorites
 assert 'dialog[data-event-detail]' in favorites
 assert 'data-favorite-toggle' in favorites
 assert '.my-plans-section' in favorites_css
