@@ -16,6 +16,9 @@ web_enhancements = Path("assets/web-event-enhancements.js").read_text(encoding="
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
 schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 app_schedule = Path("app/schedule-display.js").read_text(encoding="utf-8")
+favorites_view = Path("assets/favorites-view.mjs").read_text(encoding="utf-8")
+favorites_reminders = Path("assets/favorites-reminders.mjs").read_text(encoding="utf-8")
+favorites_css = Path("assets/favorites.css").read_text(encoding="utf-8")
 
 for marker in (
     "function eventMatchesWhen", "function eventMatchesArea",
@@ -102,20 +105,28 @@ assert 'const APP_VERSION = "PWA v33"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
-assert 'const CACHE_VERSION = "v36"' in service_worker
+assert 'const CACHE_VERSION = "v40"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
 assert '"./compact-top.css"' in service_worker
 assert '"./plan-ahead.js"' in service_worker
 assert '"./favorites.js"' in service_worker
+assert '"./mis-planes.html"' in service_worker
 assert '"../assets/plan-ahead-core.mjs"' in service_worker
 assert '"../assets/plan-ahead.css"' in service_worker
 assert '"../assets/favorites-core.mjs"' in service_worker
 assert '"../assets/favorites-view.mjs"' in service_worker
+assert '"../assets/favorites-reminders.mjs"' in service_worker
 assert '"../assets/favorites.css"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
+
+assert 'reminderOptionsForEvent' in favorites_view
+assert 'downloadReminderIcs' in favorites_view
+assert 'BEGIN:VALARM' in favorites_reminders
+assert 'TRIGGER:${option.trigger}' in favorites_reminders
+assert '.my-plan-reminder' in favorites_css
 
 assert '<div class="mosaic-top"' in root_index
 assert '<div class="mosaic-wave"' in root_index
@@ -135,4 +146,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact filters, plan-ahead and favorites with PWA cache v36: OK")
+print("Semantic search plus compact filters, favorites reminders and PWA cache v40: OK")
