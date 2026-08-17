@@ -1,0 +1,70 @@
+name: Complete Stage 3.2 usage analytics
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "assets/usage-analytics.js"
+      - "scripts/stage32_wire_analytics.py"
+      - "tests/test_stage32_analytics.py"
+      - ".github/workflows/apply-stage32-analytics.yml"
+  push:
+    branches: [main]
+    paths:
+      - "assets/usage-analytics.js"
+      - "scripts/stage32_wire_analytics.py"
+      - "tests/test_stage32_analytics.py"
+      - ".github/workflows/apply-stage32-analytics.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32-analytics-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate-and-apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply analytics wiring in workspace
+        run: |
+          set -euo pipefail
+          python scripts/stage32_wire_analytics.py
+
+      - name: Validate privacy contract and integration
+        run: |
+          set -euo pipefail
+          node --check assets/usage-analytics.js
+          node --check app/pwa.js
+          node --check assets/web-event-enhancements.js
+          node --check assets/event-page.js
+          python -m unittest discover -s tests -p 'test_stage32_analytics.py' -v
+          git diff --check
+
+      - name: Commit permanent Stage 3.2 wiring to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          rm -f scripts/stage32_wire_analytics.py .github/workflows/apply-stage32-analytics.yml
+          git config user.name "agenda-cultural-stage32[bot]"
+          git config user.email "agenda-cultural-stage32[bot]@users.noreply.github.com"
+          git add -A assets/usage-analytics.js app/pwa.js app/service-worker.js assets/web-event-enhancements.js assets/event-page.js tests/test_stage32_analytics.py scripts .github/workflows
+          if git diff --cached --quiet; then
+            echo "Stage 3.2 frontend already synchronized."
+            exit 0
+          fi
+          git commit -m "Enable privacy-first Stage 3.2 usage analytics"
+          git pull --rebase origin main
+          git push origin HEAD:main
