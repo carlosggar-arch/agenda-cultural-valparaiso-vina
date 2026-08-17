@@ -66,8 +66,9 @@ assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
 assert 'MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816"' in card_js
 assert '.event-card-media' in card_css
-assert 'from "../assets/event-schedule-display.mjs"' in schedule_display_js
-assert 'formatSchedule(event.schedule, activeConfig)' in schedule_display_js
+assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in schedule_display_js
+assert 'formatSchedule(schedule, activeConfig)' in schedule_display_js
+assert 'scheduleForGijonEvent' in schedule_display_js
 assert 'stripMediaControls' in schedule_display_js
 assert 'activeCity() !== "valparaiso"' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
@@ -121,7 +122,7 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v23";' in service_worker
+assert 'const CACHE_VERSION = "v24";' in service_worker
 assert "refreshOpenWindows" in service_worker
 assert "client.navigate(client.url)" in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
@@ -131,6 +132,7 @@ assert '"./vivamos-brand.js"' in shell_block
 assert '"./header-redesign.js"' in shell_block
 assert '"./card-experience.js"' in shell_block
 assert '"./schedule-display.js"' in shell_block
+assert '"./gijon-venue-hours.js"' in shell_block
 assert '"./card-experience.css"' in shell_block
 assert '"./card-image-fallback.js"' in shell_block
 assert '"./compact-top.js"' in shell_block
