@@ -71,7 +71,7 @@ function limitedCapacity(event) {
     ...(event?.tags || []),
     event?.public_status?.advisory_text,
   ].map(text).join(" ").toLocaleLowerCase("es");
-  return /\b(cupos? limitad|plazas? limitad|aforo limitad|hasta agotar (?:cupos|plazas)|aforo reducido)\b/.test(haystack);
+  return /\b(cupos? limitad[oa]s?|plazas? limitad[oa]s?|aforo limitad[oa]?|hasta agotar (?:cupos|plazas)|aforo reducido)\b/.test(haystack);
 }
 
 function registrationDeadline(event) {
