@@ -86,9 +86,11 @@ jobs:
           grep -F '<div class="footer-mosaic"' index.html
           grep -F './assets/web-event-enhancements.js' index.html
           ! grep -F 'window.location.replace(target.href)' index.html
-          grep -F 'const APP_VERSION = "PWA v24"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v24"' app/service-worker.js
+          grep -F 'const APP_VERSION = "PWA v25"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v25"' app/service-worker.js
           grep -F '"./gijon-venue-hours.js"' app/service-worker.js
+          ! grep -F 'client.navigate(' app/service-worker.js
+          ! grep -F 'refreshOpenWindows' app/service-worker.js
           grep -F 'object-fit: contain !important' assets/event-media-layout.css
           grep -F '.card-media > button' assets/event-media-layout.css
           grep -F 'export function formatSchedule' assets/event-schedule-display.mjs
