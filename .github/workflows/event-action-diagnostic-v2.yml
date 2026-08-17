@@ -1,0 +1,33 @@
+name: Event interaction validation v2
+
+on:
+  push:
+    branches:
+      - fix/event-action-interactions-v2
+    paths:
+      - "app/**"
+      - ".github/workflows/event-action-diagnostic-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Checkout repair branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate syntax
+        run: |
+          python -m py_compile app/scripts/test_runtime_browser.py app/scripts/test_event_actions_browser.py
+          node --check app/event-detail.js
+          node --check app/mobile-experience.js
+          node --check app/service-worker.js
+      - name: Exercise physical event controls
+        run: python app/scripts/test_event_actions_browser.py
