@@ -17,7 +17,7 @@ import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
-const APP_VERSION = "PWA v38";
+const APP_VERSION = "PWA v39";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -26,11 +26,6 @@ const installButton = document.querySelector("[data-install-app]");
 
 function isRunningStandalone() {
   return window.matchMedia?.("(display-mode: standalone)").matches || window.navigator.standalone === true;
-}
-
-function isIosLike() {
-  const ua = navigator.userAgent || "";
-  return /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 }
 
 function hideInstallButton() {
@@ -47,7 +42,7 @@ function installHelpElement() {
   backdrop.className = "chooser-backdrop";
   backdrop.dataset.installHelpBackdrop = "true";
   backdrop.hidden = true;
-  backdrop.innerHTML = `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Añádela a tu pantalla de inicio</h2><p>En iPhone o iPad, abre el menú <strong>Compartir</strong> del navegador y elige <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
+  backdrop.innerHTML = `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Añádela a tu pantalla de inicio</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
   document.body.append(backdrop);
   const close = () => { backdrop.hidden = true; };
   backdrop.querySelector("[data-install-help-close]")?.addEventListener("click", close);
@@ -61,18 +56,27 @@ function showInstallHelp() {
 }
 
 function setupInstallExperience() {
-  if (!installButton || isRunningStandalone()) return;
-  if (isIosLike()) {
-    installButton.hidden = false;
-    installButton.addEventListener("click", showInstallHelp);
+  if (!installButton) return;
+  if (isRunningStandalone()) {
+    hideInstallButton();
+    return;
   }
+
+  // Always expose an install option on mobile/browser mode. If the browser
+  // later provides the native install prompt, the same button uses it.
+  installButton.hidden = false;
+
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
     installButton.hidden = false;
   });
+
   installButton.addEventListener("click", async () => {
-    if (!deferredInstallPrompt) return;
+    if (!deferredInstallPrompt) {
+      showInstallHelp();
+      return;
+    }
     const promptEvent = deferredInstallPrompt;
     deferredInstallPrompt = null;
     installButton.disabled = true;
@@ -87,9 +91,11 @@ function setupInstallExperience() {
     } catch (error) {
       installButton.disabled = false;
       installButton.hidden = false;
+      showInstallHelp();
       console.warn("¡Vivamos!: install prompt unavailable", error);
     }
   });
+
   window.addEventListener("appinstalled", hideInstallButton, { once: true });
 }
 
