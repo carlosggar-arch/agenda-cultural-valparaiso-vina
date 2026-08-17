@@ -3,6 +3,7 @@ from pathlib import Path
 combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
 combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
 polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
+compact = Path("app/compact-top.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
 sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
@@ -45,17 +46,31 @@ assert './contextual-filters.js' not in app_index
 assert '.filter-workbench' in combined_css
 assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
-assert '.search-help' in combined_css
+assert '.search-help,.filter-note{display:none!important}' in combined_css
 assert '.filter-group--wide' in combined_css
 assert '.legacy-filter-hooks' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
 assert 'function clearLegacyPriceState()' in polish
 assert 'url.searchParams.delete("price")' in polish
-assert 'function queueFilterResync()' in polish
-assert 'new MutationObserver(queueFilterResync)' in polish
-assert '"access", "format", "aud"' in polish
+assert 'new MutationObserver(queueFilterResync)' not in polish
+assert 'Do not observe event-grid childList mutations here.' in polish
 assert '.agenda-heading { display: flex !important;' in polish
 assert 'preserveScrollDuringLegacyClick' in polish
+
+# Keep the compact production surface introduced after the first combined-filter release.
+assert '.filter-workbench-heading,' in compact
+assert '.filter-help {' in compact
+assert 'display: none !important;' in compact
+assert '.filter-workbench {' in compact
+assert 'padding: .58rem !important;' in compact
+assert '.filter-group {' in compact
+assert 'padding: .56rem .62rem !important;' in compact
+assert '.filter-choice {' in compact
+assert 'padding: .39rem .54rem !important;' in compact
+assert '.category-filters {' in compact
+assert 'gap: .32rem !important;' in compact
+assert '@media (max-width: 560px)' in compact
+assert 'padding: .46rem !important;' in compact
 
 assert "function enforceQuickFilterVisibility()" in density
 assert 'id !== "todos" && count === 0' in density
@@ -95,4 +110,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Advanced semantic search and combined date/area/access/format/audience/category filters: OK")
+print("Advanced search and combined filters stay compact, stable and shareable: OK")
