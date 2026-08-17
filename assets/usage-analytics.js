@@ -1,6 +1,7 @@
 (() => {
   const ENDPOINT = "https://agenda-cultural-community.carlosggar.workers.dev/community/v1/analytics/events";
-  const disabled = navigator.globalPrivacyControl === true || navigator.doNotTrack === "1" || window.doNotTrack === "1";
+  const PUBLIC_ORIGIN = "https://carlosggar-arch.github.io";
+  const disabled = location.origin !== PUBLIC_ORIGIN || navigator.globalPrivacyControl === true || navigator.doNotTrack === "1" || window.doNotTrack === "1";
   const queue = [];
   let timer = 0;
   let appOpenSent = false;
@@ -56,6 +57,7 @@
   };
 
   const sendInitialView = () => {
+    if (disabled) return;
     if (document.body?.dataset.eventPage !== undefined) {
       track("event_open", { dimension: "surface", value: "permalink", node: document.body });
       return;
@@ -75,6 +77,7 @@
   };
 
   document.addEventListener("click", (event) => {
+    if (disabled) return;
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
     const city = target.closest("[data-city-option]");
@@ -105,6 +108,7 @@
   }, true);
 
   document.addEventListener("change", (event) => {
+    if (disabled) return;
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
     if (target.matches("[data-filter-period]")) track("filter_use", { dimension: "when", value: target.value || "todos" });
@@ -116,6 +120,7 @@
   }, true);
 
   document.addEventListener("input", (event) => {
+    if (disabled) return;
     const input = event.target instanceof HTMLInputElement ? event.target : null;
     if (!input?.matches("[data-smart-search], [data-filter-query]")) return;
     window.clearTimeout(searchTimers.get(input));
@@ -129,10 +134,12 @@
   }, true);
 
   window.addEventListener("appinstalled", () => track("app_install", { dimension: "surface", value: "pwa" }));
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flush(); });
+  document.addEventListener("visibilitychange", () => { if (!disabled && document.visibilityState === "hidden") flush(); });
   window.addEventListener("pagehide", flush);
   window.AgendaUsageAnalytics = Object.freeze({ track, flush, disabled });
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", sendInitialView, { once: true });
-  else sendInitialView();
+  if (!disabled) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", sendInitialView, { once: true });
+    else sendInitialView();
+  }
 })();
