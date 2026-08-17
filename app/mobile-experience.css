@@ -1,21 +1,9 @@
 /* Mobile-first polish for the installed and browser PWA experience. */
-/* The four primary app shortcuts must always exist visually in /app/.
-   Do not gate them on viewport width, standalone detection or hidden state. */
-.app-header .mobile-tabbar,
-.app-header .mobile-tabbar[hidden]{
-  order:2;
-  display:grid!important;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:.35rem;
-  width:100%;
-  margin:.45rem 0 0!important;
-  padding:0!important;
-  border:0!important;
-  background:transparent!important;
-  position:static!important;
-  inset:auto!important;
-  box-shadow:none!important;
-}
+/* Desktop keeps the normal header controls. The four app shortcuts are only
+   shown on phone-like/touch layouts or in installed standalone mode. */
+.mobile-tabbar{display:none!important}
+
+/* Shared visual treatment for the four app shortcuts once a mobile rule enables them. */
 .app-header .mobile-tabbar button{
   min-width:0;
   min-height:44px;
@@ -43,29 +31,75 @@
 }
 .mobile-tab-icon{font-size:1rem;line-height:1}
 
-/* Event detail rule: no valid image means no decorative media block at all.
-   Keep room only for the floating close button, not for a fake hero. */
-.event-detail-panel--no-media .event-detail-content{
-  padding-top:1.15rem!important;
+/* A dedicated install affordance for mobile browsers. JavaScript creates it
+   only when the page is not already running as an installed app. */
+.mobile-install-cta{
+  display:none;
+  position:fixed;
+  z-index:80;
+  left:50%;
+  bottom:calc(.8rem + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);
+  min-height:48px;
+  padding:.72rem 1.05rem;
+  border:0;
+  border-radius:999px;
+  background:var(--header-control,#174f46);
+  color:#fff;
+  font:inherit;
+  font-size:.9rem;
+  font-weight:800;
+  box-shadow:0 10px 28px rgba(10,45,39,.28);
+  white-space:nowrap;
 }
-.event-detail-panel--no-media .event-detail-meta{
-  padding-right:3.4rem;
-}
 
-/* Installed PWA: never depend on a viewport breakpoint for the four primary
-   shortcuts. Some standalone WebViews report a wider CSS viewport than the
-   physical phone width. */
-html[data-standalone="true"] .header-bottom{flex-wrap:wrap!important}
+/* Event detail rule: no valid image means no decorative media block at all. */
+.event-detail-panel--no-media .event-detail-content{padding-top:1.15rem!important}
+.event-detail-panel--no-media .event-detail-meta{padding-right:3.4rem}
 
-@media(max-width:700px){
-  body{padding-bottom:env(safe-area-inset-bottom,0px)}
-
-  /* Keep the four primary shortcuts in the top header. The former bottom
-     tabbar stays retired; this nav is part of .header-bottom instead. */
+/* Installed PWA: always show the four app shortcuts, regardless of the CSS
+   viewport reported by the standalone WebView. */
+@media(display-mode:standalone){
   .header-bottom{flex-wrap:wrap!important}
+  .app-header .mobile-tabbar,
+  .app-header .mobile-tabbar[hidden]{
+    order:2;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:.35rem;
+    width:100%;
+    margin:.45rem 0 0!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    position:static!important;
+    inset:auto!important;
+    box-shadow:none!important;
+  }
+}
 
-  /* Let the mobile header size itself from its real content. A fixed ~200px
-     minimum left a large empty block above the agenda on phones. */
+/* Phone browser fallback. Pointer coarse catches Android/iOS cases where the
+   standalone/browser viewport reports wider than the usual 700 CSS pixels. */
+@media(max-width:700px), (pointer:coarse) and (max-width:1000px){
+  body{padding-bottom:env(safe-area-inset-bottom,0px)}
+  .header-bottom{flex-wrap:wrap!important}
+  .app-header .mobile-tabbar,
+  .app-header .mobile-tabbar[hidden]{
+    order:2;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:.35rem;
+    width:100%;
+    margin:.45rem 0 0!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    position:static!important;
+    inset:auto!important;
+    box-shadow:none!important;
+  }
+  .mobile-install-cta{display:block}
+
   .app-header{
     min-height:0!important;
     height:auto!important;
@@ -78,23 +112,13 @@ html[data-standalone="true"] .header-bottom{flex-wrap:wrap!important}
   .header-search-toggle,.install-button,.city-switch,
   .filter-choice,.category-chip,.clear-filters,
   .card-action,.event-detail-action,.my-plan-action,
-  .favorite-toggle,.chooser button{
-    min-height:44px!important;
-  }
+  .favorite-toggle,.chooser button{min-height:44px!important}
   .header-search-toggle{width:44px!important;min-width:44px!important}
   .favorite-toggle{width:44px!important;height:44px!important}
 
-  /* A real event image is useful, but it should not dominate a phone screen. */
-  .event-detail-media{
-    height:min(22vh,160px)!important;
-  }
-  .event-detail-panel--no-media .event-detail-content{
-    padding-top:1rem!important;
-  }
-  .event-detail-panel--no-media .event-detail-close{
-    top:.65rem!important;
-    right:.65rem!important;
-  }
+  .event-detail-media{height:min(22vh,160px)!important}
+  .event-detail-panel--no-media .event-detail-content{padding-top:1rem!important}
+  .event-detail-panel--no-media .event-detail-close{top:.65rem!important;right:.65rem!important}
 
   .chooser-backdrop{
     place-items:end stretch!important;
@@ -153,9 +177,7 @@ html[data-standalone="true"] .header-bottom{flex-wrap:wrap!important}
   [data-selection-required="true"] .chooser h2{font-size:1.9rem!important}
   [data-selection-required="true"] .privacy-note{margin-top:.65rem!important}
 
-  html[data-standalone="true"] .app-header{
-    padding-top:calc(.8rem + env(safe-area-inset-top,0px))!important;
-  }
+  html[data-standalone="true"] .app-header{padding-top:calc(.8rem + env(safe-area-inset-top,0px))!important}
   html[data-standalone="true"] footer{padding-bottom:1rem}
 }
 
