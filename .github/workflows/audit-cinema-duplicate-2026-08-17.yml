@@ -1,0 +1,40 @@
+name: Inspect sole semantic duplicate candidate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/audit-cinema-duplicate-2026-08-17.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print candidate sessions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          payload=json.loads(Path('agenda_web.json').read_text(encoding='utf-8'))
+          target={'agenda_cinema_9531c9ead643b3490477','agenda_cinema_67a31fdf4c9667dca84d'}
+          rows=[]
+          for e in payload.get('events',[]):
+              if e.get('id') in target:
+                  rows.append({
+                      'id':e.get('id'),
+                      'title':e.get('title'),
+                      'schedule':e.get('schedule'),
+                      'location':e.get('location'),
+                      'source_name':e.get('source_name'),
+                      'source_url':e.get('source_url'),
+                      'links':e.get('links'),
+                  })
+          print('CINEMA_DUPLICATE_CANDIDATE',json.dumps(rows,ensure_ascii=False,sort_keys=True))
+          assert len(rows)==2, rows
+          starts=[str((r.get('schedule') or {}).get('start') or '') for r in rows]
+          assert len(set(starts))==2, starts
+          PY
