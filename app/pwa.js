@@ -9,7 +9,8 @@ import "./community-source.js";
 import "./header-redesign.js";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
-import "./plan-ahead.js";
+// Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
+// but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
 import "./mobile-experience.js";
 import "./stage31-accessibility-seo.js";

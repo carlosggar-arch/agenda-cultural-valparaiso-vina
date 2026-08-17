@@ -1,5 +1,8 @@
-const STORAGE_KEY = "agenda-cultural-city";
-const SUPPORTED_CITIES = new Set(["valparaiso", "gijon"]);
+import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+
+const CITY_REGISTRY = await loadCityRegistry();
+const STORAGE_KEY = CITY_STORAGE_KEY;
+const SUPPORTED_CITIES = new Set(CITY_REGISTRY.cities.map((city) => city.id));
 const requestedCity = new URLSearchParams(window.location.search).get("city");
 const initialPreference = window.__agendaInitialCityPreference ?? null;
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
@@ -7,7 +10,7 @@ const chooserClose = document.querySelector("[data-chooser-close]");
 const chooserTitle = document.querySelector("#chooser-title");
 const chooserIntro = document.querySelector("[data-chooser] > p:not(.eyebrow)");
 const citySwitch = document.querySelector("[data-city-switch]");
-const cityOptions = document.querySelectorAll("[data-city-option]");
+const cityOptions = document.querySelector("[data-city-options]");
 const useLocation = document.querySelector("[data-use-location]");
 
 function currentSavedCity() {
@@ -61,7 +64,9 @@ async function maybeUsePreviouslyGrantedLocation() {
 
 if (!hasExplicitInitialCity()) maybeUsePreviouslyGrantedLocation();
 
-cityOptions.forEach((button) => button.addEventListener("click", releaseRequiredSelection, { once: true }));
+cityOptions?.addEventListener("click", (event) => {
+  if (event.target.closest("[data-city-option]")) releaseRequiredSelection();
+});
 
 chooserBackdrop?.addEventListener("click", (event) => {
   if (!selectionIsRequired() || event.target !== chooserBackdrop) return;

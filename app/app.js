@@ -1,29 +1,9 @@
-const STORAGE_KEY = "agenda-cultural-city";
+import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 
-const CITIES = Object.freeze({
-  valparaiso: {
-    id: "valparaiso",
-    label: "Valparaíso / Viña del Mar",
-    subtitle: "Valparaíso / Viña del Mar",
-    country: "Chile",
-    timezone: "America/Santiago",
-    locale: "es-CL",
-    dataset: "../agenda_web.json",
-    center: { lat: -33.02, lon: -71.55 },
-    radiusKm: 55,
-  },
-  gijon: {
-    id: "gijon",
-    label: "Gijón / Xixón",
-    subtitle: "Gijón / Xixón",
-    country: "España",
-    timezone: "Europe/Madrid",
-    locale: "es-ES",
-    dataset: "./data/gijon/agenda_web.json",
-    center: { lat: 43.5322, lon: -5.6611 },
-    radiusKm: 45,
-  },
-});
+const CITY_REGISTRY = await loadCityRegistry();
+const STORAGE_KEY = CITY_STORAGE_KEY;
+const CITIES = CITY_REGISTRY.byId;
+const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId;
 
 const SECTION_META = Object.freeze({
   hoy: { label: "Hoy", empty: "No hay actividades con fecha para hoy." },
@@ -39,7 +19,7 @@ const dom = {
   chooserBackdrop: document.querySelector("[data-chooser-backdrop]"),
   chooserClose: document.querySelector("[data-chooser-close]"),
   chooserMessage: document.querySelector("[data-chooser-message]"),
-  cityOptions: document.querySelectorAll("[data-city-option]"),
+  cityOptionsContainer: document.querySelector("[data-city-options]"),
   useLocation: document.querySelector("[data-use-location]"),
   citySwitch: document.querySelector("[data-city-switch]"),
   citySwitchLabel: document.querySelector("[data-city-switch-label]"),
@@ -102,6 +82,36 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function renderCityOptions() {
+  const fragment = document.createDocumentFragment();
+  for (const city of CITY_REGISTRY.cities) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = ["city-option", city?.visual?.option_class].filter(Boolean).join(" ");
+    button.dataset.cityOption = city.id;
+
+    const symbol = document.createElement("span");
+    symbol.className = ["city-symbol", city?.visual?.symbol_class].filter(Boolean).join(" ");
+    symbol.setAttribute("aria-hidden", "true");
+    const partCount = Math.max(1, Number(city?.visual?.symbol_parts || 1));
+    for (let index = 0; index < partCount; index += 1) symbol.append(document.createElement("i"));
+
+    const copy = document.createElement("span");
+    const strong = document.createElement("strong");
+    strong.textContent = city.label;
+    const small = document.createElement("small");
+    small.textContent = city.chooser_detail || city.country || "Agenda local";
+    copy.append(strong, small);
+
+    const arrow = document.createElement("span");
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "→";
+    button.append(symbol, copy, arrow);
+    fragment.append(button);
+  }
+  dom.cityOptionsContainer?.replaceChildren(fragment);
 }
 
 function readSavedCity() {
@@ -537,8 +547,10 @@ async function loadCity(id) {
   saveCity(id);
   hideChooser();
 
-  document.documentElement.lang = id === "gijon" ? "es-ES" : "es-CL";
+  document.documentElement.lang = city.lang || city.locale || "es";
   document.documentElement.dataset.city = id;
+  const theme = document.querySelector('meta[name="theme-color"]');
+  if (theme && city.theme_color) theme.setAttribute("content", city.theme_color);
   document.title = `Agenda Cultural · ${city.label}`;
   dom.citySwitchLabel.textContent = city.label;
   dom.citySubtitle.textContent = city.subtitle;
@@ -590,7 +602,7 @@ function suggestCityFromCoordinates(lat, lon) {
     .map((city) => ({ city, distance: haversineKm(point, city.center) }))
     .sort((a, b) => a.distance - b.distance);
   const nearest = ranked[0];
-  return nearest && nearest.distance <= nearest.city.radiusKm ? nearest.city.id : null;
+  return nearest && nearest.distance <= nearest.city.radius_km ? nearest.city.id : null;
 }
 
 function useLocation() {
@@ -618,7 +630,10 @@ function useLocation() {
   );
 }
 
-dom.cityOptions.forEach((button) => button.addEventListener("click", () => loadCity(button.dataset.cityOption)));
+dom.cityOptionsContainer?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-city-option]");
+  if (button) loadCity(button.dataset.cityOption);
+});
 dom.citySwitch.addEventListener("click", () => showChooser(false));
 dom.chooserClose.addEventListener("click", hideChooser);
 dom.useLocation.addEventListener("click", useLocation);
@@ -642,6 +657,8 @@ dom.chooserBackdrop.addEventListener("click", (event) => { if (event.target === 
 
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && activeCity) hideChooser(); });
 
-const savedCity = readSavedCity();
-if (savedCity) loadCity(savedCity);
-else showChooser(true);
+renderCityOptions();
+const requestedCity = new URLSearchParams(window.location.search).get("city");
+const initialCity = CITIES[requestedCity] ? requestedCity : readSavedCity();
+if (initialCity) loadCity(initialCity);
+else if (CITIES[DEFAULT_CITY_ID]) showChooser(true);

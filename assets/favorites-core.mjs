@@ -1,7 +1,7 @@
+import { isSafeCityId, normalizeCityId } from "./city-registry.mjs?v=20260817-city-registry";
+
 export const FAVORITES_STORAGE_KEY = "agenda-cultural-favorites-v1";
 export const FAVORITES_CHANGED_EVENT = "agenda-cultural-favorites-changed";
-
-const SUPPORTED_CITIES = new Set(["valparaiso", "gijon"]);
 
 function text(value) {
   return String(value ?? "").trim();
@@ -18,15 +18,15 @@ function safeHttpUrl(value) {
 }
 
 export function favoriteKey(city, id) {
-  const normalizedCity = text(city).toLocaleLowerCase("es");
+  const normalizedCity = normalizeCityId(city);
   const normalizedId = text(id);
-  if (!SUPPORTED_CITIES.has(normalizedCity) || !normalizedId) return null;
+  if (!isSafeCityId(normalizedCity) || !normalizedId) return null;
   return `${normalizedCity}:${normalizedId}`;
 }
 
 export function normalizeFavorite(value) {
   if (!value || typeof value !== "object") return null;
-  const city = text(value.city).toLocaleLowerCase("es");
+  const city = normalizeCityId(value.city);
   const id = text(value.id);
   const key = favoriteKey(city, id);
   if (!key) return null;
@@ -124,6 +124,6 @@ export function emitFavoritesChanged(detail = {}) {
 }
 
 export function favoritesForCity(city, storage = null) {
-  const normalizedCity = text(city).toLocaleLowerCase("es");
+  const normalizedCity = normalizeCityId(city);
   return loadFavorites(storage).filter((item) => item.city === normalizedCity);
 }

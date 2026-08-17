@@ -100,14 +100,14 @@
     </section>
   </main>
 
-  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v33</small></footer>
+  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v34</small></footer>
 
-  <div class="chooser-backdrop" hidden data-chooser-backdrop><section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser><button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button><p class="eyebrow">¡Vivamos!</p><h2 id="chooser-title">Cambiar ciudad</h2><p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p><div class="city-options"><button type="button" class="city-option city-option--valpo" data-city-option="valparaiso"><span class="city-symbol valpo-symbol" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Valparaíso / Viña del Mar</strong><small>Chile · costa, cerros y color</small></span><span aria-hidden="true">→</span></button><button type="button" class="city-option city-option--gijon" data-city-option="gijon"><span class="city-symbol gijon-symbol" aria-hidden="true"><i></i><i></i></span><span><strong>Gijón / Xixón</strong><small>Asturias · Cantábrico y horizonte</small></span><span aria-hidden="true">→</span></button></div><button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button><p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p><p class="chooser-message" data-chooser-message aria-live="polite"></p></section></div>
+  <div class="chooser-backdrop" hidden data-chooser-backdrop><section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser><button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button><p class="eyebrow">¡Vivamos!</p><h2 id="chooser-title">Cambiar ciudad</h2><p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p><div class="city-options" data-city-options></div><button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button><p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p><p class="chooser-message" data-chooser-message aria-live="polite"></p></section></div>
 
   <script>
     (() => {
       const STORAGE_KEY = "agenda-cultural-city";
-      const supported = new Set(["valparaiso", "gijon"]);
+      const safeCity = (value) => /^[a-z0-9][a-z0-9-]{0,63}$/.test(String(value || "").trim().toLowerCase());
       const stripRemovedFilters = () => {
         const url = new URL(window.location.href);
         let changed = false;
@@ -123,24 +123,17 @@
       const requested = new URLSearchParams(window.location.search).get("city");
       let saved = null;
       try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
-      const hasExplicitCity = supported.has(requested) || supported.has(saved);
-      let city = supported.has(requested) ? requested : supported.has(saved) ? saved : "valparaiso";
-      if (hasExplicitCity) {
-        try { localStorage.setItem(STORAGE_KEY, city); } catch {}
-      }
-      document.documentElement.dataset.city = city;
-      const themeColors = { valparaiso: "#174f46", gijon: "#0d5e73" };
+      let city = safeCity(requested) ? requested : safeCity(saved) ? saved : "";
+      if (city) document.documentElement.dataset.city = city;
+      if (safeCity(requested)) { try { localStorage.setItem(STORAGE_KEY, requested); } catch {} }
       const applyCityChrome = () => {
-        const nextCity = supported.has(document.documentElement.dataset.city) ? document.documentElement.dataset.city : "valparaiso";
-        const theme = document.querySelector('meta[name="theme-color"]');
-        if (theme) theme.setAttribute("content", themeColors[nextCity]);
-        if (nextCity !== city) {
-          city = nextCity;
-          try { localStorage.setItem(STORAGE_KEY, city); } catch {}
-          const url = new URL(window.location.href);
-          url.searchParams.set("city", city);
-          history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-        }
+        const nextCity = String(document.documentElement.dataset.city || "").trim().toLowerCase();
+        if (!safeCity(nextCity) || nextCity === city) return;
+        city = nextCity;
+        try { localStorage.setItem(STORAGE_KEY, city); } catch {}
+        const url = new URL(window.location.href);
+        url.searchParams.set("city", city);
+        history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
       };
       applyCityChrome();
       new MutationObserver(applyCityChrome).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });

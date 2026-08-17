@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "default_city": "valparaiso",
+  "cities": [
+    {
+      "id": "valparaiso",
+      "label": "Valparaíso / Viña del Mar",
+      "subtitle": "Valparaíso / Viña del Mar",
+      "country": "Chile",
+      "chooser_detail": "Chile · costa, cerros y color",
+      "timezone": "America/Santiago",
+      "locale": "es-CL",
+      "lang": "es-CL",
+      "dataset": "../agenda_web.json",
+      "theme_color": "#174f46",
+      "center": { "lat": -33.02, "lon": -71.55 },
+      "radius_km": 55,
+      "visual": {
+        "option_class": "city-option--valpo",
+        "symbol_class": "valpo-symbol",
+        "symbol_parts": 3
+      },
+      "areas": [
+        { "id": "todos", "label": "Valpo + Viña", "match": [] },
+        { "id": "valparaiso", "label": "Valparaíso", "match": ["valparaiso"] },
+        { "id": "vina", "label": "Viña del Mar", "match": ["vina del mar", "vina"] }
+      ]
+    },
+    {
+      "id": "gijon",
+      "label": "Gijón / Xixón",
+      "subtitle": "Gijón / Xixón",
+      "country": "España",
+      "chooser_detail": "Asturias · Cantábrico y horizonte",
+      "timezone": "Europe/Madrid",
+      "locale": "es-ES",
+      "lang": "es-ES",
+      "dataset": "./data/gijon/agenda_web.json",
+      "theme_color": "#0d5e73",
+      "center": { "lat": 43.5322, "lon": -5.6611 },
+      "radius_km": 45,
+      "visual": {
+        "option_class": "city-option--gijon",
+        "symbol_class": "gijon-symbol",
+        "symbol_parts": 2
+      },
+      "areas": []
+    }
+  ]
+}

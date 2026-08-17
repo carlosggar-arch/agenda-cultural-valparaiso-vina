@@ -1,9 +1,11 @@
 import { referenceNow, selectPlanAhead } from "../assets/plan-ahead-core.mjs?v=20260817";
+import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 
-const CONFIG = Object.freeze({ valparaiso: { dataset: "../agenda_web.json", locale: "es-CL" }, gijon: { dataset: "./data/gijon/agenda_web.json", locale: "es-ES" } });
+const CITY_REGISTRY = await loadCityRegistry();
+const CONFIG = CITY_REGISTRY.byId;
 let renderToken = 0;
 function installStyles(){if(document.querySelector("link[data-plan-ahead-styles]"))return;const link=document.createElement("link");link.rel="stylesheet";link.href="../assets/plan-ahead.css?v=20260817-compact";link.dataset.planAheadStyles="true";document.head.append(link)}
-function cityId(){return CONFIG[document.documentElement.dataset.city]?document.documentElement.dataset.city:"valparaiso"}
+function cityId(){return CONFIG[document.documentElement.dataset.city]?document.documentElement.dataset.city:CITY_REGISTRY.defaultCityId}
 function dateLabel(date,locale){return new Intl.DateTimeFormat(locale,{day:"numeric",month:"short"}).format(date)}
 function deadlineLabel(date,locale){return date?`Inscripción hasta ${new Intl.DateTimeFormat(locale,{day:"numeric",month:"short"}).format(date)}`:null}
 function locationLabel(event){const location=event?.location||{};return[location.venue,location.city].filter(Boolean).filter((value,index,rows)=>rows.indexOf(value)===index).join(" · ")}
