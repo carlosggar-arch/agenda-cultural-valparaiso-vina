@@ -1,7 +1,10 @@
-import { FAVORITES_CHANGED_EVENT, FAVORITES_STORAGE_KEY } from "../assets/favorites-core.mjs?v=20260817";
+import {
+  FAVORITES_CHANGED_EVENT,
+  FAVORITES_STORAGE_KEY,
+  favoritesForCity,
+} from "../assets/favorites-core.mjs?v=20260817";
 import {
   buildFavoriteToggle,
-  buildMyPlansSection,
   installFavoritesStyles,
   syncFavoriteButtons,
 } from "../assets/favorites-view.mjs?v=20260817";
@@ -17,6 +20,15 @@ let loadPromise = null;
 let enhanceQueued = false;
 let refreshQueued = false;
 
+function installAccessStyles() {
+  if (document.querySelector("link[data-favorites-access-styles]")) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../assets/favorites-access.css?v=20260817";
+  link.dataset.favoritesAccessStyles = "true";
+  document.head.append(link);
+}
+
 function cityId() {
   return CONFIG[document.documentElement.dataset.city] ? document.documentElement.dataset.city : "valparaiso";
 }
@@ -24,6 +36,49 @@ function cityId() {
 function eventPageHref(event, city = cityId()) {
   const id = String(event?.id || "").trim();
   return id ? new URL(`../evento/${city}/${encodeURIComponent(id)}/`, window.location.href).href : null;
+}
+
+function myPlansHref(city = cityId()) {
+  return `./mis-planes.html?city=${encodeURIComponent(city)}`;
+}
+
+function favoriteCount(city = cityId()) {
+  return favoritesForCity(city).length;
+}
+
+function updateAccess() {
+  const city = cityId();
+  const link = document.querySelector("[data-favorites-access]");
+  if (!link) return;
+  link.href = myPlansHref(city);
+  const count = favoriteCount(city);
+  const badge = link.querySelector("[data-favorites-count]");
+  if (badge) badge.textContent = String(count);
+  link.setAttribute("aria-label", `Mis planes, ${count} ${count === 1 ? "actividad guardada" : "actividades guardadas"}`);
+}
+
+function installAccess() {
+  const actions = document.querySelector(".header-actions");
+  if (!actions) return;
+  let link = actions.querySelector("[data-favorites-access]");
+  if (!link) {
+    link = document.createElement("a");
+    link.className = "favorites-access favorites-access--app";
+    link.dataset.favoritesAccess = "app";
+    const star = document.createElement("span");
+    star.className = "favorites-access-star";
+    star.setAttribute("aria-hidden", "true");
+    star.textContent = "★";
+    const label = document.createElement("span");
+    label.className = "favorites-access-label";
+    label.textContent = "Mis planes";
+    const count = document.createElement("span");
+    count.className = "favorites-access-count";
+    count.dataset.favoritesCount = "true";
+    link.append(star, label, count);
+    actions.prepend(link);
+  }
+  updateAccess();
 }
 
 async function ensureDataset() {
@@ -60,7 +115,6 @@ function cleanOldButtons(city) {
 function installCardFavorites(city) {
   const cards = document.querySelectorAll(".event-card[data-event-id], .plan-ahead-card[data-event-id]");
   for (const card of cards) {
-    if (card.closest("[data-my-plans]")) continue;
     const id = String(card.dataset.eventId || "");
     const event = eventMap.get(id);
     if (!event || card.querySelector(":scope > [data-favorite-toggle]")) continue;
@@ -85,23 +139,11 @@ function installDetailFavorite(city) {
   }));
 }
 
-function renderMyPlans(city) {
-  document.querySelector("[data-my-plans]")?.remove();
-  const section = buildMyPlansSection({
-    city,
-    locale: CONFIG[city].locale,
-    eventMap,
-    eventPageHref: (event) => eventPageHref(event, city),
-  });
-  const anchor = document.querySelector("[data-plan-ahead]") || document.querySelector(".agenda");
-  if (anchor) anchor.insertAdjacentElement("beforebegin", section);
-  else document.querySelector("main")?.append(section);
-}
-
 function enhanceDynamicUi() {
   enhanceQueued = false;
   const city = cityId();
   if (loadedCity !== city) return;
+  installAccess();
   cleanOldButtons(city);
   installCardFavorites(city);
   installDetailFavorite(city);
@@ -122,11 +164,12 @@ async function refreshFavorites() {
   }
   await ensureDataset();
   if (city !== cityId()) return queueRefresh();
-  renderMyPlans(city);
+  installAccess();
   cleanOldButtons(city);
   installCardFavorites(city);
   installDetailFavorite(city);
   syncFavoriteButtons(city, eventMap);
+  updateAccess();
 }
 
 function queueRefresh() {
@@ -135,7 +178,8 @@ function queueRefresh() {
   queueMicrotask(refreshFavorites);
 }
 
-installFavoritesStyles("../assets/favorites.css?v=20260817");
+installFavoritesStyles("../assets/favorites.css?v=20260817-compact");
+installAccessStyles();
 new MutationObserver(queueEnhance).observe(document.body, { childList: true, subtree: true });
 new MutationObserver(() => {
   loadedCity = null;

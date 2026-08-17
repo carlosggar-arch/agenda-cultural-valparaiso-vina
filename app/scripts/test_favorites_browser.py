@@ -58,14 +58,15 @@ def make_test_page() -> None:
     let stored = [];
     try { stored = JSON.parse(localStorage.getItem('agenda-cultural-favorites-v1') || '[]'); } catch {}
     const saved = stored.some((item) => item.city === 'valparaiso' && item.id === id);
-    const inPlans = Boolean(document.querySelector(`[data-my-plans] .my-plan-card[data-event-id="${CSS.escape(id)}"]`));
     const pressed = button.getAttribute('aria-pressed') === 'true';
-    const count = document.querySelector('[data-my-plans] .my-plans-count')?.textContent?.trim() || '';
+    const count = document.querySelector('[data-favorites-access] [data-favorites-count]')?.textContent?.trim() || '';
+    const mainHasPlans = Boolean(document.querySelector('[data-my-plans]'));
     document.body.dataset.favoritesSaved = String(saved);
-    document.body.dataset.favoritesInPlans = String(inPlans);
     document.body.dataset.favoritesPressed = String(pressed);
     document.body.dataset.favoritesCount = count;
-    document.body.dataset.favoritesProbe = saved && inPlans && pressed && count === '1' ? 'pass' : 'fail';
+    document.body.dataset.favoritesMainHasPlans = String(mainHasPlans);
+    document.body.dataset.favoritesEventId = id;
+    document.body.dataset.favoritesProbe = saved && pressed && count === '1' && !mainHasPlans ? 'pass' : 'fail';
   };
   run();
 })();
@@ -73,6 +74,20 @@ def make_test_page() -> None:
 '''
     source = source.replace("</body>", probe + "\n</body>", 1)
     TEST_PAGE.write_text(source, encoding="utf-8")
+
+
+def run_chrome(url: str, profile: str, budget: int = 14000) -> str:
+    cmd = [
+        chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
+        "--disable-dev-shm-usage", "--disable-background-networking", "--disable-extensions",
+        "--disable-sync", "--no-first-run", "--no-default-browser-check",
+        "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
+        f"--virtual-time-budget={budget}", f"--user-data-dir={profile}", "--dump-dom", url,
+    ]
+    result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=50)
+    if result.returncode != 0 or not result.stdout:
+        raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    return result.stdout
 
 
 def main() -> None:
@@ -83,26 +98,28 @@ def main() -> None:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start(); time.sleep(0.2)
-        with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
-            cmd = [
-                chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
-                "--disable-dev-shm-usage", "--disable-background-networking", "--disable-extensions",
-                "--disable-sync", "--no-first-run", "--no-default-browser-check",
-                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--virtual-time-budget=14000", f"--user-data-dir={profile}", "--dump-dom",
-                f"http://127.0.0.1:{port}/app/__favorites_test.html",
-            ]
-            try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
-            finally:
-                server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
+        try:
+            with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
+                home_dom = run_chrome(f"http://127.0.0.1:{port}/app/__favorites_test.html", profile)
+                if 'data-favorites-probe="pass"' not in home_dom:
+                    observed = ", ".join(re.findall(r'data-favorites-[a-z-]+="[^"]*"', home_dom)[-10:])
+                    raise AssertionError(f"Favorites compact-home contract failed; observed: {observed or 'no probe attributes'}")
+                event_match = re.search(r'data-favorites-event-id="([^"]+)"', home_dom)
+                if not event_match or not event_match.group(1):
+                    raise AssertionError("Favorites test did not capture a saved event id")
+                saved_id = event_match.group(1)
 
-    if result.returncode != 0 or not result.stdout:
-        raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
-    if 'data-favorites-probe="pass"' not in result.stdout:
-        observed = ", ".join(re.findall(r'data-favorites-[a-z-]+="[^"]*"', result.stdout)[-8:])
-        raise AssertionError(f"Favorites browser contract failed; observed: {observed or 'no probe attributes'}")
-    print("Favorites browser test: star persists to localStorage and appears in Mis planes")
+                plans_dom = run_chrome(
+                    f"http://127.0.0.1:{port}/app/mis-planes.html?city=valparaiso",
+                    profile,
+                    budget=9000,
+                )
+                if 'data-my-plans="true"' not in plans_dom or f'data-event-id="{saved_id}"' not in plans_dom:
+                    raise AssertionError("Standalone Mis planes page did not render the saved activity")
+        finally:
+            server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
+
+    print("Favorites browser test: homepage stays compact and standalone Mis planes renders saved activities")
 
 
 if __name__ == "__main__":
