@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T02:05:32+00:00",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-08-17T02:14:27+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -9,57 +9,33 @@
       "today": "2026-08-16",
       "status": "warning",
       "warnings": [
-        "direct_source_preferred",
-        "duplicate_groups"
+        "verified_corrections_applied",
+        "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-15",
         "publication_age_days": 1,
         "generated_at": "2026-08-16T21:59:32-04:00",
-        "generated_age_hours": 0.1
+        "generated_age_hours": 0.2
       },
       "counts": {
-        "total_events": 69,
-        "dated_events": 65,
+        "total_events": 68,
+        "schedule_expected_events": 64,
+        "dated_events": 64,
         "timed_events": 64,
-        "relevant_image_events": 29,
+        "relevant_image_events": 49,
         "suspicious_titles": 0,
-        "duplicate_groups": 1,
+        "title_review_candidates": 0,
+        "duplicate_groups": 0,
         "generic_schedule_images_rejected": 1
       },
       "coverage": {
-        "date_pct": 94.2,
-        "time_pct": 92.8,
-        "relevant_image_pct": 42.0
+        "date_pct": 100.0,
+        "time_pct": 100.0,
+        "relevant_image_pct": 72.1
       },
       "samples": {
-        "missing_time": [
-          {
-            "id": "agenda_c16d049f287e6bc4922b56de",
-            "title": "Museo Baburizza – «Requiem para Pianos»",
-            "venue": "Museo Baburizza"
-          },
-          {
-            "id": "agenda_ca19a232a35a166ac29363ad",
-            "title": "Clases de salsa y bachata RED Studio",
-            "venue": "RED Studio"
-          },
-          {
-            "id": "agenda_51b559e62df1dde691c493c5",
-            "title": "Curso particular de joyería 2026 — Natalia Saldías",
-            "venue": "Taller Natalia Saldías"
-          },
-          {
-            "id": "agenda_def663d9f57fbb5c594c7d02",
-            "title": "Taller permanente de cerámica Le Chat",
-            "venue": "Instituto Le Chat"
-          },
-          {
-            "id": "agenda_10ba69e08963eace52ab8593",
-            "title": "Tours guiados de Valparaíso Trekking — consulta de fecha",
-            "venue": "Región de Valparaíso; operador con sede en Viña del Mar"
-          }
-        ],
+        "missing_time": [],
         "missing_relevant_image": [
           {
             "id": "agenda_e7e2a4a89dc447f9bd2633e7",
@@ -95,22 +71,8 @@
           }
         ],
         "suspicious_titles": [],
-        "duplicates": [
-          {
-            "fingerprint": "adolescencia sexo y muerte en camp miasma|2026-08-19|vina del mar|cine arte vina del mar",
-            "count": 2,
-            "events": [
-              {
-                "id": "agenda_cinema_9531c9ead643b3490477",
-                "title": "Adolescencia, Sexo y Muerte en Camp Miasma"
-              },
-              {
-                "id": "agenda_cinema_67a31fdf4c9667dca84d",
-                "title": "Adolescencia, Sexo y Muerte en Camp Miasma"
-              }
-            ]
-          }
-        ]
+        "title_review_candidates": [],
+        "duplicates": []
       },
       "source_coverage": {
         "mode": "policy",
@@ -151,14 +113,9 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.museobaburizza.cl/agenda/",
             "direct_events": 0,
-            "venue_events": 1,
-            "indirect_venue_events": 1,
-            "indirect_samples": [
-              {
-                "id": "agenda_c16d049f287e6bc4922b56de",
-                "title": "Museo Baburizza – «Requiem para Pianos»"
-              }
-            ]
+            "venue_events": 0,
+            "indirect_venue_events": 0,
+            "indirect_samples": []
           },
           {
             "id": "museo_palacio_rioja",
@@ -188,28 +145,17 @@
             "city": "Valparaíso"
           },
           {
+            "id": "museobaburizza",
+            "name": "Museo Baburizza",
+            "city": "Valparaíso"
+          },
+          {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
             "city": "Valparaíso"
           }
         ],
-        "indirect_source_warnings": [
-          {
-            "id": "museobaburizza",
-            "name": "Museo Baburizza",
-            "city": "Valparaíso",
-            "agenda_url": "https://www.museobaburizza.cl/agenda/",
-            "direct_events": 0,
-            "venue_events": 1,
-            "indirect_venue_events": 1,
-            "indirect_samples": [
-              {
-                "id": "agenda_c16d049f287e6bc4922b56de",
-                "title": "Museo Baburizza – «Requiem para Pianos»"
-              }
-            ]
-          }
-        ]
+        "indirect_source_warnings": []
       },
       "publication_guard": {
         "titles_recovered": 0,
@@ -219,7 +165,22 @@
         "removed_title_quality": 0,
         "removed_location_mismatch": 0
       },
-      "publication_corrections": {}
+      "publication_corrections": {
+        "checked_at": "2026-08-16",
+        "active_corrections": 1,
+        "applied_count": 1,
+        "applied": [
+          {
+            "correction_id": "baburizza_requiem_2026_end",
+            "event_id": "agenda_c16d049f287e6bc4922b56de",
+            "title": "Museo Baburizza – «Requiem para Pianos»",
+            "action": "drop_after_end",
+            "official_end_date": "2026-08-06",
+            "official_url": "https://www.museobaburizza.cl/agenda/",
+            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
+          }
+        ]
+      }
     },
     "gijon": {
       "city_id": "gijon",
@@ -227,55 +188,33 @@
       "today": "2026-08-17",
       "status": "warning",
       "warnings": [
-        "suspicious_titles"
+        "suspicious_titles",
+        "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T03:54:44+02:00",
-        "generated_age_hours": 0.2
+        "generated_age_hours": 0.3
       },
       "counts": {
         "total_events": 89,
-        "dated_events": 89,
+        "schedule_expected_events": 80,
+        "dated_events": 80,
         "timed_events": 59,
         "relevant_image_events": 83,
-        "suspicious_titles": 44,
+        "suspicious_titles": 5,
+        "title_review_candidates": 44,
         "duplicate_groups": 0,
         "generic_schedule_images_rejected": 0
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 66.3,
+        "time_pct": 73.8,
         "relevant_image_pct": 93.3
       },
       "samples": {
         "missing_time": [
-          {
-            "id": "agenda_gijon_6d1efd370091c858",
-            "title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas",
-            "venue": "Muséu del Pueblu d'Asturies"
-          },
-          {
-            "id": "agenda_gijon_8a530d15722db829",
-            "title": "El cine del centro",
-            "venue": "Gijón/Xixón"
-          },
-          {
-            "id": "agenda_gijon_19af95fc6c8ea453",
-            "title": "Escena Amateur",
-            "venue": "Gijón/Xixón"
-          },
-          {
-            "id": "agenda_gijon_130059b49bc0c8c0",
-            "title": "Escena Xixón",
-            "venue": "Gijón/Xixón"
-          },
-          {
-            "id": "agenda_gijon_b75e38d8a368a290",
-            "title": "FETEN COMPAÑÍAS",
-            "venue": "Gijón/Xixón"
-          },
           {
             "id": "agenda_gijon_05ecc658bf6d8162",
             "title": "Alejandro Sirio. La caligrafía del dibujo l Exposición",
@@ -287,9 +226,34 @@
             "venue": "Muséu del Pueblu d'Asturies"
           },
           {
-            "id": "agenda_gijon_63f1aef6e873e3b5",
-            "title": "Exposición ''Convivium. Arqueología de la dieta mediterránea''",
-            "venue": "Palacio de Revillagigedo de la Fundación Cajastur"
+            "id": "agenda_gijon_6fb58f98d9761c56",
+            "title": "La cerámica de Cangas del Narcea. Tradición, adaptación e innovación",
+            "venue": "Muséu del Pueblu d'Asturies"
+          },
+          {
+            "id": "agenda_gijon_ee08bcce65967e5b",
+            "title": "EXPOSICIÓN. La Isla: la pieza que faltaba",
+            "venue": "Jardín Botánico Atlántico de Gijón"
+          },
+          {
+            "id": "agenda_gijon_2d2ecbaf56972462",
+            "title": "Centenario AMADOR (1926-2026) | Exposición",
+            "venue": "Museo Casa Natal de Jovellanos"
+          },
+          {
+            "id": "agenda_gijon_98d5f4adbfb66753",
+            "title": "Vidas de un mismo tiempo. Fotografía social de Mario Pascual (1959-1970)",
+            "venue": "Muséu del Pueblu d'Asturies"
+          },
+          {
+            "id": "agenda_gijon_beade99160cde96f",
+            "title": "Diviértete en familia en Veranes",
+            "venue": "Museo Villa Romana de Veranes"
+          },
+          {
+            "id": "agenda_gijon_8f6f14c0a4154038",
+            "title": "La Escuela de Gijón. La ciudad como motivo | Exposición",
+            "venue": "Gijón/Xixón"
           }
         ],
         "missing_relevant_image": [
@@ -319,6 +283,38 @@
           }
         ],
         "suspicious_titles": [
+          {
+            "id": "agenda_gijon_6d1efd370091c858",
+            "title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_05ecc658bf6d8162",
+            "title": "Alejandro Sirio. La caligrafía del dibujo l Exposición",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_ee08bcce65967e5b",
+            "title": "EXPOSICIÓN. La Isla: la pieza que faltaba",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_02ffe8fe9652408f",
+            "title": "Gijón Verano. Plazos de inscripción",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_8f6f14c0a4154038",
+            "title": "La Escuela de Gijón. La ciudad como motivo | Exposición",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          }
+        ],
+        "title_review_candidates": [
           {
             "id": "agenda_gijon_6d1efd370091c858",
             "title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas",
@@ -499,7 +495,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "ok",
-    "usage_usd": 2.5592742058875495,
-    "remaining_usd": 0.9407257941124505
+    "usage_usd": 2.559274918910802,
+    "remaining_usd": 0.940725081089198
   }
 }
