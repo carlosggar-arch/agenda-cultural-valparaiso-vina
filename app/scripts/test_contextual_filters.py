@@ -58,18 +58,26 @@ assert '.discovery-heading { display: flex !important;' not in polish
 assert '.category-filter-panel .category-explorer-heading { display: flex !important;' not in polish
 assert '.agenda-heading { display: flex !important;' not in polish
 
-# Compactness remains the current production contract.
+# Compactness remains the current production contract, with enough breathing
+# room for the date legend and a thin Valparaiso-mosaic brand divider.
 assert '.filter-workbench {' in compact
 assert 'padding: 0 !important;' in compact
 assert 'border: 0 !important;' in compact
 assert 'background: transparent !important;' in compact
+assert '.filter-workbench::before {' in compact
+assert 'url("../assets/mosaic-top.png")' in compact
+assert 'height: .72rem;' in compact
 assert '.filter-group {' in compact
 assert 'padding: .24rem 0 !important;' in compact
+assert '.filter-group:has([data-combined-when]) {' in compact
+assert 'padding-top: .4rem !important;' in compact
+assert 'line-height: 1.24 !important;' in compact
 assert '.filter-choice {' in compact
 assert 'padding: .32rem .46rem !important;' in compact
 assert '.category-filters {' in compact
 assert 'minmax(116px, 1fr)' in compact
 assert '@media (max-width: 560px)' in compact
+assert 'padding-top: .44rem !important;' in compact
 assert 'flex-wrap: nowrap !important;' in compact
 
 assert "function enforceQuickFilterVisibility()" in density
@@ -85,12 +93,13 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v29"' in pwa
+assert 'const APP_VERSION = "PWA v30"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'const CACHE_VERSION = "v29"' in service_worker
+assert 'const CACHE_VERSION = "v30"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
+assert '"../assets/mosaic-top.png"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 
@@ -110,4 +119,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact date/area/access/format/audience/category filters: OK")
+print("Semantic search plus compact mosaic-separated date/area/access/format/audience/category filters: OK")
