@@ -96,7 +96,7 @@ jobs:
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
           grep -F 'const APP_VERSION = "PWA v26"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v26"' app/service-worker.js
+          grep -F 'const CACHE_VERSION = "v25"' app/service-worker.js
           grep -F '"./gijon-venue-hours.js"' app/service-worker.js
           ! grep -F 'client.navigate(' app/service-worker.js
           ! grep -F 'refreshOpenWindows' app/service-worker.js
