@@ -28,6 +28,19 @@ REQUIRED_MARKERS = {
     'data-mobile-install-meta="true"': "Installed-app title/capable metadata is incomplete",
 }
 
+HEADER_LAYOUT_MARKERS = {
+    'data-header-layout-done="true"': "Mobile header layout probe did not finish",
+    'data-header-no-title-overlap="true"': "Header actions overlap the city title/tagline",
+    'data-header-actions-in-viewport="true"': "A header action leaves the mobile viewport",
+    'data-header-touch-targets="true"': "A persistent header action is too small for touch",
+    'data-header-qr-present="true"': "QR share action is missing",
+    'data-header-city-present="true"': "City switch action is missing",
+    'data-header-favorites-present="true"': "Mis planes action is missing",
+    'data-header-search-present="true"': "Search action is missing",
+    'data-header-install-visible="true"': "Install action is not visible in first-visit simulation",
+    'data-header-install-second-row="true"': "Install action is not isolated on the second mobile row",
+}
+
 FIRST_OPEN_MARKERS = {
     'data-first-open-done="true"': "First-open probe did not finish",
     'data-first-open-required="true"': "First-open city selection is not mandatory",
@@ -67,6 +80,7 @@ def make_test_pages() -> None:
   <script>
     (() => {
       const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const overlaps = (a, b) => Boolean(a && b && a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top);
       const probe = async () => {
         await sleep(7500);
         let ready = false;
@@ -96,6 +110,51 @@ def make_test_pages() -> None:
         document.body.dataset.mobileCityCurrent = String(Boolean(currentCity));
         document.body.dataset.mobileStylesLoaded = String(Boolean(mobileStyles));
         document.body.dataset.mobileInstallMeta = String(appleTitle && appleCapable && mobileCapable);
+
+        const forceInstall = new URL(location.href).searchParams.get("install") === "1";
+        const install = document.querySelector("[data-install-app]");
+        if (forceInstall && install) install.hidden = false;
+        await sleep(80);
+        const actions = document.querySelector(".header-actions");
+        const title = document.querySelector("[data-header-city-title]");
+        const tagline = document.querySelector(".header-tagline");
+        const qr = document.querySelector("[data-share-qr-open]");
+        const city = document.querySelector("[data-city-switch]");
+        const favorites = document.querySelector("[data-favorites-access]");
+        const search = document.querySelector("[data-header-search-toggle]");
+        const visibleActions = actions ? [...actions.children].filter((node) => {
+          const style = getComputedStyle(node);
+          const rect = node.getBoundingClientRect();
+          return !node.hidden && style.display !== "none" && rect.width > 0 && rect.height > 0;
+        }) : [];
+        const titleRect = title?.getBoundingClientRect();
+        const taglineRect = tagline?.getBoundingClientRect();
+        const noTitleOverlap = visibleActions.every((node) => {
+          const rect = node.getBoundingClientRect();
+          return !overlaps(rect, titleRect) && !overlaps(rect, taglineRect);
+        });
+        const inViewport = visibleActions.every((node) => {
+          const rect = node.getBoundingClientRect();
+          return rect.left >= -1 && rect.right <= window.innerWidth + 1;
+        });
+        const persistent = [favorites, search, qr, city].filter(Boolean);
+        const touchTargets = persistent.length === 4 && persistent.every((node) => {
+          const rect = node.getBoundingClientRect();
+          return rect.width >= 34 && rect.height >= 34;
+        });
+        const installRect = install?.getBoundingClientRect();
+        const firstRowBottom = Math.max(...persistent.map((node) => node.getBoundingClientRect().bottom), 0);
+        document.body.dataset.headerLayoutDone = "true";
+        document.body.dataset.headerNoTitleOverlap = String(noTitleOverlap);
+        document.body.dataset.headerActionsInViewport = String(inViewport);
+        document.body.dataset.headerTouchTargets = String(touchTargets);
+        document.body.dataset.headerQrPresent = String(Boolean(qr));
+        document.body.dataset.headerCityPresent = String(Boolean(city));
+        document.body.dataset.headerFavoritesPresent = String(Boolean(favorites));
+        document.body.dataset.headerSearchPresent = String(Boolean(search));
+        document.body.dataset.headerInstallVisible = String(Boolean(install && !install.hidden && getComputedStyle(install).display !== "none"));
+        document.body.dataset.headerInstallSecondRow = String(Boolean(installRect && installRect.top >= firstRowBottom - 1));
+        document.body.dataset.headerViewportWidth = String(window.innerWidth);
       };
       probe();
     })();
@@ -138,29 +197,38 @@ def probe_state(dom: str) -> tuple[bool, str]:
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no probe attributes'}"
 
 
+def header_layout_state(dom: str, expected_width: int) -> tuple[bool, str]:
+    missing = [message for marker, message in HEADER_LAYOUT_MARKERS.items() if marker not in dom]
+    width_match = re.search(r'data-header-viewport-width="(\d+)"', dom)
+    if not width_match or abs(int(width_match.group(1)) - expected_width) > 1:
+        missing.append(f"Unexpected viewport width (expected {expected_width})")
+    observed = ", ".join(re.findall(r'data-header-[a-z-]+="[^"]*"', dom)[-14:])
+    return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no header probe attributes'}"
+
+
 def first_open_state(dom: str) -> tuple[bool, str]:
     missing = [message for marker, message in FIRST_OPEN_MARKERS.items() if marker not in dom]
     observed = ", ".join(re.findall(r'data-first-open-[a-z-]+="[^"]*"', dom)[-10:])
     return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no first-open attributes'}"
 
 
-def chrome_command(url: str, profile: str, budget: int) -> list[str]:
+def chrome_command(url: str, profile: str, budget: int, width: int = 390, height: int = 844) -> list[str]:
     return [
         chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
         "--disable-dev-shm-usage", "--disable-background-networking",
         "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
         "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-        "--window-size=390,844", f"--virtual-time-budget={budget}",
+        f"--window-size={width},{height}", f"--virtual-time-budget={budget}",
         f"--user-data-dir={profile}", "--dump-dom", url,
     ]
 
 
-def run_chrome(url: str) -> str:
+def run_chrome(url: str, width: int = 390) -> str:
     errors: list[str] = []
     for attempt in range(1, 4):
-        with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
+        with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{width}-{attempt}-", ignore_cleanup_errors=True) as profile:
             try:
-                result = subprocess.run(chrome_command(url, profile, 18000), cwd=ROOT, text=True, capture_output=True, timeout=50)
+                result = subprocess.run(chrome_command(url, profile, 18000, width), cwd=ROOT, text=True, capture_output=True, timeout=50)
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
@@ -177,9 +245,20 @@ def run_chrome(url: str) -> str:
     raise AssertionError(f"Installed-PWA probe failed after three isolated attempts: {' | '.join(errors)}")
 
 
+def run_header_layout(url: str, width: int) -> str:
+    with tempfile.TemporaryDirectory(prefix=f"agenda-mobile-header-{width}-", ignore_cleanup_errors=True) as profile:
+        result = subprocess.run(chrome_command(url, profile, 18000, width), cwd=ROOT, text=True, capture_output=True, timeout=50)
+    if result.returncode != 0 or not result.stdout:
+        raise AssertionError(f"Header Chrome probe failed at {width}px: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    ok, state = header_layout_state(result.stdout, width)
+    if not ok:
+        raise AssertionError(f"Header layout failed at {width}px: {state}")
+    return result.stdout
+
+
 def run_first_open(url: str) -> str:
     with tempfile.TemporaryDirectory(prefix="agenda-first-open-", ignore_cleanup_errors=True) as profile:
-        result = subprocess.run(chrome_command(url, profile, 6000), cwd=ROOT, text=True, capture_output=True, timeout=30)
+        result = subprocess.run(chrome_command(url, profile, 6000, 390), cwd=ROOT, text=True, capture_output=True, timeout=30)
     if result.returncode != 0 or not result.stdout:
         raise AssertionError(f"First-open Chrome probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
     ok, state = first_open_state(result.stdout)
@@ -199,6 +278,8 @@ def main() -> None:
         try:
             first_open_dom = run_first_open(f"http://127.0.0.1:{port}/app/__pwa_first_open_test.html")
             dom = run_chrome(f"http://127.0.0.1:{port}/app/__pwa_install_test.html")
+            for width in (320, 390, 430):
+                run_header_layout(f"http://127.0.0.1:{port}/app/__pwa_install_test.html?install=1", width)
         finally:
             server.shutdown(); thread.join(timeout=2)
             TEST_PAGE.unlink(missing_ok=True); FIRST_OPEN_PAGE.unlink(missing_ok=True)
@@ -211,7 +292,10 @@ def main() -> None:
         raise AssertionError(state)
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     assert match is not None
-    print(f"Mobile PWA test: first-open chooser, install metadata, compact mobile controls and {match.group(1)} Valparaiso cards validated")
+    print(
+        "Mobile PWA test: first-open chooser, installed shell, and header at "
+        f"320/390/430px with install-visible simulation validated; {match.group(1)} Valparaiso cards rendered"
+    )
 
 
 if __name__ == "__main__":
