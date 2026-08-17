@@ -2,23 +2,39 @@
 /* Desktop keeps the normal header controls. */
 .mobile-tabbar{display:none!important}
 
-/* Runtime mobile detection is authoritative. This avoids relying on viewport
-   media queries that some Android/iOS browser and PWA combinations report oddly. */
-html[data-mobile-client="true"] .header-bottom{flex-wrap:wrap!important}
+/* Runtime mobile detection is authoritative. */
+html[data-mobile-client="true"] .app-header{
+  min-height:0!important;
+  height:auto!important;
+  overflow:visible!important;
+  padding-bottom:.65rem!important;
+}
+html[data-mobile-client="true"] .header-bottom{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  width:100%!important;
+  margin:.35rem 0 0!important;
+  overflow:visible!important;
+}
 html[data-mobile-client="true"] .app-header .mobile-tabbar,
 html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
-  order:2;
+  order:99;
   display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:.35rem;
-  width:100%;
+  width:100%!important;
+  min-width:100%!important;
   margin:.45rem 0 0!important;
   padding:0!important;
   border:0!important;
   background:transparent!important;
-  position:static!important;
+  position:relative!important;
   inset:auto!important;
+  z-index:50!important;
   box-shadow:none!important;
+  transform:none!important;
 }
 
 /* Shared visual treatment for the four app shortcuts once a mobile rule enables them. */
@@ -32,7 +48,7 @@ html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
   gap:.12rem;
   border:1px solid rgba(23,79,70,.18);
   border-radius:12px;
-  background:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.92);
   color:var(--header-ink,var(--brand));
   font:inherit;
   font-size:.7rem;
@@ -74,52 +90,34 @@ html[data-mobile-client="true"] .mobile-install-cta{display:block}
 .event-detail-panel--no-media .event-detail-meta{padding-right:3.4rem}
 
 @media(display-mode:standalone){
-  .header-bottom{flex-wrap:wrap!important}
+  .app-header{min-height:0!important;height:auto!important;overflow:visible!important}
+  .header-bottom{display:flex!important;flex-wrap:wrap!important;width:100%!important;margin:.35rem 0 0!important;overflow:visible!important}
   .app-header .mobile-tabbar,
   .app-header .mobile-tabbar[hidden]{
-    order:2;
+    order:99;
     display:grid!important;
+    visibility:visible!important;
+    opacity:1!important;
     grid-template-columns:repeat(4,minmax(0,1fr));
     gap:.35rem;
-    width:100%;
+    width:100%!important;
     margin:.45rem 0 0!important;
     padding:0!important;
     border:0!important;
     background:transparent!important;
-    position:static!important;
+    position:relative!important;
+    z-index:50!important;
     inset:auto!important;
     box-shadow:none!important;
   }
 }
 
-@media(max-width:700px), (pointer:coarse) and (max-width:1000px){
+@media(max-width:700px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
-  .header-bottom{flex-wrap:wrap!important}
-  .app-header .mobile-tabbar,
-  .app-header .mobile-tabbar[hidden]{
-    order:2;
-    display:grid!important;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:.35rem;
-    width:100%;
-    margin:.45rem 0 0!important;
-    padding:0!important;
-    border:0!important;
-    background:transparent!important;
-    position:static!important;
-    inset:auto!important;
-    box-shadow:none!important;
-  }
-  .mobile-install-cta{display:block}
-
-  .app-header{
-    min-height:0!important;
-    height:auto!important;
-    padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;
-    padding-bottom:.55rem!important;
-  }
+  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;padding-bottom:.55rem!important}
+  .header-bottom{display:flex!important;flex-wrap:wrap!important;width:100%!important;margin:.35rem 0 0!important;overflow:visible!important}
+  .app-header .mobile-tabbar,.app-header .mobile-tabbar[hidden]{display:grid!important;visibility:visible!important;opacity:1!important;width:100%!important}
   .header-art{height:100%!important;opacity:.22!important}
-  .header-bottom{margin-top:.35rem!important}
 
   .header-search-toggle,.install-button,.city-switch,
   .filter-choice,.category-chip,.clear-filters,
@@ -132,65 +130,22 @@ html[data-mobile-client="true"] .mobile-install-cta{display:block}
   .event-detail-panel--no-media .event-detail-content{padding-top:1rem!important}
   .event-detail-panel--no-media .event-detail-close{top:.65rem!important;right:.65rem!important}
 
-  .chooser-backdrop{
-    place-items:end stretch!important;
-    padding:0!important;
-    background:rgba(9,31,28,.58)!important;
-    backdrop-filter:blur(4px);
-  }
-  .chooser{
-    width:100%!important;
-    max-width:none!important;
-    max-height:min(92dvh,760px);
-    overflow:auto;
-    border-radius:1.45rem 1.45rem 0 0!important;
-    padding:1.65rem 1rem calc(1.1rem + env(safe-area-inset-bottom,0px))!important;
-    box-shadow:0 -18px 55px rgba(8,35,31,.24)!important;
-  }
-  .chooser::before{
-    content:"";
-    display:block;
-    width:42px;
-    height:4px;
-    margin:-.65rem auto 1.15rem;
-    border-radius:999px;
-    background:color-mix(in srgb,var(--brand) 22%,#fff);
-  }
+  .chooser-backdrop{place-items:end stretch!important;padding:0!important;background:rgba(9,31,28,.58)!important;backdrop-filter:blur(4px)}
+  .chooser{width:100%!important;max-width:none!important;max-height:min(92dvh,760px);overflow:auto;border-radius:1.45rem 1.45rem 0 0!important;padding:1.65rem 1rem calc(1.1rem + env(safe-area-inset-bottom,0px))!important;box-shadow:0 -18px 55px rgba(8,35,31,.24)!important}
+  .chooser::before{content:"";display:block;width:42px;height:4px;margin:-.65rem auto 1.15rem;border-radius:999px;background:color-mix(in srgb,var(--brand) 22%,#fff)}
   .chooser h2{font-size:1.72rem!important;line-height:1.08;margin-right:2.8rem!important}
   .chooser>p:not(.eyebrow){margin:.45rem 0 .8rem!important}
   .chooser-close{width:44px!important;height:44px!important;right:.85rem!important;top:.8rem!important}
   .city-options{gap:.68rem!important;margin:1rem 0!important}
-  .city-options button{
-    min-height:78px!important;
-    grid-template-columns:54px 1fr auto!important;
-    padding:.82rem .85rem!important;
-    border-width:1px!important;
-    border-left-width:5px!important;
-    border-radius:1.05rem!important;
-  }
+  .city-options button{min-height:78px!important;grid-template-columns:54px 1fr auto!important;padding:.82rem .85rem!important;border-width:1px!important;border-left-width:5px!important;border-radius:1.05rem!important}
   .city-options button strong{font-size:.98rem;line-height:1.16}
   .city-options button small{font-size:.8rem;line-height:1.3;margin-top:.16rem}
-  .city-options button[aria-current="true"]{
-    box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 28%,transparent),0 8px 24px rgba(24,60,52,.08)!important;
-  }
-  .city-options button[aria-current="true"]::after{
-    content:"✓";
-    display:grid;
-    place-items:center;
-    width:1.55rem;
-    height:1.55rem;
-    border-radius:999px;
-    background:var(--brand);
-    color:#fff;
-    font-weight:900;
-  }
+  .city-options button[aria-current="true"]{box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 28%,transparent),0 8px 24px rgba(24,60,52,.08)!important}
+  .city-options button[aria-current="true"]::after{content:"✓";display:grid;place-items:center;width:1.55rem;height:1.55rem;border-radius:999px;background:var(--brand);color:#fff;font-weight:900}
   .city-options button[aria-current="true"]>span:last-child{display:none}
   .location-button{min-height:50px!important}
   [data-selection-required="true"] .chooser h2{font-size:1.9rem!important}
   [data-selection-required="true"] .privacy-note{margin-top:.65rem!important}
-
-  html[data-standalone="true"] .app-header{padding-top:calc(.8rem + env(safe-area-inset-top,0px))!important}
-  html[data-standalone="true"] footer{padding-bottom:1rem}
 }
 
 @media(max-width:430px){
