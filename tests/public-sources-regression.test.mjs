@@ -10,6 +10,7 @@ const PROTECTED_BASELINE = [
   "Casa de la Cultura de Valparaíso",
   "Estadio Español Recreo",
   "Estrella Negra Club de Jazz",
+  "El Pasaje Café Viña",
   "Masita Rica",
   "Trotamundos Valparaíso",
   "Valparaíso Profundo",
@@ -86,7 +87,7 @@ test("public sources catalogue has stable unique public records", () => {
 });
 
 test("priority source expansion is present and BAJ remains single", () => {
-  assert.equal(catalogue.sources.length, 34);
+  assert.equal(catalogue.sources.length, 35);
   const names = catalogue.sources.map((source) => source.name);
   assert.equal(names.filter((name) => name === "Balmaceda Arte Joven Valparaíso").length, 1);
 
@@ -96,9 +97,19 @@ test("priority source expansion is present and BAJ remains single", () => {
     "Estrella Negra Club de Jazz",
     "Casa Prisma Valpo",
     "Estadio Español Recreo",
+    "El Pasaje Café Viña",
   ]) {
     assert.ok(names.includes(name), `${name} must remain integrated`);
   }
+});
+
+test("El Pasaje Café Viña remains a local integrated source", () => {
+  const source = catalogue.sources.find((item) => item.name === "El Pasaje Café Viña");
+  assert.ok(source, "El Pasaje Café Viña must remain in the public source catalogue");
+  assert.equal(source.website_url, "https://elpasaje.cl/");
+  assert.deepEqual(source.cities, ["Viña del Mar"]);
+  assert.deepEqual(source.categories, ["Música", "Ferias y gastronomía"]);
+  assert.equal(source.public_status, "integrada");
 });
 
 test("Valparaíso Profundo remains a first-class integrated source", () => {
