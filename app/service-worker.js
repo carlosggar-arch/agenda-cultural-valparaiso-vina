@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v39";
+const CACHE_VERSION = "v40";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -23,6 +23,7 @@ const SHELL_ASSETS = [
   "./stage31-accessibility-seo.js",
   "./plan-ahead.js",
   "./favorites.js",
+  "./mis-planes.html",
   "./vivamos-brand.js",
   "./header-redesign.js",
   "./density-polish.js",
@@ -53,6 +54,7 @@ const SHELL_ASSETS = [
   "../assets/city-registry.mjs",
   "../assets/favorites-core.mjs",
   "../assets/favorites-view.mjs",
+  "../assets/favorites-reminders.mjs",
   "../assets/favorites.css",
   "../assets/categoria-cine.jpg",
   "../assets/categoria-cultura.jpg",
@@ -146,7 +148,7 @@ async function networkFirstDataset(request) {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
-    // v39 deliberately keeps every registered city dataset instead of evicting another city.
+    // v40 deliberately keeps every registered city dataset instead of evicting another city.
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
