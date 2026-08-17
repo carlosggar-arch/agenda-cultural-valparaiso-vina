@@ -33,3 +33,5 @@ function preserveScrollDuringLegacyClick(container) {
 
 preserveScrollDuringLegacyClick(document.querySelector("[data-section-filters]"));
 preserveScrollDuringLegacyClick(document.querySelector("[data-category-filters]"));
+
+requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
