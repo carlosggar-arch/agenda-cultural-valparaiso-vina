@@ -96,8 +96,8 @@ jobs:
           grep -F '"start_url": "./app/"' manifest.webmanifest
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
-          grep -F 'const APP_VERSION = "PWA v28"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v28"' app/service-worker.js
+          grep -F 'const APP_VERSION = "PWA v29"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v29"' app/service-worker.js
           grep -F '"./combined-filters.js"' app/service-worker.js
           grep -F '"./combined-filters.css"' app/service-worker.js
           grep -F '"./combined-filters-polish.js"' app/service-worker.js
