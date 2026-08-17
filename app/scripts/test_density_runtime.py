@@ -17,6 +17,9 @@ def prepare_page(city: str) -> None:
   <script type="module" src="./density-polish.js"></script>
   <script>
     setTimeout(() => {
+      const discovery = document.querySelector("[data-discovery]");
+      if (discovery) discovery.hidden = false;
+
       const header = document.querySelector(".app-header");
       const controls = document.querySelector(".header-bottom");
       const headerRect = header?.getBoundingClientRect();
@@ -26,11 +29,35 @@ def prepare_page(city: str) -> None:
         const count = Number.parseInt(button.querySelector("small")?.textContent || "", 10);
         return count === 0 && getComputedStyle(button).display !== "none" && !button.hidden;
       });
+      const workbench = document.querySelector(".filter-workbench");
+      const dividerStyle = workbench ? getComputedStyle(workbench, "::before") : null;
+      const whenRow = document.querySelector("[data-combined-when]");
+      const whenRowStyle = whenRow ? getComputedStyle(whenRow) : null;
+      const whenTitleStyle = whenRow ? getComputedStyle(whenRow, "::before") : null;
 
       document.body.dataset.densityControlsPosition = controls ? getComputedStyle(controls).position : "missing";
       document.body.dataset.densityControlsTopGap = headerRect && controlsRect ? String(Math.round(controlsRect.top - headerRect.top)) : "999";
       document.body.dataset.densityControlsRightGap = headerRect && controlsRect ? String(Math.round(headerRect.right - controlsRect.right)) : "999";
       document.body.dataset.densityZeroCategoriesVisible = String(zeroVisible.length);
+      document.body.dataset.densityMosaicVisible = String(Boolean(
+        dividerStyle
+        && dividerStyle.content !== "none"
+        && Number.parseFloat(dividerStyle.height) >= 8
+        && dividerStyle.backgroundImage.includes("mosaic-top.png")
+      ));
+      document.body.dataset.densityWhenTitleVisible = String(Boolean(
+        whenTitleStyle
+        && whenTitleStyle.content.includes("Cuándo")
+        && whenTitleStyle.display !== "none"
+        && whenTitleStyle.visibility !== "hidden"
+        && Number.parseFloat(whenTitleStyle.top || "-1") >= 0
+      ));
+      document.body.dataset.densityWhenLineHeight = String(
+        Math.round(Number.parseFloat(whenTitleStyle?.lineHeight || "0"))
+      );
+      document.body.dataset.densityWhenPaddingTop = String(
+        Math.round(Number.parseFloat(whenRowStyle?.paddingTop || "0"))
+      );
     }, 7000);
   </script>
 '''
@@ -68,20 +95,34 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError(f"Header controls still consume a layout row for {city}")
     if 'data-density-zero-categories-visible="0"' not in dom:
         raise AssertionError(f"A zero-count category remains visible for {city}")
+    if 'data-density-mosaic-visible="true"' not in dom:
+        raise AssertionError(f"The compact mosaic divider is not visible for {city}")
+    if 'data-density-when-title-visible="true"' not in dom:
+        raise AssertionError(f"The stable visual When title is not rendered for {city}")
 
     import re
     top_match = re.search(r'data-density-controls-top-gap="(-?\d+)"', dom)
     right_match = re.search(r'data-density-controls-right-gap="(-?\d+)"', dom)
+    line_height_match = re.search(r'data-density-when-line-height="(\d+)"', dom)
+    padding_match = re.search(r'data-density-when-padding-top="(\d+)"', dom)
     if not top_match or not right_match:
         raise AssertionError(f"Could not measure header controls for {city}")
+    if not line_height_match or not padding_match:
+        raise AssertionError(f"Could not measure the When filter spacing for {city}")
     top_gap = int(top_match.group(1))
     right_gap = int(right_match.group(1))
+    line_height = int(line_height_match.group(1))
+    padding_top = int(padding_match.group(1))
     if not 0 <= top_gap <= 28:
         raise AssertionError(f"Header controls are not near the top edge for {city}: {top_gap}px")
     if not 0 <= right_gap <= 28:
         raise AssertionError(f"Header controls are not near the right edge for {city}: {right_gap}px")
+    if line_height < 10:
+        raise AssertionError(f"When title line-height remains cramped for {city}: {line_height}px")
+    if padding_top < 20:
+        raise AssertionError(f"When row has insufficient top breathing room for {city}: {padding_top}px")
 
-    print(f"Density runtime {city}: top-right controls and zero empty categories OK")
+    print(f"Density runtime {city}: compact header, mosaic divider and readable When filter OK")
 
 
 def main() -> None:
