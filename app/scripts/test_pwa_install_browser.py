@@ -22,9 +22,8 @@ REQUIRED_MARKERS = {
     'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
     'data-pwa-version="PWA v33"': "Installed app did not load the current PWA v33 runtime",
     'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
-    'data-mobile-nav-visible="true"': "Mobile one-hand navigation is not visible at phone width",
-    'data-mobile-touch-target="true"': "Mobile navigation touch targets are smaller than 44px",
-    'data-mobile-city-current="true"': "Current city is not reflected in the mobile city chooser",
+    'data-mobile-nav-absent="true"': "Removed bottom navigation was reintroduced",
+    'data-mobile-city-current="true"': "Current city is not reflected in the city chooser",
     'data-mobile-styles-loaded="true"': "Mobile experience stylesheet did not load",
     'data-mobile-install-meta="true"': "Installed-app title/capable metadata is incomplete",
 }
@@ -37,7 +36,7 @@ FIRST_OPEN_MARKERS = {
     'data-first-open-close-hidden="true"': "First-open chooser can be dismissed before choosing a city",
     'data-first-open-bottom-sheet="true"': "Phone-width chooser is not anchored as a bottom sheet",
     'data-first-open-option-target="true"': "First-open city option is too small for touch",
-    'data-first-open-nav-hidden="true"': "Bottom navigation competes visually with first-open chooser",
+    'data-first-open-nav-absent="true"': "Removed bottom navigation competes with first-open chooser",
 }
 
 
@@ -82,11 +81,8 @@ def make_test_pages() -> None:
         const version = document.querySelector("[data-app-version]")?.textContent?.trim() || "";
         const status = document.querySelector("[data-status]")?.textContent?.trim() || "";
         const mobileNav = document.querySelector("[data-mobile-tabbar]");
-        const mobileCityButton = document.querySelector('[data-mobile-action="city"]');
         const currentCity = document.querySelector('[data-city-option="valparaiso"][aria-current="true"]');
         const mobileStyles = document.querySelector('link[data-mobile-experience-styles]');
-        const navVisible = Boolean(mobileNav && !mobileNav.hidden && getComputedStyle(mobileNav).display !== "none");
-        const touchTarget = mobileCityButton ? mobileCityButton.getBoundingClientRect().height >= 44 : false;
         const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]')?.content === "¡Vivamos!";
         const appleCapable = document.querySelector('meta[name="apple-mobile-web-app-capable"]')?.content === "yes";
         const mobileCapable = document.querySelector('meta[name="mobile-web-app-capable"]')?.content === "yes";
@@ -96,8 +92,7 @@ def make_test_pages() -> None:
         document.body.dataset.pwaCards = String(cards);
         document.body.dataset.pwaVersion = version;
         document.body.dataset.pwaStillPreparing = String(status.includes("Preparando la agenda"));
-        document.body.dataset.mobileNavVisible = String(navVisible);
-        document.body.dataset.mobileTouchTarget = String(touchTarget);
+        document.body.dataset.mobileNavAbsent = String(!mobileNav);
         document.body.dataset.mobileCityCurrent = String(Boolean(currentCity));
         document.body.dataset.mobileStylesLoaded = String(Boolean(mobileStyles));
         document.body.dataset.mobileInstallMeta = String(appleTitle && appleCapable && mobileCapable);
@@ -127,7 +122,7 @@ def make_test_pages() -> None:
       document.body.dataset.firstOpenCloseHidden = String(Boolean(close?.hidden));
       document.body.dataset.firstOpenBottomSheet = String(bottomSheet);
       document.body.dataset.firstOpenOptionTarget = String(Boolean(option && option.getBoundingClientRect().height >= 72));
-      document.body.dataset.firstOpenNavHidden = String(Boolean(nav?.hidden));
+      document.body.dataset.firstOpenNavAbsent = String(!nav);
     }, 2600);
   </script>
 '''
@@ -216,7 +211,7 @@ def main() -> None:
         raise AssertionError(state)
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
     assert match is not None
-    print(f"Mobile PWA test: first-open chooser, install metadata, one-hand navigation, touch targets and {match.group(1)} Valparaiso cards validated")
+    print(f"Mobile PWA test: first-open chooser, install metadata, compact mobile controls and {match.group(1)} Valparaiso cards validated")
 
 
 if __name__ == "__main__":
