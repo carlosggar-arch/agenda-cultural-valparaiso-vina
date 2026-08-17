@@ -230,13 +230,17 @@ export function openEventDetail(event, presentation = {}) {
   const permanent = permanentEventUrl(event);
   const calendar = calendarFileUrl(event);
 
+  // Keep the action row intentionally small: one primary conversion action,
+  // calendar, share and one authoritative source at most.
   if (tickets) addExternalAction(actions, tickets, "Entradas ↗", "primary");
-  if (registration && registration !== tickets) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
-  if (calendar && hasCalendarDate(event)) addExternalAction(actions, calendar, "Añadir al calendario", "secondary", { newTab: false });
-  if (permanent) addExternalAction(actions, permanent, "Ficha permanente →", "secondary", { newTab: false });
+  else if (registration) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
+
+  if (calendar && hasCalendarDate(event)) {
+    addExternalAction(actions, calendar, "Añadir al calendario", "secondary", { newTab: false });
+  }
 
   if (permanent) {
-    addButtonAction(actions, "Compartir", async () => {
+    const shareButton = addButtonAction(actions, "Compartir", async () => {
       if (navigator.share) {
         try {
           await navigator.share({ title: event?.title || "Actividad cultural", url: permanent });
@@ -245,19 +249,26 @@ export function openEventDetail(event, presentation = {}) {
         }
         return;
       }
-      try { await navigator.clipboard.writeText(permanent); } catch {}
-    });
-    addButtonAction(actions, "Copiar enlace", async () => {
-      try { await navigator.clipboard.writeText(permanent); } catch {}
+      try {
+        await navigator.clipboard.writeText(permanent);
+        if (shareButton) {
+          shareButton.textContent = "Enlace copiado ✓";
+          window.setTimeout(() => { shareButton.textContent = "Compartir"; }, 1800);
+        }
+      } catch {
+        console.warn("No se pudo copiar el enlace del evento");
+      }
     });
   }
 
   if (gijonOpenData) {
-    if (source && source !== registration && source !== tickets) addExternalAction(actions, source, "Open Data oficial ↗");
-  } else {
-    if (official && official !== registration && official !== tickets) addExternalAction(actions, official, "Fuente oficial ↗");
-    if (source && source !== official && source !== registration && source !== tickets) addExternalAction(actions, source, "Fuente de datos ↗");
+    if (source) addExternalAction(actions, source, "Open Data oficial ↗");
+  } else if (official) {
+    addExternalAction(actions, official, "Fuente oficial ↗");
+  } else if (source) {
+    addExternalAction(actions, source, "Fuente ↗");
   }
+
   if (actions.childElementCount) content.append(actions);
 
   panel.append(content);
