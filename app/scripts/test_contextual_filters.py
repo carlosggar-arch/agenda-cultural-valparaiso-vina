@@ -99,13 +99,17 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v31"' in pwa
+assert 'const APP_VERSION = "PWA v32"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
-assert 'const CACHE_VERSION = "v31"' in service_worker
+assert 'import "./plan-ahead.js";' in pwa
+assert 'const CACHE_VERSION = "v32"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
 assert '"./compact-top.css"' in service_worker
+assert '"./plan-ahead.js"' in service_worker
+assert '"../assets/plan-ahead-core.mjs"' in service_worker
+assert '"../assets/plan-ahead.css"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 
@@ -117,6 +121,7 @@ assert 'window.location.replace(target.href)' not in root_index
 
 assert 'MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b"' in web_enhancements
 assert 'formatSchedule(event?.schedule, SCHEDULE_OPTIONS)' in web_enhancements
+assert './plan-ahead-web.js?v=20260817' in web_enhancements
 assert 'object-fit: contain !important' in media_layout
 assert '.event-card-media > button' in media_layout
 assert 'export function formatSchedule' in schedule_module
@@ -125,4 +130,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus static critical compact date/area/category filters: OK")
+print("Semantic search plus static critical compact date/area/category filters with plan-ahead v32: OK")

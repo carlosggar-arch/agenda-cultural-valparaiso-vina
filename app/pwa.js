@@ -9,8 +9,9 @@ import "./community-source.js";
 import "./header-redesign.js";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
+import "./plan-ahead.js";
 
-const APP_VERSION = "PWA v31";
+const APP_VERSION = "PWA v32";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
