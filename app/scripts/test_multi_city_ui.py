@@ -68,7 +68,8 @@ assert '.legacy-filter-hooks{display:none!important}' in combined_css
 assert '.event-card[hidden]{display:none!important}' in combined_css
 assert 'function clearLegacyPriceState()' in polish
 assert 'url.searchParams.delete("price")' in polish
-assert 'function queueFilterResync()' in polish
+assert 'function queueFilterResync()' not in polish
+assert 'new MutationObserver(queueFilterResync)' not in polish
 
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
