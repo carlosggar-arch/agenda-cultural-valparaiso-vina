@@ -6,7 +6,7 @@ function start() {
   const city = String(body?.dataset.city || "");
   const id = String(body?.dataset.eventId || "");
   const title = document.querySelector("h1")?.textContent?.trim() || document.title.replace(/ · Agenda Cultural$/, "");
-  const host = document.querySelector("[data-favorite-event-host]");
+  const host = document.querySelector("[data-favorite-event-host]") || document.querySelector(".event-actions");
   if (!city || !id || !host) return;
 
   installFavoritesStyles("../../../assets/favorites.css?v=20260817");
