@@ -1,284 +1,97 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-17T09:19:13-04:00",
+  "generated_at": "2026-08-17T11:22:55-04:00",
   "publication_date": "2026-08-17",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 84,
-    "events": 80,
+    "total": 78,
+    "events": 74,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
   },
   "events": [
     {
-      "id": "agenda_baburizza_1c7f799286855aee48c8",
-      "title": "Nebulosa Carina",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-05T20:00:00-04:00",
-        "end": "2026-10-04T20:59:59-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-05 – 2026-10-04",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "museobaburizza",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Sitio web Museo Baburizza",
-        "address": null,
-        "online": true,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.museobaburizza.cl/actividad/nebulosa-carina/"
-      },
-      "organizer": "Museo Baburizza",
-      "source_id": "museobaburizza",
-      "source_name": "Museo Baburizza",
-      "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-17T09:19:13-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T09:19:13-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma condiciones de acceso en la fuente oficial."
-      },
-      "description": "<p>“Nebulosa carina” de Mauricio López, es una muestra virtual que exhibe una colección de imágenes que desarrollan un recorrido por algunos de los objetos más fascinantes del universo, capturados desde nuestro planeta con paciencia, dedicación y admiración por el cosmos.</p>\\n",
-      "tags": [
-        "Exposiciones",
-        "Museo Baburizza"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-nebulosacarina-portada-1.jpg",
-        "alt": "Nebulosa Carina",
-        "source": "official_jsonld",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_baburizza_agenda",
-        "duration_days": 60
-      }
-    },
-    {
-      "id": "agenda_baburizza_8fa99fe4ed3a8e9e66e0",
-      "title": "“Las cumbias que escuchamos allá arriba”",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-14T06:00:00-04:00",
-        "end": "2026-10-04T15:00:00-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-14 – 2026-10-04",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit",
-        "opening_hours": {
-          "mode": "weekly",
-          "open_weekdays": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-          ],
-          "opening_time": "10:00",
-          "closing_time": "18:00",
-          "display_text": "Martes a domingo · 10:00–18:00",
-          "reference_date": "2026-08-17",
-          "is_open_on_reference_date": false,
-          "source_url": "https://www.museobaburizza.cl/visita/",
-          "source_name": "Museo Baburizza",
-          "verified_at": "2026-08-16"
-        }
-      },
-      "location": {
-        "venue_id": "museobaburizza",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Sala Blanca – Museo Baburizza",
-        "address": "Paseo Yugoslavo 176, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "CLP",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/"
-      },
-      "organizer": "Museo Baburizza",
-      "source_id": "museobaburizza",
-      "source_name": "Museo Baburizza",
-      "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-17T09:19:13-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T09:19:13-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma condiciones de acceso en la fuente oficial."
-      },
-      "description": "<p>Se presentará la nueva muestra temporal “Las cumbias que escuchamos allá arriba”, una exposición multimedial de la investigadora y fotógrafa chilena Fernanda Soto Mastrantonio. La exhibición busca proponer un nuevo diálogo intercultural desde el universo sensible de Deysi, una mujer aymara de 36 años que vive entre Alto Hospicio y la Quebrada de Chiclla, en la región de Iquique. </p>\\n",
-      "tags": [
-        "Exposiciones",
-        "Museo Baburizza"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-lascumbias-portada-1.jpg",
-        "alt": "“Las cumbias que escuchamos allá arriba”",
-        "source": "official_jsonld",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_baburizza_agenda",
-        "duration_days": 51,
-        "venue_hours_enriched": true
-      }
-    },
-    {
       "links": {
         "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
       },
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "title": "¿Cuáles serán los fósiles del futuro?",
       "source_name": "Museo de Historia Natural de Valparaíso",
       "registration_requirements": null,
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "image": {
-        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
-        "alt": "¿Cuáles serán los fósiles del futuro?"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "schedule": {
-        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
-        "mode": "multi_day",
-        "end": "2026-11-07",
-        "timezone": "America/Santiago",
-        "start": "2026-08-15T11:30:00-04:00",
-        "occurrences": []
-      },
-      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "event_type": "event",
-      "tags": [],
       "public_status": {
-        "registration_closed": null,
-        "information_completeness": "complete",
-        "sold_out": null,
-        "advisory_text": null,
-        "price_stage": null,
-        "source_official": true,
-        "registration_open": null,
         "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
         "price_confirmed": true,
-        "last_verified_at": null
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
+      "image": {
+        "alt": "¿Cuáles serán los fósiles del futuro?",
+        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg"
       },
       "price": {
-        "is_free": true,
-        "display_text": "Gratis",
-        "max_amount": 0,
         "currency": "CLP",
-        "min_amount": 0
-      },
-      "title": "¿Cuáles serán los fósiles del futuro?",
-      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
-      "audience": null,
-      "location": {
-        "latitude": null,
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "venue_id": null,
-        "online": false,
-        "address": null,
-        "city": "Valparaíso",
-        "longitude": null
+        "is_free": true,
+        "max_amount": 0,
+        "min_amount": 0,
+        "display_text": "Gratis"
       },
       "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
-      "last_verified_at": null
-    },
-    {
-      "id": "agenda_e7e2a4a89dc447f9bd2633e7",
-      "title": "Destino Valparaíso – Agosto 2026",
-      "event_type": "event",
+      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
       "primary_category": {
         "id": "exposiciones",
         "label": "Exposiciones"
       },
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "multi_day",
+        "occurrences": [],
+        "end": "2026-11-07",
+        "start": "2026-08-15T11:30:00-04:00",
+        "display_text": "2026-08-15 · 11:30, 13:00, 11:45"
+      },
+      "location": {
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": null,
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
+      }
+    },
+    {
+      "links": {
+        "official": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
+        "registration": null,
+        "tickets": null,
+        "source": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/"
+      },
       "categories": [
         {
           "id": "exposiciones",
@@ -289,65 +102,66 @@
           "label": "Museos"
         }
       ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-17T08:00:00-04:00",
-        "end": "2026-08-31",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-17 · 08:00, 17:00",
-        "occurrences": [],
-        "opening_time": "08:00",
-        "closing_time": "17:00",
-        "hours_confidence": "source_schedule_pair"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Concepción 499, Cerro Concepción",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/"
-      },
-      "organizer": "Valpo Cultura",
+      "title": "Destino Valparaíso – Agosto 2026",
       "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Ven a disfrutar agosto en Destino Valparaíso! Este mes tenemos música en vivo en @jardincervecero_cl , clases de tango en @da_mafalda_emporio, la @expo_parvati, una exposición de autos Ford A con @caav_region , la actividad interactiva del carrito de grabado,...",
-      "tags": [],
-      "audience": null,
       "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "information_completeness": "partial",
+        "source_official": false,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": null,
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
       "image": {
         "url": null,
         "alt": null,
         "relevance": "generic_schedule",
         "rejection_reason": "generic_schedule_not_event_specific"
+      },
+      "price": {
+        "currency": null,
+        "is_free": null,
+        "max_amount": null,
+        "min_amount": null,
+        "display_text": null
+      },
+      "description": "Ven a disfrutar agosto en Destino Valparaíso! Este mes tenemos música en vivo en @jardincervecero_cl , clases de tango en @da_mafalda_emporio, la @expo_parvati, una exposición de autos Ford A con @caav_region , la actividad interactiva del carrito de grabado,...",
+      "id": "agenda_e7e2a4a89dc447f9bd2633e7",
+      "source_url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Valpo Cultura",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "multi_day",
+        "occurrences": [],
+        "end": "2026-08-31",
+        "start": "2026-08-17T08:00:00-04:00",
+        "display_text": "2026-08-17 · 08:00, 17:00",
+        "opening_time": "08:00",
+        "closing_time": "17:00",
+        "hours_confidence": "source_schedule_pair"
+      },
+      "location": {
+        "venue": "Concepción 499, Cerro Concepción",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": null,
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
@@ -799,7 +613,7 @@
       }
     },
     {
-      "id": "agenda_cinema_f68f891c02d7288c3619",
+      "id": "agenda_86cb507e10f430fc25a9e47a",
       "title": "La Invitación",
       "event_type": "event",
       "primary_category": {
@@ -813,21 +627,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-17T15:00:00-04:00",
-        "end": "2026-08-17T15:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-17 · 15:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-17T15:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -837,7 +654,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544712",
@@ -845,28 +662,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544712"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544712",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Invitación Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 15:00 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544712",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544712",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -874,15 +687,10 @@
         "alt": "La Invitación",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
-      "id": "agenda_cinema_92d4fd4d7601cce1f24e",
+      "id": "agenda_b377c6cdc3681d49da2b3699",
       "title": "Obsesión",
       "event_type": "event",
       "primary_category": {
@@ -896,21 +704,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-17T17:00:00-04:00",
-        "end": "2026-08-17T17:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-17 · 17:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-17T17:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -920,7 +731,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718",
@@ -928,28 +739,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Obsesión Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 17:00 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 17:00 hrs.Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -957,11 +764,6 @@
         "alt": "Obsesión",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -1060,7 +862,7 @@
       }
     },
     {
-      "id": "agenda_cinema_925100f89d3012aef5dd",
+      "id": "agenda_c13609807fc2fc765f338823",
       "title": "Children of Men (2006)",
       "event_type": "event",
       "primary_category": {
@@ -1074,21 +876,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-17T19:30:00-04:00",
-        "end": "2026-08-17T19:30:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-17 · 19:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-17T19:30:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -1098,7 +903,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-children-of-men-2006-cine-arte-vina-del-mar",
@@ -1106,28 +911,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-children-of-men-2006-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-children-of-men-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Children of Men (2006) Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 19:30 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/children-of-men-2006-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/children-of-men-2006-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -1135,11 +936,6 @@
         "alt": "Children of Men (2006)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -1601,7 +1397,7 @@
       }
     },
     {
-      "id": "agenda_cinema_3151bd87e903c0cbd3e5",
+      "id": "agenda_55a0a565c3444bd69dca4f87",
       "title": "El Día D: Bajo Presión",
       "event_type": "event",
       "primary_category": {
@@ -1615,21 +1411,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-18T15:00:00-04:00",
-        "end": "2026-08-18T15:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-18 · 15:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-18T15:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -1639,7 +1438,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
@@ -1647,28 +1446,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. El Día D: Bajo Presión Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 15:00 hrs. Fecha: 18 de agosto de 2026. Horario: martes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -1676,15 +1471,10 @@
         "alt": "El Día D: Bajo Presión",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
-      "id": "agenda_cinema_5714a31fa98b9c2a7be0",
+      "id": "agenda_b7bf5c2de72314ab4fe20323",
       "title": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
       "event_type": "event",
       "primary_category": {
@@ -1698,21 +1488,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-18T17:00:00-04:00",
-        "end": "2026-08-18T17:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-18 · 17:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-18T17:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -1722,7 +1515,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
@@ -1730,28 +1523,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 17:00 hrs. Fecha: 18 de agosto de 2026. Horario: martes 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 17:00 hrs.Comprar entradas: https://www.passline.com/eventos/calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -1759,11 +1548,6 @@
         "alt": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -1840,7 +1624,7 @@
       }
     },
     {
-      "id": "agenda_cinema_f5db754052d7d45f969d",
+      "id": "agenda_f28fef11281f94aefe71e4a1",
       "title": "Perros de la Calle (1992)",
       "event_type": "event",
       "primary_category": {
@@ -1854,21 +1638,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-18T19:30:00-04:00",
-        "end": "2026-08-18T19:30:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-18 · 19:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-18T19:30:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -1878,7 +1665,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 4000,
-        "display_text": "Entrada General: $4.000"
+        "display_text": "Entrada General · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar",
@@ -1886,28 +1673,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Perros de la Calle (1992) Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 19:30 hrs. Fecha: 18 de agosto de 2026. Horario: martes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $4.000. Comprar entradas: https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -1915,11 +1698,6 @@
         "alt": "Perros de la Calle (1992)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -2065,7 +1843,7 @@
       }
     },
     {
-      "id": "agenda_cinema_9531c9ead643b3490477",
+      "id": "agenda_6613632fe7801c00aa272f54",
       "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
       "event_type": "event",
       "primary_category": {
@@ -2079,21 +1857,28 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "recurring",
         "start": "2026-08-19T13:00:00-04:00",
-        "end": "2026-08-19T13:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-08-19 · 13:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "display_text": "2026-08-19 · 13:00, 18:00",
+        "occurrences": [
+          {
+            "start": "2026-08-19T13:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-19T18:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2103,7 +1888,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
@@ -2111,28 +1896,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-5...",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -2140,15 +1921,10 @@
         "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
-      "id": "agenda_cinema_5f015daf7008ebb8cecb",
+      "id": "agenda_8ab5c118c8812dadd6aaacc6",
       "title": "La Odisea (2026)",
       "event_type": "event",
       "primary_category": {
@@ -2162,21 +1938,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-19T15:00:00-04:00",
-        "end": "2026-08-19T15:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-19 · 15:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-19T15:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2186,7 +1965,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
@@ -2194,28 +1973,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -2223,94 +1998,6 @@
         "alt": "La Odisea (2026)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_67a31fdf4c9667dca84d",
-      "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-19T18:00:00-04:00",
-        "end": "2026-08-19T18:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-19 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
-        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -2457,7 +2144,7 @@
       }
     },
     {
-      "id": "agenda_cinema_a3a5f08f5c7055a0c0f4",
+      "id": "agenda_246c9e7244f3e0fd38827556",
       "title": "Blue Valentine (2010)",
       "event_type": "event",
       "primary_category": {
@@ -2471,21 +2158,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-19T20:00:00-04:00",
-        "end": "2026-08-19T20:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-19 · 20:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-19T20:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2495,7 +2185,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar",
@@ -2503,28 +2193,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Blue Valentine (2010) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 20:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs.Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -2532,15 +2218,10 @@
         "alt": "Blue Valentine (2010)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
-      "id": "agenda_cinema_0185b50a0ec511cdd9ec",
+      "id": "agenda_78a395c8d6980d1679196a95",
       "title": "La Muerte de Robin Hood",
       "event_type": "event",
       "primary_category": {
@@ -2554,21 +2235,28 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "recurring",
         "start": "2026-08-20T18:00:00-04:00",
-        "end": "2026-08-20T18:00:00-04:00",
+        "end": "2026-08-21",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "display_text": "2026-08-20 · 18:00, 15:00",
+        "occurrences": [
+          {
+            "start": "2026-08-20T18:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-21T15:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2578,7 +2266,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
@@ -2586,28 +2274,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -2615,11 +2299,6 @@
         "alt": "La Muerte de Robin Hood",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -2835,7 +2514,7 @@
       }
     },
     {
-      "id": "agenda_cinema_295160d63e666d9784b9",
+      "id": "agenda_611565f0e8baa963ee0e0be5",
       "title": "The Doors: The Final Cut (1991-2026)",
       "event_type": "event",
       "primary_category": {
@@ -2849,21 +2528,28 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "recurring",
         "start": "2026-08-20T20:30:00-04:00",
-        "end": "2026-08-20T20:30:00-04:00",
+        "end": "2026-08-23",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 20:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "display_text": "2026-08-20 · 20:30, 18:00",
+        "occurrences": [
+          {
+            "start": "2026-08-20T20:30:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-23T18:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2873,7 +2559,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
@@ -2881,28 +2567,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vin...",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -2910,94 +2592,6 @@
         "alt": "The Doors: The Final Cut (1991-2026)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_642656d914c0f022cdcf",
-      "title": "La Muerte de Robin Hood",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-21T15:00:00-04:00",
-        "end": "2026-08-21T15:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-21 · 15:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
-        "alt": "La Muerte de Robin Hood",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -3078,7 +2672,7 @@
       }
     },
     {
-      "id": "agenda_cinema_806946634d753dfa6b80",
+      "id": "agenda_1740e4aa552f79135839e5b9",
       "title": "Marie Antoinette (20 Aniversario)",
       "event_type": "event",
       "primary_category": {
@@ -3092,21 +2686,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-21T19:30:00-04:00",
-        "end": "2026-08-21T19:30:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-21 · 19:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-21T19:30:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -3116,7 +2713,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
@@ -3124,28 +2721,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Marie Antoinette (20 Aniversario) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 19:30 hrs. Fecha: 21 de agosto de 2026. Horario: viernes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -3153,11 +2746,6 @@
         "alt": "Marie Antoinette (20 Aniversario)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -3749,12 +3337,11 @@
       }
     },
     {
-      "id": "agenda_a230128a7d7068236c040813",
-      "title": "Melancolías y Rebeliones",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
+      "links": {
+        "official": "https://parquecultural.cl/events/musica-trappo-banda-presenta-melancolias-y-rebeliones/",
+        "registration": null,
+        "tickets": null,
+        "source": "https://parquecultural.cl/events/musica-trappo-banda-presenta-melancolias-y-rebeliones/"
       },
       "categories": [
         {
@@ -3762,136 +3349,137 @@
           "label": "Música"
         }
       ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-22T18:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-22 · 18:00",
-        "occurrences": [
-          {
-            "start": "2026-08-22T18:00:00-04:00",
-            "end": null
-          }
-        ]
+      "title": "Melancolías y Rebeliones",
+      "source_name": "Parque Cultural de Valparaíso",
+      "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
       },
-      "location": {
-        "venue_id": "parque-cultural-valparaiso",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Parque Cultural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "event_type": "event",
+      "image": {
+        "alt": "Melancolías y Rebeliones",
+        "url": "https://parquecultural.cl/wp-content/uploads/2026/08/Trappo_Banda_melancolias_Y_rebeliones_PCdV_web_01.jpg"
       },
       "price": {
-        "is_free": true,
         "currency": "CLP",
-        "min_amount": 0,
+        "is_free": true,
         "max_amount": 0,
+        "min_amount": 0,
         "display_text": "Gratis"
       },
-      "links": {
-        "official": "https://parquecultural.cl/events/musica-trappo-banda-presenta-melancolias-y-rebeliones/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://parquecultural.cl/events/musica-trappo-banda-presenta-melancolias-y-rebeliones/"
-      },
-      "organizer": "Parque Cultural de Valparaíso",
-      "source_name": "Parque Cultural de Valparaíso",
-      "source_url": "https://parquecultural.cl/events/musica-trappo-banda-presenta-melancolias-y-rebeliones/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
       "description": "Música Trappo Banda presenta:. Durante una década, Trappo Banda ha construido su propuesta artística junto a músicos, organizaciones y gestores culturales de Valparaíso, Viña del Mar y Quilpué. Su trabajo se caracteriza por la autogestión, el compromiso colabo...",
-      "tags": [],
+      "id": "agenda_a230128a7d7068236c040813",
+      "source_url": "https://parquecultural.cl/events/musica-trappo-banda-presenta-melancolias-y-rebeliones/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
       "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://parquecultural.cl/wp-content/uploads/2026/08/Trappo_Banda_melancolias_Y_rebeliones_PCdV_web_01.jpg",
-        "alt": "Melancolías y Rebeliones"
+      "organizer": "Parque Cultural de Valparaíso",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [
+          {
+            "end": null,
+            "start": "2026-08-22T18:00:00-04:00"
+          }
+        ],
+        "end": null,
+        "start": "2026-08-22T18:00:00-04:00",
+        "display_text": "2026-08-22 · 18:00"
+      },
+      "location": {
+        "venue": "Parque Cultural de Valparaíso",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "parque-cultural-valparaiso",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
       "links": {
         "official": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/"
       },
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "source_name": "Valpo Cultura",
-      "registration_requirements": null,
       "categories": [
         {
           "id": "musica",
           "label": "Música"
         }
       ],
-      "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/07/Screenshot-2026-07-31-112601.png",
-        "alt": "Club Segundo Piso – De Kiruza"
-      },
-      "organizer": "Valpo Cultura",
-      "schedule": {
-        "display_text": "2026-08-22 · 21:00, 23:00",
-        "mode": "dated",
-        "end": null,
-        "timezone": "America/Santiago",
-        "start": "2026-08-22T21:00:00-04:00",
-        "occurrences": []
-      },
-      "source_url": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
-      "event_type": "event",
-      "tags": [],
+      "title": "Club Segundo Piso – De Kiruza",
+      "source_name": "Valpo Cultura",
+      "registration_requirements": null,
       "public_status": {
-        "registration_closed": null,
-        "information_completeness": "complete",
-        "sold_out": null,
-        "advisory_text": null,
-        "price_stage": null,
-        "source_official": false,
-        "registration_open": null,
         "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": false,
+        "registration_closed": null,
+        "last_verified_at": null,
         "price_confirmed": true,
-        "last_verified_at": null
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
+      "image": {
+        "alt": "Club Segundo Piso – De Kiruza",
+        "url": "https://valpocultura.cl/wp-content/uploads/2026/07/Screenshot-2026-07-31-112601.png"
       },
       "price": {
-        "is_free": false,
-        "display_text": "$15.000",
-        "max_amount": 15000,
         "currency": "CLP",
-        "min_amount": 15000
-      },
-      "title": "Club Segundo Piso – De Kiruza",
-      "id": "agenda_afb203aa4212cb1d9e290e66",
-      "audience": null,
-      "location": {
-        "latitude": null,
-        "commune": "Valparaíso",
-        "venue": "Av Brasil 1395",
-        "venue_id": null,
-        "online": false,
-        "address": null,
-        "city": "Valparaíso",
-        "longitude": null
+        "is_free": false,
+        "max_amount": 15000,
+        "min_amount": 15000,
+        "display_text": "$15.000"
       },
       "description": "“¡Revive los grandes clásicos de De Kiruza Asegura tu lugar para el show más encendido de Valparaiso. No dejes que te lo cuenten!",
-      "last_verified_at": null
+      "id": "agenda_afb203aa4212cb1d9e290e66",
+      "source_url": "https://valpocultura.cl/evento/club-segundo-piso-de-kiruza/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Valpo Cultura",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-08-22T21:00:00-04:00",
+        "display_text": "2026-08-22 · 21:00, 23:00"
+      },
+      "location": {
+        "venue": "Av Brasil 1395",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": null,
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
+      }
     },
     {
       "id": "agenda_teatromuseo_43ba6181f70d7b0b9058",
@@ -3944,10 +3532,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-17T09:19:11-04:00",
+      "last_verified_at": "2026-08-17T11:22:55-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:19:11-04:00",
+        "last_verified_at": "2026-08-17T11:22:55-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3973,89 +3561,6 @@
       "editorial": {
         "classification": "event",
         "reason": "official_teatromuseo_cartelera",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_fdc91967cf8e1f7706d7",
-      "title": "The Doors: The Final Cut (1991-2026)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-23T18:00:00-04:00",
-        "end": "2026-08-23T18:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-23 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
-        "alt": "The Doors: The Final Cut (1991-2026)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
         "duration_days": 0
       }
     },
@@ -4130,7 +3635,7 @@
       }
     },
     {
-      "id": "agenda_cinema_b7e6bf506cd1b5574907",
+      "id": "agenda_a3ac6b5483d67fc3f25f5c9f",
       "title": "Party Monster (2003)",
       "event_type": "event",
       "primary_category": {
@@ -4144,21 +3649,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-24T19:00:00-04:00",
-        "end": "2026-08-24T19:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-24 · 19:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-24T19:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -4168,7 +3676,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Estudiantes y Personas Mayores: $4.000 · Entrada General: $5.500"
+        "display_text": "Estudiantes y Personas Mayores · $4.000 · Entrada General · $5.500"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
@@ -4176,28 +3684,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Party Monster (2003) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 19:00 hrs. Fecha: 24 de agosto de 2026. Horario: lunes 19:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Estudiantes y Personas Mayores: $4.000 · Entrada General: $5.500. Comprar entradas: https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 19:00 hrs.Comprar entradas: https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -4205,11 +3709,6 @@
         "alt": "Party Monster (2003)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -4527,7 +4026,7 @@
       }
     },
     {
-      "id": "agenda_cinema_591aedbc6375ea9be0c1",
+      "id": "agenda_b0f00a5bde1ece295138e869",
       "title": "Little Miss Sunshine (2006)",
       "event_type": "event",
       "primary_category": {
@@ -4541,21 +4040,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-28T18:00:00-04:00",
-        "end": "2026-08-28T18:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-28 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-28T18:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -4565,7 +4067,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
@@ -4573,28 +4075,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Little Miss Sunshine (2006) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 28 de agosto de 2026, 18:00 hrs. Fecha: 28 de agosto de 2026. Horario: viernes 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 28 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -4602,11 +4100,6 @@
         "alt": "Little Miss Sunshine (2006)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -4683,12 +4176,11 @@
       }
     },
     {
-      "id": "agenda_9007884dd819ed9a575ebda9",
-      "title": "Teatro \"Matriarcas: Poesía, Papel y Tinta\"",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
+      "links": {
+        "official": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/",
+        "registration": null,
+        "tickets": null,
+        "source": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/"
       },
       "categories": [
         {
@@ -4696,65 +4188,66 @@
           "label": "Teatro"
         }
       ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-28T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 19:00",
-        "occurrences": [
-          {
-            "start": "2026-08-28T19:00:00-04:00",
-            "end": null
-          }
-        ]
+      "title": "Teatro \"Matriarcas: Poesía, Papel y Tinta\"",
+      "source_name": "Parque Cultural de Valparaíso",
+      "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
       },
-      "location": {
-        "venue_id": "parque-cultural-valparaiso",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Parque Cultural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "event_type": "event",
+      "image": {
+        "alt": "Teatro \"Matriarcas: Poesía, Papel y Tinta\"",
+        "url": "https://parquecultural.cl/wp-content/uploads/2026/08/Matriarcas_PCdV_Web_01.jpg"
       },
       "price": {
-        "is_free": false,
         "currency": "CLP",
-        "min_amount": 7000,
+        "is_free": false,
         "max_amount": 12000,
+        "min_amount": 7000,
         "display_text": "$7.000 · $12.000"
       },
-      "links": {
-        "official": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/"
-      },
-      "organizer": "Parque Cultural de Valparaíso",
-      "source_name": "Parque Cultural de Valparaíso",
-      "source_url": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
       "description": "“Matriarcas: Poesía, Papel y Tinta” recorre la intimidad de estas mujeres, mostrando la grandeza de su pensamiento y la dureza de sus biografías: maternidades atravesadas por el dolor, amores truncos, la violencia de género y la constante lucha por ser escucha...",
-      "tags": [],
+      "id": "agenda_9007884dd819ed9a575ebda9",
+      "source_url": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro"
+      },
+      "last_verified_at": null,
       "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://parquecultural.cl/wp-content/uploads/2026/08/Matriarcas_PCdV_Web_01.jpg",
-        "alt": "Teatro \"Matriarcas: Poesía, Papel y Tinta\""
+      "organizer": "Parque Cultural de Valparaíso",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [
+          {
+            "end": null,
+            "start": "2026-08-28T19:00:00-04:00"
+          }
+        ],
+        "end": null,
+        "start": "2026-08-28T19:00:00-04:00",
+        "display_text": "2026-08-28 · 19:00"
+      },
+      "location": {
+        "venue": "Parque Cultural de Valparaíso",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "parque-cultural-valparaiso",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
@@ -4828,12 +4321,11 @@
       }
     },
     {
-      "id": "agenda_738a464c120c73aecfe90622",
-      "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
+      "links": {
+        "official": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+        "registration": null,
+        "tickets": null,
+        "source": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/"
       },
       "categories": [
         {
@@ -4841,64 +4333,65 @@
           "label": "Música"
         }
       ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-29T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-29 · 19:00, 20:30",
-        "occurrences": []
+      "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+      "source_name": "Cultura USM",
+      "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
       },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "event_type": "event",
+      "image": {
+        "alt": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/1-1080-x-1350-PARA-WEB-819x1024.jpg"
       },
       "price": {
-        "is_free": false,
         "currency": "CLP",
-        "min_amount": 3000,
+        "is_free": false,
         "max_amount": 12000,
+        "min_amount": 3000,
         "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
-      "links": {
-        "official": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/"
-      },
-      "organizer": "Cultura USM",
-      "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
       "description": "Reconocido por su trayectoria en los escenarios más importantes de la ópera a nivel mundial, Christian Senn llega por primera vez a la Temporada Artística USM junto a Tabita Martínez, una de las sopranos chilenas más sorprendentes de la actualidad. Senn ha des...",
-      "tags": [],
+      "id": "agenda_738a464c120c73aecfe90622",
+      "source_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
       "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/1-1080-x-1350-PARA-WEB-819x1024.jpg",
-        "alt": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez"
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-08-29T19:00:00-04:00",
+        "display_text": "2026-08-29 · 19:00, 20:30"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
-      "id": "agenda_cinema_cfdf8ef1738036d37302",
+      "id": "agenda_60f99e3a996e3f091586f0d1",
       "title": "High School Musical Sing Along (2006)",
       "event_type": "event",
       "primary_category": {
@@ -4912,21 +4405,24 @@
         }
       ],
       "schedule": {
-        "mode": "single",
+        "mode": "dated",
         "start": "2026-08-29T19:00:00-04:00",
-        "end": "2026-08-29T19:00:00-04:00",
+        "end": null,
         "timezone": "America/Santiago",
         "display_text": "2026-08-29 · 19:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
+        "occurrences": [
+          {
+            "start": "2026-08-29T19:00:00-04:00",
+            "end": null
+          }
+        ]
       },
       "location": {
-        "venue_id": "cinearte_vina",
+        "venue_id": null,
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
+        "address": null,
         "online": false,
         "latitude": null,
         "longitude": null
@@ -4936,7 +4432,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
@@ -4944,28 +4440,24 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar"
       },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
+      "organizer": null,
+      "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-17T09:08:15-04:00",
+      "last_verified_at": "2026-08-17",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:08:15-04:00",
+        "last_verified_at": "2026-08-17",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": false,
+        "cancelled": null,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+        "advisory_text": null
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. High School Musical Sing Along (2006) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: sábado 29 de agosto de 2026, 19:00 hrs. Fecha: 29 de agosto de 2026. Horario: sábado 19:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: sábado 29 de agosto de 2026, 19:00 hrs.Comprar entradas: https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
+      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
@@ -4973,11 +4465,6 @@
         "alt": "High School Musical Sing Along (2006)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -5205,10 +4692,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-17T09:19:11-04:00",
+      "last_verified_at": "2026-08-17T11:22:55-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T09:19:11-04:00",
+        "last_verified_at": "2026-08-17T11:22:55-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5380,95 +4867,11 @@
       }
     },
     {
-      "id": "agenda_cinema_1a49202480b0c737110a",
-      "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-10-03T17:00:00-03:00",
-        "end": "2026-10-03T17:00:00-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-10-03 · 17:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "insomniacine",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "INSOMNIA Teatro Condell",
-        "address": "Condell 1585, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
       "links": {
-        "official": "https://www.passline.com/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell",
-        "tickets": "https://www.passline.com/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell",
+        "official": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/",
         "registration": null,
-        "source": "https://www.passline.com/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell"
-      },
-      "organizer": "INSOMNIA Teatro Condell",
-      "source_id": "insomniacine",
-      "source_name": "INSOMNIA Teatro Condell",
-      "source_url": "https://www.passline.com/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell",
-      "last_verified_at": "2026-08-17T09:09:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T09:09:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Sábado 3 de octubre, 17:00 hrs",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell-543593-rec.jpg",
-        "alt": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_26f14816799b9528b2e76c37",
-      "title": "La contadora de películas",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
+        "tickets": null,
+        "source": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/"
       },
       "categories": [
         {
@@ -5476,60 +4879,61 @@
           "label": "Teatro"
         }
       ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-10-03T20:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-10-03 · 20:00, 21:30",
-        "occurrences": []
+      "title": "La contadora de películas",
+      "source_name": "Cultura USM",
+      "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
       },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "event_type": "event",
+      "image": {
+        "alt": "La contadora de películas",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/la-contadora-de-peliculas-1-1024x393.jpg"
       },
       "price": {
-        "is_free": false,
         "currency": "CLP",
-        "min_amount": 3000,
+        "is_free": false,
         "max_amount": 12000,
+        "min_amount": 3000,
         "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
-      "links": {
-        "official": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/"
-      },
-      "organizer": "Cultura USM",
-      "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
       "description": "Teatrocinema presenta la aplaudida obra. La aplaudida compañía Teatrocinema regresa a la Temporada Artística USM con “La contadora de películas”, obra basada en la novela homónima del Premio Nacional de Literatura Hernán Rivera Letelier. Con diez años en carte...",
-      "tags": [],
+      "id": "agenda_26f14816799b9528b2e76c37",
+      "source_url": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/",
+      "primary_category": {
+        "id": "teatro",
+        "label": "Teatro"
+      },
+      "last_verified_at": null,
       "audience": "Familiar",
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/la-contadora-de-peliculas-1-1024x393.jpg",
-        "alt": "La contadora de películas"
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-10-03T20:00:00-03:00",
+        "display_text": "2026-10-03 · 20:00, 21:30"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
@@ -5600,89 +5004,16 @@
       "audience": null,
       "registration_requirements": "Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock",
       "image": {
-        "url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
-        "alt": "Itaú Maratón de Viña 2026",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       }
     },
     {
-      "id": "agenda_b1114421c88d89be3830c456",
-      "title": "La Orquesta de Cámara de Chile junto a Emmanuel Siffert",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-10-10T19:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-10-10 · 19:00, 21:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
       "links": {
         "official": "https://cultura.usm.cl/eventos/la-orquesta-de-camara-de-chile-junto-a-emmanuel-siffert/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/la-orquesta-de-camara-de-chile-junto-a-emmanuel-siffert/"
-      },
-      "organizer": "Cultura USM",
-      "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/la-orquesta-de-camara-de-chile-junto-a-emmanuel-siffert/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "La Temporada Artística de la Universidad Técnica Federico Santa María recibe a la destacada Orquesta de Cámara de Chile (OCCH), uno de los elencos más reconocidos del país por su excelencia interpretativa y su permanente labor de difusión de la música clásica...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/Sin-titulo-4556-1-1024x693.jpg",
-        "alt": "La Orquesta de Cámara de Chile junto a Emmanuel Siffert"
-      }
-    },
-    {
-      "id": "agenda_16a301f160b75711409b3820",
-      "title": "Orquesta Sinfónica Nacional Juvenil junto al director Helmuth Reichel",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
       },
       "categories": [
         {
@@ -5690,60 +5021,131 @@
           "label": "Música"
         }
       ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-10-24T19:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-10-24 · 19:00, 21:00",
-        "occurrences": []
+      "title": "La Orquesta de Cámara de Chile junto a Emmanuel Siffert",
+      "source_name": "Cultura USM",
+      "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
       },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "event_type": "event",
+      "image": {
+        "alt": "La Orquesta de Cámara de Chile junto a Emmanuel Siffert",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/Sin-titulo-4556-1-1024x693.jpg"
       },
       "price": {
-        "is_free": false,
         "currency": "CLP",
-        "min_amount": 3000,
-        "max_amount": 12000,
-        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
+        "is_free": true,
+        "max_amount": 0,
+        "min_amount": 0,
+        "display_text": "Gratis"
       },
+      "description": "La Temporada Artística de la Universidad Técnica Federico Santa María recibe a la destacada Orquesta de Cámara de Chile (OCCH), uno de los elencos más reconocidos del país por su excelencia interpretativa y su permanente labor de difusión de la música clásica...",
+      "id": "agenda_b1114421c88d89be3830c456",
+      "source_url": "https://cultura.usm.cl/eventos/la-orquesta-de-camara-de-chile-junto-a-emmanuel-siffert/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-10-10T19:00:00-03:00",
+        "display_text": "2026-10-10 · 19:00, 21:00"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
+      }
+    },
+    {
       "links": {
         "official": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/"
       },
-      "organizer": "Cultura USM",
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "title": "Orquesta Sinfónica Nacional Juvenil junto al director Helmuth Reichel",
       "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
-      "last_verified_at": null,
+      "registration_requirements": null,
       "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
         "cancelled": null,
-        "sold_out": null,
         "price_stage": null,
-        "price_confirmed": true,
+        "advisory_text": null,
         "information_completeness": "complete",
-        "advisory_text": null
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
+      "image": {
+        "alt": "Orquesta Sinfónica Nacional Juvenil junto al director Helmuth Reichel",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/041-1-scaled-e1773428623606-1024x481.jpg"
+      },
+      "price": {
+        "currency": "CLP",
+        "is_free": false,
+        "max_amount": 12000,
+        "min_amount": 3000,
+        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
       "description": "La Orquesta Sinfónica Nacional Juvenil (OSNJ) regresa el sábado 24 de octubre a la Temporada Artística USM con un gran concierto bajo la conducción de Helmuth Reichel, director invitado. La OSNJ es uno de los elencos artísticos más prestigiosos del país y el p...",
-      "tags": [],
+      "id": "agenda_16a301f160b75711409b3820",
+      "source_url": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
       "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/041-1-scaled-e1773428623606-1024x481.jpg",
-        "alt": "Orquesta Sinfónica Nacional Juvenil junto al director Helmuth Reichel"
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-10-24T19:00:00-03:00",
+        "display_text": "2026-10-24 · 19:00, 21:00"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
@@ -5828,152 +5230,81 @@
       }
     },
     {
-      "id": "agenda_1a591564f0fa8b0f2cb0394a",
-      "title": "Alberto Plaza Sinfónico: Esencial Tour 2026",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-11-07T19:30:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-11-07 · 19:30, 21:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
       "links": {
         "official": "https://cultura.usm.cl/eventos/alberto-plaza-sinfonico-esencial-tour-2026/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/alberto-plaza-sinfonico-esencial-tour-2026/"
       },
-      "organizer": "Cultura USM",
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "title": "Alberto Plaza Sinfónico: Esencial Tour 2026",
       "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/alberto-plaza-sinfonico-esencial-tour-2026/",
-      "last_verified_at": null,
+      "registration_requirements": null,
       "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
         "cancelled": null,
-        "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
         "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": null,
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
+      "image": {
+        "alt": "Alberto Plaza Sinfónico: Esencial Tour 2026",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/07/VALPARAISO1080-x-1350-px.png"
+      },
+      "price": {
+        "currency": null,
+        "is_free": null,
+        "max_amount": null,
+        "min_amount": null,
+        "display_text": null
       },
       "description": "El reconocido cantautor chileno Alberto Plaza se presentará en el Teatro Aula Magna de la Universidad Técnica Federico Santa María el próximo sábado 7 de noviembre, con su espectáculo Alberto Plaza Sinfónico: Esencial Tour 2026. En esta propuesta, el artista o...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/07/VALPARAISO1080-x-1350-px.png",
-        "alt": "Alberto Plaza Sinfónico: Esencial Tour 2026"
-      }
-    },
-    {
-      "id": "agenda_c5a59d2ed011cefed562727b",
-      "title": "El nuevo referente del bolero: Catalina y las Bordonas de Oro",
-      "event_type": "event",
+      "id": "agenda_1a591564f0fa8b0f2cb0394a",
+      "source_url": "https://cultura.usm.cl/eventos/alberto-plaza-sinfonico-esencial-tour-2026/",
       "primary_category": {
         "id": "musica",
         "label": "Música"
       },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Cultura USM",
+      "tags": [],
       "schedule": {
-        "mode": "dated",
-        "start": "2026-11-14T19:00:00-03:00",
-        "end": null,
         "timezone": "America/Santiago",
-        "display_text": "2026-11-14 · 19:00, 21:00",
-        "occurrences": []
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-11-07T19:30:00-03:00",
+        "display_text": "2026-11-07 · 19:30, 21:30"
       },
       "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
         "venue": "Teatro Aula Magna USM",
         "address": null,
-        "online": false,
         "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
         "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 3000,
-        "max_amount": 12000,
-        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
-      },
+      }
+    },
+    {
       "links": {
         "official": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/"
-      },
-      "organizer": "Cultura USM",
-      "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "La Temporada Artística de la Universidad Técnica Federico Santa María abrirá un espacio especial para la música popular latinoamericana con la presentación del aplaudido conjunto Catalina y las Bordonas de Oro, agrupación que ha conquistado al público con su e...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/IG-feed-individuales-2-CYLBDO-GIRA-2026-La-alegría-de-los-que-lloran_VALPARAÍSO-1.jpg",
-        "alt": "El nuevo referente del bolero: Catalina y las Bordonas de Oro"
-      }
-    },
-    {
-      "id": "agenda_fc4ffc2a0c13509cadd71cb1",
-      "title": "La leyenda del piano Edith Fischer en concierto",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
       },
       "categories": [
         {
@@ -5981,200 +5312,271 @@
           "label": "Música"
         }
       ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-11-21T19:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-11-21 · 19:00, 21:00",
-        "occurrences": []
+      "title": "El nuevo referente del bolero: Catalina y las Bordonas de Oro",
+      "source_name": "Cultura USM",
+      "registration_requirements": null,
+      "public_status": {
+        "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
       },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "event_type": "event",
+      "image": {
+        "alt": "El nuevo referente del bolero: Catalina y las Bordonas de Oro",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/IG-feed-individuales-2-CYLBDO-GIRA-2026-La-alegría-de-los-que-lloran_VALPARAÍSO-1.jpg"
       },
       "price": {
-        "is_free": false,
         "currency": "CLP",
-        "min_amount": 3000,
+        "is_free": false,
         "max_amount": 12000,
+        "min_amount": 3000,
         "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
+      "description": "La Temporada Artística de la Universidad Técnica Federico Santa María abrirá un espacio especial para la música popular latinoamericana con la presentación del aplaudido conjunto Catalina y las Bordonas de Oro, agrupación que ha conquistado al público con su e...",
+      "id": "agenda_c5a59d2ed011cefed562727b",
+      "source_url": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-11-14T19:00:00-03:00",
+        "display_text": "2026-11-14 · 19:00, 21:00"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
+      }
+    },
+    {
       "links": {
         "official": "https://cultura.usm.cl/eventos/la-leyenda-del-piano-edith-fischer-en-concierto/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/la-leyenda-del-piano-edith-fischer-en-concierto/"
       },
-      "organizer": "Cultura USM",
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "title": "La leyenda del piano Edith Fischer en concierto",
       "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/la-leyenda-del-piano-edith-fischer-en-concierto/",
-      "last_verified_at": null,
+      "registration_requirements": null,
       "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
         "cancelled": null,
-        "sold_out": null,
         "price_stage": null,
-        "price_confirmed": true,
+        "advisory_text": null,
         "information_completeness": "complete",
-        "advisory_text": null
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
+      "image": {
+        "alt": "La leyenda del piano Edith Fischer en concierto",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/Sin-titulo-1613-1024x683.jpg"
+      },
+      "price": {
+        "currency": "CLP",
+        "is_free": false,
+        "max_amount": 12000,
+        "min_amount": 3000,
+        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
       "description": "La Temporada Artística de la Universidad Técnica Federico Santa María recibirá nuevamente a una de las figuras más admiradas de la escena pianística: la destacada concertista Edith Fischer. Dueña de una trayectoria excepcional que la ha llevado a presentarse e...",
-      "tags": [],
+      "id": "agenda_fc4ffc2a0c13509cadd71cb1",
+      "source_url": "https://cultura.usm.cl/eventos/la-leyenda-del-piano-edith-fischer-en-concierto/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
       "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/Sin-titulo-1613-1024x683.jpg",
-        "alt": "La leyenda del piano Edith Fischer en concierto"
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-11-21T19:00:00-03:00",
+        "display_text": "2026-11-21 · 19:00, 21:00"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
       "links": {
         "official": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/"
       },
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "title": "Música del mundo",
       "source_name": "Cultura USM",
       "registration_requirements": null,
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "organizer": "Cultura USM",
-      "schedule": {
-        "display_text": "2026-12-05 · 19:00, 21:00",
-        "mode": "dated",
-        "end": null,
-        "timezone": "America/Santiago",
-        "start": "2026-12-05T19:00:00-03:00",
-        "occurrences": []
-      },
-      "source_url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
-      "event_type": "event",
-      "tags": [],
       "public_status": {
-        "registration_closed": null,
-        "information_completeness": "complete",
-        "sold_out": null,
-        "advisory_text": null,
-        "price_stage": null,
-        "source_official": true,
-        "registration_open": null,
         "cancelled": null,
+        "price_stage": null,
+        "advisory_text": null,
+        "information_completeness": "complete",
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
         "price_confirmed": true,
-        "last_verified_at": null
+        "sold_out": null,
+        "registration_open": null
       },
-      "price": {
-        "is_free": false,
-        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000",
-        "max_amount": 12000,
-        "currency": "CLP",
-        "min_amount": 3000
-      },
-      "title": "Música del mundo",
-      "id": "agenda_d8ec40944baa69699c7fe878",
-      "audience": null,
-      "location": {
-        "latitude": null,
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "venue_id": "aula-magna-usm",
-        "online": false,
-        "address": null,
-        "city": "Valparaíso",
-        "longitude": null
-      },
-      "description": "La cantante Andrea Tessa presenta el concierto. La Temporada Artística de la Universidad Técnica Federico Santa María presentará el concierto “Música del mundo”, protagonizado por la reconocida cantante chilena Andrea Tessa, una de las voces más versátiles y e...",
-      "last_verified_at": null
-    },
-    {
-      "id": "agenda_3d26d294c61eab9cc0d28780",
-      "title": "Concierto de clausura 86ª Temporada Artística USM: Orquesta Sinfónica Nacional de Chile",
       "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-12-12T19:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-12-12 · 19:00, 21:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
+      "image": {
+        "alt": null,
+        "url": null
       },
       "price": {
-        "is_free": false,
         "currency": "CLP",
-        "min_amount": 3000,
+        "is_free": false,
         "max_amount": 12000,
+        "min_amount": 3000,
         "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
+      "description": "La cantante Andrea Tessa presenta el concierto. La Temporada Artística de la Universidad Técnica Federico Santa María presentará el concierto “Música del mundo”, protagonizado por la reconocida cantante chilena Andrea Tessa, una de las voces más versátiles y e...",
+      "id": "agenda_d8ec40944baa69699c7fe878",
+      "source_url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
+      "audience": null,
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-12-05T19:00:00-03:00",
+        "display_text": "2026-12-05 · 19:00, 21:00"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
+      }
+    },
+    {
       "links": {
         "official": "https://cultura.usm.cl/eventos/concierto-de-clausura-86a-temporada-artistica-usm-orquesta-sinfonica-nacional-de-chile/",
-        "tickets": null,
         "registration": null,
+        "tickets": null,
         "source": "https://cultura.usm.cl/eventos/concierto-de-clausura-86a-temporada-artistica-usm-orquesta-sinfonica-nacional-de-chile/"
       },
-      "organizer": "Cultura USM",
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "title": "Concierto de clausura 86ª Temporada Artística USM: Orquesta Sinfónica Nacional de Chile",
       "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/concierto-de-clausura-86a-temporada-artistica-usm-orquesta-sinfonica-nacional-de-chile/",
-      "last_verified_at": null,
+      "registration_requirements": null,
       "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
         "cancelled": null,
-        "sold_out": null,
         "price_stage": null,
-        "price_confirmed": true,
+        "advisory_text": null,
         "information_completeness": "complete",
-        "advisory_text": null
+        "source_official": true,
+        "registration_closed": null,
+        "last_verified_at": null,
+        "price_confirmed": true,
+        "sold_out": null,
+        "registration_open": null
+      },
+      "event_type": "event",
+      "image": {
+        "alt": "Concierto de clausura 86ª Temporada Artística USM: Orquesta Sinfónica Nacional de Chile",
+        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/2T2A3993-1024x686.jpg"
+      },
+      "price": {
+        "currency": "CLP",
+        "is_free": false,
+        "max_amount": 12000,
+        "min_amount": 3000,
+        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
       },
       "description": "La Temporada Artística de la Universidad Técnica Federico Santa María culminará su ciclo con un concierto de clausura de especial relevancia, protagonizado por dos de los elencos más emblemáticos del país: la Orquesta Sinfónica Nacional de Chile y el Coro Sinf...",
-      "tags": [],
+      "id": "agenda_3d26d294c61eab9cc0d28780",
+      "source_url": "https://cultura.usm.cl/eventos/concierto-de-clausura-86a-temporada-artistica-usm-orquesta-sinfonica-nacional-de-chile/",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "last_verified_at": null,
       "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/2T2A3993-1024x686.jpg",
-        "alt": "Concierto de clausura 86ª Temporada Artística USM: Orquesta Sinfónica Nacional de Chile"
+      "organizer": "Cultura USM",
+      "tags": [],
+      "schedule": {
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "occurrences": [],
+        "end": null,
+        "start": "2026-12-12T19:00:00-03:00",
+        "display_text": "2026-12-12 · 19:00, 21:00"
+      },
+      "location": {
+        "venue": "Teatro Aula Magna USM",
+        "address": null,
+        "latitude": null,
+        "city": "Valparaíso",
+        "venue_id": "aula-magna-usm",
+        "commune": "Valparaíso",
+        "online": false,
+        "longitude": null
       }
     },
     {
@@ -6243,10 +5645,8 @@
       "audience": null,
       "registration_requirements": "inscripción disponible en el sitio oficial",
       "image": {
-        "url": "https://redsalsa.cl/img/gal3.jpg",
-        "alt": "Clases de salsa y bachata RED Studio",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       }
     },
     {
@@ -6315,10 +5715,8 @@
       "audience": null,
       "registration_requirements": "consulta y confirmación directa con la tallerista",
       "image": {
-        "url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
-        "alt": "Curso particular de joyería 2026 — Natalia Saldías",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       }
     },
     {
@@ -6387,10 +5785,8 @@
       "audience": null,
       "registration_requirements": "permite incorporarse durante el año",
       "image": {
-        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
-        "alt": "Taller permanente de cerámica Le Chat",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null
       }
     },
     {
@@ -6474,54 +5870,18 @@
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-17T09:19:11-04:00",
+      "refreshed_at": "2026-08-17T11:22:55-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
     "museobaburizza": {
-      "links_discovered": 2,
-      "pages_fetched": 2,
-      "events_detected": 2,
-      "refreshed_at": "2026-08-17T09:19:13-04:00",
+      "links_discovered": 0,
+      "pages_fetched": 0,
+      "events_detected": 0,
+      "refreshed_at": "2026-08-17T11:23:01-04:00",
       "mode": "official_jsonld_agenda_refresh",
-      "events_published": 2,
-      "preserved_existing": false
-    },
-    "insomniacine": {
-      "reviewed_titles": 1,
-      "sessions_detected": 1,
-      "sessions_published": 1,
-      "refreshed_at": "2026-08-17T09:09:32-04:00",
-      "mode": "official_passline_event_page_recovery",
-      "recovery_attempted": true,
-      "recovery_mode": "passline_listing_cards_and_event_pages",
-      "recovery_horizon_days": 90,
-      "recovery_sessions": 1,
-      "secondary_probe_status": "no_current_candidates",
-      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 0,
-      "secondary_probe_current_candidates": 0,
-      "secondary_probe_candidate_titles": [],
-      "secondary_probe_actionable": true,
-      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
-      "secondary_probe_checked_on": "2026-08-17"
-    },
-    "valparaiso_profundo": {
-      "secondary_probe_status": "no_current_candidates",
-      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 1,
-      "secondary_probe_current_candidates": 0,
-      "secondary_probe_candidate_titles": [],
-      "secondary_probe_actionable": true,
-      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
-      "secondary_probe_checked_on": "2026-08-17"
-    },
-    "cinearte_vina": {
-      "reviewed_titles": 21,
-      "sessions_detected": 18,
-      "sessions_published": 18,
-      "refreshed_at": "2026-08-17T09:09:29-04:00",
-      "mode": "official_session_refresh"
+      "events_published": 0,
+      "preserved_existing": true
     }
   },
   "media_cache": {
@@ -6724,89 +6084,24 @@
       "image_url": null,
       "checked_at": "2026-08-17",
       "source": "official_page_metadata"
-    },
-    "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.teatromuseo.cl/obra/pionero_822": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://mediamaratontps.cl/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://maratonvina.cl/": {
-      "image_url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.redstudio.cl/": {
-      "image_url": "https://redsalsa.cl/img/gal3.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.nataliasaldias.com/clases-particulares/": {
-      "image_url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/": {
-      "image_url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://valparaisotrekking.cl/pages/servicios": {
-      "image_url": null,
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
-    },
-    "https://www.passline.com/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell": {
-      "image_url": "https://www.passline.com/imagenes/eventos/encuentro-con-el-buda-cine-foro-insomnia-teatro-condell-543593-rec.jpg",
-      "checked_at": "2026-08-17",
-      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 70,
+    "existing_images": 45,
     "images_from_cache": 0,
-    "images_fetched": 0,
-    "generic_schedule_images_rejected": 0,
-    "pages_fetched": 0,
-    "pages_skipped_by_limit": 0
+    "images_fetched": 15,
+    "generic_schedule_images_rejected": 1,
+    "pages_fetched": 40,
+    "pages_skipped_by_limit": 10
   },
   "publication_guard": {
     "titles_recovered": 0,
     "target_city_blocks_recovered": 0,
-    "visit_hours_enriched": 0,
-    "venue_hours_enriched": 1,
+    "visit_hours_enriched": 16,
+    "venue_hours_enriched": 3,
     "removed_title_quality": 0,
     "removed_location_mismatch": 0,
     "removed_deadline_only_call": 1,
     "removed_retrospective_post": 1
-  },
-  "enrichment": {
-    "zero_source_secondary_probe": {
-      "checked_on": "2026-08-17",
-      "sources": [
-        "insomniacine",
-        "valparaiso_profundo"
-      ],
-      "apify_used": false
-    }
   }
 }
