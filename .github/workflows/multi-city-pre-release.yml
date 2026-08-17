@@ -53,6 +53,7 @@ jobs:
             app/scripts/test_pwa.py \
             app/scripts/test_pre_release.py \
             app/scripts/test_runtime_browser.py \
+            app/scripts/test_schedule_interaction_browser.py \
             app/scripts/test_density_runtime.py \
             app/scripts/test_contextual_filters.py
           node --check app/app.js
@@ -94,6 +95,7 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/test_runtime_browser.py
+          python app/scripts/test_schedule_interaction_browser.py
           python app/scripts/test_density_runtime.py
 
       - name: Run joint pre-release contract
