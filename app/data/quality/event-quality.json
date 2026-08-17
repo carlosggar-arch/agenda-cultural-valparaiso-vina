@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T21:53:38.754713+00:00",
+  "generated_at": "2026-08-17T21:54:06.489604+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
@@ -889,7 +889,7 @@
         "sources_catalogued": 17,
         "sources_producing": 7,
         "sources_zero": 10,
-        "review_priority_zero_sources": 0,
+        "review_priority_zero_sources": 4,
         "zero_sources_covered_elsewhere": 1,
         "top3_source_share_pct": 91.0,
         "unattributed_events": 0
@@ -1003,7 +1003,12 @@
           "formacion-taller"
         ],
         "source_concentration_high": true,
-        "review_priority_zero_sources": [],
+        "review_priority_zero_sources": [
+          "ateneo_jovellanos",
+          "la_caja_de_musicos",
+          "sala_acapulco_conciertos",
+          "teatro_albeniz_gijon"
+        ],
         "zero_sources_covered_elsewhere": [
           "jardin_botanico_atlantico"
         ]
@@ -1022,7 +1027,7 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
+          "priority": 2,
           "role": null,
           "source_type": "structured_opendata",
           "coverage": {
@@ -1057,8 +1062,8 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 100.0,
@@ -1088,8 +1093,8 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "contemporary_art_center",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 100.0,
@@ -1119,8 +1124,8 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "federation",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 100.0,
@@ -1149,8 +1154,8 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "municipal_youth",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 100.0,
@@ -1179,8 +1184,8 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "cultural_center",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 100.0,
@@ -1210,8 +1215,8 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 2,
+          "role": "regional_aggregator",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 100.0,
@@ -1240,8 +1245,8 @@
           "quality_class": "zero",
           "attention": "explained_zero",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 3,
+          "role": "aggregator",
           "source_type": "aggregator",
           "coverage": {
             "date_pct": 0.0,
@@ -1269,10 +1274,10 @@
           "count": 0,
           "quality_score": 0.0,
           "quality_class": "zero",
-          "attention": "review",
+          "attention": "review_priority",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "cultural_center",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 0.0,
@@ -1299,8 +1304,8 @@
           "quality_class": "zero",
           "attention": "explained_zero",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
@@ -1332,8 +1337,8 @@
           "covered_by_other_sources": [
             "gijon_opendata_events"
           ],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
@@ -1358,10 +1363,10 @@
           "count": 0,
           "quality_score": 0.0,
           "quality_class": "zero",
-          "attention": "review",
+          "attention": "review_priority",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
@@ -1388,8 +1393,8 @@
           "quality_class": "zero",
           "attention": "explained_zero",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
@@ -1419,8 +1424,8 @@
           "quality_class": "zero",
           "attention": "explained_zero",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "web",
           "coverage": {
             "date_pct": 0.0,
@@ -1448,10 +1453,10 @@
           "count": 0,
           "quality_score": 0.0,
           "quality_class": "zero",
-          "attention": "review",
+          "attention": "review_priority",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
@@ -1476,10 +1481,10 @@
           "count": 0,
           "quality_score": 0.0,
           "quality_class": "zero",
-          "attention": "review",
+          "attention": "review_priority",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "web_calendar",
           "coverage": {
             "date_pct": 0.0,
@@ -1506,8 +1511,8 @@
           "quality_class": "zero",
           "attention": "explained_zero",
           "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
+          "priority": 1,
+          "role": "venue",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
