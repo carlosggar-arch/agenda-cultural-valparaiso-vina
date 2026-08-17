@@ -6,6 +6,8 @@ app_js = (APP / "app.js").read_text(encoding="utf-8")
 css = (APP / "app.css").read_text(encoding="utf-8")
 combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
 combined_css = (APP / "combined-filters.css").read_text(encoding="utf-8")
+advanced = (APP / "search-filter-upgrade.js").read_text(encoding="utf-8")
+advanced_css = (APP / "search-filter-upgrade.css").read_text(encoding="utf-8")
 city_header_css = (APP / "city-header.css").read_text(encoding="utf-8")
 header_redesign_css = (APP / "header-redesign.css").read_text(encoding="utf-8")
 header_redesign_js = (APP / "header-redesign.js").read_text(encoding="utf-8")
@@ -59,6 +61,21 @@ assert '.custom-date-range' in combined_css
 assert '.smart-search' in combined_css
 assert '.legacy-filter-hooks{display:none!important}' in combined_css
 
+for marker in (
+    'data-extra-format-value="presencial"', 'data-extra-format-value="online"',
+    'data-extra-feature="family"', 'data-extra-feature="registration"',
+    'function isFamilyEvent', 'function hasRegistration', 'function suggestionCandidates',
+    'url.searchParams.set("features"', 'url.searchParams.set("format"',
+    'aria-autocomplete', 'search-suggestions', 'matchesBase(event)',
+):
+    assert marker in advanced
+assert 'event?.location?.online === true' in advanced
+assert 'event?.links?.registration' in advanced
+assert 'event?.public_status?.registration_open === true' in advanced
+assert '.advanced-filter-grid' in advanced_css
+assert '.search-suggestions' in advanced_css
+assert '.search-help' in advanced_css
+
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
 assert 'html[data-city="gijon"]' in city_header_css
@@ -89,16 +106,18 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v27"' in pwa
+assert 'const APP_VERSION = "PWA v28"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
+assert 'import "./search-filter-upgrade.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v27";' in service_worker
+assert 'const CACHE_VERSION = "v28";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
+    '"./search-filter-upgrade.css"', '"./search-filter-upgrade.js"',
     '"./city-header.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"',
     '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
@@ -108,4 +127,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city combined search/filter UI, shared schedules and stable PWA activation tests: OK")
+print("Multi-city combined search/filter UI, advanced filters, search assist and stable PWA activation tests: OK")
