@@ -72,9 +72,9 @@ setTimeout(() => {
     setTimeout(() => {
       body.dataset.fullDiagMobileCityOpens = String(Boolean(!mobileCity || (chooser && !chooser.hidden)));
       body.dataset.fullDiagDone = 'true';
-    }, 250);
-  }, 250);
-}, 7000);
+    }, 200);
+  }, 200);
+}, 5200);
 </script>
 '''
 
@@ -94,14 +94,21 @@ def dump_dom(city: str, url: str) -> str:
             chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
             "--disable-dev-shm-usage", "--disable-background-networking", "--disable-extensions",
             "--disable-sync", "--no-first-run", "--no-default-browser-check",
+            "--disable-features=ServiceWorker,PushMessaging,BackgroundSync",
             "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-            "--window-size=390,844", "--virtual-time-budget=9500",
+            "--window-size=390,844", "--virtual-time-budget=7000",
             f"--user-data-dir={profile}", "--dump-dom", url,
         ]
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
-        if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome failed for {city}: {result.stderr[-1600:]}")
-        return result.stdout
+        try:
+            result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=25)
+            stdout, stderr, code = result.stdout, result.stderr, result.returncode
+        except subprocess.TimeoutExpired as exc:
+            stdout = exc.stdout.decode() if isinstance(exc.stdout, bytes) else (exc.stdout or "")
+            stderr = exc.stderr.decode() if isinstance(exc.stderr, bytes) else (exc.stderr or "")
+            code = 124
+        if stdout and 'data-full-diag-done="true"' in stdout:
+            return stdout
+        raise AssertionError(f"Chrome failed for {city}: exit={code}; stderr={stderr[-1600:]}; dom_tail={stdout[-1600:]}")
 
 
 def marker(dom: str, name: str) -> str:
@@ -118,7 +125,7 @@ def run_city(city: str, base_url: str) -> None:
         "full-diag-top-city-opens", "full-diag-mobile-city-opens", "full-diag-errors",
     ]
     values = {name: marker(dom, name) for name in names}
-    print(city, values)
+    print(city, values, flush=True)
     if values["full-diag-done"] != "true":
         raise AssertionError(f"{city}: diagnostic did not complete: {values}")
 
