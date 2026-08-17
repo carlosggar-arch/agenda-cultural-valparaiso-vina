@@ -39,11 +39,14 @@ assert '<strong>¡Vivamos!</strong>' in index
 assert './combined-filters.css' in index
 assert './combined-filters.js' in index
 assert './contextual-filters.js' not in index
+assert 'new URLSearchParams(window.location.search).get("city")' in index
 
 assert 'dataset: "../agenda_web.json"' in app_js
 assert 'dataset: "./data/gijon/agenda_web.json"' in app_js
 assert 'const STORAGE_KEY = "agenda-cultural-city"' in app_js
 assert 'navigator.geolocation' in app_js
+assert 'function suggestCityFromCoordinates' in app_js
+assert 'fetch(city.dataset' in app_js
 assert 'cache: "no-store"' in app_js
 assert 'renderCategories()' in app_js
 assert 'renderSources()' in app_js
@@ -84,10 +87,14 @@ assert 'event-card-media' in card_js
 assert 'event-card-actions' in card_js
 assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
+assert 'event?.image?.url' in card_js
+assert 'image.dataset.eventImage = "relevant"' in card_js
 assert '.event-card-media' in card_css
 assert 'formatSchedule(schedule, activeConfig)' in schedule_display_js
 assert 'scheduleForGijonEvent' in schedule_display_js
-assert 'activeCity() !== "valparaiso"' in fallback_js
+assert 'activeCity() !== "valparaiso"' not in fallback_js
+assert 'document.querySelectorAll(".event-card-media--placeholder")' in fallback_js
+assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 assert 'object-fit: contain !important' in media_layout
 assert 'export function formatSchedule' in schedule_module
 
@@ -104,13 +111,16 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v29"' in pwa
+assert 'const APP_VERSION = "PWA v30"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v29";' in service_worker
+assert 'const CACHE_VERSION = "v30";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
+assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
+assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
+assert 'cachedRequest.url !== request.url' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
@@ -123,4 +133,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v29 keeps advanced search and combined filters functional, compact and stable: OK")
+print("Multi-city v30 keeps separate city datasets, shared visuals and advanced filters stable: OK")
