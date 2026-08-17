@@ -83,8 +83,6 @@ assert '.search-row' in compact_js
 assert 'white-space: normal !important' in compact_js
 assert 'flex-wrap: nowrap !important' not in compact_js
 assert 'overflow-x: auto !important' not in compact_js
-# The dated section is already the main result list, so its redundant heading
-# and count stay visually hidden while secondary sections keep their headings.
 assert '.content-section[data-dated-section] > .section-heading' in compact_js
 assert '.content-section[data-dated-section]' in compact_js
 assert '.section-heading p:not(.eyebrow)' in compact_js
@@ -94,7 +92,6 @@ assert 'new Set(["hoy", "fin-de-semana", "terminan-pronto", "gratis", "todos"])'
 assert 'data-section-filter="todos"' in lean_filters_js
 assert "MutationObserver" in lean_filters_js
 
-# Valparaíso/Viña sources use the public integrated catalogue as the authoritative list.
 assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
 assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
 assert 'function sourcesFromPublicCatalogue' in sources_toggle_js
@@ -107,7 +104,6 @@ assert 'data-gijon-visual-reference' in gijon_visual_js
 assert 'Explorar actividades en Gijón' in gijon_visual_js
 assert 'grid.prepend(buildVisualReference())' in gijon_visual_js
 
-# Community source proposal stays in the active city and uses the existing review flow.
 assert 'proponer-fuente.html' in community_source_js
 assert 'data-source-proposal-cta' in community_source_js
 assert 'data-community-source-form' in source_form
@@ -122,9 +118,10 @@ assert '.category-chip.active' in css
 assert '@media(max-width:560px)' in css
 assert '.event-grid,.compact-grid{grid-template-columns:1fr}' in css
 
-assert 'const CACHE_VERSION = "v24";' in service_worker
-assert "refreshOpenWindows" in service_worker
-assert "client.navigate(client.url)" in service_worker
+assert 'const CACHE_VERSION = "v25";' in service_worker
+assert "clients.claim()" in service_worker
+assert "client.navigate(" not in service_worker
+assert "refreshOpenWindows" not in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 assert '"./city-header.css"' in shell_block
 assert '"./header-redesign.css"' in shell_block
@@ -148,4 +145,4 @@ assert '"../assets/event-media-layout.css"' in shell_block
 assert '"../assets/event-schedule-display.mjs"' in shell_block
 assert '"../assets/categoria-exposiciones.jpg"' in shell_block
 
-print("Multi-city persistent header, shared schedules, clean media grid and Vivamos brand tests: OK")
+print("Multi-city persistent header, shared schedules, clean media grid and stable PWA activation tests: OK")
