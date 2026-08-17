@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo
 SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
 TIMEZONE = "Europe/Madrid"
 MADRID = ZoneInfo(TIMEZONE)
+PLACEHOLDER_TIMES = {"00:00", "23:59"}
 
 CATEGORY_MAP = (
     ("cine", ("cine", "Cine")),
@@ -54,12 +55,28 @@ def date_bounds(item: dict) -> tuple[str | None, str | None]:
     return (values[0], values[-1]) if values else (None, None)
 
 
+def real_time(value: object) -> str | None:
+    clock = clean(value)
+    if not re.fullmatch(r"\d{2}:\d{2}", clock) or clock in PLACEHOLDER_TIMES:
+        return None
+    return clock
+
+
 def timestamp(date_value: str, time_value: object) -> str:
-    clock = clean(time_value)
-    if not re.fullmatch(r"\d{2}:\d{2}", clock) or clock in {"00:00", "23:59"}:
+    clock = real_time(time_value)
+    if not clock:
         return date_value
     local = datetime.fromisoformat(f"{date_value}T{clock}:00").replace(tzinfo=MADRID)
     return local.isoformat(timespec="seconds")
+
+
+def schedule_display(start_date: str, end_date: str, time_value: object) -> str:
+    clock = real_time(time_value)
+    if clock:
+        return f"{start_date} · {clock}"
+    if end_date != start_date:
+        return f"{start_date} – {end_date}"
+    return start_date
 
 
 def category(item: dict) -> tuple[str, str]:
@@ -111,7 +128,7 @@ def normalize_event(item: dict) -> dict | None:
             "start": timestamp(start_date, item.get("hora_inicio")),
             "end": timestamp(end_date, item.get("hora_fin")) if end_date == start_date else end_date,
             "timezone": TIMEZONE,
-            "display_text": f"{start_date} · {clean(item.get('hora_inicio'))}" if clean(item.get("hora_inicio")) else start_date,
+            "display_text": schedule_display(start_date, end_date, item.get("hora_inicio")),
             "occurrences": [],
         },
         "location": {
