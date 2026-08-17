@@ -1,0 +1,26 @@
+name: Full PWA regression diagnostic
+
+on:
+  push:
+    branches:
+      - diag/full-pwa-regression-20260817
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile diagnostic
+        run: python -m py_compile app/scripts/test_full_pwa_runtime_diag.py
+      - name: Run full PWA browser diagnostic
+        run: python app/scripts/test_full_pwa_runtime_diag.py
