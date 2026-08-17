@@ -12,27 +12,26 @@ import "./combined-filters-polish.js";
 // Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
 // but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
-import "./mobile-experience.js?v=20260817-topnav5";
+import "./mobile-experience.js?v=20260817-topnav6";
 import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
-const APP_VERSION = "PWA v39";
+const APP_VERSION = "PWA v40";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
 let deferredInstallPrompt = null;
 const installButton = document.querySelector("[data-install-app]");
+let mobileInstallButton = null;
 
 function isRunningStandalone() {
   return window.matchMedia?.("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
 
-function hideInstallButton() {
-  if (!installButton) return;
-  installButton.hidden = true;
-  installButton.disabled = false;
-  deferredInstallPrompt = null;
+function isPhoneLike() {
+  return window.matchMedia?.("(pointer: coarse)").matches
+    || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
 }
 
 function installHelpElement() {
@@ -42,7 +41,7 @@ function installHelpElement() {
   backdrop.className = "chooser-backdrop";
   backdrop.dataset.installHelpBackdrop = "true";
   backdrop.hidden = true;
-  backdrop.innerHTML = `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Añádela a tu pantalla de inicio</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
+  backdrop.innerHTML = `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instala la aplicación</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
   document.body.append(backdrop);
   const close = () => { backdrop.hidden = true; };
   backdrop.querySelector("[data-install-help-close]")?.addEventListener("click", close);
@@ -55,48 +54,76 @@ function showInstallHelp() {
   installHelpElement().hidden = false;
 }
 
+async function requestInstall() {
+  if (!deferredInstallPrompt) {
+    showInstallHelp();
+    return;
+  }
+  const promptEvent = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+  for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = true;
+  try {
+    await promptEvent.prompt();
+    const choice = await promptEvent.userChoice;
+    if (choice?.outcome === "accepted") hideInstallButtons();
+    else {
+      for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = false;
+    }
+  } catch (error) {
+    for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = false;
+    showInstallHelp();
+    console.warn("¡Vivamos!: install prompt unavailable", error);
+  }
+}
+
+function ensureMobileInstallButton() {
+  if (!isPhoneLike() || isRunningStandalone()) return null;
+  let button = document.querySelector("[data-mobile-install-cta]");
+  if (!button) {
+    button = document.createElement("button");
+    button.type = "button";
+    button.className = "mobile-install-cta";
+    button.dataset.mobileInstallCta = "true";
+    button.textContent = "Instalar ¡Vivamos!";
+    button.addEventListener("click", requestInstall);
+    document.body.append(button);
+  }
+  mobileInstallButton = button;
+  return button;
+}
+
+function hideInstallButtons() {
+  if (installButton) {
+    installButton.hidden = true;
+    installButton.disabled = false;
+  }
+  if (mobileInstallButton) {
+    mobileInstallButton.remove();
+    mobileInstallButton = null;
+  }
+  deferredInstallPrompt = null;
+}
+
 function setupInstallExperience() {
-  if (!installButton) return;
   if (isRunningStandalone()) {
-    hideInstallButton();
+    hideInstallButtons();
     return;
   }
 
-  // Always expose an install option on mobile/browser mode. If the browser
-  // later provides the native install prompt, the same button uses it.
-  installButton.hidden = false;
+  if (installButton) {
+    installButton.hidden = false;
+    installButton.addEventListener("click", requestInstall);
+  }
+  ensureMobileInstallButton();
 
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
-    installButton.hidden = false;
+    if (installButton) installButton.hidden = false;
+    ensureMobileInstallButton();
   });
 
-  installButton.addEventListener("click", async () => {
-    if (!deferredInstallPrompt) {
-      showInstallHelp();
-      return;
-    }
-    const promptEvent = deferredInstallPrompt;
-    deferredInstallPrompt = null;
-    installButton.disabled = true;
-    try {
-      await promptEvent.prompt();
-      const choice = await promptEvent.userChoice;
-      if (choice?.outcome === "accepted") hideInstallButton();
-      else {
-        installButton.disabled = false;
-        installButton.hidden = false;
-      }
-    } catch (error) {
-      installButton.disabled = false;
-      installButton.hidden = false;
-      showInstallHelp();
-      console.warn("¡Vivamos!: install prompt unavailable", error);
-    }
-  });
-
-  window.addEventListener("appinstalled", hideInstallButton, { once: true });
+  window.addEventListener("appinstalled", hideInstallButtons, { once: true });
 }
 
 async function registerAgendaServiceWorker() {
