@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v25";
+const CACHE_VERSION = "v26";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -6,10 +6,11 @@ const SHELL_ASSETS = [
   "./",
   "./index.html",
   "./app.css",
+  "./combined-filters.css",
   "./city-header.css",
   "./header-redesign.css",
   "./app.js",
-  "./contextual-filters.js",
+  "./combined-filters.js",
   "./pwa.js",
   "./vivamos-brand.js",
   "./header-redesign.js",
@@ -22,7 +23,6 @@ const SHELL_ASSETS = [
   "./card-image-fallback.js",
   "./compact-top.js",
   "./gijon-visual-reference.js",
-  "./lean-filters.js",
   "./sources-toggle.js",
   "./community-source.js",
   "./community-source.css",
@@ -67,8 +67,6 @@ self.addEventListener("activate", (event) => {
     await Promise.all(names
       .filter((name) => name.startsWith("agenda-cultural-") && ![SHELL_CACHE, DATA_CACHE].includes(name))
       .map((name) => caches.delete(name)));
-    // Claim already-open pages without forcing any navigation. Reloading during
-    // first install/update can loop before the standalone app becomes stable.
     await self.clients.claim();
   })());
 });
