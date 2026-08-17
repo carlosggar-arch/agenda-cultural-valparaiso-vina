@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T11:09:47+00:00",
+  "generated_at": "2026-08-17T13:06:47+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -15,7 +15,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T07:08:55-04:00",
-        "generated_age_hours": 0.0
+        "generated_age_hours": 2.0
       },
       "counts": {
         "total_events": 82,
@@ -220,15 +220,15 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T12:59:51+02:00",
-        "generated_age_hours": 0.2
+        "generated_at": "2026-08-17T15:06:09+02:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 98,
-        "schedule_expected_events": 89,
-        "dated_events": 89,
-        "timed_events": 69,
-        "relevant_image_events": 90,
+        "total_events": 97,
+        "schedule_expected_events": 88,
+        "dated_events": 88,
+        "timed_events": 68,
+        "relevant_image_events": 89,
         "suspicious_titles": 0,
         "title_review_candidates": 41,
         "duplicate_groups": 0,
@@ -236,7 +236,7 @@
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 77.5,
+        "time_pct": 77.3,
         "relevant_image_pct": 91.8
       },
       "samples": {
@@ -376,11 +376,11 @@
             "id": "gijon_opendata_events",
             "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
             "role": null,
-            "event_count": 83,
+            "event_count": 82,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 59,
+            "with_start_time": 58,
             "without_start_time": 24
           },
           {
@@ -388,9 +388,9 @@
             "name": "La Revoltosa Gijón",
             "role": null,
             "event_count": 0,
-            "reviewed_items": 7,
-            "dated_candidates": 0,
-            "filtered_or_deduplicated": 0,
+            "reviewed_items": 0,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
             "with_start_time": 0,
             "without_start_time": 0
           },
@@ -622,7 +622,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.539670475625312,
+    "usage_usd": 4.539762922787988,
     "remaining_usd": 0.0
   }
 }
