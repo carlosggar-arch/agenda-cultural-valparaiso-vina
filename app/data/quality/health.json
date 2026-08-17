@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T07:21:26+00:00",
+  "generated_at": "2026-08-17T07:32:16+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -16,7 +16,7 @@
         "publication_date": "2026-08-15",
         "publication_age_days": 2,
         "generated_at": "2026-08-17T03:20:58-04:00",
-        "generated_age_hours": 0.0
+        "generated_age_hours": 0.2
       },
       "counts": {
         "total_events": 69,
@@ -142,15 +142,37 @@
           {
             "id": "insomniacine",
             "name": "INSOMNIA Teatro Condell",
-            "city": "Valparaíso"
+            "city": "Valparaíso",
+            "primary_recovery_attempted": true,
+            "primary_recovery_sessions": 0,
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
           },
           {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
-            "city": "Valparaíso"
+            "city": "Valparaíso",
+            "primary_recovery_attempted": null,
+            "primary_recovery_sessions": null,
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
           }
         ],
-        "indirect_source_warnings": []
+        "indirect_source_warnings": [],
+        "checked_zero_sources": [
+          {
+            "id": "insomniacine",
+            "name": "INSOMNIA Teatro Condell",
+            "city": "Valparaíso",
+            "primary_recovery_attempted": true,
+            "primary_recovery_sessions": 0,
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
+          }
+        ]
       },
       "publication_guard": {
         "titles_recovered": 0,
@@ -179,7 +201,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T04:33:41+02:00",
-        "generated_age_hours": 4.8
+        "generated_age_hours": 5.0
       },
       "counts": {
         "total_events": 89,
@@ -415,29 +437,40 @@
           {
             "id": "la_revoltosa_gijon",
             "name": "La Revoltosa Gijón",
-            "role": null
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
           },
           {
             "id": "toma3_xixon",
             "name": "Toma 3 Xixón",
-            "role": null
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
           },
           {
             "id": "meidinerz_jazz_club",
             "name": "Meidinerz Jazz Club",
-            "role": null
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
           },
           {
             "id": "cafe_dindurra",
             "name": "Café Dindurra",
-            "role": null
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
           },
           {
             "id": "agenda_gijon",
             "name": "Agenda Gijón",
-            "role": null
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
           }
-        ]
+        ],
+        "explained_zero_sources": []
       },
       "publication_guard": {},
       "publication_corrections": {}
@@ -448,7 +481,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "ok",
-    "usage_usd": 2.559332529167959,
-    "remaining_usd": 0.940667470832041
+    "usage_usd": 2.559333184260258,
+    "remaining_usd": 0.940666815739742
   }
 }
