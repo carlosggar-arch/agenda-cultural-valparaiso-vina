@@ -77,8 +77,8 @@ function eventText(event) {
     event?.description,
     event?.source_name,
     event?.organizer,
-    event?.audience,
-    event?.registration_requirements,
+    JSON.stringify(event?.audience ?? ""),
+    JSON.stringify(event?.registration_requirements ?? ""),
     ...(event?.tags || []),
     event?.price?.display_text,
     event?.schedule?.display_text,
@@ -226,11 +226,8 @@ function matchesFeatures(event, features = extraState.features) {
   return true;
 }
 
-function matchesExtra(event, { ignoreFormat = false, ignoreFeature = null } = {}) {
-  if (!ignoreFormat && !matchesFormat(event)) return false;
-  const features = new Set(extraState.features);
-  if (ignoreFeature) features.delete(ignoreFeature);
-  return matchesFeatures(event, features);
+function matchesExtra(event) {
+  return matchesFormat(event) && matchesFeatures(event);
 }
 
 async function loadDataset() {
@@ -312,6 +309,7 @@ function buildSearchAssist() {
   if (!wrapper || wrapper.querySelector("[data-search-suggestions]")) return;
   dom.search.setAttribute("aria-autocomplete", "list");
   dom.search.setAttribute("aria-controls", "search-suggestions");
+  dom.search.setAttribute("aria-expanded", "false");
   const list = document.createElement("div");
   list.id = "search-suggestions";
   list.className = "search-suggestions";
@@ -324,7 +322,10 @@ function buildSearchAssist() {
   help.textContent = "Busca por evento, artista, recinto, fuente o categoría. Usa varias palabras para afinar.";
   wrapper.insertAdjacentElement("afterend", help);
 
-  dom.search.addEventListener("input", () => renderSuggestions());
+  dom.search.addEventListener("input", () => {
+    renderSuggestions();
+    scheduleAfterBaseFilters();
+  });
   dom.search.addEventListener("keydown", handleSuggestionKeys);
   dom.search.addEventListener("focus", () => renderSuggestions());
   document.addEventListener("click", (event) => {
@@ -344,6 +345,7 @@ function buildSearchAssist() {
 function suggestionCandidates(query) {
   const tokens = normalizeText(query).split(" ").filter(Boolean);
   if (!tokens.length) return [];
+  const params = new URLSearchParams(window.location.search);
   return events
     .map((event) => {
       const title = String(event?.title || "").trim();
@@ -356,6 +358,7 @@ function suggestionCandidates(query) {
       else if (titleKey.startsWith(queryKey)) score += 60;
       else if (titleKey.includes(queryKey)) score += 35;
       score += tokens.filter((token) => titleKey.includes(token)).length * 10;
+      if (matchesWhen(event, params) && matchesArea(event, params) && matchesPrice(event, params) && matchesCategories(event, params)) score += 12;
       if (matchesExtra(event)) score += 5;
       return { event, title, score };
     })
@@ -380,7 +383,7 @@ function renderSuggestions() {
   list.replaceChildren(...candidates.map(({ event, title }, index) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.role = "option";
+    button.setAttribute("role", "option");
     button.dataset.suggestionValue = title;
     button.dataset.suggestionIndex = String(index);
     const venue = event?.location?.venue || event?.source_name || "";
@@ -527,6 +530,10 @@ function queueApply() {
   queueMicrotask(applyAdvancedFilters);
 }
 
+function scheduleAfterBaseFilters() {
+  requestAnimationFrame(() => queueApply());
+}
+
 function resetAdvancedFilters() {
   extraState.format = "todos";
   extraState.features.clear();
@@ -534,23 +541,34 @@ function resetAdvancedFilters() {
   queueApply();
 }
 
+function bindBaseFilterSignals() {
+  const clickSelectors = [
+    "[data-combined-when]",
+    "[data-combined-area]",
+    "[data-combined-price]",
+    "[data-combined-category-filters]",
+  ];
+  for (const selector of clickSelectors) {
+    document.querySelector(selector)?.addEventListener("click", scheduleAfterBaseFilters);
+  }
+  document.querySelector("[data-date-from]")?.addEventListener("change", scheduleAfterBaseFilters);
+  document.querySelector("[data-date-to]")?.addEventListener("change", scheduleAfterBaseFilters);
+}
+
 injectStyles();
 buildAdvancedFilters();
 buildSearchAssist();
+bindBaseFilterSignals();
 readExtraUrl();
 updateAdvancedControls();
 queueApply();
 
-// The existing combined-filter layer owns date/area/price/category/query state.
-// Re-apply this additive layer whenever that layer changes cards or URL state.
-const agenda = document.querySelector("[data-agenda]");
-if (agenda) {
-  new MutationObserver(() => queueApply()).observe(agenda, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ["hidden"],
-  });
+// Observe only card-list composition. Hidden-state writes are deliberately not
+// observed because both filter layers modify that attribute and would otherwise
+// trigger each other indefinitely (the same class of freeze protected by the
+// schedule interaction regression test).
+for (const grid of document.querySelectorAll("[data-dated-grid], [data-program-grid], [data-flexible-grid]")) {
+  new MutationObserver(() => queueApply()).observe(grid, { childList: true });
 }
 
 new MutationObserver(() => {
