@@ -30,20 +30,37 @@ function addFact(parent, label, value, icon) {
   parent.append(row);
 }
 
-function addExternalAction(parent, href, label, kind = "secondary") {
+function addExternalAction(parent, href, label, kind = "secondary", { newTab = true } = {}) {
   const safe = safeHttpUrl(href);
-  if (!safe) return;
+  if (!safe) return null;
   const link = document.createElement("a");
   link.className = `event-detail-action event-detail-action--${kind}`;
   link.href = safe;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
+  if (newTab) {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
   link.textContent = label;
   parent.append(link);
+  return link;
+}
+
+function addButtonAction(parent, label, onClick) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "event-detail-action event-detail-action--secondary";
+  button.textContent = label;
+  button.addEventListener("click", onClick);
+  parent.append(button);
+  return button;
 }
 
 function detailDescription(event) {
-  const text = String(event?.description || "").replace(/\s+/g, " ").trim();
+  const text = String(event?.description || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   if (!text || /^actividad publicada en la agenda/i.test(text)) return null;
   return text;
 }
@@ -53,6 +70,45 @@ function isGijonOpenDataEvent(event, presentation) {
   const source = safeHttpUrl(presentation?.sourceUrl || event?.source_url || event?.links?.source);
   return (name.includes("open data") && name.includes("gij"))
     || Boolean(source?.startsWith("https://opendata.gijon.es/"));
+}
+
+function currentCityId() {
+  const supported = new Set(["valparaiso", "gijon"]);
+  const htmlCity = document.documentElement.dataset.city;
+  if (supported.has(htmlCity)) return htmlCity;
+  try {
+    const saved = localStorage.getItem("agenda-cultural-city");
+    if (supported.has(saved)) return saved;
+  } catch {}
+  return "valparaiso";
+}
+
+function permanentEventUrl(event) {
+  const id = String(event?.id || "").trim();
+  if (!id) return null;
+  return new URL(`../evento/${currentCityId()}/${encodeURIComponent(id)}/`, window.location.href).href;
+}
+
+function calendarFileUrl(event) {
+  const page = permanentEventUrl(event);
+  return page ? new URL("evento.ics", page).href : null;
+}
+
+function hasCalendarDate(event) {
+  return Boolean(event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start);
+}
+
+function statusNotices(event) {
+  const status = event?.public_status || {};
+  const notices = [];
+  if (status.cancelled === true) notices.push("Actividad cancelada");
+  if (status.sold_out === true) notices.push("Entradas agotadas");
+  if (status.registration_closed === true) notices.push("Inscripción cerrada");
+  if (status.information_completeness && status.information_completeness !== "complete") {
+    notices.push("Información pendiente de completar o confirmar");
+  }
+  if (status.advisory_text) notices.push(String(status.advisory_text));
+  return [...new Set(notices)];
 }
 
 function buildMedia(event, presentation) {
@@ -133,6 +189,15 @@ export function openEventDetail(event, presentation = {}) {
 
   addText(content, "h2", "event-detail-title", event?.title || "Actividad sin título");
 
+  const notices = statusNotices(event);
+  if (notices.length) {
+    const noticeBox = document.createElement("section");
+    noticeBox.className = "event-detail-description event-detail-provenance";
+    addText(noticeBox, "h3", "", "Avisos importantes");
+    for (const notice of notices) addText(noticeBox, "p", "", notice);
+    content.append(noticeBox);
+  }
+
   const facts = document.createElement("div");
   facts.className = "event-detail-facts";
   addFact(facts, "Fecha y horario", presentation.schedule, "◷");
@@ -155,9 +220,7 @@ export function openEventDetail(event, presentation = {}) {
   extra.className = "event-detail-extra";
   if (event?.organizer) addFact(extra, "Organiza", event.organizer, "•");
   if (event?.audience) addFact(extra, "Público", event.audience, "◎");
-  if (presentation.sourceName) {
-    addFact(extra, gijonOpenData ? "Datos oficiales" : "Fuente", presentation.sourceName, "✓");
-  }
+  if (presentation.sourceName) addFact(extra, gijonOpenData ? "Datos oficiales" : "Fuente", presentation.sourceName, "✓");
   if (extra.childElementCount) content.append(extra);
 
   if (gijonOpenData) {
@@ -175,15 +238,40 @@ export function openEventDetail(event, presentation = {}) {
 
   const actions = document.createElement("div");
   actions.className = "event-detail-actions";
-  const registration = safeHttpUrl(presentation.registrationUrl);
+  const tickets = safeHttpUrl(event?.links?.tickets);
+  const registration = safeHttpUrl(event?.links?.registration || presentation.registrationUrl);
   const official = safeHttpUrl(presentation.officialUrl);
   const source = safeHttpUrl(presentation.sourceUrl);
-  if (registration) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
+  const permanent = permanentEventUrl(event);
+  const calendar = calendarFileUrl(event);
+
+  if (tickets) addExternalAction(actions, tickets, "Entradas ↗", "primary");
+  if (registration && registration !== tickets) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
+  if (calendar && hasCalendarDate(event)) addExternalAction(actions, calendar, "Añadir al calendario", "secondary", { newTab: false });
+  if (permanent) addExternalAction(actions, permanent, "Ficha permanente →", "secondary", { newTab: false });
+
+  if (permanent) {
+    addButtonAction(actions, "Compartir", async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: event?.title || "Actividad cultural", url: permanent });
+        } catch (error) {
+          if (error?.name !== "AbortError") console.warn("No se pudo compartir el evento", error);
+        }
+        return;
+      }
+      try { await navigator.clipboard.writeText(permanent); } catch {}
+    });
+    addButtonAction(actions, "Copiar enlace", async () => {
+      try { await navigator.clipboard.writeText(permanent); } catch {}
+    });
+  }
+
   if (gijonOpenData) {
-    if (source && source !== registration) addExternalAction(actions, source, "Open Data oficial ↗");
+    if (source && source !== registration && source !== tickets) addExternalAction(actions, source, "Open Data oficial ↗");
   } else {
-    if (official && official !== registration) addExternalAction(actions, official, "Fuente oficial ↗");
-    if (source && source !== official && source !== registration) addExternalAction(actions, source, "Fuente de datos ↗");
+    if (official && official !== registration && official !== tickets) addExternalAction(actions, official, "Fuente oficial ↗");
+    if (source && source !== official && source !== registration && source !== tickets) addExternalAction(actions, source, "Fuente de datos ↗");
   }
   if (actions.childElementCount) content.append(actions);
 
