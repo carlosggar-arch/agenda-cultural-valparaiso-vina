@@ -1,0 +1,78 @@
+name: Complete Stage 3.1 accessibility SEO
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/stage31_patch_app.py"
+      - "scripts/stage31_patch_breadcrumbs.py"
+      - "scripts/stage31_patch_root.py"
+      - "scripts/stage31_patch_tests.py"
+      - ".github/workflows/apply-stage31-completion.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/stage31_patch_app.py"
+      - "scripts/stage31_patch_breadcrumbs.py"
+      - "scripts/stage31_patch_root.py"
+      - "scripts/stage31_patch_tests.py"
+      - ".github/workflows/apply-stage31-completion.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage31-completion-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  complete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply Stage 3.1 completion in workspace
+        run: |
+          set -euo pipefail
+          python scripts/stage31_patch_app.py
+          python scripts/stage31_patch_breadcrumbs.py
+          python scripts/stage31_patch_root.py
+          python scripts/stage31_patch_tests.py
+          python scripts/stage31_site_generator.py
+
+      - name: Validate accessibility SEO and structured data
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/stage31_site_generator.py tests/test_stage31.py
+          python -m unittest discover -s tests -p 'test_stage31.py' -v
+          python scripts/stage31_site_generator.py --check
+          git diff --check
+          grep -q 'id="stage31-root-jsonld"' index.html
+          grep -q 'data-stage31-accessibility' app/index.html
+          grep -q 'BreadcrumbList' gijon/index.html
+          grep -R -m1 -q 'BreadcrumbList' evento/valparaiso evento/gijon
+
+      - name: Commit completed Stage 3.1 to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          rm -f scripts/stage31_patch_app.py scripts/stage31_patch_breadcrumbs.py scripts/stage31_patch_root.py scripts/stage31_patch_tests.py .github/workflows/apply-stage31-completion.yml
+          git config user.name "agenda-cultural-stage31[bot]"
+          git config user.email "agenda-cultural-stage31[bot]@users.noreply.github.com"
+          git add -A index.html app/index.html scripts/stage31_site_generator.py tests/test_stage31.py evento gijon sitemap.xml scripts .github/workflows
+          if git diff --cached --quiet; then
+            echo "Stage 3.1 already complete."
+            exit 0
+          fi
+          git commit -m "Complete Stage 3.1 accessibility SEO and structured data"
+          git pull --rebase origin main
+          git push origin HEAD:main
