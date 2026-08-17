@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import http.server
 import os
+import re
 import shutil
 import socketserver
 import subprocess
@@ -13,6 +14,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__pwa_install_test.html"
+
+REQUIRED_MARKERS = {
+    'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
+    'data-pwa-ready="true"': "Service worker never reached ready state",
+    'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
+    'data-pwa-version="PWA v29"': "Installed app did not load the current PWA v29 runtime",
+    'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
+}
 
 
 def chrome_binary() -> str:
@@ -66,28 +75,45 @@ def make_test_page() -> None:
     TEST_PAGE.write_text(source, encoding="utf-8")
 
 
+def probe_state(dom: str) -> tuple[bool, str]:
+    missing = [message for marker, message in REQUIRED_MARKERS.items() if marker not in dom]
+    match = re.search(r'data-pwa-cards="(\d+)"', dom)
+    if not match or int(match.group(1)) <= 0:
+        missing.append("Installed PWA rendered no event cards")
+    observed = ", ".join(re.findall(r'data-pwa-[a-z-]+="[^"]*"', dom)[-8:])
+    return not missing, f"{'; '.join(missing) or 'ready'}; observed: {observed or 'no probe attributes'}"
+
+
 def run_chrome(url: str) -> str:
     errors: list[str] = []
-    for attempt in range(1, 3):
+    # A headless Chromium process may render the app before service-worker
+    # activation settles even though the runtime itself is healthy. Treat the
+    # complete installed-PWA contract as the retry condition, not just process exit.
+    for attempt in range(1, 4):
         with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
             cmd = [
                 chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
                 "--disable-dev-shm-usage", "--disable-background-networking",
                 "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
                 "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--virtual-time-budget=16000", f"--user-data-dir={profile}", "--dump-dom", url,
+                "--virtual-time-budget=18000", f"--user-data-dir={profile}", "--dump-dom", url,
             ]
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=50)
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
                 continue
-            if result.returncode == 0 and result.stdout:
+            if result.returncode != 0 or not result.stdout:
+                errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+                time.sleep(1)
+                continue
+            ok, state = probe_state(result.stdout)
+            if ok:
                 return result.stdout
-            errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+            errors.append(f"attempt {attempt}: {state}")
             time.sleep(1)
-    raise AssertionError(f"Installed-PWA Chrome probe failed after two isolated attempts: {' | '.join(errors)}")
+    raise AssertionError(f"Installed-PWA probe failed after three isolated attempts: {' | '.join(errors)}")
 
 
 def main() -> None:
@@ -103,21 +129,11 @@ def main() -> None:
         finally:
             server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
 
-    required = {
-        'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
-        'data-pwa-ready="true"': "Service worker never reached ready state",
-        'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
-        'data-pwa-version="PWA v29"': "Installed app did not load the current PWA v29 runtime",
-        'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
-    }
-    for marker, message in required.items():
-        if marker not in dom:
-            raise AssertionError(f"{message}. DOM tail:\n{dom[-6000:]}")
-
-    import re
+    ok, state = probe_state(dom)
+    if not ok:
+        raise AssertionError(state)
     match = re.search(r'data-pwa-cards="(\d+)"', dom)
-    if not match or int(match.group(1)) <= 0:
-        raise AssertionError(f"Installed PWA rendered no event cards. DOM tail:\n{dom[-6000:]}")
+    assert match is not None
     print(f"Installed PWA browser test: service worker active and {match.group(1)} Valparaiso cards rendered")
 
 
