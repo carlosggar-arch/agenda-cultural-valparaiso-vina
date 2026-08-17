@@ -14,7 +14,8 @@ const CONFIG = Object.freeze({
 let loadedCity = null;
 let eventMap = new Map();
 let loadPromise = null;
-let renderQueued = false;
+let enhanceQueued = false;
+let refreshQueued = false;
 
 function cityId() {
   return CONFIG[document.documentElement.dataset.city] ? document.documentElement.dataset.city : "valparaiso";
@@ -38,8 +39,10 @@ async function ensureDataset() {
       eventMap = new Map((payload?.events || []).map((event) => [String(event.id), event]));
       loadedCity = city;
     } catch {
-      eventMap = new Map();
-      loadedCity = city;
+      if (city === cityId()) {
+        eventMap = new Map();
+        loadedCity = city;
+      }
     } finally {
       loadPromise = null;
     }
@@ -89,44 +92,56 @@ function renderMyPlans(city) {
     locale: CONFIG[city].locale,
     eventMap,
     eventPageHref: (event) => eventPageHref(event, city),
-    onChanged: queueRender,
   });
   const anchor = document.querySelector("[data-plan-ahead]") || document.querySelector(".agenda");
   if (anchor) anchor.insertAdjacentElement("beforebegin", section);
   else document.querySelector("main")?.append(section);
 }
 
-async function render() {
-  renderQueued = false;
+function enhanceDynamicUi() {
+  enhanceQueued = false;
+  const city = cityId();
+  if (loadedCity !== city) return;
+  cleanOldButtons(city);
+  installCardFavorites(city);
+  installDetailFavorite(city);
+  syncFavoriteButtons(city, eventMap);
+}
+
+function queueEnhance() {
+  if (enhanceQueued) return;
+  enhanceQueued = true;
+  queueMicrotask(enhanceDynamicUi);
+}
+
+async function refreshFavorites() {
+  refreshQueued = false;
   const city = cityId();
   if (loadedCity !== city) {
     eventMap = new Map();
     loadedCity = null;
   }
   await ensureDataset();
-  if (city !== cityId()) return queueRender();
-  cleanOldButtons(city);
+  if (city !== cityId()) return queueRefresh();
   renderMyPlans(city);
-  installCardFavorites(city);
-  installDetailFavorite(city);
-  syncFavoriteButtons(city, eventMap);
+  queueEnhance();
 }
 
-function queueRender() {
-  if (renderQueued) return;
-  renderQueued = true;
-  queueMicrotask(render);
+function queueRefresh() {
+  if (refreshQueued) return;
+  refreshQueued = true;
+  queueMicrotask(refreshFavorites);
 }
 
 installFavoritesStyles("../assets/favorites.css?v=20260817");
-new MutationObserver(queueRender).observe(document.body, { childList: true, subtree: true });
+new MutationObserver(queueEnhance).observe(document.body, { childList: true, subtree: true });
 new MutationObserver(() => {
   loadedCity = null;
   eventMap = new Map();
-  queueRender();
+  queueRefresh();
 }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
-window.addEventListener(FAVORITES_CHANGED_EVENT, queueRender);
+window.addEventListener(FAVORITES_CHANGED_EVENT, queueRefresh);
 window.addEventListener("storage", (event) => {
-  if (event.key === FAVORITES_STORAGE_KEY) queueRender();
+  if (event.key === FAVORITES_STORAGE_KEY) queueRefresh();
 });
-queueRender();
+queueRefresh();
