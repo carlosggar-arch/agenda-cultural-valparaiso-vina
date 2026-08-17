@@ -1,0 +1,22 @@
+name: Stage 3.2 analytics validation
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate Stage 3.2 client
+        run: |
+          node --check assets/usage-analytics.js
+          python -m unittest discover -s tests -p 'test_stage32_analytics.py' -v
+          git diff --check
