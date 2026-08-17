@@ -64,7 +64,8 @@ jobs:
           node --check app/app.js
           node --check app/pwa.js
           node --check app/service-worker.js
-          node --check app/contextual-filters.js
+          node --check app/combined-filters.js
+          node --check app/combined-filters-polish.js
           node --check app/density-polish.js
           node --check app/sources-toggle.js
           node --check app/schedule-display.js
@@ -95,9 +96,13 @@ jobs:
           grep -F '"start_url": "./app/"' manifest.webmanifest
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
-          grep -F 'const APP_VERSION = "PWA v26"' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v25"' app/service-worker.js
+          grep -F 'const APP_VERSION = "PWA v27"' app/pwa.js
+          grep -F 'const CACHE_VERSION = "v27"' app/service-worker.js
+          grep -F '"./combined-filters.js"' app/service-worker.js
+          grep -F '"./combined-filters.css"' app/service-worker.js
+          grep -F '"./combined-filters-polish.js"' app/service-worker.js
           grep -F '"./gijon-venue-hours.js"' app/service-worker.js
+          grep -F '"./event-detail.js"' app/service-worker.js
           ! grep -F 'client.navigate(' app/service-worker.js
           ! grep -F 'refreshOpenWindows' app/service-worker.js
           grep -F 'object-fit: contain !important' assets/event-media-layout.css
@@ -125,7 +130,6 @@ jobs:
             git diff --name-only "$BASE" HEAD -- "${PROTECTED[@]}"
             exit 1
           fi
-
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
           UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
@@ -133,5 +137,4 @@ jobs:
             printf '%s\n' "$UNEXPECTED"
             exit 1
           fi
-
           echo "Independent Valparaiso web and app isolation: OK"
