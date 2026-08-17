@@ -2,6 +2,24 @@ const MOBILE_QUERY = "(max-width: 700px)";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
 
+function ensureMeta(name, content) {
+  let meta = document.head.querySelector(`meta[name="${name}"]`);
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = name;
+    document.head.append(meta);
+  }
+  meta.content = content;
+}
+
+function installMobileMetadata() {
+  ensureMeta("application-name", "¡Vivamos!");
+  ensureMeta("mobile-web-app-capable", "yes");
+  ensureMeta("apple-mobile-web-app-capable", "yes");
+  ensureMeta("apple-mobile-web-app-title", "¡Vivamos!");
+  ensureMeta("apple-mobile-web-app-status-bar-style", "default");
+}
+
 function installMobileStyles() {
   if (document.querySelector('link[data-mobile-experience-styles]')) return;
   const link = document.createElement("link");
@@ -45,6 +63,7 @@ function buildTabbar() {
   return nav;
 }
 
+installMobileMetadata();
 installMobileStyles();
 const tabbar = buildTabbar();
 
