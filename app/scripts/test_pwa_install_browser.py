@@ -81,6 +81,40 @@ def fail_contract(message: str, dom: str) -> None:
     raise AssertionError(f"{message}. Observed: {observed}. DOM tail:\n{dom[-6000:]}")
 
 
+def run_chrome_probe(port: int) -> str:
+    errors: list[str] = []
+    for attempt in range(1, 3):
+        with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
+            cmd = [
+                chrome_binary(),
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-background-networking",
+                "--disable-extensions",
+                "--disable-sync",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
+                "--virtual-time-budget=16000",
+                f"--user-data-dir={profile}",
+                "--dump-dom",
+                f"http://127.0.0.1:{port}/app/__pwa_install_test.html",
+            ]
+            try:
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
+            except subprocess.TimeoutExpired:
+                errors.append(f"attempt {attempt}: Chrome timed out")
+                time.sleep(1)
+                continue
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+            time.sleep(1)
+    raise AssertionError(f"Installed-PWA Chrome probe failed after two isolated attempts: {' | '.join(errors)}")
+
+
 def main() -> None:
     os.chdir(ROOT)
     make_test_page()
@@ -90,14 +124,7 @@ def main() -> None:
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start(); time.sleep(0.2)
         try:
-            with tempfile.TemporaryDirectory(prefix="agenda-installed-pwa-", ignore_cleanup_errors=True) as profile:
-                cmd = [chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
-                       "--disable-background-networking", "--virtual-time-budget=16000", f"--user-data-dir={profile}",
-                       "--dump-dom", f"http://127.0.0.1:{port}/app/__pwa_install_test.html"]
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
-                if result.returncode != 0:
-                    raise AssertionError(f"Chrome failed during installed-PWA test: exit={result.returncode}\nSTDERR:\n{result.stderr[-4000:]}")
-                dom = result.stdout
+            dom = run_chrome_probe(port)
         finally:
             server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
 
