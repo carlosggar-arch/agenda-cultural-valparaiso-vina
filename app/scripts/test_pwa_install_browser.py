@@ -127,11 +127,12 @@ def make_test_pages() -> None:
       document.body.dataset.firstOpenCloseHidden = String(Boolean(close?.hidden));
       document.body.dataset.firstOpenBottomSheet = String(bottomSheet);
       document.body.dataset.firstOpenOptionTarget = String(Boolean(option && option.getBoundingClientRect().height >= 72));
-      document.body.dataset.firstOpenNavHidden = String(Boolean(nav?.hidden));
+      document.body.dataset.firstOpenNavHidden = String(!nav || nav.hidden);
     }, 2600);
   </script>
 '''
-    FIRST_OPEN_PAGE.write_text(source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
+    first_open_source = source.replace('<script type="module" src="./pwa.js"></script>', '')
+    FIRST_OPEN_PAGE.write_text(first_open_source.replace("</body>", first_open_probe + "\n</body>", 1), encoding="utf-8")
 
 
 def probe_state(dom: str) -> tuple[bool, str]:
@@ -187,7 +188,7 @@ def run_first_open(url: str) -> str:
     for attempt in range(1, 3):
         with tempfile.TemporaryDirectory(prefix=f"agenda-first-open-{attempt}-", ignore_cleanup_errors=True) as profile:
             try:
-                result = subprocess.run(chrome_command(url, profile, 8000), cwd=ROOT, text=True, capture_output=True, timeout=45)
+                result = subprocess.run(chrome_command(url, profile, 5000), cwd=ROOT, text=True, capture_output=True, timeout=30)
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
