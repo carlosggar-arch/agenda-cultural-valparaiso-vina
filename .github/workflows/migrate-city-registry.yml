@@ -63,7 +63,7 @@ jobs:
           fi
           git config user.name "agenda-cultural-architecture[bot]"
           git config user.email "agenda-cultural-architecture[bot]@users.noreply.github.com"
-          git add app assets .github/workflows/gijon-v1-stability.yml
+          git add app assets
           git commit -m "Make PWA city registry extensible"
 
           for attempt in 1 2 3; do
