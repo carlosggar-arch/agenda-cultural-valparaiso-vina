@@ -79,6 +79,15 @@ const HOURS = new Map([
   }],
 ]);
 
+const EVENT_LOCATION_OVERRIDES = new Map([
+  ["https://www.gijon.es/la-escuela-de-gijon-la-ciudad-como-motivo-exposicion", {
+    venue_id: "3224",
+    venue: "Centro de Cultura Antiguo Instituto",
+    address: "C/Jovellanos, 21",
+    verification: "verified_event_venue_correction",
+  }],
+]);
+
 function explicitRealTime(value) {
   const match = String(value || "").match(/T([0-2]\d:[0-5]\d)/);
   if (!match) return false;
@@ -102,12 +111,24 @@ function cleanPlaceholderDisplay(schedule) {
     .trim();
 }
 
+function officialEventUrl(event) {
+  return String(event?.links?.official || event?.links?.source || "").replace(/\/$/, "");
+}
+
+export function gijonLocationForEvent(event) {
+  const location = { ...(event?.location || {}) };
+  const override = EVENT_LOCATION_OVERRIDES.get(officialEventUrl(event));
+  if (!override) return location;
+  return { ...location, ...override };
+}
+
 export function scheduleForGijonEvent(event) {
   const schedule = event?.schedule;
   if (!schedule || typeof schedule !== "object" || hasExplicitEventTime(schedule)) return schedule;
 
   const next = { ...schedule, display_text: cleanPlaceholderDisplay(schedule) };
-  const venue = HOURS.get(fold(event?.location?.venue));
+  const location = gijonLocationForEvent(event);
+  const venue = HOURS.get(fold(location?.venue));
   if (!venue) return next;
 
   next.opening_hours = {
@@ -122,5 +143,6 @@ export function scheduleForGijonEvent(event) {
 }
 
 export function gijonVenueHours(event) {
-  return HOURS.get(fold(event?.location?.venue)) || null;
+  const location = gijonLocationForEvent(event);
+  return HOURS.get(fold(location?.venue)) || null;
 }
