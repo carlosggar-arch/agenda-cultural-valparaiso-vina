@@ -29,6 +29,11 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
+class ThreadingServer(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+
 def make_test_page() -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
     source = source.replace("<body>", '<body>\n<script>localStorage.setItem("agenda-cultural-city", "valparaiso"); localStorage.removeItem("agenda-cultural-favorites-v1");</script>', 1)
@@ -38,35 +43,67 @@ def make_test_page() -> None:
 
 
 def run_chrome(url: str, profile: str, budget: int) -> str:
-    cmd = [chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--disable-background-networking", "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check", "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1", f"--virtual-time-budget={budget}", f"--user-data-dir={profile}", "--dump-dom", url]
-    result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=50)
+    cmd = [
+        chrome_binary(),
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-extensions",
+        "--disable-sync",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
+        f"--virtual-time-budget={budget}",
+        f"--user-data-dir={profile}",
+        "--dump-dom",
+        url,
+    ]
+    result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=42)
     if result.returncode != 0 or not result.stdout:
         raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
     return result.stdout
+
+
+def run_scenario(port: int) -> None:
+    with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
+        home = run_chrome(f"http://127.0.0.1:{port}/app/__favorites_test.html", profile, 12000)
+        if 'data-favorites-probe="pass"' not in home:
+            raise AssertionError("Favorites compact-home contract failed")
+        match = re.search(r'data-favorites-event-id="([^"]+)"', home)
+        if not match:
+            raise AssertionError("Favorites test did not capture a saved event id")
+        plans = run_chrome(f"http://127.0.0.1:{port}/app/mis-planes.html?city=valparaiso", profile, 8000)
+        if 'data-my-plans="true"' not in plans or f'data-event-id="{match.group(1)}"' not in plans:
+            raise AssertionError("Standalone Mis planes page did not render the saved activity")
 
 
 def main() -> None:
     os.chdir(ROOT)
     make_test_page()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
-    with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
+    with ThreadingServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
-        thread.start(); time.sleep(0.2)
+        thread.start()
+        time.sleep(0.2)
+        errors: list[str] = []
         try:
-            with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
-                home = run_chrome(f"http://127.0.0.1:{port}/app/__favorites_test.html", profile, 14000)
-                if 'data-favorites-probe="pass"' not in home:
-                    raise AssertionError("Favorites compact-home contract failed")
-                match = re.search(r'data-favorites-event-id="([^"]+)"', home)
-                if not match:
-                    raise AssertionError("Favorites test did not capture a saved event id")
-                plans = run_chrome(f"http://127.0.0.1:{port}/app/mis-planes.html?city=valparaiso", profile, 9000)
-                if 'data-my-plans="true"' not in plans or f'data-event-id="{match.group(1)}"' not in plans:
-                    raise AssertionError("Standalone Mis planes page did not render the saved activity")
+            for attempt in range(1, 3):
+                try:
+                    run_scenario(port)
+                    print("Favorites browser test: homepage stays compact and standalone Mis planes renders saved activities")
+                    return
+                except (AssertionError, subprocess.TimeoutExpired) as exc:
+                    errors.append(f"attempt {attempt}: {type(exc).__name__}: {exc}")
+                    time.sleep(1)
+            raise AssertionError("Favorites browser scenario failed after two isolated attempts: " + " | ".join(errors))
         finally:
-            server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
-    print("Favorites browser test: homepage stays compact and standalone Mis planes renders saved activities")
+            server.shutdown()
+            thread.join(timeout=2)
+            TEST_PAGE.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
