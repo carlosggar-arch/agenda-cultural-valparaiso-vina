@@ -93,11 +93,16 @@ jobs:
           set -euo pipefail
           git config user.name "agenda-cultural-event-pages[bot]"
           git config user.email "agenda-cultural-event-pages[bot]@users.noreply.github.com"
-          git add evento sitemap.xml gijon
+          git add index.html evento sitemap.xml gijon
           if git diff --cached --quiet; then
             echo "Permanent event pages already synchronized."
             exit 0
           fi
           git commit -m "Actualiza fichas permanentes y SEO multi-ciudad"
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Generated-page workflow left unstaged changes before rebase:" >&2
+            git status --short >&2
+            exit 1
+          fi
           git pull --rebase origin main
           git push origin HEAD:main
