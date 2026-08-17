@@ -135,7 +135,7 @@ function queueRefresh() {
   queueMicrotask(refreshFavorites);
 }
 
-installFavoritesStyles("../assets/favorites.css?v=20260817");
+installFavoritesStyles("../assets/favorites.css?v=20260817-compact");
 new MutationObserver(queueEnhance).observe(document.body, { childList: true, subtree: true });
 new MutationObserver(() => {
   loadedCity = null;

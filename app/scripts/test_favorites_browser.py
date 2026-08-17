@@ -54,18 +54,25 @@ def make_test_page() -> None:
     const card = button.closest('.event-card[data-event-id]');
     const id = card?.dataset.eventId || '';
     button.click();
-    await sleep(600);
+    await sleep(700);
     let stored = [];
     try { stored = JSON.parse(localStorage.getItem('agenda-cultural-favorites-v1') || '[]'); } catch {}
     const saved = stored.some((item) => item.city === 'valparaiso' && item.id === id);
-    const inPlans = Boolean(document.querySelector(`[data-my-plans] .my-plan-card[data-event-id="${CSS.escape(id)}"]`));
+    const row = document.querySelector(`[data-my-plans] .my-plan-row[data-event-id="${CSS.escape(id)}"]`);
+    const disclosure = document.querySelector('[data-my-plans] .my-plans-disclosure');
     const pressed = button.getAttribute('aria-pressed') === 'true';
     const count = document.querySelector('[data-my-plans] .my-plans-count')?.textContent?.trim() || '';
+    const compactInitially = Boolean(disclosure) && !disclosure.open;
+    document.querySelector('[data-mobile-action="plans"]')?.click();
+    await sleep(200);
+    const openedByPlansTab = Boolean(disclosure?.open);
     document.body.dataset.favoritesSaved = String(saved);
-    document.body.dataset.favoritesInPlans = String(inPlans);
+    document.body.dataset.favoritesInPlans = String(Boolean(row));
     document.body.dataset.favoritesPressed = String(pressed);
     document.body.dataset.favoritesCount = count;
-    document.body.dataset.favoritesProbe = saved && inPlans && pressed && count === '1' ? 'pass' : 'fail';
+    document.body.dataset.favoritesCompactInitially = String(compactInitially);
+    document.body.dataset.favoritesOpenedByTab = String(openedByPlansTab);
+    document.body.dataset.favoritesProbe = saved && row && pressed && count.startsWith('1 ') && compactInitially && openedByPlansTab ? 'pass' : 'fail';
   };
   run();
 })();
@@ -100,9 +107,9 @@ def main() -> None:
     if result.returncode != 0 or not result.stdout:
         raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
     if 'data-favorites-probe="pass"' not in result.stdout:
-        observed = ", ".join(re.findall(r'data-favorites-[a-z-]+="[^"]*"', result.stdout)[-8:])
-        raise AssertionError(f"Favorites browser contract failed; observed: {observed or 'no probe attributes'}")
-    print("Favorites browser test: star persists to localStorage and appears in Mis planes")
+        observed = ", ".join(re.findall(r'data-favorites-[a-z-]+="[^"]*"', result.stdout)[-12:])
+        raise AssertionError(f"Favorites compact browser contract failed; observed: {observed or 'no probe attributes'}")
+    print("Favorites browser test: Mis planes stays compact and opens from the mobile tab")
 
 
 if __name__ == "__main__":
