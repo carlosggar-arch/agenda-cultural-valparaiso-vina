@@ -73,10 +73,21 @@ function refreshVisibleTotals() {
   if (overall) overall.textContent = String(total);
 }
 
+function shouldRejectEditorialCard(card) {
+  const id = card.dataset.eventId || "";
+  if (REJECTED_EVENT_IDS.has(id)) return true;
+  const text = String(card.textContent || "").toLocaleLowerCase("es");
+  const editorialCinemaPost = text.includes("instagram.com")
+    && text.includes("sabías que")
+    && text.includes("campamento")
+    && text.includes("cine dentro del cine");
+  return editorialCinemaPost;
+}
+
 function removeRejectedEditorialCards() {
   let removed = false;
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-    if (!REJECTED_EVENT_IDS.has(card.dataset.eventId || "")) continue;
+    if (!shouldRejectEditorialCard(card)) continue;
     card.remove();
     removed = true;
   }
