@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3.0",
-  "generated_at": "2026-08-17T04:33:41+02:00",
+  "generated_at": "2026-08-17T09:36:49+02:00",
   "publication_date": "2026-08-17",
   "timezone": "Europe/Madrid",
   "counts": {
@@ -39,8 +39,8 @@
       "official": true,
       "scope": "Gijón",
       "event_count": 0,
-      "status": "ok",
-      "detail": null,
+      "status": "secondary_checked",
+      "detail": "Se revisó una fuente secundaria; la fuente directa de Instagram sigue siendo necesaria para cerrar la cobertura.",
       "diagnostics": {
         "reviewed_items": 0,
         "dated_candidates": null,
@@ -48,7 +48,14 @@
         "filtered_or_deduplicated": null,
         "with_start_time": 0,
         "without_start_time": 0,
-        "time_coverage_percent": null
+        "time_coverage_percent": null,
+        "web_probe_status": "secondary_checked",
+        "web_probe_url": "https://elmicroesvuestro.wordpress.com/proximos-eventos/",
+        "web_probe_checked_on": "2026-08-17",
+        "web_probe_reviewed_items": 1,
+        "web_probe_dated_candidates": 0,
+        "actionable_zero": true,
+        "zero_event_reason": "direct_instagram_pending_secondary_only"
       }
     },
     {
@@ -59,8 +66,8 @@
       "official": true,
       "scope": "Gijón",
       "event_count": 0,
-      "status": "ok",
-      "detail": null,
+      "status": "monitored_empty",
+      "detail": "Agenda Gijón fue revisada y no muestra eventos actuales para este recinto.",
       "diagnostics": {
         "reviewed_items": 0,
         "dated_candidates": null,
@@ -68,7 +75,14 @@
         "filtered_or_deduplicated": null,
         "with_start_time": 0,
         "without_start_time": 0,
-        "time_coverage_percent": null
+        "time_coverage_percent": null,
+        "web_probe_status": "monitored_empty",
+        "web_probe_url": "https://agendagijon.com/event-location/toma-3",
+        "web_probe_checked_on": "2026-08-17",
+        "web_probe_reviewed_items": 0,
+        "web_probe_dated_candidates": 0,
+        "actionable_zero": false,
+        "zero_event_reason": "secondary_calendar_checked_no_current_candidates"
       }
     },
     {
@@ -79,8 +93,8 @@
       "official": true,
       "scope": "Gijón",
       "event_count": 0,
-      "status": "ok",
-      "detail": null,
+      "status": "expected_empty",
+      "detail": "La web oficial anuncia un paréntesis durante agosto y regreso en septiembre.",
       "diagnostics": {
         "reviewed_items": null,
         "dated_candidates": null,
@@ -88,7 +102,14 @@
         "filtered_or_deduplicated": null,
         "with_start_time": 0,
         "without_start_time": 0,
-        "time_coverage_percent": null
+        "time_coverage_percent": null,
+        "web_probe_status": "expected_empty",
+        "web_probe_url": "https://meidinerzjazzclub.com/",
+        "web_probe_checked_on": "2026-08-17",
+        "web_probe_reviewed_items": 1,
+        "web_probe_dated_candidates": 0,
+        "actionable_zero": false,
+        "zero_event_reason": "official_august_break"
       }
     },
     {
@@ -99,8 +120,8 @@
       "official": true,
       "scope": "Gijón",
       "event_count": 0,
-      "status": "ok",
-      "detail": null,
+      "status": "monitored_empty",
+      "detail": "Agenda Gijón fue revisada y no muestra eventos actuales para este recinto.",
       "diagnostics": {
         "reviewed_items": 0,
         "dated_candidates": null,
@@ -108,7 +129,14 @@
         "filtered_or_deduplicated": null,
         "with_start_time": 0,
         "without_start_time": 0,
-        "time_coverage_percent": null
+        "time_coverage_percent": null,
+        "web_probe_status": "monitored_empty",
+        "web_probe_url": "https://agendagijon.com/event-location/cafe-dindurra",
+        "web_probe_checked_on": "2026-08-17",
+        "web_probe_reviewed_items": 0,
+        "web_probe_dated_candidates": 0,
+        "actionable_zero": false,
+        "zero_event_reason": "secondary_calendar_checked_no_current_candidates"
       }
     },
     {
@@ -119,8 +147,8 @@
       "official": false,
       "scope": "Gijón",
       "event_count": 0,
-      "status": "ok",
-      "detail": null,
+      "status": "discovery_only",
+      "detail": "Agenda Gijón se usa como respaldo de descubrimiento y no requiere eventos propios para considerarse saludable.",
       "diagnostics": {
         "reviewed_items": 0,
         "dated_candidates": null,
@@ -130,7 +158,14 @@
         "without_start_time": 0,
         "time_coverage_percent": null,
         "role": "discovery_aggregator",
-        "note": "Los candidatos genéricos se separan editorialmente y pierden ante fuentes directas cuando duplican título y fecha."
+        "note": "Los candidatos genéricos se separan editorialmente y pierden ante fuentes directas cuando duplican título y fecha.",
+        "web_probe_status": "discovery_only",
+        "web_probe_url": "https://agendagijon.com/",
+        "web_probe_checked_on": "2026-08-17",
+        "web_probe_reviewed_items": 0,
+        "web_probe_dated_candidates": 0,
+        "actionable_zero": false,
+        "zero_event_reason": "discovery_aggregator"
       }
     },
     {
@@ -175,93 +210,6 @@
     }
   ],
   "events": [
-    {
-      "id": "agenda_gijon_6d1efd370091c858",
-      "title": "Visitas comentadas al Muséu del Pueblu d'Asturies",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "museos",
-        "label": "Museos"
-      },
-      "categories": [
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-01-01",
-        "end": "2026-12-31",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-01-01 · 00:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "1118",
-        "city": "Gijón",
-        "commune": "Gijón/Xixón",
-        "venue": "Muséu del Pueblu d'Asturies",
-        "address": "Paseo del Dr. Fleming, 877 - 33203 La Güelga - Gijón/Xixón",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://www.gijon.es/conoce-el-museu-del-pueblu-dasturies-visitas-comentadas",
-        "tickets": null,
-        "registration": "https://www.gijon.es/es/directorio/museu-del-pueblu-dasturies",
-        "source": "https://www.gijon.es/conoce-el-museu-del-pueblu-dasturies-visitas-comentadas"
-      },
-      "organizer": "FMCE y UP",
-      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
-      },
-      "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
-      "tags": [
-        "Muséu del Pueblu d'Asturies",
-        "Museos",
-        "Cultura y arte",
-        "Turismo",
-        "Fundación Municipal de Cultura",
-        "UP"
-      ],
-      "audience": "General",
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.gijon.es/sites/default/files/styles/imagen_4_3/public/2020-06/MPA.jpg?itok=tiLrMGmx",
-        "alt": "Muséu del Pueblu d'Asturies"
-      },
-      "editorial": {
-        "classification": "flexible_offer",
-        "reason": "long_running_reusable_museum_offer",
-        "duration_days": 364,
-        "title_cleanup": {
-          "reason": "guided_visit_heading",
-          "original_title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas"
-        }
-      },
-      "source_id": "gijon_opendata_events"
-    },
     {
       "id": "agenda_gijon_8a530d15722db829",
       "title": "El cine del centro",
@@ -310,10 +258,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -397,10 +345,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -487,10 +435,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -533,6 +481,93 @@
         "classification": "program",
         "reason": "explicit_program",
         "duration_days": 364
+      },
+      "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "agenda_gijon_6d1efd370091c858",
+      "title": "Visitas comentadas al Muséu del Pueblu d'Asturies",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "museos",
+        "label": "Museos"
+      },
+      "categories": [
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-01-01",
+        "end": "2026-12-31",
+        "timezone": "Europe/Madrid",
+        "display_text": "2026-01-01 · 00:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": "1118",
+        "city": "Gijón",
+        "commune": "Gijón/Xixón",
+        "venue": "Muséu del Pueblu d'Asturies",
+        "address": "Paseo del Dr. Fleming, 877 - 33203 La Güelga - Gijón/Xixón",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://www.gijon.es/conoce-el-museu-del-pueblu-dasturies-visitas-comentadas",
+        "tickets": null,
+        "registration": "https://www.gijon.es/es/directorio/museu-del-pueblu-dasturies",
+        "source": "https://www.gijon.es/conoce-el-museu-del-pueblu-dasturies-visitas-comentadas"
+      },
+      "organizer": "FMCE y UP",
+      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
+      },
+      "description": "Actividad publicada en la Agenda de Eventos del Ayuntamiento de Gijón/Xixón.",
+      "tags": [
+        "Muséu del Pueblu d'Asturies",
+        "Museos",
+        "Cultura y arte",
+        "Turismo",
+        "Fundación Municipal de Cultura",
+        "UP"
+      ],
+      "audience": "General",
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.gijon.es/sites/default/files/styles/imagen_4_3/public/2020-06/MPA.jpg?itok=tiLrMGmx",
+        "alt": "Muséu del Pueblu d'Asturies"
+      },
+      "editorial": {
+        "classification": "flexible_offer",
+        "reason": "long_running_reusable_museum_offer",
+        "duration_days": 364,
+        "title_cleanup": {
+          "reason": "guided_visit_heading",
+          "original_title": "Conoce el Muséu del Pueblu d'Asturies | Visitas comentadas"
+        }
       },
       "source_id": "gijon_opendata_events"
     },
@@ -584,10 +619,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -662,10 +697,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -749,10 +784,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -831,10 +866,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -914,10 +949,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -996,10 +1031,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1076,10 +1111,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1166,10 +1201,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1258,10 +1293,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1340,10 +1375,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1423,10 +1458,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -1509,10 +1544,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1593,10 +1628,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1676,10 +1711,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1760,10 +1795,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1838,10 +1873,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1920,10 +1955,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1996,10 +2031,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2072,10 +2107,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2152,10 +2187,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2230,10 +2265,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2308,10 +2343,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2386,10 +2421,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2466,10 +2501,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2550,10 +2585,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2630,10 +2665,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2710,10 +2745,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2792,10 +2827,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2872,10 +2907,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2950,10 +2985,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3033,10 +3068,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3116,10 +3151,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3196,10 +3231,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3277,10 +3312,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3357,10 +3392,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3439,10 +3474,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3524,10 +3559,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3607,10 +3642,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3688,10 +3723,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3773,10 +3808,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3855,10 +3890,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3938,10 +3973,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4021,10 +4056,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4054,6 +4089,85 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
+      "title": "Noche mágica de Valdrero. Ruta en Cudillero",
+      "event_type": "event",
+      "primary_category": {
+        "id": "deporte-bienestar",
+        "label": "Deporte / bienestar"
+      },
+      "categories": [
+        {
+          "id": "deporte-bienestar",
+          "label": "Deporte / bienestar"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-21T22:00:00+02:00",
+        "end": "2026-08-21",
+        "timezone": "Europe/Madrid",
+        "display_text": "2026-08-21 · 22:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Cudillero",
+        "commune": "Cudillero",
+        "region": "Asturias",
+        "venue": "Cudillero",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/noche-magica-de-valdrero-ruta-en-cudillero/18120667/jr0cMeS144cd",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/noche-magica-de-valdrero-ruta-en-cudillero/18120667/jr0cMeS144cd"
+      },
+      "organizer": "Turismo Asturias — Agenda deportiva",
+      "source_id": "turismo_asturias_deporte",
+      "source_name": "Turismo Asturias — Agenda deportiva",
+      "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
+      "last_verified_at": "2026-08-17T09:36:49+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T09:36:49+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Noche mágica de Valdrero. Ruta en Cudillero Cudillero Tiempo 2026-08-21 22:00:00.000 21 agosto 2026 22:00 h - 23:59 h",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": "Noche mágica de Valdrero. Ruta en Cudillero"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 0,
+        "time_enrichment_reason": "explicit_source_text"
+      }
     },
     {
       "id": "gijon_ciclismo_asturias_eaf7ca5e40efb9bd",
@@ -4105,10 +4219,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-17T09:36:56+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-17T09:36:56+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4125,6 +4239,83 @@
       "image": {
         "url": null,
         "alt": "LIGA DE PISTA 2026 TERCERA PRUEBA AVILES"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "gijon_turismo_asturias_deporte_833178867a48d515",
+      "title": "Rutas de montaña por Laviana",
+      "event_type": "event",
+      "primary_category": {
+        "id": "deporte-bienestar",
+        "label": "Deporte / bienestar"
+      },
+      "categories": [
+        {
+          "id": "deporte-bienestar",
+          "label": "Deporte / bienestar"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-22",
+        "end": "2026-08-22",
+        "timezone": "Europe/Madrid",
+        "display_text": "2026-08-22",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Laviana",
+        "commune": "Laviana",
+        "region": "Asturias",
+        "venue": "Laviana",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/rutas-de-montana-por-laviana/16930240/1787356800000/jr0cMeS144cd",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/rutas-de-montana-por-laviana/16930240/1787356800000/jr0cMeS144cd"
+      },
+      "organizer": "Turismo Asturias — Agenda deportiva",
+      "source_id": "turismo_asturias_deporte",
+      "source_name": "Turismo Asturias — Agenda deportiva",
+      "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
+      "last_verified_at": "2026-08-17T09:36:49+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T09:36:49+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Rutas de montaña por Laviana Laviana Tiempo 2026-08-22 23:59:00.000 22 agosto 2026 Todo el dia",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": "Rutas de montaña por Laviana"
       },
       "editorial": {
         "classification": "event",
@@ -4180,10 +4371,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4263,10 +4454,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4345,10 +4536,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4428,10 +4619,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4508,10 +4699,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4592,10 +4783,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4674,10 +4865,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4756,10 +4947,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4836,10 +5027,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4916,10 +5107,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5002,10 +5193,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5084,10 +5275,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5168,10 +5359,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5248,10 +5439,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5328,10 +5519,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5411,10 +5602,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5489,10 +5680,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5520,6 +5711,83 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
+    },
+    {
+      "id": "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
+      "title": "Concurso Hípico de Gijón",
+      "event_type": "event",
+      "primary_category": {
+        "id": "deporte-bienestar",
+        "label": "Deporte / bienestar"
+      },
+      "categories": [
+        {
+          "id": "deporte-bienestar",
+          "label": "Deporte / bienestar"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-25",
+        "end": "2026-08-30",
+        "timezone": "Europe/Madrid",
+        "display_text": "2026-08-25",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Gijón / Xixón",
+        "commune": "Gijón / Xixón",
+        "region": "Asturias",
+        "venue": "Gijón / Xixón",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "EUR",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/concurso-hipico-de-gijon/17538593/jr0cMeS144cd",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/concurso-hipico-de-gijon/17538593/jr0cMeS144cd"
+      },
+      "organizer": "Turismo Asturias — Agenda deportiva",
+      "source_id": "turismo_asturias_deporte",
+      "source_name": "Turismo Asturias — Agenda deportiva",
+      "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
+      "last_verified_at": "2026-08-17T09:36:49+02:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-17T09:36:49+02:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
+      },
+      "description": "Concurso Hípico de Gijón Gijón / Xixón Tiempo 2026-08-25 00:00:00.000 25 agosto 2026 / 2026-08-30 23:59:00.000 30 agosto 2026 Todo el dia",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": "Concurso Hípico de Gijón"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "multisource_dated_event",
+        "duration_days": 5
+      }
     },
     {
       "id": "agenda_gijon_6539f9c296dc8dc0",
@@ -5569,10 +5837,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5652,10 +5920,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5728,10 +5996,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5808,10 +6076,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5888,10 +6156,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5971,10 +6239,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6054,10 +6322,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6134,10 +6402,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6217,10 +6485,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6300,10 +6568,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6382,10 +6650,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-17T09:36:56+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-17T09:36:56+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6457,10 +6725,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6539,10 +6807,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6622,10 +6890,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6706,10 +6974,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6788,10 +7056,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6870,10 +7138,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-17T09:36:56+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-17T09:36:56+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6945,10 +7213,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7028,10 +7296,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7110,10 +7378,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7194,10 +7462,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-17T04:33:27+02:00",
+      "last_verified_at": "2026-08-17T09:36:34+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:27+02:00",
+        "last_verified_at": "2026-08-17T09:36:34+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7225,246 +7493,25 @@
         "duration_days": 0
       },
       "source_id": "gijon_opendata_events"
-    },
-    {
-      "id": "gijon_turismo_asturias_deporte_833178867a48d515",
-      "title": "Rutas de montaña por Laviana",
-      "event_type": "event",
-      "primary_category": {
-        "id": "deporte-bienestar",
-        "label": "Deporte / bienestar"
-      },
-      "categories": [
-        {
-          "id": "deporte-bienestar",
-          "label": "Deporte / bienestar"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-22",
-        "end": "2026-08-22",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-08-22",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Laviana",
-        "commune": "Laviana",
-        "region": "Asturias",
-        "venue": "Laviana",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/rutas-de-montana-por-laviana/16930240/1787356800000/jr0cMeS144cd",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/rutas-de-montana-por-laviana/16930240/1787356800000/jr0cMeS144cd"
-      },
-      "organizer": "Turismo Asturias — Agenda deportiva",
-      "source_id": "turismo_asturias_deporte",
-      "source_name": "Turismo Asturias — Agenda deportiva",
-      "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T04:33:41+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:41+02:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
-      },
-      "description": "Rutas de montaña por Laviana Laviana Tiempo 2026-08-22 23:59:00.000 22 agosto 2026 Todo el dia",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": "Rutas de montaña por Laviana"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "multisource_dated_event",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "gijon_turismo_asturias_deporte_a6b87f2b652cce81",
-      "title": "Noche mágica de Valdrero. Ruta en Cudillero",
-      "event_type": "event",
-      "primary_category": {
-        "id": "deporte-bienestar",
-        "label": "Deporte / bienestar"
-      },
-      "categories": [
-        {
-          "id": "deporte-bienestar",
-          "label": "Deporte / bienestar"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-21T22:00:00+02:00",
-        "end": "2026-08-21",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-08-21 · 22:00",
-        "occurrences": [],
-        "start_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Cudillero",
-        "commune": "Cudillero",
-        "region": "Asturias",
-        "venue": "Cudillero",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/noche-magica-de-valdrero-ruta-en-cudillero/18120667/jr0cMeS144cd",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/noche-magica-de-valdrero-ruta-en-cudillero/18120667/jr0cMeS144cd"
-      },
-      "organizer": "Turismo Asturias — Agenda deportiva",
-      "source_id": "turismo_asturias_deporte",
-      "source_name": "Turismo Asturias — Agenda deportiva",
-      "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T04:33:41+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:41+02:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
-      },
-      "description": "Noche mágica de Valdrero. Ruta en Cudillero Cudillero Tiempo 2026-08-21 22:00:00.000 21 agosto 2026 22:00 h - 23:59 h",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": "Noche mágica de Valdrero. Ruta en Cudillero"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "multisource_dated_event",
-        "duration_days": 0,
-        "time_enrichment_reason": "explicit_source_text"
-      }
-    },
-    {
-      "id": "gijon_turismo_asturias_deporte_bebf8ca1a63d50ca",
-      "title": "Concurso Hípico de Gijón",
-      "event_type": "event",
-      "primary_category": {
-        "id": "deporte-bienestar",
-        "label": "Deporte / bienestar"
-      },
-      "categories": [
-        {
-          "id": "deporte-bienestar",
-          "label": "Deporte / bienestar"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-25",
-        "end": "2026-08-30",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-08-25",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Gijón / Xixón",
-        "commune": "Gijón / Xixón",
-        "region": "Asturias",
-        "venue": "Gijón / Xixón",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/concurso-hipico-de-gijon/17538593/jr0cMeS144cd",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.turismoasturias.es/agenda-de-asturias/deporte/-/calendarsuite/event/concurso-hipico-de-gijon/17538593/jr0cMeS144cd"
-      },
-      "organizer": "Turismo Asturias — Agenda deportiva",
-      "source_id": "turismo_asturias_deporte",
-      "source_name": "Turismo Asturias — Agenda deportiva",
-      "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-17T04:33:41+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-17T04:33:41+02:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada."
-      },
-      "description": "Concurso Hípico de Gijón Gijón / Xixón Tiempo 2026-08-25 00:00:00.000 25 agosto 2026 / 2026-08-30 23:59:00.000 30 agosto 2026 Todo el dia",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": "Concurso Hípico de Gijón"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "multisource_dated_event",
-        "duration_days": 5
-      }
     }
   ],
   "editorial_diagnostics": {
     "gijon_title_cleanup_changes": 7
   },
-  "diagnostics_generated_at": "2026-08-17T04:33:45+02:00",
+  "diagnostics_generated_at": "2026-08-17T09:36:53+02:00",
   "enrichment": {
-    "start_times_added": 1
+    "start_times_added": 1,
+    "zero_source_web_recovery": {
+      "events_added_before_dedup": 0,
+      "sources_probed": [
+        "agenda_gijon",
+        "cafe_dindurra",
+        "la_revoltosa_gijon",
+        "meidinerz_jazz_club",
+        "toma3_xixon"
+      ],
+      "checked_on": "2026-08-17",
+      "apify_used": false
+    }
   }
 }
