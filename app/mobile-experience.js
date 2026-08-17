@@ -24,7 +24,7 @@ function installMobileStyles() {
   if (document.querySelector('link[href*="mobile-experience.css"]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css?v=20260817-topnav5";
+  link.href = "./mobile-experience.css?v=20260817-topnav6";
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
@@ -33,8 +33,17 @@ function isStandalone() {
   return Boolean(standaloneQuery?.matches || window.navigator.standalone === true);
 }
 
-function syncStandaloneFlag() {
+function isMobileClient() {
+  const ua = String(navigator.userAgent || "");
+  const mobileUa = /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua);
+  const touchDevice = Number(navigator.maxTouchPoints || 0) > 0;
+  const shortScreen = Math.min(Number(screen.width || 9999), Number(screen.height || 9999)) <= 1200;
+  return isStandalone() || mobileUa || (touchDevice && shortScreen);
+}
+
+function syncClientFlags() {
   document.documentElement.dataset.standalone = String(isStandalone());
+  document.documentElement.dataset.mobileClient = String(isMobileClient());
 }
 
 function createTabButton(action, icon, label) {
@@ -69,7 +78,7 @@ function buildTabbar() {
 
 installMobileMetadata();
 installMobileStyles();
-syncStandaloneFlag();
+syncClientFlags();
 const tabbar = buildTabbar();
 
 function ensureTabbarMounted() {
@@ -132,6 +141,7 @@ function syncCityOptionState() {
 
 function syncModalVisibility() {
   ensureTabbarMounted();
+  syncClientFlags();
   if (document.documentElement.dataset.city) setActive("agenda");
 }
 
@@ -177,14 +187,10 @@ new MutationObserver((records) => {
   attributeFilter: ["open"],
 });
 
-window.addEventListener("appinstalled", () => {
-  syncStandaloneFlag();
-  syncModalVisibility();
-});
-standaloneQuery?.addEventListener?.("change", () => {
-  syncStandaloneFlag();
-  syncModalVisibility();
-});
+window.addEventListener("appinstalled", syncModalVisibility);
+window.addEventListener("resize", syncClientFlags);
+window.addEventListener("orientationchange", syncClientFlags);
+standaloneQuery?.addEventListener?.("change", syncModalVisibility);
 window.matchMedia?.(MOBILE_QUERY)?.addEventListener?.("change", syncModalVisibility);
 
 syncCityOptionState();
