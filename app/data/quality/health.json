@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T09:08:03+00:00",
+  "generated_at": "2026-08-17T10:01:59+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -10,41 +10,69 @@
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
-        "publication_date_stale",
+        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
-        "publication_date": "2026-08-15",
-        "publication_age_days": 2,
-        "generated_at": "2026-08-17T05:07:31-04:00",
+        "publication_date": "2026-08-17",
+        "publication_age_days": 0,
+        "generated_at": "2026-08-17T06:01:30-04:00",
         "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 69,
-        "schedule_expected_events": 65,
-        "dated_events": 65,
-        "timed_events": 65,
-        "relevant_image_events": 30,
+        "total_events": 86,
+        "schedule_expected_events": 82,
+        "dated_events": 82,
+        "timed_events": 79,
+        "relevant_image_events": 46,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
-        "generic_schedule_images_rejected": 1
+        "generic_schedule_images_rejected": 2
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 100.0,
-        "relevant_image_pct": 43.5
+        "time_pct": 96.3,
+        "relevant_image_pct": 53.5
       },
       "samples": {
-        "missing_time": [],
+        "missing_time": [
+          {
+            "id": "agenda_cd7e7ee7f612925156e4fdcc",
+            "title": "Programación sujeta a cambios.",
+            "venue": "Museo Palacio Rioja"
+          },
+          {
+            "id": "agenda_baaf655dfce1a942408c3660",
+            "title": "Consultas a: infobiav@munivalpo.cl",
+            "venue": "Valpo Cultura"
+          },
+          {
+            "id": "agenda_9f708ccb1c8986209342fcbf",
+            "title": "Así vivimos nuestro primer diálogo del Seminario de Preguntas Fundamentales",
+            "venue": "Museo de Historia Natural de Valparaíso"
+          }
+        ],
         "missing_relevant_image": [
+          {
+            "id": "agenda_cd7e7ee7f612925156e4fdcc",
+            "title": "Programación sujeta a cambios."
+          },
           {
             "id": "agenda_e7e2a4a89dc447f9bd2633e7",
             "title": "Destino Valparaíso – Agosto 2026"
           },
           {
-            "id": "agenda_8c2b6ba0de30c34fe3529930",
-            "title": "A veces un mar dulce"
+            "id": "agenda_cinema_f68f891c02d7288c3619",
+            "title": "La Invitación"
+          },
+          {
+            "id": "agenda_cinema_92d4fd4d7601cce1f24e",
+            "title": "Obsesión"
+          },
+          {
+            "id": "agenda_cinema_925100f89d3012aef5dd",
+            "title": "Children of Men (2006)"
           },
           {
             "id": "agenda_67defc9c064344e04c20aca6",
@@ -55,20 +83,8 @@
             "title": "Exposición // Horario de verano: Memorias fuera de temporada"
           },
           {
-            "id": "agenda_909c0ee35fef43fe785f4eb4",
-            "title": "Exposición temporal // Tàpies, colección del grabador Barbara"
-          },
-          {
-            "id": "agenda_a933180663b5f1d4af1ec329",
-            "title": "Exposición transitoria // “Entre mareas”"
-          },
-          {
-            "id": "agenda_bdc6269a0b11d9323cf2dd1f",
-            "title": "Feria // Invierno mágico"
-          },
-          {
-            "id": "agenda_34217eb7dfa4b6e6d0c247ed",
-            "title": "PRÁCTICAS SITUADAS | 46 Salón de Estudiantes de la Escuela Municipal de Bellas Artes"
+            "id": "agenda_eb89b5ee606c6cb270ea04c4",
+            "title": "Exposición temporal // A veces un mar dulce"
           }
         ],
         "suspicious_titles": [],
@@ -129,7 +145,7 @@
             "city": "Viña del Mar",
             "agenda_url": null,
             "direct_events": 0,
-            "venue_events": 1,
+            "venue_events": 5,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -151,9 +167,9 @@
             "city": "Valparaíso",
             "primary_recovery_attempted": null,
             "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
           }
         ],
         "indirect_source_warnings": [
@@ -173,23 +189,12 @@
             ]
           }
         ],
-        "checked_zero_sources": [
-          {
-            "id": "valparaiso_profundo",
-            "name": "Valparaíso Profundo",
-            "city": "Valparaíso",
-            "primary_recovery_attempted": null,
-            "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
-          }
-        ]
+        "checked_zero_sources": []
       },
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 0,
+        "visit_hours_enriched": 14,
         "venue_hours_enriched": 1,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0
@@ -197,8 +202,18 @@
       "publication_corrections": {
         "checked_at": "2026-08-17",
         "active_corrections": 1,
-        "applied_count": 0,
-        "applied": []
+        "applied_count": 1,
+        "applied": [
+          {
+            "correction_id": "baburizza_requiem_2026_end",
+            "event_id": "agenda_c16d049f287e6bc4922b56de",
+            "title": "Museo Baburizza – «Requiem para Pianos»",
+            "action": "drop_after_end",
+            "official_end_date": "2026-08-06",
+            "official_url": "https://www.museobaburizza.cl/agenda/",
+            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
+          }
+        ]
       }
     },
     "gijon": {
@@ -213,7 +228,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T09:36:49+02:00",
-        "generated_age_hours": 1.5
+        "generated_age_hours": 2.4
       },
       "counts": {
         "total_events": 89,
@@ -494,7 +509,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 3.5022787247416276,
+    "usage_usd": 3.896618772890879,
     "remaining_usd": 0.0
   }
 }
