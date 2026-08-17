@@ -46,7 +46,7 @@
     <section class="status" data-status role="status" aria-live="polite"><strong>Preparando la agenda</strong><p>Cargando tu ciudad habitual.</p></section>
 
     <section class="discovery" hidden data-discovery aria-labelledby="discovery-title">
-      <div class="discovery-heading"><div><p class="eyebrow">Explora la agenda</p><h2 id="discovery-title">Encuentra justo lo que buscas</h2></div><p>Combina fecha, zona, acceso, formato, público, categorías y palabras clave.</p></div>
+      <div class="discovery-heading"><div><p class="eyebrow">Explora la agenda</p><h2 id="discovery-title">Encuentra justo lo que buscas</h2></div><p>Combina fecha, zona, categorías y palabras clave.</p></div>
 
       <nav class="quick-sections legacy-filter-hooks" data-section-filters aria-hidden="true">
         <button type="button" data-section-filter="hoy" aria-pressed="false"><span>Hoy</span><small data-section-count>0</small></button>
@@ -58,7 +58,7 @@
       <div class="legacy-filter-hooks" data-category-filters aria-hidden="true"></div>
 
       <section class="filter-workbench" aria-label="Filtros combinados de actividades">
-        <div class="filter-workbench-heading"><div><h3>Combina tus filtros</h3><p>Fecha, zona, acceso, formato, público y categorías funcionan a la vez.</p></div><p class="filter-help">Los contadores se actualizan con el contexto.</p></div>
+        <div class="filter-workbench-heading"><div><h3>Combina tus filtros</h3><p>Fecha, zona y categorías funcionan a la vez.</p></div><p class="filter-help">Los contadores se actualizan con el contexto.</p></div>
         <div class="filter-grid">
           <fieldset class="filter-group"><legend class="filter-group-title">Cuándo</legend><div class="filter-choice-row" data-combined-when>
             <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquier fecha <small data-combined-count>0</small></button>
@@ -74,23 +74,6 @@
             <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Valpo + Viña <small data-combined-count>0</small></button>
             <button class="filter-choice" type="button" data-filter-value="valparaiso" aria-pressed="false">Valparaíso <small data-combined-count>0</small></button>
             <button class="filter-choice" type="button" data-filter-value="vina" aria-pressed="false">Viña del Mar <small data-combined-count>0</small></button>
-          </div></fieldset>
-
-          <fieldset class="filter-group"><legend class="filter-group-title">Acceso</legend><div class="filter-choice-row" data-combined-access>
-            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquiera <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="entradas" aria-pressed="false">Entradas <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="inscripcion" aria-pressed="false">Inscripción <small data-combined-count>0</small></button>
-          </div></fieldset>
-
-          <fieldset class="filter-group"><legend class="filter-group-title">Formato</legend><div class="filter-choice-row" data-combined-format>
-            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquiera <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="presencial" aria-pressed="false">Presencial <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="en-linea" aria-pressed="false">En línea <small data-combined-count>0</small></button>
-          </div></fieldset>
-
-          <fieldset class="filter-group"><legend class="filter-group-title">Público</legend><div class="filter-choice-row" data-combined-audience>
-            <button class="filter-choice active" type="button" data-filter-value="todos" aria-pressed="true">Cualquiera <small data-combined-count>0</small></button>
-            <button class="filter-choice" type="button" data-filter-value="familiar" aria-pressed="false">Familias <small data-combined-count>0</small></button>
           </div></fieldset>
         </div>
         <div class="category-filter-panel"><div class="category-explorer-heading"><h3>Categorías</h3><p>Puedes marcar varias a la vez.</p></div><div class="category-filters" data-combined-category-filters aria-label="Categorías combinables"></div></div>
@@ -115,6 +98,18 @@
     (() => {
       const STORAGE_KEY = "agenda-cultural-city";
       const supported = new Set(["valparaiso", "gijon"]);
+      const stripRemovedFilters = () => {
+        const url = new URL(window.location.href);
+        let changed = false;
+        for (const key of ["access", "format", "aud"]) {
+          if (!url.searchParams.has(key)) continue;
+          url.searchParams.delete(key);
+          changed = true;
+        }
+        if (changed) history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      };
+      stripRemovedFilters();
+      window.addEventListener("popstate", stripRemovedFilters);
       const requested = new URLSearchParams(window.location.search).get("city");
       let saved = null;
       try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
