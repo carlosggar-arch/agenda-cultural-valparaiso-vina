@@ -12,12 +12,12 @@ import "./combined-filters-polish.js";
 // Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
 // but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
-import "./mobile-experience.js?v=20260817-topnav6";
+import "./mobile-experience.js?v=20260817-topnav7";
 import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
-const APP_VERSION = "PWA v41";
+const APP_VERSION = "PWA v42";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -30,7 +30,9 @@ function isRunningStandalone() {
 }
 
 function isPhoneLike() {
-  return window.matchMedia?.("(pointer: coarse)").matches
+  const physicalWidth = Math.min(Number(screen.width || 9999), Number(screen.height || 9999));
+  return physicalWidth <= 900
+    || window.matchMedia?.("(pointer: coarse)").matches
     || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
 }
 
@@ -50,15 +52,10 @@ function installHelpElement() {
   return backdrop;
 }
 
-function showInstallHelp() {
-  installHelpElement().hidden = false;
-}
+function showInstallHelp() { installHelpElement().hidden = false; }
 
 async function requestInstall() {
-  if (!deferredInstallPrompt) {
-    showInstallHelp();
-    return;
-  }
+  if (!deferredInstallPrompt) { showInstallHelp(); return; }
   const promptEvent = deferredInstallPrompt;
   deferredInstallPrompt = null;
   for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = true;
@@ -66,9 +63,7 @@ async function requestInstall() {
     await promptEvent.prompt();
     const choice = await promptEvent.userChoice;
     if (choice?.outcome === "accepted") hideInstallButtons();
-    else {
-      for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = false;
-    }
+    else for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = false;
   } catch (error) {
     for (const button of [installButton, mobileInstallButton]) if (button) button.disabled = false;
     showInstallHelp();
@@ -93,43 +88,28 @@ function ensureMobileInstallButton() {
 }
 
 function hideInstallButtons() {
-  if (installButton) {
-    installButton.hidden = true;
-    installButton.disabled = false;
-  }
-  if (mobileInstallButton) {
-    mobileInstallButton.remove();
-    mobileInstallButton = null;
-  }
+  if (installButton) { installButton.hidden = true; installButton.disabled = false; }
+  if (mobileInstallButton) { mobileInstallButton.remove(); mobileInstallButton = null; }
   deferredInstallPrompt = null;
 }
 
 function setupInstallExperience() {
-  if (isRunningStandalone()) {
-    hideInstallButtons();
-    return;
-  }
-
-  if (installButton) {
-    installButton.hidden = false;
-    installButton.addEventListener("click", requestInstall);
-  }
+  if (isRunningStandalone()) { hideInstallButtons(); return; }
+  if (installButton) { installButton.hidden = false; installButton.addEventListener("click", requestInstall); }
   ensureMobileInstallButton();
-
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
     if (installButton) installButton.hidden = false;
     ensureMobileInstallButton();
   });
-
   window.addEventListener("appinstalled", hideInstallButtons, { once: true });
 }
 
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   try {
-    const registration = await navigator.serviceWorker.register("./service-worker.js?v=45", { scope: "./", updateViaCache: "none" });
+    const registration = await navigator.serviceWorker.register("./service-worker.js?v=46", { scope: "./", updateViaCache: "none" });
     registration.update().catch(() => {});
   } catch (error) {
     console.warn("¡Vivamos!: service worker unavailable", error);
