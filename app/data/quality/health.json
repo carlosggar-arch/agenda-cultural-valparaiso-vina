@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T09:05:32+00:00",
+  "generated_at": "2026-08-17T09:08:03+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -9,20 +9,21 @@
       "today": "2026-08-17",
       "status": "warning",
       "warnings": [
+        "direct_source_preferred",
         "publication_date_stale",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-15",
         "publication_age_days": 2,
-        "generated_at": "2026-08-17T05:00:19-04:00",
-        "generated_age_hours": 0.1
+        "generated_at": "2026-08-17T05:07:31-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 68,
-        "schedule_expected_events": 64,
-        "dated_events": 64,
-        "timed_events": 64,
+        "total_events": 69,
+        "schedule_expected_events": 65,
+        "dated_events": 65,
+        "timed_events": 65,
         "relevant_image_events": 30,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
@@ -32,7 +33,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 44.1
+        "relevant_image_pct": 43.5
       },
       "samples": {
         "missing_time": [],
@@ -93,9 +94,14 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 0,
-            "indirect_venue_events": 0,
-            "indirect_samples": []
+            "venue_events": 1,
+            "indirect_venue_events": 1,
+            "indirect_samples": [
+              {
+                "id": "agenda_cinema_1a49202480b0c737110a",
+                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
+              }
+            ]
           },
           {
             "id": "teatromuseo",
@@ -140,16 +146,6 @@
         ],
         "zero_event_sources": [
           {
-            "id": "insomniacine",
-            "name": "INSOMNIA Teatro Condell",
-            "city": "Valparaíso",
-            "primary_recovery_attempted": true,
-            "primary_recovery_sessions": 0,
-            "secondary_probe_status": null,
-            "secondary_probe_current_candidates": null,
-            "secondary_probe_reason": null
-          },
-          {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
             "city": "Valparaíso",
@@ -160,18 +156,24 @@
             "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
           }
         ],
-        "indirect_source_warnings": [],
-        "checked_zero_sources": [
+        "indirect_source_warnings": [
           {
             "id": "insomniacine",
             "name": "INSOMNIA Teatro Condell",
             "city": "Valparaíso",
-            "primary_recovery_attempted": true,
-            "primary_recovery_sessions": 0,
-            "secondary_probe_status": null,
-            "secondary_probe_current_candidates": null,
-            "secondary_probe_reason": null
-          },
+            "agenda_url": "https://www.insomniacine.cl/cartelera/",
+            "direct_events": 0,
+            "venue_events": 1,
+            "indirect_venue_events": 1,
+            "indirect_samples": [
+              {
+                "id": "agenda_cinema_1a49202480b0c737110a",
+                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
+              }
+            ]
+          }
+        ],
+        "checked_zero_sources": [
           {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
@@ -492,7 +494,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 3.502278062198748,
+    "usage_usd": 3.5022787247416276,
     "remaining_usd": 0.0
   }
 }
