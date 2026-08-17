@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import { planAheadAction, planAheadCandidate, referenceNow, selectPlanAhead } from "../assets/plan-ahead-core.mjs";
@@ -76,4 +77,24 @@ test("recognizes registration, reservation, tickets and registration requirement
 
 test("uses dataset generation time as the stable planning reference", () => {
   assert.equal(referenceNow({ generated_at: "2026-08-17T11:22:55-04:00" }).toISOString(), "2026-08-17T15:22:55.000Z");
+});
+
+test("current Valparaiso and Gijon datasets satisfy plan-ahead invariants", async () => {
+  const datasets = [
+    ["valparaiso", "agenda_web.json"],
+    ["gijon", "app/data/gijon/agenda_web.json"],
+  ];
+  const counts = {};
+  for (const [city, path] of datasets) {
+    const payload = JSON.parse(await readFile(new URL(`../${path}`, import.meta.url), "utf8"));
+    const selected = selectPlanAhead(payload.events || [], { now: referenceNow(payload), minDays: 14, maxDays: 56, limit: 50 });
+    counts[city] = selected.length;
+    for (const candidate of selected) {
+      assert.ok(candidate.daysUntil >= 14 && candidate.daysUntil <= 56);
+      assert.ok(candidate.action?.url?.startsWith("http"));
+      assert.notEqual(candidate.event?.public_status?.cancelled, true);
+      assert.notEqual(candidate.event?.public_status?.sold_out, true);
+    }
+  }
+  console.log(`PLAN_AHEAD_DATASET_COUNTS valparaiso=${counts.valparaiso} gijon=${counts.gijon}`);
 });
