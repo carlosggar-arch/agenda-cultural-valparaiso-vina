@@ -12,6 +12,7 @@ import "./combined-filters-polish.js";
 import "./plan-ahead.js";
 import "./favorites.js";
 import "./mobile-experience.js";
+import "./stage31-accessibility-seo.js";
 
 const APP_VERSION = "PWA v33";
 const versionNode = document.querySelector("[data-app-version]");

@@ -5,11 +5,19 @@ on:
     branches: [main]
     paths:
       - "scripts/generate_event_pages.py"
+      - "scripts/stage31_site_generator.py"
       - "assets/event-page.css"
       - "assets/event-page.js"
+      - "assets/accessibility.css"
+      - "assets/city-page.css"
       - "assets/event-permalink.css"
       - "assets/web-event-enhancements.js"
       - "app/event-detail.js"
+      - "app/pwa.js"
+      - "app/service-worker.js"
+      - "app/stage31-accessibility-seo.js"
+      - "app/stage31-accessibility.css"
+      - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   push:
     branches: [main]
@@ -18,11 +26,19 @@ on:
       - "agenda_changes.json"
       - "app/data/gijon/agenda_web.json"
       - "scripts/generate_event_pages.py"
+      - "scripts/stage31_site_generator.py"
       - "assets/event-page.css"
       - "assets/event-page.js"
+      - "assets/accessibility.css"
+      - "assets/city-page.css"
       - "assets/event-permalink.css"
       - "assets/web-event-enhancements.js"
       - "app/event-detail.js"
+      - "app/pwa.js"
+      - "app/service-worker.js"
+      - "app/stage31-accessibility-seo.js"
+      - "app/stage31-accessibility.css"
+      - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   workflow_dispatch:
 
@@ -48,21 +64,26 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate generator and event-page runtime
+      - name: Validate accessibility, SEO, structured data and event-page runtime
         run: |
           set -euo pipefail
-          python -m py_compile scripts/generate_event_pages.py
+          python -m py_compile scripts/generate_event_pages.py scripts/stage31_site_generator.py tests/test_stage31.py
           node --check assets/event-page.js
           node --check assets/web-event-enhancements.js
           node --check app/event-detail.js
-          python scripts/generate_event_pages.py --check
+          node --check app/stage31-accessibility-seo.js
+          node --check app/pwa.js
+          node --check app/service-worker.js
+          python -m unittest discover -s tests -p 'test_stage31.py' -v
+          python scripts/stage31_site_generator.py --check
 
-      - name: Generate permanent pages on public main
+      - name: Generate permanent pages and canonical city landing on public main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
-          python scripts/generate_event_pages.py
+          python scripts/stage31_site_generator.py
           test -f sitemap.xml
+          test -f gijon/index.html
           test -d evento/valparaiso
           test -d evento/gijon
 
@@ -72,11 +93,11 @@ jobs:
           set -euo pipefail
           git config user.name "agenda-cultural-event-pages[bot]"
           git config user.email "agenda-cultural-event-pages[bot]@users.noreply.github.com"
-          git add evento sitemap.xml
+          git add evento sitemap.xml gijon
           if git diff --cached --quiet; then
             echo "Permanent event pages already synchronized."
             exit 0
           fi
-          git commit -m "Actualiza fichas permanentes de eventos"
+          git commit -m "Actualiza fichas permanentes y SEO multi-ciudad"
           git pull --rebase origin main
           git push origin HEAD:main

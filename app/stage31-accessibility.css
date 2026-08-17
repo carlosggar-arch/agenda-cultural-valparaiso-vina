@@ -1,0 +1,53 @@
+:root { --stage31-focus-offset: 3px; }
+
+.skip-link {
+  position: fixed;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  z-index: 10000;
+  padding: 0.7rem 1rem;
+  border-radius: 0.65rem;
+  background: Canvas;
+  color: CanvasText;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-180%);
+  transition: transform 120ms ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible { transform: translateY(0); }
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: var(--stage31-focus-offset);
+}
+
+.city-switch,
+.install-button,
+.filter-choice,
+.category-chip,
+.clear-filters,
+.chooser-close,
+.city-option,
+.location-button,
+.event-card a,
+.source-card a {
+  min-height: 44px;
+}
+
+.has-modal-dialog { overflow: hidden; }
+
+[aria-busy="true"] { cursor: progress; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
