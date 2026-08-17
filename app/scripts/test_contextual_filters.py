@@ -54,7 +54,7 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v25"' in pwa
+assert 'const APP_VERSION = "PWA v26"' in pwa
 assert 'const CACHE_VERSION = "v25"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker

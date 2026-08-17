@@ -52,6 +52,7 @@ jobs:
             app/scripts/update_gijon.py \
             app/scripts/fetch_gijon_xhtml.py \
             app/scripts/test_gijon_editorial.py \
+            app/scripts/test_gijon_source_detail.py \
             app/scripts/test_multi_city_ui.py \
             app/scripts/test_pwa.py \
             app/scripts/test_pre_release.py \
@@ -68,6 +69,7 @@ jobs:
           node --check app/sources-toggle.js
           node --check app/schedule-display.js
           node --check app/gijon-venue-hours.js
+          node --check app/event-detail.js
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
 
@@ -75,6 +77,7 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/test_gijon_editorial.py
+          python app/scripts/test_gijon_source_detail.py
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
@@ -92,7 +95,7 @@ jobs:
           grep -F '"start_url": "./app/"' manifest.webmanifest
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
-          grep -F 'const APP_VERSION = "PWA v25"' app/pwa.js
+          grep -F 'const APP_VERSION = "PWA v26"' app/pwa.js
           grep -F 'const CACHE_VERSION = "v25"' app/service-worker.js
           grep -F '"./gijon-venue-hours.js"' app/service-worker.js
           ! grep -F 'client.navigate(' app/service-worker.js

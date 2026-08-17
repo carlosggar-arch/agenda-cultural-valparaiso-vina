@@ -1,4 +1,6 @@
 const CACHE_VERSION = "v25";
+// Runtime revision 26 refreshes the shell so installed apps receive the improved
+// Gijon official-data event detail without changing the stable cache contract.
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
