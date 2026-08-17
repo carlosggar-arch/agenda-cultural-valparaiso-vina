@@ -106,6 +106,7 @@ jobs:
             app/scripts/test_pwa.py \
             app/scripts/test_pre_release.py \
             app/scripts/test_runtime_browser.py \
+            app/scripts/test_event_actions_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
             app/scripts/test_pwa_install_browser.py \
             app/scripts/test_favorites_browser.py \
@@ -178,7 +179,7 @@ jobs:
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v36"' app/service-worker.js
+          grep -F 'const CACHE_VERSION = "v37"' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
           grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"./stage31-accessibility-seo.js"' app/service-worker.js
@@ -206,6 +207,7 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/test_runtime_browser.py
+          python app/scripts/test_event_actions_browser.py
           python app/scripts/test_schedule_interaction_browser.py
           python app/scripts/test_pwa_install_browser.py
           python app/scripts/test_favorites_browser.py
