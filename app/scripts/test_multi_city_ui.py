@@ -163,13 +163,20 @@ assert 'Planifica con anticipación' in plan_ahead
 assert 'selectPlanAhead' in plan_ahead
 assert 'article.dataset.eventId' in plan_ahead
 assert 'new MutationObserver' in plan_ahead
+assert 'document.createElement("details")' in plan_ahead
+assert 'plan-ahead-summary' in plan_ahead
+assert 'plan-ahead-list' in plan_ahead
+assert 'plan-ahead-media' not in plan_ahead
+assert 'Ver ficha' not in plan_ahead
 assert 'minDays: 14' in plan_ahead_core
 assert 'maxDays: 56' in plan_ahead_core
 assert 'Inscripción abierta' in plan_ahead_core
 assert 'Reserva disponible' in plan_ahead_core
 assert 'Entradas disponibles' in plan_ahead_core
 assert 'Cupos limitados' in plan_ahead_core
-assert '.plan-ahead-grid' in plan_ahead_css
+assert '.plan-ahead-disclosure' in plan_ahead_css
+assert '.plan-ahead-summary' in plan_ahead_css
+assert '.plan-ahead-row' in plan_ahead_css
 
 assert 'agenda-cultural-favorites-v1' in favorites_core
 assert 'export function toggleFavorite' in favorites_core
@@ -184,7 +191,7 @@ assert 'data-favorite-toggle' in favorites
 assert '.my-plans-section' in favorites_css
 assert '.favorite-toggle' in favorites_css
 
-assert 'const CACHE_VERSION = "v33";' in service_worker
+assert 'const CACHE_VERSION = "v34";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -208,4 +215,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v33 city selection, install and offline contracts: OK")
+print("Multi-city v34 cache and compact plan-ahead contracts: OK")
