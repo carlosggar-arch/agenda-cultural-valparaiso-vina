@@ -1,8 +1,14 @@
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
+const TIME_IN_TEXT = /(?:^|[^\d])(?:[01]?\d|2[0-3]):[0-5]\d(?:\s*(?:h|hrs?))?/i;
 
 function validTime(value) {
   const match = String(value || "").match(/^([01]\d|2[0-3]):([0-5]\d)$/);
   return match ? match[0] : null;
+}
+
+function timedDisplayText(schedule) {
+  const display = String(schedule?.display_text || "").trim();
+  return display && TIME_IN_TEXT.test(display) ? display : null;
 }
 
 function dateKey(value, timezone) {
@@ -78,7 +84,7 @@ function currentOpeningHours(schedule, options) {
   const opening = validTime(schedule?.opening_time);
   const closing = validTime(schedule?.closing_time);
   if (opening && closing && opening !== closing) {
-    return { opening, closing, closed: false, source: schedule?.hours_confidence || "event" };
+    return { opening, closing, closed: false, source: schedule?.hours_confidence || "event", regularLabel: null };
   }
 
   const weekly = schedule?.opening_hours;
@@ -104,6 +110,25 @@ function currentOpeningHours(schedule, options) {
   };
 }
 
+function occurrenceTimesLabel(schedule, options) {
+  const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
+  if (occurrences.length < 2) return null;
+  const dated = occurrences
+    .map((occurrence) => ({
+      start: occurrence?.start,
+      key: dateKey(occurrence?.start, options.timezone),
+      time: timeFromValue(occurrence?.start, options.timezone),
+    }))
+    .filter((item) => item.key && item.time);
+  if (dated.length < 2) return null;
+  const firstKey = dated[0].key;
+  if (!dated.every((item) => item.key === firstKey)) return null;
+  const times = [...new Set(dated.map((item) => item.time))];
+  if (times.length < 2) return null;
+  const date = formatDate(dated[0].start, { ...options, time: false });
+  return date ? `${date} · ${times.join(", ")}` : times.join(", ");
+}
+
 export function formatSchedule(schedule, options = {}) {
   if (!schedule || typeof schedule !== "object") return "Horario por confirmar";
   const settings = { ...DEFAULTS, now: new Date(), ...options };
@@ -112,10 +137,24 @@ export function formatSchedule(schedule, options = {}) {
 
   if (visitHours) {
     if (visitHours.closed) {
-      return [range, "Cerrado hoy", visitHours.regularLabel].filter(Boolean).join(" · ");
+      return [range, "Cerrado hoy", visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`]
+        .filter(Boolean)
+        .join(" · ");
     }
-    return `${range || "Horario de visita"} · ${visitHours.opening}–${visitHours.closing}`;
+    return [
+      range || "Horario de visita",
+      visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`,
+    ].filter(Boolean).join(" · ");
   }
+
+  // Some sources provide a date-only structured start but preserve the actual
+  // function times in display_text. Prefer that verified text rather than
+  // hiding the hours behind the date-only start field.
+  const explicitDisplay = timedDisplayText(schedule);
+  if (explicitDisplay) return explicitDisplay;
+
+  const multipleTimes = occurrenceTimesLabel(schedule, settings);
+  if (multipleTimes) return multipleTimes;
 
   const start = schedule.start || schedule.occurrences?.[0]?.start;
   const end = schedule.end || schedule.occurrences?.[0]?.end;
