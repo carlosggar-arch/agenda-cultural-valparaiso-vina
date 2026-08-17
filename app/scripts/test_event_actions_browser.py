@@ -7,7 +7,6 @@ import subprocess
 import tempfile
 import threading
 import time
-from pathlib import Path
 
 from test_runtime_browser import APP, ROOT, QuietHandler, chrome_binary, make_test_page
 
@@ -16,13 +15,8 @@ TEST_PAGE = APP / "__runtime_test.html"
 DIAGNOSTIC = r'''
 <script>
   setTimeout(() => {
-    const ensureDetail = () => {
-      let detail = document.querySelector("dialog[data-event-detail]");
-      if (!detail) document.querySelector("[data-open-event]")?.click();
-      return document.querySelector("dialog[data-event-detail]");
-    };
-
     const hitAction = (action) => {
+      if (!action) return { hit: null, ok: false };
       action.scrollIntoView({ block: "center", inline: "center" });
       const rect = action.getBoundingClientRect();
       const x = Math.max(1, Math.min(window.innerWidth - 1, rect.left + rect.width / 2));
@@ -31,55 +25,74 @@ DIAGNOSTIC = r'''
       return { hit, ok: Boolean(hit && (hit === action || action.contains(hit))) };
     };
 
-    const detail = ensureDetail();
-    const actions = detail ? [...detail.querySelectorAll(".event-detail-action")] : [];
-    document.body.dataset.eventActionsDiagnosticDone = "true";
-    document.body.dataset.eventActionsDetailOpen = String(Boolean(detail?.hasAttribute("open")));
-    document.body.dataset.eventActionsCount = String(actions.length);
-    document.body.dataset.eventActionsPointerEvents = String(actions.every((action) => getComputedStyle(action).pointerEvents !== "none"));
-
-    let allHit = actions.length > 0;
-    for (const action of actions) {
-      const result = hitAction(action);
-      allHit = allHit && result.ok;
-    }
-    document.body.dataset.eventActionsHitTargets = String(allHit);
-
-    const link = actions.find((action) => action.tagName === "A");
-    let linkClicked = false;
-    if (link) {
-      link.addEventListener("click", (event) => {
-        linkClicked = true;
-        event.preventDefault();
-      }, { once: true, capture: true });
-      const target = hitAction(link);
-      target.hit?.click();
-    }
-    document.body.dataset.eventActionsLinkClicked = String(!link || linkClicked);
-
-    const share = actions.find((action) => action.tagName === "BUTTON" && action.textContent.trim().startsWith("Compartir"));
-    let shareClicked = false;
-    if (share) {
-      share.addEventListener("click", () => { shareClicked = true; }, { once: true, capture: true });
-      const target = hitAction(share);
-      target.hit?.click();
-    }
-    document.body.dataset.eventActionsShareClicked = String(!share || shareClicked);
-
-    const panel = detail?.querySelector(".event-detail-panel");
-    if (panel) panel.scrollTop = 0;
-    const close = detail?.querySelector(".event-detail-close");
-    let closeHit = false;
-    if (close) {
-      const target = hitAction(close);
-      closeHit = target.ok;
-      target.hit?.click();
-    }
-    document.body.dataset.eventActionsCloseHit = String(closeHit);
+    // Close the detail opened by the baseline runtime probe so we can exercise
+    // the card trigger itself using the physical hit target.
+    document.querySelector("dialog[data-event-detail]")?.remove();
+    const cardTrigger = document.querySelector("[data-open-event]");
+    const cardTarget = hitAction(cardTrigger);
+    let cardClickObserved = false;
+    cardTrigger?.addEventListener("click", () => { cardClickObserved = true; }, { once: true, capture: true });
+    cardTarget.hit?.click();
 
     setTimeout(() => {
-      document.body.dataset.eventActionsClosed = String(!document.querySelector("dialog[data-event-detail]"));
-    }, 120);
+      const detail = document.querySelector("dialog[data-event-detail]");
+      const actions = detail ? [...detail.querySelectorAll(".event-detail-action")] : [];
+      document.body.dataset.eventActionsDiagnosticDone = "true";
+      document.body.dataset.cardTriggerHit = String(cardTarget.ok);
+      document.body.dataset.cardTriggerClicked = String(cardClickObserved);
+      document.body.dataset.eventActionsDetailOpen = String(Boolean(detail?.hasAttribute("open")));
+      document.body.dataset.eventActionsCount = String(actions.length);
+      document.body.dataset.eventActionsPointerEvents = String(actions.every((action) => getComputedStyle(action).pointerEvents !== "none"));
+
+      let allHit = actions.length > 0;
+      for (const action of actions) {
+        const result = hitAction(action);
+        allHit = allHit && result.ok;
+      }
+      document.body.dataset.eventActionsHitTargets = String(allHit);
+
+      const link = actions.find((action) => action.tagName === "A");
+      let linkClicked = false;
+      if (link) {
+        link.addEventListener("click", (event) => {
+          linkClicked = true;
+          event.preventDefault();
+        }, { once: true, capture: true });
+        const target = hitAction(link);
+        target.hit?.click();
+      }
+      document.body.dataset.eventActionsLinkClicked = String(!link || linkClicked);
+
+      const share = actions.find((action) => action.tagName === "BUTTON" && action.textContent.trim().startsWith("Compartir"));
+      let shareClicked = false;
+      if (share) {
+        share.addEventListener("click", () => { shareClicked = true; }, { once: true, capture: true });
+        const target = hitAction(share);
+        target.hit?.click();
+      }
+      document.body.dataset.eventActionsShareClicked = String(!share || shareClicked);
+
+      const panel = detail?.querySelector(".event-detail-panel");
+      if (panel) panel.scrollTop = 0;
+      const close = detail?.querySelector(".event-detail-close");
+      let closeHit = false;
+      let closeClickObserved = false;
+      let dialogCloseEvent = false;
+      close?.addEventListener("click", () => { closeClickObserved = true; }, { once: true, capture: true });
+      detail?.addEventListener("close", () => { dialogCloseEvent = true; }, { once: true });
+      if (close) {
+        const target = hitAction(close);
+        closeHit = target.ok;
+        target.hit?.click();
+      }
+      document.body.dataset.eventActionsCloseHit = String(closeHit);
+      document.body.dataset.eventActionsCloseClicked = String(closeClickObserved);
+
+      setTimeout(() => {
+        document.body.dataset.eventActionsDialogCloseEvent = String(dialogCloseEvent);
+        document.body.dataset.eventActionsClosed = String(!document.querySelector("dialog[data-event-detail]"));
+      }, 500);
+    }, 250);
   }, 7600);
 </script>
 '''
@@ -100,7 +113,7 @@ def dump_dom(city: str, url: str) -> str:
                 "--disable-dev-shm-usage", "--disable-background-networking",
                 "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
                 "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--window-size=390,844", "--virtual-time-budget=10500",
+                "--window-size=390,844", "--virtual-time-budget=11200",
                 f"--user-data-dir={profile}", "--dump-dom", url,
             ]
             try:
@@ -121,22 +134,26 @@ def run_city(city: str, base_url: str) -> None:
     dom = dump_dom(city, f"{base_url}/app/__runtime_test.html")
     markers = {
         'data-event-actions-diagnostic-done="true"': "diagnostic did not finish",
-        'data-event-actions-detail-open="true"': "event detail did not open",
+        'data-card-trigger-hit="true"': "card action is covered by another hit target",
+        'data-card-trigger-clicked="true"': "card action did not receive the physical click",
+        'data-event-actions-detail-open="true"': "event detail did not open from the physical card click",
         'data-event-actions-pointer-events="true"': "an action has pointer-events disabled",
         'data-event-actions-hit-targets="true"': "an overlay intercepts at least one event action",
         'data-event-actions-link-clicked="true"': "external action did not receive the physical hit",
         'data-event-actions-share-clicked="true"': "share action did not receive the physical hit",
         'data-event-actions-close-hit="true"': "close control is not the physical hit target",
-        'data-event-actions-closed="true"': "close control did not close the detail",
+        'data-event-actions-close-clicked="true"': "close control did not receive the click event",
+        'data-event-actions-dialog-close-event="true"': "dialog close event did not fire",
+        'data-event-actions-closed="true"': "close control did not remove the detail",
     }
     missing = [message for marker, message in markers.items() if marker not in dom]
     count = re.search(r'data-event-actions-count="(\d+)"', dom)
     if not count or int(count.group(1)) < 2:
         missing.append("too few event actions rendered")
     if missing:
-        observed = ", ".join(re.findall(r'data-event-actions-[a-z-]+="[^"]*"', dom))
+        observed = ", ".join(re.findall(r'data-(?:card-trigger|event-actions)-[a-z-]+="[^"]*"', dom))
         raise AssertionError(f"{city}: {'; '.join(missing)}; observed: {observed}")
-    print(f"Event action interaction {city}: {count.group(1)} controls receive physical clicks and close works")
+    print(f"Event action interaction {city}: card trigger plus {count.group(1)} detail controls receive physical clicks and close works")
 
 
 def main() -> None:
