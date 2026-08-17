@@ -29,9 +29,10 @@ def prepare_page(city: str) -> None:
       const workbench = document.querySelector(".filter-workbench");
       const dividerStyle = workbench ? getComputedStyle(workbench, "::before") : null;
       const whenGroup = document.querySelector("[data-combined-when]")?.closest(".filter-group");
-      const whenLegend = whenGroup?.querySelector(".filter-group-title");
+      const whenTitle = whenGroup?.querySelector(".when-filter-title");
       const whenGroupStyle = whenGroup ? getComputedStyle(whenGroup) : null;
-      const whenLegendStyle = whenLegend ? getComputedStyle(whenLegend) : null;
+      const whenTitleStyle = whenTitle ? getComputedStyle(whenTitle) : null;
+      const whenTitleRect = whenTitle?.getBoundingClientRect();
 
       document.body.dataset.densityControlsPosition = controls ? getComputedStyle(controls).position : "missing";
       document.body.dataset.densityControlsTopGap = headerRect && controlsRect ? String(Math.round(controlsRect.top - headerRect.top)) : "999";
@@ -43,14 +44,15 @@ def prepare_page(city: str) -> None:
         && Number.parseFloat(dividerStyle.height) >= 8
         && dividerStyle.backgroundImage.includes("mosaic-top.png")
       ));
-      document.body.dataset.densityWhenLegendVisible = String(Boolean(
-        whenLegendStyle
-        && whenLegendStyle.display !== "none"
-        && whenLegendStyle.visibility !== "hidden"
-        && whenLegendStyle.opacity !== "0"
+      document.body.dataset.densityWhenTitleVisible = String(Boolean(
+        whenTitleStyle
+        && whenTitleStyle.display !== "none"
+        && whenTitleStyle.visibility !== "hidden"
+        && whenTitleStyle.opacity !== "0"
+        && (whenTitleRect?.height || 0) >= 10
       ));
       document.body.dataset.densityWhenLineHeight = String(
-        Math.round(Number.parseFloat(whenLegendStyle?.lineHeight || "0"))
+        Math.round(Number.parseFloat(whenTitleStyle?.lineHeight || "0"))
       );
       document.body.dataset.densityWhenPaddingTop = String(
         Math.round(Number.parseFloat(whenGroupStyle?.paddingTop || "0"))
@@ -94,8 +96,8 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError(f"A zero-count category remains visible for {city}")
     if 'data-density-mosaic-visible="true"' not in dom:
         raise AssertionError(f"The compact mosaic divider is not visible for {city}")
-    if 'data-density-when-legend-visible="true"' not in dom:
-        raise AssertionError(f"When legend is not visibly rendered for {city}")
+    if 'data-density-when-title-visible="true"' not in dom:
+        raise AssertionError(f"The stable visual When title is not rendered for {city}")
 
     import re
     top_match = re.search(r'data-density-controls-top-gap="(-?\d+)"', dom)
@@ -115,7 +117,7 @@ def run_city(city: str, base_url: str) -> None:
     if not 0 <= right_gap <= 28:
         raise AssertionError(f"Header controls are not near the right edge for {city}: {right_gap}px")
     if line_height < 10:
-        raise AssertionError(f"When legend line-height remains cramped for {city}: {line_height}px")
+        raise AssertionError(f"When title line-height remains cramped for {city}: {line_height}px")
     if padding_top < 5:
         raise AssertionError(f"When group has insufficient top breathing room for {city}: {padding_top}px")
 
