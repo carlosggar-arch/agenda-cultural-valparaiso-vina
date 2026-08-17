@@ -21,10 +21,10 @@ function installMobileMetadata() {
 }
 
 function installMobileStyles() {
-  if (document.querySelector('link[data-mobile-experience-styles]')) return;
+  if (document.querySelector('link[href*="mobile-experience.css"]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css";
+  link.href = "./mobile-experience.css?v=20260817-topnav3";
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
@@ -61,8 +61,6 @@ function buildTabbar() {
     );
   }
 
-  // The old bottom bar was intentionally removed. Keep these four shortcuts
-  // in the top header instead, where the app already exposes its main controls.
   const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
   if (host && nav.parentElement !== host) host.append(nav);
   nav.hidden = false;
@@ -71,7 +69,13 @@ function buildTabbar() {
 
 installMobileMetadata();
 installMobileStyles();
+syncStandaloneFlag();
 const tabbar = buildTabbar();
+
+function ensureTabbarMounted() {
+  const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
+  if (host && tabbar.parentElement !== host) host.append(tabbar);
+}
 
 function setActive(action) {
   for (const button of tabbar.querySelectorAll("[data-mobile-action]")) {
@@ -133,6 +137,7 @@ function modalIsOpen() {
 }
 
 function syncModalVisibility() {
+  ensureTabbarMounted();
   const openModal = modalIsOpen();
   tabbar.hidden = openModal;
   if (!openModal && document.documentElement.dataset.city) setActive("agenda");
@@ -180,11 +185,16 @@ new MutationObserver((records) => {
   attributeFilter: ["open"],
 });
 
-window.addEventListener("appinstalled", syncStandaloneFlag);
-standaloneQuery?.addEventListener?.("change", syncStandaloneFlag);
+window.addEventListener("appinstalled", () => {
+  syncStandaloneFlag();
+  syncModalVisibility();
+});
+standaloneQuery?.addEventListener?.("change", () => {
+  syncStandaloneFlag();
+  syncModalVisibility();
+});
 window.matchMedia?.(MOBILE_QUERY)?.addEventListener?.("change", syncModalVisibility);
 
-syncStandaloneFlag();
 syncCityOptionState();
 syncModalVisibility();
 setActive("agenda");
