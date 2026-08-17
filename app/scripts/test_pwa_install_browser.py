@@ -19,7 +19,7 @@ REQUIRED_MARKERS = {
     'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
     'data-pwa-ready="true"': "Service worker never reached ready state",
     'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
-    'data-pwa-version="PWA v32"': "Installed app did not load the current PWA v32 runtime",
+    'data-pwa-version="PWA v33"': "Installed app did not load the current PWA v33 runtime",
     'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
 }
 
@@ -86,9 +86,6 @@ def probe_state(dom: str) -> tuple[bool, str]:
 
 def run_chrome(url: str) -> str:
     errors: list[str] = []
-    # A headless Chromium process may render the app before service-worker
-    # activation settles even though the runtime itself is healthy. Treat the
-    # complete installed-PWA contract as the retry condition, not just process exit.
     for attempt in range(1, 4):
         with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
             cmd = [
