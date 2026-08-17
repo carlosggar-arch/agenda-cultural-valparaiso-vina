@@ -102,7 +102,7 @@ assert 'const APP_VERSION = "PWA v33"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
-assert 'const CACHE_VERSION = "v36"' in service_worker
+assert 'const CACHE_VERSION = "v37"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
@@ -135,4 +135,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact filters, plan-ahead and favorites with PWA cache v36: OK")
+print("Semantic search plus compact filters, plan-ahead and favorites with PWA cache v37: OK")
