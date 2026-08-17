@@ -21,10 +21,11 @@ function installMobileMetadata() {
 }
 
 function installMobileStyles() {
-  if (document.querySelector('link[href*="mobile-experience.css"]')) return;
+  const existing = document.querySelector('link[href*="mobile-experience.css"]');
+  if (existing) existing.remove();
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css?v=20260817-topnav6";
+  link.href = "./mobile-experience.css?v=20260817-topnav7";
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
@@ -37,8 +38,8 @@ function isMobileClient() {
   const ua = String(navigator.userAgent || "");
   const mobileUa = /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(ua);
   const touchDevice = Number(navigator.maxTouchPoints || 0) > 0;
-  const shortScreen = Math.min(Number(screen.width || 9999), Number(screen.height || 9999)) <= 1200;
-  return isStandalone() || mobileUa || (touchDevice && shortScreen);
+  const physicalWidth = Math.min(Number(screen.width || 9999), Number(screen.height || 9999));
+  return isStandalone() || mobileUa || physicalWidth <= 900 || (touchDevice && physicalWidth <= 1200);
 }
 
 function syncClientFlags() {
@@ -69,7 +70,6 @@ function buildTabbar() {
       createTabButton("city", "⌖", "Ciudad"),
     );
   }
-
   const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
   if (host && nav.parentElement !== host) host.append(nav);
   nav.hidden = false;
@@ -94,34 +94,11 @@ function setActive(action) {
   }
 }
 
-function scrollToNode(node) {
-  node?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function openSearch() {
-  const toggle = document.querySelector("[data-header-search-toggle]");
-  if (!toggle) return;
-  toggle.click();
-  setActive("search");
-}
-
-function openPlans() {
-  const section = document.querySelector("[data-my-plans]");
-  const disclosure = section?.querySelector(".my-plans-disclosure");
-  if (disclosure) disclosure.open = true;
-  scrollToNode(section || document.querySelector("[data-agenda]"));
-  setActive("plans");
-}
-
-function openCityChooser() {
-  document.querySelector("[data-city-switch]")?.click();
-  setActive("city");
-}
-
-function openAgenda() {
-  scrollToNode(document.querySelector("[data-agenda]") || document.querySelector("main"));
-  setActive("agenda");
-}
+function scrollToNode(node) { node?.scrollIntoView({ behavior: "smooth", block: "start" }); }
+function openSearch() { const toggle = document.querySelector("[data-header-search-toggle]"); if (!toggle) return; toggle.click(); setActive("search"); }
+function openPlans() { const section = document.querySelector("[data-my-plans]"); const disclosure = section?.querySelector(".my-plans-disclosure"); if (disclosure) disclosure.open = true; scrollToNode(section || document.querySelector("[data-agenda]")); setActive("plans"); }
+function openCityChooser() { document.querySelector("[data-city-switch]")?.click(); setActive("city"); }
+function openAgenda() { scrollToNode(document.querySelector("[data-agenda]") || document.querySelector("main")); setActive("agenda"); }
 
 tabbar.addEventListener("click", (event) => {
   const button = event.target.closest("[data-mobile-action]");
@@ -148,10 +125,8 @@ function syncModalVisibility() {
 function observeModal(node) {
   if (!node || node.dataset.mobileObserved === "true") return;
   node.dataset.mobileObserved = "true";
-  new MutationObserver(() => {
-    syncModalVisibility();
-    syncCityOptionState();
-  }).observe(node, { attributes: true, attributeFilter: ["hidden", "data-selection-required"] });
+  new MutationObserver(() => { syncModalVisibility(); syncCityOptionState(); })
+    .observe(node, { attributes: true, attributeFilter: ["hidden", "data-selection-required"] });
 }
 
 function restoreChooserCopyForManualSwitch() {
@@ -163,12 +138,7 @@ function restoreChooserCopyForManualSwitch() {
 }
 
 document.querySelector("[data-city-switch]")?.addEventListener("click", restoreChooserCopyForManualSwitch);
-
-new MutationObserver(syncCityOptionState).observe(document.documentElement, {
-  attributes: true,
-  attributeFilter: ["data-city"],
-});
-
+new MutationObserver(syncCityOptionState).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
 observeModal(chooserBackdrop);
 for (const modal of document.querySelectorAll(".chooser-backdrop")) observeModal(modal);
 new MutationObserver((records) => {
@@ -180,12 +150,7 @@ new MutationObserver((records) => {
     }
   }
   syncModalVisibility();
-}).observe(document.body, {
-  childList: true,
-  subtree: true,
-  attributes: true,
-  attributeFilter: ["open"],
-});
+}).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["open"] });
 
 window.addEventListener("appinstalled", syncModalVisibility);
 window.addEventListener("resize", syncClientFlags);
