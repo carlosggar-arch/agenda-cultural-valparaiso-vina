@@ -21,9 +21,12 @@ sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
 community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 pwa = (APP / "pwa.js").read_text(encoding="utf-8")
+plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
 schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
+plan_ahead_core = Path("assets/plan-ahead-core.mjs").read_text(encoding="utf-8")
+plan_ahead_css = Path("assets/plan-ahead.css").read_text(encoding="utf-8")
 
 for marker in (
     'data-city-option="valparaiso"', 'data-city-option="gijon"', 'data-city-switch',
@@ -127,10 +130,25 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v31"' in pwa
+assert 'const APP_VERSION = "PWA v32"' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
+assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'const CACHE_VERSION = "v31";' in service_worker
+assert 'CONFIG = Object.freeze' in plan_ahead
+assert 'valparaiso: { dataset: "../agenda_web.json"' in plan_ahead
+assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in plan_ahead
+assert 'Planifica con anticipación' in plan_ahead
+assert 'selectPlanAhead' in plan_ahead
+assert 'new MutationObserver' in plan_ahead
+assert 'minDays: 14' in plan_ahead_core
+assert 'maxDays: 56' in plan_ahead_core
+assert 'Inscripción abierta' in plan_ahead_core
+assert 'Reserva disponible' in plan_ahead_core
+assert 'Entradas disponibles' in plan_ahead_core
+assert 'Cupos limitados' in plan_ahead_core
+assert '.plan-ahead-grid' in plan_ahead_css
+
+assert 'const CACHE_VERSION = "v32";' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -141,12 +159,12 @@ shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1
 for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
-    '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"',
+    '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
     '"./sources-toggle.js"', '"./community-source.js"', '"../assets/event-media-layout.css"',
-    '"../assets/event-schedule-display.mjs"',
+    '"../assets/event-schedule-display.mjs"', '"../assets/plan-ahead-core.mjs"', '"../assets/plan-ahead.css"',
 ):
     assert asset in shell_block
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v31 keeps the final visual CSS in the critical path and simplified filters stable: OK")
+print("Multi-city v32 keeps final visual CSS, simplified filters and plan-ahead stable: OK")
