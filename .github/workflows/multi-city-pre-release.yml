@@ -119,13 +119,17 @@ jobs:
           grep -F 'sourceDiagnosticText' app/sources-toggle.js
           grep -F 'source_diagnostics' app/sources-toggle.js
 
-      - name: Run browser runtime contract
-        run: |
-          set -euo pipefail
-          python app/scripts/test_runtime_browser.py
-          python app/scripts/test_schedule_interaction_browser.py
-          python app/scripts/test_pwa_install_browser.py
-          python app/scripts/test_density_runtime.py
+      - name: Run main browser runtime contract
+        run: python app/scripts/test_runtime_browser.py
+
+      - name: Run schedule interaction browser contract
+        run: python app/scripts/test_schedule_interaction_browser.py
+
+      - name: Run PWA install browser contract
+        run: python app/scripts/test_pwa_install_browser.py
+
+      - name: Run density browser contract
+        run: python app/scripts/test_density_runtime.py
 
       - name: Verify production data/runtime isolation
         run: |
