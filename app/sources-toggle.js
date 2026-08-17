@@ -8,6 +8,10 @@ const DATASETS = Object.freeze({
   gijon: "./data/gijon/agenda_web.json",
 });
 
+const PUBLIC_CATALOGUES = Object.freeze({
+  valparaiso: "../fuentes_publicas.json",
+});
+
 const DIAGNOSTIC_SOURCE_META = Object.freeze({
   cinearte_vina: {
     name: "Cine Arte Viña del Mar",
@@ -24,6 +28,7 @@ const DIAGNOSTIC_SOURCE_META = Object.freeze({
 });
 
 let configuredSources = [];
+let authoritativeCatalogue = false;
 let loadGeneration = 0;
 
 function sourceKey(value) {
@@ -162,8 +167,19 @@ function mergeConfiguredSourcesIntoGrid() {
     return;
   }
 
-  const cards = gridSourceCards();
-  let appended = false;
+  let cards = gridSourceCards();
+  let changed = false;
+
+  if (authoritativeCatalogue) {
+    const allowed = new Set(configuredSources.map((source) => sourceKey(source?.name)).filter(Boolean));
+    for (const [key, card] of cards) {
+      if (allowed.has(key)) continue;
+      card.remove();
+      changed = true;
+    }
+    cards = gridSourceCards();
+  }
+
   for (const source of configuredSources) {
     const name = String(source?.name || "").trim();
     if (!name) continue;
@@ -176,10 +192,10 @@ function mergeConfiguredSourcesIntoGrid() {
     const card = configuredSourceCard(source);
     sourcesGrid.append(card);
     cards.set(key, card);
-    appended = true;
+    changed = true;
   }
 
-  if (appended || sourcesGrid.children.length) sourcesSection.hidden = false;
+  if (changed || sourcesGrid.children.length) sourcesSection.hidden = false;
   updateSourceCount();
 }
 
@@ -221,9 +237,39 @@ function sourcesFromDataset(dataset) {
   return sources;
 }
 
+function sourcesFromPublicCatalogue(catalogue, datasetSources = []) {
+  const publicSources = Array.isArray(catalogue?.sources) ? catalogue.sources : [];
+  const runtimeByName = new Map(datasetSources.map((source) => [sourceKey(source?.name), source]));
+
+  return publicSources
+    .filter((source) => source && source.name && source.public_status === "integrada")
+    .map((source) => {
+      const runtime = runtimeByName.get(sourceKey(source.name));
+      return {
+        id: source.id,
+        name: source.name,
+        url: source.website_url,
+        scope: Array.isArray(source.cities) ? source.cities.join(" / ") : "",
+        official: runtime?.official === true,
+        event_count: Number(runtime?.event_count || 0),
+        diagnostics: runtime?.diagnostics,
+      };
+    });
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url, {
+    headers: { Accept: "application/json" },
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+}
+
 async function loadConfiguredSources() {
   const generation = ++loadGeneration;
   configuredSources = [];
+  authoritativeCatalogue = false;
   const city = document.documentElement.dataset.city || "valparaiso";
   const datasetUrl = DATASETS[city];
   if (!datasetUrl) {
@@ -232,14 +278,23 @@ async function loadConfiguredSources() {
   }
 
   try {
-    const response = await fetch(datasetUrl, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const dataset = await response.json();
+    const dataset = await fetchJson(datasetUrl);
     if (generation !== loadGeneration) return;
-    configuredSources = sourcesFromDataset(dataset);
+    const datasetSources = sourcesFromDataset(dataset);
+    const catalogueUrl = PUBLIC_CATALOGUES[city];
+
+    if (catalogueUrl) {
+      try {
+        const catalogue = await fetchJson(catalogueUrl);
+        if (generation !== loadGeneration) return;
+        configuredSources = sourcesFromPublicCatalogue(catalogue, datasetSources);
+        authoritativeCatalogue = configuredSources.length > 0;
+      } catch {
+        configuredSources = datasetSources;
+      }
+    } else {
+      configuredSources = datasetSources;
+    }
   } catch {
     if (generation !== loadGeneration) return;
     configuredSources = [];
