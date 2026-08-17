@@ -66,6 +66,30 @@ def make_test_page() -> None:
     TEST_PAGE.write_text(source, encoding="utf-8")
 
 
+def run_chrome(url: str) -> str:
+    errors: list[str] = []
+    for attempt in range(1, 3):
+        with tempfile.TemporaryDirectory(prefix=f"agenda-installed-pwa-{attempt}-", ignore_cleanup_errors=True) as profile:
+            cmd = [
+                chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
+                "--disable-dev-shm-usage", "--disable-background-networking",
+                "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
+                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
+                "--virtual-time-budget=16000", f"--user-data-dir={profile}", "--dump-dom", url,
+            ]
+            try:
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
+            except subprocess.TimeoutExpired:
+                errors.append(f"attempt {attempt}: Chrome timed out")
+                time.sleep(1)
+                continue
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+            time.sleep(1)
+    raise AssertionError(f"Installed-PWA Chrome probe failed after two isolated attempts: {' | '.join(errors)}")
+
+
 def main() -> None:
     os.chdir(ROOT)
     make_test_page()
@@ -75,14 +99,7 @@ def main() -> None:
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start(); time.sleep(0.2)
         try:
-            with tempfile.TemporaryDirectory(prefix="agenda-installed-pwa-", ignore_cleanup_errors=True) as profile:
-                cmd = [chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
-                       "--disable-background-networking", "--virtual-time-budget=16000", f"--user-data-dir={profile}",
-                       "--dump-dom", f"http://127.0.0.1:{port}/app/__pwa_install_test.html"]
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
-                if result.returncode != 0:
-                    raise AssertionError(f"Chrome failed during installed-PWA test: exit={result.returncode}\nSTDERR:\n{result.stderr[-4000:]}")
-                dom = result.stdout
+            dom = run_chrome(f"http://127.0.0.1:{port}/app/__pwa_install_test.html")
         finally:
             server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
 
@@ -90,7 +107,7 @@ def main() -> None:
         'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
         'data-pwa-ready="true"': "Service worker never reached ready state",
         'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
-        'data-pwa-version="PWA v28"': "Installed app did not load the current PWA v28 runtime",
+        'data-pwa-version="PWA v29"': "Installed app did not load the current PWA v29 runtime",
         'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
     }
     for marker, message in required.items():
