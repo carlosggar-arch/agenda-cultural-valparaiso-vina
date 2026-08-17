@@ -17,7 +17,7 @@ import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
-const APP_VERSION = "PWA v40";
+const APP_VERSION = "PWA v41";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -129,7 +129,7 @@ function setupInstallExperience() {
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   try {
-    const registration = await navigator.serviceWorker.register("./service-worker.js?v=44", { scope: "./", updateViaCache: "none" });
+    const registration = await navigator.serviceWorker.register("./service-worker.js?v=45", { scope: "./", updateViaCache: "none" });
     registration.update().catch(() => {});
   } catch (error) {
     console.warn("¡Vivamos!: service worker unavailable", error);
