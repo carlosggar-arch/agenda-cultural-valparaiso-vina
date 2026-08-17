@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T11:07:33+00:00",
+  "generated_at": "2026-08-17T11:08:07+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -9,21 +9,21 @@
       "today": "2026-08-17",
       "status": "warning",
       "warnings": [
-        "direct_source_preferred",
+        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T06:02:03-04:00",
-        "generated_age_hours": 1.1
+        "generated_at": "2026-08-17T07:06:48-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 86,
-        "schedule_expected_events": 82,
-        "dated_events": 82,
-        "timed_events": 79,
-        "relevant_image_events": 69,
+        "total_events": 83,
+        "schedule_expected_events": 79,
+        "dated_events": 79,
+        "timed_events": 76,
+        "relevant_image_events": 62,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -31,8 +31,8 @@
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 96.3,
-        "relevant_image_pct": 80.2
+        "time_pct": 96.2,
+        "relevant_image_pct": 74.7
       },
       "samples": {
         "missing_time": [
@@ -98,8 +98,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 18,
-            "venue_events": 18,
+            "direct_events": 15,
+            "venue_events": 15,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -109,14 +109,9 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 1,
-            "indirect_venue_events": 1,
-            "indirect_samples": [
-              {
-                "id": "agenda_cinema_1a49202480b0c737110a",
-                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
-              }
-            ]
+            "venue_events": 0,
+            "indirect_venue_events": 0,
+            "indirect_samples": []
           },
           {
             "id": "teatromuseo",
@@ -161,50 +156,33 @@
         ],
         "zero_event_sources": [
           {
-            "id": "valparaiso_profundo",
-            "name": "Valparaíso Profundo",
-            "city": "Valparaíso",
-            "primary_recovery_attempted": null,
-            "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
-          }
-        ],
-        "indirect_source_warnings": [
-          {
             "id": "insomniacine",
             "name": "INSOMNIA Teatro Condell",
             "city": "Valparaíso",
-            "agenda_url": "https://www.insomniacine.cl/cartelera/",
-            "direct_events": 0,
-            "venue_events": 1,
-            "indirect_venue_events": 1,
-            "indirect_samples": [
-              {
-                "id": "agenda_cinema_1a49202480b0c737110a",
-                "title": "Encuentro con el Buda +CINE FORO / Insomnia Teatro Condell"
-              }
-            ]
-          }
-        ],
-        "checked_zero_sources": [
+            "primary_recovery_attempted": null,
+            "primary_recovery_sessions": null,
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
+          },
           {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
             "city": "Valparaíso",
             "primary_recovery_attempted": null,
             "primary_recovery_sessions": null,
-            "secondary_probe_status": "no_current_candidates",
-            "secondary_probe_current_candidates": 0,
-            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
           }
-        ]
+        ],
+        "indirect_source_warnings": [],
+        "checked_zero_sources": []
       },
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 0,
+        "visit_hours_enriched": 14,
         "venue_hours_enriched": 1,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0
@@ -212,8 +190,18 @@
       "publication_corrections": {
         "checked_at": "2026-08-17",
         "active_corrections": 1,
-        "applied_count": 0,
-        "applied": []
+        "applied_count": 1,
+        "applied": [
+          {
+            "correction_id": "baburizza_requiem_2026_end",
+            "event_id": "agenda_c16d049f287e6bc4922b56de",
+            "title": "Museo Baburizza – «Requiem para Pianos»",
+            "action": "drop_after_end",
+            "official_end_date": "2026-08-06",
+            "official_url": "https://www.museobaburizza.cl/agenda/",
+            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
+          }
+        ]
       }
     },
     "gijon": {
