@@ -24,7 +24,7 @@ function installMobileStyles() {
   if (document.querySelector('link[href*="mobile-experience.css"]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css?v=20260817-topnav3";
+  link.href = "./mobile-experience.css?v=20260817-topnav4";
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
@@ -75,6 +75,7 @@ const tabbar = buildTabbar();
 function ensureTabbarMounted() {
   const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
   if (host && tabbar.parentElement !== host) host.append(tabbar);
+  tabbar.hidden = false;
 }
 
 function setActive(action) {
@@ -129,18 +130,9 @@ function syncCityOptionState() {
   }
 }
 
-function modalIsOpen() {
-  const chooserOpen = [...document.querySelectorAll(".chooser-backdrop")].some((node) => !node.hidden);
-  const eventDetailOpen = [...document.querySelectorAll("dialog[data-event-detail]")]
-    .some((node) => node.hasAttribute("open") || node.open === true);
-  return chooserOpen || eventDetailOpen;
-}
-
 function syncModalVisibility() {
   ensureTabbarMounted();
-  const openModal = modalIsOpen();
-  tabbar.hidden = openModal;
-  if (!openModal && document.documentElement.dataset.city) setActive("agenda");
+  if (document.documentElement.dataset.city) setActive("agenda");
 }
 
 function observeModal(node) {
