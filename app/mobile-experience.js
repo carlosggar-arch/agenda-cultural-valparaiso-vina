@@ -120,7 +120,10 @@ function syncCityOptionState() {
 }
 
 function modalIsOpen() {
-  return [...document.querySelectorAll(".chooser-backdrop")].some((node) => !node.hidden);
+  const chooserOpen = [...document.querySelectorAll(".chooser-backdrop")].some((node) => !node.hidden);
+  const eventDetailOpen = [...document.querySelectorAll("dialog[data-event-detail]")]
+    .some((node) => node.hasAttribute("open") || node.open === true);
+  return chooserOpen || eventDetailOpen;
 }
 
 function syncModalVisibility() {
@@ -164,7 +167,12 @@ new MutationObserver((records) => {
     }
   }
   syncModalVisibility();
-}).observe(document.body, { childList: true, subtree: true });
+}).observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true,
+  attributeFilter: ["open"],
+});
 
 window.addEventListener("appinstalled", syncStandaloneFlag);
 standaloneQuery?.addEventListener?.("change", syncStandaloneFlag);
