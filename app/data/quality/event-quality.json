@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T21:42:21.311507+00:00",
+  "schema_version": "1.0.1",
+  "generated_at": "2026-08-17T21:45:54.637813+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
@@ -8,14 +8,14 @@
       "generated_at": "2026-08-17T17:22:28-04:00",
       "summary": {
         "total_events": 94,
-        "average_quality_score": 83.2,
-        "quality_class": "correct",
+        "average_quality_score": 91.9,
+        "quality_class": "excellent",
         "sources_catalogued": 32,
-        "sources_producing": 2,
-        "sources_zero": 30,
-        "review_priority_zero_sources": 29,
-        "top3_source_share_pct": 4.3,
-        "unattributed_events": 90
+        "sources_producing": 15,
+        "sources_zero": 17,
+        "review_priority_zero_sources": 17,
+        "top3_source_share_pct": 40.4,
+        "unattributed_events": 8
       },
       "field_coverage": {
         "date_pct": 95.7,
@@ -23,7 +23,7 @@
         "venue_pct": 100.0,
         "image_pct": 76.6,
         "official_link_pct": 100.0,
-        "source_attribution_pct": 4.3,
+        "source_attribution_pct": 91.5,
         "official_source_pct": 63.8,
         "price_known_pct": 74.5
       },
@@ -96,35 +96,23 @@
         ],
         "source_concentration_high": false,
         "review_priority_zero_sources": [
-          "artequinvina",
           "balmaceda_arte_joven_valpo",
           "casa_cultura_valparaiso",
           "casa_prisma_valpo",
-          "centex",
           "centro_extension_duoc_valpo",
-          "cinearte_vina",
           "compania_la_paila",
-          "cultura_usm",
-          "culturasvina",
           "ecoliderazgo",
           "estadio_espanol_recreo",
           "estrella_negra_jazz",
-          "insomniacine",
           "la_escala_galeria",
           "masita_rica",
-          "mhnvalpo",
           "museo_fonck",
-          "museo_palacio_rioja",
-          "pcdv",
           "sala_secreta",
           "sala_teatro_ipa",
           "teatro_la_peste",
-          "teatro_mauri_scd",
           "teatro_municipal_valparaiso",
-          "teatro_municipal_vina",
           "trotamundosvalpo",
-          "valparaiso_profundo",
-          "valpocultura"
+          "valparaiso_profundo"
         ]
       },
       "pipeline_quality": {
@@ -138,6 +126,223 @@
         }
       },
       "sources": [
+        {
+          "id": "cinearte_vina",
+          "name": "Cine Arte Viña del Mar",
+          "count": 17,
+          "quality_score": 97.6,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": null,
+          "role": "venue",
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 88.2,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 17
+          }
+        },
+        {
+          "id": "teatro_municipal_vina",
+          "name": "Teatro Municipal de Viña del Mar",
+          "count": 11,
+          "quality_score": 96.4,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
+          "role": "venue",
+          "source_type": "web",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 9.1,
+            "price_known_pct": 27.3
+          },
+          "categories": {
+            "cursos-talleres": 1,
+            "musica": 6,
+            "teatro": 4
+          }
+        },
+        {
+          "id": "cultura_usm",
+          "name": "Cultura USM",
+          "count": 10,
+          "quality_score": 97.5,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 2,
+          "role": "venue",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 90.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 90.0
+          },
+          "categories": {
+            "musica": 9,
+            "teatro": 1
+          }
+        },
+        {
+          "id": "insomniacine",
+          "name": "Insomnia Cine",
+          "count": 10,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
+          "role": "venue",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 10
+          }
+        },
+        {
+          "id": "culturasvina",
+          "name": "Culturas Viña",
+          "count": 9,
+          "quality_score": 80.6,
+          "quality_class": "correct",
+          "attention": "none",
+          "priority": 1,
+          "role": "aggregator",
+          "source_type": "web",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 11.1,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 66.7
+          },
+          "categories": {
+            "cursos-talleres": 1,
+            "exposiciones": 6,
+            "ferias-gastronomia": 1,
+            "naturaleza-deportes": 1
+          }
+        },
+        {
+          "id": "mhnvalpo",
+          "name": "Museo de Historia Natural de Valparaíso",
+          "count": 8,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
+          "role": "venue",
+          "source_type": "web",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 8
+          }
+        },
+        {
+          "id": "museo_palacio_rioja",
+          "name": "Museo Palacio Rioja",
+          "count": 5,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 2,
+          "role": "venue",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 60.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 40.0,
+            "price_known_pct": 60.0
+          },
+          "categories": {
+            "cursos-talleres": 1,
+            "exposiciones": 3,
+            "ferias-gastronomia": 1
+          }
+        },
+        {
+          "id": "artequinvina",
+          "name": "Artequin Viña del Mar",
+          "count": 4,
+          "quality_score": 98.8,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 2,
+          "role": "venue",
+          "source_type": "jsonld",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 75.0
+          },
+          "categories": {
+            "cursos-talleres": 4
+          }
+        },
+        {
+          "id": "valpocultura",
+          "name": "Valpo Cultura",
+          "count": 3,
+          "quality_score": 91.7,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
+          "role": "aggregator",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 66.7,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 66.7
+          },
+          "categories": {
+            "exposiciones": 1,
+            "ferias-gastronomia": 1,
+            "musica": 1
+          }
+        },
         {
           "id": "museobaburizza",
           "name": "Museo Baburizza",
@@ -159,6 +364,30 @@
           },
           "categories": {
             "exposiciones": 2
+          }
+        },
+        {
+          "id": "pcdv",
+          "name": "Parque Cultural de Valparaíso",
+          "count": 2,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
+          "role": "venue",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "musica": 1,
+            "teatro": 1
           }
         },
         {
@@ -185,25 +414,73 @@
           }
         },
         {
-          "id": "artequinvina",
-          "name": "Artequin Viña del Mar",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 2,
+          "id": "centex",
+          "name": "CENTEX",
+          "count": 1,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
           "role": "venue",
-          "source_type": "jsonld",
+          "source_type": "instagram",
           "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "cine": 1
+          }
+        },
+        {
+          "id": "cultura_pucv",
+          "name": "Cultura PUCV",
+          "count": 1,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 2,
+          "role": "aggregator",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 0.0
           },
-          "categories": {}
+          "categories": {
+            "musica": 1
+          }
+        },
+        {
+          "id": "teatro_mauri_scd",
+          "name": "Teatro Mauri SCD",
+          "count": 1,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "priority": 1,
+          "role": "venue",
+          "source_type": "web",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "musica": 1
+          }
         },
         {
           "id": "balmaceda_arte_joven_valpo",
@@ -269,27 +546,6 @@
           "categories": {}
         },
         {
-          "id": "centex",
-          "name": "CENTEX",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
           "id": "centro_extension_duoc_valpo",
           "name": "Centro de Extensión Duoc UC Valparaíso",
           "count": 0,
@@ -311,27 +567,6 @@
           "categories": {}
         },
         {
-          "id": "cinearte_vina",
-          "name": "Cine Arte Viña del Mar",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": null,
-          "role": "venue",
-          "source_type": null,
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
           "id": "compania_la_paila",
           "name": "Compañía La Paila",
           "count": 0,
@@ -341,69 +576,6 @@
           "priority": 2,
           "role": "organizer",
           "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "cultura_pucv",
-          "name": "Cultura PUCV",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review",
-          "priority": 2,
-          "role": "aggregator",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "cultura_usm",
-          "name": "Cultura USM",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "culturasvina",
-          "name": "Culturas Viña",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "aggregator",
-          "source_type": "web",
           "coverage": {
             "date_pct": 0.0,
             "time_pct": 0.0,
@@ -479,27 +651,6 @@
           "categories": {}
         },
         {
-          "id": "insomniacine",
-          "name": "Insomnia Cine",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
           "id": "la_escala_galeria",
           "name": "La Escala Galería",
           "count": 0,
@@ -542,27 +693,6 @@
           "categories": {}
         },
         {
-          "id": "mhnvalpo",
-          "name": "Museo de Historia Natural de Valparaíso",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
           "id": "museo_fonck",
           "name": "Museo Fonck",
           "count": 0,
@@ -572,48 +702,6 @@
           "priority": 2,
           "role": "venue",
           "source_type": "web",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "museo_palacio_rioja",
-          "name": "Museo Palacio Rioja",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "pcdv",
-          "name": "Parque Cultural de Valparaíso",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
             "time_pct": 0.0,
@@ -689,27 +777,6 @@
           "categories": {}
         },
         {
-          "id": "teatro_mauri_scd",
-          "name": "Teatro Mauri SCD",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
           "id": "teatro_municipal_valparaiso",
           "name": "Teatro Municipal de Valparaíso",
           "count": 0,
@@ -719,27 +786,6 @@
           "priority": 1,
           "role": "venue",
           "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "teatro_municipal_vina",
-          "name": "Teatro Municipal de Viña del Mar",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
           "coverage": {
             "date_pct": 0.0,
             "time_pct": 0.0,
@@ -781,27 +827,6 @@
           "attention": "review_priority",
           "priority": 1,
           "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "valpocultura",
-          "name": "Valpo Cultura",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "priority": 1,
-          "role": "aggregator",
           "source_type": "instagram",
           "coverage": {
             "date_pct": 0.0,
