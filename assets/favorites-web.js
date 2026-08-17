@@ -37,8 +37,10 @@ function favoriteCount() {
 function updateAccessLabel(link) {
   const count = favoriteCount();
   const badge = link.querySelector("[data-favorites-count]");
-  if (badge) badge.textContent = String(count);
-  link.setAttribute("aria-label", `Mis planes, ${count} ${count === 1 ? "actividad guardada" : "actividades guardadas"}`);
+  const countText = String(count);
+  if (badge && badge.textContent !== countText) badge.textContent = countText;
+  const label = `Mis planes, ${count} ${count === 1 ? "actividad guardada" : "actividades guardadas"}`;
+  if (link.getAttribute("aria-label") !== label) link.setAttribute("aria-label", label);
 }
 
 function buildAccessLink() {
