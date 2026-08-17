@@ -109,8 +109,8 @@ def main() -> None:
     required = {
         'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
         'data-pwa-ready="true"': "Service worker never reached ready state",
-        'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation/reload",
-        'data-pwa-version="PWA v24"': "Installed app did not load the current PWA v24 runtime",
+        'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
+        'data-pwa-version="PWA v25"': "Installed app did not load the fixed PWA v25 runtime",
         'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
     }
     for marker, message in required.items():
