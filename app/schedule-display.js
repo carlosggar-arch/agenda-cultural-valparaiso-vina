@@ -1,4 +1,5 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260817-hours";
+import { scheduleForGijonEvent } from "./gijon-venue-hours.js";
 
 const CITY_CONFIG = Object.freeze({
   valparaiso: {
@@ -38,6 +39,22 @@ function stripMediaControls(root = document) {
   });
 }
 
+function scheduleForDisplay(event) {
+  const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
+  if (!schedule) return "Horario por confirmar";
+
+  const openingText = String(schedule?.opening_hours?.display_text || "").trim();
+  if (!openingText) return formatSchedule(schedule, activeConfig);
+
+  // The shared formatter supports simple opening/closing pairs. Gijón's official
+  // directories frequently publish split and seasonal hours, so preserve that
+  // richer verified text verbatim and combine it with the event date range.
+  const dateOnlySchedule = { ...schedule, opening_hours: null, opening_time: null, closing_time: null };
+  const dateText = formatSchedule(dateOnlySchedule, activeConfig);
+  if (!dateText || dateText === "Horario por confirmar") return openingText;
+  return `${dateText} · ${openingText}`;
+}
+
 function replaceFactValue(row, value) {
   const copy = row?.querySelector(":scope > span:last-child");
   if (!copy || copy.dataset.scheduleDisplay === value) return;
@@ -48,21 +65,32 @@ function replaceFactValue(row, value) {
   copy.dataset.scheduleDisplay = value;
 }
 
+function replaceSimpleCardSchedule(card, value) {
+  // Base app cards use h4 + p for the schedule and the following p for location.
+  const copy = card.querySelector(":scope > h4 + p");
+  if (!copy || copy.dataset.scheduleDisplay === value) return false;
+  copy.textContent = value;
+  copy.dataset.scheduleDisplay = value;
+  return true;
+}
+
 function enhanceCard(card) {
   const event = eventIndex.get(String(card.dataset.eventId || ""));
   if (!event) return;
-  const schedule = formatSchedule(event.schedule, activeConfig);
+  const schedule = scheduleForDisplay(event);
+
   const fact = [...card.querySelectorAll(".card-fact")].find((row) =>
     row.querySelector(".sr-only")?.textContent.trim().startsWith("Fecha:"),
   );
   if (fact) replaceFactValue(fact, schedule);
+  else replaceSimpleCardSchedule(card, schedule);
 }
 
 function enhanceDetail(dialog) {
   const id = String(dialog.dataset.eventDetail || "");
   const event = eventIndex.get(id);
   if (!event) return;
-  const schedule = formatSchedule(event.schedule, activeConfig);
+  const schedule = scheduleForDisplay(event);
   const fact = [...dialog.querySelectorAll(".event-detail-fact")].find((row) =>
     row.querySelector("strong")?.textContent.trim() === "Fecha y horario",
   );
@@ -77,8 +105,6 @@ function apply() {
   stripMediaControls();
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceCard);
   document.querySelectorAll("dialog[data-event-detail]").forEach(enhanceDetail);
-  // Drop records produced by the idempotent enhancements above so the observer
-  // never enters a self-sustaining microtask loop and blocks user interaction.
   bodyObserver.takeRecords();
 }
 
