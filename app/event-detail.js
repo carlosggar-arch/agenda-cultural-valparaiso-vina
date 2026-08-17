@@ -201,6 +201,7 @@ export function openEventDetail(event, presentation = {}) {
   const facts = document.createElement("div");
   facts.className = "event-detail-facts";
   addFact(facts, "Fecha y horario", presentation.schedule, "◷");
+  addFact(facts, "Horario de visita", event?.schedule?.opening_hours?.display_text, "◷");
   addFact(facts, "Lugar", presentation.location, "⌖");
   addFact(facts, "Dirección", event?.location?.address, "↗");
   addFact(facts, "Precio", presentation.price, event?.price?.is_free === true ? "✓" : "$" );
