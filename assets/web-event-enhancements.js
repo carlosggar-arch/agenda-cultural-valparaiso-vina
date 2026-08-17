@@ -3,6 +3,7 @@ import "./root-combined-filters.js?v=20260817-root-search";
 
 const DATASET_URL = "./agenda_web.json";
 const MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b";
+const PERMALINK_STYLESHEET = "./assets/event-permalink.css?v=20260817";
 const SCHEDULE_OPTIONS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
 const REJECTED_EVENT_IDS = new Set(["agenda_968c623b60b70d2976410175"]);
 const EDITORIAL_SOCIAL_CUES = [
@@ -34,13 +35,18 @@ const CATEGORY_SYMBOLS = Object.freeze({
 
 const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
 
-function installMediaStyles() {
-  if (document.querySelector('link[data-event-media-layout]')) return;
+function installStylesheet(href, marker) {
+  if (document.querySelector(`link[${marker}]`)) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = MEDIA_STYLESHEET;
-  link.dataset.eventMediaLayout = "true";
+  link.href = href;
+  link.setAttribute(marker, "true");
   document.head.append(link);
+}
+
+function installMediaStyles() {
+  installStylesheet(MEDIA_STYLESHEET, "data-event-media-layout");
+  installStylesheet(PERMALINK_STYLESHEET, "data-event-permalink-styles");
 }
 
 function validHttpUrl(value) {
@@ -94,6 +100,11 @@ function categoryId(event) {
 
 function categoryLabel(event) {
   return event?.primary_category?.label || event?.categories?.[0]?.label || "Actividad cultural";
+}
+
+function eventPageHref(event) {
+  const id = String(event?.id || "").trim();
+  return id ? `./evento/valparaiso/${encodeURIComponent(id)}/` : null;
 }
 
 function looksLikeGenericSchedule(event) {
@@ -198,9 +209,23 @@ function compactMetaRow(card, event) {
   top.dataset.compactMeta = "true";
 }
 
+function installPermalink(card, event) {
+  const href = eventPageHref(event);
+  if (!href || card.querySelector("[data-event-permalink]")) return;
+  const link = document.createElement("a");
+  link.className = "event-page-link";
+  link.dataset.eventPermalink = "true";
+  link.href = href;
+  link.textContent = "Ficha completa →";
+  link.setAttribute("aria-label", `Abrir ficha completa de ${event?.title || "la actividad"}`);
+  link.addEventListener("click", (clickEvent) => clickEvent.stopPropagation());
+  card.append(link);
+}
+
 function enhanceCard(card, event) {
   installImageTreatment(card, event);
   compactMetaRow(card, event);
+  installPermalink(card, event);
   const date = card.querySelector(".card-date");
   if (date) date.textContent = formatSchedule(event?.schedule, SCHEDULE_OPTIONS);
 }
@@ -222,6 +247,16 @@ function enhanceDetail(event) {
     media.classList.remove("has-relevant-image");
     media.style.removeProperty("--event-image");
     media.replaceChildren(fallbackArtwork(event, { genericSchedule: true }));
+  }
+  const actions = dialog.querySelector("[data-detail-actions]");
+  const href = eventPageHref(event);
+  if (actions && href && !actions.querySelector("[data-event-permalink]")) {
+    const link = document.createElement("a");
+    link.className = "event-page-link";
+    link.dataset.eventPermalink = "true";
+    link.href = href;
+    link.textContent = "Ver ficha completa →";
+    actions.append(link);
   }
 }
 
