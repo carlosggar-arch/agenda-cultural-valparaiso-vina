@@ -44,11 +44,11 @@ def make_test_page() -> None:
       import "./card-image-fallback.js";
       import "./compact-top.js";
       import "./gijon-visual-reference.js";
-      import "./lean-filters.js";
       import "./sources-toggle.js";
       import "./community-source.js";
       import "./header-redesign.js";
       import "./density-polish.js";
+      import "./combined-filters-polish.js";
     </script>
     <script>
       setTimeout(() => {
@@ -138,7 +138,7 @@ def main() -> None:
     if not gijon_match or int(gijon_match.group(1)) <= 0:
         raise AssertionError("Gijon enhancement stack did not render event images after city switch")
 
-    print("Schedule observer interaction test: UI responsive, city switch works and images render")
+    print("Schedule observer interaction test: production stack responsive, city switch works and images render")
 
 
 if __name__ == "__main__":
