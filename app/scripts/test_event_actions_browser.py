@@ -37,12 +37,14 @@ DIAGNOSTIC = r'''
     setTimeout(() => {
       const detail = document.querySelector("dialog[data-event-detail]");
       const actions = detail ? [...detail.querySelectorAll(".event-detail-action")] : [];
+      const mobileNav = document.querySelector("[data-mobile-tabbar]");
       document.body.dataset.eventActionsDiagnosticDone = "true";
       document.body.dataset.cardTriggerHit = String(cardTarget.ok);
       document.body.dataset.cardTriggerClicked = String(cardClickObserved);
       document.body.dataset.eventActionsDetailOpen = String(Boolean(detail?.hasAttribute("open")));
       document.body.dataset.eventActionsCount = String(actions.length);
       document.body.dataset.eventActionsPointerEvents = String(actions.every((action) => getComputedStyle(action).pointerEvents !== "none"));
+      document.body.dataset.mobileNavHiddenDuringDetail = String(Boolean(mobileNav?.hidden));
 
       let allHit = actions.length > 0;
       for (const action of actions) {
@@ -91,8 +93,11 @@ DIAGNOSTIC = r'''
       setTimeout(() => {
         document.body.dataset.eventActionsDialogCloseEvent = String(dialogCloseEvent);
         document.body.dataset.eventActionsClosed = String(!document.querySelector("dialog[data-event-detail]"));
+        document.body.dataset.mobileNavVisibleAfterDetail = String(Boolean(
+          mobileNav && !mobileNav.hidden && getComputedStyle(mobileNav).display !== "none"
+        ));
       }, 500);
-    }, 250);
+    }, 350);
   }, 7600);
 </script>
 '''
@@ -101,7 +106,8 @@ DIAGNOSTIC = r'''
 def make_action_test_page(city: str) -> None:
     make_test_page(city)
     source = TEST_PAGE.read_text(encoding="utf-8")
-    TEST_PAGE.write_text(source.replace("</body>", DIAGNOSTIC + "\n</body>", 1), encoding="utf-8")
+    mobile = '<script type="module" src="./mobile-experience.js"></script>\n'
+    TEST_PAGE.write_text(source.replace("</body>", mobile + DIAGNOSTIC + "\n</body>", 1), encoding="utf-8")
 
 
 def dump_dom(city: str, url: str) -> str:
@@ -145,15 +151,17 @@ def run_city(city: str, base_url: str) -> None:
         'data-event-actions-close-clicked="true"': "close control did not receive the click event",
         'data-event-actions-dialog-close-event="true"': "dialog close event did not fire",
         'data-event-actions-closed="true"': "close control did not remove the detail",
+        'data-mobile-nav-hidden-during-detail="true"': "mobile navigation remained active over the event detail",
+        'data-mobile-nav-visible-after-detail="true"': "mobile navigation did not return after closing the detail",
     }
     missing = [message for marker, message in markers.items() if marker not in dom]
     count = re.search(r'data-event-actions-count="(\d+)"', dom)
     if not count or int(count.group(1)) < 2:
         missing.append("too few event actions rendered")
     if missing:
-        observed = ", ".join(re.findall(r'data-(?:card-trigger|event-actions)-[a-z-]+="[^"]*"', dom))
+        observed = ", ".join(re.findall(r'data-(?:card-trigger|event-actions|mobile-nav)-[a-z-]+="[^"]*"', dom))
         raise AssertionError(f"{city}: {'; '.join(missing)}; observed: {observed}")
-    print(f"Event action interaction {city}: card trigger plus {count.group(1)} detail controls receive physical clicks and close works")
+    print(f"Event action interaction {city}: card trigger plus {count.group(1)} detail controls work and mobile navigation clears the dialog")
 
 
 def main() -> None:
