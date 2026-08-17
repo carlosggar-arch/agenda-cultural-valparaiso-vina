@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T18:34:22.885643-04:00",
+  "generated_at": "2026-08-17T18:49:40.419389-04:00",
   "publication_date": "2026-08-17",
   "policy_reviewed_on": "2026-08-17",
   "counts": {
     "tracked": 6,
     "producing": 0,
-    "covered_elsewhere": 0,
-    "explained_zero": 5,
+    "covered_elsewhere": 1,
+    "explained_zero": 4,
     "actionable_zero": 1
   },
   "sources": [
@@ -27,13 +27,15 @@
       "id": "centro_extension_duoc_valpo",
       "name": "Centro de Extensión Duoc UC Valparaíso",
       "direct_event_count": 0,
-      "cross_covered_event_count": 0,
-      "state": "legacy_calendar_year_guard",
-      "attention": "explained_zero",
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
       "actionable": false,
       "reason": "Los listados antiguos de Duoc muestran días y meses sin año; eventos que parecían de agosto actual resultaron ser de 2022.",
       "next_action": "Aceptar solo páginas individuales o metadatos que indiquen explícitamente 2026.",
-      "cross_covered_event_ids": []
+      "cross_covered_event_ids": [
+        "agenda_93e4dbf4da87420c93c629c6"
+      ]
     },
     {
       "id": "balmaceda_arte_joven_valpo",
