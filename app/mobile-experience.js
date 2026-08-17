@@ -87,6 +87,8 @@ function openSearch() {
 
 function openPlans() {
   const section = document.querySelector("[data-my-plans]");
+  const disclosure = section?.querySelector(".my-plans-disclosure");
+  if (disclosure) disclosure.open = true;
   scrollToNode(section || document.querySelector("[data-agenda]"));
   setActive("plans");
 }
