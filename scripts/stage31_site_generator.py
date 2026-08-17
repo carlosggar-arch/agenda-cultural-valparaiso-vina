@@ -346,6 +346,7 @@ def render_city_landing(city_id: str, city: dict[str, Any], payload: dict[str, A
     </section>
   </main>
   <footer class="city-footer"><div class="city-footer-inner"><strong>¡Vivamos!</strong><p>Agenda pública elaborada desde fuentes verificables. Confirma cambios de última hora con el organizador antes de asistir.</p></div></footer>
+  <script src="../assets/usage-analytics.js?v=20260817-stage32" defer></script>
 </body>
 </html>
 '''
@@ -410,7 +411,7 @@ def render_sitemap(event_entries: list[tuple[str, str | None]], city_lastmod: di
 
 
 def generate(*, check: bool = False) -> dict[str, int]:
-    for required in ("assets/event-page.css", "assets/event-page.js", "assets/accessibility.css", "assets/city-page.css"):
+    for required in ("assets/event-page.css", "assets/event-page.js", "assets/usage-analytics.js", "assets/accessibility.css", "assets/city-page.css"):
         if not (ROOT / required).exists():
             raise SystemExit(f"{required} is required")
 

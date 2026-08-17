@@ -519,6 +519,7 @@ def render_page(
       </div>
     </article>
   </main>
+  <script src="../../../assets/usage-analytics.js?v=20260817-stage32" defer></script>
   <script src="../../../assets/event-page.js?v=20260817" defer></script>
 </body>
 </html>

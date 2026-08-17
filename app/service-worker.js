@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v36";
+const CACHE_VERSION = "v37";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -44,6 +44,7 @@ const SHELL_ASSETS = [
   "./icons/icon-maskable-512.png",
   "./illustrations/valparaiso-header.svg",
   "./illustrations/gijon-header.svg",
+  "../assets/usage-analytics.js",
   "../assets/event-media-layout.css",
   "../assets/event-schedule-display.mjs",
   "../assets/plan-ahead-core.mjs",
