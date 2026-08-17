@@ -14,6 +14,7 @@ fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
 compact_js = (APP / "compact-top.js").read_text(encoding="utf-8")
 gijon_visual_js = (APP / "gijon-visual-reference.js").read_text(encoding="utf-8")
 lean_filters_js = (APP / "lean-filters.js").read_text(encoding="utf-8")
+sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
 community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
@@ -91,6 +92,14 @@ assert '.app-header' in compact_js
 assert 'new Set(["hoy", "fin-de-semana", "terminan-pronto", "gratis", "todos"])' in lean_filters_js
 assert 'data-section-filter="todos"' in lean_filters_js
 assert "MutationObserver" in lean_filters_js
+
+# Valparaíso/Viña sources use the public integrated catalogue as the authoritative list.
+assert 'const PUBLIC_CATALOGUES = Object.freeze' in sources_toggle_js
+assert 'valparaiso: "../fuentes_publicas.json"' in sources_toggle_js
+assert 'function sourcesFromPublicCatalogue' in sources_toggle_js
+assert 'source.public_status === "integrada"' in sources_toggle_js
+assert 'authoritativeCatalogue' in sources_toggle_js
+assert 'card.remove()' in sources_toggle_js
 
 assert 'https://www.gijon.es/app/actividades/oferta' in gijon_visual_js
 assert 'data-gijon-visual-reference' in gijon_visual_js
