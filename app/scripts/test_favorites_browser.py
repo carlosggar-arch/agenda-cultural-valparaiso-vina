@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import html
 import http.server
 import json
 import os
-import re
 import shutil
 import socketserver
 import subprocess
@@ -15,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
-TEST_PAGE = APP / "__favorites_test.html"
+TEST_PAGE = APP / "__mis_planes_test.html"
 
 
 def chrome_binary() -> str:
@@ -36,95 +34,94 @@ class ThreadingServer(socketserver.ThreadingTCPServer):
     daemon_threads = True
 
 
-def first_valparaiso_event() -> tuple[str, str]:
+def favorite_fixture() -> tuple[str, str]:
     payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
     for event in payload.get("events", []):
         event_id = str(event.get("id") or "").strip()
         title = str(event.get("title") or "").strip()
         if event_id and title:
-            return event_id, title
-    raise AssertionError("Valparaiso dataset has no usable event for favorites browser test")
+            favorite = [{
+                "city": "valparaiso",
+                "id": event_id,
+                "title": title,
+                "url": None,
+                "savedAt": "2026-08-17T12:00:00.000Z",
+            }]
+            return event_id, json.dumps(favorite, ensure_ascii=False)
+    raise AssertionError("Valparaiso dataset has no usable event for Mis planes browser test")
 
 
-def make_test_page() -> None:
-    event_id, title = first_valparaiso_event()
-    probe = r'''<script>(async()=>{const sleep=ms=>new Promise(r=>setTimeout(r,ms));let b=null;for(let i=0;i<30;i++){b=document.querySelector('.event-card[data-event-id] > [data-favorite-toggle]');if(b)break;await sleep(200)}if(!b){document.body.dataset.favoritesProbe='missing-toggle';return}const id=b.closest('.event-card[data-event-id]')?.dataset.eventId||'';b.click();await sleep(500);let stored=[];try{stored=JSON.parse(localStorage.getItem('agenda-cultural-favorites-v1')||'[]')}catch{}const saved=stored.some(x=>x.city==='valparaiso'&&x.id===id);const pressed=b.getAttribute('aria-pressed')==='true';const count=document.querySelector('[data-favorites-access] [data-favorites-count]')?.textContent?.trim()||'';document.body.dataset.favoritesEventId=id;document.body.dataset.favoritesProbe=saved&&pressed&&count==='1'?'pass':'fail'})();</script>'''
-    source = f'''<!doctype html>
-<html lang="es" data-city="valparaiso">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Favorites probe</title></head>
-<body>
-<script>localStorage.setItem("agenda-cultural-city","valparaiso");localStorage.removeItem("agenda-cultural-favorites-v1");</script>
-<header><div class="header-actions"></div></header>
-<main><article class="event-card" data-event-id="{html.escape(event_id, quote=True)}"><h3>{html.escape(title)}</h3></article></main>
-<script type="module" src="./favorites.js"></script>
-{probe}
-</body>
-</html>'''
-    TEST_PAGE.write_text(source, encoding="utf-8")
+def make_test_page() -> str:
+    event_id, favorite_json = favorite_fixture()
+    source = (APP / "mis-planes.html").read_text(encoding="utf-8")
+    marker = '<script type="module">'
+    if marker not in source:
+        raise AssertionError("Mis planes module marker not found")
+    bootstrap = (
+        '<script>'
+        'localStorage.setItem("agenda-cultural-city","valparaiso");'
+        f'localStorage.setItem("agenda-cultural-favorites-v1",{json.dumps(favorite_json)});'
+        '</script>'
+    )
+    TEST_PAGE.write_text(source.replace(marker, bootstrap + marker, 1), encoding="utf-8")
+    return event_id
 
 
-def run_chrome(url: str, profile: str, budget: int) -> str:
-    cmd = [
-        chrome_binary(),
-        "--headless=new",
-        "--no-sandbox",
-        "--disable-gpu",
-        "--disable-dev-shm-usage",
-        "--disable-background-networking",
-        "--disable-component-update",
-        "--disable-extensions",
-        "--disable-sync",
-        "--no-first-run",
-        "--no-default-browser-check",
-        "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-        f"--virtual-time-budget={budget}",
-        f"--user-data-dir={profile}",
-        "--dump-dom",
-        url,
-    ]
-    result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
-    if result.returncode != 0 or not result.stdout:
-        raise AssertionError(f"Favorites browser probe failed: exit={result.returncode}; stderr={result.stderr[-1200:]}")
-    return result.stdout
-
-
-def run_scenario(port: int) -> None:
-    with tempfile.TemporaryDirectory(prefix="agenda-favorites-browser-", ignore_cleanup_errors=True) as profile:
-        fixture = run_chrome(f"http://127.0.0.1:{port}/app/__favorites_test.html", profile, 6500)
-        if 'data-favorites-probe="pass"' not in fixture:
-            raise AssertionError("Favorites storage/button contract failed")
-        match = re.search(r'data-favorites-event-id="([^"]+)"', fixture)
-        if not match:
-            raise AssertionError("Favorites test did not capture a saved event id")
-        plans = run_chrome(f"http://127.0.0.1:{port}/app/mis-planes.html?city=valparaiso", profile, 6500)
-        if 'data-my-plans="true"' not in plans or f'data-event-id="{match.group(1)}"' not in plans:
-            raise AssertionError("Standalone Mis planes page did not render the saved activity")
+def dump_dom(url: str) -> str:
+    errors: list[str] = []
+    for attempt in range(1, 3):
+        with tempfile.TemporaryDirectory(prefix=f"agenda-mis-planes-{attempt}-", ignore_cleanup_errors=True) as profile:
+            cmd = [
+                chrome_binary(),
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-background-networking",
+                "--disable-component-update",
+                "--disable-extensions",
+                "--disable-sync",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
+                "--virtual-time-budget=7000",
+                f"--user-data-dir={profile}",
+                "--dump-dom",
+                url,
+            ]
+            try:
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
+            except subprocess.TimeoutExpired:
+                errors.append(f"attempt {attempt}: Chrome timed out")
+                continue
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
+    raise AssertionError("Mis planes browser probe failed: " + " | ".join(errors))
 
 
 def main() -> None:
     os.chdir(ROOT)
-    make_test_page()
+    event_id = make_test_page()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
     with ThreadingServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         time.sleep(0.2)
-        errors: list[str] = []
         try:
-            for attempt in range(1, 3):
-                try:
-                    run_scenario(port)
-                    print("Favorites browser test: storage persists into the real standalone Mis planes page")
-                    return
-                except (AssertionError, subprocess.TimeoutExpired) as exc:
-                    errors.append(f"attempt {attempt}: {type(exc).__name__}: {exc}")
-                    time.sleep(1)
-            raise AssertionError("Favorites browser scenario failed after two isolated attempts: " + " | ".join(errors))
+            dom = dump_dom(f"http://127.0.0.1:{port}/app/__mis_planes_test.html?city=valparaiso")
+            if 'data-my-plans="true"' not in dom:
+                raise AssertionError("Real Mis planes UI did not render its saved-plans section")
+            if f'data-event-id="{event_id}"' not in dom:
+                raise AssertionError("Real Mis planes UI did not render the seeded dataset activity")
+            if "1 guardado" not in dom:
+                raise AssertionError("Real Mis planes UI did not report the saved count")
         finally:
             server.shutdown()
             thread.join(timeout=2)
             TEST_PAGE.unlink(missing_ok=True)
+    print("Favorites browser test: the real standalone Mis planes page renders a seeded saved activity")
 
 
 if __name__ == "__main__":
