@@ -24,7 +24,7 @@ function installMobileStyles() {
   if (document.querySelector('link[href*="mobile-experience.css"]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css?v=20260817-topnav4";
+  link.href = "./mobile-experience.css?v=20260817-topnav5";
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
