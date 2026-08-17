@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-17T03:20:58-04:00",
+  "generated_at": "2026-08-17T03:32:29-04:00",
   "publication_date": "2026-08-15",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 69,
-    "events": 65,
+    "total": 68,
+    "events": 64,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -62,10 +62,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-16T22:47:43-04:00",
+      "last_verified_at": "2026-08-17T03:32:29-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:47:43-04:00",
+        "last_verified_at": "2026-08-17T03:32:29-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -130,15 +130,12 @@
           "opening_time": "10:00",
           "closing_time": "18:00",
           "display_text": "Martes a domingo · 10:00–18:00",
-          "reference_date": "2026-08-16",
-          "is_open_on_reference_date": true,
+          "reference_date": "2026-08-17",
+          "is_open_on_reference_date": false,
           "source_url": "https://www.museobaburizza.cl/visita/",
           "source_name": "Museo Baburizza",
           "verified_at": "2026-08-16"
-        },
-        "opening_time": "10:00",
-        "closing_time": "18:00",
-        "hours_confidence": "official_venue_schedule"
+        }
       },
       "location": {
         "venue_id": "museobaburizza",
@@ -167,10 +164,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-16T22:47:43-04:00",
+      "last_verified_at": "2026-08-17T03:32:29-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:47:43-04:00",
+        "last_verified_at": "2026-08-17T03:32:29-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1225,6 +1222,83 @@
       }
     },
     {
+      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
+      "title": "¿Cuáles serán los fósiles del futuro?",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:30:00-04:00",
+        "end": "2026-11-07",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
+        "alt": "¿Cuáles serán los fósiles del futuro?",
+        "source": "official_page_metadata"
+      }
+    },
+    {
       "id": "agenda_594dc3fdc258edd0f6c190b0",
       "title": "Exposición “Micromundos, ciencia y arte en tus manos”",
       "event_type": "event",
@@ -1301,83 +1375,6 @@
       "image": {
         "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2023-07/Expo-Micromundos-2023-05_0.jpg",
         "alt": "Exposición “Micromundos, ciencia y arte en tus manos”",
-        "source": "official_page_metadata"
-      }
-    },
-    {
-      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
-      "title": "¿Cuáles serán los fósiles del futuro?",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-15T11:30:00-04:00",
-        "end": "2026-11-07",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
-        "occurrences": [],
-        "start_confidence": "technical_fallback",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
-        "alt": "¿Cuáles serán los fósiles del futuro?",
         "source": "official_page_metadata"
       }
     },
@@ -1685,89 +1682,6 @@
       }
     },
     {
-      "id": "agenda_teatromuseo_dedfeec0f60d0283e27a",
-      "title": "Historia de Gatitos de Colores",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-16T16:30:00-04:00",
-        "end": "2026-08-16T16:30:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-16 · 16:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "teatromuseo",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "TeatroMuseo del Títere y el Payaso",
-        "address": "Cumming 795, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "CLP",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820"
-      },
-      "organizer": "TeatroMuseo",
-      "source_id": "teatromuseo",
-      "source_name": "TeatroMuseo",
-      "source_url": "https://www.teatromuseo.cl/obra/historia-de-gatitos-de-colores_820",
-      "last_verified_at": "2026-08-16T22:47:36-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:47:36-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma precio y condiciones en la fuente oficial."
-      },
-      "description": "Trico y Negrín son 2 gatitos amigos de barrio, muy traviesos, que en un día de luna llena y sin haber comido bocado en todo el día, descubren unos pescaditos colgados en una ventana dejados por Don Pedro (el dueño de la casa). Ante tanta incertidumbre de poder comer, agotando toda idea, es que deciden sacarlos de donde estaban. En ese intento y por accidente caen en tarros de pintura que les cambia su color. A medida que transcurre la historia peor se pone la situación.",
-      "tags": [
-        "Teatro",
-        "TeatroMuseo"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null,
-        "source": null,
-        "relevance": null
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_teatromuseo_cartelera",
-        "duration_days": 0
-      }
-    },
-    {
       "id": "agenda_cinema_f68f891c02d7288c3619",
       "title": "La Invitación",
       "event_type": "event",
@@ -1839,8 +1753,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "La Invitación"
+        "url": "https://www.passline.com/imagenes/eventos/la-invitacion-cine-arte-vina-del-mar-544712-rec.jpg",
+        "alt": "La Invitación",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -1920,8 +1836,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Obsesión"
+        "url": "https://www.passline.com/imagenes/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718-rec.jpg",
+        "alt": "Obsesión",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2001,8 +1919,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Children of Men (2006)"
+        "url": "https://www.passline.com/imagenes/eventos/children-of-men-2006-cine-arte-vina-del-mar-543163-rec.jpg",
+        "alt": "Children of Men (2006)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2082,8 +2002,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "El Día D: Bajo Presión"
+        "url": "https://www.passline.com/imagenes/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260-rec.jpg",
+        "alt": "El Día D: Bajo Presión",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2163,8 +2085,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar"
+        "url": "https://www.passline.com/imagenes/eventos/calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar-rec.jpg",
+        "alt": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2244,8 +2168,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Perros de la Calle (1992)"
+        "url": "https://www.passline.com/imagenes/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar-544724-rec.jpg",
+        "alt": "Perros de la Calle (1992)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2398,8 +2324,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma"
+        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
+        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2479,8 +2407,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "La Odisea (2026)"
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
+        "alt": "La Odisea (2026)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2560,8 +2490,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma"
+        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
+        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2786,8 +2718,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Blue Valentine (2010)"
+        "url": "https://www.passline.com/imagenes/eventos/blue-valentine-2010-cine-arte-vina-del-mar-rec.jpg",
+        "alt": "Blue Valentine (2010)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -2867,8 +2801,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "La Muerte de Robin Hood"
+        "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
+        "alt": "La Muerte de Robin Hood",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3021,8 +2957,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "The Doors: The Final Cut (1991-2026)"
+        "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
+        "alt": "The Doors: The Final Cut (1991-2026)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3102,8 +3040,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "La Muerte de Robin Hood"
+        "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
+        "alt": "La Muerte de Robin Hood",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3263,8 +3203,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Marie Antoinette (20 Aniversario)"
+        "url": "https://www.passline.com/imagenes/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar-537547-rec.jpg",
+        "alt": "Marie Antoinette (20 Aniversario)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3549,10 +3491,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-16T22:47:36-04:00",
+      "last_verified_at": "2026-08-17T03:32:23-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:47:36-04:00",
+        "last_verified_at": "2026-08-17T03:32:23-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3653,8 +3595,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "The Doors: The Final Cut (1991-2026)"
+        "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
+        "alt": "The Doors: The Final Cut (1991-2026)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3807,8 +3751,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Party Monster (2003)"
+        "url": "https://www.passline.com/imagenes/eventos/party-monster-2003-cine-arte-vina-del-mar-537543-rec.jpg",
+        "alt": "Party Monster (2003)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4107,8 +4053,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "Little Miss Sunshine (2006)"
+        "url": "https://www.passline.com/imagenes/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar-rec.jpg",
+        "alt": "Little Miss Sunshine (2006)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4261,8 +4209,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": "High School Musical Sing Along (2006)"
+        "url": "https://www.passline.com/imagenes/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar-rec.jpg",
+        "alt": "High School Musical Sing Along (2006)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4321,10 +4271,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-16T22:47:36-04:00",
+      "last_verified_at": "2026-08-17T03:32:23-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:47:36-04:00",
+        "last_verified_at": "2026-08-17T03:32:23-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5392,29 +5342,47 @@
       "mode": "official_session_refresh",
       "recovery_attempted": true,
       "recovery_mode": "passline_event_page_links",
-      "recovery_sessions": 0
+      "recovery_sessions": 0,
+      "secondary_probe_status": "no_current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 0,
+      "secondary_probe_current_candidates": 0,
+      "secondary_probe_candidate_titles": [],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
+      "secondary_probe_checked_on": "2026-08-17"
     },
     "museobaburizza": {
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-16T22:47:43-04:00",
+      "refreshed_at": "2026-08-17T03:32:29-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
     },
     "teatromuseo": {
-      "events_detected": 3,
-      "events_published": 3,
-      "refreshed_at": "2026-08-16T22:47:36-04:00",
+      "events_detected": 2,
+      "events_published": 2,
+      "refreshed_at": "2026-08-17T03:32:23-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
+    },
+    "valparaiso_profundo": {
+      "secondary_probe_status": "no_current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 1,
+      "secondary_probe_current_candidates": 0,
+      "secondary_probe_candidate_titles": [],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
+      "secondary_probe_checked_on": "2026-08-17"
     }
   },
   "publication_guard": {
     "titles_recovered": 0,
     "target_city_blocks_recovered": 0,
-    "visit_hours_enriched": 1,
+    "visit_hours_enriched": 0,
     "venue_hours_enriched": 1,
     "removed_title_quality": 0,
     "removed_location_mismatch": 0
@@ -5834,20 +5802,40 @@
       "image_url": null,
       "checked_at": "2026-08-17",
       "source": "official_page_metadata"
+    },
+    "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544712": {
+      "image_url": null,
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
+    },
+    "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544712": {
+      "image_url": "https://www.passline.com/imagenes/eventos/la-invitacion-cine-arte-vina-del-mar-544712-rec.jpg",
+      "checked_at": "2026-08-17",
+      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 51,
-    "images_from_cache": 0,
-    "images_fetched": 0,
+    "existing_images": 30,
+    "images_from_cache": 17,
+    "images_fetched": 1,
     "generic_schedule_images_rejected": 0,
     "pages_fetched": 2,
     "pages_skipped_by_limit": 0
   },
   "publication_corrections": {
-    "checked_at": "2026-08-16",
+    "checked_at": "2026-08-17",
     "active_corrections": 1,
     "applied_count": 0,
     "applied": []
+  },
+  "enrichment": {
+    "zero_source_secondary_probe": {
+      "checked_on": "2026-08-17",
+      "sources": [
+        "insomniacine",
+        "valparaiso_profundo"
+      ],
+      "apify_used": false
+    }
   }
 }
