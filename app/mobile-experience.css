@@ -10,6 +10,52 @@
   padding-right:3.4rem;
 }
 
+/* Installed PWA: never depend on a viewport breakpoint for the four primary
+   shortcuts. Some standalone WebViews report a wider CSS viewport than the
+   physical phone width. */
+html[data-standalone="true"] .header-bottom{flex-wrap:wrap!important}
+html[data-standalone="true"] .app-header .mobile-tabbar,
+html[data-standalone="true"] .app-header .mobile-tabbar[hidden]{
+  order:2;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.35rem;
+  width:100%;
+  margin:.45rem 0 0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  position:static!important;
+  inset:auto!important;
+  box-shadow:none!important;
+}
+html[data-standalone="true"] .app-header .mobile-tabbar button{
+  min-width:0;
+  min-height:44px;
+  padding:.42rem .25rem;
+  display:grid;
+  justify-items:center;
+  align-content:center;
+  gap:.12rem;
+  border:1px solid rgba(23,79,70,.18);
+  border-radius:12px;
+  background:rgba(255,255,255,.82);
+  color:var(--header-ink,var(--brand));
+  font:inherit;
+  font-size:.7rem;
+  font-weight:760;
+  line-height:1.05;
+  cursor:pointer;
+  box-shadow:none;
+  backdrop-filter:blur(8px);
+}
+html[data-standalone="true"] .app-header .mobile-tabbar button[aria-current="page"]{
+  border-color:var(--header-control,var(--brand));
+  background:var(--header-control,var(--brand));
+  color:#fff;
+}
+html[data-standalone="true"] .mobile-tab-icon{font-size:1rem;line-height:1}
+
 @media(max-width:700px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
 
