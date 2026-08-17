@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-16T22:47:43-04:00",
+  "generated_at": "2026-08-17T00:05:44-04:00",
   "publication_date": "2026-08-15",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 72,
-    "events": 68,
+    "total": 59,
+    "events": 55,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -1225,83 +1225,6 @@
       }
     },
     {
-      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
-      "title": "¿Cuáles serán los fósiles del futuro?",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-15T11:30:00-04:00",
-        "end": "2026-11-07",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
-        "occurrences": [],
-        "start_confidence": "technical_fallback",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
-      },
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
-        "alt": "¿Cuáles serán los fósiles del futuro?",
-        "source": "official_page_metadata"
-      }
-    },
-    {
       "id": "agenda_594dc3fdc258edd0f6c190b0",
       "title": "Exposición “Micromundos, ciencia y arte en tus manos”",
       "event_type": "event",
@@ -1378,6 +1301,83 @@
       "image": {
         "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2023-07/Expo-Micromundos-2023-05_0.jpg",
         "alt": "Exposición “Micromundos, ciencia y arte en tus manos”",
+        "source": "official_page_metadata"
+      }
+    },
+    {
+      "id": "agenda_23e5e3f1e1e5d52f7f76d265",
+      "title": "¿Cuáles serán los fósiles del futuro?",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-15T11:30:00-04:00",
+        "end": "2026-11-07",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
+        "occurrences": [],
+        "start_confidence": "technical_fallback",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
+      },
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
+        "alt": "¿Cuáles serán los fósiles del futuro?",
         "source": "official_page_metadata"
       }
     },
@@ -1685,89 +1685,6 @@
       }
     },
     {
-      "id": "agenda_cinema_1060e90bea2183c9c625",
-      "title": "El Día D: Bajo Presión",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-16T15:00:00-04:00",
-        "end": "2026-08-16T15:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-16 · 15:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-        "tickets": "https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. El Día D: Bajo Presión Función confirmada de Cine Arte Viña del Mar. Funciones: domingo 16 de agosto de 2026, 15:00 hrs; martes 18 de agosto de 2026, 15:00 hrs. Fecha: 16 de agosto de 2026; 18 de agosto de 2026. Horario: domingo 15:00 hrs; martes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260-rec.jpg",
-        "alt": "El Día D: Bajo Presión",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
       "id": "agenda_teatromuseo_dedfeec0f60d0283e27a",
       "title": "Historia de Gatitos de Colores",
       "event_type": "event",
@@ -1851,172 +1768,6 @@
       }
     },
     {
-      "id": "agenda_cinema_6674bcbf9d43f58c27c3",
-      "title": "Obsesión",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-16T17:00:00-04:00",
-        "end": "2026-08-16T17:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-16 · 17:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-        "tickets": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Obsesión Función confirmada de Cine Arte Viña del Mar. Funciones: domingo 16 de agosto de 2026, 17:00 hrs; lunes 17 de agosto de 2026, 17:00 hrs. Fecha: 16 de agosto de 2026; 17 de agosto de 2026. Horario: domingo 17:00 hrs; lunes 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718-rec.jpg",
-        "alt": "Obsesión",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_4414012effc2850e9782",
-      "title": "La Invitación",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-16T19:00:00-04:00",
-        "end": "2026-08-16T19:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-16 · 19:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544711",
-        "tickets": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544711",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544711"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544711",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Invitación Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: domingo 16 de agosto de 2026, 19:00 hrs; lunes 17 de agosto de 2026, 15:00 hrs. Fecha: 16 de agosto de 2026; 17 de agosto de 2026. Horario: domingo 19:00 hrs; lunes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544711",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-invitacion-cine-arte-vina-del-mar-544711-rec.jpg",
-        "alt": "La Invitación",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
       "id": "agenda_cinema_f68f891c02d7288c3619",
       "title": "La Invitación",
       "event_type": "event",
@@ -2067,10 +1818,10 @@
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-544711",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2080,7 +1831,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Invitación Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: domingo 16 de agosto de 2026, 19:00 hrs; lunes 17 de agosto de 2026, 15:00 hrs. Fecha: 16 de agosto de 2026; 17 de agosto de 2026. Horario: domingo 19:00 hrs; lunes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544711",
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Invitación Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 15:00 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-544711",
       "tags": [
         "Cine",
         "Función"
@@ -2088,10 +1839,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-invitacion-cine-arte-vina-del-mar-544711-rec.jpg",
-        "alt": "La Invitación",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "La Invitación"
       },
       "editorial": {
         "classification": "event",
@@ -2141,19 +1890,19 @@
         "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
-        "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-        "tickets": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718",
+        "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544715",
+        "tickets": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544715",
         "registration": null,
-        "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718"
+        "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544715"
       },
       "organizer": "Cine Arte Viña del Mar",
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544718",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-544715",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2163,7 +1912,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Obsesión Función confirmada de Cine Arte Viña del Mar. Funciones: domingo 16 de agosto de 2026, 17:00 hrs; lunes 17 de agosto de 2026, 17:00 hrs. Fecha: 16 de agosto de 2026; 17 de agosto de 2026. Horario: domingo 17:00 hrs; lunes 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718",
+      "description": "Función confirmada por Cine Arte Viña del Mar. Obsesión Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 17:00 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544715",
       "tags": [
         "Cine",
         "Función"
@@ -2171,10 +1920,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-544718-rec.jpg",
-        "alt": "Obsesión",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "Obsesión"
       },
       "editorial": {
         "classification": "event",
@@ -2233,10 +1980,10 @@
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-children-of-men-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2246,7 +1993,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Children of Men (2006) Función confirmada de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 19:30 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/children-of-men-2006-cine-arte-vina-del-mar",
+      "description": "Función confirmada por Cine Arte Viña del Mar. Children of Men (2006) Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: lunes 17 de agosto de 2026, 19:30 hrs. Fecha: 17 de agosto de 2026. Horario: lunes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/children-of-men-2006-cine-arte-vina-del-mar",
       "tags": [
         "Cine",
         "Función"
@@ -2254,10 +2001,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/children-of-men-2006-cine-arte-vina-del-mar-543163-rec.jpg",
-        "alt": "Children of Men (2006)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "Children of Men (2006)"
       },
       "editorial": {
         "classification": "event",
@@ -2307,19 +2052,19 @@
         "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
-        "official": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-        "tickets": "https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
+        "official": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar",
         "registration": null,
-        "source": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260"
+        "source": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar"
       },
       "organizer": "Cine Arte Viña del Mar",
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "source_url": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2329,7 +2074,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. El Día D: Bajo Presión Función confirmada de Cine Arte Viña del Mar. Funciones: domingo 16 de agosto de 2026, 15:00 hrs; martes 18 de agosto de 2026, 15:00 hrs. Fecha: 16 de agosto de 2026; 18 de agosto de 2026. Horario: domingo 15:00 hrs; martes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
+      "description": "Función confirmada por Cine Arte Viña del Mar. El Día D: Bajo Presión Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 15:00 hrs. Fecha: 18 de agosto de 2026. Horario: martes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar",
       "tags": [
         "Cine",
         "Función"
@@ -2337,93 +2082,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260-rec.jpg",
-        "alt": "El Día D: Bajo Presión",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_5714a31fa98b9c2a7be0",
-      "title": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-18T17:00:00-04:00",
-        "end": "2026-08-18T17:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-18 · 17:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 17:00 hrs. Fecha: 18 de agosto de 2026. Horario: martes 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/calle-malaga-2025-hito-convenio-espacio-cultural-vina-del-mar-cine-arte-vina-del-mar-rec.jpg",
-        "alt": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "El Día D: Bajo Presión"
       },
       "editorial": {
         "classification": "event",
@@ -2482,10 +2142,10 @@
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2495,7 +2155,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Perros de la Calle (1992) Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 19:30 hrs. Fecha: 18 de agosto de 2026. Horario: martes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $4.000. Comprar entradas: https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
+      "description": "Función confirmada por Cine Arte Viña del Mar. Perros de la Calle (1992) Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 19:30 hrs. Fecha: 18 de agosto de 2026. Horario: martes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $4.000. Comprar entradas: https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
       "tags": [
         "Cine",
         "Función"
@@ -2503,10 +2163,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar-544724-rec.jpg",
-        "alt": "Perros de la Calle (1992)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "Perros de la Calle (1992)"
       },
       "editorial": {
         "classification": "event",
@@ -2622,36 +2280,36 @@
         "longitude": null
       },
       "price": {
-        "is_free": false,
+        "is_free": null,
         "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
       },
       "links": {
-        "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+        "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar",
         "registration": null,
-        "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
+        "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar"
       },
       "organizer": "Cine Arte Viña del Mar",
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": true,
+        "price_confirmed": false,
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 13:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Precio por confirmar. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar",
       "tags": [
         "Cine",
         "Función"
@@ -2659,10 +2317,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
-        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma"
       },
       "editorial": {
         "classification": "event",
@@ -2712,19 +2368,19 @@
         "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
-        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
-        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544720",
+        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544720",
         "registration": null,
-        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
+        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544720"
       },
       "organizer": "Cine Arte Viña del Mar",
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544720",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2734,7 +2390,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544720",
       "tags": [
         "Cine",
         "Función"
@@ -2742,93 +2398,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
-        "alt": "La Odisea (2026)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_67a31fdf4c9667dca84d",
-      "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-19T18:00:00-04:00",
-        "end": "2026-08-19T18:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-19 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
-        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "La Odisea (2026)"
       },
       "editorial": {
         "classification": "event",
@@ -3032,10 +2603,10 @@
       "source_id": "cinearte_vina",
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
+      "last_verified_at": "2026-08-17T00:04:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
+        "last_verified_at": "2026-08-17T00:04:58-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3045,7 +2616,7 @@
         "information_completeness": "complete",
         "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Blue Valentine (2010) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 20:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
+      "description": "Función confirmada por Cine Arte Viña del Mar. Blue Valentine (2010) Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 20:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
       "tags": [
         "Cine",
         "Función"
@@ -3053,93 +2624,8 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/blue-valentine-2010-cine-arte-vina-del-mar-rec.jpg",
-        "alt": "Blue Valentine (2010)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_0185b50a0ec511cdd9ec",
-      "title": "La Muerte de Robin Hood",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-20T18:00:00-04:00",
-        "end": "2026-08-20T18:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
-        "alt": "La Muerte de Robin Hood",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": "Blue Valentine (2010)"
       },
       "editorial": {
         "classification": "event",
@@ -3221,172 +2707,6 @@
       }
     },
     {
-      "id": "agenda_cinema_295160d63e666d9784b9",
-      "title": "The Doors: The Final Cut (1991-2026)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-20T20:30:00-04:00",
-        "end": "2026-08-20T20:30:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 20:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
-        "alt": "The Doors: The Final Cut (1991-2026)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
-      "id": "agenda_cinema_642656d914c0f022cdcf",
-      "title": "La Muerte de Robin Hood",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-21T15:00:00-04:00",
-        "end": "2026-08-21T15:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-21 · 15:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
-        "alt": "La Muerte de Robin Hood",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
       "id": "agenda_ffec605015840bafa9a42844",
       "title": "Conversatorio sobre Émile Dubois y su vínculo con la historia porteña",
       "event_type": "event",
@@ -3464,89 +2784,6 @@
         "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-07/image.png",
         "alt": "Conversatorio sobre Émile Dubois y su vínculo con la historia porteña",
         "source": "official_page_metadata"
-      }
-    },
-    {
-      "id": "agenda_cinema_806946634d753dfa6b80",
-      "title": "Marie Antoinette (20 Aniversario)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-21T19:30:00-04:00",
-        "end": "2026-08-21T19:30:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-21 · 19:30",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Marie Antoinette (20 Aniversario) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 19:30 hrs. Fecha: 21 de agosto de 2026. Horario: viernes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar-537547-rec.jpg",
-        "alt": "Marie Antoinette (20 Aniversario)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -3859,89 +3096,6 @@
       }
     },
     {
-      "id": "agenda_cinema_fdc91967cf8e1f7706d7",
-      "title": "The Doors: The Final Cut (1991-2026)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-23T18:00:00-04:00",
-        "end": "2026-08-23T18:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-23 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
-        "alt": "The Doors: The Final Cut (1991-2026)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
       "id": "agenda_e4928ff2115c71c2958263c9",
       "title": "Obra “Noche de Reyes”",
       "event_type": "event",
@@ -4012,89 +3166,6 @@
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/NOCHE-DE-REYES.jpg",
         "alt": "Obra “Noche de Reyes”",
         "source": "official_page_metadata"
-      }
-    },
-    {
-      "id": "agenda_cinema_b7e6bf506cd1b5574907",
-      "title": "Party Monster (2003)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-24T19:00:00-04:00",
-        "end": "2026-08-24T19:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-24 · 19:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Estudiantes y Personas Mayores: $4.000 · Entrada General: $5.500"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Party Monster (2003) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 19:00 hrs. Fecha: 24 de agosto de 2026. Horario: lunes 19:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Estudiantes y Personas Mayores: $4.000 · Entrada General: $5.500. Comprar entradas: https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/party-monster-2003-cine-arte-vina-del-mar-537543-rec.jpg",
-        "alt": "Party Monster (2003)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -4317,89 +3388,6 @@
       }
     },
     {
-      "id": "agenda_cinema_591aedbc6375ea9be0c1",
-      "title": "Little Miss Sunshine (2006)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-28T18:00:00-04:00",
-        "end": "2026-08-28T18:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 18:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. Little Miss Sunshine (2006) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 28 de agosto de 2026, 18:00 hrs. Fecha: 28 de agosto de 2026. Horario: viernes 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar-rec.jpg",
-        "alt": "Little Miss Sunshine (2006)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
-      }
-    },
-    {
       "id": "agenda_738a464c120c73aecfe90622",
       "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
       "event_type": "event",
@@ -4470,89 +3458,6 @@
         "url": "https://cultura.usm.cl/wp-content/uploads/2026/03/1-1080-x-1350-PARA-WEB-819x1024.jpg",
         "alt": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
         "source": "official_page_metadata"
-      }
-    },
-    {
-      "id": "agenda_cinema_cfdf8ef1738036d37302",
-      "title": "High School Musical Sing Along (2006)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-29T19:00:00-04:00",
-        "end": "2026-08-29T19:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-29 · 19:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "cinearte_vina",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar"
-      },
-      "organizer": "Cine Arte Viña del Mar",
-      "source_id": "cinearte_vina",
-      "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-16T22:18:32-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-16T22:18:32-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-      },
-      "description": "Función confirmada por Cine Arte Viña del Mar. High School Musical Sing Along (2006) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: sábado 29 de agosto de 2026, 19:00 hrs. Fecha: 29 de agosto de 2026. Horario: sábado 19:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "tags": [
-        "Cine",
-        "Función"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar-rec.jpg",
-        "alt": "High School Musical Sing Along (2006)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cinema_session",
-        "duration_days": 0
       }
     },
     {
@@ -5663,17 +4568,17 @@
   ],
   "source_diagnostics": {
     "cinearte_vina": {
-      "reviewed_titles": 21,
-      "sessions_detected": 21,
-      "sessions_published": 21,
-      "refreshed_at": "2026-08-16T22:20:30-04:00",
+      "reviewed_titles": 14,
+      "sessions_detected": 8,
+      "sessions_published": 8,
+      "refreshed_at": "2026-08-17T00:05:44-04:00",
       "mode": "official_session_refresh"
     },
     "insomniacine": {
       "reviewed_titles": 0,
       "sessions_detected": 0,
       "sessions_published": 0,
-      "refreshed_at": "2026-08-16T22:20:30-04:00",
+      "refreshed_at": "2026-08-17T00:05:44-04:00",
       "mode": "official_session_refresh",
       "recovery_attempted": true,
       "recovery_mode": "passline_event_page_links",
