@@ -110,8 +110,9 @@ tabbar.addEventListener("click", (event) => {
 
 function syncCityOptionState() {
   const city = document.documentElement.dataset.city;
+  const selectionRequired = chooserBackdrop?.dataset.selectionRequired === "true";
   for (const option of document.querySelectorAll("[data-city-option]")) {
-    if (option.dataset.cityOption === city) option.setAttribute("aria-current", "true");
+    if (!selectionRequired && option.dataset.cityOption === city) option.setAttribute("aria-current", "true");
     else option.removeAttribute("aria-current");
   }
 }
@@ -129,7 +130,10 @@ function syncModalVisibility() {
 function observeModal(node) {
   if (!node || node.dataset.mobileObserved === "true") return;
   node.dataset.mobileObserved = "true";
-  new MutationObserver(syncModalVisibility).observe(node, { attributes: true, attributeFilter: ["hidden"] });
+  new MutationObserver(() => {
+    syncModalVisibility();
+    syncCityOptionState();
+  }).observe(node, { attributes: true, attributeFilter: ["hidden", "data-selection-required"] });
 }
 
 function restoreChooserCopyForManualSwitch() {
