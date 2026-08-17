@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T21:57:38+00:00",
+  "generated_at": "2026-08-17T22:16:51+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -16,7 +16,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T17:50:06-04:00",
-        "generated_age_hours": 0.1
+        "generated_age_hours": 0.4
       },
       "counts": {
         "total_events": 107,
@@ -261,31 +261,31 @@
     "gijon": {
       "city_id": "gijon",
       "timezone": "Europe/Madrid",
-      "today": "2026-08-17",
+      "today": "2026-08-18",
       "status": "warning",
       "warnings": [
         "zero_event_sources"
       ],
       "freshness": {
-        "publication_date": "2026-08-17",
+        "publication_date": "2026-08-18",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T20:58:47+02:00",
-        "generated_age_hours": 3.0
+        "generated_at": "2026-08-18T00:12:03+02:00",
+        "generated_age_hours": 0.1
       },
       "counts": {
-        "total_events": 100,
-        "schedule_expected_events": 91,
-        "dated_events": 91,
-        "timed_events": 70,
-        "relevant_image_events": 100,
+        "total_events": 106,
+        "schedule_expected_events": 97,
+        "dated_events": 97,
+        "timed_events": 76,
+        "relevant_image_events": 106,
         "suspicious_titles": 0,
-        "title_review_candidates": 42,
+        "title_review_candidates": 41,
         "duplicate_groups": 0,
         "generic_schedule_images_rejected": 0
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 76.9,
+        "time_pct": 78.4,
         "relevant_image_pct": 100.0
       },
       "samples": {
@@ -480,11 +480,11 @@
             "id": "teatro_albeniz_gijon",
             "name": "Teatro Albéniz Gijón",
             "role": null,
-            "event_count": 0,
+            "event_count": 6,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 0,
+            "with_start_time": 6,
             "without_start_time": 0
           },
           {
@@ -578,13 +578,6 @@
         ],
         "zero_event_sources": [
           {
-            "id": "teatro_albeniz_gijon",
-            "name": "Teatro Albéniz Gijón",
-            "role": null,
-            "web_probe_status": null,
-            "zero_event_reason": null
-          },
-          {
             "id": "jardin_botanico_atlantico",
             "name": "Jardín Botánico Atlántico",
             "role": null,
@@ -660,7 +653,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.540085192724177,
+    "usage_usd": 4.54008585824729,
     "remaining_usd": 0.0
   }
 }
