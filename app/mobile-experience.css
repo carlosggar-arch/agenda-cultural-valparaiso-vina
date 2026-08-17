@@ -1,6 +1,15 @@
 /* Mobile-first polish for the installed and browser PWA experience. */
 .mobile-tabbar{display:none}
 
+/* Event detail rule: no valid image means no decorative media block at all.
+   Keep room only for the floating close button, not for a fake hero. */
+.event-detail-panel--no-media .event-detail-content{
+  padding-top:1.15rem!important;
+}
+.event-detail-panel--no-media .event-detail-meta{
+  padding-right:3.4rem;
+}
+
 @media(max-width:700px){
   :root{--mobile-nav-height:68px}
   body{padding-bottom:calc(var(--mobile-nav-height) + env(safe-area-inset-bottom,0px))}
@@ -24,6 +33,18 @@
   }
   .header-search-toggle{width:44px!important;min-width:44px!important}
   .favorite-toggle{width:44px!important;height:44px!important}
+
+  /* A real event image is useful, but it should not dominate a phone screen. */
+  .event-detail-media{
+    height:min(22vh,160px)!important;
+  }
+  .event-detail-panel--no-media .event-detail-content{
+    padding-top:1rem!important;
+  }
+  .event-detail-panel--no-media .event-detail-close{
+    top:.65rem!important;
+    right:.65rem!important;
+  }
 
   .chooser-backdrop{
     place-items:end stretch!important;
