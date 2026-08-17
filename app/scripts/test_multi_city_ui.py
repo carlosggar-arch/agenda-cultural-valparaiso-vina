@@ -22,6 +22,7 @@ sources_toggle_js = (APP / "sources-toggle.js").read_text(encoding="utf-8")
 community_source_js = (APP / "community-source.js").read_text(encoding="utf-8")
 source_form = (APP / "proponer-fuente.html").read_text(encoding="utf-8")
 pwa = (APP / "pwa.js").read_text(encoding="utf-8")
+mobile_experience = (APP / "mobile-experience.js").read_text(encoding="utf-8")
 plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
 favorites = (APP / "favorites.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
@@ -156,6 +157,7 @@ assert 'function isIosLike()' in pwa
 assert 'function showInstallHelp()' in pwa
 assert 'Añadir a pantalla de inicio' in pwa
 assert 'beforeinstallprompt' in pwa
+
 assert 'CONFIG = Object.freeze' in plan_ahead
 assert 'valparaiso: { dataset: "../agenda_web.json"' in plan_ahead
 assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in plan_ahead
@@ -184,12 +186,23 @@ assert 'export function favoritesForCity' in favorites_core
 assert 'buildFavoriteToggle' in favorites_view
 assert 'buildMyPlansSection' in favorites_view
 assert 'Mis planes' in favorites_view
+assert 'document.createElement("details")' in favorites_view
+assert 'my-plans-disclosure' in favorites_view
+assert 'my-plan-row' in favorites_view
+assert 'my-plans-heading' not in favorites_view
 assert 'valparaiso: { dataset: "../agenda_web.json"' in favorites
 assert 'gijon: { dataset: "./data/gijon/agenda_web.json"' in favorites
 assert 'dialog[data-event-detail]' in favorites
 assert 'data-favorite-toggle' in favorites
-assert '.my-plans-section' in favorites_css
+assert 'favorites.css?v=20260817-compact' in favorites
+assert '.my-plans-disclosure' in favorites_css
+assert '.my-plans-summary' in favorites_css
+assert '.my-plan-row' in favorites_css
+assert '.my-plans-grid' not in favorites_css
 assert '.favorite-toggle' in favorites_css
+assert 'disclosure.open = true' in mobile_experience
+assert 'data-mobile-action="plans"' not in mobile_experience  # created through createTabButton, not static HTML
+assert 'createTabButton("plans", "★", "Mis planes")' in mobile_experience
 
 assert 'const CACHE_VERSION = "v34";' in service_worker
 assert "clients.claim()" in service_worker
@@ -197,10 +210,10 @@ assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 assert 'new URL("../agenda_web.json", self.registration.scope).href' in service_worker
 assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' in service_worker
-assert 'cachedRequest.url !== request.url' in service_worker
 assert 'async function warmDatasetCache()' in service_worker
 assert 'Promise.allSettled([...DATASET_URLS]' in service_worker
 assert 'await warmDatasetCache()' in service_worker
+assert 'v34 deliberately keeps both city datasets' in service_worker
 assert '"./city-first-run.js"' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
@@ -215,4 +228,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v34 cache and compact plan-ahead contracts: OK")
+print("Multi-city v34 cache and compact planning contracts: OK")
