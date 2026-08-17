@@ -30,7 +30,8 @@
     inset:auto!important;
     box-shadow:none!important;
   }
-  .app-header .mobile-tabbar[hidden]{display:none!important}
+  /* Startup and chooser state must never remove the four primary app shortcuts. */
+  .app-header .mobile-tabbar[hidden]{display:grid!important}
   .app-header .mobile-tabbar button{
     min-width:0;
     min-height:44px;
