@@ -1,27 +1,57 @@
 from pathlib import Path
 
-source = Path("app/contextual-filters.js").read_text(encoding="utf-8")
+combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
+combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
+polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
 density = Path("app/density-polish.js").read_text(encoding="utf-8")
 gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
 sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
 pwa = Path("app/pwa.js").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
 root_index = Path("index.html").read_text(encoding="utf-8")
+app_index = Path("app/index.html").read_text(encoding="utf-8")
 web_enhancements = Path("assets/web-event-enhancements.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
 schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 app_schedule = Path("app/schedule-display.js").read_text(encoding="utf-8")
 
-assert "const nextCountValue = counts.get(id) || 0;" in source
-assert "button.hidden = nextCountValue === 0;" in source
-assert "button.hidden = false;" not in source.split("function patchCategoryChips()", 1)[1].split("function patchCityControl()", 1)[0]
-assert "searchInput?.addEventListener(\"input\", queueUpdate);" in source
-assert "sectionFilters?.addEventListener(\"click\", queueUpdate);" in source
+# Combined filter contract: dimensions AND together, categories are multi-select,
+# and search is accent-insensitive token matching rather than one raw substring.
+assert "function eventMatchesWhen" in combined
+assert "function eventMatchesArea" in combined
+assert "function eventMatchesPrice" in combined
+assert "function eventMatchesCategories" in combined
+assert "function eventMatchesQuery" in combined
+assert 'ignore.has("categories")' in combined
+assert "state.categories.has(id)" in combined
+assert "tokens.every((token) => haystack.includes(token))" in combined
+assert "normalize(\"NFD\")" in combined
+assert 'state.when = "personalizado"' in combined
+assert 'history.replaceState' in combined
+assert 'url.searchParams.set' in combined
+assert 'currentCityId() !== "valparaiso"' in combined
+assert 'data-event-id' in combined
+assert 'forceBaseAppFilters' in combined
+
+assert 'data-smart-search' in app_index
+assert 'data-combined-when' in app_index
+assert 'data-combined-area' in app_index
+assert 'data-combined-price' in app_index
+assert 'data-combined-category-filters' in app_index
+assert 'data-date-from' in app_index
+assert 'data-date-to' in app_index
+assert './combined-filters.js' in app_index
+assert './contextual-filters.js' not in app_index
+assert '.filter-workbench' in combined_css
+assert '.custom-date-range' in combined_css
+assert '.smart-search' in combined_css
+assert '.legacy-filter-hooks' in combined_css
+assert '.agenda-heading { display: flex !important;' in polish
+assert 'preserveScrollDuringLegacyClick' in polish
 
 assert "function enforceQuickFilterVisibility()" in density
 assert 'id !== "todos" && count === 0' in density
 assert '.quick-sections [data-section-filter][hidden]' in density
-assert 'container.querySelector(\'[data-section-filter="todos"]\')' in density
 assert "white-space: nowrap !important" in density
 assert "min-height: 0 !important" in density
 assert "width: 62px !important" in density
@@ -54,12 +84,16 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v25"' in pwa
-assert 'const CACHE_VERSION = "v25"' in service_worker
+assert 'const APP_VERSION = "PWA v26"' in pwa
+assert 'import "./combined-filters-polish.js";' in pwa
+assert 'const CACHE_VERSION = "v26"' in service_worker
+assert '"./combined-filters.js"' in service_worker
+assert '"./combined-filters.css"' in service_worker
+assert '"./combined-filters-polish.js"' in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 
-# The root website is intentionally a Valparaíso/Viña web experience again;
+# The root website remains the independent Valparaíso/Viña web experience;
 # the multi-city PWA remains available independently under /app/.
 assert '<div class="mosaic-top"' in root_index
 assert '<div class="mosaic-wave"' in root_index
@@ -90,4 +124,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Contextual filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
+print("Combined filter, source diagnostics, unified schedule/media, independent web and app tests: OK")
