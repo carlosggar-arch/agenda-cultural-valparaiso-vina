@@ -11,6 +11,8 @@ class Stage32AnalyticsTests(unittest.TestCase):
     def test_client_is_first_party_aggregate_and_has_no_identity_or_raw_search_payload(self):
         js = (ROOT / "assets" / "usage-analytics.js").read_text(encoding="utf-8")
         self.assertIn("/community/v1/analytics/events", js)
+        self.assertIn('const PUBLIC_ORIGIN = "https://carlosggar-arch.github.io"', js)
+        self.assertIn("location.origin !== PUBLIC_ORIGIN", js)
         self.assertIn('credentials: "omit"', js)
         self.assertIn('referrerPolicy: "no-referrer"', js)
         self.assertIn("globalPrivacyControl", js)
@@ -19,6 +21,13 @@ class Stage32AnalyticsTests(unittest.TestCase):
         self.assertIn('"10plus"', js)
         self.assertNotRegex(js, re.compile(r"cookie|fingerprint|session[_-]?id|user[_-]?id", re.I))
         self.assertNotIn("input.value.trim() }", js)
+
+    def test_city_detection_accepts_future_safe_registry_ids(self):
+        js = (ROOT / "assets" / "usage-analytics.js").read_text(encoding="utf-8")
+        self.assertIn("const safeCity =", js)
+        self.assertIn("^[a-z0-9][a-z0-9-]{0,63}$", js)
+        self.assertIn("if (dataCity) return dataCity", js)
+        self.assertNotIn('dataCity === "gijon" || dataCity === "valparaiso"', js)
 
     def test_all_primary_surfaces_load_the_same_analytics_client(self):
         root = (ROOT / "index.html").read_text(encoding="utf-8")
