@@ -8,6 +8,7 @@ const catalogue = JSON.parse(
 
 const PROTECTED_BASELINE = [
   "Casa de la Cultura de Valparaíso",
+  "Del Barrio Valpo",
   "Estadio Español Recreo",
   "Estrella Negra Club de Jazz",
   "El Pasaje Café Viña",
@@ -29,6 +30,7 @@ const PROTECTED_BASELINE = [
   "Casa Prisma Valpo",
   "Compañía La Paila",
   "EcoLiderazgo",
+  "Teatro Desastre",
   "Itaú Maratón de Viña — sitio oficial",
   "Balmaceda Arte Joven Valparaíso",
   "Centro de Extensión Duoc UC Valparaíso",
@@ -87,7 +89,7 @@ test("public sources catalogue has stable unique public records", () => {
 });
 
 test("priority source expansion is present and BAJ remains single", () => {
-  assert.equal(catalogue.sources.length, 35);
+  assert.equal(catalogue.sources.length, 37);
   const names = catalogue.sources.map((source) => source.name);
   assert.equal(names.filter((name) => name === "Balmaceda Arte Joven Valparaíso").length, 1);
 
@@ -98,9 +100,29 @@ test("priority source expansion is present and BAJ remains single", () => {
     "Casa Prisma Valpo",
     "Estadio Español Recreo",
     "El Pasaje Café Viña",
+    "Teatro Desastre",
+    "Del Barrio Valpo",
   ]) {
     assert.ok(names.includes(name), `${name} must remain integrated`);
   }
+});
+
+test("Teatro Desastre remains an organizer source", () => {
+  const source = catalogue.sources.find((item) => item.name === "Teatro Desastre");
+  assert.ok(source, "Teatro Desastre must remain in the public source catalogue");
+  assert.equal(source.website_url, "https://www.instagram.com/desastreteatro/");
+  assert.deepEqual(source.cities, ["Valparaíso"]);
+  assert.equal(source.source_type, "Organización cultural");
+  assert.deepEqual(source.categories, ["Teatro"]);
+});
+
+test("Del Barrio Valpo remains a filtered local venue source", () => {
+  const source = catalogue.sources.find((item) => item.name === "Del Barrio Valpo");
+  assert.ok(source, "Del Barrio Valpo must remain in the public source catalogue");
+  assert.equal(source.website_url, "https://www.instagram.com/delbarriovalpo/");
+  assert.deepEqual(source.cities, ["Valparaíso"]);
+  assert.equal(source.source_type, "Centro cultural");
+  assert.deepEqual(source.categories, ["Música", "Ferias y gastronomía"]);
 });
 
 test("El Pasaje Café Viña remains a local integrated source", () => {
