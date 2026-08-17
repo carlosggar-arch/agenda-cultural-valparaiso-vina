@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T02:14:27+00:00",
+  "generated_at": "2026-08-17T02:33:29+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -9,21 +9,20 @@
       "today": "2026-08-16",
       "status": "warning",
       "warnings": [
-        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-15",
         "publication_age_days": 1,
-        "generated_at": "2026-08-16T21:59:32-04:00",
-        "generated_age_hours": 0.2
+        "generated_at": "2026-08-16T22:26:19-04:00",
+        "generated_age_hours": 0.1
       },
       "counts": {
-        "total_events": 68,
-        "schedule_expected_events": 64,
-        "dated_events": 64,
-        "timed_events": 64,
-        "relevant_image_events": 49,
+        "total_events": 70,
+        "schedule_expected_events": 66,
+        "dated_events": 66,
+        "timed_events": 66,
+        "relevant_image_events": 51,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -32,7 +31,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 100.0,
-        "relevant_image_pct": 72.1
+        "relevant_image_pct": 72.9
       },
       "samples": {
         "missing_time": [],
@@ -112,8 +111,8 @@
             "name": "Museo Baburizza",
             "city": "Valparaíso",
             "agenda_url": "https://www.museobaburizza.cl/agenda/",
-            "direct_events": 0,
-            "venue_events": 0,
+            "direct_events": 2,
+            "venue_events": 2,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -145,11 +144,6 @@
             "city": "Valparaíso"
           },
           {
-            "id": "museobaburizza",
-            "name": "Museo Baburizza",
-            "city": "Valparaíso"
-          },
-          {
             "id": "valparaiso_profundo",
             "name": "Valparaíso Profundo",
             "city": "Valparaíso"
@@ -160,26 +154,16 @@
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 0,
-        "venue_hours_enriched": 0,
+        "visit_hours_enriched": 1,
+        "venue_hours_enriched": 1,
         "removed_title_quality": 0,
         "removed_location_mismatch": 0
       },
       "publication_corrections": {
         "checked_at": "2026-08-16",
         "active_corrections": 1,
-        "applied_count": 1,
-        "applied": [
-          {
-            "correction_id": "baburizza_requiem_2026_end",
-            "event_id": "agenda_c16d049f287e6bc4922b56de",
-            "title": "Museo Baburizza – «Requiem para Pianos»",
-            "action": "drop_after_end",
-            "official_end_date": "2026-08-06",
-            "official_url": "https://www.museobaburizza.cl/agenda/",
-            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
-          }
-        ]
+        "applied_count": 0,
+        "applied": []
       }
     },
     "gijon": {
@@ -195,7 +179,7 @@
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
         "generated_at": "2026-08-17T03:54:44+02:00",
-        "generated_age_hours": 0.3
+        "generated_age_hours": 0.6
       },
       "counts": {
         "total_events": 89,
@@ -495,7 +479,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "ok",
-    "usage_usd": 2.559274918910802,
-    "remaining_usd": 0.940725081089198
+    "usage_usd": 2.559275574003101,
+    "remaining_usd": 0.940724425996899
   }
 }
