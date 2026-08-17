@@ -27,10 +27,15 @@ function removePriceFilter() {
   document.querySelector("[data-combined-price]")?.closest(".filter-group")?.remove();
 }
 
-function clearLegacyPriceState() {
+function clearRemovedFilterState() {
   const url = new URL(window.location.href);
-  if (!url.searchParams.has("price")) return;
-  url.searchParams.delete("price");
+  let changed = false;
+  for (const key of ["price", "access", "format", "aud"]) {
+    if (!url.searchParams.has(key)) continue;
+    url.searchParams.delete(key);
+    changed = true;
+  }
+  if (!changed) return;
   const next = `${url.pathname}${url.search}${url.hash}`;
   history.replaceState(null, "", next);
   window.dispatchEvent(new PopStateEvent("popstate"));
@@ -47,7 +52,7 @@ function preserveScrollDuringLegacyClick(container) {
 
 function hasCombinedFilterState() {
   const params = new URLSearchParams(window.location.search);
-  return ["when", "area", "access", "format", "aud", "cat", "q", "from", "to"].some((key) => params.has(key));
+  return ["when", "area", "cat", "q", "from", "to"].some((key) => params.has(key));
 }
 
 let resyncQueued = false;
@@ -66,7 +71,7 @@ for (const grid of document.querySelectorAll("[data-dated-grid], [data-program-g
 
 removeNonActionableFilterCopy();
 removePriceFilter();
-clearLegacyPriceState();
+clearRemovedFilterState();
 preserveScrollDuringLegacyClick(document.querySelector("[data-section-filters]"));
 preserveScrollDuringLegacyClick(document.querySelector("[data-category-filters]"));
 
