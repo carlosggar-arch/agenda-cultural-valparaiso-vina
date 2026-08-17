@@ -67,9 +67,8 @@ self.addEventListener("activate", (event) => {
     await Promise.all(names
       .filter((name) => name.startsWith("agenda-cultural-") && ![SHELL_CACHE, DATA_CACHE].includes(name))
       .map((name) => caches.delete(name)));
-    // Claim already-open pages without forcing a navigation. A forced client.navigate()
-    // during first install/update can create a reload loop before the standalone app
-    // reaches a stable controlled state.
+    // Claim already-open pages without forcing any navigation. Reloading during
+    // first install/update can loop before the standalone app becomes stable.
     await self.clients.claim();
   })());
 });
