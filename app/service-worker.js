@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v23";
+const CACHE_VERSION = "v24";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -16,6 +16,7 @@ const SHELL_ASSETS = [
   "./density-polish.js",
   "./card-experience.js",
   "./schedule-display.js",
+  "./gijon-venue-hours.js",
   "./event-detail.js",
   "./card-experience.css",
   "./card-image-fallback.js",
