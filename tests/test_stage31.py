@@ -97,7 +97,10 @@ class AccessibilitySeoRenderingTests(unittest.TestCase):
         match = re.search(r'<script type="application/ld\+json">(.*?)</script>', page, re.S)
         self.assertIsNotNone(match)
         payload = json.loads(match.group(1).replace("<\\/", "</"))
-        self.assertEqual(payload["@type"], "Event")
+        self.assertEqual(payload["@context"], "https://schema.org")
+        types = [item.get("@type") for item in payload["@graph"]]
+        self.assertIn("Event", types)
+        self.assertIn("BreadcrumbList", types)
 
     def test_gijon_landing_is_static_indexable_collection(self):
         events = [sample_event(id="g1", title="Actividad uno"), sample_event(id="g2", title="Actividad dos")]
@@ -132,6 +135,34 @@ class AccessibilitySeoRenderingTests(unittest.TestCase):
         self.assertIn("focusableWithinChooser", runtime)
         self.assertIn(":focus-visible", css)
         self.assertIn("prefers-reduced-motion", css)
+
+
+class Stage31CompletionTests(unittest.TestCase):
+    def test_event_graph_contains_breadcrumbs(self):
+        data = stage31.structured_page_document("valparaiso", sample_event(), "https://example.org/permalink/")
+        self.assertEqual([item["@type"] for item in data["@graph"]], ["Event", "BreadcrumbList"])
+
+    def test_root_landing_has_collection_and_accessibility_contract(self):
+        page = stage31.render_root_landing({"generated_at": "2026-08-17T18:00:00-04:00"}, [sample_event()])
+        self.assertIn('<html lang="es-CL">', page)
+        self.assertIn('name="robots" content="index,follow,max-image-preview:large"', page)
+        self.assertIn('assets/accessibility.css', page)
+        self.assertIn('<main id="contenido" tabindex="-1">', page)
+        match = re.search(r'<script id="stage31-root-jsonld" type="application/ld\+json">(.*?)</script>', page, re.S)
+        self.assertIsNotNone(match)
+        payload = json.loads(match.group(1).replace("<\\/", "</"))
+        types = [item.get("@type") for item in payload["@graph"]]
+        self.assertIn("WebSite", types)
+        self.assertIn("CollectionPage", types)
+
+    def test_pwa_skip_link_has_static_styles_and_focusable_target(self):
+        page = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('data-stage31-accessibility', page)
+        self.assertIn('<main id="contenido" tabindex="-1">', page)
+
+    def test_robots_points_to_canonical_sitemap(self):
+        robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+        self.assertIn(f"Sitemap: {stage31.SITE_BASE}/sitemap.xml", robots)
 
 
 if __name__ == "__main__":

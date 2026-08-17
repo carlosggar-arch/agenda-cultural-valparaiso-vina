@@ -168,6 +168,28 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
     return common
 
 
+
+def breadcrumb_schema(city_id: str, event: dict[str, Any], event_url: str) -> dict[str, Any]:
+    title = str(event.get("title") or "Actividad cultural").strip()
+    if city_id == "gijon":
+        items = [
+            {"@type": "ListItem", "position": 1, "name": "¡Vivamos! · Agenda Cultural", "item": f"{SITE_BASE}/"},
+            {"@type": "ListItem", "position": 2, "name": "Agenda Cultural Gijón / Xixón", "item": CITY_SEO[city_id]["canonical"]},
+            {"@type": "ListItem", "position": 3, "name": title, "item": event_url},
+        ]
+    else:
+        items = [
+            {"@type": "ListItem", "position": 1, "name": "Agenda Cultural Valparaíso / Viña del Mar", "item": CITY_SEO[city_id]["canonical"]},
+            {"@type": "ListItem", "position": 2, "name": title, "item": event_url},
+        ]
+    return {"@type": "BreadcrumbList", "itemListElement": items}
+
+
+def structured_page_document(city_id: str, event: dict[str, Any], event_url: str) -> dict[str, Any]:
+    primary = dict(structured_document(city_id, event, event_url))
+    primary.pop("@context", None)
+    return {"@context": "https://schema.org", "@graph": [primary, breadcrumb_schema(city_id, event, event_url)]}
+
 def enhance_event_page(
     city_id: str,
     city: dict[str, Any],
@@ -182,7 +204,7 @@ def enhance_event_page(
     meta = base.description_meta(event, city["label"])
     image = base.safe_http_url((event.get("image") or {}).get("url"))
 
-    structured = _json_ld(structured_document(city_id, event, event_url))
+    structured = _json_ld(structured_page_document(city_id, event, event_url))
     page = re.sub(
         r'<script type="application/ld\+json">.*?</script>',
         f'<script type="application/ld+json">{structured}</script>',
@@ -272,6 +294,18 @@ def render_city_landing(city_id: str, city: dict[str, Any], payload: dict[str, A
     }
     if image:
         ld["image"] = image
+    landing_primary = dict(ld)
+    landing_primary.pop("@context", None)
+    ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            landing_primary,
+            {"@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "¡Vivamos! · Agenda Cultural", "item": f"{SITE_BASE}/"},
+                {"@type": "ListItem", "position": 2, "name": "Agenda Cultural Gijón / Xixón", "item": canonical},
+            ]},
+        ],
+    }
     og_image = f'\n  <meta property="og:image" content="{html.escape(image, quote=True)}">' if image else ""
     return f'''<!doctype html>
 <html lang="es-ES">
@@ -316,6 +350,49 @@ def render_city_landing(city_id: str, city: dict[str, Any], payload: dict[str, A
 </html>
 '''
 
+
+
+def root_structured_document(payload: dict[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
+    canonical = CITY_SEO["valparaiso"]["canonical"]
+    org = f"{SITE_BASE}/#organization"
+    website = f"{SITE_BASE}/#website"
+    items = [{"@type": "ListItem", "position": n, "url": base.page_url("valparaiso", event), "name": str(event.get("title") or "Actividad cultural").strip()} for n, event in enumerate(events, 1)]
+    collection = {
+        "@type": "CollectionPage", "@id": f"{canonical}#agenda", "name": "Agenda Cultural Valparaíso / Viña del Mar", "url": canonical,
+        "description": "Agenda cultural de Valparaíso y Viña del Mar con actividades revisadas desde fuentes verificables.", "inLanguage": "es-CL",
+        "isPartOf": {"@id": website}, "publisher": {"@id": org},
+        "spatialCoverage": [{"@type": "City", "name": "Valparaíso"}, {"@type": "City", "name": "Viña del Mar"}],
+        "mainEntity": {"@type": "ItemList", "numberOfItems": len(events), "itemListElement": items},
+    }
+    if payload.get("generated_at"):
+        collection["dateModified"] = payload["generated_at"]
+    return {"@context": "https://schema.org", "@graph": [
+        {"@type": "Organization", "@id": org, "name": "¡Vivamos! · Agenda Cultural", "url": canonical},
+        {"@type": "WebSite", "@id": website, "name": "¡Vivamos! · Agenda Cultural", "url": canonical, "inLanguage": "es-CL", "publisher": {"@id": org}},
+        collection,
+    ]}
+
+
+def render_root_landing(payload: dict[str, Any], events: list[dict[str, Any]]) -> str:
+    page = (ROOT / "index.html").read_text(encoding="utf-8")
+    page = page.replace('<html lang="es">', '<html lang="es-CL">', 1)
+    if 'name="robots"' not in page:
+        page = page.replace('<meta name="viewport" content="width=device-width,initial-scale=1">', '<meta name="viewport" content="width=device-width,initial-scale=1">\n  <meta name="robots" content="index,follow,max-image-preview:large">', 1)
+    if 'assets/accessibility.css' not in page:
+        page = page.replace('<link rel="stylesheet" href="./assets/agenda.css">', '<link rel="stylesheet" href="./assets/agenda.css">\n  <link rel="stylesheet" href="./assets/accessibility.css?v=20260817-stage31">', 1)
+    page = page.replace('<main id="contenido">', '<main id="contenido" tabindex="-1">', 1)
+    if 'property="og:site_name"' not in page:
+        page = page.replace('<meta property="og:type" content="website">', '<meta property="og:type" content="website">\n  <meta property="og:site_name" content="¡Vivamos! · Agenda Cultural">', 1)
+    image = f"{SITE_BASE}/assets/cerro-concepcion-valparaiso.jpg?v=20260729-corrected"
+    if 'property="og:image"' not in page:
+        page = page.replace(f'<meta property="og:url" content="{SITE_BASE}/">', f'<meta property="og:url" content="{SITE_BASE}/">\n  <meta property="og:image" content="{image}">', 1)
+    page = page.replace('<meta name="twitter:card" content="summary">', '<meta name="twitter:card" content="summary_large_image">', 1)
+    if 'name="twitter:image"' not in page:
+        page = page.replace('</head>', f'  <meta name="twitter:image" content="{image}">\n</head>', 1)
+    script = '<script id="stage31-root-jsonld" type="application/ld+json">' + _json_ld(root_structured_document(payload, events)) + '</script>'
+    pattern = r'<script id="stage31-root-jsonld" type="application/ld\+json">.*?</script>'
+    page = re.sub(pattern, script, page, count=1, flags=re.S) if re.search(pattern, page, flags=re.S) else page.replace('</head>', f'  {script}\n</head>', 1)
+    return page
 
 def render_sitemap(event_entries: list[tuple[str, str | None]], city_lastmod: dict[str, str | None]) -> str:
     static_entries = [
@@ -390,15 +467,25 @@ def generate(*, check: bool = False) -> dict[str, int]:
                     (directory / "evento.ics").write_text(ics, encoding="utf-8", newline="")
 
     gijon_landing = render_city_landing("gijon", base.CITY_CONFIG["gijon"], city_payloads["gijon"], city_events["gijon"])
-    for required in ("Agenda Cultural de Gijón / Xixón", "application/ld+json", 'rel="canonical"', 'class="skip-link"', "ItemList"):
+    for required in ("Agenda Cultural de Gijón / Xixón", "application/ld+json", 'rel="canonical"', 'class="skip-link"', "ItemList", "BreadcrumbList"):
         if required not in gijon_landing:
             raise SystemExit(f"Gijón landing page missing {required}")
+
+    root_landing = render_root_landing(city_payloads["valparaiso"], city_events["valparaiso"])
+    for required in ('lang="es-CL"', 'name="robots"', 'assets/accessibility.css', 'id="stage31-root-jsonld"', "CollectionPage", "ItemList", 'main id="contenido" tabindex="-1"'):
+        if required not in root_landing:
+            raise SystemExit(f"Valpo root landing page missing {required}")
+    app_index = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
+    for required in ('data-stage31-accessibility', 'main id="contenido" tabindex="-1"'):
+        if required not in app_index:
+            raise SystemExit(f"PWA accessibility shell missing {required}")
 
     sitemap = render_sitemap(event_entries, city_lastmod)
     if f"{SITE_BASE}/gijon/" not in sitemap or f"{SITE_BASE}/app/" in sitemap:
         raise SystemExit("SEO sitemap canonical city contract failed")
 
     if not check:
+        (ROOT / "index.html").write_text(root_landing, encoding="utf-8")
         gijon_dir = ROOT / "gijon"
         gijon_dir.mkdir(parents=True, exist_ok=True)
         (gijon_dir / "index.html").write_text(gijon_landing, encoding="utf-8")
