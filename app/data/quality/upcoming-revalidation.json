@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T11:32:30-04:00",
+  "generated_at": "2026-08-18T11:56:12-04:00",
   "window_days": 10,
   "targets": 102,
   "fetched": 20,
   "updated_events": 3,
-  "review_needed": 6,
-  "fetch_errors": 1,
+  "review_needed": 7,
+  "fetch_errors": 0,
   "skipped": 82,
   "rows": [
     {
@@ -121,10 +121,9 @@
     },
     {
       "id": "agenda_650e95f9b205b8665b0bce6d",
-      "state": "fetch_error",
+      "state": "no_confident_event_jsonld_match",
       "url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
-      "http_status": null,
-      "error": "URLError: <urlopen error timed out>"
+      "match_score": 0.0
     },
     {
       "id": "agenda_931051bdc7666597d6e2e274",

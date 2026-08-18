@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T15:33:31+00:00",
+  "generated_at": "2026-08-18T15:57:13+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
@@ -788,24 +788,24 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-08-18",
-      "generated_at": "2026-08-18T15:08:47+02:00",
+      "generated_at": "2026-08-18T17:51:28+02:00",
       "summary": {
-        "total_events": 108,
-        "average_quality_score": 96.9,
+        "total_events": 113,
+        "average_quality_score": 97.0,
         "quality_class": "excellent",
-        "sources_catalogued": 18,
-        "sources_producing": 9,
+        "sources_catalogued": 19,
+        "sources_producing": 10,
         "sources_zero": 9,
         "review_priority_zero_sources": 9,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 85.2,
+        "top3_source_share_pct": 81.4,
         "unattributed_events": 0
       },
       "field_coverage": {
         "date_pct": 100.0,
-        "time_pct": 70.4,
+        "time_pct": 71.7,
         "venue_pct": 100.0,
-        "image_pct": 98.1,
+        "image_pct": 98.2,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
         "official_source_pct": 100.0,
@@ -813,74 +813,74 @@
       },
       "category_distribution": [
         {
-          "id": "exposiciones",
-          "label": "Exposiciones",
-          "count": 28,
-          "share_pct": 25.9,
+          "id": "musica",
+          "label": "Música",
+          "count": 29,
+          "share_pct": 25.7,
           "underrepresented": false
         },
         {
-          "id": "musica",
-          "label": "Música",
-          "count": 24,
-          "share_pct": 22.2,
+          "id": "exposiciones",
+          "label": "Exposiciones",
+          "count": 28,
+          "share_pct": 24.8,
           "underrepresented": false
         },
         {
           "id": "museos",
           "label": "Museos",
           "count": 18,
-          "share_pct": 16.7,
+          "share_pct": 15.9,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro / artes escénicas",
           "count": 12,
-          "share_pct": 11.1,
+          "share_pct": 10.6,
           "underrepresented": false
         },
         {
           "id": "actividad-panorama",
           "label": "Actividad / panorama",
           "count": 11,
-          "share_pct": 10.2,
+          "share_pct": 9.7,
           "underrepresented": false
         },
         {
           "id": "deporte-bienestar",
           "label": "Deporte / bienestar",
           "count": 5,
-          "share_pct": 4.6,
+          "share_pct": 4.4,
           "underrepresented": true
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 4,
-          "share_pct": 3.7,
+          "share_pct": 3.5,
           "underrepresented": true
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 3,
-          "share_pct": 2.8,
+          "share_pct": 2.7,
           "underrepresented": true
         },
         {
           "id": "formacion-taller",
           "label": "Formación / taller",
           "count": 3,
-          "share_pct": 2.8,
+          "share_pct": 2.7,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Gijón",
-          "count": 104,
-          "share_pct": 96.3
+          "count": 109,
+          "share_pct": 96.5
         },
         {
           "area": "Cudillero",
@@ -926,7 +926,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 98.1,
+        "relevant_image_pct": 98.2,
         "removed_events": {}
       },
       "sources": [
@@ -1006,6 +1006,30 @@
           },
           "categories": {
             "actividad-panorama": 6
+          }
+        },
+        {
+          "id": "festival_piano_gijon",
+          "name": "Festival Internacional de Piano de Gijón",
+          "count": 5,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "musica": 5
           }
         },
         {

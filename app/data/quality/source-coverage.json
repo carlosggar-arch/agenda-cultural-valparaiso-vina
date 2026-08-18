@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T15:33:31+00:00",
+  "generated_at": "2026-08-18T15:57:13+00:00",
   "status": "ok",
   "retention_days": 60,
   "thresholds": {
@@ -832,15 +832,15 @@
       "city_id": "gijon",
       "date": "2026-08-18",
       "summary": {
-        "sources_total": 18,
-        "producing_now": 9,
+        "sources_total": 19,
+        "producing_now": 10,
         "zero_now": 9,
         "zero_3d_or_more": 0,
         "zero_7d_or_more": 0,
         "zero_14d_or_more": 0,
         "possible_drops": 0,
-        "total_events": 108,
-        "attributed_events": 108,
+        "total_events": 113,
+        "attributed_events": 113,
         "unattributed_events": 0
       },
       "sources": [
@@ -1139,6 +1139,23 @@
           "role": null,
           "source_type": null,
           "current_count": 2,
+          "status": "producing",
+          "severity": "ok",
+          "zero_streak_days": 0,
+          "observed_days": 1,
+          "first_observed_date": "2026-08-18",
+          "last_nonzero_date": "2026-08-18",
+          "baseline_median": null,
+          "change_pct_vs_baseline": null,
+          "possible_drop": false,
+          "history_confidence": "low"
+        },
+        {
+          "id": "festival_piano_gijon",
+          "name": "Festival Internacional de Piano de Gijón",
+          "role": null,
+          "source_type": null,
+          "current_count": 5,
           "status": "producing",
           "severity": "ok",
           "zero_streak_days": 0,
