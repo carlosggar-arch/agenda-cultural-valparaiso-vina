@@ -261,3 +261,25 @@ html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-
   .header-art{height:42%;opacity:.25}
   .header-bottom{margin-left:56px!important}
 }
+
+/* Installed app: the Cuándo / Dónde filter columns must not draw a divider. */
+html[data-installed-app-actions="below-mosaic"] .filter-grid,
+html[data-installed-app-actions="below-mosaic"] .filter-group,
+html[data-installed-app-actions="below-mosaic"] .filter-group + .filter-group,
+html[data-installed-app-actions="below-mosaic"] fieldset.filter-group{
+  border:0!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-inline:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+  background:transparent!important;
+}
+html[data-installed-app-actions="below-mosaic"] .filter-grid::before,
+html[data-installed-app-actions="below-mosaic"] .filter-grid::after,
+html[data-installed-app-actions="below-mosaic"] .filter-group::before,
+html[data-installed-app-actions="below-mosaic"] .filter-group::after{
+  border:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
