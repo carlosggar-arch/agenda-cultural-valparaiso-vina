@@ -12,6 +12,14 @@ function clean(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+function escapeRegExp(value) {
+  return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function flexibleLiteral(value) {
+  return escapeRegExp(clean(value)).replace(/\\\s+/g, "\\s+");
+}
+
 function stripOuterQuotes(value) {
   let text = clean(value);
   let changed = true;
@@ -31,6 +39,25 @@ function stripOuterQuotes(value) {
 function stripTerminalPeriod(value) {
   const text = clean(value);
   return text.endsWith(".") && !text.endsWith("...") ? text.slice(0, -1).trim() : text;
+}
+
+function stripKnownLocationSuffix(value, event) {
+  let text = clean(value);
+  const venue = clean(event?.location?.venue);
+  const city = clean(event?.location?.city);
+  if (!venue) return text;
+  const venueRx = flexibleLiteral(venue);
+  const cityRx = city ? flexibleLiteral(city) : null;
+  const citySuffix = cityRx ? `(?:\\s*[,·|/–—-]\\s*|\\s+)${cityRx}` : "";
+  const patterns = [
+    new RegExp(`\\s+(?:en|@)\\s+${venueRx}${citySuffix}\\s*$`, "iu"),
+    new RegExp(`\\s+(?:en|@)\\s+${venueRx}\\s*$`, "iu"),
+  ];
+  for (const pattern of patterns) {
+    const candidate = text.replace(pattern, "").trim();
+    if (candidate && candidate !== text) return candidate;
+  }
+  return text;
 }
 
 function isAllCaps(value) {
@@ -89,13 +116,12 @@ function smartAllCaps(value, event) {
       return `${normalized}${punctuation}`;
     }).join(" ");
   }
-
-  const words = clean(value).split(/\s+/u).filter(Boolean);
-  return words.length <= 3 ? smartTitleCase(value) : smartTitleCase(value);
+  return smartTitleCase(value);
 }
 
 export function normalizePublicEventTitle(value, event = null) {
   let text = normalizePublicTitle(value, event);
+  text = stripKnownLocationSuffix(text, event);
   text = stripTerminalPeriod(stripOuterQuotes(text));
   text = text.replace(GENERIC_PREFIX, "").trim();
   text = stripTerminalPeriod(stripOuterQuotes(text));
