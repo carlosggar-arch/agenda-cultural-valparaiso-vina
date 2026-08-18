@@ -7,21 +7,15 @@ SOURCE_ID = "ecoliderazgo"
 DEFAULT_ORIGIN_SCOPE = ("Viña del Mar", "Valparaíso")
 DEFAULT_ORIGIN_LABEL = "Viña del Mar / Valparaíso"
 
-_LOCAL_TOKENS = (
-    "vina del mar",
-    "vina",
-    "valparaiso",
+_LOCAL_ORIGIN_PATTERNS = (
+    re.compile(r"\b(?:salida|salimos|partida|partimos)\b.{0,80}\b(?:desde|en)\s+(?:el\s+)?(?:centro\s+de\s+)?(?:vina(?:\s+del\s+mar)?|valparaiso)\b", re.I),
+    re.compile(r"\b(?:punto\s+de\s+encuentro|encuentro|nos\s+juntamos)\b.{0,50}\b(?:en\s+|:\s*)?(?:vina(?:\s+del\s+mar)?|valparaiso)\b", re.I),
+    re.compile(r"\b(?:bus|transporte)\b.{0,50}\bdesde\s+(?:vina(?:\s+del\s+mar)?|valparaiso)\b", re.I),
 )
-_DEPARTURE_MARKERS = (
-    "salida desde",
-    "salida en",
-    "salimos desde",
-    "partimos desde",
-    "punto de encuentro",
-    "encuentro en",
-    "nos juntamos en",
-    "bus desde",
-    "transporte desde",
+_EXPLICIT_DEPARTURE_PATTERNS = (
+    re.compile(r"\b(?:salida|salimos|partida|partimos)\b.{0,80}\b(?:desde|en)\b", re.I),
+    re.compile(r"\b(?:punto\s+de\s+encuentro|encuentro|nos\s+juntamos)\b", re.I),
+    re.compile(r"\b(?:bus|transporte)\b.{0,50}\bdesde\b", re.I),
 )
 
 
@@ -35,11 +29,12 @@ def departure_policy(text: object) -> dict:
 
     When an EcoLiderazgo excursion does not state a departure point, its normal
     departure scope is Viña del Mar / Valparaíso. Explicit departure text always
-    overrides that source default.
+    overrides that source default. Destination mentions never qualify an
+    explicitly non-local departure.
     """
     value = norm(text)
-    explicit_marker = next((marker for marker in _DEPARTURE_MARKERS if marker in value), None)
-    explicit_local = explicit_marker is not None and any(token in value for token in _LOCAL_TOKENS)
+    explicit_local = any(pattern.search(value) for pattern in _LOCAL_ORIGIN_PATTERNS)
+    explicit_departure = any(pattern.search(value) for pattern in _EXPLICIT_DEPARTURE_PATTERNS)
 
     if explicit_local:
         return {
@@ -50,7 +45,7 @@ def departure_policy(text: object) -> dict:
             "departure_origin_rule": "explicit_source_text",
         }
 
-    if explicit_marker is not None:
+    if explicit_departure:
         return {
             "eligible": False,
             "departure_origin_scope": None,
