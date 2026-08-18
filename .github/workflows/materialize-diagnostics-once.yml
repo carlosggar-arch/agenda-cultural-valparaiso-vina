@@ -1,0 +1,57 @@
+name: Materialize diagnostics once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/materialize-diagnostics-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Refresh sources and diagnostics
+        run: |
+          set -euo pipefail
+          python app/scripts/fetch_high_value_sources.py
+          python app/scripts/refresh_portaltickets_editorial.py
+          python app/scripts/validate_portaltickets_editorial.py
+          python app/scripts/validate_high_value_refresh.py
+          python app/scripts/test_high_value_sources.py
+          python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/refresh_quality_diagnostics.py
+
+      - name: Commit materialized snapshots
+        run: |
+          set -euo pipefail
+          git config user.name "agenda-cultural-diagnostics[bot]"
+          git config user.email "agenda-cultural-diagnostics[bot]@users.noreply.github.com"
+          git add \
+            agenda_web.json \
+            app/data/gijon/agenda_web.json \
+            app/data/quality/high-value-sources.json \
+            app/data/quality/portaltickets-editorial.json \
+            app/data/quality/source-coverage.json \
+            app/data/quality/event-quality.json \
+            app/data/quality/release-readiness.json
+          if git diff --cached --quiet; then
+            echo "Diagnostics already materialized."
+            exit 0
+          fi
+          git commit -m "Materializa diagnósticos actuales"
+          git pull --rebase origin main
+          git push origin HEAD:main
