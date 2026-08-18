@@ -9,6 +9,7 @@ on:
       - "app/community-source.css"
       - "app/participation-footer.js"
       - "app/web-actions-below-mosaic.js"
+      - "app/action-strip-layout.js"
       - "app/pwa.js"
       - "app/service-worker.js"
       - "app/release-version.js"
@@ -22,6 +23,7 @@ on:
       - "app/community-source.css"
       - "app/participation-footer.js"
       - "app/web-actions-below-mosaic.js"
+      - "app/action-strip-layout.js"
       - "app/pwa.js"
       - "app/service-worker.js"
       - "app/release-version.js"
@@ -41,12 +43,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Validate client syntax and compact single-row contract
+      - name: Validate client syntax and full-width single-row contract
         run: |
           node --check app/app.js
           node --check app/community-source.js
           node --check app/participation-footer.js
           node --check app/web-actions-below-mosaic.js
+          node --check app/action-strip-layout.js
           node --check app/pwa.js
           node --check app/service-worker.js
           node tests/community-feedback-ui.test.mjs

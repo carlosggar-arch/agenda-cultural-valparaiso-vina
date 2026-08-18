@@ -66,6 +66,7 @@ const SHELL_ASSETS = [
   "./participation-footer.js?v=20260818-feedback6",
   "./web-actions-below-mosaic.js",
   "./web-actions-below-mosaic.js?v=20260818-web2",
+  "./action-strip-layout.js?v=20260818-fill1",
   "./proponer-fuente.html",
   "./proponer-fuente.js",
   "./manifest.webmanifest",
