@@ -178,7 +178,7 @@ assert '.category-filters' in css
 assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
 assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
 assert 'service-worker.js?v=${APP_RELEASE}' in pwa
-assert 'import "./header-redesign.js?v=20260817-brandicon1";' in pwa
+assert 'import "./header-redesign.js?v=20260817-brandicon2";' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
@@ -241,7 +241,7 @@ for asset in (
     '"./release-version.js"', '"./cities.json"', '"../assets/city-registry.mjs"',
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css?v=20260817-brandicon1"',
-    '"./header-redesign.js?v=20260817-brandicon1"', '"./card-experience.js"',
+    '"./header-redesign.js?v=20260817-brandicon2"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
     '"./favorites.js"', '"./mis-planes.html"', '"./sources-toggle.js"', '"./community-source.js"',
     '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs"',
