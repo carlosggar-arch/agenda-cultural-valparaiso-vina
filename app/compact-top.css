@@ -214,3 +214,9 @@ footer { padding: .7rem !important; font-size: .72rem !important; }
   .category-filters { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: .22rem !important; }
   .category-chip { padding: .31rem .42rem !important; font-size: .71rem !important; }
 }
+
+/* Installed app: close the real header gap above the mosaic. */
+html[data-installed-app-actions="below-mosaic"] .app-header {
+  min-height: 214px !important;
+  padding-bottom: .55rem !important;
+}
