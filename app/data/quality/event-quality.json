@@ -1,13 +1,13 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T11:25:58+00:00",
+  "generated_at": "2026-08-18T11:30:54+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-18",
       "generated_at": "2026-08-18T05:47:46-04:00",
       "summary": {
-        "total_events": 165,
+        "total_events": 164,
         "average_quality_score": 92.1,
         "quality_class": "excellent",
         "sources_catalogued": 39,
@@ -15,7 +15,7 @@
         "sources_zero": 9,
         "review_priority_zero_sources": 9,
         "zero_sources_covered_elsewhere": 5,
-        "top3_source_share_pct": 52.1,
+        "top3_source_share_pct": 52.4,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 2
       },
@@ -23,39 +23,39 @@
         "date_pct": 97.6,
         "time_pct": 94.5,
         "venue_pct": 100.0,
-        "image_pct": 53.3,
+        "image_pct": 53.7,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 46.7,
-        "price_known_pct": 85.5
+        "official_source_pct": 46.3,
+        "price_known_pct": 85.4
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
           "count": 47,
-          "share_pct": 28.5,
+          "share_pct": 28.7,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 44,
-          "share_pct": 26.7,
+          "share_pct": 26.8,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 26,
-          "share_pct": 15.8,
+          "share_pct": 15.9,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 21,
-          "share_pct": 12.7,
+          "count": 20,
+          "share_pct": 12.2,
           "underrepresented": false
         },
         {
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 106,
-          "share_pct": 64.2
+          "share_pct": 64.6
         },
         {
           "area": "Viña del Mar",
-          "count": 59,
-          "share_pct": 35.8
+          "count": 58,
+          "share_pct": 35.4
         }
       ],
       "coverage_gaps": {
@@ -138,7 +138,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 53.3,
+        "relevant_image_pct": 53.7,
         "removed_events": {}
       },
       "sources": [
@@ -224,7 +224,7 @@
           "id": "culturasvina",
           "name": "Culturas Viña",
           "count": 12,
-          "quality_score": 86.7,
+          "quality_score": 87.5,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -235,7 +235,7 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 16.7,
+            "image_pct": 25.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 66.7
@@ -434,32 +434,6 @@
           "verified_inactive": false
         },
         {
-          "id": "museo_palacio_rioja",
-          "name": "Museo Palacio Rioja",
-          "count": 2,
-          "quality_score": 92.5,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 50.0
-          },
-          "categories": {
-            "cursos-talleres": 1,
-            "exposiciones": 1
-          },
-          "verified_inactive": false
-        },
-        {
           "id": "museobaburizza",
           "name": "Museo Baburizza",
           "count": 2,
@@ -631,6 +605,31 @@
           },
           "categories": {
             "naturaleza-deportes": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "museo_palacio_rioja",
+          "name": "Museo Palacio Rioja",
+          "count": 1,
+          "quality_score": 85.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "cursos-talleres": 1
           },
           "verified_inactive": false
         },
