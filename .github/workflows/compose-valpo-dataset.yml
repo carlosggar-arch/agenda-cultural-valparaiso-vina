@@ -5,6 +5,16 @@ on:
     branches: [main]
     paths:
       - "agenda_web.json"
+      - "app/scripts/refresh_museo_maritimo.py"
+      - "app/scripts/test_museo_maritimo.py"
+      - "app/scripts/refresh_portaltickets_editorial.py"
+      - "app/scripts/validate_portaltickets_editorial.py"
+      - "app/scripts/test_portaltickets_editorial.py"
+      - "app/scripts/refresh_valpocultura_zero_recovery.py"
+      - "app/scripts/test_valpocultura_zero_recovery.py"
+      - "app/scripts/refresh_quality_diagnostics.py"
+      - "app/scripts/apply_source_coverage_overrides.py"
+      - "app/scripts/test_source_coverage_overrides.py"
       - ".github/workflows/compose-valpo-dataset.yml"
   workflow_dispatch:
 
