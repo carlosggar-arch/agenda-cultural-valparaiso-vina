@@ -45,19 +45,26 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+
           report = json.loads(Path('visitavina-fonck-live-check.json').read_text(encoding='utf-8'))
-          page = report.get('page') or {}
+          listing = report.get('listing') or {}
           discovery = report.get('occurrence_discovery') or {}
-          if not page.get('fetch_ok'):
-              raise SystemExit('Official Visita Viña Fonck event page is not reachable')
-          if not page.get('title_ok') or not page.get('venue_ok'):
-              raise SystemExit('Official page no longer identifies the expected Museo Fonck event')
-          if not (discovery.get('query_dates') or discovery.get('visible_dates') or discovery.get('ical_dates')):
-              raise SystemExit('No explicit recurrence metadata could be resolved from the official page')
+          details = report.get('details') or []
+          future_dates = discovery.get('future_dates') or []
+          if not listing.get('fetch_ok'):
+              raise SystemExit('Official Visita Viña activities listing is not reachable')
+          if discovery.get('method') != 'exact_event_slug_occurrence_links':
+              raise SystemExit('Fonck recurrence is not using the exact event-link method')
+          if not future_dates:
+              raise SystemExit('No future occurrence for the Museo Fonck workshop was found in the official listing')
+          if not all(item.get('fetch_ok') and item.get('title_ok') and item.get('venue_ok') for item in details):
+              raise SystemExit('A future Fonck occurrence could not be confirmed by its official detail page')
+          if int(report.get('events_published') or 0) <= 0 or not report.get('coverage'):
+              raise SystemExit('The verified future Fonck occurrence was not made publishable')
           print('VISITAVINA_FONCK_LIVE_OK', json.dumps({
               'state': report.get('state'),
-              'future_dates': discovery.get('future_dates'),
-              'clock': report.get('clock'),
+              'future_dates': future_dates,
+              'details': details,
               'events_published': report.get('events_published'),
               'coverage': report.get('coverage'),
           }, ensure_ascii=False))
