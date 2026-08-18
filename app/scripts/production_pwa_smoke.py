@@ -209,6 +209,8 @@ def verify_browser() -> None:
     expected_release = release_number()
     expected = expected_shell()
     chrome = chrome_binary()
+    browser_header_style = expected["header_style"].removeprefix("./")
+    browser_mobile_style = expected["mobile_style"].removeprefix("./")
     cases = (
         ("valparaiso", "Valparaíso / Viña del Mar", 390, 844),
         ("gijon", "Gijón / Xixón", 1280, 900),
@@ -221,8 +223,8 @@ def verify_browser() -> None:
             'data-header-search-bound="true"': "static search control was not bound",
             f"PWA v{expected_release}": "visible runtime version is stale",
             label: "city title/label is stale",
-            expected["mobile_style"]: "mobile stylesheet revision is stale",
-            expected["header_style"]: "header stylesheet revision is stale",
+            browser_mobile_style: "mobile stylesheet revision is stale",
+            browser_header_style: "header stylesheet revision is stale",
         }
         for marker, message in checks.items():
             if marker not in dom:
