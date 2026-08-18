@@ -1,0 +1,42 @@
+name: Public taxonomy and footer contract
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/public-category-rules.mjs"
+      - "app/category-normalizer.js"
+      - "app/exhibition-compact.js"
+      - "app/footer-credit.js"
+      - "app/scripts/test_public_taxonomy_footer.mjs"
+      - ".github/workflows/public-taxonomy-footer-contract.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/public-category-rules.mjs"
+      - "app/category-normalizer.js"
+      - "app/exhibition-compact.js"
+      - "app/footer-credit.js"
+      - "app/scripts/test_public_taxonomy_footer.mjs"
+      - ".github/workflows/public-taxonomy-footer-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check JavaScript syntax
+        run: |
+          node --check app/public-category-rules.mjs
+          node --check app/category-normalizer.js
+          node --check app/exhibition-compact.js
+          node --check app/footer-credit.js
+      - name: Run public taxonomy and footer contract
+        run: node app/scripts/test_public_taxonomy_footer.mjs
