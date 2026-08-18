@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T22:57:10+00:00",
+  "generated_at": "2026-08-18T23:09:56+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
@@ -788,22 +788,22 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-08-19",
-      "generated_at": "2026-08-19T00:53:14+02:00",
+      "generated_at": "2026-08-19T01:05:27+02:00",
       "summary": {
-        "total_events": 113,
-        "average_quality_score": 96.9,
+        "total_events": 112,
+        "average_quality_score": 97.1,
         "quality_class": "excellent",
-        "sources_catalogued": 21,
+        "sources_catalogued": 28,
         "sources_producing": 10,
-        "sources_zero": 11,
-        "review_priority_zero_sources": 11,
+        "sources_zero": 18,
+        "review_priority_zero_sources": 18,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 80.5,
+        "top3_source_share_pct": 81.2,
         "unattributed_events": 0
       },
       "field_coverage": {
         "date_pct": 100.0,
-        "time_pct": 70.8,
+        "time_pct": 72.3,
         "venue_pct": 100.0,
         "image_pct": 98.2,
         "official_link_pct": 100.0,
@@ -816,56 +816,56 @@
           "id": "musica",
           "label": "Música",
           "count": 27,
-          "share_pct": 23.9,
+          "share_pct": 24.1,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 26,
-          "share_pct": 23.0,
+          "share_pct": 23.2,
           "underrepresented": false
         },
         {
           "id": "museos",
           "label": "Museos",
           "count": 18,
-          "share_pct": 15.9,
-          "underrepresented": false
-        },
-        {
-          "id": "actividad-panorama",
-          "label": "Actividad / panorama",
-          "count": 13,
-          "share_pct": 11.5,
+          "share_pct": 16.1,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro / artes escénicas",
-          "count": 12,
-          "share_pct": 10.6,
+          "count": 13,
+          "share_pct": 11.6,
+          "underrepresented": false
+        },
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama",
+          "count": 11,
+          "share_pct": 9.8,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 5,
-          "share_pct": 4.4,
+          "share_pct": 4.5,
           "underrepresented": true
         },
         {
           "id": "deporte-bienestar",
           "label": "Deporte / bienestar",
           "count": 5,
-          "share_pct": 4.4,
+          "share_pct": 4.5,
           "underrepresented": true
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 4,
-          "share_pct": 3.5,
+          "share_pct": 3.6,
           "underrepresented": true
         },
         {
@@ -879,8 +879,8 @@
       "area_distribution": [
         {
           "area": "Gijón",
-          "count": 109,
-          "share_pct": 96.5
+          "count": 108,
+          "share_pct": 96.4
         },
         {
           "area": "Cudillero",
@@ -922,7 +922,14 @@
           "sala_acapulco_conciertos",
           "toma3_xixon",
           "museo_barjola",
-          "grupo_montana_picu_urriellu"
+          "grupo_montana_picu_urriellu",
+          "la_habitacion_propia_gijon",
+          "laboral_cinemateca",
+          "museo_evaristo_valle",
+          "ficx",
+          "foro_jovellanos",
+          "el_percebe_gijon",
+          "mercado_artesano_ecologico_gijon"
         ],
         "zero_sources_covered_elsewhere": []
       },
@@ -1108,30 +1115,6 @@
           }
         },
         {
-          "id": "la_habitacion_propia_gijon",
-          "name": "La Habitación Propia",
-          "count": 2,
-          "quality_score": 85.0,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 50.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "actividad-panorama": 2
-          }
-        },
-        {
           "id": "laboral_ciudad_cultura",
           "name": "Laboral Ciudad de la Cultura — Agenda",
           "count": 2,
@@ -1178,6 +1161,30 @@
           },
           "categories": {
             "deporte-bienestar": 2
+          }
+        },
+        {
+          "id": "el_huerto_gijon",
+          "name": "El Huerto Espacio Escénico",
+          "count": 1,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 0.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "teatro": 1
           }
         }
       ]
