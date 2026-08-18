@@ -1,0 +1,62 @@
+name: Approved event visibility contract
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "agenda_web.json"
+      - "app/data/gijon/agenda_web.json"
+      - "app/app.js"
+      - "app/category-normalizer.js"
+      - "app/public-category-rules.mjs"
+      - "app/combined-filters-bootstrap.js"
+      - "app/combined-filters.js"
+      - "app/approved-event-integrity.js"
+      - "app/exhibition-venue-grouping.js"
+      - "app/exhibition-gallery.js"
+      - "app/service-worker.js"
+      - "app/release-version.js"
+      - "app/scripts/test_approved_event_visibility_contract.mjs"
+      - ".github/workflows/approved-event-visibility-contract.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "agenda_web.json"
+      - "app/data/gijon/agenda_web.json"
+      - "app/app.js"
+      - "app/category-normalizer.js"
+      - "app/public-category-rules.mjs"
+      - "app/combined-filters-bootstrap.js"
+      - "app/combined-filters.js"
+      - "app/approved-event-integrity.js"
+      - "app/exhibition-venue-grouping.js"
+      - "app/exhibition-gallery.js"
+      - "app/service-worker.js"
+      - "app/release-version.js"
+      - "app/scripts/test_approved_event_visibility_contract.mjs"
+      - ".github/workflows/approved-event-visibility-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check visibility modules
+        run: |
+          node --check app/app.js
+          node --check app/combined-filters-bootstrap.js
+          node --check app/combined-filters.js
+          node --check app/approved-event-integrity.js
+          node --check app/public-category-rules.mjs
+          node --check app/service-worker.js
+      - name: Verify every approved event remains representable
+        run: node app/scripts/test_approved_event_visibility_contract.mjs
+      - name: Verify Gijón exhibition regression contract
+        run: node app/scripts/test_gijon_exhibition_filter_contract.mjs
