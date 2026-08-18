@@ -60,6 +60,7 @@ def test_consolidates_same_exhibition_same_venue_and_keeps_image() -> None:
     official = event(
         id="official",
         title="Exposición temporal // A veces un mar dulce",
+        location={"venue_id": None, "venue": "Museo Palacio Rioja", "city": "Viña del Mar"},
         source_url="https://visitavina.munivina.cl/actividad/a-veces-un-mar-dulce/",
         links={"official": "https://visitavina.munivina.cl/actividad/a-veces-un-mar-dulce/", "source": "https://visitavina.munivina.cl/actividad/a-veces-un-mar-dulce/"},
         public_status={"source_official": False, "information_completeness": "complete"},
@@ -69,6 +70,7 @@ def test_consolidates_same_exhibition_same_venue_and_keeps_image() -> None:
     social = event(
         id="social",
         title="A veces un mar dulce",
+        location={"venue_id": "museo-palacio-rioja", "venue": "Museo Palacio Rioja, Viña del Mar", "city": "Viña del Mar"},
         source_url="https://www.instagram.com/p/example/",
         links={"official": "https://www.instagram.com/p/example/", "source": "https://www.instagram.com/p/example/"},
         public_status={"source_official": True, "information_completeness": "complete"},
