@@ -10,12 +10,117 @@ const HEADER_STYLESHEET = "./header-redesign.css?v=20260817-brandicon1";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const mobileHeaderQuery = window.matchMedia?.("(max-width: 700px)");
 
+function isInstalledApp() {
+  return Boolean(standaloneQuery?.matches || window.navigator.standalone === true);
+}
+
 function useDirectMobileActions() {
-  return Boolean(standaloneQuery?.matches || window.navigator.standalone === true || mobileHeaderQuery?.matches);
+  return Boolean(isInstalledApp() || mobileHeaderQuery?.matches);
 }
 
 function viewportWidth() {
   return Number(window.innerWidth || document.documentElement.clientWidth || 9999);
+}
+
+function ensureInstalledAppActionStyles() {
+  let style = document.querySelector("[data-installed-app-action-styles]");
+  if (style) return style;
+  style = document.createElement("style");
+  style.dataset.installedAppActionStyles = "true";
+  style.textContent = `
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench::before {
+      margin-bottom: .10rem !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
+      grid-column: 1 / -1 !important;
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(52px, 1fr)) !important;
+      align-items: stretch !important;
+      justify-content: stretch !important;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 0 .12rem !important;
+      padding: 0 !important;
+      gap: .24rem !important;
+      overflow: visible !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      min-height: 56px !important;
+      margin: 0 !important;
+      padding: .32rem .20rem !important;
+      border-radius: 11px !important;
+      font-size: .64rem !important;
+      line-height: 1.08 !important;
+      white-space: normal !important;
+      text-align: center !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions .header-search-toggle {
+      display: grid !important;
+      place-items: center !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions .city-switch {
+      display: flex !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .contribute-source-button {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: .16rem !important;
+      color: var(--header-ink, #153f3a) !important;
+      background: rgba(255,255,255,.84) !important;
+      border: 1px solid rgba(23,79,70,.20) !important;
+      text-decoration: none !important;
+      font-weight: 780 !important;
+      box-shadow: none !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .contribute-source-button:hover,
+    html[data-installed-app-actions="below-mosaic"] .contribute-source-button:focus-visible {
+      border-color: var(--header-control, #174f46) !important;
+      color: var(--header-control, #174f46) !important;
+      background: #fff !important;
+    }
+    html[data-installed-app-actions="below-mosaic"] .contribute-source-icon {
+      display: block;
+      font-size: 1.25rem;
+      line-height: 1;
+      font-weight: 800;
+    }
+    @media (max-width: 430px) {
+      html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
+        gap: .18rem !important;
+        grid-template-columns: repeat(auto-fit, minmax(48px, 1fr)) !important;
+      }
+      html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * {
+        min-height: 54px !important;
+        padding: .28rem .14rem !important;
+        font-size: .60rem !important;
+      }
+    }
+  `;
+  document.head.append(style);
+  return style;
+}
+
+function ensureContributionButton(actions) {
+  if (!actions) return null;
+  let button = actions.querySelector("[data-contribute-source]");
+  if (button) return button;
+  button = document.createElement("a");
+  button.className = "contribute-source-button";
+  button.dataset.contributeSource = "true";
+  button.href = "./proponer-fuente.html";
+  button.setAttribute("aria-label", "Aportar una fuente cultural");
+  button.innerHTML = '<span class="contribute-source-icon" aria-hidden="true">＋</span><span>Aportar fuente</span>';
+  actions.append(button);
+  return button;
+}
+
+function removeContributionButton(actions) {
+  actions?.querySelector("[data-contribute-source]")?.remove();
 }
 
 function applyApprovedHeaderLayout() {
@@ -23,6 +128,7 @@ function applyApprovedHeaderLayout() {
   const icon = document.querySelector(".brand img");
   const actions = document.querySelector(".header-actions");
   const bottom = document.querySelector(".header-bottom");
+  const workbench = document.querySelector(".filter-workbench");
 
   if (icon) {
     const size = width <= 430 ? 64 : width <= 700 ? 72 : 104;
@@ -33,10 +139,23 @@ function applyApprovedHeaderLayout() {
 
   if (!actions) return;
 
+  if (isInstalledApp() && workbench) {
+    ensureInstalledAppActionStyles();
+    ensureContributionButton(actions);
+    document.documentElement.dataset.installedAppActions = "below-mosaic";
+    if (actions.parentElement !== workbench || actions !== workbench.firstElementChild) {
+      workbench.insertBefore(actions, workbench.firstElementChild);
+    }
+    if (bottom) bottom.hidden = true;
+    return;
+  }
+
+  delete document.documentElement.dataset.installedAppActions;
+  removeContributionButton(actions);
+
   if (useDirectMobileActions()) {
-    // On mobile/PWA the approved layout keeps the real top controls on the
-    // second header row, aligned to the right. This avoids the retired tabbar
-    // and prevents the controls from colliding with the larger brand icon.
+    const header = document.querySelector(".app-header");
+    if (header && bottom && actions.parentElement !== header) header.insertBefore(actions, bottom);
     actions.style.setProperty("position", "relative", "important");
     actions.style.setProperty("inset", "auto", "important");
     actions.style.setProperty("display", "flex", "important");
@@ -48,13 +167,11 @@ function applyApprovedHeaderLayout() {
     actions.style.setProperty("padding", "0", "important");
     actions.style.setProperty("gap", width <= 430 ? ".28rem" : ".38rem", "important");
     actions.style.setProperty("flex-wrap", "nowrap", "important");
-
     if (bottom) bottom.hidden = true;
   } else {
-    // Desktop/web: keep the approved compact group at the upper-right of the
-    // hero instead of leaving the controls under the brand copy.
     if (bottom) {
       bottom.hidden = false;
+      if (actions.parentElement !== bottom) bottom.append(actions);
       bottom.style.setProperty("position", "absolute", "important");
       bottom.style.setProperty("top", ".55rem", "important");
       bottom.style.setProperty("right", "max(1rem, calc((100vw - 1120px) / 2))", "important");
@@ -79,9 +196,6 @@ function applyApprovedHeaderLayout() {
 function ensureHeaderStylesheet() {
   const links = [...document.querySelectorAll('link[href*="header-redesign.css"]')];
   if (links.length) {
-    // The public shell already loads the canonical stylesheet in <head> before
-    // first paint. Never rewrite its href during hydration: even an equivalent
-    // assignment can trigger an unnecessary stylesheet reload in some clients.
     for (const extra of links.slice(1)) extra.remove();
     return;
   }
@@ -154,11 +268,9 @@ function buildHeaderStructure() {
     header.append(bottom);
   }
 
-  if (actions) {
-    if (useDirectMobileActions()) {
-      if (actions.parentElement !== header || actions.nextElementSibling !== bottom) {
-        header.insertBefore(actions, bottom);
-      }
+  if (actions && !isInstalledApp()) {
+    if (mobileHeaderQuery?.matches) {
+      if (actions.parentElement !== header || actions.nextElementSibling !== bottom) header.insertBefore(actions, bottom);
       bottom.hidden = true;
     } else {
       bottom.hidden = false;
@@ -196,7 +308,7 @@ function buildHeaderStructure() {
     header.append(art);
   }
 
-  header.dataset.headerRedesign = "hero-v5-approved-logo-actions";
+  header.dataset.headerRedesign = "hero-v6-installed-actions-below-mosaic";
   applyApprovedHeaderLayout();
 }
 
