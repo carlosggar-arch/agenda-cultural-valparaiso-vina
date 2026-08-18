@@ -28,6 +28,8 @@ on:
       - "app/scripts/test_portaltickets_editorial.py"
       - "app/scripts/refresh_quality_diagnostics.py"
       - "app/scripts/refresh_valpocultura_zero_recovery.py"
+      - "app/scripts/refresh_priority_zero_monitors.py"
+      - "app/scripts/test_priority_zero_monitors.py"
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
       - "app/scripts/test_source_coverage_overrides.py"
@@ -63,6 +65,8 @@ on:
       - "app/scripts/test_portaltickets_editorial.py"
       - "app/scripts/refresh_quality_diagnostics.py"
       - "app/scripts/refresh_valpocultura_zero_recovery.py"
+      - "app/scripts/refresh_priority_zero_monitors.py"
+      - "app/scripts/test_priority_zero_monitors.py"
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
       - "app/scripts/test_source_coverage_overrides.py"
@@ -112,6 +116,8 @@ jobs:
             app/scripts/test_portaltickets_editorial.py \
             app/scripts/refresh_quality_diagnostics.py \
             app/scripts/refresh_valpocultura_zero_recovery.py \
+            app/scripts/refresh_priority_zero_monitors.py \
+            app/scripts/test_priority_zero_monitors.py \
             app/scripts/apply_source_coverage_overrides.py \
             app/scripts/test_valpocultura_zero_recovery.py \
             app/scripts/test_source_coverage_overrides.py
@@ -125,11 +131,13 @@ jobs:
           python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
+          python app/scripts/test_priority_zero_monitors.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/fetch_high_value_sources.py --no-write
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
+          python app/scripts/refresh_priority_zero_monitors.py --no-write
           python app/scripts/refresh_quality_diagnostics.py --no-write
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
@@ -142,12 +150,14 @@ jobs:
           python app/scripts/refresh_museo_maritimo.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
+          python app/scripts/refresh_priority_zero_monitors.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/validate_high_value_refresh.py
           python app/scripts/test_high_value_sources.py
           python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
+          python app/scripts/test_priority_zero_monitors.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/apply_source_coverage_overrides.py
@@ -175,6 +185,7 @@ jobs:
             app/data/quality/museo-maritimo.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
+            app/data/quality/priority-zero-monitors.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
             app/data/quality/release-readiness.json \
