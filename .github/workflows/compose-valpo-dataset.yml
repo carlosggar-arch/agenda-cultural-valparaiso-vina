@@ -12,6 +12,8 @@ on:
       - "app/scripts/test_portaltickets_editorial.py"
       - "app/scripts/refresh_valpocultura_zero_recovery.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
+      - "app/scripts/apply_title_quality_guard.py"
+      - "app/scripts/test_title_quality_guard.py"
       - "app/scripts/refresh_quality_diagnostics.py"
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_source_coverage_overrides.py"
@@ -53,16 +55,20 @@ jobs:
             app/scripts/test_portaltickets_editorial.py \
             app/scripts/refresh_valpocultura_zero_recovery.py \
             app/scripts/test_valpocultura_zero_recovery.py \
+            app/scripts/apply_title_quality_guard.py \
+            app/scripts/test_title_quality_guard.py \
             app/scripts/refresh_quality_diagnostics.py \
             app/scripts/apply_source_coverage_overrides.py \
             app/scripts/test_source_coverage_overrides.py
           python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
+          python app/scripts/test_title_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
+          python app/scripts/apply_title_quality_guard.py --no-write
 
       - name: Compose all official and editorial supplements
         run: |
@@ -71,6 +77,7 @@ jobs:
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/validate_portaltickets_editorial.py
+          python app/scripts/apply_title_quality_guard.py
           python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/apply_source_coverage_overrides.py
           python - <<'PY'
