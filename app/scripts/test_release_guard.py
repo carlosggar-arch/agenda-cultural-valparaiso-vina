@@ -46,7 +46,7 @@ def check_first_render_contract() -> None:
     head = index.split("</head>", 1)[0]
     before_modules = index.split('<script type="module" src="./app.js"></script>', 1)[0]
 
-    assert '<link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols3" data-mobile-experience-styles>' in head, (
+    assert '<link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols4" data-mobile-experience-styles>' in head, (
         "mobile CSS must be render-blocking in <head>"
     )
     assert 'document.createElement("link")' not in mobile, "mobile CSS must never be injected after first paint"
