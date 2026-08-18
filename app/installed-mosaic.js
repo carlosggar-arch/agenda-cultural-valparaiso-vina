@@ -49,16 +49,14 @@ function ensureMosaicOverrideStyle() {
   return style;
 }
 
-function styleDivider(divider, margin) {
+function paintDivider(divider) {
   divider.style.setProperty("display", "block", "important");
   divider.style.setProperty("position", "relative", "important");
   divider.style.setProperty("z-index", "20", "important");
   divider.style.setProperty("box-sizing", "border-box", "important");
-  divider.style.setProperty("width", "calc(100% - 2rem)", "important");
   divider.style.setProperty("height", "12px", "important");
   divider.style.setProperty("min-height", "12px", "important");
   divider.style.setProperty("max-height", "12px", "important");
-  divider.style.setProperty("margin", margin, "important");
   divider.style.setProperty("border-radius", "5px", "important");
   divider.style.setProperty("background-color", "#0b7f93", "important");
   divider.style.setProperty("background-image", 'url("../assets/mosaic-top.png")', "important");
@@ -71,33 +69,51 @@ function styleDivider(divider, margin) {
   divider.style.setProperty("pointer-events", "none", "important");
 }
 
-function syncInstalledMosaic() {
+function styleInstalledDivider(divider, margin) {
+  paintDivider(divider);
+  divider.style.setProperty("width", "calc(100vw - 2rem)", "important");
+  divider.style.setProperty("max-width", "none", "important");
+  divider.style.setProperty("left", "50%", "important");
+  divider.style.setProperty("transform", "translateX(-50%)", "important");
+  divider.style.setProperty("margin", margin, "important");
+}
+
+function styleWebContentDivider(divider, workbench) {
+  paintDivider(divider);
+  const width = Math.max(0, Math.round(workbench.getBoundingClientRect().width));
+  divider.style.setProperty("width", width ? `${width}px` : "100%", "important");
+  divider.style.setProperty("max-width", "100%", "important");
+  divider.style.setProperty("left", "auto", "important");
+  divider.style.setProperty("transform", "none", "important");
+  divider.style.setProperty("margin", ".35rem auto .42rem", "important");
+}
+
+function syncMosaics() {
   let topDivider = document.querySelector("[data-installed-mosaic-divider]");
   let contentDivider = document.querySelector("[data-installed-mosaic-divider-content]");
-
-  if (!isInstalledMobile()) {
-    delete document.documentElement.dataset.installedRealMosaic;
-    topDivider?.remove();
-    contentDivider?.remove();
-    return;
-  }
-
+  const installed = isInstalledMobile();
   const header = document.querySelector(".app-header");
   const workbench = document.querySelector(".filter-workbench");
-  if (!header || !workbench) return;
+  if (!workbench) return;
 
-  ensureMosaicOverrideStyle();
-  document.documentElement.dataset.installedRealMosaic = "true";
+  if (installed) {
+    if (!header) return;
+    ensureMosaicOverrideStyle();
+    document.documentElement.dataset.installedRealMosaic = "true";
 
-  if (!topDivider) {
-    topDivider = document.createElement("div");
-    topDivider.dataset.installedMosaicDivider = "true";
-    topDivider.setAttribute("aria-hidden", "true");
-    header.insertAdjacentElement("afterend", topDivider);
-  } else if (topDivider.previousElementSibling !== header) {
-    header.insertAdjacentElement("afterend", topDivider);
+    if (!topDivider) {
+      topDivider = document.createElement("div");
+      topDivider.dataset.installedMosaicDivider = "true";
+      topDivider.setAttribute("aria-hidden", "true");
+      header.insertAdjacentElement("afterend", topDivider);
+    } else if (topDivider.previousElementSibling !== header) {
+      header.insertAdjacentElement("afterend", topDivider);
+    }
+    styleInstalledDivider(topDivider, "0 0 1px");
+  } else {
+    delete document.documentElement.dataset.installedRealMosaic;
+    topDivider?.remove();
   }
-  styleDivider(topDivider, "0 auto 1px");
 
   if (!contentDivider) {
     contentDivider = document.createElement("div");
@@ -107,14 +123,16 @@ function syncInstalledMosaic() {
   } else if (contentDivider.previousElementSibling !== workbench) {
     workbench.insertAdjacentElement("afterend", contentDivider);
   }
-  styleDivider(contentDivider, ".22rem auto .26rem");
+
+  if (installed) styleInstalledDivider(contentDivider, ".22rem 0 .26rem");
+  else styleWebContentDivider(contentDivider, workbench);
 }
 
-syncInstalledMosaic();
-requestAnimationFrame(syncInstalledMosaic);
-setTimeout(syncInstalledMosaic, 250);
-window.addEventListener("resize", syncInstalledMosaic);
-window.addEventListener("orientationchange", syncInstalledMosaic);
-window.addEventListener("appinstalled", syncInstalledMosaic);
-standaloneQuery?.addEventListener?.("change", syncInstalledMosaic);
-mobileQuery?.addEventListener?.("change", syncInstalledMosaic);
+syncMosaics();
+requestAnimationFrame(syncMosaics);
+setTimeout(syncMosaics, 250);
+window.addEventListener("resize", syncMosaics);
+window.addEventListener("orientationchange", syncMosaics);
+window.addEventListener("appinstalled", syncMosaics);
+standaloneQuery?.addEventListener?.("change", syncMosaics);
+mobileQuery?.addEventListener?.("change", syncMosaics);
