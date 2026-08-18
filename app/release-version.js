@@ -1,5 +1,5 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  const RELEASE = 83;
+  const RELEASE = 84;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
