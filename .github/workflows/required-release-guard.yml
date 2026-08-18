@@ -31,7 +31,8 @@ jobs:
             app/scripts/test_multi_city_ui.py \
             app/scripts/test_contextual_filters.py \
             app/scripts/test_first_render_browser.py \
-            app/scripts/test_pwa_install_browser.py
+            app/scripts/test_pwa_install_browser.py \
+            app/scripts/test_multicity_source_registry_coverage.py
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/release-version.js
@@ -45,6 +46,7 @@ jobs:
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_contextual_filters.py
           python app/scripts/test_first_render_browser.py
+          python app/scripts/test_multicity_source_registry_coverage.py
 
       - name: Note non-blocking full browser coverage
         run: |
