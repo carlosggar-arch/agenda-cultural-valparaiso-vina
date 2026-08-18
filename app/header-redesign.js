@@ -6,6 +6,12 @@ const CITY_LABELS = {
 };
 
 const TAGLINE = BRAND_TAGLINE;
+const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
+const mobileHeaderQuery = window.matchMedia?.("(max-width: 700px)");
+
+function useDirectMobileActions() {
+  return Boolean(standaloneQuery?.matches || window.navigator.standalone === true || mobileHeaderQuery?.matches);
+}
 
 function ensureHeaderStylesheet() {
   if (document.querySelector('link[href="./header-redesign.css"]')) return;
@@ -71,7 +77,21 @@ function buildHeaderStructure() {
     bottom.className = "header-bottom";
     header.append(bottom);
   }
-  if (actions && actions.parentElement !== bottom) bottom.append(actions);
+
+  if (actions) {
+    if (useDirectMobileActions()) {
+      // Mobile/PWA: preserve the original HTML placement that is already
+      // correct on first paint. Moving the controls into header-bottom makes
+      // them overflow outside the narrow viewport after hydration.
+      if (actions.parentElement !== header || actions.nextElementSibling !== bottom) {
+        header.insertBefore(actions, bottom);
+      }
+      bottom.hidden = true;
+    } else {
+      bottom.hidden = false;
+      if (actions.parentElement !== bottom) bottom.append(actions);
+    }
+  }
 
   if (actions && !actions.querySelector("[data-header-search-toggle]")) {
     const toggle = document.createElement("button");
@@ -103,7 +123,7 @@ function buildHeaderStructure() {
     header.append(art);
   }
 
-  header.dataset.headerRedesign = "hero-v3";
+  header.dataset.headerRedesign = "hero-v4-mobile-direct-actions";
 }
 
 function applyHeaderIdentity() {
@@ -124,6 +144,11 @@ new MutationObserver(applyHeaderIdentity).observe(document.documentElement, {
   attributes: true,
   attributeFilter: ["data-city"],
 });
+
+window.addEventListener("resize", applyHeaderIdentity);
+window.addEventListener("orientationchange", applyHeaderIdentity);
+standaloneQuery?.addEventListener?.("change", applyHeaderIdentity);
+mobileHeaderQuery?.addEventListener?.("change", applyHeaderIdentity);
 
 document.addEventListener("pointerdown", (event) => {
   const popover = document.querySelector("[data-header-search-popover]");

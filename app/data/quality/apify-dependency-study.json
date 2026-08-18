@@ -1,25 +1,25 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T22:53:32.948592+00:00",
-  "reference_date": "2026-08-17",
+  "generated_at": "2026-08-18T00:34:28.630248+00:00",
+  "reference_date": "2026-08-18",
   "study_started_on": "2026-08-17",
   "observation_window_days": 28,
   "minimum_fresh_instagram_snapshots": 4,
-  "days_observed": 1,
+  "days_observed": 2,
   "fresh_instagram_snapshots_observed": 1,
   "status": "collecting",
   "safety_rule": "No source is automatically removed from Instagram; any Instagram-only or Instagram-lead event protects the source, and reused snapshots do not count as fresh evidence.",
   "current": {
-    "date": "2026-08-17",
-    "total_published_events": 108,
+    "date": "2026-08-18",
+    "total_published_events": 110,
     "instagram_capable_sources": 34,
-    "instagram_source_events": 97,
+    "instagram_source_events": 98,
     "instagram_only_events": 13,
-    "non_instagram_supported_events": 84,
+    "non_instagram_supported_events": 85,
     "instagram_state_updated_at": "2026-08-17T09:35:55.185946+00:00",
     "apify": {
       "status": "cap_reached",
-      "usage_usd": 4.540092655643334,
+      "usage_usd": 4.54014883925579,
       "cap_usd": 3.5,
       "paid_refresh_triggered": false
     },
@@ -217,8 +217,8 @@
       {
         "id": "museo_fonck",
         "name": "Museo Fonck",
-        "published_events": 0,
-        "direct_web": 0,
+        "published_events": 1,
+        "direct_web": 1,
         "non_instagram_support": 0,
         "instagram_only": 0,
         "unknown": 0,
@@ -370,7 +370,7 @@
     {
       "id": "balmaceda_arte_joven_valpo",
       "name": "Balmaceda Arte Joven Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -385,7 +385,7 @@
     {
       "id": "casa_cultura_valparaiso",
       "name": "Casa de la Cultura de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -400,7 +400,7 @@
     {
       "id": "casa_prisma_valpo",
       "name": "Casa Prisma Valpo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -415,7 +415,7 @@
     {
       "id": "centex",
       "name": "CENTEX",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -430,7 +430,7 @@
     {
       "id": "centro_extension_duoc_valpo",
       "name": "Centro de Extensión Duoc UC Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 1,
@@ -445,7 +445,7 @@
     {
       "id": "cinearte_vina",
       "name": "Cine Arte Viña del Mar",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 17,
@@ -460,7 +460,7 @@
     {
       "id": "compania_la_paila",
       "name": "Compañía La Paila",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -475,7 +475,7 @@
     {
       "id": "cultura_pucv",
       "name": "Cultura PUCV",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 1,
@@ -490,7 +490,7 @@
     {
       "id": "cultura_usm",
       "name": "Cultura USM",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 10,
@@ -505,7 +505,7 @@
     {
       "id": "culturasvina",
       "name": "Culturas Viña",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 12,
@@ -520,7 +520,7 @@
     {
       "id": "del_barrio_valpo",
       "name": "Del Barrio Valpo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -535,7 +535,7 @@
     {
       "id": "ecoliderazgo",
       "name": "EcoLiderazgo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -550,7 +550,7 @@
     {
       "id": "el_pasaje_cafe_vina",
       "name": "El Pasaje Café Viña",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -565,7 +565,7 @@
     {
       "id": "estadio_espanol_recreo",
       "name": "Estadio Español Recreo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -580,7 +580,7 @@
     {
       "id": "estrella_negra_jazz",
       "name": "Estrella Negra Club de Jazz",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -595,7 +595,7 @@
     {
       "id": "insomniacine",
       "name": "Insomnia Cine",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 10,
@@ -610,7 +610,7 @@
     {
       "id": "la_escala_galeria",
       "name": "La Escala Galería",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -625,7 +625,7 @@
     {
       "id": "masita_rica",
       "name": "Masita Rica",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -640,7 +640,7 @@
     {
       "id": "mhnvalpo",
       "name": "Museo de Historia Natural de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 8,
@@ -655,10 +655,10 @@
     {
       "id": "museo_fonck",
       "name": "Museo Fonck",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 0,
+      "distinct_events_observed": 1,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -670,7 +670,7 @@
     {
       "id": "museo_palacio_rioja",
       "name": "Museo Palacio Rioja",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 2,
@@ -685,7 +685,7 @@
     {
       "id": "museobaburizza",
       "name": "Museo Baburizza",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 2,
@@ -700,10 +700,10 @@
     {
       "id": "pcdv",
       "name": "Parque Cultural de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 3,
+      "distinct_events_observed": 4,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -715,7 +715,7 @@
     {
       "id": "sala_secreta",
       "name": "Sala Secreta",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -730,7 +730,7 @@
     {
       "id": "sala_teatro_ipa",
       "name": "Sala Teatro IPA",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -745,7 +745,7 @@
     {
       "id": "teatro_desastre",
       "name": "Teatro Desastre",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -760,7 +760,7 @@
     {
       "id": "teatro_diminuto",
       "name": "Teatro Diminuto",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -775,7 +775,7 @@
     {
       "id": "teatro_la_peste",
       "name": "Teatro La Peste",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -790,7 +790,7 @@
     {
       "id": "teatro_municipal_valparaiso",
       "name": "Teatro Municipal de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -805,7 +805,7 @@
     {
       "id": "teatro_municipal_vina",
       "name": "Teatro Municipal de Viña del Mar",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 10,
@@ -820,7 +820,7 @@
     {
       "id": "teatromuseo",
       "name": "TeatroMuseo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 2,
@@ -835,7 +835,7 @@
     {
       "id": "trotamundosvalpo",
       "name": "Trotamundos Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 14,
@@ -850,7 +850,7 @@
     {
       "id": "valparaiso_profundo",
       "name": "Valparaíso Profundo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -865,7 +865,7 @@
     {
       "id": "valpocultura",
       "name": "Valpo Cultura",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 5,

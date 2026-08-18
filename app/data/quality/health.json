@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T22:53:32+00:00",
+  "generated_at": "2026-08-18T00:34:28+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -10,21 +10,20 @@
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
-        "verified_corrections_applied",
         "zero_event_sources"
       ],
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T18:43:19-04:00",
-        "generated_age_hours": 0.2
+        "generated_at": "2026-08-17T20:29:19-04:00",
+        "generated_age_hours": 0.1
       },
       "counts": {
-        "total_events": 108,
-        "schedule_expected_events": 104,
-        "dated_events": 104,
-        "timed_events": 103,
-        "relevant_image_events": 86,
+        "total_events": 110,
+        "schedule_expected_events": 106,
+        "dated_events": 106,
+        "timed_events": 105,
+        "relevant_image_events": 94,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -32,8 +31,8 @@
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 99.0,
-        "relevant_image_pct": 79.6
+        "time_pct": 99.1,
+        "relevant_image_pct": 85.5
       },
       "samples": {
         "missing_time": [
@@ -185,9 +184,9 @@
             "city": "Valparaíso",
             "primary_recovery_attempted": null,
             "primary_recovery_sessions": null,
-            "secondary_probe_status": null,
-            "secondary_probe_current_candidates": null,
-            "secondary_probe_reason": null
+            "secondary_probe_status": "no_current_candidates",
+            "secondary_probe_current_candidates": 0,
+            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
           }
         ],
         "indirect_source_warnings": [
@@ -235,33 +234,34 @@
             ]
           }
         ],
-        "checked_zero_sources": []
+        "checked_zero_sources": [
+          {
+            "id": "valparaiso_profundo",
+            "name": "Valparaíso Profundo",
+            "city": "Valparaíso",
+            "primary_recovery_attempted": null,
+            "primary_recovery_sessions": null,
+            "secondary_probe_status": "no_current_candidates",
+            "secondary_probe_current_candidates": 0,
+            "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates"
+          }
+        ]
       },
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 15,
-        "venue_hours_enriched": 4,
-        "removed_title_quality": 1,
+        "visit_hours_enriched": 0,
+        "venue_hours_enriched": 1,
+        "removed_title_quality": 2,
         "removed_location_mismatch": 0,
-        "removed_deadline_only_call": 1,
-        "removed_retrospective_post": 1
+        "removed_deadline_only_call": 0,
+        "removed_retrospective_post": 0
       },
       "publication_corrections": {
         "checked_at": "2026-08-17",
         "active_corrections": 1,
-        "applied_count": 1,
-        "applied": [
-          {
-            "correction_id": "baburizza_requiem_2026_end",
-            "event_id": "agenda_c16d049f287e6bc4922b56de",
-            "title": "Museo Baburizza – «Requiem para Pianos»",
-            "action": "drop_after_end",
-            "official_end_date": "2026-08-06",
-            "official_url": "https://www.museobaburizza.cl/agenda/",
-            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
-          }
-        ]
+        "applied_count": 0,
+        "applied": []
       }
     },
     "gijon": {
@@ -276,7 +276,7 @@
         "publication_date": "2026-08-18",
         "publication_age_days": 0,
         "generated_at": "2026-08-18T00:12:03+02:00",
-        "generated_age_hours": 0.7
+        "generated_age_hours": 2.4
       },
       "counts": {
         "total_events": 106,
@@ -659,7 +659,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.540092655643334,
+    "usage_usd": 4.54014883925579,
     "remaining_usd": 0.0
   }
 }

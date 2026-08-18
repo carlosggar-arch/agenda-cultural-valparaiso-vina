@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "started_on": "2026-08-17",
-  "updated_at": "2026-08-17T22:53:32.948592+00:00",
+  "updated_at": "2026-08-18T00:34:28.630248+00:00",
   "observation_window_days": 28,
   "minimum_fresh_instagram_snapshots": 4,
   "snapshots": [
@@ -361,6 +361,363 @@
           "web_fetchable": true
         }
       ]
+    },
+    {
+      "date": "2026-08-18",
+      "total_published_events": 110,
+      "instagram_capable_sources": 34,
+      "instagram_source_events": 98,
+      "instagram_only_events": 13,
+      "non_instagram_supported_events": 85,
+      "instagram_state_updated_at": "2026-08-17T09:35:55.185946+00:00",
+      "apify": {
+        "status": "cap_reached",
+        "usage_usd": 4.54014883925579,
+        "cap_usd": 3.5,
+        "paid_refresh_triggered": false
+      },
+      "sources": [
+        {
+          "id": "balmaceda_arte_joven_valpo",
+          "name": "Balmaceda Arte Joven Valparaíso",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "casa_cultura_valparaiso",
+          "name": "Casa de la Cultura de Valparaíso",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "casa_prisma_valpo",
+          "name": "Casa Prisma Valpo",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "centex",
+          "name": "CENTEX",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "centro_extension_duoc_valpo",
+          "name": "Centro de Extensión Duoc UC Valparaíso",
+          "published_events": 1,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 1,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "cinearte_vina",
+          "name": "Cine Arte Viña del Mar",
+          "published_events": 17,
+          "direct_web": 17,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "compania_la_paila",
+          "name": "Compañía La Paila",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "cultura_pucv",
+          "name": "Cultura PUCV",
+          "published_events": 1,
+          "direct_web": 0,
+          "non_instagram_support": 1,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "cultura_usm",
+          "name": "Cultura USM",
+          "published_events": 10,
+          "direct_web": 9,
+          "non_instagram_support": 0,
+          "instagram_only": 1,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "culturasvina",
+          "name": "Culturas Viña",
+          "published_events": 12,
+          "direct_web": 10,
+          "non_instagram_support": 0,
+          "instagram_only": 2,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "del_barrio_valpo",
+          "name": "Del Barrio Valpo",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "ecoliderazgo",
+          "name": "EcoLiderazgo",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "el_pasaje_cafe_vina",
+          "name": "El Pasaje Café Viña",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "estadio_espanol_recreo",
+          "name": "Estadio Español Recreo",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "estrella_negra_jazz",
+          "name": "Estrella Negra Club de Jazz",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "insomniacine",
+          "name": "Insomnia Cine",
+          "published_events": 10,
+          "direct_web": 0,
+          "non_instagram_support": 10,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "la_escala_galeria",
+          "name": "La Escala Galería",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "masita_rica",
+          "name": "Masita Rica",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "mhnvalpo",
+          "name": "Museo de Historia Natural de Valparaíso",
+          "published_events": 8,
+          "direct_web": 8,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "museo_fonck",
+          "name": "Museo Fonck",
+          "published_events": 1,
+          "direct_web": 1,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "museo_palacio_rioja",
+          "name": "Museo Palacio Rioja",
+          "published_events": 2,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 2,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "museobaburizza",
+          "name": "Museo Baburizza",
+          "published_events": 2,
+          "direct_web": 2,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "pcdv",
+          "name": "Parque Cultural de Valparaíso",
+          "published_events": 3,
+          "direct_web": 3,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "sala_secreta",
+          "name": "Sala Secreta",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "sala_teatro_ipa",
+          "name": "Sala Teatro IPA",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "teatro_desastre",
+          "name": "Teatro Desastre",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "teatro_diminuto",
+          "name": "Teatro Diminuto",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "teatro_la_peste",
+          "name": "Teatro La Peste",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "teatro_municipal_valparaiso",
+          "name": "Teatro Municipal de Valparaíso",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "teatro_municipal_vina",
+          "name": "Teatro Municipal de Viña del Mar",
+          "published_events": 10,
+          "direct_web": 7,
+          "non_instagram_support": 0,
+          "instagram_only": 3,
+          "unknown": 0,
+          "web_fetchable": true
+        },
+        {
+          "id": "teatromuseo",
+          "name": "TeatroMuseo",
+          "published_events": 2,
+          "direct_web": 0,
+          "non_instagram_support": 2,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "trotamundosvalpo",
+          "name": "Trotamundos Valparaíso",
+          "published_events": 14,
+          "direct_web": 0,
+          "non_instagram_support": 13,
+          "instagram_only": 1,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "valparaiso_profundo",
+          "name": "Valparaíso Profundo",
+          "published_events": 0,
+          "direct_web": 0,
+          "non_instagram_support": 0,
+          "instagram_only": 0,
+          "unknown": 0,
+          "web_fetchable": false
+        },
+        {
+          "id": "valpocultura",
+          "name": "Valpo Cultura",
+          "published_events": 5,
+          "direct_web": 2,
+          "non_instagram_support": 0,
+          "instagram_only": 3,
+          "unknown": 0,
+          "web_fetchable": true
+        }
+      ]
     }
   ],
   "events": {
@@ -371,7 +728,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "93e171d8e818997c72f8": {
@@ -381,7 +738,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "454d23a77feb245744f5": {
@@ -391,7 +748,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "e9ee5296406267dac82a": {
@@ -401,7 +758,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "13451fbfc05cb379fc69": {
@@ -411,7 +768,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "f8505f3829587be384e1": {
@@ -421,7 +778,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "a863f37137236bd9ddb6": {
@@ -431,7 +788,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "947d47a317fa224a79a7": {
@@ -441,7 +798,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "bbec42318d9a7ad63640": {
@@ -451,7 +808,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "67e93cf8578177244c01": {
@@ -461,7 +818,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "ddb82a28b0538f155c82": {
@@ -471,7 +828,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "07337554d1b2dcec6aa5": {
@@ -481,7 +838,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "87db71e4fd98f8447c9d": {
@@ -491,7 +848,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "626b4d8f27f24a70e48d": {
@@ -501,7 +858,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "a5f955f2894408817e44": {
@@ -511,7 +868,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "0808aacfdcca64fb5e5b": {
@@ -521,7 +878,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "f5ec6ea93d95a73f8cc1": {
@@ -531,7 +888,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "12c3d0c0bb9f6f7f0ac4": {
@@ -541,7 +898,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "127d6f8285edb1ce85fa": {
@@ -551,7 +908,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "58204d69828e1384c193": {
@@ -561,7 +918,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "5f4f571cdfef3f15c776": {
@@ -571,7 +928,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "6aac7b29c25ebe98c0f9": {
@@ -581,7 +938,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "25c8c16958c0c9c25561": {
@@ -591,7 +948,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "e3f8b4a2a879a1871da8": {
@@ -601,7 +958,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "b927ee822db7669eb801": {
@@ -611,7 +968,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "625d52f601586ff8239c": {
@@ -621,7 +978,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "1a98506db2f01170f5c1": {
@@ -631,7 +988,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "f3db7346ea9f5671e9d1": {
@@ -641,7 +998,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "721a194ea74b5306b4a9": {
@@ -651,7 +1008,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "c909c78630f20d769fc0": {
@@ -661,7 +1018,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "a262f40bfe35b1c00bf5": {
@@ -671,7 +1028,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "f43a846f041e10133886": {
@@ -681,7 +1038,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "406189bfe5c8903d8335": {
@@ -701,7 +1058,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "ba9d5f221f8fc944eba7": {
@@ -711,7 +1068,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "ef979b008003197e1832": {
@@ -721,7 +1078,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "03141c69844ef9921344": {
@@ -731,7 +1088,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "d19c5ff18ec22e630cd3": {
@@ -741,7 +1098,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "06df192ecd39ce555a85": {
@@ -751,7 +1108,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "598f31f585367f2a712c": {
@@ -761,7 +1118,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "e2e8c1b85727e4e7733c": {
@@ -771,7 +1128,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "725bda9fe25f11811bc6": {
@@ -781,7 +1138,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "613c096bcbb9a131c764": {
@@ -791,7 +1148,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "cf02e1e8def4518d828b": {
@@ -801,7 +1158,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "6c79edd5006016337952": {
@@ -811,7 +1168,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "5558cca169bce176c587": {
@@ -821,7 +1178,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "6b84a9f0c2a3ff690c23": {
@@ -831,7 +1188,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "44b1349622ba215bcdb7": {
@@ -841,7 +1198,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "ba96476365ba9ff6ec89": {
@@ -851,7 +1208,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "5535c749364fdb283160": {
@@ -861,7 +1218,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "22f8e139c856a58fabbc": {
@@ -871,7 +1228,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "f880a43ffdd3095e89de": {
@@ -881,7 +1238,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "d354412291e32b26aa6a": {
@@ -891,7 +1248,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "50c27ecbfc0642853018": {
@@ -901,7 +1258,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "30d37fed6c3695f25529": {
@@ -911,7 +1268,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "69d703fafd7f2bffd1b5": {
@@ -921,7 +1278,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "3476a6b270c611d8bba4": {
@@ -931,7 +1288,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "ff063e949e243a178198": {
@@ -941,7 +1298,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "e3fe768b997968a5a329": {
@@ -951,7 +1308,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "f2f0b59b152fa76b68d8": {
@@ -961,7 +1318,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "2eedfbc955fe0bf7fdc8": {
@@ -971,7 +1328,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "ffaddfff7c9dea953423": {
@@ -981,7 +1338,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "c80f736c4a9cc2e1dcc4": {
@@ -991,7 +1348,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "b9c4ce0359360ee9c6e1": {
@@ -1001,7 +1358,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "c86f23999ba5465c2a14": {
@@ -1011,7 +1368,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "4b5c7b056b0d930c7b44": {
@@ -1021,7 +1378,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "5d83bb330e931a0106ab": {
@@ -1031,7 +1388,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "902c47f443000c64df2e": {
@@ -1041,7 +1398,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "cae4e21b00b78f48405f": {
@@ -1051,7 +1408,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "4e805189f6b2cb19ad49": {
@@ -1061,7 +1418,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "f5bc913563a1d19379d8": {
@@ -1071,7 +1428,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "43dbba052ca003a4e942": {
@@ -1081,7 +1438,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "51b3fde231acb4459721": {
@@ -1091,7 +1448,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "08e8ae967f72de4127f6": {
@@ -1101,7 +1458,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "0e2615a9ad722fe56de3": {
@@ -1111,7 +1468,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "4b708125ba5ca206a5eb": {
@@ -1121,7 +1478,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "4ac1c66711ab68b9687d": {
@@ -1131,7 +1488,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "430bbc1543c87477ed65": {
@@ -1141,7 +1498,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "106863111bb45674173f": {
@@ -1151,7 +1508,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "f0efe88cacbb51593876": {
@@ -1161,7 +1518,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "482b7d807ddb48c240d0": {
@@ -1171,7 +1528,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "907f45d777ccde1492db": {
@@ -1181,7 +1538,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "8b1c094213d71bec5019": {
@@ -1191,7 +1548,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "ad8a68bb14658ff8dadf": {
@@ -1201,7 +1558,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "e53cea344d68a3dc37e2": {
@@ -1211,7 +1568,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "703aee37ee58a0f6049f": {
@@ -1221,7 +1578,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "7e671adc366a6397d1dc": {
@@ -1231,7 +1588,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "instagram_only"
     },
     "3302a69ef6ac45c9019d": {
@@ -1241,7 +1598,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "b1369f129201db73f140": {
@@ -1251,7 +1608,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "non_instagram_support"
     },
     "31e8eac03ba8ae359777": {
@@ -1261,7 +1618,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "1699a09baa2229c0fc72": {
@@ -1271,7 +1628,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "f482bd3b0aa6d5f55853": {
@@ -1281,7 +1638,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "593e2b9d1ce6df9644f8": {
@@ -1291,7 +1648,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "61d2029ac415259e0b10": {
@@ -1301,7 +1658,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "55620513253eeea0d196": {
@@ -1311,7 +1668,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "716f8c739fcdd92722e0": {
@@ -1321,7 +1678,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     },
     "fda03de5259e0b3c32a7": {
@@ -1331,7 +1688,27 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": null,
       "first_non_instagram_supported": "2026-08-17",
-      "last_seen": "2026-08-17",
+      "last_seen": "2026-08-18",
+      "latest_evidence": "direct_web"
+    },
+    "da31060645170f588d98": {
+      "source_id": "pcdv",
+      "title": "Danza Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso",
+      "event_date": "2026-08-19",
+      "first_seen": "2026-08-18",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-18",
+      "last_seen": "2026-08-18",
+      "latest_evidence": "direct_web"
+    },
+    "71101364c25afdb162ef": {
+      "source_id": "museo_fonck",
+      "title": "Las aves serán las protagonistas de los VCC de agosto y septiembre en Museo Fonck",
+      "event_date": "2026-08-28",
+      "first_seen": "2026-08-18",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-18",
+      "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
     }
   },
@@ -1339,7 +1716,7 @@
     {
       "id": "balmaceda_arte_joven_valpo",
       "name": "Balmaceda Arte Joven Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1354,7 +1731,7 @@
     {
       "id": "casa_cultura_valparaiso",
       "name": "Casa de la Cultura de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1369,7 +1746,7 @@
     {
       "id": "casa_prisma_valpo",
       "name": "Casa Prisma Valpo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1384,7 +1761,7 @@
     {
       "id": "centex",
       "name": "CENTEX",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1399,7 +1776,7 @@
     {
       "id": "centro_extension_duoc_valpo",
       "name": "Centro de Extensión Duoc UC Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 1,
@@ -1414,7 +1791,7 @@
     {
       "id": "cinearte_vina",
       "name": "Cine Arte Viña del Mar",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 17,
@@ -1429,7 +1806,7 @@
     {
       "id": "compania_la_paila",
       "name": "Compañía La Paila",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1444,7 +1821,7 @@
     {
       "id": "cultura_pucv",
       "name": "Cultura PUCV",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 1,
@@ -1459,7 +1836,7 @@
     {
       "id": "cultura_usm",
       "name": "Cultura USM",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 10,
@@ -1474,7 +1851,7 @@
     {
       "id": "culturasvina",
       "name": "Culturas Viña",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 12,
@@ -1489,7 +1866,7 @@
     {
       "id": "del_barrio_valpo",
       "name": "Del Barrio Valpo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1504,7 +1881,7 @@
     {
       "id": "ecoliderazgo",
       "name": "EcoLiderazgo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1519,7 +1896,7 @@
     {
       "id": "el_pasaje_cafe_vina",
       "name": "El Pasaje Café Viña",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1534,7 +1911,7 @@
     {
       "id": "estadio_espanol_recreo",
       "name": "Estadio Español Recreo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1549,7 +1926,7 @@
     {
       "id": "estrella_negra_jazz",
       "name": "Estrella Negra Club de Jazz",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1564,7 +1941,7 @@
     {
       "id": "insomniacine",
       "name": "Insomnia Cine",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 10,
@@ -1579,7 +1956,7 @@
     {
       "id": "la_escala_galeria",
       "name": "La Escala Galería",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1594,7 +1971,7 @@
     {
       "id": "masita_rica",
       "name": "Masita Rica",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1609,7 +1986,7 @@
     {
       "id": "mhnvalpo",
       "name": "Museo de Historia Natural de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 8,
@@ -1624,10 +2001,10 @@
     {
       "id": "museo_fonck",
       "name": "Museo Fonck",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 0,
+      "distinct_events_observed": 1,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -1639,7 +2016,7 @@
     {
       "id": "museo_palacio_rioja",
       "name": "Museo Palacio Rioja",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 2,
@@ -1654,7 +2031,7 @@
     {
       "id": "museobaburizza",
       "name": "Museo Baburizza",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 2,
@@ -1669,10 +2046,10 @@
     {
       "id": "pcdv",
       "name": "Parque Cultural de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 3,
+      "distinct_events_observed": 4,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -1684,7 +2061,7 @@
     {
       "id": "sala_secreta",
       "name": "Sala Secreta",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1699,7 +2076,7 @@
     {
       "id": "sala_teatro_ipa",
       "name": "Sala Teatro IPA",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1714,7 +2091,7 @@
     {
       "id": "teatro_desastre",
       "name": "Teatro Desastre",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1729,7 +2106,7 @@
     {
       "id": "teatro_diminuto",
       "name": "Teatro Diminuto",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1744,7 +2121,7 @@
     {
       "id": "teatro_la_peste",
       "name": "Teatro La Peste",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1759,7 +2136,7 @@
     {
       "id": "teatro_municipal_valparaiso",
       "name": "Teatro Municipal de Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1774,7 +2151,7 @@
     {
       "id": "teatro_municipal_vina",
       "name": "Teatro Municipal de Viña del Mar",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 10,
@@ -1789,7 +2166,7 @@
     {
       "id": "teatromuseo",
       "name": "TeatroMuseo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 2,
@@ -1804,7 +2181,7 @@
     {
       "id": "trotamundosvalpo",
       "name": "Trotamundos Valparaíso",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 14,
@@ -1819,7 +2196,7 @@
     {
       "id": "valparaiso_profundo",
       "name": "Valparaíso Profundo",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": false,
       "distinct_events_observed": 0,
@@ -1834,7 +2211,7 @@
     {
       "id": "valpocultura",
       "name": "Valpo Cultura",
-      "observed_days": 1,
+      "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
       "distinct_events_observed": 5,
