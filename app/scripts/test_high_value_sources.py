@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from fetch_high_value_sources import extract_barjola, extract_portal, merge
+from fetch_high_value_sources import extract_barjola, extract_laboral, merge
 
 
 def source(source_id: str, dataset: str, city: str, timezone: str, currency: str, category_id: str, category_label: str) -> dict:
@@ -29,26 +29,20 @@ def future_year(timezone: str) -> int:
     return datetime.now(ZoneInfo(timezone)).year + 1
 
 
-def test_portal_strict_geography() -> None:
-    src = source("portaltickets_valparaiso", "valparaiso", "Valparaíso", "America/Santiago", "CLP", "cultura", "Cultura")
+def test_laboral_requires_source_context_and_explicit_session() -> None:
+    src = source("laboral_cinemateca", "gijon", "Gijón", "Europe/Madrid", "EUR", "cine", "Cine")
     year = future_year(src["timezone"])
     rows = [
-        "CONCIERTO A",
-        f"Viernes 21 de agosto {year}, 19:00",
-        "Teatro Puerto, Valparaíso",
-        "TICKETS AQUÍ",
-        "CONCIERTO B",
-        f"Viernes 21 de agosto {year}, 20:00",
-        "Centro Cultural San Antonio, San Antonio",
-        "TICKETS AQUÍ",
-        "CONCIERTO C",
-        f"Sábado 22 de agosto {year}, 21:00",
-        "Sala Viña, Viña del Mar",
+        "Laboral Cinemateca de Gijón/Xixón",
+        f"1 de septiembre {year} 19:00 h. Estaciones. Película de prueba",
+        f"2 de septiembre {year} 17:30 h. Infantil y juvenil. Cine familiar de prueba",
     ]
-    events = extract_portal(src, rows)
+    events = extract_laboral(src, rows)
     assert len(events) == 2, events
-    assert {item["location"]["city"] for item in events} == {"Valparaíso", "Viña del Mar"}
-    assert all("San Antonio" not in item["location"]["venue"] for item in events)
+    assert all(item["location"]["city"] == "Gijón" for item in events)
+    assert all(item["location"]["venue"] == "Laboral Ciudad de la Cultura" for item in events)
+    assert events[0]["title"] == "Película de prueba"
+    assert extract_laboral(src, [f"1 de septiembre {year} 19:00 h. Otro evento", "Gijón/Xixón"]) == []
 
 
 def test_barjola_date_ranges() -> None:
@@ -81,7 +75,7 @@ def test_merge_is_idempotent() -> None:
 
 
 def main() -> None:
-    test_portal_strict_geography()
+    test_laboral_requires_source_context_and_explicit_session()
     test_barjola_date_ranges()
     test_merge_is_idempotent()
     print("HIGH_VALUE_SOURCE_TESTS_OK")
