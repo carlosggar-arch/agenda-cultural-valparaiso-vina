@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-18T06:49:16-04:00",
+  "source_id": "museo_maritimo_nacional",
+  "source_name": "Museo Marítimo Nacional",
+  "source_role": "official_primary_source",
+  "state": "official_program_detected_no_explicit_future_dates",
+  "program": {
+    "url": "https://museomaritimo.cl/programacion/",
+    "fetch_ok": true,
+    "http_status": 200,
+    "error": null,
+    "monthly_items_detected": 4,
+    "monthly_items": [
+      {
+        "title": "Un mar de Juegos",
+        "month": 8,
+        "year": 2026,
+        "publishable": false,
+        "reason": "month_only_no_explicit_start_end"
+      },
+      {
+        "title": "Prat en el corazón de Chile",
+        "month": 8,
+        "year": 2026,
+        "publishable": false,
+        "reason": "month_only_no_explicit_start_end"
+      },
+      {
+        "title": "Galería Armas de Antaño",
+        "month": 8,
+        "year": 2026,
+        "publishable": false,
+        "reason": "month_only_no_explicit_start_end"
+      },
+      {
+        "title": "Pueblos Ancestrales de Mar",
+        "month": 8,
+        "year": 2026,
+        "publishable": false,
+        "reason": "month_only_no_explicit_start_end"
+      }
+    ]
+  },
+  "archives": [
+    {
+      "url": "https://museomaritimo.cl/author/capacitador/",
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
+    },
+    {
+      "url": "https://museomaritimo.cl/author/capacitador/page/2/",
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
+    },
+    {
+      "url": "https://museomaritimo.cl/author/capacitador/page/3/",
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
+    },
+    {
+      "url": "https://museomaritimo.cl/noticias-anteriores/",
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
+    }
+  ],
+  "articles_discovered": 51,
+  "articles_scanned": 30,
+  "article_fetch_failures": [],
+  "future_dated_candidates": 0,
+  "previous_future_events": 0,
+  "events_published": 0,
+  "semantic_duplicates_dropped": 0,
+  "policy": "Month-only programme items are monitored but never converted into invented dates; publication requires an explicit future date, future-action context and local MMN context in the same content block of an official article."
+}
