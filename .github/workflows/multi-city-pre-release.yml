@@ -183,18 +183,20 @@ jobs:
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
           grep -F '<link rel="stylesheet" href="./compact-top.css">' app/index.html
-          grep -F '<link rel="stylesheet" href="./header-redesign.css">' app/index.html
+          grep -F '<link rel="stylesheet" href="./header-redesign.css?v=20260817-brandicon1">' app/index.html
           grep -F '<script src="./release-version.js"></script>' app/index.html
           grep -F 'mobile-experience.css?v=20260817-topcontrols4' app/index.html
           ! grep -F 'document.createElement("style")' app/compact-top.js
           grep -F 'globalThis.__VIVAMOS_RELEASE__' app/pwa.js
-          grep -F 'header-redesign.js?v=20260817-mobile-direct1' app/pwa.js
+          grep -F 'header-redesign.js?v=20260817-brandicon1' app/pwa.js
           grep -F 'mobile-experience.js?v=20260817-topcontrols4' app/pwa.js
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
           grep -F 'importScripts("./release-version.js")' app/service-worker.js
           grep -F '"./release-version.js"' app/service-worker.js
+          grep -F '"./header-redesign.css?v=20260817-brandicon1"' app/service-worker.js
+          grep -F '"./header-redesign.js?v=20260817-brandicon1"' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
           grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"./mis-planes.html"' app/service-worker.js
