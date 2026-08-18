@@ -1,4 +1,4 @@
-name: Cross-source reconciliation
+name: Cross-source reconciliation (manual fallback)
 
 on:
   pull_request:
@@ -9,30 +9,19 @@ on:
       - "app/scripts/apply_event_derived_source_coverage.py"
       - "app/scripts/test_event_derived_source_coverage.py"
       - ".github/workflows/cross-source-reconciliation.yml"
-  push:
-    branches: [main]
-    paths:
-      - "app/scripts/refresh_valpocultura_zero_recovery_resilient.py"
-      - "app/scripts/apply_event_derived_source_coverage.py"
-      - ".github/workflows/cross-source-reconciliation.yml"
-  workflow_run:
-    workflows: ["Permanent event pages"]
-    types: [completed]
   workflow_dispatch:
-  schedule:
-    # Independent safety pass every day after the normal publication window.
-    - cron: "45 10 * * *"
 
 permissions:
   contents: write
 
+# Emergency/manual fallback only. The primary event-pages workflow is the sole
+# automatic writer of the public dataset and synchronized diagnostics.
 concurrency:
   group: permanent-event-pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   reconcile:
-    # PRs validate code only. Other triggers reconcile public main.
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -59,7 +48,7 @@ jobs:
           python app/scripts/test_event_derived_source_coverage.py
 
       - name: Reconcile current public dataset
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           set -euo pipefail
           python app/scripts/refresh_valpocultura_zero_recovery_resilient.py
@@ -74,7 +63,7 @@ jobs:
           python scripts/stage31_site_generator.py
 
       - name: Validate reconciled integrity
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -114,7 +103,7 @@ jobs:
           PY
 
       - name: Commit material reconciliation
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           set -euo pipefail
           git config user.name "agenda-cross-source-reconciliation[bot]"
@@ -132,6 +121,6 @@ jobs:
             echo "Cross-source state already reconciled."
             exit 0
           fi
-          git commit -m "Reconcilia automáticamente cobertura entre fuentes"
+          git commit -m "Reconcilia manualmente cobertura entre fuentes"
           git pull --rebase origin main
           git push origin HEAD:main
