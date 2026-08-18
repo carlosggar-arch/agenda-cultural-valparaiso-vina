@@ -14,4 +14,4 @@ This layer improves the first-open and one-hand PWA experience without changing 
 - Hydration must not rewrite the href of an already loaded header/mobile stylesheet.
 - The static search control must remain bound and interactive after hydration.
 - `release-version.js` is the single source of truth for the visible PWA version and service-worker cache release.
-- The release guard and first-render browser probe must pass before publication.
+- The release guard and first-render browser probe must pass on the final release commit before publication.
