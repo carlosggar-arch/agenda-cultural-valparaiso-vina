@@ -6,18 +6,26 @@ on:
     paths:
       - "app/public-category-rules.mjs"
       - "app/category-normalizer.js"
+      - "app/combined-filters-bootstrap.js"
+      - "app/index.html"
       - "app/exhibition-compact.js"
       - "app/footer-credit.js"
+      - "app/data/gijon/agenda_web.json"
       - "app/scripts/test_public_taxonomy_footer.mjs"
+      - "app/scripts/test_gijon_exhibition_filter_contract.mjs"
       - ".github/workflows/public-taxonomy-footer-contract.yml"
   pull_request:
     branches: [main]
     paths:
       - "app/public-category-rules.mjs"
       - "app/category-normalizer.js"
+      - "app/combined-filters-bootstrap.js"
+      - "app/index.html"
       - "app/exhibition-compact.js"
       - "app/footer-credit.js"
+      - "app/data/gijon/agenda_web.json"
       - "app/scripts/test_public_taxonomy_footer.mjs"
+      - "app/scripts/test_gijon_exhibition_filter_contract.mjs"
       - ".github/workflows/public-taxonomy-footer-contract.yml"
   workflow_dispatch:
 
@@ -36,7 +44,11 @@ jobs:
         run: |
           node --check app/public-category-rules.mjs
           node --check app/category-normalizer.js
+          node --check app/combined-filters-bootstrap.js
           node --check app/exhibition-compact.js
           node --check app/footer-credit.js
+          node --check app/scripts/test_gijon_exhibition_filter_contract.mjs
       - name: Run public taxonomy and footer contract
-        run: node app/scripts/test_public_taxonomy_footer.mjs
+        run: |
+          node app/scripts/test_public_taxonomy_footer.mjs
+          node app/scripts/test_gijon_exhibition_filter_contract.mjs
