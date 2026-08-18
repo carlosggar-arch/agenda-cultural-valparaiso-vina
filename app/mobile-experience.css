@@ -2,23 +2,15 @@
 /* Desktop keeps the normal header controls. */
 .mobile-tabbar{display:none!important}
 
-/* Runtime mobile detection is authoritative. */
 html[data-mobile-client="true"] .app-header{
   min-height:0!important;
   height:auto!important;
   overflow:visible!important;
   padding-bottom:.65rem!important;
-}
-html[data-mobile-client="true"] .header-bottom{
-  display:flex!important;
   flex-wrap:wrap!important;
-  width:100%!important;
-  margin:.35rem 0 0!important;
-  overflow:visible!important;
 }
 html[data-mobile-client="true"] .app-header .mobile-tabbar,
 html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
-  order:99;
   display:grid!important;
   visibility:visible!important;
   opacity:1!important;
@@ -26,18 +18,24 @@ html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
   gap:.35rem;
   width:100%!important;
   min-width:100%!important;
+  max-width:none!important;
+  flex:0 0 100%!important;
+  grid-column:1 / -1!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
   margin:.45rem 0 0!important;
   padding:0!important;
   border:0!important;
   background:transparent!important;
   position:relative!important;
   inset:auto!important;
+  left:auto!important;
+  right:auto!important;
+  transform:none!important;
   z-index:50!important;
   box-shadow:none!important;
-  transform:none!important;
 }
 
-/* Shared visual treatment for the four app shortcuts once a mobile rule enables them. */
 .app-header .mobile-tabbar button{
   min-width:0;
   min-height:44px;
@@ -90,33 +88,37 @@ html[data-mobile-client="true"] .mobile-install-cta{display:block}
 .event-detail-panel--no-media .event-detail-meta{padding-right:3.4rem}
 
 @media(display-mode:standalone){
-  .app-header{min-height:0!important;height:auto!important;overflow:visible!important}
-  .header-bottom{display:flex!important;flex-wrap:wrap!important;width:100%!important;margin:.35rem 0 0!important;overflow:visible!important}
+  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;flex-wrap:wrap!important}
   .app-header .mobile-tabbar,
   .app-header .mobile-tabbar[hidden]{
-    order:99;
     display:grid!important;
     visibility:visible!important;
     opacity:1!important;
     grid-template-columns:repeat(4,minmax(0,1fr));
     gap:.35rem;
     width:100%!important;
+    min-width:100%!important;
+    max-width:none!important;
+    flex:0 0 100%!important;
+    grid-column:1 / -1!important;
+    justify-self:stretch!important;
+    align-self:stretch!important;
     margin:.45rem 0 0!important;
     padding:0!important;
     border:0!important;
     background:transparent!important;
     position:relative!important;
-    z-index:50!important;
     inset:auto!important;
+    transform:none!important;
+    z-index:50!important;
     box-shadow:none!important;
   }
 }
 
-@media(max-width:700px){
+@media(max-width:900px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
-  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;padding-bottom:.55rem!important}
-  .header-bottom{display:flex!important;flex-wrap:wrap!important;width:100%!important;margin:.35rem 0 0!important;overflow:visible!important}
-  .app-header .mobile-tabbar,.app-header .mobile-tabbar[hidden]{display:grid!important;visibility:visible!important;opacity:1!important;width:100%!important}
+  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;flex-wrap:wrap!important;padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;padding-bottom:.55rem!important}
+  .app-header .mobile-tabbar,.app-header .mobile-tabbar[hidden]{display:grid!important;visibility:visible!important;opacity:1!important;width:100%!important;min-width:100%!important;max-width:none!important;flex:0 0 100%!important;grid-column:1 / -1!important;margin:.45rem 0 0!important;transform:none!important}
   .header-art{height:100%!important;opacity:.22!important}
 
   .header-search-toggle,.install-button,.city-switch,
