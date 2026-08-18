@@ -2,8 +2,15 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
+from apply_event_derived_source_coverage import (
+    DATASET_PATH,
+    event_derived_coverage,
+    merge_recovered,
+)
 from apply_fonck_coverage import merged_coverage as merge_existing_coverage
 from apply_source_coverage_overrides import (
     CITY_ID,
@@ -21,6 +28,7 @@ from apply_source_coverage_overrides import (
 ROOT = Path(__file__).resolve().parents[2]
 REPORT_PATH = ROOT / "app/data/quality/visitavina-estadio-espanol.json"
 TARGET_SOURCE_ID = "estadio_espanol_recreo"
+TIMEZONE = "America/Santiago"
 
 
 def merged_coverage(coverage: dict, report: dict) -> dict[str, list[str]]:
@@ -38,8 +46,13 @@ def build() -> tuple[dict, dict, dict]:
     quality = load(EVENT_QUALITY_PATH)
     report = load(REPORT_PATH)
     monitor = load(MONITOR_PATH)
+    dataset = load(DATASET_PATH)
+
     recovered = merged_coverage(coverage, report)
+    derived = event_derived_coverage(dataset, datetime.now(ZoneInfo(TIMEZONE)).date())
+    recovered = merge_recovered(recovered, derived)
     verified_zero = monitored_inactive(monitor)
+
     coverage = apply_coverage(coverage, recovered, verified_zero)
     quality = apply_quality(quality, coverage, recovered, verified_zero)
     city = (coverage.get("cities") or {}).get(CITY_ID) or {}
@@ -48,6 +61,7 @@ def build() -> tuple[dict, dict, dict]:
         "estadio_state": report.get("state"),
         "estadio_coverage_applied": TARGET_SOURCE_ID in recovered,
         "estadio_status": (row or {}).get("status"),
+        "derived_cross_source_coverage": derived,
         "verified_inactive_source_ids": sorted(verified_zero),
         "valparaiso_summary": city.get("summary") or {},
     }
@@ -55,7 +69,7 @@ def build() -> tuple[dict, dict, dict]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Apply Visita Viña coverage for Estadio Español without erasing existing recovery or verified-inactivity overrides.")
+    parser = argparse.ArgumentParser(description="Apply Estadio Español plus conservative event-derived coverage inside the atomic coverage pass without erasing verified-inactivity overrides.")
     parser.add_argument("--no-write", action="store_true")
     args = parser.parse_args()
     coverage, quality, report = build()
