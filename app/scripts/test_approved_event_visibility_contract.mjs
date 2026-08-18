@@ -45,6 +45,8 @@ const bootstrap = read("combined-filters-bootstrap.js");
 const serviceWorker = read("service-worker.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
+const compactLoader = read("exhibition-compact-loader.js");
+const compactSafe = read("exhibition-compact-safe.js");
 
 // Startup safety: secondary filtering/presentation code must never gate the base app.
 assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
@@ -64,4 +66,12 @@ assert.match(combined, /data-section-filter="todos"/);
 assert.doesNotMatch(bootstrap, /MutationObserver|repair\(/);
 assert.match(serviceWorker, /"\.\/combined-filters-bootstrap\.js"/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; runtime guard disabled)`);
+// Exhibition compacting must use the low-overhead runtime. It may watch actual
+// inserted nodes, but it must not observe class/hidden/src mutations across the grid.
+assert.match(compactLoader, /exhibition-compact-safe\.js/);
+assert.doesNotMatch(compactLoader, /exhibition-compact\.js\?v=20260818-compact9/);
+assert.match(compactSafe, /MutationObserver/);
+assert.match(compactSafe, /childList:\s*true/);
+assert.doesNotMatch(compactSafe, /attributeFilter|attributes:\s*true|characterData:\s*true/);
+
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; stable runtime)`);
