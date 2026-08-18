@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T15:54:47-04:00",
+  "generated_at": "2026-08-18T16:00:41-04:00",
   "window_days": 10,
   "targets": 102,
   "fetched": 20,
-  "updated_events": 4,
+  "updated_events": 3,
   "review_needed": 7,
   "fetch_errors": 0,
   "skipped": 82,
@@ -69,16 +69,6 @@
       "state": "no_confident_event_jsonld_match",
       "url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
       "match_score": 0.0
-    },
-    {
-      "id": "agenda_eb89b5ee606c6cb270ea04c4",
-      "state": "updated",
-      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-      "match_score": 0.86,
-      "fields": [
-        "end",
-        "start"
-      ]
     },
     {
       "id": "agenda_34217eb7dfa4b6e6d0c247ed",
@@ -160,6 +150,13 @@
       "id": "agenda_f28fef11281f94aefe71e4a1",
       "state": "verified_unchanged",
       "url": "https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
+      "match_score": 0.94,
+      "fields": []
+    },
+    {
+      "id": "agenda_eb89b5ee606c6cb270ea04c4",
+      "state": "verified_unchanged",
+      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
       "match_score": 0.94,
       "fields": []
     },
