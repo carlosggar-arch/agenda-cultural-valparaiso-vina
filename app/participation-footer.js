@@ -57,7 +57,11 @@ if (!document.getElementById(STYLE_ID)) {
       gap: .45rem;
       min-width: 0;
       white-space: nowrap;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: none;
     }
+    .vivamos-participation-rail::-webkit-scrollbar { display: none; }
     .vivamos-participation-rail .vivamos-footer-contact,
     .vivamos-participation-rail .source-proposal-link,
     .vivamos-participation-rail .source-feedback-button,
@@ -89,28 +93,58 @@ if (!document.getElementById(STYLE_ID)) {
     [data-source-proposal-cta][hidden] { display: none !important; }
 
     @media (max-width: 900px) {
+      .vivamos-footer .vivamos-footer-identity {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .vivamos-footer .vivamos-footer-credit {
+        grid-column: 1;
+        grid-row: 2;
+      }
       .vivamos-footer .vivamos-participation-rail {
-        grid-column: 1 / -1;
-        grid-row: auto;
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: center;
         justify-content: flex-start;
-        overflow-x: auto;
-        overscroll-behavior-inline: contain;
-        scrollbar-width: none;
+        max-width: min(52vw, 430px);
         padding-bottom: .1rem;
       }
-      .vivamos-participation-rail::-webkit-scrollbar { display: none; }
       .vivamos-footer .vivamos-participation-rail .vivamos-footer-contact {
         width: auto;
       }
+      .vivamos-footer [data-app-version] {
+        display: none;
+      }
     }
     @media (max-width: 560px) {
+      .vivamos-footer {
+        grid-template-columns: auto minmax(0,1fr) !important;
+        align-items: center !important;
+        gap: .45rem .65rem !important;
+      }
+      .vivamos-footer .vivamos-footer-identity {
+        grid-column: 1;
+        grid-row: 1;
+        display: block;
+        white-space: nowrap;
+      }
+      .vivamos-footer .vivamos-footer-identity span,
+      .vivamos-footer .vivamos-footer-credit {
+        display: none;
+      }
+      .vivamos-footer .vivamos-participation-rail {
+        grid-column: 2;
+        grid-row: 1;
+        max-width: calc(100vw - 7rem);
+        min-width: 0;
+      }
       .vivamos-participation-rail .vivamos-footer-contact,
       .vivamos-participation-rail .source-proposal-link,
       .vivamos-participation-rail .source-feedback-button,
       .vivamos-participation-rail .source-like-button {
         min-height: 2.2rem;
-        padding: .48rem .66rem;
-        font-size: .78rem;
+        padding: .48rem .62rem;
+        font-size: .77rem;
       }
       .vivamos-participation-rail .source-action-long { display: none; }
       .vivamos-participation-rail .source-action-short { display: inline; }
