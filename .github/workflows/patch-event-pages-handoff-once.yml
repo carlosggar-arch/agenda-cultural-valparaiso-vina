@@ -6,6 +6,10 @@ on:
       - fix/event-pages-handoff-identity-20260818
     paths:
       - ".github/workflows/patch-event-pages-handoff-once.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/patch-event-pages-handoff-once.yml"
 
 permissions:
   contents: write
@@ -34,13 +38,6 @@ jobs:
               raise SystemExit('Unexpected event-pages permissions block')
           text = text.replace(permissions_old, permissions_new, 1)
 
-          checkout_old = '''      - name: Checkout
-                uses: actions/checkout@v4
-                with:
-                  fetch-depth: 0
-                  ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
-          '''.replace('                ', '        ', 1)
-          # Build the checkout contract without embedding a GitHub expression in this patcher workflow.
           dollar = '$'
           checkout_old = (
               "      - name: Checkout\n"
@@ -63,40 +60,38 @@ jobs:
           token_expr = dollar + "{{ steps.handoff_app_token.outputs.token }}"
 
           handoff = f'''      - name: Verify Agenda Cultural Handoff credentials
-                if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-                env:
-                  APP_CLIENT_ID: {client_expr}
-                  APP_PRIVATE_KEY: {key_expr}
-                run: |
-                  set -euo pipefail
-                  test -n "$APP_CLIENT_ID" || {{ echo "AGENDA_HANDOFF_APP_CLIENT_ID is not configured for this repository." >&2; exit 1; }}
-                  test -n "$APP_PRIVATE_KEY" || {{ echo "AGENDA_HANDOFF_APP_PRIVATE_KEY is not configured for this repository." >&2; exit 1; }}
-                  echo "AGENDA_HANDOFF_CREDENTIALS_OK"
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          APP_CLIENT_ID: {client_expr}
+          APP_PRIVATE_KEY: {key_expr}
+        run: |
+          set -euo pipefail
+          test -n "$APP_CLIENT_ID" || {{ echo "AGENDA_HANDOFF_APP_CLIENT_ID is not configured for this repository." >&2; exit 1; }}
+          test -n "$APP_PRIVATE_KEY" || {{ echo "AGENDA_HANDOFF_APP_PRIVATE_KEY is not configured for this repository." >&2; exit 1; }}
+          echo "AGENDA_HANDOFF_CREDENTIALS_OK"
 
-              - name: Create Agenda Cultural Handoff token
-                if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-                id: handoff_app_token
-                uses: actions/create-github-app-token@v3
-                with:
-                  client-id: {client_expr}
-                  private-key: {key_expr}
-                  owner: carlosggar-arch
-                  repositories: agenda-cultural-valparaiso-vina
-                  permission-contents: write
+      - name: Create Agenda Cultural Handoff token
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        id: handoff_app_token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: {client_expr}
+          private-key: {key_expr}
+          owner: carlosggar-arch
+          repositories: agenda-cultural-valparaiso-vina
+          permission-contents: write
 
-              - name: Configure protected main remote with Agenda Cultural Handoff
-                if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-                env:
-                  APP_TOKEN: {token_expr}
-                run: |
-                  set -euo pipefail
-                  test -n "$APP_TOKEN"
-                  git remote set-url origin "https://x-access-token:${{APP_TOKEN}}@github.com/${{GITHUB_REPOSITORY}}.git"
-                  echo "Protected-main writes delegated to Agenda Cultural Handoff."
+      - name: Configure protected main remote with Agenda Cultural Handoff
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          APP_TOKEN: {token_expr}
+        run: |
+          set -euo pipefail
+          test -n "$APP_TOKEN"
+          git remote set-url origin "https://x-access-token:${{APP_TOKEN}}@github.com/${{GITHUB_REPOSITORY}}.git"
+          echo "Protected-main writes delegated to Agenda Cultural Handoff."
 
-          '''
-          # Normalize indentation introduced only to keep this patcher readable.
-          handoff = handoff.replace('              - name:', '      - name:').replace('                if:', '        if:').replace('                env:', '        env:').replace('                run:', '        run:').replace('                id:', '        id:').replace('                uses:', '        uses:').replace('                with:', '        with:').replace('                  APP_', '          APP_').replace('                  client-id:', '          client-id:').replace('                  private-key:', '          private-key:').replace('                  owner:', '          owner:').replace('                  repositories:', '          repositories:').replace('                  permission-contents:', '          permission-contents:').replace('                  set -euo pipefail', '          set -euo pipefail').replace('                  test -n', '          test -n').replace('                  echo "AGENDA_', '          echo "AGENDA_').replace('                  git remote', '          git remote').replace('                  echo "Protected', '          echo "Protected')
+'''
           text = text.replace(marker, handoff + marker, 1)
 
           old_name = 'git config user.name "agenda-cultural-event-pages[bot]"'
