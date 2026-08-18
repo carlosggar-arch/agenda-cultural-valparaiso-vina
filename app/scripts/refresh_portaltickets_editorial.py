@@ -6,6 +6,7 @@ import html
 import json
 import re
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime
 from difflib import SequenceMatcher
 from html.parser import HTMLParser
@@ -22,6 +23,8 @@ SOURCE_ID = "portaltickets_valparaiso"
 SOURCE_NAME = "PortalTickets — Región de Valparaíso"
 SOURCE_URL = "https://www.portaldisc.com/tickets/R05"
 TIMEZONE = "America/Santiago"
+DETAIL_MAX_WORKERS = 8
+DETAIL_TIMEOUT = 15
 MONTHS = {
     "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
     "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
@@ -45,6 +48,21 @@ DATE_LONG = re.compile(
     r"(?:\s+(\d{4}))?.*?(\d{2}:\d{2})", re.I,
 )
 DATE_NUM = re.compile(r"(\d{2}-\d{2}-\d{4})\s+(\d{2}:\d{2})")
+PRICE_AMOUNT = re.compile(r"\$\s*([0-9][0-9.]*)")
+STOPWORDS = {"en", "el", "la", "los", "las", "de", "del", "y", "a"}
+VENUE_WORDS = {
+    "teatro", "bar", "cafe", "club", "espacio", "parque", "sala", "centro", "journal", "pasaje",
+    "patio", "cassot", "lemutt", "trotamundos", "balmaceda", "universidad",
+}
+DESCRIPTION_BOILERPLATE = (
+    "este concierto forma parte", "el teatro mauri scd es", "el teatro mauri scd", "construido entre",
+    "datos practicos", "hora de apertura", "hora aprox", "como llegar", "dentro del teatro", "siguenos",
+    "evento para todas las edades", "politicas de reembolso", "te invitamos a conocer las politicas",
+)
+DESCRIPTION_HEADINGS = {
+    "fecha", "lugar", "produce", "descripcion", "tickets disponibles", "todos los eventos", "ver mapa",
+    "grupo region", "artistas y tags relacionados", "politicas de reembolso", "contacto", "links relacionados",
+}
 
 
 class PortalTokenParser(HTMLParser):
@@ -165,12 +183,17 @@ def individual_ticket_url(token: dict[str, str | None]) -> str | None:
 
 
 def category_for(title: str) -> tuple[str, str]:
-    value = norm(title)
-    if any(term in value for term in ("pelicula", "documental", "cortometraje", "largometraje")):
+    value = f" {norm(title)} "
+    if any(term in value for term in (" pelicula ", " documental ", " cortometraje ", " largometraje ")):
         return "cine", "Cine"
     if any(term in value for term in (
-        "concierto", "orquesta", "ensamble", " trio ", "banda", "tributo", " gira ", " tour ", "tocata", " dj ",
-        "vinilo", "sonora", "sinfonico", "lanzamiento disco", "quinteto", "cuarteto", "disco", "canciones",
+        " obra de teatro ", " obra teatral ", " stand up ", " monologo ", " comedia teatral ", " dramaturgia ",
+    )):
+        return "teatro", "Teatro"
+    if any(term in value for term in (
+        " concierto ", " orquesta ", " ensamble ", " trio ", " banda ", " tributo ", " gira ", " tour ", " tocata ",
+        " dj ", " vinilo ", " sonora ", " sinfonico ", " lanzamiento disco ", " quinteto ", " cuarteto ",
+        " canciones ", " musica ", " musical ", " cantante ", " cantautor ",
     )):
         return "musica", "Música"
     return "cultura", "Cultura"
@@ -196,17 +219,17 @@ def make_event(title: str, start: date, clock: str, venue: str, city: str, ticke
             "venue_id": SOURCE_ID, "city": city, "commune": city, "venue": venue.strip(), "address": None,
             "online": False, "latitude": None, "longitude": None,
         },
-        "price": {"is_free": None, "currency": "CLP", "min_amount": None, "max_amount": None, "display_text": "Consultar condiciones"},
-        "links": {"official": None, "tickets": ticket_url, "registration": None, "source": SOURCE_URL},
+        "price": {"is_free": None, "currency": "CLP", "min_amount": None, "max_amount": None, "display_text": None},
+        "links": {"official": None, "tickets": ticket_url, "registration": None, "source": ticket_url},
         "organizer": None,
-        "source_id": SOURCE_ID, "source_name": SOURCE_NAME, "source_url": SOURCE_URL, "last_verified_at": verified,
+        "source_id": SOURCE_ID, "source_name": SOURCE_NAME, "source_url": ticket_url, "last_verified_at": verified,
         "public_status": {
             "source_official": False, "last_verified_at": verified, "registration_open": None,
             "registration_closed": None, "cancelled": False, "sold_out": None, "price_stage": None,
             "price_confirmed": False, "information_completeness": "partial",
-            "advisory_text": "Confirma horario, precio, disponibilidad y organización en la ficha de venta.",
+            "advisory_text": "Confirma disponibilidad y condiciones en la ficha de venta.",
         },
-        "description": "Evento detectado en PortalTickets, utilizado como ticketera y fuente secundaria estructurada.",
+        "description": None,
         "tags": [category_label, "PortalTickets"], "audience": None, "registration_requirements": None,
         "image": {"url": None, "alt": None},
         "editorial": {"classification": "event", "reason": "secondary_ticketing_source:portaltickets_valparaiso", "duration_days": 0},
@@ -260,20 +283,260 @@ def parse_markup(markup: str, today: date | None = None) -> tuple[list[dict], di
     return result, stats
 
 
-def fetch_markup() -> tuple[bool, int | None, str, str | None]:
-    request = Request(SOURCE_URL, headers={
+def fetch_url(url: str, timeout: int = DETAIL_TIMEOUT) -> tuple[bool, int | None, str, str | None]:
+    request = Request(url, headers={
         "User-Agent": "Mozilla/5.0 (compatible; AgendaCultural/1.0)",
         "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "es-CL,es;q=0.9",
     })
     try:
-        with urlopen(request, timeout=30) as response:  # nosec B310
+        with urlopen(request, timeout=timeout) as response:  # nosec B310
             raw = response.read(); charset = response.headers.get_content_charset() or "utf-8"
             return True, getattr(response, "status", 200), raw.decode(charset, errors="replace"), None
     except HTTPError as exc:
         return False, exc.code, "", f"HTTP {exc.code}"
     except (URLError, TimeoutError, OSError) as exc:
         return False, None, "", f"{type(exc).__name__}: {exc}"
+
+
+def fetch_markup() -> tuple[bool, int | None, str, str | None]:
+    return fetch_url(SOURCE_URL, timeout=30)
+
+
+def _meaningful_tokens(value: object) -> list[str]:
+    return [word for word in norm(value).split() if word not in STOPWORDS]
+
+
+def _redundant_venue_suffix(suffix: str, venue: str, city: str) -> bool:
+    suffix_tokens = _meaningful_tokens(suffix)
+    if len(suffix_tokens) < 2:
+        return False
+    venue_tokens = set(_meaningful_tokens(f"{venue} {city}"))
+    if not venue_tokens:
+        return False
+    overlap = sum(word in venue_tokens for word in suffix_tokens) / len(suffix_tokens)
+    return overlap >= 0.8 and (bool(set(suffix_tokens) & VENUE_WORDS) or len(suffix_tokens) >= 3)
+
+
+def clean_public_title(title: str, venue: str, city: str) -> str:
+    value = re.sub(r"\s+", " ", str(title or "")).strip()
+    matches = list(re.finditer(r"\s+en\s+", value, flags=re.I))
+    if not matches:
+        return value
+    match = matches[-1]
+    suffix = value[match.end():].strip(" ,.;:–—-")
+    if not _redundant_venue_suffix(suffix, venue, city):
+        return value
+    cleaned = value[:match.start()].strip(" ,.;:–—-")
+    return cleaned or value
+
+
+def _parse_amount(value: str) -> int | None:
+    digits = re.sub(r"\D", "", value or "")
+    return int(digits) if digits else None
+
+
+def _format_clp(value: int) -> str:
+    return "$" + f"{value:,}".replace(",", ".")
+
+
+def _description_from_tokens(texts: list[str]) -> str | None:
+    description_index = next((i for i, text in enumerate(texts) if norm(text) == "descripcion"), None)
+    if description_index is None:
+        return None
+    selected: list[str] = []
+    for text in texts[description_index + 1:]:
+        cleaned = re.sub(r"\s+", " ", text).strip()
+        normalized = norm(cleaned)
+        if not cleaned:
+            continue
+        if normalized in DESCRIPTION_HEADINGS:
+            if selected:
+                break
+            continue
+        if any(normalized.startswith(prefix) for prefix in DESCRIPTION_BOILERPLATE):
+            if selected:
+                break
+            continue
+        if len(cleaned) < 25:
+            continue
+        selected.append(cleaned)
+        if len(" ".join(selected)) >= 420 or len(selected) >= 2:
+            break
+    if not selected:
+        return None
+    value = " ".join(selected)
+    return value[:520].rstrip(" ,;:")
+
+
+def parse_detail_markup(markup: str) -> dict:
+    parser = PortalTokenParser(); parser.feed(markup); parser.close()
+    texts = [str(token.get("text") or "").strip() for token in parser.tokens if str(token.get("text") or "").strip()]
+    description = _description_from_tokens(texts)
+    tiers: list[dict] = []
+    amounts: list[int] = []
+    for index, text in enumerate(texts):
+        found = [_parse_amount(match) for match in PRICE_AMOUNT.findall(text)]
+        found = [value for value in found if value is not None]
+        if not found:
+            continue
+        window = norm(" ".join(texts[index:index + 3]))
+        sold = bool(re.search(r"\bagotad[oa]s?\b", window))
+        last = "ultimos tickets" in window
+        buy = "comprar" in window or "regalar" in window
+        tiers.append({"amounts": found, "sold": sold, "last": last, "buy": buy})
+        amounts.extend(found)
+
+    explicit_sold = any("evento agotado" in norm(text) or norm(text) == "agotado" for text in texts)
+    all_tiers_sold = bool(tiers) and all(tier["sold"] and not tier["buy"] and not tier["last"] for tier in tiers)
+    sold_out = explicit_sold or all_tiers_sold
+    any_sold = any(tier["sold"] for tier in tiers)
+    any_available = any(tier["buy"] or tier["last"] or not tier["sold"] for tier in tiers)
+    last_tickets = any(tier["last"] for tier in tiers)
+    partial = any_sold and any_available and not sold_out
+
+    price_min = min(amounts) if amounts else None
+    price_max = max(amounts) if amounts else None
+    if sold_out:
+        price_text = "Entradas agotadas"
+    elif price_min is not None:
+        price_text = _format_clp(price_min) if price_min == price_max else f"{_format_clp(price_min)}–{_format_clp(price_max)}"
+        if last_tickets:
+            price_text += " · Últimos tickets"
+        elif partial:
+            price_text += " · Algunos sectores agotados"
+    else:
+        price_text = None
+
+    return {
+        "description": description,
+        "sold_out": sold_out if (tiers or explicit_sold) else None,
+        "registration_open": False if sold_out else (True if tiers and any_available else None),
+        "price_stage": "Últimos tickets" if last_tickets else ("Disponibilidad parcial" if partial else None),
+        "price_min": price_min,
+        "price_max": price_max,
+        "price_text": price_text,
+        "price_confirmed": bool(amounts),
+        "partial_availability": partial,
+        "last_tickets": last_tickets,
+    }
+
+
+def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
+    location = event.get("location") or {}
+    old_title = str(event.get("title") or "").strip()
+    new_title = clean_public_title(old_title, str(location.get("venue") or ""), str(location.get("city") or ""))
+    if new_title != old_title:
+        event["title"] = new_title
+        editorial = event.setdefault("editorial", {})
+        editorial["source_title_original"] = old_title
+        editorial["venue_suffix_removed"] = True
+
+    description = detail.get("description")
+    event["description"] = description or None
+
+    price = event.setdefault("price", {})
+    if detail.get("price_min") is not None:
+        price["is_free"] = False
+        price["currency"] = "CLP"
+        price["min_amount"] = detail.get("price_min")
+        price["max_amount"] = detail.get("price_max")
+        price["display_text"] = detail.get("price_text")
+    elif detail.get("sold_out") is True:
+        price["is_free"] = False
+        price["currency"] = "CLP"
+        price["display_text"] = "Entradas agotadas"
+    else:
+        price["display_text"] = None
+
+    status = event.setdefault("public_status", {})
+    status["last_verified_at"] = verified_at
+    status["sold_out"] = detail.get("sold_out")
+    status["registration_open"] = detail.get("registration_open")
+    status["price_stage"] = detail.get("price_stage")
+    status["price_confirmed"] = bool(detail.get("price_confirmed"))
+    status["information_completeness"] = "complete"
+    status["advisory_text"] = None
+    event["last_verified_at"] = verified_at
+
+    combined = f"{event.get('title') or ''} {description or ''}"
+    category_id, category_label = category_for(combined)
+    if category_id != "cultura" or (event.get("primary_category") or {}).get("id") == "cultura":
+        event["primary_category"] = {"id": category_id, "label": category_label}
+        event["categories"] = [{"id": category_id, "label": category_label}]
+        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "cine"}]
+        event["tags"] = [category_label, *tags]
+
+    editorial = event.setdefault("editorial", {})
+    editorial["detail_enriched"] = True
+    editorial["detail_verified_at"] = verified_at
+    if detail.get("partial_availability"):
+        editorial["partial_ticket_availability"] = True
+    if detail.get("last_tickets"):
+        editorial["last_tickets"] = True
+    return event
+
+
+def enrich_candidates(candidates: list[dict]) -> tuple[list[dict], dict]:
+    stats = {
+        "requested": len(candidates), "fetched": 0, "failed": 0, "titles_shortened": 0,
+        "descriptions_added": 0, "descriptions_missing": 0, "sold_out": 0,
+        "partial_availability": 0, "last_tickets": 0, "prices_confirmed": 0,
+    }
+    if not candidates:
+        return candidates, stats
+
+    results: dict[str, tuple[bool, int | None, str, str | None]] = {}
+    with ThreadPoolExecutor(max_workers=DETAIL_MAX_WORKERS) as executor:
+        futures = {
+            executor.submit(fetch_url, str((event.get("links") or {}).get("tickets") or "")): str(event.get("id") or "")
+            for event in candidates
+            if (event.get("links") or {}).get("tickets")
+        }
+        for future in as_completed(futures):
+            event_id = futures[future]
+            try:
+                results[event_id] = future.result()
+            except Exception as exc:  # pragma: no cover - defensive isolation around remote pages
+                results[event_id] = (False, None, "", f"{type(exc).__name__}: {exc}")
+
+    enriched: list[dict] = []
+    verified_at = datetime.now(ZoneInfo(TIMEZONE)).isoformat(timespec="seconds")
+    for event in candidates:
+        old_title = str(event.get("title") or "")
+        location = event.get("location") or {}
+        cleaned_title = clean_public_title(old_title, str(location.get("venue") or ""), str(location.get("city") or ""))
+        response = results.get(str(event.get("id") or ""))
+        if not response or not response[0]:
+            if cleaned_title != old_title:
+                event["title"] = cleaned_title
+                event.setdefault("editorial", {})["source_title_original"] = old_title
+                event["editorial"]["venue_suffix_removed"] = True
+                stats["titles_shortened"] += 1
+            event["description"] = None
+            stats["failed"] += 1
+            enriched.append(event)
+            continue
+
+        stats["fetched"] += 1
+        detail = parse_detail_markup(response[2])
+        apply_detail(event, detail, verified_at=verified_at)
+        if cleaned_title != old_title:
+            stats["titles_shortened"] += 1
+        if event.get("description"):
+            stats["descriptions_added"] += 1
+        else:
+            stats["descriptions_missing"] += 1
+        if detail.get("sold_out") is True:
+            stats["sold_out"] += 1
+        if detail.get("partial_availability"):
+            stats["partial_availability"] += 1
+        if detail.get("last_tickets"):
+            stats["last_tickets"] += 1
+        if detail.get("price_confirmed"):
+            stats["prices_confirmed"] += 1
+        enriched.append(event)
+    return enriched, stats
 
 
 def day(item: dict) -> str:
@@ -316,6 +579,8 @@ def stable_event(item: dict) -> dict:
     clone.pop("last_verified_at", None)
     if isinstance(clone.get("public_status"), dict):
         clone["public_status"].pop("last_verified_at", None)
+    if isinstance(clone.get("editorial"), dict):
+        clone["editorial"].pop("detail_verified_at", None)
     return clone
 
 
@@ -357,23 +622,35 @@ def refresh_dataset(dataset: dict, candidates: list[dict], *, fetch_ok: bool) ->
     }
 
 
-def report_payload(ok: bool, status: int | None, parse_stats: dict, refresh_stats: dict, candidates: int, error: str | None) -> dict:
+def report_payload(
+    ok: bool,
+    status: int | None,
+    parse_stats: dict,
+    refresh_stats: dict,
+    detail_stats: dict,
+    candidates: int,
+    error: str | None,
+) -> dict:
     return {
-        "schema_version": "1.0.0", "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "schema_version": "1.1.0", "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "source_id": SOURCE_ID, "source_role": "secondary_ticketing_aggregator", "fetch_ok": ok, "http_status": status,
-        "candidates_parsed": candidates, "parse": parse_stats, "refresh": refresh_stats, "error": error,
+        "candidates_parsed": candidates, "parse": parse_stats, "details": detail_stats, "refresh": refresh_stats, "error": error,
     }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Repair and refresh PortalTickets using complete event-card binding.")
+    parser = argparse.ArgumentParser(description="Repair, enrich and refresh PortalTickets using complete event-card binding.")
     parser.add_argument("--no-write", action="store_true")
     args = parser.parse_args()
     dataset = json.loads(DATASET.read_text(encoding="utf-8"))
     ok, status, markup, error = fetch_markup()
     candidates, parse_stats = parse_markup(markup) if ok else ([], {})
+    if ok and not args.no_write:
+        candidates, detail_stats = enrich_candidates(candidates)
+    else:
+        detail_stats = {"skipped": "no_write" if args.no_write else "catalog_fetch_failed", "requested": len(candidates)}
     updated, refresh_stats = refresh_dataset(dataset, candidates, fetch_ok=ok)
-    report = report_payload(ok, status, parse_stats, refresh_stats, len(candidates), error)
+    report = report_payload(ok, status, parse_stats, refresh_stats, detail_stats, len(candidates), error)
     if args.no_write:
         print(json.dumps(report, ensure_ascii=False, indent=2))
         return
