@@ -12,12 +12,12 @@ import "./combined-filters-polish.js";
 // Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
 // but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
-import "./mobile-experience.js?v=20260817-topcontrols1";
+import "./mobile-experience.js?v=20260817-topcontrols2";
 import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
-const APP_VERSION = "PWA v49";
+const APP_VERSION = "PWA v50";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -110,7 +110,7 @@ function setupInstallExperience() {
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   try {
-    const registration = await navigator.serviceWorker.register("./service-worker.js?v=49", { scope: "./", updateViaCache: "none" });
+    const registration = await navigator.serviceWorker.register("./service-worker.js?v=50", { scope: "./", updateViaCache: "none" });
     registration.update().catch(() => {});
   } catch (error) {
     console.warn("¡Vivamos!: service worker unavailable", error);
