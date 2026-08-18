@@ -59,12 +59,11 @@ def clean_html_text(value: object) -> str:
     text = html.unescape(raw)
     text = re.sub(r"<\s*(?:br|/p|/div|/li|/h[1-6])\s*/?>", " ", text, flags=re.I)
     text = HTML_TAG.sub(" ", text)
-    # Scrapers occasionally leave a literal \\n/\\r token or a backslash directly
-    # before a real newline. Remove the complete escape, not only the slash.
+    # Remove scraper escape artifacts: literal backslash-n/backslash-r or backslash + real newline.
     text = re.sub(r"\\(?:n|r|\r?\n)", " ", text)
     text = text.replace("\\", " ")
     text = clean_space(text)
-    # Repair the legacy artifact produced by the previous sanitizer version.
+    # Repair the one-character legacy artifact produced by the previous sanitizer version.
     text = re.sub(r"(?<=[.!?])\s+n\s*$", "", text)
     return text
 
@@ -109,8 +108,7 @@ def venue_key(event: dict) -> str:
     location = event.get("location") or {}
     venue = fold(location.get("venue"))
     city = fold(location.get("city"))
-    # Use the human venue name as the stable cross-source identity. One source may
-    # provide venue_id while another source for the same place does not.
+    # Human venue name is the stable cross-source identity; venue_id is only a fallback.
     if venue:
         if city and venue.endswith(f" {city}"):
             venue = venue[: -(len(city) + 1)].strip()
