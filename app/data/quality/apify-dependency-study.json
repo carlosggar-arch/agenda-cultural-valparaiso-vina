@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T00:29:31.301844+00:00",
+  "generated_at": "2026-08-18T00:32:05.199408+00:00",
   "reference_date": "2026-08-18",
   "study_started_on": "2026-08-17",
   "observation_window_days": 28,
@@ -11,15 +11,15 @@
   "safety_rule": "No source is automatically removed from Instagram; any Instagram-only or Instagram-lead event protects the source, and reused snapshots do not count as fresh evidence.",
   "current": {
     "date": "2026-08-18",
-    "total_published_events": 109,
+    "total_published_events": 110,
     "instagram_capable_sources": 34,
-    "instagram_source_events": 97,
+    "instagram_source_events": 98,
     "instagram_only_events": 13,
-    "non_instagram_supported_events": 84,
+    "non_instagram_supported_events": 85,
     "instagram_state_updated_at": "2026-08-17T09:35:55.185946+00:00",
     "apify": {
       "status": "cap_reached",
-      "usage_usd": 4.540147482691327,
+      "usage_usd": 4.540148164046923,
       "cap_usd": 3.5,
       "paid_refresh_triggered": false
     },
@@ -217,8 +217,8 @@
       {
         "id": "museo_fonck",
         "name": "Museo Fonck",
-        "published_events": 0,
-        "direct_web": 0,
+        "published_events": 1,
+        "direct_web": 1,
         "non_instagram_support": 0,
         "instagram_only": 0,
         "unknown": 0,
@@ -658,7 +658,7 @@
       "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 0,
+      "distinct_events_observed": 1,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,

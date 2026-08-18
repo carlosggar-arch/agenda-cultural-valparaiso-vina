@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-17T20:32:08-04:00",
+  "status": "stable_with_observation",
+  "stable_baseline": true,
+  "blockers": [],
+  "warnings": [
+    "apify_longitudinal_study_in_progress"
+  ],
+  "checks": {
+    "valparaiso-vina": {
+      "events_present": true,
+      "duplicates_zero": true,
+      "fresh": true,
+      "suspicious_titles_zero": true,
+      "quality_score": 95.3,
+      "official_links_pct": 100.0,
+      "source_attribution_pct": 100.0
+    },
+    "gijon": {
+      "events_present": true,
+      "duplicates_zero": true,
+      "fresh": true,
+      "suspicious_titles_zero": true,
+      "quality_score": 94.0,
+      "official_links_pct": 100.0,
+      "source_attribution_pct": 100.0
+    },
+    "high_value_zero": {
+      "actionable_zero": 0,
+      "tracked": 16
+    },
+    "apify_study": {
+      "status": "collecting",
+      "days_observed": 2,
+      "fresh_snapshots": 1,
+      "minimum_days": 28,
+      "minimum_fresh_snapshots": 4,
+      "instagram_only_events": 13,
+      "paid_refresh_triggered": false,
+      "safety_rule_present": true
+    },
+    "category_gap_monitor": {
+      "fetch_errors": 0,
+      "ready_uncovered": 0,
+      "recurring_without_end": 1
+    },
+    "daily_email_retired": true
+  },
+  "release_policy": "Stable means no critical data/publication regressions; longitudinal Apify study and noncritical coverage discovery may continue in observation mode."
+}

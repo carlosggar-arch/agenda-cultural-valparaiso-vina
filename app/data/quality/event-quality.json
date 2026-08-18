@@ -1,81 +1,81 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T00:29:31.243262+00:00",
+  "generated_at": "2026-08-18T00:32:05.136650+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-17",
-      "generated_at": "2026-08-17T19:02:09-04:00",
+      "generated_at": "2026-08-17T20:29:19-04:00",
       "summary": {
-        "total_events": 109,
+        "total_events": 110,
         "average_quality_score": 95.3,
         "quality_class": "excellent",
         "sources_catalogued": 38,
-        "sources_producing": 22,
-        "sources_zero": 16,
-        "review_priority_zero_sources": 16,
+        "sources_producing": 23,
+        "sources_zero": 15,
+        "review_priority_zero_sources": 15,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 39.4,
+        "top3_source_share_pct": 39.1,
         "unattributed_events": 0
       },
       "field_coverage": {
-        "date_pct": 96.3,
-        "time_pct": 95.4,
+        "date_pct": 96.4,
+        "time_pct": 95.5,
         "venue_pct": 100.0,
-        "image_pct": 85.3,
+        "image_pct": 85.5,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 68.8,
-        "price_known_pct": 88.1
+        "official_source_pct": 69.1,
+        "price_known_pct": 87.3
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
           "count": 32,
-          "share_pct": 29.4,
+          "share_pct": 29.1,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 28,
-          "share_pct": 25.7,
+          "share_pct": 25.5,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 20,
-          "share_pct": 18.3,
+          "count": 21,
+          "share_pct": 19.1,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 11,
-          "share_pct": 10.1,
+          "share_pct": 10.0,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 9,
-          "share_pct": 8.3,
+          "share_pct": 8.2,
           "underrepresented": false
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 4,
-          "share_pct": 3.7,
+          "share_pct": 3.6,
           "underrepresented": true
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 4,
-          "share_pct": 3.7,
+          "share_pct": 3.6,
           "underrepresented": true
         },
         {
@@ -90,12 +90,12 @@
         {
           "area": "Valparaíso",
           "count": 57,
-          "share_pct": 52.3
+          "share_pct": 51.8
         },
         {
           "area": "Viña del Mar",
-          "count": 52,
-          "share_pct": 47.7
+          "count": 53,
+          "share_pct": 48.2
         }
       ],
       "coverage_gaps": {
@@ -116,7 +116,6 @@
           "estrella_negra_jazz",
           "la_escala_galeria",
           "masita_rica",
-          "museo_fonck",
           "sala_secreta",
           "sala_teatro_ipa",
           "teatro_la_peste",
@@ -127,12 +126,12 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 85.3,
+        "relevant_image_pct": 85.5,
         "removed_events": {
-          "removed_title_quality": 1,
+          "removed_title_quality": 2,
           "removed_location_mismatch": 0,
-          "removed_deadline_only_call": 1,
-          "removed_retrospective_post": 1
+          "removed_deadline_only_call": 0,
+          "removed_retrospective_post": 0
         }
       },
       "sources": [
@@ -585,6 +584,30 @@
           }
         },
         {
+          "id": "museo_fonck",
+          "name": "Museo Fonck",
+          "count": 1,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": 2,
+          "role": "venue",
+          "source_type": "web",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "exposiciones": 1
+          }
+        },
+        {
           "id": "natalia_saldias",
           "name": "natalia_saldias",
           "count": 1,
@@ -889,28 +912,6 @@
           "priority": 2,
           "role": "venue",
           "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "museo_fonck",
-          "name": "Museo Fonck",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "web",
           "coverage": {
             "date_pct": 0.0,
             "time_pct": 0.0,
