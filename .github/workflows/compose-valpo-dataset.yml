@@ -19,7 +19,7 @@ concurrency:
 jobs:
   compose:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 15
     steps:
       - name: Checkout latest published base dataset
         uses: actions/checkout@v4
@@ -39,6 +39,7 @@ jobs:
             app/scripts/refresh_museo_maritimo.py \
             app/scripts/test_museo_maritimo.py \
             app/scripts/refresh_balmaceda_valpo.py \
+            app/scripts/refresh_balmaceda_valpo_bounded.py \
             app/scripts/test_balmaceda_valpo.py \
             app/scripts/apply_balmaceda_coverage.py \
             app/scripts/test_balmaceda_coverage.py \
@@ -57,7 +58,7 @@ jobs:
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_museo_maritimo.py --no-write
-          python app/scripts/refresh_balmaceda_valpo.py --no-write
+          python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
 
@@ -65,7 +66,7 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/refresh_museo_maritimo.py
-          python app/scripts/refresh_balmaceda_valpo.py
+          python app/scripts/refresh_balmaceda_valpo_bounded.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/validate_portaltickets_editorial.py
