@@ -32,20 +32,25 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate PortalTickets composition code
+      - name: Validate supplemental composition code
         run: |
           set -euo pipefail
           python -m py_compile \
+            app/scripts/refresh_museo_maritimo.py \
+            app/scripts/test_museo_maritimo.py \
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
             app/scripts/test_portaltickets_editorial.py \
             app/scripts/refresh_quality_diagnostics.py
+          python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
 
-      - name: Compose editorial supplements and diagnostics
+      - name: Compose official and editorial supplements and diagnostics
         run: |
           set -euo pipefail
+          python app/scripts/refresh_museo_maritimo.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/refresh_quality_diagnostics.py
@@ -55,12 +60,18 @@ jobs:
 
           root = Path('.')
           dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
+          museum = json.loads((root / 'app/data/quality/museo-maritimo.json').read_text(encoding='utf-8'))
           portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
           quality = json.loads((root / 'app/data/quality/event-quality.json').read_text(encoding='utf-8'))
           readiness = json.loads((root / 'app/data/quality/release-readiness.json').read_text(encoding='utf-8'))
 
           events = dataset.get('events') or []
+          museum_events = [e for e in events if e.get('source_id') == 'museo_maritimo_nacional']
+          expected_museum = int(museum.get('events_published') or 0)
+          if len(museum_events) != expected_museum:
+              raise SystemExit(f'Museo Maritimo composition mismatch: dataset={len(museum_events)} report={expected_museum}')
+
           portal_events = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
           expected_portal = int((portal.get('refresh') or {}).get('corrected_published') or 0)
           if portal.get('fetch_ok') and int(portal.get('candidates_parsed') or 0) > 0:
@@ -83,7 +94,7 @@ jobs:
           if not release_check.get('events_present') or not release_check.get('duplicates_zero'):
               raise SystemExit('release-readiness.json reports an invalid Valpo dataset')
 
-          print(f'VALPO_COMPOSED_OK total={len(events)} portal={len(portal_events)}')
+          print(f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} portal={len(portal_events)}')
           PY
 
       - name: Commit composed dataset and synchronized diagnostics
@@ -93,6 +104,7 @@ jobs:
           git config user.email "agenda-cultural-composer[bot]@users.noreply.github.com"
           git add \
             agenda_web.json \
+            app/data/quality/museo-maritimo.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
