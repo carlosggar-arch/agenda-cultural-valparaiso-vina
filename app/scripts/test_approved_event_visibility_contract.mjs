@@ -54,23 +54,18 @@ assert.match(appJs, /^import "\.\/app-core\.js/m);
 assert.match(appJs, /^import "\.\/static-exhibition-groups\.js/m);
 assert.match(appJs, /^import "\.\/footer-credit\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
-
-// Permanent runtime rule: grouping is allowed only as an observer-free, bounded
-// transformation. Approved events remain addressable through filter sentinels.
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
 assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
-
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
 assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
-
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.match(release, /const RELEASE = 92/);
+assert.match(release, /const RELEASE = 93/);
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
 console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; static observer-free grouping)`);
