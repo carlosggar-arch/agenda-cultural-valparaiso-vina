@@ -48,6 +48,9 @@ assert.doesNotMatch(actionLayout, /MutationObserver|IntersectionObserver|addEven
 
 assert.match(installedMosaic, /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\) !important/);
 assert.match(installedMosaic, /grid-template-rows: 1fr !important/);
+assert.match(installedMosaic, /gap: 0 !important/);
+assert.match(installedMosaic, /border-radius: 0 !important/);
+assert.match(installedMosaic, /\* \+ \*[\s\S]*border-left-width: 0 !important/);
 assert.match(installedMosaic, /data-community-comments/);
 assert.match(installedMosaic, /data-community-like/);
 assert.doesNotMatch(installedMosaic, /grid-template-columns: repeat\(5/);
@@ -56,15 +59,15 @@ assert.match(appJs, /community-source\.js\?v=20260818-feedback3/);
 assert.match(appJs, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
 assert.match(pwa, /participation-footer\.js\?v=20260818-feedback6/);
-assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual3/);
+assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
 assert.match(worker, /participation-footer\.js\?v=20260818-feedback6/);
-assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual3/);
+assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 106/);
+assert.match(release, /const RELEASE = 107/);
 
-console.log("Public feedback: WEB strip preserved and installed mobile actions stay on one row: OK");
+console.log("Public feedback: WEB strip preserved and installed mobile actions form one gapless segmented row: OK");
