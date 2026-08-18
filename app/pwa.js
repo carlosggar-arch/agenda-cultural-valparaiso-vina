@@ -7,7 +7,7 @@ import "./card-image-fallback.js";
 import "./compact-top.js";
 import "./gijon-visual-reference.js";
 import "./sources-toggle.js";
-import "./community-source.js?v=20260818-feedback1";
+import "./community-source.js?v=20260818-feedback2";
 import "./header-redesign.js?v=20260817-brandicon2";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
