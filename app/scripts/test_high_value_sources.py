@@ -128,11 +128,13 @@ def test_picu_routes_and_rejections() -> None:
 
 def test_batch_registry_and_albeniz_existing_coverage() -> None:
     config = json.loads((ROOT / "app/data/high_value_sources.json").read_text(encoding="utf-8"))
-    configured = {item["id"] for item in config["sources"]}
+    registry = {item["id"]: item for item in config["sources"]}
     expected = {
         "el_huerto_gijon", "el_percebe_comedy", "la_habitacion_propia", "mae_gijon", "picu_urriellu",
     }
-    assert expected <= configured, configured
+    assert expected <= set(registry), registry
+    assert all(registry[source_id]["mode"] == "monitor" for source_id in expected)
+    assert all(registry[source_id]["required"] is False for source_id in expected)
 
     dataset = json.loads((ROOT / "app/data/gijon/agenda_web.json").read_text(encoding="utf-8"))
     source_ids = {str(item.get("id") or "") for item in dataset.get("sources", [])}
