@@ -29,6 +29,8 @@ def event(**overrides):
 def test_html_is_removed() -> None:
     raw = '<p>“Nebulosa carina” es una muestra.</p>\\\n'
     assert clean_html_text(raw) == '“Nebulosa carina” es una muestra.'
+    assert clean_html_text(r'<p>Texto limpio.</p>\n') == 'Texto limpio.'
+    assert clean_html_text('Texto limpio. n') == 'Texto limpio.'
     dataset = {"events": [event(description=raw)], "counts": {"total": 1}}
     changes = apply_guard(dataset)
     assert dataset["events"][0]["description"] == '“Nebulosa carina” es una muestra.'
