@@ -17,6 +17,33 @@ function ensureMosaicOverrideStyle() {
       content: none !important;
       display: none !important;
     }
+    html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
+      display: grid !important;
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      width: 100% !important;
+      gap: .20rem !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-favorites-access],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-header-search-toggle],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-share-qr-open],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-city-switch],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-contribute-source] {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-favorites-access],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-city-switch],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-contribute-source] {
+      display: flex !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-header-search-toggle] {
+      display: grid !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-share-qr-open] {
+      display: inline-flex !important;
+    }
   `;
   document.head.append(style);
   return style;
@@ -54,7 +81,7 @@ function syncInstalledMosaic() {
   divider.style.setProperty("height", "15px", "important");
   divider.style.setProperty("min-height", "15px", "important");
   divider.style.setProperty("max-height", "15px", "important");
-  divider.style.setProperty("margin", "-8px auto 1px", "important");
+  divider.style.setProperty("margin", "0 auto 1px", "important");
   divider.style.setProperty("border-radius", "5px", "important");
   divider.style.setProperty("background-color", "#0b7f93", "important");
   divider.style.setProperty("background-image", 'url("../assets/mosaic-top.png")', "important");
@@ -69,6 +96,7 @@ function syncInstalledMosaic() {
 
 syncInstalledMosaic();
 requestAnimationFrame(syncInstalledMosaic);
+setTimeout(syncInstalledMosaic, 250);
 window.addEventListener("resize", syncInstalledMosaic);
 window.addEventListener("orientationchange", syncInstalledMosaic);
 window.addEventListener("appinstalled", syncInstalledMosaic);
