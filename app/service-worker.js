@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v52";
+const CACHE_VERSION = "v53";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -19,7 +19,7 @@ const SHELL_ASSETS = [
   "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
-  "./pwa.js?v=20260817-brandicon1",
+  "./pwa.js?v=20260817-brandicon2",
   "./mobile-experience.js?v=20260817-topcontrols4",
   "./share-qr.js",
   "./stage31-accessibility-seo.js",
@@ -27,7 +27,7 @@ const SHELL_ASSETS = [
   "./favorites.js",
   "./mis-planes.html",
   "./vivamos-brand.js",
-  "./header-redesign.js?v=20260817-brandicon1",
+  "./header-redesign.js?v=20260817-brandicon2",
   "./density-polish.js",
   "./card-experience.js",
   "./schedule-display.js",
