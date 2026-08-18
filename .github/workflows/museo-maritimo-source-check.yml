@@ -26,35 +26,74 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run policy tests and live official-source probe
+      - name: Capture unit and live-source diagnostics
         run: |
-          set -euo pipefail
-          python -m py_compile app/scripts/refresh_museo_maritimo.py app/scripts/test_museo_maritimo.py
-          python app/scripts/test_museo_maritimo.py
-          python app/scripts/refresh_museo_maritimo.py --no-write > museo-maritimo-live-check.json
-          python - <<'PY'
-          import json
+          set +e
+          : > museo-maritimo-check.log
+          python -m py_compile app/scripts/refresh_museo_maritimo.py app/scripts/test_museo_maritimo.py >> museo-maritimo-check.log 2>&1
+          compile_rc=$?
+          python app/scripts/test_museo_maritimo.py >> museo-maritimo-check.log 2>&1
+          tests_rc=$?
+          if [ "$compile_rc" -eq 0 ] && [ "$tests_rc" -eq 0 ]; then
+            python app/scripts/refresh_museo_maritimo.py --no-write > museo-maritimo-live-check.json 2>> museo-maritimo-check.log
+            live_rc=$?
+          else
+            live_rc=99
+            echo '{}' > museo-maritimo-live-check.json
+          fi
+          python - "$compile_rc" "$tests_rc" "$live_rc" <<'PY'
+          import json, sys
           from pathlib import Path
-          report = json.loads(Path('museo-maritimo-live-check.json').read_text(encoding='utf-8'))
-          program = report.get('program') or {}
-          archives = report.get('archives') or []
-          if not program.get('fetch_ok'):
-              raise SystemExit('Museo Maritimo programme page is not reachable')
-          if not any(item.get('fetch_ok') for item in archives):
-              raise SystemExit('No Museo Maritimo official archive page is reachable')
-          print('MUSEO_MARITIMO_LIVE_SOURCE_OK', json.dumps({
+          compile_rc, tests_rc, live_rc = map(int, sys.argv[1:4])
+          report = {}
+          try:
+              report = json.loads(Path('museo-maritimo-live-check.json').read_text(encoding='utf-8'))
+          except Exception:
+              pass
+          status = {
+              'compile_rc': compile_rc,
+              'tests_rc': tests_rc,
+              'live_rc': live_rc,
               'state': report.get('state'),
-              'monthly_items_detected': program.get('monthly_items_detected'),
+              'program_fetch_ok': (report.get('program') or {}).get('fetch_ok'),
+              'monthly_items_detected': (report.get('program') or {}).get('monthly_items_detected'),
+              'archive_fetch_ok': any(item.get('fetch_ok') for item in (report.get('archives') or [])),
               'articles_discovered': report.get('articles_discovered'),
               'articles_scanned': report.get('articles_scanned'),
               'future_dated_candidates': report.get('future_dated_candidates'),
               'events_published': report.get('events_published'),
-          }, ensure_ascii=False))
+          }
+          Path('museo-maritimo-check-status.json').write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding='utf-8')
+          print(json.dumps(status, ensure_ascii=False))
           PY
+          exit 0
 
-      - name: Upload live-source diagnostic
+      - name: Upload source diagnostic
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: museo-maritimo-live-check
-          path: museo-maritimo-live-check.json
+          path: |
+            museo-maritimo-live-check.json
+            museo-maritimo-check-status.json
+            museo-maritimo-check.log
           retention-days: 7
+
+      - name: Enforce source validation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          status = json.loads(Path('museo-maritimo-check-status.json').read_text(encoding='utf-8'))
+          if status['compile_rc'] != 0:
+              raise SystemExit('Museo Maritimo source code does not compile')
+          if status['tests_rc'] != 0:
+              raise SystemExit('Museo Maritimo source policy tests failed')
+          if status['live_rc'] != 0:
+              raise SystemExit('Museo Maritimo live probe crashed')
+          if not status['program_fetch_ok']:
+              raise SystemExit('Museo Maritimo programme page is not reachable')
+          if not status['archive_fetch_ok']:
+              raise SystemExit('No Museo Maritimo official archive page is reachable')
+          print('MUSEO_MARITIMO_SOURCE_VALIDATION_OK', json.dumps(status, ensure_ascii=False))
+          PY
