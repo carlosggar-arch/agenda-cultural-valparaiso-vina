@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T10:49:17+00:00",
+  "generated_at": "2026-08-18T10:51:40+00:00",
   "status": "ok",
   "retention_days": 60,
   "thresholds": {
@@ -16,16 +16,19 @@
       "city_id": "valparaiso-vina",
       "date": "2026-08-18",
       "summary": {
-        "sources_total": 40,
+        "sources_total": 39,
         "producing_now": 23,
-        "zero_now": 17,
+        "zero_now": 11,
         "zero_3d_or_more": 0,
         "zero_7d_or_more": 0,
         "zero_14d_or_more": 0,
         "possible_drops": 0,
-        "total_events": 161,
-        "attributed_events": 161,
-        "unattributed_events": 0
+        "total_events": 165,
+        "attributed_events": 165,
+        "unattributed_events": 0,
+        "direct_zero_now": 16,
+        "covered_elsewhere": 5,
+        "producing_or_covered": 28
       },
       "sources": [
         {
@@ -43,7 +46,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "balmaceda_arte_joven_valpo",
@@ -60,7 +64,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "casa_cultura_valparaiso",
@@ -68,16 +73,19 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
-          "zero_streak_days": 2,
+          "status": "covered_elsewhere",
+          "severity": "ok",
+          "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
           "last_nonzero_date": null,
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": [
+            "valpocultura"
+          ]
         },
         {
           "id": "casa_prisma_valpo",
@@ -94,7 +102,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "centex",
@@ -102,16 +111,19 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
-          "zero_streak_days": 2,
+          "status": "covered_elsewhere",
+          "severity": "ok",
+          "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
           "last_nonzero_date": null,
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": [
+            "valpocultura"
+          ]
         },
         {
           "id": "centro_extension_duoc_valpo",
@@ -128,16 +140,17 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "cinearte_vina",
           "name": "Cine Arte Viña del Mar",
           "role": "venue",
           "source_type": null,
-          "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
+          "current_count": 16,
+          "status": "producing",
+          "severity": "ok",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -145,7 +158,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "compania_la_paila",
@@ -162,7 +176,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "cultura_pucv",
@@ -179,7 +194,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "cultura_usm",
@@ -196,7 +212,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "culturasvina",
@@ -213,7 +230,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "ecoliderazgo",
@@ -230,7 +248,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "estadio_espanol_recreo",
@@ -247,7 +266,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "estrella_negra_jazz",
@@ -255,16 +275,19 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
-          "zero_streak_days": 2,
+          "status": "covered_elsewhere",
+          "severity": "ok",
+          "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
           "last_nonzero_date": null,
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": [
+            "valpocultura"
+          ]
         },
         {
           "id": "insomniacine",
@@ -281,7 +304,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "instituto_le_chat",
@@ -298,7 +322,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "la_escala_galeria",
@@ -315,7 +340,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "maraton_vina_official",
@@ -332,7 +358,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "masita_rica",
@@ -349,7 +376,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "media_maraton_tps_official",
@@ -366,7 +394,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "museobaburizza",
@@ -383,7 +412,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "mhnvalpo",
@@ -400,7 +430,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "museo_fonck",
@@ -417,7 +448,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "museo_palacio_rioja",
@@ -434,7 +466,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "natalia_saldias",
@@ -451,7 +484,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "pcdv",
@@ -468,7 +502,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "red_studio",
@@ -485,7 +520,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "sala_secreta",
@@ -502,7 +538,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "sala_teatro_ipa",
@@ -519,7 +556,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "teatro_la_peste",
@@ -536,7 +574,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "teatro_mauri_scd",
@@ -553,7 +592,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "teatro_municipal_valparaiso",
@@ -561,16 +601,19 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
-          "zero_streak_days": 2,
+          "status": "covered_elsewhere",
+          "severity": "ok",
+          "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
           "last_nonzero_date": null,
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": [
+            "valpocultura"
+          ]
         },
         {
           "id": "teatro_municipal_vina",
@@ -587,7 +630,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "teatromuseo",
@@ -604,7 +648,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "trotamundosvalpo",
@@ -621,7 +666,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "valparaiso_trekking",
@@ -638,7 +684,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "valparaiso_profundo",
@@ -646,23 +693,26 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
-          "zero_streak_days": 2,
+          "status": "covered_elsewhere",
+          "severity": "ok",
+          "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
           "last_nonzero_date": null,
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": [
+            "valpocultura"
+          ]
         },
         {
           "id": "valpocultura",
           "name": "Valpo Cultura",
           "role": "aggregator",
           "source_type": "instagram",
-          "current_count": 5,
+          "current_count": 9,
           "status": "producing",
           "severity": "ok",
           "zero_streak_days": 0,
@@ -672,7 +722,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         },
         {
           "id": "portaltickets_valparaiso",
@@ -689,24 +740,8 @@
           "baseline_median": null,
           "change_pct_vs_baseline": null,
           "possible_drop": false,
-          "history_confidence": "low"
-        },
-        {
-          "id": "legacy_cineartevina_cl",
-          "name": "cineartevina.cl",
-          "role": null,
-          "source_type": null,
-          "current_count": 16,
-          "status": "producing",
-          "severity": "ok",
-          "zero_streak_days": 0,
-          "observed_days": 1,
-          "first_observed_date": "2026-08-18",
-          "last_nonzero_date": "2026-08-18",
-          "baseline_median": null,
-          "change_pct_vs_baseline": null,
-          "possible_drop": false,
-          "history_confidence": "low"
+          "history_confidence": "low",
+          "covered_by_other_sources": []
         }
       ]
     },
