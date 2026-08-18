@@ -101,10 +101,16 @@ def canonical_exhibition_title(value: object) -> str:
 
 def venue_key(event: dict) -> str:
     location = event.get("location") or {}
+    venue = fold(location.get("venue"))
+    city = fold(location.get("city"))
+    # Use the human venue name as the stable cross-source identity. One source may
+    # provide venue_id while another source for the same place does not.
+    if venue:
+        if city and venue.endswith(f" {city}"):
+            venue = venue[: -(len(city) + 1)].strip()
+        return f"{venue}|{city}"
     venue_id = fold(location.get("venue_id"))
-    if venue_id:
-        return venue_id
-    return f"{fold(location.get('venue'))}|{fold(location.get('city'))}"
+    return f"id:{venue_id}" if venue_id else ""
 
 
 def is_exhibition(event: dict) -> bool:
