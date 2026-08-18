@@ -6,6 +6,7 @@ const participation = fs.readFileSync(new URL("../app/participation-footer.js", 
 const webActions = fs.readFileSync(new URL("../app/web-actions-below-mosaic.js", import.meta.url), "utf8");
 const actionLayout = fs.readFileSync(new URL("../app/action-strip-layout.js", import.meta.url), "utf8");
 const installedMosaic = fs.readFileSync(new URL("../app/installed-mosaic.js", import.meta.url), "utf8");
+const shareQrCss = fs.readFileSync(new URL("../app/share-qr.css", import.meta.url), "utf8");
 const app = fs.readFileSync(new URL("../app/app.js", import.meta.url), "utf8");
 const pwa = fs.readFileSync(new URL("../app/pwa.js", import.meta.url), "utf8");
 const worker = fs.readFileSync(new URL("../app/service-worker.js", import.meta.url), "utf8");
@@ -63,6 +64,12 @@ assert.match(installedMosaic, /\[data-contribute-source\] > span:last-child/);
 assert.match(installedMosaic, /overflow: hidden !important/);
 assert.doesNotMatch(installedMosaic, /grid-template-columns: repeat\(5/);
 
+// share-qr.css loads after the row layout; it must not restore the legacy 39px QR width in standalone mode.
+assert.match(shareQrCss, /data-installed-real-mosaic="true"[\s\S]*share-qr-button\[data-share-qr-open\][\s\S]*width:100%!important/);
+assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*min-width:0!important/);
+assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*justify-self:stretch!important/);
+assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*margin:0!important/);
+
 assert.match(app, /community-source\.js\?v=20260818-feedback3/);
 assert.match(app, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
@@ -76,6 +83,6 @@ assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 107/);
+assert.match(release, /const RELEASE = 108/);
 
-console.log("Community feedback UI contract: WEB proportional strip + installed mobile gapless seven-control row");
+console.log("Community feedback UI contract: WEB proportional strip + installed mobile gapless row with full-width QR segment");

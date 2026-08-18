@@ -165,3 +165,26 @@
     padding:.38rem .56rem!important;
   }
 }
+
+/* Installed mobile PWA only: share-qr.css loads after the installed action-row
+   override, so explicitly make the QR button fill its complete grid segment.
+   This removes the two residual gutters caused by the legacy fixed 39px width. */
+html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"]
+  .filter-workbench > .header-actions > .share-qr-button[data-share-qr-open]{
+  grid-column:3!important;
+  grid-row:1!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:38px!important;
+  min-height:38px!important;
+  margin:0!important;
+  padding:.12rem .08rem!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  transform:none!important;
+  display:grid!important;
+  place-items:center!important;
+}
