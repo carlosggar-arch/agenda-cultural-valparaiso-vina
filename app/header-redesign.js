@@ -40,6 +40,12 @@ function toggleSearch() {
   if (opening) requestAnimationFrame(() => input?.focus());
 }
 
+function bindSearchToggle(toggle) {
+  if (!toggle || toggle.dataset.headerSearchBound === "true") return;
+  toggle.dataset.headerSearchBound = "true";
+  toggle.addEventListener("click", toggleSearch);
+}
+
 function buildHeaderStructure() {
   const header = document.querySelector(".app-header");
   const brandCopy = document.querySelector(".brand span");
@@ -93,17 +99,18 @@ function buildHeaderStructure() {
     }
   }
 
-  if (actions && !actions.querySelector("[data-header-search-toggle]")) {
-    const toggle = document.createElement("button");
-    toggle.type = "button";
-    toggle.className = "header-search-toggle";
-    toggle.dataset.headerSearchToggle = "";
-    toggle.setAttribute("aria-label", "Buscar actividades");
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.innerHTML = '<span aria-hidden="true">⌕</span>';
-    actions.prepend(toggle);
-    toggle.addEventListener("click", toggleSearch);
+  let searchToggle = actions?.querySelector("[data-header-search-toggle]");
+  if (actions && !searchToggle) {
+    searchToggle = document.createElement("button");
+    searchToggle.type = "button";
+    searchToggle.className = "header-search-toggle";
+    searchToggle.dataset.headerSearchToggle = "";
+    searchToggle.setAttribute("aria-label", "Buscar actividades");
+    searchToggle.setAttribute("aria-expanded", "false");
+    searchToggle.innerHTML = '<span aria-hidden="true">⌕</span>';
+    actions.prepend(searchToggle);
   }
+  bindSearchToggle(searchToggle);
 
   let searchPopover = header.querySelector("[data-header-search-popover]");
   if (!searchPopover) {
