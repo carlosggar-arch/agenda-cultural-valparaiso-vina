@@ -23,6 +23,19 @@ on:
       - "app/scripts/test_high_value_sources.py"
       - "app/scripts/refresh_museo_maritimo.py"
       - "app/scripts/test_museo_maritimo.py"
+      - "app/scripts/refresh_balmaceda_valpo.py"
+      - "app/scripts/refresh_balmaceda_valpo_bounded.py"
+      - "app/scripts/test_balmaceda_valpo.py"
+      - "app/scripts/apply_balmaceda_coverage.py"
+      - "app/scripts/test_balmaceda_coverage.py"
+      - "app/scripts/refresh_visitavina_fonck.py"
+      - "app/scripts/test_visitavina_fonck.py"
+      - "app/scripts/apply_fonck_coverage.py"
+      - "app/scripts/test_fonck_coverage.py"
+      - "app/scripts/refresh_visitavina_estadio_espanol.py"
+      - "app/scripts/test_visitavina_estadio_espanol.py"
+      - "app/scripts/apply_estadio_espanol_coverage.py"
+      - "app/scripts/test_estadio_espanol_coverage.py"
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
@@ -30,6 +43,10 @@ on:
       - "app/scripts/refresh_valpocultura_zero_recovery.py"
       - "app/scripts/refresh_priority_zero_monitors.py"
       - "app/scripts/test_priority_zero_monitors.py"
+      - "app/scripts/apply_title_quality_guard.py"
+      - "app/scripts/test_title_quality_guard.py"
+      - "app/scripts/apply_content_quality_guard.py"
+      - "app/scripts/test_content_quality_guard.py"
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
       - "app/scripts/test_source_coverage_overrides.py"
@@ -60,6 +77,19 @@ on:
       - "app/scripts/test_high_value_sources.py"
       - "app/scripts/refresh_museo_maritimo.py"
       - "app/scripts/test_museo_maritimo.py"
+      - "app/scripts/refresh_balmaceda_valpo.py"
+      - "app/scripts/refresh_balmaceda_valpo_bounded.py"
+      - "app/scripts/test_balmaceda_valpo.py"
+      - "app/scripts/apply_balmaceda_coverage.py"
+      - "app/scripts/test_balmaceda_coverage.py"
+      - "app/scripts/refresh_visitavina_fonck.py"
+      - "app/scripts/test_visitavina_fonck.py"
+      - "app/scripts/apply_fonck_coverage.py"
+      - "app/scripts/test_fonck_coverage.py"
+      - "app/scripts/refresh_visitavina_estadio_espanol.py"
+      - "app/scripts/test_visitavina_estadio_espanol.py"
+      - "app/scripts/apply_estadio_espanol_coverage.py"
+      - "app/scripts/test_estadio_espanol_coverage.py"
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
@@ -67,6 +97,10 @@ on:
       - "app/scripts/refresh_valpocultura_zero_recovery.py"
       - "app/scripts/refresh_priority_zero_monitors.py"
       - "app/scripts/test_priority_zero_monitors.py"
+      - "app/scripts/apply_title_quality_guard.py"
+      - "app/scripts/test_title_quality_guard.py"
+      - "app/scripts/apply_content_quality_guard.py"
+      - "app/scripts/test_content_quality_guard.py"
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
       - "app/scripts/test_source_coverage_overrides.py"
@@ -86,7 +120,7 @@ concurrency:
 jobs:
   validate-and-sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -111,6 +145,19 @@ jobs:
             app/scripts/test_high_value_sources.py \
             app/scripts/refresh_museo_maritimo.py \
             app/scripts/test_museo_maritimo.py \
+            app/scripts/refresh_balmaceda_valpo.py \
+            app/scripts/refresh_balmaceda_valpo_bounded.py \
+            app/scripts/test_balmaceda_valpo.py \
+            app/scripts/apply_balmaceda_coverage.py \
+            app/scripts/test_balmaceda_coverage.py \
+            app/scripts/refresh_visitavina_fonck.py \
+            app/scripts/test_visitavina_fonck.py \
+            app/scripts/apply_fonck_coverage.py \
+            app/scripts/test_fonck_coverage.py \
+            app/scripts/refresh_visitavina_estadio_espanol.py \
+            app/scripts/test_visitavina_estadio_espanol.py \
+            app/scripts/apply_estadio_espanol_coverage.py \
+            app/scripts/test_estadio_espanol_coverage.py \
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
             app/scripts/test_portaltickets_editorial.py \
@@ -118,6 +165,10 @@ jobs:
             app/scripts/refresh_valpocultura_zero_recovery.py \
             app/scripts/refresh_priority_zero_monitors.py \
             app/scripts/test_priority_zero_monitors.py \
+            app/scripts/apply_title_quality_guard.py \
+            app/scripts/test_title_quality_guard.py \
+            app/scripts/apply_content_quality_guard.py \
+            app/scripts/test_content_quality_guard.py \
             app/scripts/apply_source_coverage_overrides.py \
             app/scripts/test_valpocultura_zero_recovery.py \
             app/scripts/test_source_coverage_overrides.py
@@ -129,25 +180,41 @@ jobs:
           node --check app/service-worker.js
           python app/scripts/test_high_value_sources.py
           python app/scripts/test_museo_maritimo.py
+          python app/scripts/test_balmaceda_valpo.py
+          python app/scripts/test_balmaceda_coverage.py
+          python app/scripts/test_visitavina_fonck.py
+          python app/scripts/test_fonck_coverage.py
+          python app/scripts/test_visitavina_estadio_espanol.py
+          python app/scripts/test_estadio_espanol_coverage.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_priority_zero_monitors.py
+          python app/scripts/test_title_quality_guard.py
+          python app/scripts/test_content_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/fetch_high_value_sources.py --no-write
           python app/scripts/refresh_museo_maritimo.py --no-write
+          python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
+          python app/scripts/refresh_visitavina_fonck.py --no-write
+          python app/scripts/refresh_visitavina_estadio_espanol.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
           python app/scripts/refresh_priority_zero_monitors.py --no-write
+          python app/scripts/apply_title_quality_guard.py --no-write
+          python app/scripts/apply_content_quality_guard.py --no-write
           python app/scripts/refresh_quality_diagnostics.py --no-write
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
 
-      - name: Refresh verified high-value sources and diagnostics
+      - name: Refresh and atomically compose verified sources and diagnostics
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
           python app/scripts/fetch_high_value_sources.py
           python app/scripts/refresh_museo_maritimo.py
+          python app/scripts/refresh_balmaceda_valpo_bounded.py
+          python app/scripts/refresh_visitavina_fonck.py
+          python app/scripts/refresh_visitavina_estadio_espanol.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/refresh_priority_zero_monitors.py
@@ -155,12 +222,110 @@ jobs:
           python app/scripts/validate_high_value_refresh.py
           python app/scripts/test_high_value_sources.py
           python app/scripts/test_museo_maritimo.py
+          python app/scripts/test_balmaceda_valpo.py
+          python app/scripts/test_balmaceda_coverage.py
+          python app/scripts/test_visitavina_fonck.py
+          python app/scripts/test_fonck_coverage.py
+          python app/scripts/test_visitavina_estadio_espanol.py
+          python app/scripts/test_estadio_espanol_coverage.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_priority_zero_monitors.py
+          python app/scripts/test_title_quality_guard.py
+          python app/scripts/test_content_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
+          python app/scripts/apply_title_quality_guard.py
+          python app/scripts/apply_content_quality_guard.py
           python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/apply_source_coverage_overrides.py
+          python app/scripts/apply_balmaceda_coverage.py
+          python app/scripts/apply_fonck_coverage.py
+          python app/scripts/apply_estadio_espanol_coverage.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
+          museum = json.loads((root / 'app/data/quality/museo-maritimo.json').read_text(encoding='utf-8'))
+          balm = json.loads((root / 'app/data/quality/balmaceda-valpo.json').read_text(encoding='utf-8'))
+          fonck = json.loads((root / 'app/data/quality/visitavina-fonck.json').read_text(encoding='utf-8'))
+          estadio = json.loads((root / 'app/data/quality/visitavina-estadio-espanol.json').read_text(encoding='utf-8'))
+          portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
+          municipal = json.loads((root / 'app/data/quality/valpocultura-zero-recovery.json').read_text(encoding='utf-8'))
+          monitored_zero = json.loads((root / 'app/data/quality/priority-zero-monitors.json').read_text(encoding='utf-8'))
+          content_quality = json.loads((root / 'app/data/quality/content-quality.json').read_text(encoding='utf-8'))
+          coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
+          quality = json.loads((root / 'app/data/quality/event-quality.json').read_text(encoding='utf-8'))
+          readiness = json.loads((root / 'app/data/quality/release-readiness.json').read_text(encoding='utf-8'))
+          events = dataset.get('events') or []
+
+          checks = [
+              ('Museo Maritimo', 'museo_maritimo_nacional', int(museum.get('events_published') or 0)),
+              ('Balmaceda', 'balmaceda_arte_joven_valpo_official', int(balm.get('events_published') or 0)),
+              ('Museo Fonck', 'visitavina_fonck_recovery', int(fonck.get('events_published') or 0)),
+              ('Estadio Espanol', 'visitavina_estadio_espanol_recovery', int(estadio.get('events_published') or 0)),
+          ]
+          for label, source_id, expected in checks:
+              actual = sum(e.get('source_id') == source_id for e in events)
+              if actual != expected:
+                  raise SystemExit(f'{label} composition mismatch: dataset={actual} report={expected}')
+
+          portal_events = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
+          expected_portal = int((portal.get('refresh') or {}).get('corrected_published') or 0)
+          if portal.get('fetch_ok') and int(portal.get('candidates_parsed') or 0) > 0:
+              if expected_portal <= 0 or len(portal_events) != expected_portal:
+                  raise SystemExit(f'PortalTickets composition mismatch: dataset={len(portal_events)} report={expected_portal}')
+
+          municipal_events = [e for e in events if str((e.get('editorial') or {}).get('reason') or '') == 'official_cross_source:valpocultura']
+          if municipal.get('fetch_ok') is True:
+              expected_municipal = int((municipal.get('refresh') or {}).get('published') or 0)
+              if len(municipal_events) != expected_municipal:
+                  raise SystemExit(f'Valpo Cultura recovery mismatch: dataset={len(municipal_events)} report={expected_municipal}')
+
+          counts = dataset.get('counts') or {}
+          if counts.get('total') != len(events):
+              raise SystemExit(f'Dataset count mismatch: counts.total={counts.get("total")} events={len(events)}')
+          if content_quality.get('events_after') != len(events):
+              raise SystemExit('content-quality.json is not synchronized with agenda_web.json')
+
+          cov_city = (coverage.get('cities') or {}).get('valparaiso-vina') or {}
+          cov_summary = cov_city.get('summary') or {}
+          if cov_summary.get('total_events') != len(events) or cov_summary.get('attributed_events') != len(events):
+              raise SystemExit('source-coverage.json is not synchronized with agenda_web.json')
+
+          coverage_rows = {str(row.get('id') or ''): row for row in cov_city.get('sources') or []}
+          expected_coverages = [
+              (balm, 'balmaceda_arte_joven_valpo', 'Balmaceda'),
+              (fonck, 'museo_fonck', 'Museo Fonck'),
+              (estadio, 'estadio_espanol_recreo', 'Estadio Espanol'),
+          ]
+          for report, source_id, label in expected_coverages:
+              if report.get('coverage'):
+                  row = coverage_rows.get(source_id)
+                  if not row or row.get('status') not in {'producing', 'covered_elsewhere'}:
+                      raise SystemExit(f'{label} coverage was not reflected in source-coverage.json')
+
+          monitored_ids = {
+              str(row.get('id') or '') for row in monitored_zero.get('sources') or []
+              if row.get('fetch_ok') is True and row.get('verified_inactive') is True
+          }
+          for source_id in monitored_ids:
+              row = coverage_rows.get(source_id)
+              if not row or row.get('status') != 'monitored_confirmed_zero':
+                  raise SystemExit(f'Verified inactive source not reflected in coverage: {source_id}')
+
+          quality_summary = ((quality.get('cities') or {}).get('valparaiso-vina') or {}).get('summary') or {}
+          if quality_summary.get('total_events') != len(events):
+              raise SystemExit('event-quality.json is not synchronized with agenda_web.json')
+          release_check = (readiness.get('checks') or {}).get('valparaiso-vina') or {}
+          if not release_check.get('events_present') or not release_check.get('duplicates_zero'):
+              raise SystemExit('release-readiness.json reports an invalid Valpo dataset')
+          if readiness.get('blockers'):
+              raise SystemExit(f'Release blockers after atomic composition: {readiness.get("blockers")}')
+
+          print(f'ATOMIC_VALPO_PUBLICATION_OK total={len(events)} zero_now={cov_summary.get("zero_now")} covered={cov_summary.get("covered_elsewhere")} verified_zero={len(monitored_ids)}')
+          PY
 
       - name: Generate permanent pages and canonical city landing on public main
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -183,9 +348,14 @@ jobs:
             app/data/gijon/agenda_web.json \
             app/data/quality/high-value-sources.json \
             app/data/quality/museo-maritimo.json \
+            app/data/quality/balmaceda-valpo.json \
+            app/data/quality/visitavina-fonck.json \
+            app/data/quality/visitavina-estadio-espanol.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
             app/data/quality/priority-zero-monitors.json \
+            app/data/quality/title-quality.json \
+            app/data/quality/content-quality.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
             app/data/quality/release-readiness.json \
