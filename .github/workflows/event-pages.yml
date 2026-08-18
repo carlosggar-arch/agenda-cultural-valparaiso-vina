@@ -17,6 +17,10 @@ on:
       - "app/service-worker.js"
       - "app/stage31-accessibility-seo.js"
       - "app/stage31-accessibility.css"
+      - "app/data/high_value_sources.json"
+      - "app/scripts/fetch_high_value_sources.py"
+      - "app/scripts/validate_high_value_refresh.py"
+      - "app/scripts/test_high_value_sources.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   push:
@@ -38,9 +42,15 @@ on:
       - "app/service-worker.js"
       - "app/stage31-accessibility-seo.js"
       - "app/stage31-accessibility.css"
+      - "app/data/high_value_sources.json"
+      - "app/scripts/fetch_high_value_sources.py"
+      - "app/scripts/validate_high_value_refresh.py"
+      - "app/scripts/test_high_value_sources.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   workflow_dispatch:
+  schedule:
+    - cron: "25 9 * * *"
 
 permissions:
   contents: write
@@ -52,7 +62,7 @@ concurrency:
 jobs:
   validate-and-sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,21 +74,39 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate accessibility, SEO, structured data and event-page runtime
+      - name: Validate accessibility, SEO, structured data and source runtime
         run: |
           set -euo pipefail
-          python -m py_compile scripts/generate_event_pages.py scripts/stage31_site_generator.py tests/test_stage31.py
+          python -m py_compile \
+            scripts/generate_event_pages.py \
+            scripts/stage31_site_generator.py \
+            tests/test_stage31.py \
+            app/scripts/fetch_high_value_sources.py \
+            app/scripts/validate_high_value_refresh.py \
+            app/scripts/test_high_value_sources.py
           node --check assets/event-page.js
           node --check assets/web-event-enhancements.js
           node --check app/event-detail.js
           node --check app/stage31-accessibility-seo.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          python app/scripts/test_high_value_sources.py
+          python app/scripts/fetch_high_value_sources.py --no-write
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
 
+      - name: Refresh verified high-value sources
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          python app/scripts/fetch_high_value_sources.py
+          python app/scripts/validate_high_value_refresh.py
+          python app/scripts/test_high_value_sources.py
+          python app/scripts/test_pre_release.py
+          python app/scripts/test_release_guard.py
+
       - name: Generate permanent pages and canonical city landing on public main
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
           python scripts/stage31_site_generator.py
@@ -87,20 +115,24 @@ jobs:
           test -d evento/valparaiso
           test -d evento/gijon
 
-      - name: Commit generated pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Commit refreshed data and generated pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
           git config user.name "agenda-cultural-event-pages[bot]"
           git config user.email "agenda-cultural-event-pages[bot]@users.noreply.github.com"
-          git add index.html evento sitemap.xml gijon
+          git add \
+            agenda_web.json \
+            app/data/gijon/agenda_web.json \
+            app/data/quality/high-value-sources.json \
+            index.html evento sitemap.xml gijon
           if git diff --cached --quiet; then
-            echo "Permanent event pages already synchronized."
+            echo "High-value sources and permanent pages already synchronized."
             exit 0
           fi
-          git commit -m "Actualiza fichas permanentes y SEO multi-ciudad"
+          git commit -m "Actualiza fuentes de alto valor y fichas permanentes"
           if [ -n "$(git status --porcelain)" ]; then
-            echo "Generated-page workflow left unstaged changes before rebase:" >&2
+            echo "Publication workflow left unstaged changes before rebase:" >&2
             git status --short >&2
             exit 1
           fi
