@@ -25,32 +25,49 @@
   <main class="community-form-page">
     <section class="community-form-card">
       <p class="eyebrow">Fuentes comunitarias</p>
-      <h1>Proponer una fuente</h1>
-      <p>¿Conoces una organización, espacio, colectivo o canal que publique actividades culturales? Puedes proponerlo para revisión. La propuesta no se incorpora automáticamente.</p>
+      <h1>Aportar una fuente</h1>
+      <p>¿Conoces una organización, espacio, colectivo o cuenta que publique actividades culturales? Envíanos el enlace y la revisaremos antes de incorporarla.</p>
       <div class="community-city-badge" data-city-badge>📍 Ciudad activa</div>
 
-      <form class="community-form" data-community-source-form>
+      <div class="community-required-note"><strong>Solo necesitas 3 datos.</strong> Los campos marcados con <span aria-hidden="true">*</span><span class="sr-only">asterisco</span> son obligatorios.</div>
+
+      <form class="community-form community-form--simple" data-community-source-form>
         <input type="hidden" name="cities" data-city-input>
-        <label>Organización o colectivo<input required name="organization_name" maxlength="180" autocomplete="organization"></label>
-        <label>Frecuencia aproximada<input name="publication_frequency" maxlength="120" placeholder="Ej. semanal, mensual"></label>
-        <label class="full-row">Descripción<textarea name="description" maxlength="1200" placeholder="Qué tipo de actividades publica y por qué sería una fuente útil"></textarea></label>
-        <label>Categorías<select required multiple size="7" name="categories"><option>Cine</option><option>Teatro</option><option>Música</option><option>Danza</option><option>Exposiciones</option><option>Museos</option><option>Ferias y gastronomía</option><option>Naturaleza y deportes</option><option>Cursos y talleres</option><option>Literatura</option><option>Patrimonio</option><option>Familia</option><option>Otros panoramas</option></select></label>
-        <div>
-          <label>Sitio web<input type="url" name="website_url" maxlength="1000" placeholder="https://…"></label>
-          <label>Instagram<input type="url" name="instagram_url" maxlength="1000" placeholder="https://instagram.com/…"></label>
-          <label>Facebook<input type="url" name="facebook_url" maxlength="1000" placeholder="https://facebook.com/…"></label>
-        </div>
-        <label>Calendario público<input type="url" name="calendar_url" maxlength="1000" placeholder="https://…"></label>
-        <label>Feed RSS, Atom, JSON o iCal<input type="url" name="feed_url" maxlength="1000" placeholder="https://…"></label>
-        <p class="full-row">Indica al menos un sitio web, red social, calendario o feed. La fuente se revisará antes de activarse.</p>
-        <label>Nombre de contacto<input required name="contact_name" maxlength="160" autocomplete="name"></label>
-        <label>Correo privado<input required type="email" name="contact_email" maxlength="254" autocomplete="email"></label>
-        <p class="full-row">El contacto se usa únicamente para revisar la propuesta y no se publica. Consulta la <a href="../privacidad.html">política de privacidad</a>.</p>
-        <label class="full-row">Observaciones<textarea name="notes" maxlength="1200"></textarea></label>
-        <label class="checkbox-label full-row"><input required type="checkbox" name="consent"> Consiento el uso privado de mis datos para revisar esta fuente.</label>
+
+        <label class="full-row">Nombre de la fuente <span class="required-mark" aria-hidden="true">*</span>
+          <input required name="organization_name" maxlength="180" autocomplete="organization" placeholder="Ej. Teatro X, Museo Y, @cuentacultural">
+        </label>
+
+        <label class="full-row">Enlace público <span class="required-mark" aria-hidden="true">*</span>
+          <input required type="url" name="source_url" maxlength="1000" inputmode="url" placeholder="Web, Instagram, Facebook, calendario…">
+          <small class="field-help">Pega el enlace donde normalmente publican sus actividades.</small>
+        </label>
+
+        <label class="full-row">Tu correo <span class="required-mark" aria-hidden="true">*</span>
+          <input required type="email" name="contact_email" maxlength="254" autocomplete="email" placeholder="Solo para revisar la propuesta">
+          <small class="field-help">Es privado y no se publica.</small>
+        </label>
+
+        <details class="community-optional full-row">
+          <summary>Añadir más información <span>(opcional)</span></summary>
+          <div class="community-optional-grid">
+            <label>Tu nombre<input name="contact_name" maxlength="160" autocomplete="name"></label>
+            <label>Frecuencia aproximada<input name="publication_frequency" maxlength="120" placeholder="Ej. semanal, mensual"></label>
+            <label class="full-row">Descripción<textarea name="description" maxlength="1200" placeholder="Qué tipo de actividades publica"></textarea></label>
+            <label class="full-row">Categorías<select multiple size="6" name="categories"><option>Cine</option><option>Teatro</option><option>Música</option><option>Danza</option><option>Exposiciones</option><option>Museos</option><option>Ferias y gastronomía</option><option>Naturaleza y deportes</option><option>Cursos y talleres</option><option>Literatura</option><option>Patrimonio</option><option>Familia</option><option>Otros panoramas</option></select><small class="field-help">Puedes dejarlo vacío; lo clasificaremos durante la revisión.</small></label>
+            <label>Sitio web adicional<input type="url" name="website_url" maxlength="1000" placeholder="https://…"></label>
+            <label>Instagram adicional<input type="url" name="instagram_url" maxlength="1000" placeholder="https://instagram.com/…"></label>
+            <label>Facebook adicional<input type="url" name="facebook_url" maxlength="1000" placeholder="https://facebook.com/…"></label>
+            <label>Calendario público<input type="url" name="calendar_url" maxlength="1000" placeholder="https://…"></label>
+            <label>Feed RSS, Atom, JSON o iCal<input type="url" name="feed_url" maxlength="1000" placeholder="https://…"></label>
+            <label class="full-row">Observaciones<textarea name="notes" maxlength="1200"></textarea></label>
+          </div>
+        </details>
+
+        <label class="checkbox-label full-row"><input required type="checkbox" name="consent"> <span>Consiento el uso privado de mi correo para revisar esta propuesta. <a href="../privacidad.html">Privacidad</a>.</span></label>
         <label class="honeypot" aria-hidden="true">Sitio web alternativo<input name="website" tabindex="-1" autocomplete="off"></label>
         <div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2"></div>
-        <button class="community-submit" type="submit">Enviar para revisión</button>
+        <button class="community-submit" type="submit">Enviar fuente</button>
         <p class="community-message" data-form-message aria-live="polite"></p>
       </form>
       <a class="community-back" href="./">← Volver a la agenda</a>
