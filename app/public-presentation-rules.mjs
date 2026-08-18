@@ -45,9 +45,75 @@ function viableTitle(value) {
   return fold(text).length >= 4 ? text : null;
 }
 
+function activityCategoryId(event) {
+  return cleanSpace(event?.primary_category?.id || event?.categories?.[0]?.id).toLocaleLowerCase("es");
+}
+
+function stripRedundantFormatPrefix(value, event) {
+  let text = cleanSpace(value);
+  if (activityCategoryId(event) !== "cursos-talleres") return text;
+  const candidate = text.replace(
+    /^ciclo\s+(?:de\s+)?taller(?:es)?\s*(?:(?:[:|/–—-])\s*)?/iu,
+    "",
+  ).trim();
+  return viableTitle(candidate) || text;
+}
+
+function stripEmbeddedCityStop(value, event) {
+  let text = cleanSpace(value);
+  const city = cleanSpace(event?.location?.city);
+  if (!city) return text;
+  const cityRx = flexibleLiteral(city);
+
+  // Location is metadata, not part of the public title. This covers tour/listing
+  // forms such as "INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE" without
+  // blindly removing every occurrence of the preposition "en".
+  text = text.replace(
+    new RegExp(`^(.+?)\\s+en\\s+${cityRx}\\s*([-–—:])\\s*(.+)$`, "iu"),
+    (_match, before, separator, after) => `${before.trim()} ${separator === ":" ? ":" : "—"} ${after.trim()}`,
+  );
+  text = text.replace(
+    new RegExp(`^(.+?)\\s+en\\s+${cityRx}\\s*$`, "iu"),
+    (_match, before) => before.trim(),
+  );
+  return text;
+}
+
+function isAllCaps(value) {
+  const letters = [...String(value || "")]
+    .filter((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
+  return letters.length >= 5 && letters.every((char) => char === char.toLocaleUpperCase("es"));
+}
+
+function upperFirst(value) {
+  const chars = [...String(value || "").toLocaleLowerCase("es")];
+  const index = chars.findIndex((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
+  if (index >= 0) chars[index] = chars[index].toLocaleUpperCase("es");
+  return chars.join("");
+}
+
+function titleCaseTourName(value) {
+  const minor = new Set(["a", "al", "de", "del", "el", "en", "la", "las", "los", "y"]);
+  return cleanSpace(value).toLocaleLowerCase("es").split(" ").map((word, index) => {
+    if (index > 0 && minor.has(word)) return word;
+    return word ? `${word[0].toLocaleUpperCase("es")}${word.slice(1)}` : word;
+  }).join(" ");
+}
+
+function normalizeStructuredAllCaps(value) {
+  const text = cleanSpace(value);
+  if (!isAllCaps(text)) return text;
+  const tour = text.match(/^(.+?)\s+[—–-]\s+GIRA\s+(.+)$/u);
+  if (tour) return `${upperFirst(tour[1])} — Gira ${titleCaseTourName(tour[2])}`;
+  return text;
+}
+
 export function normalizePublicTitle(value, event = null) {
   let text = cleanSpace(value);
   if (!text || !event) return text;
+
+  text = stripRedundantFormatPrefix(text, event);
+  text = stripEmbeddedCityStop(text, event);
 
   const city = cleanSpace(event?.location?.city);
   const cityRx = city ? flexibleLiteral(city) : null;
@@ -77,7 +143,7 @@ export function normalizePublicTitle(value, event = null) {
     }
     if (text === before) break;
   }
-  return text;
+  return normalizeStructuredAllCaps(text);
 }
 
 export function isNonEventDescription(value) {
@@ -146,10 +212,11 @@ function formatTime(value, locale, timezone) {
 
 function visitHours(event) {
   const schedule = event?.schedule || {};
-  const opening = cleanSpace(schedule.opening_time);
-  const closing = cleanSpace(schedule.closing_time);
+  const openingHours = schedule.opening_hours || {};
+  const opening = cleanSpace(schedule.opening_time || openingHours.opening_time);
+  const closing = cleanSpace(schedule.closing_time || openingHours.closing_time);
   if (/^\d{2}:\d{2}$/.test(opening) && /^\d{2}:\d{2}$/.test(closing)) return `${opening}–${closing}`;
-  const display = cleanSpace(schedule.display_text);
+  const display = cleanSpace(openingHours.display_text || schedule.display_text);
   const range = display.match(/\b([01]?\d|2[0-3]):[0-5]\d\s*[–—-]\s*([01]?\d|2[0-3]):[0-5]\d\b/u);
   if (range) return range[0].replace(/\s*[–—-]\s*/u, "–");
   return null;
