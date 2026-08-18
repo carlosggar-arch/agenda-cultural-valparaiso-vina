@@ -4,8 +4,8 @@
   "publication_date": "2026-08-18",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 164,
-    "events": 157,
+    "total": 165,
+    "events": 158,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 3
@@ -2634,6 +2634,91 @@
         "alt": "La Odisea (2026)",
         "source": "official_page_metadata",
         "relevance": "event_specific"
+      }
+    },
+    {
+      "id": "agenda_visitavina_fonck_85802cc1354e5044",
+      "title": "Taller // Lengua Rapanui",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-19T16:00:00-04:00",
+        "end": "2026-08-19T16:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-19 · 16:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "museo_fonck",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Fonck",
+        "address": "4 Norte 784, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "CLP",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
+      },
+      "links": {
+        "official": "https://visitavina.munivina.cl/actividad/taller-de-lengua-rapanui-2/?occurrence=2026-08-19&time=1787155200",
+        "tickets": null,
+        "registration": null,
+        "source": "https://visitavina.munivina.cl/actividades/"
+      },
+      "organizer": "Museo Fonck",
+      "source_id": "visitavina_fonck_recovery",
+      "source_name": "Visita Viña — Museo Fonck",
+      "source_url": "https://visitavina.munivina.cl/actividades/",
+      "last_verified_at": "2026-08-18T07:35:50-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T07:35:50-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "complete",
+        "advisory_text": "Ocurrencia futura recuperada desde la cartelera oficial municipal Visita Viña; confirma acceso y condiciones en la ficha enlazada."
+      },
+      "description": "Sesión futura del Taller de Lengua Rapanui en Museo Fonck, recuperada desde un enlace de ocurrencia explícito de la cartelera municipal.",
+      "tags": [
+        "Cursos y talleres",
+        "Museo Fonck",
+        "Visita Viña"
+      ],
+      "audience": "Desde 16 años",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cross_source:visitavina_fonck",
+        "covered_source_ids": [
+          "museo_fonck"
+        ],
+        "duration_days": 0
       }
     },
     {
