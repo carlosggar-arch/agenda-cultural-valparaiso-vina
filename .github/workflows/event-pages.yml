@@ -50,6 +50,12 @@ on:
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
       - "app/scripts/test_source_coverage_overrides.py"
+      - "app/scripts/atomic_maintenance_hook.py"
+      - "app/scripts/event_page_tools.py"
+      - "app/scripts/revalidate_upcoming_events.py"
+      - "app/scripts/parser_drift_guard.py"
+      - "app/scripts/audit_source_coherence.py"
+      - "app/scripts/audit_and_recover_images.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   push:
@@ -104,6 +110,12 @@ on:
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
       - "app/scripts/test_source_coverage_overrides.py"
+      - "app/scripts/atomic_maintenance_hook.py"
+      - "app/scripts/event_page_tools.py"
+      - "app/scripts/revalidate_upcoming_events.py"
+      - "app/scripts/parser_drift_guard.py"
+      - "app/scripts/audit_source_coherence.py"
+      - "app/scripts/audit_and_recover_images.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   workflow_dispatch:
@@ -133,7 +145,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate accessibility, SEO, structured data and source runtime
+      - name: Validate static runtime and page generation
         run: |
           set -euo pipefail
           python -m py_compile \
@@ -171,13 +183,26 @@ jobs:
             app/scripts/test_content_quality_guard.py \
             app/scripts/apply_source_coverage_overrides.py \
             app/scripts/test_valpocultura_zero_recovery.py \
-            app/scripts/test_source_coverage_overrides.py
+            app/scripts/test_source_coverage_overrides.py \
+            app/scripts/atomic_maintenance_hook.py \
+            app/scripts/event_page_tools.py \
+            app/scripts/revalidate_upcoming_events.py \
+            app/scripts/parser_drift_guard.py \
+            app/scripts/audit_source_coherence.py \
+            app/scripts/audit_and_recover_images.py
           node --check assets/event-page.js
           node --check assets/web-event-enhancements.js
           node --check app/event-detail.js
           node --check app/stage31-accessibility-seo.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          python -m unittest discover -s tests -p 'test_stage31.py' -v
+          python scripts/stage31_site_generator.py --check
+
+      - name: Validate source policies and live dry-run
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
           python app/scripts/test_high_value_sources.py
           python app/scripts/test_museo_maritimo.py
           python app/scripts/test_balmaceda_valpo.py
@@ -203,11 +228,74 @@ jobs:
           python app/scripts/apply_title_quality_guard.py --no-write
           python app/scripts/apply_content_quality_guard.py --no-write
           python app/scripts/refresh_quality_diagnostics.py --no-write
-          python -m unittest discover -s tests -p 'test_stage31.py' -v
-          python scripts/stage31_site_generator.py --check
+
+      - name: Decide whether source refresh is required
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        id: source_refresh
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+            echo "Source refresh required by ${{ github.event_name }}."
+            exit 0
+          fi
+
+          before="${{ github.event.before }}"
+          if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-parse HEAD^ 2>/dev/null || true)"
+          fi
+          if [[ -z "$before" ]]; then
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+            echo "Source refresh required because no comparison base is available."
+            exit 0
+          fi
+
+          git diff --name-only "$before" "${{ github.sha }}" > changed-files.txt
+          needed=false
+          while IFS= read -r path; do
+            case "$path" in
+              app/data/high_value_sources.json|\
+              app/scripts/fetch_high_value_sources.py|\
+              app/scripts/validate_high_value_refresh.py|\
+              app/scripts/refresh_museo_maritimo.py|\
+              app/scripts/refresh_balmaceda_valpo.py|\
+              app/scripts/refresh_balmaceda_valpo_bounded.py|\
+              app/scripts/apply_balmaceda_coverage.py|\
+              app/scripts/refresh_visitavina_fonck.py|\
+              app/scripts/apply_fonck_coverage.py|\
+              app/scripts/refresh_visitavina_estadio_espanol.py|\
+              app/scripts/apply_estadio_espanol_coverage.py|\
+              app/scripts/refresh_portaltickets_editorial.py|\
+              app/scripts/validate_portaltickets_editorial.py|\
+              app/scripts/refresh_quality_diagnostics.py|\
+              app/scripts/refresh_valpocultura_zero_recovery.py|\
+              app/scripts/refresh_priority_zero_monitors.py|\
+              app/scripts/apply_title_quality_guard.py|\
+              app/scripts/apply_content_quality_guard.py|\
+              app/scripts/apply_source_coverage_overrides.py|\
+              app/scripts/atomic_maintenance_hook.py|\
+              app/scripts/event_page_tools.py|\
+              app/scripts/revalidate_upcoming_events.py|\
+              app/scripts/parser_drift_guard.py|\
+              app/scripts/audit_source_coherence.py|\
+              app/scripts/audit_and_recover_images.py|\
+              .github/workflows/event-pages.yml)
+                needed=true
+                break
+                ;;
+            esac
+          done < changed-files.txt
+
+          echo "needed=$needed" >> "$GITHUB_OUTPUT"
+          if [[ "$needed" == "true" ]]; then
+            echo "Source-affecting changes detected; full refresh will run."
+          else
+            echo "Page/data-only change; skipping redundant external source refresh."
+          fi
 
       - name: Refresh and atomically compose verified sources and diagnostics
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && steps.source_refresh.outputs.needed == 'true'
         run: |
           set -euo pipefail
           python app/scripts/fetch_high_value_sources.py
