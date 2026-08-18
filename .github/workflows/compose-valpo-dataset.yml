@@ -7,11 +7,18 @@ on:
       - "agenda_web.json"
       - "app/scripts/refresh_museo_maritimo.py"
       - "app/scripts/test_museo_maritimo.py"
+      - "app/scripts/refresh_balmaceda_valpo.py"
+      - "app/scripts/refresh_balmaceda_valpo_bounded.py"
+      - "app/scripts/test_balmaceda_valpo.py"
+      - "app/scripts/apply_balmaceda_coverage.py"
+      - "app/scripts/test_balmaceda_coverage.py"
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
       - "app/scripts/refresh_valpocultura_zero_recovery.py"
       - "app/scripts/test_valpocultura_zero_recovery.py"
+      - "app/scripts/refresh_priority_zero_monitors.py"
+      - "app/scripts/test_priority_zero_monitors.py"
       - "app/scripts/apply_title_quality_guard.py"
       - "app/scripts/test_title_quality_guard.py"
       - "app/scripts/refresh_quality_diagnostics.py"
@@ -60,6 +67,8 @@ jobs:
             app/scripts/test_portaltickets_editorial.py \
             app/scripts/refresh_valpocultura_zero_recovery.py \
             app/scripts/test_valpocultura_zero_recovery.py \
+            app/scripts/refresh_priority_zero_monitors.py \
+            app/scripts/test_priority_zero_monitors.py \
             app/scripts/apply_title_quality_guard.py \
             app/scripts/test_title_quality_guard.py \
             app/scripts/refresh_quality_diagnostics.py \
@@ -70,12 +79,14 @@ jobs:
           python app/scripts/test_balmaceda_coverage.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
+          python app/scripts/test_priority_zero_monitors.py
           python app/scripts/test_title_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
+          python app/scripts/refresh_priority_zero_monitors.py --no-write
           python app/scripts/apply_title_quality_guard.py --no-write
 
       - name: Compose all official and editorial supplements
@@ -85,6 +96,7 @@ jobs:
           python app/scripts/refresh_balmaceda_valpo_bounded.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
+          python app/scripts/refresh_priority_zero_monitors.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/apply_title_quality_guard.py
           python app/scripts/refresh_quality_diagnostics.py
@@ -100,6 +112,7 @@ jobs:
           balm = json.loads((root / 'app/data/quality/balmaceda-valpo.json').read_text(encoding='utf-8'))
           portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
           municipal = json.loads((root / 'app/data/quality/valpocultura-zero-recovery.json').read_text(encoding='utf-8'))
+          monitored_zero = json.loads((root / 'app/data/quality/priority-zero-monitors.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
           quality = json.loads((root / 'app/data/quality/event-quality.json').read_text(encoding='utf-8'))
           readiness = json.loads((root / 'app/data/quality/release-readiness.json').read_text(encoding='utf-8'))
@@ -145,6 +158,17 @@ jobs:
           if balm.get('coverage') and (not balm_row or balm_row.get('status') not in {'producing', 'covered_elsewhere'}):
               raise SystemExit('Balmaceda official coverage was not reflected in source-coverage.json')
 
+          monitored_ids = {
+              str(row.get('id') or '')
+              for row in monitored_zero.get('sources') or []
+              if row.get('fetch_ok') is True and row.get('verified_inactive') is True
+          }
+          coverage_rows = {str(row.get('id') or ''): row for row in cov_city.get('sources') or []}
+          for source_id in monitored_ids:
+              row = coverage_rows.get(source_id)
+              if not row or row.get('status') != 'monitored_confirmed_zero':
+                  raise SystemExit(f'Verified inactive source not reflected in coverage: {source_id}')
+
           quality_summary = ((quality.get('cities') or {}).get('valparaiso-vina') or {}).get('summary') or {}
           if quality_summary.get('total_events') != len(events):
               raise SystemExit('event-quality.json is not synchronized with agenda_web.json')
@@ -155,7 +179,7 @@ jobs:
 
           print(
               f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} balm={len(balm_events)} '
-              f'portal={len(portal_events)} municipal={len(municipal_events)}'
+              f'portal={len(portal_events)} municipal={len(municipal_events)} verified_zero={len(monitored_ids)}'
           )
           PY
 
@@ -170,6 +194,7 @@ jobs:
             app/data/quality/balmaceda-valpo.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
+            app/data/quality/priority-zero-monitors.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
             app/data/quality/release-readiness.json
