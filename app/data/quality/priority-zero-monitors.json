@@ -1,10 +1,39 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": null,
+  "generated_at": "2026-08-18T11:24:25+00:00",
   "timezone": "America/Santiago",
-  "date": null,
-  "state": "awaiting_first_refresh",
-  "verified_inactive_count": 0,
+  "date": "2026-08-18",
+  "state": "ok",
+  "verified_inactive_count": 2,
   "future_detected_count": 0,
-  "sources": []
+  "sources": [
+    {
+      "id": "sala_teatro_ipa",
+      "name": "Sala Teatro IPA",
+      "url": "https://telonticket.cl/mep_cat/performance/",
+      "evidence": "specialized_theatre_calendar",
+      "state": "verified_no_publishable_future",
+      "verified_inactive": true,
+      "future_candidates": [],
+      "future_candidates_count": 0,
+      "explicit_empty_state": false,
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
+    },
+    {
+      "id": "teatro_la_peste",
+      "name": "Teatro La Peste",
+      "url": "https://ticketplus.cl/companies/teatro-la-peste",
+      "evidence": "official_ticketing_company_page",
+      "state": "verified_no_publishable_future",
+      "verified_inactive": true,
+      "future_candidates": [],
+      "future_candidates_count": 0,
+      "explicit_empty_state": true,
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
+    }
+  ]
 }

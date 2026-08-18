@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T11:16:45+00:00",
+  "generated_at": "2026-08-18T11:24:25+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
@@ -12,11 +12,12 @@
         "quality_class": "excellent",
         "sources_catalogued": 39,
         "sources_producing": 23,
-        "sources_zero": 11,
-        "review_priority_zero_sources": 11,
+        "sources_zero": 9,
+        "review_priority_zero_sources": 9,
         "zero_sources_covered_elsewhere": 5,
         "top3_source_share_pct": 52.1,
-        "unattributed_events": 0
+        "unattributed_events": 0,
+        "verified_inactive_zero_sources": 2
       },
       "field_coverage": {
         "date_pct": 97.6,
@@ -121,9 +122,7 @@
           "la_escala_galeria",
           "masita_rica",
           "museo_fonck",
-          "sala_secreta",
-          "sala_teatro_ipa",
-          "teatro_la_peste"
+          "sala_secreta"
         ],
         "zero_sources_covered_elsewhere": [
           "casa_cultura_valparaiso",
@@ -131,6 +130,10 @@
           "estrella_negra_jazz",
           "teatro_municipal_valparaiso",
           "valparaiso_profundo"
+        ],
+        "verified_inactive_zero_sources": [
+          "sala_teatro_ipa",
+          "teatro_la_peste"
         ]
       },
       "pipeline_quality": {
@@ -162,7 +165,8 @@
           "categories": {
             "cultura": 42,
             "musica": 14
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "cinearte_vina",
@@ -186,7 +190,8 @@
           },
           "categories": {
             "cine": 16
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "trotamundosvalpo",
@@ -212,7 +217,8 @@
             "teatro": 1,
             "musica": 12,
             "ferias-gastronomia": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "culturasvina",
@@ -240,7 +246,8 @@
             "cursos-talleres": 1,
             "musica": 1,
             "naturaleza-deportes": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "cultura_usm",
@@ -265,7 +272,8 @@
           "categories": {
             "musica": 9,
             "teatro": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "insomniacine",
@@ -289,7 +297,8 @@
           },
           "categories": {
             "cine": 9
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "valpocultura",
@@ -318,7 +327,8 @@
             "cursos-talleres": 1,
             "otros": 1,
             "ferias-gastronomia": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "mhnvalpo",
@@ -342,7 +352,8 @@
           },
           "categories": {
             "exposiciones": 8
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "teatro_municipal_vina",
@@ -367,7 +378,8 @@
           "categories": {
             "musica": 5,
             "teatro": 3
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "artequinvina",
@@ -392,7 +404,8 @@
           "categories": {
             "cursos-talleres": 4,
             "exposiciones": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "pcdv",
@@ -417,7 +430,8 @@
           "categories": {
             "teatro": 2,
             "musica": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "museo_palacio_rioja",
@@ -442,7 +456,8 @@
           "categories": {
             "cursos-talleres": 1,
             "exposiciones": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "museobaburizza",
@@ -466,7 +481,8 @@
           },
           "categories": {
             "exposiciones": 2
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "teatromuseo",
@@ -490,7 +506,8 @@
           },
           "categories": {
             "teatro": 2
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "centro_extension_duoc_valpo",
@@ -514,7 +531,8 @@
           },
           "categories": {
             "cine": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "cultura_pucv",
@@ -538,7 +556,8 @@
           },
           "categories": {
             "musica": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "instituto_le_chat",
@@ -562,7 +581,8 @@
           },
           "categories": {
             "cursos-talleres": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "maraton_vina_official",
@@ -586,7 +606,8 @@
           },
           "categories": {
             "naturaleza-deportes": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "media_maraton_tps_official",
@@ -610,7 +631,8 @@
           },
           "categories": {
             "naturaleza-deportes": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "natalia_saldias",
@@ -634,7 +656,8 @@
           },
           "categories": {
             "cursos-talleres": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "red_studio",
@@ -658,7 +681,8 @@
           },
           "categories": {
             "cursos-talleres": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "teatro_mauri_scd",
@@ -682,7 +706,8 @@
           },
           "categories": {
             "musica": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "valparaiso_trekking",
@@ -706,7 +731,8 @@
           },
           "categories": {
             "naturaleza-deportes": 1
-          }
+          },
+          "verified_inactive": false
         }
       ]
     },
