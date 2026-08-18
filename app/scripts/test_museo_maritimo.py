@@ -4,6 +4,9 @@ from datetime import date
 
 from refresh_museo_maritimo import extract_events_from_article, monthly_program_items
 
+# This test file is part of the primary publication path; touching it deliberately
+# exercises the atomic source-composition workflow after architecture changes.
+
 
 def test_month_only_programme_is_detected_but_not_published() -> None:
     today = date(2026, 8, 18)
