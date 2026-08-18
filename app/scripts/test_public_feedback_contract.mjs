@@ -12,6 +12,7 @@ const participation = read("participation-footer.js");
 const webActions = read("web-actions-below-mosaic.js");
 const actionLayout = read("action-strip-layout.js");
 const installedMosaic = read("installed-mosaic.js");
+const shareQrCss = read("share-qr.css");
 const appJs = read("app.js");
 const pwa = read("pwa.js");
 const worker = read("service-worker.js");
@@ -55,6 +56,9 @@ assert.match(installedMosaic, /data-community-comments/);
 assert.match(installedMosaic, /data-community-like/);
 assert.doesNotMatch(installedMosaic, /grid-template-columns: repeat\(5/);
 
+assert.match(shareQrCss, /data-installed-real-mosaic="true"[\s\S]*share-qr-button\[data-share-qr-open\][\s\S]*width:100%!important/);
+assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*justify-self:stretch!important/);
+
 assert.match(appJs, /community-source\.js\?v=20260818-feedback3/);
 assert.match(appJs, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
@@ -68,6 +72,6 @@ assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 107/);
+assert.match(release, /const RELEASE = 108/);
 
-console.log("Public feedback: WEB strip preserved and installed mobile actions form one gapless segmented row: OK");
+console.log("Public feedback: WEB strip preserved and installed mobile QR fills its gapless segment: OK");
