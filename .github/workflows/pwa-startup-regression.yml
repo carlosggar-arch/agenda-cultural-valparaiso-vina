@@ -1,0 +1,97 @@
+name: PWA startup regression
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/index.html"
+      - "app/pwa.js"
+      - "app/mobile-experience.js"
+      - "app/mobile-experience.css"
+      - "app/service-worker.js"
+      - ".github/workflows/pwa-startup-regression.yml"
+  pull_request:
+    paths:
+      - "app/index.html"
+      - "app/pwa.js"
+      - "app/mobile-experience.js"
+      - "app/mobile-experience.css"
+      - "app/service-worker.js"
+      - ".github/workflows/pwa-startup-regression.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  startup-invariants:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify first-render and version invariants
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+
+          app = Path("app")
+          index = (app / "index.html").read_text(encoding="utf-8")
+          pwa = (app / "pwa.js").read_text(encoding="utf-8")
+          mobile = (app / "mobile-experience.js").read_text(encoding="utf-8")
+          sw = (app / "service-worker.js").read_text(encoding="utf-8")
+
+          def capture(pattern, text, label):
+              match = re.search(pattern, text)
+              if not match:
+                  raise SystemExit(f"Missing {label}")
+              return match.group(1)
+
+          asset_versions = {
+              "index mobile CSS": capture(r'mobile-experience\.css\?v=([^"\s]+)', index, "mobile CSS version in index.html"),
+              "index pwa.js": capture(r'pwa\.js\?v=([^"\s]+)', index, "pwa.js version in index.html"),
+              "pwa mobile import": capture(r'import "\./mobile-experience\.js\?v=([^"\s]+)"', pwa, "mobile-experience.js version in pwa.js"),
+              "mobile CSS fallback": capture(r'const href = "\./mobile-experience\.css\?v=([^"\s]+)"', mobile, "mobile CSS fallback version"),
+              "service worker mobile CSS": capture(r'"\./mobile-experience\.css\?v=([^"\s]+)"', sw, "mobile CSS version in service worker"),
+              "service worker pwa.js": capture(r'"\./pwa\.js\?v=([^"\s]+)"', sw, "pwa.js version in service worker"),
+              "service worker mobile JS": capture(r'"\./mobile-experience\.js\?v=([^"\s]+)"', sw, "mobile JS version in service worker"),
+          }
+          if len(set(asset_versions.values())) != 1:
+              details = "\n".join(f"  {key}: {value}" for key, value in asset_versions.items())
+              raise SystemExit(f"PWA asset versions are out of sync:\n{details}")
+
+          pwa_versions = {
+              "initial HTML": capture(r'data-app-version>PWA v(\d+)<', index, "visible PWA version"),
+              "pwa.js": capture(r'const APP_VERSION = "PWA v(\d+)"', pwa, "APP_VERSION"),
+              "service worker registration": capture(r'service-worker\.js\?v=(\d+)', pwa, "service-worker registration version"),
+              "service worker cache": capture(r'const CACHE_VERSION = "v(\d+)"', sw, "service-worker cache version"),
+          }
+          if len(set(pwa_versions.values())) != 1:
+              details = "\n".join(f"  {key}: {value}" for key, value in pwa_versions.items())
+              raise SystemExit(f"PWA release versions are out of sync:\n{details}")
+
+          head_end = index.find("</head>")
+          css_pos = index.find("mobile-experience.css")
+          if head_end < 0 or css_pos < 0 or css_pos > head_end:
+              raise SystemExit("mobile-experience.css must be loaded inside <head> before first paint")
+          if index.count("mobile-experience.css") != 1:
+              raise SystemExit("index.html must contain exactly one mobile-experience.css link")
+
+          required_static_header = (
+              'data-header-redesign="hero-v3"',
+              'class="header-bottom"',
+              'data-header-search-toggle',
+              'data-city-switch',
+              'class="header-art"',
+          )
+          missing = [marker for marker in required_static_header if marker not in index]
+          if missing:
+              raise SystemExit(f"Header first-render structure is incomplete: {missing}")
+
+          if re.search(r'links\s*\[\s*0\s*\]\.href\s*=', mobile):
+              raise SystemExit("mobile-experience.js must not rewrite the existing stylesheet href after startup")
+
+          print("PWA startup invariants OK")
+          print(f"Asset revision: {next(iter(asset_versions.values()))}")
+          print(f"PWA version: v{next(iter(pwa_versions.values()))}")
+          PY
