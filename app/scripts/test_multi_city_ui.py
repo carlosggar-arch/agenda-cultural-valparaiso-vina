@@ -4,6 +4,7 @@ from pathlib import Path
 APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
+app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
 city_first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
 city_registry_module = Path("assets/city-registry.mjs").read_text(encoding="utf-8")
 city_registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
