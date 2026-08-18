@@ -5,6 +5,16 @@ on:
     paths:
       - "app/data/high_value_sources.json"
       - "app/scripts/fetch_high_value_sources.py"
+      - "app/scripts/validate_high_value_refresh.py"
+      - "app/scripts/test_high_value_sources.py"
+      - ".github/workflows/high-value-sources.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "app/data/high_value_sources.json"
+      - "app/scripts/fetch_high_value_sources.py"
+      - "app/scripts/validate_high_value_refresh.py"
       - "app/scripts/test_high_value_sources.py"
       - ".github/workflows/high-value-sources.yml"
   workflow_dispatch:
@@ -27,7 +37,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Syntax check
-        run: python -m py_compile app/scripts/fetch_high_value_sources.py app/scripts/test_high_value_sources.py
+        run: python -m py_compile app/scripts/fetch_high_value_sources.py app/scripts/validate_high_value_refresh.py app/scripts/test_high_value_sources.py
       - name: Source regression tests
         run: python app/scripts/test_high_value_sources.py
       - name: Live fetch dry-run
@@ -44,8 +54,14 @@ jobs:
           python-version: "3.12"
       - name: Refresh supplemental sources
         run: python app/scripts/fetch_high_value_sources.py
+      - name: Apply supplemental quality gate
+        run: python app/scripts/validate_high_value_refresh.py
       - name: Re-run source regression tests
         run: python app/scripts/test_high_value_sources.py
+      - name: Validate release contracts after refresh
+        run: |
+          python app/scripts/test_pre_release.py
+          python app/scripts/test_release_guard.py
       - name: Commit verified dataset changes
         shell: bash
         run: |
