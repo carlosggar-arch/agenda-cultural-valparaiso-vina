@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "app/app.js"
       - "app/community-source.js"
       - "app/community-source.css"
       - "app/participation-footer.js"
@@ -15,6 +16,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - "app/app.js"
       - "app/community-source.js"
       - "app/community-source.css"
       - "app/participation-footer.js"
@@ -39,6 +41,7 @@ jobs:
           node-version: "22"
       - name: Validate client syntax and visible single-row contract
         run: |
+          node --check app/app.js
           node --check app/community-source.js
           node --check app/participation-footer.js
           node --check app/pwa.js
