@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-18T01:47:20+00:00",
+  "sources": [
+    {
+      "id": "portaltickets_valparaiso",
+      "name": "PortalTickets — Región de Valparaíso",
+      "dataset": "valparaiso",
+      "mode": "direct",
+      "fetch_ok": true,
+      "http_status": 200,
+      "events_extracted": 81,
+      "events_added": 81,
+      "duplicates_skipped": 0,
+      "state": "ok",
+      "error": null
+    },
+    {
+      "id": "museo_maritimo_nacional",
+      "name": "Museo Marítimo Nacional",
+      "dataset": "valparaiso",
+      "mode": "monitor",
+      "fetch_ok": true,
+      "http_status": 200,
+      "events_extracted": 0,
+      "events_added": 0,
+      "duplicates_skipped": 0,
+      "state": "monitored_no_publishable_events",
+      "error": null
+    },
+    {
+      "id": "museo_evaristo_valle",
+      "name": "Museo Evaristo Valle",
+      "dataset": "gijon",
+      "mode": "monitor",
+      "fetch_ok": true,
+      "http_status": 200,
+      "events_extracted": 0,
+      "events_added": 0,
+      "duplicates_skipped": 0,
+      "state": "monitored_no_publishable_events",
+      "error": null
+    },
+    {
+      "id": "museo_barjola",
+      "name": "Museo Barjola",
+      "dataset": "gijon",
+      "mode": "direct",
+      "fetch_ok": true,
+      "http_status": 200,
+      "events_extracted": 2,
+      "events_added": 2,
+      "duplicates_skipped": 0,
+      "state": "ok",
+      "error": null
+    },
+    {
+      "id": "ficx",
+      "name": "FICX — Festival Internacional de Cine de Gijón/Xixón",
+      "dataset": "gijon",
+      "mode": "monitor",
+      "fetch_ok": true,
+      "http_status": 200,
+      "events_extracted": 0,
+      "events_added": 0,
+      "duplicates_skipped": 0,
+      "state": "monitored_no_publishable_events",
+      "error": null
+    },
+    {
+      "id": "laboral_cinemateca",
+      "name": "Laboral Cinemateca",
+      "dataset": "gijon",
+      "mode": "direct",
+      "fetch_ok": false,
+      "http_status": null,
+      "events_extracted": 0,
+      "events_added": 0,
+      "duplicates_skipped": 0,
+      "state": "fetch_error",
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+    }
+  ]
+}
