@@ -1,4 +1,4 @@
-import { normalizePublicEventTitle } from "./public-title-normalizer.mjs?v=20260818-title1";
+import { normalizePublicEventTitle } from "./public-title-normalizer.mjs?v=20260818-title2";
 
 const upstreamFetch = window.fetch.bind(window);
 
