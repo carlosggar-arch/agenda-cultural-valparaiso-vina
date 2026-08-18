@@ -1,68 +1,34 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T14:33:59-04:00",
+  "generated_at": "2026-08-18T14:56:09-04:00",
   "window_days": 10,
-  "targets": 102,
+  "targets": 98,
   "fetched": 20,
   "updated_events": 3,
-  "review_needed": 7,
-  "fetch_errors": 0,
-  "skipped": 82,
+  "review_needed": 6,
+  "fetch_errors": 4,
+  "skipped": 78,
   "rows": [
     {
-      "id": "agenda_valpocultura_recovery_971bd421084a1a0b",
-      "state": "updated",
-      "url": "https://valpocultura.cl/evento/centex-cartelera-agosto/",
-      "match_score": 1.0,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
-    },
-    {
-      "id": "agenda_valpocultura_recovery_21df649558ca1873",
-      "state": "updated",
-      "url": "https://valpocultura.cl/evento/valparaiso-profundo-programacion-agosto/",
-      "match_score": 1.0,
-      "fields": [
-        "address",
-        "end",
-        "start",
-        "venue"
-      ]
-    },
-    {
-      "id": "agenda_valpocultura_recovery_d8e8b0c68682163e",
-      "state": "updated",
-      "url": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
-      "match_score": 1.0,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
-    },
-    {
       "id": "agenda_e7e2a4a89dc447f9bd2633e7",
-      "state": "verified_unchanged",
+      "state": "fetch_error",
       "url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
-      "match_score": 1.0,
-      "fields": []
+      "http_status": 403,
+      "error": "HTTP 403"
     },
     {
       "id": "agenda_baburizza_1c7f799286855aee48c8",
-      "state": "verified_unchanged",
+      "state": "fetch_error",
       "url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "match_score": 1.0,
-      "fields": []
+      "http_status": 403,
+      "error": "HTTP 403"
     },
     {
       "id": "agenda_baburizza_8fa99fe4ed3a8e9e66e0",
-      "state": "verified_unchanged",
+      "state": "fetch_error",
       "url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "match_score": 1.0,
-      "fields": []
+      "http_status": 403,
+      "error": "HTTP 403"
     },
     {
       "id": "agenda_23e5e3f1e1e5d52f7f76d265",
@@ -121,9 +87,10 @@
     },
     {
       "id": "agenda_650e95f9b205b8665b0bce6d",
-      "state": "no_confident_event_jsonld_match",
+      "state": "fetch_error",
       "url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
-      "match_score": 0.0
+      "http_status": null,
+      "error": "URLError: <urlopen error timed out>"
     },
     {
       "id": "agenda_931051bdc7666597d6e2e274",
@@ -169,18 +136,37 @@
     },
     {
       "id": "agenda_eeea936319edc98db3c75f29",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/"
+      "state": "updated",
+      "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/",
+      "match_score": 1.0,
+      "fields": [
+        "address",
+        "end",
+        "start"
+      ]
     },
     {
       "id": "agenda_909c0ee35fef43fe785f4eb4",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-tapies-coleccion-del-grabador-barbara/"
+      "state": "updated",
+      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-tapies-coleccion-del-grabador-barbara/",
+      "match_score": 1.0,
+      "fields": [
+        "address",
+        "end",
+        "start"
+      ]
     },
     {
       "id": "agenda_a933180663b5f1d4af1ec329",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/"
+      "state": "updated",
+      "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
+      "match_score": 1.0,
+      "fields": [
+        "address",
+        "end",
+        "price",
+        "start"
+      ]
     },
     {
       "id": "agenda_6613632fe7801c00aa272f54",
@@ -492,11 +478,6 @@
       "id": "agenda_5557a6ee9ba14a9ba61163a1",
       "state": "fetch_budget_exhausted",
       "url": "https://teatrovina.cl/evento/tomas-va-a-morir-ley-de-murphy/"
-    },
-    {
-      "id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
-      "state": "fetch_budget_exhausted",
-      "url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
     },
     {
       "id": "agenda_09e3ddbc6965e9eeb3f72343",

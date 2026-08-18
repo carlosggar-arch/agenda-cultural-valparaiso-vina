@@ -1,43 +1,44 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T18:34:52+00:00",
+  "generated_at": "2026-08-18T18:57:10+00:00",
   "mode": "daily",
-  "status": "healthy",
+  "status": "attention",
   "critical": [],
-  "warnings": [],
+  "warnings": [
+    "balmaceda:official_site_fetch_error"
+  ],
   "observations": [
-    "actionable_zero_sources:7",
-    "balmaceda:official_site_checked_no_recent_activity_detected",
-    "covered_elsewhere:7",
+    "actionable_zero_sources:12",
+    "covered_elsewhere:2",
     "verified_inactive:2"
   ],
   "summary": {
-    "total_events": 166,
+    "total_events": 162,
     "quality_score": 92.4,
-    "actionable_zero_sources": 7,
-    "covered_elsewhere": 7,
+    "actionable_zero_sources": 12,
+    "covered_elsewhere": 2,
     "verified_inactive_zero_sources": 2,
     "duplicate_groups": 0,
     "unattributed_events": 0,
-    "balmaceda_state": "official_site_checked_no_recent_activity_detected"
+    "balmaceda_state": "official_site_fetch_error"
   },
   "actionable_zero_source_ids": [
     "balmaceda_arte_joven_valpo",
+    "casa_cultura_valparaiso",
     "casa_prisma_valpo",
+    "centex",
     "compania_la_paila",
     "ecoliderazgo",
+    "estrella_negra_jazz",
     "la_escala_galeria",
     "masita_rica",
-    "sala_secreta"
-  ],
-  "covered_elsewhere_ids": [
-    "casa_cultura_valparaiso",
-    "centex",
-    "estadio_espanol_recreo",
-    "estrella_negra_jazz",
-    "museo_fonck",
+    "sala_secreta",
     "teatro_municipal_valparaiso",
     "valparaiso_profundo"
+  ],
+  "covered_elsewhere_ids": [
+    "estadio_espanol_recreo",
+    "museo_fonck"
   ],
   "verified_inactive_ids": [
     "sala_teatro_ipa",

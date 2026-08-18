@@ -1,89 +1,89 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T18:34:51+00:00",
+  "generated_at": "2026-08-18T18:57:10+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-18",
       "generated_at": "2026-08-18T11:03:04-04:00",
       "summary": {
-        "total_events": 166,
+        "total_events": 162,
         "average_quality_score": 92.4,
         "quality_class": "excellent",
         "sources_catalogued": 41,
         "sources_producing": 25,
-        "sources_zero": 7,
-        "review_priority_zero_sources": 7,
-        "zero_sources_covered_elsewhere": 7,
-        "top3_source_share_pct": 51.2,
+        "sources_zero": 12,
+        "review_priority_zero_sources": 12,
+        "zero_sources_covered_elsewhere": 2,
+        "top3_source_share_pct": 52.5,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 2
       },
       "field_coverage": {
-        "date_pct": 97.6,
-        "time_pct": 96.4,
+        "date_pct": 97.5,
+        "time_pct": 96.9,
         "venue_pct": 100.0,
-        "image_pct": 54.2,
+        "image_pct": 53.1,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 47.0,
-        "price_known_pct": 85.5
+        "official_source_pct": 45.7,
+        "price_known_pct": 85.8
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 71,
-          "share_pct": 42.8,
+          "count": 69,
+          "share_pct": 42.6,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 26,
-          "share_pct": 15.7,
-          "underrepresented": false
-        },
-        {
-          "id": "cultura",
-          "label": "Cultura",
-          "count": 20,
-          "share_pct": 12.0,
+          "share_pct": 16.0,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 20,
-          "share_pct": 12.0,
+          "share_pct": 12.3,
+          "underrepresented": false
+        },
+        {
+          "id": "cultura",
+          "label": "Cultura",
+          "count": 18,
+          "share_pct": 11.1,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 12,
-          "share_pct": 7.2,
+          "share_pct": 7.4,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 9,
-          "share_pct": 5.4,
+          "share_pct": 5.6,
           "underrepresented": false
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 4,
-          "share_pct": 2.4,
+          "share_pct": 2.5,
           "underrepresented": true
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 3,
-          "share_pct": 1.8,
+          "share_pct": 1.9,
           "underrepresented": true
         },
         {
@@ -97,13 +97,13 @@
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 106,
-          "share_pct": 63.9
+          "count": 102,
+          "share_pct": 63.0
         },
         {
           "area": "Viña del Mar",
           "count": 60,
-          "share_pct": 36.1
+          "share_pct": 37.0
         }
       ],
       "coverage_gaps": {
@@ -115,21 +115,21 @@
         "source_concentration_high": false,
         "review_priority_zero_sources": [
           "balmaceda_arte_joven_valpo",
+          "casa_cultura_valparaiso",
           "casa_prisma_valpo",
+          "centex",
           "compania_la_paila",
           "ecoliderazgo",
+          "estrella_negra_jazz",
           "la_escala_galeria",
           "masita_rica",
-          "sala_secreta"
-        ],
-        "zero_sources_covered_elsewhere": [
-          "casa_cultura_valparaiso",
-          "centex",
-          "estadio_espanol_recreo",
-          "estrella_negra_jazz",
-          "museo_fonck",
+          "sala_secreta",
           "teatro_municipal_valparaiso",
           "valparaiso_profundo"
+        ],
+        "zero_sources_covered_elsewhere": [
+          "estadio_espanol_recreo",
+          "museo_fonck"
         ],
         "verified_inactive_zero_sources": [
           "sala_teatro_ipa",
@@ -138,7 +138,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 54.2,
+        "relevant_image_pct": 53.1,
         "removed_events": {}
       },
       "sources": [
@@ -224,7 +224,7 @@
           "id": "culturasvina",
           "name": "Culturas Viña",
           "count": 12,
-          "quality_score": 87.5,
+          "quality_score": 88.8,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -238,7 +238,7 @@
             "image_pct": 25.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 66.7
+            "price_known_pct": 75.0
           },
           "categories": {
             "exposiciones": 8,
@@ -272,36 +272,6 @@
           "categories": {
             "musica": 9,
             "teatro": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "valpocultura",
-          "name": "Valpo Cultura",
-          "count": 10,
-          "quality_score": 94.5,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 90.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 40.0,
-            "price_known_pct": 70.0
-          },
-          "categories": {
-            "cultura": 2,
-            "musica": 3,
-            "exposiciones": 1,
-            "cursos-talleres": 2,
-            "otros": 1,
-            "ferias-gastronomia": 1
           },
           "verified_inactive": false
         },
@@ -378,6 +348,35 @@
           "categories": {
             "musica": 5,
             "teatro": 3
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "valpocultura",
+          "name": "Valpo Cultura",
+          "count": 6,
+          "quality_score": 92.5,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 50.0
+          },
+          "categories": {
+            "exposiciones": 1,
+            "cursos-talleres": 2,
+            "otros": 1,
+            "ferias-gastronomia": 1,
+            "musica": 1
           },
           "verified_inactive": false
         },
