@@ -117,7 +117,9 @@ def coverage_report(existing: dict, datasets: dict[str, dict], generated_at: str
         prior = prior_cities.get(city_id) or {}
         prior_date = str(prior.get("date") or "")
         prior_rows = {str(row.get("id")): row for row in prior.get("sources") or [] if row.get("id")}
-        name_to_id = {norm(row.get("name")): sid for sid, row in prior_rows.items() if row.get("name")}
+        catalog_rows = {str(row.get("id")): row for row in dataset.get("sources") or [] if row.get("id")}
+        name_to_id = {norm(row.get("name")): sid for sid, row in catalog_rows.items() if row.get("name")}
+        name_to_id.update({norm(row.get("name")): sid for sid, row in prior_rows.items() if row.get("name")})
         identities = [source_identity(item, name_to_id) for item in events]
         counts = Counter(sid for sid in identities if sid != "unattributed")
         names = {}
@@ -125,12 +127,16 @@ def coverage_report(existing: dict, datasets: dict[str, dict], generated_at: str
             if sid != "unattributed":
                 names[sid] = source_name(item) or str(item.get("organizer") or sid)
         source_ids = list(prior_rows)
-        for sid in sorted(counts):
+        for sid in catalog_rows:
             if sid not in prior_rows:
+                source_ids.append(sid)
+        for sid in sorted(counts):
+            if sid not in source_ids:
                 source_ids.append(sid)
         rows = []
         for sid in source_ids:
             old = prior_rows.get(sid) or {}
+            catalog = catalog_rows.get(sid) or {}
             count = counts.get(sid, 0)
             same_day = prior_date == today
             observed = int(old.get("observed_days") or 0)
@@ -139,9 +145,9 @@ def coverage_report(existing: dict, datasets: dict[str, dict], generated_at: str
             zero_streak = 0 if count else int(old.get("zero_streak_days") or 0) + (0 if same_day else 1)
             rows.append({
                 "id": sid,
-                "name": old.get("name") or names.get(sid) or sid,
-                "role": old.get("role"),
-                "source_type": old.get("source_type"),
+                "name": old.get("name") or catalog.get("name") or names.get(sid) or sid,
+                "role": old.get("role") if old.get("role") is not None else (catalog.get("source_role") or catalog.get("role")),
+                "source_type": old.get("source_type") if old.get("source_type") is not None else (catalog.get("kind") or catalog.get("source_type")),
                 "current_count": count,
                 "status": "producing" if count else ("zero_critical" if zero_streak >= thresholds["zero_critical_days"] else "zero_recent"),
                 "severity": "ok" if count else ("critical" if zero_streak >= thresholds["zero_critical_days"] else "info"),
