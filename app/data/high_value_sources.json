@@ -2,21 +2,6 @@
   "schema_version": "1.0.0",
   "sources": [
     {
-      "id": "museo_maritimo_nacional",
-      "name": "Museo Marítimo Nacional",
-      "dataset": "valparaiso",
-      "city": "Valparaíso",
-      "timezone": "America/Santiago",
-      "currency": "CLP",
-      "url": "https://museomaritimo.cl/programacion/",
-      "mode": "monitor",
-      "extractor": "generic_dated",
-      "required": false,
-      "category_id": "museos",
-      "category_label": "Museos",
-      "scope_note": "Sólo publicar actividades con fecha explícita; los bloques mensuales sin día concreto se mantienen como monitoreo."
-    },
-    {
       "id": "museo_evaristo_valle",
       "name": "Museo Evaristo Valle",
       "dataset": "gijon",
