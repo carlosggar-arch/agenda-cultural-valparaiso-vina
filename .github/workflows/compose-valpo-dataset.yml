@@ -1,0 +1,105 @@
+name: Compose Valpo dataset after base publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "agenda_web.json"
+      - ".github/workflows/compose-valpo-dataset.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Share the same lock as event-pages so both data/page writers cannot race.
+concurrency:
+  group: permanent-event-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout published base dataset
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate PortalTickets composition code
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/refresh_portaltickets_editorial.py \
+            app/scripts/validate_portaltickets_editorial.py \
+            app/scripts/test_portaltickets_editorial.py \
+            app/scripts/refresh_quality_diagnostics.py
+          python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/refresh_portaltickets_editorial.py --no-write
+
+      - name: Compose editorial supplements and diagnostics
+        run: |
+          set -euo pipefail
+          python app/scripts/refresh_portaltickets_editorial.py
+          python app/scripts/validate_portaltickets_editorial.py
+          python app/scripts/refresh_quality_diagnostics.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
+          portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
+          coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
+          quality = json.loads((root / 'app/data/quality/event-quality.json').read_text(encoding='utf-8'))
+          readiness = json.loads((root / 'app/data/quality/release-readiness.json').read_text(encoding='utf-8'))
+
+          events = dataset.get('events') or []
+          portal_events = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
+          expected_portal = int((portal.get('refresh') or {}).get('corrected_published') or 0)
+          if portal.get('fetch_ok') and int(portal.get('candidates_parsed') or 0) > 0:
+              if expected_portal <= 0 or len(portal_events) != expected_portal:
+                  raise SystemExit(f'PortalTickets composition mismatch: dataset={len(portal_events)} report={expected_portal}')
+
+          counts = dataset.get('counts') or {}
+          if counts.get('total') != len(events):
+              raise SystemExit(f'Dataset count mismatch: counts.total={counts.get("total")} events={len(events)}')
+
+          cov_summary = ((coverage.get('cities') or {}).get('valparaiso-vina') or {}).get('summary') or {}
+          if cov_summary.get('total_events') != len(events) or cov_summary.get('attributed_events') != len(events):
+              raise SystemExit('source-coverage.json is not synchronized with agenda_web.json')
+
+          quality_summary = ((quality.get('cities') or {}).get('valparaiso-vina') or {}).get('summary') or {}
+          if quality_summary.get('total_events') != len(events):
+              raise SystemExit('event-quality.json is not synchronized with agenda_web.json')
+
+          release_check = (readiness.get('checks') or {}).get('valparaiso-vina') or {}
+          if not release_check.get('events_present') or not release_check.get('duplicates_zero'):
+              raise SystemExit('release-readiness.json reports an invalid Valpo dataset')
+
+          print(f'VALPO_COMPOSED_OK total={len(events)} portal={len(portal_events)}')
+          PY
+
+      - name: Commit composed dataset and synchronized diagnostics
+        run: |
+          set -euo pipefail
+          git config user.name "agenda-cultural-composer[bot]"
+          git config user.email "agenda-cultural-composer[bot]@users.noreply.github.com"
+          git add \
+            agenda_web.json \
+            app/data/quality/portaltickets-editorial.json \
+            app/data/quality/source-coverage.json \
+            app/data/quality/event-quality.json \
+            app/data/quality/release-readiness.json
+          if git diff --cached --quiet; then
+            echo "Valpo dataset already composed."
+            exit 0
+          fi
+          git commit -m "Compone agenda Valpo/Vina con suplementos editoriales"
+          git pull --rebase origin main
+          git push origin HEAD:main
