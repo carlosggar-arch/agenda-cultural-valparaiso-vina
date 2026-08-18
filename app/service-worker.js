@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v48";
+const CACHE_VERSION = "v49";
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
@@ -10,7 +10,7 @@ const SHELL_ASSETS = [
   "./city-header.css",
   "./compact-top.css",
   "./header-redesign.css",
-  "./mobile-experience.css?v=20260817-topnav9",
+  "./mobile-experience.css?v=20260817-topcontrols1",
   "./share-qr.css",
   "./stage31-accessibility.css",
   "../assets/usage-analytics.js?v=20260817-stage32",
@@ -19,8 +19,8 @@ const SHELL_ASSETS = [
   "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
-  "./pwa.js?v=20260817-topnav9",
-  "./mobile-experience.js?v=20260817-topnav9",
+  "./pwa.js?v=20260817-topcontrols1",
+  "./mobile-experience.js?v=20260817-topcontrols1",
   "./share-qr.js",
   "./stage31-accessibility-seo.js",
   "./plan-ahead.js",
