@@ -26,6 +26,6 @@ assert.match(pwa, /community-source\.js\?v=20260818-feedback2/);
 assert.match(pwa, /participation-footer\.js\?v=20260818-feedback3/);
 assert.match(worker, /participation-footer\.js\?v=20260818-feedback3/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback3/);
-assert.match(release, /const RELEASE = 98/);
+assert.match(release, /const RELEASE = 99/);
 
 console.log("Community feedback UI contract: visible single footer rail in WEB + PWA");
