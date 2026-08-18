@@ -16,14 +16,9 @@ ROOT = Path(__file__).resolve().parents[2]
 REPORT_PATH = ROOT / "app/data/quality/priority-zero-monitors.json"
 TIMEZONE = "America/Santiago"
 
+# Balmaceda Arte Joven is intentionally excluded here because it already has a
+# dedicated official-source recovery pipeline (balmaceda-valpo.json).
 TARGETS = (
-    {
-        "id": "balmaceda_arte_joven_valpo",
-        "name": "Balmaceda Arte Joven Valparaíso",
-        "url": "https://www.balmacedartejoven.cl/",
-        "detector": "baj_valpo",
-        "evidence": "official_site",
-    },
     {
         "id": "sala_teatro_ipa",
         "name": "Sala Teatro IPA",
@@ -156,27 +151,6 @@ def context_window(lines: list[str], index: int, radius: int = 3) -> str:
     return " ".join(lines[max(0, index - radius): min(len(lines), index + radius + 1)])
 
 
-def detect_baj_valpo(lines: list[str], today: date) -> list[dict]:
-    candidates: list[dict] = []
-    seen: set[str] = set()
-    for index, line in enumerate(lines):
-        context = context_window(lines, index, radius=4)
-        normalized = norm(context)
-        if "valparaiso" not in normalized and "baj valpo" not in normalized:
-            continue
-        if not any(token in normalized for token in ("taller", "expos", "program", "actividad", "inscrip", "present", "funcion")):
-            continue
-        for value in explicit_dates(context):
-            if value < today:
-                continue
-            signature = value.isoformat() + "|" + normalized[:160]
-            if signature in seen:
-                continue
-            seen.add(signature)
-            candidates.append({"date": value.isoformat(), "context": context[:360]})
-    return candidates
-
-
 def detect_sala_ipa(lines: list[str], today: date) -> list[dict]:
     candidates: list[dict] = []
     seen: set[str] = set()
@@ -211,9 +185,7 @@ def classify(target: dict, markup: str, today: date) -> dict:
     lines = text_lines(markup)
     detector = target["detector"]
     explicit_empty = False
-    if detector == "baj_valpo":
-        candidates = detect_baj_valpo(lines, today)
-    elif detector == "sala_ipa":
+    if detector == "sala_ipa":
         candidates = detect_sala_ipa(lines, today)
     elif detector == "teatro_la_peste":
         candidates, explicit_empty = detect_teatro_la_peste(lines, today)
