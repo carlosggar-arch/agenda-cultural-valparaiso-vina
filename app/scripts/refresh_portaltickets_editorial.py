@@ -63,6 +63,10 @@ DESCRIPTION_HEADINGS = {
     "fecha", "lugar", "produce", "descripcion", "tickets disponibles", "todos los eventos", "ver mapa",
     "grupo region", "artistas y tags relacionados", "politicas de reembolso", "contacto", "links relacionados",
 }
+DESCRIPTION_TEMPLATE_PREFIX = re.compile(
+    r"^\s*agrega\s+aqu[ií]\s+la\s+descripci[oó]n\s+del\s+evento\s*[:.-]*\s*",
+    re.I,
+)
 
 
 class PortalTokenParser(HTMLParser):
@@ -318,8 +322,20 @@ def _redundant_venue_suffix(suffix: str, venue: str, city: str) -> bool:
     return overlap >= 0.8 and (bool(set(suffix_tokens) & VENUE_WORDS) or len(suffix_tokens) >= 3)
 
 
+def _strip_trailing_city(value: str, city: str) -> str:
+    normalized_city = norm(city)
+    if normalized_city == "valparaiso":
+        pattern = r"\s*,\s*valpara[ií]so\s*$"
+    elif normalized_city == "vina del mar":
+        pattern = r"\s*,\s*vi[ñn]a\s+del\s+mar\s*$"
+    else:
+        return value
+    return re.sub(pattern, "", value, flags=re.I).strip()
+
+
 def clean_public_title(title: str, venue: str, city: str) -> str:
     value = re.sub(r"\s+", " ", str(title or "")).strip()
+    value = _strip_trailing_city(value, city)
     matches = list(re.finditer(r"\s+en\s+", value, flags=re.I))
     if not matches:
         return value
@@ -347,6 +363,8 @@ def _description_from_tokens(texts: list[str]) -> str | None:
     selected: list[str] = []
     for text in texts[description_index + 1:]:
         cleaned = re.sub(r"\s+", " ", text).strip()
+        cleaned = DESCRIPTION_TEMPLATE_PREFIX.sub("", cleaned).strip()
+        cleaned = re.sub(r"\s*-{4,}\s*$", "", cleaned).strip()
         normalized = norm(cleaned)
         if not cleaned:
             continue
