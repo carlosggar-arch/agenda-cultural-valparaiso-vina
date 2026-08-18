@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T14:09:54+00:00",
+  "schema_version": "1.2.0",
+  "generated_at": "2026-08-18T14:15:11+00:00",
   "timezone": "America/Santiago",
   "date": "2026-08-18",
   "state": "ok",
@@ -18,6 +18,7 @@
       "verification_reason": "specialized_calendar_has_no_future_sala_ipa_entry",
       "future_candidates": [],
       "future_candidates_count": 0,
+      "future_candidates_source_default_origin_count": 0,
       "future_candidates_unqualified_geography": [],
       "future_candidates_unqualified_geography_count": 0,
       "explicit_empty_state": false,
@@ -35,6 +36,7 @@
       "verification_reason": "official_ticketing_page_explicitly_empty",
       "future_candidates": [],
       "future_candidates_count": 0,
+      "future_candidates_source_default_origin_count": 0,
       "future_candidates_unqualified_geography": [],
       "future_candidates_unqualified_geography_count": 0,
       "explicit_empty_state": true,
@@ -52,6 +54,7 @@
       "verification_reason": null,
       "future_candidates": [],
       "future_candidates_count": 0,
+      "future_candidates_source_default_origin_count": 0,
       "future_candidates_unqualified_geography": [],
       "future_candidates_unqualified_geography_count": 0,
       "explicit_empty_state": false,
@@ -60,5 +63,5 @@
       "error": null
     }
   ],
-  "geography_policy": "Excursions qualify by explicit origin/departure in Valparaiso or Vina del Mar, not by destination and not merely by the operator's address."
+  "geography_policy": "Excursions generally qualify by departure/origin in Valparaiso or Vina del Mar, not by destination. EcoLiderazgo has a source-specific default: when no departure is stated, treat the departure scope as Vina del Mar / Valparaiso; explicit departure text always overrides that default."
 }
