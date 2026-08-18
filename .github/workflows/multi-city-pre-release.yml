@@ -84,7 +84,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     steps:
       - name: Checkout preview branch
@@ -109,6 +109,8 @@ jobs:
             app/scripts/test_visual_multicity_v30.py \
             app/scripts/test_pwa.py \
             app/scripts/test_pre_release.py \
+            app/scripts/test_release_guard.py \
+            app/scripts/test_first_render_browser.py \
             app/scripts/test_runtime_browser.py \
             app/scripts/test_event_actions_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
@@ -122,6 +124,7 @@ jobs:
           node --check app/app.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          node --check app/release-version.js
           node --check app/stage31-accessibility-seo.js
           node --check app/combined-filters.js
           node --check app/combined-filters-polish.js
@@ -154,6 +157,7 @@ jobs:
           python app/scripts/test_visual_multicity_v30.py
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
+          python app/scripts/test_release_guard.py
           python app/scripts/test_pre_release.py
           node --test tests/root-combined-filters.test.mjs
           node --test tests/plan-ahead-core.test.mjs
@@ -179,13 +183,22 @@ jobs:
           grep -F '"scope": "./app/"' manifest.webmanifest
           grep -F '"name": "¡Vivamos!"' manifest.webmanifest
           grep -F '<link rel="stylesheet" href="./compact-top.css">' app/index.html
-          grep -F '<link rel="stylesheet" href="./header-redesign.css">' app/index.html
+          grep -F 'header-redesign.css' app/index.html
+          grep -F '<script src="./release-version.js"></script>' app/index.html
+          grep -F 'mobile-experience.css' app/index.html
           ! grep -F 'document.createElement("style")' app/compact-top.js
-          grep -F 'const APP_VERSION = "PWA v33"' app/pwa.js
+          grep -F 'globalThis.__VIVAMOS_RELEASE__' app/pwa.js
+          grep -F 'header-redesign.js' app/pwa.js
+          grep -F 'mobile-experience.js' app/pwa.js
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v40"' app/service-worker.js
+          grep -F 'importScripts("./release-version.js")' app/service-worker.js
+          grep -F '"./release-version.js"' app/service-worker.js
+          grep -F 'header-redesign.css' app/service-worker.js
+          grep -F 'header-redesign.js' app/service-worker.js
+          grep -F 'mobile-experience.css' app/service-worker.js
+          grep -F 'mobile-experience.js' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
           grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"./mis-planes.html"' app/service-worker.js
@@ -214,6 +227,7 @@ jobs:
       - name: Run browser runtime contract
         run: |
           set -euo pipefail
+          python app/scripts/test_first_render_browser.py
           python app/scripts/test_runtime_browser.py
           python app/scripts/test_event_actions_browser.py
           python app/scripts/test_schedule_interaction_browser.py

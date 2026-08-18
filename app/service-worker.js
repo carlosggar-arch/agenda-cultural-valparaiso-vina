@@ -1,10 +1,17 @@
-const CACHE_VERSION = "v52";
+importScripts("./release-version.js");
+
+const RELEASE = Number(globalThis.__VIVAMOS_RELEASE__);
+if (!Number.isInteger(RELEASE) || RELEASE < 1) {
+  throw new Error("¡Vivamos!: invalid shared release version");
+}
+const CACHE_VERSION = `v${RELEASE}`;
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
 const SHELL_ASSETS = [
   "./",
   "./index.html",
+  "./release-version.js",
   "./app.css",
   "./combined-filters.css",
   "./city-header.css",

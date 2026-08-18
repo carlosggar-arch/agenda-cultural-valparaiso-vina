@@ -46,6 +46,12 @@ function toggleSearch() {
   if (opening) requestAnimationFrame(() => input?.focus());
 }
 
+function bindSearchToggle(toggle) {
+  if (!toggle || toggle.dataset.headerSearchBound === "true") return;
+  toggle.dataset.headerSearchBound = "true";
+  toggle.addEventListener("click", toggleSearch);
+}
+
 function buildHeaderStructure() {
   const header = document.querySelector(".app-header");
   const brandCopy = document.querySelector(".brand span");
@@ -105,8 +111,8 @@ function buildHeaderStructure() {
     toggle.setAttribute("aria-expanded", "false");
     toggle.innerHTML = '<span aria-hidden="true">⌕</span>';
     actions.prepend(toggle);
-    toggle.addEventListener("click", toggleSearch);
   }
+  bindSearchToggle(actions?.querySelector("[data-header-search-toggle]"));
 
   let searchPopover = header.querySelector("[data-header-search-popover]");
   if (!searchPopover) {
