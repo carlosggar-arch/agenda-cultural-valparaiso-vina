@@ -1,5 +1,13 @@
 export const SOURCES_PATH = "./fuentes_publicas.json";
 
+export const SOURCE_DISPLAY_NAME_OVERRIDES = Object.freeze({
+  "fuente_5c58c0825171c93a": "INSOMNIA Teatro Condell",
+});
+
+export function sourceDisplayName(source) {
+  return SOURCE_DISPLAY_NAME_OVERRIDES[source?.id] || source?.name || "";
+}
+
 export function normalizeText(value) {
   return String(value || "").normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase("es");
 }
@@ -7,7 +15,7 @@ export function normalizeText(value) {
 export function filterSources(sources, filters = {}) {
   const query = normalizeText(filters.query);
   return sources.filter((source) => {
-    const searchable = normalizeText([source.name, source.source_type, ...source.categories].join(" "));
+    const searchable = normalizeText([sourceDisplayName(source), source.name, source.source_type, ...source.categories].join(" "));
     if (query && !searchable.includes(query)) return false;
     if (filters.city === "ambas" && source.cities.length < 2) return false;
     if (filters.city && filters.city !== "ambas" && !source.cities.includes(filters.city)) return false;
@@ -63,7 +71,7 @@ function renderCard(source) {
   source.categories.forEach((category) => categories.append(element("li", "", category)));
   const link = element("a", "source-link", "Visitar sitio oficial ↗");
   link.href = safeExternalUrl(source.website_url); link.target = "_blank"; link.rel = "noopener noreferrer";
-  article.append(element("span", "source-status", "Integrada"), element("h2", "", source.name),
+  article.append(element("span", "source-status", "Integrada"), element("h2", "", sourceDisplayName(source)),
     element("p", "source-meta", `${source.source_type} · ${source.cities.join(", ")}`), categories);
   if (source.last_verified_at) article.append(element("p", "source-verified", `Última verificación: ${source.last_verified_at}`));
   article.append(link); return article;
