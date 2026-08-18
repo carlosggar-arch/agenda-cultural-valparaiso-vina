@@ -47,12 +47,15 @@ const serviceWorker = read("service-worker.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 
-assert.match(appJs, /globalThis\.__vivamosAppBaseReady\s*=\s*baseReady/);
-assert.match(appJs, /await import\("\.\/category-normalizer\.js/);
-assert.match(appJs, /await import\("\.\/app-core\.js/);
-assert.match(bootstrap, /waitForBaseApp/);
-assert.ok(bootstrap.indexOf("await waitForBaseApp()") < bootstrap.indexOf("combined-filters.js"), "filters must wait for the complete base renderer");
-assert.ok(bootstrap.indexOf("combined-filters.js") < bootstrap.indexOf("approved-event-integrity.js"), "integrity guard must start after filters");
+// Base rendering must never be gated behind a top-level await chain: a secondary
+// presentation/filter failure must not prevent the public agenda from loading.
+assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
+assert.match(appJs, /^import "\.\/app-core\.js/m);
+assert.doesNotMatch(appJs, /__vivamosAppBaseReady|await\s+baseReady|const\s+baseReady/);
+assert.match(bootstrap, /import "\.\/category-normalizer\.js/);
+assert.match(bootstrap, /const filtersReady = import\("\.\/combined-filters\.js/);
+assert.match(bootstrap, /\.then\(\(\) => import\("\.\/approved-event-integrity\.js/);
+assert.doesNotMatch(bootstrap, /waitForBaseApp|await\s+waitForBaseApp/);
 assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 
@@ -68,4 +71,4 @@ assert.match(integrity, /reapplyModernFilters/);
 assert.match(serviceWorker, /"\.\/combined-filters-bootstrap\.js"/);
 assert.match(serviceWorker, /"\.\/approved-event-integrity\.js"/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; non-blocking startup)`);
