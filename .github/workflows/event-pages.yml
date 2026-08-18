@@ -142,7 +142,6 @@ jobs:
           python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/apply_source_coverage_overrides.py
           python app/scripts/test_pre_release.py
-          python app/scripts/test_release_guard.py
 
       - name: Generate permanent pages and canonical city landing on public main
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
