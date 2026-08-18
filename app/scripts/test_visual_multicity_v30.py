@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 
 app_js = (APP / "app.js").read_text(encoding="utf-8")
+app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
 index = (APP / "index.html").read_text(encoding="utf-8")
 card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
@@ -46,7 +47,7 @@ assert 'function suggestCityFromCoordinates' in app_js
 
 # Real event images keep precedence; card placeholders can still become shared category photos.
 assert 'event?.image?.url' in card_js
-assert 'image.dataset.eventImage = "relevant"' in card_js
+assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
 assert 'activeCity() !== "valparaiso"' not in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
 
