@@ -9,9 +9,11 @@ from apply_source_coverage_overrides import (
     CITY_ID,
     COVERAGE_PATH,
     EVENT_QUALITY_PATH,
+    MONITOR_PATH,
     apply_coverage,
     apply_quality,
     load,
+    monitored_inactive,
     recovery_coverage,
     save,
 )
@@ -34,22 +36,25 @@ def build() -> tuple[dict, dict, dict]:
     coverage = load(COVERAGE_PATH)
     quality = load(EVENT_QUALITY_PATH)
     report = load(REPORT_PATH)
+    monitor = load(MONITOR_PATH)
     recovered = merged_coverage(coverage, report)
-    coverage = apply_coverage(coverage, recovered)
-    quality = apply_quality(quality, coverage, recovered)
+    verified_zero = monitored_inactive(monitor)
+    coverage = apply_coverage(coverage, recovered, verified_zero)
+    quality = apply_quality(quality, coverage, recovered, verified_zero)
     city = (coverage.get("cities") or {}).get(CITY_ID) or {}
     row = next((item for item in city.get("sources") or [] if item.get("id") == "museo_fonck"), None)
     result = {
         "fonck_state": report.get("state"),
         "fonck_coverage_applied": "museo_fonck" in recovered,
         "fonck_status": (row or {}).get("status"),
+        "verified_inactive_source_ids": sorted(verified_zero),
         "valparaiso_summary": city.get("summary") or {},
     }
     return coverage, quality, result
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Apply Visita Viña coverage for Museo Fonck without erasing existing source overrides.")
+    parser = argparse.ArgumentParser(description="Apply Visita Viña coverage for Museo Fonck without erasing existing recovery or verified-inactivity overrides.")
     parser.add_argument("--no-write", action="store_true")
     args = parser.parse_args()
     coverage, quality, report = build()
