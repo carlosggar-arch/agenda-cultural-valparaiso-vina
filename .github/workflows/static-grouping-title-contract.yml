@@ -1,0 +1,48 @@
+name: Static grouping and title contract
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/app.js"
+      - "app/public-title-normalizer.mjs"
+      - "app/title-normalizer-bootstrap.js"
+      - "app/static-exhibition-groups.js"
+      - "app/public-presentation-rules.mjs"
+      - "app/data/gijon/agenda_web.json"
+      - "app/release-version.js"
+      - "app/scripts/test_static_grouping_title_contract.mjs"
+      - ".github/workflows/static-grouping-title-contract.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/app.js"
+      - "app/public-title-normalizer.mjs"
+      - "app/title-normalizer-bootstrap.js"
+      - "app/static-exhibition-groups.js"
+      - "app/public-presentation-rules.mjs"
+      - "app/data/gijon/agenda_web.json"
+      - "app/release-version.js"
+      - "app/scripts/test_static_grouping_title_contract.mjs"
+      - ".github/workflows/static-grouping-title-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check modules
+        run: |
+          node --check app/public-title-normalizer.mjs
+          node --check app/title-normalizer-bootstrap.js
+          node --check app/static-exhibition-groups.js
+          node --check app/app.js
+      - name: Verify static grouping and title contract
+        run: node app/scripts/test_static_grouping_title_contract.mjs
