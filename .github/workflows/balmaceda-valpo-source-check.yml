@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "app/scripts/refresh_balmaceda_valpo.py"
+      - "app/scripts/refresh_balmaceda_valpo_bounded.py"
       - "app/scripts/test_balmaceda_valpo.py"
       - "app/scripts/apply_balmaceda_coverage.py"
       - "app/scripts/test_balmaceda_coverage.py"
@@ -17,7 +18,7 @@ permissions:
 jobs:
   validate-source:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - name: Checkout PR
         uses: actions/checkout@v4
@@ -32,6 +33,7 @@ jobs:
           set -euo pipefail
           python -m py_compile \
             app/scripts/refresh_balmaceda_valpo.py \
+            app/scripts/refresh_balmaceda_valpo_bounded.py \
             app/scripts/test_balmaceda_valpo.py \
             app/scripts/apply_balmaceda_coverage.py \
             app/scripts/test_balmaceda_coverage.py
@@ -41,7 +43,7 @@ jobs:
       - name: Probe official Balmaceda Valpo source
         run: |
           set -euo pipefail
-          python app/scripts/refresh_balmaceda_valpo.py --no-write > balmaceda-valpo-live-check.json
+          python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write > balmaceda-valpo-live-check.json
           python - <<'PY'
           import json
           from pathlib import Path
