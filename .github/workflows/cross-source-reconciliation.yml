@@ -9,6 +9,12 @@ on:
       - "app/scripts/apply_event_derived_source_coverage.py"
       - "app/scripts/test_event_derived_source_coverage.py"
       - ".github/workflows/cross-source-reconciliation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/scripts/refresh_valpocultura_zero_recovery_resilient.py"
+      - "app/scripts/apply_event_derived_source_coverage.py"
+      - ".github/workflows/cross-source-reconciliation.yml"
   workflow_run:
     workflows: ["Permanent event pages"]
     types: [completed]
@@ -26,7 +32,7 @@ concurrency:
 
 jobs:
   reconcile:
-    # PRs validate code only. workflow_run/schedule/dispatch reconcile public main.
+    # PRs validate code only. Other triggers reconcile public main.
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -96,8 +102,6 @@ jobs:
           if not check.get('duplicates_zero') or not check.get('events_present'):
               raise SystemExit('CROSS_SOURCE_RECONCILIATION_INVALID_DATASET')
           if municipal.get('fetch_ok') is True and municipal.get('listing_discovered') == 0:
-              # Parser drift is acceptable only when direct-detail fallback recovered
-              # active coverage or all known direct details are now truly inactive.
               if municipal.get('direct_fallback_added', 0) <= 0:
                   raise SystemExit('VALPOCULTURA_LISTING_DRIFT_WITHOUT_FALLBACK')
           print(
