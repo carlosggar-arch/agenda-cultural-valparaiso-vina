@@ -68,13 +68,13 @@
       "city": "Gijón",
       "timezone": "Europe/Madrid",
       "currency": "EUR",
-      "url": "https://www.centrotitobustillo.com/web/laboral-cinemateca/programacion",
-      "mode": "direct",
+      "url": "https://www.turismoasturias.es/agenda-de-asturias/cine-y-espectaculos",
+      "mode": "monitor",
       "extractor": "laboral_program",
       "required": false,
       "category_id": "cine",
       "category_label": "Cine",
-      "scope_note": "Transporte HTTPS alternativo del mismo CMS público de Laboral Cinemateca, titularidad de la Sociedad Pública de Gestión y Promoción Turística y Cultural del Principado de Asturias; filtrar estrictamente las sesiones de Gijón."
+      "scope_note": "Transporte HTTPS oficial y estable de Turismo Asturias. El extractor sólo acepta bloques que identifiquen Laboral Cinemateca y Gijón/Xixón y sesiones con fecha/hora explícitas; si no hay cartelera vigente, permanece en monitor sin publicar."
     }
   ]
 }
