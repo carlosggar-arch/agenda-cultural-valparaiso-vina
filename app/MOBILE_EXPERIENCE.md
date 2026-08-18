@@ -1,5 +1,9 @@
 # Mobile experience acceptance criteria
 
+Status: **PWA_STARTUP_CONSOLIDATION_COMPLETE**
+
+The startup/first-render architecture is considered consolidated as of PWA v53. Future product work should preserve these invariants and should not reopen the startup architecture unless an automated guard or a verified production regression requires it.
+
 This layer improves the first-open and one-hand PWA experience without changing city datasets or editorial pipelines.
 
 - First visit requires an explicit city choice unless a supported city is already saved or geolocation permission was previously granted.
@@ -14,4 +18,4 @@ This layer improves the first-open and one-hand PWA experience without changing 
 - Hydration must not rewrite the href of an already loaded header/mobile stylesheet.
 - The static search control must remain bound and interactive after hydration.
 - `release-version.js` is the single source of truth for the visible PWA version and service-worker cache release.
-- The release guard and first-render browser probe must pass on the final release commit before publication.
+- The required release guard, first-render browser probe and production smoke must pass before startup-sensitive changes are published.
