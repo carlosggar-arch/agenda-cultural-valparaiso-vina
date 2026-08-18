@@ -6,7 +6,10 @@ on:
     paths:
       - "app/community-source.js"
       - "app/community-source.css"
+      - "app/participation-footer.js"
       - "app/pwa.js"
+      - "app/service-worker.js"
+      - "app/release-version.js"
       - "tests/community-feedback-ui.test.mjs"
       - ".github/workflows/community-feedback-ui-contract.yml"
   pull_request:
@@ -14,7 +17,10 @@ on:
     paths:
       - "app/community-source.js"
       - "app/community-source.css"
+      - "app/participation-footer.js"
       - "app/pwa.js"
+      - "app/service-worker.js"
+      - "app/release-version.js"
       - "tests/community-feedback-ui.test.mjs"
       - ".github/workflows/community-feedback-ui-contract.yml"
   workflow_dispatch:
@@ -31,8 +37,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Validate client syntax and single-row contract
+      - name: Validate client syntax and visible single-row contract
         run: |
           node --check app/community-source.js
+          node --check app/participation-footer.js
+          node --check app/pwa.js
+          node --check app/service-worker.js
           node tests/community-feedback-ui.test.mjs
           git diff --check
