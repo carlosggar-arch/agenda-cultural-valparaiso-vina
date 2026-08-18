@@ -1,0 +1,24 @@
+name: Atomic publication contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/event-pages.yml"
+      - ".github/workflows/compose-valpo-dataset.yml"
+      - ".github/workflows/atomic-publication-contract.yml"
+      - "app/scripts/test_atomic_publication_contract.py"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python app/scripts/test_atomic_publication_contract.py
