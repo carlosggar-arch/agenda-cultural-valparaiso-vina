@@ -22,7 +22,8 @@ DATASETS = {
 }
 MONTHS = {
     "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
-    "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
+    "julio": 7, "agosto": 8, "septiembre": 9, "setiembre": 9, "octubre": 10,
+    "noviembre": 11, "diciembre": 12,
 }
 MONTH_PATTERN = "|".join(MONTHS)
 
@@ -120,7 +121,8 @@ def event(source: dict, title: str, start: date, *, end: date | None = None, clo
         },
         "location": {
             "venue_id": source["id"], "city": city, "commune": city,
-            "venue": venue or source["name"], "address": address, "online": False,
+            "venue": venue or source.get("venue") or source["name"],
+            "address": address if address is not None else source.get("address"), "online": False,
             "latitude": None, "longitude": None,
         },
         "price": {"is_free": None, "currency": source["currency"], "min_amount": None, "max_amount": None, "display_text": "Consultar condiciones"},
@@ -175,6 +177,22 @@ LABORAL_ITEM = re.compile(
     re.I,
 )
 GENERIC = re.compile(r"(\d{1,2})[./-](\d{1,2})[./-](20\d{2})(?:.{0,20}?(\d{1,2})[:.](\d{2}))?")
+FULL_SPANISH_DATE = re.compile(
+    rf"\b(\d{{1,2}})\s+de\s+({MONTH_PATTERN})\s+de\s+(20\d{{2}})(?:\s+(?:a\s+las|de)?\s*(\d{{1,2}}):(\d{{2}}))?",
+    re.I,
+)
+NUMERIC_RANGE = re.compile(
+    r"\b(\d{1,2})/(\d{1,2})/(20\d{2})\s*(?:-|–|—|a)\s*(\d{1,2})/(\d{1,2})/(20\d{2})\b",
+    re.I,
+)
+PICU_ITEM = re.compile(
+    r"^(\d{1,2})[/-](\d{1,2})[/-](20\d{2})(?:\s+(\d{1,2}):(\d{2})\s*h?)?\s*[-–—:]?\s*(.+)$",
+    re.I,
+)
+TITLE_STOPWORDS = {
+    "agenda", "actualidad", "programacion", "eventos", "evento", "proximamente",
+    "proximos eventos", "calendario", "inicio", "ver mas", "leer mas", "entradas",
+}
 
 
 def extract_laboral(source: dict, text: list[str]) -> list[dict]:
@@ -226,10 +244,126 @@ def extract_generic(source: dict, text: list[str]) -> list[dict]:
     return result
 
 
+def nearby_title(text: list[str], index: int) -> str | None:
+    """Return a plausible title next to an explicit date without guessing from navigation copy."""
+    positions = [index - 1, index + 1, index - 2, index + 2]
+    for pos in positions:
+        if pos < 0 or pos >= len(text):
+            continue
+        candidate = text[pos].strip(" ·|–—-")
+        normalized = slug(candidate)
+        if len(candidate) < 4 or normalized in TITLE_STOPWORDS:
+            continue
+        if FULL_SPANISH_DATE.search(candidate) or GENERIC.search(candidate) or NUMERIC_RANGE.search(candidate):
+            continue
+        if normalized == slug(str(source_name := "")):
+            continue
+        return candidate
+    return None
+
+
+def extract_explicit_spanish(source: dict, text: list[str]) -> list[dict]:
+    """Publish only entries carrying a complete Spanish date including a four-digit year."""
+    result = []
+    today = now_day(source)
+    seen: set[tuple[str, str, str | None]] = set()
+    for index, value in enumerate(text):
+        match = FULL_SPANISH_DATE.search(value)
+        if not match:
+            continue
+        start = parse_date_es(match.group(1), match.group(2), match.group(3))
+        if not start or start < today:
+            continue
+        title = nearby_title(text, index)
+        if not title:
+            continue
+        if slug(title) == slug(source["name"]):
+            continue
+        clock = f"{int(match.group(4)):02d}:{match.group(5)}" if match.group(4) else None
+        signature = (start.isoformat(), slug(title), clock)
+        if signature in seen:
+            continue
+        seen.add(signature)
+        result.append(event(source, title, start, clock=clock, city="Gijón"))
+    return result
+
+
+def extract_habitacion(source: dict, text: list[str]) -> list[dict]:
+    """La Habitación Propia: require the explicit dated event calendar, never infer from archive order."""
+    return extract_explicit_spanish(source, text)
+
+
+def extract_mae(source: dict, text: list[str]) -> list[dict]:
+    """Extract MAE dates only from official rows explicitly naming the Gijón market."""
+    result = []
+    today = now_day(source)
+    marker = "mercado artesano y ecologico de gijon"
+    seen: set[tuple[str, str]] = set()
+    for index, value in enumerate(text):
+        if marker not in slug(value):
+            continue
+        for pos in range(max(0, index - 4), min(len(text), index + 7)):
+            match = NUMERIC_RANGE.search(text[pos])
+            if not match:
+                continue
+            try:
+                start = date(int(match.group(3)), int(match.group(2)), int(match.group(1)))
+                end = date(int(match.group(6)), int(match.group(5)), int(match.group(4)))
+            except ValueError:
+                continue
+            if end < today or end < start:
+                continue
+            signature = (start.isoformat(), end.isoformat())
+            if signature in seen:
+                continue
+            seen.add(signature)
+            result.append(event(
+                source, "Mercado Artesano y Ecológico de Gijón", start, end=end,
+                city="Gijón", venue="Plaza Mayor de Gijón", address="Plaza Mayor, Gijón",
+            ))
+    return result
+
+
+def extract_picu(source: dict, text: list[str]) -> list[dict]:
+    """Extract future mountain outings with an explicit full date from the Picu Urriellu programme."""
+    result = []
+    today = now_day(source)
+    reject = {"asamblea", "junta", "convocatoria", "calendario", "sustituida", "sustituido"}
+    seen: set[tuple[str, str, str | None]] = set()
+    for value in text:
+        match = PICU_ITEM.match(value)
+        if not match:
+            continue
+        try:
+            start = date(int(match.group(3)), int(match.group(2)), int(match.group(1)))
+        except ValueError:
+            continue
+        if start < today:
+            continue
+        title = match.group(6).strip(" ·|–—-")
+        normalized = slug(title)
+        if len(title) < 5 or any(word in normalized for word in reject):
+            continue
+        clock = f"{int(match.group(4)):02d}:{match.group(5)}" if match.group(4) else None
+        signature = (start.isoformat(), normalized, clock)
+        if signature in seen:
+            continue
+        seen.add(signature)
+        result.append(event(
+            source, title, start, clock=clock, city="Gijón",
+            venue="Salida desde Gijón — Grupo de Montaña Picu Urriellu",
+        ))
+    return result
+
+
 EXTRACTORS = {
     "barjola_exhibitions": extract_barjola,
     "laboral_program": extract_laboral,
     "generic_dated": extract_generic,
+    "explicit_spanish_dated": extract_explicit_spanish,
+    "habitacion_events": extract_habitacion,
+    "mae_gijon": extract_mae,
+    "picu_routes": extract_picu,
 }
 
 
