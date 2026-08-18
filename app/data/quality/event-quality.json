@@ -1,61 +1,61 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T11:50:33+00:00",
+  "generated_at": "2026-08-18T11:55:53+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-18",
       "generated_at": "2026-08-18T05:47:46-04:00",
       "summary": {
-        "total_events": 164,
+        "total_events": 165,
         "average_quality_score": 92.0,
         "quality_class": "excellent",
-        "sources_catalogued": 40,
-        "sources_producing": 24,
+        "sources_catalogued": 41,
+        "sources_producing": 25,
         "sources_zero": 9,
         "review_priority_zero_sources": 9,
-        "zero_sources_covered_elsewhere": 5,
-        "top3_source_share_pct": 51.8,
+        "zero_sources_covered_elsewhere": 7,
+        "top3_source_share_pct": 51.5,
         "unattributed_events": 0,
-        "verified_inactive_zero_sources": 2
+        "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
         "date_pct": 97.6,
         "time_pct": 94.5,
         "venue_pct": 100.0,
-        "image_pct": 53.7,
+        "image_pct": 53.3,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 47.0,
+        "official_source_pct": 47.3,
         "price_known_pct": 84.8
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 70,
-          "share_pct": 42.7,
+          "count": 71,
+          "share_pct": 43.0,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 26,
-          "share_pct": 15.9,
+          "share_pct": 15.8,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 20,
-          "share_pct": 12.2,
+          "share_pct": 12.1,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 20,
-          "share_pct": 12.2,
+          "share_pct": 12.1,
           "underrepresented": false
         },
         {
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 105,
-          "share_pct": 64.0
+          "share_pct": 63.6
         },
         {
           "area": "Viña del Mar",
-          "count": 59,
-          "share_pct": 36.0
+          "count": 60,
+          "share_pct": 36.4
         }
       ],
       "coverage_gaps": {
@@ -118,27 +118,26 @@
           "casa_prisma_valpo",
           "compania_la_paila",
           "ecoliderazgo",
-          "estadio_espanol_recreo",
           "la_escala_galeria",
           "masita_rica",
-          "museo_fonck",
-          "sala_secreta"
+          "sala_secreta",
+          "sala_teatro_ipa",
+          "teatro_la_peste"
         ],
         "zero_sources_covered_elsewhere": [
           "casa_cultura_valparaiso",
           "centex",
+          "estadio_espanol_recreo",
           "estrella_negra_jazz",
+          "museo_fonck",
           "teatro_municipal_valparaiso",
           "valparaiso_profundo"
         ],
-        "verified_inactive_zero_sources": [
-          "sala_teatro_ipa",
-          "teatro_la_peste"
-        ]
+        "verified_inactive_zero_sources": []
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 53.7,
+        "relevant_image_pct": 53.3,
         "removed_events": {}
       },
       "sources": [
@@ -730,6 +729,31 @@
           },
           "categories": {
             "naturaleza-deportes": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "visitavina_estadio_espanol_recovery",
+          "name": "Visita Viña — Estadio Español",
+          "count": 1,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 0.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "musica": 1
           },
           "verified_inactive": false
         },

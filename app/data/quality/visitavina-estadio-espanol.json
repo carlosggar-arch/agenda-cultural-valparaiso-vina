@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-18T07:55:22-04:00",
+  "source_id": "visitavina_estadio_espanol_recovery",
+  "source_name": "Visita Viña — Estadio Español",
+  "covered_source_id": "estadio_espanol_recreo",
+  "state": "publishing_future_events",
+  "listing": {
+    "url": "https://visitavina.munivina.cl/actividades/",
+    "fetch_ok": true,
+    "http_status": 200,
+    "error": null
+  },
+  "candidates": [
+    {
+      "date": "2026-08-27",
+      "url": "https://visitavina.munivina.cl/actividad/concierto-orquesta-marga-marga-3/?occurrence=2026-08-27",
+      "listing_context": "Concierto // Orquesta Marga Marga Estadio Español 8:00 pm"
+    }
+  ],
+  "details": [
+    {
+      "date": "2026-08-27",
+      "url": "https://visitavina.munivina.cl/actividad/concierto-orquesta-marga-marga-3/?occurrence=2026-08-27",
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null,
+      "title": "Concierto // Orquesta Marga Marga",
+      "venue_ok": true,
+      "start_clock": "19:30",
+      "end_clock": "21:00",
+      "listing_context": "Concierto // Orquesta Marga Marga Estadio Español 8:00 pm"
+    }
+  ],
+  "events_published": 1,
+  "semantic_duplicates_dropped": 0,
+  "previous_future_events": 0,
+  "coverage": [
+    {
+      "source_id": "estadio_espanol_recreo",
+      "source_name": "Estadio Español Recreo",
+      "covered_by": "visitavina_estadio_espanol_recovery",
+      "reason": "future_official_municipal_event"
+    }
+  ],
+  "policy": "Publish only future occurrence-specific links from the official Visita Viña activities listing whose own listing context and detail page identify Estadio Español; never infer dates or promote historical Instagram content."
+}
