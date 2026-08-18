@@ -46,7 +46,11 @@ assert.match(compact, /categoria-exposiciones\.jpg/);
 
 const footer = readFileSync(new URL("../footer-credit.js", import.meta.url), "utf8");
 assert.match(footer, /Carlos García García/);
+assert.match(footer, /Contacto · @carlosggar-arch/);
 assert.match(footer, /github\.com\/carlosggar-arch/);
+assert.match(footer, /vivamos-footer-link--contact/);
+assert.match(footer, /vivamos-footer-link--secondary/);
+assert.match(footer, /color:\s*#fff\s*!important/);
 assert.match(footer, /Fuentes/);
 
 console.log("PUBLIC_TAXONOMY_FOOTER_CONTRACT_OK");
