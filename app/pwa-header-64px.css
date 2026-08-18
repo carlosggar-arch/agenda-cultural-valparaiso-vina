@@ -1,6 +1,7 @@
 /* Installed-app header geometry approved 2026-08-18.
    A (text block) = B (city illustration) = E (logo) = 64px.
-   L (gap from A/B to mosaic F) = 2px. Web layout is intentionally untouched. */
+   L (gap from A/B to mosaic F) = 2px. F (mosaic) = 15px.
+   Web layout is intentionally untouched. */
 @media (display-mode: standalone) and (max-width: 700px) {
   html[data-installed-app-actions="below-mosaic"] .app-header {
     min-height: 82px !important;
@@ -55,8 +56,11 @@
     overflow: hidden !important;
   }
 
-  /* F: eliminate the former hero whitespace; target L = 2px. */
+  /* F: keep L at 2px and make the mosaic exactly 15px high. */
   html[data-installed-app-actions="below-mosaic"] .filter-workbench::before {
+    height: 15px !important;
+    min-height: 15px !important;
+    max-height: 15px !important;
     margin-top: -1.23rem !important;
     margin-bottom: .05rem !important;
   }
