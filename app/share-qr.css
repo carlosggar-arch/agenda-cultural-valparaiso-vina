@@ -188,3 +188,31 @@ html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic
   display:grid!important;
   place-items:center!important;
 }
+
+/* Installed mobile PWA: icon-only controls need less horizontal space than
+   text controls. The seven tracks still consume exactly 100% of the strip,
+   with no gaps; the saved width is reassigned to City and the remaining actions. */
+html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"]
+  .filter-workbench > .header-actions{
+  grid-template-columns:1fr .78fr .62fr 1.22fr .86fr .86fr .90fr!important;
+  gap:0!important;
+  column-gap:0!important;
+}
+html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"]
+  .filter-workbench > .header-actions > .header-search-toggle[data-header-search-toggle]{
+  grid-column:2!important;
+  grid-row:1!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:38px!important;
+  min-height:38px!important;
+  margin:0!important;
+  padding:0!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  display:grid!important;
+  place-items:center!important;
+}

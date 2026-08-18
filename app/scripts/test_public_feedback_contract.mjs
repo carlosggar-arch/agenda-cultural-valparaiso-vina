@@ -56,6 +56,8 @@ assert.match(installedMosaic, /data-community-comments/);
 assert.match(installedMosaic, /data-community-like/);
 assert.doesNotMatch(installedMosaic, /grid-template-columns: repeat\(5/);
 
+assert.match(shareQrCss, /grid-template-columns:1fr \.78fr \.62fr 1\.22fr \.86fr \.86fr \.90fr!important/);
+assert.match(shareQrCss, /header-search-toggle\[data-header-search-toggle\][\s\S]*width:100%!important/);
 assert.match(shareQrCss, /data-installed-real-mosaic="true"[\s\S]*share-qr-button\[data-share-qr-open\][\s\S]*width:100%!important/);
 assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*justify-self:stretch!important/);
 
@@ -72,6 +74,6 @@ assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 108/);
+assert.match(release, /const RELEASE = 109/);
 
-console.log("Public feedback: WEB strip preserved and installed mobile QR fills its gapless segment: OK");
+console.log("Public feedback: WEB preserved and installed mobile controls use gapless proportional tracks: OK");
