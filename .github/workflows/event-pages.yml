@@ -24,6 +24,7 @@ on:
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
+      - "app/scripts/refresh_quality_diagnostics.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   push:
@@ -52,6 +53,7 @@ on:
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
+      - "app/scripts/refresh_quality_diagnostics.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   workflow_dispatch:
@@ -92,7 +94,8 @@ jobs:
             app/scripts/test_high_value_sources.py \
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
-            app/scripts/test_portaltickets_editorial.py
+            app/scripts/test_portaltickets_editorial.py \
+            app/scripts/refresh_quality_diagnostics.py
           node --check assets/event-page.js
           node --check assets/web-event-enhancements.js
           node --check app/event-detail.js
@@ -103,10 +106,11 @@ jobs:
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/fetch_high_value_sources.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
+          python app/scripts/refresh_quality_diagnostics.py --no-write
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
 
-      - name: Refresh verified high-value sources
+      - name: Refresh verified high-value sources and diagnostics
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
@@ -114,9 +118,9 @@ jobs:
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/validate_high_value_refresh.py
-          python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/test_high_value_sources.py
           python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/test_pre_release.py
           python app/scripts/test_release_guard.py
 
@@ -130,7 +134,7 @@ jobs:
           test -d evento/valparaiso
           test -d evento/gijon
 
-      - name: Commit refreshed data and generated pages
+      - name: Commit refreshed data, diagnostics and generated pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
@@ -141,12 +145,15 @@ jobs:
             app/data/gijon/agenda_web.json \
             app/data/quality/high-value-sources.json \
             app/data/quality/portaltickets-editorial.json \
+            app/data/quality/source-coverage.json \
+            app/data/quality/event-quality.json \
+            app/data/quality/release-readiness.json \
             index.html evento sitemap.xml gijon
           if git diff --cached --quiet; then
-            echo "High-value sources and permanent pages already synchronized."
+            echo "Sources, diagnostics and permanent pages already synchronized."
             exit 0
           fi
-          git commit -m "Actualiza fuentes de alto valor y fichas permanentes"
+          git commit -m "Actualiza fuentes, diagnósticos y fichas permanentes"
           if [ -n "$(git status --porcelain)" ]; then
             echo "Publication workflow left unstaged changes before rebase:" >&2
             git status --short >&2
