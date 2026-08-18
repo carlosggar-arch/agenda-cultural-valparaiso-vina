@@ -264,7 +264,8 @@ html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-
 
 /* Installed app refinements. */
 html[data-installed-app-actions="below-mosaic"] .filter-workbench::before{
-  margin-top:-.28rem!important;
+  height:.92rem!important;
+  margin-top:-.72rem!important;
   margin-bottom:.05rem!important;
 }
 html[data-installed-app-actions="below-mosaic"] .filter-grid,
