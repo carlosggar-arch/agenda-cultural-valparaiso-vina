@@ -1,4 +1,4 @@
-name: Static grouping and title contract
+name: Static grouping, title and layout contract
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
       - "app/public-presentation-rules.mjs"
+      - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
       - "app/release-version.js"
       - "app/scripts/test_static_grouping_title_contract.mjs"
@@ -21,6 +22,7 @@ on:
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
       - "app/public-presentation-rules.mjs"
+      - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
       - "app/release-version.js"
       - "app/scripts/test_static_grouping_title_contract.mjs"
@@ -44,5 +46,5 @@ jobs:
           node --check app/title-normalizer-bootstrap.js
           node --check app/static-exhibition-groups.js
           node --check app/app.js
-      - name: Verify static grouping and title contract
+      - name: Verify static grouping, title and layout contract
         run: node app/scripts/test_static_grouping_title_contract.mjs
