@@ -5,6 +5,18 @@ function installActionStripLayout() {
   const style = document.createElement("style");
   style.id = STYLE_ID;
   style.textContent = `
+    /* The action rail itself must not look like an extra white panel. Keep only
+       the individual controls visible and use spacing, not a surrounding shell. */
+    html[data-web-actions-below-mosaic="true"] .filter-workbench > .header-actions,
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin-bottom: .14rem !important;
+    }
+
     /* Wide layouts: use the full strip without making every control equally wide.
        Short/icon controls get a smaller share; text-heavy controls get more. */
     @media (min-width: 701px) {
