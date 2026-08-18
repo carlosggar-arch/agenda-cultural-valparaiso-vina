@@ -14,14 +14,66 @@ function useDirectMobileActions() {
   return Boolean(standaloneQuery?.matches || window.navigator.standalone === true || mobileHeaderQuery?.matches);
 }
 
-function applyBrandIconSize() {
+function viewportWidth() {
+  return Number(window.innerWidth || document.documentElement.clientWidth || 9999);
+}
+
+function applyApprovedHeaderLayout() {
+  const width = viewportWidth();
   const icon = document.querySelector(".brand img");
-  if (!icon) return;
-  const viewportWidth = Number(window.innerWidth || document.documentElement.clientWidth || 9999);
-  const size = viewportWidth <= 430 ? 58 : viewportWidth <= 700 ? 64 : 88;
-  icon.style.setProperty("width", `${size}px`, "important");
-  icon.style.setProperty("height", `${size}px`, "important");
-  icon.dataset.brandIconSize = String(size);
+  const actions = document.querySelector(".header-actions");
+  const bottom = document.querySelector(".header-bottom");
+
+  if (icon) {
+    const size = width <= 430 ? 64 : width <= 700 ? 72 : 104;
+    icon.style.setProperty("width", `${size}px`, "important");
+    icon.style.setProperty("height", `${size}px`, "important");
+    icon.dataset.brandIconSize = String(size);
+  }
+
+  if (!actions) return;
+
+  if (useDirectMobileActions()) {
+    // On mobile/PWA the approved layout keeps the real top controls on the
+    // second header row, aligned to the right. This avoids the retired tabbar
+    // and prevents the controls from colliding with the larger brand icon.
+    actions.style.setProperty("position", "relative", "important");
+    actions.style.setProperty("inset", "auto", "important");
+    actions.style.setProperty("display", "flex", "important");
+    actions.style.setProperty("justify-content", "flex-end", "important");
+    actions.style.setProperty("align-items", "center", "important");
+    actions.style.setProperty("width", "100%", "important");
+    actions.style.setProperty("max-width", "100%", "important");
+    actions.style.setProperty("margin", ".62rem 0 0 auto", "important");
+    actions.style.setProperty("padding", "0", "important");
+    actions.style.setProperty("gap", width <= 430 ? ".28rem" : ".38rem", "important");
+    actions.style.setProperty("flex-wrap", "nowrap", "important");
+
+    if (bottom) bottom.hidden = true;
+  } else {
+    // Desktop/web: keep the approved compact group at the upper-right of the
+    // hero instead of leaving the controls under the brand copy.
+    if (bottom) {
+      bottom.hidden = false;
+      bottom.style.setProperty("position", "absolute", "important");
+      bottom.style.setProperty("top", "1.35rem", "important");
+      bottom.style.setProperty("right", "max(1rem, calc((100vw - 1120px) / 2))", "important");
+      bottom.style.setProperty("left", "auto", "important");
+      bottom.style.setProperty("width", "auto", "important");
+      bottom.style.setProperty("margin", "0", "important");
+      bottom.style.setProperty("display", "flex", "important");
+      bottom.style.setProperty("justify-content", "flex-end", "important");
+    }
+    actions.style.setProperty("position", "static", "important");
+    actions.style.setProperty("display", "flex", "important");
+    actions.style.setProperty("justify-content", "flex-end", "important");
+    actions.style.setProperty("align-items", "center", "important");
+    actions.style.setProperty("width", "auto", "important");
+    actions.style.setProperty("margin", "0", "important");
+    actions.style.setProperty("padding", "0", "important");
+    actions.style.setProperty("gap", ".45rem", "important");
+    actions.style.setProperty("flex-wrap", "nowrap", "important");
+  }
 }
 
 function ensureHeaderStylesheet() {
@@ -70,8 +122,6 @@ function buildHeaderStructure() {
   const searchRow = document.querySelector("[data-search-row]");
   const actions = document.querySelector(".header-actions");
   if (!header || !brandCopy) return;
-
-  applyBrandIconSize();
 
   let kicker = brandCopy.querySelector(".header-kicker");
   if (!kicker) {
@@ -146,12 +196,13 @@ function buildHeaderStructure() {
     header.append(art);
   }
 
-  header.dataset.headerRedesign = "hero-v4-mobile-direct-actions";
+  header.dataset.headerRedesign = "hero-v5-approved-logo-actions";
+  applyApprovedHeaderLayout();
 }
 
 function applyHeaderIdentity() {
   buildHeaderStructure();
-  applyBrandIconSize();
+  applyApprovedHeaderLayout();
   const city = document.documentElement.dataset.city || "valparaiso";
   const label = CITY_LABELS[city] || CITY_LABELS.valparaiso;
   const cityTitle = document.querySelector("[data-header-city-title]");
