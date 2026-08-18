@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T20:28:56.766432-04:00",
+  "generated_at": "2026-08-17T20:29:31.374071-04:00",
   "publication_date": "2026-08-17",
   "policy_reviewed_on": "2026-08-17",
   "counts": {
-    "tracked": 6,
+    "tracked": 16,
     "producing": 0,
-    "covered_elsewhere": 1,
-    "explained_zero": 4,
-    "actionable_zero": 1
+    "covered_elsewhere": 2,
+    "explained_zero": 14,
+    "actionable_zero": 0
   },
   "sources": [
     {
@@ -16,11 +16,61 @@
       "name": "Museo Fonck",
       "direct_event_count": 0,
       "cross_covered_event_count": 0,
-      "state": "verification_priority",
-      "attention": "review_priority",
-      "actionable": true,
-      "reason": "Hay señales contemporáneas 2026 en fuentes municipales/secundarias, pero la web histórica del museo mezcla artículos antiguos; exigir año explícito antes de publicar.",
-      "next_action": "Buscar respaldo municipal u oficial con fecha 2026 explícita; nunca inferir el año desde un artículo histórico.",
+      "state": "direct_official_recovery_enabled",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La web oficial del Museo Fonck confirma programación 2026 con año y hora explícitos; desde el 17-08-2026 existe recuperación directa conservadora desde artículos oficiales.",
+      "next_action": "Mantener el refresco oficial y preservar el último evento válido si la web deja de publicar fechas inequívocas.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "teatro_municipal_valparaiso",
+      "name": "Teatro Municipal de Valparaíso",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "cross_source_preferred",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "Valpo Cultura publica actividades actuales del Teatro Municipal con fecha, recinto y condiciones; la cobertura municipal puede acreditar el recinto aunque el source_id directo esté a cero.",
+      "next_action": "Preferir ficha municipal oficial o ticketera; usar Instagram solo como respaldo.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "centex",
+      "name": "CENTEX",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
+      "actionable": false,
+      "reason": "CENTEX dispone de web oficial y calendario institucional, pero la revisión del 17-08-2026 no muestra programación futura de agosto suficientemente concreta.",
+      "next_action": "Monitorizar centex.cultura.gob.cl y recuperar únicamente nuevas actividades futuras fechadas.",
+      "cross_covered_event_ids": [
+        "agenda_93e4dbf4da87420c93c629c6"
+      ]
+    },
+    {
+      "id": "estrella_negra_jazz",
+      "name": "Estrella Negra Club de Jazz",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "monitored_no_verified_future",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La última cartelera municipal verificable encontrada cubre 1 de julio a 1 de agosto de 2026 y ya finalizó.",
+      "next_action": "Esperar una cartelera de agosto/septiembre con fechas explícitas en Valpo Cultura, ticketera o fuente oficial.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "valparaiso_profundo",
+      "name": "Valparaíso Profundo",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "monitored_no_verified_future",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "Valpo Cultura y Passline muestran programación verificable hasta julio de 2026; no se encontró una función futura posterior al 17-08-2026 con fecha y hora inequívocas.",
+      "next_action": "Seguir Passline y la agenda municipal; publicar cuando aparezca una nueva ficha futura completa.",
       "cross_covered_event_ids": []
     },
     {
@@ -59,6 +109,78 @@
       "actionable": false,
       "reason": "La web oficial confirma Jarana cada viernes, pero la ficha no publica una hora concreta para materializar sesiones fiables.",
       "next_action": "Usar Ticketnet, Valpo Cultura u otra fuente fechada cuando publique una sesión concreta; no inventar hora.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "sala_secreta",
+      "name": "Sala Secreta",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "recurring_but_incomplete",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La web oficial anuncia espectáculos de magia todas las semanas, pero no ofrece una cartelera fechada vigente y remite reservas a Instagram/WhatsApp.",
+      "next_action": "No materializar recurrencias sin fecha y hora; mantenerla como fuente social de respaldo.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "la_escala_galeria",
+      "name": "La Escala Galería",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "no_structured_agenda",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La web actual funciona como tienda/contacto y no expone una agenda cultural estructurada verificable.",
+      "next_action": "Mantener monitorizada; no aumentar llamadas de Instagram hasta disponer de agenda o ticketera estable.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "teatro_la_peste",
+      "name": "Teatro La Peste",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "monitored_no_verified_future",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "Se verifican funciones pasadas en ticketera y colaboraciones con PCDV, pero no una función futura posterior al 17-08-2026.",
+      "next_action": "Vigilar TelonTicket, PortalDisc/PCDV y fuentes oficiales antes de recurrir a más scraping social.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "sala_teatro_ipa",
+      "name": "Sala Teatro IPA",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "monitored_no_verified_future",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La programación verificable encontrada llega hasta julio de 2026; no se halló una función futura completa posterior al 17-08-2026.",
+      "next_action": "Vigilar Passline y medios culturales con fecha/hora explícitas; mantener Instagram como respaldo.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "estadio_espanol_recreo",
+      "name": "Estadio Español Recreo",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "venue_without_public_cultural_agenda",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "Existe web institucional y actividad deportiva estable, pero no una agenda pública cultural/eventual estructurada del recinto para el período futuro revisado.",
+      "next_action": "Usar ticketera/federación/organizador cuando haya un evento puntual y no convertir clases permanentes en eventos culturales.",
+      "cross_covered_event_ids": []
+    },
+    {
+      "id": "ecoliderazgo",
+      "name": "EcoLiderazgo",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 0,
+      "state": "instagram_budget_constrained",
+      "attention": "explained_zero",
+      "actionable": false,
+      "reason": "La fuente aporta excursiones pertinentes por lugar de salida, pero no se dispone aún de una ruta web/ticketera estructurada estable.",
+      "next_action": "Mantener la política geográfica por origen y estudiar cada excursión nueva dentro del análisis longitudinal de Apify.",
       "cross_covered_event_ids": []
     },
     {
