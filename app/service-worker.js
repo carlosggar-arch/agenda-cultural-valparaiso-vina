@@ -40,6 +40,7 @@ const SHELL_ASSETS = [
   "./city-first-run.js",
   "./combined-filters-bootstrap.js",
   "./combined-filters.js",
+  "./approved-event-integrity.js",
   "./combined-filters-polish.js",
   "./pwa.js?v=20260817-brandicon2",
   "./mobile-experience.js?v=20260817-topcontrols4",
