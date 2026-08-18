@@ -23,24 +23,38 @@
 }
 html[data-mobile-client="true"] .mobile-install-cta{display:block}
 
-/* IMPORTANT: header-redesign.css owns the geometry of the genuine top
-   controls. Do not override header-bottom/header-actions here: doing so causes
-   the controls to jump after this stylesheet loads. */
+/* header-redesign.css owns geometry. This layer only guarantees visibility. */
+html[data-mobile-client="true"] .header-bottom,
+html[data-mobile-client="true"] .header-actions{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
 html[data-mobile-client="true"] .header-search-toggle,
-html[data-mobile-client="true"] .install-button,
 html[data-mobile-client="true"] .city-switch,
 html[data-mobile-client="true"] .favorite-toggle,
 html[data-mobile-client="true"] [data-my-plans-trigger],
 html[data-mobile-client="true"] [data-share-qr]{
+  visibility:visible!important;
+  opacity:1!important;
   margin-top:0!important;
   margin-bottom:0!important;
 }
+html[data-mobile-client="true"] .header-search-toggle,
+html[data-mobile-client="true"] .city-switch{
+  display:inline-flex!important;
+}
+html[data-mobile-client="true"] .header-search-toggle{display:grid!important}
 
 .event-detail-panel--no-media .event-detail-content{padding-top:1.15rem!important}
 .event-detail-panel--no-media .event-detail-meta{padding-right:3.4rem}
 
 @media(display-mode:standalone){
   .mobile-tabbar,[data-mobile-tabbar]{display:none!important}
+  .header-bottom,.header-actions{display:flex!important;visibility:visible!important;opacity:1!important}
+  .header-search-toggle,.city-switch,.favorite-toggle,[data-my-plans-trigger],[data-share-qr]{visibility:visible!important;opacity:1!important}
+  .header-search-toggle{display:grid!important}
+  .city-switch{display:inline-flex!important}
 }
 
 @media(max-width:900px){
