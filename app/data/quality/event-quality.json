@@ -1,113 +1,112 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T09:44:34+00:00",
+  "generated_at": "2026-08-18T10:06:19+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
-      "publication_date": "2026-08-17",
-      "generated_at": "2026-08-18T03:59:00-04:00",
+      "publication_date": "2026-08-18",
+      "generated_at": "2026-08-18T05:47:46-04:00",
       "summary": {
-        "total_events": 182,
-        "average_quality_score": 94.3,
+        "total_events": 161,
+        "average_quality_score": 92.2,
         "quality_class": "excellent",
-        "sources_catalogued": 39,
-        "sources_producing": 24,
-        "sources_zero": 15,
-        "review_priority_zero_sources": 15,
+        "sources_catalogued": 40,
+        "sources_producing": 23,
+        "sources_zero": 17,
+        "review_priority_zero_sources": 17,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 54.4,
+        "top3_source_share_pct": 53.4,
         "unattributed_events": 0
       },
       "field_coverage": {
-        "date_pct": 97.8,
-        "time_pct": 97.3,
+        "date_pct": 97.5,
+        "time_pct": 96.9,
         "venue_pct": 100.0,
-        "image_pct": 60.4,
+        "image_pct": 52.2,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 50.0,
-        "price_known_pct": 93.4
+        "official_source_pct": 45.3,
+        "price_known_pct": 85.1
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 47,
-          "share_pct": 25.8,
-          "underrepresented": false
-        },
-        {
-          "id": "cine",
-          "label": "Cine",
-          "count": 44,
-          "share_pct": 24.2,
+          "count": 45,
+          "share_pct": 28.0,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 42,
-          "share_pct": 23.1,
+          "share_pct": 26.1,
+          "underrepresented": false
+        },
+        {
+          "id": "cine",
+          "label": "Cine",
+          "count": 26,
+          "share_pct": 16.1,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 21,
-          "share_pct": 11.5,
+          "count": 20,
+          "share_pct": 12.4,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 10,
-          "share_pct": 5.5,
+          "share_pct": 6.2,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 9,
-          "share_pct": 4.9,
-          "underrepresented": true
+          "share_pct": 5.6,
+          "underrepresented": false
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 4,
-          "share_pct": 2.2,
+          "share_pct": 2.5,
           "underrepresented": true
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 4,
-          "share_pct": 2.2,
+          "share_pct": 2.5,
           "underrepresented": true
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
           "count": 1,
-          "share_pct": 0.5,
+          "share_pct": 0.6,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 109,
-          "share_pct": 59.9
+          "count": 102,
+          "share_pct": 63.4
         },
         {
           "area": "Viña del Mar",
-          "count": 73,
-          "share_pct": 40.1
+          "count": 59,
+          "share_pct": 36.6
         }
       ],
       "coverage_gaps": {
         "underrepresented_categories": [
-          "teatro",
           "naturaleza-deportes",
           "ferias-gastronomia",
           "otros"
@@ -118,12 +117,14 @@
           "casa_cultura_valparaiso",
           "casa_prisma_valpo",
           "centex",
+          "cinearte_vina",
           "compania_la_paila",
           "ecoliderazgo",
           "estadio_espanol_recreo",
           "estrella_negra_jazz",
           "la_escala_galeria",
           "masita_rica",
+          "museo_fonck",
           "sala_secreta",
           "sala_teatro_ipa",
           "teatro_la_peste",
@@ -134,7 +135,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 60.4,
+        "relevant_image_pct": 52.2,
         "removed_events": {}
       },
       "sources": [
@@ -164,10 +165,10 @@
           }
         },
         {
-          "id": "cinearte_vina",
-          "name": "Cine Arte Viña del Mar",
-          "count": 27,
-          "quality_score": 100.0,
+          "id": "legacy_cineartevina_cl",
+          "name": "cineartevina.cl",
+          "count": 16,
+          "quality_score": 99.4,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -178,33 +179,9 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 93.8,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "cine": 27
-          }
-        },
-        {
-          "id": "insomniacine",
-          "name": "INSOMNIA Teatro Condell",
-          "count": 16,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 93.8,
             "price_known_pct": 100.0
           },
           "categories": {
@@ -241,8 +218,8 @@
           "id": "culturasvina",
           "name": "Culturas Viña",
           "count": 12,
-          "quality_score": 91.7,
-          "quality_class": "excellent",
+          "quality_score": 86.7,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -255,7 +232,7 @@
             "image_pct": 16.7,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 100.0
+            "price_known_pct": 66.7
           },
           "categories": {
             "exposiciones": 8,
@@ -291,10 +268,10 @@
           }
         },
         {
-          "id": "teatro_municipal_vina",
-          "name": "Teatro Municipal de Viña del Mar",
-          "count": 10,
-          "quality_score": 98.5,
+          "id": "insomniacine",
+          "name": "Insomnia Cine",
+          "count": 9,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -307,12 +284,11 @@
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 90.0
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
           "categories": {
-            "musica": 7,
-            "teatro": 3
+            "cine": 9
           }
         },
         {
@@ -340,10 +316,35 @@
           }
         },
         {
+          "id": "teatro_municipal_vina",
+          "name": "Teatro Municipal de Viña del Mar",
+          "count": 8,
+          "quality_score": 86.9,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 12.5
+          },
+          "categories": {
+            "musica": 5,
+            "teatro": 3
+          }
+        },
+        {
           "id": "artequinvina",
           "name": "Artequin Viña del Mar",
           "count": 5,
-          "quality_score": 100.0,
+          "quality_score": 97.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -357,7 +358,7 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 100.0
+            "price_known_pct": 80.0
           },
           "categories": {
             "cursos-talleres": 4,
@@ -518,8 +519,8 @@
           "id": "cultura_pucv",
           "name": "Cultura PUCV",
           "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
+          "quality_score": 85.0,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -532,7 +533,7 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 100.0
+            "price_known_pct": 0.0
           },
           "categories": {
             "musica": 1
@@ -542,7 +543,7 @@
           "id": "instituto_le_chat",
           "name": "Instituto Le Chat",
           "count": 1,
-          "quality_score": 70.0,
+          "quality_score": 60.0,
           "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -553,7 +554,7 @@
             "date_pct": 0.0,
             "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
@@ -566,7 +567,7 @@
           "id": "maraton_vina_official",
           "name": "Prokart SpA",
           "count": 1,
-          "quality_score": 100.0,
+          "quality_score": 90.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -577,7 +578,7 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
@@ -611,34 +612,10 @@
           }
         },
         {
-          "id": "museo_fonck",
-          "name": "Museo Fonck",
-          "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "exposiciones": 1
-          }
-        },
-        {
           "id": "natalia_saldias",
           "name": "Natalia Paz Saldías Donoso",
           "count": 1,
-          "quality_score": 70.0,
+          "quality_score": 60.0,
           "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -649,7 +626,7 @@
             "date_pct": 0.0,
             "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
@@ -662,7 +639,7 @@
           "id": "red_studio",
           "name": "RED Studio",
           "count": 1,
-          "quality_score": 70.0,
+          "quality_score": 60.0,
           "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -673,7 +650,7 @@
             "date_pct": 0.0,
             "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
