@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: permanent-event-pages-${{ github.ref }}
+  group: materialize-estadio-once
   cancel-in-progress: false
 
 jobs:
