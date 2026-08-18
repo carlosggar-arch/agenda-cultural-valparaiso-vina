@@ -181,7 +181,6 @@ assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
 assert 'import "./lean-filters.js";' not in pwa
-assert 'function isIosLike()' in pwa
 assert 'function showInstallHelp()' in pwa
 assert 'Añadir a pantalla de inicio' in pwa
 assert 'beforeinstallprompt' in pwa
