@@ -18,17 +18,20 @@ function ensureMosaicOverrideStyle() {
       display: none !important;
     }
 
-    /* Installed mobile PWA: seven public controls must always remain on one
-       balanced row. The WEB layout is intentionally untouched. */
+    /* Installed mobile PWA: seven public controls form one continuous segmented
+       row. The WEB layout is intentionally untouched. */
     html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
       display: grid !important;
       grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
       grid-template-rows: 1fr !important;
       width: 100% !important;
       max-width: 100% !important;
-      gap: .16rem !important;
+      gap: 0 !important;
+      column-gap: 0 !important;
+      row-gap: 0 !important;
       padding: 0 !important;
       margin: 0 !important;
+      border-radius: 9px !important;
       overflow: hidden !important;
       visibility: visible !important;
       opacity: 1 !important;
@@ -43,7 +46,7 @@ function ensureMosaicOverrideStyle() {
       height: 38px !important;
       margin: 0 !important;
       padding: .12rem .08rem !important;
-      border-radius: 9px !important;
+      border-radius: 0 !important;
       font-size: .60rem !important;
       line-height: 1 !important;
       white-space: nowrap !important;
@@ -51,6 +54,13 @@ function ensureMosaicOverrideStyle() {
       text-overflow: clip !important;
       align-items: center !important;
       justify-content: center !important;
+    }
+    html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * + * {
+      border-left-width: 0 !important;
+    }
+    html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > *:focus-visible {
+      position: relative !important;
+      z-index: 2 !important;
     }
     html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > .install-button {
       display: none !important;
