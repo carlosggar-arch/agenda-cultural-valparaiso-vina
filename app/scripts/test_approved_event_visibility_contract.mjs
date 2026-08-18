@@ -45,16 +45,22 @@ const bootstrap = read("combined-filters-bootstrap.js");
 const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
+const grouping = read("static-exhibition-groups.js");
+const titleBootstrap = read("title-normalizer-bootstrap.js");
 
 assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
+assert.match(appJs, /^import "\.\/title-normalizer-bootstrap\.js/m);
 assert.match(appJs, /^import "\.\/app-core\.js/m);
-assert.match(appJs, /^import "\.\/presentation-normalizer\.js/m);
+assert.match(appJs, /^import "\.\/static-exhibition-groups\.js/m);
 assert.match(appJs, /^import "\.\/footer-credit\.js/m);
+assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 
-// Stability mode: every approved exhibition stays as an ordinary event card.
-// Do not execute venue grouping/gallery/compact observers in the browser until
-// grouping is rebuilt as a one-pass, observer-free transformation.
-assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery|exhibition-compact/);
+// Permanent runtime rule: grouping is allowed only as an observer-free, bounded
+// transformation. Approved events remain addressable through filter sentinels.
+assert.match(grouping, /MIN_GROUP_SIZE = 2/);
+assert.match(grouping, /staticExhibitionSentinels/);
+assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
+assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
@@ -64,7 +70,7 @@ assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.match(release, /const RELEASE = 84/);
+assert.match(release, /const RELEASE = 86/);
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; observer-free exhibition runtime)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; static observer-free grouping)`);
