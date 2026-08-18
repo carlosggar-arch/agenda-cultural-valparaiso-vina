@@ -1,4 +1,4 @@
-name: Automated maintenance layers
+name: Maintenance automation guard
 
 on:
   pull_request:
@@ -9,36 +9,20 @@ on:
       - "app/scripts/parser_drift_guard.py"
       - "app/scripts/audit_source_coherence.py"
       - "app/scripts/audit_and_recover_images.py"
+      - "app/scripts/atomic_maintenance_hook.py"
+      - "app/scripts/apply_estadio_espanol_coverage.py"
       - "app/scripts/test_maintenance_automation.py"
+      - "app/scripts/test_atomic_publication_contract.py"
       - ".github/workflows/maintenance-automation.yml"
-  push:
-    branches: [main]
-    paths:
-      - "app/scripts/event_page_tools.py"
-      - "app/scripts/revalidate_upcoming_events.py"
-      - "app/scripts/parser_drift_guard.py"
-      - "app/scripts/audit_source_coherence.py"
-      - "app/scripts/audit_and_recover_images.py"
-      - "app/scripts/test_maintenance_automation.py"
-      - ".github/workflows/maintenance-automation.yml"
-  workflow_run:
-    workflows: ["Cross-source reconciliation"]
-    types: [completed]
   workflow_dispatch:
-  schedule:
-    - cron: "20 11 * * *"
 
 permissions:
-  contents: write
-
-concurrency:
-  group: permanent-event-pages-${{ github.ref }}
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  maintain:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,7 +35,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate maintenance automation
+      - name: Validate four maintenance layers and single-writer contract
         run: |
           set -euo pipefail
           python -m py_compile \
@@ -60,110 +44,19 @@ jobs:
             app/scripts/parser_drift_guard.py \
             app/scripts/audit_source_coherence.py \
             app/scripts/audit_and_recover_images.py \
-            app/scripts/test_maintenance_automation.py
+            app/scripts/atomic_maintenance_hook.py \
+            app/scripts/apply_estadio_espanol_coverage.py \
+            app/scripts/test_maintenance_automation.py \
+            app/scripts/test_atomic_publication_contract.py
           python app/scripts/test_maintenance_automation.py
+          python app/scripts/test_atomic_publication_contract.py
 
-      - name: Run four maintenance layers
-        if: github.event_name != 'pull_request'
+      - name: Exercise live reads without writing
+        if: github.event_name == 'workflow_dispatch'
         run: |
           set -euo pipefail
+          python app/scripts/revalidate_upcoming_events.py --days 10 --max-fetch 20 --no-write
+          python app/scripts/audit_and_recover_images.py --max-fetch 20 --no-write
+          python app/scripts/audit_source_coherence.py --no-write
 
-          # 2. Generic parser-drift protection comes first so still-current
-          # last-good events are available to the following verification pass.
-          python app/scripts/parser_drift_guard.py
-
-          # 1. Revalidate events that can affect users in the next ten days.
-          python app/scripts/revalidate_upcoming_events.py --days 10 --max-fetch 60
-
-          # 4. Recover only event-specific official images on confidently
-          # matched pages; representative venue images remain a UI fallback.
-          python app/scripts/audit_and_recover_images.py --max-fetch 40
-
-          # Re-run the existing quality and coverage stack after any safe edits.
-          python app/scripts/apply_title_quality_guard.py
-          python app/scripts/apply_content_quality_guard.py
-          python app/scripts/refresh_quality_diagnostics.py
-          python app/scripts/apply_source_coverage_overrides.py
-          python app/scripts/apply_balmaceda_coverage.py
-          python app/scripts/apply_fonck_coverage.py
-          python app/scripts/apply_estadio_espanol_coverage.py
-          python app/scripts/apply_event_derived_source_coverage.py
-
-          # 3. Cross-check public catalog, live coverage, canonical events and
-          # the core high-value-source policy.
-          python app/scripts/audit_source_coherence.py --fail-on-critical
-
-          python app/scripts/audit_source_health.py \
-            --mode daily \
-            --output app/data/quality/maintenance-health.json \
-            --fail-on-critical
-
-          python scripts/stage31_site_generator.py
-
-      - name: Validate synchronized publication
-        if: github.event_name != 'pull_request'
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          root = Path(".")
-          dataset = json.loads((root / "agenda_web.json").read_text(encoding="utf-8"))
-          quality = json.loads((root / "app/data/quality/event-quality.json").read_text(encoding="utf-8"))
-          coverage = json.loads((root / "app/data/quality/source-coverage.json").read_text(encoding="utf-8"))
-          coherence = json.loads((root / "app/data/quality/source-coherence.json").read_text(encoding="utf-8"))
-          image = json.loads((root / "app/data/quality/image-audit.json").read_text(encoding="utf-8"))
-          revalidation = json.loads((root / "app/data/quality/upcoming-revalidation.json").read_text(encoding="utf-8"))
-          drift = json.loads((root / "app/data/quality/parser-drift.json").read_text(encoding="utf-8"))
-
-          events = dataset.get("events") or []
-          qcity = ((quality.get("cities") or {}).get("valparaiso-vina") or {})
-          ccity = ((coverage.get("cities") or {}).get("valparaiso-vina") or {})
-          if (qcity.get("summary") or {}).get("total_events") != len(events):
-              raise SystemExit("MAINTENANCE_QUALITY_NOT_SYNCHRONIZED")
-          if (ccity.get("summary") or {}).get("total_events") != len(events):
-              raise SystemExit("MAINTENANCE_COVERAGE_NOT_SYNCHRONIZED")
-          if coherence.get("status") == "critical":
-              raise SystemExit(f"MAINTENANCE_SOURCE_COHERENCE_CRITICAL:{coherence.get('critical')}")
-          if len({str(e.get("id") or "") for e in events}) != len(events):
-              raise SystemExit("MAINTENANCE_DUPLICATE_IDS")
-          print(
-              "AUTOMATED_MAINTENANCE_OK",
-              f"events={len(events)}",
-              f"revalidated={revalidation.get('updated_events')}",
-              f"drift_restored={drift.get('restored_events')}",
-              f"images_recovered={image.get('recovered_event_specific_images')}",
-              f"image_pct={image.get('event_specific_image_pct_after')}",
-              f"coherence={coherence.get('status')}",
-          )
-          PY
-
-      - name: Commit material maintenance changes
-        if: github.event_name != 'pull_request'
-        run: |
-          set -euo pipefail
-          git config user.name "agenda-maintenance[bot]"
-          git config user.email "agenda-maintenance[bot]@users.noreply.github.com"
-          git add \
-            agenda_web.json \
-            app/data/quality/parser-drift-state.json \
-            app/data/quality/parser-drift.json \
-            app/data/quality/upcoming-revalidation.json \
-            app/data/quality/image-audit.json \
-            app/data/quality/source-coherence.json \
-            app/data/quality/maintenance-health.json \
-            app/data/quality/title-quality.json \
-            app/data/quality/content-quality.json \
-            app/data/quality/source-coverage.json \
-            app/data/quality/event-quality.json \
-            app/data/quality/release-readiness.json \
-            index.html evento sitemap.xml
-
-          if git diff --cached --quiet; then
-            echo "Maintenance state already synchronized."
-            exit 0
-          fi
-          git commit -m "Automatiza revalidación, parser drift, coherencia e imágenes"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          echo "Manual maintenance guard is read-only. Automatic maintenance runs inside Permanent event pages, the sole dataset writer."

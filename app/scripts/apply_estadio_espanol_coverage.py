@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -68,9 +70,22 @@ def build() -> tuple[dict, dict, dict]:
     return coverage, quality, result
 
 
+def run_atomic_maintenance_hook() -> None:
+    subprocess.run(
+        [sys.executable, "app/scripts/atomic_maintenance_hook.py"],
+        cwd=ROOT,
+        check=True,
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Apply Estadio Español plus conservative event-derived coverage inside the atomic coverage pass without erasing verified-inactivity overrides.")
     parser.add_argument("--no-write", action="store_true")
+    parser.add_argument(
+        "--skip-maintenance-hook",
+        action="store_true",
+        help=argparse.SUPPRESS,
+    )
     args = parser.parse_args()
     coverage, quality, report = build()
     if args.no_write:
@@ -79,6 +94,8 @@ def main() -> None:
     save(COVERAGE_PATH, coverage)
     save(EVENT_QUALITY_PATH, quality)
     print(json.dumps(report, ensure_ascii=False))
+    if not args.skip_maintenance_hook:
+        run_atomic_maintenance_hook()
 
 
 if __name__ == "__main__":
