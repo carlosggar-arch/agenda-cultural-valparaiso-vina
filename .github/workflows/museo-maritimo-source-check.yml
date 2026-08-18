@@ -1,0 +1,60 @@
+name: Museo Maritimo source validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/scripts/refresh_museo_maritimo.py"
+      - "app/scripts/test_museo_maritimo.py"
+      - "app/data/high_value_sources.json"
+      - ".github/workflows/museo-maritimo-source-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run policy tests and live official-source probe
+        run: |
+          set -euo pipefail
+          python -m py_compile app/scripts/refresh_museo_maritimo.py app/scripts/test_museo_maritimo.py
+          python app/scripts/test_museo_maritimo.py
+          python app/scripts/refresh_museo_maritimo.py --no-write > museo-maritimo-live-check.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('museo-maritimo-live-check.json').read_text(encoding='utf-8'))
+          program = report.get('program') or {}
+          archives = report.get('archives') or []
+          if not program.get('fetch_ok'):
+              raise SystemExit('Museo Maritimo programme page is not reachable')
+          if not any(item.get('fetch_ok') for item in archives):
+              raise SystemExit('No Museo Maritimo official archive page is reachable')
+          print('MUSEO_MARITIMO_LIVE_SOURCE_OK', json.dumps({
+              'state': report.get('state'),
+              'monthly_items_detected': program.get('monthly_items_detected'),
+              'articles_discovered': report.get('articles_discovered'),
+              'articles_scanned': report.get('articles_scanned'),
+              'future_dated_candidates': report.get('future_dated_candidates'),
+              'events_published': report.get('events_published'),
+          }, ensure_ascii=False))
+          PY
+
+      - name: Upload live-source diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: museo-maritimo-live-check
+          path: museo-maritimo-live-check.json
+          retention-days: 7
