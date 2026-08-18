@@ -336,7 +336,7 @@
     },
     "museobaburizza": {
       "name": "Museo Baburizza",
-      "last_good_at": "2026-08-18T11:14:03-04:00",
+      "last_good_at": "2026-08-18T11:32:30-04:00",
       "last_good_count": 2,
       "events": [
         {
@@ -355,13 +355,13 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-05T20:00:00-04:00",
-            "end": "2026-10-04T20:59:59-03:00",
+            "start": "2026-08-06T00:00:00+00:00",
+            "end": "2026-10-04T23:59:59+00:00",
             "timezone": "America/Santiago",
-            "display_text": "2026-08-05 – 2026-10-04",
+            "display_text": "06-08-2026 00:00 – 04-10-2026 23:59",
             "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
+            "start_confidence": "official_revalidation",
+            "end_confidence": "official_revalidation"
           },
           "location": {
             "venue_id": "museobaburizza",
@@ -390,10 +390,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-          "last_verified_at": "2026-08-18T11:03:04-04:00",
+          "last_verified_at": "2026-08-18T11:14:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T11:03:04-04:00",
+            "last_verified_at": "2026-08-18T11:14:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -419,7 +419,12 @@
           "editorial": {
             "classification": "event",
             "reason": "official_baburizza_agenda",
-            "duration_days": 60
+            "duration_days": 60,
+            "last_automatic_revalidation_at": "2026-08-18T11:14:03-04:00",
+            "automatic_revalidation_fields": [
+              "end",
+              "start"
+            ]
           }
         },
         {
@@ -438,13 +443,13 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-14T06:00:00-04:00",
-            "end": "2026-10-04T15:00:00-03:00",
+            "start": "2026-08-14T10:00:00+00:00",
+            "end": "2026-10-04T18:00:00+00:00",
             "timezone": "America/Santiago",
-            "display_text": "2026-08-14 – 2026-10-04",
+            "display_text": "14-08-2026 10:00 – 04-10-2026 18:00",
             "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit",
+            "start_confidence": "official_revalidation",
+            "end_confidence": "official_revalidation",
             "opening_hours": {
               "mode": "weekly",
               "open_weekdays": [
@@ -495,10 +500,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-          "last_verified_at": "2026-08-18T11:03:04-04:00",
+          "last_verified_at": "2026-08-18T11:14:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T11:03:04-04:00",
+            "last_verified_at": "2026-08-18T11:14:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -525,7 +530,12 @@
             "classification": "event",
             "reason": "official_baburizza_agenda",
             "duration_days": 51,
-            "venue_hours_enriched": true
+            "venue_hours_enriched": true,
+            "last_automatic_revalidation_at": "2026-08-18T11:14:03-04:00",
+            "automatic_revalidation_fields": [
+              "end",
+              "start"
+            ]
           }
         }
       ]
@@ -7343,5 +7353,5 @@
       ]
     }
   },
-  "generated_at": "2026-08-18T11:14:03-04:00"
+  "generated_at": "2026-08-18T11:32:30-04:00"
 }

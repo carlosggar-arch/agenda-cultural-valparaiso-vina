@@ -1,12 +1,12 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T11:14:03-04:00",
+  "generated_at": "2026-08-18T11:32:30-04:00",
   "window_days": 10,
   "targets": 102,
   "fetched": 20,
-  "updated_events": 12,
-  "review_needed": 7,
-  "fetch_errors": 0,
+  "updated_events": 3,
+  "review_needed": 6,
+  "fetch_errors": 1,
   "skipped": 82,
   "rows": [
     {
@@ -52,23 +52,17 @@
     },
     {
       "id": "agenda_baburizza_1c7f799286855aee48c8",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
       "match_score": 1.0,
-      "fields": [
-        "end",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_baburizza_8fa99fe4ed3a8e9e66e0",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
       "match_score": 1.0,
-      "fields": [
-        "end",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_23e5e3f1e1e5d52f7f76d265",
@@ -78,14 +72,10 @@
     },
     {
       "id": "agenda_eb89b5ee606c6cb270ea04c4",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
       "match_score": 0.94,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_34217eb7dfa4b6e6d0c247ed",
@@ -116,33 +106,32 @@
       "match_score": 0.0
     },
     {
-      "id": "agenda_650e95f9b205b8665b0bce6d",
-      "state": "no_confident_event_jsonld_match",
-      "url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
-      "match_score": 0.0
-    },
-    {
       "id": "agenda_55a0a565c3444bd69dca4f87",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
       "match_score": 0.94,
-      "fields": [
-        "address",
-        "end",
-        "price",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_33be80711267454b771e5406",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.passline.com/eventos/mil-pedazos-546122",
       "match_score": 1.0,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
+      "fields": []
+    },
+    {
+      "id": "agenda_650e95f9b205b8665b0bce6d",
+      "state": "fetch_error",
+      "url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
+      "http_status": null,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    {
+      "id": "agenda_931051bdc7666597d6e2e274",
+      "state": "verified_unchanged",
+      "url": "https://teatrovina.cl/evento/beyond/",
+      "match_score": 1.0,
+      "fields": []
     },
     {
       "id": "agenda_c178de14e87c2c3936ddc5c9",
@@ -152,14 +141,10 @@
     },
     {
       "id": "agenda_adf4b405879e1a7f7843dcf9",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.passline.com/eventos/la-odisea-546118",
       "match_score": 1.0,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_fd3ddae09e1576497c5cb7d7",
@@ -171,36 +156,17 @@
     },
     {
       "id": "agenda_f28fef11281f94aefe71e4a1",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
       "match_score": 0.94,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
-    },
-    {
-      "id": "agenda_931051bdc7666597d6e2e274",
-      "state": "updated",
-      "url": "https://teatrovina.cl/evento/beyond/",
-      "match_score": 1.0,
-      "fields": [
-        "end",
-        "price",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_67defc9c064344e04c20aca6",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "match_score": 1.0,
-      "fields": [
-        "address",
-        "end",
-        "start"
-      ]
+      "fields": []
     },
     {
       "id": "agenda_eeea936319edc98db3c75f29",
