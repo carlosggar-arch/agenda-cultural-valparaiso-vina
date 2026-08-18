@@ -6,7 +6,7 @@ import "./compact-top.js";
 import "./gijon-visual-reference.js";
 import "./sources-toggle.js";
 import "./community-source.js";
-import "./header-redesign.js?v=20260817-brandicon1";
+import "./header-redesign.js?v=20260817-brandicon2";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
 // Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
