@@ -8,7 +8,7 @@ import "./compact-top.js";
 import "./gijon-visual-reference.js";
 import "./sources-toggle.js";
 import "./community-source.js?v=20260818-feedback3";
-import "./participation-footer.js?v=20260818-feedback5";
+import "./participation-footer.js?v=20260818-feedback6";
 import "./header-redesign.js?v=20260817-brandicon2";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
@@ -18,7 +18,7 @@ import "./favorites.js";
 import "./mobile-experience.js?v=20260817-topcontrols4";
 import "./installed-mosaic.js?v=20260818-f12-dual2";
 import "./share-qr.js?v=20260818-installqr1";
-import "./web-actions-below-mosaic.js?v=20260818-web1";
+import "./web-actions-below-mosaic.js?v=20260818-web2";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
