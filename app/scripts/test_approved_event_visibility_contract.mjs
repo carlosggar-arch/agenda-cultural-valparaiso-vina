@@ -65,7 +65,7 @@ assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.match(release, /const RELEASE = 101/);
+assert.match(release, /const RELEASE = 103/);
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
 console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; static observer-free grouping)`);
