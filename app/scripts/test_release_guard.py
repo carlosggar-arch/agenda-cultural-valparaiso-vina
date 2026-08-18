@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -38,6 +39,14 @@ def check_single_release_source() -> None:
     assert not re.search(r'service-worker\.js\?v=\d+', pwa), "hard-coded service-worker query version returned"
     assert not re.search(r'data-app-version>PWA v\d+<', index), "HTML footer must not carry a second release number"
     assert release >= 1
+
+
+def check_manifest_entrypoint() -> None:
+    manifest = json.loads(text(APP / "manifest.webmanifest"))
+    assert manifest.get("id") == "./", "installed app id must remain the clean app root"
+    assert manifest.get("start_url") == "./", "installed app must start at the clean app root"
+    assert manifest.get("scope") == "./", "installed app scope must remain the app root"
+    assert "?pwa=" not in text(APP / "manifest.webmanifest"), "stale cache-busting query returned to the manifest"
 
 
 def check_first_render_contract() -> None:
@@ -80,6 +89,7 @@ def check_workflow_guard() -> None:
 
 def main() -> None:
     check_single_release_source()
+    check_manifest_entrypoint()
     check_first_render_contract()
     check_workflow_guard()
     print(f"Release guard: OK (release v{release_number()})")
