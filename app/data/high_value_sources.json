@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "sources": [
     {
       "id": "museo_evaristo_valle",
@@ -60,6 +60,91 @@
       "category_id": "cine",
       "category_label": "Cine",
       "scope_note": "Transporte HTTPS oficial y estable de Turismo Asturias. El extractor sólo acepta bloques que identifiquen Laboral Cinemateca y Gijón/Xixón y sesiones con fecha/hora explícitas; si no hay cartelera vigente, permanece en monitor sin publicar."
+    },
+    {
+      "id": "el_huerto_gijon",
+      "name": "El Huerto Espacio Escénico / Zig Zag Danza",
+      "dataset": "gijon",
+      "city": "Gijón",
+      "timezone": "Europe/Madrid",
+      "currency": "EUR",
+      "url": "https://zigzagdanza.com/el-huerto-gijon/",
+      "mode": "monitor",
+      "extractor": "explicit_spanish_dated",
+      "required": false,
+      "category_id": "teatro",
+      "category_label": "Teatro y danza",
+      "venue": "El Huerto Espacio Escénico",
+      "address": "Calle Severo Ochoa 93, 33210 Gijón",
+      "scope_note": "Fuente directa del espacio. Sólo se publican funciones con fecha completa y año explícito; los listados que muestran únicamente día/mes permanecen en monitor."
+    },
+    {
+      "id": "el_percebe_comedy",
+      "name": "El Percebe Comedy",
+      "dataset": "gijon",
+      "city": "Gijón",
+      "timezone": "Europe/Madrid",
+      "currency": "EUR",
+      "url": "https://elpercebecomedy.com/",
+      "mode": "monitor",
+      "extractor": "explicit_spanish_dated",
+      "required": false,
+      "category_id": "teatro",
+      "category_label": "Comedia",
+      "venue": "El Percebe Comedy",
+      "address": "Calle Marqués de San Esteban 25, Gijón",
+      "scope_note": "Fuente oficial de comedia y open mic. Se exige fecha completa con año; títulos sin fecha verificable no se convierten en eventos."
+    },
+    {
+      "id": "la_habitacion_propia",
+      "name": "La Habitación Propia",
+      "dataset": "gijon",
+      "city": "Gijón",
+      "timezone": "Europe/Madrid",
+      "currency": "EUR",
+      "url": "https://lahabitacionpropia.es/?post_type=tribe_events",
+      "mode": "monitor",
+      "extractor": "habitacion_events",
+      "required": false,
+      "category_id": "literatura",
+      "category_label": "Libros y charlas",
+      "venue": "La Habitación Propia",
+      "address": "Calle Celestino Junquera 1, Gijón",
+      "scope_note": "Calendario oficial de la librería. Sólo se publican presentaciones y encuentros con fecha futura completa y explícita."
+    },
+    {
+      "id": "mae_gijon",
+      "name": "Mercado Artesano y Ecológico de Gijón (MAE)",
+      "dataset": "gijon",
+      "city": "Gijón",
+      "timezone": "Europe/Madrid",
+      "currency": "EUR",
+      "url": "https://artesania.asturias.es/ferias-de-artesan%C3%ADa",
+      "mode": "monitor",
+      "extractor": "mae_gijon",
+      "required": false,
+      "category_id": "ferias",
+      "category_label": "Ferias y mercados",
+      "venue": "Plaza Mayor de Gijón",
+      "address": "Plaza Mayor, Gijón",
+      "scope_note": "Se usa el calendario oficial regional como transporte estructurado porque el calendario propio del MAE publica buena parte de las fechas como imagen. El extractor exige el nombre completo del mercado y un rango DD/MM/AAAA explícito."
+    },
+    {
+      "id": "picu_urriellu",
+      "name": "Grupo de Montaña Picu Urriellu",
+      "dataset": "gijon",
+      "city": "Gijón",
+      "timezone": "Europe/Madrid",
+      "currency": "EUR",
+      "url": "https://picu-urriellu.blogspot.com/2026/",
+      "mode": "monitor",
+      "extractor": "picu_routes",
+      "required": false,
+      "category_id": "naturaleza",
+      "category_label": "Naturaleza y rutas",
+      "venue": "Salida desde Gijón — Grupo de Montaña Picu Urriellu",
+      "address": null,
+      "scope_note": "Excursiones del grupo con salida/origen en Gijón. Sólo se aceptan rutas con fecha completa explícita; asambleas, convocatorias, calendarios y actividades marcadas como sustituidas se excluyen."
     }
   ]
 }
