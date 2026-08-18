@@ -77,10 +77,24 @@
       "audience": null,
       "registration_requirements": "inscripción disponible en el sitio oficial",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://redsalsa.cl/img/gal3.jpg",
+        "alt": "Clases de salsa y bachata RED Studio",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
-      "source_id": "red_studio"
+      "source_id": "red_studio",
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.redstudio.cl/",
+            "host": "redstudio.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "agenda_51b559e62df1dde691c493c5",
@@ -219,10 +233,24 @@
       "audience": null,
       "registration_requirements": "permite incorporarse durante el año",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+        "alt": "Taller permanente de cerámica Le Chat",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
-      "source_id": "instituto_le_chat"
+      "source_id": "instituto_le_chat",
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+            "host": "lechat.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "agenda_10ba69e08963eace52ab8593",
@@ -504,11 +532,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
+        "is_free": true,
         "currency": "CLP",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
@@ -529,7 +557,7 @@
         "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": false,
+        "price_confirmed": true,
         "information_completeness": "complete",
         "advisory_text": "Fuente secundaria oficial municipal; confirma condiciones en la ficha enlazada."
       },
@@ -554,6 +582,18 @@
           "estrella_negra_jazz"
         ],
         "duration_days": 26
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
+            "host": "valpocultura.cl",
+            "method": "official_municipal_event_page",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -959,11 +999,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/beyond/",
@@ -983,7 +1023,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -994,6 +1034,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/JAKUB-JOSEF.jpg",
         "alt": "Beyond"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/beyond/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -1655,11 +1707,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
@@ -1679,7 +1731,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -1690,6 +1742,18 @@
       "image": {
         "url": null,
         "alt": null
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -3038,11 +3102,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
+        "is_free": true,
         "currency": "CLP",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://visitavina.munivina.cl/actividad/taller-de-lengua-rapanui-2/?occurrence=2026-08-19&time=1787155200",
@@ -3063,7 +3127,7 @@
         "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": false,
+        "price_confirmed": true,
         "information_completeness": "complete",
         "advisory_text": "Ocurrencia futura recuperada desde la cartelera oficial municipal Visita Viña; confirma acceso y condiciones en la ficha enlazada."
       },
@@ -3086,6 +3150,18 @@
           "museo_fonck"
         ],
         "duration_days": 0
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/taller-de-lengua-rapanui-2/?occurrence=2026-08-19&time=1787155200",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -3274,11 +3350,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/concierto-fosila/",
@@ -3298,7 +3374,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -3309,6 +3385,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/ORQUES-LOS-ANDES.jpg",
         "alt": "Concierto FOSILA"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/concierto-fosila/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -3536,8 +3624,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21292.jpg?t=1786462948",
+        "alt": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3548,6 +3638,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/sctriobrillovina",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -3703,8 +3805,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20869.jpg",
+        "alt": "CITY NOISE EN JOURNAL",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3716,6 +3820,18 @@
         "detail_verified_at": "2026-08-18T07:50:13-04:00",
         "partial_ticket_availability": true,
         "last_tickets": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/citynoisejournal",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -3939,8 +4055,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/19740.jpg",
+        "alt": "EDUARDO PERALTA CANTA A FEDERICO EN LA COLOMBINA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3950,6 +4068,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:50:13-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/colombina21agosto",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -4024,8 +4154,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21107.jpg?t=1786668810",
+        "alt": "EL COLOR AMOR GIRA 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4036,6 +4168,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/elcoloramorvalpo",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -4110,8 +4254,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21686.jpg",
+        "alt": "ETERNAMENTE BUKIS EN LOS ALQUINTA DEL PUERTO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4121,6 +4267,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:50:13-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/eternamentebukis-21-08-2026",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -4195,8 +4353,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20809.jpg",
+        "alt": "INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4205,6 +4365,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -4356,8 +4528,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20122.jpg?t=1783372452",
+        "alt": "PASCUALA ILABACA + LUCIANO LATERRA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4368,6 +4542,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/pascualailabacaylucianolaterraenteatromauri",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -4514,8 +4700,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20753.jpg?t=1785810652",
+        "alt": "2 AÑOS DE WAREBA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4527,6 +4715,18 @@
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true,
         "last_tickets": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/aniversariowareba",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -4569,11 +4769,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://visitavina.munivina.cl/actividad/actividades-juega-y-explora-el-museo-palacio-vergara/",
@@ -4593,7 +4793,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -4604,6 +4804,18 @@
       "image": {
         "url": null,
         "alt": null
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/actividades-juega-y-explora-el-museo-palacio-vergara/",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -5037,8 +5249,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21625.jpg",
+        "alt": "FIESTA DE CIERRE DIA DEL VINILO: EN VIVO JORGE CAMPOS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5048,6 +5262,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/diadelvinilofiesta",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -5421,8 +5647,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20123.jpg?t=1783036339",
+        "alt": "NIÑO COHETE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5433,6 +5661,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/ninocoheteenteatromauriscdvalparaso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -5507,8 +5747,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21354.jpg",
+        "alt": "PORTAVOZ",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5519,6 +5761,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/portavozenelpatio",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -5593,8 +5847,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20343.jpg?t=1786037417",
+        "alt": "SOMBRAS PÚRPURAS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5605,6 +5861,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "last_tickets": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/sombraspurpuras22agosto",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -5723,11 +5991,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://visitavina.munivina.cl/actividad/taller-fluir-con-la-acuarela-profundizacion-en-paisaje-urbano-y-natural-2/",
@@ -5747,7 +6015,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -5758,6 +6026,18 @@
       "image": {
         "url": null,
         "alt": null
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/taller-fluir-con-la-acuarela-profundizacion-en-paisaje-urbano-y-natural-2/",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -6171,11 +6451,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/obra-noche-de-reyes/",
@@ -6195,7 +6475,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -6206,6 +6486,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/NOCHE-DE-REYES.jpg",
         "alt": "Obra “Noche de Reyes”"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/obra-noche-de-reyes/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -6241,11 +6533,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://artequinvina.cl/events/talleres-en-patota-manos-a-la-masa/",
@@ -6265,7 +6557,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -6278,6 +6570,18 @@
       "image": {
         "url": "https://artequinvina.cl/wp-content/uploads/2026/08/1.POST_TALLER-EN-PATOTA_MANOS-A-LA-MASA.png",
         "alt": "Talleres en Patota: MANOS A LA MASA"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://artequinvina.cl/events/talleres-en-patota-manos-a-la-masa/",
+            "host": "artequinvina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -6550,11 +6854,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/concierto-noche-de-opera/",
@@ -6574,7 +6878,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -6585,6 +6889,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/NOCHE-DE-OPERA.jpg",
         "alt": "Concierto “Noche de Ópera”"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/concierto-noche-de-opera/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -6697,11 +7013,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/concierto-te-mana/",
@@ -6721,7 +7037,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -6732,6 +7048,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/TE-MANA-1.jpg",
         "alt": "Concierto “Te Mana”"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/concierto-te-mana/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -6846,11 +7174,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
+        "is_free": true,
         "currency": "CLP",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://visitavina.munivina.cl/actividad/concierto-orquesta-marga-marga-3/?occurrence=2026-08-27",
@@ -6871,7 +7199,7 @@
         "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": false,
+        "price_confirmed": true,
         "information_completeness": "complete",
         "advisory_text": "Evento futuro recuperado desde la cartelera oficial municipal Visita Viña; confirma condiciones en la ficha enlazada."
       },
@@ -6894,6 +7222,18 @@
           "estadio_espanol_recreo"
         ],
         "duration_days": 0
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/concierto-orquesta-marga-marga-3/?occurrence=2026-08-27",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -6968,8 +7308,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21155.jpg?t=1786493460",
+        "alt": "DESPUÉS DE LA LLUVIA HAY SOL",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -6980,6 +7322,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/despuesdelalluviahaysol",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7054,8 +7408,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20124.jpg?t=1783036385",
+        "alt": "LUCY BRICEÑO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7065,6 +7421,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/lucybriceoenteatromauriscdvalparaiso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7183,11 +7551,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/tomas-va-a-morir-ley-de-murphy/",
@@ -7207,7 +7575,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -7218,6 +7586,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/TOMAS-VA-A-MORIR.jpg",
         "alt": "Tomás Va a Morir – Ley de Murphy"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/tomas-va-a-morir-ley-de-murphy/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7292,8 +7672,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21418.jpg?t=1786045505",
+        "alt": "CASI PASANDO AGOSTO EN LA COLOMBINA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7303,6 +7685,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:50:13-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/cuentoscasipasandoagosto",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7321,12 +7715,12 @@
       ],
       "schedule": {
         "mode": "single",
-        "start": "2026-08-28",
+        "start": "2026-08-28T20:30:00-04:00",
         "end": "2026-08-28",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-28",
+        "display_text": "2026-08-28 · 20:30",
         "occurrences": [],
-        "start_confidence": "explicit",
+        "start_confidence": "official_jsonld",
         "end_confidence": "explicit"
       },
       "location": {
@@ -7390,6 +7784,18 @@
           "casa_cultura_valparaiso"
         ],
         "duration_days": 0
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+            "host": "valpocultura.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "time"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7542,8 +7948,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21566.jpg",
+        "alt": "ESSTELAR BDAY",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7553,6 +7961,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7627,8 +8047,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21190.jpg",
+        "alt": "LILLIA: GIRA 2026 CAMPO SINTETICO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7638,6 +8060,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/lilliaenvalparaso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7712,8 +8146,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20126.jpg?t=1783036425",
+        "alt": "LOS CRACK DEL PUERTO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7725,6 +8161,18 @@
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true,
         "last_tickets": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/loscrackdelpuertoenteatromauriscd",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -7959,8 +8407,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21530.jpg",
+        "alt": "MATRIARCAS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7970,6 +8420,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8152,8 +8614,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21550.jpg?t=1786476257",
+        "alt": "SONIDOS DE CASA: CONCIERTOS GRATUITOS 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8163,6 +8627,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/sonidosdecasa-agosto2026",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8312,8 +8788,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21496.jpg",
+        "alt": "VIERNES CEBOLLA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8323,6 +8801,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/viernescebollalemutt",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8397,8 +8887,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21186.jpg?t=1786732362",
+        "alt": "ANIVERSARIO CALATHEA CLUB",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8408,6 +8900,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/aniversariocalatheaclub",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8443,11 +8947,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
@@ -8467,7 +8971,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -8478,6 +8982,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/CAMINO-AL-VALS.jpg",
         "alt": "Concierto “Camino al Último Vals”"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8621,8 +9137,22 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://www.passline.com/imagenes/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar-rec.jpg",
+        "alt": "High School Musical Sing Along (2006)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
+            "host": "passline.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8697,8 +9227,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21213.jpg",
+        "alt": "MÚSICA ENSAMBLE PRESENTA “NOTAS QUE TRANSFORMAN”",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8709,6 +9241,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/musica-ensamble-notas-que-transforman-en-el-teatro-del-pcdv",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8783,8 +9327,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20127.jpg?t=1783113250",
+        "alt": "PUERTO ORQUESTA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8794,6 +9340,18 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/puertoorquestaenteatromauriscd",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8868,8 +9426,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20289.jpg?t=1785390816",
+        "alt": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8881,6 +9441,18 @@
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "partial_ticket_availability": true,
         "last_tickets": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8923,11 +9495,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/",
@@ -8947,7 +9519,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -8958,6 +9530,18 @@
       "image": {
         "url": null,
         "alt": null
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -8993,11 +9577,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://teatrovina.cl/evento/obra-los-puentes-de-madison/",
@@ -9017,7 +9601,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -9028,6 +9612,18 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/LOS-PUENTES-DE-MADISON.jpg",
         "alt": "Obra “Los Puentes de Madison”"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/obra-los-puentes-de-madison/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -9268,8 +9864,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21215.jpg",
+        "alt": "LA COSA SE PUSO CALIENTE!",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9280,6 +9878,18 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T07:41:56-04:00",
         "last_tickets": true
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.portaldisc.com/evento/lacosasepusocalienteenteatromauriscd",
+            "host": "portaldisc.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
       }
     },
     {
@@ -13461,15 +14071,26 @@
   },
   "enrichment": {
     "valpo_municipal_quality": {
-      "culturas_vina_candidates": 10,
+      "culturas_vina_candidates": 9,
       "culturas_vina_images_added": 0,
-      "culturas_vina_exact_pages_checked": 10,
-      "valpocultura_price_candidates": 3,
-      "valpocultura_prices_added": 0,
-      "valpocultura_exact_pages_checked": 1,
+      "culturas_vina_exact_pages_checked": 9,
+      "valpocultura_price_candidates": 4,
+      "valpocultura_prices_added": 1,
+      "valpocultura_exact_pages_checked": 2,
       "visitavina_rows_parsed": 0,
       "valpocultura_rows_parsed": 7,
       "page_fetch_errors": {}
+    },
+    "official_event_metadata": {
+      "candidate_events": 91,
+      "pages_fetched": 60,
+      "pages_failed": 1,
+      "events_enriched": 45,
+      "images_added": 29,
+      "prices_added": 15,
+      "times_added": 1,
+      "provenance_entries_added": 45,
+      "page_limit": 60
     }
   },
   "publication_guard": {
