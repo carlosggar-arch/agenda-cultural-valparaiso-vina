@@ -1,67 +1,6 @@
-/* Mobile-first polish for the installed and browser PWA experience. */
-/* Desktop keeps the normal header controls. */
-.mobile-tabbar{display:none!important}
-
-html[data-mobile-client="true"] .app-header{
-  min-height:0!important;
-  height:auto!important;
-  overflow:visible!important;
-  padding-bottom:.65rem!important;
-  flex-wrap:wrap!important;
-}
-html[data-mobile-client="true"] .app-header .mobile-tabbar,
-html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
-  display:grid!important;
-  visibility:visible!important;
-  opacity:1!important;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:.35rem;
-  width:100%!important;
-  min-width:100%!important;
-  max-width:none!important;
-  flex:0 0 100%!important;
-  grid-column:1 / -1!important;
-  justify-self:stretch!important;
-  align-self:stretch!important;
-  margin:.45rem 0 0!important;
-  padding:0!important;
-  border:0!important;
-  background:transparent!important;
-  position:relative!important;
-  inset:auto!important;
-  left:auto!important;
-  right:auto!important;
-  transform:none!important;
-  z-index:50!important;
-  box-shadow:none!important;
-}
-
-.app-header .mobile-tabbar button{
-  min-width:0;
-  min-height:44px;
-  padding:.42rem .25rem;
-  display:grid;
-  justify-items:center;
-  align-content:center;
-  gap:.12rem;
-  border:1px solid rgba(23,79,70,.18);
-  border-radius:12px;
-  background:rgba(255,255,255,.92);
-  color:var(--header-ink,var(--brand));
-  font:inherit;
-  font-size:.7rem;
-  font-weight:760;
-  line-height:1.05;
-  cursor:pointer;
-  box-shadow:none;
-  backdrop-filter:blur(8px);
-}
-.app-header .mobile-tabbar button[aria-current="page"]{
-  border-color:var(--header-control,var(--brand));
-  background:var(--header-control,var(--brand));
-  color:#fff;
-}
-.mobile-tab-icon{font-size:1rem;line-height:1}
+/* Mobile polish for the installed and browser PWA experience. */
+/* The retired Agenda/Buscar/Mis planes/Ciudad mobile tabbar must never return. */
+.mobile-tabbar,[data-mobile-tabbar]{display:none!important}
 
 .mobile-install-cta{
   display:none;
@@ -84,49 +23,74 @@ html[data-mobile-client="true"] .app-header .mobile-tabbar[hidden]{
 }
 html[data-mobile-client="true"] .mobile-install-cta{display:block}
 
+/* Mobile/app uses the genuine top controls from the desktop header, compacted
+   to fit the available width. */
+html[data-mobile-client="true"] .app-header{
+  min-height:0!important;
+  height:auto!important;
+  overflow:visible!important;
+  padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;
+  padding-bottom:.65rem!important;
+}
+html[data-mobile-client="true"] .header-bottom{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:wrap!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:.55rem 0 0!important;
+  gap:.38rem!important;
+  overflow:visible!important;
+}
+html[data-mobile-client="true"] .header-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:wrap!important;
+  width:100%!important;
+  max-width:100%!important;
+  gap:.38rem!important;
+  margin:0!important;
+}
+html[data-mobile-client="true"] .header-search-toggle,
+html[data-mobile-client="true"] .install-button,
+html[data-mobile-client="true"] .city-switch,
+html[data-mobile-client="true"] .favorite-toggle,
+html[data-mobile-client="true"] [data-my-plans-trigger],
+html[data-mobile-client="true"] [data-share-qr]{
+  min-height:42px!important;
+  margin:0!important;
+}
+html[data-mobile-client="true"] .city-switch{
+  max-width:min(58vw,250px)!important;
+}
+
 .event-detail-panel--no-media .event-detail-content{padding-top:1.15rem!important}
 .event-detail-panel--no-media .event-detail-meta{padding-right:3.4rem}
 
 @media(display-mode:standalone){
-  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;flex-wrap:wrap!important}
-  .app-header .mobile-tabbar,
-  .app-header .mobile-tabbar[hidden]{
-    display:grid!important;
-    visibility:visible!important;
-    opacity:1!important;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:.35rem;
-    width:100%!important;
-    min-width:100%!important;
-    max-width:none!important;
-    flex:0 0 100%!important;
-    grid-column:1 / -1!important;
-    justify-self:stretch!important;
-    align-self:stretch!important;
-    margin:.45rem 0 0!important;
-    padding:0!important;
-    border:0!important;
-    background:transparent!important;
-    position:relative!important;
-    inset:auto!important;
-    transform:none!important;
-    z-index:50!important;
-    box-shadow:none!important;
-  }
+  .mobile-tabbar,[data-mobile-tabbar]{display:none!important}
+  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;padding-top:calc(.8rem + env(safe-area-inset-top,0px))!important;padding-bottom:.65rem!important}
+  .header-bottom{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;margin:.55rem 0 0!important;gap:.38rem!important;overflow:visible!important}
+  .header-actions{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;gap:.38rem!important;margin:0!important}
 }
 
 @media(max-width:900px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
-  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;flex-wrap:wrap!important;padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;padding-bottom:.55rem!important}
-  .app-header .mobile-tabbar,.app-header .mobile-tabbar[hidden]{display:grid!important;visibility:visible!important;opacity:1!important;width:100%!important;min-width:100%!important;max-width:none!important;flex:0 0 100%!important;grid-column:1 / -1!important;margin:.45rem 0 0!important;transform:none!important}
+  .mobile-tabbar,[data-mobile-tabbar]{display:none!important}
+  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;padding-bottom:.55rem!important}
+  .header-bottom{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;margin:.55rem 0 0!important;gap:.38rem!important;overflow:visible!important}
+  .header-actions{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;gap:.38rem!important;margin:0!important}
   .header-art{height:100%!important;opacity:.22!important}
 
   .header-search-toggle,.install-button,.city-switch,
   .filter-choice,.category-chip,.clear-filters,
   .card-action,.event-detail-action,.my-plan-action,
-  .favorite-toggle,.chooser button{min-height:44px!important}
-  .header-search-toggle{width:44px!important;min-width:44px!important}
-  .favorite-toggle{width:44px!important;height:44px!important}
+  .favorite-toggle,.chooser button{min-height:42px!important}
+  .header-search-toggle{width:42px!important;min-width:42px!important}
+  .favorite-toggle{width:42px!important;height:42px!important}
+  .install-button,.city-switch{padding:.54rem .64rem!important}
 
   .event-detail-media{height:min(22vh,160px)!important}
   .event-detail-panel--no-media .event-detail-content{padding-top:1rem!important}
@@ -146,14 +110,14 @@ html[data-mobile-client="true"] .mobile-install-cta{display:block}
   .city-options button[aria-current="true"]::after{content:"✓";display:grid;place-items:center;width:1.55rem;height:1.55rem;border-radius:999px;background:var(--brand);color:#fff;font-weight:900}
   .city-options button[aria-current="true"]>span:last-child{display:none}
   .location-button{min-height:50px!important}
-  [data-selection-required="true"] .chooser h2{font-size:1.9rem!important}
-  [data-selection-required="true"] .privacy-note{margin-top:.65rem!important}
 }
 
 @media(max-width:430px){
   .app-header{min-height:0!important;height:auto!important}
   .header-tagline{max-width:96%!important}
   .header-art{height:100%!important;opacity:.2!important}
+  .header-bottom,.header-actions{gap:.3rem!important}
+  .city-switch{max-width:52vw!important}
   .city-options button{grid-template-columns:50px 1fr auto!important}
   .city-symbol{width:48px!important;height:40px!important}
 }
