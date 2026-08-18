@@ -17,32 +17,104 @@ function ensureMosaicOverrideStyle() {
       content: none !important;
       display: none !important;
     }
+
+    /* Installed mobile PWA: seven public controls must always remain on one
+       balanced row. The WEB layout is intentionally untouched. */
     html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
       display: grid !important;
-      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+      grid-template-rows: 1fr !important;
       width: 100% !important;
-      gap: .20rem !important;
+      max-width: 100% !important;
+      gap: .16rem !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
       visibility: visible !important;
       opacity: 1 !important;
     }
+    html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * {
+      box-sizing: border-box !important;
+      grid-row: 1 !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      min-height: 38px !important;
+      height: 38px !important;
+      margin: 0 !important;
+      padding: .12rem .08rem !important;
+      border-radius: 9px !important;
+      font-size: .60rem !important;
+      line-height: 1 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: clip !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    html[data-installed-real-mosaic="true"][data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > .install-button {
+      display: none !important;
+    }
+
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-favorites-access],
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-header-search-toggle],
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-share-qr-open],
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-city-switch],
-    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-contribute-source] {
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-contribute-source],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-community-comments],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-community-like] {
       visibility: visible !important;
       opacity: 1 !important;
     }
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-favorites-access],
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-city-switch],
-    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-contribute-source] {
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-contribute-source],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-community-comments],
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-community-like] {
       display: flex !important;
     }
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-header-search-toggle] {
       display: grid !important;
+      place-items: center !important;
     }
     html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions > [data-share-qr-open] {
       display: inline-flex !important;
+    }
+
+    /* Compact labels for the installed mobile app only. The controls keep
+       descriptive aria-labels, while the visible row remains readable. */
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions .favorites-access-label {
+      display: none !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-city-switch] > span[aria-hidden="true"] {
+      display: none !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-city-switch-label] {
+      font-size: 0 !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-city-switch-label]::after {
+      content: "Ciudad";
+      font-size: .60rem;
+      font-weight: 780;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-contribute-source] > span:last-child,
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-community-comments] > span {
+      display: none !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-contribute-source] {
+      flex-direction: row !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-contribute-source] .contribute-source-icon {
+      font-size: 1rem !important;
+      line-height: 1 !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-community-comments] {
+      font-size: .82rem !important;
+    }
+    html[data-installed-real-mosaic="true"] .filter-workbench > .header-actions [data-community-like] {
+      gap: .16rem !important;
+      font-size: .68rem !important;
+      font-variant-numeric: tabular-nums;
     }
   `;
   document.head.append(style);
