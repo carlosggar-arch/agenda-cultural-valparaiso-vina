@@ -1,160 +1,121 @@
 const footer = document.querySelector("body > footer");
 
-function mountParticipationRail() {
-  if (!footer) return false;
-
-  const sourceCta = document.querySelector("[data-source-proposal-cta]");
-  const sourceActions = sourceCta?.querySelector(".source-proposal-actions");
-  const contact = footer.querySelector(".vivamos-footer-contact");
-  if (!sourceActions || !contact) return false;
-
-  let rail = footer.querySelector("[data-vivamos-participation-rail]");
-  if (!rail) {
-    rail = document.createElement("div");
-    rail.className = "vivamos-participation-rail";
-    rail.dataset.vivamosParticipationRail = "";
-    rail.setAttribute("aria-label", "Participa y contacta con ¡Vivamos!");
-    footer.insertBefore(rail, footer.querySelector("[data-app-version]") || null);
-  }
-
-  if (contact.parentElement !== rail) rail.append(contact);
-  while (sourceActions.firstChild) rail.append(sourceActions.firstChild);
-
-  // Keep the original marker in the hidden Sources section so community-source.js
-  // does not create a duplicate CTA after a city change.
-  sourceCta.hidden = true;
-  sourceCta.setAttribute("aria-hidden", "true");
-
-  // GitHub/Fuentes were intentionally removed; this rail occupies that same footer slot.
+function restoreFooterContact() {
+  if (!footer) return;
+  const rail = footer.querySelector("[data-vivamos-participation-rail]");
+  const contact = rail?.querySelector(".vivamos-footer-contact");
+  const version = footer.querySelector("[data-app-version]");
+  if (contact) footer.insertBefore(contact, version || null);
+  rail?.remove();
   footer.querySelector("[data-sources-toggle]")?.remove();
-  return true;
 }
 
-function retryMount(attempt = 0) {
-  if (mountParticipationRail() || attempt >= 20) return;
-  window.setTimeout(() => retryMount(attempt + 1), 100);
-}
-
-retryMount();
-window.setTimeout(() => {
-  footer?.querySelector("[data-sources-toggle]")?.remove();
-  mountParticipationRail();
-}, 1200);
-
-const STYLE_ID = "vivamos-participation-footer-style";
-if (!document.getElementById(STYLE_ID)) {
+function ensureHeaderFeedbackStyles() {
+  const STYLE_ID = "vivamos-header-feedback-style";
+  if (document.getElementById(STYLE_ID)) return;
   const style = document.createElement("style");
   style.id = STYLE_ID;
   style.textContent = `
-    .vivamos-footer {
-      display:flex !important;
-      flex-wrap:nowrap !important;
-      align-items:center !important;
-      gap:.75rem !important;
+    .header-actions {
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: none;
     }
-    .vivamos-footer-identity {
-      flex:0 0 auto;
-      min-width:0;
+    .header-actions::-webkit-scrollbar { display: none; }
+    .header-actions .source-feedback-button,
+    .header-actions .source-like-button {
+      box-sizing: border-box !important;
+      flex: 0 0 auto !important;
+      min-height: 42px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: .32rem !important;
+      margin: 0 !important;
+      padding: .58rem .72rem !important;
+      border: 1px solid rgba(23,79,70,.20) !important;
+      border-radius: 12px !important;
+      background: rgba(255,255,255,.82) !important;
+      color: var(--header-ink,#153f3a) !important;
+      font: inherit !important;
+      font-size: .78rem !important;
+      line-height: 1 !important;
+      font-weight: 780 !important;
+      white-space: nowrap !important;
+      box-shadow: none !important;
     }
-    .vivamos-footer-credit {
-      flex:1 1 auto;
-      min-width:0;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
+    .header-actions .source-like-button {
+      min-width: 58px !important;
+      font-variant-numeric: tabular-nums;
     }
-    .vivamos-footer [data-app-version] {
-      flex:0 0 auto;
+    .header-actions .source-like-button[data-liked="true"] {
+      border-color: #e0a19a !important;
+      background: #fff4f2 !important;
+      color: #9f3c33 !important;
     }
-    .vivamos-participation-rail {
-      display:flex;
-      flex:0 1 auto;
-      align-items:center;
-      justify-content:flex-end;
-      flex-wrap:nowrap;
-      gap:.45rem;
-      min-width:0;
-      max-width:54%;
-      white-space:nowrap;
-      overflow-x:auto;
-      overscroll-behavior-inline:contain;
-      scrollbar-width:none;
+    .header-actions .source-like-button[data-like-pending="true"] {
+      outline: 2px dotted rgba(159,60,51,.35);
+      outline-offset: -4px;
     }
-    .vivamos-participation-rail::-webkit-scrollbar { display:none; }
-    .vivamos-participation-rail .vivamos-footer-contact,
-    .vivamos-participation-rail .source-proposal-link,
-    .vivamos-participation-rail .source-feedback-button,
-    .vivamos-participation-rail .source-like-button {
-      flex:0 0 auto;
-      min-height:2.35rem;
-      margin:0;
-      padding:.5rem .8rem;
-      border-radius:999px;
-      font-size:.82rem;
-      line-height:1;
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-start !important;
+      align-items: stretch !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      gap: .20rem !important;
     }
-    .vivamos-participation-rail .source-proposal-link {
-      border-color:rgba(255,255,255,.62);
-      background:transparent;
-      color:#fff;
+    html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * {
+      flex: 0 0 auto !important;
+      width: auto !important;
+      min-width: 48px !important;
     }
-    .vivamos-participation-rail .source-feedback-button,
-    .vivamos-participation-rail .source-like-button {
-      border-color:rgba(255,255,255,.42);
-      background:rgba(255,255,255,.08);
-      color:#fff;
-    }
-    .vivamos-participation-rail .source-like-button[data-liked="true"] {
-      border-color:#f2b8af;
-      background:rgba(255,244,242,.15);
-      color:#ffd7d0;
-    }
-    [data-source-proposal-cta][hidden] { display:none !important; }
-
-    @media (max-width:900px) {
-      .vivamos-footer {
-        gap:.55rem !important;
-      }
-      .vivamos-footer-identity span {
-        display:none;
-      }
-      .vivamos-footer-credit {
-        font-size:.78rem;
-      }
-      .vivamos-participation-rail {
-        max-width:58vw;
-      }
-      .vivamos-footer [data-app-version] {
-        display:none;
+    @media (max-width: 700px) {
+      .header-actions .source-feedback-button,
+      .header-actions .source-like-button {
+        min-height: 39px !important;
+        padding: .48rem .56rem !important;
+        font-size: .72rem !important;
       }
     }
-    @media (max-width:650px) {
-      .vivamos-footer-credit {
-        display:none;
-      }
-      .vivamos-footer-identity {
-        max-width:5.4rem;
-      }
-      .vivamos-footer-identity strong {
-        font-size:.82rem;
-      }
-      .vivamos-participation-rail {
-        flex:1 1 auto;
-        max-width:none;
-        justify-content:flex-start;
-      }
-      .vivamos-participation-rail .vivamos-footer-contact,
-      .vivamos-participation-rail .source-proposal-link,
-      .vivamos-participation-rail .source-feedback-button,
-      .vivamos-participation-rail .source-like-button {
-        min-height:2.2rem;
-        padding:.48rem .62rem;
-        font-size:.77rem;
-      }
-      .vivamos-participation-rail .source-action-long { display:none; }
-      .vivamos-participation-rail .source-action-short { display:inline; }
-      .vivamos-participation-rail .source-feedback-button span { display:none; }
+    @media (max-width: 430px) {
+      .header-actions .source-feedback-button span { display: none; }
+      .header-actions .source-feedback-button { min-width: 42px !important; }
+      .header-actions .source-like-button { min-width: 50px !important; }
     }
   `;
   document.head.append(style);
 }
+
+function mountHeaderFeedback() {
+  restoreFooterContact();
+  const actions = document.querySelector(".header-actions");
+  const contribute = actions?.querySelector("[data-contribute-source]");
+  const sourceCta = document.querySelector("[data-source-proposal-cta]");
+  const sourceActions = sourceCta?.querySelector(".source-proposal-actions");
+  const comments = sourceActions?.querySelector("[data-community-comments]") || document.querySelector("[data-community-comments]");
+  const like = sourceActions?.querySelector("[data-community-like]") || document.querySelector("[data-community-like]");
+  if (!actions || !contribute || !comments || !like) return false;
+
+  ensureHeaderFeedbackStyles();
+  if (comments.parentElement !== actions) contribute.insertAdjacentElement("afterend", comments);
+  if (like.parentElement !== actions) comments.insertAdjacentElement("afterend", like);
+
+  if (sourceCta) {
+    sourceCta.hidden = true;
+    sourceCta.setAttribute("aria-hidden", "true");
+  }
+  return true;
+}
+
+function retryMount(attempt = 0) {
+  if (mountHeaderFeedback() || attempt >= 30) return;
+  window.setTimeout(() => retryMount(attempt + 1), 100);
+}
+
+retryMount();
+window.setTimeout(mountHeaderFeedback, 1200);
+window.addEventListener("resize", mountHeaderFeedback, { passive: true });

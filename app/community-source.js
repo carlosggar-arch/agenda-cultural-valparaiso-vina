@@ -9,6 +9,7 @@ if (![...document.styleSheets].some((sheet) => sheet.href === styleHref)) {
 const FEEDBACK_API = "https://agenda-cultural-community.carlosggar.workers.dev/community/v1/feedback";
 const LIKE_TOKEN_KEY = "vivamos-global-like-token-v1";
 const LIKED_KEY = "vivamos-global-liked-v1";
+const LIKE_PENDING_KEY = "vivamos-global-like-pending-v1";
 
 function activeCityId() {
   return document.documentElement.dataset.city === "gijon" ? "gijon" : "valparaiso";
@@ -28,6 +29,10 @@ function storageSet(key, value) {
   try { localStorage.setItem(key, value); } catch {}
 }
 
+function storageRemove(key) {
+  try { localStorage.removeItem(key); } catch {}
+}
+
 function likeToken() {
   const existing = storageGet(LIKE_TOKEN_KEY);
   if (existing) return existing;
@@ -36,29 +41,29 @@ function likeToken() {
   return token;
 }
 
-function renderLike(button, count) {
+function currentLikeCount(button) {
+  const value = Number(button.querySelector("[data-like-count]")?.textContent || 0);
+  return Number.isFinite(value) ? Math.max(0, Math.trunc(value)) : 0;
+}
+
+function renderLike(button, count = 0) {
   const liked = storageGet(LIKED_KEY) === "1";
+  const pending = storageGet(LIKE_PENDING_KEY) === "1";
+  let numeric = Number.isFinite(Number(count)) ? Math.max(0, Math.trunc(Number(count))) : 0;
+  if (liked && pending) numeric = Math.max(1, numeric);
   button.dataset.liked = liked ? "true" : "false";
+  button.dataset.likePending = pending ? "true" : "false";
   button.setAttribute("aria-pressed", liked ? "true" : "false");
-  const numeric = Number.isFinite(Number(count)) ? Number(count) : null;
-  button.innerHTML = `<span aria-hidden="true">${liked ? "♥" : "♡"}</span><span>${numeric === null ? "" : numeric}</span>`;
+  button.innerHTML = `<span aria-hidden="true">${liked ? "♥" : "♡"}</span><span data-like-count>${numeric}</span>`;
+  const pendingText = pending ? " Pendiente de sincronización." : "";
   button.setAttribute("aria-label", liked
-    ? `Te gusta ¡Vivamos!${numeric === null ? "" : `. ${numeric} me gusta`}`
-    : `Indicar que te gusta ¡Vivamos!${numeric === null ? "" : `. ${numeric} me gusta`}`);
+    ? `Te gusta ¡Vivamos!. ${numeric} me gusta.${pendingText}`
+    : `Indicar que te gusta ¡Vivamos!. ${numeric} me gusta.`);
+  button.title = pending ? "Tu me gusta está guardado y se sincronizará automáticamente." : "";
 }
 
-async function loadLikeCount(button) {
-  renderLike(button, null);
-  try {
-    const response = await fetch(`${FEEDBACK_API}/likes`, { headers: { Accept: "application/json" } });
-    const data = await response.json();
-    if (response.ok) renderLike(button, data.count);
-  } catch {}
-}
-
-async function submitLike(button) {
-  if (storageGet(LIKED_KEY) === "1") return;
-  button.disabled = true;
+async function syncPendingLike(button, knownCount = null) {
+  if (storageGet(LIKED_KEY) !== "1" || storageGet(LIKE_PENDING_KEY) !== "1") return;
   try {
     const response = await fetch(`${FEEDBACK_API}/likes`, {
       method: "POST",
@@ -66,11 +71,40 @@ async function submitLike(button) {
       body: JSON.stringify({ token: likeToken() }),
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "No se pudo registrar el me gusta.");
-    storageSet(LIKED_KEY, "1");
+    if (!response.ok) throw new Error(data.error || "No se pudo sincronizar el me gusta.");
+    storageRemove(LIKE_PENDING_KEY);
     renderLike(button, data.count);
   } catch {
-    button.title = "No pudimos registrar el me gusta en este momento.";
+    renderLike(button, Math.max(currentLikeCount(button), Number(knownCount) || 0, 1));
+  }
+}
+
+async function loadLikeCount(button) {
+  renderLike(button, storageGet(LIKED_KEY) === "1" ? 1 : 0);
+  let serverCount = null;
+  try {
+    const response = await fetch(`${FEEDBACK_API}/likes`, { headers: { Accept: "application/json" } });
+    const data = await response.json();
+    if (response.ok && Number.isFinite(Number(data.count))) {
+      serverCount = Math.max(0, Math.trunc(Number(data.count)));
+      renderLike(button, serverCount);
+    }
+  } catch {}
+  await syncPendingLike(button, serverCount);
+}
+
+async function submitLike(button) {
+  if (storageGet(LIKED_KEY) === "1") {
+    await syncPendingLike(button, currentLikeCount(button));
+    return;
+  }
+  const optimisticCount = currentLikeCount(button) + 1;
+  storageSet(LIKED_KEY, "1");
+  storageSet(LIKE_PENDING_KEY, "1");
+  renderLike(button, optimisticCount);
+  button.disabled = true;
+  try {
+    await syncPendingLike(button, optimisticCount);
   } finally {
     button.disabled = false;
   }
@@ -166,7 +200,7 @@ function mountSourceProposal() {
     <div class="source-proposal-actions" aria-label="Participa en ¡Vivamos!">
       <a class="source-proposal-link" data-source-proposal-link><span class="source-action-long">+ Aportar fuente</span><span class="source-action-short">+ Fuente</span></a>
       <button type="button" class="source-feedback-button" data-community-comments>💬 <span>Comentarios</span></button>
-      <button type="button" class="source-like-button" data-community-like aria-pressed="false"><span aria-hidden="true">♡</span><span></span></button>
+      <button type="button" class="source-like-button" data-community-like aria-pressed="false"><span aria-hidden="true">♡</span><span data-like-count>0</span></button>
     </div>
   `;
   grid.insertAdjacentElement("afterend", cta);
