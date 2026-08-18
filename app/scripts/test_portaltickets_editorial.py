@@ -79,6 +79,7 @@ def test_redundant_venue_suffix_is_removed_but_real_title_is_preserved() -> None
     assert clean_public_title("QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO", venue, "Valparaíso") == "QUILAPAYUN"
     assert clean_public_title("LOS SANTOS DUMONT: CANCIONES CHILENAS EN TEATRO MAURI SCD", venue, "Valparaíso") == "LOS SANTOS DUMONT: CANCIONES CHILENAS"
     assert clean_public_title("EL MAURI EN EL MAURI", venue, "Valparaíso") == "EL MAURI EN EL MAURI"
+    assert clean_public_title("EL MAURI EN EL MAURI, VALPARAISO", venue, "Valparaíso") == "EL MAURI EN EL MAURI"
 
 
 def test_detail_parser_keeps_useful_description_and_detects_partial_availability() -> None:
@@ -98,6 +99,13 @@ def test_detail_parser_keeps_useful_description_and_detects_partial_availability
     assert detail["price_min"] == 10000
     assert detail["price_max"] == 15000
     assert detail["price_text"] == "$10.000–$15.000 · Algunos sectores agotados"
+
+
+def test_description_template_prefix_is_removed_without_losing_real_copy() -> None:
+    markup = '''<h4>Descripción</h4>
+    <p>AGREGA AQUÍ LA DESCRIPCIÓN DEL EVENTO Macrobia y Piel vivirán un evento único este 3 de octubre en Viña del Mar.</p>'''
+    detail = parse_detail_markup(markup)
+    assert detail["description"] == "Macrobia y Piel vivirán un evento único este 3 de octubre en Viña del Mar."
 
 
 def test_detail_parser_marks_fully_sold_event_and_apply_detail_surfaces_it() -> None:
@@ -176,6 +184,7 @@ def main() -> None:
     test_music_classification_when_explicit()
     test_redundant_venue_suffix_is_removed_but_real_title_is_preserved()
     test_detail_parser_keeps_useful_description_and_detects_partial_availability()
+    test_description_template_prefix_is_removed_without_losing_real_copy()
     test_detail_parser_marks_fully_sold_event_and_apply_detail_surfaces_it()
     test_refresh_removes_legacy_and_is_idempotent()
     test_fetch_failure_preserves_corrected_but_removes_legacy()
