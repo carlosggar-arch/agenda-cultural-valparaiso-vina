@@ -17,7 +17,9 @@ function useDirectMobileActions() {
 function ensureHeaderStylesheet() {
   const links = [...document.querySelectorAll('link[href*="header-redesign.css"]')];
   if (links.length) {
-    links[0].href = HEADER_STYLESHEET;
+    // The public shell already loads the canonical stylesheet in <head> before
+    // first paint. Never rewrite its href during hydration: even an equivalent
+    // assignment can trigger an unnecessary stylesheet reload in some clients.
     for (const extra of links.slice(1)) extra.remove();
     return;
   }
