@@ -305,6 +305,20 @@ def corrected(item: dict) -> bool:
     return str((item.get("editorial") or {}).get("reason") or "") == "secondary_ticketing_source:portaltickets_valparaiso"
 
 
+def event_identity(item: dict) -> tuple[str, str, str, str]:
+    location = item.get("location") or {}
+    schedule = item.get("schedule") or {}
+    return (norm(item.get("title")), str(schedule.get("start") or ""), norm(location.get("city")), norm(location.get("venue")))
+
+
+def stable_event(item: dict) -> dict:
+    clone = json.loads(json.dumps(item, ensure_ascii=False))
+    clone.pop("last_verified_at", None)
+    if isinstance(clone.get("public_status"), dict):
+        clone["public_status"].pop("last_verified_at", None)
+    return clone
+
+
 def refresh_dataset(dataset: dict, candidates: list[dict], *, fetch_ok: bool) -> tuple[dict, dict]:
     original = list(dataset.get("events") or [])
     base = [item for item in original if str(item.get("source_id") or "") != SOURCE_ID]
@@ -318,11 +332,16 @@ def refresh_dataset(dataset: dict, candidates: list[dict], *, fetch_ok: bool) ->
     else:
         kept_portal = []
         dropped_semantic = 0
+        previous_by_identity = {event_identity(item): item for item in previous_good}
         for candidate in candidates:
             if semantic_duplicate(candidate, base + kept_portal):
                 dropped_semantic += 1
                 continue
-            kept_portal.append(candidate)
+            previous = previous_by_identity.get(event_identity(candidate))
+            if previous is not None and stable_event(previous) == stable_event(candidate):
+                kept_portal.append(previous)
+            else:
+                kept_portal.append(candidate)
 
     dataset["events"] = sorted(base + kept_portal, key=lambda item: (day(item), str(item.get("title") or "")))
     events = dataset["events"]
