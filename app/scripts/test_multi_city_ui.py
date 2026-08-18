@@ -4,6 +4,7 @@ from pathlib import Path
 APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
+app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
 city_first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
 city_registry_module = Path("assets/city-registry.mjs").read_text(encoding="utf-8")
 city_registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
@@ -51,7 +52,7 @@ for removed in ('data-combined-price', 'data-combined-access', 'data-combined-fo
     assert removed not in index
 assert '<strong>¡Vivamos!</strong>' in index
 assert './combined-filters.css' in index
-assert './combined-filters.js' in index
+assert './combined-filters-bootstrap.js' in index
 assert './contextual-filters.js' not in index
 assert 'new URLSearchParams(window.location.search).get("city")' in index
 assert '["access", "format", "aud"]' in index
@@ -139,7 +140,7 @@ assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
 assert 'html[data-city="gijon"]' in city_header_css
 assert 'const HEADER_STYLESHEET = "./header-redesign.css?v=20260817-brandicon1"' in header_redesign_js
-assert 'header.dataset.headerRedesign = "hero-v4-mobile-direct-actions"' in header_redesign_js
+assert 'header.dataset.headerRedesign = "hero-v7-contribute-source-everywhere"' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
 assert '.header-art' in header_redesign_css
 
@@ -149,7 +150,7 @@ assert 'event-card-actions' in card_js
 assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
 assert 'event?.image?.url' in card_js
-assert 'image.dataset.eventImage = "relevant"' in card_js
+assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
 assert '.event-card-media' in card_css
 assert 'formatSchedule(schedule, activeConfig)' in schedule_display_js
 assert 'scheduleForGijonEvent' in schedule_display_js

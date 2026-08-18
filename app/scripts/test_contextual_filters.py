@@ -44,7 +44,7 @@ for marker in (
 for removed in ('data-combined-price', 'data-combined-access', 'data-combined-format', 'data-combined-audience'):
     assert removed not in app_index
 assert '["access", "format", "aud"]' in app_index
-assert './combined-filters.js' in app_index
+assert './combined-filters-bootstrap.js' in app_index
 assert './contextual-filters.js' not in app_index
 assert '<link rel="stylesheet" href="./compact-top.css">' in app_index
 assert '<link rel="stylesheet" href="./header-redesign.css' in app_index
