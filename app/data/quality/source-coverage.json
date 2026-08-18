@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T22:27:58+00:00",
+  "generated_at": "2026-08-18T22:57:10+00:00",
   "status": "ok",
   "retention_days": 60,
   "thresholds": {
@@ -18,19 +18,19 @@
       "summary": {
         "sources_total": 41,
         "producing_now": 25,
-        "zero_now": 12,
+        "zero_now": 7,
         "zero_3d_or_more": 0,
         "zero_7d_or_more": 0,
         "zero_14d_or_more": 0,
         "possible_drops": 0,
-        "total_events": 162,
-        "attributed_events": 162,
+        "total_events": 166,
+        "attributed_events": 166,
         "unattributed_events": 0,
         "direct_zero_now": 16,
-        "covered_elsewhere": 2,
+        "covered_elsewhere": 7,
         "verified_inactive_zero_now": 2,
-        "producing_or_covered": 27,
-        "producing_covered_or_verified": 29
+        "producing_or_covered": 32,
+        "producing_covered_or_verified": 34
       },
       "sources": [
         {
@@ -77,8 +77,8 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
+          "status": "covered_elsewhere",
+          "severity": "ok",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -87,7 +87,9 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [],
+          "covered_by_other_sources": [
+            "valpocultura"
+          ],
           "verified_inactive": false
         },
         {
@@ -115,8 +117,8 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
+          "status": "covered_elsewhere",
+          "severity": "ok",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -125,7 +127,9 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [],
+          "covered_by_other_sources": [
+            "valpocultura"
+          ],
           "verified_inactive": false
         },
         {
@@ -288,8 +292,8 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
+          "status": "covered_elsewhere",
+          "severity": "ok",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -298,7 +302,9 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [],
+          "covered_by_other_sources": [
+            "valpocultura"
+          ],
           "verified_inactive": false
         },
         {
@@ -632,8 +638,8 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
+          "status": "covered_elsewhere",
+          "severity": "ok",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -642,7 +648,9 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [],
+          "covered_by_other_sources": [
+            "valpocultura"
+          ],
           "verified_inactive": false
         },
         {
@@ -727,8 +735,8 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "zero_recent",
-          "severity": "info",
+          "status": "covered_elsewhere",
+          "severity": "ok",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -737,7 +745,9 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [],
+          "covered_by_other_sources": [
+            "valpocultura"
+          ],
           "verified_inactive": false
         },
         {
@@ -745,7 +755,7 @@
           "name": "Valpo Cultura",
           "role": "aggregator",
           "source_type": "instagram",
-          "current_count": 6,
+          "current_count": 10,
           "status": "producing",
           "severity": "ok",
           "zero_streak_days": 0,
@@ -823,14 +833,14 @@
       "date": "2026-08-19",
       "summary": {
         "sources_total": 21,
-        "producing_now": 11,
-        "zero_now": 10,
+        "producing_now": 10,
+        "zero_now": 11,
         "zero_3d_or_more": 9,
         "zero_7d_or_more": 0,
         "zero_14d_or_more": 0,
         "possible_drops": 0,
-        "total_events": 115,
-        "attributed_events": 115,
+        "total_events": 113,
+        "attributed_events": 113,
         "unattributed_events": 0
       },
       "sources": [
@@ -1162,9 +1172,9 @@
           "name": "Grupo de Montaña Picu Urriellu",
           "role": null,
           "source_type": null,
-          "current_count": 1,
-          "status": "producing",
-          "severity": "ok",
+          "current_count": 0,
+          "status": "zero_recent",
+          "severity": "info",
           "zero_streak_days": 0,
           "observed_days": 1,
           "first_observed_date": "2026-08-19",
@@ -1179,7 +1189,7 @@
           "name": "La Habitación Propia",
           "role": null,
           "source_type": null,
-          "current_count": 3,
+          "current_count": 2,
           "status": "producing",
           "severity": "ok",
           "zero_streak_days": 0,
