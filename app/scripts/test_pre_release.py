@@ -68,6 +68,7 @@ def check_service_worker() -> None:
 def check_ui_contract() -> None:
     index = (APP / "index.html").read_text(encoding="utf-8")
     app_js = (APP / "app.js").read_text(encoding="utf-8")
+    app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
     pwa_js = (APP / "pwa.js").read_text(encoding="utf-8") if (APP / "pwa.js").exists() else ""
     event_detail_js = (APP / "event-detail.js").read_text(encoding="utf-8")
     city_registry = load_json(APP / "cities.json")
