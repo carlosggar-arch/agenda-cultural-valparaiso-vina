@@ -119,6 +119,16 @@ function smartAllCaps(value, event) {
   return smartTitleCase(value);
 }
 
+function normalizeInternalAllCaps(value) {
+  const parts = clean(value).split(/(\s*(?::|;|—|–)\s*|\s+-\s+)/u);
+  return parts.map((part, index) => {
+    if (index % 2 === 1 || !isAllCaps(part)) return part;
+    const words = clean(part).replace(/[.!?]+$/u, "").split(/\s+/u).filter(Boolean);
+    const hasMinorWord = words.slice(1).some((word) => MINOR_WORDS.has(word.toLocaleLowerCase("es").replace(/[^\p{L}\p{N}]/gu, "")));
+    return words.length <= 2 && !hasMinorWord ? smartTitleCase(part) : sentenceCase(part);
+  }).join("");
+}
+
 export function normalizePublicEventTitle(value, event = null) {
   let text = normalizePublicTitle(value, event);
   text = stripKnownLocationSuffix(text, event);
@@ -126,5 +136,6 @@ export function normalizePublicEventTitle(value, event = null) {
   text = text.replace(GENERIC_PREFIX, "").trim();
   text = stripTerminalPeriod(stripOuterQuotes(text));
   if (isAllCaps(text)) text = smartAllCaps(text, event);
+  else text = normalizeInternalAllCaps(text);
   return clean(text);
 }
