@@ -48,11 +48,9 @@ const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 
-// Keep the runtime on the known-good v76 architecture. Data and editorial fixes
-// can evolve independently, but experimental self-repair observers must not be
-// reintroduced into the public browser runtime.
 assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
 assert.match(appJs, /^import "\.\/app-core\.js/m);
+assert.match(appJs, /exhibition-compact-loader\.js\?v=20260818-compact-disabled1/);
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
@@ -61,11 +59,17 @@ assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.match(compactLoader, /exhibition-compact\.js\?v=20260818-compact9/);
-assert.doesNotMatch(compactLoader, /exhibition-compact-safe/);
-assert.match(serviceWorker, /"\.\/exhibition-compact\.js\?v=20260818-compact9"/);
+
+// Scroll stability contract: exhibition grouping remains active, but the old
+// compact runtime must never execute in the browser. It watched class/hidden/src
+// mutations across the whole grid and could feed back on lazy-image loading.
+assert.doesNotMatch(compactLoader, /import\s+["']\.\/exhibition-compact\.js/);
+assert.doesNotMatch(compactLoader, /MutationObserver|getBoundingClientRect|offsetHeight/);
+assert.match(compactLoader, /exhibition-compact\.css/);
+assert.doesNotMatch(appJs, /exhibition-compact\.js/);
 assert.doesNotMatch(serviceWorker, /approved-event-integrity|exhibition-compact-safe/);
-assert.match(release, /const RELEASE = 82/);
+
+assert.match(release, /const RELEASE = 83/);
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; known-good runtime)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; scroll-safe runtime)`);
