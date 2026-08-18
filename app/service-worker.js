@@ -24,6 +24,7 @@ const SHELL_ASSETS = [
   "./app.js",
   "./app-core.js",
   "./category-normalizer.js",
+  "./exhibition-venue-grouping.js",
   "./exhibition-gallery.js",
   "./exhibition-gallery.css",
   "./exhibition-compact-loader.js",
