@@ -17,7 +17,8 @@ function useDirectMobileActions() {
 function ensureHeaderStylesheet() {
   const links = [...document.querySelectorAll('link[href*="header-redesign.css"]')];
   if (links.length) {
-    links[0].href = HEADER_STYLESHEET;
+    // The shell loads the final stylesheet in <head>. Do not rewrite the href
+    // during hydration, because that creates a second CSS request and layout shift.
     for (const extra of links.slice(1)) extra.remove();
     return;
   }
@@ -44,6 +45,12 @@ function toggleSearch() {
   popover.hidden = !opening;
   toggle.setAttribute("aria-expanded", opening ? "true" : "false");
   if (opening) requestAnimationFrame(() => input?.focus());
+}
+
+function bindSearchToggle(toggle) {
+  if (!toggle || toggle.dataset.headerSearchBound === "true") return;
+  toggle.dataset.headerSearchBound = "true";
+  toggle.addEventListener("click", toggleSearch);
 }
 
 function buildHeaderStructure() {
@@ -96,17 +103,18 @@ function buildHeaderStructure() {
     }
   }
 
-  if (actions && !actions.querySelector("[data-header-search-toggle]")) {
-    const toggle = document.createElement("button");
-    toggle.type = "button";
-    toggle.className = "header-search-toggle";
-    toggle.dataset.headerSearchToggle = "";
-    toggle.setAttribute("aria-label", "Buscar actividades");
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.innerHTML = '<span aria-hidden="true">⌕</span>';
-    actions.prepend(toggle);
-    toggle.addEventListener("click", toggleSearch);
+  let searchToggle = actions?.querySelector("[data-header-search-toggle]");
+  if (actions && !searchToggle) {
+    searchToggle = document.createElement("button");
+    searchToggle.type = "button";
+    searchToggle.className = "header-search-toggle";
+    searchToggle.dataset.headerSearchToggle = "";
+    searchToggle.setAttribute("aria-label", "Buscar actividades");
+    searchToggle.setAttribute("aria-expanded", "false");
+    searchToggle.innerHTML = '<span aria-hidden="true">⌕</span>';
+    actions.prepend(searchToggle);
   }
+  bindSearchToggle(searchToggle);
 
   let searchPopover = header.querySelector("[data-header-search-popover]");
   if (!searchPopover) {
