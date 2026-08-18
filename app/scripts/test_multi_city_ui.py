@@ -150,7 +150,7 @@ assert 'event-card-actions' in card_js
 assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
 assert 'event?.image?.url' in card_js
-assert 'image.dataset.eventImage = "relevant"' in card_js
+assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
 assert '.event-card-media' in card_css
 assert 'formatSchedule(schedule, activeConfig)' in schedule_display_js
 assert 'scheduleForGijonEvent' in schedule_display_js
