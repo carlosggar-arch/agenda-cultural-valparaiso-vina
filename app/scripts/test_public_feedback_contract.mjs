@@ -31,6 +31,6 @@ assert.match(participation, /sourceCta\.hidden = true/);
 assert.match(participation, /flex-wrap:\s*nowrap/);
 assert.match(participation, /overflow-x:\s*auto/);
 assert.doesNotMatch(participation, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
-assert.match(release, /const RELEASE = 98/);
+assert.match(release, /const RELEASE = 99/);
 
 console.log("Public feedback visible in one footer rail for WEB + PWA: OK");
