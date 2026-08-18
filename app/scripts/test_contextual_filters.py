@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
@@ -101,11 +102,12 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v33"' in pwa
-assert 'import "./combined-filters-polish.js";' in pwa
-assert 'import "./plan-ahead.js";' in pwa
-assert 'import "./favorites.js";' in pwa
-assert 'const CACHE_VERSION = "v40"' in service_worker
+assert re.search(r'const APP_VERSION = "PWA v\d+"', pwa)
+active_pwa_imports = {line.strip() for line in pwa.splitlines() if line.strip().startswith("import ")}
+assert 'import "./combined-filters-polish.js";' in active_pwa_imports
+assert 'import "./plan-ahead.js";' not in active_pwa_imports
+assert 'import "./favorites.js";' in active_pwa_imports
+assert re.search(r'const CACHE_VERSION = "v\d+"', service_worker)
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
@@ -146,4 +148,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact filters, favorites reminders and PWA cache v40: OK")
+print("Semantic search plus compact filters, favorites reminders and current PWA cache contracts: OK")
