@@ -6,8 +6,8 @@ from urllib.request import Request, urlopen
 
 import refresh_balmaceda_valpo as core
 
-MAX_LINKS_PER_LANDING = 4
-HTTP_TIMEOUT_SECONDS = 10
+MAX_LINKS_PER_LANDING = 2
+HTTP_TIMEOUT_SECONDS = 6
 
 
 def bounded_fetch(url: str) -> tuple[bool, int | None, str, str | None]:
