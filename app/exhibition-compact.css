@@ -1,0 +1,202 @@
+.event-grid .exhibition-venue-card {
+  align-self: start !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.exhibition-venue-card {
+  border-radius: 20px !important;
+}
+
+.exhibition-collage {
+  height: 112px !important;
+  padding: 7px 7px 0 !important;
+  gap: 3px !important;
+}
+
+.exhibition-collage-tile,
+.exhibition-collage-placeholder {
+  border-radius: 9px 9px 3px 3px !important;
+}
+
+.exhibition-collage-placeholder {
+  min-height: 102px !important;
+}
+
+.exhibition-venue-body {
+  padding: 13px 14px 14px !important;
+}
+
+.exhibition-venue-meta {
+  margin-bottom: 5px !important;
+  font-size: 0.7rem !important;
+}
+
+.exhibition-venue-heading {
+  gap: 9px !important;
+}
+
+.exhibition-venue-icon {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 1rem !important;
+}
+
+.exhibition-venue-heading h4 {
+  font-size: clamp(1.3rem, 1.7vw, 1.6rem) !important;
+  line-height: 1.06 !important;
+}
+
+.exhibition-venue-count {
+  margin-top: 3px !important;
+  font-size: 0.9rem !important;
+}
+
+.exhibition-venue-facts {
+  gap: 3px !important;
+  margin: 8px 0 10px !important;
+}
+
+.exhibition-venue-facts p {
+  font-size: 0.86rem !important;
+  line-height: 1.25 !important;
+}
+
+.exhibition-group-details {
+  border-radius: 12px !important;
+}
+
+.exhibition-group-details summary {
+  position: sticky !important;
+  top: 0;
+  z-index: 3;
+  min-height: 39px !important;
+  padding: 8px 38px 8px 12px !important;
+  background: rgba(255, 253, 249, 0.98) !important;
+  backdrop-filter: blur(4px);
+  font-size: 0.91rem !important;
+}
+
+.exhibition-group-list {
+  max-height: 296px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(19, 95, 85, 0.32) transparent;
+}
+
+.exhibition-group-list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.exhibition-group-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.exhibition-group-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(19, 95, 85, 0.3);
+}
+
+.exhibition-group-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(19, 95, 85, 0.48);
+}
+
+.grouped-exhibition-item {
+  grid-template-columns: 58px minmax(0, 1fr) auto !important;
+  gap: 9px !important;
+  padding: 8px 10px !important;
+}
+
+.grouped-exhibition-media {
+  position: relative;
+  width: 58px !important;
+  height: 54px !important;
+  border-radius: 8px !important;
+}
+
+.grouped-exhibition-media.is-representative-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(20, 91, 81, 0.12);
+}
+
+.grouped-exhibition-copy strong {
+  margin-bottom: 2px !important;
+  font-size: 0.88rem !important;
+  line-height: 1.17 !important;
+}
+
+.grouped-exhibition-copy small {
+  font-size: 0.78rem !important;
+  line-height: 1.2 !important;
+}
+
+.grouped-exhibition-price {
+  margin-top: 2px !important;
+  font-size: 0.72rem !important;
+}
+
+.grouped-exhibition-actions a {
+  min-height: 30px !important;
+  font-size: 0.78rem !important;
+}
+
+@media (max-width: 900px) {
+  .exhibition-collage {
+    height: 104px !important;
+  }
+
+  .exhibition-group-list {
+    max-height: 276px !important;
+  }
+
+  .grouped-exhibition-item {
+    grid-template-columns: 54px minmax(0, 1fr) !important;
+  }
+
+  .grouped-exhibition-media {
+    width: 54px !important;
+    height: 50px !important;
+  }
+
+  .grouped-exhibition-actions {
+    grid-column: 2 !important;
+    margin-top: -3px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .exhibition-collage {
+    height: 94px !important;
+    padding: 6px 6px 0 !important;
+  }
+
+  .exhibition-venue-body {
+    padding: 11px 11px 12px !important;
+  }
+
+  .exhibition-venue-heading h4 {
+    font-size: 1.25rem !important;
+  }
+
+  .exhibition-group-list {
+    max-height: 248px !important;
+  }
+
+  .grouped-exhibition-item {
+    grid-template-columns: 50px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    padding: 7px 8px !important;
+  }
+
+  .grouped-exhibition-media {
+    width: 50px !important;
+    height: 47px !important;
+  }
+}
