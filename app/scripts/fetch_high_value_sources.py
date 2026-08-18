@@ -24,6 +24,7 @@ MONTHS = {
     "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
     "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
 }
+MONTH_PATTERN = "|".join(MONTHS)
 
 
 class TextParser(HTMLParser):
@@ -123,7 +124,7 @@ def event(source: dict, title: str, start: date, *, end: date | None = None, clo
             "latitude": None, "longitude": None,
         },
         "price": {"is_free": None, "currency": source["currency"], "min_amount": None, "max_amount": None, "display_text": "Consultar condiciones"},
-        "links": {"official": source["url"], "tickets": source["url"] if source["id"] == "portaltickets_valparaiso" else None, "registration": None, "source": source["url"]},
+        "links": {"official": source["url"], "tickets": None, "registration": None, "source": source["url"]},
         "organizer": source["name"], "source_id": source["id"], "source_name": source["name"], "source_url": source["url"],
         "last_verified_at": verified,
         "public_status": {
@@ -169,70 +170,38 @@ def extract_barjola(source: dict, text: list[str]) -> list[dict]:
     return result
 
 
-PORTAL_LONG = re.compile(r"(\d{1,2})\s+de\s+(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)(?:\s+(\d{4}))?.*?(\d{2}:\d{2})", re.I)
-PORTAL_NUM = re.compile(r"(\d{2}-\d{2}-\d{4})\s+(\d{2}:\d{2})")
-
-
-def valpo_city(value: str) -> str | None:
-    normalized = slug(value)
-    if "vina del mar" in normalized:
-        return "Viña del Mar"
-    if "valparaiso" in normalized:
-        return "Valparaíso"
-    return None
-
-
-def extract_portal(source: dict, text: list[str]) -> list[dict]:
-    result = []
-    today = now_day(source)
-    for index, value in enumerate(text):
-        long_match, num_match = PORTAL_LONG.search(value), PORTAL_NUM.search(value)
-        if not long_match and not num_match:
-            continue
-        if long_match:
-            start = parse_date_es(long_match.group(1), long_match.group(2), long_match.group(3) or str(today.year))
-            clock = long_match.group(4)
-        else:
-            try:
-                start = datetime.strptime(num_match.group(1), "%d-%m-%Y").date()
-            except ValueError:
-                continue
-            clock = num_match.group(2)
-        if not start or start < today:
-            continue
-        context = text[max(0, index - 2):min(len(text), index + 3)]
-        city = next((valpo_city(item) for item in context if valpo_city(item)), None)
-        if not city:  # strict: never publish Limache, San Antonio, Casablanca, etc.
-            continue
-        title = next((candidate for candidate in reversed(text[max(0, index - 2):index]) if len(candidate) > 5 and "ticket" not in candidate.casefold()), None)
-        if not title:
-            continue
-        venue = next((candidate for candidate in text[index + 1:index + 3] if valpo_city(candidate)), source["name"])
-        result.append(event(source, title, start, clock=clock, city=city, venue=venue))
-    return result
-
-
-LABORAL = re.compile(r"(\d{1,2})\s+(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\s+(20\d{2})\s+(\d{1,2})\s+(\d{2})\s*h", re.I)
+LABORAL_ITEM = re.compile(
+    rf"^(\d{{1,2}})\s+de\s+({MONTH_PATTERN})\.?\s*(?:(20\d{{2}})[,.]?\s*)?(\d{{1,2}}):(\d{{2}})\s*h\.?\s*(.+)$",
+    re.I,
+)
 GENERIC = re.compile(r"(\d{1,2})[./-](\d{1,2})[./-](20\d{2})(?:.{0,20}?(\d{1,2})[:.](\d{2}))?")
 
 
 def extract_laboral(source: dict, text: list[str]) -> list[dict]:
+    """Extract only explicit Laboral Cinemateca programme lines from a trusted Asturias agenda page."""
+    normalized_page = " ".join(slug(value) for value in text)
+    if "laboral cinemateca" not in normalized_page or "gijon" not in normalized_page:
+        return []
     result = []
     today = now_day(source)
-    for index, value in enumerate(text):
-        match = LABORAL.search(value)
+    seen = set()
+    for value in text:
+        match = LABORAL_ITEM.match(value)
         if not match:
             continue
-        start = parse_date_es(match.group(1), match.group(2), match.group(3))
+        year = match.group(3) or str(today.year)
+        start = parse_date_es(match.group(1), match.group(2), year)
         if not start or start < today:
             continue
-        nearby = " ".join(text[index:min(len(text), index + 2)])
-        if "gijon" not in slug(nearby):
-            continue
-        title = text[index - 1] if index else ""
+        title = re.sub(r"^(?:Estaciones|Infantil y juvenil|Programas especiales|Muestra Asturies|BS\(O\) en vivo)\.\s*", "", match.group(6), flags=re.I).strip(" .")
         if len(title) < 4:
             continue
-        result.append(event(source, title, start, clock=f"{int(match.group(4)):02d}:{match.group(5)}", city="Gijón", venue="Laboral Ciudad de la Cultura"))
+        clock = f"{int(match.group(4)):02d}:{match.group(5)}"
+        signature = (start.isoformat(), clock, slug(title))
+        if signature in seen:
+            continue
+        seen.add(signature)
+        result.append(event(source, title, start, clock=clock, city="Gijón", venue="Laboral Ciudad de la Cultura"))
     return result
 
 
@@ -257,7 +226,11 @@ def extract_generic(source: dict, text: list[str]) -> list[dict]:
     return result
 
 
-EXTRACTORS = {"barjola_exhibitions": extract_barjola, "portal_region": extract_portal, "laboral_program": extract_laboral, "generic_dated": extract_generic}
+EXTRACTORS = {
+    "barjola_exhibitions": extract_barjola,
+    "laboral_program": extract_laboral,
+    "generic_dated": extract_generic,
+}
 
 
 def key(item: dict) -> tuple[str, str, str]:
@@ -272,7 +245,8 @@ def merge(dataset: dict, additions: list[dict]) -> tuple[int, int]:
             duplicates += 1
             continue
         dataset.setdefault("events", []).append(item)
-        known.add(key(item)); added += 1
+        known.add(key(item))
+        added += 1
     dataset["events"].sort(key=lambda item: (str((item.get("schedule") or {}).get("start") or ""), str(item.get("title") or "")))
     all_events = dataset["events"]
     dataset["counts"] = {
@@ -303,9 +277,16 @@ def run(no_write: bool = False, only: set[str] | None = None) -> int:
         if only and source["id"] not in only:
             continue
         ok, status_code, markup, error = fetch(source["url"])
-        status = {"id": source["id"], "name": source["name"], "dataset": source["dataset"], "mode": source["mode"], "fetch_ok": ok, "http_status": status_code, "events_extracted": 0, "events_added": 0, "duplicates_skipped": 0, "state": "ok" if ok else "fetch_error", "error": error}
+        status = {
+            "id": source["id"], "name": source["name"], "dataset": source["dataset"], "mode": source["mode"],
+            "fetch_ok": ok, "http_status": status_code, "events_extracted": 0, "events_added": 0,
+            "duplicates_skipped": 0, "state": "ok" if ok else "fetch_error", "error": error,
+        }
         if ok:
-            candidates = EXTRACTORS[source["extractor"]](source, lines(markup))
+            extractor = EXTRACTORS.get(source["extractor"])
+            if extractor is None:
+                raise ValueError(f"Unknown high-value extractor: {source['extractor']}")
+            candidates = extractor(source, lines(markup))
             if source["dataset"] == "valparaiso":
                 candidates = [item for item in candidates if item["location"]["city"] in {"Valparaíso", "Viña del Mar"}]
             else:
@@ -323,7 +304,8 @@ def run(no_write: bool = False, only: set[str] | None = None) -> int:
         for source_id, items in grouped.items():
             added, duplicates = merge(datasets[dataset_name], items)
             status = next(row for row in report["sources"] if row["id"] == source_id)
-            status["events_added"] = added; status["duplicates_skipped"] = duplicates
+            status["events_added"] = added
+            status["duplicates_skipped"] = duplicates
 
     if no_write:
         print(json.dumps(report, ensure_ascii=False, indent=2))
