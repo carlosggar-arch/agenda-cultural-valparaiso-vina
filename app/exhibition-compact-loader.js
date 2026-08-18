@@ -1,4 +1,8 @@
-import "./exhibition-compact.js?v=20260818-compact9";
+// Stability-first loader: keep the compact exhibition CSS, but do not execute
+// exhibition-compact.js in the browser. The previous runtime observed class,
+// hidden and src mutations across every event grid and could enter a feedback
+// loop as lazy images loaded while scrolling. Exhibition grouping remains handled
+// by exhibition-venue-grouping.js; this file is now presentation-only.
 
 const STYLE_ID = "exhibition-compact-styles";
 const STYLE_URL = new URL("./exhibition-compact.css?v=20260818-compact8", import.meta.url).href;
@@ -15,4 +19,3 @@ function activateSafeLayout() {
 }
 
 activateSafeLayout();
-requestAnimationFrame(activateSafeLayout);
