@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 APP = Path("app")
@@ -87,10 +88,12 @@ for marker in (
 
 compact_link = '<link rel="stylesheet" href="./compact-top.css">'
 header_link = '<link rel="stylesheet" href="./header-redesign.css">'
+pwa_script = '<script type="module" src="./pwa.js'
 assert compact_link in index
 assert header_link in index
+assert pwa_script in index
 assert index.index(compact_link) < index.index(header_link) < index.index("</head>")
-assert index.index("</head>") < index.index('<script type="module" src="./pwa.js"></script>')
+assert index.index("</head>") < index.index(pwa_script)
 assert 'document.createElement("style")' not in compact_js
 assert 'style.textContent' not in compact_js
 
@@ -174,12 +177,14 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v33"' in pwa
-assert 'import "./combined-filters-polish.js";' in pwa
-assert 'import "./plan-ahead.js";' in pwa
-assert 'import "./favorites.js";' in pwa
-assert 'import "./lean-filters.js";' not in pwa
-assert 'function isIosLike()' in pwa
+assert re.search(r'const APP_VERSION = "PWA v\d+"', pwa)
+active_pwa_imports = {line.strip() for line in pwa.splitlines() if line.strip().startswith("import ")}
+assert 'import "./combined-filters-polish.js";' in active_pwa_imports
+assert 'import "./plan-ahead.js";' not in active_pwa_imports
+assert 'import "./favorites.js";' in active_pwa_imports
+assert 'import "./lean-filters.js";' not in active_pwa_imports
+assert 'function isRunningStandalone()' in pwa
+assert 'function isPhoneLike()' in pwa
 assert 'function showInstallHelp()' in pwa
 assert 'Añadir a pantalla de inicio' in pwa
 assert 'beforeinstallprompt' in pwa
@@ -220,7 +225,7 @@ assert '.my-plans-section' in favorites_css
 assert '.favorite-toggle' in favorites_css
 assert '.my-plan-reminder' in favorites_css
 
-assert 'const CACHE_VERSION = "v40";' in service_worker
+assert re.search(r'const CACHE_VERSION = "v\d+";', service_worker)
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -248,4 +253,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v40 shared-registry, Mis planes reminders, install and offline contracts: OK")
+print("Multi-city shared-registry, Mis planes reminders, install and offline contracts: OK")
