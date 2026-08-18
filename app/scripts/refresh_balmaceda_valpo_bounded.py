@@ -12,7 +12,14 @@ import refresh_balmaceda_valpo as core
 
 MAX_LINKS_PER_LANDING = 2
 HTTP_TIMEOUT_SECONDS = 6
-LEAD_BLOCKS = 14
+LEAD_BLOCKS = 8
+STRONG_VALPO_MARKERS = (
+    "baj valpo",
+    "sede valparaiso",
+    "santa isabel 739",
+    "cerro alegre",
+    "galeria balmaceda arte joven valparaiso",
+)
 
 
 def bounded_fetch(url: str) -> tuple[bool, int | None, str, str | None]:
@@ -42,10 +49,13 @@ def bounded_discover(markup: str) -> list[str]:
 
 def safe_valpo_page(url: str, parser: core.PageParser) -> bool:
     path = urlparse(url).path.casefold()
-    if "/noticias/valparaiso/" in path:
-        return True
+    if "/noticias/" in path:
+        if "/noticias/valparaiso/" in path:
+            return True
+        if any(region in path for region in ("/biobio/", "/antofagasta/", "/metropolitana/", "/los-lagos/")):
+            return False
     lead = core.norm(" ".join(parser.parts[:LEAD_BLOCKS]))
-    return any(marker in lead for marker in core.VALPO_MARKERS)
+    return any(marker in lead for marker in STRONG_VALPO_MARKERS)
 
 
 def prior_report() -> dict:
@@ -112,11 +122,7 @@ def run(no_write: bool = False) -> int:
         for start, end, clock, block in core.same_block_candidates(parser, today):
             fresh.append(core.make_event(title, start, end, clock, url, image, block))
 
-    if discovery_confident:
-        pool = fresh
-    else:
-        pool = previous + fresh
-
+    pool = fresh if discovery_confident else previous + fresh
     source_events = []
     duplicates = 0
     ids: set[str] = set()
@@ -181,7 +187,7 @@ def run(no_write: bool = False) -> int:
         "events_published": len(source_events),
         "semantic_duplicates_dropped": duplicates,
         "coverage": coverage,
-        "policy": "Recent coverage requires a Valparaiso-specific path or Valparaiso context in the leading content blocks; footer text never counts. Event publication additionally requires an explicit future date and BAJ Valpo context in the same content block. Historical pages never create current events.",
+        "policy": "Recent coverage requires a Valparaiso-specific news path or strong Valparaiso context in leading content blocks; global footer text never counts. Event publication additionally requires an explicit future date and BAJ Valpo context in the same content block. Historical pages never create current events.",
     }
 
     if no_write:
