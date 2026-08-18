@@ -29,7 +29,7 @@ function ensureInstalledAppActionStyles() {
   style.dataset.installedAppActionStyles = "true";
   style.textContent = `
     html[data-installed-app-actions="below-mosaic"] .filter-workbench::before {
-      margin-bottom: .10rem !important;
+      margin-bottom: .08rem !important;
     }
     html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
       grid-column: 1 / -1 !important;
@@ -39,21 +39,21 @@ function ensureInstalledAppActionStyles() {
       justify-content: stretch !important;
       width: 100% !important;
       max-width: none !important;
-      margin: 0 0 .12rem !important;
+      margin: 0 0 .08rem !important;
       padding: 0 !important;
-      gap: .24rem !important;
+      gap: .20rem !important;
       overflow: visible !important;
     }
     html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * {
       box-sizing: border-box !important;
       width: 100% !important;
       min-width: 0 !important;
-      min-height: 56px !important;
+      min-height: 44px !important;
       margin: 0 !important;
-      padding: .32rem .20rem !important;
-      border-radius: 11px !important;
-      font-size: .64rem !important;
-      line-height: 1.08 !important;
+      padding: .16rem .14rem !important;
+      border-radius: 10px !important;
+      font-size: .59rem !important;
+      line-height: 1.04 !important;
       white-space: normal !important;
       text-align: center !important;
       justify-content: center !important;
@@ -69,7 +69,7 @@ function ensureInstalledAppActionStyles() {
     html[data-installed-app-actions="below-mosaic"] .contribute-source-button {
       display: flex !important;
       flex-direction: column !important;
-      gap: .16rem !important;
+      gap: .08rem !important;
       color: var(--header-ink, #153f3a) !important;
       background: rgba(255,255,255,.84) !important;
       border: 1px solid rgba(23,79,70,.20) !important;
@@ -85,19 +85,19 @@ function ensureInstalledAppActionStyles() {
     }
     html[data-installed-app-actions="below-mosaic"] .contribute-source-icon {
       display: block;
-      font-size: 1.25rem;
-      line-height: 1;
+      font-size: 1.02rem;
+      line-height: .9;
       font-weight: 800;
     }
     @media (max-width: 430px) {
       html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
-        gap: .18rem !important;
+        gap: .16rem !important;
         grid-template-columns: repeat(auto-fit, minmax(48px, 1fr)) !important;
       }
       html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions > * {
-        min-height: 54px !important;
-        padding: .28rem .14rem !important;
-        font-size: .60rem !important;
+        min-height: 42px !important;
+        padding: .12rem .10rem !important;
+        font-size: .55rem !important;
       }
     }
   `;
@@ -250,7 +250,7 @@ function buildHeaderStructure() {
     cityTitle = document.createElement("span");
     cityTitle.className = "header-city-title";
     cityTitle.dataset.headerCityTitle = "";
-    brandCopy.append(cityTitle);
+    brandCopy.append(kicker);
   }
 
   let tagline = brandCopy.querySelector(".header-tagline");
