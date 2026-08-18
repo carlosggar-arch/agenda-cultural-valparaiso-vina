@@ -38,7 +38,7 @@ assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBounding
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
-assert.match(release, /const RELEASE = 86/);
+assert.match(release, /const RELEASE = 88/);
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
