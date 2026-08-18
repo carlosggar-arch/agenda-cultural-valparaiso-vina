@@ -86,6 +86,23 @@ def duplicate_id_groups(events: list[dict]) -> int:
     return sum(1 for count in counts.values() if count > 1)
 
 
+def source_name(item: dict) -> str:
+    return str(item.get("source_name") or "").strip()
+
+
+def source_identity(item: dict, name_to_id: dict[str, str]) -> str:
+    explicit = str(item.get("source_id") or "").strip()
+    if explicit:
+        return explicit
+    name = source_name(item)
+    mapped = name_to_id.get(norm(name)) if name else None
+    if mapped:
+        return mapped
+    if name:
+        return "legacy_" + re.sub(r"[^a-z0-9]+", "_", norm(name))[:64].strip("_")
+    return "unattributed"
+
+
 def coverage_report(existing: dict, datasets: dict[str, dict], generated_at: str) -> dict:
     thresholds = existing.get("thresholds") or {
         "zero_warning_days": 3, "zero_week_days": 7, "zero_critical_days": 14,
@@ -97,15 +114,16 @@ def coverage_report(existing: dict, datasets: dict[str, dict], generated_at: str
         _, timezone = DATASETS[city_id]
         today = datetime.now(ZoneInfo(timezone)).date().isoformat()
         events = dataset.get("events") or []
-        counts = Counter(str(item.get("source_id") or "") for item in events if item.get("source_id"))
-        names = {}
-        for item in events:
-            sid = str(item.get("source_id") or "")
-            if sid:
-                names[sid] = str(item.get("source_name") or item.get("organizer") or sid)
         prior = prior_cities.get(city_id) or {}
         prior_date = str(prior.get("date") or "")
         prior_rows = {str(row.get("id")): row for row in prior.get("sources") or [] if row.get("id")}
+        name_to_id = {norm(row.get("name")): sid for sid, row in prior_rows.items() if row.get("name")}
+        identities = [source_identity(item, name_to_id) for item in events]
+        counts = Counter(sid for sid in identities if sid != "unattributed")
+        names = {}
+        for item, sid in zip(events, identities):
+            if sid != "unattributed":
+                names[sid] = source_name(item) or str(item.get("organizer") or sid)
         source_ids = list(prior_rows)
         for sid in sorted(counts):
             if sid not in prior_rows:
@@ -138,7 +156,7 @@ def coverage_report(existing: dict, datasets: dict[str, dict], generated_at: str
             })
         producing = sum(row["current_count"] > 0 for row in rows)
         zero = len(rows) - producing
-        attributed = sum(1 for item in events if item.get("source_id"))
+        attributed = sum(sid != "unattributed" for sid in identities)
         cities[city_id] = {
             "city_id": city_id,
             "date": today,
@@ -162,9 +180,11 @@ def quality_report(datasets: dict[str, dict], coverage: dict, generated_at: str)
         total = len(events)
         flags = [field_flags(item) for item in events]
         scores = [event_score(item) for item in events]
+        cov_city = (coverage.get("cities") or {}).get(city_id) or {}
+        name_to_id = {norm(row.get("name")): str(row.get("id")) for row in cov_city.get("sources") or [] if row.get("id") and row.get("name")}
         by_source: dict[str, list[dict]] = {}
         for item in events:
-            by_source.setdefault(str(item.get("source_id") or "unattributed"), []).append(item)
+            by_source.setdefault(source_identity(item, name_to_id), []).append(item)
         category_counts = Counter()
         category_labels = {}
         area_counts = Counter()
@@ -189,7 +209,7 @@ def quality_report(datasets: dict[str, dict], coverage: dict, generated_at: str)
                 "count": len(items),
                 "quality_score": round(sum(source_scores) / len(source_scores), 1),
                 "quality_class": quality_class(sum(source_scores) / len(source_scores)),
-                "attention": "none",
+                "attention": "none" if sid != "unattributed" else "review",
                 "covered_by_other_sources": [], "priority": None, "role": None, "source_type": None,
                 "coverage": {
                     "date_pct": pct(sum(field_flags(x)["date"] for x in items), len(items)),
@@ -202,9 +222,9 @@ def quality_report(datasets: dict[str, dict], coverage: dict, generated_at: str)
                 },
                 "categories": dict(Counter(str((x.get("primary_category") or {}).get("id") or "otros") for x in items)),
             })
-        cov_city = (coverage.get("cities") or {}).get(city_id) or {}
         cov_summary = cov_city.get("summary") or {}
         avg = round(sum(scores) / total, 1) if total else 0.0
+        top3_count = sum(len(items) for sid, items in sorted(by_source.items(), key=lambda kv: -len(kv[1]))[:3] if sid != "unattributed")
         cities[city_id] = {
             "city_id": city_id,
             "publication_date": dataset.get("publication_date"),
@@ -216,8 +236,8 @@ def quality_report(datasets: dict[str, dict], coverage: dict, generated_at: str)
                 "sources_zero": cov_summary.get("zero_now", 0),
                 "review_priority_zero_sources": cov_summary.get("zero_now", 0),
                 "zero_sources_covered_elsewhere": 0,
-                "top3_source_share_pct": pct(sum(len(items) for _, items in sorted(by_source.items(), key=lambda kv: -len(kv[1]))[:3]), total),
-                "unattributed_events": sum(1 for item in events if not item.get("source_id")),
+                "top3_source_share_pct": pct(top3_count, total),
+                "unattributed_events": cov_summary.get("unattributed_events", 0),
             },
             "field_coverage": {
                 "date_pct": pct(sum(x["date"] for x in flags), total),
@@ -233,7 +253,7 @@ def quality_report(datasets: dict[str, dict], coverage: dict, generated_at: str)
             "area_distribution": [{"area": area, "count": count, "share_pct": pct(count, total)} for area, count in area_counts.most_common()],
             "coverage_gaps": {
                 "underrepresented_categories": [row["id"] for row in distribution if row["underrepresented"]],
-                "source_concentration_high": pct(sum(len(items) for _, items in sorted(by_source.items(), key=lambda kv: -len(kv[1]))[:3]), total) >= 60.0,
+                "source_concentration_high": pct(top3_count, total) >= 60.0,
                 "review_priority_zero_sources": [row["id"] for row in cov_city.get("sources") or [] if row.get("current_count") == 0],
                 "zero_sources_covered_elsewhere": [],
             },
