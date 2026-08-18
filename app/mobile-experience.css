@@ -23,47 +23,17 @@
 }
 html[data-mobile-client="true"] .mobile-install-cta{display:block}
 
-/* Mobile/app uses the genuine top controls from the desktop header, compacted
-   to fit the available width. */
-html[data-mobile-client="true"] .app-header{
-  min-height:0!important;
-  height:auto!important;
-  overflow:visible!important;
-  padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;
-  padding-bottom:.65rem!important;
-}
-html[data-mobile-client="true"] .header-bottom{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  flex-wrap:wrap!important;
-  width:100%!important;
-  max-width:100%!important;
-  margin:.55rem 0 0!important;
-  gap:.38rem!important;
-  overflow:visible!important;
-}
-html[data-mobile-client="true"] .header-actions{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  flex-wrap:wrap!important;
-  width:100%!important;
-  max-width:100%!important;
-  gap:.38rem!important;
-  margin:0!important;
-}
+/* IMPORTANT: header-redesign.css owns the geometry of the genuine top
+   controls. Do not override header-bottom/header-actions here: doing so causes
+   the controls to jump after this stylesheet loads. */
 html[data-mobile-client="true"] .header-search-toggle,
 html[data-mobile-client="true"] .install-button,
 html[data-mobile-client="true"] .city-switch,
 html[data-mobile-client="true"] .favorite-toggle,
 html[data-mobile-client="true"] [data-my-plans-trigger],
 html[data-mobile-client="true"] [data-share-qr]{
-  min-height:42px!important;
-  margin:0!important;
-}
-html[data-mobile-client="true"] .city-switch{
-  max-width:min(58vw,250px)!important;
+  margin-top:0!important;
+  margin-bottom:0!important;
 }
 
 .event-detail-panel--no-media .event-detail-content{padding-top:1.15rem!important}
@@ -71,18 +41,11 @@ html[data-mobile-client="true"] .city-switch{
 
 @media(display-mode:standalone){
   .mobile-tabbar,[data-mobile-tabbar]{display:none!important}
-  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;padding-top:calc(.8rem + env(safe-area-inset-top,0px))!important;padding-bottom:.65rem!important}
-  .header-bottom{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;margin:.55rem 0 0!important;gap:.38rem!important;overflow:visible!important}
-  .header-actions{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;gap:.38rem!important;margin:0!important}
 }
 
 @media(max-width:900px){
   body{padding-bottom:env(safe-area-inset-bottom,0px)}
   .mobile-tabbar,[data-mobile-tabbar]{display:none!important}
-  .app-header{min-height:0!important;height:auto!important;overflow:visible!important;padding-top:calc(.75rem + env(safe-area-inset-top,0px))!important;padding-bottom:.55rem!important}
-  .header-bottom{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;margin:.55rem 0 0!important;gap:.38rem!important;overflow:visible!important}
-  .header-actions{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;gap:.38rem!important;margin:0!important}
-  .header-art{height:100%!important;opacity:.22!important}
 
   .header-search-toggle,.install-button,.city-switch,
   .filter-choice,.category-chip,.clear-filters,
@@ -90,7 +53,6 @@ html[data-mobile-client="true"] .city-switch{
   .favorite-toggle,.chooser button{min-height:42px!important}
   .header-search-toggle{width:42px!important;min-width:42px!important}
   .favorite-toggle{width:42px!important;height:42px!important}
-  .install-button,.city-switch{padding:.54rem .64rem!important}
 
   .event-detail-media{height:min(22vh,160px)!important}
   .event-detail-panel--no-media .event-detail-content{padding-top:1rem!important}
@@ -113,11 +75,6 @@ html[data-mobile-client="true"] .city-switch{
 }
 
 @media(max-width:430px){
-  .app-header{min-height:0!important;height:auto!important}
-  .header-tagline{max-width:96%!important}
-  .header-art{height:100%!important;opacity:.2!important}
-  .header-bottom,.header-actions{gap:.3rem!important}
-  .city-switch{max-width:52vw!important}
   .city-options button{grid-template-columns:50px 1fr auto!important}
   .city-symbol{width:48px!important;height:40px!important}
 }
