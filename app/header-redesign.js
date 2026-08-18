@@ -56,7 +56,7 @@ function applyApprovedHeaderLayout() {
     if (bottom) {
       bottom.hidden = false;
       bottom.style.setProperty("position", "absolute", "important");
-      bottom.style.setProperty("top", "1.35rem", "important");
+      bottom.style.setProperty("top", ".55rem", "important");
       bottom.style.setProperty("right", "max(1rem, calc((100vw - 1120px) / 2))", "important");
       bottom.style.setProperty("left", "auto", "important");
       bottom.style.setProperty("width", "auto", "important");
