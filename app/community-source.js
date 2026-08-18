@@ -1,4 +1,4 @@
-const styleHref = new URL("./community-source.css", import.meta.url).href;
+const styleHref = new URL("./community-source.css?v=20260818-feedback2", import.meta.url).href;
 if (![...document.styleSheets].some((sheet) => sheet.href === styleHref)) {
   const link = document.createElement("link");
   link.rel = "stylesheet";
