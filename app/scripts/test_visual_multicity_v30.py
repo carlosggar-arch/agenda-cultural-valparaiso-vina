@@ -23,8 +23,10 @@ assert {"valparaiso", "gijon"}.issubset(cities)
 assert len(cities) >= 2
 
 # One installable shell, registry-driven independent datasets.
+assert manifest["id"] == "./"
 assert manifest["name"] == "¡Vivamos!"
-assert manifest["start_url"] == "./"
+assert manifest["start_url"].startswith("./?pwa=")
+assert manifest["start_url"][len("./?pwa="):].isdigit()
 assert manifest["scope"] == "./"
 assert 'loadCityRegistry' in app_js
 assert 'const CITIES = CITY_REGISTRY.byId' in app_js
