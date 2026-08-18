@@ -32,6 +32,7 @@ const CATEGORY_SYMBOLS = Object.freeze({
 
 let indexedCity = null;
 let eventIndex = new Map();
+let venueImagePools = new Map();
 let featuredIds = new Set();
 let enhanceQueued = false;
 let indexingPromise = null;
@@ -97,6 +98,35 @@ function looksLikeGenericSchedule(event) {
 function relevantImageUrl(event) {
   if (looksLikeGenericSchedule(event)) return null;
   return safeHttpUrl(event?.image?.url);
+}
+
+function venueImageKey(event) {
+  const city = fold(event?.location?.city);
+  let venue = fold(event?.location?.venue);
+  if (!city || !venue || venue === city || /^(?:online|sitio web)\b/.test(venue)) return null;
+  if (venue.endsWith(` ${city}`)) venue = venue.slice(0, -(city.length + 1)).trim();
+  if (!venue) return null;
+  return `${city}|${venue}`;
+}
+
+function buildVenueImagePools(events) {
+  const pools = new Map();
+  for (const event of events || []) {
+    const key = venueImageKey(event);
+    const url = relevantImageUrl(event);
+    if (!key || !url) continue;
+    const pool = pools.get(key) || [];
+    if (!pool.includes(url)) pool.push(url);
+    pools.set(key, pool);
+  }
+  return pools;
+}
+
+function representativeImageUrl(event) {
+  if (looksLikeGenericSchedule(event)) return null;
+  const key = venueImageKey(event);
+  if (!key) return null;
+  return venueImagePools.get(key)?.[0] || null;
 }
 
 function dateKeyForDate(date, config) {
@@ -282,8 +312,9 @@ function addTextElement(parent, tag, className, text) {
 
 function addPlaceholder(media, event, genericSchedule = false) {
   media.classList.add("event-card-media--placeholder");
-  media.classList.remove("has-relevant-image");
+  media.classList.remove("has-relevant-image", "has-representative-image");
   media.style.removeProperty("--event-image");
+  delete media.dataset.representativeImage;
   addTextElement(media, "span", "event-card-symbol", CATEGORY_SYMBOLS[categoryId(event)] || "✦");
   addTextElement(
     media,
@@ -294,28 +325,48 @@ function addPlaceholder(media, event, genericSchedule = false) {
   if (genericSchedule) media.dataset.genericScheduleFallback = "true";
 }
 
+function installMediaImage(media, event, imageUrl, representative = false) {
+  media.classList.remove("event-card-media--placeholder", "has-relevant-image", "has-representative-image");
+  media.classList.add(representative ? "has-representative-image" : "has-relevant-image");
+  media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
+  if (representative) media.dataset.representativeImage = "same-venue";
+  const image = document.createElement("img");
+  image.className = "event-card-photo";
+  image.dataset.eventImage = representative ? "representative" : "relevant";
+  image.src = imageUrl;
+  const venue = String(event?.location?.venue || "el recinto").trim();
+  image.alt = representative
+    ? `Imagen representativa de ${venue}`
+    : String(event?.image?.alt || event?.title || "Imagen de la actividad");
+  image.loading = "lazy";
+  image.decoding = "async";
+  image.addEventListener("error", () => {
+    media.replaceChildren();
+    media.style.removeProperty("--event-image");
+    if (!representative) {
+      const fallback = representativeImageUrl(event);
+      if (fallback && fallback !== imageUrl) {
+        installMediaImage(media, event, fallback, true);
+        return;
+      }
+    }
+    addPlaceholder(media, event, looksLikeGenericSchedule(event));
+  }, { once: true });
+  media.append(image);
+  if (representative) {
+    const note = addTextElement(media, "span", "event-card-image-note", "Imagen del recinto");
+    note.setAttribute("aria-hidden", "true");
+  }
+}
+
 function buildMedia(event) {
   const media = document.createElement("div");
   media.className = "event-card-media";
   const imageUrl = relevantImageUrl(event);
-  if (imageUrl) {
-    media.classList.add("has-relevant-image");
-    media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
-    const image = document.createElement("img");
-    image.className = "event-card-photo";
-    image.dataset.eventImage = "relevant";
-    image.src = imageUrl;
-    image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
-    image.loading = "lazy";
-    image.decoding = "async";
-    image.addEventListener("error", () => {
-      media.replaceChildren();
-      addPlaceholder(media, event);
-    }, { once: true });
-    media.append(image);
-  } else {
-    addPlaceholder(media, event, looksLikeGenericSchedule(event));
-  }
+  const representative = imageUrl ? null : representativeImageUrl(event);
+  if (imageUrl) installMediaImage(media, event, imageUrl, false);
+  else if (representative) installMediaImage(media, event, representative, true);
+  else addPlaceholder(media, event, looksLikeGenericSchedule(event));
   return media;
 }
 
@@ -473,6 +524,7 @@ async function indexCurrentCity() {
       if (!Array.isArray(dataset?.events)) return;
       indexedCity = currentCity;
       eventIndex = new Map(dataset.events.map((event) => [String(event.id), event]));
+      venueImagePools = buildVenueImagePools(dataset.events);
       featuredIds = chooseFeatured(dataset.events, config);
     } catch (error) {
       console.warn("Agenda Cultural: no se pudo enriquecer la presentación de tarjetas", error);
@@ -490,6 +542,7 @@ async function runEnhancement() {
   if (indexedCity !== currentCity) {
     indexedCity = null;
     eventIndex = new Map();
+    venueImagePools = new Map();
     featuredIds = new Set();
   }
   await indexCurrentCity();
