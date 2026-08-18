@@ -39,6 +39,7 @@ on:
       - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/event-pages.yml"
       - ".github/workflows/multi-city-pre-release.yml"
+      - ".github/workflows/pwa-startup-regression.yml"
   pull_request:
     branches:
       - main
@@ -76,6 +77,7 @@ on:
       - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/event-pages.yml"
       - ".github/workflows/multi-city-pre-release.yml"
+      - ".github/workflows/pwa-startup-regression.yml"
   workflow_dispatch:
 
 permissions:
@@ -174,18 +176,30 @@ jobs:
           grep -F './favorites-web.js?v=20260817' assets/web-event-enhancements.js
           grep -F 'favorites-event-page.js?v=20260817' assets/event-page.js
           ! grep -F 'window.location.replace(target.href)' index.html
-          grep -F '"id": "./app/"' manifest.webmanifest
-          grep -F '"start_url": "./app/"' manifest.webmanifest
-          grep -F '"scope": "./app/"' manifest.webmanifest
-          grep -F '"name": "¡Vivamos!"' manifest.webmanifest
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          root_manifest = json.loads(Path("manifest.webmanifest").read_text(encoding="utf-8"))
+          assert root_manifest.get("id") == "./app/"
+          start_url = str(root_manifest.get("start_url") or "")
+          assert start_url.startswith("./app/?pwa=") and start_url[len("./app/?pwa="):].isdigit()
+          assert root_manifest.get("scope") == "./app/"
+          assert root_manifest.get("name") == "¡Vivamos!"
+
+          pwa = Path("app/pwa.js").read_text(encoding="utf-8")
+          sw = Path("app/service-worker.js").read_text(encoding="utf-8")
+          assert re.search(r'const APP_VERSION = "PWA v\d+"', pwa)
+          active_imports = {line.strip() for line in pwa.splitlines() if line.strip().startswith("import ")}
+          assert 'import "./plan-ahead.js";' not in active_imports
+          assert 'import "./favorites.js";' in active_imports
+          assert 'import "./stage31-accessibility-seo.js";' in active_imports
+          assert re.search(r'const CACHE_VERSION = "v\d+"', sw)
+          PY
           grep -F '<link rel="stylesheet" href="./compact-top.css">' app/index.html
           grep -F '<link rel="stylesheet" href="./header-redesign.css">' app/index.html
           ! grep -F 'document.createElement("style")' app/compact-top.js
-          grep -F 'const APP_VERSION = "PWA v33"' app/pwa.js
-          grep -F 'import "./plan-ahead.js";' app/pwa.js
-          grep -F 'import "./favorites.js";' app/pwa.js
-          grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'const CACHE_VERSION = "v40"' app/service-worker.js
           grep -F '"./plan-ahead.js"' app/service-worker.js
           grep -F '"./favorites.js"' app/service-worker.js
           grep -F '"./mis-planes.html"' app/service-worker.js
@@ -233,7 +247,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/multi-city-pre-release\.yml$|\.github/workflows/pwa-startup-regression\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
