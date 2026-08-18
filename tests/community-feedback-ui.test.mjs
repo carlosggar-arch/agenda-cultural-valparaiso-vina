@@ -35,6 +35,9 @@ assert.match(webActions, /overflow-x: auto !important/);
 assert.doesNotMatch(webActions, /MutationObserver/);
 assert.doesNotMatch(webActions, /grid-template-columns: repeat\(auto-fit/);
 
+assert.match(actionLayout, /background: transparent !important/);
+assert.match(actionLayout, /border: 0 !important/);
+assert.match(actionLayout, /padding: 0 !important/);
 assert.match(actionLayout, /@media \(min-width: 701px\)/);
 assert.match(actionLayout, /flex-basis: 0 !important/);
 assert.match(actionLayout, /\.favorites-access--app[\s\S]*flex: 1\.15 1 0 !important/);
@@ -56,6 +59,6 @@ assert.match(worker, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 104/);
+assert.match(release, /const RELEASE = 105/);
 
-console.log("Community feedback UI contract: full-width proportional action strip in WEB + wide PWA");
+console.log("Community feedback UI contract: proportional action strip without outer white shell in WEB + PWA");

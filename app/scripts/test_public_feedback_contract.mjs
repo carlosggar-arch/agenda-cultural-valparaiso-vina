@@ -36,6 +36,9 @@ assert.match(webActions, /overflow-x: auto !important/);
 assert.doesNotMatch(webActions, /MutationObserver/);
 assert.doesNotMatch(webActions, /grid-template-columns: repeat\(auto-fit/);
 
+assert.match(actionLayout, /background: transparent !important/);
+assert.match(actionLayout, /border: 0 !important/);
+assert.match(actionLayout, /padding: 0 !important/);
 assert.match(actionLayout, /flex-basis: 0 !important/);
 assert.match(actionLayout, /flex: 1\.75 1 0 !important/);
 assert.match(actionLayout, /flex: 1\.25 1 0 !important/);
@@ -53,6 +56,6 @@ assert.match(worker, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 104/);
+assert.match(release, /const RELEASE = 105/);
 
-console.log("Public feedback fills the WEB + wide PWA action strip proportionally: OK");
+console.log("Public feedback fills the action strip proportionally without an outer white shell: OK");
