@@ -31,6 +31,8 @@ const SHELL_ASSETS = [
   "./exhibition-compact.js",
   "./exhibition-compact.css",
   "./presentation-normalizer.js",
+  "./public-presentation-guard.js",
+  "./public-presentation-rules.mjs",
   "./cities.json",
   "./city-first-run.js",
   "./combined-filters.js",
