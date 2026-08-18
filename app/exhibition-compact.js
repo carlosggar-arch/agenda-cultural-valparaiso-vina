@@ -9,6 +9,7 @@ const CITIES = CITY_REGISTRY.byId;
 const MAX_IMAGES = 6;
 const EQUALIZE_BREAKPOINT = 561;
 const ROW_TOP_TOLERANCE = 4;
+const GENERIC_EXHIBITION_FALLBACK = new URL("../assets/categoria-exposiciones.jpg", import.meta.url).href;
 
 const OFFICIAL_VENUE_FALLBACKS = Object.freeze({
   valparaiso: Object.freeze({
@@ -125,6 +126,10 @@ function fallbackImagesForCard(card) {
 
   const cityFallbacks = OFFICIAL_VENUE_FALLBACKS[currentCityId()] || {};
   for (const url of cityFallbacks[key] || []) addUnique(images, url);
+
+  // Final local fallback shared by every city. A venue with no usable image must
+  // still have a meaningful visual header instead of the old empty placeholder.
+  addUnique(images, GENERIC_EXHIBITION_FALLBACK);
   return images.slice(0, MAX_IMAGES);
 }
 
@@ -271,9 +276,6 @@ function equalizeGrid(grid) {
 
   if (window.innerWidth < EQUALIZE_BREAKPOINT || cards.length < 2) return;
 
-  /* Equalize only cards that actually share a visual row. The previous global
-     maximum made every card in a large city as tall as the single tallest card
-     anywhere in the grid, producing huge blank panels in Gijón. */
   void grid.offsetHeight;
   for (const row of visualRows(cards)) {
     if (row.cards.length < 2) continue;
