@@ -1,11 +1,11 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 
 const STYLE_ID = "exhibition-compact-styles";
-const STYLE_HREF = "./exhibition-compact.css?v=20260818-compact2";
+const STYLE_HREF = "./exhibition-compact.css?v=20260818-compact4";
 const grid = document.querySelector("[data-dated-grid]");
 const CITY_REGISTRY = await loadCityRegistry();
 const CITIES = CITY_REGISTRY.byId;
-const MAX_IMAGES = 4;
+const MAX_IMAGES = 6;
 
 const OFFICIAL_VENUE_FALLBACKS = Object.freeze({
   valparaiso: Object.freeze({
@@ -124,6 +124,20 @@ function fallbackImagesForCard(card) {
   return images.slice(0, MAX_IMAGES);
 }
 
+function failedSources(media) {
+  return new Set(String(media.dataset.failedImageSources || "")
+    .split("|")
+    .map((value) => value.trim())
+    .filter(Boolean));
+}
+
+function rememberFailed(media, url) {
+  if (!url) return;
+  const failed = failedSources(media);
+  failed.add(url);
+  media.dataset.failedImageSources = [...failed].join("|");
+}
+
 function installCollageImage(collage, url, index) {
   const tile = document.createElement("div");
   tile.className = "exhibition-collage-tile is-fallback-image";
@@ -135,8 +149,6 @@ function installCollageImage(collage, url, index) {
   if (index > 0) img.setAttribute("aria-hidden", "true");
   img.addEventListener("error", () => {
     tile.remove();
-    collage.dataset.uniformImagePatched = "";
-    queueCompact();
   }, { once: true });
   tile.append(img);
   collage.append(tile);
@@ -146,57 +158,78 @@ function ensureCollage(card, sources) {
   const collage = card.querySelector("[data-exhibition-collage]");
   if (!collage || !sources.length) return;
 
-  const current = [...collage.querySelectorAll(".exhibition-collage-tile img")]
+  const currentTiles = [...collage.querySelectorAll(".exhibition-collage-tile")]
+    .filter((tile) => !tile.classList.contains("image-error"));
+  const current = currentTiles
+    .map((tile) => tile.querySelector("img"))
+    .filter(Boolean)
     .map((img) => String(img.currentSrc || img.src || "").trim())
     .filter(Boolean);
   const hasUsableCurrent = current.length > 0 && !collage.querySelector(".exhibition-collage-placeholder");
-  if (hasUsableCurrent && current.some((src) => sources.includes(src))) return;
+  if (hasUsableCurrent) return;
 
   collage.replaceChildren();
   collage.dataset.count = String(sources.length);
   collage.dataset.uniformImagePatched = "true";
-  sources.forEach((url, index) => installCollageImage(collage, url, index));
+  sources.slice(0, 4).forEach((url, index) => installCollageImage(collage, url, index));
 }
 
-function installRowFallback(media, url) {
-  if (!url) return;
+function installRowFallback(media, sources, startIndex = 0) {
+  const failed = failedSources(media);
+  const candidates = sources.filter((url) => url && !failed.has(url));
+  if (!candidates.length) {
+    media.replaceChildren();
+    media.classList.add("image-error", "image-fallback-artwork");
+    return;
+  }
+
+  const url = candidates[startIndex % candidates.length];
   const img = document.createElement("img");
   img.src = url;
   img.alt = "";
   img.loading = "lazy";
   img.decoding = "async";
   img.setAttribute("aria-hidden", "true");
+  img.addEventListener("load", () => {
+    media.classList.remove("image-error", "image-fallback-artwork");
+    media.classList.add("is-representative-image");
+    media.dataset.representativeFallback = "true";
+    media.title = "Imagen representativa del mismo recinto";
+  }, { once: true });
   img.addEventListener("error", () => {
+    rememberFailed(media, url);
     img.remove();
     media.classList.add("image-error");
-    media.classList.remove("is-representative-image");
-    delete media.dataset.representativeFallback;
+    installRowFallback(media, sources, startIndex + 1);
   }, { once: true });
+
   media.replaceChildren(img);
-  media.classList.remove("image-error");
-  media.classList.add("is-representative-image");
-  media.dataset.representativeFallback = "true";
-  media.title = "Imagen representativa del mismo recinto";
+  media.classList.remove("image-error", "image-fallback-artwork");
 }
 
 function ensureRows(card, sources) {
-  if (!sources.length) return;
   const rows = [...card.querySelectorAll("[data-grouped-event-id]")];
   rows.forEach((row, index) => {
     const media = row.querySelector(".grouped-exhibition-media");
     if (!media) return;
+
     const currentImg = media.querySelector("img");
     if (currentImg && !media.classList.contains("image-error")) return;
 
-    const event = eventsById.get(String(row.dataset.groupedEventId || ""));
-    const own = event ? imageUrl(event) : null;
-    installRowFallback(media, own || sources[index % sources.length]);
+    if (currentImg) {
+      const failedUrl = String(currentImg.currentSrc || currentImg.src || "").trim();
+      rememberFailed(media, failedUrl);
+    }
+
+    const rotated = sources.length
+      ? [...sources.slice(index % sources.length), ...sources.slice(0, index % sources.length)]
+      : [];
+    installRowFallback(media, rotated, 0);
   });
 }
 
 function patchCard(card) {
   const sources = fallbackImagesForCard(card);
-  if (!sources.length) return;
   ensureCollage(card, sources);
   ensureRows(card, sources);
 }
