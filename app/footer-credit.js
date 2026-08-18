@@ -73,7 +73,7 @@ function buildContactDialog() {
 
   const privacy = document.createElement("p");
   privacy.className = "vivamos-contact-privacy";
-  privacy.textContent = "Tu correo se utilizará únicamente para poder responder a este mensaje.";
+  privacy.textContent = "El envío se procesa mediante FormSubmit. Tu correo se utiliza para poder responder a tu mensaje.";
 
   const status = document.createElement("p");
   status.className = "vivamos-contact-status";
