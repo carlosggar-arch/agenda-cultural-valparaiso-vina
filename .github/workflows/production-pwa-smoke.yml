@@ -4,12 +4,26 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "app/**"
+      - "app/*.js"
+      - "app/*.css"
+      - "app/*.html"
+      - "app/*.webmanifest"
+      - "app/cities.json"
+      - "manifest.webmanifest"
+      - "app/scripts/test_public_presentation.mjs"
+      - "app/scripts/production_pwa_smoke.py"
+      - "app/scripts/test_production_pwa_smoke_contract.py"
       - ".github/workflows/production-pwa-smoke.yml"
   push:
     branches: [main]
     paths:
-      - "app/**"
+      - "app/*.js"
+      - "app/*.css"
+      - "app/*.html"
+      - "app/*.webmanifest"
+      - "app/cities.json"
+      - "manifest.webmanifest"
+      - "app/scripts/production_pwa_smoke.py"
       - ".github/workflows/production-pwa-smoke.yml"
   workflow_dispatch:
 
@@ -17,13 +31,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: production-pwa-smoke
+  group: production-pwa-smoke-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  production-smoke:
+  pr-contract:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
 
     steps:
       - name: Checkout
@@ -39,156 +54,69 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Test public presentation rules
-        run: node app/scripts/test_public_presentation.mjs
+      - name: Validate local PWA shell contract
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/production_pwa_smoke.py \
+            app/scripts/test_production_pwa_smoke_contract.py
+          node --check app/pwa.js
+          node --check app/service-worker.js
+          node --check app/release-version.js
+          node --check app/header-redesign.js
+          node --check app/mobile-experience.js
+          node app/scripts/test_public_presentation.mjs
+          python app/scripts/production_pwa_smoke.py local
+          python app/scripts/test_production_pwa_smoke_contract.py
 
-      - name: Wait for published release and verify shell assets
+  production-smoke:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout published candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Require release bump for runtime pushes
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import re
-          import time
-          import urllib.request
-          import uuid
+          before="${{ github.event.before }}"
+          if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-parse HEAD^ 2>/dev/null || true)"
+          fi
+          if [[ -z "$before" ]]; then
+            echo "No comparison base available; continuing conservatively with production smoke."
+            exit 0
+          fi
 
-          BASE = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/"
-          source = Path("app/release-version.js").read_text(encoding="utf-8")
-          match = re.search(r"const RELEASE = (\d+);", source)
-          if not match:
-              raise SystemExit("release-version.js has no numeric RELEASE")
-          expected = int(match.group(1))
+          git diff --name-only "$before" "${{ github.sha }}" | tee changed-pwa-files.txt
+          runtime_changed="$(grep -E '^(app/[^/]+\.(js|css|html|webmanifest)|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
+          release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
+          if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
+            echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2
+            printf '%s\n' "$runtime_changed" >&2
+            echo "Bump the shared release before relying on a production smoke; otherwise GitHub Pages cannot be distinguished from the previous deployment." >&2
+            exit 1
+          fi
 
-          def fetch(path: str) -> str:
-              sep = "&" if "?" in path else "?"
-              url = BASE + path + sep + "smoke=" + uuid.uuid4().hex
-              request = urllib.request.Request(
-                  url,
-                  headers={"Cache-Control": "no-cache", "Pragma": "no-cache", "User-Agent": "vivamos-production-smoke/1"},
-              )
-              with urllib.request.urlopen(request, timeout=20) as response:
-                  if response.status != 200:
-                      raise RuntimeError(f"HTTP {response.status}: {url}")
-                  return response.read().decode("utf-8", errors="replace")
-
-          last = ""
-          for attempt in range(1, 41):
-              try:
-                  published_release = fetch("release-version.js")
-                  published_match = re.search(r"const RELEASE = (\d+);", published_release)
-                  published = int(published_match.group(1)) if published_match else -1
-                  last = f"published v{published}, expected v{expected}"
-                  if published == expected:
-                      break
-              except Exception as exc:
-                  last = str(exc)
-              if attempt == 40:
-                  raise SystemExit(f"GitHub Pages did not publish the expected release: {last}")
-              time.sleep(15)
-
-          index = fetch("")
-          pwa = fetch("pwa.js")
-          service_worker = fetch("service-worker.js")
-
-          required_index = (
-              '<script src="./release-version.js"></script>',
-              'header-redesign.css?v=20260817-brandicon1',
-              'mobile-experience.css?v=20260817-topcontrols4',
-              'data-header-search-toggle',
-              'data-header-search-popover',
-          )
-          for marker in required_index:
-              if marker not in index:
-                  raise SystemExit(f"Published index is missing: {marker}")
-
-          if 'header-redesign.js?v=20260817-brandicon2' not in pwa:
-              raise SystemExit("Published pwa.js is not using brandicon2")
-          if 'mobile-experience.js?v=20260817-topcontrols4' not in pwa:
-              raise SystemExit("Published pwa.js is not using topcontrols4")
-          if 'public-presentation-guard.js' not in pwa:
-              raise SystemExit("Published pwa.js is missing the public presentation guard")
-          if 'header-redesign.js?v=20260817-brandicon2' not in service_worker:
-              raise SystemExit("Published service worker does not cache brandicon2")
-          if 'mobile-experience.js?v=20260817-topcontrols4' not in service_worker:
-              raise SystemExit("Published service worker does not cache topcontrols4")
-          if 'public-presentation-guard.js' not in service_worker or 'public-presentation-rules.mjs' not in service_worker:
-              raise SystemExit("Published service worker does not cache the public presentation guard")
-
-          print(f"Published shell: PWA v{expected}, asset revisions coherent")
-          PY
-
-      - name: Cold-load production in Chrome
-        shell: bash
+      - name: Validate local shell before network smoke
         run: |
           set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import html
-          import re
-          import shutil
-          import subprocess
-          import tempfile
-          import uuid
+          python -m py_compile app/scripts/production_pwa_smoke.py
+          python app/scripts/production_pwa_smoke.py local
 
-          BASE = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/"
-          release_source = Path("app/release-version.js").read_text(encoding="utf-8")
-          expected_release = int(re.search(r"const RELEASE = (\d+);", release_source).group(1))
-          chrome = next((shutil.which(name) for name in ("google-chrome-stable", "google-chrome", "chromium", "chromium-browser") if shutil.which(name)), None)
-          if not chrome:
-              raise SystemExit("Chrome/Chromium is unavailable on the runner")
+      - name: Wait for release and verify published shell
+        run: python app/scripts/production_pwa_smoke.py http
 
-          def cold_dom(city: str, width: int, height: int) -> str:
-              with tempfile.TemporaryDirectory(prefix=f"vivamos-prod-{city}-") as profile:
-                  url = f"{BASE}?city={city}&smoke={uuid.uuid4().hex}"
-                  cmd = [
-                      chrome,
-                      "--headless=new",
-                      "--no-sandbox",
-                      "--disable-gpu",
-                      "--disable-dev-shm-usage",
-                      "--disable-extensions",
-                      "--disable-sync",
-                      "--no-first-run",
-                      "--no-default-browser-check",
-                      f"--window-size={width},{height}",
-                      "--virtual-time-budget=14000",
-                      f"--user-data-dir={profile}",
-                      "--dump-dom",
-                      url,
-                  ]
-                  result = subprocess.run(cmd, text=True, capture_output=True, timeout=55)
-                  if result.returncode != 0 or not result.stdout:
-                      raise SystemExit(f"Chrome failed for {city} {width}x{height}: {result.stderr[-1200:]}")
-                  return result.stdout
-
-          cases = (
-              ("valparaiso", "Valparaíso / Viña del Mar"),
-              ("gijon", "Gijón / Xixón"),
-          )
-          for city, label in cases:
-              for width, height in ((1280, 900), (390, 844)):
-                  dom = cold_dom(city, width, height)
-                  checks = {
-                      f'data-city="{city}"': "active city was not applied",
-                      'data-header-redesign="hero-v4-mobile-direct-actions"': "header hydration did not finish",
-                      'data-header-search-bound="true"': "static search control was not bound",
-                      f'PWA v{expected_release}': "visible runtime version is stale",
-                      label: "city title/label is stale",
-                      'mobile-experience.css?v=20260817-topcontrols4': "mobile stylesheet revision is stale",
-                      'header-redesign.css?v=20260817-brandicon1': "header stylesheet revision is stale",
-                  }
-                  for marker, message in checks.items():
-                      if marker not in dom:
-                          raise SystemExit(f"{message}: {city} {width}x{height}")
-                  if dom.count('class="event-card') <= 0:
-                      raise SystemExit(f"No event cards rendered: {city} {width}x{height}")
-                  status = re.search(r'data-status[^>]*>(.*?)</', dom, flags=re.S)
-                  if status and "Preparando la agenda" in html.unescape(re.sub(r"<[^>]+>", "", status.group(1))):
-                      raise SystemExit(f"Production stayed in loading state: {city} {width}x{height}")
-                  if dom.count('mobile-experience.css?v=20260817-topcontrols4') != 1:
-                      raise SystemExit(f"Mobile CSS duplicated/reloaded in DOM: {city} {width}x{height}")
-                  if dom.count('header-redesign.css?v=20260817-brandicon1') != 1:
-                      raise SystemExit(f"Header CSS duplicated/reloaded in DOM: {city} {width}x{height}")
-                  print(f"Production cold load {city} {width}x{height}: OK")
-          PY
+      - name: Cold-load representative production views
+        run: python app/scripts/production_pwa_smoke.py browser
