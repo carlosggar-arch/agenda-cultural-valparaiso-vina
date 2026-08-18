@@ -21,6 +21,8 @@ on:
       - "app/scripts/fetch_high_value_sources.py"
       - "app/scripts/validate_high_value_refresh.py"
       - "app/scripts/test_high_value_sources.py"
+      - "app/scripts/refresh_museo_maritimo.py"
+      - "app/scripts/test_museo_maritimo.py"
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
@@ -54,6 +56,8 @@ on:
       - "app/scripts/fetch_high_value_sources.py"
       - "app/scripts/validate_high_value_refresh.py"
       - "app/scripts/test_high_value_sources.py"
+      - "app/scripts/refresh_museo_maritimo.py"
+      - "app/scripts/test_museo_maritimo.py"
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
@@ -101,6 +105,8 @@ jobs:
             app/scripts/fetch_high_value_sources.py \
             app/scripts/validate_high_value_refresh.py \
             app/scripts/test_high_value_sources.py \
+            app/scripts/refresh_museo_maritimo.py \
+            app/scripts/test_museo_maritimo.py \
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
             app/scripts/test_portaltickets_editorial.py \
@@ -116,10 +122,12 @@ jobs:
           node --check app/pwa.js
           node --check app/service-worker.js
           python app/scripts/test_high_value_sources.py
+          python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/fetch_high_value_sources.py --no-write
+          python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
           python app/scripts/refresh_quality_diagnostics.py --no-write
@@ -131,11 +139,13 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/fetch_high_value_sources.py
+          python app/scripts/refresh_museo_maritimo.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/validate_high_value_refresh.py
           python app/scripts/test_high_value_sources.py
+          python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_source_coverage_overrides.py
@@ -163,6 +173,7 @@ jobs:
             agenda_web.json \
             app/data/gijon/agenda_web.json \
             app/data/quality/high-value-sources.json \
+            app/data/quality/museo-maritimo.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
             app/data/quality/source-coverage.json \
