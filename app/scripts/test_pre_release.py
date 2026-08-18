@@ -99,6 +99,33 @@ def check_ui_contract() -> None:
     assert 'else if (official)' in event_detail_js
 
 
+def check_exhibition_layout_guard() -> None:
+    compact_js = (APP / "exhibition-compact.js").read_text(encoding="utf-8")
+    compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8")
+    hours_js = (APP / "exhibition-hours.js").read_text(encoding="utf-8")
+
+    # Equal heights must be calculated per visual row. A single tallest card in
+    # the whole Gijon dataset must never stretch every card on the page again.
+    assert "function visualRows(cards)" in compact_js
+    assert "for (const row of visualRows(cards))" in compact_js
+    assert "ROW_TOP_TOLERANCE" in compact_js
+
+    # Temporary venue-group anchors are hidden until exhibition-gallery.js has
+    # assembled their full content, preventing blank/half-rendered cards.
+    assert ".exhibition-group-card[data-event-group]:not(.exhibition-venue-card)" in compact_css
+    assert "display: none !important" in compact_css
+
+    # The hours layer may update only a completed group card and must target the
+    # gallery's dedicated hours node rather than appending content to the anchor.
+    group_start = hours_js.index("function patchGroupCard")
+    group_end = hours_js.index("function patchCards", group_start)
+    group_block = hours_js[group_start:group_end]
+    assert 'card.classList.contains("exhibition-venue-card")' in group_block
+    assert "setGroupedOpeningHours(card, hours)" in group_block
+    assert "upsertOpeningParagraph" not in group_block
+    assert 'card.querySelector("[data-exhibition-opening-hours]")' in hours_js
+
+
 def validate_dataset(path: Path) -> dict:
     data = load_json(path)
     events = data.get("events")
@@ -192,6 +219,7 @@ def main() -> None:
     check_manifest_and_icons()
     check_service_worker()
     check_ui_contract()
+    check_exhibition_layout_guard()
     check_gijon_dataset()
     check_valparaiso_dataset_compatibility()
     check_gijon_source_path()
