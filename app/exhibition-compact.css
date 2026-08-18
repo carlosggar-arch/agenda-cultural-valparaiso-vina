@@ -1,5 +1,5 @@
 /* Visual contract shared by every city.
-   - Desktop/tablet cards are equalized dynamically to the smallest safe common height.
+   - Desktop/tablet cards are equalized dynamically within each visual row.
    - Mobile cards remain content-driven because a single column does not benefit from equal heights.
    - All top-level card images use the same compact height.
    - All category labels and top-level titles use the same typography and spacing.
@@ -22,6 +22,13 @@
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
+}
+
+/* exhibition-venue-grouping.js creates a temporary anchor before the gallery
+   module has built its collage/body. Keep that transient node out of layout so
+   users never see blank or half-rendered exhibition cards. */
+.event-grid > .exhibition-group-card[data-event-group]:not(.exhibition-venue-card) {
+  display: none !important;
 }
 
 .event-grid > .event-card .event-card-body {
