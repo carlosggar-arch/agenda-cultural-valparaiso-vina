@@ -4,8 +4,8 @@
   "publication_date": "2026-08-18",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 107,
-    "events": 103,
+    "total": 106,
+    "events": 102,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -1501,79 +1501,6 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/JAKUB-JOSEF.jpg",
         "alt": "Beyond"
-      }
-    },
-    {
-      "id": "agenda_968c623b60b70d2976410175",
-      "title": "¿Sabías que la película también juega con el concepto de “cine dentro del cine”?",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-18T20:00:00-04:00",
-        "end": "2026-08-19",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-18 · 20:00, 18:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": null,
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcEiB9kkWLt/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcEiB9kkWLt/"
-      },
-      "organizer": null,
-      "source_name": "instagram.com",
-      "source_url": "https://www.instagram.com/p/DcEiB9kkWLt/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "🎬🩸 ¡Nos vamos de campamento… pero no precisamente de vacaciones! ⛺😱 Te contamos curiosidades y detalles de Campamento Miasma, la nueva película de terror que llega para mezclar adolescencia, sexo, misterio, sangre y mucho delirio. 🔪🎥👀 La cinta, dirigida por Ja...",
-      "tags": [
-        "cine",
-        "película"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-nrt6-1.cdninstagram.com/v/t51.82787-15/774267636_17965176123136744_5853614887623188334_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzk2NDQ0MjIzMzI2NDE2NjgyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2FKo3QTCF7oQ7kNvwFPKD_r&_nc_oc=Adpdh7TT5Q7XXlPN7b5KoCE9q8B1YN2rcVJbAQKx1zKKz3mm05OizgQ6h8gc8fU9uXaeP3vJOXzcjgPRtyX9zYwQ&_nc_zt=23&_nc_ht=scontent-nrt6-1.cdninstagram.com&_nc_gid=YBzKfLhn4DyLFba0ytoxOA&_nc_ss=7c689&oh=00_AQGtffmWUIWerok1nWUb-Uke7hAixToEggDbs6jkcWH0Cw&oe=6A889081",
-        "alt": "¿Sabías que la película también juega con el concepto de “cine dentro del cine”?"
       }
     },
     {
@@ -8239,6 +8166,17 @@
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
+    },
+    "cinema_event_hygiene": {
+      "mode": "social_promotional_non_screening",
+      "removed_events": 1,
+      "removed": [
+        {
+          "id": "agenda_968c623b60b70d2976410175",
+          "title": "¿Sabías que la película también juega con el concepto de “cine dentro del cine”?",
+          "source_url": "https://www.instagram.com/p/DcEiB9kkWLt/"
+        }
+      ]
     }
   },
   "media_cache": {
