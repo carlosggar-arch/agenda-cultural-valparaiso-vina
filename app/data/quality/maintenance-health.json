@@ -1,26 +1,27 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T14:28:48+00:00",
+  "generated_at": "2026-08-18T15:15:10+00:00",
   "mode": "daily",
   "status": "attention",
   "critical": [],
   "warnings": [
-    "balmaceda:official_site_fetch_error"
+    "high_value_fetch_error:laboral_cinemateca"
   ],
   "observations": [
     "actionable_zero_sources:7",
+    "balmaceda:official_site_checked_no_recent_activity_detected",
     "covered_elsewhere:7",
     "verified_inactive:2"
   ],
   "summary": {
-    "total_events": 165,
-    "quality_score": 93.6,
+    "total_events": 166,
+    "quality_score": 92.4,
     "actionable_zero_sources": 7,
     "covered_elsewhere": 7,
     "verified_inactive_zero_sources": 2,
     "duplicate_groups": 0,
     "unattributed_events": 0,
-    "balmaceda_state": "official_site_fetch_error"
+    "balmaceda_state": "official_site_checked_no_recent_activity_detected"
   },
   "actionable_zero_source_ids": [
     "balmaceda_arte_joven_valpo",
