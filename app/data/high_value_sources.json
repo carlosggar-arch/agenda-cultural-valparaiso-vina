@@ -2,21 +2,6 @@
   "schema_version": "1.0.0",
   "sources": [
     {
-      "id": "portaltickets_valparaiso",
-      "name": "PortalTickets — Región de Valparaíso",
-      "dataset": "valparaiso",
-      "city": "Valparaíso",
-      "timezone": "America/Santiago",
-      "currency": "CLP",
-      "url": "https://www.portaldisc.com/tickets/R05",
-      "mode": "direct",
-      "extractor": "portal_region",
-      "required": false,
-      "category_id": "cultura",
-      "category_label": "Cultura",
-      "scope_note": "Publicar únicamente eventos cuyo contexto explicite Valparaíso o Viña del Mar; excluir el resto de la Región de Valparaíso."
-    },
-    {
       "id": "museo_maritimo_nacional",
       "name": "Museo Marítimo Nacional",
       "dataset": "valparaiso",
@@ -68,13 +53,13 @@
       "city": "Gijón",
       "timezone": "Europe/Madrid",
       "currency": "EUR",
-      "url": "https://ficx.tv/",
+      "url": "https://ficx.tv/festival-de-cine-de-gijon/programa/",
       "mode": "monitor",
       "extractor": "generic_dated",
       "required": false,
       "category_id": "cine",
       "category_label": "Cine",
-      "scope_note": "La portada puede mezclar noticias, convocatorias y programación histórica; sólo se publican entradas con fecha futura explícita."
+      "scope_note": "Usar la página oficial de programa, más acotada que la portada; no publicar noticias ni programación histórica como eventos futuros."
     },
     {
       "id": "laboral_cinemateca",
@@ -89,7 +74,7 @@
       "required": false,
       "category_id": "cine",
       "category_label": "Cine",
-      "scope_note": "Filtrar estrictamente las sesiones cuya localidad sea Gijón; excluir la Cinemateca Ambulante en otros concejos."
+      "scope_note": "Usar la cartelera oficial alojada en Laboral Ciudad de la Cultura y filtrar estrictamente las sesiones cuya localidad sea Gijón."
     }
   ]
 }
