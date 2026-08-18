@@ -25,6 +25,17 @@ def detail_markup(title: str, start: str, end: str | None = None, *, free: bool 
     <h1>{title}</h1><p>Inicio: ({start})</p>{final}{free_text}</body></html>'''
 
 
+def test_visible_clp_price_overrides_ambiguous_jsonld() -> None:
+    price = recovery.parse_price(
+        '<p>Coste: $8.000</p>',
+        {"offers": {"price": "8", "priceCurrency": "CLP"}},
+    )
+    assert price["is_free"] is False
+    assert price["min_amount"] == 8000
+    assert price["max_amount"] == 8000
+    assert price["display_text"] == "$8.000"
+
+
 def test_discovery_and_conservative_publication() -> None:
     year = future_year()
     listing = listing_markup(year)
@@ -55,6 +66,7 @@ def test_discovery_and_conservative_publication() -> None:
     assert by_id["valparaiso_profundo"]["publishable"] is True
     assert by_id["estrella_negra_jazz"]["publishable"] is True
     assert by_id["casa_cultura_valparaiso"]["publishable"] is True
+    assert by_id["casa_cultura_valparaiso"]["price"]["min_amount"] == 8000
     assert by_id["teatro_municipal_valparaiso"]["active"] is True
     assert by_id["teatro_municipal_valparaiso"]["publishable"] is False
 
@@ -96,6 +108,7 @@ def test_fetch_failure_preserves_previous_recovery() -> None:
 
 
 def main() -> None:
+    test_visible_clp_price_overrides_ambiguous_jsonld()
     test_discovery_and_conservative_publication()
     test_program_without_explicit_end_is_coverage_only()
     test_fetch_failure_preserves_previous_recovery()

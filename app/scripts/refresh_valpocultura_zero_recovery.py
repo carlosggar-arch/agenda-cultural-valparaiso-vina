@@ -258,6 +258,21 @@ def parse_price(markup: str, jsonld: dict | None) -> dict:
     text = " ".join(parse_document(markup).lines())
     if re.search(r"\bGratuito\b", text, re.I):
         return {"is_free": True, "currency": "CLP", "min_amount": 0, "max_amount": 0, "display_text": "Gratis"}
+
+    # Prefer an explicit visible CLP amount over schema.org offers. Some municipal
+    # pages expose "8" in JSON-LD while the human-readable page correctly says
+    # "$8.000"; accepting the structured value first would understate the price.
+    visible_money = re.search(r"\$\s*([0-9]{1,3}(?:\.[0-9]{3})+|[0-9]{4,})\b", text)
+    if visible_money:
+        amount_value = int(visible_money.group(1).replace(".", ""))
+        return {
+            "is_free": False,
+            "currency": "CLP",
+            "min_amount": amount_value,
+            "max_amount": amount_value,
+            "display_text": f"${amount_value:,}".replace(",", "."),
+        }
+
     offer = (jsonld or {}).get("offers") or {}
     if isinstance(offer, list):
         offer = offer[0] if offer else {}
@@ -274,13 +289,6 @@ def parse_price(markup: str, jsonld: dict | None) -> dict:
             "min_amount": amount_value,
             "max_amount": amount_value,
             "display_text": "Gratis" if amount == 0 else f"${amount_value:,.0f}".replace(",", "."),
-        }
-    money = re.search(r"\$\s*([0-9][0-9.]*)", text)
-    if money:
-        amount_value = int(money.group(1).replace(".", ""))
-        return {
-            "is_free": False, "currency": "CLP", "min_amount": amount_value,
-            "max_amount": amount_value, "display_text": f"${amount_value:,}".replace(",", "."),
         }
     return {"is_free": None, "currency": "CLP", "min_amount": None, "max_amount": None, "display_text": "Consultar condiciones"}
 
