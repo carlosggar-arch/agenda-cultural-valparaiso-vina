@@ -1,15 +1,12 @@
-.event-grid .exhibition-venue-card {
-  align-self: start !important;
-  height: auto !important;
-  min-height: 0 !important;
-}
+/* Compact, equal-height exhibition cards shared by every city. */
 
 .exhibition-venue-card {
   border-radius: 20px !important;
 }
 
 .exhibition-collage {
-  height: 112px !important;
+  height: 104px !important;
+  min-height: 104px !important;
   padding: 7px 7px 0 !important;
   gap: 3px !important;
 }
@@ -20,65 +17,66 @@
 }
 
 .exhibition-collage-placeholder {
-  min-height: 102px !important;
+  min-height: 94px !important;
 }
 
 .exhibition-venue-body {
-  padding: 13px 14px 14px !important;
+  padding: 12px 13px 13px !important;
+  min-height: 0;
 }
 
 .exhibition-venue-meta {
-  margin-bottom: 5px !important;
-  font-size: 0.7rem !important;
+  margin-bottom: 4px !important;
+  font-size: 0.69rem !important;
 }
 
 .exhibition-venue-heading {
-  gap: 9px !important;
+  gap: 8px !important;
 }
 
 .exhibition-venue-icon {
-  width: 36px !important;
-  height: 36px !important;
-  font-size: 1rem !important;
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 0.96rem !important;
 }
 
 .exhibition-venue-heading h4 {
-  font-size: clamp(1.3rem, 1.7vw, 1.6rem) !important;
+  font-size: clamp(1.22rem, 1.55vw, 1.48rem) !important;
   line-height: 1.06 !important;
 }
 
 .exhibition-venue-count {
-  margin-top: 3px !important;
-  font-size: 0.9rem !important;
+  margin-top: 2px !important;
+  font-size: 0.86rem !important;
 }
 
 .exhibition-venue-facts {
   gap: 3px !important;
-  margin: 8px 0 10px !important;
+  margin: 7px 0 9px !important;
 }
 
 .exhibition-venue-facts p {
-  font-size: 0.86rem !important;
-  line-height: 1.25 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.22 !important;
 }
 
 .exhibition-group-details {
-  border-radius: 12px !important;
+  border-radius: 11px !important;
+  min-height: 0;
 }
 
 .exhibition-group-details summary {
   position: sticky !important;
   top: 0;
   z-index: 3;
-  min-height: 39px !important;
-  padding: 8px 38px 8px 12px !important;
+  min-height: 37px !important;
+  padding: 7px 36px 7px 11px !important;
   background: rgba(255, 253, 249, 0.98) !important;
   backdrop-filter: blur(4px);
-  font-size: 0.91rem !important;
+  font-size: 0.88rem !important;
 }
 
 .exhibition-group-list {
-  max-height: 296px !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   overscroll-behavior: contain;
@@ -105,15 +103,15 @@
 }
 
 .grouped-exhibition-item {
-  grid-template-columns: 58px minmax(0, 1fr) auto !important;
-  gap: 9px !important;
-  padding: 8px 10px !important;
+  grid-template-columns: 56px minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  padding: 7px 9px !important;
 }
 
 .grouped-exhibition-media {
   position: relative;
-  width: 58px !important;
-  height: 54px !important;
+  width: 56px !important;
+  height: 51px !important;
   border-radius: 8px !important;
 }
 
@@ -128,41 +126,134 @@
 
 .grouped-exhibition-copy strong {
   margin-bottom: 2px !important;
-  font-size: 0.88rem !important;
-  line-height: 1.17 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.16 !important;
 }
 
 .grouped-exhibition-copy small {
-  font-size: 0.78rem !important;
-  line-height: 1.2 !important;
+  font-size: 0.76rem !important;
+  line-height: 1.18 !important;
 }
 
 .grouped-exhibition-price {
   margin-top: 2px !important;
-  font-size: 0.72rem !important;
+  font-size: 0.7rem !important;
 }
 
 .grouped-exhibition-actions a {
-  min-height: 30px !important;
-  font-size: 0.78rem !important;
+  min-height: 28px !important;
+  font-size: 0.76rem !important;
 }
 
-@media (max-width: 900px) {
-  .exhibition-collage {
-    height: 104px !important;
+/* On desktop and tablet every dated card occupies the same compact cell.
+   Long exhibition lists scroll inside the card instead of increasing its height. */
+@media (min-width: 901px) {
+  [data-dated-grid] {
+    align-items: stretch !important;
+    grid-auto-rows: 560px;
   }
 
-  .exhibition-group-list {
-    max-height: 276px !important;
+  [data-dated-grid] > .event-card {
+    height: 560px !important;
+    min-height: 560px !important;
+    max-height: 560px !important;
+    align-self: stretch !important;
+  }
+
+  [data-dated-grid] > .event-card .event-card-body {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-collage {
+    flex: 0 0 104px;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-venue-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-group-details[open] {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-group-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none !important;
+  }
+}
+
+@media (min-width: 561px) and (max-width: 900px) {
+  [data-dated-grid] {
+    align-items: stretch !important;
+    grid-auto-rows: 530px;
+  }
+
+  [data-dated-grid] > .event-card {
+    height: 530px !important;
+    min-height: 530px !important;
+    max-height: 530px !important;
+    align-self: stretch !important;
+  }
+
+  [data-dated-grid] > .event-card .event-card-body {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .exhibition-collage {
+    height: 98px !important;
+    min-height: 98px !important;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-collage {
+    flex: 0 0 98px;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-venue-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-group-details[open] {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  [data-dated-grid] > .exhibition-venue-card .exhibition-group-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none !important;
   }
 
   .grouped-exhibition-item {
-    grid-template-columns: 54px minmax(0, 1fr) !important;
+    grid-template-columns: 52px minmax(0, 1fr) !important;
   }
 
   .grouped-exhibition-media {
-    width: 54px !important;
-    height: 50px !important;
+    width: 52px !important;
+    height: 48px !important;
   }
 
   .grouped-exhibition-actions {
@@ -171,32 +262,41 @@
   }
 }
 
+/* Mobile remains content-driven; forcing a fixed height here would make the cards harder to use. */
 @media (max-width: 560px) {
+  [data-dated-grid] > .event-card,
+  [data-dated-grid] > .exhibition-venue-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
   .exhibition-collage {
-    height: 94px !important;
+    height: 92px !important;
+    min-height: 92px !important;
     padding: 6px 6px 0 !important;
   }
 
   .exhibition-venue-body {
-    padding: 11px 11px 12px !important;
+    padding: 10px 10px 11px !important;
   }
 
   .exhibition-venue-heading h4 {
-    font-size: 1.25rem !important;
+    font-size: 1.18rem !important;
   }
 
   .exhibition-group-list {
-    max-height: 248px !important;
+    max-height: 238px !important;
   }
 
   .grouped-exhibition-item {
-    grid-template-columns: 50px minmax(0, 1fr) !important;
-    gap: 8px !important;
-    padding: 7px 8px !important;
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    gap: 7px !important;
+    padding: 7px !important;
   }
 
   .grouped-exhibition-media {
-    width: 50px !important;
-    height: 47px !important;
+    width: 48px !important;
+    height: 45px !important;
   }
 }
