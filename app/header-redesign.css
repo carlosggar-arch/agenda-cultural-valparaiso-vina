@@ -262,20 +262,11 @@ html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-
   .header-bottom{margin-left:56px!important}
 }
 
-/* Installed app refinements. Keep the normal header geometry intact: the mosaic
-   itself is widened and visually translated upward. */
+/* Installed app refinements. */
 html[data-installed-app-actions="below-mosaic"] .filter-workbench::before{
-  position:relative!important;
-  left:-.7rem!important;
-  width:calc(100% + 1.4rem)!important;
-  max-width:none!important;
   height:1.35rem!important;
-  margin-top:0!important;
+  margin-top:-.9rem!important;
   margin-bottom:.05rem!important;
-  transform:translateY(-1.15rem)!important;
-}
-html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions{
-  margin-top:-1.15rem!important;
 }
 html[data-installed-app-actions="below-mosaic"] .filter-grid,
 html[data-installed-app-actions="below-mosaic"] .filter-group,
