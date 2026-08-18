@@ -49,39 +49,16 @@ function ensureMosaicOverrideStyle() {
   return style;
 }
 
-function syncInstalledMosaic() {
-  let divider = document.querySelector("[data-installed-mosaic-divider]");
-
-  if (!isInstalledMobile()) {
-    delete document.documentElement.dataset.installedRealMosaic;
-    divider?.remove();
-    return;
-  }
-
-  const header = document.querySelector(".app-header");
-  if (!header) return;
-
-  ensureMosaicOverrideStyle();
-  document.documentElement.dataset.installedRealMosaic = "true";
-
-  if (!divider) {
-    divider = document.createElement("div");
-    divider.dataset.installedMosaicDivider = "true";
-    divider.setAttribute("aria-hidden", "true");
-    header.insertAdjacentElement("afterend", divider);
-  } else if (divider.previousElementSibling !== header) {
-    header.insertAdjacentElement("afterend", divider);
-  }
-
+function styleDivider(divider, margin) {
   divider.style.setProperty("display", "block", "important");
   divider.style.setProperty("position", "relative", "important");
   divider.style.setProperty("z-index", "20", "important");
   divider.style.setProperty("box-sizing", "border-box", "important");
   divider.style.setProperty("width", "calc(100% - 2rem)", "important");
-  divider.style.setProperty("height", "15px", "important");
-  divider.style.setProperty("min-height", "15px", "important");
-  divider.style.setProperty("max-height", "15px", "important");
-  divider.style.setProperty("margin", "0 auto 1px", "important");
+  divider.style.setProperty("height", "12px", "important");
+  divider.style.setProperty("min-height", "12px", "important");
+  divider.style.setProperty("max-height", "12px", "important");
+  divider.style.setProperty("margin", margin, "important");
   divider.style.setProperty("border-radius", "5px", "important");
   divider.style.setProperty("background-color", "#0b7f93", "important");
   divider.style.setProperty("background-image", 'url("../assets/mosaic-top.png")', "important");
@@ -92,6 +69,45 @@ function syncInstalledMosaic() {
   divider.style.setProperty("visibility", "visible", "important");
   divider.style.setProperty("opacity", "1", "important");
   divider.style.setProperty("pointer-events", "none", "important");
+}
+
+function syncInstalledMosaic() {
+  let topDivider = document.querySelector("[data-installed-mosaic-divider]");
+  let contentDivider = document.querySelector("[data-installed-mosaic-divider-content]");
+
+  if (!isInstalledMobile()) {
+    delete document.documentElement.dataset.installedRealMosaic;
+    topDivider?.remove();
+    contentDivider?.remove();
+    return;
+  }
+
+  const header = document.querySelector(".app-header");
+  const workbench = document.querySelector(".filter-workbench");
+  if (!header || !workbench) return;
+
+  ensureMosaicOverrideStyle();
+  document.documentElement.dataset.installedRealMosaic = "true";
+
+  if (!topDivider) {
+    topDivider = document.createElement("div");
+    topDivider.dataset.installedMosaicDivider = "true";
+    topDivider.setAttribute("aria-hidden", "true");
+    header.insertAdjacentElement("afterend", topDivider);
+  } else if (topDivider.previousElementSibling !== header) {
+    header.insertAdjacentElement("afterend", topDivider);
+  }
+  styleDivider(topDivider, "0 auto 1px");
+
+  if (!contentDivider) {
+    contentDivider = document.createElement("div");
+    contentDivider.dataset.installedMosaicDividerContent = "true";
+    contentDivider.setAttribute("aria-hidden", "true");
+    workbench.insertAdjacentElement("afterend", contentDivider);
+  } else if (contentDivider.previousElementSibling !== workbench) {
+    workbench.insertAdjacentElement("afterend", contentDivider);
+  }
+  styleDivider(contentDivider, ".22rem auto .26rem");
 }
 
 syncInstalledMosaic();
