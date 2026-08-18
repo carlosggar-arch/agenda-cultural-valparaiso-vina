@@ -174,7 +174,9 @@ assert 'data-community-source-form' in source_form
 assert '.quick-sections' in css
 assert '.category-filters' in css
 
-assert 'const APP_VERSION = "PWA v33"' in pwa
+assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
+assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
+assert 'service-worker.js?v=${APP_RELEASE}' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
@@ -220,7 +222,8 @@ assert '.my-plans-section' in favorites_css
 assert '.favorite-toggle' in favorites_css
 assert '.my-plan-reminder' in favorites_css
 
-assert 'const CACHE_VERSION = "v40";' in service_worker
+assert 'importScripts("./release-version.js")' in service_worker
+assert 'const CACHE_VERSION = `v${RELEASE}`;' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
@@ -234,7 +237,7 @@ assert 'await warmDatasetCache()' in service_worker
 assert '"./city-first-run.js"' in service_worker
 shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
 for asset in (
-    '"./cities.json"', '"../assets/city-registry.mjs"',
+    '"./release-version.js"', '"./cities.json"', '"../assets/city-registry.mjs"',
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
@@ -248,4 +251,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city v40 shared-registry, Mis planes reminders, install and offline contracts: OK")
+print("Multi-city shared-release, shared-registry, Mis planes reminders, install and offline contracts: OK")
