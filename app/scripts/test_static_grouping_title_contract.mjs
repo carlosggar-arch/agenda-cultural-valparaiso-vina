@@ -25,6 +25,7 @@ assert.equal(normalizePublicEventTitle("QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍ
 assert.equal(normalizePublicEventTitle("CICLO TALLER EL ARTE ES NATURAL", workshopEvent), "El arte es natural");
 assert.equal(normalizePublicEventTitle("ALEJANDRO SIRIO. LA CALIGRAFÍA DEL DIBUJO", gijonEvent), "Alejandro Sirio. La caligrafía del dibujo");
 assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", valpoEvent), "Inundaremos — Gira Tanquemante");
+assert.equal(normalizePublicEventTitle("Juegos en Patota: DETECTIVES DEL ARTE.", gijonEvent), "Juegos en Patota: Detectives del arte");
 
 const appJs = read("app.js");
 const grouping = read("static-exhibition-groups.js");
@@ -46,7 +47,7 @@ assert.match(compactCss, /\.event-grid\s*\{[^}]*align-items:\s*stretch\s*!import
 assert.match(compactCss, /\.event-grid\s*>\s*\.event-card\s*\{[^}]*align-self:\s*stretch\s*!important/s);
 assert.doesNotMatch(compactCss, /align-items:\s*start\s*!important/);
 assert.doesNotMatch(compactCss, /align-self:\s*start\s*!important/);
-assert.match(release, /const RELEASE = 89/);
+assert.match(release, /const RELEASE = 90/);
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
