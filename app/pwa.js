@@ -12,12 +12,12 @@ import "./combined-filters-polish.js";
 // Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
 // but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
-import "./mobile-experience.js?v=20260817-topnav8";
+import "./mobile-experience.js?v=20260817-topnav9";
 import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
-const APP_VERSION = "PWA v43";
+const APP_VERSION = "PWA v44";
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
@@ -30,8 +30,11 @@ function isRunningStandalone() {
 }
 
 function isPhoneLike() {
-  const physicalShortSide = Math.min(Number(screen.width || 9999), Number(screen.height || 9999));
-  return physicalShortSide <= 900;
+  const uaMobile = navigator.userAgentData?.mobile === true
+    || /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(String(navigator.userAgent || ""));
+  const screenWidth = Number(screen.width || 9999);
+  const viewportWidth = Number(window.innerWidth || document.documentElement.clientWidth || 9999);
+  return uaMobile || screenWidth <= 900 || viewportWidth <= 900;
 }
 
 function installHelpElement() {
@@ -107,7 +110,7 @@ function setupInstallExperience() {
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   try {
-    const registration = await navigator.serviceWorker.register("./service-worker.js?v=47", { scope: "./", updateViaCache: "none" });
+    const registration = await navigator.serviceWorker.register("./service-worker.js?v=48", { scope: "./", updateViaCache: "none" });
     registration.update().catch(() => {});
   } catch (error) {
     console.warn("¡Vivamos!: service worker unavailable", error);
