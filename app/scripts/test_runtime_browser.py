@@ -31,10 +31,10 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 def make_test_page(city: str) -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
     app_marker = '<script type="module" src="./app.js"></script>'
-    combined_marker = '<script type="module" src="./combined-filters.js"></script>'
+    combined_marker = '<script type="module" src="./combined-filters-bootstrap.js"></script>'
     pwa_marker = '<script type="module" src="./pwa.js"></script>'
     if app_marker not in source or combined_marker not in source or pwa_marker not in source:
-        raise AssertionError("app.js/combined-filters.js/pwa.js script marker not found")
+        raise AssertionError("app.js/combined-filters-bootstrap.js/pwa.js script marker not found")
     source = source.replace(combined_marker, "", 1).replace(pwa_marker, "", 1)
 
     diagnostic = r'''
@@ -111,7 +111,7 @@ def make_test_page(city: str) -> None:
 
     injection = (
         f'<script>localStorage.setItem("agenda-cultural-city", "{city}");</script>\n  ' + app_marker
-        + '\n  <script type="module" src="./combined-filters.js"></script>'
+        + '\n  <script type="module" src="./combined-filters-bootstrap.js"></script>'
         + '\n  <script type="module" src="./card-experience.js"></script>'
         + '\n  <script type="module" src="./schedule-display.js"></script>'
         + '\n  <script type="module" src="./card-image-fallback.js"></script>'
