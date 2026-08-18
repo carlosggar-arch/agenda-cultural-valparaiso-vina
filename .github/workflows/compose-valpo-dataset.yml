@@ -50,6 +50,11 @@ jobs:
           python -m py_compile \
             app/scripts/refresh_museo_maritimo.py \
             app/scripts/test_museo_maritimo.py \
+            app/scripts/refresh_balmaceda_valpo.py \
+            app/scripts/refresh_balmaceda_valpo_bounded.py \
+            app/scripts/test_balmaceda_valpo.py \
+            app/scripts/apply_balmaceda_coverage.py \
+            app/scripts/test_balmaceda_coverage.py \
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
             app/scripts/test_portaltickets_editorial.py \
@@ -61,11 +66,14 @@ jobs:
             app/scripts/apply_source_coverage_overrides.py \
             app/scripts/test_source_coverage_overrides.py
           python app/scripts/test_museo_maritimo.py
+          python app/scripts/test_balmaceda_valpo.py
+          python app/scripts/test_balmaceda_coverage.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_title_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_museo_maritimo.py --no-write
+          python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
           python app/scripts/apply_title_quality_guard.py --no-write
@@ -74,12 +82,14 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/refresh_museo_maritimo.py
+          python app/scripts/refresh_balmaceda_valpo_bounded.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/apply_title_quality_guard.py
           python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/apply_source_coverage_overrides.py
+          python app/scripts/apply_balmaceda_coverage.py
           python - <<'PY'
           import json
           from pathlib import Path
@@ -87,6 +97,7 @@ jobs:
           root = Path('.')
           dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
           museum = json.loads((root / 'app/data/quality/museo-maritimo.json').read_text(encoding='utf-8'))
+          balm = json.loads((root / 'app/data/quality/balmaceda-valpo.json').read_text(encoding='utf-8'))
           portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
           municipal = json.loads((root / 'app/data/quality/valpocultura-zero-recovery.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
@@ -99,6 +110,11 @@ jobs:
           expected_museum = int(museum.get('events_published') or 0)
           if len(museum_events) != expected_museum:
               raise SystemExit(f'Museo Maritimo composition mismatch: dataset={len(museum_events)} report={expected_museum}')
+
+          balm_events = [e for e in events if e.get('source_id') == 'balmaceda_arte_joven_valpo_official']
+          expected_balm = int(balm.get('events_published') or 0)
+          if len(balm_events) != expected_balm:
+              raise SystemExit(f'Balmaceda composition mismatch: dataset={len(balm_events)} report={expected_balm}')
 
           portal_events = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
           expected_portal = int((portal.get('refresh') or {}).get('corrected_published') or 0)
@@ -121,9 +137,13 @@ jobs:
           if counts.get('total') != len(events):
               raise SystemExit(f'Dataset count mismatch: counts.total={counts.get("total")} events={len(events)}')
 
-          cov_summary = ((coverage.get('cities') or {}).get('valparaiso-vina') or {}).get('summary') or {}
+          cov_city = (coverage.get('cities') or {}).get('valparaiso-vina') or {}
+          cov_summary = cov_city.get('summary') or {}
           if cov_summary.get('total_events') != len(events) or cov_summary.get('attributed_events') != len(events):
               raise SystemExit('source-coverage.json is not synchronized with agenda_web.json')
+          balm_row = next((row for row in cov_city.get('sources') or [] if row.get('id') == 'balmaceda_arte_joven_valpo'), None)
+          if balm.get('coverage') and (not balm_row or balm_row.get('status') not in {'producing', 'covered_elsewhere'}):
+              raise SystemExit('Balmaceda official coverage was not reflected in source-coverage.json')
 
           quality_summary = ((quality.get('cities') or {}).get('valparaiso-vina') or {}).get('summary') or {}
           if quality_summary.get('total_events') != len(events):
@@ -134,7 +154,7 @@ jobs:
               raise SystemExit('release-readiness.json reports an invalid Valpo dataset')
 
           print(
-              f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} '
+              f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} balm={len(balm_events)} '
               f'portal={len(portal_events)} municipal={len(municipal_events)}'
           )
           PY
@@ -147,6 +167,7 @@ jobs:
           git add \
             agenda_web.json \
             app/data/quality/museo-maritimo.json \
+            app/data/quality/balmaceda-valpo.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
             app/data/quality/source-coverage.json \
