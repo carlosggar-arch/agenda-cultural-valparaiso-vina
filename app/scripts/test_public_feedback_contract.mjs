@@ -10,6 +10,7 @@ const read = (relative) => fs.readFileSync(path.join(app, relative), "utf8");
 const community = read("community-source.js");
 const participation = read("participation-footer.js");
 const webActions = read("web-actions-below-mosaic.js");
+const actionLayout = read("action-strip-layout.js");
 const appJs = read("app.js");
 const pwa = read("pwa.js");
 const worker = read("service-worker.js");
@@ -27,27 +28,31 @@ assert.match(participation, /insertAdjacentElement\("afterend", comments\)/);
 assert.match(participation, /insertAdjacentElement\("afterend", like\)/);
 assert.match(participation, /restoreFooterContact/);
 assert.match(participation, /display: flex !important/);
-assert.match(participation, /width: max-content !important/);
-assert.match(participation, /min-height: 36px !important/);
 assert.match(participation, /overflow-x: auto !important/);
 assert.doesNotMatch(participation, /IntersectionObserver|addEventListener\(["']scroll/);
 
 assert.match(webActions, /display: flex !important/);
-assert.match(webActions, /flex: 0 0 auto !important/);
-assert.match(webActions, /width: max-content !important/);
 assert.match(webActions, /overflow-x: auto !important/);
 assert.doesNotMatch(webActions, /MutationObserver/);
 assert.doesNotMatch(webActions, /grid-template-columns: repeat\(auto-fit/);
+
+assert.match(actionLayout, /flex-basis: 0 !important/);
+assert.match(actionLayout, /flex: 1\.75 1 0 !important/);
+assert.match(actionLayout, /flex: 1\.25 1 0 !important/);
+assert.match(actionLayout, /flex: \.62 1 0 !important/);
+assert.doesNotMatch(actionLayout, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 
 assert.match(appJs, /community-source\.js\?v=20260818-feedback3/);
 assert.match(appJs, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
 assert.match(pwa, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
+assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
 assert.match(worker, /participation-footer\.js\?v=20260818-feedback6/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
+assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 103/);
+assert.match(release, /const RELEASE = 104/);
 
-console.log("Public feedback compact beside Aportar fuente in WEB + PWA with optimistic like sync: OK");
+console.log("Public feedback fills the WEB + wide PWA action strip proportionally: OK");
