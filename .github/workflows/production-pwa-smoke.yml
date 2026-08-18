@@ -34,6 +34,14 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Test public presentation rules
+        run: node app/scripts/test_public_presentation.mjs
+
       - name: Wait for published release and verify shell assets
         shell: bash
         run: |
@@ -98,10 +106,14 @@ jobs:
               raise SystemExit("Published pwa.js is not using brandicon2")
           if 'mobile-experience.js?v=20260817-topcontrols4' not in pwa:
               raise SystemExit("Published pwa.js is not using topcontrols4")
+          if 'public-presentation-guard.js' not in pwa:
+              raise SystemExit("Published pwa.js is missing the public presentation guard")
           if 'header-redesign.js?v=20260817-brandicon2' not in service_worker:
               raise SystemExit("Published service worker does not cache brandicon2")
           if 'mobile-experience.js?v=20260817-topcontrols4' not in service_worker:
               raise SystemExit("Published service worker does not cache topcontrols4")
+          if 'public-presentation-guard.js' not in service_worker or 'public-presentation-rules.mjs' not in service_worker:
+              raise SystemExit("Published service worker does not cache the public presentation guard")
 
           print(f"Published shell: PWA v{expected}, asset revisions coherent")
           PY
