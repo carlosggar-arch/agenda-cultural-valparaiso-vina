@@ -14,16 +14,19 @@
   <link rel="stylesheet" href="./city-header.css">
   <link rel="stylesheet" href="./compact-top.css">
   <link rel="stylesheet" href="./header-redesign.css">
-  <link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols1" data-mobile-experience-styles>
+  <link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols2" data-mobile-experience-styles>
   <title>¡Vivamos!</title>
+  <script src="./release-version.js"></script>
   <script>
     (() => {
-      let initialPreference = null;
-      try { initialPreference = localStorage.getItem("agenda-cultural-city"); } catch {}
-      window.__agendaInitialCityPreference = initialPreference;
-      if (/^[a-z0-9][a-z0-9-]{0,63}$/.test(String(initialPreference || "").trim().toLowerCase())) {
-        document.documentElement.dataset.city = String(initialPreference).trim().toLowerCase();
-      }
+      const safeCity = (value) => /^[a-z0-9][a-z0-9-]{0,63}$/.test(String(value || "").trim().toLowerCase());
+      const requested = new URLSearchParams(window.location.search).get("city");
+      let saved = null;
+      try { saved = localStorage.getItem("agenda-cultural-city"); } catch {}
+      const initialPreference = safeCity(requested) ? requested : safeCity(saved) ? saved : "";
+      window.__agendaInitialCityPreference = initialPreference || null;
+      if (initialPreference) document.documentElement.dataset.city = initialPreference;
+      if (safeCity(requested)) { try { localStorage.setItem("agenda-cultural-city", requested); } catch {} }
     })();
   </script>
 </head>
@@ -56,6 +59,23 @@
     </div>
     <div class="header-art" aria-hidden="true"></div>
   </header>
+  <script data-initial-city-chrome>
+    (() => {
+      const labels = {
+        valparaiso: "Valparaíso / Viña del Mar",
+        gijon: "Gijón / Xixón",
+      };
+      const city = String(document.documentElement.dataset.city || "").trim().toLowerCase();
+      const label = labels[city];
+      if (!label) return;
+      const title = document.querySelector("[data-header-city-title]");
+      const subtitle = document.querySelector("[data-city-subtitle]");
+      const switchLabel = document.querySelector("[data-city-switch-label]");
+      if (title) title.textContent = label;
+      if (subtitle) subtitle.textContent = label;
+      if (switchLabel) switchLabel.textContent = label;
+    })();
+  </script>
 
   <div class="city-masthead" data-city-masthead aria-hidden="true">
     <div class="masthead-valpo"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -116,7 +136,7 @@
     </section>
   </main>
 
-  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v49</small></footer>
+  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA</small></footer>
 
   <div class="chooser-backdrop" hidden data-chooser-backdrop><section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser><button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button><p class="eyebrow">¡Vivamos!</p><h2 id="chooser-title">Cambiar ciudad</h2><p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p><div class="city-options" data-city-options></div><button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button><p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p><p class="chooser-message" data-chooser-message aria-live="polite"></p></section></div>
 
