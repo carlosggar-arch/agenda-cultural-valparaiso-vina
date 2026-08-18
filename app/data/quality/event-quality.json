@@ -1,61 +1,61 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T11:35:50+00:00",
+  "generated_at": "2026-08-18T11:42:15+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-18",
       "generated_at": "2026-08-18T05:47:46-04:00",
       "summary": {
-        "total_events": 165,
-        "average_quality_score": 92.1,
+        "total_events": 164,
+        "average_quality_score": 92.0,
         "quality_class": "excellent",
         "sources_catalogued": 40,
         "sources_producing": 24,
-        "sources_zero": 10,
-        "review_priority_zero_sources": 10,
-        "zero_sources_covered_elsewhere": 6,
-        "top3_source_share_pct": 52.1,
+        "sources_zero": 9,
+        "review_priority_zero_sources": 9,
+        "zero_sources_covered_elsewhere": 5,
+        "top3_source_share_pct": 51.8,
         "unattributed_events": 0,
-        "verified_inactive_zero_sources": 0
+        "verified_inactive_zero_sources": 2
       },
       "field_coverage": {
         "date_pct": 97.6,
         "time_pct": 94.5,
         "venue_pct": 100.0,
-        "image_pct": 53.3,
+        "image_pct": 53.7,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 46.7,
-        "price_known_pct": 85.5
+        "official_source_pct": 47.0,
+        "price_known_pct": 84.8
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 47,
-          "share_pct": 28.5,
-          "underrepresented": false
-        },
-        {
-          "id": "cultura",
-          "label": "Cultura",
-          "count": 44,
-          "share_pct": 26.7,
+          "count": 69,
+          "share_pct": 42.1,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 26,
-          "share_pct": 15.8,
+          "share_pct": 15.9,
+          "underrepresented": false
+        },
+        {
+          "id": "cultura",
+          "label": "Cultura",
+          "count": 21,
+          "share_pct": 12.8,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 20,
-          "share_pct": 12.1,
+          "share_pct": 12.2,
           "underrepresented": false
         },
         {
@@ -97,13 +97,13 @@
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 106,
-          "share_pct": 64.2
+          "count": 105,
+          "share_pct": 64.0
         },
         {
           "area": "Viña del Mar",
           "count": 59,
-          "share_pct": 35.8
+          "share_pct": 36.0
         }
       ],
       "coverage_gaps": {
@@ -121,32 +121,33 @@
           "estadio_espanol_recreo",
           "la_escala_galeria",
           "masita_rica",
-          "sala_secreta",
-          "sala_teatro_ipa",
-          "teatro_la_peste"
+          "museo_fonck",
+          "sala_secreta"
         ],
         "zero_sources_covered_elsewhere": [
           "casa_cultura_valparaiso",
           "centex",
           "estrella_negra_jazz",
-          "museo_fonck",
           "teatro_municipal_valparaiso",
           "valparaiso_profundo"
         ],
-        "verified_inactive_zero_sources": []
+        "verified_inactive_zero_sources": [
+          "sala_teatro_ipa",
+          "teatro_la_peste"
+        ]
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 53.3,
+        "relevant_image_pct": 53.7,
         "removed_events": {}
       },
       "sources": [
         {
           "id": "portaltickets_valparaiso",
           "name": "PortalTickets — Región de Valparaíso",
-          "count": 56,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
+          "count": 55,
+          "quality_score": 89.7,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -159,11 +160,11 @@
             "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 100.0
+            "price_known_pct": 98.2
           },
           "categories": {
-            "cultura": 42,
-            "musica": 14
+            "musica": 36,
+            "cultura": 19
           },
           "verified_inactive": false
         },
