@@ -121,6 +121,7 @@ jobs:
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/fetch_high_value_sources.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
+          python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
           python app/scripts/refresh_quality_diagnostics.py --no-write
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
