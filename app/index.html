@@ -14,27 +14,47 @@
   <link rel="stylesheet" href="./city-header.css">
   <link rel="stylesheet" href="./compact-top.css">
   <link rel="stylesheet" href="./header-redesign.css">
+  <link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols1" data-mobile-experience-styles>
   <title>¡Vivamos!</title>
   <script>
     (() => {
       let initialPreference = null;
       try { initialPreference = localStorage.getItem("agenda-cultural-city"); } catch {}
       window.__agendaInitialCityPreference = initialPreference;
+      if (/^[a-z0-9][a-z0-9-]{0,63}$/.test(String(initialPreference || "").trim().toLowerCase())) {
+        document.documentElement.dataset.city = String(initialPreference).trim().toLowerCase();
+      }
     })();
   </script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-  <header class="app-header">
+  <header class="app-header" data-header-redesign="hero-v3">
     <a class="brand" href="./" aria-label="¡Vivamos!, inicio">
       <img src="./icons/icon.svg" width="64" height="64" alt="">
-      <span><strong>¡Vivamos!</strong><small data-city-subtitle>Agenda local</small></span>
+      <span>
+        <strong>¡Vivamos!</strong>
+        <small data-city-subtitle>Agenda local</small>
+        <span class="header-kicker">Agenda cultural</span>
+        <span class="header-city-title" data-header-city-title></span>
+        <span class="header-tagline">Descubre y vive lo que hay cerca de ti.</span>
+      </span>
     </a>
-    <div class="header-actions">
-      <button class="install-button" type="button" data-install-app hidden><span aria-hidden="true">↓</span><span>Instalar</span></button>
-      <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog" aria-label="Cambiar ciudad"><span aria-hidden="true">📍</span><span data-city-switch-label>Cambiar ciudad</span><span aria-hidden="true">⌄</span></button>
+    <div class="header-bottom">
+      <div class="header-actions">
+        <button class="header-search-toggle" type="button" data-header-search-toggle aria-label="Buscar actividades" aria-expanded="false"><span aria-hidden="true">⌕</span></button>
+        <button class="install-button" type="button" data-install-app hidden><span aria-hidden="true">↓</span><span>Instalar</span></button>
+        <button class="city-switch" type="button" data-city-switch aria-haspopup="dialog" aria-label="Cambiar ciudad"><span aria-hidden="true">📍</span><span data-city-switch-label>Cambiar ciudad</span><span aria-hidden="true">⌄</span></button>
+      </div>
     </div>
+    <div class="header-search-popover" data-header-search-popover hidden>
+      <div class="search-row" hidden data-search-row>
+        <div class="smart-search"><label><span class="sr-only">Buscar actividades</span><input type="search" data-smart-search placeholder="Buscar evento, artista, recinto, fuente o categoría…" autocomplete="off"></label></div>
+        <input class="legacy-filter-hooks" type="search" data-search tabindex="-1" aria-hidden="true" autocomplete="off">
+      </div>
+    </div>
+    <div class="header-art" aria-hidden="true"></div>
   </header>
 
   <div class="city-masthead" data-city-masthead aria-hidden="true">
@@ -47,10 +67,6 @@
       <p class="eyebrow">Cultura cerca, siempre</p>
       <h1 data-hero-title>Tu agenda cultural, donde estés</h1>
       <p class="hero-copy" data-hero-copy>La aplicación recuerda tu ciudad y carga únicamente sus actividades.</p>
-      <div class="search-row" hidden data-search-row>
-        <div class="smart-search"><label><span class="sr-only">Buscar actividades</span><input type="search" data-smart-search placeholder="Buscar evento, artista, recinto, fuente o categoría…" autocomplete="off"></label></div>
-        <input class="legacy-filter-hooks" type="search" data-search tabindex="-1" aria-hidden="true" autocomplete="off">
-      </div>
     </section>
 
     <section class="status" data-status role="status" aria-live="polite"><strong>Preparando la agenda</strong><p>Cargando tu ciudad habitual.</p></section>
@@ -100,7 +116,7 @@
     </section>
   </main>
 
-  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v34</small></footer>
+  <footer><strong>¡Vivamos!</strong><span>Descubre y vive lo que hay cerca de ti.</span><small data-app-version>PWA v49</small></footer>
 
   <div class="chooser-backdrop" hidden data-chooser-backdrop><section class="chooser" role="dialog" aria-modal="true" aria-labelledby="chooser-title" data-chooser><button class="chooser-close" type="button" aria-label="Cerrar" data-chooser-close>×</button><p class="eyebrow">¡Vivamos!</p><h2 id="chooser-title">Cambiar ciudad</h2><p>La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.</p><div class="city-options" data-city-options></div><button class="location-button" type="button" data-use-location><span aria-hidden="true">◎</span> Usar mi ubicación</button><p class="privacy-note">La ubicación se usa solo para sugerir una ciudad. No guardamos tus coordenadas.</p><p class="chooser-message" data-chooser-message aria-live="polite"></p></section></div>
 
