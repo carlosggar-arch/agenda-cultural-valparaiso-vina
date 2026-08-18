@@ -87,12 +87,15 @@ def check_manifest_entrypoint() -> None:
 def check_first_render_contract() -> None:
     index = text(APP / "index.html")
     mobile = text(APP / "mobile-experience.js")
+    header_js = text(APP / "header-redesign.js")
     head = index.split("</head>", 1)[0]
     before_modules = index.split('<script type="module" src="./app.js"></script>', 1)[0]
 
     assert 'data-mobile-experience-styles' in head, "mobile CSS must load before first paint"
     assert 'document.createElement("link")' not in mobile, "mobile CSS must never be injected after first paint"
     assert 'document.head.append(link)' not in mobile, "mobile CSS must never be appended dynamically"
+    assert 'links[0].href =' not in header_js, "header CSS href must never be rewritten after first paint"
+    assert 'links[0].setAttribute("href"' not in header_js, "header CSS href must never be rewritten after first paint"
 
     required_initial_markup = (
         'data-header-redesign="hero-v3"',
