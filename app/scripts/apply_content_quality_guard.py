@@ -59,8 +59,14 @@ def clean_html_text(value: object) -> str:
     text = html.unescape(raw)
     text = re.sub(r"<\s*(?:br|/p|/div|/li|/h[1-6])\s*/?>", " ", text, flags=re.I)
     text = HTML_TAG.sub(" ", text)
-    text = text.replace("\\\n", " ").replace("\\\r", " ").replace("\\", " ")
-    return clean_space(text)
+    # Scrapers occasionally leave a literal \\n/\\r token or a backslash directly
+    # before a real newline. Remove the complete escape, not only the slash.
+    text = re.sub(r"\\(?:n|r|\r?\n)", " ", text)
+    text = text.replace("\\", " ")
+    text = clean_space(text)
+    # Repair the legacy artifact produced by the previous sanitizer version.
+    text = re.sub(r"(?<=[.!?])\s+n\s*$", "", text)
+    return text
 
 
 def is_generic_title(value: object) -> bool:
