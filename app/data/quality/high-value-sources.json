@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T17:13:00+00:00",
+  "generated_at": "2026-08-18T18:32:16+00:00",
   "sources": [
     {
       "id": "museo_evaristo_valle",
@@ -46,13 +46,13 @@
       "name": "Laboral Cinemateca",
       "dataset": "gijon",
       "mode": "monitor",
-      "fetch_ok": false,
-      "http_status": null,
+      "fetch_ok": true,
+      "http_status": 200,
       "events_extracted": 0,
       "events_added": 0,
       "duplicates_skipped": 0,
-      "state": "fetch_error",
-      "error": "TimeoutError: The read operation timed out"
+      "state": "monitored_no_publishable_events",
+      "error": null
     }
   ]
 }
