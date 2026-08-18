@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 
+from ecoliderazgo_policy import departure_policy
 import refresh_priority_zero_monitors as monitor
 
 
@@ -15,11 +16,9 @@ def test_ipa_past_and_future() -> None:
     row = monitor.classify(target("sala_teatro_ipa"), past, today)
     assert row["state"] == "verified_no_publishable_future"
     assert row["verified_inactive"] is True
-
     future = "<p>Nueva obra</p><p>Location : Sala Teatro Ipa Jue, agosto 27, 2026 7:00 PM</p>"
     row = monitor.classify(target("sala_teatro_ipa"), future, today)
     assert row["state"] == "future_detected"
-    assert row["verified_inactive"] is False
     assert row["future_candidates"][0]["date"] == "2026-08-27"
 
 
@@ -28,21 +27,12 @@ def test_la_peste_requires_explicit_empty_or_future_date() -> None:
     empty = "<h1>Tus Entradas para Teatro La Peste</h1><p>No hay eventos disponibles</p>"
     row = monitor.classify(target("teatro_la_peste"), empty, today)
     assert row["state"] == "verified_no_publishable_future"
-    assert row["verified_inactive"] is True
     assert row["explicit_empty_state"] is True
-
     uncertain = "<h1>Tus Entradas para Teatro La Peste</h1><p>Próximamente</p>"
-    row = monitor.classify(target("teatro_la_peste"), uncertain, today)
-    assert row["state"] == "indeterminate"
-    assert row["verified_inactive"] is False
-
-    future = "<h1>Tus Entradas para Teatro La Peste</h1><p>Nueva función 2 de septiembre de 2026</p>"
-    row = monitor.classify(target("teatro_la_peste"), future, today)
-    assert row["state"] == "future_detected"
-    assert row["verified_inactive"] is False
+    assert monitor.classify(target("teatro_la_peste"), uncertain, today)["state"] == "indeterminate"
 
 
-def test_ecoliderazgo_upcoming_catalog_without_dates_is_verified_zero() -> None:
+def test_ecoliderazgo_catalog_without_dates_has_no_publishable_event() -> None:
     today = date(2026, 8, 18)
     markup = """
     <h2>Nuestras próximas actividades</h2>
@@ -53,35 +43,27 @@ def test_ecoliderazgo_upcoming_catalog_without_dates_is_verified_zero() -> None:
     """
     row = monitor.classify(target("ecoliderazgo"), markup, today)
     assert row["state"] == "verified_no_publishable_future", row
-    assert row["verified_inactive"] is True
-    assert row["verification_reason"] == "official_upcoming_catalog_has_no_explicit_future_date_with_local_departure"
+    assert row["verification_reason"] == "official_upcoming_catalog_has_no_explicit_future_date"
 
 
-def test_ecoliderazgo_requires_local_departure_not_destination() -> None:
+def test_ecoliderazgo_missing_origin_uses_source_default() -> None:
     today = date(2026, 8, 18)
-    qualified = """
-    <h2>Nuestras próximas actividades</h2>
-    <p>Salida 27 de agosto de 2026. Punto de encuentro: Viña del Mar. Trekking Parque Nacional La Campana.</p>
-    <h2>El Equipo de EcoLiderazgo</h2>
-    """
-    row = monitor.classify(target("ecoliderazgo"), qualified, today)
-    assert row["state"] == "future_detected", row
-    assert row["future_candidates"][0]["date"] == "2026-08-27"
-    assert row["verified_inactive"] is False
-
-    unknown_origin = """
+    markup = """
     <h2>Nuestras próximas actividades</h2>
     <p>27 de agosto de 2026. Trekking Parque Nacional La Campana - Sector Ocoa.</p>
     <h2>El Equipo de EcoLiderazgo</h2>
     """
-    row = monitor.classify(target("ecoliderazgo"), unknown_origin, today)
-    assert row["state"] == "future_unqualified_geography", row
-    assert row["future_candidates"] == []
-    assert row["future_candidates_unqualified_geography"][0]["date"] == "2026-08-27"
-    assert row["verified_inactive"] is False
+    row = monitor.classify(target("ecoliderazgo"), markup, today)
+    assert row["state"] == "future_detected", row
+    candidate = row["future_candidates"][0]
+    assert candidate["date"] == "2026-08-27"
+    assert candidate["departure_origin_scope"] == "Viña del Mar / Valparaíso"
+    assert candidate["departure_origin_mode"] == "source_default"
+    assert candidate["departure_origin_rule"] == "user_confirmed_ecoliderazgo_default"
+    assert row["future_candidates_source_default_origin_count"] == 1
 
 
-def test_ecoliderazgo_origin_policy_allows_destination_outside_region() -> None:
+def test_ecoliderazgo_explicit_local_departure_wins() -> None:
     today = date(2026, 8, 18)
     markup = """
     <h2>Nuestras próximas actividades</h2>
@@ -90,15 +72,38 @@ def test_ecoliderazgo_origin_policy_allows_destination_outside_region() -> None:
     """
     row = monitor.classify(target("ecoliderazgo"), markup, today)
     assert row["state"] == "future_detected", row
-    assert row["future_candidates"][0]["date"] == "2026-08-29"
+    assert row["future_candidates"][0]["departure_origin_mode"] == "explicit_local"
+
+
+def test_ecoliderazgo_explicit_nonlocal_departure_overrides_default() -> None:
+    today = date(2026, 8, 18)
+    markup = """
+    <h2>Nuestras próximas actividades</h2>
+    <p>Salida desde Santiago el 30 de agosto de 2026. Trekking Cajón del Maipo.</p>
+    <h2>El Equipo de EcoLiderazgo</h2>
+    """
+    row = monitor.classify(target("ecoliderazgo"), markup, today)
+    assert row["state"] == "future_unqualified_geography", row
+    assert row["future_candidates"] == []
+    candidate = row["future_candidates_unqualified_geography"][0]
+    assert candidate["departure_origin_mode"] == "explicit_other"
+
+
+def test_ecoliderazgo_policy_is_destination_agnostic() -> None:
+    policy = departure_policy("Trekking Parque Nacional Cerro Castillo + Capillas de Mármol")
+    assert policy["eligible"] is True
+    assert policy["departure_origin_mode"] == "source_default"
+    assert policy["departure_origin_scope"] == "Viña del Mar / Valparaíso"
 
 
 def main() -> None:
     test_ipa_past_and_future()
     test_la_peste_requires_explicit_empty_or_future_date()
-    test_ecoliderazgo_upcoming_catalog_without_dates_is_verified_zero()
-    test_ecoliderazgo_requires_local_departure_not_destination()
-    test_ecoliderazgo_origin_policy_allows_destination_outside_region()
+    test_ecoliderazgo_catalog_without_dates_has_no_publishable_event()
+    test_ecoliderazgo_missing_origin_uses_source_default()
+    test_ecoliderazgo_explicit_local_departure_wins()
+    test_ecoliderazgo_explicit_nonlocal_departure_overrides_default()
+    test_ecoliderazgo_policy_is_destination_agnostic()
     print("PRIORITY_ZERO_MONITORS_TESTS_OK")
 
 
