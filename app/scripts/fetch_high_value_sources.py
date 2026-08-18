@@ -20,6 +20,10 @@ DATASETS = {
     "valparaiso": ROOT / "agenda_web.json",
     "gijon": ROOT / "app/data/gijon/agenda_web.json",
 }
+# Gijon is now published canonically by agenda-cultural-core/publish-multi-city.
+# Keep these legacy definitions available for diagnostics/tests, but never let
+# the web repository become a second fetcher/writer for that canonical dataset.
+DELEGATED_DATASETS = {"gijon": "agenda-cultural-core/publish-multi-city"}
 MONTHS = {
     "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
     "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
@@ -267,6 +271,10 @@ def save(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def is_delegated_source(source: dict) -> bool:
+    return str(source.get("dataset") or "") in DELEGATED_DATASETS
+
+
 def run(no_write: bool = False, only: set[str] | None = None) -> int:
     sources = load(CONFIG)["sources"]
     datasets = {name: load(path) for name, path in DATASETS.items()}
@@ -276,6 +284,23 @@ def run(no_write: bool = False, only: set[str] | None = None) -> int:
     for source in sources:
         if only and source["id"] not in only:
             continue
+        if is_delegated_source(source):
+            report["sources"].append({
+                "id": source["id"],
+                "name": source["name"],
+                "dataset": source["dataset"],
+                "mode": source["mode"],
+                "fetch_ok": None,
+                "http_status": None,
+                "events_extracted": 0,
+                "events_added": 0,
+                "duplicates_skipped": 0,
+                "state": "delegated_to_core",
+                "error": None,
+                "delegated_to": DELEGATED_DATASETS[source["dataset"]],
+            })
+            continue
+
         ok, status_code, markup, error = fetch(source["url"])
         status = {
             "id": source["id"], "name": source["name"], "dataset": source["dataset"], "mode": source["mode"],
