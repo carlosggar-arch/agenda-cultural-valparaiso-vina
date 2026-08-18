@@ -257,43 +257,45 @@ def extract_events_from_article(markup: str, article_url: str, today: date) -> l
     parser = parse(markup); title = parser.h1 or (parser.parts[0] if parser.parts else "")
     if len(norm(title)) < 4:
         return []
-    body = " ".join(parser.parts); body_norm = norm(body)
+    body = " ".join(parser.parts)
     cancellation_zone = norm(" ".join(parser.parts[:10]))
     if any(marker in cancellation_zone for marker in CANCEL_MARKERS):
         return []
 
     result: list[dict] = []; seen_dates: set[tuple[str, str | None]] = set()
-    for match in DATE_TEXT.finditer(body):
-        before = body[max(0, match.start() - 24):match.start()]
-        if norm(before).endswith("paseo"):
-            continue
-        month = MONTHS.get(norm(match.group(2)))
-        if not month:
-            continue
-        year = int(match.group(3) or today.year)
-        try:
-            start = date(year, month, int(match.group(1)))
-        except ValueError:
-            continue
-        if start < today:
-            continue
-        context = body[max(0, match.start() - 420):match.end() + 520]
-        context_norm = norm(context)
-        if not any(marker in context_norm for marker in LOCAL_MARKERS):
-            continue
-        if not any(marker in context_norm for marker in FUTURE_MARKERS):
-            continue
-        prefix_norm = norm(body[max(0, match.start() - 100):match.start()])
-        if "pasado" in prefix_norm or "pasada" in prefix_norm:
-            continue
-        time_context = body[match.start():match.end() + 200]
-        time_match = TIME_TEXT.search(time_context)
-        clock = f"{int(time_match.group(1)):02d}:{time_match.group(2)}" if time_match else None
-        signature = (start.isoformat(), clock)
-        if signature in seen_dates:
-            continue
-        seen_dates.add(signature)
-        result.append(make_event(title, start, clock, article_url, parser.og_image, body))
+    for part in parser.parts:
+        part_norm = norm(part)
+        for match in DATE_TEXT.finditer(part):
+            before = part[max(0, match.start() - 24):match.start()]
+            if norm(before).endswith("paseo"):
+                continue
+            month = MONTHS.get(norm(match.group(2)))
+            if not month:
+                continue
+            year = int(match.group(3) or today.year)
+            try:
+                start = date(year, month, int(match.group(1)))
+            except ValueError:
+                continue
+            if start < today:
+                continue
+            local_same_block = any(marker in part_norm for marker in LOCAL_MARKERS)
+            strong_museum_action = "museo maritimo nacional" in part_norm and "abrira sus puertas" in part_norm
+            if not (local_same_block or strong_museum_action):
+                continue
+            if not any(marker in part_norm for marker in FUTURE_MARKERS):
+                continue
+            prefix_norm = norm(part[max(0, match.start() - 100):match.start()])
+            if "pasado" in prefix_norm or "pasada" in prefix_norm:
+                continue
+            time_context = part[match.start():match.end() + 200]
+            time_match = TIME_TEXT.search(time_context)
+            clock = f"{int(time_match.group(1)):02d}:{time_match.group(2)}" if time_match else None
+            signature = (start.isoformat(), clock)
+            if signature in seen_dates:
+                continue
+            seen_dates.add(signature)
+            result.append(make_event(title, start, clock, article_url, parser.og_image, body))
     return result
 
 
@@ -399,7 +401,7 @@ def run(no_write: bool = False) -> int:
         "article_fetch_failures": article_failures, "future_dated_candidates": len(fresh),
         "previous_future_events": len(previous), "events_published": len(source_events),
         "semantic_duplicates_dropped": duplicates,
-        "policy": "Month-only programme items are monitored but never converted into invented dates; publication requires an explicit future date, future-action context and local MMN context in an official article.",
+        "policy": "Month-only programme items are monitored but never converted into invented dates; publication requires an explicit future date, future-action context and local MMN context in the same content block of an official article.",
     }
     if no_write:
         print(json.dumps(report, ensure_ascii=False, indent=2))
