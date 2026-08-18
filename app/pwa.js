@@ -15,6 +15,7 @@ import "./combined-filters-polish.js";
 // but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
 import "./mobile-experience.js?v=20260817-topcontrols4";
+import "./installed-mosaic.js?v=20260818-f15-real1";
 import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
