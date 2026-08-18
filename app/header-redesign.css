@@ -263,6 +263,10 @@ html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-
 }
 
 /* Installed app refinements. */
+html[data-installed-app-actions="below-mosaic"] .app-header{
+  min-height:196px!important;
+  padding-bottom:.48rem!important;
+}
 html[data-installed-app-actions="below-mosaic"] .filter-workbench::before{
   height:1.35rem!important;
   margin-top:-.9rem!important;
