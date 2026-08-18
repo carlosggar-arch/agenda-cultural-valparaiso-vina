@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-17T20:41:36-04:00",
+  "generated_at": "2026-08-17T20:44:41-04:00",
   "publication_date": "2026-08-17",
   "timezone": "America/Santiago",
   "counts": {
@@ -62,10 +62,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-17T20:41:36-04:00",
+      "last_verified_at": "2026-08-17T20:44:41-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:41:36-04:00",
+        "last_verified_at": "2026-08-17T20:44:41-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -164,10 +164,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-17T20:41:36-04:00",
+      "last_verified_at": "2026-08-17T20:44:41-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:41:36-04:00",
+        "last_verified_at": "2026-08-17T20:44:41-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1219,12 +1219,25 @@
         }
       ],
       "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-28T18:00:00-04:00",
+        "mode": "recurring",
+        "start": "2026-08-21T18:00:00-04:00",
         "end": "2026-09-04",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-28 – 2026-09-04",
-        "occurrences": [],
+        "display_text": "2026-08-21 · 18:00; 2026-08-28 · 18:00; 2026-09-04 · 18:00",
+        "occurrences": [
+          {
+            "start": "2026-08-21T18:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-08-28T18:00:00-04:00",
+            "end": null
+          },
+          {
+            "start": "2026-09-04T18:00:00-04:00",
+            "end": null
+          }
+        ],
         "start_confidence": "explicit_official_article"
       },
       "location": {
@@ -1254,10 +1267,10 @@
       "source_id": "museo_fonck",
       "source_name": "Museo Fonck",
       "source_url": "https://www.museofonck.cl/new_site/index.php/articulos/571-las-aves-serán-las-protagonistas-de-los-vcc-de-agosto-y-septiembre-en-museo-fonck.html",
-      "last_verified_at": "2026-08-17T20:41:14-04:00",
+      "last_verified_at": "2026-08-17T20:44:31-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:41:14-04:00",
+        "last_verified_at": "2026-08-17T20:44:31-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1286,6 +1299,7 @@
         "article_url": "https://www.museofonck.cl/new_site/index.php/articulos/571-las-aves-serán-las-protagonistas-de-los-vcc-de-agosto-y-septiembre-en-museo-fonck.html",
         "museo_fonck_publication_date_removed": "2026-08-17",
         "museo_fonck_event_dates_recovered": [
+          "2026-08-21",
           "2026-08-28",
           "2026-09-04"
         ]
@@ -3357,10 +3371,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4652,10 +4666,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5125,10 +5139,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-17T20:41:24-04:00",
+      "last_verified_at": "2026-08-17T20:44:39-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:41:24-04:00",
+        "last_verified_at": "2026-08-17T20:44:39-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5684,10 +5698,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6191,10 +6205,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6702,10 +6716,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-17T20:41:24-04:00",
+      "last_verified_at": "2026-08-17T20:44:39-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:41:24-04:00",
+        "last_verified_at": "2026-08-17T20:44:39-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6866,10 +6880,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6949,10 +6963,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7032,10 +7046,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7188,10 +7202,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7271,10 +7285,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7354,10 +7368,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7437,10 +7451,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7592,10 +7606,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7675,10 +7689,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-17T20:40:40-04:00",
+      "last_verified_at": "2026-08-17T20:43:56-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-17T20:40:40-04:00",
+        "last_verified_at": "2026-08-17T20:43:56-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8694,7 +8708,7 @@
       "links_discovered": 16,
       "pages_fetched": 16,
       "events_detected": 14,
-      "refreshed_at": "2026-08-17T20:40:40-04:00",
+      "refreshed_at": "2026-08-17T20:43:56-04:00",
       "mode": "official_linktree_passline_refresh",
       "events_published": 14,
       "preserved_existing": false
@@ -8702,7 +8716,7 @@
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-17T20:41:24-04:00",
+      "refreshed_at": "2026-08-17T20:44:39-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
@@ -8710,7 +8724,7 @@
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-17T20:41:36-04:00",
+      "refreshed_at": "2026-08-17T20:44:41-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
@@ -8731,7 +8745,7 @@
       "links_discovered": 12,
       "pages_fetched": 12,
       "events_detected": 2,
-      "refreshed_at": "2026-08-17T20:41:14-04:00",
+      "refreshed_at": "2026-08-17T20:44:31-04:00",
       "mode": "official_museo_fonck_article_refresh",
       "events_published": 2,
       "preserved_existing": false
