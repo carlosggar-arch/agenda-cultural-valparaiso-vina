@@ -80,7 +80,29 @@ function patchStandaloneCard(card) {
   }
 }
 
+function setGroupedOpeningHours(card, hours) {
+  // Group cards are assembled asynchronously by exhibition-gallery.js. Never
+  // append content directly to an unfinished anchor: doing so made transient
+  // empty/half-rendered cards visible in large datasets such as Gijón.
+  const node = card.querySelector("[data-exhibition-opening-hours]");
+  if (!node) return;
+  if (!hours) {
+    node.hidden = true;
+    node.replaceChildren();
+    return;
+  }
+
+  node.hidden = false;
+  const icon = document.createElement("span");
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = "◷";
+  const copy = document.createElement("span");
+  copy.textContent = `Horario del recinto: ${hours}`;
+  node.replaceChildren(icon, copy);
+}
+
 function patchGroupCard(card) {
+  if (!card.classList.contains("exhibition-venue-card")) return;
   const ids = String(card.dataset.eventGroup || "")
     .split(",")
     .map((value) => value.trim())
@@ -106,8 +128,7 @@ function patchGroupCard(card) {
       ? ranked[0][0]
       : null;
 
-  const details = card.querySelector(":scope > .exhibition-group-details");
-  upsertOpeningParagraph(card, hours ? `Horario del recinto: ${hours}` : "", details);
+  setGroupedOpeningHours(card, hours);
 }
 
 function patchCards() {
