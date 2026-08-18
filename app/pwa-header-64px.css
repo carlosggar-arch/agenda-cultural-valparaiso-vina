@@ -1,0 +1,73 @@
+/* Installed-app header geometry approved 2026-08-18.
+   A (text block) = B (city illustration) = E (logo) = 64px.
+   L (gap from A/B to mosaic F) = 2px. Web layout is intentionally untouched. */
+@media (display-mode: standalone) and (max-width: 700px) {
+  html[data-installed-app-actions="below-mosaic"] .app-header {
+    min-height: 82px !important;
+    height: 82px !important;
+    padding: 8px 16px 10px !important;
+    overflow: hidden !important;
+  }
+
+  html[data-installed-app-actions="below-mosaic"] .brand {
+    height: 64px !important;
+    min-height: 64px !important;
+    align-items: flex-start !important;
+    gap: .68rem !important;
+  }
+
+  html[data-installed-app-actions="below-mosaic"] .brand img {
+    width: 64px !important;
+    height: 64px !important;
+    margin: 0 !important;
+  }
+
+  /* A: all visible brand copy is constrained to the same 64px height. */
+  html[data-installed-app-actions="below-mosaic"] .brand > span {
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 64px !important;
+    overflow: visible !important;
+  }
+
+  /* B: illustration is exactly 64px high, aligned with A/E. */
+  html[data-installed-app-actions="below-mosaic"] .header-art {
+    top: 8px !important;
+    bottom: auto !important;
+    right: 0 !important;
+    width: 48% !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 64px !important;
+    background-size: cover !important;
+    background-position: center right !important;
+    opacity: .3 !important;
+    -webkit-mask-image: linear-gradient(90deg,transparent 0,#000 22%,#000 100%) !important;
+    mask-image: linear-gradient(90deg,transparent 0,#000 22%,#000 100%) !important;
+  }
+
+  /* Header actions are rendered below the mosaic in installed-app mode. */
+  html[data-installed-app-actions="below-mosaic"] .app-header > .header-bottom {
+    position: absolute !important;
+    left: -10000px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+  }
+
+  /* F: eliminate the former hero whitespace; target L = 2px. */
+  html[data-installed-app-actions="below-mosaic"] .filter-workbench::before {
+    margin-top: -1.23rem !important;
+    margin-bottom: .05rem !important;
+  }
+}
+
+@media (display-mode: standalone) and (max-width: 430px) {
+  html[data-installed-app-actions="below-mosaic"] .brand img {
+    width: 64px !important;
+    height: 64px !important;
+  }
+  html[data-installed-app-actions="below-mosaic"] .header-art {
+    height: 64px !important;
+  }
+}
