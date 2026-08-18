@@ -9,12 +9,11 @@ on:
       - "app/app.js"
       - "app/category-normalizer.js"
       - "app/public-category-rules.mjs"
+      - "app/public-title-normalizer.mjs"
+      - "app/title-normalizer-bootstrap.js"
+      - "app/static-exhibition-groups.js"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
-      - "app/exhibition-venue-grouping.js"
-      - "app/exhibition-gallery.js"
-      - "app/exhibition-compact-loader.js"
-      - "app/exhibition-compact.js"
       - "app/service-worker.js"
       - "app/release-version.js"
       - "app/scripts/test_approved_event_visibility_contract.mjs"
@@ -28,12 +27,11 @@ on:
       - "app/app.js"
       - "app/category-normalizer.js"
       - "app/public-category-rules.mjs"
+      - "app/public-title-normalizer.mjs"
+      - "app/title-normalizer-bootstrap.js"
+      - "app/static-exhibition-groups.js"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
-      - "app/exhibition-venue-grouping.js"
-      - "app/exhibition-gallery.js"
-      - "app/exhibition-compact-loader.js"
-      - "app/exhibition-compact.js"
       - "app/service-worker.js"
       - "app/release-version.js"
       - "app/scripts/test_approved_event_visibility_contract.mjs"
@@ -55,11 +53,13 @@ jobs:
       - name: Check public runtime syntax
         run: |
           node --check app/app.js
+          node --check app/category-normalizer.js
+          node --check app/public-category-rules.mjs
+          node --check app/public-title-normalizer.mjs
+          node --check app/title-normalizer-bootstrap.js
+          node --check app/static-exhibition-groups.js
           node --check app/combined-filters-bootstrap.js
           node --check app/combined-filters.js
-          node --check app/public-category-rules.mjs
-          node --check app/exhibition-compact-loader.js
-          node --check app/exhibition-compact.js
           node --check app/service-worker.js
           node --check app/release-version.js
       - name: Verify approved event and runtime contract
