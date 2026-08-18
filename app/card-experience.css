@@ -4,6 +4,7 @@
 .event-card-media{position:relative;aspect-ratio:16/9;overflow:hidden;background:#e8efec}
 .event-card-photo{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
 .event-card:hover .event-card-photo{transform:scale(1.025)}
+.event-card-image-note{position:absolute;right:.55rem;bottom:.55rem;z-index:2;padding:.26rem .48rem;border-radius:999px;background:rgba(20,42,37,.82);color:#fff;font-size:.66rem;font-weight:800;letter-spacing:.02em;box-shadow:0 2px 8px rgba(0,0,0,.14)}
 .event-card-media--placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;background:linear-gradient(145deg,#e7f0ec,#f4eee5);color:#174f46}
 .event-card-symbol{font-family:Georgia,serif;font-size:2.6rem;line-height:1}
 .event-card-placeholder-label{font-size:.75rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#667b75}
