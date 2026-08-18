@@ -27,7 +27,7 @@ const SHELL_ASSETS = [
   "./favorites.js",
   "./mis-planes.html",
   "./vivamos-brand.js",
-  "./header-redesign.js?v=20260817-mobile-direct1",
+  "./header-redesign.js?v=20260817-mobile-direct2",
   "./density-polish.js",
   "./card-experience.js",
   "./schedule-display.js",
