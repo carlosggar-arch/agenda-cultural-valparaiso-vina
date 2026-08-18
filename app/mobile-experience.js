@@ -21,7 +21,7 @@ function installMobileMetadata() {
 }
 
 function installMobileStyles() {
-  const href = "./mobile-experience.css?v=20260817-topcontrols1";
+  const href = "./mobile-experience.css?v=20260817-topcontrols2";
   const links = [...document.querySelectorAll('link[href*="mobile-experience.css"]')];
   if (links.length) {
     links[0].href = href;
