@@ -4,10 +4,12 @@ import argparse
 import json
 import re
 import unicodedata
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DATASET = ROOT / "agenda_web.json"
+REPORT_PATH = ROOT / "app/data/quality/title-quality.json"
 
 QUOTE_PATTERNS = (
     re.compile(r"“([^”]{3,140})”"),
@@ -55,9 +57,6 @@ def suspicious_venue_title(event: dict) -> bool:
         return True
     if venue and city and title in {f"{venue} {city}", f"{city} {venue}"}:
         return True
-    # Some publishers expose the venue as both source and title. Treat that as
-    # suspicious only when it is also the location, so artist/organization names
-    # that legitimately name an event are not rewritten.
     if venue and source and title == source == venue:
         return True
     if venue and organizer and title == organizer == venue:
@@ -171,6 +170,20 @@ def apply_guard(dataset: dict) -> list[dict]:
     return changes
 
 
+def build_report(path: Path, dataset: dict, changes: list[dict], wrote_dataset: bool) -> dict:
+    return {
+        "schema_version": "1.0.0",
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "status": "ok",
+        "dataset": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path),
+        "events_scanned": len(dataset.get("events") or []),
+        "changed_count": len(changes),
+        "changes": changes,
+        "dataset_written": wrote_dataset,
+        "policy": "Recover a public event title only when the current title is venue-like and an explicit quoted activity title is strongly supported by the event description.",
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Recover activity titles accidentally replaced by venue names.")
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET))
@@ -180,17 +193,17 @@ def main() -> None:
     path = Path(args.dataset)
     dataset = json.loads(path.read_text(encoding="utf-8"))
     changes = apply_guard(dataset)
+    wrote_dataset = bool(changes and not args.no_write)
 
-    if changes and not args.no_write:
+    if wrote_dataset:
         path.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    print(json.dumps({
-        "status": "ok",
-        "dataset": str(path),
-        "changes": changes,
-        "changed_count": len(changes),
-        "write": bool(changes and not args.no_write),
-    }, ensure_ascii=False))
+    report = build_report(path, dataset, changes, wrote_dataset)
+    if not args.no_write:
+        REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    print(json.dumps(report, ensure_ascii=False))
 
 
 if __name__ == "__main__":
