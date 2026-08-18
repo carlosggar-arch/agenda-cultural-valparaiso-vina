@@ -20,19 +20,9 @@ function installMobileMetadata() {
   ensureMeta("apple-mobile-web-app-status-bar-style", "default");
 }
 
-function installMobileStyles() {
-  const href = "./mobile-experience.css?v=20260817-topcontrols2";
-  const links = [...document.querySelectorAll('link[href*="mobile-experience.css"]')];
-  if (links.length) {
-    links[0].href = href;
-    for (const extra of links.slice(1)) extra.remove();
-    return;
-  }
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = href;
-  link.dataset.mobileExperienceStyles = "true";
-  document.head.append(link);
+function verifyMobileStyles() {
+  const link = document.head.querySelector('link[data-mobile-experience-styles][href*="mobile-experience.css"]');
+  if (!link) console.error("¡Vivamos!: mobile-experience.css must load from <head> before first paint");
 }
 
 function isStandalone() {
@@ -89,7 +79,7 @@ function restoreChooserCopyForManualSwitch() {
 }
 
 installMobileMetadata();
-installMobileStyles();
+verifyMobileStyles();
 syncClientFlags();
 removeRetiredTabbars();
 
