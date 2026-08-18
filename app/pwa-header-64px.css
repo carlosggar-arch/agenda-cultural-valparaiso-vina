@@ -56,24 +56,27 @@
     overflow: hidden !important;
   }
 
-  /* F: explicit visible 15px mosaic. Keep L at 2px. */
+  /* F: exactly 15px high. The previous -1.23rem offset was larger than F itself
+     and could move the whole divider out of view; -8px preserves the compact
+     2px target gap while keeping the entire mosaic visibly rendered. */
   html[data-installed-app-actions="below-mosaic"] .filter-workbench::before {
     content: "" !important;
     display: block !important;
     position: relative !important;
-    z-index: 2 !important;
+    z-index: 20 !important;
     width: 100% !important;
     max-width: none !important;
     height: 15px !important;
     min-height: 15px !important;
     max-height: 15px !important;
-    margin-top: -1.23rem !important;
+    margin-top: -8px !important;
     margin-bottom: .05rem !important;
     border-radius: .34rem !important;
     background: #0b7f93 url("../assets/mosaic-top.png") center / 22rem 100% repeat-x !important;
     box-shadow: inset 0 0 0 1px rgb(255 255 255 / 28%) !important;
     visibility: visible !important;
     opacity: 1 !important;
+    overflow: visible !important;
   }
 }
 
