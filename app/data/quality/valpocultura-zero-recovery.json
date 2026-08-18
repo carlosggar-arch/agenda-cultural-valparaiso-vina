@@ -1,17 +1,78 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T12:08:38+00:00",
+  "generated_at": "2026-08-18T13:17:29+00:00",
   "source": "https://valpocultura.cl/agenda-cultural/",
   "fetch_ok": true,
   "http_status": 200,
   "error": null,
   "state": "ok",
-  "discovered": 0,
-  "active_coverage": 0,
-  "coverage": [],
+  "discovered": 5,
+  "active_coverage": 5,
+  "coverage": [
+    {
+      "source_id": "centex",
+      "source_name": "CENTEX",
+      "covered_by": "valpocultura",
+      "title": "Centex – Cartelera Agosto",
+      "url": "https://valpocultura.cl/evento/centex-cartelera-agosto/",
+      "start": "2026-08-01",
+      "end": "2026-08-31",
+      "publishable": true,
+      "published": true,
+      "detail_fetch_ok": true
+    },
+    {
+      "source_id": "valparaiso_profundo",
+      "source_name": "Valparaíso Profundo",
+      "covered_by": "valpocultura",
+      "title": "Valparaíso Profundo – Programación Agosto",
+      "url": "https://valpocultura.cl/evento/valparaiso-profundo-programacion-agosto/",
+      "start": "2026-08-01",
+      "end": "2026-08-28",
+      "publishable": true,
+      "published": true,
+      "detail_fetch_ok": true
+    },
+    {
+      "source_id": "estrella_negra_jazz",
+      "source_name": "Estrella Negra Club de Jazz",
+      "covered_by": "valpocultura",
+      "title": "Club de Jazz Estrella Negra – Cartelera Agosto",
+      "url": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
+      "start": "2026-08-03",
+      "end": "2026-08-29",
+      "publishable": true,
+      "published": true,
+      "detail_fetch_ok": true
+    },
+    {
+      "source_id": "casa_cultura_valparaiso",
+      "source_name": "Casa de la Cultura de Valparaíso",
+      "covered_by": "valpocultura",
+      "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+      "url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+      "start": "2026-08-28",
+      "end": "2026-08-28",
+      "publishable": true,
+      "published": true,
+      "detail_fetch_ok": true
+    },
+    {
+      "source_id": "teatro_municipal_valparaiso",
+      "source_name": "Teatro Municipal de Valparaíso",
+      "covered_by": "valpocultura",
+      "title": "Teatro Municipal – Cartelera Festival Internacional de Cine Ojo de Pescado",
+      "url": "https://valpocultura.cl/evento/teatro-municipal-cartelera-festival-internacional-de-cine-ojo-de-pescado/",
+      "start": "2026-08-24",
+      "end": "2026-09-03",
+      "publishable": false,
+      "published": false,
+      "detail_fetch_ok": true
+    }
+  ],
   "refresh": {
-    "previous_recovery": 4,
-    "published": 0,
+    "previous_recovery": 0,
+    "published": 4,
     "preserved_previous": false,
     "duplicates_skipped": 0
   }
