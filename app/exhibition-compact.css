@@ -1,6 +1,6 @@
 /* Visual contract shared by every city.
-   - Desktop/tablet cards are equalized dynamically within each visual row.
-   - Mobile cards remain content-driven because a single column does not benefit from equal heights.
+   - Desktop/tablet cards use native CSS Grid stretching within each visual row.
+   - Mobile cards remain content-driven because a single column does not benefit from forced heights.
    - All top-level card images use the same compact height.
    - All category labels and top-level titles use the same typography and spacing.
    - Grouped exhibition rows use a fixed compact row height and scroll internally. */
@@ -13,12 +13,12 @@
 
 /* ---------- Global card geometry ---------- */
 .event-grid {
-  align-items: start !important;
+  align-items: stretch !important;
   grid-auto-rows: auto !important;
 }
 
 .event-grid > .event-card {
-  align-self: start !important;
+  align-self: stretch !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
