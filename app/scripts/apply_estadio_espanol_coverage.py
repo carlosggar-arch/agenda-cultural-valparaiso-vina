@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[2]
 REPORT_PATH = ROOT / "app/data/quality/visitavina-estadio-espanol.json"
 TARGET_SOURCE_ID = "estadio_espanol_recreo"
 TIMEZONE = "America/Santiago"
+MAINTENANCE_HOOK_PATH = "app/scripts/atomic_maintenance_hook.py"
 
 
 def merged_coverage(coverage: dict, report: dict) -> dict[str, list[str]]:
@@ -72,7 +73,7 @@ def build() -> tuple[dict, dict, dict]:
 
 def run_atomic_maintenance_hook() -> None:
     subprocess.run(
-        [sys.executable, "app/scripts/atomic_maintenance_hook.py"],
+        [sys.executable, MAINTENANCE_HOOK_PATH],
         cwd=ROOT,
         check=True,
     )

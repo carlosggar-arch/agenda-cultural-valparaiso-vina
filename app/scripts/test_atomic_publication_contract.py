@@ -27,10 +27,10 @@ REQUIRED_MAIN_STEPS = [
 ]
 
 MAINTENANCE_STEPS = [
-    'run("app/scripts/parser_drift_guard.py")',
-    'run("app/scripts/revalidate_upcoming_events.py", "--days", "10", "--max-fetch", "60")',
-    'run("app/scripts/audit_and_recover_images.py", "--max-fetch", "40")',
-    'run("app/scripts/audit_source_coherence.py", "--fail-on-critical")',
+    "app/scripts/parser_drift_guard.py",
+    "app/scripts/revalidate_upcoming_events.py",
+    "app/scripts/audit_and_recover_images.py",
+    "app/scripts/audit_source_coherence.py",
 ]
 
 
@@ -69,6 +69,8 @@ def main() -> None:
         assert index >= 0, f"Missing atomic maintenance layer: {marker}"
         maintenance_positions.append(index)
     assert maintenance_positions == sorted(maintenance_positions), "Maintenance layers run in an unexpected order"
+    assert "REVALIDATION_FETCH_BUDGET" in MAINTENANCE_HOOK
+    assert "IMAGE_FETCH_BUDGET" in MAINTENANCE_HOOK
     assert "git commit" not in MAINTENANCE_HOOK
     assert "git push" not in MAINTENANCE_HOOK
     assert "stage_outputs()" in MAINTENANCE_HOOK
