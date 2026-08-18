@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-18T07:14:32-04:00",
+  "source_id": "balmaceda_arte_joven_valpo_official",
+  "source_name": "Balmaceda Arte Joven Valparaíso",
+  "covered_source_id": "balmaceda_arte_joven_valpo",
+  "source_role": "official_primary_source",
+  "state": "official_site_fetch_error",
+  "network_policy": {
+    "timeout_seconds": 6,
+    "max_links_per_landing": 2
+  },
+  "landings": [
+    {
+      "url": "https://www.balmacedartejoven.cl/",
+      "fetch_ok": false,
+      "http_status": null,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    {
+      "url": "https://www.balmacedartejoven.cl/sedes/sede-valparaiso/",
+      "fetch_ok": false,
+      "http_status": null,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    {
+      "url": "https://www.balmacedartejoven.cl/sedes/sede-valparaiso/talleres-valparaiso/",
+      "fetch_ok": false,
+      "http_status": null,
+      "error": "URLError: <urlopen error timed out>"
+    },
+    {
+      "url": "https://www.balmacedartejoven.cl/programacion/",
+      "fetch_ok": false,
+      "http_status": null,
+      "error": "URLError: <urlopen error timed out>"
+    }
+  ],
+  "links_discovered": 0,
+  "pages_scanned": 0,
+  "page_fetch_failures": [],
+  "recent_valpo_pages": 0,
+  "recent_valpo_titles": [],
+  "future_dated_candidates": 0,
+  "previous_future_events": 0,
+  "events_published": 0,
+  "semantic_duplicates_dropped": 0,
+  "coverage": [],
+  "policy": "Recent coverage requires a Valparaiso-specific news path or strong Valparaiso context in leading content blocks; global footer text never counts. Event publication additionally requires an explicit future date and BAJ Valpo context in the same content block. Historical pages never create current events."
+}
