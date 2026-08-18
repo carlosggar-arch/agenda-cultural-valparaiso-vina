@@ -60,6 +60,7 @@ const SHELL_ASSETS = [
   "./compact-top.js",
   "./gijon-visual-reference.js",
   "./sources-toggle.js",
+  "./community-source.js",
   "./community-source.js?v=20260818-feedback3",
   "./community-source.css?v=20260818-feedback2",
   "./participation-footer.js?v=20260818-feedback5",
