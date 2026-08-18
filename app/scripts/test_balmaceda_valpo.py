@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import date
 
 from refresh_balmaceda_valpo import as_published_day, discover_links, parse, same_block_candidates
+from refresh_balmaceda_valpo_bounded import safe_valpo_page
 
 
 def test_recent_valpo_future_event_is_detected() -> None:
@@ -38,6 +39,16 @@ def test_external_or_split_footer_context_does_not_publish() -> None:
     assert same_block_candidates(parse(markup), date(2026, 8, 18)) == []
 
 
+def test_region_path_beats_global_footer_for_coverage() -> None:
+    markup = """
+    <html><body><h1>Actividad Biobío</h1><p>Programación de la sede Biobío.</p>
+    <footer><p>BAJ Valpo · Santa Isabel 739 · Cerro Alegre</p></footer></body></html>
+    """
+    parser = parse(markup)
+    assert safe_valpo_page("https://www.balmacedartejoven.cl/noticias/biobio/actividad/", parser) is False
+    assert safe_valpo_page("https://www.balmacedartejoven.cl/noticias/valparaiso/actividad/", parser) is True
+
+
 def test_cancelled_block_is_rejected() -> None:
     markup = """
     <html><head><meta property="article:published_time" content="2026-08-17T12:00:00-04:00"></head>
@@ -63,6 +74,7 @@ def main() -> None:
     test_recent_valpo_future_event_is_detected()
     test_historical_page_without_year_cannot_create_current_event()
     test_external_or_split_footer_context_does_not_publish()
+    test_region_path_beats_global_footer_for_coverage()
     test_cancelled_block_is_rejected()
     test_internal_content_links_only()
     print("BALMACEDA_VALPO_TESTS_OK")
