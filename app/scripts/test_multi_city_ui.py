@@ -51,7 +51,7 @@ for removed in ('data-combined-price', 'data-combined-access', 'data-combined-fo
     assert removed not in index
 assert '<strong>¡Vivamos!</strong>' in index
 assert './combined-filters.css' in index
-assert './combined-filters.js' in index
+assert './combined-filters-bootstrap.js' in index
 assert './contextual-filters.js' not in index
 assert 'new URLSearchParams(window.location.search).get("city")' in index
 assert '["access", "format", "aud"]' in index
