@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-18T10:10:51-04:00",
+  "status": "attention",
+  "critical": [],
+  "warnings": [
+    "public_sources_missing_in_coverage:5",
+    "core_policy:fetch_error:HTTP 404"
+  ],
+  "summary": {
+    "public_sources": 37,
+    "coverage_sources": 41,
+    "events": 165,
+    "missing_in_coverage": 5,
+    "coverage_without_catalog": 6,
+    "stale_verifications": 0,
+    "core_policy_state": "fetch_error:HTTP 404",
+    "core_policy_missing": 0
+  },
+  "duplicate_public_ids": [],
+  "duplicate_public_names": [],
+  "public_sources_missing_in_coverage": [
+    "CONAF — Reserva Nacional Lago Peñuelas",
+    "Del Barrio Valpo",
+    "El Pasaje Café Viña",
+    "Itaú Maratón de Viña — sitio oficial",
+    "Teatro Desastre"
+  ],
+  "coverage_without_catalog": [
+    "instituto_le_chat",
+    "maraton_vina_official",
+    "media_maraton_tps_official",
+    "natalia_saldias",
+    "red_studio",
+    "valparaiso_trekking"
+  ],
+  "stale_public_source_verifications": [],
+  "unattributed_event_ids": [],
+  "core_policy_without_public_source": []
+}
