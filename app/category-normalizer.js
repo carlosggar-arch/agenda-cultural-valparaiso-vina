@@ -1,3 +1,5 @@
+import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260818-public-categories1";
+
 const nativeFetch = window.fetch.bind(window);
 
 const QUOTED_ACTIVITY = [
@@ -8,15 +10,6 @@ const QUOTED_ACTIVITY = [
 const ACTIVITY_TERMS = /\b(?:exposici[oó]n|muestra|obra|concierto|recital|festival|taller|charla|conversatorio|funci[oó]n|espect[aá]culo|presentaci[oó]n|encuentro|visita guiada|seminario|curso)\b/iu;
 const EXHIBITION_TERMS = /\b(?:exposici[oó]n|muestra)\b/iu;
 const FOLLOWING_TITLE_VERBS = /^\s*(?:lleg[oóa]|llega|se presenta|se exhibe|se inaugura|se realizar[aá]|se realiza|se presentar[aá]|se podr[aá] ver|abre|estar[aá]|vuelve)\b/iu;
-
-function slugify(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "cultura";
-}
 
 function fold(value) {
   return String(value || "")
@@ -110,26 +103,13 @@ function repairVenueTitle(event) {
   };
 }
 
-function publicCategory(event) {
-  const source = event?.primary_category || event?.categories?.[0] || null;
-  let label = String(source?.label || "Actividad cultural").trim() || "Actividad cultural";
-  let id = String(source?.id || slugify(label)).trim();
-  if (id === "museos" || slugify(label) === "museos") {
-    id = "exposiciones";
-    label = "Exposiciones";
-  } else if (id === "exposiciones") {
-    label = "Exposiciones";
-  }
-  return { id, label };
-}
-
 function normalizeAgendaDataset(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
   return {
     ...dataset,
     events: dataset.events.map((sourceEvent) => {
       const event = repairVenueTitle(sourceEvent);
-      const category = publicCategory(event);
+      const category = resolvePublicCategory(event);
       return {
         ...event,
         primary_category: category,
