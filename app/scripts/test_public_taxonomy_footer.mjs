@@ -46,11 +46,15 @@ assert.match(compact, /categoria-exposiciones\.jpg/);
 
 const footer = readFileSync(new URL("../footer-credit.js", import.meta.url), "utf8");
 assert.match(footer, /Carlos García García/);
-assert.match(footer, /Contacto · @carlosggar-arch/);
-assert.match(footer, /github\.com\/carlosggar-arch/);
-assert.match(footer, /vivamos-footer-link--contact/);
-assert.match(footer, /vivamos-footer-link--secondary/);
-assert.match(footer, /color:\s*#fff\s*!important/);
-assert.match(footer, /Fuentes/);
+assert.match(footer, /vivamos-footer-contact/);
+assert.match(footer, /vivamos-contact-dialog/);
+assert.match(footer, /formsubmit\.co\/ajax\/carlosggar@gmail\.com/);
+assert.match(footer, /carlos\.garcia@usm\.cl/);
+assert.match(footer, /_cc/);
+assert.match(footer, /_replyto/);
+assert.match(footer, /Enviar mensaje/);
+assert.doesNotMatch(footer, /\["GitHub"/);
+assert.doesNotMatch(footer, /\["Fuentes"/);
+assert.doesNotMatch(footer, /vivamos-footer-link--secondary/);
 
 console.log("PUBLIC_TAXONOMY_FOOTER_CONTRACT_OK");
