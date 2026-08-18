@@ -1,0 +1,38 @@
+name: Community feedback UI contract
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/community-source.js"
+      - "app/community-source.css"
+      - "app/pwa.js"
+      - "tests/community-feedback-ui.test.mjs"
+      - ".github/workflows/community-feedback-ui-contract.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/community-source.js"
+      - "app/community-source.css"
+      - "app/pwa.js"
+      - "tests/community-feedback-ui.test.mjs"
+      - ".github/workflows/community-feedback-ui-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate client syntax and single-row contract
+        run: |
+          node --check app/community-source.js
+          node tests/community-feedback-ui.test.mjs
+          git diff --check
