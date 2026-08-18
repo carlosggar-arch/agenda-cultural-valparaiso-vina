@@ -33,6 +33,40 @@ MAINTENANCE_STEPS = [
     "app/scripts/audit_source_coherence.py",
 ]
 
+REQUIRED_MAIN_PUSH_PATHS = [
+    '      - "agenda_web.json"',
+    '      - "app/data/gijon/agenda_web.json"',
+    '      - "scripts/generate_event_pages.py"',
+    '      - "scripts/stage31_site_generator.py"',
+    '      - "app/data/high_value_sources.json"',
+    '      - "app/scripts/atomic_maintenance_hook.py"',
+    '      - "app/scripts/source_refresh_scope.py"',
+    '      - ".github/workflows/event-pages.yml"',
+]
+
+FORBIDDEN_MAIN_PUSH_PATHS = [
+    '      - "assets/event-page.css"',
+    '      - "assets/event-page.js"',
+    '      - "assets/accessibility.css"',
+    '      - "assets/city-page.css"',
+    '      - "assets/event-permalink.css"',
+    '      - "assets/web-event-enhancements.js"',
+    '      - "app/event-detail.js"',
+    '      - "app/pwa.js"',
+    '      - "app/service-worker.js"',
+    '      - "app/stage31-accessibility-seo.js"',
+    '      - "app/stage31-accessibility.css"',
+    '      - "tests/test_stage31.py"',
+    '      - "app/scripts/test_high_value_sources.py"',
+    '      - "app/scripts/test_source_refresh_scope.py"',
+]
+
+
+def main_push_block() -> str:
+    start = EVENT_PAGES.index("  push:\n")
+    end = EVENT_PAGES.index("  workflow_dispatch:\n", start)
+    return EVENT_PAGES[start:end]
+
 
 def main() -> None:
     positions = []
@@ -47,6 +81,19 @@ def main() -> None:
     assert "app/data/quality/visitavina-estadio-espanol.json" in EVENT_PAGES
     assert "app/data/quality/balmaceda-valpo.json" in EVENT_PAGES
     assert "app/data/quality/content-quality.json" in EVENT_PAGES
+
+    # Main push should wake the publisher only for data/generator/source-runtime
+    # changes. UI assets and test-only changes are validated on PR and must not
+    # re-run the publication workflow after merge.
+    push_block = main_push_block()
+    for marker in REQUIRED_MAIN_PUSH_PATHS:
+        assert marker in push_block, f"Required main push trigger missing: {marker.strip()}"
+    for marker in FORBIDDEN_MAIN_PUSH_PATHS:
+        assert marker not in push_block, f"Redundant main push trigger returned: {marker.strip()}"
+    for line in push_block.splitlines():
+        stripped = line.strip().strip('- ').strip('"')
+        if stripped.startswith("app/scripts/test_"):
+            raise AssertionError(f"Test-only path must not trigger main publication: {stripped}")
 
     # All fallback or specialist workflows must remain non-automatic writers.
     assert "push:" not in FALLBACK.split("permissions:", 1)[0], "Fallback composer must not auto-run on push"
