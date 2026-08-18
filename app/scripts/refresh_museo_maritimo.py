@@ -25,24 +25,15 @@ ARCHIVE_URLS = [
     "https://museomaritimo.cl/author/capacitador/",
     "https://museomaritimo.cl/author/capacitador/page/2/",
     "https://museomaritimo.cl/author/capacitador/page/3/",
+    "https://museomaritimo.cl/noticias-anteriores/",
 ]
 TIMEZONE = "America/Santiago"
 CITY = "Valparaíso"
 VENUE = "Museo Marítimo Nacional"
 ADDRESS = "Paseo 21 de Mayo 45, Cerro Artillería, Valparaíso"
 MONTHS = {
-    "enero": 1,
-    "febrero": 2,
-    "marzo": 3,
-    "abril": 4,
-    "mayo": 5,
-    "junio": 6,
-    "julio": 7,
-    "agosto": 8,
-    "septiembre": 9,
-    "octubre": 10,
-    "noviembre": 11,
-    "diciembre": 12,
+    "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
+    "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
 }
 MONTH_PATTERN = "|".join(MONTHS)
 DATE_TEXT = re.compile(
@@ -54,10 +45,17 @@ TIME_TEXT = re.compile(r"(?:entre\s+las|desde\s+las|a\s+las)\s*(\d{1,2})[:.]([0-
 ARTICLE_PATH = re.compile(r"/20\d{2}/\d{2}/\d{2}/[^/?#]+/?$")
 BLOCK_TAGS = {"br", "p", "div", "li", "article", "section", "h1", "h2", "h3", "h4", "tr", "td", "button"}
 LOCAL_MARKERS = (
-    "paseo 21 de mayo",
-    "cerro artilleria",
-    "dependencias del museo maritimo nacional",
+    "paseo 21 de mayo", "cerro artilleria", "dependencias del museo maritimo nacional",
     "en el museo maritimo nacional",
+)
+FUTURE_MARKERS = (
+    "se realizara", "realizara", "se llevara a cabo", "abrira sus puertas", "invita a",
+    "presentara", "tendra lugar", "se efectuara", "se desarrollara", "programacion especial",
+    "actividad se realizara", "jornada se realizara",
+)
+CANCEL_MARKERS = (
+    "actividad suspendida", "actividad cancelada", "evento suspendido", "evento cancelado",
+    "se suspende", "se cancela", "ha sido suspend", "fue suspend", "ha sido cancel", "fue cancel",
 )
 
 
@@ -83,9 +81,7 @@ class PageParser(HTMLParser):
     def handle_starttag(self, tag: str, attrs) -> None:
         attrs_dict = dict(attrs)
         if tag in {"script", "style", "noscript"}:
-            self._flush()
-            self.skip += 1
-            return
+            self._flush(); self.skip += 1; return
         if self.skip:
             return
         if tag == "meta" and str(attrs_dict.get("property") or "").casefold() == "og:image":
@@ -93,8 +89,7 @@ class PageParser(HTMLParser):
             if content:
                 self.og_image = content
         if tag == "a":
-            self._flush()
-            self.current_href = attrs_dict.get("href")
+            self._flush(); self.current_href = attrs_dict.get("href")
         elif tag in BLOCK_TAGS:
             self._flush()
         if tag == "h1":
@@ -102,14 +97,12 @@ class PageParser(HTMLParser):
 
     def handle_endtag(self, tag: str) -> None:
         if tag in {"script", "style", "noscript"}:
-            if self.skip:
-                self.skip -= 1
+            if self.skip: self.skip -= 1
             return
         if self.skip:
             return
         if tag == "a":
-            self._flush()
-            self.current_href = None
+            self._flush(); self.current_href = None
         elif tag in BLOCK_TAGS:
             self._flush()
         if tag == "h1":
@@ -123,8 +116,7 @@ class PageParser(HTMLParser):
             self.h1_parts.append(data)
 
     def close(self) -> None:
-        self._flush()
-        super().close()
+        self._flush(); super().close()
 
     @property
     def h1(self) -> str:
@@ -137,18 +129,14 @@ def norm(value: object) -> str:
 
 
 def fetch(url: str) -> tuple[bool, int | None, str, str | None]:
-    request = Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0 (compatible; AgendaCultural/1.0)",
-            "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
-            "Accept-Language": "es-CL,es;q=0.9",
-        },
-    )
+    request = Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (compatible; AgendaCultural/1.0)",
+        "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "es-CL,es;q=0.9",
+    })
     try:
         with urlopen(request, timeout=30) as response:  # nosec B310 - fixed official HTTPS URLs
-            raw = response.read()
-            charset = response.headers.get_content_charset() or "utf-8"
+            raw = response.read(); charset = response.headers.get_content_charset() or "utf-8"
             try:
                 text = raw.decode(charset, errors="replace")
             except LookupError:
@@ -161,10 +149,7 @@ def fetch(url: str) -> tuple[bool, int | None, str, str | None]:
 
 
 def parse(markup: str) -> PageParser:
-    parser = PageParser()
-    parser.feed(markup)
-    parser.close()
-    return parser
+    parser = PageParser(); parser.feed(markup); parser.close(); return parser
 
 
 def month_year(month: int, today: date) -> int | None:
@@ -176,8 +161,7 @@ def month_year(month: int, today: date) -> int | None:
 
 
 def monthly_program_items(text: list[str], today: date) -> list[dict]:
-    items: list[dict] = []
-    seen: set[tuple[int, int, str]] = set()
+    items: list[dict] = []; seen: set[tuple[int, int, str]] = set()
     for index, value in enumerate(text[:-1]):
         month = MONTHS.get(norm(value))
         if not month:
@@ -186,59 +170,46 @@ def monthly_program_items(text: list[str], today: date) -> list[dict]:
         if year is None:
             continue
         for candidate in text[index + 1:index + 4]:
-            candidate_norm = norm(candidate)
-            if "exposicion" not in candidate_norm:
+            if "exposicion" not in norm(candidate):
                 continue
-            title = re.sub(r"^EXPOSICI[ÓO]N\s+(?:TEMPORAL\s+|DIGITAL\s+|TEMPORAL\s+DIGITAL\s+)?", "", candidate, flags=re.I).strip(" \"'“”")
+            title = re.sub(
+                r"^EXPOSICI[ÓO]N\s+(?:TEMPORAL\s+DIGITAL\s+|TEMPORAL\s+EN\s+[^\"]+\s+|TEMPORAL\s+|DIGITAL\s+)?",
+                "", candidate, flags=re.I,
+            ).strip(" \"'“”")
             if len(title) < 4:
                 continue
             signature = (year, month, norm(title))
-            if signature in seen:
-                break
-            seen.add(signature)
-            items.append({
-                "title": title,
-                "month": month,
-                "year": year,
-                "publishable": False,
-                "reason": "month_only_no_explicit_start_end",
-            })
+            if signature not in seen:
+                seen.add(signature)
+                items.append({
+                    "title": title, "month": month, "year": year, "publishable": False,
+                    "reason": "month_only_no_explicit_start_end",
+                })
             break
     return items
 
 
 def article_links(markup: str) -> list[str]:
-    parser = parse(markup)
-    result: list[str] = []
-    seen: set[str] = set()
+    parser = parse(markup); result: list[str] = []; seen: set[str] = set()
     for token in parser.tokens:
         href = str(token.get("href") or "").strip()
         if not href:
             continue
-        url = urljoin(PROGRAM_URL, href)
-        parsed = urlparse(url)
-        if parsed.netloc not in {"museomaritimo.cl", "www.museomaritimo.cl"}:
-            continue
-        if not ARTICLE_PATH.search(parsed.path):
+        url = urljoin(PROGRAM_URL, href); parsed = urlparse(url)
+        if parsed.netloc not in {"museomaritimo.cl", "www.museomaritimo.cl"} or not ARTICLE_PATH.search(parsed.path):
             continue
         canonical = f"https://museomaritimo.cl{parsed.path}"
-        if canonical in seen:
-            continue
-        seen.add(canonical)
-        result.append(canonical)
+        if canonical not in seen:
+            seen.add(canonical); result.append(canonical)
     return result
 
 
 def category_for(title: str, body: str) -> tuple[str, str]:
     value = norm(f"{title} {body}")
-    if "exposicion" in value:
-        return "exposiciones", "Exposiciones"
-    if any(term in value for term in ("concierto", "orquesta", "banda de musicos", "recital")):
-        return "musica", "Música"
-    if any(term in value for term in ("obra teatral", "obra de teatro", "teatro")):
-        return "teatro", "Teatro"
-    if "taller" in value:
-        return "cursos-talleres", "Cursos y talleres"
+    if "exposicion" in value: return "exposiciones", "Exposiciones"
+    if any(term in value for term in ("concierto", "orquesta", "banda de musicos", "recital")): return "musica", "Música"
+    if any(term in value for term in ("obra teatral", "obra de teatro", "teatro")): return "teatro", "Teatro"
+    if "taller" in value: return "cursos-talleres", "Cursos y talleres"
     return "museos", "Museos"
 
 
@@ -246,92 +217,56 @@ def make_event(title: str, start: date, clock: str | None, article_url: str, ima
     verified = datetime.now(ZoneInfo(TIMEZONE)).isoformat(timespec="seconds")
     digest = hashlib.sha1(f"{SOURCE_ID}|{start}|{clock or ''}|{title}".encode()).hexdigest()[:16]
     category_id, category_label = category_for(title, body)
-    if clock:
-        start_iso = datetime.fromisoformat(f"{start.isoformat()}T{clock}:00").replace(tzinfo=ZoneInfo(TIMEZONE)).isoformat(timespec="seconds")
-    else:
-        start_iso = start.isoformat()
+    start_iso = start.isoformat() if not clock else datetime.fromisoformat(f"{start.isoformat()}T{clock}:00").replace(tzinfo=ZoneInfo(TIMEZONE)).isoformat(timespec="seconds")
     body_norm = norm(body)
     free = any(marker in body_norm for marker in ("entrada liberada", "entrada gratuita", "actividad gratuita", "jornada familiar gratuita"))
-    price_text = "Entrada liberada" if free else "Consultar condiciones"
     return {
-        "id": f"agenda_{SOURCE_ID}_{digest}",
-        "title": title.strip(),
-        "event_type": "event",
+        "id": f"agenda_{SOURCE_ID}_{digest}", "title": title.strip(), "event_type": "event",
         "primary_category": {"id": category_id, "label": category_label},
         "categories": [{"id": category_id, "label": category_label}],
         "schedule": {
-            "mode": "single",
-            "start": start_iso,
-            "end": start_iso,
-            "timezone": TIMEZONE,
-            "display_text": f"{start.isoformat()}{' · ' + clock if clock else ''}",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit",
+            "mode": "single", "start": start_iso, "end": start_iso, "timezone": TIMEZONE,
+            "display_text": f"{start.isoformat()}{' · ' + clock if clock else ''}", "occurrences": [],
+            "start_confidence": "explicit", "end_confidence": "explicit",
         },
         "location": {
-            "venue_id": SOURCE_ID,
-            "city": CITY,
-            "commune": CITY,
-            "venue": VENUE,
-            "address": ADDRESS,
-            "online": False,
-            "latitude": None,
-            "longitude": None,
+            "venue_id": SOURCE_ID, "city": CITY, "commune": CITY, "venue": VENUE, "address": ADDRESS,
+            "online": False, "latitude": None, "longitude": None,
         },
         "price": {
-            "is_free": True if free else None,
-            "currency": "CLP",
-            "min_amount": 0 if free else None,
-            "max_amount": 0 if free else None,
-            "display_text": price_text,
+            "is_free": True if free else None, "currency": "CLP", "min_amount": 0 if free else None,
+            "max_amount": 0 if free else None, "display_text": "Entrada liberada" if free else "Consultar condiciones",
         },
         "links": {"official": article_url, "tickets": None, "registration": None, "source": PROGRAM_URL},
-        "organizer": SOURCE_NAME,
-        "source_id": SOURCE_ID,
-        "source_name": SOURCE_NAME,
-        "source_url": PROGRAM_URL,
+        "organizer": SOURCE_NAME, "source_id": SOURCE_ID, "source_name": SOURCE_NAME, "source_url": PROGRAM_URL,
         "last_verified_at": verified,
         "public_status": {
-            "source_official": True,
-            "last_verified_at": verified,
-            "registration_open": None,
-            "registration_closed": None,
-            "cancelled": False,
-            "sold_out": None,
-            "price_stage": None,
-            "price_confirmed": free,
-            "information_completeness": "partial",
+            "source_official": True, "last_verified_at": verified, "registration_open": None,
+            "registration_closed": None, "cancelled": False, "sold_out": None, "price_stage": None,
+            "price_confirmed": free, "information_completeness": "partial",
             "advisory_text": "Confirma horario, acceso y condiciones en la publicación oficial del Museo Marítimo Nacional.",
         },
         "description": "Actividad futura con fecha explícita detectada en una publicación oficial del Museo Marítimo Nacional.",
-        "tags": [category_label, SOURCE_NAME],
-        "audience": None,
-        "registration_requirements": None,
+        "tags": [category_label, SOURCE_NAME], "audience": None, "registration_requirements": None,
         "image": {"url": image_url, "alt": title if image_url else None},
-        "editorial": {
-            "classification": "event",
-            "reason": "official_source:museo_maritimo_nacional",
-            "duration_days": 0,
-        },
+        "editorial": {"classification": "event", "reason": "official_source:museo_maritimo_nacional", "duration_days": 0},
     }
 
 
 def extract_events_from_article(markup: str, article_url: str, today: date) -> list[dict]:
-    parser = parse(markup)
-    title = parser.h1 or (parser.parts[0] if parser.parts else "")
+    parser = parse(markup); title = parser.h1 or (parser.parts[0] if parser.parts else "")
     if len(norm(title)) < 4:
         return []
-    body = " ".join(parser.parts)
-    body_norm = norm(body)
-    if "cancelad" in body_norm or "suspendid" in body_norm:
-        return []
-    if not any(marker in body_norm for marker in LOCAL_MARKERS):
+    body = " ".join(parser.parts); body_norm = norm(body)
+    cancellation_zone = norm(" ".join(parser.parts[:10]))
+    if any(marker in cancellation_zone for marker in CANCEL_MARKERS):
         return []
 
-    result: list[dict] = []
-    seen_dates: set[tuple[str, str | None]] = set()
+    result: list[dict] = []; seen_dates: set[tuple[str, str | None]] = set()
     for match in DATE_TEXT.finditer(body):
+        before = body[max(0, match.start() - 24):match.start()]
+        if norm(before).endswith("paseo"):
+            continue
         month = MONTHS.get(norm(match.group(2)))
         if not month:
             continue
@@ -342,8 +277,17 @@ def extract_events_from_article(markup: str, article_url: str, today: date) -> l
             continue
         if start < today:
             continue
-        context = body[match.start():match.end() + 180]
-        time_match = TIME_TEXT.search(context)
+        context = body[max(0, match.start() - 420):match.end() + 520]
+        context_norm = norm(context)
+        if not any(marker in context_norm for marker in LOCAL_MARKERS):
+            continue
+        if not any(marker in context_norm for marker in FUTURE_MARKERS):
+            continue
+        prefix_norm = norm(body[max(0, match.start() - 100):match.start()])
+        if "pasado" in prefix_norm or "pasada" in prefix_norm:
+            continue
+        time_context = body[match.start():match.end() + 200]
+        time_match = TIME_TEXT.search(time_context)
         clock = f"{int(time_match.group(1)):02d}:{time_match.group(2)}" if time_match else None
         signature = (start.isoformat(), clock)
         if signature in seen_dates:
@@ -358,108 +302,84 @@ def event_day(item: dict) -> str:
 
 
 def event_end(item: dict) -> str:
-    schedule = item.get("schedule") or {}
-    return str(schedule.get("end") or schedule.get("start") or "")[:10]
+    schedule = item.get("schedule") or {}; return str(schedule.get("end") or schedule.get("start") or "")[:10]
 
 
 def semantic_duplicate(candidate: dict, existing: list[dict]) -> bool:
-    candidate_title = norm(candidate.get("title"))
-    candidate_day = event_day(candidate)
+    candidate_title = norm(candidate.get("title")); candidate_day = event_day(candidate)
     for other in existing:
-        if event_day(other) != candidate_day:
-            continue
-        other_city = norm((other.get("location") or {}).get("city"))
-        if other_city != "valparaiso":
+        if event_day(other) != candidate_day or norm((other.get("location") or {}).get("city")) != "valparaiso":
             continue
         other_title = norm(other.get("title"))
         if not other_title:
             continue
-        if candidate_title == other_title:
-            return True
-        if candidate_title in other_title or other_title in candidate_title:
-            if min(len(candidate_title), len(other_title)) >= 12:
-                return True
-        if SequenceMatcher(None, candidate_title, other_title).ratio() >= 0.86:
-            return True
+        if candidate_title == other_title: return True
+        if (candidate_title in other_title or other_title in candidate_title) and min(len(candidate_title), len(other_title)) >= 12: return True
+        if SequenceMatcher(None, candidate_title, other_title).ratio() >= 0.86: return True
     return False
 
 
 def refresh_counts(dataset: dict) -> None:
     events = dataset.get("events") or []
     dataset["counts"] = {
-        "total": len(events),
-        "events": sum(item.get("event_type") == "event" for item in events),
-        "courses": sum(item.get("event_type") == "course" for item in events),
-        "flexible_offers": sum(item.get("event_type") == "flexible_offer" for item in events),
-        "programs": sum(item.get("event_type") == "program" for item in events),
+        "total": len(events), "events": sum(x.get("event_type") == "event" for x in events),
+        "courses": sum(x.get("event_type") == "course" for x in events),
+        "flexible_offers": sum(x.get("event_type") == "flexible_offer" for x in events),
+        "programs": sum(x.get("event_type") == "program" for x in events),
     }
 
 
-def load_dataset() -> dict:
-    return json.loads(DATASET.read_text(encoding="utf-8"))
-
-
 def save_json(path: Path, data: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True); path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def run(no_write: bool = False) -> int:
     today = datetime.now(ZoneInfo(TIMEZONE)).date()
-    dataset = load_dataset()
-    original_events = list(dataset.get("events") or [])
-    base = [item for item in original_events if str(item.get("source_id") or "") != SOURCE_ID]
-    previous = [item for item in original_events if str(item.get("source_id") or "") == SOURCE_ID and event_end(item) >= today.isoformat()]
+    dataset = json.loads(DATASET.read_text(encoding="utf-8")); original = list(dataset.get("events") or [])
+    base = [x for x in original if str(x.get("source_id") or "") != SOURCE_ID]
+    previous = [x for x in original if str(x.get("source_id") or "") == SOURCE_ID and event_end(x) >= today.isoformat()]
 
     program_ok, program_status, program_markup, program_error = fetch(PROGRAM_URL)
     monthly = monthly_program_items(parse(program_markup).parts, today) if program_ok else []
 
-    archive_results = []
-    links: list[str] = []
-    seen_links: set[str] = set()
+    archive_results = []; links: list[str] = []; seen_links: set[str] = set()
     for archive_url in ARCHIVE_URLS:
         ok, status, markup, error = fetch(archive_url)
         archive_results.append({"url": archive_url, "fetch_ok": ok, "http_status": status, "error": error})
-        if not ok:
-            continue
-        for link in article_links(markup):
-            if link not in seen_links:
-                seen_links.add(link)
-                links.append(link)
+        if ok:
+            for link in article_links(markup):
+                if link not in seen_links:
+                    seen_links.add(link); links.append(link)
 
-    archive_ok = any(item["fetch_ok"] for item in archive_results)
-    fresh: list[dict] = []
-    article_failures = []
-    articles_scanned = 0
+    archive_ok = any(x["fetch_ok"] for x in archive_results)
+    fresh: list[dict] = []; article_failures = []; scanned = 0
     for article_url in links[:30]:
         ok, status, markup, error = fetch(article_url)
         if not ok:
-            article_failures.append({"url": article_url, "http_status": status, "error": error})
-            continue
-        articles_scanned += 1
-        fresh.extend(extract_events_from_article(markup, article_url, today))
+            article_failures.append({"url": article_url, "http_status": status, "error": error}); continue
+        scanned += 1; fresh.extend(extract_events_from_article(markup, article_url, today))
 
-    candidate_pool = fresh if archive_ok else previous
-    source_events: list[dict] = []
-    duplicates = 0
-    seen_ids: set[str] = set()
-    for candidate in candidate_pool:
+    discovery_confident = archive_ok and bool(links)
+    pool = fresh if discovery_confident else previous + fresh
+    source_events: list[dict] = []; duplicates = 0; seen_ids: set[str] = set()
+    for candidate in pool:
         candidate_id = str(candidate.get("id") or "")
         if not candidate_id or candidate_id in seen_ids:
             continue
         seen_ids.add(candidate_id)
         if semantic_duplicate(candidate, base + source_events):
-            duplicates += 1
-            continue
+            duplicates += 1; continue
         source_events.append(candidate)
 
-    dataset["events"] = sorted(base + source_events, key=lambda item: (event_day(item), str(item.get("title") or "")))
+    dataset["events"] = sorted(base + source_events, key=lambda x: (event_day(x), str(x.get("title") or "")))
     refresh_counts(dataset)
 
-    if archive_ok and source_events:
+    if discovery_confident and source_events:
         state = "publishing_explicit_future_events"
-    elif archive_ok and monthly:
+    elif discovery_confident and monthly:
         state = "official_program_detected_no_explicit_future_dates"
+    elif archive_ok and not links:
+        state = "archive_accessible_no_article_links"
     elif archive_ok:
         state = "no_publishable_future_events"
     elif previous:
@@ -470,42 +390,27 @@ def run(no_write: bool = False) -> int:
     report = {
         "schema_version": "1.0.0",
         "generated_at": datetime.now(ZoneInfo(TIMEZONE)).isoformat(timespec="seconds"),
-        "source_id": SOURCE_ID,
-        "source_name": SOURCE_NAME,
-        "source_role": "official_primary_source",
-        "state": state,
+        "source_id": SOURCE_ID, "source_name": SOURCE_NAME, "source_role": "official_primary_source", "state": state,
         "program": {
-            "url": PROGRAM_URL,
-            "fetch_ok": program_ok,
-            "http_status": program_status,
-            "error": program_error,
-            "monthly_items_detected": len(monthly),
-            "monthly_items": monthly,
+            "url": PROGRAM_URL, "fetch_ok": program_ok, "http_status": program_status, "error": program_error,
+            "monthly_items_detected": len(monthly), "monthly_items": monthly,
         },
-        "archives": archive_results,
-        "articles_discovered": len(links),
-        "articles_scanned": articles_scanned,
-        "article_fetch_failures": article_failures,
-        "future_dated_candidates": len(fresh),
-        "previous_future_events": len(previous),
-        "events_published": len(source_events),
+        "archives": archive_results, "articles_discovered": len(links), "articles_scanned": scanned,
+        "article_fetch_failures": article_failures, "future_dated_candidates": len(fresh),
+        "previous_future_events": len(previous), "events_published": len(source_events),
         "semantic_duplicates_dropped": duplicates,
-        "policy": "Month-only programme items are monitored but never converted into invented start/end dates; only explicit future dates from official MMN articles are publishable.",
+        "policy": "Month-only programme items are monitored but never converted into invented dates; publication requires an explicit future date, future-action context and local MMN context in an official article.",
     }
-
     if no_write:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
-        save_json(DATASET, dataset)
-        save_json(QUALITY, report)
+        save_json(DATASET, dataset); save_json(QUALITY, report)
     return 0
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Refresh official Museo Marítimo Nacional events conservatively.")
-    parser.add_argument("--no-write", action="store_true")
-    args = parser.parse_args()
-    raise SystemExit(run(args.no_write))
+    parser.add_argument("--no-write", action="store_true"); args = parser.parse_args(); raise SystemExit(run(args.no_write))
 
 
 if __name__ == "__main__":
