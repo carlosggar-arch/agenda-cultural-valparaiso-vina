@@ -21,6 +21,19 @@ function resolveCity() {
   return CITIES[requested] ? requested : CITIES[saved] ? saved : "valparaiso";
 }
 
+function classifyPrimarySource(rawUrl) {
+  const value = String(rawUrl || "").trim();
+  if (!value) return null;
+  try {
+    const host = new URL(value).hostname.toLowerCase().replace(/^www\./, "");
+    if (host === "instagram.com" || host.endsWith(".instagram.com")) return ["instagram_url", value];
+    if (host === "facebook.com" || host.endsWith(".facebook.com") || host === "fb.com") return ["facebook_url", value];
+    return ["website_url", value];
+  } catch {
+    return null;
+  }
+}
+
 const cityId = resolveCity();
 const city = CITIES[cityId];
 document.documentElement.dataset.city = cityId;
@@ -51,8 +64,21 @@ form?.addEventListener("submit", async (event) => {
 
   const values = Object.fromEntries(new FormData(form));
   values.cities = city.submittedCities;
+
+  const primarySource = classifyPrimarySource(values.source_url);
+  delete values.source_url;
+  if (!primarySource) {
+    message.textContent = "Indica un enlace público válido.";
+    return;
+  }
+  const [primaryField, primaryUrl] = primarySource;
+  if (!String(values[primaryField] || "").trim()) values[primaryField] = primaryUrl;
+
   const categories = form.querySelector('select[name="categories"]');
-  if (categories) values.categories = [...categories.selectedOptions].map((option) => option.value).join(",");
+  const selectedCategories = categories ? [...categories.selectedOptions].map((option) => option.value) : [];
+  values.categories = selectedCategories.length ? selectedCategories.join(",") : "Otros panoramas";
+
+  values.contact_name = String(values.contact_name || "").trim() || "No indicado";
   for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) values[checkbox.name] = checkbox.checked;
   values.turnstile_token = values["cf-turnstile-response"] || "";
   delete values["cf-turnstile-response"];
@@ -61,7 +87,7 @@ form?.addEventListener("submit", async (event) => {
     .map((value) => String(value || "").trim())
     .filter(Boolean);
   if (!sourceUrls.length) {
-    message.textContent = "Indica al menos una fuente pública: web, red social, calendario o feed.";
+    message.textContent = "Indica al menos una fuente pública.";
     return;
   }
 
@@ -82,7 +108,7 @@ form?.addEventListener("submit", async (event) => {
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "No fue posible recibir la propuesta.");
 
-    message.textContent = `Propuesta recibida para revisión. Referencia: ${result.reference}`;
+    message.textContent = `Fuente recibida. La revisaremos antes de incorporarla. Referencia: ${result.reference}`;
     pendingIdempotencyKey = null;
     form.reset();
     if (cityInput) cityInput.value = city.submittedCities;
