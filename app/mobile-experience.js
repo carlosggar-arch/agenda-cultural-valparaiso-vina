@@ -1,7 +1,6 @@
 const MOBILE_QUERY = "(max-width: 900px)";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
-const TABBAR_ID = "vivamos-mobile-tabbar";
 
 function ensureMeta(name, content) {
   let meta = document.head.querySelector(`meta[name="${name}"]`);
@@ -22,7 +21,7 @@ function installMobileMetadata() {
 }
 
 function installMobileStyles() {
-  const href = "./mobile-experience.css?v=20260817-topnav9";
+  const href = "./mobile-experience.css?v=20260817-topcontrols1";
   const links = [...document.querySelectorAll('link[href*="mobile-experience.css"]')];
   if (links.length) {
     links[0].href = href;
@@ -53,77 +52,12 @@ function syncClientFlags() {
   document.documentElement.dataset.mobileClient = String(isMobileClient());
 }
 
-function createTabButton(action, icon, label) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.dataset.mobileAction = action;
-  button.setAttribute("aria-label", label);
-  button.innerHTML = `<span class="mobile-tab-icon" aria-hidden="true">${icon}</span><span>${label}</span>`;
-  return button;
+function removeRetiredTabbars(root = document) {
+  const nodes = [];
+  if (root instanceof Element && (root.matches("[data-mobile-tabbar]") || root.matches(".mobile-tabbar"))) nodes.push(root);
+  for (const node of root.querySelectorAll?.("[data-mobile-tabbar], .mobile-tabbar") || []) nodes.push(node);
+  for (const node of new Set(nodes)) node.remove();
 }
-
-function dedupeTabbars(keep) {
-  for (const node of document.querySelectorAll("[data-mobile-tabbar], .mobile-tabbar")) {
-    if (node !== keep) node.remove();
-  }
-}
-
-function buildTabbar() {
-  let nav = document.getElementById(TABBAR_ID);
-  if (!nav) {
-    nav = document.querySelector("[data-mobile-tabbar], .mobile-tabbar");
-  }
-  if (!nav) {
-    nav = document.createElement("nav");
-    nav.append(
-      createTabButton("agenda", "⌂", "Agenda"),
-      createTabButton("search", "⌕", "Buscar"),
-      createTabButton("plans", "★", "Mis planes"),
-      createTabButton("city", "⌖", "Ciudad"),
-    );
-  }
-  nav.id = TABBAR_ID;
-  nav.className = "mobile-tabbar mobile-topnav";
-  nav.dataset.mobileTabbar = "true";
-  nav.setAttribute("aria-label", "Navegación rápida");
-  dedupeTabbars(nav);
-  const host = document.querySelector(".app-header");
-  if (host && nav.parentElement !== host) host.append(nav);
-  nav.hidden = false;
-  return nav;
-}
-
-installMobileMetadata();
-installMobileStyles();
-syncClientFlags();
-const tabbar = buildTabbar();
-
-function ensureTabbarMounted() {
-  dedupeTabbars(tabbar);
-  const host = document.querySelector(".app-header");
-  if (host && tabbar.parentElement !== host) host.append(tabbar);
-  tabbar.hidden = false;
-}
-
-function setActive(action) {
-  for (const button of tabbar.querySelectorAll("[data-mobile-action]")) {
-    if (button.dataset.mobileAction === action) button.setAttribute("aria-current", "page");
-    else button.removeAttribute("aria-current");
-  }
-}
-
-function scrollToNode(node) { node?.scrollIntoView({ behavior: "smooth", block: "start" }); }
-function openSearch() { const toggle = document.querySelector("[data-header-search-toggle]"); if (!toggle) return; toggle.click(); setActive("search"); }
-function openPlans() { const section = document.querySelector("[data-my-plans]"); const disclosure = section?.querySelector(".my-plans-disclosure"); if (disclosure) disclosure.open = true; scrollToNode(section || document.querySelector("[data-agenda]")); setActive("plans"); }
-function openCityChooser() { document.querySelector("[data-city-switch]")?.click(); setActive("city"); }
-function openAgenda() { scrollToNode(document.querySelector("[data-agenda]") || document.querySelector("main")); setActive("agenda"); }
-
-tabbar.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-mobile-action]");
-  if (!button) return;
-  const actions = { agenda: openAgenda, search: openSearch, plans: openPlans, city: openCityChooser };
-  actions[button.dataset.mobileAction]?.();
-});
 
 function syncCityOptionState() {
   const city = document.documentElement.dataset.city;
@@ -136,8 +70,7 @@ function syncCityOptionState() {
 
 function syncMobileUi() {
   syncClientFlags();
-  ensureTabbarMounted();
-  if (document.documentElement.dataset.city) setActive("agenda");
+  removeRetiredTabbars();
 }
 
 function observeModal(node) {
@@ -155,14 +88,21 @@ function restoreChooserCopyForManualSwitch() {
   if (intro) intro.textContent = "La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.";
 }
 
+installMobileMetadata();
+installMobileStyles();
+syncClientFlags();
+removeRetiredTabbars();
+
 document.querySelector("[data-city-switch]")?.addEventListener("click", restoreChooserCopyForManualSwitch);
 new MutationObserver(syncCityOptionState).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
 observeModal(chooserBackdrop);
 for (const modal of document.querySelectorAll(".chooser-backdrop")) observeModal(modal);
+
 new MutationObserver((records) => {
   for (const record of records) {
     for (const node of record.addedNodes) {
       if (!(node instanceof Element)) continue;
+      removeRetiredTabbars(node);
       if (node.matches?.(".chooser-backdrop")) observeModal(node);
       for (const modal of node.querySelectorAll?.(".chooser-backdrop") || []) observeModal(modal);
     }
@@ -178,4 +118,3 @@ window.matchMedia?.(MOBILE_QUERY)?.addEventListener?.("change", syncMobileUi);
 
 syncCityOptionState();
 syncMobileUi();
-setActive("agenda");
