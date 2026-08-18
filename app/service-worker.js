@@ -30,6 +30,7 @@ const SHELL_ASSETS = [
   "./exhibition-compact-loader.js",
   "./exhibition-compact.js",
   "./exhibition-compact.css",
+  "./exhibition-hours.js",
   "./presentation-normalizer.js",
   "./public-presentation-guard.js",
   "./public-presentation-rules.mjs",
