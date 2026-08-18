@@ -13,13 +13,14 @@ DATASETS = {
     "valparaiso": ROOT / "agenda_web.json",
     "gijon": ROOT / "app/data/gijon/agenda_web.json",
 }
-MANAGED = {
-    "portaltickets_valparaiso",
-    "museo_maritimo_nacional",
-    "museo_evaristo_valle",
-    "museo_barjola",
-    "ficx",
-    "laboral_cinemateca",
+# Canonical Gijon sources are validated upstream by agenda-cultural-core.
+# This public-repo validator owns only the legacy Valpo supplemental paths.
+MANAGED_BY_DATASET = {
+    "valparaiso": {
+        "portaltickets_valparaiso",
+        "museo_maritimo_nacional",
+    },
+    "gijon": set(),
 }
 VALPO_ALLOWED = {"valparaiso", "vina del mar"}
 OUT_OF_SCOPE_MARKERS = {
@@ -102,8 +103,9 @@ def near_duplicate(candidate: dict, existing: list[dict]) -> bool:
 def validate_dataset(name: str, dataset: dict) -> dict:
     timezone = "America/Santiago" if name == "valparaiso" else "Europe/Madrid"
     today = datetime.now(ZoneInfo(timezone)).date().isoformat()
-    base = [item for item in dataset.get("events", []) if source_id(item) not in MANAGED]
-    managed = [item for item in dataset.get("events", []) if source_id(item) in MANAGED]
+    managed_ids = MANAGED_BY_DATASET.get(name, set())
+    base = [item for item in dataset.get("events", []) if source_id(item) not in managed_ids]
+    managed = [item for item in dataset.get("events", []) if source_id(item) in managed_ids]
     kept: list[dict] = []
     dropped = {"expired": 0, "geography": 0, "duplicate": 0, "invalid": 0}
 
