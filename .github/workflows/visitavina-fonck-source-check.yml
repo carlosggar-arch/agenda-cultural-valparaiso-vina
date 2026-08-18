@@ -1,0 +1,73 @@
+name: Visita Vina Fonck recurrence validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/scripts/refresh_visitavina_fonck.py"
+      - "app/scripts/test_visitavina_fonck.py"
+      - "app/scripts/apply_fonck_coverage.py"
+      - "app/scripts/test_fonck_coverage.py"
+      - ".github/workflows/visitavina-fonck-source-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run recurrence policy tests
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/refresh_visitavina_fonck.py \
+            app/scripts/test_visitavina_fonck.py \
+            app/scripts/apply_fonck_coverage.py \
+            app/scripts/test_fonck_coverage.py
+          python app/scripts/test_visitavina_fonck.py
+          python app/scripts/test_fonck_coverage.py
+
+      - name: Probe official municipal recurrence
+        run: |
+          set -euo pipefail
+          python app/scripts/refresh_visitavina_fonck.py --no-write > visitavina-fonck-live-check.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('visitavina-fonck-live-check.json').read_text(encoding='utf-8'))
+          page = report.get('page') or {}
+          discovery = report.get('occurrence_discovery') or {}
+          if not page.get('fetch_ok'):
+              raise SystemExit('Official Visita Viña Fonck event page is not reachable')
+          if not page.get('title_ok') or not page.get('venue_ok'):
+              raise SystemExit('Official page no longer identifies the expected Museo Fonck event')
+          if not (discovery.get('query_dates') or discovery.get('visible_dates') or discovery.get('ical_dates')):
+              raise SystemExit('No explicit recurrence metadata could be resolved from the official page')
+          print('VISITAVINA_FONCK_LIVE_OK', json.dumps({
+              'state': report.get('state'),
+              'future_dates': discovery.get('future_dates'),
+              'clock': report.get('clock'),
+              'events_published': report.get('events_published'),
+              'coverage': report.get('coverage'),
+          }, ensure_ascii=False))
+          PY
+
+      - name: Upload recurrence diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visitavina-fonck-live-check
+          path: visitavina-fonck-live-check.json
+          if-no-files-found: ignore
+          retention-days: 7
