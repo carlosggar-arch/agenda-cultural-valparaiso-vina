@@ -16,12 +16,17 @@ APP = ROOT / "app"
 TEST_PAGE = APP / "__pwa_install_test.html"
 FIRST_OPEN_PAGE = APP / "__pwa_first_open_test.html"
 HEADLESS_MOBILE_WIDTH = 500  # Chromium headless en GitHub Actions no baja de este ancho CSS.
+PWA_JS = (APP / "pwa.js").read_text(encoding="utf-8")
+PWA_VERSION_MATCH = re.search(r'const APP_VERSION = "(PWA v\d+)"', PWA_JS)
+if not PWA_VERSION_MATCH:
+    raise AssertionError("Current PWA version marker not found in app/pwa.js")
+EXPECTED_PWA_VERSION = PWA_VERSION_MATCH.group(1)
 
 REQUIRED_MARKERS = {
     'data-pwa-probe-done="true"': "Installed PWA probe did not finish",
     'data-pwa-ready="true"': "Service worker never reached ready state",
     'data-pwa-controlled="true"': "Installed app is not controlled by its service worker after activation",
-    'data-pwa-version="PWA v33"': "Installed app did not load the current PWA v33 runtime",
+    f'data-pwa-version="{EXPECTED_PWA_VERSION}"': f"Installed app did not load the current {EXPECTED_PWA_VERSION} runtime",
     'data-pwa-still-preparing="false"': "Installed app remained stuck on the loading state",
     'data-mobile-nav-absent="true"': "Removed bottom navigation was reintroduced",
     'data-mobile-city-current="true"': "Current city is not reflected in the city chooser",
@@ -69,7 +74,7 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def source_index() -> str:
     source = (APP / "index.html").read_text(encoding="utf-8")
-    if '<script type="module" src="./pwa.js"></script>' not in source:
+    if not re.search(r'<script type="module" src="\./pwa\.js(?:\?v=[^"]+)?"></script>', source):
         raise AssertionError("Production pwa.js marker not found")
     return source
 
