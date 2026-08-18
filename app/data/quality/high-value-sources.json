@@ -1,58 +1,62 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T20:30:28+00:00",
+  "generated_at": "2026-08-18T22:26:14+00:00",
   "sources": [
     {
       "id": "museo_evaristo_valle",
       "name": "Museo Evaristo Valle",
       "dataset": "gijon",
       "mode": "monitor",
-      "fetch_ok": true,
-      "http_status": 200,
+      "fetch_ok": null,
+      "http_status": null,
       "events_extracted": 0,
       "events_added": 0,
       "duplicates_skipped": 0,
-      "state": "monitored_no_publishable_events",
-      "error": null
+      "state": "delegated_to_core",
+      "error": null,
+      "delegated_to": "agenda-cultural-core/publish-multi-city"
     },
     {
       "id": "museo_barjola",
       "name": "Museo Barjola",
       "dataset": "gijon",
       "mode": "direct",
-      "fetch_ok": true,
-      "http_status": 200,
-      "events_extracted": 2,
+      "fetch_ok": null,
+      "http_status": null,
+      "events_extracted": 0,
       "events_added": 0,
-      "duplicates_skipped": 2,
-      "state": "ok",
-      "error": null
+      "duplicates_skipped": 0,
+      "state": "delegated_to_core",
+      "error": null,
+      "delegated_to": "agenda-cultural-core/publish-multi-city"
     },
     {
       "id": "ficx",
       "name": "FICX — Festival Internacional de Cine de Gijón/Xixón",
       "dataset": "gijon",
       "mode": "monitor",
-      "fetch_ok": true,
-      "http_status": 200,
+      "fetch_ok": null,
+      "http_status": null,
       "events_extracted": 0,
       "events_added": 0,
       "duplicates_skipped": 0,
-      "state": "monitored_no_publishable_events",
-      "error": null
+      "state": "delegated_to_core",
+      "error": null,
+      "delegated_to": "agenda-cultural-core/publish-multi-city"
     },
     {
       "id": "laboral_cinemateca",
       "name": "Laboral Cinemateca",
       "dataset": "gijon",
       "mode": "monitor",
-      "fetch_ok": true,
-      "http_status": 200,
+      "fetch_ok": null,
+      "http_status": null,
       "events_extracted": 0,
       "events_added": 0,
       "duplicates_skipped": 0,
-      "state": "monitored_no_publishable_events",
-      "error": null
+      "state": "delegated_to_core",
+      "error": null,
+      "delegated_to": "agenda-cultural-core/publish-multi-city"
     }
   ]
 }
