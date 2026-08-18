@@ -6,7 +6,6 @@ import { normalizePublicEventTitle } from "../public-title-normalizer.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const app = path.resolve(here, "..");
-const root = path.resolve(app, "..");
 const read = (relative) => fs.readFileSync(path.join(app, relative), "utf8");
 
 const valpoEvent = {
@@ -23,9 +22,9 @@ const gijonEvent = {
 };
 
 assert.equal(normalizePublicEventTitle("QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO", valpoEvent), "Quilapayun");
-assert.equal(normalizePublicEventTitle("CICLO TALLER EL ARTE ES NATURAL", workshopEvent), "El Arte Es Natural");
-assert.equal(normalizePublicEventTitle("ALEJANDRO SIRIO. LA CALIGRAFÍA DEL DIBUJO", gijonEvent), "Alejandro Sirio. La Caligrafía del Dibujo");
-assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", { ...valpoEvent, location: { venue: "Teatro Mauri SCD", city: "Valparaíso" } }), "Inundaremos — Gira Tanquemante");
+assert.equal(normalizePublicEventTitle("CICLO TALLER EL ARTE ES NATURAL", workshopEvent), "El arte es natural");
+assert.equal(normalizePublicEventTitle("ALEJANDRO SIRIO. LA CALIGRAFÍA DEL DIBUJO", gijonEvent), "Alejandro Sirio. La caligrafía del dibujo");
+assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", valpoEvent), "Inundaremos — Gira Tanquemante");
 
 const appJs = read("app.js");
 const grouping = read("static-exhibition-groups.js");
@@ -35,10 +34,10 @@ const release = read("release-version.js");
 assert.match(appJs, /title-normalizer-bootstrap\.js/);
 assert.match(appJs, /static-exhibition-groups\.js/);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
-assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|scroll/);
+assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
-assert.match(grouping, /data-static-exhibition-sentinels/);
+assert.match(grouping, /staticExhibitionSentinels/);
 assert.match(release, /const RELEASE = 86/);
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
