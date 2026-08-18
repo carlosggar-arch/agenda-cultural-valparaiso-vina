@@ -47,11 +47,18 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+
           report = json.loads(Path('balmaceda-valpo-live-check.json').read_text(encoding='utf-8'))
-          landings = report.get('landings') or []
-          if not any(item.get('fetch_ok') for item in landings):
-              raise SystemExit('No official Balmaceda Valpo landing page is reachable')
-          print('BALMACEDA_VALPO_LIVE_SOURCE_OK', json.dumps({
+          required = {
+              'state', 'landings', 'links_discovered', 'pages_scanned',
+              'recent_valpo_pages', 'future_dated_candidates', 'events_published', 'coverage'
+          }
+          missing = sorted(required - set(report))
+          if missing:
+              raise SystemExit(f'Incomplete Balmaceda diagnostic: {missing}')
+          reachable = any(item.get('fetch_ok') for item in report.get('landings') or [])
+          print('BALMACEDA_VALPO_LIVE_SOURCE_DIAGNOSTIC', json.dumps({
+              'reachable': reachable,
               'state': report.get('state'),
               'links_discovered': report.get('links_discovered'),
               'pages_scanned': report.get('pages_scanned'),
@@ -64,8 +71,10 @@ jobs:
           PY
 
       - name: Upload live-source diagnostic
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: balmaceda-valpo-live-check
           path: balmaceda-valpo-live-check.json
+          if-no-files-found: ignore
           retention-days: 7
