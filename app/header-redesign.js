@@ -14,6 +14,16 @@ function useDirectMobileActions() {
   return Boolean(standaloneQuery?.matches || window.navigator.standalone === true || mobileHeaderQuery?.matches);
 }
 
+function applyBrandIconSize() {
+  const icon = document.querySelector(".brand img");
+  if (!icon) return;
+  const viewportWidth = Number(window.innerWidth || document.documentElement.clientWidth || 9999);
+  const size = viewportWidth <= 430 ? 58 : viewportWidth <= 700 ? 64 : 88;
+  icon.style.setProperty("width", `${size}px`, "important");
+  icon.style.setProperty("height", `${size}px`, "important");
+  icon.dataset.brandIconSize = String(size);
+}
+
 function ensureHeaderStylesheet() {
   const links = [...document.querySelectorAll('link[href*="header-redesign.css"]')];
   if (links.length) {
@@ -60,6 +70,8 @@ function buildHeaderStructure() {
   const searchRow = document.querySelector("[data-search-row]");
   const actions = document.querySelector(".header-actions");
   if (!header || !brandCopy) return;
+
+  applyBrandIconSize();
 
   let kicker = brandCopy.querySelector(".header-kicker");
   if (!kicker) {
@@ -139,6 +151,7 @@ function buildHeaderStructure() {
 
 function applyHeaderIdentity() {
   buildHeaderStructure();
+  applyBrandIconSize();
   const city = document.documentElement.dataset.city || "valparaiso";
   const label = CITY_LABELS[city] || CITY_LABELS.valparaiso;
   const cityTitle = document.querySelector("[data-header-city-title]");
