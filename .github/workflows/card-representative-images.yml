@@ -1,0 +1,31 @@
+name: Card representative image guard
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/card-experience.js"
+      - "app/card-experience.css"
+      - "tests/card-representative-images.test.mjs"
+      - ".github/workflows/card-representative-images.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/card-experience.js"
+      - "app/card-experience.css"
+      - "tests/card-representative-images.test.mjs"
+      - ".github/workflows/card-representative-images.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  representative-image-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check card JavaScript syntax
+        run: node --check app/card-experience.js
+      - name: Verify same-venue image policy
+        run: node --test tests/card-representative-images.test.mjs
