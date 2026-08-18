@@ -138,7 +138,7 @@ assert '.agenda-heading { display: flex !important;' not in polish
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
 assert 'html[data-city="gijon"]' in city_header_css
-assert 'header.dataset.headerRedesign = "hero-v3"' in header_redesign_js
+assert 'header.dataset.headerRedesign = "hero-v4-mobile-direct-actions"' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
 assert '.header-art' in header_redesign_css
 
