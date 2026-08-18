@@ -1,6 +1,11 @@
 name: Production PWA smoke
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/production-pwa-smoke.yml"
   push:
     branches: [main]
     paths:
