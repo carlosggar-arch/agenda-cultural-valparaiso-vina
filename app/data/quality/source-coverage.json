@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T12:02:09+00:00",
+  "generated_at": "2026-08-18T12:06:42+00:00",
   "status": "ok",
   "retention_days": 60,
   "thresholds": {
@@ -18,7 +18,7 @@
       "summary": {
         "sources_total": 41,
         "producing_now": 25,
-        "zero_now": 7,
+        "zero_now": 9,
         "zero_3d_or_more": 0,
         "zero_7d_or_more": 0,
         "zero_14d_or_more": 0,
@@ -27,10 +27,10 @@
         "attributed_events": 165,
         "unattributed_events": 0,
         "direct_zero_now": 16,
-        "covered_elsewhere": 7,
+        "covered_elsewhere": 5,
         "verified_inactive_zero_now": 2,
-        "producing_or_covered": 32,
-        "producing_covered_or_verified": 34
+        "producing_or_covered": 30,
+        "producing_covered_or_verified": 32
       },
       "sources": [
         {
@@ -271,8 +271,8 @@
           "role": "venue",
           "source_type": "instagram",
           "current_count": 0,
-          "status": "covered_elsewhere",
-          "severity": "ok",
+          "status": "zero_recent",
+          "severity": "info",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -281,9 +281,7 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [
-            "visitavina_estadio_espanol_recovery"
-          ],
+          "covered_by_other_sources": [],
           "verified_inactive": false
         },
         {
@@ -465,8 +463,8 @@
           "role": "venue",
           "source_type": "web",
           "current_count": 0,
-          "status": "covered_elsewhere",
-          "severity": "ok",
+          "status": "zero_recent",
+          "severity": "info",
           "zero_streak_days": 0,
           "observed_days": 2,
           "first_observed_date": "2026-08-17",
@@ -475,9 +473,7 @@
           "change_pct_vs_baseline": null,
           "possible_drop": false,
           "history_confidence": "low",
-          "covered_by_other_sources": [
-            "visitavina_fonck_recovery"
-          ],
+          "covered_by_other_sources": [],
           "verified_inactive": false
         },
         {
