@@ -68,11 +68,11 @@ def test_discovery_and_conservative_publication() -> None:
 
 def test_program_without_explicit_end_is_coverage_only() -> None:
     year = future_year()
-    listing = f'<time datetime="{year}-08-01"></time><a href="/evento/centex-cartelera-agosto/">Centex - Cartelera Agosto</a>'
+    listing = f'<time datetime="{year}-08-20"></time><a href="/evento/centex-cartelera-agosto/">Centex - Cartelera Agosto</a>'
     candidate = recovery.discover(listing)[0]
     original_fetch = recovery.fetch
     try:
-        recovery.fetch = lambda url: (True, 200, detail_markup("Centex - Cartelera Agosto", f"{year}-08-01", None), None)
+        recovery.fetch = lambda url: (True, 200, detail_markup("Centex - Cartelera Agosto", f"{year}-08-20", None), None)
         row = recovery.detail(candidate, listing, date(year, 8, 18))
     finally:
         recovery.fetch = original_fetch
