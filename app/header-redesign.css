@@ -262,12 +262,18 @@ html[data-city="gijon"] .header-art{background-image:url("./illustrations/gijon-
   .header-bottom{margin-left:56px!important}
 }
 
-/* Installed app: the Cuándo / Dónde filter columns must not draw a divider. */
+/* Installed app refinements. */
+html[data-installed-app-actions="below-mosaic"] .filter-workbench::before{
+  margin-top:-.28rem!important;
+  margin-bottom:.05rem!important;
+}
 html[data-installed-app-actions="below-mosaic"] .filter-grid,
 html[data-installed-app-actions="below-mosaic"] .filter-group,
 html[data-installed-app-actions="below-mosaic"] .filter-group + .filter-group,
 html[data-installed-app-actions="below-mosaic"] fieldset.filter-group{
   border:0!important;
+  border-top:0!important;
+  border-bottom:0!important;
   border-left:0!important;
   border-right:0!important;
   border-inline:0!important;
@@ -279,7 +285,17 @@ html[data-installed-app-actions="below-mosaic"] .filter-grid::before,
 html[data-installed-app-actions="below-mosaic"] .filter-grid::after,
 html[data-installed-app-actions="below-mosaic"] .filter-group::before,
 html[data-installed-app-actions="below-mosaic"] .filter-group::after{
-  border:0!important;
-  box-shadow:none!important;
-  background:transparent!important;
+  content:none!important;
+  display:none!important;
+}
+/* The grey horizontal bar between Cuándo and Dónde was the native horizontal
+   scrollbar of the touch-scrollable choice row. Keep swipe scrolling, hide the bar. */
+html[data-installed-app-actions="below-mosaic"] .filter-choice-row{
+  scrollbar-width:none!important;
+  -ms-overflow-style:none!important;
+}
+html[data-installed-app-actions="below-mosaic"] .filter-choice-row::-webkit-scrollbar{
+  display:none!important;
+  width:0!important;
+  height:0!important;
 }
