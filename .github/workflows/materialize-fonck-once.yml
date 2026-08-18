@@ -1,0 +1,88 @@
+name: Materialize Museo Fonck once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/materialize-fonck-once.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: materialize-fonck-once
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate and materialize verified Fonck occurrence
+        run: |
+          set -euo pipefail
+          python app/scripts/test_visitavina_fonck.py
+          python app/scripts/test_fonck_coverage.py
+          python app/scripts/refresh_visitavina_fonck.py
+          python app/scripts/apply_title_quality_guard.py
+          python app/scripts/apply_content_quality_guard.py
+          python app/scripts/refresh_quality_diagnostics.py
+          python app/scripts/apply_source_coverage_overrides.py
+          python app/scripts/apply_balmaceda_coverage.py
+          python app/scripts/apply_fonck_coverage.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
+          fonck = json.loads((root / 'app/data/quality/visitavina-fonck.json').read_text(encoding='utf-8'))
+          coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
+
+          events = [e for e in dataset.get('events') or [] if e.get('source_id') == 'visitavina_fonck_recovery']
+          if len(events) != 1:
+              raise SystemExit(f'Expected exactly one future Fonck occurrence, got {len(events)}')
+          if str((events[0].get('schedule') or {}).get('start') or '')[:10] != '2026-08-19':
+              raise SystemExit('Fonck materialization did not preserve the verified 2026-08-19 occurrence')
+          if not str((events[0].get('schedule') or {}).get('start') or '').startswith('2026-08-19T16:00:00'):
+              raise SystemExit('Fonck materialization did not preserve the verified 16:00 start time')
+          if int(fonck.get('events_published') or 0) != 1:
+              raise SystemExit('Fonck diagnostic does not report one published occurrence')
+
+          city = (coverage.get('cities') or {}).get('valparaiso-vina') or {}
+          row = next((r for r in city.get('sources') or [] if r.get('id') == 'museo_fonck'), None)
+          if not row or row.get('status') not in {'producing', 'covered_elsewhere'}:
+              raise SystemExit('museo_fonck is still an unresolved zero source')
+          print('FONCK_MATERIALIZED_OK', dataset.get('counts'), row.get('status'), row.get('covered_by_other_sources'))
+          PY
+
+      - name: Commit materialized Fonck occurrence and diagnostics
+        run: |
+          set -euo pipefail
+          git config user.name "agenda-fonck-materializer[bot]"
+          git config user.email "agenda-fonck-materializer[bot]@users.noreply.github.com"
+          git add \
+            agenda_web.json \
+            app/data/quality/visitavina-fonck.json \
+            app/data/quality/title-quality.json \
+            app/data/quality/content-quality.json \
+            app/data/quality/source-coverage.json \
+            app/data/quality/event-quality.json \
+            app/data/quality/release-readiness.json
+          if git diff --cached --quiet; then
+            echo "Fonck occurrence already materialized."
+            exit 0
+          fi
+          git commit -m "Materializa recurrencia futura de Museo Fonck"
+          git pull --rebase origin main
+          git push origin HEAD:main
