@@ -148,6 +148,7 @@ function normalizeVisibleTitles(root = document) {
     '.event-card[data-event-id] .event-card-body h4',
     '.event-card[data-event-id]:not(.exhibition-venue-card) > h4',
     '.grouped-exhibition-copy strong',
+    '.event-detail-title',
   ];
   for (const node of root.querySelectorAll(selectors.join(','))) normalizeNode(node);
 }
