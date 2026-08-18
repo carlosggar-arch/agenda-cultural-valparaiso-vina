@@ -20,15 +20,17 @@ assert.match(css, /\.source-proposal-actions\{[^}]*display:flex[^}]*flex-wrap:no
 assert.match(participation, /vivamos-participation-rail/);
 assert.match(participation, /sourceCta\.hidden = true/);
 assert.match(participation, /data-sources-toggle/);
-assert.match(participation, /flex-wrap:\s*nowrap/);
-assert.match(participation, /overflow-x:\s*auto/);
+assert.match(participation, /\.vivamos-footer \{[\s\S]*display:flex !important/);
+assert.match(participation, /flex-wrap:nowrap !important/);
+assert.match(participation, /overflow-x:auto/);
+assert.doesNotMatch(participation, /grid-column:\s*1\s*\/\s*-1/);
 assert.doesNotMatch(participation, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 assert.match(app, /community-source\.js\?v=20260818-feedback2/);
-assert.match(app, /participation-footer\.js\?v=20260818-feedback3/);
+assert.match(app, /participation-footer\.js\?v=20260818-feedback4/);
 assert.match(pwa, /community-source\.js\?v=20260818-feedback2/);
-assert.match(pwa, /participation-footer\.js\?v=20260818-feedback3/);
-assert.match(worker, /participation-footer\.js\?v=20260818-feedback3/);
-assert.match(worker, /pwa\.js\?v=20260818-feedback3/);
-assert.match(release, /const RELEASE = 99/);
+assert.match(pwa, /participation-footer\.js\?v=20260818-feedback4/);
+assert.match(worker, /participation-footer\.js\?v=20260818-feedback4/);
+assert.match(worker, /pwa\.js\?v=20260818-feedback4/);
+assert.match(release, /const RELEASE = 100/);
 
-console.log("Community feedback UI contract: visible single footer rail in WEB + PWA");
+console.log("Community feedback UI contract: same footer action row in WEB + PWA");
