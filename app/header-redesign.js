@@ -6,6 +6,7 @@ const CITY_LABELS = {
 };
 
 const TAGLINE = BRAND_TAGLINE;
+const HEADER_STYLESHEET = "./header-redesign.css?v=20260817-brandicon1";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const mobileHeaderQuery = window.matchMedia?.("(max-width: 700px)");
 
@@ -14,10 +15,15 @@ function useDirectMobileActions() {
 }
 
 function ensureHeaderStylesheet() {
-  if (document.querySelector('link[href="./header-redesign.css"]')) return;
+  const links = [...document.querySelectorAll('link[href*="header-redesign.css"]')];
+  if (links.length) {
+    links[0].href = HEADER_STYLESHEET;
+    for (const extra of links.slice(1)) extra.remove();
+    return;
+  }
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./header-redesign.css";
+  link.href = HEADER_STYLESHEET;
   document.head.append(link);
 }
 
@@ -86,9 +92,6 @@ function buildHeaderStructure() {
 
   if (actions) {
     if (useDirectMobileActions()) {
-      // Mobile/PWA: preserve the original HTML placement that is already
-      // correct on first paint. Moving the controls into header-bottom makes
-      // them overflow outside the narrow viewport after hydration.
       if (actions.parentElement !== header || actions.nextElementSibling !== bottom) {
         header.insertBefore(actions, bottom);
       }
