@@ -1,13 +1,14 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 
 const STYLE_ID = "exhibition-compact-styles";
-const STYLE_HREF = "./exhibition-compact.css?v=20260818-compact5";
+const STYLE_HREF = "./exhibition-compact.css?v=20260818-compact8";
 const datedGrid = document.querySelector("[data-dated-grid]");
 const grids = [...document.querySelectorAll(".event-grid")];
 const CITY_REGISTRY = await loadCityRegistry();
 const CITIES = CITY_REGISTRY.byId;
 const MAX_IMAGES = 6;
 const EQUALIZE_BREAKPOINT = 561;
+const ROW_TOP_TOLERANCE = 4;
 
 const OFFICIAL_VENUE_FALLBACKS = Object.freeze({
   valparaiso: Object.freeze({
@@ -250,23 +251,40 @@ function clearEqualHeight(card) {
   card.style.removeProperty("min-height");
 }
 
+function visualRows(cards) {
+  const rows = [];
+  for (const card of cards) {
+    const top = card.getBoundingClientRect().top;
+    let row = rows.find((candidate) => Math.abs(candidate.top - top) <= ROW_TOP_TOLERANCE);
+    if (!row) {
+      row = { top, cards: [] };
+      rows.push(row);
+    }
+    row.cards.push(card);
+  }
+  return rows;
+}
+
 function equalizeGrid(grid) {
   const cards = visibleDirectCards(grid);
   cards.forEach(clearEqualHeight);
 
   if (window.innerWidth < EQUALIZE_BREAKPOINT || cards.length < 2) return;
 
-  /* Measure every card at its natural height first. The tallest natural card is the
-     mathematically smallest common height that keeps every card equal without clipping. */
+  /* Equalize only cards that actually share a visual row. The previous global
+     maximum made every card in a large city as tall as the single tallest card
+     anywhere in the grid, producing huge blank panels in Gijón. */
   void grid.offsetHeight;
-  let commonHeight = 0;
-  for (const card of cards) {
-    commonHeight = Math.max(commonHeight, Math.ceil(card.getBoundingClientRect().height));
-  }
-  if (!commonHeight) return;
-
-  for (const card of cards) {
-    card.style.setProperty("min-height", `${commonHeight}px`, "important");
+  for (const row of visualRows(cards)) {
+    if (row.cards.length < 2) continue;
+    let commonHeight = 0;
+    for (const card of row.cards) {
+      commonHeight = Math.max(commonHeight, Math.ceil(card.getBoundingClientRect().height));
+    }
+    if (!commonHeight) continue;
+    for (const card of row.cards) {
+      card.style.setProperty("min-height", `${commonHeight}px`, "important");
+    }
   }
 }
 
