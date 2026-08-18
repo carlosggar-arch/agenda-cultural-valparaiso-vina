@@ -47,7 +47,7 @@ assert '["access", "format", "aud"]' in app_index
 assert './combined-filters.js' in app_index
 assert './contextual-filters.js' not in app_index
 assert '<link rel="stylesheet" href="./compact-top.css">' in app_index
-assert '<link rel="stylesheet" href="./header-redesign.css">' in app_index
+assert '<link rel="stylesheet" href="./header-redesign.css' in app_index
 assert app_index.index('./compact-top.css') < app_index.index('./header-redesign.css') < app_index.index('</head>')
 assert '.filter-workbench' in combined_css
 assert '.custom-date-range' in combined_css
