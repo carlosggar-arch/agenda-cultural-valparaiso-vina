@@ -38,19 +38,24 @@ for (const event of gijonExhibitions) {
   const venue = String(event?.location?.venue || "").trim();
   if (venue) exhibitionVenueCounts.set(venue, (exhibitionVenueCounts.get(venue) || 0) + 1);
 }
-assert.ok([...exhibitionVenueCounts.values()].some((count) => count >= 2), "Gijón must retain at least one multi-exhibition venue");
+assert.ok([...exhibitionVenueCounts.values()].some((count) => count >= 2), "Gijón must retain multi-exhibition venue data");
 
 const appJs = read("app.js");
 const bootstrap = read("combined-filters-bootstrap.js");
-const compactLoader = read("exhibition-compact-loader.js");
-const serviceWorker = read("service-worker.js");
 const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 
 assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
 assert.match(appJs, /^import "\.\/app-core\.js/m);
-assert.match(appJs, /exhibition-compact-loader\.js\?v=20260818-compact-disabled1/);
+assert.match(appJs, /^import "\.\/presentation-normalizer\.js/m);
+assert.match(appJs, /^import "\.\/footer-credit\.js/m);
+
+// Stability mode: every approved exhibition stays as an ordinary event card.
+// Do not execute venue grouping/gallery/compact observers in the browser until
+// grouping is rebuilt as a one-pass, observer-free transformation.
+assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery|exhibition-compact/);
+
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
@@ -59,17 +64,7 @@ assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-
-// Scroll stability contract: exhibition grouping remains active, but the old
-// compact runtime must never execute in the browser. It watched class/hidden/src
-// mutations across the whole grid and could feed back on lazy-image loading.
-assert.doesNotMatch(compactLoader, /import\s+["']\.\/exhibition-compact\.js/);
-assert.doesNotMatch(compactLoader, /MutationObserver|getBoundingClientRect|offsetHeight/);
-assert.match(compactLoader, /exhibition-compact\.css/);
-assert.doesNotMatch(appJs, /exhibition-compact\.js/);
-assert.doesNotMatch(serviceWorker, /approved-event-integrity|exhibition-compact-safe/);
-
-assert.match(release, /const RELEASE = 83/);
+assert.match(release, /const RELEASE = 84/);
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; scroll-safe runtime)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; observer-free exhibition runtime)`);
