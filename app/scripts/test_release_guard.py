@@ -37,7 +37,6 @@ def check_single_release_source() -> None:
     assert not re.search(r'const CACHE_VERSION = "v\d+"', sw), "hard-coded cache version returned"
     assert not re.search(r'service-worker\.js\?v=\d+', pwa), "hard-coded service-worker query version returned"
     assert not re.search(r'data-app-version>PWA v\d+<', index), "HTML footer must not carry a second release number"
-
     assert release >= 1
 
 
@@ -47,7 +46,7 @@ def check_first_render_contract() -> None:
     head = index.split("</head>", 1)[0]
     before_modules = index.split('<script type="module" src="./app.js"></script>', 1)[0]
 
-    assert '<link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols1" data-mobile-experience-styles>' in head, (
+    assert '<link rel="stylesheet" href="./mobile-experience.css?v=20260817-topcontrols2" data-mobile-experience-styles>' in head, (
         "mobile CSS must be render-blocking in <head>"
     )
     assert 'document.createElement("link")' not in mobile, "mobile CSS must never be injected after first paint"
@@ -64,7 +63,8 @@ def check_first_render_contract() -> None:
     for marker in required_initial_markup:
         assert marker in before_modules, f"first-render header markup missing: {marker}"
 
-    assert 'data-city' in head, "saved city must be applied before body paint"
+    assert 'document.documentElement.dataset.city' in head, "city must be applied before body paint"
+    assert 'new URLSearchParams(window.location.search).get("city")' in head, "requested city must win before first paint"
     assert 'data-initial-city-chrome' in before_modules, "initial city chrome must be filled synchronously"
 
 
