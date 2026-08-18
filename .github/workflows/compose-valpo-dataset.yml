@@ -11,7 +11,7 @@ on:
 permissions:
   contents: write
 
-# Share the same lock as event-pages so both data/page writers cannot race.
+# All post-publication data writers share one lock so supplements cannot race.
 concurrency:
   group: permanent-event-pages-${{ github.ref }}
   cancel-in-progress: false
@@ -19,7 +19,7 @@ concurrency:
 jobs:
   compose:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - name: Checkout latest published base dataset
         uses: actions/checkout@v4
@@ -41,19 +41,28 @@ jobs:
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
             app/scripts/test_portaltickets_editorial.py \
-            app/scripts/refresh_quality_diagnostics.py
+            app/scripts/refresh_valpocultura_zero_recovery.py \
+            app/scripts/test_valpocultura_zero_recovery.py \
+            app/scripts/refresh_quality_diagnostics.py \
+            app/scripts/apply_source_coverage_overrides.py \
+            app/scripts/test_source_coverage_overrides.py
           python app/scripts/test_museo_maritimo.py
           python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/test_valpocultura_zero_recovery.py
+          python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
+          python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
 
-      - name: Compose official and editorial supplements and diagnostics
+      - name: Compose all official and editorial supplements
         run: |
           set -euo pipefail
           python app/scripts/refresh_museo_maritimo.py
           python app/scripts/refresh_portaltickets_editorial.py
+          python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/refresh_quality_diagnostics.py
+          python app/scripts/apply_source_coverage_overrides.py
           python - <<'PY'
           import json
           from pathlib import Path
@@ -62,11 +71,13 @@ jobs:
           dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
           museum = json.loads((root / 'app/data/quality/museo-maritimo.json').read_text(encoding='utf-8'))
           portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
+          municipal = json.loads((root / 'app/data/quality/valpocultura-zero-recovery.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
           quality = json.loads((root / 'app/data/quality/event-quality.json').read_text(encoding='utf-8'))
           readiness = json.loads((root / 'app/data/quality/release-readiness.json').read_text(encoding='utf-8'))
 
           events = dataset.get('events') or []
+
           museum_events = [e for e in events if e.get('source_id') == 'museo_maritimo_nacional']
           expected_museum = int(museum.get('events_published') or 0)
           if len(museum_events) != expected_museum:
@@ -77,6 +88,17 @@ jobs:
           if portal.get('fetch_ok') and int(portal.get('candidates_parsed') or 0) > 0:
               if expected_portal <= 0 or len(portal_events) != expected_portal:
                   raise SystemExit(f'PortalTickets composition mismatch: dataset={len(portal_events)} report={expected_portal}')
+
+          municipal_events = [
+              e for e in events
+              if str((e.get('editorial') or {}).get('reason') or '') == 'official_cross_source:valpocultura'
+          ]
+          if municipal.get('fetch_ok') is True:
+              expected_municipal = int((municipal.get('refresh') or {}).get('published') or 0)
+              if len(municipal_events) != expected_municipal:
+                  raise SystemExit(
+                      f'Valpo Cultura recovery mismatch: dataset={len(municipal_events)} report={expected_municipal}'
+                  )
 
           counts = dataset.get('counts') or {}
           if counts.get('total') != len(events):
@@ -94,7 +116,10 @@ jobs:
           if not release_check.get('events_present') or not release_check.get('duplicates_zero'):
               raise SystemExit('release-readiness.json reports an invalid Valpo dataset')
 
-          print(f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} portal={len(portal_events)}')
+          print(
+              f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} '
+              f'portal={len(portal_events)} municipal={len(municipal_events)}'
+          )
           PY
 
       - name: Commit composed dataset and synchronized diagnostics
@@ -106,6 +131,7 @@ jobs:
             agenda_web.json \
             app/data/quality/museo-maritimo.json \
             app/data/quality/portaltickets-editorial.json \
+            app/data/quality/valpocultura-zero-recovery.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
             app/data/quality/release-readiness.json
@@ -113,6 +139,6 @@ jobs:
             echo "Valpo dataset already composed."
             exit 0
           fi
-          git commit -m "Compone agenda Valpo/Vina con suplementos editoriales"
+          git commit -m "Compone agenda Valpo/Vina con suplementos oficiales"
           git pull --rebase origin main
           git push origin HEAD:main
