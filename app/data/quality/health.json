@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-17T22:53:32+00:00",
+  "generated_at": "2026-08-18T00:28:56+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -16,15 +16,15 @@
       "freshness": {
         "publication_date": "2026-08-17",
         "publication_age_days": 0,
-        "generated_at": "2026-08-17T18:43:19-04:00",
-        "generated_age_hours": 0.2
+        "generated_at": "2026-08-17T19:02:09-04:00",
+        "generated_age_hours": 1.4
       },
       "counts": {
-        "total_events": 108,
-        "schedule_expected_events": 104,
-        "dated_events": 104,
-        "timed_events": 103,
-        "relevant_image_events": 86,
+        "total_events": 109,
+        "schedule_expected_events": 105,
+        "dated_events": 105,
+        "timed_events": 104,
+        "relevant_image_events": 93,
         "suspicious_titles": 0,
         "title_review_candidates": 0,
         "duplicate_groups": 0,
@@ -33,7 +33,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 99.0,
-        "relevant_image_pct": 79.6
+        "relevant_image_pct": 85.3
       },
       "samples": {
         "missing_time": [
@@ -240,7 +240,7 @@
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 15,
+        "visit_hours_enriched": 16,
         "venue_hours_enriched": 4,
         "removed_title_quality": 1,
         "removed_location_mismatch": 0,
@@ -276,7 +276,7 @@
         "publication_date": "2026-08-18",
         "publication_age_days": 0,
         "generated_at": "2026-08-18T00:12:03+02:00",
-        "generated_age_hours": 0.7
+        "generated_age_hours": 2.3
       },
       "counts": {
         "total_events": 106,
@@ -659,7 +659,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.540092655643334,
+    "usage_usd": 4.540146804502228,
     "remaining_usd": 0.0
   }
 }
