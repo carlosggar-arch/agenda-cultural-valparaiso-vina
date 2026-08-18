@@ -1,6 +1,7 @@
-const MOBILE_QUERY = "(max-width: 700px)";
+const MOBILE_QUERY = "(max-width: 900px)";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
+const TABBAR_ID = "vivamos-mobile-tabbar";
 
 function ensureMeta(name, content) {
   let meta = document.head.querySelector(`meta[name="${name}"]`);
@@ -21,11 +22,16 @@ function installMobileMetadata() {
 }
 
 function installMobileStyles() {
-  const existing = document.querySelector('link[href*="mobile-experience.css"]');
-  if (existing) existing.remove();
+  const href = "./mobile-experience.css?v=20260817-topnav9";
+  const links = [...document.querySelectorAll('link[href*="mobile-experience.css"]')];
+  if (links.length) {
+    links[0].href = href;
+    for (const extra of links.slice(1)) extra.remove();
+    return;
+  }
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./mobile-experience.css?v=20260817-topnav8";
+  link.href = href;
   link.dataset.mobileExperienceStyles = "true";
   document.head.append(link);
 }
@@ -35,8 +41,11 @@ function isStandalone() {
 }
 
 function isMobileClient() {
-  const physicalShortSide = Math.min(Number(screen.width || 9999), Number(screen.height || 9999));
-  return isStandalone() || physicalShortSide <= 900;
+  const uaMobile = navigator.userAgentData?.mobile === true
+    || /Android|iPhone|iPad|iPod|Mobile|IEMobile|Opera Mini/i.test(String(navigator.userAgent || ""));
+  const screenWidth = Number(screen.width || 9999);
+  const viewportWidth = Number(window.innerWidth || document.documentElement.clientWidth || 9999);
+  return isStandalone() || uaMobile || screenWidth <= 900 || viewportWidth <= 900;
 }
 
 function syncClientFlags() {
@@ -53,13 +62,19 @@ function createTabButton(action, icon, label) {
   return button;
 }
 
+function dedupeTabbars(keep) {
+  for (const node of document.querySelectorAll("[data-mobile-tabbar], .mobile-tabbar")) {
+    if (node !== keep) node.remove();
+  }
+}
+
 function buildTabbar() {
-  let nav = document.querySelector("[data-mobile-tabbar]");
+  let nav = document.getElementById(TABBAR_ID);
+  if (!nav) {
+    nav = document.querySelector("[data-mobile-tabbar], .mobile-tabbar");
+  }
   if (!nav) {
     nav = document.createElement("nav");
-    nav.className = "mobile-tabbar mobile-topnav";
-    nav.dataset.mobileTabbar = "true";
-    nav.setAttribute("aria-label", "Navegación rápida");
     nav.append(
       createTabButton("agenda", "⌂", "Agenda"),
       createTabButton("search", "⌕", "Buscar"),
@@ -67,7 +82,12 @@ function buildTabbar() {
       createTabButton("city", "⌖", "Ciudad"),
     );
   }
-  const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
+  nav.id = TABBAR_ID;
+  nav.className = "mobile-tabbar mobile-topnav";
+  nav.dataset.mobileTabbar = "true";
+  nav.setAttribute("aria-label", "Navegación rápida");
+  dedupeTabbars(nav);
+  const host = document.querySelector(".app-header");
   if (host && nav.parentElement !== host) host.append(nav);
   nav.hidden = false;
   return nav;
@@ -79,7 +99,8 @@ syncClientFlags();
 const tabbar = buildTabbar();
 
 function ensureTabbarMounted() {
-  const host = document.querySelector(".header-bottom") || document.querySelector(".app-header");
+  dedupeTabbars(tabbar);
+  const host = document.querySelector(".app-header");
   if (host && tabbar.parentElement !== host) host.append(tabbar);
   tabbar.hidden = false;
 }
@@ -113,16 +134,16 @@ function syncCityOptionState() {
   }
 }
 
-function syncModalVisibility() {
-  ensureTabbarMounted();
+function syncMobileUi() {
   syncClientFlags();
+  ensureTabbarMounted();
   if (document.documentElement.dataset.city) setActive("agenda");
 }
 
 function observeModal(node) {
   if (!node || node.dataset.mobileObserved === "true") return;
   node.dataset.mobileObserved = "true";
-  new MutationObserver(() => { syncModalVisibility(); syncCityOptionState(); })
+  new MutationObserver(() => { syncMobileUi(); syncCityOptionState(); })
     .observe(node, { attributes: true, attributeFilter: ["hidden", "data-selection-required"] });
 }
 
@@ -146,15 +167,15 @@ new MutationObserver((records) => {
       for (const modal of node.querySelectorAll?.(".chooser-backdrop") || []) observeModal(modal);
     }
   }
-  syncModalVisibility();
-}).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["open"] });
+  syncMobileUi();
+}).observe(document.body, { childList: true, subtree: true });
 
-window.addEventListener("appinstalled", syncModalVisibility);
-window.addEventListener("resize", syncClientFlags);
-window.addEventListener("orientationchange", syncClientFlags);
-standaloneQuery?.addEventListener?.("change", syncModalVisibility);
-window.matchMedia?.(MOBILE_QUERY)?.addEventListener?.("change", syncModalVisibility);
+window.addEventListener("appinstalled", syncMobileUi);
+window.addEventListener("resize", syncMobileUi);
+window.addEventListener("orientationchange", syncMobileUi);
+standaloneQuery?.addEventListener?.("change", syncMobileUi);
+window.matchMedia?.(MOBILE_QUERY)?.addEventListener?.("change", syncMobileUi);
 
 syncCityOptionState();
-syncModalVisibility();
+syncMobileUi();
 setActive("agenda");
