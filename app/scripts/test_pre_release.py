@@ -27,7 +27,10 @@ def normalized(value: object) -> str:
 
 def check_manifest_and_icons() -> None:
     manifest = load_json(APP / "manifest.webmanifest")
-    assert manifest.get("start_url") == "./"
+    start_url = str(manifest.get("start_url") or "")
+    assert manifest.get("id") == "./"
+    assert start_url.startswith("./?pwa=")
+    assert start_url[len("./?pwa="):].isdigit()
     assert manifest.get("scope") == "./"
     assert manifest.get("display") == "standalone"
 
