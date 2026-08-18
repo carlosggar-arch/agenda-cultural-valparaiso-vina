@@ -1,11 +1,12 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T13:17:32+00:00",
+  "schema_version": "1.1.0",
+  "generated_at": "2026-08-18T13:30:49+00:00",
   "timezone": "America/Santiago",
   "date": "2026-08-18",
   "state": "ok",
   "verified_inactive_count": 2,
   "future_detected_count": 0,
+  "future_unqualified_geography_count": 0,
   "sources": [
     {
       "id": "sala_teatro_ipa",
@@ -14,8 +15,11 @@
       "evidence": "specialized_theatre_calendar",
       "state": "verified_no_publishable_future",
       "verified_inactive": true,
+      "verification_reason": "specialized_calendar_has_no_future_sala_ipa_entry",
       "future_candidates": [],
       "future_candidates_count": 0,
+      "future_candidates_unqualified_geography": [],
+      "future_candidates_unqualified_geography_count": 0,
       "explicit_empty_state": false,
       "fetch_ok": true,
       "http_status": 200,
@@ -28,12 +32,33 @@
       "evidence": "official_ticketing_company_page",
       "state": "verified_no_publishable_future",
       "verified_inactive": true,
+      "verification_reason": "official_ticketing_page_explicitly_empty",
       "future_candidates": [],
       "future_candidates_count": 0,
+      "future_candidates_unqualified_geography": [],
+      "future_candidates_unqualified_geography_count": 0,
       "explicit_empty_state": true,
       "fetch_ok": true,
       "http_status": 200,
       "error": null
+    },
+    {
+      "id": "ecoliderazgo",
+      "name": "EcoLiderazgo",
+      "url": "https://www.ecoliderazgo.cl/",
+      "evidence": "official_upcoming_activities_page",
+      "state": "indeterminate",
+      "verified_inactive": false,
+      "verification_reason": null,
+      "future_candidates": [],
+      "future_candidates_count": 0,
+      "future_candidates_unqualified_geography": [],
+      "future_candidates_unqualified_geography_count": 0,
+      "explicit_empty_state": false,
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null
     }
-  ]
+  ],
+  "geography_policy": "Excursions qualify by explicit origin/departure in Valparaiso or Vina del Mar, not by destination and not merely by the operator's address."
 }
