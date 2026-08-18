@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T20:46:50-04:00",
+  "generated_at": "2026-08-17T20:47:22-04:00",
   "reference_date": "2026-08-17",
   "policy": "official_sources_only_never_invent_date_or_recurrence",
   "sources": [
@@ -11,23 +11,73 @@
     }
   ],
   "counts": {
-    "candidates": 0,
+    "candidates": 3,
     "ready_uncovered": 0,
-    "recurring_without_end": 0,
+    "recurring_without_end": 1,
     "fetch_errors": 0
   },
   "by_category": {
     "ferias-gastronomia": {
-      "observed_source_items": 0,
+      "observed_source_items": 2,
       "ready_uncovered": 0
     },
     "naturaleza-deportes": {
-      "observed_source_items": 0,
+      "observed_source_items": 1,
       "ready_uncovered": 0
     }
   },
   "ready_uncovered": [],
-  "recurring_without_end": [],
-  "candidates": [],
+  "recurring_without_end": [
+    {
+      "title": "Yoga todos los sábados",
+      "category_id": "naturaleza-deportes",
+      "source_id": "jardin_botanico_vina_discovery",
+      "source_name": "Jardín Botánico Nacional de Viña del Mar",
+      "source_url": "https://jbn.cl/calendario-actividades/",
+      "future_dates": [],
+      "clock": null,
+      "status": "recurring_without_end",
+      "publishable_from_this_source_alone": false,
+      "already_covered": false
+    }
+  ],
+  "candidates": [
+    {
+      "title": "Yoga todos los sábados",
+      "category_id": "naturaleza-deportes",
+      "source_id": "jardin_botanico_vina_discovery",
+      "source_name": "Jardín Botánico Nacional de Viña del Mar",
+      "source_url": "https://jbn.cl/calendario-actividades/",
+      "future_dates": [],
+      "clock": null,
+      "status": "recurring_without_end",
+      "publishable_from_this_source_alone": false,
+      "already_covered": false
+    },
+    {
+      "title": "Feria Shonen",
+      "category_id": "ferias-gastronomia",
+      "source_id": "jardin_botanico_vina_discovery",
+      "source_name": "Jardín Botánico Nacional de Viña del Mar",
+      "source_url": "https://jbn.cl/calendario-actividades/",
+      "future_dates": [],
+      "clock": null,
+      "status": "past_or_incomplete",
+      "publishable_from_this_source_alone": false,
+      "already_covered": false
+    },
+    {
+      "title": "Feria Kids Fiesta",
+      "category_id": "ferias-gastronomia",
+      "source_id": "jardin_botanico_vina_discovery",
+      "source_name": "Jardín Botánico Nacional de Viña del Mar",
+      "source_url": "https://jbn.cl/calendario-actividades/",
+      "future_dates": [],
+      "clock": null,
+      "status": "past_or_incomplete",
+      "publishable_from_this_source_alone": false,
+      "already_covered": false
+    }
+  ],
   "fetch_errors": {}
 }
