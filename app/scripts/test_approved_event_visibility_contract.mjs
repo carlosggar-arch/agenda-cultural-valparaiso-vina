@@ -42,36 +42,30 @@ assert.ok([...exhibitionVenueCounts.values()].some((count) => count >= 2), "Gij�
 
 const appJs = read("app.js");
 const bootstrap = read("combined-filters-bootstrap.js");
+const compactLoader = read("exhibition-compact-loader.js");
 const serviceWorker = read("service-worker.js");
+const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
-const compactLoader = read("exhibition-compact-loader.js");
-const compactSafe = read("exhibition-compact-safe.js");
 
-// Startup safety: secondary filtering/presentation code must never gate the base app.
+// Keep the runtime on the known-good v76 architecture. Data and editorial fixes
+// can evolve independently, but experimental self-repair observers must not be
+// reintroduced into the public browser runtime.
 assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
 assert.match(appJs, /^import "\.\/app-core\.js/m);
-assert.doesNotMatch(appJs, /__vivamosAppBaseReady|await\s+baseReady|const\s+baseReady/);
-assert.match(bootstrap, /import "\.\/category-normalizer\.js/);
-assert.match(bootstrap, /import\("\.\/combined-filters\.js/);
-assert.doesNotMatch(bootstrap, /approved-event-integrity\.js/);
-assert.doesNotMatch(bootstrap, /waitForBaseApp|await\s+waitForBaseApp/);
+assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
+assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
+assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
 assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 
-// Visibility safety is enforced by deterministic base rendering + CI, never by a
-// MutationObserver that can feed back into the same DOM it is auditing.
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.doesNotMatch(bootstrap, /MutationObserver|repair\(/);
-assert.match(serviceWorker, /"\.\/combined-filters-bootstrap\.js"/);
+assert.match(compactLoader, /exhibition-compact\.js\?v=20260818-compact9/);
+assert.doesNotMatch(compactLoader, /exhibition-compact-safe/);
+assert.match(serviceWorker, /"\.\/exhibition-compact\.js\?v=20260818-compact9"/);
+assert.doesNotMatch(serviceWorker, /approved-event-integrity|exhibition-compact-safe/);
+assert.match(release, /const RELEASE = 82/);
+assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
-// Exhibition compacting must use the low-overhead runtime. It may watch actual
-// inserted nodes, but it must not observe class/hidden/src mutations across the grid.
-assert.match(compactLoader, /exhibition-compact-safe\.js/);
-assert.doesNotMatch(compactLoader, /exhibition-compact\.js\?v=20260818-compact9/);
-assert.match(compactSafe, /MutationObserver/);
-assert.match(compactSafe, /childList:\s*true/);
-assert.doesNotMatch(compactSafe, /attributeFilter|attributes:\s*true|characterData:\s*true/);
-
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; stable runtime)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; known-good runtime)`);
