@@ -42,33 +42,26 @@ assert.ok([...exhibitionVenueCounts.values()].some((count) => count >= 2), "Gij�
 
 const appJs = read("app.js");
 const bootstrap = read("combined-filters-bootstrap.js");
-const integrity = read("approved-event-integrity.js");
 const serviceWorker = read("service-worker.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 
-// Base rendering must never be gated behind a top-level await chain: a secondary
-// presentation/filter failure must not prevent the public agenda from loading.
+// Startup safety: secondary filtering/presentation code must never gate the base app.
 assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
 assert.match(appJs, /^import "\.\/app-core\.js/m);
 assert.doesNotMatch(appJs, /__vivamosAppBaseReady|await\s+baseReady|const\s+baseReady/);
 assert.match(bootstrap, /import "\.\/category-normalizer\.js/);
-assert.match(bootstrap, /const filtersReady = import\("\.\/combined-filters\.js/);
-assert.match(bootstrap, /\.then\(\(\) => import\("\.\/approved-event-integrity\.js/);
+assert.match(bootstrap, /import\("\.\/combined-filters\.js/);
+assert.doesNotMatch(bootstrap, /approved-event-integrity\.js/);
 assert.doesNotMatch(bootstrap, /waitForBaseApp|await\s+waitForBaseApp/);
 assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 
+// Visibility safety is enforced by deterministic base rendering + CI, never by a
+// MutationObserver that can feed back into the same DOM it is auditing.
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.match(integrity, /approvedIds/);
-assert.match(integrity, /representations\(\)/);
-assert.match(integrity, /data-event-group/);
-assert.match(integrity, /missing approved event representations/);
-assert.match(integrity, /approved events hidden without active filters/);
-assert.match(integrity, /forceCompleteBaseRender/);
-assert.match(integrity, /reapplyModernFilters/);
+assert.doesNotMatch(bootstrap, /MutationObserver|repair\(/);
 assert.match(serviceWorker, /"\.\/combined-filters-bootstrap\.js"/);
-assert.match(serviceWorker, /"\.\/approved-event-integrity\.js"/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; non-blocking startup)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; runtime guard disabled)`);
