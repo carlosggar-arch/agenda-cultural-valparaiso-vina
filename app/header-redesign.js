@@ -28,6 +28,37 @@ function ensureInstalledAppActionStyles() {
   style = document.createElement("style");
   style.dataset.installedAppActionStyles = "true";
   style.textContent = `
+    .header-actions .contribute-source-button {
+      box-sizing: border-box !important;
+      min-height: 42px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: .28rem !important;
+      padding: .58rem .68rem !important;
+      border: 1px solid rgba(23,79,70,.20) !important;
+      border-radius: 12px !important;
+      background: rgba(255,255,255,.82) !important;
+      color: var(--header-ink, #153f3a) !important;
+      text-decoration: none !important;
+      font-size: .78rem !important;
+      line-height: 1 !important;
+      font-weight: 780 !important;
+      white-space: nowrap !important;
+      box-shadow: none !important;
+    }
+    .header-actions .contribute-source-button:hover,
+    .header-actions .contribute-source-button:focus-visible {
+      border-color: var(--header-control, #174f46) !important;
+      color: var(--header-control, #174f46) !important;
+      background: #fff !important;
+    }
+    .header-actions .contribute-source-icon {
+      display: inline-block;
+      font-size: .96rem;
+      line-height: 1;
+      font-weight: 800;
+    }
     html[data-installed-app-actions="below-mosaic"] .filter-workbench::before {
       margin-bottom: .08rem !important;
     }
@@ -89,6 +120,13 @@ function ensureInstalledAppActionStyles() {
       line-height: .9;
       font-weight: 800;
     }
+    @media (max-width: 700px) {
+      html:not([data-installed-app-actions="below-mosaic"]) .header-actions .contribute-source-button {
+        min-height: 39px !important;
+        padding: .48rem .52rem !important;
+        font-size: .72rem !important;
+      }
+    }
     @media (max-width: 430px) {
       html[data-installed-app-actions="below-mosaic"] .filter-workbench > .header-actions {
         gap: .16rem !important;
@@ -98,6 +136,13 @@ function ensureInstalledAppActionStyles() {
         min-height: 42px !important;
         padding: .12rem .10rem !important;
         font-size: .55rem !important;
+      }
+      html:not([data-installed-app-actions="below-mosaic"]) .header-actions .contribute-source-button span:last-child {
+        font-size: 0;
+      }
+      html:not([data-installed-app-actions="below-mosaic"]) .header-actions .contribute-source-button span:last-child::after {
+        content: "Fuente";
+        font-size: .68rem;
       }
     }
   `;
@@ -119,10 +164,6 @@ function ensureContributionButton(actions) {
   return button;
 }
 
-function removeContributionButton(actions) {
-  actions?.querySelector("[data-contribute-source]")?.remove();
-}
-
 function applyApprovedHeaderLayout() {
   const width = viewportWidth();
   const icon = document.querySelector(".brand img");
@@ -139,9 +180,10 @@ function applyApprovedHeaderLayout() {
 
   if (!actions) return;
 
+  ensureInstalledAppActionStyles();
+  ensureContributionButton(actions);
+
   if (isInstalledApp() && workbench) {
-    ensureInstalledAppActionStyles();
-    ensureContributionButton(actions);
     document.documentElement.dataset.installedAppActions = "below-mosaic";
     if (actions.parentElement !== workbench || actions !== workbench.firstElementChild) {
       workbench.insertBefore(actions, workbench.firstElementChild);
@@ -151,7 +193,6 @@ function applyApprovedHeaderLayout() {
   }
 
   delete document.documentElement.dataset.installedAppActions;
-  removeContributionButton(actions);
 
   if (useDirectMobileActions()) {
     const header = document.querySelector(".app-header");
@@ -250,7 +291,7 @@ function buildHeaderStructure() {
     cityTitle = document.createElement("span");
     cityTitle.className = "header-city-title";
     cityTitle.dataset.headerCityTitle = "";
-    brandCopy.append(kicker);
+    brandCopy.append(cityTitle);
   }
 
   let tagline = brandCopy.querySelector(".header-tagline");
@@ -308,7 +349,7 @@ function buildHeaderStructure() {
     header.append(art);
   }
 
-  header.dataset.headerRedesign = "hero-v6-installed-actions-below-mosaic";
+  header.dataset.headerRedesign = "hero-v7-contribute-source-everywhere";
   applyApprovedHeaderLayout();
 }
 
