@@ -140,7 +140,7 @@ assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
 assert 'html[data-city="gijon"]' in city_header_css
 assert 'const HEADER_STYLESHEET = "./header-redesign.css?v=20260817-brandicon1"' in header_redesign_js
-assert 'header.dataset.headerRedesign = "hero-v4-mobile-direct-actions"' in header_redesign_js
+assert 'header.dataset.headerRedesign = "hero-v7-contribute-source-everywhere"' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
 assert '.header-art' in header_redesign_css
 
