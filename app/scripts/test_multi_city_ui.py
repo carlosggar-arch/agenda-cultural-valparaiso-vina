@@ -86,7 +86,7 @@ for marker in (
     assert marker in city_first_run
 
 compact_link = '<link rel="stylesheet" href="./compact-top.css">'
-header_link = '<link rel="stylesheet" href="./header-redesign.css">'
+header_link = '<link rel="stylesheet" href="./header-redesign.css?v=20260817-brandicon1">'
 assert compact_link in index
 assert header_link in index
 assert index.index(compact_link) < index.index(header_link) < index.index("</head>")
@@ -138,6 +138,7 @@ assert '.agenda-heading { display: flex !important;' not in polish
 assert '.city-masthead' in city_header_css
 assert 'html[data-city="valparaiso"]' in city_header_css
 assert 'html[data-city="gijon"]' in city_header_css
+assert 'const HEADER_STYLESHEET = "./header-redesign.css?v=20260817-brandicon1"' in header_redesign_js
 assert 'header.dataset.headerRedesign = "hero-v4-mobile-direct-actions"' in header_redesign_js
 assert 'art.className = "header-art"' in header_redesign_js
 assert '.header-art' in header_redesign_css
@@ -177,6 +178,7 @@ assert '.category-filters' in css
 assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
 assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
 assert 'service-worker.js?v=${APP_RELEASE}' in pwa
+assert 'import "./header-redesign.js?v=20260817-brandicon1";' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
@@ -238,7 +240,8 @@ shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1
 for asset in (
     '"./release-version.js"', '"./cities.json"', '"../assets/city-registry.mjs"',
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
-    '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css"', '"./card-experience.js"',
+    '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css?v=20260817-brandicon1"',
+    '"./header-redesign.js?v=20260817-brandicon1"', '"./card-experience.js"',
     '"./schedule-display.js"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
     '"./favorites.js"', '"./mis-planes.html"', '"./sources-toggle.js"', '"./community-source.js"',
     '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs"',
