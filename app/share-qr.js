@@ -1,6 +1,6 @@
-const SHARE_URL = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/";
+const SHARE_URL = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/?install=1";
 const SHARE_TITLE = "¡Vivamos!";
-const SHARE_TEXT = "Descubre la agenda cultural y compártela con otras personas.";
+const SHARE_TEXT = "Abre ¡Vivamos! en tu móvil e instala la aplicación para tener la agenda cultural a mano.";
 
 function installShareStyles() {
   if (document.querySelector('link[data-share-qr-styles]')) return;
@@ -22,8 +22,8 @@ function ensureShareButton() {
   button.type = "button";
   button.className = "share-qr-button";
   button.dataset.shareQrOpen = "true";
-  button.setAttribute("aria-label", "Compartir aplicación");
-  button.title = "Compartir aplicación";
+  button.setAttribute("aria-label", "Compartir e instalar aplicación");
+  button.title = "Compartir e instalar aplicación";
   button.innerHTML = '<img src="./icons/share-qr-app.svg" width="20" height="20" alt="" aria-hidden="true">';
 
   const citySwitch = headerActions.querySelector("[data-city-switch]");
@@ -44,10 +44,10 @@ function ensureShareDialog() {
     <section class="chooser share-qr-panel" role="dialog" aria-modal="true" aria-labelledby="share-qr-title">
       <button class="chooser-close" type="button" aria-label="Cerrar" data-share-qr-close>×</button>
       <p class="eyebrow">¡Vivamos!</p>
-      <h2 id="share-qr-title">Compartir la aplicación</h2>
-      <p>Escanea el código o comparte el enlace para abrir ¡Vivamos! en cualquier móvil.</p>
+      <h2 id="share-qr-title">Instalar o compartir la aplicación</h2>
+      <p>Escanea el código desde un móvil. Se abrirá ¡Vivamos! y aparecerá la opción de instalar la aplicación.</p>
       <div class="share-qr-preview">
-        <img src="./icons/share-qr-app.svg" alt="Código QR para abrir la aplicación ¡Vivamos!" width="220" height="220">
+        <img src="./icons/share-qr-app.svg" alt="Código QR para abrir e instalar la aplicación ¡Vivamos!" width="220" height="220">
       </div>
       <p class="share-qr-link">${SHARE_URL}</p>
       <div class="share-qr-actions">
@@ -102,7 +102,7 @@ function ensureShareDialog() {
         document.execCommand("copy");
         helper.remove();
       }
-      feedback.textContent = "Enlace copiado.";
+      feedback.textContent = "Enlace de instalación copiado.";
     } catch {
       feedback.textContent = "No se pudo copiar el enlace automáticamente.";
     }
