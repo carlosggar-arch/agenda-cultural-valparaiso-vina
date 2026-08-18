@@ -7,6 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 QUALITY = ROOT / "app/data/quality"
+REVALIDATION_FETCH_BUDGET = 20
+IMAGE_FETCH_BUDGET = 10
 MAINTENANCE_OUTPUTS = (
     "app/data/quality/parser-drift-state.json",
     "app/data/quality/parser-drift.json",
@@ -36,10 +38,18 @@ def stage_outputs() -> None:
 
 def main() -> None:
     # This hook is invoked from the final coverage step of the sole automatic
-    # publisher. It must never push/commit by itself.
+    # publisher. Network work is deliberately bounded; anything not visited in
+    # one pass remains eligible for the next daily publication.
     run("app/scripts/parser_drift_guard.py")
-    run("app/scripts/revalidate_upcoming_events.py", "--days", "10", "--max-fetch", "60")
-    run("app/scripts/audit_and_recover_images.py", "--max-fetch", "40")
+    run(
+        "app/scripts/revalidate_upcoming_events.py",
+        "--days", "10",
+        "--max-fetch", str(REVALIDATION_FETCH_BUDGET),
+    )
+    run(
+        "app/scripts/audit_and_recover_images.py",
+        "--max-fetch", str(IMAGE_FETCH_BUDGET),
+    )
 
     # Any safe event mutation must be followed by the normal editorial and
     # diagnostic stack so the publication remains internally synchronized.
@@ -76,6 +86,8 @@ def main() -> None:
         f"image_pct={image.get('event_specific_image_pct_after')}",
         f"coherence={coherence.get('status')}",
         f"health={health.get('status')}",
+        f"revalidation_budget={REVALIDATION_FETCH_BUDGET}",
+        f"image_budget={IMAGE_FETCH_BUDGET}",
     )
 
 
