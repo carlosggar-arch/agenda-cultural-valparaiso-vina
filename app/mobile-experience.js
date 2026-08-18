@@ -24,7 +24,9 @@ function installMobileStyles() {
   const href = "./mobile-experience.css?v=20260817-topcontrols3";
   const links = [...document.querySelectorAll('link[href*="mobile-experience.css"]')];
   if (links.length) {
-    links[0].href = href;
+    // The main app loads this stylesheet in <head> before first paint. Rewriting
+    // its href after JavaScript starts forces a second CSS load and can bring
+    // back the startup layout jump this layer is meant to prevent.
     for (const extra of links.slice(1)) extra.remove();
     return;
   }
