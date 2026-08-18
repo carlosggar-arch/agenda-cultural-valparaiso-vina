@@ -73,9 +73,9 @@
   text-align:center;
 }
 
-/* Mobile header has two explicit layout zones. The brand/city identity owns
-   the first row; all controls live in the second row. This prevents actions
-   from ever occupying the title/tagline rectangle, even when Install appears. */
+/* Mobile header has two explicit control rows. Persistent actions stay on the
+   first row and Install owns the second row. The grid coordinates are marked
+   important because older header layers also use important layout rules. */
 @media(max-width:700px){
   .app-header{
     display:grid!important;
@@ -98,7 +98,7 @@
   .header-actions{
     display:grid!important;
     grid-template-columns:repeat(4,max-content)!important;
-    grid-template-rows:auto auto;
+    grid-template-rows:minmax(39px,auto) auto!important;
     align-items:center!important;
     justify-content:start!important;
     column-gap:.38rem!important;
@@ -108,17 +108,17 @@
     margin:0!important;
   }
   .header-actions .favorites-access--app{
-    grid-column:1;
-    grid-row:1;
+    grid-column:1!important;
+    grid-row:1!important;
     min-height:39px!important;
   }
   .header-actions .header-search-toggle{
-    grid-column:2;
-    grid-row:1;
+    grid-column:2!important;
+    grid-row:1!important;
   }
   .header-actions .share-qr-button{
-    grid-column:3;
-    grid-row:1;
+    grid-column:3!important;
+    grid-row:1!important;
     width:39px;
     min-width:39px;
     min-height:39px;
@@ -130,17 +130,19 @@
     height:18px;
   }
   .header-actions .city-switch{
-    grid-column:4;
-    grid-row:1;
+    grid-column:4!important;
+    grid-row:1!important;
     justify-self:start;
     width:auto!important;
   }
   .header-actions .install-button{
-    grid-column:1 / -1;
-    grid-row:2;
+    grid-column:1 / -1!important;
+    grid-row:2!important;
+    align-self:start!important;
     justify-self:start;
     width:auto!important;
     min-height:34px!important;
+    margin-top:.1rem!important;
     padding:.42rem .62rem!important;
     font-size:.74rem!important;
     border-radius:10px!important;
