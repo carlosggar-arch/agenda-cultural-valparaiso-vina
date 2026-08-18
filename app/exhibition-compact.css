@@ -1,4 +1,6 @@
-/* Compact, equal-height exhibition cards shared by every city. */
+/* Compact exhibition presentation without fixed card heights.
+   The grid decides each row height from real content and stretches cards to match.
+   Only the exhibition list itself scrolls. */
 
 .exhibition-venue-card {
   border-radius: 20px !important;
@@ -63,6 +65,7 @@
 .exhibition-group-details {
   border-radius: 11px !important;
   min-height: 0;
+  overflow: hidden;
 }
 
 .exhibition-group-details summary {
@@ -77,6 +80,7 @@
 }
 
 .exhibition-group-list {
+  max-height: 248px !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   overscroll-behavior: contain;
@@ -145,106 +149,73 @@
   font-size: 0.76rem !important;
 }
 
-/* On desktop and tablet every dated card occupies the same compact cell.
-   Long exhibition lists scroll inside the card instead of increasing its height. */
-@media (min-width: 901px) {
-  [data-dated-grid] {
-    align-items: stretch !important;
-    grid-auto-rows: 560px;
-  }
+/* Root layout rule: never constrain a normal event card to a magic pixel height.
+   CSS Grid computes the row height from the tallest real card, then stretches the
+   siblings in that row. This keeps cards aligned without ever clipping their CTA. */
+[data-dated-grid] {
+  align-items: stretch !important;
+  grid-auto-rows: auto !important;
+}
 
-  [data-dated-grid] > .event-card {
-    height: 560px !important;
-    min-height: 560px !important;
-    max-height: 560px !important;
-    align-self: stretch !important;
-  }
+[data-dated-grid] > .event-card {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: stretch !important;
+}
 
-  [data-dated-grid] > .event-card .event-card-body {
-    min-height: 0;
-    overflow: hidden;
-  }
+/* Defensive rules: content and the primary CTA must never be clipped by a card-body
+   height constraint introduced by another presentation layer. */
+[data-dated-grid] > .event-card .event-card-body {
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
 
-  [data-dated-grid] > .exhibition-venue-card {
-    display: flex !important;
-    flex-direction: column;
-  }
+[data-dated-grid] > .event-card .event-card-footer,
+[data-dated-grid] > .event-card .event-card-actions,
+[data-dated-grid] > .event-card .card-action--primary {
+  flex-shrink: 0 !important;
+}
 
-  [data-dated-grid] > .exhibition-venue-card .exhibition-collage {
-    flex: 0 0 104px;
-  }
+/* Grouped exhibitions remain compact because the long part is the internal list,
+   not the outer card. The outer card participates normally in the grid row. */
+[data-dated-grid] > .exhibition-venue-card {
+  display: flex !important;
+  flex-direction: column;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
 
-  [data-dated-grid] > .exhibition-venue-card .exhibition-venue-body {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    min-height: 0;
-  }
+[data-dated-grid] > .exhibition-venue-card .exhibition-collage {
+  flex: 0 0 104px;
+}
 
-  [data-dated-grid] > .exhibition-venue-card .exhibition-group-details[open] {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    min-height: 0;
-  }
+[data-dated-grid] > .exhibition-venue-card .exhibition-venue-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
 
-  [data-dated-grid] > .exhibition-venue-card .exhibition-group-list {
-    flex: 1 1 auto;
-    min-height: 0;
-    max-height: none !important;
-  }
+[data-dated-grid] > .exhibition-venue-card .exhibition-group-details {
+  margin-top: auto;
 }
 
 @media (min-width: 561px) and (max-width: 900px) {
-  [data-dated-grid] {
-    align-items: stretch !important;
-    grid-auto-rows: 530px;
-  }
-
-  [data-dated-grid] > .event-card {
-    height: 530px !important;
-    min-height: 530px !important;
-    max-height: 530px !important;
-    align-self: stretch !important;
-  }
-
-  [data-dated-grid] > .event-card .event-card-body {
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  [data-dated-grid] > .exhibition-venue-card {
-    display: flex !important;
-    flex-direction: column;
-  }
-
   .exhibition-collage {
     height: 98px !important;
     min-height: 98px !important;
   }
 
   [data-dated-grid] > .exhibition-venue-card .exhibition-collage {
-    flex: 0 0 98px;
+    flex-basis: 98px;
   }
 
-  [data-dated-grid] > .exhibition-venue-card .exhibition-venue-body {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    min-height: 0;
-  }
-
-  [data-dated-grid] > .exhibition-venue-card .exhibition-group-details[open] {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    min-height: 0;
-  }
-
-  [data-dated-grid] > .exhibition-venue-card .exhibition-group-list {
-    flex: 1 1 auto;
-    min-height: 0;
-    max-height: none !important;
+  .exhibition-group-list {
+    max-height: 228px !important;
   }
 
   .grouped-exhibition-item {
@@ -262,7 +233,6 @@
   }
 }
 
-/* Mobile remains content-driven; forcing a fixed height here would make the cards harder to use. */
 @media (max-width: 560px) {
   [data-dated-grid] > .event-card,
   [data-dated-grid] > .exhibition-venue-card {
@@ -277,6 +247,10 @@
     padding: 6px 6px 0 !important;
   }
 
+  [data-dated-grid] > .exhibition-venue-card .exhibition-collage {
+    flex-basis: 92px;
+  }
+
   .exhibition-venue-body {
     padding: 10px 10px 11px !important;
   }
@@ -286,7 +260,7 @@
   }
 
   .exhibition-group-list {
-    max-height: 238px !important;
+    max-height: 218px !important;
   }
 
   .grouped-exhibition-item {
