@@ -21,6 +21,8 @@ on:
       - "app/scripts/test_priority_zero_monitors.py"
       - "app/scripts/apply_title_quality_guard.py"
       - "app/scripts/test_title_quality_guard.py"
+      - "app/scripts/apply_content_quality_guard.py"
+      - "app/scripts/test_content_quality_guard.py"
       - "app/scripts/refresh_quality_diagnostics.py"
       - "app/scripts/apply_source_coverage_overrides.py"
       - "app/scripts/test_source_coverage_overrides.py"
@@ -71,6 +73,8 @@ jobs:
             app/scripts/test_priority_zero_monitors.py \
             app/scripts/apply_title_quality_guard.py \
             app/scripts/test_title_quality_guard.py \
+            app/scripts/apply_content_quality_guard.py \
+            app/scripts/test_content_quality_guard.py \
             app/scripts/refresh_quality_diagnostics.py \
             app/scripts/apply_source_coverage_overrides.py \
             app/scripts/test_source_coverage_overrides.py
@@ -81,6 +85,7 @@ jobs:
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_priority_zero_monitors.py
           python app/scripts/test_title_quality_guard.py
+          python app/scripts/test_content_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
@@ -88,6 +93,7 @@ jobs:
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
           python app/scripts/refresh_priority_zero_monitors.py --no-write
           python app/scripts/apply_title_quality_guard.py --no-write
+          python app/scripts/apply_content_quality_guard.py --no-write
 
       - name: Compose all official and editorial supplements
         run: |
@@ -99,6 +105,7 @@ jobs:
           python app/scripts/refresh_priority_zero_monitors.py
           python app/scripts/validate_portaltickets_editorial.py
           python app/scripts/apply_title_quality_guard.py
+          python app/scripts/apply_content_quality_guard.py
           python app/scripts/refresh_quality_diagnostics.py
           python app/scripts/apply_source_coverage_overrides.py
           python app/scripts/apply_balmaceda_coverage.py
@@ -113,6 +120,7 @@ jobs:
           portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
           municipal = json.loads((root / 'app/data/quality/valpocultura-zero-recovery.json').read_text(encoding='utf-8'))
           monitored_zero = json.loads((root / 'app/data/quality/priority-zero-monitors.json').read_text(encoding='utf-8'))
+          content_quality = json.loads((root / 'app/data/quality/content-quality.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
           quality = json.loads((root / 'app/data/quality/event-quality.json').read_text(encoding='utf-8'))
           readiness = json.loads((root / 'app/data/quality/release-readiness.json').read_text(encoding='utf-8'))
@@ -149,6 +157,8 @@ jobs:
           counts = dataset.get('counts') or {}
           if counts.get('total') != len(events):
               raise SystemExit(f'Dataset count mismatch: counts.total={counts.get("total")} events={len(events)}')
+          if content_quality.get('events_after') != len(events):
+              raise SystemExit('content-quality.json is not synchronized with agenda_web.json')
 
           cov_city = (coverage.get('cities') or {}).get('valparaiso-vina') or {}
           cov_summary = cov_city.get('summary') or {}
@@ -195,6 +205,7 @@ jobs:
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
             app/data/quality/priority-zero-monitors.json \
+            app/data/quality/content-quality.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
             app/data/quality/release-readiness.json
