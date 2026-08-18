@@ -1,11 +1,13 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 
 const STYLE_ID = "exhibition-compact-styles";
-const STYLE_HREF = "./exhibition-compact.css?v=20260818-compact4";
-const grid = document.querySelector("[data-dated-grid]");
+const STYLE_HREF = "./exhibition-compact.css?v=20260818-compact5";
+const datedGrid = document.querySelector("[data-dated-grid]");
+const grids = [...document.querySelectorAll(".event-grid")];
 const CITY_REGISTRY = await loadCityRegistry();
 const CITIES = CITY_REGISTRY.byId;
 const MAX_IMAGES = 6;
+const EQUALIZE_BREAKPOINT = 561;
 
 const OFFICIAL_VENUE_FALLBACKS = Object.freeze({
   valparaiso: Object.freeze({
@@ -16,6 +18,7 @@ const OFFICIAL_VENUE_FALLBACKS = Object.freeze({
 });
 
 let queued = false;
+let equalizeQueued = false;
 let loadedCity = null;
 let eventsById = new Map();
 let venueImagePools = new Map();
@@ -149,6 +152,7 @@ function installCollageImage(collage, url, index) {
   if (index > 0) img.setAttribute("aria-hidden", "true");
   img.addEventListener("error", () => {
     tile.remove();
+    queueEqualization();
   }, { once: true });
   tile.append(img);
   collage.append(tile);
@@ -234,11 +238,56 @@ function patchCard(card) {
   ensureRows(card, sources);
 }
 
+function visibleDirectCards(grid) {
+  return [...grid.children].filter((node) => {
+    if (!(node instanceof HTMLElement) || !node.classList.contains("event-card") || node.hidden) return false;
+    const style = getComputedStyle(node);
+    return style.display !== "none" && style.visibility !== "hidden";
+  });
+}
+
+function clearEqualHeight(card) {
+  card.style.removeProperty("min-height");
+}
+
+function equalizeGrid(grid) {
+  const cards = visibleDirectCards(grid);
+  cards.forEach(clearEqualHeight);
+
+  if (window.innerWidth < EQUALIZE_BREAKPOINT || cards.length < 2) return;
+
+  /* Measure every card at its natural height first. The tallest natural card is the
+     mathematically smallest common height that keeps every card equal without clipping. */
+  void grid.offsetHeight;
+  let commonHeight = 0;
+  for (const card of cards) {
+    commonHeight = Math.max(commonHeight, Math.ceil(card.getBoundingClientRect().height));
+  }
+  if (!commonHeight) return;
+
+  for (const card of cards) {
+    card.style.setProperty("min-height", `${commonHeight}px`, "important");
+  }
+}
+
+function equalizeAllGrids() {
+  equalizeQueued = false;
+  for (const grid of grids) equalizeGrid(grid);
+}
+
+function queueEqualization() {
+  if (equalizeQueued) return;
+  equalizeQueued = true;
+  requestAnimationFrame(() => requestAnimationFrame(equalizeAllGrids));
+}
+
 async function compactCards() {
   queued = false;
-  if (!grid) return;
-  await loadDataset();
-  for (const card of grid.querySelectorAll(".exhibition-venue-card")) patchCard(card);
+  if (datedGrid) {
+    await loadDataset();
+    for (const card of datedGrid.querySelectorAll(".exhibition-venue-card")) patchCard(card);
+  }
+  queueEqualization();
 }
 
 function queueCompact() {
@@ -250,14 +299,21 @@ function queueCompact() {
 ensureStyles();
 queueCompact();
 
-if (grid) {
-  new MutationObserver(queueCompact).observe(grid, {
+const gridObserver = new MutationObserver(() => {
+  queueCompact();
+  queueEqualization();
+});
+for (const grid of grids) {
+  gridObserver.observe(grid, {
     childList: true,
     subtree: true,
     attributes: true,
     attributeFilter: ["class", "hidden", "src"],
   });
 }
+
+window.addEventListener("resize", queueEqualization, { passive: true });
+if (document.fonts?.ready) document.fonts.ready.then(queueEqualization).catch(() => {});
 
 new MutationObserver(() => {
   loadedCity = null;
