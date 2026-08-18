@@ -6,13 +6,13 @@ import "./compact-top.js";
 import "./gijon-visual-reference.js";
 import "./sources-toggle.js";
 import "./community-source.js";
-import "./header-redesign.js";
+import "./header-redesign.js?v=20260817-mobile-direct1";
 import "./density-polish.js";
 import "./combined-filters-polish.js";
 // Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
 // but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
 import "./favorites.js";
-import "./mobile-experience.js?v=20260817-topcontrols3";
+import "./mobile-experience.js?v=20260817-topcontrols4";
 import "./share-qr.js";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
