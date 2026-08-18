@@ -1,16 +1,23 @@
-const CACHE_VERSION = "v50";
+importScripts("./release-version.js");
+
+const RELEASE = Number(globalThis.__VIVAMOS_RELEASE__);
+if (!Number.isInteger(RELEASE) || RELEASE < 1) {
+  throw new Error("¡Vivamos!: invalid shared release version");
+}
+const CACHE_VERSION = `v${RELEASE}`;
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
 
 const SHELL_ASSETS = [
   "./",
   "./index.html",
+  "./release-version.js",
   "./app.css",
   "./combined-filters.css",
   "./city-header.css",
   "./compact-top.css",
   "./header-redesign.css",
-  "./mobile-experience.css?v=20260817-topcontrols2",
+  "./mobile-experience.css?v=20260817-topcontrols3",
   "./share-qr.css",
   "./stage31-accessibility.css",
   "../assets/usage-analytics.js?v=20260817-stage32",
@@ -19,8 +26,8 @@ const SHELL_ASSETS = [
   "./city-first-run.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
-  "./pwa.js?v=20260817-topcontrols2",
-  "./mobile-experience.js?v=20260817-topcontrols2",
+  "./pwa.js?v=20260817-topcontrols3",
+  "./mobile-experience.js?v=20260817-topcontrols3",
   "./share-qr.js",
   "./stage31-accessibility-seo.js",
   "./plan-ahead.js",
