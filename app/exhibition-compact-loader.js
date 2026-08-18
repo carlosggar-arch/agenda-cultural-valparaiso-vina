@@ -1,7 +1,7 @@
-import "./exhibition-compact.js?v=20260818-compact5";
+import "./exhibition-compact.js?v=20260818-compact8";
 
 const STYLE_ID = "exhibition-compact-styles";
-const STYLE_URL = new URL("./exhibition-compact.css?v=20260818-compact6", import.meta.url).href;
+const STYLE_URL = new URL("./exhibition-compact.css?v=20260818-compact8", import.meta.url).href;
 
 function activateSafeLayout() {
   let link = document.getElementById(STYLE_ID);
