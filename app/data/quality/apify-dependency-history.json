@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "started_on": "2026-08-17",
-  "updated_at": "2026-08-18T00:39:33.031841+00:00",
+  "updated_at": "2026-08-18T00:46:47.902158+00:00",
   "observation_window_days": 28,
   "minimum_fresh_instagram_snapshots": 4,
   "snapshots": [
@@ -372,7 +372,7 @@
       "instagram_state_updated_at": "2026-08-17T09:35:55.185946+00:00",
       "apify": {
         "status": "cap_reached",
-        "usage_usd": 4.540197698608893,
+        "usage_usd": 4.540199062065143,
         "cap_usd": 3.5,
         "paid_refresh_triggered": false
       },
@@ -1720,6 +1720,26 @@
       "first_non_instagram_supported": "2026-08-18",
       "last_seen": "2026-08-18",
       "latest_evidence": "direct_web"
+    },
+    "d1199c0a69caa07107b1": {
+      "source_id": "teatro_municipal_vina",
+      "title": "Jakub Józef Orliński en Viña del Mar",
+      "event_date": "2026-08-18",
+      "first_seen": "2026-08-18",
+      "first_instagram_only_seen": "2026-08-18",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-18",
+      "latest_evidence": "instagram_only"
+    },
+    "b24626ca9a2a5ed5b790": {
+      "source_id": "teatro_municipal_vina",
+      "title": "Concierto de la Fundación Orquesta Sinfónica Infantil de Los Andes",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-18",
+      "first_instagram_only_seen": "2026-08-18",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-18",
+      "latest_evidence": "instagram_only"
     }
   },
   "recommendations": [
@@ -2164,11 +2184,11 @@
       "observed_days": 2,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 10,
-      "ever_instagram_only": 3,
+      "distinct_events_observed": 12,
+      "ever_instagram_only": 5,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 3,
-      "current_unresolved_instagram_only": 3,
+      "historical_instagram_only_without_alternative": 5,
+      "current_unresolved_instagram_only": 5,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
