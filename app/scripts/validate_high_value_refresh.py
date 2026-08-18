@@ -3,24 +3,26 @@ from __future__ import annotations
 import json
 import re
 import unicodedata
-from datetime import date, datetime
+from datetime import datetime
 from difflib import SequenceMatcher
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
+CONFIG = ROOT / "app/data/high_value_sources.json"
 DATASETS = {
     "valparaiso": ROOT / "agenda_web.json",
     "gijon": ROOT / "app/data/gijon/agenda_web.json",
 }
+CONFIG_MANAGED = {
+    str(source.get("id") or "")
+    for source in json.loads(CONFIG.read_text(encoding="utf-8")).get("sources", [])
+    if source.get("id")
+}
 MANAGED = {
     "portaltickets_valparaiso",
     "museo_maritimo_nacional",
-    "museo_evaristo_valle",
-    "museo_barjola",
-    "ficx",
-    "laboral_cinemateca",
-}
+} | CONFIG_MANAGED
 VALPO_ALLOWED = {"valparaiso", "vina del mar"}
 OUT_OF_SCOPE_MARKERS = {
     "san antonio", "casablanca", "limache", "quilpue", "villa alemana",
