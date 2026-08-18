@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import http.server
 import os
+import re
 import shutil
 import socketserver
 import subprocess
@@ -32,9 +33,10 @@ def make_test_page(city: str) -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
     app_marker = '<script type="module" src="./app.js"></script>'
     combined_marker = '<script type="module" src="./combined-filters.js"></script>'
-    pwa_marker = '<script type="module" src="./pwa.js"></script>'
-    if app_marker not in source or combined_marker not in source or pwa_marker not in source:
+    pwa_match = re.search(r'<script type="module" src="\./pwa\.js(?:\?v=[^"]+)?"></script>', source)
+    if app_marker not in source or combined_marker not in source or not pwa_match:
         raise AssertionError("app.js/combined-filters.js/pwa.js script marker not found")
+    pwa_marker = pwa_match.group(0)
     source = source.replace(combined_marker, "", 1).replace(pwa_marker, "", 1)
 
     diagnostic = r'''
