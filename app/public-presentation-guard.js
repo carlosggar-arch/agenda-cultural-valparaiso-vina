@@ -35,6 +35,35 @@ function installStyles() {
       color: #a86731;
       font-weight: 800;
     }
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: .3rem .56rem;
+      font-size: .7rem;
+      line-height: 1;
+      font-weight: 850;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .availability-badge--sold-out {
+      background: #f9e8e5;
+      color: #8b3028;
+      border-color: #e7b8b0;
+    }
+    .availability-badge--partial {
+      background: #fff1dc;
+      color: #7b4e17;
+      border-color: #e8c997;
+    }
+    .availability-badge--last {
+      background: #fff4cf;
+      color: #75520a;
+      border-color: #e6ce75;
+    }
+    .event-card[data-ticket-availability="sold-out"] {
+      border-color: #e3b6af !important;
+    }
   `;
   document.head.append(style);
 }
@@ -102,6 +131,55 @@ function removePipelineDescription(node) {
   if (isNonEventDescription(node.textContent || "")) node.remove();
 }
 
+function ticketAvailability(event) {
+  const status = event?.public_status || {};
+  const editorial = event?.editorial || {};
+  const priceText = String(event?.price?.display_text || "").toLocaleLowerCase("es");
+  const stage = String(status.price_stage || "").toLocaleLowerCase("es");
+
+  if (status.sold_out === true) {
+    return { key: "sold-out", label: "Entradas agotadas" };
+  }
+  if (editorial.partial_availability === true || /algunos sectores agotados/.test(priceText)) {
+    return { key: "partial", label: "Algunos sectores agotados" };
+  }
+  if (editorial.last_tickets === true || /últimos tickets|ultimos tickets/.test(`${stage} ${priceText}`)) {
+    return { key: "last", label: "Últimos tickets" };
+  }
+  return null;
+}
+
+function enhanceAvailabilityCard(card) {
+  if (!(card instanceof HTMLElement)) return;
+  const event = eventsById.get(String(card.dataset.eventId || "").trim());
+  if (!event) return;
+
+  const state = ticketAvailability(event);
+  const existing = card.querySelector("[data-availability-badge]");
+  if (!state) {
+    existing?.remove();
+    delete card.dataset.ticketAvailability;
+    return;
+  }
+
+  card.dataset.ticketAvailability = state.key;
+  const host = card.querySelector(".card-meta-right") || card.querySelector(".card-meta-row");
+  if (!(host instanceof HTMLElement)) return;
+
+  const badge = existing || document.createElement("span");
+  badge.dataset.availabilityBadge = "";
+  badge.className = `availability-badge availability-badge--${state.key}`;
+  badge.textContent = state.label;
+  badge.setAttribute("aria-label", `Disponibilidad: ${state.label}`);
+  if (!existing) host.append(badge);
+
+  if (state.key === "sold-out") {
+    for (const chip of card.querySelectorAll(".trust-chip")) {
+      if (/inscripci[oó]n abierta/i.test(chip.textContent || "")) chip.remove();
+    }
+  }
+}
+
 function enhanceGroupedRow(row) {
   if (!(row instanceof HTMLElement)) return;
   const event = eventsById.get(String(row.dataset.groupedEventId || "").trim());
@@ -148,6 +226,7 @@ function applyPresentationRules() {
   ].join(",")).forEach(cleanTitleNode);
 
   document.querySelectorAll(".event-card-description").forEach(removePipelineDescription);
+  document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceAvailabilityCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedRow);
 }
 
