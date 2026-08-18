@@ -16,6 +16,10 @@ on:
       - "app/scripts/test_visitavina_fonck.py"
       - "app/scripts/apply_fonck_coverage.py"
       - "app/scripts/test_fonck_coverage.py"
+      - "app/scripts/refresh_visitavina_estadio_espanol.py"
+      - "app/scripts/test_visitavina_estadio_espanol.py"
+      - "app/scripts/apply_estadio_espanol_coverage.py"
+      - "app/scripts/test_estadio_espanol_coverage.py"
       - "app/scripts/refresh_portaltickets_editorial.py"
       - "app/scripts/validate_portaltickets_editorial.py"
       - "app/scripts/test_portaltickets_editorial.py"
@@ -72,6 +76,10 @@ jobs:
             app/scripts/test_visitavina_fonck.py \
             app/scripts/apply_fonck_coverage.py \
             app/scripts/test_fonck_coverage.py \
+            app/scripts/refresh_visitavina_estadio_espanol.py \
+            app/scripts/test_visitavina_estadio_espanol.py \
+            app/scripts/apply_estadio_espanol_coverage.py \
+            app/scripts/test_estadio_espanol_coverage.py \
             app/scripts/refresh_portaltickets_editorial.py \
             app/scripts/validate_portaltickets_editorial.py \
             app/scripts/test_portaltickets_editorial.py \
@@ -91,6 +99,8 @@ jobs:
           python app/scripts/test_balmaceda_coverage.py
           python app/scripts/test_visitavina_fonck.py
           python app/scripts/test_fonck_coverage.py
+          python app/scripts/test_visitavina_estadio_espanol.py
+          python app/scripts/test_estadio_espanol_coverage.py
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_valpocultura_zero_recovery.py
           python app/scripts/test_priority_zero_monitors.py
@@ -100,6 +110,7 @@ jobs:
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
           python app/scripts/refresh_visitavina_fonck.py --no-write
+          python app/scripts/refresh_visitavina_estadio_espanol.py --no-write
           python app/scripts/refresh_portaltickets_editorial.py --no-write
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write
           python app/scripts/refresh_priority_zero_monitors.py --no-write
@@ -112,6 +123,7 @@ jobs:
           python app/scripts/refresh_museo_maritimo.py
           python app/scripts/refresh_balmaceda_valpo_bounded.py
           python app/scripts/refresh_visitavina_fonck.py
+          python app/scripts/refresh_visitavina_estadio_espanol.py
           python app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/refresh_valpocultura_zero_recovery.py
           python app/scripts/refresh_priority_zero_monitors.py
@@ -122,6 +134,7 @@ jobs:
           python app/scripts/apply_source_coverage_overrides.py
           python app/scripts/apply_balmaceda_coverage.py
           python app/scripts/apply_fonck_coverage.py
+          python app/scripts/apply_estadio_espanol_coverage.py
           python - <<'PY'
           import json
           from pathlib import Path
@@ -131,6 +144,7 @@ jobs:
           museum = json.loads((root / 'app/data/quality/museo-maritimo.json').read_text(encoding='utf-8'))
           balm = json.loads((root / 'app/data/quality/balmaceda-valpo.json').read_text(encoding='utf-8'))
           fonck = json.loads((root / 'app/data/quality/visitavina-fonck.json').read_text(encoding='utf-8'))
+          estadio = json.loads((root / 'app/data/quality/visitavina-estadio-espanol.json').read_text(encoding='utf-8'))
           portal = json.loads((root / 'app/data/quality/portaltickets-editorial.json').read_text(encoding='utf-8'))
           municipal = json.loads((root / 'app/data/quality/valpocultura-zero-recovery.json').read_text(encoding='utf-8'))
           monitored_zero = json.loads((root / 'app/data/quality/priority-zero-monitors.json').read_text(encoding='utf-8'))
@@ -155,6 +169,11 @@ jobs:
           expected_fonck = int(fonck.get('events_published') or 0)
           if len(fonck_events) != expected_fonck:
               raise SystemExit(f'Museo Fonck recurrence mismatch: dataset={len(fonck_events)} report={expected_fonck}')
+
+          estadio_events = [e for e in events if e.get('source_id') == 'visitavina_estadio_espanol_recovery']
+          expected_estadio = int(estadio.get('events_published') or 0)
+          if len(estadio_events) != expected_estadio:
+              raise SystemExit(f'Estadio Espanol recovery mismatch: dataset={len(estadio_events)} report={expected_estadio}')
 
           portal_events = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
           expected_portal = int((portal.get('refresh') or {}).get('corrected_published') or 0)
@@ -189,6 +208,9 @@ jobs:
           fonck_row = next((row for row in cov_city.get('sources') or [] if row.get('id') == 'museo_fonck'), None)
           if fonck.get('coverage') and (not fonck_row or fonck_row.get('status') not in {'producing', 'covered_elsewhere'}):
               raise SystemExit('Museo Fonck recurrence coverage was not reflected in source-coverage.json')
+          estadio_row = next((row for row in cov_city.get('sources') or [] if row.get('id') == 'estadio_espanol_recreo'), None)
+          if estadio.get('coverage') and (not estadio_row or estadio_row.get('status') not in {'producing', 'covered_elsewhere'}):
+              raise SystemExit('Estadio Espanol municipal coverage was not reflected in source-coverage.json')
 
           monitored_ids = {
               str(row.get('id') or '')
@@ -211,8 +233,8 @@ jobs:
 
           print(
               f'VALPO_COMPOSED_OK total={len(events)} museum={len(museum_events)} balm={len(balm_events)} '
-              f'fonck={len(fonck_events)} portal={len(portal_events)} municipal={len(municipal_events)} '
-              f'verified_zero={len(monitored_ids)}'
+              f'fonck={len(fonck_events)} estadio={len(estadio_events)} portal={len(portal_events)} '
+              f'municipal={len(municipal_events)} verified_zero={len(monitored_ids)}'
           )
           PY
 
@@ -226,6 +248,7 @@ jobs:
             app/data/quality/museo-maritimo.json \
             app/data/quality/balmaceda-valpo.json \
             app/data/quality/visitavina-fonck.json \
+            app/data/quality/visitavina-estadio-espanol.json \
             app/data/quality/portaltickets-editorial.json \
             app/data/quality/valpocultura-zero-recovery.json \
             app/data/quality/priority-zero-monitors.json \
