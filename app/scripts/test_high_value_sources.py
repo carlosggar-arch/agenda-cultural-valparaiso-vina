@@ -8,7 +8,8 @@ from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from fetch_high_value_sources import extract_barjola, extract_laboral, merge
+from fetch_high_value_sources import extract_barjola, extract_laboral, is_delegated_source, merge
+from validate_high_value_refresh import validate_dataset
 
 
 def source(source_id: str, dataset: str, city: str, timezone: str, currency: str, category_id: str, category_label: str) -> dict:
@@ -74,10 +75,34 @@ def test_merge_is_idempotent() -> None:
     assert dataset["counts"]["total"] == 1
 
 
+def test_gijon_high_value_sources_are_delegated_to_core() -> None:
+    assert is_delegated_source({"dataset": "gijon"})
+    assert not is_delegated_source({"dataset": "valparaiso"})
+
+
+def test_public_validator_does_not_manage_core_gijon_events() -> None:
+    year = future_year("Europe/Madrid")
+    canonical = {
+        "id": "core-gijon-barjola-test",
+        "title": "Exposición canónica de prueba",
+        "event_type": "event",
+        "source_id": "museo_barjola",
+        "schedule": {"start": f"{year}-09-01", "end": f"{year}-09-30"},
+        "location": {"city": "Gijón"},
+    }
+    dataset = {"events": [copy.deepcopy(canonical)], "counts": {}}
+    report = validate_dataset("gijon", dataset)
+    assert report["managed_before"] == 0
+    assert dataset["events"] == [canonical]
+    assert dataset["counts"]["total"] == 1
+
+
 def main() -> None:
     test_laboral_requires_source_context_and_explicit_session()
     test_barjola_date_ranges()
     test_merge_is_idempotent()
+    test_gijon_high_value_sources_are_delegated_to_core()
+    test_public_validator_does_not_manage_core_gijon_events()
     print("HIGH_VALUE_SOURCE_TESTS_OK")
 
 
