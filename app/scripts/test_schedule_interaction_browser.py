@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import http.server
 import os
+import re
 import shutil
 import socketserver
 import subprocess
@@ -30,9 +31,10 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def make_test_page() -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
-    pwa_marker = '<script type="module" src="./pwa.js"></script>'
-    if pwa_marker not in source:
+    pwa_match = re.search(r'<script type="module" src="\./pwa\.js(?:\?v=[^"]+)?"></script>', source)
+    if not pwa_match:
         raise AssertionError("pwa.js script marker not found in app/index.html")
+    pwa_marker = pwa_match.group(0)
 
     # Load the same enhancement stack as pwa.js without registering a service
     # worker. This contract is about UI responsiveness and observer stability,
@@ -133,8 +135,6 @@ def main() -> None:
     for marker, message in required.items():
         if marker not in dom:
             raise AssertionError(f"{message}. DOM tail:\n{dom[-5000:]}")
-
-    import re
 
     valpo_match = re.search(r'data-valpo-media-before-switch="(\d+)"', dom)
     gijon_match = re.search(r'data-gijon-media-after-switch="(\d+)"', dom)
