@@ -52,10 +52,9 @@ jobs:
           events = [e for e in dataset.get('events') or [] if e.get('source_id') == 'visitavina_fonck_recovery']
           if len(events) != 1:
               raise SystemExit(f'Expected exactly one future Fonck occurrence, got {len(events)}')
-          if str((events[0].get('schedule') or {}).get('start') or '')[:10] != '2026-08-19':
-              raise SystemExit('Fonck materialization did not preserve the verified 2026-08-19 occurrence')
-          if not str((events[0].get('schedule') or {}).get('start') or '').startswith('2026-08-19T16:00:00'):
-              raise SystemExit('Fonck materialization did not preserve the verified 16:00 start time')
+          start = str((events[0].get('schedule') or {}).get('start') or '')
+          if not start.startswith('2026-08-19T16:00:00'):
+              raise SystemExit(f'Fonck materialization has unexpected start: {start}')
           if int(fonck.get('events_published') or 0) != 1:
               raise SystemExit('Fonck diagnostic does not report one published occurrence')
 
@@ -74,7 +73,6 @@ jobs:
           git add \
             agenda_web.json \
             app/data/quality/visitavina-fonck.json \
-            app/data/quality/title-quality.json \
             app/data/quality/content-quality.json \
             app/data/quality/source-coverage.json \
             app/data/quality/event-quality.json \
