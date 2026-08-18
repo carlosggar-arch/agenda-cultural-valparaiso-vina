@@ -43,6 +43,8 @@ const SHELL_ASSETS = [
   "./combined-filters-polish.js",
   "./pwa.js?v=20260818-feedback6",
   "./mobile-experience.js?v=20260817-topcontrols4",
+  "./installed-mosaic.js",
+  "./installed-mosaic.js?v=20260818-f12-dual3",
   "./share-qr.js",
   "./stage31-accessibility-seo.js",
   "./plan-ahead.js",
