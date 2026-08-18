@@ -1,0 +1,135 @@
+name: Source health audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/scripts/audit_source_health.py"
+      - "app/scripts/test_source_health_audit.py"
+      - "app/scripts/refresh_balmaceda_valpo_resilient.py"
+      - "app/scripts/test_balmaceda_transport.py"
+      - ".github/workflows/source-health-audit.yml"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Audit depth
+        required: false
+        default: weekly
+        type: choice
+        options:
+          - daily
+          - weekly
+  schedule:
+    # Lightweight audit Mon-Sat after the normal source refreshes.
+    - cron: "5 11 * * 1-6"
+    # Deeper audit every Sunday, including live no-write probes.
+    - cron: "35 11 * * 0"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate audit code
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/audit_source_health.py \
+            app/scripts/test_source_health_audit.py \
+            app/scripts/refresh_balmaceda_valpo_resilient.py \
+            app/scripts/test_balmaceda_transport.py
+          python app/scripts/test_source_health_audit.py
+          python app/scripts/test_balmaceda_transport.py
+
+      - name: Select audit mode
+        id: audit_mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          mode="daily"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            mode="${{ inputs.mode }}"
+          elif [[ "${{ github.event.schedule }}" == "35 11 * * 0" ]]; then
+            mode="weekly"
+          fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Audit mode: $mode"
+
+      - name: Weekly live source probes
+        if: steps.audit_mode.outputs.mode == 'weekly'
+        shell: bash
+        run: |
+          set +e
+          python app/scripts/refresh_balmaceda_valpo_resilient.py --no-write > audit-live-balmaceda.json
+          echo $? > audit-live-balmaceda.exit
+          python app/scripts/refresh_priority_zero_monitors.py --no-write > audit-live-priority-zero.json
+          echo $? > audit-live-priority-zero.exit
+          python app/scripts/refresh_valpocultura_zero_recovery.py --no-write > audit-live-valpocultura.json
+          echo $? > audit-live-valpocultura.exit
+          set -e
+
+      - name: Build persisted diagnostic audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/audit_source_health.py \
+            --mode "${{ steps.audit_mode.outputs.mode }}" \
+            --output source-health-audit.json
+
+      - name: Write audit summary
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          report = json.loads(Path('source-health-audit.json').read_text(encoding='utf-8'))
+          s = report.get('summary') or {}
+          print(f"## Source health audit — {report.get('status')}\n")
+          print(f"Mode: **{report.get('mode')}**  ")
+          print(f"Events: **{s.get('total_events')}** · Quality: **{s.get('quality_score')}**  ")
+          print(f"Actionable zero sources: **{s.get('actionable_zero_sources')}** · Covered elsewhere: **{s.get('covered_elsewhere')}** · Verified inactive: **{s.get('verified_inactive_zero_sources')}**  ")
+          print(f"BAJ: **{s.get('balmaceda_state')}**\n")
+          if report.get('critical'):
+              print('### Critical')
+              for value in report['critical']:
+                  print(f"- {value}")
+          if report.get('warnings'):
+              print('### Warnings')
+              for value in report['warnings']:
+                  print(f"- {value}")
+          PY
+
+      - name: Upload audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-health-audit-${{ steps.audit_mode.outputs.mode }}
+          path: |
+            source-health-audit.json
+            audit-live-*.json
+            audit-live-*.exit
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Fail only on integrity blockers
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('source-health-audit.json').read_text(encoding='utf-8'))
+          if report.get('status') == 'critical':
+              raise SystemExit('SOURCE_HEALTH_AUDIT_CRITICAL: ' + ', '.join(report.get('critical') or []))
+          print('SOURCE_HEALTH_AUDIT_OK_OR_ATTENTION', report.get('status'))
+          PY
