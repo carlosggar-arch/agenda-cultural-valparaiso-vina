@@ -123,10 +123,11 @@ function enhanceGroupedRow(row) {
     schedule.classList.add("grouped-exhibition-schedule");
   }
   const city = CITIES[currentCityId()];
-  schedule.textContent = groupedScheduleLabel(event, {
+  const nextSchedule = groupedScheduleLabel(event, {
     locale: city?.locale || "es-CL",
     timezone: city?.timezone || "America/Santiago",
   });
+  if (schedule.textContent !== nextSchedule) schedule.textContent = nextSchedule;
 
   let location = copy.querySelector(".grouped-exhibition-location");
   if (!location) {
@@ -134,7 +135,8 @@ function enhanceGroupedRow(row) {
     location.className = "grouped-exhibition-location";
     schedule.insertAdjacentElement("afterend", location);
   }
-  location.textContent = publicLocationLabel(event);
+  const nextLocation = publicLocationLabel(event);
+  if (location.textContent !== nextLocation) location.textContent = nextLocation;
 }
 
 function applyPresentationRules() {
