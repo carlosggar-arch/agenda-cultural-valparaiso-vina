@@ -1,4 +1,4 @@
 (() => {
-  const RELEASE = 49;
+  const RELEASE = 50;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
