@@ -1,0 +1,48 @@
+name: Required release guard
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-guard:
+    name: release-guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile guarded shell
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/test_release_guard.py \
+            app/scripts/test_multi_city_ui.py \
+            app/scripts/test_contextual_filters.py \
+            app/scripts/test_first_render_browser.py \
+            app/scripts/test_pwa_install_browser.py
+          node --check app/pwa.js
+          node --check app/service-worker.js
+          node --check app/release-version.js
+          node --check app/header-redesign.js
+          node --check app/mobile-experience.js
+
+      - name: Run required release guard
+        run: |
+          set -euo pipefail
+          python app/scripts/test_release_guard.py
+          python app/scripts/test_multi_city_ui.py
+          python app/scripts/test_contextual_filters.py
+          python app/scripts/test_first_render_browser.py
+          python app/scripts/test_pwa_install_browser.py
