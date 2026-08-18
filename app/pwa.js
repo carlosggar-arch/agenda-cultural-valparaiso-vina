@@ -16,7 +16,7 @@ import "./combined-filters-polish.js";
 import "./favorites.js";
 import "./mobile-experience.js?v=20260817-topcontrols4";
 import "./installed-mosaic.js?v=20260818-f12-dual2";
-import "./share-qr.js";
+import "./share-qr.js?v=20260818-installqr1";
 import "./stage31-accessibility-seo.js";
 import "../assets/usage-analytics.js?v=20260817-stage32";
 
@@ -28,6 +28,7 @@ const APP_VERSION = `PWA v${APP_RELEASE}`;
 const versionNode = document.querySelector("[data-app-version]");
 if (versionNode) versionNode.textContent = APP_VERSION;
 
+const installIntent = new URLSearchParams(window.location.search).get("install") === "1";
 let deferredInstallPrompt = null;
 const installButton = document.querySelector("[data-install-app]");
 let mobileInstallButton = null;
@@ -80,17 +81,20 @@ async function requestInstall() {
 }
 
 function ensureMobileInstallButton() {
-  if (!isPhoneLike() || isRunningStandalone()) return null;
+  if ((!isPhoneLike() && !installIntent) || isRunningStandalone()) return null;
   let button = document.querySelector("[data-mobile-install-cta]");
   if (!button) {
     button = document.createElement("button");
     button.type = "button";
     button.className = "mobile-install-cta";
     button.dataset.mobileInstallCta = "true";
-    button.textContent = "Instalar ¡Vivamos!";
     button.addEventListener("click", requestInstall);
     document.body.append(button);
   }
+  button.textContent = "Instalar ¡Vivamos!";
+  button.setAttribute("aria-label", installIntent ? "Instalar la aplicación ¡Vivamos!" : "Instalar ¡Vivamos!");
+  if (installIntent) button.dataset.installPriority = "true";
+  else delete button.dataset.installPriority;
   mobileInstallButton = button;
   return button;
 }
