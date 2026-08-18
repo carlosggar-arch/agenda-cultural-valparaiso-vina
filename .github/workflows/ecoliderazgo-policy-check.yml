@@ -1,0 +1,31 @@
+name: EcoLiderazgo departure policy validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/scripts/ecoliderazgo_policy.py"
+      - "app/scripts/refresh_priority_zero_monitors.py"
+      - "app/scripts/test_priority_zero_monitors.py"
+      - ".github/workflows/ecoliderazgo-policy-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate source-default departure logic
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/ecoliderazgo_policy.py \
+            app/scripts/refresh_priority_zero_monitors.py \
+            app/scripts/test_priority_zero_monitors.py
+          python app/scripts/test_priority_zero_monitors.py
