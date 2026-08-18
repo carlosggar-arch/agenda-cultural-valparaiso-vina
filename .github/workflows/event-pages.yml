@@ -56,6 +56,8 @@ on:
       - "app/scripts/parser_drift_guard.py"
       - "app/scripts/audit_source_coherence.py"
       - "app/scripts/audit_and_recover_images.py"
+      - "app/scripts/source_refresh_scope.py"
+      - "app/scripts/test_source_refresh_scope.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   push:
@@ -116,6 +118,8 @@ on:
       - "app/scripts/parser_drift_guard.py"
       - "app/scripts/audit_source_coherence.py"
       - "app/scripts/audit_and_recover_images.py"
+      - "app/scripts/source_refresh_scope.py"
+      - "app/scripts/test_source_refresh_scope.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   workflow_dispatch:
@@ -123,7 +127,7 @@ on:
     - cron: "25 9 * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: permanent-event-pages-${{ github.ref }}
@@ -139,6 +143,18 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
+          persist-credentials: false
+
+      - name: Verify Agenda Cultural Handoff credentials
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          APP_CLIENT_ID: ${{ vars.AGENDA_HANDOFF_APP_CLIENT_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.AGENDA_HANDOFF_APP_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$APP_CLIENT_ID" || { echo "AGENDA_HANDOFF_APP_CLIENT_ID is not configured for this repository." >&2; exit 1; }
+          test -n "$APP_PRIVATE_KEY" || { echo "AGENDA_HANDOFF_APP_PRIVATE_KEY is not configured for this repository." >&2; exit 1; }
+          echo "AGENDA_HANDOFF_CREDENTIALS_OK"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -189,18 +205,34 @@ jobs:
             app/scripts/revalidate_upcoming_events.py \
             app/scripts/parser_drift_guard.py \
             app/scripts/audit_source_coherence.py \
-            app/scripts/audit_and_recover_images.py
+            app/scripts/audit_and_recover_images.py \
+            app/scripts/source_refresh_scope.py \
+            app/scripts/test_source_refresh_scope.py
           node --check assets/event-page.js
           node --check assets/web-event-enhancements.js
           node --check app/event-detail.js
           node --check app/stage31-accessibility-seo.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          python app/scripts/test_source_refresh_scope.py
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
 
-      - name: Validate source policies and live dry-run
+      - name: Classify PR source changes
         if: github.event_name == 'pull_request'
+        id: pr_source_scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only \
+            "${{ github.event.pull_request.base.sha }}" \
+            "${{ github.event.pull_request.head.sha }}" \
+            | python app/scripts/source_refresh_scope.py \
+            | tee source-scope-output.txt
+          cat source-scope-output.txt >> "$GITHUB_OUTPUT"
+
+      - name: Validate source policy tests
+        if: github.event_name == 'pull_request' && steps.pr_source_scope.outputs.tests_needed == 'true'
         run: |
           set -euo pipefail
           python app/scripts/test_high_value_sources.py
@@ -217,6 +249,12 @@ jobs:
           python app/scripts/test_title_quality_guard.py
           python app/scripts/test_content_quality_guard.py
           python app/scripts/test_source_coverage_overrides.py
+          python app/scripts/test_source_refresh_scope.py
+
+      - name: Validate live source dry-run
+        if: github.event_name == 'pull_request' && steps.pr_source_scope.outputs.live_needed == 'true'
+        run: |
+          set -euo pipefail
           python app/scripts/fetch_high_value_sources.py --no-write
           python app/scripts/refresh_museo_maritimo.py --no-write
           python app/scripts/refresh_balmaceda_valpo_bounded.py --no-write
@@ -251,44 +289,16 @@ jobs:
             exit 0
           fi
 
-          git diff --name-only "$before" "${{ github.sha }}" > changed-files.txt
-          needed=false
-          while IFS= read -r path; do
-            case "$path" in
-              app/data/high_value_sources.json|\
-              app/scripts/fetch_high_value_sources.py|\
-              app/scripts/validate_high_value_refresh.py|\
-              app/scripts/refresh_museo_maritimo.py|\
-              app/scripts/refresh_balmaceda_valpo.py|\
-              app/scripts/refresh_balmaceda_valpo_bounded.py|\
-              app/scripts/apply_balmaceda_coverage.py|\
-              app/scripts/refresh_visitavina_fonck.py|\
-              app/scripts/apply_fonck_coverage.py|\
-              app/scripts/refresh_visitavina_estadio_espanol.py|\
-              app/scripts/apply_estadio_espanol_coverage.py|\
-              app/scripts/refresh_portaltickets_editorial.py|\
-              app/scripts/validate_portaltickets_editorial.py|\
-              app/scripts/refresh_quality_diagnostics.py|\
-              app/scripts/refresh_valpocultura_zero_recovery.py|\
-              app/scripts/refresh_priority_zero_monitors.py|\
-              app/scripts/apply_title_quality_guard.py|\
-              app/scripts/apply_content_quality_guard.py|\
-              app/scripts/apply_source_coverage_overrides.py|\
-              app/scripts/atomic_maintenance_hook.py|\
-              app/scripts/event_page_tools.py|\
-              app/scripts/revalidate_upcoming_events.py|\
-              app/scripts/parser_drift_guard.py|\
-              app/scripts/audit_source_coherence.py|\
-              app/scripts/audit_and_recover_images.py|\
-              .github/workflows/event-pages.yml)
-                needed=true
-                break
-                ;;
-            esac
-          done < changed-files.txt
-
-          echo "needed=$needed" >> "$GITHUB_OUTPUT"
-          if [[ "$needed" == "true" ]]; then
+          git diff --name-only "$before" "${{ github.sha }}" \
+            | python app/scripts/source_refresh_scope.py \
+            | tee source-scope-output.txt
+          refresh_needed="$(awk -F= '$1 == "refresh_needed" {print $2}' source-scope-output.txt)"
+          if [[ "$refresh_needed" != "true" && "$refresh_needed" != "false" ]]; then
+            echo "Invalid source refresh classification: $refresh_needed" >&2
+            exit 1
+          fi
+          echo "needed=$refresh_needed" >> "$GITHUB_OUTPUT"
+          if [[ "$refresh_needed" == "true" ]]; then
             echo "Source-affecting changes detected; full refresh will run."
           else
             echo "Page/data-only change; skipping redundant external source refresh."
@@ -425,12 +435,33 @@ jobs:
           test -d evento/valparaiso
           test -d evento/gijon
 
+      - name: Create Agenda Cultural Handoff token
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        id: handoff_app_token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.AGENDA_HANDOFF_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AGENDA_HANDOFF_APP_PRIVATE_KEY }}
+          owner: carlosggar-arch
+          repositories: agenda-cultural-valparaiso-vina
+          permission-contents: write
+
+      - name: Configure protected main remote with Agenda Cultural Handoff
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          APP_TOKEN: ${{ steps.handoff_app_token.outputs.token }}
+        run: |
+          set -euo pipefail
+          test -n "$APP_TOKEN"
+          git remote set-url origin "https://x-access-token:${APP_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          echo "Protected-main writes delegated to Agenda Cultural Handoff."
+
       - name: Commit refreshed data, diagnostics and generated pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           set -euo pipefail
-          git config user.name "agenda-cultural-event-pages[bot]"
-          git config user.email "agenda-cultural-event-pages[bot]@users.noreply.github.com"
+          git config user.name "agenda-cultural-handoff[bot]"
+          git config user.email "actions@users.noreply.github.com"
           git add \
             agenda_web.json \
             app/data/gijon/agenda_web.json \
