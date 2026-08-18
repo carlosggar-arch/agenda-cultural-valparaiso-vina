@@ -101,11 +101,15 @@ assert "source_diagnostics" in sources_toggle
 assert "cinearte_vina" in sources_toggle
 assert "insomniacine" in sources_toggle
 
-assert 'const APP_VERSION = "PWA v33"' in pwa
+assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
+assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
+assert 'service-worker.js?v=${APP_RELEASE}' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
-assert 'const CACHE_VERSION = "v40"' in service_worker
+assert 'importScripts("./release-version.js")' in service_worker
+assert 'const CACHE_VERSION = `v${RELEASE}`;' in service_worker
+assert '"./release-version.js"' in service_worker
 assert '"./combined-filters.js"' in service_worker
 assert '"./combined-filters.css"' in service_worker
 assert '"./combined-filters-polish.js"' in service_worker
@@ -146,4 +150,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260817-hours"' in app_sch
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact filters, favorites reminders and PWA cache v40: OK")
+print("Semantic search plus compact filters, favorites reminders and shared-release PWA cache: OK")
