@@ -38,6 +38,7 @@ const SHELL_ASSETS = [
   "./footer-credit.js",
   "./cities.json",
   "./city-first-run.js",
+  "./combined-filters-bootstrap.js",
   "./combined-filters.js",
   "./combined-filters-polish.js",
   "./pwa.js?v=20260817-brandicon2",
