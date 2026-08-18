@@ -1,0 +1,69 @@
+name: Balmaceda Valpo source validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/scripts/refresh_balmaceda_valpo.py"
+      - "app/scripts/test_balmaceda_valpo.py"
+      - "app/scripts/apply_balmaceda_coverage.py"
+      - "app/scripts/test_balmaceda_coverage.py"
+      - ".github/workflows/balmaceda-valpo-source-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run policy tests
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/refresh_balmaceda_valpo.py \
+            app/scripts/test_balmaceda_valpo.py \
+            app/scripts/apply_balmaceda_coverage.py \
+            app/scripts/test_balmaceda_coverage.py
+          python app/scripts/test_balmaceda_valpo.py
+          python app/scripts/test_balmaceda_coverage.py
+
+      - name: Probe official Balmaceda Valpo source
+        run: |
+          set -euo pipefail
+          python app/scripts/refresh_balmaceda_valpo.py --no-write > balmaceda-valpo-live-check.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('balmaceda-valpo-live-check.json').read_text(encoding='utf-8'))
+          landings = report.get('landings') or []
+          if not any(item.get('fetch_ok') for item in landings):
+              raise SystemExit('No official Balmaceda Valpo landing page is reachable')
+          print('BALMACEDA_VALPO_LIVE_SOURCE_OK', json.dumps({
+              'state': report.get('state'),
+              'links_discovered': report.get('links_discovered'),
+              'pages_scanned': report.get('pages_scanned'),
+              'recent_valpo_pages': report.get('recent_valpo_pages'),
+              'future_dated_candidates': report.get('future_dated_candidates'),
+              'events_published': report.get('events_published'),
+              'semantic_duplicates_dropped': report.get('semantic_duplicates_dropped'),
+              'coverage': report.get('coverage'),
+          }, ensure_ascii=False))
+          PY
+
+      - name: Upload live-source diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: balmaceda-valpo-live-check
+          path: balmaceda-valpo-live-check.json
+          retention-days: 7
