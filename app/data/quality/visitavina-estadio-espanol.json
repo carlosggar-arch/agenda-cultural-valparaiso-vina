@@ -1,37 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T09:37:45-04:00",
+  "generated_at": "2026-08-18T09:40:16-04:00",
   "source_id": "visitavina_estadio_espanol_recovery",
   "source_name": "Visita Viña — Estadio Español",
   "covered_source_id": "estadio_espanol_recreo",
   "state": "publishing_future_events",
   "listing": {
     "url": "https://visitavina.munivina.cl/actividades/",
-    "fetch_ok": true,
-    "http_status": 200,
-    "error": null
+    "fetch_ok": false,
+    "http_status": null,
+    "error": "TimeoutError: The read operation timed out"
   },
-  "candidates": [
-    {
-      "date": "2026-08-27",
-      "url": "https://visitavina.munivina.cl/actividad/concierto-orquesta-marga-marga-3/?occurrence=2026-08-27",
-      "listing_context": "Concierto // Orquesta Marga Marga Estadio Español 8:00 pm"
-    }
-  ],
-  "details": [
-    {
-      "date": "2026-08-27",
-      "url": "https://visitavina.munivina.cl/actividad/concierto-orquesta-marga-marga-3/?occurrence=2026-08-27",
-      "fetch_ok": true,
-      "http_status": 200,
-      "error": null,
-      "title": "Concierto // Orquesta Marga Marga",
-      "venue_ok": true,
-      "start_clock": "19:30",
-      "end_clock": "21:00",
-      "listing_context": "Concierto // Orquesta Marga Marga Estadio Español 8:00 pm"
-    }
-  ],
+  "candidates": [],
+  "details": [],
   "events_published": 1,
   "semantic_duplicates_dropped": 0,
   "previous_future_events": 1,
