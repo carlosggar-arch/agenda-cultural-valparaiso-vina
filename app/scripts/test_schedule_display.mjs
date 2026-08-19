@@ -49,6 +49,20 @@ const nestedWeeklyHours = {
 assert.match(formatSchedule(nestedWeeklyHours, valpo), /Martes a domingo/);
 assert.match(formatSchedule(nestedWeeklyHours, valpo), /10:00–18:00/);
 
+const splitOpeningHours = {
+  mode: "multi_day",
+  start: "2026-08-18",
+  end: "2026-08-21",
+  display_text: "2026-08-18 – 2026-08-21",
+  opening_hours: {
+    display_text: "Lunes a viernes · 10:00–18:00 · Sábados · 11:00–17:00",
+  },
+};
+const splitOpeningLabel = formatSchedule(splitOpeningHours, valpo);
+assert.match(splitOpeningLabel, /Lunes a viernes/);
+assert.match(splitOpeningLabel, /10:00–18:00/);
+assert.match(splitOpeningLabel, /11:00–17:00/);
+
 const closedMuseum = {
   ...baburizza,
   opening_time: null,
@@ -101,6 +115,32 @@ const artequinLabel = formatSchedule(artequinFlattenedHours, valpo);
 assert.match(artequinLabel, /18:30–20:00/);
 assert.match(artequinLabel, /10:00–14:00/);
 assert.doesNotMatch(artequinLabel, /18:30,\s*20:00,\s*10:00,\s*14:00/);
+
+const allDaySentinel = {
+  mode: "multi_day",
+  start: "2026-08-06",
+  end: "2026-10-04",
+  display_text: "mié, 6 ago – 4 oct · 00:00–23:59",
+};
+const allDayLabel = formatSchedule(allDaySentinel, valpo);
+assert.doesNotMatch(allDayLabel, /00:00/);
+assert.doesNotMatch(allDayLabel, /23:59/);
+assert.match(allDayLabel, /6 ago/i);
+assert.match(allDayLabel, /4 oct/i);
+
+const recurringExhibitionWithTimedEdges = {
+  mode: "multi_day",
+  start: "2026-08-14T10:00:00-04:00",
+  end: "2026-10-04T18:00:00-03:00",
+  display_text: "14-08-2026 · 10:00 – 04-10-2026 · 18:00",
+  opening_hours: {
+    display_text: "Martes a domingo · 10:00–18:00",
+  },
+};
+const recurringExhibitionLabel = formatSchedule(recurringExhibitionWithTimedEdges, valpo);
+assert.match(recurringExhibitionLabel, /Martes a domingo/);
+assert.match(recurringExhibitionLabel, /10:00–18:00/);
+assert.doesNotMatch(recurringExhibitionLabel, /10:00\s*[–-]\s*04-10-2026/);
 
 const repeatedFunctions = {
   mode: "single",
