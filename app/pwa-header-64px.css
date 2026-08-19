@@ -1,3 +1,37 @@
+/* Installed PWA first-paint guard.
+   This stylesheet is loaded from <head>, before the body is painted. Keep the
+   old static shell invisible until startup-stability.js confirms the current
+   UI is ready, so users never see a one-frame legacy screen. */
+@media (display-mode: standalone) and (max-width: 700px) {
+  html:not([data-vivamos-ready="true"]) body > * {
+    visibility: hidden !important;
+  }
+  html:not([data-vivamos-ready="true"]) body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147483646;
+    visibility: visible !important;
+    background: #f7f2e8;
+    pointer-events: none;
+  }
+  html:not([data-vivamos-ready="true"]) body::after {
+    content: "";
+    position: fixed;
+    z-index: 2147483647;
+    visibility: visible !important;
+    width: 72px;
+    height: 72px;
+    left: 50%;
+    top: 44%;
+    transform: translate(-50%, -50%);
+    border-radius: 18px;
+    background: #fff url("./icons/icon.svg") center / 58px 58px no-repeat;
+    box-shadow: 0 10px 30px rgb(23 79 70 / 14%);
+    pointer-events: none;
+  }
+}
+
 /* Installed-app header geometry approved 2026-08-18.
    A (text block) = B (city illustration) = E (logo) = 64px.
    L (gap from A/B to mosaic F) = 2px. F (mosaic) = 15px.
