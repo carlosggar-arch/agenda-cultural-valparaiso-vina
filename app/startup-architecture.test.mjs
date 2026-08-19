@@ -13,7 +13,9 @@ const pwa = read("./pwa.js");
 const programPolicy = read("./program-visibility-policy.js");
 const worker = read("./service-worker.js");
 
-assert.match(app, /import \{ coreReady \} from "\.\/app-core\.js/, "app.js must wait for the core-ready contract");
+assert.match(app, /^import "\.\/startup-stability\.js/m, "startup watchdog must be the only eager startup dependency");
+assert.match(app, /await import\("\.\/app-core\.js/, "core must be a dynamic import so the watchdog can run first");
+assert.match(app, /const \{ coreReady \} = await import/, "app.js must wait for the core-ready contract");
 assert.match(app, /await coreReady;/, "optional enhancements must wait until core startup completes");
 assert.match(app, /Promise\.allSettled\(OPTIONAL_MODULES\.map\(\(module\) => import\(module\)\)\)/, "optional app modules must fail independently");
 for (const critical of [
