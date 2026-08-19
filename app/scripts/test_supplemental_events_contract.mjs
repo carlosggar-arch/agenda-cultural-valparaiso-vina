@@ -29,15 +29,15 @@ assert.match(event.links?.official || "", /visitavina\.munivina\.cl\/actividad\/
 const appJs = read("app.js");
 const supplementBridge = read("supplemental-events-fetch.js");
 const release = read("release-version.js");
-assert.ok(
-  appJs.indexOf("supplemental-events-fetch.js") >= 0
-    && appJs.indexOf("supplemental-events-fetch.js") < appJs.indexOf("app-core.js"),
-  "supplemental event merge must install before app-core fetches the city dataset",
+assert.doesNotMatch(
+  appJs,
+  /supplemental-events-fetch\.js/,
+  "supplemental dataset remains preserved, but its fetch interceptor must stay out of critical startup until production stability is restored",
 );
 assert.match(supplementBridge, /supplemental_dataset/);
 assert.match(supplementBridge, /mergeEvents/);
 assert.doesNotMatch(supplementBridge, /Decadencia|Palacio Rioja/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
-assert.ok(releaseMatch && Number(releaseMatch[1]) >= 124, "PWA release must include the current official Decadencia schedule");
+assert.ok(releaseMatch && Number(releaseMatch[1]) >= 126, "PWA release must include the emergency startup unfreeze");
 
-console.log("Supplemental event recovery contract: OK");
+console.log("Supplemental event preserved but startup interceptor disabled: OK");

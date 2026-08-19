@@ -79,18 +79,15 @@ assert.equal(decadencia.schedule?.start, "2026-08-27T18:00:00-04:00");
 assert.equal(decadencia.schedule?.end, "2026-08-27T20:00:00-04:00");
 assert.equal(decadencia.location?.venue, "Palacio Rioja");
 assert.equal(decadencia.public_status?.source_official, true);
-assert.ok(
-  appJs.indexOf("supplemental-events-fetch.js") >= 0
-    && appJs.indexOf("supplemental-events-fetch.js") < appJs.indexOf("app-core.js"),
-  "supplemental merge must install before app-core fetches the city dataset",
-);
+assert.doesNotMatch(appJs, /supplemental-events-fetch\.js/, "supplemental fetch interception must stay out of the critical startup path while the production freeze is investigated");
+assert.doesNotMatch(appJs, /program-visibility-policy\.js/, "program DOM/fetch interception must stay out of the critical startup path while the production freeze is investigated");
 assert.match(supplementBridge, /supplemental_dataset/);
 assert.match(supplementBridge, /mergeEvents/);
 assert.doesNotMatch(supplementBridge, /Decadencia|Palacio Rioja/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 124, "PWA release must include museum readability and the current official Decadencia schedule");
+assert.ok(Number(releaseMatch[1]) >= 126, "PWA release must include the emergency startup unfreeze");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -102,4 +99,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + venue identity + museum hours + supplemental recovery contract: OK");
+console.log("Static grouping + venue identity + unclipped multievent layout + startup fail-open contract: OK");
