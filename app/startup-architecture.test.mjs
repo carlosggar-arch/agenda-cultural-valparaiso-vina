@@ -12,6 +12,7 @@ const startup = read("./startup-stability.js");
 const pwa = read("./pwa.js");
 const programPolicy = read("./program-visibility-policy.js");
 const worker = read("./service-worker.js");
+const release = read("./release-version.js");
 
 assert.match(app, /^import "\.\/startup-stability\.js/m, "startup watchdog must be the only eager startup dependency");
 assert.match(app, /await import\("\.\/app-core\.js/, "core must be a dynamic import so the watchdog can run first");
@@ -27,6 +28,11 @@ for (const critical of [
   "program-visibility-policy.js",
 ]) {
   assert.doesNotMatch(app, new RegExp(`^import\\s+["']\\./${critical.replaceAll(".", "\\.")}`, "m"), `${critical} must not be an eager app.js side-effect import`);
+}
+
+assert.match(app, /const GIJON_DEFERRED_MODULES = new Set/, "Gijon must have an explicit stable-core enhancement boundary");
+for (const deferred of ["static-exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
+  assert.match(app, new RegExp(`GIJON_DEFERRED_MODULES[\\s\\S]*${deferred.replaceAll(".", "\\.")}`), `${deferred} must stay deferred on Gijon startup`);
 }
 
 assert.match(core, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/, "app-core must own the data pipeline");
@@ -75,9 +81,14 @@ assert.match(pwa, /const OPTIONAL_UI_MODULES = \[/, "PWA enhancements must be de
 assert.match(pwa, /vivamos:core-ready/, "PWA enhancements must wait for core readiness");
 assert.match(pwa, /Promise\.allSettled\(OPTIONAL_UI_MODULES\.map\(\(module\) => import\(module\)\)\)/, "PWA optional modules must fail independently");
 assert.doesNotMatch(pwa, /^import\s+["']\.\/(?:card-experience|public-presentation-guard|schedule-display|header-redesign|favorites)\.js/m, "PWA presentation modules must not be eager imports");
+assert.match(pwa, /const GIJON_DEFERRED_UI_MODULES = new Set/, "Gijon must explicitly defer observer-heavy PWA presentation layers");
+for (const deferred of ["card-experience.js", "public-presentation-guard.js", "schedule-display.js", "exhibition-hours.js", "card-image-fallback.js"]) {
+  assert.match(pwa, new RegExp(`GIJON_DEFERRED_UI_MODULES[\\s\\S]*${deferred.replaceAll(".", "\\.")}`), `${deferred} must stay out of the Gijon stable UI path`);
+}
 
 assert.match(worker, /"\.\/data-pipeline\.js"/, "service worker must cache the resilient data pipeline");
 assert.match(worker, /"\.\/app-safe-mode\.js"/, "service worker must cache safe mode");
 assert.match(worker, /"\.\/startup-stability\.js"/, "service worker must cache the startup watchdog");
+assert.match(release, /const RELEASE = 132;/, "Gijon freeze fix must force a fresh service-worker cache generation");
 
 console.log("STARTUP_ARCHITECTURE_OK");
