@@ -1,0 +1,42 @@
+name: Data pipeline regression contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/data-pipeline.js"
+      - "app/data-pipeline.test.mjs"
+      - "app/event-data-corrections.js"
+      - "app/session-occurrence-normalizer.js"
+      - "app/release-version.js"
+      - ".github/workflows/data-pipeline-contract.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/data-pipeline.js"
+      - "app/data-pipeline.test.mjs"
+      - "app/event-data-corrections.js"
+      - "app/session-occurrence-normalizer.js"
+      - "app/release-version.js"
+      - ".github/workflows/data-pipeline-contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate fail-safe pure data pipeline
+        run: |
+          set -euo pipefail
+          node --check app/event-data-corrections.js
+          node --check app/session-occurrence-normalizer.js
+          node --check app/data-pipeline.js
+          node app/session-occurrence-normalizer.test.mjs
+          node app/data-pipeline.test.mjs
