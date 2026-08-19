@@ -89,6 +89,7 @@ for (const deferred of ["card-experience.js", "public-presentation-guard.js", "s
 assert.match(worker, /"\.\/data-pipeline\.js"/, "service worker must cache the resilient data pipeline");
 assert.match(worker, /"\.\/app-safe-mode\.js"/, "service worker must cache safe mode");
 assert.match(worker, /"\.\/startup-stability\.js"/, "service worker must cache the startup watchdog");
-assert.match(release, /const RELEASE = 133;/, "Gijon date-filter visibility fix must force a fresh service-worker cache generation");
+const releaseNumber = Number(release.match(/const RELEASE = (\d+);/)?.[1]);
+assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 134, "startup/date-filter fixes must keep a fresh service-worker cache generation");
 
 console.log("STARTUP_ARCHITECTURE_OK");
