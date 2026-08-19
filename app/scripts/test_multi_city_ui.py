@@ -180,7 +180,7 @@ assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
 assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
 assert 'service-worker.js?v=${APP_RELEASE}' in pwa
 assert 'import "./header-redesign.js?v=20260817-brandicon2";' in pwa
-assert 'import "./schedule-display.js?v=20260819-hours2";' in pwa
+assert 'import "./schedule-display.js?v=20260819-hours3";' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
@@ -244,9 +244,9 @@ for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css?v=20260817-brandicon1"',
     '"./header-redesign.js?v=20260817-brandicon2"', '"./card-experience.js"',
-    '"./schedule-display.js?v=20260819-hours2"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
+    '"./schedule-display.js?v=20260819-hours3"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
     '"./favorites.js"', '"./mis-planes.html"', '"./sources-toggle.js"', '"./community-source.js"',
-    '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs?v=20260819-hours2"',
+    '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs?v=20260819-hours3"',
     '"../assets/plan-ahead-core.mjs"', '"../assets/plan-ahead.css"',
     '"../assets/favorites-core.mjs"', '"../assets/favorites-view.mjs"', '"../assets/favorites-reminders.mjs"',
     '"../assets/favorites.css"',
