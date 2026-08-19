@@ -1,36 +1,33 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
-import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
-const CITY_CONFIG = Object.freeze({
-  valparaiso: {
-    id: "valparaiso",
-    dataset: "../agenda_web.json",
-    locale: "es-CL",
-    timezone: "America/Santiago",
-  },
-  gijon: {
-    id: "gijon",
-    dataset: "./data/gijon/agenda_web.json",
-    locale: "es-ES",
-    timezone: "Europe/Madrid",
-  },
+const FALLBACK_CONFIG = Object.freeze({
+  valparaiso: { id: "valparaiso", locale: "es-CL", timezone: "America/Santiago" },
+  gijon: { id: "gijon", locale: "es-ES", timezone: "Europe/Madrid" },
 });
 
 let eventIndex = new Map();
-let activeConfig = CITY_CONFIG.valparaiso;
+let activeConfig = FALLBACK_CONFIG.valparaiso;
 let activeCityId = "valparaiso";
+let indexedRevision = 0;
 let applyQueued = false;
-let loadGeneration = 0;
 
 function currentCity() {
-  const fromDocument = document.documentElement.dataset.city;
-  if (CITY_CONFIG[fromDocument]) return fromDocument;
-  try {
-    const stored = localStorage.getItem("agenda-cultural-city");
-    if (CITY_CONFIG[stored]) return stored;
-  } catch { /* ignore storage restrictions */ }
-  return "valparaiso";
+  const id = String(document.documentElement.dataset.city || "").trim();
+  return FALLBACK_CONFIG[id] ? id : "valparaiso";
+}
+
+function syncRuntimeIndex() {
+  const city = currentCity();
+  const snapshot = getAgendaRuntimeSnapshot(city);
+  if (!snapshot) return false;
+  if (activeCityId === city && indexedRevision === snapshot.revision && eventIndex.size) return true;
+  activeCityId = city;
+  activeConfig = snapshot.city || FALLBACK_CONFIG[city] || FALLBACK_CONFIG.valparaiso;
+  indexedRevision = snapshot.revision;
+  eventIndex = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
+  return true;
 }
 
 function safeHttpUrl(value) {
@@ -38,7 +35,9 @@ function safeHttpUrl(value) {
   try {
     const url = new URL(String(value), window.location.href);
     return ["http:", "https:"].includes(url.protocol) ? url.href : null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 function stripMediaControls(root = document) {
@@ -64,9 +63,7 @@ function locationForDisplay(event) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLocaleLowerCase("es");
-  if (activeCityId === "gijon" && ["gijon/xixon", "gijon", "xixon"].includes(foldedVenue)) {
-    return "Lugar por confirmar";
-  }
+  if (activeCityId === "gijon" && ["gijon/xixon", "gijon", "xixon"].includes(foldedVenue)) return "Lugar por confirmar";
   if (venue && city && venue.toLocaleLowerCase("es") !== city.toLocaleLowerCase("es")) return `${venue} · ${city}`;
   return venue || city || "Lugar por confirmar";
 }
@@ -90,7 +87,6 @@ function replaceFactValue(row, value, marker = "scheduleDisplay") {
 }
 
 function replaceSimpleCardSchedule(card, value) {
-  // Base app cards use h4 + p for the schedule and the following p for location.
   const copy = card.querySelector(":scope > h4 + p");
   if (!copy) return false;
   if (copy.textContent.trim() === value && copy.dataset.scheduleDisplay === value) return true;
@@ -127,20 +123,13 @@ function enhanceCard(card) {
   if (!event) return;
   const schedule = scheduleForDisplay(event);
   const location = locationForDisplay(event);
-
   const facts = [...card.querySelectorAll(".card-fact")];
-  const scheduleFact = facts.find((row) =>
-    row.querySelector(".sr-only")?.textContent.trim().startsWith("Fecha:"),
-  );
+  const scheduleFact = facts.find((row) => row.querySelector(".sr-only")?.textContent.trim().startsWith("Fecha:"));
   if (scheduleFact) replaceFactValue(scheduleFact, schedule, "scheduleDisplay");
   else replaceSimpleCardSchedule(card, schedule);
-
-  const locationFact = facts.find((row) =>
-    row.querySelector(".sr-only")?.textContent.trim().startsWith("Lugar:"),
-  );
+  const locationFact = facts.find((row) => row.querySelector(".sr-only")?.textContent.trim().startsWith("Lugar:"));
   if (locationFact) replaceFactValue(locationFact, location, "locationDisplay");
   else replaceSimpleCardLocation(card, location);
-
   enhanceSource(card, event);
 }
 
@@ -155,9 +144,7 @@ function enhanceGroupedExhibition(row) {
 }
 
 function replaceDetailFact(dialog, label, value) {
-  const fact = [...dialog.querySelectorAll(".event-detail-fact")].find((row) =>
-    row.querySelector("strong")?.textContent.trim() === label,
-  );
+  const fact = [...dialog.querySelectorAll(".event-detail-fact")].find((row) => row.querySelector("strong")?.textContent.trim() === label);
   const copy = fact?.querySelector("span:last-child");
   if (!copy) return;
   if (copy.textContent.trim() === value && copy.dataset.enhancedDisplay === value) return;
@@ -171,7 +158,6 @@ function enhanceDetail(dialog) {
   if (!event) return;
   replaceDetailFact(dialog, "Fecha y horario", scheduleForDisplay(event));
   replaceDetailFact(dialog, "Lugar", locationForDisplay(event));
-
   if (activeCityId === "gijon" && event?.source_id === "gijon_opendata_events") {
     replaceDetailFact(dialog, "Fuente", "Ayuntamiento de Gijón/Xixón · Agenda de Eventos");
   }
@@ -179,11 +165,11 @@ function enhanceDetail(dialog) {
 
 function apply() {
   applyQueued = false;
+  if (!syncRuntimeIndex()) return;
   stripMediaControls();
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedExhibition);
   document.querySelectorAll("dialog[data-event-detail]").forEach(enhanceDetail);
-  bodyObserver.takeRecords();
 }
 
 function queueApply() {
@@ -192,38 +178,15 @@ function queueApply() {
   queueMicrotask(apply);
 }
 
-const bodyObserver = new MutationObserver((mutations) => {
-  if (mutations.some((mutation) => mutation.addedNodes.length || mutation.removedNodes.length || mutation.type === "characterData")) {
-    queueApply();
-  }
-});
-bodyObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
-
-async function load(city = currentCity()) {
-  const config = CITY_CONFIG[city] || CITY_CONFIG.valparaiso;
-  const generation = ++loadGeneration;
-  activeCityId = city;
-  activeConfig = config;
-  eventIndex = new Map();
-
-  try {
-    // Use the exact same pure data pipeline as app-core. Reading the raw dataset
-    // here can overwrite a normalized multi-session card with only its first raw
-    // occurrence (for example 13:00 while hiding the 18:00 session).
-    const result = await loadAgendaDataset(config);
-    if (generation !== loadGeneration || activeCityId !== city) return;
-    eventIndex = new Map((result.dataset?.events || []).map((event) => [String(event.id), event]));
-  } catch { return; }
-
-  queueApply();
+for (const eventName of [
+  "vivamos:agenda-data-ready",
+  "vivamos:agenda-rendered",
+  "vivamos:cards-enriched",
+  "vivamos:exhibition-groups-rendered",
+]) {
+  window.addEventListener(eventName, queueApply);
 }
-
-new MutationObserver(() => {
-  const city = currentCity();
-  if (city !== activeCityId) load(city);
-}).observe(document.documentElement, {
-  attributes: true,
-  attributeFilter: ["data-city"],
+document.addEventListener("click", (event) => {
+  if (event.target instanceof Element && event.target.closest("[data-open-event]")) queueMicrotask(queueApply);
 });
-
-load();
+queueApply();

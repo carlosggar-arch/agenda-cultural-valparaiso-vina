@@ -1,5 +1,4 @@
-import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 const CATEGORY_PHOTOS = Object.freeze([
   { markers: ["cine"], src: "../assets/categoria-cine.jpg" },
@@ -11,24 +10,18 @@ const CATEGORY_PHOTOS = Object.freeze([
   { markers: ["gastronomía", "gastronomia", "feria"], src: "../assets/categoria-gastronomia.jpg" },
   { markers: ["naturaleza", "montaña", "montana", "caminata"], src: "../assets/categoria-naturaleza.jpg" },
 ]);
-
 const GENERIC_PROVIDER_HOSTS = /(^|\.)(passline\.com|eventrid\.cl|ticketplus\.(cl|com)|ticketmaster\.cl|puntoticket\.com|ticketpro\.(cl|com|net)|tickets\.cl|ticketera\.cl|ticketfacil\.cl|portaltickets\.cl|goignis\.cl)$/i;
 const GENERIC_PROVIDER_PATH = /(?:^|\/)(?:assets?\/(?:img|images?)\/)?(?:icon|logo|favicon|placeholder|default|no[-_]?image|sin[-_]?imagen)(?:[-_.\/]|$)/i;
-
-// Curated correction for the duplicated film listing. The source image below is
-// the event-specific artwork already used by the same film in this agenda.
 const EVENT_IMAGE_OVERRIDES = Object.freeze({
   "la odisea": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
 });
 
-const CITY_REGISTRY = await loadCityRegistry();
-const CITY_CONFIG = CITY_REGISTRY.byId;
 let indexedCity = null;
+let indexedRevision = 0;
 let normalizedEvents = [];
 let eventIndex = new Map();
 let venueImagePools = new Map();
-let indexingPromise = null;
-let normalizedRepairQueued = false;
+let repairQueued = false;
 
 function normalize(value) {
   return String(value || "").trim().toLocaleLowerCase("es");
@@ -121,13 +114,6 @@ function representativeImage(event) {
   return key ? venueImagePools.get(key)?.[0] || null : null;
 }
 
-function dateRange(event) {
-  const start = String(event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start || "").slice(0, 10);
-  const end = String(event?.schedule?.end || event?.schedule?.occurrences?.at?.(-1)?.end || event?.schedule?.occurrences?.at?.(-1)?.start || start).slice(0, 10);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end)) return null;
-  return { start, end };
-}
-
 function eventImageChoice(event) {
   const specific = eventSpecificImage(event);
   if (specific) return { url: specific, representative: false };
@@ -136,30 +122,24 @@ function eventImageChoice(event) {
   return { url: categoryPhoto(categoryLabel(event)), representative: false, categoryFallback: true };
 }
 
-async function ensureNormalizedIndex() {
-  const cityId = String(document.documentElement.dataset.city || CITY_REGISTRY.defaultCityId || "");
-  const city = CITY_CONFIG[cityId];
-  if (!city) return false;
-  if (indexedCity === cityId && eventIndex.size) return true;
-  if (indexingPromise) return indexingPromise;
-  indexingPromise = (async () => {
-    try {
-      const result = await loadAgendaDataset(city);
-      const events = result?.dataset?.events;
-      if (String(document.documentElement.dataset.city || cityId) !== cityId || !Array.isArray(events)) return false;
-      indexedCity = cityId;
-      normalizedEvents = events;
-      eventIndex = new Map(events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
-      venueImagePools = buildVenueImagePools(events);
-      return true;
-    } catch (error) {
-      console.warn("¡Vivamos!: no se pudo preparar el índice visual normalizado", error);
-      return false;
-    } finally {
-      indexingPromise = null;
-    }
-  })();
-  return indexingPromise;
+function dateRange(event) {
+  const start = String(event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start || "").slice(0, 10);
+  const end = String(event?.schedule?.end || event?.schedule?.occurrences?.at?.(-1)?.end || event?.schedule?.occurrences?.at?.(-1)?.start || start).slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end)) return null;
+  return { start, end };
+}
+
+function syncRuntimeIndex() {
+  const cityId = String(document.documentElement.dataset.city || "").trim();
+  const snapshot = getAgendaRuntimeSnapshot(cityId);
+  if (!snapshot) return false;
+  if (indexedCity === cityId && indexedRevision === snapshot.revision && eventIndex.size) return true;
+  indexedCity = cityId;
+  indexedRevision = snapshot.revision;
+  normalizedEvents = snapshot.events;
+  eventIndex = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
+  venueImagePools = buildVenueImagePools(snapshot.events);
+  return true;
 }
 
 function setMediaImage(media, url) {
@@ -178,11 +158,9 @@ function repairGenericProviderImage(image) {
   if (!(image instanceof HTMLImageElement)) return;
   const requestedSrc = image.getAttribute("src") || image.src;
   if (!isGenericProviderImage(requestedSrc)) return;
-
   const title = titleForImage(image);
   const override = EVENT_IMAGE_OVERRIDES[eventKey(title)];
   const media = image.closest(".event-card-media, .event-detail-media");
-
   if (override) {
     image.src = override;
     image.alt = title || image.alt || "Imagen de la actividad";
@@ -190,9 +168,6 @@ function repairGenericProviderImage(image) {
     setMediaImage(media, override);
     return;
   }
-
-  // Never show a provider logo/icon as if it were event artwork. Cards without
-  // a trustworthy specific image fall back to the category image instead.
   const card = image.closest(".event-card");
   if (card) {
     const label = card.querySelector(".meta")?.textContent?.trim() || "Cultura";
@@ -203,8 +178,6 @@ function repairGenericProviderImage(image) {
     setMediaImage(media, fallback);
     return;
   }
-
-  // In the detail dialog, prefer no artwork over misleading provider branding.
   const detailMedia = image.closest(".event-detail-media");
   if (detailMedia) {
     const panel = detailMedia.closest(".event-detail-panel");
@@ -215,7 +188,6 @@ function repairGenericProviderImage(image) {
 
 function upgradePlaceholder(media) {
   if (!(media instanceof HTMLElement) || media.dataset.categoryPhotoApplied === "true") return;
-
   const label = media.querySelector(".event-card-placeholder-label")?.textContent?.trim() || "Cultura";
   const image = document.createElement("img");
   image.className = "event-card-photo";
@@ -224,14 +196,11 @@ function upgradePlaceholder(media) {
   image.loading = "lazy";
   image.decoding = "async";
   image.dataset.imageKind = "category-fallback";
-
-  image.addEventListener("error", () => {
-    media.dataset.categoryPhotoApplied = "failed";
-  }, { once: true });
-
+  image.addEventListener("error", () => { media.dataset.categoryPhotoApplied = "failed"; }, { once: true });
   media.replaceChildren(image);
   media.classList.remove("event-card-media--placeholder");
   media.dataset.categoryPhotoApplied = "true";
+  setMediaImage(media, image.src);
 }
 
 function upgradeRuntimeCard(card) {
@@ -240,7 +209,6 @@ function upgradeRuntimeCard(card) {
   if (card.querySelector(":scope > .event-card-media, :scope > .event-card-body")) return;
   const event = eventIndex.get(String(card.dataset.eventId || ""));
   if (!event) return;
-
   const label = categoryLabel(event, card);
   const choice = eventImageChoice(event);
   const media = document.createElement("div");
@@ -273,7 +241,6 @@ function upgradeRuntimeCard(card) {
     note.setAttribute("aria-hidden", "true");
     media.append(note);
   }
-
   const body = document.createElement("div");
   body.className = "event-card-body event-card-body--runtime-fallback";
   while (card.firstChild) body.append(card.firstChild);
@@ -303,7 +270,6 @@ function groupedRow(event) {
   const row = document.createElement("article");
   row.className = "grouped-exhibition-item";
   row.dataset.groupedEventId = String(event?.id || "");
-
   const media = document.createElement("div");
   media.className = "grouped-exhibition-media";
   const choice = eventImageChoice(event);
@@ -314,7 +280,6 @@ function groupedRow(event) {
   image.decoding = "async";
   image.addEventListener("error", () => { image.src = categoryPhoto("Exposiciones"); }, { once: true });
   media.append(image);
-
   const copy = document.createElement("div");
   copy.className = "grouped-exhibition-copy";
   const title = document.createElement("strong");
@@ -330,7 +295,6 @@ function groupedRow(event) {
     priceNode.textContent = price;
     copy.append(priceNode);
   }
-
   const actions = document.createElement("div");
   actions.className = "grouped-exhibition-actions";
   const href = String(event?.links?.official || event?.links?.source || "").trim();
@@ -342,7 +306,6 @@ function groupedRow(event) {
     link.textContent = "Fuente →";
     actions.append(link);
   }
-
   row.append(media, copy, actions);
   return row;
 }
@@ -357,14 +320,12 @@ function repairGroupedCompleteness() {
     if (!first || categoryId(first) !== "exposiciones") continue;
     const key = venueKey(first);
     if (!key) continue;
-
     const ranges = existingEvents.map(dateRange).filter(Boolean);
     if (!ranges.length) continue;
     const commonStart = ranges.reduce((value, range) => value > range.start ? value : range.start, ranges[0].start);
     const commonEnd = ranges.reduce((value, range) => value < range.end ? value : range.end, ranges[0].end);
     const overlapStart = commonStart <= commonEnd ? commonStart : ranges[0].start;
     const overlapEnd = commonStart <= commonEnd ? commonEnd : ranges[0].end;
-
     const missing = normalizedEvents
       .filter((event) => categoryId(event) === "exposiciones" && venueKey(event) === key)
       .filter((event) => !existingIds.includes(String(event?.id || "")))
@@ -373,7 +334,6 @@ function repairGroupedCompleteness() {
         return range && range.start <= overlapEnd && range.end >= overlapStart;
       })
       .sort((a, b) => String(a?.schedule?.start || "").localeCompare(String(b?.schedule?.start || "")) || String(a?.title || "").localeCompare(String(b?.title || ""), "es"));
-
     if (!missing.length) continue;
     for (const event of missing) {
       const id = String(event?.id || "").trim();
@@ -392,40 +352,31 @@ function repairGroupedCompleteness() {
   }
 }
 
-async function repairNormalizedPresentation() {
-  normalizedRepairQueued = false;
-  if (!(await ensureNormalizedIndex())) return;
+function scan() {
+  repairQueued = false;
+  if (!syncRuntimeIndex()) return;
+  document.querySelectorAll('img[data-event-image="relevant"]').forEach(repairGenericProviderImage);
+  document.querySelectorAll(".event-card-media--placeholder").forEach(upgradePlaceholder);
   document.querySelectorAll('[data-agenda] .event-card[data-event-id]').forEach(upgradeRuntimeCard);
   repairGroupedCompleteness();
 }
 
-function queueNormalizedRepair() {
-  if (normalizedRepairQueued) return;
-  normalizedRepairQueued = true;
-  queueMicrotask(() => { void repairNormalizedPresentation(); });
+function queueRepair() {
+  if (repairQueued) return;
+  repairQueued = true;
+  queueMicrotask(scan);
 }
 
-function scan() {
-  document.querySelectorAll('img[data-event-image="relevant"]').forEach(repairGenericProviderImage);
-  document.querySelectorAll(".event-card-media--placeholder").forEach(upgradePlaceholder);
-  queueNormalizedRepair();
+for (const eventName of [
+  "vivamos:agenda-data-ready",
+  "vivamos:agenda-rendered",
+  "vivamos:cards-enriched",
+  "vivamos:exhibition-groups-rendered",
+]) {
+  window.addEventListener(eventName, queueRepair);
 }
 
-const observer = new MutationObserver(scan);
-observer.observe(document.body, {
-  childList: true,
-  subtree: true,
-  attributes: true,
-  attributeFilter: ["src"],
+document.addEventListener("click", (event) => {
+  if (event.target instanceof Element && event.target.closest("[data-open-event]")) queueMicrotask(queueRepair);
 });
-
-new MutationObserver(() => {
-  indexedCity = null;
-  normalizedEvents = [];
-  eventIndex = new Map();
-  venueImagePools = new Map();
-  queueNormalizedRepair();
-}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
-
-scan();
-for (const delay of [250, 900, 1800]) setTimeout(queueNormalizedRepair, delay);
+queueRepair();

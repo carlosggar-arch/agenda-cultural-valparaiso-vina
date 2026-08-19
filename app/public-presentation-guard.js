@@ -1,18 +1,16 @@
-import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import {
   groupedScheduleLabel,
   isNonEventDescription,
   normalizePublicTitle,
   publicLocationLabel,
 } from "./public-presentation-rules.mjs";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 const STYLE_ID = "public-presentation-guard-style";
-const CITY_REGISTRY = await loadCityRegistry();
-const CITIES = CITY_REGISTRY.byId;
-
-let loadedCity = null;
-let loadingCity = null;
+let indexedCity = null;
+let indexedRevision = 0;
 let eventsById = new Map();
+let activeCity = null;
 let queued = false;
 
 function installStyles() {
@@ -69,33 +67,21 @@ function installStyles() {
 }
 
 function currentCityId() {
-  const id = String(document.documentElement.dataset.city || "").trim();
-  return CITIES[id] ? id : null;
+  return String(document.documentElement.dataset.city || "").trim();
 }
 
-async function ensureEventIndex() {
+function syncEventIndex() {
   const cityId = currentCityId();
-  if (!cityId) return;
-  if (loadedCity === cityId && eventsById.size) return;
-  if (loadingCity === cityId) return;
-  loadingCity = cityId;
-  try {
-    const response = await fetch(CITIES[cityId].dataset, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-    if (!response.ok) return;
-    const dataset = await response.json();
-    if (currentCityId() !== cityId || !Array.isArray(dataset?.events)) return;
-    eventsById = new Map(dataset.events
-      .map((event) => [String(event?.id || "").trim(), event])
-      .filter(([id]) => id));
-    loadedCity = cityId;
-  } catch {
-    eventsById = new Map();
-  } finally {
-    if (loadingCity === cityId) loadingCity = null;
-  }
+  const snapshot = getAgendaRuntimeSnapshot(cityId);
+  if (!snapshot) return false;
+  if (indexedCity === cityId && indexedRevision === snapshot.revision && eventsById.size) return true;
+  indexedCity = cityId;
+  indexedRevision = snapshot.revision;
+  activeCity = snapshot.city;
+  eventsById = new Map(snapshot.events
+    .map((event) => [String(event?.id || "").trim(), event])
+    .filter(([id]) => id));
+  return true;
 }
 
 function eventIdForNode(node) {
@@ -120,15 +106,12 @@ function cleanTitleNode(node) {
   const current = String(node.textContent || "").replace(/\s+/g, " ").trim();
   const normalized = normalizePublicTitle(current, event);
   if (!normalized) return;
-  // presentation-normalizer.js also observes these nodes. Point its stored source
-  // title at the cleaned value so both layers converge instead of undoing each other.
   node.dataset.originalPublicTitle = normalized;
   if (node.textContent !== normalized) node.textContent = normalized;
 }
 
 function removePipelineDescription(node) {
-  if (!(node instanceof HTMLElement)) return;
-  if (isNonEventDescription(node.textContent || "")) node.remove();
+  if (node instanceof HTMLElement && isNonEventDescription(node.textContent || "")) node.remove();
 }
 
 function ticketAvailability(event) {
@@ -136,10 +119,7 @@ function ticketAvailability(event) {
   const editorial = event?.editorial || {};
   const priceText = String(event?.price?.display_text || "").toLocaleLowerCase("es");
   const stage = String(status.price_stage || "").toLocaleLowerCase("es");
-
-  if (status.sold_out === true) {
-    return { key: "sold-out", label: "Entradas agotadas" };
-  }
+  if (status.sold_out === true) return { key: "sold-out", label: "Entradas agotadas" };
   if (editorial.partial_availability === true || /algunos sectores agotados/.test(priceText)) {
     return { key: "partial", label: "Algunos sectores agotados" };
   }
@@ -153,7 +133,6 @@ function enhanceAvailabilityCard(card) {
   if (!(card instanceof HTMLElement)) return;
   const event = eventsById.get(String(card.dataset.eventId || "").trim());
   if (!event) return;
-
   const state = ticketAvailability(event);
   const existing = card.querySelector("[data-availability-badge]");
   if (!state) {
@@ -161,18 +140,15 @@ function enhanceAvailabilityCard(card) {
     delete card.dataset.ticketAvailability;
     return;
   }
-
   card.dataset.ticketAvailability = state.key;
   const host = card.querySelector(".card-meta-right") || card.querySelector(".card-meta-row");
   if (!(host instanceof HTMLElement)) return;
-
   const badge = existing || document.createElement("span");
   badge.dataset.availabilityBadge = "";
   badge.className = `availability-badge availability-badge--${state.key}`;
   badge.textContent = state.label;
   badge.setAttribute("aria-label", `Disponibilidad: ${state.label}`);
   if (!existing) host.append(badge);
-
   if (state.key === "sold-out") {
     for (const chip of card.querySelectorAll(".trust-chip")) {
       if (/inscripci[oó]n abierta/i.test(chip.textContent || "")) chip.remove();
@@ -186,27 +162,22 @@ function enhanceGroupedRow(row) {
   if (!event) return;
   const copy = row.querySelector(".grouped-exhibition-copy");
   if (!(copy instanceof HTMLElement)) return;
-
   const title = copy.querySelector("strong");
   if (title) cleanTitleNode(title);
-
   let schedule = copy.querySelector(".grouped-exhibition-schedule");
   if (!schedule) {
-    schedule = copy.querySelector("small");
-    if (!schedule) {
-      schedule = document.createElement("small");
+    schedule = copy.querySelector("small") || document.createElement("small");
+    schedule.classList.add("grouped-exhibition-schedule");
+    if (!schedule.isConnected) {
       if (title?.nextSibling) copy.insertBefore(schedule, title.nextSibling);
       else copy.prepend(schedule);
     }
-    schedule.classList.add("grouped-exhibition-schedule");
   }
-  const city = CITIES[currentCityId()];
   const nextSchedule = groupedScheduleLabel(event, {
-    locale: city?.locale || "es-CL",
-    timezone: city?.timezone || "America/Santiago",
+    locale: activeCity?.locale || "es-CL",
+    timezone: activeCity?.timezone || "America/Santiago",
   });
   if (schedule.textContent !== nextSchedule) schedule.textContent = nextSchedule;
-
   let location = copy.querySelector(".grouped-exhibition-location");
   if (!location) {
     location = document.createElement("small");
@@ -218,13 +189,13 @@ function enhanceGroupedRow(row) {
 }
 
 function applyPresentationRules() {
+  if (!syncEventIndex()) return;
   document.querySelectorAll([
     '.event-card[data-event-id] .event-card-body h4',
     '.event-card[data-event-id] .card-body h3',
     '.grouped-exhibition-copy strong',
     '.event-detail-title',
   ].join(",")).forEach(cleanTitleNode);
-
   document.querySelectorAll(".event-card-description").forEach(removePipelineDescription);
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceAvailabilityCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedRow);
@@ -233,25 +204,22 @@ function applyPresentationRules() {
 function queueApply() {
   if (queued) return;
   queued = true;
-  requestAnimationFrame(async () => {
+  requestAnimationFrame(() => {
     queued = false;
-    await ensureEventIndex();
     applyPresentationRules();
   });
 }
 
 installStyles();
-queueApply();
-
-new MutationObserver(queueApply).observe(document.body, {
-  childList: true,
-  subtree: true,
-  characterData: true,
+for (const eventName of [
+  "vivamos:agenda-data-ready",
+  "vivamos:agenda-rendered",
+  "vivamos:cards-enriched",
+  "vivamos:exhibition-groups-rendered",
+]) {
+  window.addEventListener(eventName, queueApply);
+}
+document.addEventListener("click", (event) => {
+  if (event.target instanceof Element && event.target.closest("[data-open-event]")) queueMicrotask(queueApply);
 });
-
-new MutationObserver(() => {
-  loadedCity = null;
-  loadingCity = null;
-  eventsById = new Map();
-  queueApply();
-}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
+queueApply();

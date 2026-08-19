@@ -78,12 +78,19 @@ def check_asset_coherence() -> None:
     assert f'"{header_module}"' in sw, "service worker must cache the exact header module declared by pwa.js"
     assert f'"{mobile_module}"' in sw, "service worker must cache the exact mobile module declared by pwa.js"
 
+    # Content presentation has a single owner: app.js. pwa.js is shell/UI only,
+    # so it must not instantiate a second schedule-display module with a distinct
+    # ESM URL/query string.
     app_schedule = module_url(app_js, "schedule-display.js")
     pwa_schedule = module_url(pwa, "schedule-display.js")
-    assert app_schedule and pwa_schedule, "both app entrypoints must declare the shared schedule display module"
-    assert app_schedule == pwa_schedule, "app.js and pwa.js must load the same schedule module URL"
+    assert app_schedule, "app.js must declare the shared schedule display module"
+    assert pwa_schedule is None, "pwa.js must not instantiate schedule-display.js"
     assert "?v=" in app_schedule, "schedule display module must be explicitly versioned"
     assert f'"{app_schedule}"' in sw, "service worker must cache the exact schedule module URL"
+
+    for stem in ("card-experience.js", "card-image-fallback.js", "public-presentation-guard.js", "exhibition-hours.js"):
+        assert module_url(app_js, stem), f"app.js must own {stem}"
+        assert module_url(pwa, stem) is None, f"pwa.js must not instantiate {stem}"
 
     formatter = re.search(r'from "(\.\./assets/event-schedule-display\.mjs[^\"]*)"', schedule_js)
     assert formatter, "schedule-display.js must import the shared schedule formatter"
@@ -139,13 +146,17 @@ def check_startup_resilience_contract() -> None:
     pipeline = text(APP / "data-pipeline.js")
     policy = text(APP / "program-visibility-policy.js")
     watchdog = text(APP / "startup-stability.js")
+    lifecycle = text(APP / "render-lifecycle.js")
 
     assert "await coreReady;" in app_js, "optional app modules must wait for core readiness"
     assert 'loadAgendaDataset' in core and 'vivamos:core-ready' in core, "app-core must own and settle startup"
     assert 'function applyStage' in pipeline and 'status: "skipped"' in pipeline, "data transforms must fail open"
+    assert 'publishAgendaRuntimeSnapshot' in pipeline, "normalized pipeline must publish shared runtime state"
     assert 'new MutationObserver' not in policy, "program policy must not observe and mutate its own DOM"
     assert '.fetch =' not in policy, "program policy must not monkey-patch fetch"
     assert 'SAFE_MODE_DELAY_MS = 5000' in watchdog and 'app-safe-mode.js' in watchdog, "startup watchdog must provide safe mode"
+    assert 'new MutationObserver' in lifecycle, "one bounded render lifecycle observer must exist"
+    assert 'subtree: true' not in lifecycle and 'characterData: true' not in lifecycle, "render lifecycle must not observe descendant churn"
 
 
 def check_workflow_guard() -> None:

@@ -1,22 +1,12 @@
 import { openEventDetail } from "./event-detail.js";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
-const STORAGE_KEY = "agenda-cultural-city";
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
-
-const CITY_PRESENTATION = Object.freeze({
-  valparaiso: {
-    dataset: "../agenda_web.json",
-    timezone: "America/Santiago",
-    locale: "es-CL",
-  },
-  gijon: {
-    dataset: "./data/gijon/agenda_web.json",
-    timezone: "Europe/Madrid",
-    locale: "es-ES",
-  },
+const FALLBACK_CONFIG = Object.freeze({
+  valparaiso: { timezone: "America/Santiago", locale: "es-CL" },
+  gijon: { timezone: "Europe/Madrid", locale: "es-ES" },
 });
-
 const CATEGORY_SYMBOLS = Object.freeze({
   musica: "♪",
   cine: "▣",
@@ -31,11 +21,11 @@ const CATEGORY_SYMBOLS = Object.freeze({
 });
 
 let indexedCity = null;
+let indexedRevision = 0;
 let eventIndex = new Map();
 let venueImagePools = new Map();
 let featuredIds = new Set();
 let enhanceQueued = false;
-let indexingPromise = null;
 
 function safeHttpUrl(value) {
   if (!value) return null;
@@ -57,16 +47,13 @@ function fold(value) {
 }
 
 function cityId() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return CITY_PRESENTATION[saved] ? saved : null;
-  } catch {
-    return null;
-  }
+  return String(document.documentElement.dataset.city || "").trim();
 }
 
 function cityConfig() {
-  return CITY_PRESENTATION[cityId()] || CITY_PRESENTATION.valparaiso;
+  const id = cityId();
+  const snapshot = getAgendaRuntimeSnapshot(id);
+  return snapshot?.city || FALLBACK_CONFIG[id] || FALLBACK_CONFIG.valparaiso;
 }
 
 function primaryCategory(event) {
@@ -74,7 +61,8 @@ function primaryCategory(event) {
 }
 
 function categoryId(event) {
-  return event?.primary_category?.id || event?.categories?.[0]?.id || "cultura";
+  const id = event?.primary_category?.id || event?.categories?.[0]?.id || "cultura";
+  return id === "museos" ? "exposiciones" : id;
 }
 
 function contentTypeLabel(event) {
@@ -105,8 +93,7 @@ function venueImageKey(event) {
   let venue = fold(event?.location?.venue);
   if (!city || !venue || venue === city || /^(?:online|sitio web)\b/.test(venue)) return null;
   if (venue.endsWith(` ${city}`)) venue = venue.slice(0, -(city.length + 1)).trim();
-  if (!venue) return null;
-  return `${city}|${venue}`;
+  return venue ? `${city}|${venue}` : null;
 }
 
 function buildVenueImagePools(events) {
@@ -125,8 +112,7 @@ function buildVenueImagePools(events) {
 function representativeImageUrl(event) {
   if (looksLikeGenericSchedule(event)) return null;
   const key = venueImageKey(event);
-  if (!key) return null;
-  return venueImagePools.get(key)?.[0] || null;
+  return key ? venueImagePools.get(key)?.[0] || null : null;
 }
 
 function dateKeyForDate(date, config) {
@@ -316,12 +302,7 @@ function addPlaceholder(media, event, genericSchedule = false) {
   media.style.removeProperty("--event-image");
   delete media.dataset.representativeImage;
   addTextElement(media, "span", "event-card-symbol", CATEGORY_SYMBOLS[categoryId(event)] || "✦");
-  addTextElement(
-    media,
-    "small",
-    "event-card-placeholder-label",
-    genericSchedule ? "Sin imagen específica" : primaryCategory(event),
-  );
+  addTextElement(media, "small", "event-card-placeholder-label", genericSchedule ? "Sin imagen específica" : primaryCategory(event));
   if (genericSchedule) media.dataset.genericScheduleFallback = "true";
 }
 
@@ -501,52 +482,38 @@ function renderRichCard(card, event) {
   card.classList.toggle("event-card--featured", featuredIds.has(event.id));
 }
 
+function syncRuntimeIndex() {
+  const currentCity = cityId();
+  const snapshot = getAgendaRuntimeSnapshot(currentCity);
+  if (!snapshot) return false;
+  if (indexedCity === currentCity && indexedRevision === snapshot.revision && eventIndex.size) return true;
+
+  indexedCity = currentCity;
+  indexedRevision = snapshot.revision;
+  eventIndex = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
+  venueImagePools = buildVenueImagePools(snapshot.events);
+  featuredIds = chooseFeatured(snapshot.events, snapshot.city || cityConfig());
+  return true;
+}
+
 function enhanceAllCards() {
+  let changed = 0;
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-    const event = eventIndex.get(card.dataset.eventId);
-    if (!event) continue;
-    if (card.dataset.cardEnhanced === "true") continue;
+    const event = eventIndex.get(String(card.dataset.eventId || ""));
+    if (!event || card.dataset.cardEnhanced === "true") continue;
     renderRichCard(card, event);
+    changed += 1;
   }
+  return changed;
 }
 
-async function indexCurrentCity() {
-  const currentCity = cityId();
-  if (!currentCity) return;
-  if (indexedCity === currentCity && eventIndex.size) return;
-  if (indexingPromise) return indexingPromise;
-  const config = CITY_PRESENTATION[currentCity];
-  indexingPromise = (async () => {
-    try {
-      const response = await fetch(config.dataset, { headers: { Accept: "application/json" }, cache: "no-store" });
-      if (!response.ok) return;
-      const dataset = await response.json();
-      if (!Array.isArray(dataset?.events)) return;
-      indexedCity = currentCity;
-      eventIndex = new Map(dataset.events.map((event) => [String(event.id), event]));
-      venueImagePools = buildVenueImagePools(dataset.events);
-      featuredIds = chooseFeatured(dataset.events, config);
-    } catch (error) {
-      console.warn("Agenda Cultural: no se pudo enriquecer la presentación de tarjetas", error);
-    } finally {
-      indexingPromise = null;
-    }
-  })();
-  return indexingPromise;
-}
-
-async function runEnhancement() {
+function runEnhancement() {
   enhanceQueued = false;
-  const currentCity = cityId();
-  if (!currentCity) return;
-  if (indexedCity !== currentCity) {
-    indexedCity = null;
-    eventIndex = new Map();
-    venueImagePools = new Map();
-    featuredIds = new Set();
-  }
-  await indexCurrentCity();
-  enhanceAllCards();
+  if (!syncRuntimeIndex()) return;
+  const changed = enhanceAllCards();
+  window.dispatchEvent(new CustomEvent("vivamos:cards-enriched", {
+    detail: { cityId: cityId(), changed, revision: indexedRevision },
+  }));
 }
 
 function scheduleEnhancement() {
@@ -566,6 +533,6 @@ function installStylesheet(href, marker) {
 
 installStylesheet("./card-experience.css", "data-card-experience");
 installStylesheet(MEDIA_STYLESHEET, "data-event-media-layout");
-const observer = new MutationObserver(scheduleEnhancement);
-observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+window.addEventListener("vivamos:agenda-data-ready", scheduleEnhancement);
+window.addEventListener("vivamos:agenda-rendered", scheduleEnhancement);
 scheduleEnhancement();

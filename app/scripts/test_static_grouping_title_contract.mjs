@@ -44,7 +44,9 @@ const appJs = read("app.js");
 const pipeline = read("data-pipeline.js");
 const grouping = read("static-exhibition-groups.js");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
-const cardTitleConsistency = read("card-title-consistency.js");
+const cardExperience = read("card-experience.js");
+const presentationGuard = read("public-presentation-guard.js");
+const runtimeState = read("agenda-runtime-state.mjs");
 const supplementBridge = read("supplemental-events-fetch.js");
 const programPolicy = read("program-visibility-policy.js");
 const release = read("release-version.js");
@@ -58,6 +60,7 @@ assert.match(pipeline, /normalizeAgendaTitles/);
 assert.match(pipeline, /normalizeAgendaCategories/);
 assert.match(pipeline, /normalizeSessionOccurrences/);
 assert.match(pipeline, /applyProgramVisibilityPolicy/);
+assert.match(pipeline, /publishAgendaRuntimeSnapshot/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:title-normalizer-bootstrap|category-normalizer|supplemental-events-fetch|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
@@ -66,13 +69,16 @@ assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
 
-// Rich Valpo/Viña cards may be rehydrated from raw source data after the pure
-// pipeline ran, so keep a final presentation invariant that reuses the same
-// public title normalizer rather than allowing all-caps source titles back in.
-assert.match(appJs, /card-title-consistency\.js/);
-assert.match(cardTitleConsistency, /normalizePublicEventTitle/);
-assert.match(cardTitleConsistency, /\.event-card\[data-event-id\]/);
-assert.match(cardTitleConsistency, /MutationObserver/);
+// The final normalized dataset is now the single runtime source for rich cards.
+// This removes the old raw-data rehydration path that allowed all-caps titles to
+// return, so no separate card-title MutationObserver is required anymore.
+assert.match(runtimeState, /getAgendaRuntimeSnapshot/);
+assert.match(cardExperience, /getAgendaRuntimeSnapshot/);
+assert.doesNotMatch(cardExperience, /\bfetch\s*\(/);
+assert.doesNotMatch(cardExperience, /new MutationObserver\s*\(/);
+assert.match(presentationGuard, /getAgendaRuntimeSnapshot/);
+assert.doesNotMatch(presentationGuard, /new MutationObserver\s*\(/);
+assert.doesNotMatch(appJs, /card-title-consistency\.js/);
 
 // v136 deliberately restored the supplemental Valparaíso feed in the public
 // registry. Keep the merge helper pure: it may merge the configured payload,
@@ -89,7 +95,7 @@ assert.match(programPolicy, /export function renderProgramReferences/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 142, "PWA release must preserve normalized rich-card titles");
+assert.ok(Number(releaseMatch[1]) >= 144, "PWA release must include normalized runtime ownership hardening");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -101,4 +107,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + venue identity + normalized rich-card titles + resilient startup contract: OK");
+console.log("Static grouping + venue identity + normalized runtime titles + resilient startup contract: OK");

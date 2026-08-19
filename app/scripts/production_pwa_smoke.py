@@ -52,6 +52,7 @@ def expected_shell() -> dict[str, str]:
 def local_contract() -> None:
     expected = expected_shell()
     index = read("app/index.html")
+    app = read("app/app.js")
     pwa = read("app/pwa.js")
     worker = read("app/service-worker.js")
 
@@ -66,9 +67,30 @@ def local_contract() -> None:
         if marker not in index:
             raise SystemExit(f"Local index is missing: {marker}")
 
-    for marker in (expected["header_module"], expected["mobile_module"], "public-presentation-guard.js"):
+    for marker in (expected["header_module"], expected["mobile_module"]):
         if marker not in pwa:
-            raise SystemExit(f"Local pwa.js is missing: {marker}")
+            raise SystemExit(f"Local pwa.js is missing shell marker: {marker}")
+
+    for marker in (
+        "render-lifecycle.js",
+        "card-experience.js",
+        "card-image-fallback.js",
+        "public-presentation-guard.js",
+        "exhibition-hours.js",
+    ):
+        if marker not in app:
+            raise SystemExit(f"Local app.js is missing content-runtime marker: {marker}")
+
+    forbidden_pwa_runtime_entries = (
+        '"./card-experience.js"',
+        '"./card-image-fallback.js"',
+        '"./public-presentation-guard.js"',
+        '"./schedule-display.js',
+        '"./exhibition-hours.js',
+    )
+    for marker in forbidden_pwa_runtime_entries:
+        if marker in pwa:
+            raise SystemExit(f"pwa.js must not instantiate content presentation module: {marker}")
 
     for marker in (
         "./release-version.js",
@@ -76,6 +98,8 @@ def local_contract() -> None:
         expected["mobile_style"],
         expected["header_module"],
         expected["mobile_module"],
+        "agenda-runtime-state.mjs",
+        "render-lifecycle.js",
         "public-presentation-guard.js",
         "public-presentation-rules.mjs",
     ):
@@ -93,7 +117,7 @@ def fetch(path: str, timeout: int = 12) -> str:
         headers={
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
-            "User-Agent": "vivamos-production-smoke/2",
+            "User-Agent": "vivamos-production-smoke/3",
         },
     )
     with urllib.request.urlopen(request, timeout=timeout) as response:  # nosec B310 - fixed public HTTPS origin
@@ -112,7 +136,7 @@ def wait_for_release(expected: int, attempts: int = 30, interval: int = 10) -> N
             last = f"published v{published}, expected v{expected}"
             if published == expected:
                 return
-        except Exception as exc:  # production may be between deployments
+        except Exception as exc:
             last = str(exc)
         if attempt == attempts:
             raise SystemExit(f"GitHub Pages did not publish the expected release: {last}")
@@ -125,6 +149,7 @@ def verify_http() -> None:
     wait_for_release(expected_release)
 
     index = fetch("")
+    app = fetch("app.js")
     pwa = fetch("pwa.js")
     worker = fetch("service-worker.js")
 
@@ -138,15 +163,21 @@ def verify_http() -> None:
         if marker not in index:
             raise SystemExit(f"Published index is missing current shell marker: {marker}")
 
-    for marker in (expected["header_module"], expected["mobile_module"], "public-presentation-guard.js"):
+    for marker in (expected["header_module"], expected["mobile_module"]):
         if marker not in pwa:
             raise SystemExit(f"Published pwa.js is missing current shell marker: {marker}")
+
+    for marker in ("render-lifecycle.js", "card-experience.js", "public-presentation-guard.js"):
+        if marker not in app:
+            raise SystemExit(f"Published app.js is missing content-runtime marker: {marker}")
 
     for marker in (
         expected["header_style"],
         expected["mobile_style"],
         expected["header_module"],
         expected["mobile_module"],
+        "agenda-runtime-state.mjs",
+        "render-lifecycle.js",
         "public-presentation-guard.js",
         "public-presentation-rules.mjs",
     ):
@@ -170,71 +201,106 @@ def chrome_binary() -> str:
     return chrome
 
 
+def profile_dom(chrome: str, profile: str, city: str, width: int, height: int, extra: str = "") -> str:
+    suffix = f"&{extra.lstrip('&?')}" if extra else ""
+    url = f"{BASE}?city={city}{suffix}&smoke={uuid.uuid4().hex}"
+    cmd = [
+        chrome,
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-sync",
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-default-apps",
+        "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--no-default-browser-check",
+        f"--window-size={width},{height}",
+        "--virtual-time-budget=12000",
+        f"--user-data-dir={profile}",
+        "--dump-dom",
+        url,
+    ]
+    result = subprocess.run(cmd, text=True, capture_output=True, timeout=45)
+    if result.returncode == 0 and result.stdout:
+        return result.stdout
+    raise RuntimeError(result.stderr[-1600:] or f"Chrome exit code {result.returncode} with empty DOM")
+
+
 def cold_dom(chrome: str, city: str, width: int, height: int) -> str:
     last_error = ""
     for attempt in range(1, 3):
         with tempfile.TemporaryDirectory(prefix=f"vivamos-prod-{city}-") as profile:
-            url = f"{BASE}?city={city}&smoke={uuid.uuid4().hex}"
-            cmd = [
-                chrome,
-                "--headless=new",
-                "--no-sandbox",
-                "--disable-gpu",
-                "--disable-dev-shm-usage",
-                "--disable-extensions",
-                "--disable-sync",
-                "--disable-background-networking",
-                "--disable-component-update",
-                "--disable-default-apps",
-                "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
-                "--metrics-recording-only",
-                "--no-first-run",
-                "--no-default-browser-check",
-                f"--window-size={width},{height}",
-                "--virtual-time-budget=10000",
-                f"--user-data-dir={profile}",
-                "--dump-dom",
-                url,
-            ]
-            result = subprocess.run(cmd, text=True, capture_output=True, timeout=40)
-            if result.returncode == 0 and result.stdout:
-                return result.stdout
-            last_error = result.stderr[-1600:] or f"Chrome exit code {result.returncode} with empty DOM"
-            if attempt < 2:
-                time.sleep(2)
+            try:
+                return profile_dom(chrome, profile, city, width, height)
+            except Exception as exc:
+                last_error = str(exc)
+        if attempt < 2:
+            time.sleep(2)
     raise SystemExit(f"Chrome failed for {city} {width}x{height} after retry: {last_error}")
+
+
+def assert_loaded_dom(dom: str, city: str, label: str, width: int, height: int, expected_release: int, expected: dict[str, str]) -> None:
+    browser_header_style = expected["header_style"].removeprefix("./")
+    browser_mobile_style = expected["mobile_style"].removeprefix("./")
+    checks = {
+        f'data-city="{city}"': "active city was not applied",
+        "data-header-redesign=": "header markup disappeared",
+        'data-header-search-bound="true"': "static search control was not bound",
+        f"PWA v{expected_release}": "visible runtime version is stale",
+        label: "city title/label is stale",
+        browser_mobile_style: "mobile stylesheet revision is stale",
+        browser_header_style: "header stylesheet revision is stale",
+    }
+    for marker, message in checks.items():
+        if marker not in dom:
+            raise SystemExit(f"{message}: {city} {width}x{height}")
+    if dom.count('class="event-card') <= 0:
+        raise SystemExit(f"No event cards rendered: {city} {width}x{height}")
+    status = re.search(r"data-status[^>]*>(.*?)</", dom, flags=re.S)
+    if status and "Preparando la agenda" in html.unescape(re.sub(r"<[^>]+>", "", status.group(1))):
+        raise SystemExit(f"Production stayed in loading state: {city} {width}x{height}")
 
 
 def verify_browser() -> None:
     expected_release = release_number()
     expected = expected_shell()
     chrome = chrome_binary()
-    browser_header_style = expected["header_style"].removeprefix("./")
-    browser_mobile_style = expected["mobile_style"].removeprefix("./")
     cases = (
         ("valparaiso", "Valparaíso / Viña del Mar", 390, 844),
         ("gijon", "Gijón / Xixón", 1280, 900),
     )
     for city, label, width, height in cases:
         dom = cold_dom(chrome, city, width, height)
-        checks = {
-            f'data-city="{city}"': "active city was not applied",
-            "data-header-redesign=": "header markup disappeared",
-            'data-header-search-bound="true"': "static search control was not bound",
-            f"PWA v{expected_release}": "visible runtime version is stale",
-            label: "city title/label is stale",
-            browser_mobile_style: "mobile stylesheet revision is stale",
-            browser_header_style: "header stylesheet revision is stale",
-        }
-        for marker, message in checks.items():
-            if marker not in dom:
-                raise SystemExit(f"{message}: {city} {width}x{height}")
-        if dom.count('class="event-card') <= 0:
-            raise SystemExit(f"No event cards rendered: {city} {width}x{height}")
-        status = re.search(r"data-status[^>]*>(.*?)</", dom, flags=re.S)
-        if status and "Preparando la agenda" in html.unescape(re.sub(r"<[^>]+>", "", status.group(1))):
-            raise SystemExit(f"Production stayed in loading state: {city} {width}x{height}")
+        assert_loaded_dom(dom, city, label, width, height, expected_release, expected)
         print(f"PRODUCTION_COLD_LOAD_OK city={city} viewport={width}x{height}")
+
+    # Reuse one browser profile to catch stale service-worker/localStorage/runtime
+    # interactions across the exact city roundtrip that previously exposed the
+    # lightweight-Gijon -> Valpo/Viña presentation regression.
+    with tempfile.TemporaryDirectory(prefix="vivamos-roundtrip-") as profile:
+        first_valpo = profile_dom(chrome, profile, "valparaiso", 390, 844)
+        assert_loaded_dom(first_valpo, "valparaiso", "Valparaíso / Viña del Mar", 390, 844, expected_release, expected)
+        gijon = profile_dom(chrome, profile, "gijon", 1280, 900)
+        assert_loaded_dom(gijon, "gijon", "Gijón / Xixón", 1280, 900, expected_release, expected)
+        final_valpo = profile_dom(chrome, profile, "valparaiso", 390, 844, "when=7-dias")
+        assert_loaded_dom(final_valpo, "valparaiso", "Valparaíso / Viña del Mar", 390, 844, expected_release, expected)
+        if 'data-card-enhanced="true"' not in final_valpo:
+            raise SystemExit("Valpo/Viña rich cards did not recover after Gijón roundtrip")
+        if "event-card-photo" not in final_valpo and "event-card-media" not in final_valpo:
+            raise SystemExit("Valpo/Viña cards lost image/media presentation after Gijón roundtrip")
+        active_seven_days = re.search(
+            r'<button[^>]*(?:data-filter-value="7-dias"[^>]*aria-pressed="true"|aria-pressed="true"[^>]*data-filter-value="7-dias")[^>]*>',
+            final_valpo,
+            flags=re.I,
+        )
+        if not active_seven_days:
+            raise SystemExit("Roundtrip filter state did not apply after returning to Valpo/Viña")
+        print("PRODUCTION_CITY_ROUNDTRIP_OK valparaiso->gijon->valparaiso filter=7-dias")
 
 
 def main() -> None:
