@@ -32,12 +32,15 @@ jobs:
             app/scripts/test_contextual_filters.py \
             app/scripts/test_first_render_browser.py \
             app/scripts/test_pwa_install_browser.py \
-            app/scripts/test_multicity_source_registry_coverage.py
+            app/scripts/test_multicity_source_registry_coverage.py \
+            app/scripts/normalize_schedule_display.py \
+            app/scripts/test_normalize_schedule_display.py
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/release-version.js
           node --check app/header-redesign.js
           node --check app/mobile-experience.js
+          node --check app/schedule-display.js
 
       - name: Run required release guard
         run: |
@@ -47,6 +50,8 @@ jobs:
           python app/scripts/test_contextual_filters.py
           python app/scripts/test_first_render_browser.py
           python app/scripts/test_multicity_source_registry_coverage.py
+          python app/scripts/test_normalize_schedule_display.py
+          node app/scripts/test_schedule_display.mjs
 
       - name: Note non-blocking full browser coverage
         run: |
