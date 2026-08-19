@@ -1,12 +1,15 @@
 import { normalizePublicTitle } from "./public-presentation-rules.mjs?v=20260818-presentation4";
 
 const KNOWN_ACRONYMS = new Set([
-  "AI", "DJ", "DJS", "FMCE", "IA", "LGBT", "LGBTQ", "MNHN", "ONU", "PUCV",
+  "AI", "CMI", "DJ", "DJS", "FETEN", "FICX", "FMCE", "IA", "LGBT", "LGBTQ", "MNHN", "ONU", "PUCV",
   "SCD", "SIDA", "UAI", "UNESCO", "UP", "USM", "UTFSM", "UV", "VIH",
 ]);
 const MINOR_WORDS = new Set(["a", "al", "de", "del", "el", "en", "la", "las", "los", "o", "para", "por", "y"]);
-const GENERIC_PREFIX = /^(?:actividad|obra(?:\s+de\s+teatro)?|concierto|recital|exposici[oó]n(?:\s+temporal)?|exhibici[oó]n|muestra|charla|taller|curso|funci[oó]n)\s*(?:(?:\/\/|[:|–—-])\s*|(?=["“‘'«‹]))/iu;
+const GENERIC_PREFIX = /^(?:actividad|evento|teatro|obra(?:\s+de\s+teatro)?|concierto|recital|exposici[oó]n(?:\s+temporal)?|exhibici[oó]n|muestra|charla|taller|curso|funci[oó]n|cine|proyecci[oó]n|danza|m[uú]sica|espect[aá]culo|presentaci[oó]n|visita\s+guiada)\s*(?:(?:\/\/|[:|–—-])\s*|(?=["“‘'«‹]))/iu;
 const OUTER_QUOTES = [["\"", "\""], ["“", "”"], ["‘", "’"], ["'", "'"], ["«", "»"], ["‹", "›"]];
+const OPEN_QUOTE_CHARS = new Set(OUTER_QUOTES.map(([open]) => open));
+const CLOSE_QUOTE_CHARS = new Set(OUTER_QUOTES.map(([, close]) => close));
+const ROMAN_NUMERAL = /^(?=[IVXLCDM]+$)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})$/u;
 
 function clean(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
@@ -31,6 +34,12 @@ function stripOuterQuotes(value) {
         changed = true;
         break;
       }
+    }
+    if (changed || text.length <= 1) continue;
+    const chars = [...text];
+    if (OPEN_QUOTE_CHARS.has(chars[0]) && CLOSE_QUOTE_CHARS.has(chars.at(-1))) {
+      text = chars.slice(1, -1).join("").trim();
+      changed = true;
     }
   }
   return text;
@@ -60,9 +69,20 @@ function stripKnownLocationSuffix(value, event) {
   return text;
 }
 
+function casedLetters(value) {
+  return [...String(value || "")].filter((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
+}
+
 function isAllCaps(value) {
-  const letters = [...String(value || "")].filter((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
+  const letters = casedLetters(value);
   return letters.length >= 5 && letters.every((char) => char === char.toLocaleUpperCase("es"));
+}
+
+function isMostlyAllCaps(value) {
+  const letters = casedLetters(value);
+  if (letters.length < 7) return false;
+  const upper = letters.filter((char) => char === char.toLocaleUpperCase("es")).length;
+  return upper / letters.length >= 0.8;
 }
 
 function restoreAcronyms(value) {
@@ -84,6 +104,11 @@ function sentenceCase(value) {
   return upperFirst(restoreAcronyms(clean(value).toLocaleLowerCase("es")));
 }
 
+function protectedUpperToken(value) {
+  const upper = String(value || "").toLocaleUpperCase("es");
+  return KNOWN_ACRONYMS.has(upper) || ROMAN_NUMERAL.test(upper);
+}
+
 function smartTitleCase(value) {
   const originalWords = clean(value).split(/(\s+)/u);
   let wordIndex = 0;
@@ -96,7 +121,7 @@ function smartTitleCase(value) {
     const upperCore = core.toLocaleUpperCase("es");
     const lowerCore = core.toLocaleLowerCase("es");
     const firstWord = wordIndex++ === 0;
-    if (KNOWN_ACRONYMS.has(upperCore)) return `${leading}${upperCore}${trailing}`;
+    if (protectedUpperToken(upperCore)) return `${leading}${upperCore}${trailing}`;
     if (!firstWord && MINOR_WORDS.has(lowerCore)) return `${leading}${lowerCore}${trailing}`;
     return `${leading}${upperFirst(lowerCore)}${trailing}`;
   }).join("");
@@ -129,13 +154,23 @@ function normalizeInternalAllCaps(value) {
   }).join("");
 }
 
+function stripGenericPrefixes(value) {
+  let text = clean(value);
+  for (let pass = 0; pass < 3; pass += 1) {
+    const candidate = text.replace(GENERIC_PREFIX, "").trim();
+    if (!candidate || candidate === text) break;
+    text = stripTerminalPeriod(stripOuterQuotes(candidate));
+  }
+  return text;
+}
+
 export function normalizePublicEventTitle(value, event = null) {
   let text = normalizePublicTitle(value, event);
   text = stripKnownLocationSuffix(text, event);
   text = stripTerminalPeriod(stripOuterQuotes(text));
-  text = text.replace(GENERIC_PREFIX, "").trim();
+  text = stripGenericPrefixes(text);
   text = stripTerminalPeriod(stripOuterQuotes(text));
-  if (isAllCaps(text)) text = smartAllCaps(text, event);
+  if (isAllCaps(text) || isMostlyAllCaps(text)) text = smartAllCaps(text, event);
   else text = normalizeInternalAllCaps(text);
   return clean(text);
 }
