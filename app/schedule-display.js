@@ -1,4 +1,4 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours2";
+import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
 
 const CITY_CONFIG = Object.freeze({
@@ -50,17 +50,7 @@ function stripMediaControls(root = document) {
 function scheduleForDisplay(event) {
   const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
   if (!schedule) return "Horario por confirmar";
-
-  const openingText = String(schedule?.opening_hours?.display_text || "").trim();
-  if (!openingText) return formatSchedule(schedule, activeConfig);
-
-  // The shared formatter supports simple opening/closing pairs. Gijón's official
-  // directories frequently publish split and seasonal hours, so preserve that
-  // richer verified text verbatim and combine it with the event date range.
-  const dateOnlySchedule = { ...schedule, opening_hours: null, opening_time: null, closing_time: null };
-  const dateText = formatSchedule(dateOnlySchedule, activeConfig);
-  if (!dateText || dateText === "Horario por confirmar") return openingText;
-  return `${dateText} · ${openingText}`;
+  return formatSchedule(schedule, activeConfig);
 }
 
 function locationForDisplay(event) {
@@ -78,20 +68,29 @@ function locationForDisplay(event) {
   return venue || city || "Lugar por confirmar";
 }
 
-function replaceFactValue(row, value) {
+function visibleCopyText(copy) {
+  if (!copy) return "";
+  const full = String(copy.textContent || "");
+  const sr = String(copy.querySelector(".sr-only")?.textContent || "");
+  return (sr && full.startsWith(sr) ? full.slice(sr.length) : full).trim();
+}
+
+function replaceFactValue(row, value, marker = "scheduleDisplay") {
   const copy = row?.querySelector(":scope > span:last-child");
-  if (!copy || copy.dataset.scheduleDisplay === value) return;
+  if (!copy) return;
+  if (visibleCopyText(copy) === value && copy.dataset[marker] === value) return;
   const sr = copy.querySelector(".sr-only");
   copy.replaceChildren();
   if (sr) copy.append(sr);
   copy.append(document.createTextNode(value));
-  copy.dataset.scheduleDisplay = value;
+  copy.dataset[marker] = value;
 }
 
 function replaceSimpleCardSchedule(card, value) {
   // Base app cards use h4 + p for the schedule and the following p for location.
   const copy = card.querySelector(":scope > h4 + p");
-  if (!copy || copy.dataset.scheduleDisplay === value) return false;
+  if (!copy) return false;
+  if (copy.textContent.trim() === value && copy.dataset.scheduleDisplay === value) return true;
   copy.textContent = value;
   copy.dataset.scheduleDisplay = value;
   return true;
@@ -100,7 +99,8 @@ function replaceSimpleCardSchedule(card, value) {
 function replaceSimpleCardLocation(card, value) {
   const schedule = card.querySelector(":scope > h4 + p");
   const copy = schedule?.nextElementSibling;
-  if (!copy || copy.tagName !== "P" || copy.dataset.locationDisplay === value) return false;
+  if (!copy || copy.tagName !== "P") return false;
+  if (copy.textContent.trim() === value && copy.dataset.locationDisplay === value) return true;
   copy.textContent = value;
   copy.dataset.locationDisplay = value;
   return true;
@@ -129,16 +129,26 @@ function enhanceCard(card) {
   const scheduleFact = facts.find((row) =>
     row.querySelector(".sr-only")?.textContent.trim().startsWith("Fecha:"),
   );
-  if (scheduleFact) replaceFactValue(scheduleFact, schedule);
+  if (scheduleFact) replaceFactValue(scheduleFact, schedule, "scheduleDisplay");
   else replaceSimpleCardSchedule(card, schedule);
 
   const locationFact = facts.find((row) =>
     row.querySelector(".sr-only")?.textContent.trim().startsWith("Lugar:"),
   );
-  if (locationFact) replaceFactValue(locationFact, location);
+  if (locationFact) replaceFactValue(locationFact, location, "locationDisplay");
   else replaceSimpleCardLocation(card, location);
 
   enhanceSource(card, event);
+}
+
+function enhanceGroupedExhibition(row) {
+  const event = eventIndex.get(String(row.dataset.groupedEventId || ""));
+  const copy = row.querySelector(".grouped-exhibition-copy > small");
+  if (!event || !copy) return;
+  const value = scheduleForDisplay(event);
+  if (copy.textContent.trim() === value && copy.dataset.scheduleDisplay === value) return;
+  copy.textContent = value;
+  copy.dataset.scheduleDisplay = value;
 }
 
 function replaceDetailFact(dialog, label, value) {
@@ -146,7 +156,8 @@ function replaceDetailFact(dialog, label, value) {
     row.querySelector("strong")?.textContent.trim() === label,
   );
   const copy = fact?.querySelector("span:last-child");
-  if (!copy || copy.dataset.enhancedDisplay === value) return;
+  if (!copy) return;
+  if (copy.textContent.trim() === value && copy.dataset.enhancedDisplay === value) return;
   copy.textContent = value;
   copy.dataset.enhancedDisplay = value;
 }
@@ -167,6 +178,7 @@ function apply() {
   applyQueued = false;
   stripMediaControls();
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceCard);
+  document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedExhibition);
   document.querySelectorAll("dialog[data-event-detail]").forEach(enhanceDetail);
   bodyObserver.takeRecords();
 }
@@ -178,9 +190,11 @@ function queueApply() {
 }
 
 const bodyObserver = new MutationObserver((mutations) => {
-  if (mutations.some((mutation) => mutation.addedNodes.length || mutation.removedNodes.length)) queueApply();
+  if (mutations.some((mutation) => mutation.addedNodes.length || mutation.removedNodes.length || mutation.type === "characterData")) {
+    queueApply();
+  }
 });
-bodyObserver.observe(document.body, { childList: true, subtree: true });
+bodyObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
 
 async function load(city = currentCity()) {
   const config = CITY_CONFIG[city] || CITY_CONFIG.valparaiso;
