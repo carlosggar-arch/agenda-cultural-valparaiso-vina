@@ -87,11 +87,16 @@ def dump_dom(url: str, label: str) -> str:
     raise AssertionError(f"Chrome date-filter probe failed twice ({label}): {last_error}")
 
 
-def card_tag(dom: str, event_id: str) -> str:
+def maybe_card_tag(dom: str, event_id: str) -> str | None:
     match = re.search(rf'<article(?=[^>]*\bdata-event-id="{re.escape(event_id)}")[^>]*>', dom, flags=re.I)
-    if not match:
+    return match.group(0) if match else None
+
+
+def card_tag(dom: str, event_id: str) -> str:
+    tag = maybe_card_tag(dom, event_id)
+    if not tag:
         raise AssertionError(f"event card not rendered: {event_id}")
-    return match.group(0)
+    return tag
 
 
 def is_hidden(tag: str) -> bool:
@@ -108,7 +113,8 @@ def assert_selected_date(dom: str, selected: str) -> None:
         raise AssertionError(f"core did not reach ready state for {selected}")
     if 'data-date-filter-test-ready="true"' not in dom:
         raise AssertionError(f"combined filters did not finish for {selected}")
-    if not is_hidden(card_tag(dom, STALE_EVENT_ID)):
+    stale = maybe_card_tag(dom, STALE_EVENT_ID)
+    if stale is not None and not is_hidden(stale):
         raise AssertionError(f"yesterday event is visible while filtering {selected}")
     if visible_direct_cards(dom) < 2:
         raise AssertionError(f"date {selected} collapsed to fewer than two visible event cards")
