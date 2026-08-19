@@ -33,6 +33,33 @@ function safeHttpUrl(value) {
   }
 }
 
+export function isGenericProgramListing(event) {
+  if (!event || typeof event !== "object" || event?.event_type === PROGRAM_TYPE) return false;
+  if (event?.image?.relevance !== "generic_schedule") return false;
+
+  const title = fold(event?.title);
+  const description = fold(event?.description);
+  const mentions = (String(event?.description || "").match(/@[a-z0-9_.]+/gi) || []).length;
+
+  if (/\b(cartelera|programacion|agenda|calendario)\b/.test(title)) return true;
+  if (new RegExp(`^(?:destino|panoramas?) .+ (?:${MONTHS}) 20\\d{2}$`).test(title)) return true;
+  return /\beste mes (?:tenemos|incluye|trae|hay)\b/.test(description) && mentions >= 2;
+}
+
+function normalizeProgramLikeEvent(event) {
+  if (event?.event_type === PROGRAM_TYPE || !isGenericProgramListing(event)) return event;
+  return {
+    ...event,
+    event_type: PROGRAM_TYPE,
+    editorial: {
+      ...(event?.editorial || {}),
+      classification: PROGRAM_TYPE,
+      reason: "generic_schedule_not_individual_event",
+      original_event_type: event?.event_type || null,
+    },
+  };
+}
+
 function sourceIds(events) {
   return new Set(
     (events || [])
@@ -52,7 +79,7 @@ export function isProgramCovered(program, concreteEvents) {
 }
 
 export function partitionPrograms(events) {
-  const list = Array.isArray(events) ? events : [];
+  const list = (Array.isArray(events) ? events : []).map(normalizeProgramLikeEvent);
   const publicEvents = list.filter((event) => event?.event_type !== PROGRAM_TYPE);
   const programs = list.filter((event) => event?.event_type === PROGRAM_TYPE);
   const secondaryPrograms = programs.filter((program) => !isProgramCovered(program, publicEvents));
