@@ -19,8 +19,8 @@ const event = supplemental.events[0];
 assert.equal(event.title, "Presentación libro // “Decadencia”");
 assert.equal(event.primary_category?.id, "otros");
 assert.equal(event.primary_category?.label, "Otros panoramas");
-assert.equal(event.schedule?.start, "2026-08-27T17:00:00-04:00");
-assert.equal(event.schedule?.end, "2026-08-27T19:00:00-04:00");
+assert.equal(event.schedule?.start, "2026-08-27T18:00:00-04:00");
+assert.equal(event.schedule?.end, "2026-08-27T20:00:00-04:00");
 assert.equal(event.location?.venue, "Palacio Rioja");
 assert.equal(event.location?.city, "Viña del Mar");
 assert.equal(event.public_status?.source_official, true);
@@ -38,6 +38,6 @@ assert.match(supplementBridge, /supplemental_dataset/);
 assert.match(supplementBridge, /mergeEvents/);
 assert.doesNotMatch(supplementBridge, /Decadencia|Palacio Rioja/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
-assert.ok(releaseMatch && Number(releaseMatch[1]) >= 123, "PWA release must include supplemental event recovery");
+assert.ok(releaseMatch && Number(releaseMatch[1]) >= 124, "PWA release must include the current official Decadencia schedule");
 
 console.log("Supplemental event recovery contract: OK");
