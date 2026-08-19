@@ -1,0 +1,40 @@
+name: Supplemental event recovery contract
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/app.js"
+      - "app/cities.json"
+      - "app/supplemental-events-fetch.js"
+      - "app/data/valparaiso/supplemental-events.json"
+      - "app/release-version.js"
+      - "app/scripts/test_supplemental_events_contract.mjs"
+      - ".github/workflows/supplemental-events-contract.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/app.js"
+      - "app/cities.json"
+      - "app/supplemental-events-fetch.js"
+      - "app/data/valparaiso/supplemental-events.json"
+      - "app/release-version.js"
+      - "app/scripts/test_supplemental_events_contract.mjs"
+      - ".github/workflows/supplemental-events-contract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check supplemental merge module
+        run: node --check app/supplemental-events-fetch.js
+      - name: Verify supplemental event recovery contract
+        run: node app/scripts/test_supplemental_events_contract.mjs
