@@ -3,7 +3,23 @@ const FILTER_PARAMS = ["when", "area", "access", "format", "aud", "cat", "q", "f
 let lastCity = String(document.documentElement.dataset.city || "");
 let repairTimer = null;
 
+function pressedFilterValue(selector, fallback = "todos") {
+  const button = document.querySelector(`${selector} [data-filter-value][aria-pressed="true"]`)
+    || document.querySelector(`${selector} [data-filter-value].active`);
+  return String(button?.dataset?.filterValue || fallback).trim() || fallback;
+}
+
 function currentFilterStateIsNeutral() {
+  // Live controls change before history.replaceState, so they are authoritative.
+  // Otherwise the startup fail-open can briefly mistake an active date for a
+  // neutral state and unhide cards from the previous day.
+  if (pressedFilterValue("[data-combined-when]") !== "todos") return false;
+  if (pressedFilterValue("[data-combined-area]") !== "todos") return false;
+  if (document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length) return false;
+  if (String(document.querySelector('[data-smart-search]')?.value || "").trim()) return false;
+  if (String(document.querySelector('[data-date-from]')?.value || "").trim()) return false;
+  if (String(document.querySelector('[data-date-to]')?.value || "").trim()) return false;
+
   const params = new URLSearchParams(window.location.search);
   for (const key of FILTER_PARAMS) {
     const value = String(params.get(key) || "").trim();
@@ -11,10 +27,7 @@ function currentFilterStateIsNeutral() {
     if (["when", "area", "access", "format", "aud"].includes(key) && value === "todos") continue;
     return false;
   }
-  return document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length === 0
-    && !String(document.querySelector('[data-smart-search]')?.value || "").trim()
-    && !String(document.querySelector('[data-date-from]')?.value || "").trim()
-    && !String(document.querySelector('[data-date-to]')?.value || "").trim();
+  return true;
 }
 
 function resetContextualUrlState() {
@@ -38,11 +51,8 @@ function repairNeutralAgendaVisibility() {
   const directCards = [...grid.querySelectorAll('.event-card[data-event-id]')];
   if (!directCards.length || directCards.some((card) => !card.hidden)) return;
 
-  // The combined-filter layer owns only a secondary copy of the city dataset.
-  // If that fetch fails, it must never hide the already-rendered base agenda.
-  // Neutral filtering therefore fails open to the base renderer, which already
-  // loaded and validated the city data. Exhibition sentinels are restored too
-  // so grouped exhibition cards stay consistent with the recovered base agenda.
+  // Fail open only when the interface is genuinely neutral. Active filters
+  // always win over this recovery layer.
   for (const card of directCards) card.hidden = false;
   for (const sentinel of document.querySelectorAll('[data-static-exhibition-sentinels] .event-card[data-event-id]')) sentinel.hidden = false;
   for (const grouped of grid.querySelectorAll('.event-card[data-event-group]')) grouped.hidden = false;
@@ -61,9 +71,7 @@ function queueVisibilityRepair(delay = 0) {
   repairTimer = setTimeout(() => requestAnimationFrame(repairNeutralAgendaVisibility), delay);
 }
 
-// This module loads only after combined-filters.js has completed its first pass.
-// Use bounded retries rather than a grid MutationObserver, so the safety layer
-// cannot join a render feedback loop during startup.
+// Bounded startup retries; deliberately no grid observer.
 queueVisibilityRepair(0);
 setTimeout(() => queueVisibilityRepair(0), 350);
 setTimeout(() => queueVisibilityRepair(0), 900);
