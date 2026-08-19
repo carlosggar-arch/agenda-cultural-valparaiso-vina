@@ -11,6 +11,9 @@ ROOT = Path(__file__).resolve().parents[2]
 DATASET_PATH = ROOT / "agenda_web.json"
 CLOCK_RE = re.compile(r"\b(?:[01]\d|2[0-3]):[0-5]\d\b")
 ISO_CLOCK_RE = re.compile(r"T((?:[01]\d|2[0-3]):[0-5]\d)")
+TWO_TIME_COMMA_RE = re.compile(
+    r"\b((?:[01]\d|2[0-3]):[0-5]\d)\s*,\s*((?:[01]\d|2[0-3]):[0-5]\d)\b"
+)
 
 
 def day(value: object) -> str | None:
@@ -43,12 +46,56 @@ def date_range_text(schedule: dict) -> str | None:
     return start_day
 
 
+def structured_session_starts(schedule: dict) -> set[tuple[str, str]]:
+    starts: set[tuple[str, str]] = set()
+    for occurrence in schedule.get("occurrences") or []:
+        if not isinstance(occurrence, dict):
+            continue
+        occurrence_day = day(occurrence.get("start"))
+        occurrence_clock = iso_clock(occurrence.get("start"))
+        if occurrence_day and occurrence_clock:
+            starts.add((occurrence_day, occurrence_clock))
+    return starts
+
+
+def has_multiple_structured_sessions(schedule: dict) -> bool:
+    return len(structured_session_starts(schedule)) >= 2
+
+
+def simple_two_clock_interval(schedule: dict) -> str | None:
+    """Return HH:MM–HH:MM when a flat two-clock list is start/end.
+
+    Public presentation rule for both Valparaíso/Viña and Gijón:
+    - exactly two ordered comma-separated clock values;
+    - no structured evidence of independent sessions;
+    - when a timed structured start exists, it must match the first clock.
+
+    A single known clock is intentionally left as start-only. We never invent
+    a closing time.
+    """
+    display = str(schedule.get("display_text") or "").strip()
+    clocks = CLOCK_RE.findall(display)
+    if len(clocks) != 2 or clocks == ["00:00", "23:59"]:
+        return None
+    if not TWO_TIME_COMMA_RE.search(display):
+        return None
+    if has_multiple_structured_sessions(schedule):
+        return None
+    first, second = clocks
+    if minutes(first) >= minutes(second):
+        return None
+    structured_start = iso_clock(schedule.get("start"))
+    if structured_start and structured_start != first:
+        return None
+    return f"{first}–{second}"
+
+
 def paired_flattened_ranges(schedule: dict) -> list[str] | None:
     if schedule.get("mode") != "multi_day":
         return None
     display = str(schedule.get("display_text") or "").strip()
     clocks = CLOCK_RE.findall(display)
-    if len(clocks) != 4:
+    if len(clocks) != 4 or has_multiple_structured_sessions(schedule):
         return None
     start_day = day(schedule.get("start"))
     end_day = day(schedule.get("end"))
@@ -83,23 +130,30 @@ def normalize_schedule(schedule: dict) -> list[str]:
         if iso_clock(end) == "23:59":
             schedule["end"] = day(end)
             changes.append("end")
-        return changes
+        return sorted(set(changes))
+
+    opening_hours = schedule.get("opening_hours")
+    opening_text = str(opening_hours.get("display_text") or "").strip() if isinstance(opening_hours, dict) else ""
+    if opening_text and range_text:
+        # Opening hours are a separate concept from the event date span.
+        if schedule.get("mode") == "multi_day" and schedule.get("display_text") != range_text:
+            schedule["display_text"] = range_text
+            changes.append("display_text")
+        return sorted(set(changes))
+
+    interval = simple_two_clock_interval(schedule)
+    if interval and range_text:
+        normalized = f"{range_text} · {interval}"
+        if schedule.get("display_text") != normalized:
+            schedule["display_text"] = normalized
+            changes.append("display_text")
+        return sorted(set(changes))
 
     ranges = paired_flattened_ranges(schedule)
     if ranges and range_text:
         normalized = f"{range_text} · {' · '.join(ranges)}"
         if schedule.get("display_text") != normalized:
             schedule["display_text"] = normalized
-            changes.append("display_text")
-
-    opening_hours = schedule.get("opening_hours")
-    opening_text = str(opening_hours.get("display_text") or "").strip() if isinstance(opening_hours, dict) else ""
-    if opening_text and range_text:
-        # Opening hours have their own authoritative field. Keep the event
-        # display_text date-only so start/end edge clocks cannot masquerade as
-        # a continuous multi-day event interval.
-        if schedule.get("mode") == "multi_day" and schedule.get("display_text") != range_text:
-            schedule["display_text"] = range_text
             changes.append("display_text")
 
     return sorted(set(changes))
