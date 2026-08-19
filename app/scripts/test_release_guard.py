@@ -156,6 +156,7 @@ def check_workflow_guard() -> None:
     assert "python app/scripts/test_startup_resilience_browser.py" in required, "real startup resilience browser probe is not required before merge"
     assert "node app/startup-architecture.test.mjs" in required, "startup architecture contract is not required before merge"
     assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
+    assert "node app/date-filter-architecture.test.mjs" in required, "date-filter single-source contract is not required before merge"
     assert 'PWA v33' not in workflow, "stale PWA v33 assertion remains in workflow"
     assert 'CACHE_VERSION = \\"v40\\"' not in workflow and 'CACHE_VERSION = "v40"' not in workflow, (
         "stale cache v40 assertion remains in workflow"
