@@ -1,17 +1,24 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T20:57:25-04:00",
+  "generated_at": "2026-08-18T21:15:11-04:00",
   "current_events": 162,
   "events_with_images_before": 90,
   "missing_images_before": 72,
   "fetched_pages": 10,
-  "recovered_event_specific_images": 0,
+  "recovered_event_specific_images": 1,
   "fetch_errors": 0,
-  "no_confident_match": 5,
-  "missing_images_after": 72,
-  "representative_fallback_available_after": 8,
-  "event_specific_image_pct_after": 55.6,
+  "no_confident_match": 4,
+  "missing_images_after": 71,
+  "representative_fallback_available_after": 7,
+  "event_specific_image_pct_after": 56.2,
   "rows": [
+    {
+      "id": "agenda_e7e2a4a89dc447f9bd2633e7",
+      "state": "recovered",
+      "url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
+      "match_score": 1.0,
+      "image_url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png"
+    },
     {
       "id": "agenda_67defc9c064344e04c20aca6",
       "state": "matched_but_no_event_image",
@@ -77,9 +84,7 @@
     },
     {
       "id": "agenda_portaltickets_valparaiso_04b3bfd7a67d38f5",
-      "state": "no_confident_event_match",
-      "url": "https://www.portaldisc.com/evento/elcoloramorvalpo",
-      "match_score": 0.0,
+      "state": "fetch_budget_exhausted",
       "representative_available": false
     },
     {
@@ -191,11 +196,6 @@
       "id": "agenda_portaltickets_valparaiso_15aea203910e1fe5",
       "state": "fetch_budget_exhausted",
       "representative_available": false
-    },
-    {
-      "id": "agenda_60f99e3a996e3f091586f0d1",
-      "state": "fetch_budget_exhausted",
-      "representative_available": true
     },
     {
       "id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
