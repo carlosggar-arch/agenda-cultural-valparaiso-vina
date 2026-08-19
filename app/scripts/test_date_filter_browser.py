@@ -31,32 +31,48 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def dump_dom(url: str, label: str) -> str:
-    with tempfile.TemporaryDirectory(prefix=f"vivamos-date-{label}-", ignore_cleanup_errors=True) as profile:
-        cmd = [
-            chrome_binary(),
-            "--headless=new",
-            "--no-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-background-networking",
-            "--disable-component-update",
-            "--disable-default-apps",
-            "--disable-extensions",
-            "--disable-sync",
-            "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
-            "--metrics-recording-only",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--window-size=1280,900",
-            "--virtual-time-budget=9000",
-            f"--user-data-dir={profile}",
-            "--dump-dom",
-            url,
-        ]
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=40)
-        if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome date-filter probe failed ({label}): {result.stderr[-1600:]}")
-        return result.stdout
+    last_error = ""
+    for attempt in range(1, 3):
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-date-{label}-", ignore_cleanup_errors=True) as profile:
+            cmd = [
+                chrome_binary(),
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-background-networking",
+                "--disable-component-update",
+                "--disable-default-apps",
+                "--disable-extensions",
+                "--disable-sync",
+                "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
+                "--metrics-recording-only",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--window-size=1280,900",
+                "--virtual-time-budget=9000",
+                f"--user-data-dir={profile}",
+                "--dump-dom",
+                url,
+            ]
+            try:
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=40)
+            except subprocess.TimeoutExpired as exc:
+                last_error = f"timeout after {exc.timeout}s"
+                if attempt < 2:
+                    time.sleep(1)
+                    continue
+                raise AssertionError(f"Chrome date-filter probe timed out twice ({label}): {last_error}") from exc
+
+            # Hosted Chrome can return a non-zero code because of DBus/crashpad
+            # noise after --dump-dom already produced a complete DOM. The DOM
+            # assertions below decide whether the application actually passed.
+            if result.stdout:
+                return result.stdout
+            last_error = result.stderr[-1600:] or f"exit={result.returncode}, empty DOM"
+            if attempt < 2:
+                time.sleep(1)
+    raise AssertionError(f"Chrome date-filter probe failed twice ({label}): {last_error}")
 
 
 def card_tag(dom: str, event_id: str) -> str:
