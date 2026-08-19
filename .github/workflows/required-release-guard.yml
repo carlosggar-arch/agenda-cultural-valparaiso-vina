@@ -32,6 +32,7 @@ jobs:
             app/scripts/test_contextual_filters.py \
             app/scripts/test_first_render_browser.py \
             app/scripts/test_startup_resilience_browser.py \
+            app/scripts/test_date_filter_browser.py \
             app/scripts/test_pwa_install_browser.py \
             app/scripts/test_multicity_source_registry_coverage.py
           node --check app/app.js
@@ -41,6 +42,8 @@ jobs:
           node --check app/app-safe-mode.js
           node --check app/program-visibility-policy.js
           node --check app/session-occurrence-normalizer.js
+          node --check app/combined-filters-safety.js
+          node --check app/normalized-date-filter-guard.js
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/release-version.js
@@ -59,9 +62,10 @@ jobs:
           node app/startup-architecture.test.mjs
           python app/scripts/test_first_render_browser.py
           python app/scripts/test_startup_resilience_browser.py
+          python app/scripts/test_date_filter_browser.py
           python app/scripts/test_multicity_source_registry_coverage.py
 
       - name: Note production browser coverage
         run: |
-          echo "This required check now exercises real normal startup for Valparaiso and Gijon plus the watchdog safe-mode path."
+          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, and exact-date visibility against normalized occurrences."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
