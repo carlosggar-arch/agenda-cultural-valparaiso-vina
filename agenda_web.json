@@ -1,304 +1,16 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-18T21:27:35-04:00",
+  "generated_at": "2026-08-18T22:35:26-04:00",
   "publication_date": "2026-08-18",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 166,
-    "events": 159,
+    "total": 181,
+    "events": 174,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 3
   },
   "events": [
-    {
-      "id": "agenda_ca19a232a35a166ac29363ad",
-      "title": "Clases de salsa y bachata RED Studio",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Lunes a viernes, desde las 18:20",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "RED Studio",
-        "address": "4 Oriente 1072 / Etchevers 268",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 25000,
-        "max_amount": 32000,
-        "display_text": "$25.000 · $32.000 · $25.000 por 4 clases · $32.000 por 8 clases · otros planes"
-      },
-      "links": {
-        "official": "https://www.redstudio.cl/",
-        "tickets": null,
-        "registration": "https://www.redstudio.cl/",
-        "source": "https://www.redstudio.cl/"
-      },
-      "organizer": "RED Studio",
-      "source_name": "RED Studio",
-      "source_url": "https://www.redstudio.cl/",
-      "last_verified_at": "2026-07-12",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-12",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Clases de salsa y bachata en niveles inicial, básico e intermedio.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "inscripción disponible en el sitio oficial",
-      "image": {
-        "url": "https://redsalsa.cl/img/gal3.jpg",
-        "alt": "Clases de salsa y bachata RED Studio",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "source_id": "red_studio"
-    },
-    {
-      "id": "agenda_51b559e62df1dde691c493c5",
-      "title": "Curso particular de joyería 2026 — Natalia Saldías",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Miércoles 09:00–11:30; jueves 09:00–11:30 o 15:30–18:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Taller Natalia Saldías",
-        "address": "Lusitania, Miraflores Bajo",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 75000,
-        "max_amount": 140000,
-        "display_text": "$75.000 · $140.000 · $75.000 mensual sin materiales · $140.000 mensual con materiales"
-      },
-      "links": {
-        "official": "https://www.nataliasaldias.com/clases-particulares/",
-        "tickets": null,
-        "registration": "https://www.nataliasaldias.com/clases-particulares/",
-        "source": "https://www.nataliasaldias.com/clases-particulares/"
-      },
-      "organizer": "Natalia Paz Saldías Donoso",
-      "source_name": "Natalia Paz Saldías Donoso",
-      "source_url": "https://www.nataliasaldias.com/clases-particulares/",
-      "last_verified_at": "2026-07-12",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-12",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Curso recreativo de joyería para nivel principiante o avanzado.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "consulta y confirmación directa con la tallerista",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "natalia_saldias"
-    },
-    {
-      "id": "agenda_def663d9f57fbb5c594c7d02",
-      "title": "Taller permanente de cerámica Le Chat",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Viernes 11:00–13:00 o sábado 15:00–17:00; otros horarios flexibles",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Instituto Le Chat",
-        "address": "Baquedano 325, Recreo",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "valor por confirmar con el organizador"
-      },
-      "links": {
-        "official": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-        "tickets": null,
-        "registration": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-        "source": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/"
-      },
-      "organizer": "Instituto Le Chat",
-      "source_name": "Instituto Le Chat",
-      "source_url": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-      "last_verified_at": "2026-07-12",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-12",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Taller continuo en el que cada participante avanza a su ritmo.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "permite incorporarse durante el año",
-      "image": {
-        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
-        "alt": "Taller permanente de cerámica Le Chat",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "source_id": "instituto_le_chat"
-    },
-    {
-      "id": "agenda_10ba69e08963eace52ab8593",
-      "title": "Tours guiados de Valparaíso Trekking — consulta de fecha",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "naturaleza-deportes",
-        "label": "Naturaleza y deportes"
-      },
-      "categories": [
-        {
-          "id": "naturaleza-deportes",
-          "label": "Naturaleza y deportes"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario flexible",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Región de Valparaíso; operador con sede en Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking",
-        "tickets": null,
-        "registration": "https://valparaisotrekking.cl/pages/servicios",
-        "source": "https://valparaisotrekking.cl/pages/servicios"
-      },
-      "organizer": "Valparaíso Trekking SpA",
-      "source_name": "Valparaíso Trekking SpA",
-      "source_url": "https://valparaisotrekking.cl/pages/servicios",
-      "last_verified_at": "2026-07-16",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-16",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Actividad: Tours guiados de trekking. Consulta de fecha y disponibilidad; no se asigna una fecha artificial. Inscripción: https://valparaisotrekking.cl/pages/servicios",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "Consulta de fecha y disponibilidad; no se asigna una fecha artificial",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "valparaiso_trekking"
-    },
     {
       "id": "agenda_valpocultura_recovery_971bd421084a1a0b",
       "title": "Centex – Cartelera Agosto",
@@ -1327,176 +1039,6 @@
       }
     },
     {
-      "id": "agenda_55a0a565c3444bd69dca4f87",
-      "title": "El Día D: Bajo Presión",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-18T15:00:00-03:00",
-        "end": "2026-08-18T17:00:00-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "18-08-2026 15:00 – 18-08-2026 17:00",
-        "occurrences": [
-          {
-            "start": "2026-08-18T15:00:00-04:00",
-            "end": null
-          }
-        ],
-        "start_confidence": "official_revalidation",
-        "end_confidence": "official_revalidation"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara #142, Cine Arte Viña del Mar, V Región",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-        "tickets": "https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-        "registration": null,
-        "source": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260"
-      },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "last_verified_at": "2026-08-18T16:32:09-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-18T16:32:09-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar-544260-rec.jpg",
-        "alt": "El Día D: Bajo Presión",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "last_automatic_revalidation_at": "2026-08-18T11:14:03-04:00",
-        "automatic_revalidation_fields": [
-          "address",
-          "end",
-          "price",
-          "start"
-        ]
-      }
-    },
-    {
-      "id": "agenda_33be80711267454b771e5406",
-      "title": "Mil pedazos.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-18T15:00:00-03:00",
-        "end": "2026-08-18T16:30:00-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "18-08-2026 15:00 – 18-08-2026 16:30",
-        "occurrences": [],
-        "start_confidence": "official_revalidation",
-        "end_confidence": "official_revalidation"
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": "Condell 1585, Insomnia Teatro Condell, V Región",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.passline.com/eventos/mil-pedazos-546122",
-        "tickets": "https://www.passline.com/eventos/mil-pedazos-546122",
-        "registration": null,
-        "source": "https://www.passline.com/eventos/mil-pedazos-546122"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/mil-pedazos-546122",
-      "last_verified_at": "2026-08-18T16:32:09-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-18T16:32:09-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Martes 18 de agosto, 15:00 hrs",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/mil-pedazos-546122-rec.jpg",
-        "alt": "Mil pedazos.",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "last_automatic_revalidation_at": "2026-08-18T11:14:03-04:00",
-        "automatic_revalidation_fields": [
-          "address",
-          "end",
-          "start"
-        ]
-      }
-    },
-    {
       "id": "agenda_650e95f9b205b8665b0bce6d",
       "title": "Ciclo taller EL ARTE ES NATURAL",
       "event_type": "event",
@@ -1567,8 +1109,8 @@
       }
     },
     {
-      "id": "agenda_c178de14e87c2c3936ddc5c9",
-      "title": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
+      "id": "agenda_cinema_29ea1af59888f64447af",
+      "title": "El Dia D Bajo Presion",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -1581,154 +1123,72 @@
         }
       ],
       "schedule": {
-        "mode": "recurring",
-        "start": "2026-08-18T17:00:00-04:00",
-        "end": "2026-08-24",
+        "mode": "single",
+        "start": "2026-08-18T15:00:00-04:00",
+        "end": "2026-08-18T15:00:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-18 · 17:00, 17:30, 15:00",
-        "occurrences": [
-          {
-            "start": "2026-08-18T17:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-21T17:30:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-24T15:00:00-04:00",
-            "end": null
-          }
-        ]
+        "display_text": "2026-08-18 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
       },
       "price": {
-        "is_free": false,
+        "is_free": null,
         "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
       },
       "links": {
-        "official": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
-        "tickets": "https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164",
+        "official": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar",
         "registration": null,
-        "source": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164"
+        "source": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
-      "last_verified_at": "2026-08-18",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-el-dia-d-bajo-presion-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": true,
+        "price_confirmed": false,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 17:00 hrs; viernes 21 de agosto de 2026, 17:30 hrs; lunes 24 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/calle-m...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164-rec.jpg",
-        "alt": "Calle Malaga (2025)+ Hito Convenio Espacio Cultural Viña del Mar",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      }
-    },
-    {
-      "id": "agenda_adf4b405879e1a7f7843dcf9",
-      "title": "La odisea.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
+      "description": "Función confirmada por Cine Arte Viña del Mar. El Dia D Bajo Presion Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 15:00 hrs. Fecha: 18 de agosto de 2026. Horario: martes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Precio por confirmar. Comprar entradas: https://www.passline.com/eventos/el-dia-d-bajo-presion-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
       ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-18T17:45:00-03:00",
-        "end": "2026-08-18T21:00:00-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "18-08-2026 · 17:45–21:00",
-        "occurrences": [],
-        "start_confidence": "official_revalidation",
-        "end_confidence": "official_revalidation"
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": "Condell 1585, Insomnia Teatro Condell, V Región",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.passline.com/eventos/la-odisea-546118",
-        "tickets": "https://www.passline.com/eventos/la-odisea-546118",
-        "registration": null,
-        "source": "https://www.passline.com/eventos/la-odisea-546118"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/la-odisea-546118",
-      "last_verified_at": "2026-08-18T21:41:30-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-18T21:41:30-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Martes 18 de agosto, 17:45 hrs; Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:45 hrs; Domingo 23 de agosto, 15:00 hrs",
-      "tags": [],
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/la-odisea-546118-rec.jpg",
-        "alt": "La odisea.",
-        "source": "official_page_metadata",
+        "url": "https://home.passline.com/assets/img/icon.png",
+        "alt": "El Dia D Bajo Presion",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
       },
       "editorial": {
-        "last_automatic_revalidation_at": "2026-08-18T20:56:42-04:00",
-        "automatic_revalidation_fields": [
-          "display_text"
-        ]
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -1903,8 +1363,8 @@
       }
     },
     {
-      "id": "agenda_f28fef11281f94aefe71e4a1",
-      "title": "Perros de la Calle (1992)",
+      "id": "agenda_cinema_c55522086564c5ddd998",
+      "title": "Perros de la Calle 1992",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -1917,36 +1377,31 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
-        "start": "2026-08-18T19:30:00-03:00",
-        "end": "2026-08-18T21:30:00-03:00",
+        "mode": "single",
+        "start": "2026-08-18T19:30:00-04:00",
+        "end": "2026-08-18T19:30:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "18-08-2026 · 19:30–21:30",
-        "occurrences": [
-          {
-            "start": "2026-08-18T19:30:00-04:00",
-            "end": null
-          }
-        ],
-        "start_confidence": "official_revalidation",
-        "end_confidence": "official_revalidation"
+        "display_text": "2026-08-18 · 19:30",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": "Plaza Vergara #142, Cine Arte Viña del Mar, V Región",
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
       },
       "price": {
-        "is_free": false,
+        "is_free": null,
         "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "Entrada General · $4.000"
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "Consultar condiciones"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar",
@@ -1954,37 +1409,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-perros-de-la-calle-1992-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18T21:41:30-04:00",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:41:30-04:00",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": true,
+        "price_confirmed": false,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Perros de la Calle 1992 Función dentro de la cartelera semanal de Cine Arte Viña del Mar. Funciones: martes 18 de agosto de 2026, 19:30 hrs. Fecha: 18 de agosto de 2026. Horario: martes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Precio por confirmar. Comprar entradas: https://www.passline.com/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/perros-de-la-calle-1992-cine-arte-vina-del-mar-544724-rec.jpg",
-        "alt": "Perros de la Calle (1992)",
-        "source": "official_page_metadata",
+        "url": "https://home.passline.com/assets/img/icon.png",
+        "alt": "Perros de la Calle 1992",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
       },
       "editorial": {
-        "last_automatic_revalidation_at": "2026-08-18T20:56:42-04:00",
-        "automatic_revalidation_fields": [
-          "display_text"
-        ]
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -2531,7 +1989,7 @@
       }
     },
     {
-      "id": "agenda_6613632fe7801c00aa272f54",
+      "id": "agenda_cinema_9531c9ead643b3490477",
       "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
       "event_type": "event",
       "primary_category": {
@@ -2545,32 +2003,21 @@
         }
       ],
       "schedule": {
-        "mode": "recurring",
+        "mode": "single",
         "start": "2026-08-19T13:00:00-04:00",
-        "end": "2026-08-25",
+        "end": "2026-08-19T13:00:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-19 · 13:00, 18:00",
-        "occurrences": [
-          {
-            "start": "2026-08-19T13:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-19T18:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-25T18:00:00-04:00",
-            "end": null
-          }
-        ]
+        "display_text": "2026-08-19 · 13:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2580,7 +2027,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
@@ -2588,36 +2035,45 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs; martes 25 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte...",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs; martes 25 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026; 25 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs; martes 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
         "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
-      "id": "agenda_4ab52ce49d07e0e9b85121e4",
-      "title": "Gattaca: Experimento genético.",
+      "id": "agenda_cinema_94fe0a4864dbb6ad343c",
+      "title": "Gattaca: Experimento genético",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -2630,19 +2086,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-19T15:00:00-04:00",
-        "end": null,
+        "end": "2026-08-19T15:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-19 · 15:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "insomnia-teatro-condell",
+        "venue_id": "insomniacine",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2660,35 +2118,44 @@
         "registration": null,
         "source": "https://www.passline.com/eventos/gattaca-experimento-genetico"
       },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/gattaca-experimento-genetico",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Miércoles 19 de agosto, 15:00 hrs",
-      "tags": [],
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Gattaca: Experimento genético. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Miércoles 19 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/gattaca-experimento-genetico-546135-rec.jpg",
-        "alt": "Gattaca: Experimento genético.",
-        "source": "official_page_metadata",
+        "alt": "Gattaca: Experimento genético",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
-      "id": "agenda_8ab5c118c8812dadd6aaacc6",
+      "id": "agenda_cinema_5f015daf7008ebb8cecb",
       "title": "La Odisea (2026)",
       "event_type": "event",
       "primary_category": {
@@ -2702,40 +2169,21 @@
         }
       ],
       "schedule": {
-        "mode": "recurring",
+        "mode": "single",
         "start": "2026-08-19T15:00:00-04:00",
-        "end": "2026-08-26",
+        "end": "2026-08-19T15:00:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-19 · 15:00, 17:00",
-        "occurrences": [
-          {
-            "start": "2026-08-19T15:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-20T15:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-23T15:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-25T15:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-26T17:00:00-04:00",
-            "end": null
-          }
-        ]
+        "display_text": "2026-08-19 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2745,7 +2193,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
@@ -2753,31 +2201,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs; jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs...",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs; jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 19 de agosto de 2026; 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: miércoles 15:00 hrs; jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
         "alt": "La Odisea (2026)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -2866,8 +2323,8 @@
       }
     },
     {
-      "id": "agenda_7e1120584cb46a5a56180f88",
-      "title": "La invitación.",
+      "id": "agenda_cinema_12c87725d899d24a8316",
+      "title": "La invitación",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -2880,19 +2337,21 @@
         }
       ],
       "schedule": {
-        "mode": "multi_day",
+        "mode": "single",
         "start": "2026-08-19T17:00:00-04:00",
-        "end": "2026-08-20",
+        "end": "2026-08-19T17:00:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-19 · 17:00, 15:00",
-        "occurrences": []
+        "display_text": "2026-08-19 · 17:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "insomnia-teatro-condell",
+        "venue_id": "insomniacine",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -2910,31 +2369,123 @@
         "registration": null,
         "source": "https://www.passline.com/eventos/la-invitacion-546124"
       },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/la-invitacion-546124",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Miércoles 19 de agosto, 17:00 hrs; Jueves 20 de agosto, 15:00 hrs",
-      "tags": [],
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La invitación. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Miércoles 19 de agosto, 17:00 hrs; Jueves 20 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/la-invitacion-546124-rec.jpg",
-        "alt": "La invitación.",
-        "source": "official_page_metadata",
+        "alt": "La invitación",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_67a31fdf4c9667dca84d",
+      "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-19T18:00:00-04:00",
+        "end": "2026-08-19T18:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-19 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs; martes 25 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026; 25 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs; martes 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
+        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -3156,7 +2707,7 @@
       }
     },
     {
-      "id": "agenda_246c9e7244f3e0fd38827556",
+      "id": "agenda_cinema_a3a5f08f5c7055a0c0f4",
       "title": "Blue Valentine (2010)",
       "event_type": "event",
       "primary_category": {
@@ -3170,24 +2721,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-19T20:00:00-04:00",
-        "end": null,
+        "end": "2026-08-19T20:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-19 · 20:00",
-        "occurrences": [
-          {
-            "start": "2026-08-19T20:00:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -3197,7 +2745,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar",
@@ -3205,35 +2753,293 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-blue-valentine-2010-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs.Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Blue Valentine (2010) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 20:00 hrs. Fecha: 19 de agosto de 2026. Horario: miércoles 20:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/blue-valentine-2010-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/blue-valentine-2010-cine-arte-vina-del-mar-rec.jpg",
         "alt": "Blue Valentine (2010)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
-      "id": "agenda_78a395c8d6980d1679196a95",
+      "id": "agenda_cinema_89fad76159b4f9f63f23",
+      "title": "La invitación",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-20T15:00:00-04:00",
+        "end": "2026-08-20T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-20 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/la-invitacion-546124",
+        "tickets": "https://www.passline.com/eventos/la-invitacion-546124",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/la-invitacion-546124"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/la-invitacion-546124",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La invitación. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Miércoles 19 de agosto, 17:00 hrs; Jueves 20 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-invitacion-546124-rec.jpg",
+        "alt": "La invitación",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_80ddbf36d7706645c9cc",
+      "title": "La Odisea (2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-20T15:00:00-04:00",
+        "end": "2026-08-20T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-20 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs; jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 19 de agosto de 2026; 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: miércoles 15:00 hrs; jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
+        "alt": "La Odisea (2026)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_ba27d66cc859b30a8f0a",
+      "title": "La odisea",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-20T17:10:00-04:00",
+        "end": "2026-08-20T17:10:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-20 · 17:10",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/la-odisea-546119",
+        "tickets": "https://www.passline.com/eventos/la-odisea-546119",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/la-odisea-546119"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/la-odisea-546119",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:45 hrs; Domingo 23 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-546119-rec.jpg",
+        "alt": "La odisea",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_0185b50a0ec511cdd9ec",
       "title": "La Muerte de Robin Hood",
       "event_type": "event",
       "primary_category": {
@@ -3247,28 +3053,21 @@
         }
       ],
       "schedule": {
-        "mode": "recurring",
+        "mode": "single",
         "start": "2026-08-20T18:00:00-04:00",
-        "end": "2026-08-21",
+        "end": "2026-08-20T18:00:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 18:00, 15:00",
-        "occurrences": [
-          {
-            "start": "2026-08-20T18:00:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-21T15:00:00-04:00",
-            "end": null
-          }
-        ]
+        "display_text": "2026-08-20 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -3278,7 +3077,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
@@ -3286,31 +3085,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
         "alt": "La Muerte de Robin Hood",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -3550,8 +3358,8 @@
       }
     },
     {
-      "id": "agenda_b173bd3c93b9cb2b2acc821e",
-      "title": "Pearl.",
+      "id": "agenda_cinema_e60a0358b48e09591dcc",
+      "title": "Pearl",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -3564,19 +3372,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-20T20:10:00-04:00",
-        "end": null,
+        "end": "2026-08-20T20:10:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-20 · 20:10",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "insomnia-teatro-condell",
+        "venue_id": "insomniacine",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -3594,31 +3404,40 @@
         "registration": null,
         "source": "https://www.passline.com/eventos/pearl-546140"
       },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/pearl-546140",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Jueves 20 de agosto, 20:10 hrs",
-      "tags": [],
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Pearl. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 20:10 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/pearl-546140-rec.jpg",
-        "alt": "Pearl.",
-        "source": "official_page_metadata",
+        "alt": "Pearl",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -3705,7 +3524,7 @@
       }
     },
     {
-      "id": "agenda_611565f0e8baa963ee0e0be5",
+      "id": "agenda_cinema_295160d63e666d9784b9",
       "title": "The Doors: The Final Cut (1991-2026)",
       "event_type": "event",
       "primary_category": {
@@ -3719,28 +3538,21 @@
         }
       ],
       "schedule": {
-        "mode": "recurring",
+        "mode": "single",
         "start": "2026-08-20T20:30:00-04:00",
-        "end": "2026-08-23",
+        "end": "2026-08-20T20:30:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 20:30, 18:00",
-        "occurrences": [
-          {
-            "start": "2026-08-20T20:30:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-23T18:00:00-04:00",
-            "end": null
-          }
-        ]
+        "display_text": "2026-08-20 · 20:30",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -3750,7 +3562,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
@@ -3758,36 +3570,45 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vin...",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
         "alt": "The Doors: The Final Cut (1991-2026)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
-      "id": "agenda_c69d51a400cea7ba8e9e29f8",
-      "title": "Spider-Man: Un nuevo día.",
+      "id": "agenda_cinema_642656d914c0f022cdcf",
+      "title": "La Muerte de Robin Hood",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -3800,19 +3621,104 @@
         }
       ],
       "schedule": {
-        "mode": "multi_day",
+        "mode": "single",
         "start": "2026-08-21T15:00:00-04:00",
-        "end": "2026-08-22",
+        "end": "2026-08-21T15:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-21 · 15:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "insomnia-teatro-condell",
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
+        "alt": "La Muerte de Robin Hood",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_b0f9cd44000d374b8723",
+      "title": "Spider-Man: Un nuevo día",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-21T15:00:00-04:00",
+        "end": "2026-08-21T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-21 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -3830,31 +3736,40 @@
         "registration": null,
         "source": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546126"
       },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546126",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Viernes 21 de agosto, 15:00 hrs; Sábado 22 de agosto, 15:00 hrs",
-      "tags": [],
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Spider-Man: Un nuevo día. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Viernes 21 de agosto, 15:00 hrs; Sábado 22 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/spiderman-un-nuevo-dia-546126-rec.jpg",
-        "alt": "Spider-Man: Un nuevo día.",
-        "source": "official_page_metadata",
+        "alt": "Spider-Man: Un nuevo día",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -3932,6 +3847,172 @@
       "image": {
         "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-07/image.png",
         "alt": "Conversatorio sobre Émile Dubois y su vínculo con la historia porteña"
+      }
+    },
+    {
+      "id": "agenda_cinema_5ee2f4f5596cbda91c68",
+      "title": "Calle Malaga (2025)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-21T17:30:00-04:00",
+        "end": "2026-08-21T17:30:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-21 · 17:30",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
+        "tickets": "https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. Calle Malaga (2025) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 17:30 hrs; lunes 24 de agosto de 2026, 15:00 hrs. Fecha: 21 de agosto de 2026; 24 de agosto de 2026. Horario: viernes 17:30 hrs; lunes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164-rec.jpg",
+        "alt": "Calle Malaga (2025)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_7e1c788bfd3f967b7583",
+      "title": "La odisea",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-21T17:45:00-04:00",
+        "end": "2026-08-21T17:45:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-21 · 17:45",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/la-odisea-546119",
+        "tickets": "https://www.passline.com/eventos/la-odisea-546119",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/la-odisea-546119"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/la-odisea-546119",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:45 hrs; Domingo 23 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-546119-rec.jpg",
+        "alt": "La odisea",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -4189,7 +4270,7 @@
       }
     },
     {
-      "id": "agenda_1740e4aa552f79135839e5b9",
+      "id": "agenda_cinema_806946634d753dfa6b80",
       "title": "Marie Antoinette (20 Aniversario)",
       "event_type": "event",
       "primary_category": {
@@ -4203,24 +4284,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-21T19:30:00-04:00",
-        "end": null,
+        "end": "2026-08-21T19:30:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-21 · 19:30",
-        "occurrences": [
-          {
-            "start": "2026-08-21T19:30:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -4230,7 +4308,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
@@ -4238,31 +4316,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Marie Antoinette (20 Aniversario) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 19:30 hrs. Fecha: 21 de agosto de 2026. Horario: viernes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar-537547-rec.jpg",
         "alt": "Marie Antoinette (20 Aniversario)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -4438,8 +4525,8 @@
       }
     },
     {
-      "id": "agenda_1a55c8e4c92db5d2263ba2a8",
-      "title": "Crash: Extraños placeres.",
+      "id": "agenda_cinema_77605312d9af26794190",
+      "title": "Crash: Extraños placeres",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -4452,19 +4539,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-21T21:00:00-04:00",
-        "end": null,
+        "end": "2026-08-21T21:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-21 · 21:00",
-        "occurrences": []
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "insomnia-teatro-condell",
+        "venue_id": "insomniacine",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -4482,31 +4571,40 @@
         "registration": null,
         "source": "https://www.passline.com/eventos/crash-extranos-placeres"
       },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/crash-extranos-placeres",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Viernes 21 de agosto, 21:00 hrs",
-      "tags": [],
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Crash: Extraños placeres. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Viernes 21 de agosto, 21:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/crash-extranos-placeres-546142-rec.jpg",
-        "alt": "Crash: Extraños placeres.",
-        "source": "official_page_metadata",
+        "alt": "Crash: Extraños placeres",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -5344,6 +5442,89 @@
       }
     },
     {
+      "id": "agenda_cinema_421b9c209e42c15fc0b4",
+      "title": "Spider-Man: Un nuevo día",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-22T15:00:00-04:00",
+        "end": "2026-08-22T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546126",
+        "tickets": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546126",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546126"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546126",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Spider-Man: Un nuevo día. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Viernes 21 de agosto, 15:00 hrs; Sábado 22 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/spiderman-un-nuevo-dia-546126-rec.jpg",
+        "alt": "Spider-Man: Un nuevo día",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
       "id": "agenda_36631639a2e2b3dac3e9be67",
       "title": "EN VIVO:",
       "event_type": "event",
@@ -5416,8 +5597,8 @@
       }
     },
     {
-      "id": "agenda_c284bf1bccf17498e7c74b3c",
-      "title": "Adolescencia, sexo y muerte en Campamento Miasma.",
+      "id": "agenda_cinema_23077bf7f9a944762fed",
+      "title": "Adolescencia, sexo y muerte en Campamento Miasma",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -5430,19 +5611,21 @@
         }
       ],
       "schedule": {
-        "mode": "multi_day",
+        "mode": "single",
         "start": "2026-08-22T17:45:00-04:00",
-        "end": "2026-08-23",
+        "end": "2026-08-22T17:45:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-22 · 17:45, 18:00",
-        "occurrences": []
+        "display_text": "2026-08-22 · 17:45",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "insomnia-teatro-condell",
+        "venue_id": "insomniacine",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -5460,31 +5643,40 @@
         "registration": null,
         "source": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128"
       },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128",
-      "last_verified_at": null,
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": null,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Sábado 22 de agosto, 17:45 hrs; Domingo 23 de agosto, 18:00 hrs",
-      "tags": [],
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Adolescencia, sexo y muerte en Campamento Miasma. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Sábado 22 de agosto, 17:45 hrs; Domingo 23 de agosto, 18:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128-rec.jpg",
-        "alt": "Adolescencia, sexo y muerte en Campamento Miasma.",
-        "source": "official_page_metadata",
+        "alt": "Adolescencia, sexo y muerte en Campamento Miasma",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -5647,6 +5839,89 @@
         "detail_verified_at": "2026-08-18T21:41:10-04:00",
         "partial_ticket_availability": true,
         "last_tickets": true
+      }
+    },
+    {
+      "id": "agenda_cinema_27d4c2d95cdbe0c8bea3",
+      "title": "Backrooms: Version Extendida",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-22T20:00:00-04:00",
+        "end": "2026-08-22T20:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 20:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/backrooms-version-extendida-546604",
+        "tickets": "https://www.passline.com/eventos/backrooms-version-extendida-546604",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/backrooms-version-extendida-546604"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/backrooms-version-extendida-546604",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Backrooms: Version Extendida. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Sábado 22 de agosto, 20:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/backrooms-version-extendida-546604-rec.jpg",
+        "alt": "Backrooms: Version Extendida",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -5902,78 +6177,6 @@
         "classification": "event",
         "reason": "official_linktree_passline_refresh",
         "ticket_url": "https://www.passline.com/eventos/sonora-baron-sinergia-cumpleanos-23-trotamundos-valparaiso"
-      }
-    },
-    {
-      "id": "agenda_79d17241ef9175abb6906656",
-      "title": "Backrooms Version Extendida.",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-22T21:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-22 · 21:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "insomnia-teatro-condell",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Insomnia Teatro Condell",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "$4.000"
-      },
-      "links": {
-        "official": "https://www.passline.com/eventos/backrooms-version-extendida-546130",
-        "tickets": "https://www.passline.com/eventos/backrooms-version-extendida-546130",
-        "registration": null,
-        "source": "https://www.passline.com/eventos/backrooms-version-extendida-546130"
-      },
-      "organizer": "Insomnia Cine",
-      "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/backrooms-version-extendida-546130",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Sábado 22 de agosto, 21:00 hrs",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/backrooms-version-extendida-546130-rec.jpg",
-        "alt": "Backrooms Version Extendida.",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
       }
     },
     {
@@ -6276,6 +6479,172 @@
       }
     },
     {
+      "id": "agenda_cinema_dc14f15b93c6f4d7f5b2",
+      "title": "La odisea",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-23T15:00:00-04:00",
+        "end": "2026-08-23T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-23 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/la-odisea-546119",
+        "tickets": "https://www.passline.com/eventos/la-odisea-546119",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/la-odisea-546119"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/la-odisea-546119",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:45 hrs; Domingo 23 de agosto, 15:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-546119-rec.jpg",
+        "alt": "La odisea",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_2b9c2c70dd899aca993c",
+      "title": "La Odisea (2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-23T15:00:00-04:00",
+        "end": "2026-08-23T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-23 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs; jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 19 de agosto de 2026; 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: miércoles 15:00 hrs; jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
+        "alt": "La Odisea (2026)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
       "price": {
         "currency": "CLP",
         "display_text": "Gratis",
@@ -6438,6 +6807,172 @@
       }
     },
     {
+      "id": "agenda_cinema_d1e5006686db34c43df6",
+      "title": "Adolescencia, sexo y muerte en Campamento Miasma",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-23T18:00:00-04:00",
+        "end": "2026-08-23T18:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-23 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 4000,
+        "display_text": "$4.000"
+      },
+      "links": {
+        "official": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128",
+        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128",
+        "registration": null,
+        "source": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Adolescencia, sexo y muerte en Campamento Miasma. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Sábado 22 de agosto, 17:45 hrs; Domingo 23 de agosto, 18:00 hrs",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128-rec.jpg",
+        "alt": "Adolescencia, sexo y muerte en Campamento Miasma",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_fdc91967cf8e1f7706d7",
+      "title": "The Doors: The Final Cut (1991-2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-23T18:00:00-04:00",
+        "end": "2026-08-23T18:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-23 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+        "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
+        "alt": "The Doors: The Final Cut (1991-2026)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
       "id": "agenda_e4928ff2115c71c2958263c9",
       "title": "Obra “Noche de Reyes”",
       "event_type": "event",
@@ -6508,7 +7043,7 @@
       }
     },
     {
-      "id": "agenda_d938b5ed74baf7c48fb6b297",
+      "id": "agenda_cinema_82e9d4d1d32353eed25c",
       "title": "La Invitación",
       "event_type": "event",
       "primary_category": {
@@ -6522,28 +7057,21 @@
         }
       ],
       "schedule": {
-        "mode": "recurring",
+        "mode": "single",
         "start": "2026-08-23T20:30:00-04:00",
-        "end": "2026-08-26",
+        "end": "2026-08-23T20:30:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-23 · 20:30, 15:00",
-        "occurrences": [
-          {
-            "start": "2026-08-23T20:30:00-04:00",
-            "end": null
-          },
-          {
-            "start": "2026-08-26T15:00:00-04:00",
-            "end": null
-          }
-        ]
+        "display_text": "2026-08-23 · 20:30",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -6553,7 +7081,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168",
@@ -6561,35 +7089,127 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 20:30 hrs; miércoles 26 de agosto de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-546168",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Invitación Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 20:30 hrs; miércoles 26 de agosto de 2026, 15:00 hrs. Fecha: 23 de agosto de 2026; 26 de agosto de 2026. Horario: domingo 20:30 hrs; miércoles 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-546168",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/la-invitacion-cine-arte-vina-del-mar-546168-rec.jpg",
         "alt": "La Invitación",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
-      "id": "agenda_e42a6b80fe70ee4ef124f17d",
+      "id": "agenda_cinema_5d3a0a24fd27ce923439",
+      "title": "Calle Malaga (2025)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-24T15:00:00-04:00",
+        "end": "2026-08-24T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-24 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
+        "tickets": "https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. Calle Malaga (2025) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 17:30 hrs; lunes 24 de agosto de 2026, 15:00 hrs. Fecha: 21 de agosto de 2026; 24 de agosto de 2026. Horario: viernes 17:30 hrs; lunes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164-rec.jpg",
+        "alt": "Calle Malaga (2025)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_468a21ffae3babeddbd7",
       "title": "Obsesión",
       "event_type": "event",
       "primary_category": {
@@ -6603,24 +7223,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-24T17:15:00-04:00",
-        "end": null,
+        "end": "2026-08-24T17:15:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-24 · 17:15",
-        "occurrences": [
-          {
-            "start": "2026-08-24T17:15:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -6630,7 +7247,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-546181",
@@ -6638,35 +7255,44 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-546181"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-546181",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 17:15 hrs.Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-546181",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Obsesión Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 17:15 hrs. Fecha: 24 de agosto de 2026. Horario: lunes 17:15 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-546181",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-546181-rec.jpg",
         "alt": "Obsesión",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
-      "id": "agenda_a3ac6b5483d67fc3f25f5c9f",
+      "id": "agenda_cinema_41b7c0f323fee13942e5",
       "title": "Party Monster (2003)",
       "event_type": "event",
       "primary_category": {
@@ -6680,24 +7306,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-24T19:30:00-04:00",
-        "end": null,
+        "end": "2026-08-24T19:30:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-24 · 19:30",
-        "occurrences": [
-          {
-            "start": "2026-08-24T19:30:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -6707,7 +7330,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Estudiantes y Personas Mayores · $4.000 · Entrada General · $5.500"
+        "display_text": "Estudiantes y Personas Mayores: $4.000 · Entrada General: $5.500"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
@@ -6715,31 +7338,206 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 19:30 hrs.Comprar entradas: https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Party Monster (2003) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 24 de agosto de 2026, 19:30 hrs. Fecha: 24 de agosto de 2026. Horario: lunes 19:30 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Estudiantes y Personas Mayores: $4.000 · Entrada General: $5.500. Comprar entradas: https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/party-monster-2003-cine-arte-vina-del-mar-537543-rec.jpg",
         "alt": "Party Monster (2003)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_fd9132e60d11365a5d42",
+      "title": "La Odisea (2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-25T15:00:00-04:00",
+        "end": "2026-08-25T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-25 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs; jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 19 de agosto de 2026; 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: miércoles 15:00 hrs; jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
+        "alt": "La Odisea (2026)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_896f067d01ed8b013880",
+      "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-25T18:00:00-04:00",
+        "end": "2026-08-25T18:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-25 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+        "tickets": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. Adolescencia, Sexo y Muerte en Camp Miasma Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 13:00 hrs; miércoles 19 de agosto de 2026, 18:00 hrs; martes 25 de agosto de 2026, 18:00 hrs. Fecha: 19 de agosto de 2026; 19 de agosto de 2026; 25 de agosto de 2026. Horario: miércoles 13:00 hrs; miércoles 18:00 hrs; martes 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-543788-rec.jpg",
+        "alt": "Adolescencia, Sexo y Muerte en Camp Miasma",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -6813,7 +7611,7 @@
       }
     },
     {
-      "id": "agenda_43408b27e24060adccd60f44",
+      "id": "agenda_cinema_73b32b58557b2782e61b",
       "title": "El Gran Lebowski (1998)",
       "event_type": "event",
       "primary_category": {
@@ -6827,24 +7625,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-25T20:00:00-04:00",
-        "end": null,
+        "end": "2026-08-25T20:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-25 · 20:00",
-        "occurrences": [
-          {
-            "start": "2026-08-25T20:00:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -6854,7 +7649,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 4000,
-        "display_text": "Entrada General · $4.000"
+        "display_text": "Entrada General: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-el-gran-lebowski-1998-cine-arte-vina-del-mar",
@@ -6862,31 +7657,206 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-el-gran-lebowski-1998-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-el-gran-lebowski-1998-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 25 de agosto de 2026, 20:00 hrs.Comprar entradas: https://www.passline.com/eventos/el-gran-lebowski-1998-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. El Gran Lebowski (1998) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 25 de agosto de 2026, 20:00 hrs. Fecha: 25 de agosto de 2026. Horario: martes 20:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $4.000. Comprar entradas: https://www.passline.com/eventos/el-gran-lebowski-1998-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/el-gran-lebowski-1998-cine-arte-vina-del-mar-rec.jpg",
         "alt": "El Gran Lebowski (1998)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_d049c21c51679f81dea0",
+      "title": "La Invitación",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-26T15:00:00-04:00",
+        "end": "2026-08-26T15:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-26 · 15:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168",
+        "tickets": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-546168",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Invitación Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 20:30 hrs; miércoles 26 de agosto de 2026, 15:00 hrs. Fecha: 23 de agosto de 2026; 26 de agosto de 2026. Horario: domingo 20:30 hrs; miércoles 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-546168",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-invitacion-cine-arte-vina-del-mar-546168-rec.jpg",
+        "alt": "La Invitación",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_a4cad74882939946323e",
+      "title": "La Odisea (2026)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-26T17:00:00-04:00",
+        "end": "2026-08-26T17:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-26 · 17:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "cinearte_vina",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 4000,
+        "max_amount": 5500,
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
+      },
+      "links": {
+        "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+        "registration": null,
+        "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722"
+      },
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
+      },
+      "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada de Cine Arte Viña del Mar. Funciones: miércoles 19 de agosto de 2026, 15:00 hrs; jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 19 de agosto de 2026; 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: miércoles 15:00 hrs; jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-544722-rec.jpg",
+        "alt": "La Odisea (2026)",
+        "source": "passline_event_metadata",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -6960,7 +7930,7 @@
       }
     },
     {
-      "id": "agenda_98b25e130e7446da2181833b",
+      "id": "agenda_cinema_b1a3e5d3eb57a166301c",
       "title": "Melancholia (2011)",
       "event_type": "event",
       "primary_category": {
@@ -6974,24 +7944,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-26T20:00:00-04:00",
-        "end": null,
+        "end": "2026-08-26T20:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-26 · 20:00",
-        "occurrences": [
-          {
-            "start": "2026-08-26T20:00:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -7001,7 +7968,7 @@
         "currency": "CLP",
         "min_amount": 3500,
         "max_amount": 5000,
-        "display_text": "Entrada General · $5.000 · Estudiantes y Personas Mayores · $3.500"
+        "display_text": "Entrada General: $5.000 · Estudiantes y Personas Mayores: $3.500"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-melancholia-2011-cine-arte-vina-del-mar",
@@ -7009,31 +7976,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-melancholia-2011-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-melancholia-2011-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: miércoles 26 de agosto de 2026, 20:00 hrs.Comprar entradas: https://www.passline.com/eventos/melancholia-2011-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Melancholia (2011) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: miércoles 26 de agosto de 2026, 20:00 hrs. Fecha: 26 de agosto de 2026. Horario: miércoles 20:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.000 · Estudiantes y Personas Mayores: $3.500. Comprar entradas: https://www.passline.com/eventos/melancholia-2011-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/melancholia-2011-cine-arte-vina-del-mar-rec.jpg",
         "alt": "Melancholia (2011)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -7446,101 +8422,6 @@
       }
     },
     {
-      "id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
-      "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-28T20:30:00-04:00",
-        "end": "2026-08-28T22:30:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "28-08-2026 · 20:30–22:30",
-        "occurrences": [],
-        "start_confidence": "official_structured_schedule",
-        "end_confidence": "official_structured_schedule"
-      },
-      "location": {
-        "venue_id": "casa_cultura_valparaiso",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Casa de la Cultura de Valparaíso",
-        "address": "Cochrane 568, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 8000,
-        "max_amount": 8000,
-        "display_text": "$8.000"
-      },
-      "links": {
-        "official": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
-      },
-      "organizer": "Casa de la Cultura de Valparaíso",
-      "source_id": "valpocultura",
-      "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-      "last_verified_at": "2026-08-18T21:41:25-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-18T21:41:25-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Fuente secundaria oficial municipal; confirma condiciones en la ficha enlazada."
-      },
-      "description": "Cobertura municipal oficial de programación de Casa de la Cultura de Valparaíso.",
-      "tags": [
-        "Música",
-        "Casa de la Cultura de Valparaíso",
-        "Valpo Cultura"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-17-100102.png",
-        "alt": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-        "source": "official_municipal_cross_source",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cross_source:valpocultura",
-        "covered_source_ids": [
-          "casa_cultura_valparaiso"
-        ],
-        "duration_days": 0,
-        "schedule_authority_fields": [
-          "display_text",
-          "end",
-          "end_confidence",
-          "start",
-          "start_confidence"
-        ],
-        "schedule_authority_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
-      }
-    },
-    {
       "id": "agenda_09e3ddbc6965e9eeb3f72343",
       "title": "Muestra 2026 de la Corporación Quinta Bonsái",
       "event_type": "event",
@@ -7649,7 +8530,89 @@
       }
     },
     {
-      "id": "agenda_b0f00a5bde1ece295138e869",
+      "id": "agenda_cinema_3dbe6cea935ecc258b88",
+      "title": "La voz de Hind Rajab",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-28T18:00:00-04:00",
+        "end": "2026-08-28T18:00:00-04:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-28 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "insomniacine",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "INSOMNIA Teatro Condell",
+        "address": "Condell 1585, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratuito"
+      },
+      "links": {
+        "official": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/"
+      },
+      "organizer": "INSOMNIA Teatro Condell",
+      "source_id": "insomniacine",
+      "source_name": "INSOMNIA Teatro Condell",
+      "source_url": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Información publicada por Valpo Cultura para este recinto; confirma cambios de última hora con INSOMNIA Teatro Condell."
+      },
+      "description": "Programación publicada por Valpo Cultura para Cine Insomnia Teatro Condell. Hind Rajab: la voz de la niñez que no podemos olvidar Este viernes 28 de agosto, el Festival Ojo de Pescado presenta La voz de Hind Rajab, la emotiva película de la directora tunecina Kaouther Ben Hania, basada en la historia real de Hind Rajab, una niña palestina de seis años que quedó atrapada en un automóvil bajo el fuego de las fuerzas israelíes en Gaza. Una función especial que pone en el centro los derechos humanos de niños, niñas y adolescentes, y nos invita a mirar, escuchar y conversar sobre las infancias que viven en medio de conflictos bélicos. La experiencia será además accesible para personas sordas, con interpretación en lengua de señas, porque el acceso al cine y a la reflexión también es un derecho. Después de la película, abriremos un espacio de conversación y mediación junto a Waleska Abah-Sahada, abogada especialista en derechos de las infancias, y Jaime Bassa, abogado y académico de la Universidad de Valparaíso, y para abordar los derechos humanos y la protección de niños, niñas y adolescentes en contextos de conflicto. Insomnia Teatro Condell, Valparaíso Viernes 28 de agosto 18:00 horas Función para público adulto 14+ con acompañante Accesible para personas sordas mediante lengua de señas Actividad gratuita en colaboración con el Instituto Nacional de Derechos Humanos (INDH). #Festi",
+      "tags": [
+        "Cine",
+        "Función",
+        "Valpo Cultura"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-17-103601.png",
+        "alt": "La voz de Hind Rajab"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "valpocultura_condell_fallback",
+        "duration_days": 0
+      }
+    },
+    {
+      "id": "agenda_cinema_591aedbc6375ea9be0c1",
       "title": "Little Miss Sunshine (2006)",
       "event_type": "event",
       "primary_category": {
@@ -7663,24 +8626,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-28T18:00:00-04:00",
-        "end": null,
+        "end": "2026-08-28T18:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-28 · 18:00",
-        "occurrences": [
-          {
-            "start": "2026-08-28T18:00:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -7690,7 +8650,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
@@ -7698,31 +8658,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 28 de agosto de 2026, 18:00 hrs.Comprar entradas: https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. Little Miss Sunshine (2006) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 28 de agosto de 2026, 18:00 hrs. Fecha: 28 de agosto de 2026. Horario: viernes 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar-rec.jpg",
         "alt": "Little Miss Sunshine (2006)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -8134,6 +9103,89 @@
       }
     },
     {
+      "id": "agenda_trotamundos_4805a06ce5a6b3fca873",
+      "title": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-28T20:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-28 · 20:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "trotamundosvalpo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Trotamundos Valparaíso",
+        "address": "Blanco 1253, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 7000,
+        "max_amount": null,
+        "display_text": "Desde $7.000"
+      },
+      "links": {
+        "official": "https://linktr.ee/trotavalparaiso",
+        "tickets": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso",
+        "registration": null,
+        "source": "https://linktr.ee/trotavalparaiso"
+      },
+      "organizer": "Trotamundos Valparaíso",
+      "source_id": "trotamundosvalpo",
+      "source_name": "Trotamundos Valparaíso",
+      "source_url": "https://linktr.ee/trotavalparaiso",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "external_link_quality": "direct_ticketing",
+        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+      },
+      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+      "tags": [
+        "Música",
+        "Trotamundos Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso-537590-rec.jpg",
+        "alt": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+        "source": "passline_og",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_linktree_passline_refresh",
+        "ticket_url": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso"
+      }
+    },
+    {
       "id": "agenda_portaltickets_valparaiso_71d819cd37fe37da",
       "title": "LOS CRACK DEL PUERTO",
       "event_type": "event",
@@ -8221,8 +9273,8 @@
       }
     },
     {
-      "id": "agenda_trotamundos_4805a06ce5a6b3fca873",
-      "title": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+      "id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
+      "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
       "event_type": "event",
       "primary_category": {
         "id": "musica",
@@ -8236,19 +9288,20 @@
       ],
       "schedule": {
         "mode": "single",
-        "start": "2026-08-28T20:00:00-04:00",
-        "end": null,
+        "start": "2026-08-28T20:30:00-04:00",
+        "end": "2026-08-28T22:30:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 20:00",
+        "display_text": "28-08-2026 · 20:30–22:30",
         "occurrences": [],
-        "start_confidence": "explicit"
+        "start_confidence": "official_structured_schedule",
+        "end_confidence": "official_structured_schedule"
       },
       "location": {
-        "venue_id": "trotamundosvalpo",
+        "venue_id": "casa_cultura_valparaiso",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Trotamundos Valparaíso",
-        "address": "Blanco 1253, Valparaíso",
+        "venue": "Casa de la Cultura de Valparaíso",
+        "address": "Cochrane 568, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -8256,51 +9309,62 @@
       "price": {
         "is_free": false,
         "currency": "CLP",
-        "min_amount": 7000,
-        "max_amount": null,
-        "display_text": "Desde $7.000"
+        "min_amount": 8000,
+        "max_amount": 8000,
+        "display_text": "$8.000"
       },
       "links": {
-        "official": "https://linktr.ee/trotavalparaiso",
-        "tickets": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso",
+        "official": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+        "tickets": null,
         "registration": null,
-        "source": "https://linktr.ee/trotavalparaiso"
+        "source": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
       },
-      "organizer": "Trotamundos Valparaíso",
-      "source_id": "trotamundosvalpo",
-      "source_name": "Trotamundos Valparaíso",
-      "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:26:58-04:00",
+      "organizer": "Casa de la Cultura de Valparaíso",
+      "source_id": "valpocultura",
+      "source_name": "Valpo Cultura",
+      "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+      "last_verified_at": "2026-08-18T21:41:25-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:26:58-04:00",
-        "registration_open": true,
+        "last_verified_at": "2026-08-18T21:41:25-04:00",
+        "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "external_link_quality": "direct_ticketing",
-        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+        "advisory_text": "Fuente secundaria oficial municipal; confirma condiciones en la ficha enlazada."
       },
-      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+      "description": "Cobertura municipal oficial de programación de Casa de la Cultura de Valparaíso.",
       "tags": [
         "Música",
-        "Trotamundos Valparaíso"
+        "Casa de la Cultura de Valparaíso",
+        "Valpo Cultura"
       ],
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso-537590-rec.jpg",
-        "alt": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
-        "source": "passline_og",
+        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-17-100102.png",
+        "alt": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "source": "official_municipal_cross_source",
         "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
-        "reason": "official_linktree_passline_refresh",
-        "ticket_url": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso"
+        "reason": "official_cross_source:valpocultura",
+        "covered_source_ids": [
+          "casa_cultura_valparaiso"
+        ],
+        "duration_days": 0,
+        "schedule_authority_fields": [
+          "display_text",
+          "end",
+          "end_confidence",
+          "start",
+          "start_confidence"
+        ],
+        "schedule_authority_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
       }
     },
     {
@@ -8700,7 +9764,7 @@
       }
     },
     {
-      "id": "agenda_60f99e3a996e3f091586f0d1",
+      "id": "agenda_cinema_cfdf8ef1738036d37302",
       "title": "High School Musical Sing Along (2006)",
       "event_type": "event",
       "primary_category": {
@@ -8714,24 +9778,21 @@
         }
       ],
       "schedule": {
-        "mode": "dated",
+        "mode": "single",
         "start": "2026-08-29T19:00:00-04:00",
-        "end": null,
+        "end": "2026-08-29T19:00:00-04:00",
         "timezone": "America/Santiago",
         "display_text": "2026-08-29 · 19:00",
-        "occurrences": [
-          {
-            "start": "2026-08-29T19:00:00-04:00",
-            "end": null
-          }
-        ]
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": null,
+        "venue_id": "cinearte_vina",
         "city": "Viña del Mar",
         "commune": "Viña del Mar",
         "venue": "Cine Arte Viña del Mar",
-        "address": null,
+        "address": "Plaza Vergara 142, Viña del Mar",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -8741,7 +9802,7 @@
         "currency": "CLP",
         "min_amount": 4000,
         "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+        "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
       },
       "links": {
         "official": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
@@ -8749,31 +9810,40 @@
         "registration": null,
         "source": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar"
       },
-      "organizer": null,
-      "source_name": "cineartevina.cl",
+      "organizer": "Cine Arte Viña del Mar",
+      "source_id": "cinearte_vina",
+      "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "last_verified_at": "2026-08-18",
+      "last_verified_at": "2026-08-18T22:33:52-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18",
+        "last_verified_at": "2026-08-18T22:33:52-04:00",
         "registration_open": null,
         "registration_closed": null,
-        "cancelled": null,
+        "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": null
+        "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
       },
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: sábado 29 de agosto de 2026, 19:00 hrs.Comprar entradas: https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-      "tags": [],
+      "description": "Función confirmada por Cine Arte Viña del Mar. High School Musical Sing Along (2006) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: sábado 29 de agosto de 2026, 19:00 hrs. Fecha: 29 de agosto de 2026. Horario: sábado 19:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
+      "tags": [
+        "Cine",
+        "Función"
+      ],
       "audience": null,
       "registration_requirements": null,
       "image": {
         "url": "https://www.passline.com/imagenes/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar-rec.jpg",
         "alt": "High School Musical Sing Along (2006)",
-        "source": "official_page_metadata",
+        "source": "passline_event_metadata",
         "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_cinema_session",
+        "duration_days": 0
       }
     },
     {
@@ -13423,6 +14493,294 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T21:41:10-04:00"
       }
+    },
+    {
+      "id": "agenda_ca19a232a35a166ac29363ad",
+      "title": "Clases de salsa y bachata RED Studio",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Lunes a viernes, desde las 18:20",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "RED Studio",
+        "address": "4 Oriente 1072 / Etchevers 268",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 25000,
+        "max_amount": 32000,
+        "display_text": "$25.000 · $32.000 · $25.000 por 4 clases · $32.000 por 8 clases · otros planes"
+      },
+      "links": {
+        "official": "https://www.redstudio.cl/",
+        "tickets": null,
+        "registration": "https://www.redstudio.cl/",
+        "source": "https://www.redstudio.cl/"
+      },
+      "organizer": "RED Studio",
+      "source_name": "RED Studio",
+      "source_url": "https://www.redstudio.cl/",
+      "last_verified_at": "2026-07-12",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-12",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Clases de salsa y bachata en niveles inicial, básico e intermedio.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "inscripción disponible en el sitio oficial",
+      "image": {
+        "url": "https://redsalsa.cl/img/gal3.jpg",
+        "alt": "Clases de salsa y bachata RED Studio",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
+      "source_id": "red_studio"
+    },
+    {
+      "id": "agenda_51b559e62df1dde691c493c5",
+      "title": "Curso particular de joyería 2026 — Natalia Saldías",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Miércoles 09:00–11:30; jueves 09:00–11:30 o 15:30–18:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Taller Natalia Saldías",
+        "address": "Lusitania, Miraflores Bajo",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 75000,
+        "max_amount": 140000,
+        "display_text": "$75.000 · $140.000 · $75.000 mensual sin materiales · $140.000 mensual con materiales"
+      },
+      "links": {
+        "official": "https://www.nataliasaldias.com/clases-particulares/",
+        "tickets": null,
+        "registration": "https://www.nataliasaldias.com/clases-particulares/",
+        "source": "https://www.nataliasaldias.com/clases-particulares/"
+      },
+      "organizer": "Natalia Paz Saldías Donoso",
+      "source_name": "Natalia Paz Saldías Donoso",
+      "source_url": "https://www.nataliasaldias.com/clases-particulares/",
+      "last_verified_at": "2026-07-12",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-12",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Curso recreativo de joyería para nivel principiante o avanzado.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "consulta y confirmación directa con la tallerista",
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "source_id": "natalia_saldias"
+    },
+    {
+      "id": "agenda_def663d9f57fbb5c594c7d02",
+      "title": "Taller permanente de cerámica Le Chat",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Viernes 11:00–13:00 o sábado 15:00–17:00; otros horarios flexibles",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Instituto Le Chat",
+        "address": "Baquedano 325, Recreo",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "valor por confirmar con el organizador"
+      },
+      "links": {
+        "official": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+        "tickets": null,
+        "registration": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+        "source": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/"
+      },
+      "organizer": "Instituto Le Chat",
+      "source_name": "Instituto Le Chat",
+      "source_url": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+      "last_verified_at": "2026-07-12",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-12",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Taller continuo en el que cada participante avanza a su ritmo.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "permite incorporarse durante el año",
+      "image": {
+        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+        "alt": "Taller permanente de cerámica Le Chat",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
+      "source_id": "instituto_le_chat"
+    },
+    {
+      "id": "agenda_10ba69e08963eace52ab8593",
+      "title": "Tours guiados de Valparaíso Trekking — consulta de fecha",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "naturaleza-deportes",
+        "label": "Naturaleza y deportes"
+      },
+      "categories": [
+        {
+          "id": "naturaleza-deportes",
+          "label": "Naturaleza y deportes"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario flexible",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Región de Valparaíso; operador con sede en Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking",
+        "tickets": null,
+        "registration": "https://valparaisotrekking.cl/pages/servicios",
+        "source": "https://valparaisotrekking.cl/pages/servicios"
+      },
+      "organizer": "Valparaíso Trekking SpA",
+      "source_name": "Valparaíso Trekking SpA",
+      "source_url": "https://valparaisotrekking.cl/pages/servicios",
+      "last_verified_at": "2026-07-16",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-16",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Actividad: Tours guiados de trekking. Consulta de fecha y disponibilidad; no se asigna una fecha artificial. Inscripción: https://valparaisotrekking.cl/pages/servicios",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "Consulta de fecha y disponibilidad; no se asigna una fecha artificial",
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "source_id": "valparaiso_trekking"
     }
   ],
   "publication_corrections": {
@@ -13521,14 +14879,11 @@
       "removed": []
     },
     "insomniacine": {
-      "secondary_probe_status": "no_current_candidates",
-      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 0,
-      "secondary_probe_current_candidates": 0,
-      "secondary_probe_candidate_titles": [],
-      "secondary_probe_actionable": true,
-      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
-      "secondary_probe_checked_on": "2026-08-18"
+      "reviewed_titles": 9,
+      "sessions_detected": 14,
+      "sessions_published": 14,
+      "refreshed_at": "2026-08-18T22:35:26-04:00",
+      "mode": "official_session_refresh"
     },
     "valparaiso_profundo": {
       "secondary_probe_status": "no_current_candidates",
@@ -13539,6 +14894,13 @@
       "secondary_probe_actionable": true,
       "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
       "secondary_probe_checked_on": "2026-08-18"
+    },
+    "cinearte_vina": {
+      "reviewed_titles": 22,
+      "sessions_detected": 26,
+      "sessions_published": 26,
+      "refreshed_at": "2026-08-18T22:35:26-04:00",
+      "mode": "official_session_refresh"
     }
   },
   "media_cache": {
@@ -14160,6 +15522,14 @@
         "valparaiso_profundo"
       ],
       "apify_used": false
+    },
+    "cinema_passline_images": {
+      "mode": "passline_event_metadata",
+      "checked_events": 39,
+      "enriched_events": 39,
+      "existing_images": 1,
+      "unique_pages_fetched": 24,
+      "fetch_failures": 0
     }
   },
   "publication_guard": {
