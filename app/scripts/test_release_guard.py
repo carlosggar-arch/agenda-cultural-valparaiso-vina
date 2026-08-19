@@ -43,8 +43,10 @@ def check_single_release_source() -> None:
 
 def check_asset_coherence() -> None:
     index = text(APP / "index.html")
+    app_js = text(APP / "app.js")
     pwa = text(APP / "pwa.js")
     sw = text(APP / "service-worker.js")
+    schedule_js = text(APP / "schedule-display.js")
     header_js = text(APP / "header-redesign.js")
     head = index.split("</head>", 1)[0]
 
@@ -69,6 +71,18 @@ def check_asset_coherence() -> None:
     assert mobile_module, "pwa.js must import the versioned mobile module"
     assert f'"{header_module.group(1)}"' in sw, "service worker must cache the exact header module imported by pwa.js"
     assert f'"{mobile_module.group(1)}"' in sw, "service worker must cache the exact mobile module imported by pwa.js"
+
+    app_schedule = re.search(r'import "(\./schedule-display\.js[^\"]*)";', app_js)
+    pwa_schedule = re.search(r'import "(\./schedule-display\.js[^\"]*)";', pwa)
+    assert app_schedule and pwa_schedule, "both app entrypoints must import the shared schedule display module"
+    assert app_schedule.group(1) == pwa_schedule.group(1), "app.js and pwa.js must load the same schedule module URL"
+    assert "?v=" in app_schedule.group(1), "schedule display module must be explicitly versioned"
+    assert f'"{app_schedule.group(1)}"' in sw, "service worker must cache the exact schedule module URL"
+
+    formatter = re.search(r'from "(\.\./assets/event-schedule-display\.mjs[^\"]*)"', schedule_js)
+    assert formatter, "schedule-display.js must import the shared schedule formatter"
+    assert "?v=" in formatter.group(1), "shared schedule formatter must be explicitly versioned"
+    assert f'"{formatter.group(1)}"' in sw, "service worker must cache the exact shared schedule formatter URL"
 
 
 def check_manifest_entrypoint() -> None:
