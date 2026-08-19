@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v122 shows verified museum opening hours in grouped cards across both cities
-  // and gives multi-event rows enough room for complete titles, schedules and prices.
-  const RELEASE = 122;
+  // v123 keeps museum hours and readable multi-event rows from v122, and restores
+  // the verified “Decadencia” book presentation as a standalone Otros panoramas event.
+  const RELEASE = 123;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
