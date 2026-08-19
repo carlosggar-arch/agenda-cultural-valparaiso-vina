@@ -1,14 +1,31 @@
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
 const TIME_IN_TEXT = /(?:^|[^\d])(?:[01]?\d|2[0-3]):[0-5]\d(?:\s*(?:h|hrs?))?/i;
+const TRAILING_DATE_RANGE = /\s[–-]\s(?:\d{4}-\d{2}-\d{2}|\d{1,2}-\d{1,2}-\d{4})\s*$/;
 
 function validTime(value) {
   const match = String(value || "").match(/^([01]\d|2[0-3]):([0-5]\d)$/);
   return match ? match[0] : null;
 }
 
-function timedDisplayText(schedule) {
+function timedDisplayText(schedule, timezone) {
   const display = String(schedule?.display_text || "").trim();
-  return display && TIME_IN_TEXT.test(display) ? display : null;
+  if (!(display && TIME_IN_TEXT.test(display))) return null;
+
+  // A common metadata mismatch is a timed start plus a date-only end on the
+  // same day. Never render a stale label such as "16:00 – 2026-08-18";
+  // canonical start/end fields below can represent it unambiguously.
+  const start = schedule?.start;
+  const end = schedule?.end;
+  const dateOnlyEnd = /^\d{4}-\d{2}-\d{2}$/.test(String(end || ""));
+  if (
+    String(start || "").includes("T")
+    && dateOnlyEnd
+    && dateKey(start, timezone) === String(end)
+    && TRAILING_DATE_RANGE.test(display)
+  ) {
+    return null;
+  }
+  return display;
 }
 
 function dateKey(value, timezone) {
@@ -148,9 +165,9 @@ export function formatSchedule(schedule, options = {}) {
   }
 
   // Some sources provide a date-only structured start but preserve the actual
-  // function times in display_text. Prefer that verified text rather than
-  // hiding the hours behind the date-only start field.
-  const explicitDisplay = timedDisplayText(schedule);
+  // function times in display_text. Prefer that verified text unless it is a
+  // known malformed same-day range that can be rebuilt from canonical fields.
+  const explicitDisplay = timedDisplayText(schedule, settings.timezone);
   if (explicitDisplay) return explicitDisplay;
 
   const multipleTimes = occurrenceTimesLabel(schedule, settings);
