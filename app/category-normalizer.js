@@ -1,4 +1,5 @@
-import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260818-public-categories1";
+import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260819-public-categories2";
+import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260819-venue1";
 
 const nativeFetch = window.fetch.bind(window);
 
@@ -105,17 +106,18 @@ function repairVenueTitle(event) {
 
 function normalizeAgendaDataset(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
+  const normalizedEvents = dataset.events.map((sourceEvent) => {
+    const event = repairVenueTitle(sourceEvent);
+    const category = resolvePublicCategory(event);
+    return {
+      ...event,
+      primary_category: category,
+      categories: [category],
+    };
+  });
   return {
     ...dataset,
-    events: dataset.events.map((sourceEvent) => {
-      const event = repairVenueTitle(sourceEvent);
-      const category = resolvePublicCategory(event);
-      return {
-        ...event,
-        primary_category: category,
-        categories: [category],
-      };
-    }),
+    events: normalizeVenueAliases(normalizedEvents),
   };
 }
 
