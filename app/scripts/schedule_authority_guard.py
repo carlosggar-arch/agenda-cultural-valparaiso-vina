@@ -21,6 +21,7 @@ REPORT_PATH = ROOT / "app/data/quality/schedule-authority.json"
 TIMEZONE = "America/Santiago"
 SALAS_SCD_HOSTS = {"salasscd.cl", "www.salasscd.cl"}
 VALPO_CULTURA_HOSTS = {"valpocultura.cl", "www.valpocultura.cl"}
+CULTURA_USM_HOSTS = {"cultura.usm.cl", "www.cultura.usm.cl"}
 
 
 class VisibleTextParser(HTMLParser):
@@ -146,6 +147,32 @@ def salas_scd_formal_range(markup: str) -> tuple[str, str] | None:
     return f"{start_h:02d}:{start_m:02d}", f"{end_h:02d}:{end_m:02d}"
 
 
+def cultura_usm_formal_range(markup: str) -> tuple[str, str] | None:
+    """Read Cultura USM's labeled start/end pair as one event range.
+
+    Cultura USM exposes `Hora inicio` and `Hora término` as two fields of the
+    same event. They must never be promoted to two separate performances.
+    """
+    text = visible_text(markup)
+    start_pattern = re.compile(
+        r"(?:^|\n)\s*Hora\s+(?:de\s+)?inicio\s*:?\s*(?:\n\s*)?(\d{1,2}):(\d{2})\b",
+        flags=re.I,
+    )
+    end_pattern = re.compile(
+        r"(?:^|\n)\s*Hora\s+(?:de\s+)?(?:t[eé]rmino|fin)\s*:?\s*(?:\n\s*)?(\d{1,2}):(\d{2})\b",
+        flags=re.I,
+    )
+    starts = start_pattern.findall(text)
+    ends = end_pattern.findall(text)
+    if len(starts) != 1 or len(ends) != 1:
+        return None
+    start_h, start_m = (int(starts[0][0]), int(starts[0][1]))
+    end_h, end_m = (int(ends[0][0]), int(ends[0][1]))
+    if not (0 <= start_h <= 23 and 0 <= end_h <= 23 and 0 <= start_m <= 59 and 0 <= end_m <= 59):
+        return None
+    return f"{start_h:02d}:{start_m:02d}", f"{end_h:02d}:{end_m:02d}"
+
+
 def _jsonld_objects(value):
     if isinstance(value, dict):
         yield value
@@ -222,6 +249,13 @@ def apply_authority(item: dict, markup: str) -> list[str]:
         new_start = _local_iso(current_day, clock_range[0])
         new_end = _local_iso(current_day, clock_range[1])
         authority = "official_visible_schedule"
+    elif host in CULTURA_USM_HOSTS:
+        clock_range = cultura_usm_formal_range(markup)
+        if not clock_range:
+            return []
+        new_start = _local_iso(current_day, clock_range[0])
+        new_end = _local_iso(current_day, clock_range[1])
+        authority = "official_visible_schedule"
     elif host in VALPO_CULTURA_HOSTS and str(item.get("source_id") or "") == "valpocultura":
         structured = valpocultura_structured_times(markup)
         if not structured:
@@ -261,7 +295,7 @@ def is_target(item: dict, today: date, days: int) -> bool:
     if item.get("event_type") != "event":
         return False
     host = host_for(item)
-    if host not in SALAS_SCD_HOSTS | VALPO_CULTURA_HOSTS:
+    if host not in SALAS_SCD_HOSTS | VALPO_CULTURA_HOSTS | CULTURA_USM_HOSTS:
         return False
     if host in VALPO_CULTURA_HOSTS and str(item.get("source_id") or "") != "valpocultura":
         return False

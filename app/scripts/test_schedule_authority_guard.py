@@ -48,6 +48,18 @@ def valpo_markup(start: str, end: str | None = None) -> str:
     }}</script></body></html>'''
 
 
+def usm_markup(start: str = "19:00", end: str = "20:30") -> str:
+    return f'''<html><body>
+      <h1>Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez</h1>
+      <h3>Detalles del Evento</h3>
+      <div>Fecha:</div><div>29/08/2026</div>
+      <div>Hora inicio:</div><div>{start}</div>
+      <div>Hora término:</div><div>{end}</div>
+      <div>Modalidad:</div><div>Presencial</div>
+      <div>Recinto:</div><div>Teatro Aula Magna</div>
+    </body></html>'''
+
+
 def test_scd_uses_formal_range_and_ignores_auxiliary_clocks() -> None:
     item = event(
         "Alma Pajará",
@@ -100,7 +112,30 @@ def test_valpocultura_never_invents_time_from_date_only_jsonld() -> None:
     assert item["schedule"]["start"] == "2026-08-29"
 
 
-def test_build_applies_both_authorities_without_cross_talking() -> None:
+def test_cultura_usm_uses_start_and_end_as_one_range() -> None:
+    item = event(
+        "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+        "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+        "2026-08-29T19:00:00-04:00",
+        source_id="cultura_usm",
+    )
+    item["schedule"]["display_text"] = "2026-08-29 · 19:00, 20:30"
+    fields = guard.apply_authority(item, usm_markup())
+    assert item["schedule"]["start"] == "2026-08-29T19:00:00-04:00"
+    assert item["schedule"]["end"] == "2026-08-29T20:30:00-04:00"
+    assert item["schedule"]["display_text"] == "29-08-2026 · 19:00–20:30"
+    assert item["schedule"]["start_confidence"] == "official_visible_schedule"
+    assert item["schedule"]["end_confidence"] == "official_visible_schedule"
+    assert "end" in fields
+    assert ", 20:30" not in item["schedule"]["display_text"]
+
+
+def test_cultura_usm_requires_both_labeled_times() -> None:
+    assert guard.cultura_usm_formal_range('<div>Hora inicio:</div><div>19:00</div>') is None
+    assert guard.cultura_usm_formal_range('<div>Hora término:</div><div>20:30</div>') is None
+
+
+def test_build_applies_all_authorities_without_cross_talking() -> None:
     alma = event(
         "Alma Pajará",
         "https://salasscd.cl/sitio/events/alma-pajara/",
@@ -115,19 +150,29 @@ def test_build_applies_both_authorities_without_cross_talking() -> None:
         source_id="valpocultura",
         end="2026-08-28",
     )
+    gala = event(
+        "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+        "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+        "2026-08-29T19:00:00-04:00",
+        source_id="cultura_usm",
+    )
+    gala["schedule"]["display_text"] = "2026-08-29 · 19:00, 20:30"
     original = guard.fetch
     try:
         def fake_fetch(url: str):
             if "salasscd.cl" in url:
                 return True, 200, scd_markup(), None
+            if "cultura.usm.cl" in url:
+                return True, 200, usm_markup(), None
             return True, 200, valpo_markup("2026-08-28T20:30:00-04:00"), None
         guard.fetch = fake_fetch
-        updated, report = guard.build({"events": [alma, luciana]}, date(2026, 8, 18), days=120, max_fetch=5)
+        updated, report = guard.build({"events": [alma, luciana, gala]}, date(2026, 8, 18), days=120, max_fetch=5)
     finally:
         guard.fetch = original
     assert updated["events"][0]["schedule"]["display_text"] == "20-08-2026 · 19:00–21:00"
     assert updated["events"][1]["schedule"]["display_text"] == "28-08-2026 · 20:30"
-    assert report["updated_events"] == 2
+    assert updated["events"][2]["schedule"]["display_text"] == "29-08-2026 · 19:00–20:30"
+    assert report["updated_events"] == 3
 
 
 def main() -> None:
@@ -135,7 +180,9 @@ def main() -> None:
     test_scd_does_not_promote_practical_times_without_formal_hour_block()
     test_valpocultura_preserves_explicit_jsonld_time()
     test_valpocultura_never_invents_time_from_date_only_jsonld()
-    test_build_applies_both_authorities_without_cross_talking()
+    test_cultura_usm_uses_start_and_end_as_one_range()
+    test_cultura_usm_requires_both_labeled_times()
+    test_build_applies_all_authorities_without_cross_talking()
     print("SCHEDULE_AUTHORITY_GUARD_TESTS_OK")
 
 
