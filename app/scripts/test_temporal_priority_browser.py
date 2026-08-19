@@ -28,6 +28,26 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
+def check_ui_removed() -> None:
+    module = (APP / "temporal-priority.js").read_text(encoding="utf-8")
+    entry = (APP / "app.js").read_text(encoding="utf-8")
+
+    for removed_marker in (
+        "Hoy / No te lo pierdas",
+        "Terminan pronto",
+        "Próximos eventos puntuales",
+        "Exposiciones y muestras vigentes",
+        "PRIORITY_BLOCKS",
+        "renderPriority",
+        "temporalBadge(",
+    ):
+        assert removed_marker not in module, f"removed temporal UI returned: {removed_marker}"
+
+    assert "shouldSuppressForTemporalFilter" in module, "date-confidence filter guard must remain active"
+    assert "removeLegacyTemporalUi" in module, "legacy temporal UI cleanup must remain active"
+    assert 'temporal-priority.js?v=20260819-temporal2' in entry, "app entrypoint must load the guard-only temporal module"
+
+
 def make_page() -> None:
     TEST_PAGE.write_text(
         r'''<!doctype html>
@@ -89,37 +109,41 @@ def dump_dom(url: str) -> str:
         ]
         result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=20)
         if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome temporal-priority probe failed: {result.stderr[-1200:]}")
+            raise AssertionError(f"Chrome temporal guard probe failed: {result.stderr[-1200:]}")
         return result.stdout
 
 
 def main() -> None:
+    check_ui_removed()
     os.chdir(ROOT)
     make_page()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
-        thread.start(); time.sleep(0.2)
+        thread.start()
+        time.sleep(0.2)
         try:
             dom = dump_dom(f"http://127.0.0.1:{port}/app/__temporal_priority_browser_test.html")
         finally:
-            server.shutdown(); thread.join(timeout=2); TEST_PAGE.unlink(missing_ok=True)
+            server.shutdown()
+            thread.join(timeout=2)
+            TEST_PAGE.unlink(missing_ok=True)
 
     expected = {
-        'data-temporal-browser-done="true"': "temporal module did not execute in Chrome",
+        'data-temporal-browser-done="true"': "temporal core did not execute in Chrome",
         'data-gijon-today="true"': "Europe/Madrid did not classify the explicit event as today",
         'data-valpo-today="false"': "America/Santiago incorrectly classified the same date as today",
         'data-fallback-today="false"': "technical_fallback created a false Hoy",
-        'data-reliable-closing="true"': "reliable ending-soon event was not surfaced",
-        'data-unreliable-closing="false"': "unreliable end created Terminan pronto",
-        'data-fallback-badge=""': "technical fallback generated an affirmative badge",
-        'data-closing-badge="Últimos 3 días"': "reliable closing badge was not rendered",
+        'data-reliable-closing="true"': "reliable ending-soon event was not surfaced by the core",
+        'data-unreliable-closing="false"': "unreliable end created ending-soon status",
+        'data-fallback-badge=""': "technical fallback generated an affirmative badge in the core",
+        'data-closing-badge="Últimos 3 días"': "reliable closing badge core contract changed unexpectedly",
     }
     for marker, message in expected.items():
         if marker not in dom:
             raise AssertionError(message)
-    print("Temporal priority browser: Valparaíso/Viña and Gijón timezone + confidence guards OK")
+    print("Temporal UI removed; Valparaíso/Viña and Gijón confidence guard remains OK")
 
 
 if __name__ == "__main__":
