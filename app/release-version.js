@@ -1,8 +1,8 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v143 keeps the v142 normalized-title guard and forces the repaired Valpo/Viña
-  // runtime-card image fallback to replace any cached pre-repair module instance.
-  const RELEASE = 143;
+  // v144 centralizes normalized runtime state, removes body-wide presentation
+  // observers, and gives app.js sole ownership of content presentation modules.
+  const RELEASE = 144;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
