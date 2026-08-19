@@ -1,5 +1,6 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
+import { venueHoursForEvents } from "./venue-hours.mjs?v=20260819-hours1";
 
 const REGISTRY = await loadCityRegistry();
 const CITIES = REGISTRY.byId;
@@ -70,23 +71,6 @@ function eventLink(event) {
 function priceLabel(event) {
   if (event?.price?.is_free === true) return "Gratis";
   return String(event?.price?.display_text || "").trim();
-}
-
-function explicitVenueHours(events) {
-  const values = new Set();
-  for (const event of events) {
-    const schedule = event?.schedule || {};
-    const opening = schedule.opening_hours || {};
-    const candidates = [
-      opening.display_text,
-      schedule.venue_opening_hours,
-      schedule.visit_hours,
-      event?.location?.opening_hours,
-    ];
-    const value = candidates.map((item) => String(item || "").trim()).find(Boolean);
-    if (value) values.add(value);
-  }
-  return values.size === 1 ? [...values][0] : null;
 }
 
 function groupIds(card) {
@@ -222,7 +206,8 @@ function buildRow(event, config) {
 }
 
 function buildGroupCard(events) {
-  const config = CITIES[currentCityId()];
+  const cityId = currentCityId();
+  const config = CITIES[cityId];
   const sorted = [...events].sort((a, b) => {
     const aStart = String(a?.schedule?.start || a?.schedule?.occurrences?.[0]?.start || "9999");
     const bStart = String(b?.schedule?.start || b?.schedule?.occurrences?.[0]?.start || "9999");
@@ -265,11 +250,13 @@ function buildGroupCard(events) {
     cityNode.textContent = city;
     facts.append(cityNode);
   }
-  const hours = explicitVenueHours(sorted);
-  if (hours) {
+  const hours = venueHoursForEvents(sorted, cityId);
+  if (hours?.display) {
     const hoursNode = document.createElement("p");
     hoursNode.className = "venue-opening-hours exhibition-venue-hours";
-    hoursNode.textContent = `Horario del recinto: ${hours}`;
+    hoursNode.dataset.exhibitionOpeningHours = "";
+    hoursNode.textContent = `Horario de visita: ${hours.display}`;
+    if (hours.source) hoursNode.dataset.venueHoursSource = hours.source;
     facts.append(hoursNode);
   }
 
