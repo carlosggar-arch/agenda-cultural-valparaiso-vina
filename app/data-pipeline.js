@@ -4,6 +4,7 @@ import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-p
 import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260819-pipeline1";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260819-pipeline1";
+import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 async function fetchJson(url, fetchImpl) {
   const response = await fetchImpl(url, { headers: { Accept: "application/json" }, cache: "no-store" });
@@ -67,10 +68,12 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch } =
     programResult = { dataset, secondaryPrograms: [], hiddenPrograms: [] };
   }
 
-  return {
+  const result = {
     dataset: programResult.dataset,
     secondaryPrograms: programResult.secondaryPrograms || [],
     hiddenPrograms: programResult.hiddenPrograms || [],
     diagnostics,
   };
+  publishAgendaRuntimeSnapshot(city, result);
+  return result;
 }
