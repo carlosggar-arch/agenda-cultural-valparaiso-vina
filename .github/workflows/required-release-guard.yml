@@ -42,8 +42,8 @@ jobs:
           node --check app/app-safe-mode.js
           node --check app/program-visibility-policy.js
           node --check app/session-occurrence-normalizer.js
+          node --check app/combined-filters.js
           node --check app/combined-filters-safety.js
-          node --check app/normalized-date-filter-guard.js
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/release-version.js
@@ -67,5 +67,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, and exact-date visibility against normalized occurrences."
+          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, and exact-date visibility against the normalized pipeline."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
