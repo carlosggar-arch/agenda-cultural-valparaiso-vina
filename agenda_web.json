@@ -1,300 +1,16 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-18T21:03:08-04:00",
+  "generated_at": "2026-08-18T21:27:35-04:00",
   "publication_date": "2026-08-18",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 166,
-    "events": 159,
+    "total": 162,
+    "events": 155,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 3
   },
   "events": [
-    {
-      "id": "agenda_ca19a232a35a166ac29363ad",
-      "title": "Clases de salsa y bachata RED Studio",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Lunes a viernes, desde las 18:20",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "RED Studio",
-        "address": "4 Oriente 1072 / Etchevers 268",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 25000,
-        "max_amount": 32000,
-        "display_text": "$25.000 · $32.000 · $25.000 por 4 clases · $32.000 por 8 clases · otros planes"
-      },
-      "links": {
-        "official": "https://www.redstudio.cl/",
-        "tickets": null,
-        "registration": "https://www.redstudio.cl/",
-        "source": "https://www.redstudio.cl/"
-      },
-      "organizer": "RED Studio",
-      "source_name": "RED Studio",
-      "source_url": "https://www.redstudio.cl/",
-      "last_verified_at": "2026-07-12",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-12",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Clases de salsa y bachata en niveles inicial, básico e intermedio.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "inscripción disponible en el sitio oficial",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "red_studio"
-    },
-    {
-      "id": "agenda_51b559e62df1dde691c493c5",
-      "title": "Curso particular de joyería 2026 — Natalia Saldías",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Miércoles 09:00–11:30; jueves 09:00–11:30 o 15:30–18:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Taller Natalia Saldías",
-        "address": "Lusitania, Miraflores Bajo",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 75000,
-        "max_amount": 140000,
-        "display_text": "$75.000 · $140.000 · $75.000 mensual sin materiales · $140.000 mensual con materiales"
-      },
-      "links": {
-        "official": "https://www.nataliasaldias.com/clases-particulares/",
-        "tickets": null,
-        "registration": "https://www.nataliasaldias.com/clases-particulares/",
-        "source": "https://www.nataliasaldias.com/clases-particulares/"
-      },
-      "organizer": "Natalia Paz Saldías Donoso",
-      "source_name": "Natalia Paz Saldías Donoso",
-      "source_url": "https://www.nataliasaldias.com/clases-particulares/",
-      "last_verified_at": "2026-07-12",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-12",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Curso recreativo de joyería para nivel principiante o avanzado.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "consulta y confirmación directa con la tallerista",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "natalia_saldias"
-    },
-    {
-      "id": "agenda_def663d9f57fbb5c594c7d02",
-      "title": "Taller permanente de cerámica Le Chat",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Viernes 11:00–13:00 o sábado 15:00–17:00; otros horarios flexibles",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Instituto Le Chat",
-        "address": "Baquedano 325, Recreo",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "valor por confirmar con el organizador"
-      },
-      "links": {
-        "official": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-        "tickets": null,
-        "registration": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-        "source": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/"
-      },
-      "organizer": "Instituto Le Chat",
-      "source_name": "Instituto Le Chat",
-      "source_url": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-      "last_verified_at": "2026-07-12",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-12",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Taller continuo en el que cada participante avanza a su ritmo.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "permite incorporarse durante el año",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "instituto_le_chat"
-    },
-    {
-      "id": "agenda_10ba69e08963eace52ab8593",
-      "title": "Tours guiados de Valparaíso Trekking — consulta de fecha",
-      "event_type": "flexible_offer",
-      "primary_category": {
-        "id": "naturaleza-deportes",
-        "label": "Naturaleza y deportes"
-      },
-      "categories": [
-        {
-          "id": "naturaleza-deportes",
-          "label": "Naturaleza y deportes"
-        }
-      ],
-      "schedule": {
-        "mode": "flexible",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario flexible",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Región de Valparaíso; operador con sede en Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking",
-        "tickets": null,
-        "registration": "https://valparaisotrekking.cl/pages/servicios",
-        "source": "https://valparaisotrekking.cl/pages/servicios"
-      },
-      "organizer": "Valparaíso Trekking SpA",
-      "source_name": "Valparaíso Trekking SpA",
-      "source_url": "https://valparaisotrekking.cl/pages/servicios",
-      "last_verified_at": "2026-07-16",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-07-16",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Actividad: Tours guiados de trekking. Consulta de fecha y disponibilidad; no se asigna una fecha artificial. Inscripción: https://valparaisotrekking.cl/pages/servicios",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": "Consulta de fecha y disponibilidad; no se asigna una fecha artificial",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "valparaiso_trekking"
-    },
     {
       "id": "agenda_valpocultura_recovery_971bd421084a1a0b",
       "title": "Centex – Cartelera Agosto",
@@ -368,10 +84,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/07/Screenshot-2026-07-31-161452.png",
-        "alt": "Centex – Cartelera Agosto",
-        "source": "official_municipal_cross_source",
-        "relevance": "generic_schedule"
+        "url": null,
+        "alt": null,
+        "relevance": "generic_schedule",
+        "rejection_reason": "generic_schedule_not_event_specific"
       },
       "editorial": {
         "classification": "program",
@@ -462,10 +178,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-11-122352.png",
-        "alt": "Valparaíso Profundo – Programación Agosto",
-        "source": "official_municipal_cross_source",
-        "relevance": "generic_schedule"
+        "url": null,
+        "alt": null,
+        "relevance": "generic_schedule",
+        "rejection_reason": "generic_schedule_not_event_specific"
       },
       "editorial": {
         "classification": "program",
@@ -557,10 +273,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-11-110742.png",
-        "alt": "Club de Jazz Estrella Negra – Cartelera Agosto",
-        "source": "official_municipal_cross_source",
-        "relevance": "generic_schedule"
+        "url": null,
+        "alt": null,
+        "relevance": "generic_schedule",
+        "rejection_reason": "generic_schedule_not_event_specific"
       },
       "editorial": {
         "classification": "program",
@@ -628,10 +344,10 @@
       },
       "last_verified_at": "2026-08-18T21:14:20-04:00",
       "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png",
-        "alt": "Destino Valparaíso – Agosto 2026",
-        "source": "official_event_page",
-        "relevance": "event_specific"
+        "url": null,
+        "alt": null,
+        "relevance": "generic_schedule",
+        "rejection_reason": "generic_schedule_not_event_specific"
       },
       "event_type": "event",
       "audience": null,
@@ -687,7 +403,10 @@
         "display_text": "06-08-2026 · 00:00 – 04-10-2026 · 23:59",
         "occurrences": [],
         "start_confidence": "official_revalidation",
-        "end_confidence": "official_revalidation"
+        "end_confidence": "official_revalidation",
+        "opening_time": "00:00",
+        "closing_time": "23:59",
+        "hours_confidence": "source_schedule_pair"
       },
       "location": {
         "venue_id": "museobaburizza",
@@ -2058,6 +1777,7 @@
           "start"
         ],
         "verified_publication_patches": [
+          "teatro_vina_beyond_2026_schedule",
           "teatro_vina_beyond_2026_schedule"
         ]
       }
@@ -2836,7 +2556,7 @@
         "information_completeness": "complete",
         "advisory_text": "Ocurrencia futura recuperada desde la cartelera oficial municipal Visita Viña; confirma acceso y condiciones en la ficha enlazada."
       },
-      "description": "Sesión futura del Taller de Lengua Rapanui en Museo Fonck, recuperada desde un enlace de ocurrencia explícito de la cartelera municipal.",
+      "description": "Sesión futura del Taller de Lengua Rapanui en Museo Fonck, recuperada desde un enlace de ocurrencia explícito de la cartelera municipal",
       "tags": [
         "Cursos y talleres",
         "Museo Fonck",
@@ -2845,8 +2565,10 @@
       "audience": "Desde 16 años",
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://secure.gravatar.com/avatar/22b6b8ebd9aa31e71cdbef9097fb9755b80fa625dfecc532eade50a78a4f7f0b?s=96&d=mm&r=g",
+        "alt": "Taller // Lengua Rapanui",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -3322,10 +3044,11 @@
       "schedule": {
         "mode": "dated",
         "start": "2026-08-20T19:00:00-04:00",
-        "end": null,
+        "end": "2026-08-20T21:00:00-04:00",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 19:00, 21:00, 18:20, 20:10",
-        "occurrences": []
+        "display_text": "20-08-2026 · 19:00–21:00",
+        "occurrences": [],
+        "start_confidence": "official_visible_schedule"
       },
       "location": {
         "venue_id": null,
@@ -3373,6 +3096,11 @@
       "image": {
         "url": "https://salasscd.cl/sitio/wp-content/uploads/2026/08/20104-240x300.jpg",
         "alt": "ALMA PAJARÁ"
+      },
+      "editorial": {
+        "verified_publication_patches": [
+          "teatro_mauri_alma_pajara_2026_schedule"
+        ]
       }
     },
     {
@@ -3443,91 +3171,6 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/ORQUES-LOS-ANDES.jpg",
         "alt": "Concierto FOSILA"
-      }
-    },
-    {
-      "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
-      "title": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-20T19:00:00-04:00",
-        "end": "2026-08-20T19:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-20 · 19:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "portaltickets_valparaiso",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Bar Vienés, Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 1000,
-        "max_amount": 5000,
-        "display_text": "$1.000–$5.000"
-      },
-      "links": {
-        "official": null,
-        "tickets": "https://www.portaldisc.com/evento/sctriobrillovina",
-        "registration": null,
-        "source": "https://www.portaldisc.com/evento/sctriobrillovina"
-      },
-      "organizer": null,
-      "source_id": "portaltickets_valparaiso",
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/sctriobrillovina",
-      "last_verified_at": "2026-08-18T21:13:57-04:00",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-08-18T21:13:57-04:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": false,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "El próximo jueves 20 de agosto (en 2 horarios), Simón Campusano llega a la Ciudad Jardín con un concierto único y especialmente preparado para revisitar Brillo, el álbum que marcó el inicio de su camino como solista. En formato trío, el músico y compositor chileno recorrerá de principio a fin este trabajo fundamental de la escena independiente nacional, reinterpretando sus canciones con nuevos arreglos y una puesta en escena pensada exclusivamente para esta presentación.",
-      "tags": [
-        "Música",
-        "PortalTickets"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "secondary_ticketing_source:portaltickets_valparaiso",
-        "duration_days": 0,
-        "source_title_original": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO EN BAR VIENÉS, VIÑA DEL MAR",
-        "venue_suffix_removed": true,
-        "detail_enriched": true,
-        "detail_verified_at": "2026-08-18T21:13:57-04:00"
       }
     },
     {
@@ -3652,10 +3295,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3987,8 +3630,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/19740.jpg",
+        "alt": "EDUARDO PERALTA CANTA A FEDERICO EN LA COLOMBINA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4072,8 +3717,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21686.jpg",
+        "alt": "ETERNAMENTE BUKIS EN LOS ALQUINTA DEL PUERTO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4157,8 +3804,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20809.jpg",
+        "alt": "INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4318,8 +3967,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21107.jpg?t=1786668810",
+        "alt": "EL COLOR AMOR GIRA 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4404,8 +4055,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20122.jpg?t=1783372452",
+        "alt": "PASCUALA ILABACA + LUCIANO LATERRA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -4562,8 +4215,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20869.jpg",
+        "alt": "CITY NOISE EN JOURNAL",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5309,8 +4964,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20753.jpg?t=1785810652",
+        "alt": "2 AÑOS DE WAREBA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5615,8 +5272,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20123.jpg?t=1783036339",
+        "alt": "NIÑO COHETE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5702,8 +5361,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21354.jpg",
+        "alt": "PORTAVOZ",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5788,8 +5449,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20343.jpg?t=1786037417",
+        "alt": "SOMBRAS PÚRPURAS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -5852,10 +5515,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6099,8 +5762,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21625.jpg",
+        "alt": "FIESTA DE CIERRE DIA DEL VINILO: EN VIVO JORGE CAMPOS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -6386,10 +6051,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-18T21:03:04-04:00",
+      "last_verified_at": "2026-08-18T21:27:35-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:03:04-04:00",
+        "last_verified_at": "2026-08-18T21:27:35-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7089,8 +6754,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21155.jpg?t=1786493460",
+        "alt": "DESPUÉS DE LA LLUVIA HAY SOL",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7175,8 +6842,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20124.jpg?t=1783036385",
+        "alt": "LUCY BRICEÑO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7261,8 +6930,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://secure.gravatar.com/avatar/22b6b8ebd9aa31e71cdbef9097fb9755b80fa625dfecc532eade50a78a4f7f0b?s=96&d=mm&r=g",
+        "alt": "Concierto // Orquesta Marga Marga",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7323,10 +6994,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7424,93 +7095,6 @@
       "image": {
         "url": "https://teatrovina.cl/wp-content/uploads/2026/07/TOMAS-VA-A-MORIR.jpg",
         "alt": "Tomás Va a Morir – Ley de Murphy"
-      }
-    },
-    {
-      "id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
-      "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-28",
-        "end": "2026-08-28",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "casa_cultura_valparaiso",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Casa de la Cultura de Valparaíso",
-        "address": "Cochrane 568, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 8000,
-        "max_amount": 8000,
-        "display_text": "$8.000"
-      },
-      "links": {
-        "official": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
-      },
-      "organizer": "Casa de la Cultura de Valparaíso",
-      "source_id": "valpocultura",
-      "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-      "last_verified_at": "2026-08-18T21:14:15-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-18T21:14:15-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Fuente secundaria oficial municipal; confirma condiciones en la ficha enlazada."
-      },
-      "description": "Cobertura municipal oficial de programación de Casa de la Cultura de Valparaíso.",
-      "tags": [
-        "Música",
-        "Casa de la Cultura de Valparaíso",
-        "Valpo Cultura"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-17-100102.png",
-        "alt": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-        "source": "official_municipal_cross_source",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_cross_source:valpocultura",
-        "covered_source_ids": [
-          "casa_cultura_valparaiso"
-        ],
-        "duration_days": 0
       }
     },
     {
@@ -7770,8 +7354,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21550.jpg?t=1786476257",
+        "alt": "SONIDOS DE CASA: CONCIERTOS GRATUITOS 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -7933,8 +7519,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21530.jpg",
+        "alt": "MATRIARCAS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8093,8 +7681,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21418.jpg?t=1786045505",
+        "alt": "CASI PASANDO AGOSTO EN LA COLOMBINA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8104,6 +7694,89 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T21:13:57-04:00"
+      }
+    },
+    {
+      "id": "agenda_trotamundos_4805a06ce5a6b3fca873",
+      "title": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-28T20:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-28 · 20:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "trotamundosvalpo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Trotamundos Valparaíso",
+        "address": "Blanco 1253, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 7000,
+        "max_amount": null,
+        "display_text": "Desde $7.000"
+      },
+      "links": {
+        "official": "https://linktr.ee/trotavalparaiso",
+        "tickets": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso",
+        "registration": null,
+        "source": "https://linktr.ee/trotavalparaiso"
+      },
+      "organizer": "Trotamundos Valparaíso",
+      "source_id": "trotamundosvalpo",
+      "source_name": "Trotamundos Valparaíso",
+      "source_url": "https://linktr.ee/trotavalparaiso",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "external_link_quality": "direct_ticketing",
+        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+      },
+      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+      "tags": [
+        "Música",
+        "Trotamundos Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso-537590-rec.jpg",
+        "alt": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+        "source": "passline_og",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_linktree_passline_refresh",
+        "ticket_url": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso"
       }
     },
     {
@@ -8178,8 +7851,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20126.jpg?t=1783036425",
+        "alt": "LOS CRACK DEL PUERTO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8194,8 +7869,8 @@
       }
     },
     {
-      "id": "agenda_trotamundos_4805a06ce5a6b3fca873",
-      "title": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+      "id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
+      "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
       "event_type": "event",
       "primary_category": {
         "id": "musica",
@@ -8209,19 +7884,20 @@
       ],
       "schedule": {
         "mode": "single",
-        "start": "2026-08-28T20:00:00-04:00",
-        "end": null,
+        "start": "2026-08-28T20:30:00-04:00",
+        "end": "2026-08-28",
         "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 20:00",
+        "display_text": "28-08-2026 · 20:30",
         "occurrences": [],
-        "start_confidence": "explicit"
+        "start_confidence": "official_visible_schedule",
+        "end_confidence": "explicit"
       },
       "location": {
-        "venue_id": "trotamundosvalpo",
+        "venue_id": "casa_cultura_valparaiso",
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Trotamundos Valparaíso",
-        "address": "Blanco 1253, Valparaíso",
+        "venue": "Casa de la Cultura de Valparaíso",
+        "address": "Cochrane 568, Valparaíso",
         "online": false,
         "latitude": null,
         "longitude": null
@@ -8229,51 +7905,57 @@
       "price": {
         "is_free": false,
         "currency": "CLP",
-        "min_amount": 7000,
-        "max_amount": null,
-        "display_text": "Desde $7.000"
+        "min_amount": 8000,
+        "max_amount": 8000,
+        "display_text": "$8.000"
       },
       "links": {
-        "official": "https://linktr.ee/trotavalparaiso",
-        "tickets": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso",
+        "official": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+        "tickets": null,
         "registration": null,
-        "source": "https://linktr.ee/trotavalparaiso"
+        "source": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/"
       },
-      "organizer": "Trotamundos Valparaíso",
-      "source_id": "trotamundosvalpo",
-      "source_name": "Trotamundos Valparaíso",
-      "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "organizer": "Casa de la Cultura de Valparaíso",
+      "source_id": "valpocultura",
+      "source_name": "Valpo Cultura",
+      "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+      "last_verified_at": "2026-08-18T21:14:15-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
-        "registration_open": true,
+        "last_verified_at": "2026-08-18T21:14:15-04:00",
+        "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
         "sold_out": null,
         "price_stage": null,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "external_link_quality": "direct_ticketing",
-        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+        "advisory_text": "Fuente secundaria oficial municipal; confirma condiciones en la ficha enlazada."
       },
-      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+      "description": "Cobertura municipal oficial de programación de Casa de la Cultura de Valparaíso.",
       "tags": [
         "Música",
-        "Trotamundos Valparaíso"
+        "Casa de la Cultura de Valparaíso",
+        "Valpo Cultura"
       ],
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.passline.com/imagenes/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso-537590-rec.jpg",
-        "alt": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
-        "source": "passline_og",
+        "url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-17-100102.png",
+        "alt": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "source": "official_municipal_cross_source",
         "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
-        "reason": "official_linktree_passline_refresh",
-        "ticket_url": "https://www.passline.com/eventos/liricistas-adickta-sinfonia-deones-is-flying-dehlone-en-trotamundos-valparaiso"
+        "reason": "official_cross_source:valpocultura",
+        "covered_source_ids": [
+          "casa_cultura_valparaiso"
+        ],
+        "duration_days": 0,
+        "verified_publication_patches": [
+          "valpocultura_luciana_jury_2026_schedule"
+        ]
       }
     },
     {
@@ -8348,99 +8030,16 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21566.jpg",
+        "alt": "ESSTELAR BDAY",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
         "reason": "secondary_ticketing_source:portaltickets_valparaiso",
         "duration_days": 0,
         "source_title_original": "ESSTELAR BDAY EN CLUB SEGUNDO PISO, VALPARAÍSO",
-        "venue_suffix_removed": true,
-        "detail_enriched": true,
-        "detail_verified_at": "2026-08-18T21:13:57-04:00"
-      }
-    },
-    {
-      "id": "agenda_portaltickets_valparaiso_2b3de8a59e3e1949",
-      "title": "VIERNES CEBOLLA",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-08-28T21:00:00-04:00",
-        "end": "2026-08-28T21:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 21:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "portaltickets_valparaiso",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Lemutt Bar, Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 3000,
-        "max_amount": 5000,
-        "display_text": "$3.000–$5.000"
-      },
-      "links": {
-        "official": null,
-        "tickets": "https://www.portaldisc.com/evento/viernescebollalemutt",
-        "registration": null,
-        "source": "https://www.portaldisc.com/evento/viernescebollalemutt"
-      },
-      "organizer": null,
-      "source_id": "portaltickets_valparaiso",
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/viernescebollalemutt",
-      "last_verified_at": "2026-08-18T21:13:57-04:00",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-08-18T21:13:57-04:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": false,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "El viernes 28 de agosto nos encontramos para vivir una noche de boleros y valses junto a Las Viejas Cantinas, seguida de una fiesta llena de recuerdos y baile en vinilo con Enrulando y Korte Preciso. Escucharemos clásicos de Pérez Prado, Lisandro Meza, La Sonora Tra la la, Sonora Palacios, La Huambaly y muchos otros grandes éxitos que nos harán cantar y bailar durante toda la noche.",
-      "tags": [
-        "Música",
-        "PortalTickets"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "secondary_ticketing_source:portaltickets_valparaiso",
-        "duration_days": 0,
-        "source_title_original": "VIERNES CEBOLLA EN BAR LEMUTT, VALPARAÍSO",
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T21:13:57-04:00"
@@ -8518,8 +8117,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21190.jpg?t=1787095719",
+        "alt": "LILLIA: GIRA 2026 CAMPO SINTETICO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8751,7 +8352,7 @@
     },
     {
       "id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
-      "title": "MÚSICA ENSAMBLE PRESENTA “NOTAS QUE TRANSFORMAN”",
+      "title": "NOTAS QUE TRANSFORMAN",
       "event_type": "event",
       "primary_category": {
         "id": "musica",
@@ -8821,8 +8422,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21213.jpg",
+        "alt": "MÚSICA ENSAMBLE PRESENTA “NOTAS QUE TRANSFORMAN”",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8832,7 +8435,8 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T21:13:57-04:00",
-        "partial_ticket_availability": true
+        "partial_ticket_availability": true,
+        "title_recovered_from_official_url": true
       }
     },
     {
@@ -8907,8 +8511,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20127.jpg?t=1783113250",
+        "alt": "PUERTO ORQUESTA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -8992,8 +8598,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20289.jpg?t=1785390816",
+        "alt": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9079,8 +8687,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21186.jpg?t=1786732362",
+        "alt": "ANIVERSARIO CALATHEA CLUB",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9220,10 +8830,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-18T21:03:04-04:00",
+      "last_verified_at": "2026-08-18T21:27:35-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:03:04-04:00",
+        "last_verified_at": "2026-08-18T21:27:35-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9372,10 +8982,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9477,8 +9087,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21215.jpg",
+        "alt": "LA COSA SE PUSO CALIENTE!",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9540,10 +9152,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9623,10 +9235,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9728,8 +9340,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21231.jpg?t=1785620337",
+        "alt": "VOLVERAS A BAILAR CON LA SONORA DE TOMMY REY",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9739,91 +9353,6 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T11:13:41-04:00"
-      }
-    },
-    {
-      "id": "agenda_portaltickets_valparaiso_17649e3a436aa1fd",
-      "title": "FIESTA BOHEMIA PRESENTA: NOCHES DE BOHEMIA",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-09-04T21:00:00-04:00",
-        "end": "2026-09-04T21:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-04 · 21:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "portaltickets_valparaiso",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Ipanema Club, Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 1000,
-        "max_amount": 7000,
-        "display_text": "$1.000–$7.000"
-      },
-      "links": {
-        "official": null,
-        "tickets": "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub",
-        "registration": null,
-        "source": "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub"
-      },
-      "organizer": null,
-      "source_id": "portaltickets_valparaiso",
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub",
-      "last_verified_at": "2026-08-18T21:13:57-04:00",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-08-18T21:13:57-04:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": false,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Concierto de Lanzamiento disco \"Noches de Bohemia\" 📅 Viernes 4 de septiembre.",
-      "tags": [
-        "Música",
-        "PortalTickets"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "secondary_ticketing_source:portaltickets_valparaiso",
-        "duration_days": 0,
-        "source_title_original": "FIESTA BOHEMIA PRESENTA: NOCHES DE BOHEMIA EN IPANEMA CLUB, VIÑA DEL MAR",
-        "venue_suffix_removed": true,
-        "detail_enriched": true,
-        "detail_verified_at": "2026-08-18T21:13:57-04:00"
       }
     },
     {
@@ -9898,8 +9427,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21137.jpg",
+        "alt": "SONORA DE LLEGAR",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9983,8 +9514,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20602.jpg?t=1783717524",
+        "alt": "EVELYN CORNEJO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -9994,92 +9527,6 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T20:56:21-04:00"
-      }
-    },
-    {
-      "id": "agenda_portaltickets_valparaiso_defc0269dc9a63ce",
-      "title": "LOS TETAS: PRESENTA FUNKPARAISO",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-09-05T20:00:00-04:00",
-        "end": "2026-09-05T20:00:00-04:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-05 · 20:00",
-        "occurrences": [],
-        "start_confidence": "explicit",
-        "end_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "portaltickets_valparaiso",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Mauri SCD, Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 1000,
-        "max_amount": 15000,
-        "display_text": "$1.000–$15.000 · Algunos sectores agotados"
-      },
-      "links": {
-        "official": null,
-        "tickets": "https://www.portaldisc.com/evento/lostetaspresentafunkparaisoenteatromauriscd",
-        "registration": null,
-        "source": "https://www.portaldisc.com/evento/lostetaspresentafunkparaisoenteatromauriscd"
-      },
-      "organizer": null,
-      "source_id": "portaltickets_valparaiso",
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/lostetaspresentafunkparaisoenteatromauriscd",
-      "last_verified_at": "2026-08-18T21:13:57-04:00",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-08-18T21:13:57-04:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": false,
-        "price_stage": "Disponibilidad parcial",
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "¡Los Tetas vuelven a Valparaíso! 🔥🎶 Luego de una exitosa gira por México durante 2026, Los Tetas llegan al renovado Teatro Mauri SCD para presentar el potente show que cautivó al público internacional. Una noche imperdible para disfrutar de toda la energía, el ritmo y los grandes éxitos de una de las bandas más importantes del funk chileno.",
-      "tags": [
-        "Música",
-        "PortalTickets"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "secondary_ticketing_source:portaltickets_valparaiso",
-        "duration_days": 0,
-        "source_title_original": "LOS TETAS: PRESENTA FUNKPARAISO EN TEATRO MAURI SCD, VALPARAISO",
-        "venue_suffix_removed": true,
-        "detail_enriched": true,
-        "detail_verified_at": "2026-08-18T21:13:57-04:00",
-        "partial_ticket_availability": true
       }
     },
     {
@@ -10154,8 +9601,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21167.jpg",
+        "alt": "MATIAH CHINASKI + DJ PÉREZ + MALDITO FEN",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -10290,10 +9739,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10395,8 +9844,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20388.jpg",
+        "alt": "MARIA Y LOS TEMPLOS: FIEBRE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -10459,10 +9910,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10564,8 +10015,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21733.jpg",
+        "alt": "DESTRUYE LO QUE TE DESTRUYE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -10627,10 +10080,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10732,8 +10185,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21597.jpg",
+        "alt": "PREVIA ANIVERSARIO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -10817,8 +10272,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21695.jpg",
+        "alt": "EL ARTE DEL VOLANTÍN EN CASA POLANCO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -10880,10 +10337,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10985,8 +10442,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21598.jpg",
+        "alt": "FIESTA ANIVERSARIO POSEIDON",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11070,8 +10529,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20421.jpg",
+        "alt": "QUILAPAYUN",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11205,10 +10666,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11310,8 +10771,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21475.jpg",
+        "alt": "OSHIKATSU PARTY OSHIFONDA EN LOS ALQUINTA DEL PUERTO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11395,8 +10858,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21723.jpg",
+        "alt": "CHAISENROOM | NO BRANDING NO NATION EN EMPORIO ECHAURREN",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11458,10 +10923,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-18T21:02:04-04:00",
+      "last_verified_at": "2026-08-18T21:26:58-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-18T21:02:04-04:00",
+        "last_verified_at": "2026-08-18T21:26:58-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11563,8 +11028,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21431.jpg",
+        "alt": "AILINASHAKTI",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11648,8 +11115,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21032.jpg",
+        "alt": "PAULA RIVAS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11733,8 +11202,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20462.jpg",
+        "alt": "SOFÍA ALVEZ EN EL PASAJE",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11818,8 +11289,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20422.jpg?t=1786570291",
+        "alt": "EL MAURI EN EL MAURI",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -11903,8 +11376,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20423.jpg",
+        "alt": "JOSE ALFREDO FUENTES 60 GOLD",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12058,8 +11533,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20915.jpg",
+        "alt": "PIEL + MACROBIA",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12139,8 +11616,10 @@
       "audience": null,
       "registration_requirements": "Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
+        "alt": "Itaú Maratón de Viña 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "maraton_vina_official"
     },
@@ -12286,8 +11765,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21613.jpg",
+        "alt": "SUBHIRA QUINTETO GIRA NORTE A SUR",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12371,8 +11852,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20813.jpg?t=1784934577",
+        "alt": "SEBASTIAN SANHUEZA (COVER SOLUTIONS)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12456,8 +11939,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21322.jpg",
+        "alt": "SEBA & EL MONSTRUO, LANZAMIENTO: LLENO DE 97",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12541,8 +12026,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21435.jpg?t=1786062765",
+        "alt": "ESTOY BIEN EN TEATRO MAURI SCD VALPARAISO - GIRA NACIONAL 2026-2027, SEGUNDO LP",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12694,8 +12181,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21756.jpg",
+        "alt": "MARIO REYES LEYENDA GIPSY",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12849,8 +12338,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21632.jpg",
+        "alt": "RATOS DE PORAO 45 AÑOS EN TROTAMUNDOS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -12934,8 +12425,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/20427.jpg",
+        "alt": "LOS SANTOS DUMONT: CANCIONES CHILENAS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -13299,8 +12792,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/18071.jpg",
+        "alt": "FERNANDO UBIERGO: 50 AÑOS NO ES NADA EN VALPARAÍSO",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -13382,8 +12877,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://images.portaldisc.com/l/eventos/360/21618.jpg",
+        "alt": "TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "editorial": {
         "classification": "event",
@@ -13394,12 +12891,300 @@
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T11:13:41-04:00"
       }
+    },
+    {
+      "id": "agenda_ca19a232a35a166ac29363ad",
+      "title": "Clases de salsa y bachata RED Studio",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Lunes a viernes, desde las 18:20",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "RED Studio",
+        "address": "4 Oriente 1072 / Etchevers 268",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 25000,
+        "max_amount": 32000,
+        "display_text": "$25.000 · $32.000 · $25.000 por 4 clases · $32.000 por 8 clases · otros planes"
+      },
+      "links": {
+        "official": "https://www.redstudio.cl/",
+        "tickets": null,
+        "registration": "https://www.redstudio.cl/",
+        "source": "https://www.redstudio.cl/"
+      },
+      "organizer": "RED Studio",
+      "source_name": "RED Studio",
+      "source_url": "https://www.redstudio.cl/",
+      "last_verified_at": "2026-07-12",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-12",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Clases de salsa y bachata en niveles inicial, básico e intermedio.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "inscripción disponible en el sitio oficial",
+      "image": {
+        "url": "https://redsalsa.cl/img/gal3.jpg",
+        "alt": "Clases de salsa y bachata RED Studio",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
+      "source_id": "red_studio"
+    },
+    {
+      "id": "agenda_51b559e62df1dde691c493c5",
+      "title": "Curso particular de joyería 2026 — Natalia Saldías",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Miércoles 09:00–11:30; jueves 09:00–11:30 o 15:30–18:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Taller Natalia Saldías",
+        "address": "Lusitania, Miraflores Bajo",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 75000,
+        "max_amount": 140000,
+        "display_text": "$75.000 · $140.000 · $75.000 mensual sin materiales · $140.000 mensual con materiales"
+      },
+      "links": {
+        "official": "https://www.nataliasaldias.com/clases-particulares/",
+        "tickets": null,
+        "registration": "https://www.nataliasaldias.com/clases-particulares/",
+        "source": "https://www.nataliasaldias.com/clases-particulares/"
+      },
+      "organizer": "Natalia Paz Saldías Donoso",
+      "source_name": "Natalia Paz Saldías Donoso",
+      "source_url": "https://www.nataliasaldias.com/clases-particulares/",
+      "last_verified_at": "2026-07-12",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-12",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Curso recreativo de joyería para nivel principiante o avanzado.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "consulta y confirmación directa con la tallerista",
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "source_id": "natalia_saldias"
+    },
+    {
+      "id": "agenda_def663d9f57fbb5c594c7d02",
+      "title": "Taller permanente de cerámica Le Chat",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Viernes 11:00–13:00 o sábado 15:00–17:00; otros horarios flexibles",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Instituto Le Chat",
+        "address": "Baquedano 325, Recreo",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": "valor por confirmar con el organizador"
+      },
+      "links": {
+        "official": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+        "tickets": null,
+        "registration": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+        "source": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/"
+      },
+      "organizer": "Instituto Le Chat",
+      "source_name": "Instituto Le Chat",
+      "source_url": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
+      "last_verified_at": "2026-07-12",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-12",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Taller continuo en el que cada participante avanza a su ritmo.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "permite incorporarse durante el año",
+      "image": {
+        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+        "alt": "Taller permanente de cerámica Le Chat",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
+      "source_id": "instituto_le_chat"
+    },
+    {
+      "id": "agenda_10ba69e08963eace52ab8593",
+      "title": "Tours guiados de Valparaíso Trekking — consulta de fecha",
+      "event_type": "flexible_offer",
+      "primary_category": {
+        "id": "naturaleza-deportes",
+        "label": "Naturaleza y deportes"
+      },
+      "categories": [
+        {
+          "id": "naturaleza-deportes",
+          "label": "Naturaleza y deportes"
+        }
+      ],
+      "schedule": {
+        "mode": "flexible",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario flexible",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Región de Valparaíso; operador con sede en Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking",
+        "tickets": null,
+        "registration": "https://valparaisotrekking.cl/pages/servicios",
+        "source": "https://valparaisotrekking.cl/pages/servicios"
+      },
+      "organizer": "Valparaíso Trekking SpA",
+      "source_name": "Valparaíso Trekking SpA",
+      "source_url": "https://valparaisotrekking.cl/pages/servicios",
+      "last_verified_at": "2026-07-16",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-07-16",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Actividad: Tours guiados de trekking. Consulta de fecha y disponibilidad; no se asigna una fecha artificial. Inscripción: https://valparaisotrekking.cl/pages/servicios",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": "Consulta de fecha y disponibilidad; no se asigna una fecha artificial",
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "source_id": "valparaiso_trekking"
     }
   ],
   "publication_corrections": {
     "checked_at": "2026-08-18",
-    "active_corrections": 4,
-    "applied_count": 1,
+    "active_corrections": 6,
+    "applied_count": 3,
     "applied": [
       {
         "correction_id": "teatro_vina_beyond_2026_schedule",
@@ -13415,6 +13200,35 @@
         "previous_title": "Beyond",
         "official_url": "https://teatrovina.cl/cartelera/",
         "reason": "La cartelera visible oficial del Teatro Municipal de Viña del Mar publica Beyond el 18 de agosto de 2026 a las 20:00. Se corrige la hora contradictoria expuesta por metadatos JSON-LD del plugin y se normaliza el formato de un evento de un solo día."
+      },
+      {
+        "correction_id": "teatro_mauri_alma_pajara_2026_schedule",
+        "event_id": "agenda_846d22de7ff64e051ae64c9f",
+        "title": "ALMA PAJARÁ",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "schedule.display_text",
+          "schedule.end",
+          "schedule.start",
+          "schedule.start_confidence"
+        ],
+        "previous_title": "ALMA PAJARÁ",
+        "official_url": "https://salasscd.cl/sitio/events/alma-pajara/",
+        "reason": "La ficha oficial de Salas SCD separa horas prácticas (apertura 18:20, inicio aproximado 19:00 y término aproximado 20:10) del bloque formal de agenda 'Hora 7:00 pm - 9:00 pm'. Solo este último define el rango público de la función; las horas auxiliares no son sesiones adicionales."
+      },
+      {
+        "correction_id": "valpocultura_luciana_jury_2026_schedule",
+        "event_id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
+        "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "schedule.display_text",
+          "schedule.start",
+          "schedule.start_confidence"
+        ],
+        "previous_title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "official_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+        "reason": "La pieza oficial del evento Luciana Jury en Chile indica 28/8 a las 20:30 hrs. Se conserva esa hora explícita sin inventar una hora de término cuando la fuente no la especifica."
       }
     ]
   },
@@ -13424,7 +13238,7 @@
       "links_discovered": 16,
       "pages_fetched": 16,
       "events_detected": 14,
-      "refreshed_at": "2026-08-18T21:02:04-04:00",
+      "refreshed_at": "2026-08-18T21:26:58-04:00",
       "mode": "official_linktree_passline_refresh",
       "events_published": 14,
       "preserved_existing": false
@@ -13433,7 +13247,7 @@
       "events_detected": 0,
       "mode": "official_museo_fonck_article_refresh",
       "error": "ReadTimeout: HTTPSConnectionPool(host='www.museofonck.cl', port=443): Read timed out. (read timeout=25)",
-      "refreshed_at": "2026-08-18T21:03:04-04:00",
+      "refreshed_at": "2026-08-18T21:27:35-04:00",
       "events_published": 0,
       "preserved_existing": true
     },
@@ -13444,18 +13258,18 @@
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-18T21:03:04-04:00",
+      "refreshed_at": "2026-08-18T21:27:35-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
     "museobaburizza": {
-      "links_discovered": 2,
-      "pages_fetched": 2,
-      "events_detected": 2,
-      "refreshed_at": "2026-08-18T21:03:08-04:00",
+      "links_discovered": 0,
+      "pages_fetched": 0,
+      "events_detected": 0,
+      "refreshed_at": "2026-08-18T21:27:40-04:00",
       "mode": "official_jsonld_agenda_refresh",
-      "events_published": 2,
-      "preserved_existing": false
+      "events_published": 0,
+      "preserved_existing": true
     },
     "cinema_event_hygiene": {
       "mode": "social_promotional_non_screening",
@@ -13463,21 +13277,19 @@
       "removed": []
     },
     "insomniacine": {
-      "secondary_probe_status": "current_candidates",
+      "secondary_probe_status": "no_current_candidates",
       "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 2,
-      "secondary_probe_current_candidates": 1,
-      "secondary_probe_candidate_titles": [
-        "Cine Insomnia - Ojo de Pescado"
-      ],
+      "secondary_probe_reviewed_items": 0,
+      "secondary_probe_current_candidates": 0,
+      "secondary_probe_candidate_titles": [],
       "secondary_probe_actionable": true,
-      "secondary_probe_reason": "secondary_calendar_has_current_candidates",
+      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
       "secondary_probe_checked_on": "2026-08-18"
     },
     "valparaiso_profundo": {
       "secondary_probe_status": "no_current_candidates",
       "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
-      "secondary_probe_reviewed_items": 1,
+      "secondary_probe_reviewed_items": 0,
       "secondary_probe_current_candidates": 0,
       "secondary_probe_candidate_titles": [],
       "secondary_probe_actionable": true,
@@ -13885,15 +13697,205 @@
       "image_url": null,
       "checked_at": "2026-08-19",
       "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/lacosasepusocalienteenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21215.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/volverasabailarconlasonoradetommyrey": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21231.jpg?t=1785620337",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21349.jpg?t=1786651361",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/sonoradellegarenclubsegundopiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21137.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/evelyncornejoenjournal": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20602.jpg?t=1783717524",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/lostetaspresentafunkparaisoenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21240.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/matiahperezfenvina": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21167.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://mediamaratontps.cl/": {
+      "image_url": null,
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/mariaylostemplosenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20388.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/carnedeperro": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21733.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/previaaniversarioposeidon": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21597.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/elartedelvolantin": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21695.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/aniversarioposeidondia2": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21598.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/quilapayunenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20421.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/oshifonda2026": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21475.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/chaiseroom18sept2026": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21723.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/ailinashaktienteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21431.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/paularivasenteatromauriscdvalparaiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21032.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/sofiaalvezvinadelmar": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20462.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/mauricioredolesenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20422.jpg?t=1786570291",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/josealfredofuentes60goldenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20423.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/pielmacrobia": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20915.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://maratonvina.cl/": {
+      "image_url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/subhiraquintetogiranorteasurenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21613.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/coversolutionsenvivobarvienes": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20813.jpg?t=1784934577",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/llenode97": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21322.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/estoybienenteatromauriscdvalparaiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21435.jpg?t=1786062765",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/gipsyvalparaiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21756.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/ratosdeporaoenvalparaiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21632.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/lossantosdumontcancioneschilenas": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20427.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/": {
+      "image_url": null,
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/fernandoubiergoenvalparaiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/18071.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/tatabarahonaylsdenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/21618.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.redstudio.cl/": {
+      "image_url": "https://redsalsa.cl/img/gal3.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://www.nataliasaldias.com/clases-particulares/": {
+      "image_url": null,
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/": {
+      "image_url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking": {
+      "image_url": null,
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
+    },
+    "https://valparaisotrekking.cl/pages/servicios": {
+      "image_url": null,
+      "checked_at": "2026-08-19",
+      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 87,
-    "images_from_cache": 1,
-    "images_fetched": 27,
+    "existing_images": 88,
+    "images_from_cache": 27,
+    "images_fetched": 33,
     "generic_schedule_images_rejected": 4,
-    "pages_fetched": 40,
-    "pages_skipped_by_limit": 38
+    "pages_fetched": 38,
+    "pages_skipped_by_limit": 0
   },
   "enrichment": {
     "valpo_municipal_quality": {
@@ -13901,10 +13903,10 @@
       "culturas_vina_images_added": 0,
       "culturas_vina_exact_pages_checked": 9,
       "valpocultura_price_candidates": 4,
-      "valpocultura_prices_added": 1,
+      "valpocultura_prices_added": 0,
       "valpocultura_exact_pages_checked": 2,
       "visitavina_rows_parsed": 0,
-      "valpocultura_rows_parsed": 7,
+      "valpocultura_rows_parsed": 0,
       "page_fetch_errors": {}
     },
     "zero_source_secondary_probe": {
@@ -13920,7 +13922,7 @@
     "titles_recovered": 1,
     "target_city_blocks_recovered": 0,
     "visit_hours_enriched": 1,
-    "venue_hours_enriched": 1,
+    "venue_hours_enriched": 0,
     "removed_title_quality": 5,
     "removed_location_mismatch": 0,
     "removed_deadline_only_call": 0,
