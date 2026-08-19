@@ -1,13 +1,16 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
+import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
 
 const CITY_CONFIG = Object.freeze({
   valparaiso: {
+    id: "valparaiso",
     dataset: "../agenda_web.json",
     locale: "es-CL",
     timezone: "America/Santiago",
   },
   gijon: {
+    id: "gijon",
     dataset: "./data/gijon/agenda_web.json",
     locale: "es-ES",
     timezone: "Europe/Madrid",
@@ -204,14 +207,12 @@ async function load(city = currentCity()) {
   eventIndex = new Map();
 
   try {
-    const response = await fetch(config.dataset, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-    if (!response.ok) return;
-    const payload = await response.json();
+    // Use the exact same pure data pipeline as app-core. Reading the raw dataset
+    // here can overwrite a normalized multi-session card with only its first raw
+    // occurrence (for example 13:00 while hiding the 18:00 session).
+    const result = await loadAgendaDataset(config);
     if (generation !== loadGeneration || activeCityId !== city) return;
-    eventIndex = new Map((payload.events || []).map((event) => [String(event.id), event]));
+    eventIndex = new Map((result.dataset?.events || []).map((event) => [String(event.id), event]));
   } catch { return; }
 
   queueApply();
