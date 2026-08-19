@@ -117,26 +117,9 @@ function program(overrides = {}) {
 
 {
   const pwaPolicy = readFileSync(new URL("./program-visibility-policy.js", import.meta.url), "utf8");
-  assert.match(
-    pwaPolicy,
-    /observer\?\.disconnect\(\);/,
-    "PWA program-policy rendering must disconnect its observer before mutating the observed section",
-  );
-  assert.match(
-    pwaPolicy,
-    /finally\s*\{\s*observeProgramSection\(\);\s*\}/s,
-    "PWA program-policy rendering must reconnect its observer after the controlled update",
-  );
-  assert.match(
-    pwaPolicy,
-    /eyebrow\?\.textContent\s*!==\s*"Referencia complementaria"/,
-    "PWA program heading writes must remain idempotent",
-  );
-  assert.match(
-    pwaPolicy,
-    /shell\.total\?\.textContent\s*!==\s*String\(programs\.length\)/,
-    "PWA program count writes must remain idempotent",
-  );
+  assert.doesNotMatch(pwaPolicy, /new MutationObserver\(/, "program visibility must not depend on MutationObserver");
+  assert.doesNotMatch(pwaPolicy, /(?:window|globalThis|target)\.fetch\s*=/, "program visibility must not monkey-patch fetch");
+  assert.match(pwaPolicy, /export function renderProgramReferences\(/, "program references must render through an explicit core call");
 }
 
 console.log("PROGRAM_VISIBILITY_POLICY_OK");

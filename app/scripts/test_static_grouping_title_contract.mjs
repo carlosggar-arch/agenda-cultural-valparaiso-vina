@@ -41,53 +41,46 @@ assert.equal(normalizedRioja[0].location.venue, "Museo Palacio Rioja");
 assert.equal(normalizedRioja[1].location.venue, "Museo Palacio Rioja");
 
 const appJs = read("app.js");
+const pipeline = read("data-pipeline.js");
 const grouping = read("static-exhibition-groups.js");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
-const compactCss = read("exhibition-compact.css");
-const multieventFix = read("multievent-layout-fix.js");
 const supplementBridge = read("supplemental-events-fetch.js");
+const programPolicy = read("program-visibility-policy.js");
 const release = read("release-version.js");
 
-assert.match(appJs, /title-normalizer-bootstrap\.js/);
+// Grouping remains an optional, observer-free post-core enhancement. The
+// normalizers themselves are pure stages in data-pipeline.js.
+assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /static-exhibition-groups\.js/);
 assert.match(appJs, /multievent-layout-fix\.js/);
+assert.match(pipeline, /normalizeAgendaTitles/);
+assert.match(pipeline, /normalizeAgendaCategories/);
+assert.match(pipeline, /normalizeSessionOccurrences/);
+assert.match(pipeline, /applyProgramVisibilityPolicy/);
+assert.doesNotMatch(appJs, /^import "\.\/(?:title-normalizer-bootstrap|category-normalizer|supplemental-events-fetch|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
+assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
-assert.match(compactCss, /\.event-grid\s*\{[^}]*align-items:\s*stretch\s*!important/s);
-assert.match(compactCss, /\.event-grid\s*>\s*\.event-card\s*\{[^}]*align-self:\s*stretch\s*!important/s);
-assert.doesNotMatch(compactCss, /align-items:\s*start\s*!important/);
-assert.doesNotMatch(compactCss, /align-self:\s*start\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*height:\s*auto\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*max-height:\s*none\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-copy strong[\s\S]*-webkit-line-clamp:\s*unset\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-copy small[\s\S]*white-space:\s*normal\s*!important/);
-assert.doesNotMatch(multieventFix, /Palacio Rioja/);
 
+// The emergency rollback deliberately removed the supplemental dataset from
+// the public registry. The merge helper can remain available as a pure function
+// for a later controlled re-enable, but it must not intercept fetch.
 const cities = JSON.parse(read("cities.json"));
 const valparaiso = cities.cities.find((city) => city.id === "valparaiso");
-assert.equal(valparaiso?.supplemental_dataset, "./data/valparaiso/supplemental-events.json");
-const supplemental = JSON.parse(read("data/valparaiso/supplemental-events.json"));
-assert.equal(supplemental.events?.length, 1);
-const decadencia = supplemental.events[0];
-assert.equal(decadencia.title, "Presentación libro // “Decadencia”");
-assert.equal(decadencia.primary_category?.id, "otros");
-assert.equal(decadencia.primary_category?.label, "Otros panoramas");
-assert.equal(decadencia.schedule?.start, "2026-08-27T18:00:00-04:00");
-assert.equal(decadencia.schedule?.end, "2026-08-27T20:00:00-04:00");
-assert.equal(decadencia.location?.venue, "Palacio Rioja");
-assert.equal(decadencia.public_status?.source_official, true);
-assert.doesNotMatch(appJs, /supplemental-events-fetch\.js/, "supplemental fetch interception must stay out of the critical startup path while the production freeze is investigated");
-assert.doesNotMatch(appJs, /program-visibility-policy\.js/, "program DOM/fetch interception must stay out of the critical startup path while the production freeze is investigated");
-assert.match(supplementBridge, /supplemental_dataset/);
-assert.match(supplementBridge, /mergeEvents/);
-assert.doesNotMatch(supplementBridge, /Decadencia|Palacio Rioja/);
+assert.equal(valparaiso?.supplemental_dataset, undefined, "Valparaíso supplemental feed must remain disabled after the stable-runtime rollback");
+assert.match(supplementBridge, /export function mergeEvents/);
+assert.match(supplementBridge, /export function mergeSupplementalPayload/);
+assert.doesNotMatch(supplementBridge, /(?:window|globalThis|target)\.fetch\s*=/);
+assert.doesNotMatch(programPolicy, /new MutationObserver\(/);
+assert.doesNotMatch(programPolicy, /(?:window|globalThis|target)\.fetch\s*=/);
+assert.match(programPolicy, /export function renderProgramReferences/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 126, "PWA release must include the emergency startup unfreeze");
+assert.ok(Number(releaseMatch[1]) >= 128, "PWA release must include structural startup hardening");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -99,4 +92,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + venue identity + unclipped multievent layout + startup fail-open contract: OK");
+console.log("Static grouping + venue identity + pure normalizers + resilient startup contract: OK");

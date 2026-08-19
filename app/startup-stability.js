@@ -1,11 +1,11 @@
 const STYLE_ID = "vivamos-startup-stability";
+const SAFE_MODE_DELAY_MS = 5000;
 
 function installStartupStyle() {
   if (document.getElementById(STYLE_ID)) return;
   const style = document.createElement("style");
   style.id = STYLE_ID;
   style.textContent = `
-    html:not([data-vivamos-ready="true"]) main > .status,
     html:not([data-vivamos-ready="true"]) main > .discovery,
     html:not([data-vivamos-ready="true"]) main > .agenda {
       visibility: hidden !important;
@@ -14,31 +14,31 @@ function installStartupStyle() {
   document.head.append(style);
 }
 
-function currentUiReady() {
-  const agenda = document.querySelector("[data-agenda]");
-  const chooser = document.querySelector("[data-chooser-backdrop]");
-  return Boolean((agenda && !agenda.hidden) || (chooser && !chooser.hidden));
+function ready() {
+  return document.documentElement.dataset.vivamosReady === "true";
 }
 
-function revealWhenReady() {
-  if (!currentUiReady()) return false;
+function showFallbackFailure(error) {
   document.documentElement.dataset.vivamosReady = "true";
-  return true;
+  document.documentElement.dataset.vivamosSafeMode = "failed";
+  const status = document.querySelector("[data-status]");
+  if (!status) return;
+  status.hidden = false;
+  status.innerHTML = '<strong>No pudimos iniciar la agenda</strong><p>Recarga la página. Si el problema continúa, la aplicación conserva el diagnóstico para poder corregirlo.</p>';
+  console.error("¡Vivamos!: el modo seguro tampoco pudo iniciar", error);
+}
+
+async function startSafeMode() {
+  if (ready()) return;
+  document.documentElement.dataset.vivamosSafeMode = "starting";
+  try {
+    const module = await import("./app-safe-mode.js?v=20260819-safe1");
+    if (!ready()) await module.startSafeMode();
+  } catch (error) {
+    if (!ready()) showFallbackFailure(error);
+  }
 }
 
 installStartupStyle();
-if (!revealWhenReady()) {
-  const observer = new MutationObserver(() => {
-    if (revealWhenReady()) observer.disconnect();
-  });
-  observer.observe(document.body, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ["hidden"],
-  });
-  window.setTimeout(() => {
-    document.documentElement.dataset.vivamosReady = "true";
-    observer.disconnect();
-  }, 8000);
-}
+const watchdog = window.setTimeout(startSafeMode, SAFE_MODE_DELAY_MS);
+window.addEventListener("vivamos:core-ready", () => window.clearTimeout(watchdog), { once: true });

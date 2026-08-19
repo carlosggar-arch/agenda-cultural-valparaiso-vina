@@ -41,23 +41,44 @@ for (const event of gijonExhibitions) {
 assert.ok([...exhibitionVenueCounts.values()].some((count) => count >= 2), "Gijón must retain multi-exhibition venue data");
 
 const appJs = read("app.js");
+const appCore = read("app-core.js");
+const pipeline = read("data-pipeline.js");
 const bootstrap = read("combined-filters-bootstrap.js");
 const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 const grouping = read("static-exhibition-groups.js");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
+const categoryNormalizer = read("category-normalizer.js");
 
-assert.match(appJs, /^import "\.\/category-normalizer\.js/m);
-assert.match(appJs, /^import "\.\/title-normalizer-bootstrap\.js/m);
-assert.match(appJs, /^import "\.\/app-core\.js/m);
-assert.match(appJs, /^import "\.\/static-exhibition-groups\.js/m);
-assert.match(appJs, /^import "\.\/footer-credit\.js/m);
+// The startup entry point must stay thin: watchdog first, core through a dynamic
+// boundary, and presentation modules only after coreReady.
+assert.match(appJs, /^import "\.\/startup-stability\.js/m);
+assert.match(appJs, /await import\("\.\/app-core\.js/);
+assert.match(appJs, /await coreReady;/);
+assert.match(appJs, /static-exhibition-groups\.js/);
+assert.match(appJs, /footer-credit\.js/);
+assert.doesNotMatch(appJs, /^import "\.\/(?:category-normalizer|title-normalizer-bootstrap|session-occurrence-normalizer|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
+
+// Approved-event normalization is now deterministic and owned by the core
+// data pipeline instead of global fetch interception.
+assert.match(appCore, /loadAgendaDataset/);
+assert.match(pipeline, /applyEventDataCorrections/);
+assert.match(pipeline, /normalizeAgendaCategories/);
+assert.match(pipeline, /normalizeAgendaTitles/);
+assert.match(pipeline, /normalizeSessionOccurrences/);
+assert.match(pipeline, /applyProgramVisibilityPolicy/);
+assert.doesNotMatch(categoryNormalizer, /(?:window|globalThis|target)\.fetch\s*=/);
+assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
+assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
+
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
 assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
-assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
+
+// Combined filters can still import the pure category helpers; doing so no
+// longer changes global fetch or controls startup.
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
@@ -65,9 +86,10 @@ assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
+
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
+assert.ok(Number(releaseMatch[1]) >= 128, "PWA release must include startup resilience architecture");
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; static observer-free grouping)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; explicit fail-open pipeline)`);

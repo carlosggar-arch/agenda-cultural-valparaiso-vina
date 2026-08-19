@@ -1,8 +1,6 @@
 import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260819-public-categories2";
 import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260819-venue1";
 
-const nativeFetch = window.fetch.bind(window);
-
 const QUOTED_ACTIVITY = [
   /“([^”]{3,140})”/g,
   /"([^"\n]{3,140})"/g,
@@ -104,7 +102,7 @@ function repairVenueTitle(event) {
   };
 }
 
-function normalizeAgendaDataset(dataset) {
+export function normalizeAgendaCategories(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
   const normalizedEvents = dataset.events.map((sourceEvent) => {
     const event = repairVenueTitle(sourceEvent);
@@ -120,25 +118,3 @@ function normalizeAgendaDataset(dataset) {
     events: normalizeVenueAliases(normalizedEvents),
   };
 }
-
-window.fetch = async (...args) => {
-  const response = await nativeFetch(...args);
-  const contentType = response.headers.get("content-type") || "";
-  if (!contentType.includes("json")) return response;
-
-  const clone = response.clone();
-  try {
-    const dataset = await clone.json();
-    if (!dataset || !Array.isArray(dataset.events)) return response;
-    const normalized = normalizeAgendaDataset(dataset);
-    const headers = new Headers(response.headers);
-    headers.delete("content-length");
-    return new Response(JSON.stringify(normalized), {
-      status: response.status,
-      statusText: response.statusText,
-      headers,
-    });
-  } catch {
-    return response;
-  }
-};

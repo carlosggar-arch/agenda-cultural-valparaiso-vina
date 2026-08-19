@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 WORKFLOW = ROOT / ".github/workflows/multi-city-pre-release.yml"
+REQUIRED_WORKFLOW = ROOT / ".github/workflows/required-release-guard.yml"
 
 
 def text(path: Path) -> str:
@@ -41,6 +42,11 @@ def check_single_release_source() -> None:
     assert release >= 1
 
 
+def module_url(source: str, stem: str) -> str | None:
+    match = re.search(rf'["\'](\./{re.escape(stem)}[^"\']*)["\']', source)
+    return match.group(1) if match else None
+
+
 def check_asset_coherence() -> None:
     index = text(APP / "index.html")
     app_js = text(APP / "app.js")
@@ -65,19 +71,19 @@ def check_asset_coherence() -> None:
     assert mobile_style, "mobile CSS must be render-blocking in <head>"
     assert f'"{mobile_style.group(1)}"' in sw, "service-worker shell must cache the exact mobile stylesheet"
 
-    header_module = re.search(r'import "(\./header-redesign\.js[^\"]*)";', pwa)
-    mobile_module = re.search(r'import "(\./mobile-experience\.js[^\"]*)";', pwa)
-    assert header_module, "pwa.js must import the versioned header module"
-    assert mobile_module, "pwa.js must import the versioned mobile module"
-    assert f'"{header_module.group(1)}"' in sw, "service worker must cache the exact header module imported by pwa.js"
-    assert f'"{mobile_module.group(1)}"' in sw, "service worker must cache the exact mobile module imported by pwa.js"
+    header_module = module_url(pwa, "header-redesign.js")
+    mobile_module = module_url(pwa, "mobile-experience.js")
+    assert header_module, "pwa.js must declare the versioned header module"
+    assert mobile_module, "pwa.js must declare the versioned mobile module"
+    assert f'"{header_module}"' in sw, "service worker must cache the exact header module declared by pwa.js"
+    assert f'"{mobile_module}"' in sw, "service worker must cache the exact mobile module declared by pwa.js"
 
-    app_schedule = re.search(r'import "(\./schedule-display\.js[^\"]*)";', app_js)
-    pwa_schedule = re.search(r'import "(\./schedule-display\.js[^\"]*)";', pwa)
-    assert app_schedule and pwa_schedule, "both app entrypoints must import the shared schedule display module"
-    assert app_schedule.group(1) == pwa_schedule.group(1), "app.js and pwa.js must load the same schedule module URL"
-    assert "?v=" in app_schedule.group(1), "schedule display module must be explicitly versioned"
-    assert f'"{app_schedule.group(1)}"' in sw, "service worker must cache the exact schedule module URL"
+    app_schedule = module_url(app_js, "schedule-display.js")
+    pwa_schedule = module_url(pwa, "schedule-display.js")
+    assert app_schedule and pwa_schedule, "both app entrypoints must declare the shared schedule display module"
+    assert app_schedule == pwa_schedule, "app.js and pwa.js must load the same schedule module URL"
+    assert "?v=" in app_schedule, "schedule display module must be explicitly versioned"
+    assert f'"{app_schedule}"' in sw, "service worker must cache the exact schedule module URL"
 
     formatter = re.search(r'from "(\.\./assets/event-schedule-display\.mjs[^\"]*)"', schedule_js)
     assert formatter, "schedule-display.js must import the shared schedule formatter"
@@ -127,10 +133,29 @@ def check_first_render_contract() -> None:
     assert 'data-initial-city-chrome' in before_modules, "initial city chrome must be filled synchronously"
 
 
+def check_startup_resilience_contract() -> None:
+    app_js = text(APP / "app.js")
+    core = text(APP / "app-core.js")
+    pipeline = text(APP / "data-pipeline.js")
+    policy = text(APP / "program-visibility-policy.js")
+    watchdog = text(APP / "startup-stability.js")
+
+    assert "await coreReady;" in app_js, "optional app modules must wait for core readiness"
+    assert 'loadAgendaDataset' in core and 'vivamos:core-ready' in core, "app-core must own and settle startup"
+    assert 'function applyStage' in pipeline and 'status: "skipped"' in pipeline, "data transforms must fail open"
+    assert 'new MutationObserver' not in policy, "program policy must not observe and mutate its own DOM"
+    assert '.fetch =' not in policy, "program policy must not monkey-patch fetch"
+    assert 'SAFE_MODE_DELAY_MS = 5000' in watchdog and 'app-safe-mode.js' in watchdog, "startup watchdog must provide safe mode"
+
+
 def check_workflow_guard() -> None:
     workflow = text(WORKFLOW)
-    assert "python app/scripts/test_release_guard.py" in workflow, "release guard is not wired into CI"
-    assert "python app/scripts/test_first_render_browser.py" in workflow, "first-render browser probe is not wired into CI"
+    required = text(REQUIRED_WORKFLOW)
+    assert "python app/scripts/test_release_guard.py" in workflow, "release guard is not wired into multi-city CI"
+    assert "python app/scripts/test_first_render_browser.py" in workflow, "first-render browser probe is not wired into multi-city CI"
+    assert "python app/scripts/test_startup_resilience_browser.py" in required, "real startup resilience browser probe is not required before merge"
+    assert "node app/startup-architecture.test.mjs" in required, "startup architecture contract is not required before merge"
+    assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert 'PWA v33' not in workflow, "stale PWA v33 assertion remains in workflow"
     assert 'CACHE_VERSION = \\"v40\\"' not in workflow and 'CACHE_VERSION = "v40"' not in workflow, (
         "stale cache v40 assertion remains in workflow"
@@ -142,6 +167,7 @@ def main() -> None:
     check_asset_coherence()
     check_manifest_entrypoint()
     check_first_render_contract()
+    check_startup_resilience_contract()
     check_workflow_guard()
     print(f"Release guard: OK (release v{release_number()})")
 

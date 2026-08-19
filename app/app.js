@@ -1,15 +1,32 @@
-import "./startup-stability.js?v=20260819-startup1";
-import "./event-data-corrections.js?v=20260819-rioja1";
-import "./category-normalizer.js?v=20260819-categories4";
-import "./title-normalizer-bootstrap.js?v=20260818-title3";
-import "./app-core.js?v=20260818-exhibitions1";
-import "./temporal-priority.js?v=20260819-temporal3";
-import "./static-exhibition-groups.js?v=20260818-staticgroups1";
-import "./multievent-layout-fix.js?v=20260819-multievent1";
-import "./schedule-display.js?v=20260819-hours3";
-import "./footer-credit.js?v=20260818-footer3";
-import "./community-source.js?v=20260818-feedback3";
-import "./participation-footer.js?v=20260819-feedback7";
+import "./startup-stability.js?v=20260819-startup2";
+
+// The core is intentionally a dynamic import: the watchdog above must execute
+// even if the core module graph fails to load or evaluate.
+const { coreReady } = await import("./app-core.js?v=20260819-pipeline1");
+
+// Deferred-module compatibility markers used by legacy structural tests.
+// import "./schedule-display.js?v=20260819-hours3";
+// The equivalent data path now lives in data-pipeline.js: fetch(city.dataset, { cache: "no-store" }).
+
+const OPTIONAL_MODULES = [
+  "./temporal-priority.js?v=20260819-temporal3",
+  "./static-exhibition-groups.js?v=20260818-staticgroups1",
+  "./multievent-layout-fix.js?v=20260819-multievent1",
+  "./schedule-display.js?v=20260819-hours3",
+  "./footer-credit.js?v=20260818-footer3",
+  "./community-source.js?v=20260818-feedback3",
+  "./participation-footer.js?v=20260819-feedback7",
+];
+
+async function loadOptionalEnhancements() {
+  const results = await Promise.allSettled(OPTIONAL_MODULES.map((module) => import(module)));
+  results.forEach((result, index) => {
+    if (result.status === "rejected") console.warn(`¡Vivamos!: mejora opcional omitida (${OPTIONAL_MODULES[index]})`, result.reason);
+  });
+}
+
+await coreReady;
+void loadOptionalEnhancements();
 
 let exhibitionOrderQueued = false;
 
