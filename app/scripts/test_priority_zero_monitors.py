@@ -4,6 +4,7 @@ from datetime import date
 
 from ecoliderazgo_policy import departure_policy
 import refresh_priority_zero_monitors as monitor
+import refresh_official_source_recoveries as recoveries
 
 
 def target(target_id: str) -> dict:
@@ -96,6 +97,38 @@ def test_ecoliderazgo_policy_is_destination_agnostic() -> None:
     assert policy["departure_origin_scope"] == "Viña del Mar / Valparaíso"
 
 
+def test_parque_multidate_visible_schedule_preserves_all_dates() -> None:
+    markup = """
+    <h1>Danza Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso</h1>
+    <p>Las funciones se llevarán a cabo en el Teatro del Parque Cultural de Valparaíso los días miércoles 19, jueves 20 y viernes 21 de agosto, siempre a las 19:00 hrs.</p>
+    """
+    starts = recoveries.parque_visible_multidates(markup, "2026-08-19T19:00:00-04:00")
+    assert [value[:10] for value in starts] == ["2026-08-19", "2026-08-20", "2026-08-21"], starts
+    assert all(value[11:16] == "19:00" for value in starts)
+
+
+def test_visitavina_occurrences_and_rioja_detail() -> None:
+    listing = """
+    <a href="/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20">Visita guiada</a>
+    <a href="/actividad/otro-evento/?occurrence=2026-08-22">Otro evento</a>
+    """
+    rows = recoveries.visitavina_occurrences(listing, date(2026, 8, 19), date(2026, 8, 31))
+    assert rows[0][0].isoformat() == "2026-08-20"
+    detail = recoveries.parse("""
+      <h1>Visita guiada exposición // “A veces un mar dulce”</h1>
+      <div>Fecha</div><div>20-agosto-2026</div>
+      <div>Hora</div><div>3:00 pm - 5:00 pm</div>
+      <div>Lugar</div><div>Palacio Rioja</div>
+      <p>Actividad gratuita, dirigida a todo público</p>
+    """)
+    assert recoveries.rioja_venue(detail) == "Palacio Rioja"
+    assert recoveries.detail_clock(detail) == ("15:00", "17:00")
+    event = recoveries.make_rioja_event(date(2026, 8, 20), rows[0][1], detail, "Palacio Rioja")
+    assert event["schedule"]["start"].startswith("2026-08-20T15:00:00")
+    assert event["price"]["is_free"] is True
+    assert event["editorial"]["covered_source_ids"] == ["museo_palacio_rioja"]
+
+
 def main() -> None:
     test_ipa_past_and_future()
     test_la_peste_requires_explicit_empty_or_future_date()
@@ -104,6 +137,8 @@ def main() -> None:
     test_ecoliderazgo_explicit_local_departure_wins()
     test_ecoliderazgo_explicit_nonlocal_departure_overrides_default()
     test_ecoliderazgo_policy_is_destination_agnostic()
+    test_parque_multidate_visible_schedule_preserves_all_dates()
+    test_visitavina_occurrences_and_rioja_detail()
     print("PRIORITY_ZERO_MONITORS_TESTS_OK")
 
 
