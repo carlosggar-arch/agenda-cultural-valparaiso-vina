@@ -1,0 +1,61 @@
+.program-reference-details {
+  margin-top: .75rem;
+}
+
+.program-reference-summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--ink, #174f46);
+  list-style-position: inside;
+  padding: .8rem 0;
+}
+
+.program-reference-details:not([open]) [data-program-grid] {
+  display: none;
+}
+
+.program-reference-card {
+  border: 1px dashed color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: color-mix(in srgb, Canvas 96%, currentColor 4%);
+}
+
+.program-reference-card h4 {
+  margin: .45rem 0 .7rem;
+}
+
+.program-reference-card p {
+  margin: .35rem 0;
+}
+
+.program-reference-meta {
+  display: flex;
+  gap: .45rem;
+  flex-wrap: wrap;
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.program-reference-meta span {
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-radius: 999px;
+  padding: .2rem .5rem;
+}
+
+.program-reference-period,
+.program-reference-source {
+  font-size: .95rem;
+}
+
+.program-reference-copy {
+  opacity: .78;
+}
+
+.program-reference-card a {
+  display: inline-flex;
+  margin-top: .7rem;
+  font-weight: 700;
+}
