@@ -45,7 +45,10 @@ def check_ui_removed() -> None:
 
     assert "shouldSuppressForTemporalFilter" in module, "date-confidence filter guard must remain active"
     assert "removeLegacyTemporalUi" in module, "legacy temporal UI cleanup must remain active"
-    assert 'temporal-priority.js?v=20260819-temporal2' in entry, "app entrypoint must load the guard-only temporal module"
+    assert "const CITY_REGISTRY = await" not in module, "temporal guard must not block app startup on top-level await"
+    assert 'temporal-priority.js?v=20260819-temporal3' in entry, "app entrypoint must load the non-blocking temporal guard"
+    assert "placeExhibitionsLast" in entry, "default agenda must place exhibition cards after other dated events"
+    assert 'card.dataset.category === "exposiciones"' in entry, "exhibition-last ordering must use the public category id"
 
 
 def make_page() -> None:
@@ -143,7 +146,7 @@ def main() -> None:
     for marker, message in expected.items():
         if marker not in dom:
             raise AssertionError(message)
-    print("Temporal UI removed; Valparaíso/Viña and Gijón confidence guard remains OK")
+    print("Temporal UI removed; startup guard is non-blocking and confidence core remains OK")
 
 
 if __name__ == "__main__":
