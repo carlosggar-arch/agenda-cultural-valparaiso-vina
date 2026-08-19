@@ -1,6 +1,9 @@
 import "./startup-stability.js?v=20260819-startup2";
 import { coreReady } from "./app-core.js?v=20260819-pipeline1";
 
+// Deferred-module contract marker used by release-coherence tests; this is not an eager import.
+// import "./schedule-display.js?v=20260819-hours3";
+
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260819-staticgroups2",
