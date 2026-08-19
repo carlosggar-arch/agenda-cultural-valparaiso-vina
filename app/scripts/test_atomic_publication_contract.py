@@ -13,6 +13,7 @@ FINALIZER_MARKER = "agenda-cultural-core/.github/workflows/finalize-public-agend
 MAINTENANCE_STEPS = [
     "app/scripts/parser_drift_guard.py",
     "app/scripts/revalidate_upcoming_events.py",
+    "app/scripts/schedule_authority_guard.py",
     "app/scripts/audit_and_recover_images.py",
     "app/scripts/audit_source_coherence.py",
 ]
@@ -89,7 +90,9 @@ def main() -> None:
         maintenance_positions.append(index)
     assert maintenance_positions == sorted(maintenance_positions), "Maintenance layers run in an unexpected order"
     assert "REVALIDATION_FETCH_BUDGET" in MAINTENANCE_HOOK
+    assert "SCHEDULE_AUTHORITY_FETCH_BUDGET" in MAINTENANCE_HOOK
     assert "IMAGE_FETCH_BUDGET" in MAINTENANCE_HOOK
+    assert '"app/data/quality/schedule-authority.json"' in MAINTENANCE_HOOK
     assert "git commit" not in MAINTENANCE_HOOK
     assert "git push" not in MAINTENANCE_HOOK
     assert "stage_outputs()" in MAINTENANCE_HOOK
