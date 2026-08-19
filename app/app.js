@@ -18,11 +18,14 @@ const OPTIONAL_MODULES = [
   "./participation-footer.js?v=20260819-feedback7",
 ];
 
-// Gijon currently has a larger card set and was freezing after the stable core
-// had already rendered it. Keep observer-heavy presentation modules out of the
-// Gijon startup path; the core renderer already has the normalized schedules and
-// all individual events, so these are enhancements rather than data dependencies.
+// Gijon currently has a larger card set and some source records do not carry the
+// Valpo-specific start/end confidence metadata used by temporal-priority.js.
+// Combined filters already own date matching for Gijon, so keep that module (and
+// the observer-heavy presentation layers) out of the Gijon runtime. Otherwise
+// a valid `when=hoy` result can be counted by the filters and then hidden again
+// by the secondary confidence guard, leaving only grouped exhibition cards.
 const GIJON_DEFERRED_MODULES = new Set([
+  "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260818-staticgroups1",
   "./multievent-layout-fix.js?v=20260819-multievent1",
   "./schedule-display.js?v=20260819-hours3",
