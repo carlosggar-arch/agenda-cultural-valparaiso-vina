@@ -5,20 +5,8 @@ const LIKE_STORAGE_KEYS = [
 ];
 
 function removeLikeControls() {
-  const likes = [...document.querySelectorAll(".source-like-button")];
-  for (const like of likes) {
-    const parent = like.parentElement;
+  for (const like of document.querySelectorAll("[data-community-like], .source-like-button")) {
     like.remove();
-    // participation-footer.js expects a marker while moving the comments
-    // action into the shared action strip. Keep that marker invisible, but do
-    // not select it again here or the MutationObserver would loop forever.
-    if (parent && !parent.querySelector("[data-community-like]")) {
-      const marker = document.createElement("span");
-      marker.dataset.communityLike = "";
-      marker.hidden = true;
-      marker.setAttribute("aria-hidden", "true");
-      parent.append(marker);
-    }
   }
 }
 
