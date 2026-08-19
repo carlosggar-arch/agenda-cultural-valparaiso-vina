@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v121 unifies equivalent venue names in grouped cards and prevents grouped
-  // event rows from clipping titles, schedules or prices.
-  const RELEASE = 121;
+  // v122 shows verified museum opening hours in grouped cards across both cities
+  // and gives multi-event rows enough room for complete titles, schedules and prices.
+  const RELEASE = 122;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
