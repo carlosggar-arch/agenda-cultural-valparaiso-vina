@@ -7,6 +7,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.request import Request, urlopen
 
+from apply_content_quality_guard import apply_guard
 from update_gijon import build_dataset
 
 SOURCE_URL = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML"
@@ -274,16 +275,21 @@ def main() -> None:
     dataset = build_dataset(rows, look_ahead_days=args.look_ahead_days)
     dataset, duplicates = deduplicate_dataset(dataset)
     dataset = apply_editorial_classification(dataset)
+    # City-specific parsing stops here. Everything below is shared public-quality
+    # policy, so improvements made for one city automatically protect all cities.
+    quality_changes = apply_guard(dataset)
     dataset = refresh_counts(dataset)
     for event in dataset["events"]:
         event["source_url"] = SOURCE_URL
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     counts = dataset["counts"]
+    quality_removed = len(quality_changes.get("quarantined") or []) + len(quality_changes.get("expired_removed") or [])
     print(
         f"Gijón XHTML rows: {len(rows)}; total: {counts['total']}; "
         f"eventos: {counts['events']}; programas: {counts['programs']}; "
-        f"ofertas flexibles: {counts['flexible_offers']}; duplicados eliminados: {duplicates}"
+        f"ofertas flexibles: {counts['flexible_offers']}; duplicados eliminados: {duplicates}; "
+        f"descartados por calidad compartida: {quality_removed}"
     )
 
 
