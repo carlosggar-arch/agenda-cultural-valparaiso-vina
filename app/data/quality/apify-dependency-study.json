@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-19T01:36:18.298865+00:00",
+  "generated_at": "2026-08-19T09:48:20.082575+00:00",
   "reference_date": "2026-08-19",
   "study_started_on": "2026-08-17",
   "observation_window_days": 28,
@@ -11,15 +11,15 @@
   "safety_rule": "No source is automatically removed from Instagram; any Instagram-only or Instagram-lead event protects the source, and reused snapshots do not count as fresh evidence.",
   "current": {
     "date": "2026-08-19",
-    "total_published_events": 162,
+    "total_published_events": 181,
     "instagram_capable_sources": 34,
-    "instagram_source_events": 99,
+    "instagram_source_events": 114,
     "instagram_only_events": 10,
-    "non_instagram_supported_events": 89,
+    "non_instagram_supported_events": 104,
     "instagram_state_updated_at": "2026-08-17T09:35:55.185946+00:00",
     "apify": {
       "status": "cap_reached",
-      "usage_usd": 4.541074046002749,
+      "usage_usd": 4.541362689907497,
       "cap_usd": 3.5,
       "paid_refresh_triggered": false
     },
@@ -77,8 +77,8 @@
       {
         "id": "cinearte_vina",
         "name": "Cine Arte Viña del Mar",
-        "published_events": 16,
-        "direct_web": 16,
+        "published_events": 26,
+        "direct_web": 26,
         "non_instagram_support": 0,
         "instagram_only": 0,
         "unknown": 0,
@@ -177,9 +177,9 @@
       {
         "id": "insomniacine",
         "name": "Insomnia Cine",
-        "published_events": 9,
+        "published_events": 14,
         "direct_web": 0,
-        "non_instagram_support": 9,
+        "non_instagram_support": 14,
         "instagram_only": 0,
         "unknown": 0,
         "web_fetchable": true
@@ -448,7 +448,7 @@
       "observed_days": 3,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 19,
+      "distinct_events_observed": 29,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -598,7 +598,7 @@
       "observed_days": 3,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 11,
+      "distinct_events_observed": 18,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "started_on": "2026-08-17",
-  "updated_at": "2026-08-19T01:36:18.298865+00:00",
+  "updated_at": "2026-08-19T09:48:20.082575+00:00",
   "observation_window_days": 28,
   "minimum_fresh_instagram_snapshots": 4,
   "snapshots": [
@@ -721,15 +721,15 @@
     },
     {
       "date": "2026-08-19",
-      "total_published_events": 162,
+      "total_published_events": 181,
       "instagram_capable_sources": 34,
-      "instagram_source_events": 99,
+      "instagram_source_events": 114,
       "instagram_only_events": 10,
-      "non_instagram_supported_events": 89,
+      "non_instagram_supported_events": 104,
       "instagram_state_updated_at": "2026-08-17T09:35:55.185946+00:00",
       "apify": {
         "status": "cap_reached",
-        "usage_usd": 4.541074046002749,
+        "usage_usd": 4.541362689907497,
         "cap_usd": 3.5,
         "paid_refresh_triggered": false
       },
@@ -787,8 +787,8 @@
         {
           "id": "cinearte_vina",
           "name": "Cine Arte Viña del Mar",
-          "published_events": 16,
-          "direct_web": 16,
+          "published_events": 26,
+          "direct_web": 26,
           "non_instagram_support": 0,
           "instagram_only": 0,
           "unknown": 0,
@@ -887,9 +887,9 @@
         {
           "id": "insomniacine",
           "name": "Insomnia Cine",
-          "published_events": 9,
+          "published_events": 14,
           "direct_web": 0,
-          "non_instagram_support": 9,
+          "non_instagram_support": 14,
           "instagram_only": 0,
           "unknown": 0,
           "web_fetchable": true
@@ -2347,6 +2347,176 @@
       "first_non_instagram_supported": "2026-08-19",
       "last_seen": "2026-08-19",
       "latest_evidence": "direct_web"
+    },
+    "7e1248101336f942c4bb": {
+      "source_id": "insomniacine",
+      "title": "La invitación",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
+    },
+    "804932266965778904d7": {
+      "source_id": "cinearte_vina",
+      "title": "La Odisea (2026)",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "13e623478ad46245eb88": {
+      "source_id": "insomniacine",
+      "title": "La odisea",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
+    },
+    "743e1e43104d0da4d25f": {
+      "source_id": "cinearte_vina",
+      "title": "La Muerte de Robin Hood",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "1401d7fe3b576ba6fe57": {
+      "source_id": "cinearte_vina",
+      "title": "Calle Malaga (2025)",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "943fc2f8b816ab3f7219": {
+      "source_id": "insomniacine",
+      "title": "La odisea",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
+    },
+    "f79c05fb148b389a1bf5": {
+      "source_id": "insomniacine",
+      "title": "Spider-Man: Un nuevo día",
+      "event_date": "2026-08-22",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
+    },
+    "65f532a921b99290108f": {
+      "source_id": "insomniacine",
+      "title": "La odisea",
+      "event_date": "2026-08-23",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
+    },
+    "e847f99db03fd974d6cc": {
+      "source_id": "cinearte_vina",
+      "title": "La Odisea (2026)",
+      "event_date": "2026-08-23",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "3165038bcdd31a68dca7": {
+      "source_id": "insomniacine",
+      "title": "Adolescencia, sexo y muerte en Campamento Miasma",
+      "event_date": "2026-08-23",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
+    },
+    "064ad2e121decf0c4c83": {
+      "source_id": "cinearte_vina",
+      "title": "The Doors: The Final Cut (1991-2026)",
+      "event_date": "2026-08-23",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "a39e77188d07bed79bc7": {
+      "source_id": "cinearte_vina",
+      "title": "Calle Malaga (2025)",
+      "event_date": "2026-08-24",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "9b8abaefb65a4dc24913": {
+      "source_id": "cinearte_vina",
+      "title": "La Odisea (2026)",
+      "event_date": "2026-08-25",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "4281bc5ee1b944207633": {
+      "source_id": "cinearte_vina",
+      "title": "Adolescencia, Sexo y Muerte en Camp Miasma",
+      "event_date": "2026-08-25",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "f01dc875cb6cdb3e8cdc": {
+      "source_id": "cinearte_vina",
+      "title": "La Invitación",
+      "event_date": "2026-08-26",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "79eb52c2a77fb8bb4305": {
+      "source_id": "cinearte_vina",
+      "title": "La Odisea (2026)",
+      "event_date": "2026-08-26",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "direct_web"
+    },
+    "5559d1ce023360d8815e": {
+      "source_id": "insomniacine",
+      "title": "La voz de Hind Rajab",
+      "event_date": "2026-08-28",
+      "first_seen": "2026-08-19",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-19",
+      "last_seen": "2026-08-19",
+      "latest_evidence": "non_instagram_support"
     }
   },
   "recommendations": [
@@ -2431,7 +2601,7 @@
       "observed_days": 3,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 19,
+      "distinct_events_observed": 29,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -2581,7 +2751,7 @@
       "observed_days": 3,
       "fresh_instagram_snapshots_observed": 1,
       "web_fetchable": true,
-      "distinct_events_observed": 11,
+      "distinct_events_observed": 18,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
