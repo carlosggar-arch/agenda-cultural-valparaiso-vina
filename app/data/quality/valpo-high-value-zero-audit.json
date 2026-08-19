@@ -1,51 +1,54 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-17T20:49:33.277177-04:00",
-  "publication_date": "2026-08-17",
-  "policy_reviewed_on": "2026-08-17",
+  "generated_at": "2026-08-18T21:36:18.415673-04:00",
+  "publication_date": "2026-08-18",
+  "policy_reviewed_on": "2026-08-18",
   "counts": {
     "tracked": 16,
-    "producing": 1,
-    "covered_elsewhere": 2,
-    "explained_zero": 13,
+    "producing": 0,
+    "covered_elsewhere": 8,
+    "explained_zero": 8,
     "actionable_zero": 0
   },
   "sources": [
     {
       "id": "museo_fonck",
       "name": "Museo Fonck",
-      "direct_event_count": 1,
-      "cross_covered_event_count": 0,
-      "state": "producing",
+      "direct_event_count": 0,
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
       "attention": "none",
       "actionable": false,
-      "reason": null,
-      "next_action": null,
-      "cross_covered_event_ids": []
+      "reason": "La web oficial del Museo Fonck confirma programación 2026 con año y hora explícitos; desde el 17-08-2026 existe recuperación directa conservadora desde artículos oficiales.",
+      "next_action": "Mantener el refresco oficial y preservar el último evento válido si la web deja de publicar fechas inequívocas.",
+      "cross_covered_event_ids": [
+        "agenda_visitavina_fonck_85802cc1354e5044"
+      ]
     },
     {
       "id": "teatro_municipal_valparaiso",
       "name": "Teatro Municipal de Valparaíso",
       "direct_event_count": 0,
       "cross_covered_event_count": 0,
-      "state": "cross_source_preferred",
+      "state": "cross_source_official_active",
       "attention": "explained_zero",
       "actionable": false,
-      "reason": "Valpo Cultura publica actividades actuales del Teatro Municipal con fecha, recinto y condiciones; la cobertura municipal puede acreditar el recinto aunque el source_id directo esté a cero.",
-      "next_action": "Preferir ficha municipal oficial o ticketera; usar Instagram solo como respaldo.",
+      "reason": "Valpo Cultura mantiene cobertura municipal oficial activa del Teatro Municipal. La ficha del Festival Internacional de Cine Ojo de Pescado indica programación del 24-08-2026 al 03-09-2026; se acredita cobertura del recinto sin duplicar un programa agregado como evento independiente.",
+      "next_action": "Mantener la cobertura cruzada oficial y publicar únicamente sesiones o eventos individuales cuando la fuente entregue datos suficientemente específicos.",
       "cross_covered_event_ids": []
     },
     {
       "id": "centex",
       "name": "CENTEX",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
+      "cross_covered_event_count": 2,
       "state": "covered_elsewhere",
       "attention": "none",
       "actionable": false,
-      "reason": "CENTEX dispone de web oficial y calendario institucional, pero la revisión del 17-08-2026 no muestra programación futura de agosto suficientemente concreta.",
-      "next_action": "Monitorizar centex.cultura.gob.cl y recuperar únicamente nuevas actividades futuras fechadas.",
+      "reason": "Valpo Cultura publica la cartelera oficial de CENTEX para agosto de 2026, con rango explícito del 01-08-2026 al 31-08-2026. La cobertura municipal permite recuperar el programa sin depender de Instagram.",
+      "next_action": "Mantener la recuperación municipal conservadora y preferir actividades individuales oficiales cuando estén disponibles.",
       "cross_covered_event_ids": [
+        "agenda_valpocultura_recovery_971bd421084a1a0b",
         "agenda_93e4dbf4da87420c93c629c6"
       ]
     },
@@ -53,25 +56,29 @@
       "id": "estrella_negra_jazz",
       "name": "Estrella Negra Club de Jazz",
       "direct_event_count": 0,
-      "cross_covered_event_count": 0,
-      "state": "monitored_no_verified_future",
-      "attention": "explained_zero",
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
       "actionable": false,
-      "reason": "La última cartelera municipal verificable encontrada cubre 1 de julio a 1 de agosto de 2026 y ya finalizó.",
-      "next_action": "Esperar una cartelera de agosto/septiembre con fechas explícitas en Valpo Cultura, ticketera o fuente oficial.",
-      "cross_covered_event_ids": []
+      "reason": "Valpo Cultura publica una cartelera vigente de Estrella Negra para agosto de 2026, con rango explícito del 03-08-2026 al 29-08-2026. El recinto ya no debe tratarse como cero accionable mientras esa cobertura oficial esté vigente.",
+      "next_action": "Mantener la cobertura municipal y reemplazar el programa agregado por eventos individuales sólo cuando existan fichas con fecha y hora inequívocas.",
+      "cross_covered_event_ids": [
+        "agenda_valpocultura_recovery_d8e8b0c68682163e"
+      ]
     },
     {
       "id": "valparaiso_profundo",
       "name": "Valparaíso Profundo",
       "direct_event_count": 0,
-      "cross_covered_event_count": 0,
-      "state": "monitored_no_verified_future",
-      "attention": "explained_zero",
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
       "actionable": false,
-      "reason": "Valpo Cultura y Passline muestran programación verificable hasta julio de 2026; no se encontró una función futura posterior al 17-08-2026 con fecha y hora inequívocas.",
-      "next_action": "Seguir Passline y la agenda municipal; publicar cuando aparezca una nueva ficha futura completa.",
-      "cross_covered_event_ids": []
+      "reason": "Valpo Cultura publica programación oficial de Valparaíso Profundo para agosto de 2026, con rango explícito del 01-08-2026 al 28-08-2026. La cobertura cruzada municipal es suficiente para dejar de considerarlo un cero accionable.",
+      "next_action": "Mantener la recuperación municipal conservadora y priorizar fichas individuales o ticketera cuando aporten mayor granularidad.",
+      "cross_covered_event_ids": [
+        "agenda_valpocultura_recovery_21df649558ca1873"
+      ]
     },
     {
       "id": "centro_extension_duoc_valpo",
@@ -91,25 +98,29 @@
       "id": "balmaceda_arte_joven_valpo",
       "name": "Balmaceda Arte Joven Valparaíso",
       "direct_event_count": 0,
-      "cross_covered_event_count": 0,
-      "state": "monitored_no_verified_future",
-      "attention": "explained_zero",
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
       "actionable": false,
-      "reason": "La web oficial mantiene actividad y noticias de la sede, pero no se verificó programación futura fechada suficiente en la revisión del 17-08-2026.",
-      "next_action": "Seguir observando la web oficial; recuperar cuando aparezca fecha futura inequívoca.",
-      "cross_covered_event_ids": []
+      "reason": "El 18-08-2026 volvió a funcionar el acceso oficial desde GitHub Actions: las landings de BAJ Valparaíso respondieron correctamente, se escanearon todas las fichas descubiertas sin fallos y no se encontró ninguna fecha futura publicable. El estado de cero sólo se confirma tras una comprobación oficial completa; cualquier fallo de transporte, escaneo parcial o nueva fecha futura revoca automáticamente esta clasificación.",
+      "next_action": "Mantener el refresco oficial dentro del único publicador atómico y conservar la sonda resiliente semanal en modo no-write; volver a estado accionable si la comprobación queda incompleta o aparece programación futura verificable.",
+      "cross_covered_event_ids": [
+        "agenda_portaltickets_valparaiso_f49fa727f83b40e0"
+      ]
     },
     {
       "id": "casa_cultura_valparaiso",
       "name": "Casa de la Cultura de Valparaíso",
       "direct_event_count": 0,
-      "cross_covered_event_count": 0,
-      "state": "recurring_but_incomplete",
-      "attention": "explained_zero",
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
       "actionable": false,
-      "reason": "La web oficial confirma Jarana cada viernes, pero la ficha no publica una hora concreta para materializar sesiones fiables.",
-      "next_action": "Usar Ticketnet, Valpo Cultura u otra fuente fechada cuando publique una sesión concreta; no inventar hora.",
-      "cross_covered_event_ids": []
+      "reason": "Valpo Cultura publica una actividad concreta y futura de la Casa de la Cultura: Luciana Jury en Chile, el 28-08-2026. La ficha municipal aporta fecha y condiciones suficientes para cobertura oficial sin inventar la hora de recurrencias incompletas.",
+      "next_action": "Mantener la recuperación de fichas municipales concretas y no materializar recurrencias semanales si carecen de hora explícita.",
+      "cross_covered_event_ids": [
+        "agenda_valpocultura_recovery_4a9f34768c8a891a"
+      ]
     },
     {
       "id": "sala_secreta",
@@ -140,11 +151,11 @@
       "name": "Teatro La Peste",
       "direct_event_count": 0,
       "cross_covered_event_count": 0,
-      "state": "monitored_no_verified_future",
+      "state": "monitored_confirmed_zero",
       "attention": "explained_zero",
       "actionable": false,
-      "reason": "Se verifican funciones pasadas en ticketera y colaboraciones con PCDV, pero no una función futura posterior al 17-08-2026.",
-      "next_action": "Vigilar TelonTicket, PortalDisc/PCDV y fuentes oficiales antes de recurrir a más scraping social.",
+      "reason": "El monitor automático verificó el 18-08-2026 la página oficial de Ticketplus con HTTP 200 y el estado explícito 'No hay eventos disponibles'; no existe una función futura publicable en este momento.",
+      "next_action": "Mantener la comprobación automática; si Ticketplus publica una fecha futura, devolver la fuente inmediatamente a estado accionable.",
       "cross_covered_event_ids": []
     },
     {
@@ -152,24 +163,26 @@
       "name": "Sala Teatro IPA",
       "direct_event_count": 0,
       "cross_covered_event_count": 0,
-      "state": "monitored_no_verified_future",
+      "state": "monitored_confirmed_zero",
       "attention": "explained_zero",
       "actionable": false,
-      "reason": "La programación verificable encontrada llega hasta julio de 2026; no se halló una función futura completa posterior al 17-08-2026.",
-      "next_action": "Vigilar Passline y medios culturales con fecha/hora explícitas; mantener Instagram como respaldo.",
+      "reason": "El monitor automático verificó el 18-08-2026 TelonTicket con HTTP 200 y no detectó ninguna fecha futura asociada a Sala Teatro IPA; la programación verificable sigue terminando en julio de 2026.",
+      "next_action": "Mantener la comprobación automática; cualquier nueva fecha futura asociada al recinto debe devolver la fuente a revisión y publicación.",
       "cross_covered_event_ids": []
     },
     {
       "id": "estadio_espanol_recreo",
       "name": "Estadio Español Recreo",
       "direct_event_count": 0,
-      "cross_covered_event_count": 0,
-      "state": "venue_without_public_cultural_agenda",
-      "attention": "explained_zero",
+      "cross_covered_event_count": 1,
+      "state": "covered_elsewhere",
+      "attention": "none",
       "actionable": false,
-      "reason": "Existe web institucional y actividad deportiva estable, pero no una agenda pública cultural/eventual estructurada del recinto para el período futuro revisado.",
-      "next_action": "Usar ticketera/federación/organizador cuando haya un evento puntual y no convertir clases permanentes en eventos culturales.",
-      "cross_covered_event_ids": []
+      "reason": "Existe recuperación automática desde Visita Viña para actividades verificables del Estadio Español Recreo. El diagnóstico público ya lo reconoce como cubierto por `visitavina_estadio_espanol_recovery`, por lo que no debe tratarse como cero accionable mientras esa cobertura esté vigente.",
+      "next_action": "Mantener la recuperación conservadora y no convertir clases o actividad deportiva permanente en eventos culturales puntuales.",
+      "cross_covered_event_ids": [
+        "agenda_visitavina_estadio_espanol_b0d70d835ca50bc4"
+      ]
     },
     {
       "id": "ecoliderazgo",
@@ -188,11 +201,11 @@
       "name": "Casa Prisma Valpo",
       "direct_event_count": 0,
       "cross_covered_event_count": 0,
-      "state": "instagram_budget_constrained",
+      "state": "cross_source_event_monitor_active",
       "attention": "explained_zero",
       "actionable": false,
-      "reason": "No se dispone hoy de una ruta web oficial estructurada y sostenible; la evidencia en ticketera encontrada corresponde a actividad pasada.",
-      "next_action": "Mantener monitorizada y priorizar una ruta web/ticketera estable antes de aumentar dependencia de Instagram.",
+      "reason": "No hay hoy un evento futuro verificable de Casa Prisma en el dataset, pero la reconciliación automática detecta cobertura cuando cualquier fuente agregadora publique un evento futuro cuyo recinto u organizador coincida exactamente con Casa Prisma. Las menciones sólo en títulos no cuentan.",
+      "next_action": "Dejar que la reconciliación la promocione automáticamente a cubierta cuando aparezca evidencia futura; continuar el estudio longitudinal de Instagram sin aumentar frecuencia por ahora.",
       "cross_covered_event_ids": []
     },
     {
@@ -200,11 +213,11 @@
       "name": "Compañía La Paila",
       "direct_event_count": 0,
       "cross_covered_event_count": 0,
-      "state": "instagram_budget_constrained",
+      "state": "cross_source_event_monitor_active",
       "attention": "explained_zero",
       "actionable": false,
-      "reason": "La fuente sigue dependiendo de Instagram y no se verificó una agenda web estructurada actual.",
-      "next_action": "Revisar de nuevo cuando exista programación futura verificable o una ruta oficial estructurada.",
+      "reason": "No se verificó una agenda web estructurada actual, pero la reconciliación automática detecta cualquier evento futuro de otra fuente cuyo organizador o recinto coincida exactamente con Compañía La Paila/Teatro La Paila. La ausencia en una ticketera no exhaustiva no se interpreta como inactividad.",
+      "next_action": "Dejar que la reconciliación la promocione automáticamente cuando aparezca evidencia futura y mantener el estudio longitudinal de Instagram como respaldo.",
       "cross_covered_event_ids": []
     }
   ]
