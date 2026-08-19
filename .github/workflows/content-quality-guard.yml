@@ -10,6 +10,15 @@ on:
       - "app/scripts/apply_content_quality_guard.py"
       - "app/scripts/test_content_quality_guard.py"
       - ".github/workflows/content-quality-guard.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "agenda_web.json"
+      - "app/data/gijon/agenda_web.json"
+      - "app/cities.json"
+      - "app/scripts/apply_content_quality_guard.py"
+      - "app/scripts/test_content_quality_guard.py"
+      - ".github/workflows/content-quality-guard.yml"
   workflow_dispatch:
 
 permissions:
@@ -25,11 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout latest main
+      - name: Checkout candidate
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -46,11 +54,13 @@ jobs:
           python app/scripts/apply_content_quality_guard.py --all-cities --no-write
 
       - name: Apply shared content quality guard
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           python app/scripts/apply_content_quality_guard.py --all-cities
 
       - name: Commit sanitized public datasets
+        if: github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           git config user.name "agenda-content-quality[bot]"
