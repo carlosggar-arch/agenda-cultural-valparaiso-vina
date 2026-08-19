@@ -6,6 +6,7 @@ function read(path) {
 }
 
 const combined = read("./combined-filters.js");
+const core = read("./app-core.js");
 const safety = read("./combined-filters-safety.js");
 const browserTest = read("./scripts/test_date_filter_browser.py");
 const pwa = read("./pwa.js");
@@ -26,6 +27,14 @@ assert.match(combined, /const occurrences = event\?\.schedule\?\.occurrences;/);
 assert.match(combined, /if \(Array\.isArray\(occurrences\) && occurrences\.length\)/);
 assert.match(combined, /return occurrences\.map\(\(occurrence\) => \(\{/);
 assert.match(combined, /const ranges = eventDateRanges\(event\);/);
+
+// Both the base sections and combined filter define weekend as Friday through Sunday.
+for (const source of [core, combined]) {
+  assert.match(source, /const daysToFriday = weekday === 5 \? 0 : weekday === 6 \? -1 : weekday === 0 \? -2 : 5 - weekday;/);
+  assert.match(source, /const friday = addDays\(todayKey, daysToFriday\);/);
+  assert.match(source, /return \{ start: friday, end: addDays\(friday, 2\) \};/);
+  assert.doesNotMatch(source, /daysToSaturday/);
+}
 
 // The fail-open layer may restore cards only while the live controls are neutral.
 assert.match(safety, /pressedFilterValue\("\[data-combined-when\]"\) !== "todos"/);
