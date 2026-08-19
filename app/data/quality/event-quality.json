@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-18T23:09:56+00:00",
+  "generated_at": "2026-08-19T00:57:37+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
@@ -788,24 +788,24 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-08-19",
-      "generated_at": "2026-08-19T01:05:27+02:00",
+      "generated_at": "2026-08-19T02:53:39+02:00",
       "summary": {
-        "total_events": 112,
-        "average_quality_score": 97.1,
+        "total_events": 123,
+        "average_quality_score": 96.4,
         "quality_class": "excellent",
-        "sources_catalogued": 28,
-        "sources_producing": 10,
+        "sources_catalogued": 29,
+        "sources_producing": 11,
         "sources_zero": 18,
         "review_priority_zero_sources": 18,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 81.2,
+        "top3_source_share_pct": 78.0,
         "unattributed_events": 0
       },
       "field_coverage": {
         "date_pct": 100.0,
-        "time_pct": 72.3,
+        "time_pct": 65.9,
         "venue_pct": 100.0,
-        "image_pct": 98.2,
+        "image_pct": 98.4,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
         "official_source_pct": 100.0,
@@ -815,92 +815,92 @@
         {
           "id": "musica",
           "label": "Música",
-          "count": 27,
-          "share_pct": 24.1,
+          "count": 38,
+          "share_pct": 30.9,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 26,
-          "share_pct": 23.2,
+          "share_pct": 21.1,
           "underrepresented": false
         },
         {
           "id": "museos",
           "label": "Museos",
           "count": 18,
-          "share_pct": 16.1,
+          "share_pct": 14.6,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro / artes escénicas",
           "count": 13,
-          "share_pct": 11.6,
+          "share_pct": 10.6,
           "underrepresented": false
         },
         {
           "id": "actividad-panorama",
           "label": "Actividad / panorama",
           "count": 11,
-          "share_pct": 9.8,
+          "share_pct": 8.9,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 5,
-          "share_pct": 4.5,
+          "share_pct": 4.1,
           "underrepresented": true
         },
         {
           "id": "deporte-bienestar",
           "label": "Deporte / bienestar",
           "count": 5,
-          "share_pct": 4.5,
+          "share_pct": 4.1,
           "underrepresented": true
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 4,
-          "share_pct": 3.6,
+          "share_pct": 3.3,
           "underrepresented": true
         },
         {
           "id": "formacion-taller",
           "label": "Formación / taller",
           "count": 3,
-          "share_pct": 2.7,
+          "share_pct": 2.4,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Gijón",
-          "count": 108,
-          "share_pct": 96.4
+          "count": 119,
+          "share_pct": 96.7
         },
         {
           "area": "Cudillero",
           "count": 1,
-          "share_pct": 0.9
+          "share_pct": 0.8
         },
         {
           "area": "AVILES",
           "count": 1,
-          "share_pct": 0.9
+          "share_pct": 0.8
         },
         {
           "area": "NAVA",
           "count": 1,
-          "share_pct": 0.9
+          "share_pct": 0.8
         },
         {
           "area": "LA MORGAL (LLANERA)",
           "count": 1,
-          "share_pct": 0.9
+          "share_pct": 0.8
         }
       ],
       "coverage_gaps": {
@@ -935,7 +935,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 98.2,
+        "relevant_image_pct": 98.4,
         "removed_events": {}
       },
       "sources": [
@@ -966,6 +966,30 @@
             "exposiciones": 22,
             "cultura": 3,
             "musica": 20
+          }
+        },
+        {
+          "id": "gijon_arena",
+          "name": "Gijón Arena — Próximos eventos",
+          "count": 11,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 0.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "musica": 11
           }
         },
         {

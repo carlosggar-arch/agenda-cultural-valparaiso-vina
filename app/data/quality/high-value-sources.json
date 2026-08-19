@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T23:07:04+00:00",
+  "generated_at": "2026-08-19T00:55:20+00:00",
   "sources": [
     {
       "id": "museo_evaristo_valle",
@@ -49,6 +49,20 @@
       "name": "Laboral Cinemateca",
       "dataset": "gijon",
       "mode": "monitor",
+      "fetch_ok": null,
+      "http_status": null,
+      "events_extracted": 0,
+      "events_added": 0,
+      "duplicates_skipped": 0,
+      "state": "delegated_to_core",
+      "error": null,
+      "delegated_to": "agenda-cultural-core/publish-multi-city"
+    },
+    {
+      "id": "gijon_arena",
+      "name": "Gijón Arena — Próximos eventos",
+      "dataset": "gijon",
+      "mode": "direct",
       "fetch_ok": null,
       "http_status": null,
       "events_extracted": 0,
