@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 WORKFLOW = ROOT / ".github/workflows/multi-city-pre-release.yml"
+REQUIRED_WORKFLOW = ROOT / ".github/workflows/required-release-guard.yml"
 
 
 def text(path: Path) -> str:
@@ -149,10 +150,12 @@ def check_startup_resilience_contract() -> None:
 
 def check_workflow_guard() -> None:
     workflow = text(WORKFLOW)
-    assert "python app/scripts/test_release_guard.py" in workflow, "release guard is not wired into CI"
-    assert "python app/scripts/test_first_render_browser.py" in workflow, "first-render browser probe is not wired into CI"
-    assert "python app/scripts/test_startup_resilience_browser.py" in workflow, "real startup resilience browser probe is not wired into CI"
-    assert "node app/startup-architecture.test.mjs" in workflow, "startup architecture contract is not wired into CI"
+    required = text(REQUIRED_WORKFLOW)
+    assert "python app/scripts/test_release_guard.py" in workflow, "release guard is not wired into multi-city CI"
+    assert "python app/scripts/test_first_render_browser.py" in workflow, "first-render browser probe is not wired into multi-city CI"
+    assert "python app/scripts/test_startup_resilience_browser.py" in required, "real startup resilience browser probe is not required before merge"
+    assert "node app/startup-architecture.test.mjs" in required, "startup architecture contract is not required before merge"
+    assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert 'PWA v33' not in workflow, "stale PWA v33 assertion remains in workflow"
     assert 'CACHE_VERSION = \\"v40\\"' not in workflow and 'CACHE_VERSION = "v40"' not in workflow, (
         "stale cache v40 assertion remains in workflow"
