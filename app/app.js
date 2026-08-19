@@ -4,6 +4,7 @@ import "./category-normalizer.js?v=20260818-categories3";
 import "./title-normalizer-bootstrap.js?v=20260818-title3";
 import "./app-core.js?v=20260818-exhibitions1";
 import "./static-exhibition-groups.js?v=20260818-staticgroups1";
+import "./schedule-display.js?v=20260819-hours1";
 import "./footer-credit.js?v=20260818-footer3";
 import "./community-source.js?v=20260818-feedback3";
 import "./participation-footer.js?v=20260819-feedback7";
