@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v130 keeps the v129 grouping fixes and isolates contextual filters between
-  // cities, with a fail-open guard if the secondary filter dataset fetch fails.
-  const RELEASE = 130;
+  // v131 keeps the v130 city-isolation fixes and makes schedule-display consume
+  // the normalized data pipeline so all structured cinema sessions stay visible.
+  const RELEASE = 131;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
