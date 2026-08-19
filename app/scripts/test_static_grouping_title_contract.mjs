@@ -75,8 +75,8 @@ const decadencia = supplemental.events[0];
 assert.equal(decadencia.title, "Presentación libro // “Decadencia”");
 assert.equal(decadencia.primary_category?.id, "otros");
 assert.equal(decadencia.primary_category?.label, "Otros panoramas");
-assert.equal(decadencia.schedule?.start, "2026-08-27T17:00:00-04:00");
-assert.equal(decadencia.schedule?.end, "2026-08-27T19:00:00-04:00");
+assert.equal(decadencia.schedule?.start, "2026-08-27T18:00:00-04:00");
+assert.equal(decadencia.schedule?.end, "2026-08-27T20:00:00-04:00");
 assert.equal(decadencia.location?.venue, "Palacio Rioja");
 assert.equal(decadencia.public_status?.source_official, true);
 assert.ok(
@@ -90,7 +90,7 @@ assert.doesNotMatch(supplementBridge, /Decadencia|Palacio Rioja/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 123, "PWA release must include museum readability and supplemental event recovery");
+assert.ok(Number(releaseMatch[1]) >= 124, "PWA release must include museum readability and the current official Decadencia schedule");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
