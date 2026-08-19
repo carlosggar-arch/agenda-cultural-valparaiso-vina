@@ -30,10 +30,12 @@ const GIJON_DEFERRED_MODULES = new Set([
   "./multievent-layout-fix.js?v=20260819-multievent1",
   "./schedule-display.js?v=20260819-hours3",
 ]);
-if (String(document.documentElement.dataset.city || "") === "gijon") {
+const IS_GIJON = String(document.documentElement.dataset.city || "") === "gijon";
+if (IS_GIJON) {
   for (let index = OPTIONAL_MODULES.length - 1; index >= 0; index -= 1) {
     if (GIJON_DEFERRED_MODULES.has(OPTIONAL_MODULES[index])) OPTIONAL_MODULES.splice(index, 1);
   }
+  OPTIONAL_MODULES.push("./gijon-card-images.js?v=20260819-images1");
   document.documentElement.dataset.gijonStableRuntime = "true";
 }
 
@@ -82,14 +84,18 @@ function scheduleExhibitionOrder() {
   queueMicrotask(placeExhibitionsLast);
 }
 
-const datedGrid = document.querySelector('[data-dated-grid]');
-if (datedGrid) {
-  new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+// The Gijon stable path intentionally avoids a grid observer. The core already
+// renders a deterministic order, and the combined filter layer owns visibility.
+if (!IS_GIJON) {
+  const datedGrid = document.querySelector('[data-dated-grid]');
+  if (datedGrid) {
+    new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+  }
+  document.addEventListener("click", (event) => {
+    if (event.target.closest('[data-filter-value], [data-combined-category], [data-filter-clear]')) scheduleExhibitionOrder();
+  });
+  document.addEventListener("input", (event) => {
+    if (event.target.matches('[data-smart-search], [data-date-from], [data-date-to]')) scheduleExhibitionOrder();
+  });
+  scheduleExhibitionOrder();
 }
-document.addEventListener("click", (event) => {
-  if (event.target.closest('[data-filter-value], [data-combined-category], [data-filter-clear]')) scheduleExhibitionOrder();
-});
-document.addEventListener("input", (event) => {
-  if (event.target.matches('[data-smart-search], [data-date-from], [data-date-to]')) scheduleExhibitionOrder();
-});
-scheduleExhibitionOrder();

@@ -140,8 +140,12 @@ function eventCategories(event) {
   for (const category of event?.categories || []) values.push(category);
   const unique = new Map();
   for (const category of values) {
-    const label = String(category?.label || "").trim();
-    const id = String(category?.id || slugify(label)).trim();
+    let label = String(category?.label || "").trim();
+    let id = String(category?.id || slugify(label)).trim();
+    if (id === "museos" || slugify(label) === "museos") {
+      id = "exposiciones";
+      label = "Exposiciones";
+    }
     if (label && id && !unique.has(id)) unique.set(id, label);
   }
   return unique;
@@ -517,8 +521,17 @@ function visibleCards(grid) {
   return [...(grid?.querySelectorAll(".event-card") || [])].filter((card) => !card.hidden);
 }
 
+function visibleActivityCount(grid) {
+  return visibleCards(grid).reduce((count, card) => {
+    if (!card.dataset.eventGroup) return count + 1;
+    const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
+    if (rows.length) return count + rows.filter((item) => !item.hidden).length;
+    return count + String(card.dataset.eventGroup || "").split(",").filter(Boolean).length;
+  }, 0);
+}
+
 function patchGroup(section, total, grid) {
-  const count = visibleCards(grid).length;
+  const count = visibleActivityCount(grid);
   setText(total, count);
   setHidden(section, count === 0);
   return count;
@@ -562,6 +575,25 @@ function patchResults(filtered) {
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
     const hidden = !ids.has(card.dataset.eventId || "");
     if (card.hidden !== hidden) card.hidden = hidden;
+  }
+
+  for (const card of document.querySelectorAll(".event-card[data-event-group]")) {
+    const groupIds = String(card.dataset.eventGroup || "").split(",").map((id) => id.trim()).filter(Boolean);
+    const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
+    let visible = 0;
+    groupIds.forEach((id, index) => {
+      const matches = ids.has(id);
+      if (matches) visible += 1;
+      if (rows[index] && rows[index].hidden !== !matches) rows[index].hidden = !matches;
+    });
+    const hidden = visible === 0;
+    if (card.hidden !== hidden) card.hidden = hidden;
+    if (!hidden) {
+      const summary = card.querySelector(".exhibition-group-details > summary");
+      if (summary) summary.textContent = `Ver ${visible} ${visible === 1 ? "exposición" : "exposiciones"}`;
+      const available = card.querySelector("p > strong");
+      if (available) available.textContent = `${visible} ${visible === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
+    }
   }
 
   const dated = patchGroup(dom.datedSection, dom.datedTotal, dom.datedGrid);

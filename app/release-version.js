@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v134 keeps the v133 Gijon temporal fix and makes every date filter use the
-  // same normalized event/session dataset as the core renderer.
-  const RELEASE = 134;
+  // v135 keeps the normalized date pipeline and makes Gijon grouped exhibitions
+  // filter-aware, merges Museos into Exposiciones and restores light card images.
+  const RELEASE = 135;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
