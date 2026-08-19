@@ -48,7 +48,11 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch } =
   diagnostics.push({ name: "base", status: "ok" });
 
   dataset = await withSupplemental(city, dataset, fetchImpl, diagnostics);
-  dataset = applyStage("event-data-corrections", applyEventDataCorrections, dataset, diagnostics);
+  if (city.id === "valparaiso") {
+    dataset = applyStage("event-data-corrections", applyEventDataCorrections, dataset, diagnostics);
+  } else {
+    diagnostics.push({ name: "event-data-corrections", status: "not-applicable" });
+  }
   dataset = applyStage("category-normalizer", normalizeAgendaCategories, dataset, diagnostics);
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
