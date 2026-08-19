@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v131 keeps the v130 city-isolation fixes and makes schedule-display consume
-  // the normalized data pipeline so all structured cinema sessions stay visible.
-  const RELEASE = 131;
+  // v132 keeps Gijon on the stable core renderer and defers observer-heavy card
+  // presentation layers that can freeze the page after the initial render.
+  const RELEASE = 132;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
