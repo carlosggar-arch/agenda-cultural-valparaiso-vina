@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-19T09:48:19+00:00",
+  "generated_at": "2026-08-19T10:27:00+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -15,32 +15,27 @@
       "freshness": {
         "publication_date": "2026-08-18",
         "publication_age_days": 1,
-        "generated_at": "2026-08-18T22:35:26-04:00",
-        "generated_age_hours": 7.2
+        "generated_at": "2026-08-19T05:49:13-04:00",
+        "generated_age_hours": 0.6
       },
       "counts": {
-        "total_events": 181,
-        "schedule_expected_events": 174,
-        "dated_events": 174,
+        "total_events": 180,
+        "schedule_expected_events": 173,
+        "dated_events": 173,
         "timed_events": 172,
-        "relevant_image_events": 106,
+        "relevant_image_events": 161,
         "suspicious_titles": 0,
-        "title_review_candidates": 5,
+        "title_review_candidates": 0,
         "duplicate_groups": 0,
-        "generic_schedule_images_rejected": 3
+        "generic_schedule_images_rejected": 4
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 98.9,
-        "relevant_image_pct": 58.6
+        "time_pct": 99.4,
+        "relevant_image_pct": 89.4
       },
       "samples": {
         "missing_time": [
-          {
-            "id": "agenda_baburizza_1c7f799286855aee48c8",
-            "title": "Nebulosa Carina",
-            "venue": "Sitio web Museo Baburizza"
-          },
           {
             "id": "agenda_8fdb648a4006f282d5228bb1",
             "title": "PORQUE NO NOS BASTA CON GOZAR EN VALPARADAIS A LA FLORI UNA VEZ AL AÑO.",
@@ -61,6 +56,10 @@
             "title": "Club de Jazz Estrella Negra – Cartelera Agosto"
           },
           {
+            "id": "agenda_e7e2a4a89dc447f9bd2633e7",
+            "title": "Destino Valparaíso – Agosto 2026"
+          },
+          {
             "id": "agenda_67defc9c064344e04c20aca6",
             "title": "Exhibición temporal // Mientras tanto"
           },
@@ -75,45 +74,10 @@
           {
             "id": "agenda_a933180663b5f1d4af1ec329",
             "title": "Exposición transitoria // “Entre mareas”"
-          },
-          {
-            "id": "agenda_visitavina_fonck_85802cc1354e5044",
-            "title": "Taller // Lengua Rapanui"
           }
         ],
         "suspicious_titles": [],
-        "title_review_candidates": [
-          {
-            "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
-            "title": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_portaltickets_valparaiso_2b3de8a59e3e1949",
-            "title": "VIERNES CEBOLLA",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
-            "title": "MÚSICA ENSAMBLE PRESENTA “NOTAS QUE TRANSFORMAN”",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_portaltickets_valparaiso_17649e3a436aa1fd",
-            "title": "FIESTA BOHEMIA PRESENTA: NOCHES DE BOHEMIA",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "agenda_portaltickets_valparaiso_defc0269dc9a63ce",
-            "title": "LOS TETAS: PRESENTA FUNKPARAISO",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          }
-        ],
+        "title_review_candidates": [],
         "duplicates": []
       },
       "source_coverage": {
@@ -265,16 +229,16 @@
         "titles_recovered": 1,
         "target_city_blocks_recovered": 0,
         "visit_hours_enriched": 1,
-        "venue_hours_enriched": 0,
+        "venue_hours_enriched": 1,
         "removed_title_quality": 5,
         "removed_location_mismatch": 0,
         "removed_deadline_only_call": 0,
         "removed_retrospective_post": 0
       },
       "publication_corrections": {
-        "checked_at": "2026-08-18",
-        "active_corrections": 6,
-        "applied_count": 3,
+        "checked_at": "2026-08-19",
+        "active_corrections": 7,
+        "applied_count": 4,
         "applied": [
           {
             "correction_id": "teatro_vina_beyond_2026_schedule",
@@ -319,6 +283,22 @@
             "previous_title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
             "official_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
             "reason": "La pieza oficial del evento Luciana Jury en Chile indica 28/8 a las 20:30 hrs. Se conserva esa hora explícita sin inventar una hora de término cuando la fuente no la especifica."
+          },
+          {
+            "correction_id": "cultura_usm_gala_lirica_2026_schedule",
+            "event_id": "agenda_738a464c120c73aecfe90622",
+            "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+            "action": "patch_verified_fields",
+            "patched_fields": [
+              "schedule.display_text",
+              "schedule.end",
+              "schedule.end_confidence",
+              "schedule.start",
+              "schedule.start_confidence"
+            ],
+            "previous_title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+            "official_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+            "reason": "La ficha oficial de Cultura USM identifica una sola función el 29 de agosto de 2026, con Hora inicio 19:00 y Hora término 20:30. El término es el fin de la misma función y no una segunda sesión."
           }
         ]
       }
@@ -335,7 +315,7 @@
         "publication_date": "2026-08-19",
         "publication_age_days": 0,
         "generated_at": "2026-08-19T09:07:15+02:00",
-        "generated_age_hours": 2.7
+        "generated_age_hours": 3.3
       },
       "counts": {
         "total_events": 121,
@@ -940,7 +920,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.541362689907497,
+    "usage_usd": 4.541411908114454,
     "remaining_usd": 0.0
   }
 }
