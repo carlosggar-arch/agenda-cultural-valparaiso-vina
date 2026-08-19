@@ -5,6 +5,7 @@ APP = Path("app")
 index = (APP / "index.html").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
+app_js += "\n" + (APP / "data-pipeline.js").read_text(encoding="utf-8")
 city_first_run = (APP / "city-first-run.js").read_text(encoding="utf-8")
 city_registry_module = Path("assets/city-registry.mjs").read_text(encoding="utf-8")
 city_registry = json.loads((APP / "cities.json").read_text(encoding="utf-8"))
@@ -30,6 +31,8 @@ plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
 favorites = (APP / "favorites.js").read_text(encoding="utf-8")
 mis_planes = (APP / "mis-planes.html").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
+runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
+render_lifecycle = (APP / "render-lifecycle.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
 schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
 plan_ahead_core = Path("assets/plan-ahead-core.mjs").read_text(encoding="utf-8")
@@ -102,14 +105,19 @@ for marker in (
     'const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId',
     'function renderCityOptions()',
     'button.dataset.cityOption = city.id',
-    'fetch(city.dataset',
+    'fetchJson(city.dataset',
     'cache: "no-store"',
     'renderCategories()',
     'renderSources()',
+    'publishAgendaRuntimeSnapshot',
 ):
     assert marker in app_js
 assert 'navigator.geolocation' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
+assert 'vivamos:agenda-data-ready' in runtime_state
+assert 'vivamos:agenda-rendered' in render_lifecycle
+assert 'subtree: true' not in render_lifecycle
+assert 'characterData: true' not in render_lifecycle
 
 for marker in (
     'function eventMatchesWhen', 'function eventMatchesArea',
@@ -145,18 +153,25 @@ assert 'art.className = "header-art"' in header_redesign_js
 assert '.header-art' in header_redesign_css
 
 assert 'openEventDetail' in card_js
+assert 'getAgendaRuntimeSnapshot' in card_js
 assert 'event-card-media' in card_js
 assert 'event-card-actions' in card_js
 assert 'card-day-badge' in card_js
 assert 'looksLikeGenericSchedule(event)' in card_js
 assert 'event?.image?.url' in card_js
 assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
+assert 'new MutationObserver' not in card_js
+assert 'fetch(' not in card_js
 assert '.event-card-media' in card_css
 assert 'formatSchedule(schedule, activeConfig)' in schedule_display_js
 assert 'scheduleForGijonEvent' in schedule_display_js
+assert 'getAgendaRuntimeSnapshot' in schedule_display_js
+assert 'new MutationObserver' not in schedule_display_js
 assert 'activeCity() !== "valparaiso"' not in fallback_js
+assert 'getAgendaRuntimeSnapshot' in fallback_js
 assert 'document.querySelectorAll(".event-card-media--placeholder")' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
+assert 'new MutationObserver' not in fallback_js
 assert 'object-fit: contain !important' in media_layout
 assert 'export function formatSchedule' in schedule_module
 
@@ -180,10 +195,15 @@ assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
 assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
 assert 'service-worker.js?v=${APP_RELEASE}' in pwa
 assert 'import "./header-redesign.js?v=20260817-brandicon2";' in pwa
-assert 'import "./schedule-display.js?v=20260819-hours3";' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
+assert '"./schedule-display.js' not in pwa
+assert './schedule-display.js?v=20260819-runtime1' in app_js
+assert '"./card-experience.js"' not in pwa
+assert '"./card-image-fallback.js"' not in pwa
+assert '"./public-presentation-guard.js"' not in pwa
+assert '"./exhibition-hours.js' not in pwa
 assert 'import "./lean-filters.js";' not in pwa
 assert 'function showInstallHelp()' in pwa
 assert 'Añadir a pantalla de inicio' in pwa
@@ -246,6 +266,7 @@ for asset in (
     '"./header-redesign.js?v=20260817-brandicon2"', '"./card-experience.js"',
     '"./schedule-display.js?v=20260819-hours3"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
     '"./favorites.js"', '"./mis-planes.html"', '"./sources-toggle.js"', '"./community-source.js"',
+    '"./agenda-runtime-state.mjs"', '"./render-lifecycle.js"',
     '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs?v=20260819-hours3"',
     '"../assets/plan-ahead-core.mjs"', '"../assets/plan-ahead.css"',
     '"../assets/favorites-core.mjs"', '"../assets/favorites-view.mjs"', '"../assets/favorites-reminders.mjs"',
@@ -255,4 +276,4 @@ for asset in (
 assert '"./lean-filters.js"' not in shell_block
 assert '"./contextual-filters.js"' not in shell_block
 
-print("Multi-city shared-release, shared-registry, Mis planes reminders, install and offline contracts: OK")
+print("Multi-city shared-release, shared-registry, bounded runtime, reminders, install and offline contracts: OK")
