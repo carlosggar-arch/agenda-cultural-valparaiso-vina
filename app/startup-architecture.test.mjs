@@ -97,9 +97,11 @@ assert.match(combined, /loadAgendaDataset/, "combined filters must use the same 
 assert.match(combined, /id === "museos"[\s\S]*id = "exposiciones"/, "Museos must collapse into Exposiciones in filter semantics");
 assert.match(combined, /\.event-card\[data-event-group\]/, "grouped exhibitions must participate in filtering");
 assert.match(combined, /rows\[index\]\.hidden/, "grouped exhibition children must respect active filters");
-assert.match(gijonImages, /loadAgendaDataset\(city\)/, "Gijon images must use the normalized agenda pipeline");
+assert.match(gijonImages, /getAgendaRuntimeSnapshot/, "Gijon images must consume shared normalized runtime state");
+assert.match(gijonImages, /vivamos:agenda-rendered/, "Gijon images must react to the bounded render lifecycle");
 assert.match(gijonImages, /\.event-card\[data-event-id\]/, "Gijon image enrichment must target stable core cards directly");
-assert.doesNotMatch(gijonImages, /childList\s*:\s*true/, "Gijon image enrichment must not observe the event grid");
+assert.doesNotMatch(gijonImages, /loadAgendaDataset/, "Gijon images must not rerun the data pipeline");
+assert.doesNotMatch(gijonImages, /new MutationObserver\s*\(/, "Gijon image enrichment must not install DOM observers");
 
 for (const file of [
   "./supplemental-events-fetch.js",
