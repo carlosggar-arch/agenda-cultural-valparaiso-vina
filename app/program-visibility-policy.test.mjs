@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import {
   applyProgramVisibilityPolicy,
   isProgramCovered,
@@ -95,6 +96,22 @@ function program(overrides = {}) {
       location: { venue: "Valparaiso Profundo", city: "Valparaíso" },
     })),
     "Valparaíso Profundo — programación de agosto",
+  );
+}
+
+{
+  const webEnhancements = readFileSync(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  assert.match(webEnhancements, /function setTextIfChanged\(/, "root WEB must avoid unconditional text-node rewrites");
+  assert.match(webEnhancements, /new MutationObserver\(scheduleApply\)/, "root WEB observer must coalesce enhancement passes");
+  assert.doesNotMatch(
+    webEnhancements,
+    /if \(date\) date\.textContent = formatSchedule/,
+    "schedule enhancement must not retrigger its own MutationObserver indefinitely",
+  );
+  assert.doesNotMatch(
+    webEnhancements,
+    /if \(total\) total\.textContent/,
+    "total enhancement must not retrigger its own MutationObserver indefinitely",
   );
 }
 

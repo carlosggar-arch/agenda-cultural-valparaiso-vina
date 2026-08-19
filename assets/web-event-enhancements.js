@@ -53,6 +53,14 @@ function installMediaStyles() {
   installStylesheet(PERMALINK_STYLESHEET, "data-event-permalink-styles");
 }
 
+function setTextIfChanged(node, value) {
+  if (!node) return false;
+  const text = String(value ?? "");
+  if (node.textContent === text) return false;
+  node.textContent = text;
+  return true;
+}
+
 function validHttpUrl(value) {
   try {
     const url = new URL(String(value || ""), window.location.href);
@@ -231,7 +239,7 @@ function enhanceCard(card, event) {
   compactMetaRow(card, event);
   installPermalink(card, event);
   const date = card.querySelector(".card-date");
-  if (date) date.textContent = formatSchedule(event?.schedule, SCHEDULE_OPTIONS);
+  setTextIfChanged(date, formatSchedule(event?.schedule, SCHEDULE_OPTIONS));
 }
 
 function enhanceDetail(event) {
@@ -240,7 +248,7 @@ function enhanceDetail(event) {
   const terms = [...dialog.querySelectorAll("dt")];
   const term = terms.find((node) => node.textContent.trim() === "Fecha y horario");
   if (term?.nextElementSibling) {
-    term.nextElementSibling.textContent = formatSchedule(event?.schedule, SCHEDULE_OPTIONS);
+    setTextIfChanged(term.nextElementSibling, formatSchedule(event?.schedule, SCHEDULE_OPTIONS));
   }
   const media = dialog.querySelector(".card-media");
   removeMediaOverlays(media);
@@ -250,7 +258,10 @@ function enhanceDetail(event) {
   if (media && looksLikeGenericSchedule(event)) {
     media.classList.remove("has-relevant-image");
     media.style.removeProperty("--event-image");
-    media.replaceChildren(fallbackArtwork(event, { genericSchedule: true }));
+    if (media.dataset.genericFallback !== "true") {
+      media.dataset.genericFallback = "true";
+      media.replaceChildren(fallbackArtwork(event, { genericSchedule: true }));
+    }
   }
   const actions = dialog.querySelector("[data-detail-actions]");
   const href = eventPageHref(event);
@@ -294,7 +305,7 @@ async function start() {
       if (event) enhanceCard(card, event);
     });
     const total = document.querySelector("[data-total]");
-    if (total) total.textContent = String(sourceEvents.length - rejectedIds.size);
+    setTextIfChanged(total, sourceEvents.length - rejectedIds.size);
     const requested = new URL(window.location.href).searchParams.get("evento");
     if (rejectedIds.has(String(requested || ""))) {
       document.querySelector("[data-detail-dialog]")?.close?.();
@@ -304,7 +315,17 @@ async function start() {
     if (event) enhanceDetail(event);
   };
 
-  const observer = new MutationObserver(apply);
+  let applyQueued = false;
+  const scheduleApply = () => {
+    if (applyQueued) return;
+    applyQueued = true;
+    queueMicrotask(() => {
+      applyQueued = false;
+      apply();
+    });
+  };
+
+  const observer = new MutationObserver(scheduleApply);
   observer.observe(document.body, { childList: true, subtree: true });
   apply();
 }
