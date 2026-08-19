@@ -1,0 +1,57 @@
+name: Post-merge public validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/post-merge-public-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate deployed PWA release
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app"
+          BUST="postmerge-db6a7921"
+
+          fetch() {
+            local path="$1"
+            curl -fsSL --retry 12 --retry-all-errors --retry-delay 5 --max-time 30 "${BASE}/${path}?${BUST}"
+          }
+
+          echo "Checking public PWA shell..."
+          curl -fsSL --retry 12 --retry-all-errors --retry-delay 5 --max-time 30 "${BASE}/?${BUST}" >/tmp/app.html
+          grep -F '¡Vivamos!' /tmp/app.html
+
+          fetch release-version.js >/tmp/release-version.js
+          grep -F 'const RELEASE = 116;' /tmp/release-version.js
+
+          fetch app.js >/tmp/app.js
+          grep -F 'temporal-priority.js?v=20260819-temporal1' /tmp/app.js
+          grep -F 'schedule-display.js?v=20260819-hours1' /tmp/app.js
+
+          fetch temporal-priority.js >/tmp/temporal-priority.js
+          grep -F 'Hoy / No te lo pierdas' /tmp/temporal-priority.js
+          grep -F 'Terminan pronto' /tmp/temporal-priority.js
+          grep -F 'Próximos eventos puntuales' /tmp/temporal-priority.js
+          grep -F 'Exposiciones y muestras vigentes' /tmp/temporal-priority.js
+
+          fetch temporal-priority-core.mjs >/tmp/temporal-priority-core.mjs
+          grep -F 'technical_fallback' /tmp/temporal-priority-core.mjs
+          grep -F 'confidenceIsReliable' /tmp/temporal-priority-core.mjs
+          grep -F 'shouldSuppressForTemporalFilter' /tmp/temporal-priority-core.mjs
+
+          fetch cities.json >/tmp/cities.json
+          grep -F '"id": "valparaiso"' /tmp/cities.json
+          grep -F '"id": "gijon"' /tmp/cities.json
+          grep -F 'America/Santiago' /tmp/cities.json
+          grep -F 'Europe/Madrid' /tmp/cities.json
+
+          echo "PUBLIC_TEMPORAL_PRIORITY_RELEASE_116_VALIDATED"
