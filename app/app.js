@@ -37,6 +37,14 @@ if (IS_GIJON) {
   }
   OPTIONAL_MODULES.push("./gijon-card-images.js?v=20260819-images1");
   document.documentElement.dataset.gijonStableRuntime = "true";
+} else {
+  // Valpo/Vina uses the richer card renderer. It consumes event-specific images,
+  // falls back to a clearly labelled same-venue image, and finally to a curated
+  // category image instead of leaving large blank media areas.
+  OPTIONAL_MODULES.push(
+    "./card-experience.js?v=20260819-valpoimages1",
+    "./card-image-fallback.js?v=20260819-valpoimages1",
+  );
 }
 
 async function loadOptionalEnhancements() {

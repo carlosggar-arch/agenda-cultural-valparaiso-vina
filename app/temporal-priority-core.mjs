@@ -23,6 +23,11 @@ export function confidenceIsReliable(value) {
   return Boolean(normalized) && !UNRELIABLE_CONFIDENCE.has(normalized);
 }
 
+function confidenceIsExplicitlyUnreliable(value) {
+  const normalized = normalizeConfidence(value);
+  return Boolean(normalized) && UNRELIABLE_CONFIDENCE.has(normalized);
+}
+
 export function startIsReliable(event) {
   return confidenceIsReliable(event?.schedule?.start_confidence);
 }
@@ -214,7 +219,12 @@ export function organizeTemporalPriority(events, city, now = new Date()) {
 }
 
 export function shouldSuppressForTemporalFilter(event, when) {
-  if (START_BOUNDARY_FILTERS.has(when)) return !startIsReliable(event);
-  if (when === "terminan-pronto") return !endIsReliable(event);
+  if (START_BOUNDARY_FILTERS.has(when)) {
+    return confidenceIsExplicitlyUnreliable(event?.schedule?.start_confidence);
+  }
+  if (when === "terminan-pronto") {
+    return Boolean(event?.schedule?.end)
+      && confidenceIsExplicitlyUnreliable(event?.schedule?.end_confidence);
+  }
   return false;
 }

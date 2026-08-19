@@ -65,12 +65,12 @@ assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
 
-// The emergency rollback deliberately removed the supplemental dataset from
-// the public registry. The merge helper can remain available as a pure function
-// for a later controlled re-enable, but it must not intercept fetch.
+// v136 deliberately restored the supplemental Valparaíso feed in the public
+// registry. Keep the merge helper pure: it may merge the configured payload,
+// but it must never monkey-patch the browser fetch implementation.
 const cities = JSON.parse(read("cities.json"));
 const valparaiso = cities.cities.find((city) => city.id === "valparaiso");
-assert.equal(valparaiso?.supplemental_dataset, undefined, "Valparaíso supplemental feed must remain disabled after the stable-runtime rollback");
+assert.equal(valparaiso?.supplemental_dataset, "./data/valparaiso/supplemental-events.json", "Valparaíso supplemental feed must remain enabled after the v136 recovery");
 assert.match(supplementBridge, /export function mergeEvents/);
 assert.match(supplementBridge, /export function mergeSupplementalPayload/);
 assert.doesNotMatch(supplementBridge, /(?:window|globalThis|target)\.fetch\s*=/);

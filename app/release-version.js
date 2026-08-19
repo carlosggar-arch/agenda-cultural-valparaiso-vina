@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v136 restores the shell-free proportional WEB action strip and the
-  // Valparaiso supplemental recovery feed after the emergency rollback.
-  const RELEASE = 136;
+  // v137 keeps the recovered v136 toolbar/feed and restores Valpo/Vina card
+  // images while keeping valid dated events visible without confidence metadata.
+  const RELEASE = 137;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
