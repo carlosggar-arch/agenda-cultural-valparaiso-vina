@@ -39,12 +39,13 @@ test("technical fallback never creates a false Hoy", () => {
   assert.equal(shouldSuppressForTemporalFilter(item, "hoy"), true);
 });
 
-test("missing confidence is conservative and never creates Hoy", () => {
+test("missing confidence stays conservative for badges but does not hide a dated event", () => {
   const item = event("missing-confidence", "2026-08-19", null);
   const blocks = organizeTemporalPriority([item], valpo, now);
   assert.deepEqual(blocks.today, []);
   assert.equal(temporalBadge(item, valpo, now), null);
-  assert.equal(shouldSuppressForTemporalFilter(item, "hoy"), true);
+  assert.equal(shouldSuppressForTemporalFilter(item, "hoy"), false);
+  assert.equal(shouldSuppressForTemporalFilter(item, "7-dias"), false);
 });
 
 test("reliable explicit start creates Hoy", () => {
@@ -62,6 +63,13 @@ test("reliable close within three days gets ending urgency", () => {
   const blocks = organizeTemporalPriority([item], valpo, now);
   assert.equal(blocks.endingSoon[0]?.id, "closing");
   assert.equal(temporalBadge(item, valpo, now), "Últimos 3 días");
+  assert.equal(shouldSuppressForTemporalFilter(item, "terminan-pronto"), false);
+});
+
+test("missing end confidence does not erase an otherwise valid ending filter candidate", () => {
+  const item = event("closing-without-confidence", "2026-08-01", "2026-08-21", {
+    startConfidence: "explicit",
+  });
   assert.equal(shouldSuppressForTemporalFilter(item, "terminan-pronto"), false);
 });
 
