@@ -1,7 +1,7 @@
 const FILTER_PARAMS = ["when", "area", "access", "format", "aud", "cat", "q", "from", "to", "price"];
 
 let lastCity = String(document.documentElement.dataset.city || "");
-let repairQueued = false;
+let repairTimer = null;
 
 function currentFilterStateIsNeutral() {
   const params = new URLSearchParams(window.location.search);
@@ -30,7 +30,7 @@ function resetContextualUrlState() {
 }
 
 function repairNeutralAgendaVisibility() {
-  repairQueued = false;
+  repairTimer = null;
   if (!currentFilterStateIsNeutral()) return;
 
   const grid = document.querySelector('[data-dated-grid]');
@@ -56,32 +56,27 @@ function repairNeutralAgendaVisibility() {
   }));
 }
 
-function queueVisibilityRepair() {
-  if (repairQueued) return;
-  repairQueued = true;
-  requestAnimationFrame(repairNeutralAgendaVisibility);
+function queueVisibilityRepair(delay = 0) {
+  if (repairTimer) clearTimeout(repairTimer);
+  repairTimer = setTimeout(() => requestAnimationFrame(repairNeutralAgendaVisibility), delay);
 }
+
+// combined-filters-safety.js is imported only after the main combined-filter
+// module has finished its initial applyFilters(). One immediate check is enough
+// for first load; bounded retries cover the asynchronous base renderer without
+// adding a grid MutationObserver that could participate in rendering feedback.
+queueVisibilityRepair(0);
+setTimeout(() => queueVisibilityRepair(0), 350);
+setTimeout(() => queueVisibilityRepair(0), 900);
 
 new MutationObserver(() => {
   const city = String(document.documentElement.dataset.city || "");
-  if (city !== lastCity) {
-    lastCity = city;
-    delete document.documentElement.dataset.filterFailOpen;
-    resetContextualUrlState();
-  }
-  queueVisibilityRepair();
+  if (city === lastCity) return;
+  lastCity = city;
+  delete document.documentElement.dataset.filterFailOpen;
+  resetContextualUrlState();
+  queueVisibilityRepair(350);
 }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
 
-for (const grid of document.querySelectorAll('[data-dated-grid], [data-program-grid], [data-flexible-grid]')) {
-  new MutationObserver(queueVisibilityRepair).observe(grid, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ["hidden"],
-  });
-}
-
-window.addEventListener("popstate", queueVisibilityRepair);
-window.addEventListener("vivamos:core-ready", queueVisibilityRepair);
-queueVisibilityRepair();
-setTimeout(queueVisibilityRepair, 500);
+window.addEventListener("popstate", () => queueVisibilityRepair(0));
+window.addEventListener("vivamos:core-ready", () => queueVisibilityRepair(0));
