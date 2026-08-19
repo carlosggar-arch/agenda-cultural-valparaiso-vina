@@ -1,5 +1,5 @@
 import "./startup-stability.js?v=20260819-startup1";
-import "./event-data-corrections.js?v=20260819-bienal1";
+import "./event-data-corrections.js?v=20260819-rioja1";
 import "./category-normalizer.js?v=20260818-categories3";
 import "./title-normalizer-bootstrap.js?v=20260818-title3";
 import "./app-core.js?v=20260818-exhibitions1";

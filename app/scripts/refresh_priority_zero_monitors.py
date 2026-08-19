@@ -13,6 +13,7 @@ from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 from ecoliderazgo_policy import departure_policy
+import refresh_official_source_recoveries as official_recoveries
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT_PATH = ROOT / "app/data/quality/priority-zero-monitors.json"
@@ -205,10 +206,23 @@ def build() -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Verify whether priority Valparaiso zero sources have publishable future programming."); parser.add_argument("--no-write", action="store_true"); args = parser.parse_args(); report = build()
-    if args.no_write: print(json.dumps(report, ensure_ascii=False, indent=2)); return
-    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True); REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"state": report["state"], "verified_inactive_count": report["verified_inactive_count"], "future_detected_count": report["future_detected_count"], "future_unqualified_geography_count": report["future_unqualified_geography_count"]}, ensure_ascii=False))
+    parser = argparse.ArgumentParser(description="Verify whether priority Valparaiso zero sources have publishable future programming.")
+    parser.add_argument("--no-write", action="store_true")
+    args = parser.parse_args()
+    recovery_report = official_recoveries.run(no_write=args.no_write)
+    report = build()
+    report["official_source_recoveries"] = recovery_report
+    if args.no_write:
+        print(json.dumps(report, ensure_ascii=False, indent=2)); return
+    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({
+        "state": report["state"],
+        "verified_inactive_count": report["verified_inactive_count"],
+        "future_detected_count": report["future_detected_count"],
+        "future_unqualified_geography_count": report["future_unqualified_geography_count"],
+        "official_source_recoveries": recovery_report,
+    }, ensure_ascii=False))
 
 
 if __name__ == "__main__": main()
