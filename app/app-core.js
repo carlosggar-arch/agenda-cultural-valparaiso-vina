@@ -326,9 +326,9 @@ function weekdayForKey(dateKey) {
 
 function weekendBounds(todayKey) {
   const weekday = weekdayForKey(todayKey);
-  const daysToSaturday = weekday === 6 ? 0 : weekday === 0 ? -1 : 6 - weekday;
-  const saturday = addDays(todayKey, daysToSaturday);
-  return { start: saturday, end: addDays(saturday, 1) };
+  const daysToFriday = weekday === 5 ? 0 : weekday === 6 ? -1 : weekday === 0 ? -2 : 5 - weekday;
+  const friday = addDays(todayKey, daysToFriday);
+  return { start: friday, end: addDays(friday, 2) };
 }
 
 function scheduleWindows(event) {
