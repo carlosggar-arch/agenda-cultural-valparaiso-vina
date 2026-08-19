@@ -178,9 +178,10 @@ function ensureProgramShell() {
   const total = section.querySelector("[data-program-total]");
   const countLabel = total?.parentElement;
 
-  if (eyebrow) eyebrow.textContent = "Referencia complementaria";
-  if (title) title.textContent = "Carteleras y programaciones";
-  if (copy) copy.textContent = "Solo aparecen aquí cuando todavía no hemos podido desglosar toda la cartelera en eventos individuales fiables.";
+  if (eyebrow?.textContent !== "Referencia complementaria") eyebrow.textContent = "Referencia complementaria";
+  if (title?.textContent !== "Carteleras y programaciones") title.textContent = "Carteleras y programaciones";
+  const explanatoryCopy = "Solo aparecen aquí cuando todavía no hemos podido desglosar toda la cartelera en eventos individuales fiables.";
+  if (copy?.textContent !== explanatoryCopy) copy.textContent = explanatoryCopy;
   if (countLabel && countLabel.dataset.programCountLabel !== "true") {
     countLabel.replaceChildren(total, document.createTextNode(" carteleras"));
     countLabel.dataset.programCountLabel = "true";
@@ -204,27 +205,40 @@ function programSignature(programs) {
   return programs.map((program) => `${program?.id || ""}|${programReferenceTitle(program)}|${periodLabel(program)}`).join("||");
 }
 
+function observeProgramSection() {
+  const section = document.querySelector("[data-program-section]");
+  if (!section) return;
+  if (!observer) observer = new MutationObserver(() => queueRender());
+  observer.observe(section, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden"] });
+}
+
 function renderSecondaryPrograms() {
   renderQueued = false;
-  const shell = ensureProgramShell();
-  if (!shell) return;
-  const programs = latestSecondaryPrograms;
-  if (!programs.length) {
-    if (!shell.section.hidden) shell.section.hidden = true;
-    if (shell.grid.childElementCount) shell.grid.replaceChildren();
-    shell.grid.dataset.programPolicySignature = "";
-    return;
-  }
+  observer?.disconnect();
+  try {
+    const shell = ensureProgramShell();
+    if (!shell) return;
+    const programs = latestSecondaryPrograms;
+    if (!programs.length) {
+      if (!shell.section.hidden) shell.section.hidden = true;
+      if (shell.grid.childElementCount) shell.grid.replaceChildren();
+      shell.grid.dataset.programPolicySignature = "";
+      return;
+    }
 
-  const signature = programSignature(programs);
-  const needsCards = shell.grid.dataset.programPolicySignature !== signature || shell.grid.childElementCount !== programs.length;
-  if (needsCards) {
-    shell.grid.replaceChildren(...programs.map(programCard));
-    shell.grid.dataset.programPolicySignature = signature;
+    const signature = programSignature(programs);
+    const needsCards = shell.grid.dataset.programPolicySignature !== signature || shell.grid.childElementCount !== programs.length;
+    if (needsCards) {
+      shell.grid.replaceChildren(...programs.map(programCard));
+      shell.grid.dataset.programPolicySignature = signature;
+    }
+    if (shell.total?.textContent !== String(programs.length)) shell.total.textContent = String(programs.length);
+    const summaryText = `Ver ${programs.length} ${programs.length === 1 ? "cartelera de referencia" : "carteleras de referencia"}`;
+    if (shell.summary?.textContent !== summaryText) shell.summary.textContent = summaryText;
+    if (shell.section.hidden) shell.section.hidden = false;
+  } finally {
+    observeProgramSection();
   }
-  if (shell.total) shell.total.textContent = String(programs.length);
-  if (shell.summary) shell.summary.textContent = `Ver ${programs.length} ${programs.length === 1 ? "cartelera de referencia" : "carteleras de referencia"}`;
-  if (shell.section.hidden) shell.section.hidden = false;
 }
 
 function queueRender() {
@@ -233,18 +247,11 @@ function queueRender() {
   queueMicrotask(renderSecondaryPrograms);
 }
 
-function observeProgramSection() {
-  const section = document.querySelector("[data-program-section]");
-  if (!section || observer) return;
-  observer = new MutationObserver(() => queueRender());
-  observer.observe(section, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden"] });
-}
-
 function installStylesheet() {
   if (document.querySelector('link[data-program-visibility-policy]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./program-visibility-policy.css?v=20260819-programs1";
+  link.href = "./program-visibility-policy.css?v=20260819-programs2";
   link.dataset.programVisibilityPolicy = "true";
   document.head.append(link);
 }
