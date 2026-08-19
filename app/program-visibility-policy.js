@@ -108,7 +108,8 @@ export function programReferenceTitle(program) {
   const organizer = clean(program?.organizer);
   const source = clean(program?.source_name);
   let subject = prefix || venue || organizer || source || "Programación";
-  if (prefix && venue && fold(prefix) === fold(venue)) subject = venue;
+  const venueLooksLikeAcronym = venue && venue === venue.toLocaleUpperCase("es");
+  if (prefix && venue && fold(prefix) === fold(venue) && venueLooksLikeAcronym) subject = venue;
 
   const month = clean(genericMatch?.[2] || fullyGeneric?.[1] || monthMatch?.[1]).toLocaleLowerCase("es");
   const year = clean(genericMatch?.[3] || fullyGeneric?.[2] || monthMatch?.[2]);
