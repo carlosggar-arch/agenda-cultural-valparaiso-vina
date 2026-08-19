@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizePublicEventTitle } from "../public-title-normalizer.mjs";
+import { canonicalVenueKey, normalizeVenueAliases, preferredVenueLabel } from "../venue-identity.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const app = path.resolve(here, "..");
@@ -27,14 +28,28 @@ assert.equal(normalizePublicEventTitle("ALEJANDRO SIRIO. LA CALIGRAFÍA DEL DIBU
 assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", valpoEvent), "Inundaremos — Gira Tanquemante");
 assert.equal(normalizePublicEventTitle("Juegos en Patota: DETECTIVES DEL ARTE.", gijonEvent), "Juegos en Patota: Detectives del arte");
 
+const riojaMuseum = { location: { venue: "Museo Palacio Rioja", city: "Viña del Mar" } };
+const riojaShort = { location: { venue: "Palacio Rioja", city: "Viña del Mar" } };
+const riojaGarden = { location: { venue: "Jardines Palacio Rioja", city: "Viña del Mar" } };
+const riojaRoom = { location: { venue: "Palacio Rioja, Sala Aldo Francia", city: "Viña del Mar" } };
+assert.equal(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaShort));
+assert.notEqual(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaGarden));
+assert.notEqual(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaRoom));
+assert.equal(preferredVenueLabel(["Palacio Rioja", "Museo Palacio Rioja"]), "Museo Palacio Rioja");
+const normalizedRioja = normalizeVenueAliases([riojaShort, riojaMuseum]);
+assert.equal(normalizedRioja[0].location.venue, "Museo Palacio Rioja");
+assert.equal(normalizedRioja[1].location.venue, "Museo Palacio Rioja");
+
 const appJs = read("app.js");
 const grouping = read("static-exhibition-groups.js");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
 const compactCss = read("exhibition-compact.css");
+const multieventFix = read("multievent-layout-fix.js");
 const release = read("release-version.js");
 
 assert.match(appJs, /title-normalizer-bootstrap\.js/);
 assert.match(appJs, /static-exhibition-groups\.js/);
+assert.match(appJs, /multievent-layout-fix\.js/);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
@@ -44,9 +59,14 @@ assert.match(compactCss, /\.event-grid\s*\{[^}]*align-items:\s*stretch\s*!import
 assert.match(compactCss, /\.event-grid\s*>\s*\.event-card\s*\{[^}]*align-self:\s*stretch\s*!important/s);
 assert.doesNotMatch(compactCss, /align-items:\s*start\s*!important/);
 assert.doesNotMatch(compactCss, /align-self:\s*start\s*!important/);
+assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*height:\s*auto\s*!important/);
+assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*max-height:\s*none\s*!important/);
+assert.match(multieventFix, /\.grouped-exhibition-copy strong[\s\S]*-webkit-line-clamp:\s*unset\s*!important/);
+assert.match(multieventFix, /\.grouped-exhibition-copy small[\s\S]*white-space:\s*normal\s*!important/);
+assert.doesNotMatch(multieventFix, /Palacio Rioja/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
+assert.ok(Number(releaseMatch[1]) >= 121, "PWA release must include the multievent layout refresh");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -58,4 +78,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + title normalization + row equalization contract: OK");
+console.log("Static grouping + venue identity + unclipped multievent layout contract: OK");
