@@ -8,8 +8,6 @@ on:
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
-      - "app/venue-identity.mjs"
-      - "app/multievent-layout-fix.js"
       - "app/public-presentation-rules.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
@@ -23,8 +21,6 @@ on:
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
-      - "app/venue-identity.mjs"
-      - "app/multievent-layout-fix.js"
       - "app/public-presentation-rules.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
@@ -49,8 +45,6 @@ jobs:
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
           node --check app/static-exhibition-groups.js
-          node --check app/venue-identity.mjs
-          node --check app/multievent-layout-fix.js
           node --check app/app.js
       - name: Verify static grouping, title and layout contract
         run: node app/scripts/test_static_grouping_title_contract.mjs
