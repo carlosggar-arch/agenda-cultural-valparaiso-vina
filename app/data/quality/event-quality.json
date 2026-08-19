@@ -1,14 +1,14 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-19T10:27:00.650855+00:00",
+  "generated_at": "2026-08-19T13:31:27.410908+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-18",
-      "generated_at": "2026-08-19T05:49:13-04:00",
+      "generated_at": "2026-08-19T06:27:55-04:00",
       "summary": {
         "total_events": 180,
-        "average_quality_score": 96.4,
+        "average_quality_score": 96.3,
         "quality_class": "excellent",
         "sources_catalogued": 41,
         "sources_producing": 25,
@@ -20,7 +20,7 @@
       },
       "field_coverage": {
         "date_pct": 97.8,
-        "time_pct": 97.2,
+        "time_pct": 95.0,
         "venue_pct": 100.0,
         "image_pct": 89.4,
         "official_link_pct": 100.0,
@@ -137,7 +137,7 @@
         "duplicate_groups": 0,
         "relevant_image_pct": 89.4,
         "removed_events": {
-          "removed_title_quality": 5,
+          "removed_title_quality": 1,
           "removed_location_mismatch": 0,
           "removed_deadline_only_call": 0,
           "removed_retrospective_post": 0
@@ -300,8 +300,8 @@
           "id": "valpocultura",
           "name": "Valpo Cultura",
           "count": 10,
-          "quality_score": 90.5,
-          "quality_class": "excellent",
+          "quality_score": 89.0,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": 1,
@@ -309,7 +309,7 @@
           "source_type": "instagram",
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 100.0,
+            "time_pct": 70.0,
             "venue_pct": 100.0,
             "image_pct": 60.0,
             "official_link_pct": 100.0,
@@ -428,7 +428,7 @@
           "id": "museobaburizza",
           "name": "Museo Baburizza",
           "count": 2,
-          "quality_score": 97.5,
+          "quality_score": 95.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -437,7 +437,7 @@
           "source_type": "instagram",
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 100.0,
+            "time_pct": 50.0,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
