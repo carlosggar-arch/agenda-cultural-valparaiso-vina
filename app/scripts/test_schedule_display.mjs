@@ -78,6 +78,30 @@ const sourceDisplayHours = {
 };
 assert.equal(formatSchedule(sourceDisplayHours, valpo), "2026-08-17 · 11:30, 13:00, 18:30");
 
+const galleryFlattenedHours = {
+  mode: "multi_day",
+  start: "2026-08-18T10:00:00-04:00",
+  end: "2026-08-21",
+  display_text: "2026-08-18 · 10:00, 18:00, 11:00, 17:00",
+  occurrences: [],
+};
+const galleryLabel = formatSchedule(galleryFlattenedHours, valpo);
+assert.match(galleryLabel, /10:00–18:00/);
+assert.match(galleryLabel, /11:00–17:00/);
+assert.doesNotMatch(galleryLabel, /10:00,\s*18:00,\s*11:00,\s*17:00/);
+
+const artequinFlattenedHours = {
+  mode: "multi_day",
+  start: "2026-08-19T18:30:00-04:00",
+  end: "2026-08-22",
+  display_text: "2026-08-19 · 18:30, 20:00, 10:00, 14:00",
+  occurrences: [],
+};
+const artequinLabel = formatSchedule(artequinFlattenedHours, valpo);
+assert.match(artequinLabel, /18:30–20:00/);
+assert.match(artequinLabel, /10:00–14:00/);
+assert.doesNotMatch(artequinLabel, /18:30,\s*20:00,\s*10:00,\s*14:00/);
+
 const repeatedFunctions = {
   mode: "single",
   start: "2026-08-18",
