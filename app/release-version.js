@@ -1,8 +1,8 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v142 keeps the v141 monthly-listing fix and preserves normalized public
-  // titles after Valpo/Viña rich-card enrichment rehydrates cards from raw data.
-  const RELEASE = 142;
+  // v143 keeps the v142 normalized-title guard and forces the repaired Valpo/Viña
+  // runtime-card image fallback to replace any cached pre-repair module instance.
+  const RELEASE = 143;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {

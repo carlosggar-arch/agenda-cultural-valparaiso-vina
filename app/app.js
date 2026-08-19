@@ -40,12 +40,13 @@ if (IS_GIJON) {
 } else {
   // Valpo/Vina uses the richer card renderer. It consumes event-specific images,
   // falls back to a clearly labelled same-venue image, and finally to a curated
-  // category image instead of leaving large blank media areas. The final title
-  // guard preserves the shared editorial normalization even if the rich renderer
-  // rehydrates a card from raw source data.
+  // category image instead of leaving large blank media areas. A dedicated image
+  // token prevents installed PWAs from retaining a pre-repair module instance.
+  // The final title guard preserves the shared editorial normalization even if
+  // the rich renderer rehydrates a card from raw source data.
   OPTIONAL_MODULES.push(
-    "./card-experience.js?v=20260819-valpoimages1",
-    "./card-image-fallback.js?v=20260819-valpoimages1",
+    "./card-experience.js?v=20260819-valpoimages2",
+    "./card-image-fallback.js?v=20260819-valpoimages2",
     "./card-title-consistency.js?v=20260819-titleguard1",
   );
 }
