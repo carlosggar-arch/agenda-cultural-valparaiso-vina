@@ -1,9 +1,8 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v139 preserves the v138 date-filter/cache architecture and repairs cards
-  // that exist only in the normalized Valpo/Viña pipeline, including grouped
-  // Palacio Rioja activities and honest image fallbacks.
-  const RELEASE = 139;
+  // v140 preserves the v139 Valpo/Viña card repairs and reloads the app on a
+  // real city change so each city starts with its correct city-specific runtime.
+  const RELEASE = 140;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
