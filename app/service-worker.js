@@ -26,6 +26,8 @@ const SHELL_ASSETS = [
   "./startup-stability.js",
   "./app-safe-mode.js",
   "./data-pipeline.js",
+  "./agenda-runtime-state.mjs",
+  "./render-lifecycle.js",
   "./supplemental-events-fetch.js",
   "./event-data-corrections.js",
   "./category-normalizer.js",
