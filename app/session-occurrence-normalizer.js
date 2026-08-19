@@ -319,29 +319,3 @@ export function normalizeSessionOccurrences(dataset) {
   if (!changed) return dataset;
   return { ...dataset, events: merged, counts: recalculateCounts(merged, dataset.counts) };
 }
-
-function isAgendaDatasetRequest(input, response) {
-  const urls = [response?.url, typeof input === "string" ? input : input?.url].filter(Boolean);
-  return urls.some((value) => /(?:^|\/)agenda_web\.json(?:[?#]|$)/.test(String(value)));
-}
-
-export function installSessionOccurrenceNormalizer(target = globalThis) {
-  if (!target || typeof target.fetch !== "function" || target.__vivamosSessionOccurrenceNormalizerInstalled) return;
-  const nativeFetch = target.fetch.bind(target);
-  target.fetch = async (...args) => {
-    const response = await nativeFetch(...args);
-    if (!response?.ok || !isAgendaDatasetRequest(args[0], response)) return response;
-    let dataset;
-    try { dataset = await response.clone().json(); } catch { return response; }
-    const normalized = normalizeSessionOccurrences(dataset);
-    if (normalized === dataset) return response;
-    const headers = new Headers(response.headers);
-    headers.delete("content-length");
-    headers.delete("content-encoding");
-    headers.set("content-type", "application/json; charset=utf-8");
-    return new Response(JSON.stringify(normalized), { status: response.status, statusText: response.statusText, headers });
-  };
-  Object.defineProperty(target, "__vivamosSessionOccurrenceNormalizerInstalled", { value: true });
-}
-
-if (typeof window !== "undefined") installSessionOccurrenceNormalizer(window);
