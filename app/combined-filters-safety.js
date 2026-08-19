@@ -36,15 +36,17 @@ function repairNeutralAgendaVisibility() {
   const grid = document.querySelector('[data-dated-grid]');
   if (!grid) return;
   const directCards = [...grid.querySelectorAll('.event-card[data-event-id]')];
-  const groupedCards = [...grid.querySelectorAll('.event-card[data-event-group]')];
-  if (!directCards.length || !groupedCards.some((card) => !card.hidden)) return;
-  if (directCards.some((card) => !card.hidden)) return;
+  if (!directCards.length || directCards.some((card) => !card.hidden)) return;
 
   // The combined-filter layer owns only a secondary copy of the city dataset.
-  // If that fetch fails, it must never hide the already-rendered base agenda and
-  // leave only grouped exhibition cards visible. Neutral filtering therefore
-  // fails open to the base renderer, which already loaded and validated the data.
+  // If that fetch fails, it must never hide the already-rendered base agenda.
+  // Neutral filtering therefore fails open to the base renderer, which already
+  // loaded and validated the city data. Exhibition sentinels are restored too
+  // so grouped exhibition cards stay consistent with the recovered base agenda.
   for (const card of directCards) card.hidden = false;
+  for (const sentinel of document.querySelectorAll('[data-static-exhibition-sentinels] .event-card[data-event-id]')) sentinel.hidden = false;
+  for (const grouped of grid.querySelectorAll('.event-card[data-event-group]')) grouped.hidden = false;
+
   const section = document.querySelector('[data-dated-section]');
   if (section) section.hidden = false;
 
