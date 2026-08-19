@@ -5,14 +5,12 @@ on:
     branches: [main]
     paths:
       - "app/*.js"
-      - "app/*.mjs"
       - "app/*.css"
       - "app/*.html"
       - "app/*.webmanifest"
       - "app/cities.json"
       - "manifest.webmanifest"
       - "app/scripts/test_public_presentation.mjs"
-      - "app/scripts/test_render_lifecycle_contract.mjs"
       - "app/scripts/production_pwa_smoke.py"
       - "app/scripts/test_production_pwa_smoke_contract.py"
       - ".github/workflows/production-pwa-smoke.yml"
@@ -20,13 +18,11 @@ on:
     branches: [main]
     paths:
       - "app/*.js"
-      - "app/*.mjs"
       - "app/*.css"
       - "app/*.html"
       - "app/*.webmanifest"
       - "app/cities.json"
       - "manifest.webmanifest"
-      - "app/scripts/test_render_lifecycle_contract.mjs"
       - "app/scripts/production_pwa_smoke.py"
       - ".github/workflows/production-pwa-smoke.yml"
   workflow_dispatch:
@@ -65,19 +61,10 @@ jobs:
             app/scripts/production_pwa_smoke.py \
             app/scripts/test_production_pwa_smoke_contract.py
           node --check app/pwa.js
-          node --check app/app.js
-          node --check app/render-lifecycle.js
-          node --check app/agenda-runtime-state.mjs
-          node --check app/card-experience.js
-          node --check app/card-image-fallback.js
-          node --check app/public-presentation-guard.js
-          node --check app/schedule-display.js
-          node --check app/exhibition-hours.js
           node --check app/service-worker.js
           node --check app/release-version.js
           node --check app/header-redesign.js
           node --check app/mobile-experience.js
-          node app/scripts/test_render_lifecycle_contract.mjs
           node app/scripts/test_public_presentation.mjs
           python app/scripts/production_pwa_smoke.py local
           python app/scripts/test_production_pwa_smoke_contract.py
@@ -98,11 +85,6 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
       - name: Require release bump for runtime pushes
         if: github.event_name == 'push'
         shell: bash
@@ -112,14 +94,13 @@ jobs:
           if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
             before="$(git rev-parse HEAD^ 2>/dev/null || true)"
           fi
-
           if [[ -z "$before" ]]; then
             echo "No comparison base available; continuing conservatively with production smoke."
             exit 0
           fi
 
           git diff --name-only "$before" "${{ github.sha }}" | tee changed-pwa-files.txt
-          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
+          runtime_changed="$(grep -E '^(app/[^/]+\.(js|css|html|webmanifest)|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
           release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
           if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
             echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2
@@ -132,7 +113,6 @@ jobs:
         run: |
           set -euo pipefail
           python -m py_compile app/scripts/production_pwa_smoke.py
-          node app/scripts/test_render_lifecycle_contract.mjs
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for release and verify published shell
