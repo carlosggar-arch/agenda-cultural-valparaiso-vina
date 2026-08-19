@@ -1,20 +1,17 @@
 // Contract references for shell-version tests; these are documentation only, not eager imports.
 // import "./header-redesign.js?v=20260817-brandicon2";
 // import "./mobile-experience.js?v=20260817-topcontrols4";
-// import "./schedule-display.js?v=20260819-hours3";
 // import "./combined-filters-polish.js";
 // import "./favorites.js";
 // import "./stage31-accessibility-seo.js";
 // Plan-ahead remains available for a future transversal reservation/registration filter.
 // import "./plan-ahead.js";
 
+// pwa.js owns shell/install/UI-only behavior. Content presentation is owned once
+// by app.js so query-string aliases cannot instantiate duplicate card observers
+// or duplicate dataset consumers in the same page.
 const OPTIONAL_UI_MODULES = [
   "./vivamos-brand.js",
-  "./card-experience.js",
-  "./public-presentation-guard.js",
-  "./schedule-display.js?v=20260819-hours3",
-  "./exhibition-hours.js?v=20260818-hours2",
-  "./card-image-fallback.js",
   "./compact-top.js",
   "./gijon-visual-reference.js",
   "./sources-toggle.js",
@@ -35,23 +32,7 @@ const OPTIONAL_UI_MODULES = [
   "../assets/usage-analytics.js?v=20260817-stage32",
 ];
 
-// Several presentation enhancers watch and rewrite the same card subtree. On the
-// larger Gijon agenda that observer stack can keep the main thread busy after the
-// core render, and card-experience.css can also style an unenhanced card if its
-// secondary dataset request stalls. Keep those observer-heavy layers out of the
-// Gijon runtime until they are refactored to explicit render hooks. The stable
-// core cards remain complete, filterable and readable without them.
-const GIJON_DEFERRED_UI_MODULES = new Set([
-  "./card-experience.js",
-  "./public-presentation-guard.js",
-  "./schedule-display.js?v=20260819-hours3",
-  "./exhibition-hours.js?v=20260818-hours2",
-  "./card-image-fallback.js",
-]);
 if (String(document.documentElement.dataset.city || "") === "gijon") {
-  for (let index = OPTIONAL_UI_MODULES.length - 1; index >= 0; index -= 1) {
-    if (GIJON_DEFERRED_UI_MODULES.has(OPTIONAL_UI_MODULES[index])) OPTIONAL_UI_MODULES.splice(index, 1);
-  }
   document.documentElement.dataset.gijonStableUi = "true";
 }
 
