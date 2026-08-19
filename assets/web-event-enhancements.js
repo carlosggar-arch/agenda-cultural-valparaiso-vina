@@ -1,4 +1,4 @@
-import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours2";
+import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";
 import "./root-combined-filters.js?v=20260817-root-search";
 // Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
 // Legacy contract marker: ./plan-ahead-web.js?v=20260817
