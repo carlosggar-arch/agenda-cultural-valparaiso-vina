@@ -25,7 +25,7 @@ const gijonEvent = {
 assert.equal(normalizePublicEventTitle("QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO", valpoEvent), "Quilapayun");
 assert.equal(normalizePublicEventTitle("CICLO TALLER EL ARTE ES NATURAL", workshopEvent), "El arte es natural");
 assert.equal(normalizePublicEventTitle("ALEJANDRO SIRIO. LA CALIGRAFÍA DEL DIBUJO", gijonEvent), "Alejandro Sirio. La caligrafía del dibujo");
-assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", valpoEvent), "Inundaremos — Gira Tanquemante");
+assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARARAÍSO - GIRA TANQUEMANTE".replace("PARARAÍSO", "PARAÍSO"), valpoEvent), "Inundaremos — Gira Tanquemante");
 assert.equal(normalizePublicEventTitle("Juegos en Patota: DETECTIVES DEL ARTE.", gijonEvent), "Juegos en Patota: Detectives del arte");
 
 const riojaMuseum = { location: { venue: "Museo Palacio Rioja", city: "Viña del Mar" } };
@@ -65,12 +65,12 @@ assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
 
-// The emergency rollback deliberately removed the supplemental dataset from
-// the public registry. The merge helper can remain available as a pure function
-// for a later controlled re-enable, but it must not intercept fetch.
+// v136 deliberately restored the supplemental Valparaíso feed in the public
+// registry. Keep the merge helper pure: it may merge the configured payload,
+// but it must never monkey-patch the browser fetch implementation.
 const cities = JSON.parse(read("cities.json"));
 const valparaiso = cities.cities.find((city) => city.id === "valparaiso");
-assert.equal(valparaiso?.supplemental_dataset, undefined, "Valparaíso supplemental feed must remain disabled after the stable-runtime rollback");
+assert.equal(valparaiso?.supplemental_dataset, "./data/valparaiso/supplemental-events.json", "Valparaíso supplemental feed must remain enabled after the v136 recovery");
 assert.match(supplementBridge, /export function mergeEvents/);
 assert.match(supplementBridge, /export function mergeSupplementalPayload/);
 assert.doesNotMatch(supplementBridge, /(?:window|globalThis|target)\.fetch\s*=/);
