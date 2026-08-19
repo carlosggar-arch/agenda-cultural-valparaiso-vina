@@ -1,3 +1,4 @@
+import "./supplemental-events-fetch.js?v=20260819-supplemental1";
 import "./startup-stability.js?v=20260819-startup1";
 import "./event-data-corrections.js?v=20260819-rioja1";
 import "./category-normalizer.js?v=20260819-categories4";
