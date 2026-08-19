@@ -63,12 +63,17 @@ def check_service_worker() -> None:
     assert '"../assets/city-registry.mjs"' in shell_block
     assert '"./mis-planes.html"' in shell_block
     assert '"../assets/favorites-reminders.mjs"' in shell_block
+    assert '"./agenda-runtime-state.mjs"' in shell_block
+    assert '"./render-lifecycle.js"' in shell_block
 
 
 def check_ui_contract() -> None:
     index = (APP / "index.html").read_text(encoding="utf-8")
     app_js = (APP / "app.js").read_text(encoding="utf-8")
-    app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
+    core_js = (APP / "app-core.js").read_text(encoding="utf-8")
+    pipeline_js = (APP / "data-pipeline.js").read_text(encoding="utf-8")
+    runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
+    lifecycle = (APP / "render-lifecycle.js").read_text(encoding="utf-8")
     pwa_js = (APP / "pwa.js").read_text(encoding="utf-8") if (APP / "pwa.js").exists() else ""
     event_detail_js = (APP / "event-detail.js").read_text(encoding="utf-8")
     city_registry = load_json(APP / "cities.json")
@@ -78,15 +83,21 @@ def check_ui_contract() -> None:
     assert './manifest.webmanifest' in index
     assert './icons/icon-192.png' in index
     assert ('./service-worker.js' in app_js) or ('./service-worker.js' in pwa_js)
-    assert 'loadCityRegistry' in app_js
-    assert 'const CITIES = CITY_REGISTRY.byId' in app_js
-    assert 'fetch(city.dataset' in app_js
+    assert 'loadCityRegistry' in core_js
+    assert 'const CITIES = CITY_REGISTRY.byId' in core_js
+    assert 'loadAgendaDataset(city)' in core_js
+    assert 'fetchJson(city.dataset' in pipeline_js
+    assert 'publishAgendaRuntimeSnapshot' in pipeline_js
+    assert 'vivamos:agenda-data-ready' in runtime_state
+    assert 'vivamos:agenda-rendered' in lifecycle
+    assert 'subtree: true' not in lifecycle
+    assert 'characterData: true' not in lifecycle
     assert 'loadCityRegistry' in city_registry_js
     by_id = {city["id"]: city for city in city_registry.get("cities", [])}
     assert by_id["valparaiso"]["dataset"] == "../agenda_web.json"
     assert by_id["gijon"]["dataset"] == "./data/gijon/agenda_web.json"
-    assert 'event?.event_type === "program"' in app_js
-    assert 'event?.event_type === "flexible_offer"' in app_js
+    assert 'event?.event_type === "program"' in core_js
+    assert 'event?.event_type === "flexible_offer"' in core_js
     assert 'BEGIN:VALARM' in reminders
     assert 'TRIGGER:${option.trigger}' in reminders
 
