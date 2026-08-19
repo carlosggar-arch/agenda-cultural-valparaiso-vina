@@ -10,6 +10,8 @@ const core = read("./app-core.js");
 const pipeline = read("./data-pipeline.js");
 const startup = read("./startup-stability.js");
 const pwa = read("./pwa.js");
+const combined = read("./combined-filters.js");
+const gijonImages = read("./gijon-card-images.js");
 const programPolicy = read("./program-visibility-policy.js");
 const worker = read("./service-worker.js");
 const release = read("./release-version.js");
@@ -34,6 +36,8 @@ assert.match(app, /const GIJON_DEFERRED_MODULES = new Set/, "Gijon must have an 
 for (const deferred of ["temporal-priority.js", "static-exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
   assert.match(app, new RegExp(`GIJON_DEFERRED_MODULES[\\s\\S]*${deferred.replaceAll(".", "\\.")}`), `${deferred} must stay deferred on Gijon startup`);
 }
+assert.match(app, /gijon-card-images\.js/, "Gijon must restore images through a lightweight stable-core enhancer");
+assert.match(app, /if \(!IS_GIJON\)[\s\S]*new MutationObserver\(scheduleExhibitionOrder\)/, "Gijon must stay out of the grid-order observer path");
 
 assert.match(core, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/, "app-core must own the data pipeline");
 assert.match(core, /export const coreReady = new Promise/, "app-core must expose startup readiness");
@@ -52,6 +56,14 @@ assert.equal(stageOrder.every((index) => index >= 0), true, "all data-pipeline s
 assert.deepEqual([...stageOrder].sort((a, b) => a - b), stageOrder, "data-pipeline stage order must remain deterministic");
 assert.match(pipeline, /function applyStage\(/, "pipeline stages must be isolated behind a failure boundary");
 assert.match(pipeline, /status: "skipped"/, "pipeline must continue when an optional transform fails");
+
+assert.match(combined, /loadAgendaDataset/, "combined filters must use the same normalized pipeline as the renderer");
+assert.match(combined, /id === "museos"[\s\S]*id = "exposiciones"/, "Museos must collapse into Exposiciones in filter semantics");
+assert.match(combined, /\.event-card\[data-event-group\]/, "grouped exhibitions must participate in filtering");
+assert.match(combined, /rows\[index\]\.hidden/, "grouped exhibition children must respect active filters");
+assert.match(gijonImages, /loadAgendaDataset\(city\)/, "Gijon images must use the normalized agenda pipeline");
+assert.match(gijonImages, /\.event-card\[data-event-id\]/, "Gijon image enrichment must target stable core cards directly");
+assert.doesNotMatch(gijonImages, /childList\s*:\s*true/, "Gijon image enrichment must not observe the event grid");
 
 for (const file of [
   "./supplemental-events-fetch.js",
@@ -90,6 +102,6 @@ assert.match(worker, /"\.\/data-pipeline\.js"/, "service worker must cache the r
 assert.match(worker, /"\.\/app-safe-mode\.js"/, "service worker must cache safe mode");
 assert.match(worker, /"\.\/startup-stability\.js"/, "service worker must cache the startup watchdog");
 const releaseNumber = Number(release.match(/const RELEASE = (\d+);/)?.[1]);
-assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 134, "startup/date-filter fixes must keep a fresh service-worker cache generation");
+assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 135, "Gijon grouped-filter/image fixes must keep a fresh service-worker cache generation");
 
 console.log("STARTUP_ARCHITECTURE_OK");
