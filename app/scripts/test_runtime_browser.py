@@ -28,6 +28,11 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
+class RuntimeServer(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
+
 def make_test_page(city: str) -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
     app_marker = '<script type="module" src="./app.js"></script>'
@@ -127,17 +132,34 @@ def make_test_page(city: str) -> None:
 
 def dump_dom_with_retry(city: str, url: str) -> str:
     errors: list[str] = []
-    for attempt in range(1, 3):
+    chrome = chrome_binary()
+    for attempt in range(1, 4):
         with tempfile.TemporaryDirectory(prefix=f"agenda-{city}-chrome-{attempt}-", ignore_cleanup_errors=True) as profile:
             cmd = [
-                chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu",
-                "--disable-dev-shm-usage", "--disable-background-networking",
-                "--disable-extensions", "--disable-sync", "--no-first-run", "--no-default-browser-check",
-                "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                "--virtual-time-budget=9000", f"--user-data-dir={profile}", "--dump-dom", url,
+                chrome,
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-background-networking",
+                "--disable-component-update",
+                "--disable-default-apps",
+                "--disable-extensions",
+                "--disable-sync",
+                "--disable-breakpad",
+                "--disable-crash-reporter",
+                "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
+                "--metrics-recording-only",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--window-size=1280,900",
+                "--virtual-time-budget=10000",
+                f"--user-data-dir={profile}",
+                "--dump-dom",
+                url,
             ]
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=40)
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=45)
             except subprocess.TimeoutExpired:
                 errors.append(f"attempt {attempt}: Chrome timed out")
                 time.sleep(1)
@@ -146,7 +168,7 @@ def dump_dom_with_retry(city: str, url: str) -> str:
                 return result.stdout
             errors.append(f"attempt {attempt}: exit={result.returncode}; stderr={result.stderr[-1200:]}")
             time.sleep(1)
-    raise AssertionError(f"Chrome runtime probe failed for {city} after two isolated attempts: {' | '.join(errors)}")
+    raise AssertionError(f"Chrome runtime probe failed for {city} after three isolated attempts: {' | '.join(errors)}")
 
 
 def run_city(city: str, base_url: str) -> None:
@@ -204,7 +226,7 @@ def run_city(city: str, base_url: str) -> None:
 def main() -> None:
     os.chdir(ROOT)
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
-    with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
+    with RuntimeServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start(); time.sleep(0.2)

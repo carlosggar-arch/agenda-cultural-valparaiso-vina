@@ -39,8 +39,14 @@ third.update({
 assert required.issubset(third)
 assert third["id"] not in ids
 
+# Registry consumption may be direct or through the app-core entrypoint. Keep the
+# contract architectural rather than requiring an unused import in app.js.
+app_entry = (APP / "app.js").read_text(encoding="utf-8")
+app_core = (APP / "app-core.js").read_text(encoding="utf-8")
+assert "app-core.js" in app_entry, "app.js must load app-core.js"
+assert "city-registry.mjs" in app_core, "app-core.js does not consume the canonical city registry"
+
 runtime_files = {
-    "app": (APP / "app.js").read_text(encoding="utf-8"),
     "first_run": (APP / "city-first-run.js").read_text(encoding="utf-8"),
     "filters": (APP / "combined-filters.js").read_text(encoding="utf-8"),
     "favorites": (APP / "favorites.js").read_text(encoding="utf-8"),

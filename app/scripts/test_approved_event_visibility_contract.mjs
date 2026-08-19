@@ -65,7 +65,9 @@ assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-assert.match(release, /const RELEASE = 109/);
+const releaseMatch = release.match(/const RELEASE = (\d+);/);
+assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
+assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
 console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; static observer-free grouping)`);
