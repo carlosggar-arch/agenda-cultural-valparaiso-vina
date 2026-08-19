@@ -35,7 +35,7 @@ jobs:
 
           fetch app.js >/tmp/app.js
           grep -F 'temporal-priority.js?v=20260819-temporal1' /tmp/app.js
-          grep -F 'schedule-display.js?v=20260819-hours1' /tmp/app.js
+          grep -F 'schedule-display.js?v=20260819-hours2' /tmp/app.js
 
           fetch temporal-priority.js >/tmp/temporal-priority.js
           grep -F 'Hoy / No te lo pierdas' /tmp/temporal-priority.js
