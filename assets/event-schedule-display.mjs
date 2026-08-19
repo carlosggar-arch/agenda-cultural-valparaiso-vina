@@ -1,10 +1,18 @@
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
 const TIME_IN_TEXT = /(?:^|[^\d])(?:[01]?\d|2[0-3]):[0-5]\d(?:\s*(?:h|hrs?))?/i;
 const TRAILING_DATE_RANGE = /\s[–-]\s(?:\d{4}-\d{2}-\d{2}|\d{1,2}-\d{1,2}-\d{4})\s*$/;
+const FOUR_TIME_LIST = /\b(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\b/;
 
 function validTime(value) {
   const match = String(value || "").match(/^([01]\d|2[0-3]):([0-5]\d)$/);
   return match ? match[0] : null;
+}
+
+function clockMinutes(value) {
+  const clock = validTime(value);
+  if (!clock) return null;
+  const [hour, minute] = clock.split(":").map(Number);
+  return hour * 60 + minute;
 }
 
 function timedDisplayText(schedule, timezone) {
@@ -97,6 +105,41 @@ function dateRangeLabel(schedule, options) {
   return formatDate(start, { ...options, time: false });
 }
 
+function pairedRangeDisplayText(schedule, options) {
+  if (schedule?.mode !== "multi_day") return null;
+  const display = String(schedule?.display_text || "").trim();
+  const list = display.match(FOUR_TIME_LIST)?.[0];
+  if (!list) return null;
+
+  const times = list.match(/\b(?:[01]\d|2[0-3]):[0-5]\d\b/g) || [];
+  if (times.length !== 4) return null;
+
+  const start = schedule?.start;
+  const end = schedule?.end;
+  const startKey = dateKey(start, options.timezone);
+  const endKey = dateKey(end, options.timezone);
+  if (
+    !String(start || "").includes("T")
+    || !startKey
+    || !endKey
+    || startKey === endKey
+    || timeFromValue(start, options.timezone) !== times[0]
+  ) return null;
+
+  const firstStart = clockMinutes(times[0]);
+  const firstEnd = clockMinutes(times[1]);
+  const secondStart = clockMinutes(times[2]);
+  const secondEnd = clockMinutes(times[3]);
+  if (
+    firstStart === null || firstEnd === null || secondStart === null || secondEnd === null
+    || firstStart >= firstEnd || secondStart >= secondEnd
+  ) return null;
+
+  const range = dateRangeLabel(schedule, options);
+  const ranges = `${times[0]}–${times[1]} · ${times[2]}–${times[3]}`;
+  return range ? `${range} · ${ranges}` : ranges;
+}
+
 function currentOpeningHours(schedule, options) {
   const opening = validTime(schedule?.opening_time);
   const closing = validTime(schedule?.closing_time);
@@ -163,6 +206,12 @@ export function formatSchedule(schedule, options = {}) {
       visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`,
     ].filter(Boolean).join(" · ");
   }
+
+  // Some sources flatten two opening-hour ranges into four comma-separated
+  // clock values. Treat that exact, strongly constrained pattern as two ranges
+  // instead of four independent sessions.
+  const pairedRanges = pairedRangeDisplayText(schedule, settings);
+  if (pairedRanges) return pairedRanges;
 
   // Some sources provide a date-only structured start but preserve the actual
   // function times in display_text. Prefer that verified text unless it is a
