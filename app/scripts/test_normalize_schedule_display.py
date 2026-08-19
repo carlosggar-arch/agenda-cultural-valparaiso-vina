@@ -1,0 +1,77 @@
+from __future__ import annotations
+
+import normalize_schedule_display as normalizer
+
+
+def test_gallery_flattened_hours_become_ranges() -> None:
+    schedule = {
+        "mode": "multi_day",
+        "start": "2026-08-18T10:00:00-04:00",
+        "end": "2026-08-21",
+        "display_text": "2026-08-18 · 10:00, 18:00, 11:00, 17:00",
+    }
+    fields = normalizer.normalize_schedule(schedule)
+    assert fields == ["display_text"]
+    assert schedule["display_text"] == "2026-08-18 – 2026-08-21 · 10:00–18:00 · 11:00–17:00"
+
+
+def test_artequin_flattened_hours_become_ranges() -> None:
+    schedule = {
+        "mode": "multi_day",
+        "start": "2026-08-19T18:30:00-04:00",
+        "end": "2026-08-22",
+        "display_text": "2026-08-19 · 18:30, 20:00, 10:00, 14:00",
+    }
+    normalizer.normalize_schedule(schedule)
+    assert schedule["display_text"] == "2026-08-19 – 2026-08-22 · 18:30–20:00 · 10:00–14:00"
+
+
+def test_all_day_sentinel_becomes_date_only() -> None:
+    schedule = {
+        "mode": "multi_day",
+        "start": "2026-08-06T00:00:00-04:00",
+        "end": "2026-10-04T23:59:00-03:00",
+        "display_text": "mié, 6 ago – 4 oct · 00:00–23:59",
+    }
+    fields = normalizer.normalize_schedule(schedule)
+    assert set(fields) == {"display_text", "start", "end"}
+    assert schedule["start"] == "2026-08-06"
+    assert schedule["end"] == "2026-10-04"
+    assert schedule["display_text"] == "2026-08-06 – 2026-10-04"
+
+
+def test_opening_hours_separate_from_event_range() -> None:
+    schedule = {
+        "mode": "multi_day",
+        "start": "2026-08-14T10:00:00-04:00",
+        "end": "2026-10-04T18:00:00-03:00",
+        "display_text": "14-08-2026 · 10:00 – 04-10-2026 · 18:00",
+        "opening_hours": {"display_text": "Martes a domingo · 10:00–18:00"},
+    }
+    normalizer.normalize_schedule(schedule)
+    assert schedule["display_text"] == "2026-08-14 – 2026-10-04"
+    assert schedule["opening_hours"]["display_text"] == "Martes a domingo · 10:00–18:00"
+
+
+def test_real_multiple_session_times_are_not_paired_without_timed_start() -> None:
+    schedule = {
+        "mode": "multi_day",
+        "start": "2026-08-17",
+        "end": "2026-08-23",
+        "display_text": "2026-08-17 · 11:30, 13:00, 18:30, 20:00",
+    }
+    assert normalizer.normalize_schedule(schedule) == []
+    assert schedule["display_text"].endswith("11:30, 13:00, 18:30, 20:00")
+
+
+def main() -> None:
+    test_gallery_flattened_hours_become_ranges()
+    test_artequin_flattened_hours_become_ranges()
+    test_all_day_sentinel_becomes_date_only()
+    test_opening_hours_separate_from_event_range()
+    test_real_multiple_session_times_are_not_paired_without_timed_start()
+    print("SCHEDULE_PRESENTATION_NORMALIZER_TESTS_OK")
+
+
+if __name__ == "__main__":
+    main()
