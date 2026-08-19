@@ -7,10 +7,13 @@ import json
 import re
 import unicodedata
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
+APP_ROOT = ROOT / "app"
+CITY_REGISTRY = APP_ROOT / "cities.json"
 DEFAULT_DATASET = ROOT / "agenda_web.json"
 DEFAULT_REPORT = ROOT / "app/data/quality/content-quality.json"
 
@@ -21,6 +24,17 @@ GENERIC_TITLE_PATTERNS = (
     re.compile(r"^estamos de celebraci[oó]n(?:\b|$)", re.I),
     re.compile(r"^no (?:te|se) lo pierd(?:as|an)(?:\b|$)", re.I),
     re.compile(r"^ven a (?:disfrutar|conocer|visitarnos)(?:\b|$)", re.I),
+)
+
+# Calendar shells, empty-state copy and navigation labels are never public events.
+# These rules are intentionally city-agnostic so every dataset registered in
+# app/cities.json receives the same protection.
+NON_EVENT_TITLE_PATTERNS = (
+    re.compile(r"^0 eventos? encontrados?\b"),
+    re.compile(r"^no hay eventos? programados?\b"),
+    re.compile(r"^navegacion (?:de )?(?:busqueda y )?vistas? de eventos?\b"),
+    re.compile(r"^navegacion de vistas?\b"),
+    re.compile(r"^seleccionar fecha\b"),
 )
 
 ACTIVITY_NOUN = r"(?:muestra|exposici[oó]n|exhibici[oó]n|concierto|recital|obra|taller|charla|conversatorio|festival|funci[oó]n|encuentro|seminario|curso)"
@@ -40,6 +54,7 @@ CANONICAL_PREFIX = re.compile(
 OUTER_QUOTES = re.compile(r"^[\s'\"“”«»]+|[\s'\"“”«»]+$")
 HTML_TAG = re.compile(r"<[^>]+>")
 SPACE = re.compile(r"\s+")
+DATE_PREFIX = re.compile(r"^(\d{4}-\d{2}-\d{2})")
 
 
 def clean_space(value: object) -> str:
@@ -71,6 +86,11 @@ def clean_html_text(value: object) -> str:
 def is_generic_title(value: object) -> bool:
     title = clean_space(value)
     return bool(title and any(pattern.search(title) for pattern in GENERIC_TITLE_PATTERNS))
+
+
+def is_non_event_title(value: object) -> bool:
+    title = fold(clean_html_text(value))
+    return bool(title and any(pattern.search(title) for pattern in NON_EVENT_TITLE_PATTERNS))
 
 
 def _clean_recovered_title(value: str) -> str:
@@ -191,6 +211,53 @@ def merge_missing(preferred: dict, duplicate: dict) -> None:
     preferred["editorial"] = editorial
 
 
+def parse_schedule_date(value: object) -> date | None:
+    match = DATE_PREFIX.match(clean_space(value))
+    if not match:
+        return None
+    try:
+        return date.fromisoformat(match.group(1))
+    except ValueError:
+        return None
+
+
+def reference_date(dataset: dict) -> date | None:
+    value = clean_space(dataset.get("publication_date"))
+    try:
+        return date.fromisoformat(value) if value else None
+    except ValueError:
+        return None
+
+
+def prune_expired_schedule(event: dict, reference: date) -> tuple[bool, int]:
+    """Return (keep_event, pruned_occurrence_count) using the dataset publication date."""
+    schedule = copy.deepcopy(event.get("schedule") or {})
+    occurrences = schedule.get("occurrences")
+    pruned = 0
+
+    if isinstance(occurrences, list) and occurrences:
+        kept_occurrences = []
+        for occurrence in occurrences:
+            occurrence = occurrence or {}
+            occurrence_end = parse_schedule_date(occurrence.get("end") or occurrence.get("start"))
+            if occurrence_end is not None and occurrence_end < reference:
+                pruned += 1
+                continue
+            kept_occurrences.append(occurrence)
+        schedule["occurrences"] = kept_occurrences
+        event["schedule"] = schedule
+        if not kept_occurrences:
+            return False, pruned
+        return True, pruned
+
+    end_date = parse_schedule_date(schedule.get("end"))
+    start_date = parse_schedule_date(schedule.get("start"))
+    effective_end = end_date or start_date
+    if effective_end is not None and effective_end < reference:
+        return False, pruned
+    return True, pruned
+
+
 def refresh_counts(dataset: dict) -> None:
     events = dataset.get("events") or []
     counts = dict(dataset.get("counts") or {})
@@ -209,7 +276,10 @@ def apply_guard(dataset: dict) -> dict:
         "titles_recovered": [],
         "duplicates_consolidated": [],
         "quarantined": [],
+        "expired_removed": [],
+        "past_occurrences_pruned": [],
     }
+    publication_day = reference_date(dataset)
 
     sanitized: list[dict] = []
     for event in events:
@@ -225,6 +295,14 @@ def apply_guard(dataset: dict) -> dict:
         old_title = clean_html_text(event.get("title"))
         if old_title and old_title != event.get("title"):
             event["title"] = old_title
+
+        if is_non_event_title(event.get("title")):
+            changes["quarantined"].append({
+                "id": event_id,
+                "title": event.get("title"),
+                "reason": "calendar_navigation_or_empty_state",
+            })
+            continue
 
         recovered, reason = recover_generic_title(event)
         if recovered and reason:
@@ -243,6 +321,18 @@ def apply_guard(dataset: dict) -> dict:
         elif is_generic_title(event.get("title")):
             changes["quarantined"].append({"id": event_id, "title": event.get("title"), "reason": "generic_title_without_explicit_recovery"})
             continue
+
+        if publication_day is not None:
+            keep, pruned = prune_expired_schedule(event, publication_day)
+            if pruned:
+                changes["past_occurrences_pruned"].append({"id": event_id, "count": pruned})
+            if not keep:
+                changes["expired_removed"].append({
+                    "id": event_id,
+                    "title": event.get("title"),
+                    "reason": "schedule_ended_before_publication_date",
+                })
+                continue
 
         sanitized.append(event)
 
@@ -280,20 +370,38 @@ def apply_guard(dataset: dict) -> dict:
     return changes
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Sanitize public content, recover generic titles, and consolidate duplicate exhibitions.")
-    parser.add_argument("--dataset", default=str(DEFAULT_DATASET))
-    parser.add_argument("--report", default=str(DEFAULT_REPORT))
-    parser.add_argument("--no-write", action="store_true")
-    args = parser.parse_args()
+def resolve_registry_dataset(value: object) -> Path:
+    raw = clean_space(value)
+    if not raw:
+        raise ValueError("City registry contains an empty dataset path")
+    candidate = (APP_ROOT / raw).resolve()
+    root = ROOT.resolve()
+    if not candidate.is_relative_to(root):
+        raise ValueError(f"Dataset path escapes repository root: {raw}")
+    return candidate
 
-    dataset_path = Path(args.dataset)
-    report_path = Path(args.report)
+
+def configured_datasets(registry_path: Path = CITY_REGISTRY) -> list[tuple[str, Path]]:
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    result: list[tuple[str, Path]] = []
+    seen: set[Path] = set()
+    for city in registry.get("cities") or []:
+        city_id = clean_space(city.get("id"))
+        dataset_path = resolve_registry_dataset(city.get("dataset"))
+        if not city_id or dataset_path in seen:
+            continue
+        seen.add(dataset_path)
+        result.append((city_id, dataset_path))
+    if not result:
+        raise ValueError("City registry does not define public datasets")
+    return result
+
+
+def sanitize_dataset(dataset_path: Path) -> tuple[dict, dict]:
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     before = len(dataset.get("events") or [])
     changes = apply_guard(dataset)
     after = len(dataset.get("events") or [])
-
     report = {
         "status": "ok",
         "dataset": str(dataset_path),
@@ -302,9 +410,44 @@ def main() -> None:
         "removed": before - after,
         **changes,
     }
+    return dataset, report
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Sanitize public content, dates, titles and duplicate exhibitions.")
+    parser.add_argument("--dataset", default=str(DEFAULT_DATASET))
+    parser.add_argument("--report", default=str(DEFAULT_REPORT))
+    parser.add_argument("--all-cities", action="store_true", help="Apply the same guard to every dataset registered in app/cities.json.")
+    parser.add_argument("--no-write", action="store_true")
+    args = parser.parse_args()
+
+    report_path = Path(args.report)
+    targets = configured_datasets() if args.all_cities else [("dataset", Path(args.dataset))]
+    city_reports: list[dict] = []
+    sanitized_payloads: list[tuple[Path, dict]] = []
+
+    for city_id, dataset_path in targets:
+        dataset, report = sanitize_dataset(dataset_path)
+        report["city_id"] = city_id
+        city_reports.append(report)
+        sanitized_payloads.append((dataset_path, dataset))
+
+    if args.all_cities:
+        report = {
+            "status": "ok",
+            "mode": "all_cities",
+            "registry": str(CITY_REGISTRY),
+            "datasets": city_reports,
+            "events_before": sum(item["events_before"] for item in city_reports),
+            "events_after": sum(item["events_after"] for item in city_reports),
+            "removed": sum(item["removed"] for item in city_reports),
+        }
+    else:
+        report = city_reports[0]
 
     if not args.no_write:
-        dataset_path.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        for dataset_path, dataset in sanitized_payloads:
+            dataset_path.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         report_path.parent.mkdir(parents=True, exist_ok=True)
         report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

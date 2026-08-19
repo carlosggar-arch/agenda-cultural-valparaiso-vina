@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import copy
 
-from apply_content_quality_guard import apply_guard, canonical_exhibition_title, clean_html_text, recover_generic_title
+from apply_content_quality_guard import (
+    apply_guard,
+    canonical_exhibition_title,
+    clean_html_text,
+    configured_datasets,
+    recover_generic_title,
+)
 
 
 def event(**overrides):
@@ -110,12 +116,72 @@ def test_quarantines_unrecoverable_generic_title() -> None:
     assert dataset["counts"]["total"] == 0
 
 
+def test_quarantines_calendar_navigation_copy() -> None:
+    bad = event(
+        id="gijon-empty-state",
+        title="0 eventos encontrados. No hay eventos programados. No hay eventos programados. Navegación de vistas",
+        location={"venue_id": None, "venue": "El Huerto Espacio Escénico", "city": "Gijón"},
+    )
+    dataset = {"publication_date": "2026-08-19", "events": [bad], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "calendar_navigation_or_empty_state"
+
+
+def test_removes_expired_event_against_publication_date() -> None:
+    past = event(
+        id="past-campus",
+        title="Campus de Verano de La Laboral 2026",
+        schedule={"mode": "single", "start": "2026-06-30T09:00:00+02:00", "end": None, "occurrences": []},
+        location={"venue_id": None, "venue": "Laboral Ciudad de la Cultura", "city": "Gijón"},
+    )
+    dataset = {"publication_date": "2026-08-19", "events": [past], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["expired_removed"][0]["id"] == "past-campus"
+
+
+def test_prunes_past_occurrences_and_keeps_future_session() -> None:
+    recurring = event(
+        id="recurring",
+        title="Visita guiada recurrente",
+        schedule={
+            "mode": "multi_session",
+            "start": "2026-08-18T10:00:00+02:00",
+            "end": "2026-08-21T10:00:00+02:00",
+            "occurrences": [
+                {"start": "2026-08-18T10:00:00+02:00", "end": "2026-08-18T11:00:00+02:00"},
+                {"start": "2026-08-20T10:00:00+02:00", "end": "2026-08-20T11:00:00+02:00"},
+            ],
+        },
+    )
+    dataset = {"publication_date": "2026-08-19", "events": [recurring], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert len(dataset["events"]) == 1
+    occurrences = dataset["events"][0]["schedule"]["occurrences"]
+    assert len(occurrences) == 1
+    assert occurrences[0]["start"].startswith("2026-08-20")
+    assert changes["past_occurrences_pruned"] == [{"id": "recurring", "count": 1}]
+
+
+def test_registry_exposes_both_current_city_datasets() -> None:
+    configured = dict(configured_datasets())
+    assert "valparaiso" in configured
+    assert "gijon" in configured
+    assert configured["valparaiso"].name == "agenda_web.json"
+    assert configured["gijon"].as_posix().endswith("app/data/gijon/agenda_web.json")
+
+
 def main() -> None:
     test_html_is_removed()
     test_recovers_les_esperamos_from_explicit_activity_phrase()
     test_consolidates_same_exhibition_same_venue_and_keeps_image()
     test_does_not_merge_same_title_in_different_venues()
     test_quarantines_unrecoverable_generic_title()
+    test_quarantines_calendar_navigation_copy()
+    test_removes_expired_event_against_publication_date()
+    test_prunes_past_occurrences_and_keeps_future_session()
+    test_registry_exposes_both_current_city_datasets()
     print("CONTENT_QUALITY_GUARD_TESTS_OK")
 
 
