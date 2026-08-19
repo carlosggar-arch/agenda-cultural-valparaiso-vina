@@ -4,7 +4,7 @@ import argparse
 import copy
 import json
 import re
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, time, timedelta
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
@@ -155,11 +155,11 @@ def is_upcoming(item: dict, today: date, days: int) -> bool:
 
 
 def _parsed_datetime(value: str | None) -> datetime | None:
-    text = str(value or "").strip()
-    if "T" not in text:
+    text_value = str(value or "").strip()
+    if "T" not in text_value:
         return None
     try:
-        return datetime.fromisoformat(text.replace("Z", "+00:00"))
+        return datetime.fromisoformat(text_value.replace("Z", "+00:00"))
     except ValueError:
         return None
 
@@ -203,6 +203,42 @@ def pretty_schedule(start: str, end: str | None) -> str:
     return f"{pretty(start)} – {pretty(end)}"
 
 
+def _date_only(value: str | None) -> bool:
+    return bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(value or "").strip()))
+
+
+def _looks_like_full_day_bounds(start: str, end: str) -> bool:
+    """Detect schema/plugin datetimes that merely encode a date range.
+
+    Midnight at the beginning plus 23:59/23:59:59 at the end is a common
+    representation of a date-only programme period. It must not be promoted to
+    an actual public opening/closing time.
+    """
+    start_dt = _parsed_datetime(start)
+    end_dt = _parsed_datetime(end)
+    if not start_dt or not end_dt:
+        return False
+    start_clock = start_dt.timetz().replace(tzinfo=None)
+    end_clock = end_dt.timetz().replace(tzinfo=None)
+    return start_clock == time(0, 0) and end_clock >= time(23, 59)
+
+
+def preserve_date_only_semantics(item: dict, start: str, end: str) -> tuple[str, str]:
+    """Keep date-only records date-only when structured metadata adds fake bounds.
+
+    Real event times remain eligible to upgrade a date-only record. Only the
+    characteristic 00:00 -> 23:59 full-day boundary pair is collapsed.
+    """
+    schedule = item.get("schedule") or {}
+    old_start = str(schedule.get("start") or "").strip()
+    old_end = str(schedule.get("end") or "").strip()
+    if not (_date_only(old_start) and _date_only(old_end)):
+        return start, end
+    if not _looks_like_full_day_bounds(start, end):
+        return start, end
+    return date_part(start) or start, date_part(end) or end
+
+
 def apply_candidate(
     item: dict,
     candidate: dict,
@@ -229,6 +265,7 @@ def apply_candidate(
 
     new_start = str(candidate.get("startDate") or "").strip()
     new_end = str(candidate.get("endDate") or "").strip()
+    new_start, new_end = preserve_date_only_semantics(item, new_start, new_end)
     if new_start and date_part(new_start):
         old_start = str(schedule.get("start") or "")
         old_end = str(schedule.get("end") or "")
