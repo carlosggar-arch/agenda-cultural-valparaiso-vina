@@ -61,8 +61,8 @@ assert.match(appJs, /footer-credit\.js/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:category-normalizer|title-normalizer-bootstrap|session-occurrence-normalizer|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 
-// Approved-event normalization is now deterministic and owned by the core
-// data pipeline instead of global fetch interception.
+// Approved-event normalization is deterministic and owned by the same core
+// data pipeline used by the combined filters.
 assert.match(appCore, /loadAgendaDataset/);
 assert.match(pipeline, /applyEventDataCorrections/);
 assert.match(pipeline, /normalizeAgendaCategories/);
@@ -77,13 +77,15 @@ assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
 assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
 
-// Combined filters can still import the pure category helpers; doing so no
-// longer changes global fetch or controls startup.
+// Combined filters can still import the pure category helpers, but must load
+// through a versioned module and use the normalized agenda pipeline.
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
-assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=20260818-public-taxonomy1"\)/);
+assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=[^"]+"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
 assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
+assert.match(combined, /loadAgendaDataset/);
+assert.doesNotMatch(combined, /fetch\(CITY_CONFIG\[cityId\]\.dataset/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
 
@@ -92,4 +94,4 @@ assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
 assert.ok(Number(releaseMatch[1]) >= 128, "PWA release must include startup resilience architecture");
 assert.doesNotMatch(release, /serviceWorker|window\.stop|caches\.delete|pwa_recovered/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; explicit fail-open pipeline)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline)`);
