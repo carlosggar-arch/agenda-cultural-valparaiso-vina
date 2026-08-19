@@ -8,9 +8,12 @@ APP = ROOT / "app"
 
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
+app_js += "\n" + (APP / "data-pipeline.js").read_text(encoding="utf-8")
 index = (APP / "index.html").read_text(encoding="utf-8")
 card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
 fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
+runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
+render_lifecycle = (APP / "render-lifecycle.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
 media_layout = (ROOT / "assets" / "event-media-layout.css").read_text(encoding="utf-8")
 manifest = json.loads((APP / "manifest.webmanifest").read_text(encoding="utf-8"))
@@ -23,13 +26,19 @@ assert registry["default_city"] in cities
 assert {"valparaiso", "gijon"}.issubset(cities)
 assert len(cities) >= 2
 
-# One installable shell, registry-driven independent datasets.
+# One installable shell, registry-driven independent datasets, and one normalized
+# runtime snapshot shared by presentation modules.
 assert manifest["name"] == "¡Vivamos!"
 assert manifest["start_url"] == "./"
 assert manifest["scope"] == "./"
 assert 'loadCityRegistry' in app_js
 assert 'const CITIES = CITY_REGISTRY.byId' in app_js
-assert 'fetch(city.dataset' in app_js
+assert 'fetchJson(city.dataset' in app_js
+assert 'publishAgendaRuntimeSnapshot' in app_js
+assert 'vivamos:agenda-data-ready' in runtime_state
+assert 'vivamos:agenda-rendered' in render_lifecycle
+assert 'subtree: true' not in render_lifecycle
+assert 'characterData: true' not in render_lifecycle
 assert '"./cities.json"' in service_worker
 assert 'async function datasetUrls()' in service_worker
 assert 'new URL(city.dataset, self.registration.scope).href' in service_worker
@@ -46,10 +55,14 @@ assert 'navigator.geolocation.getCurrentPosition' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
 
 # Real event images keep precedence; card placeholders can still become shared category photos.
+assert 'getAgendaRuntimeSnapshot' in card_js
 assert 'event?.image?.url' in card_js
 assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
 assert 'activeCity() !== "valparaiso"' not in fallback_js
+assert 'getAgendaRuntimeSnapshot' in fallback_js
 assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
+assert 'new MutationObserver' not in card_js
+assert 'new MutationObserver' not in fallback_js
 
 # WEB + APP media must remain presentation-only. Generic source illustrations are
 # cropped enough to hide baked-in white carousel strips/arrows; real event photos
@@ -78,4 +91,4 @@ gijon_events = [event for event in gijon.get("events", []) if isinstance(event, 
 assert gijon_events, "Gijon dataset is unexpectedly empty"
 assert any(str((event.get("image") or {}).get("url") or "").startswith(("http://", "https://")) for event in gijon_events)
 
-print("PWA registry-driven multi-city dataset isolation and WEB/APP media cleanup: OK")
+print("PWA registry-driven multi-city dataset isolation, bounded runtime and WEB/APP media cleanup: OK")
