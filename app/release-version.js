@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v120 makes the temporal confidence guard non-blocking and keeps exhibitions
-  // at the end of the unfiltered dated agenda.
-  const RELEASE = 120;
+  // v121 unifies equivalent venue names in grouped cards and prevents grouped
+  // event rows from clipping titles, schedules or prices.
+  const RELEASE = 121;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
