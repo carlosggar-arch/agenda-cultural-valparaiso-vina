@@ -1,8 +1,8 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v141 keeps the v140 city-runtime reload and prevents generic monthly
-  // listings such as Destino Valparaíso — Agosto 2026 from becoming Hoy cards.
-  const RELEASE = 141;
+  // v142 keeps the v141 monthly-listing fix and preserves normalized public
+  // titles after Valpo/Viña rich-card enrichment rehydrates cards from raw data.
+  const RELEASE = 142;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
