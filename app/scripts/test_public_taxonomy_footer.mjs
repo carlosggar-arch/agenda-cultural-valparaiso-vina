@@ -23,6 +23,23 @@ const cultureExhibition = {
 };
 assert.deepEqual(resolvePublicCategory(cultureExhibition), { id: "exposiciones", label: "Exposiciones" });
 
+const museumBookPresentation = {
+  title: "Presentación libro // “Decadencia”",
+  primary_category: { id: "cultura", label: "Cultura" },
+  description: "Actividad cultural confirmada en la cartelera municipal.",
+  organizer: "Museo Palacio Rioja",
+  source_name: "Museo Palacio Rioja",
+  tags: ["Museo Palacio Rioja", "Visita Viña"],
+};
+assert.deepEqual(resolvePublicCategory(museumBookPresentation), { id: "otros", label: "Otros panoramas" });
+
+const museumGuidedExhibition = {
+  title: "Visita guiada exposición // “A veces un mar dulce”",
+  primary_category: { id: "cultura", label: "Cultura" },
+  organizer: "Museo Palacio Rioja",
+};
+assert.deepEqual(resolvePublicCategory(museumGuidedExhibition), { id: "exposiciones", label: "Exposiciones" });
+
 const genericCulture = {
   title: "CENTEX – Cartelera Agosto",
   primary_category: { id: "cultura", label: "Cultura" },
@@ -36,7 +53,7 @@ const museum = {
 };
 assert.deepEqual(resolvePublicCategory(museum), { id: "exposiciones", label: "Exposiciones" });
 
-for (const sample of [cultureCinema, cultureTheatre, cultureExhibition, genericCulture, museum]) {
+for (const sample of [cultureCinema, cultureTheatre, cultureExhibition, museumBookPresentation, museumGuidedExhibition, genericCulture, museum]) {
   assert.notEqual(resolvePublicCategory(sample).label, "Cultura");
 }
 

@@ -36,7 +36,22 @@ function evidenceText(event) {
   ].filter(Boolean).join(" "));
 }
 
+function explicitTitleCategory(event) {
+  const title = fold(event?.title);
+  if (!title) return null;
+  if (/\b(exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\b/u.test(title)) return CATEGORY.exposiciones;
+  if (/\b(cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\b/u.test(title)) return CATEGORY.cine;
+  if (/\b(concierto|recital|jazz|coro|coral|orquesta|musica)\b/u.test(title)) return CATEGORY.musica;
+  if (/\b(teatro|danza|ballet|circo|performance|funcion|espectaculo)\b/u.test(title)) return CATEGORY.teatro;
+  if (/\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion)\b/u.test(title)) return CATEGORY.talleres;
+  if (/\b(presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\b/u.test(title)) return CATEGORY.otros;
+  return null;
+}
+
 function inferCultureCategory(event) {
+  const explicit = explicitTitleCategory(event);
+  if (explicit) return explicit;
+
   const text = evidenceText(event);
   if (/\b(exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\b/u.test(text)) return CATEGORY.exposiciones;
   if (/\b(cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\b/u.test(text)) return CATEGORY.cine;
@@ -56,4 +71,4 @@ export function resolvePublicCategory(event) {
   return { id: source.id, label: source.label || "Otros panoramas" };
 }
 
-export { CATEGORY, inferCultureCategory };
+export { CATEGORY, explicitTitleCategory, inferCultureCategory };
