@@ -125,30 +125,6 @@ function preserveScrollDuringLegacyClick(container) {
   }, true);
 }
 
-function groupedCardVisibleCount(card) {
-  const rows = [...card.querySelectorAll("[data-grouped-event-id]")];
-  if (rows.length) return rows.filter((row) => !row.hidden).length;
-  const ids = String(card.dataset.eventGroup || "")
-    .split(",")
-    .map((id) => id.trim())
-    .filter(Boolean);
-  return ids.length;
-}
-
-function visibleEventCount(grid) {
-  if (!grid) return 0;
-  let count = 0;
-  for (const card of grid.querySelectorAll(":scope > .event-card")) {
-    if (card.hidden) continue;
-    if (card.dataset.eventGroup) {
-      count += groupedCardVisibleCount(card);
-      continue;
-    }
-    if (card.dataset.eventId) count += 1;
-  }
-  return count;
-}
-
 function refreshVisibleTotals() {
   let total = 0;
   for (const [sectionSelector, totalSelector, gridSelector] of [
@@ -159,7 +135,7 @@ function refreshVisibleTotals() {
     const section = document.querySelector(sectionSelector);
     const counter = document.querySelector(totalSelector);
     const grid = document.querySelector(gridSelector);
-    const count = visibleEventCount(grid);
+    const count = grid?.querySelectorAll(".event-card[data-event-id]").length || 0;
     if (counter) counter.textContent = String(count);
     if (section) section.hidden = count === 0;
     total += count;
@@ -201,10 +177,7 @@ function queueFilterResync() {
   requestAnimationFrame(() => {
     resyncQueued = false;
     window.dispatchEvent(new PopStateEvent("popstate"));
-    requestAnimationFrame(() => {
-      removeRejectedEditorialCards();
-      refreshVisibleTotals();
-    });
+    requestAnimationFrame(removeRejectedEditorialCards);
   });
 }
 
