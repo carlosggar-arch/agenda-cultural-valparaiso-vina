@@ -18,6 +18,7 @@ import "./combined-filters-polish.js";
 import "./favorites.js";
 import "./mobile-experience.js?v=20260817-topcontrols4";
 import "./installed-mosaic.js?v=20260818-f12-dual4";
+import "./mobile-action-strip-six.js?v=20260819-actions6";
 import "./share-qr.js?v=20260818-installqr1";
 import "./web-actions-below-mosaic.js?v=20260818-web2";
 import "./action-strip-layout.js?v=20260818-fill1";
