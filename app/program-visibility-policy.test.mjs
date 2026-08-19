@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   applyProgramVisibilityPolicy,
+  isGenericProgramListing,
   isProgramCovered,
   partitionPrograms,
   programReferenceTitle,
@@ -36,6 +37,25 @@ function program(overrides = {}) {
   };
 }
 
+function destinoMonthly(overrides = {}) {
+  return event({
+    id: "agenda_e7e2a4a89dc447f9bd2633e7",
+    title: "Destino Valparaíso – Agosto 2026",
+    source_id: "valpocultura",
+    source_name: "Valpo Cultura",
+    organizer: "Valpo Cultura",
+    location: { venue: "Destino Valparaíso", city: "Valparaíso" },
+    schedule: {
+      mode: "multi_day",
+      start: "2026-08-05T08:00:00-04:00",
+      end: "2026-08-31T17:00:00-04:00",
+    },
+    description: "Ven a disfrutar agosto en Destino Valparaíso. Este mes tenemos música en vivo en @jardincervecero_cl, clases de tango en @da_mafalda_emporio y @expo_parvati.",
+    image: { url: null, relevance: "generic_schedule", rejection_reason: "generic_schedule_not_event_specific" },
+    ...overrides,
+  });
+}
+
 {
   const concrete = [event()];
   assert.equal(isProgramCovered(program(), concrete), true, "a fully covered program should be hidden from public presentation");
@@ -64,6 +84,25 @@ function program(overrides = {}) {
   assert.deepEqual(result.publicEvents.map((item) => item.id), ["event-1"]);
   assert.deepEqual(result.hiddenPrograms.map((item) => item.id), ["program-1"]);
   assert.deepEqual(result.secondaryPrograms.map((item) => item.id), ["program-2"]);
+}
+
+{
+  const monthly = destinoMonthly();
+  assert.equal(isGenericProgramListing(monthly), true, "Destino Valparaíso monthly aggregate must be recognized as a program, not an individual event");
+  const result = partitionPrograms([monthly, event()]);
+  assert.deepEqual(result.publicEvents.map((item) => item.id), ["event-1"], "generic monthly listings must never enter dated/Hoy cards");
+  assert.deepEqual(result.secondaryPrograms.map((item) => item.id), ["agenda_e7e2a4a89dc447f9bd2633e7"]);
+  assert.equal(result.secondaryPrograms[0].event_type, "program");
+  assert.equal(result.secondaryPrograms[0].editorial?.reason, "generic_schedule_not_individual_event");
+}
+
+{
+  const realExhibition = destinoMonthly({
+    title: "Exposición temporal — A veces un mar dulce",
+    description: "Exposición individual en curso.",
+    image: { url: null, relevance: "generic_schedule" },
+  });
+  assert.equal(isGenericProgramListing(realExhibition), false, "a generic image marker alone must not reclassify a genuine individual event");
 }
 
 {
