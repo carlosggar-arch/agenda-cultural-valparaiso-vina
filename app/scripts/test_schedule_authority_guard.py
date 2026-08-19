@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 
+import revalidate_upcoming_events as revalidator
 import schedule_authority_guard as guard
 
 
@@ -135,6 +136,63 @@ def test_cultura_usm_requires_both_labeled_times() -> None:
     assert guard.cultura_usm_formal_range('<div>Hora término:</div><div>20:30</div>') is None
 
 
+def test_revalidation_keeps_date_only_program_range_date_only() -> None:
+    item = event(
+        "Centex – Cartelera Agosto",
+        "https://valpocultura.cl/evento/centex-cartelera-agosto/",
+        "2026-08-01",
+        source_id="valpocultura",
+        end="2026-08-31",
+    )
+    item["event_type"] = "program"
+    start, end = revalidator.preserve_date_only_semantics(
+        item,
+        "2026-08-01T00:00:00-04:00",
+        "2026-08-31T23:59:59-04:00",
+    )
+    assert start == "2026-08-01"
+    assert end == "2026-08-31"
+    label = revalidator.pretty_schedule(start, end)
+    assert label == "01-08-2026 – 31-08-2026"
+    assert "00:00" not in label
+    assert "23:59" not in label
+
+
+def test_revalidation_still_accepts_real_times_for_date_only_record() -> None:
+    item = event(
+        "Evento con hora real",
+        "https://example.org/evento-con-hora",
+        "2026-08-20",
+        source_id="example",
+        end="2026-08-20",
+    )
+    start, end = revalidator.preserve_date_only_semantics(
+        item,
+        "2026-08-20T19:00:00-04:00",
+        "2026-08-20T21:00:00-04:00",
+    )
+    assert start == "2026-08-20T19:00:00-04:00"
+    assert end == "2026-08-20T21:00:00-04:00"
+    assert revalidator.pretty_schedule(start, end) == "20-08-2026 · 19:00–21:00"
+
+
+def test_revalidation_does_not_reinterpret_existing_timed_all_day_event() -> None:
+    item = event(
+        "Evento de día completo",
+        "https://example.org/evento-dia-completo",
+        "2026-08-20T00:00:00-04:00",
+        source_id="example",
+        end="2026-08-20T23:59:59-04:00",
+    )
+    start, end = revalidator.preserve_date_only_semantics(
+        item,
+        "2026-08-20T00:00:00-04:00",
+        "2026-08-20T23:59:59-04:00",
+    )
+    assert start == "2026-08-20T00:00:00-04:00"
+    assert end == "2026-08-20T23:59:59-04:00"
+
+
 def test_build_applies_all_authorities_without_cross_talking() -> None:
     alma = event(
         "Alma Pajará",
@@ -182,6 +240,9 @@ def main() -> None:
     test_valpocultura_never_invents_time_from_date_only_jsonld()
     test_cultura_usm_uses_start_and_end_as_one_range()
     test_cultura_usm_requires_both_labeled_times()
+    test_revalidation_keeps_date_only_program_range_date_only()
+    test_revalidation_still_accepts_real_times_for_date_only_record()
+    test_revalidation_does_not_reinterpret_existing_timed_all_day_event()
     test_build_applies_all_authorities_without_cross_talking()
     print("SCHEDULE_AUTHORITY_GUARD_TESTS_OK")
 
