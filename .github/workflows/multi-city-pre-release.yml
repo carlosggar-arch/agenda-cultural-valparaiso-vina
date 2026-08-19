@@ -39,6 +39,7 @@ on:
       - "tests/community-feedback-ui.test.mjs"
       - "tests/temporal-priority-core.test.mjs"
       - "tests/runtime-card-image-fallback.test.mjs"
+      - "tests/card-representative-images.test.mjs"
       - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/event-pages.yml"
       - ".github/workflows/temporal-priority-validation.yml"
@@ -82,6 +83,7 @@ on:
       - "tests/community-feedback-ui.test.mjs"
       - "tests/temporal-priority-core.test.mjs"
       - "tests/runtime-card-image-fallback.test.mjs"
+      - "tests/card-representative-images.test.mjs"
       - ".github/workflows/root-combined-filters.yml"
       - ".github/workflows/event-pages.yml"
       - ".github/workflows/temporal-priority-validation.yml"
@@ -267,7 +269,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/root-combined-filters\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
