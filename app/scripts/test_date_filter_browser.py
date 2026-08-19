@@ -13,6 +13,8 @@ import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+APP = ROOT / "app"
+TEST_PAGE = APP / "__date_filter_test.html"
 STALE_EVENT_ID = "agenda_93e4dbf4da87420c93c629c6"
 GROUPED_CINEMA_ID = "agenda_cinema_9531c9ead643b3490477"
 
@@ -28,6 +30,20 @@ def chrome_binary() -> str:
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format: str, *args) -> None:  # noqa: A003
         pass
+
+
+def make_test_page() -> None:
+    source = (APP / "index.html").read_text(encoding="utf-8")
+    source = re.sub(r'\s*<script type="module" src="[^"]+"></script>', "", source)
+    isolated_boot = r'''
+  <script type="module">
+    const { coreReady } = await import("./app-core.js?v=20260819-core1");
+    await coreReady;
+    await import("./combined-filters-bootstrap.js?v=20260819-date-test1");
+    document.documentElement.dataset.dateFilterTestReady = "true";
+  </script>'''
+    source = source.replace("</body>", isolated_boot + "\n</body>", 1)
+    TEST_PAGE.write_text(source, encoding="utf-8")
 
 
 def dump_dom(url: str, label: str) -> str:
@@ -50,23 +66,19 @@ def dump_dom(url: str, label: str) -> str:
                 "--no-first-run",
                 "--no-default-browser-check",
                 "--window-size=1280,900",
-                "--virtual-time-budget=9000",
+                "--virtual-time-budget=7000",
                 f"--user-data-dir={profile}",
                 "--dump-dom",
                 url,
             ]
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=40)
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
             except subprocess.TimeoutExpired as exc:
                 last_error = f"timeout after {exc.timeout}s"
                 if attempt < 2:
                     time.sleep(1)
                     continue
                 raise AssertionError(f"Chrome date-filter probe timed out twice ({label}): {last_error}") from exc
-
-            # Hosted Chrome can return a non-zero code because of DBus/crashpad
-            # noise after --dump-dom already produced a complete DOM. The DOM
-            # assertions below decide whether the application actually passed.
             if result.stdout:
                 return result.stdout
             last_error = result.stderr[-1600:] or f"exit={result.returncode}, empty DOM"
@@ -93,7 +105,9 @@ def visible_direct_cards(dom: str) -> int:
 
 def assert_selected_date(dom: str, selected: str) -> None:
     if 'data-vivamos-ready="true"' not in dom:
-        raise AssertionError(f"app did not reach ready state for {selected}")
+        raise AssertionError(f"core did not reach ready state for {selected}")
+    if 'data-date-filter-test-ready="true"' not in dom:
+        raise AssertionError(f"combined filters did not finish for {selected}")
     if f'value="{selected}"' not in dom:
         raise AssertionError(f"custom date control did not retain {selected}")
     if not is_hidden(card_tag(dom, STALE_EVENT_ID)):
@@ -109,6 +123,7 @@ def assert_grouped_cinema(dom: str, selected: str) -> None:
 
 def main() -> None:
     os.chdir(ROOT)
+    make_test_page()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
@@ -116,7 +131,7 @@ def main() -> None:
         thread.start()
         time.sleep(0.2)
         try:
-            base = f"http://127.0.0.1:{port}/app/"
+            base = f"http://127.0.0.1:{port}/app/{TEST_PAGE.name}"
             for selected in ("2026-08-19", "2026-08-25"):
                 nonce = uuid.uuid4().hex
                 url = f"{base}?city=valparaiso&when=personalizado&from={selected}&to={selected}&datefilter={nonce}"
@@ -125,6 +140,7 @@ def main() -> None:
                 assert_grouped_cinema(dom, selected)
                 print(f"DATE_FILTER_OK date={selected} visible={visible_direct_cards(dom)}")
         finally:
+            TEST_PAGE.unlink(missing_ok=True)
             server.shutdown()
             thread.join(timeout=2)
 
