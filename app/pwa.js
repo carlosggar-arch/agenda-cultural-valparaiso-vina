@@ -1,7 +1,7 @@
 import "./vivamos-brand.js";
 import "./card-experience.js";
 import "./public-presentation-guard.js";
-import "./schedule-display.js?v=20260819-hours2";
+import "./schedule-display.js?v=20260819-hours3";
 import "./exhibition-hours.js?v=20260818-hours2";
 import "./card-image-fallback.js";
 import "./compact-top.js";
