@@ -8,7 +8,7 @@ import "./compact-top.js";
 import "./gijon-visual-reference.js";
 import "./sources-toggle.js";
 import "./community-source.js?v=20260818-feedback3";
-import "./remove-like.js?v=20260818-remove1";
+import "./remove-like.js?v=20260819-remove2";
 import "./participation-footer.js?v=20260818-feedback6";
 import "./header-redesign.js?v=20260817-brandicon2";
 import "./density-polish.js";
