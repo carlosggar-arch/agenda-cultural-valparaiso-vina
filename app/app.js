@@ -1,5 +1,8 @@
 import "./startup-stability.js?v=20260819-startup2";
-import { coreReady } from "./app-core.js?v=20260819-pipeline1";
+
+// The core is intentionally a dynamic import: the watchdog above must execute
+// even if the core module graph fails to load or evaluate.
+const { coreReady } = await import("./app-core.js?v=20260819-pipeline1");
 
 // Deferred-module contract marker used by release-coherence tests; this is not an eager import.
 // import "./schedule-display.js?v=20260819-hours3";
