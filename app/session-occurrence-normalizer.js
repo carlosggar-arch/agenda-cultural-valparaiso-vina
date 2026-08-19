@@ -227,17 +227,77 @@ function isGenericVenueTitle(event) {
   return Boolean(title && venue && title === venue);
 }
 
-export function recoverKnownExhibitionTitles(event) {
-  if (!isGenericVenueTitle(event)) return event;
+function freePrice(price = {}) {
+  return { ...price, is_free: true, currency: "CLP", min_amount: 0, max_amount: 0, display_text: "Gratis" };
+}
+
+export function correctKnownExhibitions(event) {
+  const title = fold(event?.title);
   const description = String(event?.description || "");
+  const source = String(event?.source_url || event?.links?.official || event?.links?.source || "").toLocaleLowerCase("es");
   const venue = fold(event?.location?.venue);
-  if (venue.includes("galeria municipal de arte") && /PRÁCTICAS\s+SITUADAS/i.test(description)) {
+
+  if ((isGenericVenueTitle(event) || title.includes("galeria municipal de arte")) && /PRÁCTICAS\s+SITUADAS/i.test(description)) {
     return {
       ...event,
       title: "Prácticas situadas — 46.º Salón de Estudiantes",
-      editorial: { ...(event.editorial || {}), title_recovery: "description_headline" },
+      primary_category: { id: "exposiciones", label: "Exposiciones" },
+      categories: [{ id: "exposiciones", label: "Exposiciones" }],
+      schedule: {
+        ...(event.schedule || {}),
+        opening_time: null,
+        closing_time: null,
+        opening_hours: {
+          display_text: "Lunes a viernes · 10:00–18:00 · Sábados · 11:00–17:00",
+          opening_time: "10:00",
+          closing_time: "18:00",
+        },
+      },
+      editorial: { ...(event.editorial || {}), title_recovery: "description_headline", schedule_correction: "venue_opening_hours" },
     };
   }
+
+  if ((source.includes("museobaburizza.cl") || venue.includes("baburizza")) && title === "nebulosa carina") {
+    return {
+      ...event,
+      title: "Nebulosa Carina",
+      schedule: {
+        ...(event.schedule || {}),
+        mode: "multi_day",
+        start: "2026-08-06",
+        end: "2026-10-04",
+        display_text: "2026-08-06 – 2026-10-04",
+        occurrences: [],
+        opening_time: null,
+        closing_time: null,
+        opening_hours: null,
+      },
+      price: freePrice(event.price),
+      editorial: { ...(event.editorial || {}), schedule_correction: "official_baburizza_virtual_exhibition" },
+    };
+  }
+
+  if ((source.includes("museobaburizza.cl") || venue.includes("baburizza")) && title === "las cumbias que escuchamos alla arriba") {
+    return {
+      ...event,
+      title: "Las cumbias que escuchamos allá arriba",
+      schedule: {
+        ...(event.schedule || {}),
+        mode: "multi_day",
+        start: "2026-08-14",
+        end: "2026-10-04",
+        display_text: "2026-08-14 – 2026-10-04",
+        occurrences: [],
+        opening_time: "10:00",
+        closing_time: "18:00",
+        recurrence: ["Martes a domingo"],
+        hours_confidence: "official_event_page",
+      },
+      price: freePrice(event.price),
+      editorial: { ...(event.editorial || {}), schedule_correction: "official_baburizza_exhibition" },
+    };
+  }
+
   return event;
 }
 
@@ -253,7 +313,7 @@ function recalculateCounts(events, originalCounts = {}) {
 
 export function normalizeSessionOccurrences(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
-  const recovered = dataset.events.map(recoverKnownExhibitionTitles).map(recoverPajareandoOccurrences);
+  const recovered = dataset.events.map(correctKnownExhibitions).map(recoverPajareandoOccurrences);
   const merged = mergeRepeatedCinemaSessions(recovered);
   const changed = merged.length !== dataset.events.length || merged.some((event, index) => event !== dataset.events[index]);
   if (!changed) return dataset;
