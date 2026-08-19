@@ -6,11 +6,13 @@ const fallback = await readFile(new URL("../app/card-image-fallback.js", import.
 const corrections = await readFile(new URL("../app/event-data-corrections.js", import.meta.url), "utf8");
 const app = await readFile(new URL("../app/app.js", import.meta.url), "utf8");
 
-test("runtime-only events are indexed from the final normalized pipeline", () => {
-  assert.match(fallback, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js\?v=20260819-pipeline1"/);
-  assert.match(fallback, /const result = await loadAgendaDataset\(city\)/);
-  assert.match(fallback, /eventIndex = new Map\(events\.map/);
+test("runtime-only events are indexed from the shared final normalized snapshot", () => {
+  assert.match(fallback, /getAgendaRuntimeSnapshot/);
+  assert.match(fallback, /normalizedEvents = snapshot\.events/);
+  assert.match(fallback, /eventIndex = new Map\(snapshot\.events\.map/);
   assert.match(fallback, /document\.querySelectorAll\('\[data-agenda\] \.event-card\[data-event-id\]'\)\.forEach\(upgradeRuntimeCard\)/);
+  assert.doesNotMatch(fallback, /loadAgendaDataset/);
+  assert.doesNotMatch(fallback, /new MutationObserver\s*\(/);
 });
 
 test("runtime cards always get event, venue, or category artwork", () => {
@@ -30,8 +32,9 @@ test("Palacio Rioja Qi Gong and Jacques Tati corrections stay covered", () => {
   ]) assert.match(corrections, new RegExp(id));
 });
 
-test("Valpo image modules use the post-repair cache token", () => {
-  assert.match(app, /card-experience\.js\?v=20260819-valpoimages2/);
-  assert.match(app, /card-image-fallback\.js\?v=20260819-valpoimages2/);
-  assert.match(app, /card-title-consistency\.js\?v=20260819-titleguard1/);
+test("Valpo image modules use the shared runtime cache token", () => {
+  assert.match(app, /card-experience\.js\?v=20260819-runtime1/);
+  assert.match(app, /card-image-fallback\.js\?v=20260819-runtime1/);
+  assert.match(app, /public-presentation-guard\.js\?v=20260819-runtime1/);
+  assert.doesNotMatch(app, /card-title-consistency\.js\?/);
 });
