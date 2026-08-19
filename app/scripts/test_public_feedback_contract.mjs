@@ -39,8 +39,18 @@ assert.match(participation, /restoreFooterContact/);
 assert.match(participation, /grid-template-columns: repeat\(6, minmax\(0, 1fr\)\) !important/);
 assert.doesNotMatch(participation, /IntersectionObserver|addEventListener\(["']scroll/);
 
+// The base WEB module owns the shell-free proportional layout. This protects the
+// visible toolbar even if a later optional presentation module is delayed.
 assert.match(webActions, /display: flex !important/);
-assert.match(webActions, /overflow-x: auto !important/);
+assert.match(webActions, /background: transparent !important/);
+assert.match(webActions, /border: 0 !important/);
+assert.match(webActions, /padding: 0 !important/);
+assert.match(webActions, /flex-basis: 0 !important/);
+assert.match(webActions, /flex: 1\.75 1 0 !important/);
+assert.match(webActions, /flex: 1\.25 1 0 !important/);
+assert.doesNotMatch(webActions, /background: rgba\(255,255,255,\.78\) !important/);
+assert.doesNotMatch(webActions, /flex: 0 0 auto !important/);
+assert.doesNotMatch(webActions, /width: max-content !important/);
 assert.doesNotMatch(webActions, /MutationObserver/);
 assert.doesNotMatch(webActions, /grid-template-columns: repeat\(auto-fit/);
 
@@ -80,6 +90,6 @@ assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
+assert.ok(Number(releaseMatch[1]) >= 136, "PWA release must include recovered v136 UI contract");
 
-console.log("Public feedback: current comments-only six-action installed strip contract: OK");
+console.log("Public feedback: shell-free proportional WEB strip + current comments-only six-action installed strip: OK");

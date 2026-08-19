@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v135 keeps the normalized date pipeline and makes Gijon grouped exhibitions
-  // filter-aware, merges Museos into Exposiciones and restores light card images.
-  const RELEASE = 135;
+  // v136 restores the shell-free proportional WEB action strip and the
+  // Valparaiso supplemental recovery feed after the emergency rollback.
+  const RELEASE = 136;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
