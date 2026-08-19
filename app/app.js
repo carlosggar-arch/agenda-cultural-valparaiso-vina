@@ -18,6 +18,22 @@ const OPTIONAL_MODULES = [
   "./participation-footer.js?v=20260819-feedback7",
 ];
 
+// Gijon currently has a larger card set and was freezing after the stable core
+// had already rendered it. Keep observer-heavy presentation modules out of the
+// Gijon startup path; the core renderer already has the normalized schedules and
+// all individual events, so these are enhancements rather than data dependencies.
+const GIJON_DEFERRED_MODULES = new Set([
+  "./static-exhibition-groups.js?v=20260818-staticgroups1",
+  "./multievent-layout-fix.js?v=20260819-multievent1",
+  "./schedule-display.js?v=20260819-hours3",
+]);
+if (String(document.documentElement.dataset.city || "") === "gijon") {
+  for (let index = OPTIONAL_MODULES.length - 1; index >= 0; index -= 1) {
+    if (GIJON_DEFERRED_MODULES.has(OPTIONAL_MODULES[index])) OPTIONAL_MODULES.splice(index, 1);
+  }
+  document.documentElement.dataset.gijonStableRuntime = "true";
+}
+
 async function loadOptionalEnhancements() {
   const results = await Promise.allSettled(OPTIONAL_MODULES.map((module) => import(module)));
   results.forEach((result, index) => {
