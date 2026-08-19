@@ -9,8 +9,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATASET_PATH = ROOT / "agenda_web.json"
+GIJON_DATASET_PATH = ROOT / "app" / "data" / "gijon" / "agenda_web.json"
 CLOCK_RE = re.compile(r"\b(?:[01]\d|2[0-3]):[0-5]\d\b")
 ISO_CLOCK_RE = re.compile(r"T((?:[01]\d|2[0-3]):[0-5]\d)")
+TWO_TIME_COMMA_RE = re.compile(
+    r"\b((?:[01]\d|2[0-3]):[0-5]\d)\s*,\s*((?:[01]\d|2[0-3]):[0-5]\d)\b"
+)
 
 
 def day(value: object) -> str | None:
@@ -43,12 +47,55 @@ def date_range_text(schedule: dict) -> str | None:
     return start_day
 
 
+def structured_session_starts(schedule: dict) -> set[tuple[str, str]]:
+    starts: set[tuple[str, str]] = set()
+    for occurrence in schedule.get("occurrences") or []:
+        if not isinstance(occurrence, dict):
+            continue
+        occurrence_day = day(occurrence.get("start"))
+        occurrence_clock = iso_clock(occurrence.get("start"))
+        if occurrence_day and occurrence_clock:
+            starts.add((occurrence_day, occurrence_clock))
+    return starts
+
+
+def has_multiple_structured_sessions(schedule: dict) -> bool:
+    return len(structured_session_starts(schedule)) >= 2
+
+
+def simple_two_clock_interval(schedule: dict) -> str | None:
+    """Return HH:MM–HH:MM when a flat two-clock list is start/end.
+
+    Public presentation rule for Valparaíso/Viña and Gijón:
+    - exactly two ordered comma-separated clock values;
+    - no structured evidence of independent sessions;
+    - when a timed structured start exists, it must match the first clock.
+
+    A single known clock is left as start-only. We never invent a closing time.
+    """
+    display = str(schedule.get("display_text") or "").strip()
+    clocks = CLOCK_RE.findall(display)
+    if len(clocks) != 2 or clocks == ["00:00", "23:59"]:
+        return None
+    if not TWO_TIME_COMMA_RE.search(display):
+        return None
+    if has_multiple_structured_sessions(schedule):
+        return None
+    first, second = clocks
+    if minutes(first) >= minutes(second):
+        return None
+    structured_start = iso_clock(schedule.get("start"))
+    if structured_start and structured_start != first:
+        return None
+    return f"{first}–{second}"
+
+
 def paired_flattened_ranges(schedule: dict) -> list[str] | None:
     if schedule.get("mode") != "multi_day":
         return None
     display = str(schedule.get("display_text") or "").strip()
     clocks = CLOCK_RE.findall(display)
-    if len(clocks) != 4:
+    if len(clocks) != 4 or has_multiple_structured_sessions(schedule):
         return None
     start_day = day(schedule.get("start"))
     end_day = day(schedule.get("end"))
@@ -83,23 +130,29 @@ def normalize_schedule(schedule: dict) -> list[str]:
         if iso_clock(end) == "23:59":
             schedule["end"] = day(end)
             changes.append("end")
-        return changes
+        return sorted(set(changes))
+
+    opening_hours = schedule.get("opening_hours")
+    opening_text = str(opening_hours.get("display_text") or "").strip() if isinstance(opening_hours, dict) else ""
+    if opening_text and range_text:
+        if schedule.get("mode") == "multi_day" and schedule.get("display_text") != range_text:
+            schedule["display_text"] = range_text
+            changes.append("display_text")
+        return sorted(set(changes))
+
+    interval = simple_two_clock_interval(schedule)
+    if interval and range_text:
+        normalized = f"{range_text} · {interval}"
+        if schedule.get("display_text") != normalized:
+            schedule["display_text"] = normalized
+            changes.append("display_text")
+        return sorted(set(changes))
 
     ranges = paired_flattened_ranges(schedule)
     if ranges and range_text:
         normalized = f"{range_text} · {' · '.join(ranges)}"
         if schedule.get("display_text") != normalized:
             schedule["display_text"] = normalized
-            changes.append("display_text")
-
-    opening_hours = schedule.get("opening_hours")
-    opening_text = str(opening_hours.get("display_text") or "").strip() if isinstance(opening_hours, dict) else ""
-    if opening_text and range_text:
-        # Opening hours have their own authoritative field. Keep the event
-        # display_text date-only so start/end edge clocks cannot masquerade as
-        # a continuous multi-day event interval.
-        if schedule.get("mode") == "multi_day" and schedule.get("display_text") != range_text:
-            schedule["display_text"] = range_text
             changes.append("display_text")
 
     return sorted(set(changes))
@@ -120,20 +173,36 @@ def normalize_dataset(dataset: dict) -> tuple[dict, list[dict]]:
     return output, rows
 
 
+def dataset_targets(primary: Path) -> list[Path]:
+    targets = [primary]
+    try:
+        is_public_root = primary.resolve() == DATASET_PATH.resolve()
+    except OSError:
+        is_public_root = primary == DATASET_PATH
+    if is_public_root and GIJON_DATASET_PATH.exists():
+        targets.append(GIJON_DATASET_PATH)
+    return targets
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Normalize schedule presentation noise without fetching sources.")
     parser.add_argument("--dataset", type=Path, default=DATASET_PATH)
-    parser.add_argument("--check", action="store_true", help="Fail if normalization would change the dataset.")
+    parser.add_argument("--check", action="store_true", help="Fail if normalization would change any selected dataset.")
     args = parser.parse_args()
 
-    dataset = json.loads(args.dataset.read_text(encoding="utf-8"))
-    normalized, rows = normalize_dataset(dataset)
-    print(json.dumps({"normalized_events": len(rows), "rows": rows}, ensure_ascii=False, indent=2))
+    changed_any = False
+    summaries: list[dict] = []
+    for dataset_path in dataset_targets(args.dataset):
+        dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
+        normalized, rows = normalize_dataset(dataset)
+        summaries.append({"dataset": str(dataset_path.relative_to(ROOT)), "normalized_events": len(rows), "rows": rows})
+        changed_any = changed_any or bool(rows)
+        if rows and not args.check:
+            dataset_path.write_text(json.dumps(normalized, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    if args.check:
-        raise SystemExit(1 if rows else 0)
-    if rows:
-        args.dataset.write_text(json.dumps(normalized, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"datasets": summaries}, ensure_ascii=False, indent=2))
+    if args.check and changed_any:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

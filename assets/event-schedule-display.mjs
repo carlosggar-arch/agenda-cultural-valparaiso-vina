@@ -3,6 +3,7 @@ const TIME_IN_TEXT = /(?:^|[^\d])(?:[01]?\d|2[0-3]):[0-5]\d(?:\s*(?:h|hrs?))?/i;
 const CLOCK_IN_TEXT = /\b(?:[01]\d|2[0-3]):[0-5]\d\b/g;
 const TRAILING_DATE_RANGE = /\s[–-]\s(?:\d{4}-\d{2}-\d{2}|\d{1,2}-\d{1,2}-\d{4})\s*$/;
 const FOUR_TIME_LIST = /\b(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\b/;
+const TWO_TIME_COMMA_LIST = /\b((?:[01]\d|2[0-3]):[0-5]\d)\s*,\s*((?:[01]\d|2[0-3]):[0-5]\d)\b/;
 
 function validTime(value) {
   const match = String(value || "").match(/^([01]\d|2[0-3]):([0-5]\d)$/);
@@ -23,31 +24,6 @@ function displayClocks(value) {
 function isAllDayDisplay(value) {
   const clocks = displayClocks(value);
   return clocks.length === 2 && clocks[0] === "00:00" && clocks[1] === "23:59";
-}
-
-function timedDisplayText(schedule, timezone) {
-  const display = String(schedule?.display_text || "").trim();
-  if (!(display && TIME_IN_TEXT.test(display))) return null;
-
-  // Midnight-to-23:59 is a machine all-day sentinel, not a useful public
-  // opening hour. Keep the date range and suppress the synthetic clock pair.
-  if (isAllDayDisplay(display)) return null;
-
-  // A common metadata mismatch is a timed start plus a date-only end on the
-  // same day. Never render a stale label such as "16:00 – 2026-08-18";
-  // canonical start/end fields below can represent it unambiguously.
-  const start = schedule?.start;
-  const end = schedule?.end;
-  const dateOnlyEnd = /^\d{4}-\d{2}-\d{2}$/.test(String(end || ""));
-  if (
-    String(start || "").includes("T")
-    && dateOnlyEnd
-    && dateKey(start, timezone) === String(end)
-    && TRAILING_DATE_RANGE.test(display)
-  ) {
-    return null;
-  }
-  return display;
 }
 
 function dateKey(value, timezone) {
@@ -119,6 +95,52 @@ function dateRangeLabel(schedule, options) {
   return formatDate(start, { ...options, time: false });
 }
 
+function occurrenceStartTimes(schedule, options) {
+  const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
+  return occurrences
+    .map((occurrence) => ({
+      start: occurrence?.start,
+      key: dateKey(occurrence?.start, options.timezone),
+      time: timeFromValue(occurrence?.start, options.timezone),
+    }))
+    .filter((item) => item.key && item.time);
+}
+
+function hasMultipleStructuredSessions(schedule, options) {
+  const dated = occurrenceStartTimes(schedule, options);
+  return new Set(dated.map((item) => `${item.key}|${item.time}`)).size >= 2;
+}
+
+function occurrenceTimesLabel(schedule, options) {
+  const dated = occurrenceStartTimes(schedule, options);
+  if (dated.length < 2) return null;
+  const keys = [...new Set(dated.map((item) => item.key))];
+  if (keys.length !== 1) return null;
+  const times = [...new Set(dated.map((item) => item.time))];
+  if (times.length < 2) return null;
+  const date = formatDate(dated[0].start, { ...options, time: false });
+  return date ? `${date} · ${times.join(", ")}` : times.join(", ");
+}
+
+function simpleTwoTimeInterval(schedule, options) {
+  const display = String(schedule?.display_text || "").trim();
+  const clocks = displayClocks(display);
+  if (clocks.length !== 2 || isAllDayDisplay(display)) return null;
+  if (!TWO_TIME_COMMA_LIST.test(display)) return null;
+  if (hasMultipleStructuredSessions(schedule, options)) return null;
+
+  const [startClock, endClock] = clocks;
+  const startMinutes = clockMinutes(startClock);
+  const endMinutes = clockMinutes(endClock);
+  if (startMinutes === null || endMinutes === null || startMinutes >= endMinutes) return null;
+
+  const structuredStart = timeFromValue(schedule?.start, options.timezone);
+  if (structuredStart && structuredStart !== startClock) return null;
+
+  const range = dateRangeLabel(schedule, options);
+  return [range, `${startClock}–${endClock}`].filter(Boolean).join(" · ");
+}
+
 function pairedRangeDisplayText(schedule, options) {
   if (schedule?.mode !== "multi_day") return null;
   const display = String(schedule?.display_text || "").trim();
@@ -138,6 +160,7 @@ function pairedRangeDisplayText(schedule, options) {
     || !endKey
     || startKey === endKey
     || timeFromValue(start, options.timezone) !== times[0]
+    || hasMultipleStructuredSessions(schedule, options)
   ) return null;
 
   const firstStart = clockMinutes(times[0]);
@@ -190,23 +213,23 @@ function explicitOpeningHoursLabel(schedule) {
   return String(weekly.display_text || "").trim() || null;
 }
 
-function occurrenceTimesLabel(schedule, options) {
-  const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
-  if (occurrences.length < 2) return null;
-  const dated = occurrences
-    .map((occurrence) => ({
-      start: occurrence?.start,
-      key: dateKey(occurrence?.start, options.timezone),
-      time: timeFromValue(occurrence?.start, options.timezone),
-    }))
-    .filter((item) => item.key && item.time);
-  if (dated.length < 2) return null;
-  const firstKey = dated[0].key;
-  if (!dated.every((item) => item.key === firstKey)) return null;
-  const times = [...new Set(dated.map((item) => item.time))];
-  if (times.length < 2) return null;
-  const date = formatDate(dated[0].start, { ...options, time: false });
-  return date ? `${date} · ${times.join(", ")}` : times.join(", ");
+function timedDisplayText(schedule, timezone) {
+  const display = String(schedule?.display_text || "").trim();
+  if (!(display && TIME_IN_TEXT.test(display))) return null;
+  if (isAllDayDisplay(display)) return null;
+
+  const start = schedule?.start;
+  const end = schedule?.end;
+  const dateOnlyEnd = /^\d{4}-\d{2}-\d{2}$/.test(String(end || ""));
+  if (
+    String(start || "").includes("T")
+    && dateOnlyEnd
+    && dateKey(start, timezone) === String(end)
+    && TRAILING_DATE_RANGE.test(display)
+  ) {
+    return null;
+  }
+  return display;
 }
 
 export function formatSchedule(schedule, options = {}) {
@@ -227,33 +250,22 @@ export function formatSchedule(schedule, options = {}) {
     ].filter(Boolean).join(" · ");
   }
 
-  // Rich source schedules (split weekdays, seasonal hours, etc.) can be more
-  // informative than a single opening/closing pair. When a source explicitly
-  // marks them as opening hours, preserve that text and keep event dates separate.
   const explicitOpeningHours = explicitOpeningHoursLabel(schedule);
   if (explicitOpeningHours) {
     return [range || "Horario de visita", explicitOpeningHours].filter(Boolean).join(" · ");
   }
 
-  // Some sources flatten two opening-hour ranges into four comma-separated
-  // clock values. Treat that exact, strongly constrained pattern as two ranges
-  // instead of four independent sessions.
-  const pairedRanges = pairedRangeDisplayText(schedule, settings);
-  if (pairedRanges) return pairedRanges;
-
-  // Some sources provide a date-only structured start but preserve the actual
-  // function times in display_text. Prefer that verified text unless it is a
-  // known malformed same-day range that can be rebuilt from canonical fields.
-  const explicitDisplay = timedDisplayText(schedule, settings.timezone);
-  if (explicitDisplay) return explicitDisplay;
-
   const multipleTimes = occurrenceTimesLabel(schedule, settings);
   if (multipleTimes) return multipleTimes;
 
+  const simpleInterval = simpleTwoTimeInterval(schedule, settings);
+  if (simpleInterval) return simpleInterval;
+
+  const pairedRanges = pairedRangeDisplayText(schedule, settings);
+  if (pairedRanges) return pairedRanges;
+
   const start = schedule.start || schedule.occurrences?.[0]?.start;
   const end = schedule.end || schedule.occurrences?.[0]?.end;
-  if (!start) return schedule.display_text || "Horario por confirmar";
-
   const startKey = dateKey(start, settings.timezone);
   const endKey = dateKey(end, settings.timezone);
   const startTime = timeFromValue(start, settings.timezone);
@@ -265,11 +277,21 @@ export function formatSchedule(schedule, options = {}) {
     return `${date} · ${startTime}`;
   }
 
+  const explicitDisplay = timedDisplayText(schedule, settings.timezone);
+  if (explicitDisplay) return explicitDisplay;
+
+  if (!start) return schedule.display_text || "Horario por confirmar";
+
   if (startKey && endKey && endKey !== startKey) {
     return range || schedule.display_text || "Horario por confirmar";
   }
 
-  return formatDate(start, { ...settings, time: true }) || schedule.display_text || "Horario por confirmar";
+  if (startTime) {
+    const date = formatDate(start, { ...settings, time: false });
+    return date ? `${date} · ${startTime}` : startTime;
+  }
+
+  return formatDate(start, { ...settings, time: false }) || schedule.display_text || "Horario por confirmar";
 }
 
 export function compactScheduleDayLabel(schedule, options = {}) {

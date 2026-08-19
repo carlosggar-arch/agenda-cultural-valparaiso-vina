@@ -6,6 +6,11 @@ const valpo = {
   timezone: "America/Santiago",
   now: new Date("2026-08-16T18:00:00-04:00"),
 };
+const gijon = {
+  locale: "es-ES",
+  timezone: "Europe/Madrid",
+  now: new Date("2026-08-19T15:00:00+02:00"),
+};
 
 const rioja = {
   mode: "multi_day",
@@ -80,8 +85,59 @@ const cinema = {
   start: "2026-08-16T15:00:00-04:00",
   end: "2026-08-16T17:05:00-04:00",
 };
-const cinemaLabel = formatSchedule(cinema, valpo);
-assert.match(cinemaLabel, /15:00–17:05/);
+assert.match(formatSchedule(cinema, valpo), /15:00–17:05/);
+
+// Exactly two ordered comma-separated clocks without structured evidence of
+// multiple sessions are one start/end interval, not two independent sessions.
+const arteEsNatural = {
+  mode: "multi_day",
+  start: "2026-08-18T15:00:00-04:00",
+  end: "2026-08-28",
+  display_text: "2026-08-18 · 15:00, 16:00",
+  occurrences: [],
+};
+const arteNaturalLabel = formatSchedule(arteEsNatural, valpo);
+assert.match(arteNaturalLabel, /15:00–16:00/);
+assert.doesNotMatch(arteNaturalLabel, /15:00,\s*16:00/);
+
+const cuentacuentos = {
+  mode: "single",
+  start: "2026-08-22T11:30:00-04:00",
+  end: "2026-08-22",
+  display_text: "2026-08-22 · 11:30, 13:00",
+  occurrences: [],
+};
+const cuentacuentosLabel = formatSchedule(cuentacuentos, valpo);
+assert.match(cuentacuentosLabel, /11:30–13:00/);
+assert.doesNotMatch(cuentacuentosLabel, /11:30,\s*13:00/);
+
+const startOnly = {
+  mode: "single",
+  start: "2026-08-22T11:30:00-04:00",
+  end: null,
+  display_text: "2026-08-22 · 11:30",
+  occurrences: [],
+};
+const startOnlyLabel = formatSchedule(startOnly, valpo);
+assert.match(startOnlyLabel, /11:30/);
+assert.doesNotMatch(startOnlyLabel, /11:30\s*[–-]/);
+
+// Genuine multiple sessions remain a list when occurrences prove that they are
+// independent starts. This applies equally to Gijón.
+const gijonTwoSessions = {
+  mode: "single",
+  start: "2026-08-22T11:30:00+02:00",
+  end: "2026-08-22",
+  display_text: "22 ago · 11:30, 13:00",
+  occurrences: [
+    { start: "2026-08-22T11:30:00+02:00", end: null },
+    { start: "2026-08-22T13:00:00+02:00", end: null },
+  ],
+};
+const gijonSessionsLabel = formatSchedule(gijonTwoSessions, gijon);
+assert.match(gijonSessionsLabel, /11:30/);
+assert.match(gijonSessionsLabel, /13:00/);
+assert.doesNotMatch(gijonSessionsLabel, /11:30–13:00/);
 
 const sourceDisplayHours = {
   mode: "multi_day",
@@ -156,6 +212,21 @@ const repeatedLabel = formatSchedule(repeatedFunctions, valpo);
 assert.match(repeatedLabel, /11:00/);
 assert.match(repeatedLabel, /15:30/);
 assert.match(repeatedLabel, /19:00/);
+
+const gijonRichRecurring = {
+  mode: "recurring",
+  start: "2026-08-25T15:30:00+02:00",
+  end: "2026-08-30",
+  display_text: "25 ago · 15:30 y 18:15; 26 ago · 14:30 y 17:45; 27 ago · 12:00, 14:15 y 18:00",
+  occurrences: [
+    { start: "2026-08-25T15:30:00+02:00", end: null },
+    { start: "2026-08-25T18:15:00+02:00", end: null },
+    { start: "2026-08-26T14:30:00+02:00", end: null },
+  ],
+};
+const gijonRichLabel = formatSchedule(gijonRichRecurring, gijon);
+assert.match(gijonRichLabel, /15:30 y 18:15/);
+assert.match(gijonRichLabel, /14:30 y 17:45/);
 
 const malformedSameDayEnd = {
   mode: "dated",

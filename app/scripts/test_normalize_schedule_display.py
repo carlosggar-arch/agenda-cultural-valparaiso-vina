@@ -26,6 +26,73 @@ def test_artequin_flattened_hours_become_ranges() -> None:
     assert schedule["display_text"] == "2026-08-19 – 2026-08-22 · 18:30–20:00 · 10:00–14:00"
 
 
+def test_simple_two_clock_comma_becomes_interval() -> None:
+    schedule = {
+        "mode": "multi_day",
+        "start": "2026-08-18T15:00:00-04:00",
+        "end": "2026-08-28",
+        "display_text": "2026-08-18 · 15:00, 16:00",
+        "occurrences": [],
+    }
+    fields = normalizer.normalize_schedule(schedule)
+    assert fields == ["display_text"]
+    assert schedule["display_text"] == "2026-08-18 – 2026-08-28 · 15:00–16:00"
+
+
+def test_same_day_two_clock_comma_becomes_interval() -> None:
+    schedule = {
+        "mode": "single",
+        "start": "2026-08-22T11:30:00-04:00",
+        "end": "2026-08-22",
+        "display_text": "2026-08-22 · 11:30, 13:00",
+        "occurrences": [],
+    }
+    normalizer.normalize_schedule(schedule)
+    assert schedule["display_text"] == "2026-08-22 · 11:30–13:00"
+
+
+def test_start_only_is_not_given_an_invented_end() -> None:
+    schedule = {
+        "mode": "single",
+        "start": "2026-08-22T11:30:00-04:00",
+        "end": None,
+        "display_text": "2026-08-22 · 11:30",
+        "occurrences": [],
+    }
+    assert normalizer.normalize_schedule(schedule) == []
+    assert schedule["display_text"] == "2026-08-22 · 11:30"
+
+
+def test_structured_multiple_sessions_are_preserved_in_gijon() -> None:
+    schedule = {
+        "mode": "single",
+        "start": "2026-08-22T11:30:00+02:00",
+        "end": "2026-08-22",
+        "display_text": "22 ago · 11:30, 13:00",
+        "occurrences": [
+            {"start": "2026-08-22T11:30:00+02:00", "end": None},
+            {"start": "2026-08-22T13:00:00+02:00", "end": None},
+        ],
+    }
+    assert normalizer.normalize_schedule(schedule) == []
+    assert schedule["display_text"] == "22 ago · 11:30, 13:00"
+
+
+def test_rich_gijon_multiday_sessions_are_preserved() -> None:
+    schedule = {
+        "mode": "recurring",
+        "start": "2026-08-25T15:30:00+02:00",
+        "end": "2026-08-30",
+        "display_text": "25 ago · 15:30 y 18:15; 26 ago · 14:30 y 17:45; 27 ago · 12:00, 14:15 y 18:00",
+        "occurrences": [
+            {"start": "2026-08-25T15:30:00+02:00", "end": None},
+            {"start": "2026-08-25T18:15:00+02:00", "end": None},
+            {"start": "2026-08-26T14:30:00+02:00", "end": None},
+        ],
+    }
+    assert normalizer.normalize_schedule(schedule) == []
+
+
 def test_all_day_sentinel_becomes_date_only() -> None:
     schedule = {
         "mode": "multi_day",
@@ -67,6 +134,11 @@ def test_real_multiple_session_times_are_not_paired_without_timed_start() -> Non
 def main() -> None:
     test_gallery_flattened_hours_become_ranges()
     test_artequin_flattened_hours_become_ranges()
+    test_simple_two_clock_comma_becomes_interval()
+    test_same_day_two_clock_comma_becomes_interval()
+    test_start_only_is_not_given_an_invented_end()
+    test_structured_multiple_sessions_are_preserved_in_gijon()
+    test_rich_gijon_multiday_sessions_are_preserved()
     test_all_day_sentinel_becomes_date_only()
     test_opening_hours_separate_from_event_range()
     test_real_multiple_session_times_are_not_paired_without_timed_start()
