@@ -264,7 +264,7 @@ for asset in (
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css?v=20260817-brandicon1"',
     '"./header-redesign.js?v=20260817-brandicon2"', '"./card-experience.js"',
-    '"./schedule-display.js?v=20260819-hours3"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
+    '"./schedule-display.js?v=20260819-runtime1"', '"./gijon-venue-hours.js"', '"./event-detail.js"', '"./plan-ahead.js"',
     '"./favorites.js"', '"./mis-planes.html"', '"./sources-toggle.js"', '"./community-source.js"',
     '"./agenda-runtime-state.mjs"', '"./render-lifecycle.js"',
     '"../assets/event-media-layout.css"', '"../assets/event-schedule-display.mjs?v=20260819-hours3"',
