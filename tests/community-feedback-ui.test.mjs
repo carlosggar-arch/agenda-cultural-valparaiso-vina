@@ -35,8 +35,18 @@ assert.match(participation, /restoreFooterContact/);
 assert.doesNotMatch(participation, /comments\.insertAdjacentElement\("afterend", like\)/);
 assert.doesNotMatch(participation, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 
+// The base WEB action module must already be correct on its own. Do not depend
+// on a later optional enhancement to remove the white shell or distribute width.
 assert.match(webActions, /display: flex !important/);
-assert.match(webActions, /overflow-x: auto !important/);
+assert.match(webActions, /background: transparent !important/);
+assert.match(webActions, /border: 0 !important/);
+assert.match(webActions, /padding: 0 !important/);
+assert.match(webActions, /flex-basis: 0 !important/);
+assert.match(webActions, /flex: 1\.75 1 0 !important/);
+assert.match(webActions, /flex: 1\.25 1 0 !important/);
+assert.doesNotMatch(webActions, /background: rgba\(255,255,255,\.78\) !important/);
+assert.doesNotMatch(webActions, /flex: 0 0 auto !important/);
+assert.doesNotMatch(webActions, /width: max-content !important/);
 assert.doesNotMatch(webActions, /MutationObserver/);
 assert.doesNotMatch(webActions, /grid-template-columns: repeat\(auto-fit/);
 
@@ -79,6 +89,6 @@ assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
+assert.ok(Number(releaseMatch[1]) >= 136, "PWA release must include recovered v136 UI contract");
 
-console.log("Community feedback UI contract: current six-action installed strip + comments without retired like control");
+console.log("Community feedback UI contract: shell-free proportional WEB strip + current six-action installed strip");
