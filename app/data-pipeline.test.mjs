@@ -75,7 +75,7 @@ const supplemental = {
     throw new Error("supplemental unavailable");
   };
   const result = await loadAgendaDataset({ dataset: "base.json", supplemental_dataset: "missing.json" }, { fetchImpl });
-  assert.equal(result.dataset.events.length, 1, "supplemental failure must not block the base agenda");
+  assert.equal(result.dataset.events.some((event) => event.id === "event-centex"), true, "supplemental failure must preserve the base agenda");
   assert.equal(result.diagnostics.find((stage) => stage.name === "supplemental")?.status, "skipped");
 }
 
