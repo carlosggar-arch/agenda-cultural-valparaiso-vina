@@ -1,0 +1,36 @@
+name: Session and program presentation contract
+
+on:
+  pull_request:
+    paths:
+      - "app/session-occurrence-normalizer.js"
+      - "app/session-occurrence-normalizer.test.mjs"
+      - "app/program-visibility-policy.js"
+      - "app/program-visibility-policy.test.mjs"
+      - "app/app.js"
+      - ".github/workflows/session-program-presentation-contract.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/session-occurrence-normalizer.js"
+      - "app/session-occurrence-normalizer.test.mjs"
+      - "app/program-visibility-policy.js"
+      - "app/program-visibility-policy.test.mjs"
+      - "app/app.js"
+
+permissions:
+  contents: read
+
+jobs:
+  presentation-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check repeated-session normalization
+        run: node app/session-occurrence-normalizer.test.mjs
+      - name: Check program visibility policy
+        run: node app/program-visibility-policy.test.mjs
