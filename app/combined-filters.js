@@ -1,4 +1,5 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const CITY_CONFIG = CITY_REGISTRY.byId;
@@ -392,15 +393,12 @@ async function loadDataset() {
   categoryRenderSignature = "";
   areaRenderSignature = "";
   try {
-    const response = await fetch(CITY_CONFIG[cityId].dataset, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-    if (!response.ok) return;
-    const dataset = await response.json();
-    if (Array.isArray(dataset.events)) datasetEvents = dataset.events;
-  } catch {
+    const result = await loadAgendaDataset(CITY_CONFIG[cityId]);
+    const events = result?.dataset?.events;
+    if (Array.isArray(events)) datasetEvents = events;
+  } catch (error) {
     datasetEvents = [];
+    console.warn("¡Vivamos!: filtros combinados sin dataset normalizado; se conserva la agenda base", error);
   }
 }
 
