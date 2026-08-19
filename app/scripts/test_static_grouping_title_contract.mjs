@@ -25,7 +25,7 @@ const gijonEvent = {
 assert.equal(normalizePublicEventTitle("QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO", valpoEvent), "Quilapayun");
 assert.equal(normalizePublicEventTitle("CICLO TALLER EL ARTE ES NATURAL", workshopEvent), "El arte es natural");
 assert.equal(normalizePublicEventTitle("ALEJANDRO SIRIO. LA CALIGRAFÍA DEL DIBUJO", gijonEvent), "Alejandro Sirio. La caligrafía del dibujo");
-assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARARAÍSO - GIRA TANQUEMANTE".replace("PARARAÍSO", "PARAÍSO"), valpoEvent), "Inundaremos — Gira Tanquemante");
+assert.equal(normalizePublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", valpoEvent), "Inundaremos — Gira Tanquemante");
 assert.equal(normalizePublicEventTitle("Juegos en Patota: DETECTIVES DEL ARTE.", gijonEvent), "Juegos en Patota: Detectives del arte");
 
 const riojaMuseum = { location: { venue: "Museo Palacio Rioja", city: "Viña del Mar" } };
