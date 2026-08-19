@@ -26,15 +26,23 @@ def event(event_id="e1", title="Concierto Azul", source_id="s1", start="2099-08-
     }
 
 
-def jsonld_markup(name="Concierto Azul", start="2099-08-20T21:00:00-04:00", image="https://example.org/media/concierto.jpg", status="https://schema.org/EventScheduled"):
+def jsonld_markup(name="Concierto Azul", start="2099-08-20T21:00:00-04:00", image="https://example.org/media/concierto.jpg", status="https://schema.org/EventScheduled", end=None):
+    end = start if end is None else end
     return f'''<html><head><meta property="og:image" content="{image}"></head><body>
     <script type="application/ld+json">{{
       "@context":"https://schema.org","@type":"Event","name":"{name}",
-      "startDate":"{start}","endDate":"{start}","eventStatus":"{status}",
+      "startDate":"{start}","endDate":"{end}","eventStatus":"{status}",
       "location":{{"@type":"Place","name":"Sala Azul","address":{{"streetAddress":"Calle 2","addressLocality":"Valparaíso"}}}},
       "offers":{{"@type":"Offer","price":"5000","priceCurrency":"CLP","availability":"https://schema.org/InStock"}},
       "image":"{image}"
     }}</script></body></html>'''
+
+
+def teatro_cartelera_markup():
+    return '''<html><body>
+      <div class="event"><span>Concierto</span><span>18.08 2026</span><span>20:00 hr</span><h2>Beyond</h2><p>Jakub Józef Orliński e Il Pomo d’Oro.</p></div>
+      <div class="event"><span>19.08 2026</span><span>19:00 hr</span><h2>Armonías del Mundo en la Ciudad Jardín</h2></div>
+    </body></html>'''
 
 
 def test_event_match_and_detail_url():
@@ -62,6 +70,47 @@ def test_revalidation_applies_only_confident_structured_changes():
     assert changed["price"]["min_amount"] == 5000
     assert changed["location"]["address"].startswith("Calle 2")
     assert report["updated_events"] == 1
+
+
+def test_teatro_vina_visible_schedule_overrides_conflicting_jsonld_time():
+    item = event(title="Beyond", source_id="teatro_municipal_vina", start="2026-08-18T16:00:00-04:00", venue="Teatro Municipal de Viña del Mar")
+    item["schedule"]["end"] = "2026-08-18"
+    item["schedule"]["display_text"] = "18-08-2026 16:00 – 2026-08-18"
+    item["links"]["official"] = "https://teatrovina.cl/evento/beyond/"
+    item["source_url"] = "https://teatrovina.cl/"
+    detail = jsonld_markup(name="Beyond", start="2026-08-18T16:00:00-04:00", end="2026-08-18")
+
+    original_fetch = revalidate.fetch
+    try:
+        def fake_fetch(url):
+            if url == revalidate.TEATRO_VINA_CARTELERA_URL:
+                return True, 200, teatro_cartelera_markup(), None
+            return True, 200, detail, None
+        revalidate.fetch = fake_fetch
+        updated, report = revalidate.build({"events": [item]}, date(2026, 8, 18), days=2, max_fetch=3)
+    finally:
+        revalidate.fetch = original_fetch
+
+    changed = updated["events"][0]
+    assert changed["schedule"]["start"] == "2026-08-18T20:00:00-04:00"
+    assert changed["schedule"]["end"] == "2026-08-18"
+    assert changed["schedule"]["display_text"] == "18-08-2026 · 20:00"
+    assert changed["schedule"]["start_confidence"] == "official_visible_schedule"
+    assert report["teatro_vina_cartelera"] == "ok"
+    assert report["rows"][0]["visible_schedule_used"] is True
+
+
+def test_teatro_vina_visible_schedule_requires_unique_title_date_time():
+    ambiguous = '''<html><body>
+      <span>09.08 2026</span><span>16:00 hr</span><h2>Fantasy Music Viña del Mar</h2>
+      <span>09.08 2026</span><span>20:00 hr</span><h2>Fantasy Music Viña del Mar</h2>
+    </body></html>'''
+    assert revalidate.teatro_vina_visible_time(ambiguous, "Fantasy Music Viña del Mar", "2026-08-09") is None
+
+
+def test_schedule_display_normalizes_same_day_date_only_end():
+    assert revalidate.pretty_schedule("2026-08-18T20:00:00-04:00", "2026-08-18") == "18-08-2026 · 20:00"
+    assert revalidate.pretty_schedule("2026-08-18T20:00:00-04:00", "2026-08-18T22:15:00-04:00") == "18-08-2026 · 20:00–22:15"
 
 
 def test_cancelled_event_is_marked_not_deleted():
@@ -143,6 +192,9 @@ def test_image_recovery_uses_matched_event_page_only():
 def main():
     test_event_match_and_detail_url()
     test_revalidation_applies_only_confident_structured_changes()
+    test_teatro_vina_visible_schedule_overrides_conflicting_jsonld_time()
+    test_teatro_vina_visible_schedule_requires_unique_title_date_time()
+    test_schedule_display_normalizes_same_day_date_only_end()
     test_cancelled_event_is_marked_not_deleted()
     test_parser_drift_restores_only_active_last_good_events()
     test_source_coherence_detects_hard_duplicates_and_core_alignment()
