@@ -60,6 +60,21 @@
       "category_id": "cine",
       "category_label": "Cine",
       "scope_note": "Transporte HTTPS oficial y estable de Turismo Asturias. El extractor sólo acepta bloques que identifiquen Laboral Cinemateca y Gijón/Xixón y sesiones con fecha/hora explícitas; si no hay cartelera vigente, permanece en monitor sin publicar."
+    },
+    {
+      "id": "gijon_arena",
+      "name": "Gijón Arena — Próximos eventos",
+      "dataset": "gijon",
+      "city": "Gijón",
+      "timezone": "Europe/Madrid",
+      "currency": "EUR",
+      "url": "https://gijonarena.com/",
+      "mode": "direct",
+      "extractor": "gijon_arena_direct",
+      "required": false,
+      "category_id": "musica",
+      "category_label": "Música",
+      "scope_note": "Fuente oficial delegada al core canónico. Acceso HTTP directo, sin Apify ni consumo de minutos; sólo se publican eventos con fecha explícita."
     }
   ]
 }
