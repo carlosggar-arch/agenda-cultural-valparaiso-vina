@@ -83,6 +83,55 @@ class StructuredDataTests(unittest.TestCase):
         self.assertNotEqual(stage31.structured_document("valparaiso", event, "https://example.org/online/")["@type"], "Event")
 
 
+class ScheduleRenderingTests(unittest.TestCase):
+    def test_same_day_timed_event_is_a_single_interval(self):
+        self.assertEqual(
+            base.schedule_text(sample_event()),
+            "22 de agosto de 2026 · 20:00–22:00",
+        )
+
+    def test_flattened_multi_day_pairs_do_not_become_one_cross_day_interval(self):
+        event = sample_event(schedule={
+            "mode": "multi_day",
+            "start": "2026-08-19T18:30:00-04:00",
+            "end": "2026-08-22",
+            "display_text": "2026-08-19 – 2026-08-22 · 18:30–20:00 · 10:00–14:00",
+        })
+        label = base.schedule_text(event)
+        self.assertEqual(
+            label,
+            "19 de agosto de 2026 – 22 de agosto de 2026 · 18:30–20:00 · 10:00–14:00",
+        )
+        self.assertNotIn("18:30 – 22 de agosto", label)
+
+    def test_all_day_sentinel_is_not_published(self):
+        event = sample_event(schedule={
+            "mode": "multi_day",
+            "start": "2026-08-06",
+            "end": "2026-10-04",
+            "display_text": "6 ago – 4 oct · 00:00–23:59",
+        })
+        label = base.schedule_text(event)
+        self.assertEqual(label, "6 de agosto de 2026 – 4 de octubre de 2026")
+        self.assertNotIn("00:00", label)
+        self.assertNotIn("23:59", label)
+
+    def test_venue_opening_hours_are_separate_from_exhibition_dates(self):
+        event = sample_event(schedule={
+            "mode": "multi_day",
+            "start": "2026-08-14",
+            "end": "2026-10-04",
+            "display_text": "2026-08-14 – 2026-10-04",
+            "opening_hours": {
+                "display_text": "Martes a domingo · 10:00–18:00",
+            },
+        })
+        self.assertEqual(
+            base.schedule_text(event),
+            "14 de agosto de 2026 – 4 de octubre de 2026 · Martes a domingo · 10:00–18:00",
+        )
+
+
 class AccessibilitySeoRenderingTests(unittest.TestCase):
     def test_event_page_has_skip_link_focus_target_and_regional_metadata(self):
         event = sample_event()
