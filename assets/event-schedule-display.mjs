@@ -1,5 +1,6 @@
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
 const TIME_IN_TEXT = /(?:^|[^\d])(?:[01]?\d|2[0-3]):[0-5]\d(?:\s*(?:h|hrs?))?/i;
+const CLOCK_IN_TEXT = /\b(?:[01]\d|2[0-3]):[0-5]\d\b/g;
 const TRAILING_DATE_RANGE = /\s[–-]\s(?:\d{4}-\d{2}-\d{2}|\d{1,2}-\d{1,2}-\d{4})\s*$/;
 const FOUR_TIME_LIST = /\b(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\b/;
 
@@ -15,9 +16,22 @@ function clockMinutes(value) {
   return hour * 60 + minute;
 }
 
+function displayClocks(value) {
+  return String(value || "").match(CLOCK_IN_TEXT) || [];
+}
+
+function isAllDayDisplay(value) {
+  const clocks = displayClocks(value);
+  return clocks.length === 2 && clocks[0] === "00:00" && clocks[1] === "23:59";
+}
+
 function timedDisplayText(schedule, timezone) {
   const display = String(schedule?.display_text || "").trim();
   if (!(display && TIME_IN_TEXT.test(display))) return null;
+
+  // Midnight-to-23:59 is a machine all-day sentinel, not a useful public
+  // opening hour. Keep the date range and suppress the synthetic clock pair.
+  if (isAllDayDisplay(display)) return null;
 
   // A common metadata mismatch is a timed start plus a date-only end on the
   // same day. Never render a stale label such as "16:00 – 2026-08-18";
@@ -170,6 +184,12 @@ function currentOpeningHours(schedule, options) {
   };
 }
 
+function explicitOpeningHoursLabel(schedule) {
+  const weekly = schedule?.opening_hours;
+  if (!weekly || typeof weekly !== "object") return null;
+  return String(weekly.display_text || "").trim() || null;
+}
+
 function occurrenceTimesLabel(schedule, options) {
   const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
   if (occurrences.length < 2) return null;
@@ -205,6 +225,14 @@ export function formatSchedule(schedule, options = {}) {
       range || "Horario de visita",
       visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`,
     ].filter(Boolean).join(" · ");
+  }
+
+  // Rich source schedules (split weekdays, seasonal hours, etc.) can be more
+  // informative than a single opening/closing pair. When a source explicitly
+  // marks them as opening hours, preserve that text and keep event dates separate.
+  const explicitOpeningHours = explicitOpeningHoursLabel(schedule);
+  if (explicitOpeningHours) {
+    return [range || "Horario de visita", explicitOpeningHours].filter(Boolean).join(" · ");
   }
 
   // Some sources flatten two opening-hour ranges into four comma-separated
