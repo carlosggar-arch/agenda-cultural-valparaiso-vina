@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { applyEventDataCorrections } from "./event-data-corrections.js";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js";
 
 const baseStatus = { source_official: true, information_completeness: "complete" };
@@ -90,5 +91,36 @@ assert.equal(cumbias.schedule.end, "2026-10-04");
 assert.equal(cumbias.schedule.opening_time, "10:00");
 assert.equal(cumbias.schedule.closing_time, "18:00");
 assert.equal(cumbias.price.is_free, true);
+
+const riojaInput = {
+  counts: { total: 1, events: 1, courses: 0, flexible_offers: 0, programs: 0 },
+  events: [{
+    id: "mar-dulce-existing",
+    title: "A veces un mar dulce",
+    event_type: "event",
+    primary_category: { id: "exposiciones", label: "Exposiciones" },
+    categories: [{ id: "exposiciones", label: "Exposiciones" }],
+    schedule: { mode: "dated", start: "2026-08-19T06:00:00-04:00", end: "2026-08-19T13:30:00-04:00", occurrences: [] },
+    location: { venue: "Museo Palacio Rioja", city: "Viña del Mar" },
+    price: { is_free: true, display_text: "Gratis" },
+    links: { official: "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/" },
+    public_status: baseStatus,
+  }],
+};
+
+const rioja = applyEventDataCorrections(riojaInput);
+const riojaExhibitions = rioja.events.filter((event) =>
+  event.primary_category?.id === "exposiciones" && event.location?.venue === "Museo Palacio Rioja"
+);
+const riojaTitles = new Set(riojaExhibitions.map((event) => event.title));
+assert.equal(riojaTitles.has("A veces un mar dulce"), true);
+assert.equal(riojaTitles.has("Muestra temporal // Mis objetos, mi patrimonio"), true);
+assert.equal(riojaTitles.has("Visita guiada exposición // “A veces un mar dulce”"), true);
+assert.equal(riojaExhibitions.find((event) => event.id === "mar-dulce-existing")?.schedule?.end, "2026-08-30");
+assert.equal(riojaExhibitions.find((event) => event.id === "mar-dulce-existing")?.schedule?.opening_hours?.display_text, "Martes a domingo · 10:00–17:30");
+const decadencia = rioja.events.find((event) => event.id === "agenda_rioja_20260827_decadencia");
+assert.equal(decadencia?.primary_category?.id, "otros");
+assert.equal(decadencia?.schedule?.start, "2026-08-27T18:00:00-04:00");
+assert.equal(decadencia?.schedule?.end, "2026-08-27T20:00:00-04:00");
 
 console.log("SESSION_OCCURRENCE_NORMALIZER_OK");
