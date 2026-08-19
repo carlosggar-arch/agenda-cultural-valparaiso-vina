@@ -93,6 +93,17 @@ assert.match(repeatedLabel, /11:00/);
 assert.match(repeatedLabel, /15:30/);
 assert.match(repeatedLabel, /19:00/);
 
+const malformedSameDayEnd = {
+  mode: "dated",
+  start: "2026-08-18T20:00:00-04:00",
+  end: "2026-08-18",
+  display_text: "18-08-2026 20:00 – 2026-08-18",
+};
+const normalizedSameDayLabel = formatSchedule(malformedSameDayEnd, valpo);
+assert.match(normalizedSameDayLabel, /20:00/);
+assert.doesNotMatch(normalizedSameDayLabel, /–\s*2026-08-18/);
+assert.doesNotMatch(normalizedSameDayLabel, /20:00\s*–/);
+
 const noTime = {
   mode: "multi_day",
   start: "2026-08-20",
