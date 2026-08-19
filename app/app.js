@@ -1,18 +1,25 @@
-import "./supplemental-events-fetch.js?v=20260819-supplemental1";
-import "./startup-stability.js?v=20260819-startup1";
-import "./event-data-corrections.js?v=20260819-rioja1";
-import "./category-normalizer.js?v=20260819-categories4";
-import "./title-normalizer-bootstrap.js?v=20260818-title3";
-import "./session-occurrence-normalizer.js?v=20260819-sessions1";
-import "./program-visibility-policy.js?v=20260819-programs2";
-import "./app-core.js?v=20260818-exhibitions1";
-import "./temporal-priority.js?v=20260819-temporal3";
-import "./static-exhibition-groups.js?v=20260819-staticgroups2";
-import "./multievent-layout-fix.js?v=20260819-multievent2";
-import "./schedule-display.js?v=20260819-hours3";
-import "./footer-credit.js?v=20260818-footer3";
-import "./community-source.js?v=20260818-feedback3";
-import "./participation-footer.js?v=20260819-feedback7";
+import "./startup-stability.js?v=20260819-startup2";
+import { coreReady } from "./app-core.js?v=20260819-pipeline1";
+
+const OPTIONAL_MODULES = [
+  "./temporal-priority.js?v=20260819-temporal3",
+  "./static-exhibition-groups.js?v=20260819-staticgroups2",
+  "./multievent-layout-fix.js?v=20260819-multievent2",
+  "./schedule-display.js?v=20260819-hours3",
+  "./footer-credit.js?v=20260818-footer3",
+  "./community-source.js?v=20260818-feedback3",
+  "./participation-footer.js?v=20260819-feedback7",
+];
+
+async function loadOptionalEnhancements() {
+  const results = await Promise.allSettled(OPTIONAL_MODULES.map((module) => import(module)));
+  results.forEach((result, index) => {
+    if (result.status === "rejected") console.warn(`¡Vivamos!: mejora opcional omitida (${OPTIONAL_MODULES[index]})`, result.reason);
+  });
+}
+
+await coreReady;
+void loadOptionalEnhancements();
 
 let exhibitionOrderQueued = false;
 
