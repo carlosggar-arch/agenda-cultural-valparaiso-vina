@@ -7,10 +7,10 @@ const css = await readFile(new URL("../app/card-experience.css", import.meta.url
 
 test("representative images are restricted to the same normalized venue", () => {
   assert.match(source, /function venueImageKey\(event\)/);
-  assert.match(source, /return `\$\{city\}\|\$\{venue\}`/);
+  assert.match(source, /return key \? venueImagePools\.get\(key\)\?\.\[0\] \|\| null : null/);
   assert.match(source, /function buildVenueImagePools\(events\)/);
   assert.match(source, /const key = venueImageKey\(event\)/);
-  assert.match(source, /venueImagePools\.get\(key\)\?\.\[0\]/);
+  assert.match(source, /return venue \? `\$\{city\}\|\$\{venue\}` : null/);
 });
 
 test("generic schedule art is never promoted to a representative event image", () => {
