@@ -1,9 +1,9 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v138 preserves the v137 Valpo/Vina image + dated-event fixes, hardens
-  // single-source date filtering, and refreshes already-controlled tabs once
-  // when the fresh service worker takes control.
-  const RELEASE = 138;
+  // v139 preserves the v138 date-filter/cache architecture and repairs cards
+  // that exist only in the normalized Valpo/Viña pipeline, including grouped
+  // Palacio Rioja activities and honest image fallbacks.
+  const RELEASE = 139;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
