@@ -45,6 +45,7 @@ const grouping = read("static-exhibition-groups.js");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
 const compactCss = read("exhibition-compact.css");
 const multieventFix = read("multievent-layout-fix.js");
+const supplementBridge = read("supplemental-events-fetch.js");
 const release = read("release-version.js");
 
 assert.match(appJs, /title-normalizer-bootstrap\.js/);
@@ -64,9 +65,32 @@ assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*max-height:\s*none\
 assert.match(multieventFix, /\.grouped-exhibition-copy strong[\s\S]*-webkit-line-clamp:\s*unset\s*!important/);
 assert.match(multieventFix, /\.grouped-exhibition-copy small[\s\S]*white-space:\s*normal\s*!important/);
 assert.doesNotMatch(multieventFix, /Palacio Rioja/);
+
+const cities = JSON.parse(read("cities.json"));
+const valparaiso = cities.cities.find((city) => city.id === "valparaiso");
+assert.equal(valparaiso?.supplemental_dataset, "./data/valparaiso/supplemental-events.json");
+const supplemental = JSON.parse(read("data/valparaiso/supplemental-events.json"));
+assert.equal(supplemental.events?.length, 1);
+const decadencia = supplemental.events[0];
+assert.equal(decadencia.title, "Presentación libro // “Decadencia”");
+assert.equal(decadencia.primary_category?.id, "otros");
+assert.equal(decadencia.primary_category?.label, "Otros panoramas");
+assert.equal(decadencia.schedule?.start, "2026-08-27T17:00:00-04:00");
+assert.equal(decadencia.schedule?.end, "2026-08-27T19:00:00-04:00");
+assert.equal(decadencia.location?.venue, "Palacio Rioja");
+assert.equal(decadencia.public_status?.source_official, true);
+assert.ok(
+  appJs.indexOf("supplemental-events-fetch.js") >= 0
+    && appJs.indexOf("supplemental-events-fetch.js") < appJs.indexOf("app-core.js"),
+  "supplemental merge must install before app-core fetches the city dataset",
+);
+assert.match(supplementBridge, /supplemental_dataset/);
+assert.match(supplementBridge, /mergeEvents/);
+assert.doesNotMatch(supplementBridge, /Decadencia|Palacio Rioja/);
+
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 121, "PWA release must include the multievent layout refresh");
+assert.ok(Number(releaseMatch[1]) >= 123, "PWA release must include museum readability and supplemental event recovery");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -78,4 +102,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + venue identity + unclipped multievent layout contract: OK");
+console.log("Static grouping + venue identity + museum hours + supplemental recovery contract: OK");
