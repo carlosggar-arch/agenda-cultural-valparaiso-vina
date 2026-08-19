@@ -125,6 +125,8 @@ jobs:
             app/scripts/test_favorites_browser.py \
             app/scripts/test_density_runtime.py \
             app/scripts/test_contextual_filters.py \
+            app/scripts/normalize_schedule_display.py \
+            app/scripts/test_normalize_schedule_display.py \
             scripts/generate_event_pages.py \
             scripts/stage31_site_generator.py \
             tests/test_stage31.py
@@ -165,6 +167,7 @@ jobs:
           python app/scripts/test_third_city_architecture.py
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
+          python app/scripts/test_normalize_schedule_display.py
           python app/scripts/test_release_guard.py
           python app/scripts/test_pre_release.py
           node --test tests/root-combined-filters.test.mjs

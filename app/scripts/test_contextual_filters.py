@@ -146,7 +146,7 @@ assert 'object-fit: contain !important' in media_layout
 assert '.event-card-media > button' in media_layout
 assert 'export function formatSchedule' in schedule_module
 assert 'schedule?.opening_hours' in schedule_module
-assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours2"' in app_schedule
+assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours3"' in app_schedule
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
