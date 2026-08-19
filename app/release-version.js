@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v132 keeps Gijon on the stable core renderer and defers observer-heavy card
-  // presentation layers that can freeze the page after the initial render.
-  const RELEASE = 132;
+  // v133 keeps the v132 Gijon stable-runtime boundary and makes exact-date
+  // visibility follow normalized occurrences without stale fail-open cards.
+  const RELEASE = 133;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
