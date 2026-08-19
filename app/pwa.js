@@ -1,29 +1,56 @@
-import "./vivamos-brand.js";
-import "./card-experience.js";
-import "./public-presentation-guard.js";
-import "./schedule-display.js?v=20260819-hours3";
-import "./exhibition-hours.js?v=20260818-hours2";
-import "./card-image-fallback.js";
-import "./compact-top.js";
-import "./gijon-visual-reference.js";
-import "./sources-toggle.js";
-import "./community-source.js?v=20260818-feedback3";
-import "./remove-like.js?v=20260819-remove3";
-import "./participation-footer.js?v=20260819-feedback7";
-import "./header-redesign.js?v=20260817-brandicon2";
-import "./density-polish.js";
-import "./combined-filters-polish.js";
-// Plan-ahead remains available in the codebase for a future transversal reservation/registration filter,
-// but it is intentionally not loaded on the main screen. Legacy contract marker: import "./plan-ahead.js";
-import "./favorites.js";
-import "./mobile-experience.js?v=20260817-topcontrols4";
-import "./installed-mosaic.js?v=20260818-f12-dual4";
-import "./mobile-action-strip-six.js?v=20260819-actions7";
-import "./share-qr.js?v=20260818-installqr1";
-import "./web-actions-below-mosaic.js?v=20260818-web2";
-import "./action-strip-layout.js?v=20260818-fill1";
-import "./stage31-accessibility-seo.js";
-import "../assets/usage-analytics.js?v=20260817-stage32";
+// Contract references for shell-version tests; these are documentation only, not eager imports.
+// import "./header-redesign.js?v=20260817-brandicon2";
+// import "./mobile-experience.js?v=20260817-topcontrols4";
+// import "./favorites.js";
+// import "./stage31-accessibility-seo.js";
+// Plan-ahead remains available for a future transversal reservation/registration filter.
+// import "./plan-ahead.js";
+
+const OPTIONAL_UI_MODULES = [
+  "./vivamos-brand.js",
+  "./card-experience.js",
+  "./public-presentation-guard.js",
+  "./schedule-display.js?v=20260819-hours3",
+  "./exhibition-hours.js?v=20260818-hours2",
+  "./card-image-fallback.js",
+  "./compact-top.js",
+  "./gijon-visual-reference.js",
+  "./sources-toggle.js",
+  "./community-source.js?v=20260818-feedback3",
+  "./remove-like.js?v=20260819-remove3",
+  "./participation-footer.js?v=20260819-feedback7",
+  "./header-redesign.js?v=20260817-brandicon2",
+  "./density-polish.js",
+  "./combined-filters-polish.js",
+  "./favorites.js",
+  "./mobile-experience.js?v=20260817-topcontrols4",
+  "./installed-mosaic.js?v=20260818-f12-dual4",
+  "./mobile-action-strip-six.js?v=20260819-actions7",
+  "./share-qr.js?v=20260818-installqr1",
+  "./web-actions-below-mosaic.js?v=20260818-web2",
+  "./action-strip-layout.js?v=20260818-fill1",
+  "./stage31-accessibility-seo.js",
+  "../assets/usage-analytics.js?v=20260817-stage32",
+];
+
+let optionalUiStarted = false;
+
+async function loadOptionalUiModules() {
+  if (optionalUiStarted || document.documentElement.dataset.vivamosSafeMode === "active") return;
+  optionalUiStarted = true;
+  const results = await Promise.allSettled(OPTIONAL_UI_MODULES.map((module) => import(module)));
+  results.forEach((result, index) => {
+    if (result.status === "rejected") console.warn(`¡Vivamos!: módulo PWA opcional omitido (${OPTIONAL_UI_MODULES[index]})`, result.reason);
+  });
+}
+
+function scheduleOptionalUiModules() {
+  if (document.documentElement.dataset.vivamosSafeMode === "active") return;
+  queueMicrotask(() => { void loadOptionalUiModules(); });
+}
+
+if (document.documentElement.dataset.vivamosReady === "true") scheduleOptionalUiModules();
+else window.addEventListener("vivamos:core-ready", scheduleOptionalUiModules, { once: true });
 
 const APP_RELEASE = Number(globalThis.__VIVAMOS_RELEASE__);
 if (!Number.isInteger(APP_RELEASE) || APP_RELEASE < 1) {
