@@ -1,4 +1,6 @@
 import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { renderProgramReferences } from "./program-visibility-policy.js?v=20260819-pipeline1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
@@ -7,6 +9,18 @@ const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId;
 const EXHIBITION_CATEGORY_ID = "exposiciones";
 const MUSEUM_CATEGORY_ID = "museos";
 const EXHIBITION_GROUP_MIN = 3;
+
+let resolveCoreReady;
+let coreReadySettled = false;
+export const coreReady = new Promise((resolve) => { resolveCoreReady = resolve; });
+
+function markCoreReady(detail = {}) {
+  if (coreReadySettled) return;
+  coreReadySettled = true;
+  document.documentElement.dataset.vivamosReady = "true";
+  window.dispatchEvent(new CustomEvent("vivamos:core-ready", { detail }));
+  resolveCoreReady(detail);
+}
 
 const SECTION_META = Object.freeze({
   hoy: { label: "Hoy", empty: "No hay actividades con fecha para hoy." },
@@ -60,6 +74,7 @@ const dom = {
 
 let activeCity = null;
 let allEvents = [];
+let secondaryPrograms = [];
 let activeSection = "proximos";
 let activeCategory = "";
 
@@ -656,7 +671,11 @@ function renderEvents() {
 
   dom.empty.hidden = events.length !== 0;
   renderDatedGroup(dom.datedGrid, dom.datedSection, dom.datedTotal, groups.dated);
-  renderGroup(dom.programGrid, dom.programSection, dom.programTotal, groups.program);
+  if (groups.program.length) {
+    renderGroup(dom.programGrid, dom.programSection, dom.programTotal, groups.program);
+  } else {
+    renderProgramReferences({ section: dom.programSection, grid: dom.programGrid, total: dom.programTotal }, secondaryPrograms);
+  }
   renderGroup(dom.flexibleGrid, dom.flexibleSection, dom.flexibleTotal, groups.flexible);
   updateResultHeading(events);
   updateSectionCounts();
@@ -698,25 +717,28 @@ async function loadCity(id) {
   setStatus("Cargando agenda", `Estamos buscando las actividades disponibles en ${city.label}.`);
 
   try {
-    const response = await fetch(city.dataset, { headers: { Accept: "application/json" }, cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const dataset = await response.json();
-    if (!Array.isArray(dataset.events)) throw new Error("Dataset inválido");
+    const result = await loadAgendaDataset(city);
+    const dataset = result.dataset;
+    if (!dataset || !Array.isArray(dataset.events)) throw new Error("Dataset inválido");
     allEvents = dataset.events;
+    secondaryPrograms = result.secondaryPrograms || [];
     activeCategory = "";
     activeSection = defaultSection();
     dom.discovery.hidden = false;
     dom.agenda.hidden = false;
     dom.status.hidden = true;
     renderEvents();
+    markCoreReady({ city: id, mode: "full", diagnostics: result.diagnostics || [] });
   } catch (error) {
     allEvents = [];
+    secondaryPrograms = [];
     activeCategory = "";
     activeSection = "todos";
     dom.discovery.hidden = true;
     dom.agenda.hidden = false;
     renderEvents();
     setStatus("No pudimos cargar la agenda", `La aplicación no pudo leer el dataset de ${city.label}. Intenta nuevamente más tarde.`);
+    markCoreReady({ city: id, mode: "error", error: String(error?.message || error) });
   }
 }
 
@@ -795,4 +817,7 @@ renderCityOptions();
 const requestedCity = new URLSearchParams(window.location.search).get("city");
 const initialCity = CITIES[requestedCity] ? requestedCity : readSavedCity();
 if (initialCity) loadCity(initialCity);
-else if (CITIES[DEFAULT_CITY_ID]) showChooser(true);
+else if (CITIES[DEFAULT_CITY_ID]) {
+  showChooser(true);
+  markCoreReady({ mode: "chooser" });
+}
