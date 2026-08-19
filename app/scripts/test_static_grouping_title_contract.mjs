@@ -4,7 +4,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizePublicEventTitle } from "../public-title-normalizer.mjs";
 import { canonicalVenueKey, normalizeVenueAliases, preferredVenueLabel } from "../venue-identity.mjs";
-import { venueHoursForEvents } from "../venue-hours.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const app = path.resolve(here, "..");
@@ -41,22 +40,6 @@ const normalizedRioja = normalizeVenueAliases([riojaShort, riojaMuseum]);
 assert.equal(normalizedRioja[0].location.venue, "Museo Palacio Rioja");
 assert.equal(normalizedRioja[1].location.venue, "Museo Palacio Rioja");
 
-const riojaHours = venueHoursForEvents([riojaMuseum], "valparaiso");
-assert.equal(riojaHours?.display, "Mar–dom 10:00–17:30.");
-const naturalHistoryHours = venueHoursForEvents([
-  { location: { venue: "Museo de Historia Natural de Valparaíso", city: "Valparaíso" } },
-], "valparaiso");
-assert.match(naturalHistoryHours?.display || "", /Mar–vie 10:00–18:00/);
-const gijonHours = venueHoursForEvents([gijonEvent], "gijon");
-assert.match(gijonHours?.display || "", /09:30–14:00/);
-const explicitHours = venueHoursForEvents([
-  {
-    location: { venue: "Museo Palacio Rioja", city: "Viña del Mar" },
-    schedule: { opening_hours: { display_text: "Horario especial verificado" } },
-  },
-], "valparaiso");
-assert.equal(explicitHours?.display, "Horario especial verificado");
-
 const appJs = read("app.js");
 const grouping = read("static-exhibition-groups.js");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
@@ -72,21 +55,18 @@ assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBounding
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.match(grouping, /MIN_GROUP_SIZE = 2/);
 assert.match(grouping, /staticExhibitionSentinels/);
-assert.match(grouping, /venueHoursForEvents/);
-assert.match(grouping, /Horario de visita:/);
 assert.match(compactCss, /\.event-grid\s*\{[^}]*align-items:\s*stretch\s*!important/s);
 assert.match(compactCss, /\.event-grid\s*>\s*\.event-card\s*\{[^}]*align-self:\s*stretch\s*!important/s);
 assert.doesNotMatch(compactCss, /align-items:\s*start\s*!important/);
 assert.doesNotMatch(compactCss, /align-self:\s*start\s*!important/);
 assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*height:\s*auto\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*min-height:\s*92px\s*!important/);
 assert.match(multieventFix, /\.grouped-exhibition-item[\s\S]*max-height:\s*none\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-copy > \*[\s\S]*white-space:\s*normal\s*!important/);
-assert.match(multieventFix, /\.grouped-exhibition-price[\s\S]*padding-bottom:\s*2px\s*!important/);
+assert.match(multieventFix, /\.grouped-exhibition-copy strong[\s\S]*-webkit-line-clamp:\s*unset\s*!important/);
+assert.match(multieventFix, /\.grouped-exhibition-copy small[\s\S]*white-space:\s*normal\s*!important/);
 assert.doesNotMatch(multieventFix, /Palacio Rioja/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 122, "PWA release must include museum hours and multievent readability");
+assert.ok(Number(releaseMatch[1]) >= 123, "PWA release must include museum readability and supplemental event recovery");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -98,4 +78,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + venue identity + museum hours + readable multievent layout contract: OK");
+console.log("Static grouping + venue identity + unclipped multievent layout contract: OK");
