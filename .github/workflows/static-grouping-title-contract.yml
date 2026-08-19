@@ -8,19 +8,12 @@ on:
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
-      - "app/venue-identity.mjs"
-      - "app/multievent-layout-fix.js"
-      - "app/supplemental-events-fetch.js"
-      - "app/cities.json"
-      - "app/data/valparaiso/supplemental-events.json"
       - "app/public-presentation-rules.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
       - "app/release-version.js"
       - "app/scripts/test_static_grouping_title_contract.mjs"
-      - "app/scripts/test_supplemental_events_contract.mjs"
       - ".github/workflows/static-grouping-title-contract.yml"
-      - ".github/workflows/supplemental-events-contract.yml"
   pull_request:
     branches: [main]
     paths:
@@ -28,19 +21,12 @@ on:
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
-      - "app/venue-identity.mjs"
-      - "app/multievent-layout-fix.js"
-      - "app/supplemental-events-fetch.js"
-      - "app/cities.json"
-      - "app/data/valparaiso/supplemental-events.json"
       - "app/public-presentation-rules.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
       - "app/release-version.js"
       - "app/scripts/test_static_grouping_title_contract.mjs"
-      - "app/scripts/test_supplemental_events_contract.mjs"
       - ".github/workflows/static-grouping-title-contract.yml"
-      - ".github/workflows/supplemental-events-contract.yml"
   workflow_dispatch:
 
 permissions:
@@ -59,11 +45,6 @@ jobs:
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
           node --check app/static-exhibition-groups.js
-          node --check app/venue-identity.mjs
-          node --check app/multievent-layout-fix.js
-          node --check app/supplemental-events-fetch.js
           node --check app/app.js
       - name: Verify static grouping, title and layout contract
         run: node app/scripts/test_static_grouping_title_contract.mjs
-      - name: Verify supplemental event recovery contract
-        run: node app/scripts/test_supplemental_events_contract.mjs
