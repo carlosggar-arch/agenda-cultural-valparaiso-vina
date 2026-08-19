@@ -31,7 +31,7 @@ for (const critical of [
 }
 
 assert.match(app, /const GIJON_DEFERRED_MODULES = new Set/, "Gijon must have an explicit stable-core enhancement boundary");
-for (const deferred of ["static-exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
+for (const deferred of ["temporal-priority.js", "static-exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
   assert.match(app, new RegExp(`GIJON_DEFERRED_MODULES[\\s\\S]*${deferred.replaceAll(".", "\\.")}`), `${deferred} must stay deferred on Gijon startup`);
 }
 
@@ -89,6 +89,6 @@ for (const deferred of ["card-experience.js", "public-presentation-guard.js", "s
 assert.match(worker, /"\.\/data-pipeline\.js"/, "service worker must cache the resilient data pipeline");
 assert.match(worker, /"\.\/app-safe-mode\.js"/, "service worker must cache safe mode");
 assert.match(worker, /"\.\/startup-stability\.js"/, "service worker must cache the startup watchdog");
-assert.match(release, /const RELEASE = 132;/, "Gijon freeze fix must force a fresh service-worker cache generation");
+assert.match(release, /const RELEASE = 133;/, "Gijon date-filter visibility fix must force a fresh service-worker cache generation");
 
 console.log("STARTUP_ARCHITECTURE_OK");
