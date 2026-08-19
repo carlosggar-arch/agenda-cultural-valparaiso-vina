@@ -1,4 +1,5 @@
 import "./startup-stability.js?v=20260819-startup2";
+import "./render-lifecycle.js?v=20260819-lifecycle1";
 
 // The core is intentionally a dynamic import: the watchdog above must execute
 // even if the core module graph fails to load or evaluate.
@@ -6,29 +7,27 @@ const { coreReady } = await import("./app-core.js?v=20260819-pipeline1");
 
 // Deferred-module compatibility markers used by legacy structural tests.
 // import "./schedule-display.js?v=20260819-hours3";
-// The equivalent data path now lives in data-pipeline.js: fetch(city.dataset, { cache: "no-store" }).
+// The equivalent data path now lives in data-pipeline.js and is published once
+// through agenda-runtime-state.mjs for all presentation consumers.
 
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260818-staticgroups1",
   "./multievent-layout-fix.js?v=20260819-multievent1",
-  "./schedule-display.js?v=20260819-hours3",
+  "./schedule-display.js?v=20260819-runtime1",
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
 ];
 
-// Gijon currently has a larger card set and some source records do not carry the
-// Valpo-specific start/end confidence metadata used by temporal-priority.js.
-// Combined filters already own date matching for Gijon, so keep that module (and
-// the observer-heavy presentation layers) out of the Gijon runtime. Otherwise
-// a valid `when=hoy` result can be counted by the filters and then hidden again
-// by the secondary confidence guard, leaving only grouped exhibition cards.
+// Gijon keeps the stable core renderer. Combined filters own its temporal
+// selection and the heavier Valpo/Viña presentation modules remain out of this
+// runtime. A clean city reload guarantees that these module sets never mix.
 const GIJON_DEFERRED_MODULES = new Set([
   "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260818-staticgroups1",
   "./multievent-layout-fix.js?v=20260819-multievent1",
-  "./schedule-display.js?v=20260819-hours3",
+  "./schedule-display.js?v=20260819-runtime1",
 ]);
 const IS_GIJON = String(document.documentElement.dataset.city || "") === "gijon";
 if (IS_GIJON) {
@@ -38,16 +37,14 @@ if (IS_GIJON) {
   OPTIONAL_MODULES.push("./gijon-card-images.js?v=20260819-images1");
   document.documentElement.dataset.gijonStableRuntime = "true";
 } else {
-  // Valpo/Vina uses the richer card renderer. It consumes event-specific images,
-  // falls back to a clearly labelled same-venue image, and finally to a curated
-  // category image instead of leaving large blank media areas. A dedicated image
-  // token prevents installed PWAs from retaining a pre-repair module instance.
-  // The final title guard preserves the shared editorial normalization even if
-  // the rich renderer rehydrates a card from raw source data.
+  // app.js is the single owner of content presentation. These modules consume
+  // the normalized runtime snapshot and react to bounded agenda lifecycle events;
+  // none installs a body-wide subtree observer or re-fetches the raw dataset.
   OPTIONAL_MODULES.push(
-    "./card-experience.js?v=20260819-valpoimages2",
-    "./card-image-fallback.js?v=20260819-valpoimages2",
-    "./card-title-consistency.js?v=20260819-titleguard1",
+    "./card-experience.js?v=20260819-runtime1",
+    "./card-image-fallback.js?v=20260819-runtime1",
+    "./public-presentation-guard.js?v=20260819-runtime1",
+    "./exhibition-hours.js?v=20260819-runtime1",
   );
 }
 
@@ -96,8 +93,9 @@ function scheduleExhibitionOrder() {
   queueMicrotask(placeExhibitionsLast);
 }
 
-// The Gijon stable path intentionally avoids a grid observer. The core already
-// renders a deterministic order, and the combined filter layer owns visibility.
+// The Gijon stable path intentionally avoids even this small ordering observer.
+// Valpo/Viña keeps one grid-level child-list observer; descendant/text/image
+// changes are ignored, so presentation enhancers cannot recursively wake it.
 if (!IS_GIJON) {
   const datedGrid = document.querySelector('[data-dated-grid]');
   if (datedGrid) {
