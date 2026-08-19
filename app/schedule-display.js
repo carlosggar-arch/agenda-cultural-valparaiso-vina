@@ -1,4 +1,4 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260817-hours";
+import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours2";
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
 
 const CITY_CONFIG = Object.freeze({
