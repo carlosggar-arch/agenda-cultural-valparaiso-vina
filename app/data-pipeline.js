@@ -4,6 +4,7 @@ import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-p
 import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260819-pipeline1";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
+import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260819-pastguard1";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260819-pipeline1";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
@@ -59,6 +60,12 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch } =
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
   dataset = applyStage("cross-source-deduplication", deduplicateCrossSourceDataset, dataset, diagnostics);
+  dataset = applyStage(
+    "past-event-guard",
+    (current) => removeExpiredDatedEvents(current, { timeZone: city.timezone || current?.timezone || "UTC" }),
+    dataset,
+    diagnostics,
+  );
 
   let programResult;
   try {
