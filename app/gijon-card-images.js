@@ -1,10 +1,10 @@
-import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 const STYLE_ID = "gijon-core-card-images";
 const CITY_ID = "gijon";
-const registry = await loadCityRegistry();
-let generation = 0;
+let queued = false;
+let indexedRevision = 0;
+let byId = new Map();
 
 function installStyles() {
   if (document.getElementById(STYLE_ID)) return;
@@ -63,46 +63,39 @@ function addImage(card, event) {
   card.prepend(media);
 }
 
-async function enhanceImages() {
-  const token = ++generation;
-  if (String(document.documentElement.dataset.city || "") !== CITY_ID) return;
-  const city = registry.byId?.[CITY_ID];
-  if (!city) return;
+function syncIndex() {
+  if (String(document.documentElement.dataset.city || "") !== CITY_ID) return false;
+  const snapshot = getAgendaRuntimeSnapshot(CITY_ID);
+  if (!snapshot) return false;
+  if (indexedRevision === snapshot.revision && byId.size) return true;
+  indexedRevision = snapshot.revision;
+  byId = new Map(snapshot.events
+    .map((event) => [String(event?.id || "").trim(), event])
+    .filter(([id]) => id));
+  return true;
+}
 
-  try {
-    const { dataset } = await loadAgendaDataset(city);
-    if (token !== generation || String(document.documentElement.dataset.city || "") !== CITY_ID) return;
-    const byId = new Map((dataset?.events || [])
-      .map((event) => [String(event?.id || "").trim(), event])
-      .filter(([id]) => id));
-
-    for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-      addImage(card, byId.get(String(card.dataset.eventId || "")));
-    }
-    for (const card of document.querySelectorAll(".event-card[data-event-group]")) {
-      const ids = String(card.dataset.eventGroup || "").split(",").map((id) => id.trim()).filter(Boolean);
-      const event = ids.map((id) => byId.get(id)).find((candidate) => safeImage(candidate));
-      addImage(card, event);
-    }
-  } catch (error) {
-    console.warn("¡Vivamos!: imágenes ligeras de Gijón no disponibles", error);
+function enhanceImages() {
+  queued = false;
+  if (!syncIndex()) return;
+  for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
+    addImage(card, byId.get(String(card.dataset.eventId || "")));
+  }
+  for (const card of document.querySelectorAll(".event-card[data-event-group]")) {
+    const ids = String(card.dataset.eventGroup || "").split(",").map((id) => id.trim()).filter(Boolean);
+    const event = ids.map((id) => byId.get(id)).find((candidate) => safeImage(candidate));
+    addImage(card, event);
   }
 }
 
-function scheduleEnhancement(delay = 0) {
-  window.setTimeout(() => { void enhanceImages(); }, delay);
+function queueEnhancement() {
+  if (queued) return;
+  queued = true;
+  queueMicrotask(enhanceImages);
 }
 
 installStyles();
-scheduleEnhancement(0);
-scheduleEnhancement(400);
-
-new MutationObserver(() => {
-  generation += 1;
-  if (String(document.documentElement.dataset.city || "") === CITY_ID) {
-    scheduleEnhancement(120);
-    scheduleEnhancement(600);
-  }
-}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
-
-window.addEventListener("pageshow", () => scheduleEnhancement(80), { passive: true });
+window.addEventListener("vivamos:agenda-data-ready", queueEnhancement);
+window.addEventListener("vivamos:agenda-rendered", queueEnhancement);
+window.addEventListener("pageshow", queueEnhancement, { passive: true });
+queueEnhancement();
