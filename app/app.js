@@ -5,8 +5,8 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 // even if the core module graph fails to load or evaluate.
 const { coreReady } = await import("./app-core.js?v=20260819-pipeline1");
 
-// Deferred-module compatibility markers used by legacy structural tests.
-// import "./schedule-display.js?v=20260819-hours3";
+// Deferred-module compatibility marker kept aligned with the single runtime URL.
+// import "./schedule-display.js?v=20260819-runtime1";
 // The equivalent data path now lives in data-pipeline.js and is published once
 // through agenda-runtime-state.mjs for all presentation consumers.
 
