@@ -39,6 +39,7 @@ MONTHS = (
     "enero", "febrero", "marzo", "abril", "mayo", "junio",
     "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
 )
+CLOCK_RE = re.compile(r"\b(?:[01]\d|2[0-3]):[0-5]\d\b")
 
 
 class _TextExtractor(HTMLParser):
@@ -104,6 +105,25 @@ def human_temporal(value: Any) -> str | None:
     return f"{parsed.day} de {MONTHS[parsed.month - 1]} de {parsed.year}"
 
 
+def human_date(value: Any) -> str | None:
+    parsed = parse_temporal(value)
+    if parsed is None:
+        return None
+    return f"{parsed.day} de {MONTHS[parsed.month - 1]} de {parsed.year}"
+
+
+def temporal_day(value: Any) -> date | None:
+    parsed = parse_temporal(value)
+    if isinstance(parsed, datetime):
+        return parsed.date()
+    return parsed if isinstance(parsed, date) else None
+
+
+def temporal_clock(value: Any) -> str | None:
+    parsed = parse_temporal(value)
+    return parsed.strftime("%H:%M") if isinstance(parsed, datetime) else None
+
+
 def schedule_start(event: dict[str, Any]) -> Any:
     schedule = event.get("schedule") or {}
     if schedule.get("start"):
@@ -112,15 +132,71 @@ def schedule_start(event: dict[str, Any]) -> Any:
     return occurrences[0].get("start") if occurrences else None
 
 
+def schedule_date_span(start: Any, end: Any) -> str | None:
+    start_text = human_date(start)
+    end_text = human_date(end)
+    start_day = temporal_day(start)
+    end_day = temporal_day(end)
+    if start_text and end_text and start_day and end_day and start_day != end_day:
+        return f"{start_text} – {end_text}"
+    return start_text or end_text
+
+
 def schedule_text(event: dict[str, Any]) -> str:
+    """Render a public schedule without turning metadata edges into fake hours.
+
+    The publication normalizer stores event dates in ``display_text`` and keeps
+    venue opening hours in ``opening_hours.display_text``. Permanent pages must
+    respect the same authority as the PWA instead of rebuilding a continuous
+    interval from ``start`` and ``end`` timestamps.
+    """
     schedule = event.get("schedule") or {}
     start = schedule_start(event)
     end = schedule.get("end")
-    start_text = human_temporal(start)
-    end_text = human_temporal(end)
-    if start_text and end_text and str(start) != str(end):
-        return f"{start_text} – {end_text}"
-    return start_text or str(schedule.get("display_text") or "Horario por confirmar")
+    span = schedule_date_span(start, end)
+    display = str(schedule.get("display_text") or "").strip()
+    opening_hours = schedule.get("opening_hours")
+    opening_text = (
+        str(opening_hours.get("display_text") or "").strip()
+        if isinstance(opening_hours, dict)
+        else ""
+    )
+
+    if opening_text:
+        return " · ".join(part for part in (span, opening_text) if part) or opening_text
+
+    display_clocks = CLOCK_RE.findall(display)
+    if display_clocks == ["00:00", "23:59"]:
+        return span or "Horario por confirmar"
+
+    start_day = temporal_day(start)
+    end_day = temporal_day(end)
+    start_clock = temporal_clock(start)
+    end_clock = temporal_clock(end)
+
+    if start_day and end_day and start_day == end_day and start_clock:
+        date_text = human_date(start) or span
+        if end_clock and end_clock != start_clock:
+            return f"{date_text} · {start_clock}–{end_clock}"
+        return f"{date_text} · {start_clock}"
+
+    if display_clocks:
+        # Normalized multi-day schedules carry the dates before the first
+        # middle dot and the authoritative clock/range information after it.
+        # Reuse only that clock-bearing tail and humanize the date span here.
+        parts = [part.strip() for part in display.split(" · ") if part.strip()]
+        first_clock_part = next((index for index, part in enumerate(parts) if CLOCK_RE.search(part)), None)
+        if first_clock_part is not None:
+            tail = " · ".join(parts[first_clock_part:])
+            return " · ".join(part for part in (span, tail) if part)
+        return display
+
+    if span:
+        return span
+
+    if start_clock and human_date(start):
+        return f"{human_date(start)} · {start_clock}"
+    return display or human_temporal(start) or "Horario por confirmar"
 
 
 def event_location(event: dict[str, Any]) -> tuple[str, str | None]:
