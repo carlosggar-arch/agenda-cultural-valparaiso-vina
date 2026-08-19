@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from apply_content_quality_guard import apply_guard
 from fetch_gijon_xhtml import classify_editorial
 from update_gijon import real_time, schedule_display
 
@@ -8,19 +9,54 @@ def make_event(*, title: str, days: int, venue: str, category: str, tags=None, e
     start = date(2026, 8, 15)
     end = start + timedelta(days=days)
     return {
+        "id": f"test-{title}",
         "title": title,
         "event_type": event_type,
         "description": "",
         "primary_category": {"id": category, "label": category},
+        "categories": [{"id": category, "label": category}],
         "tags": tags or [],
-        "schedule": {"start": start.isoformat(), "end": end.isoformat()},
-        "location": {"venue": venue},
+        "schedule": {"start": start.isoformat(), "end": end.isoformat(), "occurrences": []},
+        "location": {"venue": venue, "city": "Gijón"},
     }
 
 
 def check(event: dict, expected: str) -> None:
     actual, reason = classify_editorial(event)
     assert actual == expected, f"expected {expected}, got {actual} ({reason}) for {event['title']}"
+
+
+def check_shared_quality_guard() -> None:
+    garbage = make_event(
+        title="0 eventos encontrados. No hay eventos programados. Navegación de vistas de Evento",
+        days=0,
+        venue="El Huerto Espacio Escénico",
+        category="teatro",
+    )
+    past = make_event(
+        title="Campus de Verano de La Laboral 2026",
+        days=0,
+        venue="Laboral Ciudad de la Cultura",
+        category="cursos-talleres",
+    )
+    past["schedule"] = {"start": "2026-06-30T09:00:00+02:00", "end": None, "occurrences": []}
+    future = make_event(
+        title="Concierto válido",
+        days=0,
+        venue="Teatro Jovellanos",
+        category="musica",
+    )
+    future["schedule"] = {"start": "2026-08-20T20:00:00+02:00", "end": None, "occurrences": []}
+
+    dataset = {
+        "publication_date": "2026-08-19",
+        "events": [garbage, past, future],
+        "counts": {"total": 3},
+    }
+    changes = apply_guard(dataset)
+    assert [event["title"] for event in dataset["events"]] == ["Concierto válido"]
+    assert any(item["reason"] == "calendar_navigation_or_empty_state" for item in changes["quarantined"])
+    assert any(item["id"] == past["id"] for item in changes["expired_removed"])
 
 
 def main() -> None:
@@ -89,7 +125,8 @@ def main() -> None:
         ),
         "flexible_offer",
     )
-    print("Gijón editorial classification and schedule tests: OK")
+    check_shared_quality_guard()
+    print("Gijón editorial classification, schedule and shared quality tests: OK")
 
 
 if __name__ == "__main__":
