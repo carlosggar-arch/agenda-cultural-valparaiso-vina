@@ -1,6 +1,8 @@
 // Contract references for shell-version tests; these are documentation only, not eager imports.
 // import "./header-redesign.js?v=20260817-brandicon2";
 // import "./mobile-experience.js?v=20260817-topcontrols4";
+// import "./schedule-display.js?v=20260819-hours3";
+// import "./combined-filters-polish.js";
 // import "./favorites.js";
 // import "./stage31-accessibility-seo.js";
 // Plan-ahead remains available for a future transversal reservation/registration filter.
