@@ -8,11 +8,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 QUALITY = ROOT / "app/data/quality"
 REVALIDATION_FETCH_BUDGET = 20
+SCHEDULE_AUTHORITY_FETCH_BUDGET = 20
 IMAGE_FETCH_BUDGET = 10
 MAINTENANCE_OUTPUTS = (
     "app/data/quality/parser-drift-state.json",
     "app/data/quality/parser-drift.json",
     "app/data/quality/upcoming-revalidation.json",
+    "app/data/quality/schedule-authority.json",
     "app/data/quality/image-audit.json",
     "app/data/quality/source-coherence.json",
     "app/data/quality/maintenance-health.json",
@@ -46,6 +48,18 @@ def main() -> None:
         "--days", "10",
         "--max-fetch", str(REVALIDATION_FETCH_BUDGET),
     )
+
+    # Generic JSON-LD revalidation is useful, but event sources can expose
+    # several clocks for doors, approximate show time, or other practical
+    # information. Source-specific authority runs afterwards so the final
+    # public schedule is taken only from an unambiguous official schedule
+    # field and explicit structured timestamps are never reduced to dates.
+    run(
+        "app/scripts/schedule_authority_guard.py",
+        "--days", "120",
+        "--max-fetch", str(SCHEDULE_AUTHORITY_FETCH_BUDGET),
+    )
+
     run(
         "app/scripts/audit_and_recover_images.py",
         "--max-fetch", str(IMAGE_FETCH_BUDGET),
@@ -74,6 +88,7 @@ def main() -> None:
     stage_outputs()
 
     revalidation = load("upcoming-revalidation.json")
+    schedule_authority = load("schedule-authority.json")
     drift = load("parser-drift.json")
     image = load("image-audit.json")
     coherence = load("source-coherence.json")
@@ -81,12 +96,14 @@ def main() -> None:
     print(
         "ATOMIC_MAINTENANCE_OK",
         f"revalidated={revalidation.get('updated_events', 0)}",
+        f"schedule_authority={schedule_authority.get('updated_events', 0)}",
         f"drift_restored={drift.get('restored_events', 0)}",
         f"images_recovered={image.get('recovered_event_specific_images', 0)}",
         f"image_pct={image.get('event_specific_image_pct_after')}",
         f"coherence={coherence.get('status')}",
         f"health={health.get('status')}",
         f"revalidation_budget={REVALIDATION_FETCH_BUDGET}",
+        f"schedule_authority_budget={SCHEDULE_AUTHORITY_FETCH_BUDGET}",
         f"image_budget={IMAGE_FETCH_BUDGET}",
     )
 
