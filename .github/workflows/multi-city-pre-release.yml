@@ -144,6 +144,8 @@ jobs:
           node --check app/event-detail.js
           node --check app/plan-ahead.js
           node --check app/favorites.js
+          node --check app/session-occurrence-normalizer.js
+          node --check app/program-visibility-policy.js
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
           node --check assets/root-combined-filters.js
@@ -167,6 +169,8 @@ jobs:
           python app/scripts/test_third_city_architecture.py
           python app/scripts/test_contextual_filters.py
           node app/scripts/test_schedule_display.mjs
+          node app/session-occurrence-normalizer.test.mjs
+          node app/program-visibility-policy.test.mjs
           python app/scripts/test_normalize_schedule_display.py
           python app/scripts/test_release_guard.py
           python app/scripts/test_pre_release.py
