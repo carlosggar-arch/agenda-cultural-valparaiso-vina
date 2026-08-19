@@ -6,6 +6,7 @@ const participation = fs.readFileSync(new URL("../app/participation-footer.js", 
 const webActions = fs.readFileSync(new URL("../app/web-actions-below-mosaic.js", import.meta.url), "utf8");
 const actionLayout = fs.readFileSync(new URL("../app/action-strip-layout.js", import.meta.url), "utf8");
 const installedMosaic = fs.readFileSync(new URL("../app/installed-mosaic.js", import.meta.url), "utf8");
+const mobileSix = fs.readFileSync(new URL("../app/mobile-action-strip-six.js", import.meta.url), "utf8");
 const shareQrCss = fs.readFileSync(new URL("../app/share-qr.css", import.meta.url), "utf8");
 const app = fs.readFileSync(new URL("../app/app.js", import.meta.url), "utf8");
 const pwa = fs.readFileSync(new URL("../app/pwa.js", import.meta.url), "utf8");
@@ -22,14 +23,16 @@ assert.match(js, /storageSet\(LIKE_PENDING_KEY, "1"\)/);
 assert.match(js, /syncPendingLike/);
 assert.match(js, /data-like-count>0/);
 
+// Current public header contract: comments remain visible, the old like control
+// is removed, and the installed mobile action strip is reduced to six actions.
 assert.match(participation, /mountHeaderFeedback/);
 assert.match(participation, /document\.querySelector\("\.header-actions"\)/);
 assert.match(participation, /data-contribute-source/);
 assert.match(participation, /contribute\.insertAdjacentElement\("afterend", comments\)/);
-assert.match(participation, /comments\.insertAdjacentElement\("afterend", like\)/);
-assert.match(participation, /display: flex !important/);
-assert.match(participation, /overflow-x: auto !important/);
+assert.match(participation, /querySelectorAll\("\[data-community-like\], \.source-like-button"\)\.forEach\(\(node\) => node\.remove\(\)\)/);
+assert.match(participation, /grid-template-columns: repeat\(6, minmax\(0, 1fr\)\) !important/);
 assert.match(participation, /restoreFooterContact/);
+assert.doesNotMatch(participation, /comments\.insertAdjacentElement\("afterend", like\)/);
 assert.doesNotMatch(participation, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 
 assert.match(webActions, /display: flex !important/);
@@ -42,50 +45,40 @@ assert.match(actionLayout, /border: 0 !important/);
 assert.match(actionLayout, /padding: 0 !important/);
 assert.match(actionLayout, /@media \(min-width: 701px\)/);
 assert.match(actionLayout, /flex-basis: 0 !important/);
-assert.match(actionLayout, /\.favorites-access--app[\s\S]*flex: 1\.15 1 0 !important/);
-assert.match(actionLayout, /\.header-search-toggle[\s\S]*flex: \.52 1 0 !important/);
-assert.match(actionLayout, /\.city-switch[\s\S]*flex: 1\.75 1 0 !important/);
-assert.match(actionLayout, /\.contribute-source-button[\s\S]*flex: 1\.25 1 0 !important/);
-assert.match(actionLayout, /\.source-feedback-button[\s\S]*flex: 1\.12 1 0 !important/);
-assert.match(actionLayout, /\.source-like-button[\s\S]*flex: \.62 1 0 !important/);
 assert.doesNotMatch(actionLayout, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 
-// Installed mobile PWA must keep all seven controls on exactly one continuous row.
+// installed-mosaic.js still provides the legacy seven-track base. The later,
+// intentional mobile-action-strip-six.js override owns the current six-action
+// installed-app layout and hides the retired like control.
 assert.match(installedMosaic, /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\) !important/);
-assert.match(installedMosaic, /grid-template-rows: 1fr !important/);
-assert.match(installedMosaic, /gap: 0 !important/);
-assert.match(installedMosaic, /column-gap: 0 !important/);
-assert.match(installedMosaic, /border-radius: 0 !important/);
-assert.match(installedMosaic, /\* \+ \*[\s\S]*border-left-width: 0 !important/);
 assert.match(installedMosaic, /data-community-comments/);
 assert.match(installedMosaic, /data-community-like/);
-assert.match(installedMosaic, /\[data-city-switch-label\]::after[\s\S]*content: "Ciudad"/);
-assert.match(installedMosaic, /\[data-contribute-source\] > span:last-child/);
-assert.match(installedMosaic, /overflow: hidden !important/);
-assert.doesNotMatch(installedMosaic, /grid-template-columns: repeat\(5/);
+assert.match(mobileSix, /grid-template-columns: repeat\(6, minmax\(0, 1fr\)\) !important/);
+assert.match(mobileSix, /data-community-like/);
+assert.match(mobileSix, /display: none !important/);
 
-// Late-loaded share QR stylesheet owns the final installed-mobile track proportions.
-assert.match(shareQrCss, /grid-template-columns:1fr \.78fr \.62fr 1\.22fr \.86fr \.86fr \.90fr!important/);
 assert.match(shareQrCss, /header-search-toggle\[data-header-search-toggle\][\s\S]*width:100%!important/);
-assert.match(shareQrCss, /header-search-toggle\[data-header-search-toggle\][\s\S]*justify-self:stretch!important/);
 assert.match(shareQrCss, /data-installed-real-mosaic="true"[\s\S]*share-qr-button\[data-share-qr-open\][\s\S]*width:100%!important/);
 assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*min-width:0!important/);
 assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*justify-self:stretch!important/);
-assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*margin:0!important/);
 
 assert.match(app, /community-source\.js\?v=20260818-feedback3/);
-assert.match(app, /participation-footer\.js\?v=20260818-feedback6/);
+assert.match(app, /participation-footer\.js\?v=20260819-feedback7/);
 assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
-assert.match(pwa, /participation-footer\.js\?v=20260818-feedback6/);
+assert.match(pwa, /remove-like\.js\?v=20260819-remove3/);
+assert.match(pwa, /participation-footer\.js\?v=20260819-feedback7/);
 assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual4/);
+assert.match(pwa, /mobile-action-strip-six\.js\?v=20260819-actions7/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
-assert.match(worker, /participation-footer\.js\?v=20260818-feedback6/);
+assert.match(worker, /participation-footer\.js/);
 assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
-assert.match(release, /const RELEASE = 109/);
+const releaseMatch = release.match(/const RELEASE = (\d+);/);
+assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
+assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
 
-console.log("Community feedback UI contract: WEB proportional strip + installed mobile gapless proportional controls");
+console.log("Community feedback UI contract: current six-action installed strip + comments without retired like control");

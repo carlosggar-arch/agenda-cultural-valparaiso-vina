@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v115 enables the shared schedule formatter in the installed app so verified
-  // venue opening hours and corrected exhibition date ranges are rendered.
-  const RELEASE = 115;
+  // v116 adds conservative multi-city temporal priority while preserving the
+  // v115 shared schedule formatter and its corrected exhibition schedules.
+  const RELEASE = 116;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

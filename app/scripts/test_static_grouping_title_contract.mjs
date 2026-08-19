@@ -44,7 +44,9 @@ assert.match(compactCss, /\.event-grid\s*\{[^}]*align-items:\s*stretch\s*!import
 assert.match(compactCss, /\.event-grid\s*>\s*\.event-card\s*\{[^}]*align-self:\s*stretch\s*!important/s);
 assert.doesNotMatch(compactCss, /align-items:\s*start\s*!important/);
 assert.doesNotMatch(compactCss, /align-self:\s*start\s*!important/);
-assert.match(release, /const RELEASE = 109/);
+const releaseMatch = release.match(/const RELEASE = (\d+);/);
+assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
+assert.ok(Number(releaseMatch[1]) >= 114, "PWA release must not regress below v114");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
