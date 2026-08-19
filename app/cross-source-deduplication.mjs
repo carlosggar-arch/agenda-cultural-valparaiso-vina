@@ -200,11 +200,17 @@ export function mergeDuplicateEvents(a, b) {
     ...editorialList(primary, "merged_source_urls", primary.source_url),
     ...editorialList(secondary, "merged_source_urls", secondary.source_url),
   ]);
+  const mergedLocation = mergeObjectMissing(primary.location || {}, secondary.location || {});
+  mergedLocation.venue_id = primary?.location?.venue_id ?? null;
 
   return {
     ...secondary,
     ...primary,
-    location: mergeObjectMissing(primary.location || {}, secondary.location || {}),
+    source_id: primary.source_id ?? null,
+    source_name: primary.source_name || primary.organizer || secondary.source_name || null,
+    source_url: primary.source_url || primary?.links?.source || primary?.links?.official || secondary.source_url || null,
+    organizer: primary.organizer ?? secondary.organizer ?? null,
+    location: mergedLocation,
     price: mergeObjectMissing(primary.price || {}, secondary.price || {}),
     image: primary?.image?.url ? primary.image : secondary.image || primary.image,
     links: mergeObjectMissing(primary.links || {}, secondary.links || {}),
