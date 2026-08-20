@@ -41,10 +41,20 @@ assert.match(safety, /pressedFilterValue\("\[data-combined-when\]"\) !== "todos"
 assert.match(safety, /pressedFilterValue\("\[data-combined-area\]"\) !== "todos"/);
 assert.match(safety, /if \(!currentFilterStateIsNeutral\(\)\) return;/);
 
-// Keep the real-browser regression for the current/future grouped cinema sessions.
-for (const token of ["2026-08-20", "2026-08-25", "STALE_EVENT_ID", "GROUPED_CINEMA_ID"]) {
-  assert.match(browserTest, new RegExp(token.replaceAll("-", "\\-")));
+// Keep the real-browser regression data-driven: it must derive usable dates from
+// the checked-in dataset, prefer recurring cinema when available, and avoid
+// fossilised calendar dates that become invalid as the public programme advances.
+for (const token of [
+  "selected_test_dates",
+  "recurring_cinema_candidates",
+  "publication_date",
+  "STALE_EVENT_ID",
+  "GROUPED_CINEMA_ID",
+  "for selected in selected_dates",
+]) {
+  assert.match(browserTest, new RegExp(token));
 }
+assert.doesNotMatch(browserTest, /for selected in \(\"2026-08-20\", \"2026-08-25\"\)/);
 
 // Releases must actively check for a fresh service worker. The worker can replace
 // stale shell/data caches immediately, but taking control must not force a visible

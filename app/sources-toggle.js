@@ -12,27 +12,16 @@ const PUBLIC_CATALOGUES = Object.freeze({
   valparaiso: "../fuentes_publicas.json",
 });
 
-const DIAGNOSTIC_SOURCE_META = Object.freeze({
-  cinearte_vina: {
-    name: "Cine Arte Viña del Mar",
-    url: "https://cineartevina.cl/",
-    official: true,
-    scope: "Viña del Mar",
-  },
-  insomniacine: {
-    name: "INSOMNIA Teatro Condell",
-    url: "https://www.insomniacine.cl/",
-    official: true,
-    scope: "Valparaíso",
-  },
-});
-
 let configuredSources = [];
 let authoritativeCatalogue = false;
 let loadGeneration = 0;
 
 function sourceKey(value) {
   return String(value || "").trim().toLocaleLowerCase(document.documentElement.lang || "es");
+}
+
+function sourceId(value) {
+  return String(value || "").trim().toLocaleLowerCase("en");
 }
 
 function safeHttpUrl(value) {
@@ -116,6 +105,7 @@ function configuredSourceCard(source) {
   const card = document.createElement("article");
   card.className = "source-card source-card--catalog";
   card.dataset.catalogSourceId = String(source?.id || "");
+  if (source?.canonical_source_id) card.dataset.canonicalSourceId = String(source.canonical_source_id);
 
   const heading = document.createElement("div");
   heading.className = "source-card-heading";
@@ -214,45 +204,49 @@ function sourcesFromDataset(dataset) {
   const sources = Array.isArray(dataset?.sources)
     ? dataset.sources.filter((source) => source && source.name).map((source) => ({ ...source }))
     : [];
-  const byId = new Map(sources.map((source) => [String(source?.id || ""), source]));
+  const byId = new Map(sources.map((source) => [sourceId(source?.id), source]));
 
   for (const [id, diagnostics] of Object.entries(dataset?.source_diagnostics || {})) {
     if (!diagnostics || typeof diagnostics !== "object") continue;
-    const existing = byId.get(id);
-    if (existing) {
-      existing.diagnostics = diagnostics;
-      continue;
-    }
-    const meta = DIAGNOSTIC_SOURCE_META[id];
-    if (!meta) continue;
-    const source = {
-      id,
-      ...meta,
-      event_count: Number(diagnostics.sessions_published || 0),
-      diagnostics,
-    };
-    sources.push(source);
-    byId.set(id, source);
+    const existing = byId.get(sourceId(id));
+    if (existing) existing.diagnostics = diagnostics;
   }
   return sources;
 }
 
-function sourcesFromPublicCatalogue(catalogue, datasetSources = []) {
+function eventCountsBySourceId(dataset) {
+  const counts = new Map();
+  for (const event of dataset?.events || []) {
+    const id = sourceId(event?.source_id);
+    if (!id) continue;
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  return counts;
+}
+
+function sourcesFromPublicCatalogue(catalogue, dataset, datasetSources = []) {
   const publicSources = Array.isArray(catalogue?.sources) ? catalogue.sources : [];
+  const runtimeById = new Map(datasetSources.map((source) => [sourceId(source?.id), source]));
   const runtimeByName = new Map(datasetSources.map((source) => [sourceKey(source?.name), source]));
+  const eventCounts = eventCountsBySourceId(dataset);
+  const diagnosticsById = dataset?.source_diagnostics || {};
 
   return publicSources
     .filter((source) => source && source.name && source.public_status === "integrada")
     .map((source) => {
-      const runtime = runtimeByName.get(sourceKey(source.name));
+      const canonicalId = sourceId(source.canonical_source_id);
+      const runtime = (canonicalId && runtimeById.get(canonicalId)) || runtimeByName.get(sourceKey(source.name));
+      const directCount = canonicalId ? eventCounts.get(canonicalId) : undefined;
+      const diagnostics = (canonicalId && diagnosticsById[canonicalId]) || runtime?.diagnostics;
       return {
         id: source.id,
+        canonical_source_id: canonicalId || null,
         name: source.name,
         url: source.website_url,
         scope: Array.isArray(source.cities) ? source.cities.join(" / ") : "",
         official: runtime?.official === true,
-        event_count: Number(runtime?.event_count || 0),
-        diagnostics: runtime?.diagnostics,
+        event_count: Number(directCount ?? runtime?.event_count ?? 0),
+        diagnostics,
       };
     });
 }
@@ -287,7 +281,7 @@ async function loadConfiguredSources() {
       try {
         const catalogue = await fetchJson(catalogueUrl);
         if (generation !== loadGeneration) return;
-        configuredSources = sourcesFromPublicCatalogue(catalogue, datasetSources);
+        configuredSources = sourcesFromPublicCatalogue(catalogue, dataset, datasetSources);
         authoritativeCatalogue = configuredSources.length > 0;
       } catch {
         configuredSources = datasetSources;
