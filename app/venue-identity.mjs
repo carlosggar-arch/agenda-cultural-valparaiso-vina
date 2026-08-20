@@ -29,6 +29,10 @@ function cityCompatible(record, city) {
   return record._cities.some((candidate) => candidate === folded || candidate.includes(folded) || folded.includes(candidate));
 }
 
+function explicitSubspace(value) {
+  return /\b(?:sala|salon|galeria|gallery|hall|auditorio|auditorium|patio|espacio|room)\b/.test(foldVenue(value));
+}
+
 export function venueRecordForName(value, city = "", venueId = "") {
   const id = String(venueId || "").trim();
   if (id) {
@@ -44,12 +48,14 @@ export function venueRecordForName(value, city = "", venueId = "") {
     if (record._aliases.includes(folded)) return record;
   }
 
+  // Containment is intentionally restricted to explicit rooms/subspaces.
+  // This groups “Sala Blanca – Museo Baburizza” with its museum without
+  // incorrectly collapsing distinct places such as “Jardines Palacio Rioja”.
+  if (!explicitSubspace(folded)) return null;
   let best = null;
   let bestLength = 0;
   for (const record of candidates) {
     for (const alias of record._aliases) {
-      // Containment makes rooms/subspaces such as “Sala Blanca – Museo Baburizza”
-      // inherit the parent venue identity. Short acronyms remain exact-match only.
       if (alias.length < 8 || !folded.includes(alias)) continue;
       if (alias.length > bestLength) {
         best = record;
