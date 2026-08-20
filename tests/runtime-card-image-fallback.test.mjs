@@ -33,12 +33,14 @@ test("Palacio Rioja Qi Gong and Jacques Tati corrections stay covered", () => {
   ]) assert.match(corrections, new RegExp(id));
 });
 
-test("Valpo presentation modules use the intended cache tokens", () => {
+test("shared presentation modules use the intended cache tokens", () => {
   assert.match(app, /card-experience\.js\?v=20260819-runtime1/);
   assert.match(app, /card-image-fallback\.js\?v=20260819-runtime1/);
   assert.match(app, /public-presentation-guard\.js\?v=20260820-text1/);
   assert.match(app, /exhibition-hours\.js\?v=20260820-hours5/);
+  assert.match(app, /exhibition-groups\.js\?v=20260820-groups1/);
   assert.match(app, /schedule-display\.js\?v=20260819-runtime1/);
+  assert.doesNotMatch(app, /static-exhibition-groups\.js/);
   assert.doesNotMatch(app, /card-title-consistency\.js\?/);
 });
 
@@ -54,5 +56,5 @@ test("image quality guard is retried independently from optional modules", () =>
 test("PWA release is new enough to replace stale presentation caches", () => {
   const match = release.match(/const RELEASE = (\d+);/);
   assert.ok(match, "release-version.js must expose a numeric release");
-  assert.ok(Number(match[1]) >= 162, "PWA release must include the source/deploy hardening cache boundary");
+  assert.ok(Number(match[1]) >= 163, "PWA release must include the unified exhibition cache boundary");
 });
