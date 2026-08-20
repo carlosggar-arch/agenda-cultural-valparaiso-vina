@@ -84,8 +84,11 @@ test("multiple selected categories are OR while each event has one normalized pu
     format: "presencial",
     price: "pagado",
   }), true);
+  assert.deepEqual(rootEventPublicCategories(events[2]), [
+    { id: "otros", label: "Otros panoramas" },
+  ]);
   assert.equal(rootEventMatchesAdvancedFilters(events[2], {
-    categories: new Set(["musica", "cursos-talleres"]),
+    categories: new Set(["musica", "otros"]),
     access: "inscripcion",
   }), true);
   assert.equal(rootEventPublicCategories(events[1]).length, 1);
