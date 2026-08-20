@@ -54,10 +54,7 @@ function validateRegistry(payload) {
 
 export function loadCityRegistry({ refresh = false } = {}) {
   if (!registryPromise || refresh) {
-    registryPromise = fetch(CITY_REGISTRY_URL, {
-      headers: { Accept: "application/json" },
-      cache: refresh ? "reload" : "default",
-    })
+    registryPromise = fetch(CITY_REGISTRY_URL, { headers: { Accept: "application/json" }, cache: "no-store" })
       .then((response) => {
         if (!response.ok) throw new Error(`City registry HTTP ${response.status}`);
         return response.json();
