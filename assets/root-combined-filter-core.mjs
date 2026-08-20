@@ -1,3 +1,5 @@
+import { applyKnownPublicationCorrections } from "./agenda-core.mjs";
+
 export const ROOT_SEARCH_ALIASES = Object.freeze({
   valpo: ["valpo", "valparaiso"],
   valparaiso: ["valparaiso", "valpo"],
@@ -60,33 +62,35 @@ function isFamilyFriendly(event) {
 }
 
 export function rootEventCategoryIds(event) {
-  return new Set((event?.categories || []).map((category) => String(category?.id || "")).filter(Boolean));
+  const publicEvent = applyKnownPublicationCorrections(event);
+  return new Set((publicEvent?.categories || []).map((category) => String(category?.id || "")).filter(Boolean));
 }
 
 export function rootEventSearchText(event) {
+  const publicEvent = applyKnownPublicationCorrections(event);
   const derived = [];
-  if (event?.price?.is_free === true) derived.push("gratis gratuito gratuita liberado liberada");
-  if (hasRegistration(event)) derived.push("inscripcion registro reserva");
-  if (hasTickets(event)) derived.push("entrada entradas ticket tickets");
-  if (isOnline(event)) derived.push("online virtual en linea");
+  if (publicEvent?.price?.is_free === true) derived.push("gratis gratuito gratuita liberado liberada");
+  if (hasRegistration(publicEvent)) derived.push("inscripcion registro reserva");
+  if (hasTickets(publicEvent)) derived.push("entrada entradas ticket tickets");
+  if (isOnline(publicEvent)) derived.push("online virtual en linea");
   else derived.push("presencial");
-  if (isFamilyFriendly(event)) derived.push("familiar familia familias infantil ninos ninas todo publico todas las edades");
+  if (isFamilyFriendly(publicEvent)) derived.push("familiar familia familias infantil ninos ninas todo publico todas las edades");
 
   return normalizeRootSearchText([
-    event?.title,
-    event?.description,
-    event?.organizer,
-    event?.source_name,
-    event?.source_id,
-    event?.location?.venue,
-    event?.location?.address,
-    event?.location?.city,
-    event?.location?.commune,
-    event?.audience,
-    event?.price?.display_text,
-    event?.schedule?.display_text,
-    ...(event?.tags || []),
-    ...(event?.categories || []).flatMap((category) => [category?.id, category?.label]),
+    publicEvent?.title,
+    publicEvent?.description,
+    publicEvent?.organizer,
+    publicEvent?.source_name,
+    publicEvent?.source_id,
+    publicEvent?.location?.venue,
+    publicEvent?.location?.address,
+    publicEvent?.location?.city,
+    publicEvent?.location?.commune,
+    publicEvent?.audience,
+    publicEvent?.price?.display_text,
+    publicEvent?.schedule?.display_text,
+    ...(publicEvent?.tags || []),
+    ...(publicEvent?.categories || []).flatMap((category) => [category?.id, category?.label]),
     ...derived,
   ].filter(Boolean).join(" "));
 }
