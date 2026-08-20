@@ -103,7 +103,7 @@ function inferCultureCategories(event) {
   return inferred.length ? inferred : [{ id: "otros", label: "Otros panoramas" }];
 }
 
-function publicCategories(event) {
+export function rootEventPublicCategories(event) {
   const source = Array.isArray(event?.categories) ? event.categories : [];
   const categories = new Map();
   let hadCulture = String(event?.primary_category?.id || "").trim().toLocaleLowerCase("es-CL") === "cultura";
@@ -134,7 +134,7 @@ function publicCategories(event) {
 }
 
 export function rootEventCategoryIds(event) {
-  return new Set(publicCategories(event).map((category) => String(category?.id || "")).filter(Boolean));
+  return new Set(rootEventPublicCategories(event).map((category) => String(category?.id || "")).filter(Boolean));
 }
 
 export function rootEventSearchText(event) {
@@ -160,7 +160,7 @@ export function rootEventSearchText(event) {
     event?.price?.display_text,
     event?.schedule?.display_text,
     ...(event?.tags || []),
-    ...publicCategories(event).flatMap((category) => [category?.id, category?.label]),
+    ...rootEventPublicCategories(event).flatMap((category) => [category?.id, category?.label]),
     ...derived,
   ].filter(Boolean).join(" "));
 }
