@@ -1,0 +1,65 @@
+name: Sync Cloudflare preview
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-cloudflare-preview
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Keep Cloudflare branch aligned with main
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out Cloudflare deployment branch
+        uses: actions/checkout@v4
+        with:
+          ref: cloudflare-preview
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge latest main without rewriting history
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git merge --no-edit origin/main
+
+      - name: Guard Cloudflare-only divergence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          unexpected="$(git diff --name-only origin/main HEAD | grep -v '^cloudflare-build\.sh$' || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "cloudflare-preview diverged from main outside cloudflare-build.sh:"
+            echo "$unexpected"
+            exit 1
+          fi
+
+      - name: Validate Cloudflare build snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash cloudflare-build.sh
+          test -f _cloudflare_site/app/index.html
+          test -f _cloudflare_site/app/release-version.js
+          test -f _cloudflare_site/app/service-worker.js
+          cmp app/release-version.js _cloudflare_site/app/release-version.js
+
+      - name: Push synchronized Cloudflare branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin HEAD:cloudflare-preview
