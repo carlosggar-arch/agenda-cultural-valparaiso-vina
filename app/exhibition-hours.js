@@ -93,12 +93,23 @@ function patchStandaloneCard(card) {
   }
 }
 
+function groupedOpeningHoursNode(card, create = false) {
+  let node = card.querySelector("[data-exhibition-opening-hours]");
+  if (node || !create) return node;
+  const facts = card.querySelector(".exhibition-venue-facts");
+  if (!facts) return null;
+  node = document.createElement("p");
+  node.className = "venue-opening-hours exhibition-venue-hours";
+  node.dataset.exhibitionOpeningHours = "";
+  facts.append(node);
+  return node;
+}
+
 function setGroupedOpeningHours(card, hours) {
-  const node = card.querySelector("[data-exhibition-opening-hours]");
+  const node = groupedOpeningHoursNode(card, Boolean(hours));
   if (!node) return;
   if (!hours) {
-    node.hidden = true;
-    node.replaceChildren();
+    node.remove();
     return;
   }
   node.hidden = false;
