@@ -203,11 +203,16 @@ def check_gijon_dataset() -> None:
     for event in events:
         check_gijon_geographic_scope(event)
         assert event.get("event_type") in {"event", "course", "program", "flexible_offer"}
+        # `event_type` is the canonical semantic field. `editorial.classification`
+        # is explanatory metadata produced by some sources, so it may be absent;
+        # when present it must agree with the canonical type.
         editorial = event.get("editorial") or {}
-        assert editorial.get("classification") == event.get("event_type"), (
-            f"{event.get('id')} ({event.get('title')}): editorial classification "
-            f"{editorial.get('classification')!r} != event_type {event.get('event_type')!r}"
-        )
+        classification = editorial.get("classification")
+        if classification is not None:
+            assert classification == event.get("event_type"), (
+                f"{event.get('id')} ({event.get('title')}): editorial classification "
+                f"{classification!r} != event_type {event.get('event_type')!r}"
+            )
 
 
 def check_valparaiso_dataset_compatibility() -> None:
