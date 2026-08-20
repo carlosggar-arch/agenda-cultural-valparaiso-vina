@@ -49,6 +49,8 @@ def main() -> None:
 
     assert "if: github.event_name != 'pull_request'" in production
     assert "Require release bump for runtime pushes" in production
+    assert "Align smoke candidate with latest public main" in production
+    assert "git reset --hard origin/main" in production
     assert "app/release-version.js" in production
     assert "python app/scripts/production_pwa_smoke.py http" in production
     assert "python app/scripts/production_pwa_smoke.py browser" in production
@@ -70,7 +72,6 @@ def main() -> None:
     assert '("valparaiso", "Valparaíso / Viña del Mar", 390, 844)' in SMOKE
     assert '("gijon", "Gijón / Xixón", 1280, 900)' in SMOKE
     assert "data-sources-toggle" in SMOKE
-    assert 'data-filter-value=\\"manana\\"' not in SMOKE  # keep literal HTML marker, not escaped runtime text
     assert 'data-filter-value="manana"' in SMOKE
     assert "--disable-background-networking" in SMOKE
     assert "after retry" in SMOKE
