@@ -68,7 +68,7 @@ const SHELL_ASSETS = [
   "./header-redesign.js?v=20260817-brandicon2",
   "./density-polish.js",
   "./card-experience.js",
-  "./schedule-display.js?v=20260820-today1",
+  "./schedule-display.js?v=20260819-runtime1",
   "./today-session-presentation.mjs?v=20260820-today1",
   "./gijon-venue-hours.js",
   "./event-detail.js",
