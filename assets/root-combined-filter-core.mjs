@@ -1,4 +1,4 @@
-import { applyKnownPublicationCorrections } from "./agenda-core.mjs";
+const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 
 export const ROOT_SEARCH_ALIASES = Object.freeze({
   valpo: ["valpo", "valparaiso"],
@@ -61,36 +61,41 @@ function isFamilyFriendly(event) {
   return /\bfamiliar(?:es)?\b|\bfamilias?\b|\binfantil(?:es)?\b|\bninos?\b|\bninas?\b|\btodo publico\b|\btodas las edades\b/.test(text);
 }
 
+function publicCategories(event) {
+  const categories = Array.isArray(event?.categories) ? event.categories : [];
+  if (String(event?.id || "") !== LOS_FANTASMAS_EVENT_ID) return categories;
+  if (categories.some((category) => category?.id === "teatro")) return categories;
+  return [...categories, { id: "teatro", label: "Teatro" }];
+}
+
 export function rootEventCategoryIds(event) {
-  const publicEvent = applyKnownPublicationCorrections(event);
-  return new Set((publicEvent?.categories || []).map((category) => String(category?.id || "")).filter(Boolean));
+  return new Set(publicCategories(event).map((category) => String(category?.id || "")).filter(Boolean));
 }
 
 export function rootEventSearchText(event) {
-  const publicEvent = applyKnownPublicationCorrections(event);
   const derived = [];
-  if (publicEvent?.price?.is_free === true) derived.push("gratis gratuito gratuita liberado liberada");
-  if (hasRegistration(publicEvent)) derived.push("inscripcion registro reserva");
-  if (hasTickets(publicEvent)) derived.push("entrada entradas ticket tickets");
-  if (isOnline(publicEvent)) derived.push("online virtual en linea");
+  if (event?.price?.is_free === true) derived.push("gratis gratuito gratuita liberado liberada");
+  if (hasRegistration(event)) derived.push("inscripcion registro reserva");
+  if (hasTickets(event)) derived.push("entrada entradas ticket tickets");
+  if (isOnline(event)) derived.push("online virtual en linea");
   else derived.push("presencial");
-  if (isFamilyFriendly(publicEvent)) derived.push("familiar familia familias infantil ninos ninas todo publico todas las edades");
+  if (isFamilyFriendly(event)) derived.push("familiar familia familias infantil ninos ninas todo publico todas las edades");
 
   return normalizeRootSearchText([
-    publicEvent?.title,
-    publicEvent?.description,
-    publicEvent?.organizer,
-    publicEvent?.source_name,
-    publicEvent?.source_id,
-    publicEvent?.location?.venue,
-    publicEvent?.location?.address,
-    publicEvent?.location?.city,
-    publicEvent?.location?.commune,
-    publicEvent?.audience,
-    publicEvent?.price?.display_text,
-    publicEvent?.schedule?.display_text,
-    ...(publicEvent?.tags || []),
-    ...(publicEvent?.categories || []).flatMap((category) => [category?.id, category?.label]),
+    event?.title,
+    event?.description,
+    event?.organizer,
+    event?.source_name,
+    event?.source_id,
+    event?.location?.venue,
+    event?.location?.address,
+    event?.location?.city,
+    event?.location?.commune,
+    event?.audience,
+    event?.price?.display_text,
+    event?.schedule?.display_text,
+    ...(event?.tags || []),
+    ...publicCategories(event).flatMap((category) => [category?.id, category?.label]),
     ...derived,
   ].filter(Boolean).join(" "));
 }
