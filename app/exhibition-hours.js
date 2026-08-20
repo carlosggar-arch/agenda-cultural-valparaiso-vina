@@ -14,14 +14,14 @@ function ensureExhibitionCardPolishStyles() {
   const style = document.createElement("style");
   style.id = EXHIBITION_CARD_POLISH_STYLE_ID;
   style.textContent = `
-    /* Keep the internal scroll compact, but never vertically clip an
-       individual exhibition sub-card. Two complete rows are preferable to
-       three cropped rows. The collage and the rest of the large card stay unchanged. */
+    /* Grouped rows are content-driven: schedule/location enrichment must never
+       be hidden by the older fixed 70–74 px row contract. */
     .grouped-exhibition-item {
       height: auto !important;
-      min-height: 84px !important;
+      min-height: 96px !important;
       max-height: none !important;
       align-items: start !important;
+      overflow: visible !important;
     }
 
     .grouped-exhibition-media,
@@ -32,21 +32,40 @@ function ensureExhibitionCardPolishStyles() {
 
     .grouped-exhibition-copy {
       padding-top: 1px !important;
+      overflow: visible !important;
     }
 
     .grouped-exhibition-copy strong {
       margin-bottom: 3px !important;
     }
 
+    /* Three-item museum groups such as Palacio Rioja should show all three
+       subcards completely. Larger groups keep an internal scroll instead of
+       making the whole agenda card arbitrarily tall. */
+    .exhibition-group-list {
+      max-height: 306px !important;
+    }
+
+    .exhibition-group-list:not(:has(> .grouped-exhibition-item:nth-child(4))) {
+      max-height: none !important;
+      overflow-y: visible !important;
+    }
+
     @media (max-width: 900px) {
       .grouped-exhibition-item {
-        min-height: 82px !important;
+        min-height: 94px !important;
+      }
+      .exhibition-group-list {
+        max-height: 300px !important;
       }
     }
 
     @media (max-width: 560px) {
       .grouped-exhibition-item {
-        min-height: 80px !important;
+        min-height: 92px !important;
+      }
+      .exhibition-group-list {
+        max-height: 294px !important;
       }
     }
   `;
