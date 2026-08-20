@@ -1,43 +1,85 @@
 {
-  "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T16:00:11-04:00",
-  "status": "attention",
+  "schema_version": "2.0.0",
+  "generated_at": "2026-08-20T16:30:43-04:00",
+  "status": "healthy",
   "critical": [],
-  "warnings": [
-    "public_sources_missing_in_coverage:14",
-    "core_policy:fetch_error:HTTP 404"
-  ],
+  "warnings": [],
   "summary": {
     "public_sources": 47,
     "coverage_sources": 45,
     "events": 207,
-    "missing_in_coverage": 14,
-    "coverage_without_catalog": 6,
+    "missing_in_coverage": 0,
+    "coverage_without_catalog": 5,
+    "operational_aliases": 2,
+    "explicit_catalog_exceptions": 12,
     "stale_verifications": 0,
-    "core_policy_state": "fetch_error:HTTP 404",
-    "core_policy_missing": 0
+    "registry_state": "ok"
   },
   "duplicate_public_ids": [],
   "duplicate_public_names": [],
-  "public_sources_missing_in_coverage": [
-    "Barrio Poniente Viña",
-    "Biblioteca Santiago Severin",
-    "CONAF — Reserva Nacional Lago Peñuelas",
-    "Del Barrio Valpo",
-    "Distrito BAC — Barrio Alegre y Concepción",
-    "El Pasaje Café Viña",
-    "Ipanema Club Viña",
-    "Itaú Maratón de Viña — sitio oficial",
-    "Museo Universitario del Grabado UPLA",
-    "Puerto Valparaíso — Calendario de Eventos",
-    "Sala El Farol — Universidad de Valparaíso",
-    "Teatro Desastre",
-    "UPLA — Vinculación con el Medio",
-    "Universidad de Valparaíso — Agenda"
+  "public_sources_missing_in_coverage": [],
+  "public_sources_with_operational_alias": [
+    {
+      "name": "Barrio Poniente Viña",
+      "coverage_source_id": "culturasvina"
+    },
+    {
+      "name": "Itaú Maratón de Viña — sitio oficial",
+      "coverage_source_id": "maraton_vina_official"
+    }
+  ],
+  "public_catalog_exceptions_applied": [
+    {
+      "name": "Biblioteca Santiago Severin",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "CONAF — Reserva Nacional Lago Peñuelas",
+      "reason": "Fuente pública verificada sin monitor operativo continuo; se conserva para consulta y actividades puntuales."
+    },
+    {
+      "name": "Del Barrio Valpo",
+      "reason": "Fuente local integrada y filtrada editorialmente; no dispone todavía de monitor operativo continuo."
+    },
+    {
+      "name": "Distrito BAC — Barrio Alegre y Concepción",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "El Pasaje Café Viña",
+      "reason": "Fuente local integrada; no dispone todavía de monitor operativo continuo."
+    },
+    {
+      "name": "Ipanema Club Viña",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "Museo Universitario del Grabado UPLA",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "Puerto Valparaíso — Calendario de Eventos",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "Sala El Farol — Universidad de Valparaíso",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "Teatro Desastre",
+      "reason": "Fuente organizadora integrada; no dispone todavía de monitor operativo continuo."
+    },
+    {
+      "name": "UPLA — Vinculación con el Medio",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "Universidad de Valparaíso — Agenda",
+      "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    }
   ],
   "coverage_without_catalog": [
     "instituto_le_chat",
-    "maraton_vina_official",
     "media_maraton_tps_official",
     "natalia_saldias",
     "red_studio",
@@ -45,5 +87,5 @@
   ],
   "stale_public_source_verifications": [],
   "unattributed_event_ids": [],
-  "core_policy_without_public_source": []
+  "registry_contract_errors": []
 }
