@@ -1,10 +1,18 @@
+import copy
 import json
+import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import generate_event_pages as PERMANENT  # noqa: E402
+import stage31_site_generator as STAGE31  # noqa: E402
+
 # This contract is part of the existing multi-city pre-release gate.
-DETAIL = Path("app/event-detail.js").read_text(encoding="utf-8")
-DATASET = json.loads(Path("app/data/gijon/agenda_web.json").read_text(encoding="utf-8"))
+DETAIL = (ROOT / "app/event-detail.js").read_text(encoding="utf-8")
+DATASET = json.loads((ROOT / "app/data/gijon/agenda_web.json").read_text(encoding="utf-8"))
 
 assert "function isGijonOpenDataEvent" in DETAIL
 assert "function isGijonOpenDataUrl" in DETAIL
@@ -50,4 +58,73 @@ for event in DATASET.get("events", []):
 assert not failures, "Open Data events without corroborating public source:\n- " + "\n- ".join(failures)
 assert checked > 0, "Expected at least one Gijón Open Data event in the public dataset"
 
+# Static permanent pages must apply the same editorial rule before JavaScript runs.
+sample = next(
+    event
+    for event in DATASET.get("events", [])
+    if event.get("title") == "El cine del centro"
+)
+links = sample.get("links") or {}
+municipal = links.get("municipal_page")
+open_data = sample.get("source_url") or links.get("source")
+assert municipal and not is_open_data(municipal)
+assert open_data and is_open_data(open_data)
+
+stamp = PERMANENT.generated_at(DATASET)
+event_url = PERMANENT.page_url("gijon", sample)
+page, ics = PERMANENT.render_page(
+    "gijon",
+    PERMANENT.CITY_CONFIG["gijon"],
+    sample,
+    [],
+    stamp,
+)
+assert municipal in page
+assert "Fuente corroborante ↗" in page
+assert "<dt>Fuente mostrada</dt>" in page
+assert "Ayuntamiento de Gijón/Xixón — ficha específica del evento" in page
+assert "opendata.gijon.es" not in page
+assert ics is not None, "Representative Gijón Open Data event should produce ICS"
+assert municipal in ics
+assert "opendata.gijon.es" not in ics
+
+base_ld = PERMANENT.structured_event("gijon", sample, event_url)
+assert base_ld.get("sameAs") == municipal
+assert "opendata.gijon.es" not in json.dumps(base_ld, ensure_ascii=False)
+
+stage_ld = STAGE31.structured_page_document("gijon", sample, event_url)
+stage_ld_text = json.dumps(stage_ld, ensure_ascii=False)
+assert municipal in stage_ld_text
+assert "opendata.gijon.es" not in stage_ld_text
+
+stage_page, stage_ics = STAGE31.enhance_event_page(
+    "gijon",
+    PERMANENT.CITY_CONFIG["gijon"],
+    sample,
+    [],
+    stamp,
+)
+assert municipal in stage_page
+assert "opendata.gijon.es" not in stage_page
+assert stage_ics is not None and municipal in stage_ics
+assert "opendata.gijon.es" not in stage_ics
+
+# Open Data remains an explicit last resort when a corroborating page is absent.
+fallback = copy.deepcopy(sample)
+fallback_links = fallback.get("links") or {}
+fallback_links.pop("municipal_page", None)
+fallback_links.pop("official", None)
+fallback["links"] = fallback_links
+fallback_page, fallback_ics = PERMANENT.render_page(
+    "gijon",
+    PERMANENT.CITY_CONFIG["gijon"],
+    fallback,
+    [],
+    stamp,
+)
+assert "Open Data — último recurso ↗" in fallback_page
+assert "opendata.gijon.es" in fallback_page
+assert fallback_ics is not None and "opendata.gijon.es" in fallback_ics
+
 print(f"Gijón corroborating-source event-detail contract: OK ({checked} Open Data events checked)")
+print("Gijón static HTML/JSON-LD/ICS corroborating-source contract: OK")
