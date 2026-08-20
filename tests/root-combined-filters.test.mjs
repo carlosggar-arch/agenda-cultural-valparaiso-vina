@@ -89,6 +89,24 @@ test("multiple categories are OR within category and AND with other dimensions",
   }), false);
 });
 
+test("Los Fantasmas is discoverable through Teatro even before the raw dataset republishes", () => {
+  const losFantasmas = {
+    id: "agenda_bc147abef119a17edb8a9770",
+    title: "Los Fantasmas",
+    categories: [{ id: "cine", label: "Cine" }],
+    primary_category: { id: "cine", label: "Cine" },
+    location: { venue: "Centro de Investigación Teatro La Peste", city: "Valparaíso", online: false },
+    price: { is_free: true, display_text: "Gratis" },
+    schedule: { display_text: "22-08-2026 · 22:00" },
+    links: {},
+    public_status: {},
+  };
+  assert.equal(rootEventMatchesAdvancedFilters(losFantasmas, {
+    categories: new Set(["teatro"]),
+  }), true);
+  assert.equal(rootEventMatchesQuery(losFantasmas, "teatro"), true);
+});
+
 test("root page loads the advanced filter layer through existing enhancements", async () => {
   const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
   const browserLayer = await readFile(new URL("../assets/root-combined-filters.js", import.meta.url), "utf8");

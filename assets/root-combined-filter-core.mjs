@@ -1,3 +1,5 @@
+const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
+
 export const ROOT_SEARCH_ALIASES = Object.freeze({
   valpo: ["valpo", "valparaiso"],
   valparaiso: ["valparaiso", "valpo"],
@@ -59,8 +61,15 @@ function isFamilyFriendly(event) {
   return /\bfamiliar(?:es)?\b|\bfamilias?\b|\binfantil(?:es)?\b|\bninos?\b|\bninas?\b|\btodo publico\b|\btodas las edades\b/.test(text);
 }
 
+function publicCategories(event) {
+  const categories = Array.isArray(event?.categories) ? event.categories : [];
+  if (String(event?.id || "") !== LOS_FANTASMAS_EVENT_ID) return categories;
+  if (categories.some((category) => category?.id === "teatro")) return categories;
+  return [...categories, { id: "teatro", label: "Teatro" }];
+}
+
 export function rootEventCategoryIds(event) {
-  return new Set((event?.categories || []).map((category) => String(category?.id || "")).filter(Boolean));
+  return new Set(publicCategories(event).map((category) => String(category?.id || "")).filter(Boolean));
 }
 
 export function rootEventSearchText(event) {
@@ -86,7 +95,7 @@ export function rootEventSearchText(event) {
     event?.price?.display_text,
     event?.schedule?.display_text,
     ...(event?.tags || []),
-    ...(event?.categories || []).flatMap((category) => [category?.id, category?.label]),
+    ...publicCategories(event).flatMap((category) => [category?.id, category?.label]),
     ...derived,
   ].filter(Boolean).join(" "));
 }
