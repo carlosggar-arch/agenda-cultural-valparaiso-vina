@@ -1,0 +1,116 @@
+name: One-off root APP parity
+
+on:
+  push:
+    branches:
+      - web/align-counts-and-app-parity
+    paths:
+      - ".github/workflows/oneoff-root-app-parity.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-root:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: web/align-counts-and-app-parity
+          fetch-depth: 0
+
+      - name: Align root WEB with publication pipeline
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          agenda = Path("assets/agenda.js")
+          text = agenda.read_text(encoding="utf-8")
+          old = '  fetchDataset,\n'
+          if old not in text:
+              raise SystemExit("agenda.js: fetchDataset import not found")
+          text = text.replace(old, '', 1)
+          marker = '} from "./agenda-core.mjs?v=20260729-recommended-hidden";\n'
+          addition = marker + 'import { loadRootPublicDataset } from "./root-app-parity-data.mjs?v=20260820-app-parity1";\n'
+          if marker not in text:
+              raise SystemExit("agenda.js: agenda-core import marker not found")
+          text = text.replace(marker, addition, 1)
+          old = '      fetchDataset(fetch, DATASET_PATH),\n'
+          new = '      loadRootPublicDataset({ fetchImpl: fetch }),\n'
+          if old not in text:
+              raise SystemExit("agenda.js: dataset load call not found")
+          text = text.replace(old, new, 1)
+          old = 'function renderResults({ writeUrl = true } = {}) {\n  const events = filteredSectionEvents();\n  dom.grid.replaceChildren(...events.map((event) => createCard(event)));\n'
+          new = 'function renderResults({ writeUrl = true } = {}) {\n  const events = filteredSectionEvents();\n  // Match APP semantics: the headline count describes the activities currently shown.\n  dom.total.textContent = String(events.length);\n  dom.grid.replaceChildren(...events.map((event) => createCard(event)));\n'
+          if old not in text:
+              raise SystemExit("agenda.js: renderResults marker not found")
+          text = text.replace(old, new, 1)
+          agenda.write_text(text, encoding="utf-8")
+
+          enhancements = Path("assets/web-event-enhancements.js")
+          text = enhancements.read_text(encoding="utf-8")
+          marker = 'import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";\n'
+          addition = marker + 'import { loadRootPublicDataset } from "./root-app-parity-data.mjs?v=20260820-app-parity1";\n'
+          if marker not in text:
+              raise SystemExit("enhancements: import marker not found")
+          text = text.replace(marker, addition, 1)
+          text = text.replace('document.documentElement.dataset.rootEnhancementsVersion = "20260820-webparity2";', 'document.documentElement.dataset.rootEnhancementsVersion = "20260820-webparity4";', 1)
+          old = '''  let payload;\n  try {\n    const response = await fetch(DATASET_URL, { headers: { Accept: "application/json" }, cache: "no-store" });\n    if (!response.ok) return;\n    payload = await response.json();\n  } catch { return; }\n\n  const sourceEvents = payload.events || [];\n'''
+          new = '''  let payload;\n  try {\n    payload = await loadRootPublicDataset({ fetchImpl: fetch });\n  } catch { return; }\n\n  const sourceEvents = payload.events || [];\n'''
+          if old not in text:
+              raise SystemExit("enhancements: raw dataset fetch block not found")
+          text = text.replace(old, new, 1)
+          old = '''    const total = document.querySelector("[data-total]");\n    setTextIfChanged(total, sourceEvents.length - rejectedIds.size);\n'''
+          if old not in text:
+              raise SystemExit("enhancements: total overwrite block not found")
+          text = text.replace(old, '    // agenda.js owns [data-total], so filters/sections and the hero never disagree.\n', 1)
+          enhancements.write_text(text, encoding="utf-8")
+
+          index = Path("index.html")
+          text = index.read_text(encoding="utf-8")
+          old = './assets/web-event-enhancements.js?v=20260820-webparity3'
+          new = './assets/web-event-enhancements.js?v=20260820-webparity4'
+          if old not in text:
+              raise SystemExit("index.html: current enhancement cache key not found")
+          index.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          test = Path("tests/root-combined-filters.test.mjs")
+          text = test.read_text(encoding="utf-8")
+          addition = r'''
+
+test("root WEB consumes APP publication cleanup without changing APP files and keeps one count authority", async () => {
+  const agenda = await readFile(new URL("../assets/agenda.js", import.meta.url), "utf8");
+  const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  const adapter = await readFile(new URL("../assets/root-app-parity-data.mjs", import.meta.url), "utf8");
+  assert.match(adapter, /\.\.\/app\/data-pipeline\.js/);
+  assert.match(adapter, /supplemental-events\.json/);
+  assert.match(agenda, /loadRootPublicDataset/);
+  assert.match(agenda, /dom\.total\.textContent = String\(events\.length\)/);
+  assert.match(enhancements, /loadRootPublicDataset/);
+  assert.doesNotMatch(enhancements, /sourceEvents\.length - rejectedIds\.size/);
+});
+'''
+          if 'root WEB consumes APP publication cleanup' not in text:
+              test.write_text(text.rstrip() + addition, encoding="utf-8")
+          PY
+
+      - name: Verify no APP files changed
+        run: |
+          set -euo pipefail
+          if git status --porcelain | awk '{print $2}' | grep -q '^app/'; then
+            echo "ERROR: APP files were modified"
+            git status --short
+            exit 1
+          fi
+          git diff --check
+
+      - name: Commit root-only parity changes
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/agenda.js assets/web-event-enhancements.js index.html tests/root-combined-filters.test.mjs
+          git commit -m "Align root WEB count and publication pipeline"
+          git push origin HEAD:web/align-counts-and-app-parity
