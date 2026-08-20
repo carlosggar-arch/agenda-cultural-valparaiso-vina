@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { loadAgendaDataset } from "./data-pipeline.js";
 
+const TEST_NOW = new Date("2026-08-19T12:00:00-04:00");
+
 function response(payload, ok = true, status = 200) {
   return {
     ok,
@@ -61,7 +63,7 @@ const supplemental = {
     if (String(url) === "supplemental.json") return response({ events: [supplemental] });
     return response({}, false, 404);
   };
-  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json", supplemental_dataset: "supplemental.json" }, { fetchImpl });
+  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json", supplemental_dataset: "supplemental.json" }, { fetchImpl, now: TEST_NOW });
   assert.deepEqual(requests, ["base.json", "supplemental.json"]);
   assert.equal(result.dataset.events.some((event) => event.id === "program-centex"), false, "covered programs must leave the primary list");
   assert.equal(result.dataset.events.some((event) => event.id === "supplemental-event"), true, "supplemental events must be merged explicitly");
@@ -74,7 +76,7 @@ const supplemental = {
     if (String(url) === "base.json") return response({ counts: { total: 1, events: 1, programs: 0 }, events: [baseEvent] });
     throw new Error("supplemental unavailable");
   };
-  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json", supplemental_dataset: "missing.json" }, { fetchImpl });
+  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json", supplemental_dataset: "missing.json" }, { fetchImpl, now: TEST_NOW });
   assert.equal(result.dataset.events.some((event) => event.id === "event-centex"), true, "supplemental failure must preserve the base agenda");
   assert.equal(result.diagnostics.find((stage) => stage.name === "supplemental")?.status, "skipped");
 }
@@ -99,7 +101,7 @@ const supplemental = {
     cinema("miasma-insomnia", "2026-08-22T17:45:00-04:00", "INSOMNIA Teatro Condell"),
   ];
   const fetchImpl = async () => response({ counts: { total: 3, events: 3, programs: 0 }, events });
-  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json" }, { fetchImpl });
+  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json" }, { fetchImpl, now: TEST_NOW });
   const cineArte = result.dataset.events.filter((event) => event.title === events[0].title && event.location?.venue === "Cine Arte Viña del Mar");
   assert.equal(cineArte.length, 1, "same-title sessions at Cine Arte Viña must render as one event");
   assert.equal(cineArte[0].schedule?.mode, "multi_session");
@@ -125,7 +127,7 @@ const supplemental = {
     links: { official: "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/" },
   };
   const fetchImpl = async () => response({ counts: { total: 1, events: 1, programs: 0 }, events: [marDulce] });
-  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json" }, { fetchImpl });
+  const result = await loadAgendaDataset({ id: "valparaiso", dataset: "base.json" }, { fetchImpl, now: TEST_NOW });
   const riojaExhibitions = result.dataset.events.filter((event) =>
     event.primary_category?.id === "exposiciones" && event.location?.venue === "Museo Palacio Rioja"
   );
@@ -146,7 +148,7 @@ const supplemental = {
     location: { venue: "Centro de Cultura Antiguo Instituto", city: "Gijón" },
   };
   const fetchImpl = async () => response({ counts: { total: 1, events: 1, programs: 0 }, events: [gijonEvent] });
-  const result = await loadAgendaDataset({ id: "gijon", dataset: "gijon.json" }, { fetchImpl });
+  const result = await loadAgendaDataset({ id: "gijon", dataset: "gijon.json", timezone: "Europe/Madrid" }, { fetchImpl, now: TEST_NOW });
   assert.equal(result.dataset.events.some((event) => String(event.id).startsWith("agenda_rioja_")), false, "Valpo recovery rows must never leak into Gijón");
   assert.equal(result.diagnostics.find((stage) => stage.name === "event-data-corrections")?.status, "not-applicable");
 }
