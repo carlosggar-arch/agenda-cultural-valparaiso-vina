@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T01:34:41.753388+00:00",
+  "generated_at": "2026-08-20T13:34:06.095614+00:00",
   "reference_date": "2026-08-20",
   "study_started_on": "2026-08-17",
   "observation_window_days": 28,
@@ -11,15 +11,15 @@
   "safety_rule": "No source is automatically removed from Instagram; any Instagram-only or Instagram-lead event protects the source, and reused snapshots do not count as fresh evidence.",
   "current": {
     "date": "2026-08-20",
-    "total_published_events": 180,
-    "instagram_capable_sources": 34,
-    "instagram_source_events": 117,
+    "total_published_events": 175,
+    "instagram_capable_sources": 35,
+    "instagram_source_events": 112,
     "instagram_only_events": 11,
-    "non_instagram_supported_events": 106,
-    "instagram_state_updated_at": "2026-08-19T23:11:37.464030+00:00",
+    "non_instagram_supported_events": 101,
+    "instagram_state_updated_at": "2026-08-20T10:04:55.876886+00:00",
     "apify": {
       "status": "cap_reached",
-      "usage_usd": 4.598728472591489,
+      "usage_usd": 4.5991961186461365,
       "cap_usd": 3.5,
       "paid_refresh_triggered": false
     },
@@ -77,8 +77,8 @@
       {
         "id": "cinearte_vina",
         "name": "Cine Arte Viña del Mar",
-        "published_events": 24,
-        "direct_web": 24,
+        "published_events": 20,
+        "direct_web": 20,
         "non_instagram_support": 0,
         "instagram_only": 0,
         "unknown": 0,
@@ -177,12 +177,22 @@
       {
         "id": "insomniacine",
         "name": "Insomnia Cine",
-        "published_events": 14,
+        "published_events": 11,
         "direct_web": 0,
-        "non_instagram_support": 14,
+        "non_instagram_support": 11,
         "instagram_only": 0,
         "unknown": 0,
         "web_fetchable": true
+      },
+      {
+        "id": "ipanema_club_vina",
+        "name": "Ipanema Club Viña",
+        "published_events": 0,
+        "direct_web": 0,
+        "non_instagram_support": 0,
+        "instagram_only": 0,
+        "unknown": 0,
+        "web_fetchable": false
       },
       {
         "id": "la_escala_galeria",
@@ -337,9 +347,9 @@
       {
         "id": "trotamundosvalpo",
         "name": "Trotamundos Valparaíso",
-        "published_events": 18,
+        "published_events": 20,
         "direct_web": 0,
-        "non_instagram_support": 17,
+        "non_instagram_support": 19,
         "instagram_only": 1,
         "unknown": 0,
         "web_fetchable": false
@@ -608,6 +618,21 @@
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
     },
     {
+      "id": "ipanema_club_vina",
+      "name": "Ipanema Club Viña",
+      "observed_days": 1,
+      "fresh_instagram_snapshots_observed": 2,
+      "web_fetchable": false,
+      "distinct_events_observed": 0,
+      "ever_instagram_only": 0,
+      "instagram_lead_cases": 0,
+      "historical_instagram_only_without_alternative": 0,
+      "current_unresolved_instagram_only": 0,
+      "current_unknown": 0,
+      "recommendation": "study_in_progress",
+      "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
+    },
+    {
       "id": "la_escala_galeria",
       "name": "La Escala Galería",
       "observed_days": 4,
@@ -838,7 +863,7 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": false,
-      "distinct_events_observed": 18,
+      "distinct_events_observed": 20,
       "ever_instagram_only": 1,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 1,

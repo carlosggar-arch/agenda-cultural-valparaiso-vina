@@ -14593,7 +14593,57 @@
         "reason": "calendar_navigation_or_empty_state"
       }
     ],
-    "shared_publication_content_removed": []
+    "shared_publication_content_removed": [],
+    "official_event_metadata": {
+      "candidate_events": 110,
+      "pages_fetched": 60,
+      "pages_failed": 4,
+      "events_enriched": 0,
+      "images_added": 0,
+      "prices_added": 0,
+      "times_added": 0,
+      "provenance_entries_added": 0,
+      "page_limit": 60
+    },
+    "gijon_semantic_schedule": {
+      "reference_date": "2026-08-20",
+      "events_reviewed": 128,
+      "explicit_start_times_added": 0,
+      "venue_hours_added": 0,
+      "before": {
+        "no_single_start_expected": 9,
+        "venue_hours_available": 18,
+        "confirmed_start_time": 93,
+        "awaiting_official_time": 4,
+        "missing_start_time": 4
+      },
+      "after": {
+        "no_single_start_expected": 9,
+        "venue_hours_available": 18,
+        "confirmed_start_time": 93,
+        "awaiting_official_time": 4,
+        "missing_start_time": 4
+      },
+      "time_adequacy_before_pct": 96.9,
+      "time_adequacy_after_pct": 96.9,
+      "venue_hours": {
+        "eligible_exhibitions": 1,
+        "eligible_venue_hour_items": 1,
+        "venue_matches": 1,
+        "hours_added": 0,
+        "matched_by_venue_id": 0,
+        "verified_id_fallbacks": 0,
+        "matched_without_hours": 1,
+        "unmatched_venues": 0,
+        "enriched_event_ids": [],
+        "enriched_titles": [],
+        "venues_without_hours": [
+          "Palacio de Revillagigedo de la Fundación Cajastur"
+        ],
+        "unmatched_venue_names": [],
+        "status": "ok"
+      }
+    }
   },
   "diagnostics_generated_at": "2026-08-20T09:08:40+02:00"
 }

@@ -205,3 +205,28 @@ test("root homepage rebuilds normalized category controls, category badges and c
   assert.match(enhancements, /padding-bottom: \.65rem !important/);
   assert.match(enhancements, /padding-top: \.7rem !important/);
 });
+
+test("WEB category buttons use the canonical public taxonomy", () => {
+  const cases = [
+    [{ id: "music", title: "Concierto de cámara", categories: [{ id: "musica", label: "Música" }] }, "musica"],
+    [{ id: "cinema", title: "Película de estreno", categories: [{ id: "cine", label: "Cine" }] }, "cine"],
+    [{ id: "museum", title: "Visita al museo", categories: [{ id: "museos", label: "Museos" }] }, "exposiciones"],
+    [{ id: "course", title: "Taller de grabado", categories: [{ id: "cursos-talleres", label: "Cursos y talleres" }] }, "cursos-talleres"],
+    [{ id: "theatre", title: "Obra de teatro", categories: [{ id: "teatro", label: "Teatro" }] }, "teatro"],
+  ];
+  for (const [event, expected] of cases) {
+    assert.equal(rootEventPublicCategories(event)[0]?.id, expected);
+    assert.equal(rootEventMatchesAdvancedFilters(event, { categories: new Set([expected]) }), true);
+  }
+});
+
+test("WEB count follows visible results and Talleres y cursos is category-based", async () => {
+  const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  const browserLayer = await readFile(new URL("../assets/root-combined-filters.js", import.meta.url), "utf8");
+  assert.match(enhancements, /visibleCards\.length/);
+  assert.match(enhancements, /installPublicCategoryUi\(publicSourceEvents\)/);
+  assert.match(browserLayer, /matchesCorrectedQuickSection/);
+  assert.match(browserLayer, /active === "talleres-cursos"/);
+  assert.match(browserLayer, /category\?\.id === "cursos-talleres"/);
+  assert.match(browserLayer, /heroTotal\.textContent = String\(visible\)/);
+});
