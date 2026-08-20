@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__date_filter_test.html"
 STALE_EVENT_ID = "agenda_93e4dbf4da87420c93c629c6"
-GROUPED_CINEMA_ID = "agenda_cinema_9531c9ead643b3490477"
+GROUPED_CINEMA_ID = "agenda_cinema_80ddbf36d7706645c9cc"
 
 
 def chrome_binary() -> str:
@@ -136,7 +136,7 @@ def main() -> None:
         time.sleep(0.2)
         try:
             base = f"http://127.0.0.1:{port}/app/{TEST_PAGE.name}"
-            for selected in ("2026-08-19", "2026-08-25"):
+            for selected in ("2026-08-20", "2026-08-25"):
                 nonce = uuid.uuid4().hex
                 url = f"{base}?city=valparaiso&when=personalizado&from={selected}&to={selected}&datefilter={nonce}"
                 dom = dump_dom(url, selected)
