@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "release": 164,
+  "release_id": "v164-5503eb416423",
+  "fingerprint": "5503eb416423a8b57a1c852216966d222bea2ae55b0fc0be2c46e92741b9db30",
+  "hash_algorithm": "git_blob_sha1",
+  "components": {
+    "dataset_valparaiso": {
+      "path": "agenda_web.json",
+      "sha": "55f464b8bac1a446a39875e95a39875513774664"
+    },
+    "dataset_gijon": {
+      "path": "app/data/gijon/agenda_web.json",
+      "sha": "0ba4bef5768046282a50a82aae3add73ba0966d1"
+    },
+    "source_catalog": {
+      "path": "fuentes_publicas.json",
+      "sha": "f70554c02c19cfaad216dc2309b674f49ed1d92d"
+    },
+    "source_registry": {
+      "path": "app/data/source-registry.json",
+      "sha": "329ed792bfe53205a3d5665fa01036c21f2809bc"
+    },
+    "diagnostic_source_coverage": {
+      "path": "app/data/quality/source-coverage.json",
+      "sha": "adf00c4aa0216593ea9e49a3327e51a59033f70d"
+    },
+    "diagnostic_event_quality": {
+      "path": "app/data/quality/event-quality.json",
+      "sha": "8f995b8c76e32949479f7129d9ca916b575137af"
+    },
+    "diagnostic_release_readiness": {
+      "path": "app/data/quality/release-readiness.json",
+      "sha": "02b2a8a8ddb8e587c1c7bfc1bfa0c1daec63ce1c"
+    },
+    "venue_registry": {
+      "path": "app/data/venue-registry.json",
+      "sha": "65287658ce5a132a38c2e9b388996b4bcc665e59"
+    },
+    "service_worker_manifest": {
+      "path": "app/service-worker-assets.generated.js",
+      "sha": "696b40df3d64c3cd29ef6f0c00b154b0193ed1fd"
+    },
+    "release_version": {
+      "path": "app/release-version.js",
+      "sha": "62feb930ba324926027828bf0b582c9223cc2a32"
+    }
+  }
+}
