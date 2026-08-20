@@ -1,0 +1,203 @@
+name: One-off WEB category audit and fix
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened]
+    paths:
+      - ".github/workflows/oneoff-web-category-audit-fix.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-audit:
+    if: github.head_ref == 'fix/web-category-counts-and-buttons'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/web-category-counts-and-buttons
+          fetch-depth: 0
+
+      - name: Patch WEB-only category filters and counts
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          enh = Path('assets/web-event-enhancements.js')
+          text = enh.read_text(encoding='utf-8')
+          text = text.replace('root-combined-filter-core.mjs?v=20260820-category-parity2', 'root-combined-filter-core.mjs?v=20260820-category-parity3')
+          text = text.replace('root-combined-filters.js?v=20260820-category-ui', 'root-combined-filters.js?v=20260820-category-ui2')
+          old = '''  const sourceEvents = payload.events || [];
+          const publicEvents = sourceEvents.map(publicEvent);
+          const categoryController = installPublicCategoryUi(sourceEvents);
+          const rejectedIds = new Set(
+            sourceEvents.filter(isEditorialSocialFalsePositive).map((event) => String(event.id)),
+          );
+          const events = new Map(
+            publicEvents
+              .filter((event) => !rejectedIds.has(String(event.id)))
+              .map((event) => [String(event.id), event]),
+          );'''
+          new = '''  const sourceEvents = payload.events || [];
+          const rejectedIds = new Set(
+            sourceEvents.filter(isEditorialSocialFalsePositive).map((event) => String(event.id)),
+          );
+          const publicSourceEvents = sourceEvents.filter((event) => !rejectedIds.has(String(event.id)));
+          const publicEvents = publicSourceEvents.map(publicEvent);
+          const categoryController = installPublicCategoryUi(publicSourceEvents);
+          const events = new Map(
+            publicEvents.map((event) => [String(event.id), event]),
+          );'''
+          if old not in text:
+            raise SystemExit('web-event-enhancements source/category block not found')
+          text = text.replace(old, new, 1)
+          old = '''    const total = document.querySelector("[data-total]");
+              setTextIfChanged(total, sourceEvents.length - rejectedIds.size);'''
+          new = '''    const total = document.querySelector("[data-total]");
+              const visibleCards = [...document.querySelectorAll(".event-card[data-event-id]")]
+                .filter((card) => !card.hidden);
+              setTextIfChanged(total, visibleCards.length);'''
+          if old not in text:
+            raise SystemExit('web-event-enhancements total block not found')
+          text = text.replace(old, new, 1)
+          text = text.replace('rootEnhancementsVersion = "20260820-webparity2"', 'rootEnhancementsVersion = "20260820-webcatfix1"')
+          enh.write_text(text, encoding='utf-8')
+
+          filters = Path('assets/root-combined-filters.js')
+          text = filters.read_text(encoding='utf-8')
+          text = text.replace('root-combined-filter-core.mjs?v=20260820-category-merge', 'root-combined-filter-core.mjs?v=20260820-category-merge2')
+          marker = 'const topCategory = document.querySelector("[data-top-category]");\n'
+          if marker not in text:
+            raise SystemExit('root filter topCategory marker not found')
+          text = text.replace(marker, marker + 'const heroTotal = document.querySelector("[data-total]");\n', 1)
+          marker = '''  function visibleBaseCards() {
+              return [...grid.querySelectorAll(".event-card")];
+            }
+
+            function applyAdvancedFilters() {'''
+          replacement = '''  function visibleBaseCards() {
+              return [...grid.querySelectorAll(".event-card")];
+            }
+
+            function matchesCorrectedQuickSection(event) {
+              const active = document.querySelector('[data-top-section][aria-pressed="true"]')?.dataset.topSection || "";
+              if (active === "talleres-cursos") {
+                return rootEventPublicCategories(event).some((category) => category?.id === "cursos-talleres");
+              }
+              return true;
+            }
+
+            function applyAdvancedFilters() {'''
+          if marker not in text:
+            raise SystemExit('root filter visibleBaseCards marker not found')
+          text = text.replace(marker, replacement, 1)
+          old = '        const matches = event ? rootEventMatchesAdvancedFilters(event, currentAdvancedFilters()) : true;'
+          new = '        const matches = event ? matchesCorrectedQuickSection(event) && rootEventMatchesAdvancedFilters(event, currentAdvancedFilters()) : true;'
+          if old not in text:
+            raise SystemExit('root filter matches line not found')
+          text = text.replace(old, new, 1)
+          old = '''      if (resultLine) {
+                const suffix = state.query ? ` para “${state.query}”` : "";
+                resultLine.textContent = `${visible} ${visible === 1 ? "actividad" : "actividades"}${suffix}.`;
+              }
+              if (empty) empty.hidden = visible > 0;'''
+          new = '''      if (resultLine) {
+                const suffix = state.query ? ` para “${state.query}”` : "";
+                resultLine.textContent = `${visible} ${visible === 1 ? "actividad" : "actividades"}${suffix}.`;
+              }
+              if (heroTotal) heroTotal.textContent = String(visible);
+              if (empty) empty.hidden = visible > 0;'''
+          if old not in text:
+            raise SystemExit('root filter result count block not found')
+          text = text.replace(old, new, 1)
+          filters.write_text(text, encoding='utf-8')
+
+          index = Path('index.html')
+          text = index.read_text(encoding='utf-8')
+          old = './assets/web-event-enhancements.js?v=20260820-webparity3'
+          new = './assets/web-event-enhancements.js?v=20260820-webcatfix1'
+          if old not in text:
+            raise SystemExit('index enhancement cache key not found')
+          index.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          tests = Path('tests/root-combined-filters.test.mjs')
+          text = tests.read_text(encoding='utf-8')
+          extra = r'''
+
+test("WEB category buttons use the canonical public taxonomy", () => {
+  const cases = [
+    [{ id: "music", title: "Concierto de cámara", categories: [{ id: "musica", label: "Música" }] }, "musica"],
+    [{ id: "cinema", title: "Película de estreno", categories: [{ id: "cine", label: "Cine" }] }, "cine"],
+    [{ id: "museum", title: "Visita al museo", categories: [{ id: "museos", label: "Museos" }] }, "exposiciones"],
+    [{ id: "course", title: "Taller de grabado", categories: [{ id: "cursos-talleres", label: "Cursos y talleres" }] }, "cursos-talleres"],
+    [{ id: "theatre", title: "Obra de teatro", categories: [{ id: "teatro", label: "Teatro" }] }, "teatro"],
+  ];
+  for (const [event, expected] of cases) {
+    assert.equal(rootEventPublicCategories(event)[0]?.id, expected);
+    assert.equal(rootEventMatchesAdvancedFilters(event, { categories: new Set([expected]) }), true);
+  }
+});
+
+test("WEB count follows visible results and Talleres y cursos is category-based", async () => {
+  const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  const browserLayer = await readFile(new URL("../assets/root-combined-filters.js", import.meta.url), "utf8");
+  assert.match(enhancements, /visibleCards\.length/);
+  assert.match(enhancements, /installPublicCategoryUi\(publicSourceEvents\)/);
+  assert.match(browserLayer, /matchesCorrectedQuickSection/);
+  assert.match(browserLayer, /active === "talleres-cursos"/);
+  assert.match(browserLayer, /category\?\.id === "cursos-talleres"/);
+  assert.match(browserLayer, /heroTotal\.textContent = String\(visible\)/);
+});
+'''
+          if 'WEB count follows visible results and Talleres y cursos is category-based' not in text:
+            tests.write_text(text + extra, encoding='utf-8')
+          PY
+
+          git diff --check
+          node --check assets/web-event-enhancements.js
+          node --check assets/root-combined-filters.js
+          node --test tests/root-combined-filters.test.mjs
+          if git status --porcelain | awk '{print $2}' | grep -q '^app/'; then
+            echo 'ERROR: an APP file was modified'
+            exit 1
+          fi
+
+      - name: Audit current WEB category semantics
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { rootEventPublicCategories } from './assets/root-combined-filter-core.mjs';
+          const data = JSON.parse(fs.readFileSync('./agenda_web.json', 'utf8'));
+          const events = Array.isArray(data.events) ? data.events : [];
+          const counts = new Map();
+          for (const event of events) {
+            const category = rootEventPublicCategories(event)[0]?.id || 'otros';
+            counts.set(category, (counts.get(category) || 0) + 1);
+          }
+          const legacyWorkshop = events.filter((event) =>
+            ['course', 'workshop', 'flexible_offer'].includes(event.event_type)
+            || event.categories?.some((category) => /taller|curso|formacion/.test(String(category?.id || '')))
+          );
+          const publicWorkshop = events.filter((event) =>
+            rootEventPublicCategories(event).some((category) => category?.id === 'cursos-talleres')
+          );
+          const falseFlexible = legacyWorkshop.filter((event) =>
+            event.event_type === 'flexible_offer'
+            && !rootEventPublicCategories(event).some((category) => category?.id === 'cursos-talleres')
+          );
+          console.log('WEB_CATEGORY_COUNTS', Object.fromEntries([...counts].sort()));
+          console.log(`WEB_WORKSHOP_AUDIT legacy=${legacyWorkshop.length} canonical=${publicWorkshop.length} false_flexible=${falseFlexible.length}`);
+          console.log('WEB_FALSE_FLEXIBLE_SAMPLE', falseFlexible.slice(0, 10).map((event) => `${event.id}:${event.title}`));
+          NODE
+
+      - name: Commit WEB-only correction
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/web-event-enhancements.js assets/root-combined-filters.js index.html tests/root-combined-filters.test.mjs
+          git commit -m "Fix WEB category filters and visible activity count"
+          git push origin HEAD:fix/web-category-counts-and-buttons
