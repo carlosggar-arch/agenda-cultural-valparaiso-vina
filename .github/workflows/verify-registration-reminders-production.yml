@@ -1,0 +1,125 @@
+name: Verify registration reminders in production
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BASE_URL: https://vivamos.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Wait for production release v164
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 30); do
+            body="$(curl -L -fsS -H 'Cache-Control: no-cache' "$BASE_URL/app/release-version.js?verify=$RANDOM" || true)"
+            if grep -q 'const RELEASE = 164' <<<"$body"; then
+              echo "PRODUCTION_RELEASE_164_VISIBLE attempt=$attempt"
+              exit 0
+            fi
+            echo "Waiting for production v164 (attempt=$attempt)"
+            sleep 10
+          done
+          echo "Production v164 not visible after waiting" >&2
+          exit 1
+
+      - name: Install browser driver
+        run: python -m pip install --disable-pip-version-check selenium
+
+      - name: Verify Gijon registration section
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p production-verification
+          python - <<'PY'
+          import json, os, shutil, time
+          from pathlib import Path
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          base = os.environ['BASE_URL']
+          out = Path('production-verification')
+          chrome = next((shutil.which(n) for n in ('google-chrome-stable','google-chrome','chromium','chromium-browser') if shutil.which(n)), None)
+          if not chrome:
+              raise SystemExit('No Chrome/Chromium binary available')
+
+          opts = Options(); opts.binary_location = chrome
+          for arg in ('--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--window-size=1440,1400','--disable-extensions','--no-first-run','--no-default-browser-check'):
+              opts.add_argument(arg)
+
+          driver = webdriver.Chrome(options=opts)
+          diag = {}
+          try:
+              url = f"{base}/app/?city=gijon&when=todos&verify={int(time.time())}"
+              driver.get(url)
+              wait = WebDriverWait(driver, 40)
+              wait.until(lambda d: d.execute_script("return document.querySelectorAll('.event-card').length") > 0)
+              time.sleep(5)
+
+              diag['title'] = driver.title
+              diag['url'] = driver.current_url
+              diag['registration_section_exists'] = bool(driver.execute_script("return !!document.querySelector('[data-registration-section]')"))
+              diag['registration_section_visible'] = bool(driver.execute_script("const s=document.querySelector('[data-registration-section]'); return !!s && !s.hidden && getComputedStyle(s).display!=='none'"))
+              diag['heading'] = driver.execute_script("return document.querySelector('[data-registration-section] h3')?.textContent?.trim() || ''")
+              diag['registration_count'] = int(driver.execute_script("return document.querySelectorAll('[data-registration-grid] > .event-card[data-event-id]').length"))
+
+              campus = driver.execute_script("""
+                return [...document.querySelectorAll('.event-card[data-event-id]')].find((c) =>
+                  String(c.textContent || '').includes('Campus de Verano de la Laboral 2026')) || null;
+              """)
+              if campus is None:
+                  raise AssertionError('Campus de Verano de la Laboral 2026 not found in production DOM')
+
+              diag['campus_in_registration_grid'] = bool(driver.execute_script("return arguments[0].parentElement?.hasAttribute('data-registration-grid') || false", campus))
+              diag['campus_in_dated_grid'] = bool(driver.execute_script("return !!arguments[0].closest('[data-dated-grid]')", campus))
+              diag['campus_registration_badge'] = driver.execute_script("return arguments[0].querySelector('[data-registration-badge]')?.textContent?.trim() || ''", campus)
+              diag['campus_status'] = driver.execute_script("return arguments[0].querySelector('[data-registration-status]')?.textContent?.trim() || ''", campus)
+              diag['campus_text'] = driver.execute_script("return String(arguments[0].innerText || arguments[0].textContent || '').trim()", campus)
+
+              assert diag['registration_section_exists'], diag
+              assert diag['registration_section_visible'], diag
+              assert diag['heading'] == 'Inscripciones y plazos', diag
+              assert diag['registration_count'] >= 1, diag
+              assert diag['campus_in_registration_grid'], diag
+              assert not diag['campus_in_dated_grid'], diag
+              assert diag['campus_registration_badge'] == 'Inscripción', diag
+              assert diag['campus_status'] == 'Plazas agotadas', diag
+
+              section = driver.execute_script("return document.querySelector('[data-registration-section]')")
+              driver.execute_script("arguments[0].scrollIntoView({block:'start'});", section)
+              time.sleep(1)
+              section.screenshot(str(out / 'gijon-inscripciones-y-plazos.png'))
+              driver.save_screenshot(str(out / 'gijon-production-page.png'))
+
+              print('PRODUCTION_REGISTRATION_SECTION_OK')
+              print('HEADING', diag['heading'])
+              print('REGISTRATION_COUNT', diag['registration_count'])
+              print('CAMPUS_STATUS', diag['campus_status'])
+              print('CAMPUS_IN_DATED_GRID', diag['campus_in_dated_grid'])
+          finally:
+              (out / 'diagnostics.json').write_text(json.dumps(diag, ensure_ascii=False, indent=2), encoding='utf-8')
+              driver.quit()
+          PY
+
+      - name: Upload production evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: registration-reminders-production-evidence
+          path: production-verification/
+          if-no-files-found: warn
+          retention-days: 7
