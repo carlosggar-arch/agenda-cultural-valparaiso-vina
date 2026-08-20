@@ -1,4 +1,5 @@
 import { mergeSupplementalPayload } from "./supplemental-events-fetch.js?v=20260819-pipeline1";
+import { normalizeAgendaPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
 import { applyEventDataCorrections } from "./event-data-corrections.js?v=20260819-pipeline1";
 import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-pipeline1";
 import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260820-pipeline2";
@@ -7,7 +8,7 @@ import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=2026
 import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
 import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260820-pastguard2";
-import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260819-pipeline1";
+import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260820-programs4";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
@@ -71,6 +72,9 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   diagnostics.push({ name: "base", status: "ok" });
 
   dataset = await withSupplemental(city, dataset, fetchImpl, diagnostics);
+  // Structural ingress boundary: no scraped/source HTML is allowed beyond this
+  // point. Every later normalizer starts from plain public text.
+  dataset = applyStage("public-text-sanitizer", normalizeAgendaPublicText, dataset, diagnostics);
   if (city.id === "valparaiso") {
     dataset = applyStage("event-data-corrections", applyEventDataCorrections, dataset, diagnostics);
   } else {
@@ -100,6 +104,9 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     dataset,
     diagnostics,
   );
+  // Structural egress boundary: corrections and future pipeline stages are not
+  // allowed to reintroduce markup into anything that can become public text.
+  dataset = applyStage("public-text-sanitizer-final", normalizeAgendaPublicText, dataset, diagnostics);
 
   let programResult;
   try {

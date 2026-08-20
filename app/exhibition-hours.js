@@ -2,11 +2,56 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 const MHNV_HOURS = "Mar–vie 10:00–18:00 · sáb 11:00–16:00 · dom/lun/festivos cerrado";
+const EXHIBITION_CARD_POLISH_STYLE_ID = "exhibition-card-polish-20260820";
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
 let eventsById = new Map();
 let patchQueued = false;
+
+function ensureExhibitionCardPolishStyles() {
+  if (document.getElementById(EXHIBITION_CARD_POLISH_STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = EXHIBITION_CARD_POLISH_STYLE_ID;
+  style.textContent = `
+    /* Keep the internal scroll compact, but never vertically clip an
+       individual exhibition sub-card. Two complete rows are preferable to
+       three cropped rows. The collage and the rest of the large card stay unchanged. */
+    .grouped-exhibition-item {
+      height: auto !important;
+      min-height: 84px !important;
+      max-height: none !important;
+      align-items: start !important;
+    }
+
+    .grouped-exhibition-media,
+    .grouped-exhibition-copy,
+    .grouped-exhibition-actions {
+      align-self: start !important;
+    }
+
+    .grouped-exhibition-copy {
+      padding-top: 1px !important;
+    }
+
+    .grouped-exhibition-copy strong {
+      margin-bottom: 3px !important;
+    }
+
+    @media (max-width: 900px) {
+      .grouped-exhibition-item {
+        min-height: 82px !important;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .grouped-exhibition-item {
+        min-height: 80px !important;
+      }
+    }
+  `;
+  document.head.append(style);
+}
 
 function currentCityId() {
   return String(document.documentElement.dataset.city || "").trim();
@@ -40,8 +85,16 @@ function fold(value) {
     .toLocaleLowerCase("es");
 }
 
+function isMultiDayVisit(event) {
+  const schedule = event?.schedule || {};
+  if (schedule.mode === "multi_day") return true;
+  const start = String(schedule.start || "").slice(0, 10);
+  const end = String(schedule.end || "").slice(0, 10);
+  return Boolean(start && end && start !== end);
+}
+
 function knownVenueHours(event) {
-  if (!isExhibition(event)) return null;
+  if (!isExhibition(event) || !isMultiDayVisit(event)) return null;
   const identity = fold([
     event?.location?.venue,
     event?.organizer,
@@ -86,8 +139,18 @@ function patchStandaloneCard(card) {
 }
 
 function groupedOpeningHoursNode(card, create = false) {
-  let node = card.querySelector("[data-exhibition-opening-hours]");
-  if (node || !create) return node;
+  const candidates = [...card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")];
+  let node = candidates[0] || null;
+
+  // Static and runtime renderers must share one venue-hours row. Reuse the
+  // first one and remove any duplicate so venue schedules can never stack.
+  if (node) {
+    node.dataset.exhibitionOpeningHours = "";
+    for (const duplicate of candidates.slice(1)) duplicate.remove();
+    return node;
+  }
+
+  if (!create) return null;
   const facts = card.querySelector(".exhibition-venue-facts");
   if (!facts) return null;
   node = document.createElement("p");
@@ -152,6 +215,7 @@ function queuePatch() {
   queueMicrotask(patchCards);
 }
 
+ensureExhibitionCardPolishStyles();
 for (const eventName of [
   "vivamos:agenda-data-ready",
   "vivamos:agenda-rendered",

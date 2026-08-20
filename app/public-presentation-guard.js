@@ -4,6 +4,7 @@ import {
   normalizePublicTitle,
   publicLocationLabel,
 } from "./public-presentation-rules.mjs";
+import { plainPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 const STYLE_ID = "public-presentation-guard-style";
@@ -99,11 +100,18 @@ function eventForNode(node) {
   return id ? eventsById.get(id) || null : null;
 }
 
+function cleanPlainTextNode(node) {
+  if (!(node instanceof HTMLElement) || node.children.length) return;
+  const current = String(node.textContent || "");
+  const cleaned = plainPublicText(current);
+  if (cleaned !== current.trim()) node.textContent = cleaned;
+}
+
 function cleanTitleNode(node) {
   if (!(node instanceof HTMLElement)) return;
   const event = eventForNode(node);
   if (!event) return;
-  const current = String(node.textContent || "").replace(/\s+/g, " ").trim();
+  const current = plainPublicText(node.textContent || "");
   const normalized = normalizePublicTitle(current, event);
   if (!normalized) return;
   node.dataset.originalPublicTitle = normalized;
@@ -111,7 +119,9 @@ function cleanTitleNode(node) {
 }
 
 function removePipelineDescription(node) {
-  if (node instanceof HTMLElement && isNonEventDescription(node.textContent || "")) node.remove();
+  if (!(node instanceof HTMLElement)) return;
+  cleanPlainTextNode(node);
+  if (isNonEventDescription(node.textContent || "")) node.remove();
 }
 
 function ticketAvailability(event) {
@@ -173,10 +183,10 @@ function enhanceGroupedRow(row) {
       else copy.prepend(schedule);
     }
   }
-  const nextSchedule = groupedScheduleLabel(event, {
+  const nextSchedule = plainPublicText(groupedScheduleLabel(event, {
     locale: activeCity?.locale || "es-CL",
     timezone: activeCity?.timezone || "America/Santiago",
-  });
+  }));
   if (schedule.textContent !== nextSchedule) schedule.textContent = nextSchedule;
   let location = copy.querySelector(".grouped-exhibition-location");
   if (!location) {
@@ -184,8 +194,29 @@ function enhanceGroupedRow(row) {
     location.className = "grouped-exhibition-location";
     schedule.insertAdjacentElement("afterend", location);
   }
-  const nextLocation = publicLocationLabel(event);
+  const nextLocation = plainPublicText(publicLocationLabel(event));
   if (location.textContent !== nextLocation) location.textContent = nextLocation;
+}
+
+function stripAnyLateMarkupLeaks() {
+  document.querySelectorAll([
+    '.event-card[data-event-id] h3',
+    '.event-card[data-event-id] h4',
+    '.event-card[data-event-id] p',
+    '.event-card[data-event-id] small',
+    '.event-card[data-event-id] .meta',
+    '.event-card[data-event-id] .type-badge',
+    '.event-card[data-event-id] .event-bottom > span',
+    '.grouped-exhibition-copy strong',
+    '.grouped-exhibition-copy small',
+    '.grouped-exhibition-price',
+    '.exhibition-venue-heading h4',
+    '.exhibition-venue-count',
+    '.exhibition-venue-facts p',
+    '.event-detail-title',
+    '[data-event-detail] p',
+    '[data-event-detail] small',
+  ].join(",")).forEach(cleanPlainTextNode);
 }
 
 function applyPresentationRules() {
@@ -199,6 +230,10 @@ function applyPresentationRules() {
   document.querySelectorAll(".event-card-description").forEach(removePipelineDescription);
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceAvailabilityCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedRow);
+  // Defense in depth: if a future renderer bypasses the normalized runtime or a
+  // stale cached fragment reaches the DOM, tag-shaped source text is stripped
+  // from simple public text nodes before the user can keep seeing it.
+  stripAnyLateMarkupLeaks();
 }
 
 function queueApply() {
