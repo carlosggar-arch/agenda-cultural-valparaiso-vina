@@ -77,17 +77,21 @@ test("combined dimensions apply together", () => {
   assert.deepEqual(result.map((event) => event.id), ["taller-vina"]);
 });
 
-test("multiple categories are OR within category and AND with other dimensions", () => {
+test("multiple selected categories are OR while each event has one normalized public category", () => {
   assert.equal(rootEventMatchesAdvancedFilters(events[0], {
     categories: new Set(["musica", "cursos-talleres"]),
     access: "entradas",
     format: "presencial",
     price: "pagado",
   }), true);
+  assert.deepEqual(rootEventPublicCategories(events[2]), [
+    { id: "otros", label: "Otros panoramas" },
+  ]);
   assert.equal(rootEventMatchesAdvancedFilters(events[2], {
-    categories: new Set(["musica", "cursos-talleres"]),
+    categories: new Set(["musica", "otros"]),
     access: "inscripcion",
   }), true);
+  assert.equal(rootEventPublicCategories(events[1]).length, 1);
 });
 
 test("Museos and Exposiciones share one public category", () => {
@@ -108,7 +112,7 @@ test("Museos and Exposiciones share one public category", () => {
   }), true);
 });
 
-test("Cultura is redistributed and is no longer public", () => {
+test("Cultura is resolved to one APP-style public category and is no longer public", () => {
   const culture = {
     id: "culture",
     title: "Charla y taller de patrimonio en el museo",
@@ -117,10 +121,9 @@ test("Cultura is redistributed and is no longer public", () => {
     categories: [{ id: "cultura", label: "Cultura" }],
     location: { venue: "Museo" },
   };
-  const categories = rootEventPublicCategories(culture);
-  assert.equal(categories.some(({ id }) => id === "cultura"), false);
-  assert.equal(categories.some(({ id }) => id === "exposiciones"), true);
-  assert.equal(categories.some(({ id }) => id === "cursos-talleres"), true);
+  assert.deepEqual(rootEventPublicCategories(culture), [
+    { id: "cursos-talleres", label: "Cursos y talleres" },
+  ]);
 });
 
 test("ambiguous Cultura falls back to Otros panoramas", () => {
@@ -131,6 +134,15 @@ test("ambiguous Cultura falls back to Otros panoramas", () => {
     categories: [{ id: "cultura", label: "Cultura" }],
   });
   assert.deepEqual(categories, [{ id: "otros", label: "Otros panoramas" }]);
+});
+
+test("non-canonical source categories are folded into the stable public taxonomy", () => {
+  assert.deepEqual(rootEventPublicCategories({
+    id: "visual",
+    title: "Muestra de fotografía contemporánea",
+    primary_category: { id: "artes-visuales", label: "Artes visuales" },
+    categories: [{ id: "artes-visuales", label: "Artes visuales" }],
+  }), [{ id: "exposiciones", label: "Exposiciones y museos" }]);
 });
 
 test("Los Fantasmas is discoverable through Teatro even before the raw dataset republishes", () => {
@@ -145,6 +157,7 @@ test("Los Fantasmas is discoverable through Teatro even before the raw dataset r
     links: {},
     public_status: {},
   };
+  assert.deepEqual(rootEventPublicCategories(losFantasmas), [{ id: "teatro", label: "Teatro" }]);
   assert.equal(rootEventMatchesAdvancedFilters(losFantasmas, {
     categories: new Set(["teatro"]),
   }), true);
@@ -179,10 +192,14 @@ test("root homepage places the quick navigation after category shortcuts", async
   assert.match(enhancements, /placePrimaryNavigationAfterCategories\(\)/);
 });
 
-test("root homepage rebuilds merged category controls and compacts vertical spacing", async () => {
+test("root homepage rebuilds normalized category controls, category badges and compact spacing", async () => {
   const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
   const core = await readFile(new URL("../assets/root-combined-filter-core.mjs", import.meta.url), "utf8");
   assert.match(enhancements, /function installPublicCategoryUi/);
+  assert.match(enhancements, /function applyCategoryPresentation/);
+  assert.match(enhancements, /\.pill-category/);
+  assert.match(enhancements, /rootEnhancementsVersion/);
+  assert.match(core, /function resolveRootPublicCategory/);
   assert.match(core, /Exposiciones y museos/);
   assert.match(enhancements, /__VIVAMOS_ROOT_FILTERS__/);
   assert.match(enhancements, /padding-bottom: \.65rem !important/);

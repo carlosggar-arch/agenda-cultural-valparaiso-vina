@@ -1,5 +1,37 @@
 const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 
+const CATEGORY = Object.freeze({
+  exposiciones: { id: "exposiciones", label: "Exposiciones y museos" },
+  cine: { id: "cine", label: "Cine" },
+  musica: { id: "musica", label: "Música" },
+  teatro: { id: "teatro", label: "Teatro" },
+  talleres: { id: "cursos-talleres", label: "Cursos y talleres" },
+  ferias: { id: "ferias-gastronomia", label: "Ferias y gastronomía" },
+  naturaleza: { id: "naturaleza-deportes", label: "Naturaleza y deportes" },
+  otros: { id: "otros", label: "Otros panoramas" },
+});
+
+const SOURCE_CATEGORY_ALIASES = new Map([
+  ["museo", CATEGORY.exposiciones],
+  ["museos", CATEGORY.exposiciones],
+  ["exposicion", CATEGORY.exposiciones],
+  ["exposiciones", CATEGORY.exposiciones],
+  ["feria", CATEGORY.ferias],
+  ["ferias", CATEGORY.ferias],
+  ["gastronomia", CATEGORY.ferias],
+  ["ferias-gastronomia", CATEGORY.ferias],
+  ["naturaleza", CATEGORY.naturaleza],
+  ["naturaleza-montana", CATEGORY.naturaleza],
+  ["deportes", CATEGORY.naturaleza],
+  ["naturaleza-deportes", CATEGORY.naturaleza],
+  ["cursos-talleres", CATEGORY.talleres],
+  ["talleres", CATEGORY.talleres],
+  ["musica", CATEGORY.musica],
+  ["cine", CATEGORY.cine],
+  ["teatro", CATEGORY.teatro],
+  ["otros", CATEGORY.otros],
+]);
+
 export const ROOT_SEARCH_ALIASES = Object.freeze({
   valpo: ["valpo", "valparaiso"],
   valparaiso: ["valparaiso", "valpo"],
@@ -21,30 +53,17 @@ export const ROOT_SEARCH_ALIASES = Object.freeze({
 });
 
 const CATEGORY_ALIASES = new Map([
+  ["museo", "exposiciones"],
+  ["museos", "exposiciones"],
+  ["exposicion", "exposiciones"],
+  ["feria", "ferias-gastronomia"],
   ["ferias", "ferias-gastronomia"],
   ["gastronomia", "ferias-gastronomia"],
   ["naturaleza", "naturaleza-deportes"],
   ["naturaleza-montana", "naturaleza-deportes"],
   ["deportes", "naturaleza-deportes"],
-  ["museos", "exposiciones"],
+  ["talleres", "cursos-talleres"],
 ]);
-
-const CATEGORY_LABELS = new Map([
-  ["ferias-gastronomia", "Ferias y gastronomía"],
-  ["naturaleza-deportes", "Naturaleza y deportes"],
-  ["exposiciones", "Exposiciones y museos"],
-  ["otros", "Otros panoramas"],
-]);
-
-const CULTURE_RULES = [
-  ["musica", "Música", /\b(musica|musical|concierto|recital|jazz|orquesta|coro|tocata|banda|cantautor|cantante|sinfon|sonoro|payada)\b/],
-  ["cine", "Cine", /\b(cine|pelicula|film|documental|cortometraje|largometraje|audiovisual|proyeccion)\b/],
-  ["teatro", "Teatro", /\b(teatro|teatral|obra|dramaturg|escena|danza|ballet|circo|performance|actor|actriz)\b/],
-  ["exposiciones", "Exposiciones y museos", /\b(museo|exposicion|exhibicion|muestra|galeria|patrimonio|fotografia|pintura|escultura|artes visuales|visita guiada)\b/],
-  ["cursos-talleres", "Cursos y talleres", /\b(taller|curso|seminario|charla|conversatorio|capacitacion|laboratorio|workshop|ponencia)\b/],
-  ["naturaleza-deportes", "Naturaleza y deportes", /\b(naturaleza|trekking|senderismo|caminata|montana|cerro|deporte|deportivo|yoga|ciclismo|bicicleta|kayak|surf|ecologia|ecosistema)\b/],
-  ["ferias-gastronomia", "Ferias y gastronomía", /\b(feria|gastronomia|gastronomico|comida|cocina|mercado|degustacion|restaurante|cafe)\b/],
-];
 
 export function normalizeRootSearchText(value) {
   return String(value || "")
@@ -54,6 +73,68 @@ export function normalizeRootSearchText(value) {
     .replace(/[^a-z0-9]+/g, " ")
     .trim()
     .replace(/\s+/g, " ");
+}
+
+function categoryFold(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function sourceCategory(event) {
+  const source = event?.primary_category || event?.categories?.[0] || null;
+  const label = String(source?.label || "").trim();
+  const id = String(source?.id || categoryFold(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
+  return { id, label };
+}
+
+function categoryEvidenceText(event) {
+  return categoryFold([
+    event?.title,
+    event?.description,
+    event?.organizer,
+    event?.source_name,
+    ...(event?.tags || []),
+  ].filter(Boolean).join(" "));
+}
+
+function explicitTitleCategory(event) {
+  const title = categoryFold(event?.title);
+  if (!title) return null;
+  if (/\b(exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\b/u.test(title)) return CATEGORY.exposiciones;
+  if (/\b(cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\b/u.test(title)) return CATEGORY.cine;
+  if (/\b(concierto|recital|jazz|coro|coral|orquesta|musica)\b/u.test(title)) return CATEGORY.musica;
+  if (/\b(teatro|danza|ballet|circo|performance|funcion|espectaculo)\b/u.test(title)) return CATEGORY.teatro;
+  if (/\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion)\b/u.test(title)) return CATEGORY.talleres;
+  if (/\b(presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\b/u.test(title)) return CATEGORY.otros;
+  return null;
+}
+
+function inferPublicCategory(event) {
+  const explicit = explicitTitleCategory(event);
+  if (explicit) return explicit;
+
+  const text = categoryEvidenceText(event);
+  if (/\b(exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\b/u.test(text)) return CATEGORY.exposiciones;
+  if (/\b(cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\b/u.test(text)) return CATEGORY.cine;
+  if (/\b(musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\b/u.test(text)) return CATEGORY.musica;
+  if (/\b(teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\b/u.test(text)) return CATEGORY.teatro;
+  if (/\b(taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion)\b/u.test(text)) return CATEGORY.talleres;
+  if (/\b(feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\b/u.test(text)) return CATEGORY.ferias;
+  if (/\b(naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\b/u.test(text)) return CATEGORY.naturaleza;
+  return CATEGORY.otros;
+}
+
+function resolveRootPublicCategory(event) {
+  const source = sourceCategory(event);
+  const aliased = SOURCE_CATEGORY_ALIASES.get(source.id);
+  if (aliased) return aliased;
+  if (source.id === "cultura" || categoryFold(source.label) === "cultura" || !source.id) return inferPublicCategory(event);
+  return inferPublicCategory(event);
 }
 
 function hasRegistration(event) {
@@ -87,50 +168,12 @@ function isFamilyFriendly(event) {
   return /\bfamiliar(?:es)?\b|\bfamilias?\b|\binfantil(?:es)?\b|\bninos?\b|\bninas?\b|\btodo publico\b|\btodas las edades\b/.test(text);
 }
 
-function inferCultureCategories(event) {
-  const text = normalizeRootSearchText([
-    event?.title,
-    event?.description,
-    event?.organizer,
-    event?.source_name,
-    event?.location?.venue,
-    ...(event?.tags || []),
-  ].filter(Boolean).join(" "));
-  const inferred = [];
-  for (const [id, label, pattern] of CULTURE_RULES) {
-    if (pattern.test(text)) inferred.push({ id, label });
-  }
-  return inferred.length ? inferred : [{ id: "otros", label: "Otros panoramas" }];
-}
-
 export function rootEventPublicCategories(event) {
-  const source = Array.isArray(event?.categories) ? event.categories : [];
-  const categories = new Map();
-  let hadCulture = String(event?.primary_category?.id || "").trim().toLocaleLowerCase("es-CL") === "cultura";
-
-  for (const category of source) {
-    const rawId = String(category?.id || "").trim().toLocaleLowerCase("es-CL");
-    if (!rawId) continue;
-    if (rawId === "cultura") {
-      hadCulture = true;
-      continue;
-    }
-    const id = CATEGORY_ALIASES.get(rawId) || rawId;
-    if (!categories.has(id)) {
-      categories.set(id, { id, label: CATEGORY_LABELS.get(id) || category?.label || id });
-    }
+  if (String(event?.id || "") === LOS_FANTASMAS_EVENT_ID) {
+    return [{ id: "teatro", label: "Teatro" }];
   }
-
-  if (String(event?.id || "") === LOS_FANTASMAS_EVENT_ID && !categories.has("teatro")) {
-    categories.set("teatro", { id: "teatro", label: "Teatro" });
-  }
-
-  if (hadCulture && categories.size === 0) {
-    for (const category of inferCultureCategories(event)) categories.set(category.id, category);
-  }
-
-  if (categories.size === 0) categories.set("otros", { id: "otros", label: "Otros panoramas" });
-  return [...categories.values()];
+  const category = resolveRootPublicCategory(event);
+  return [category || CATEGORY.otros];
 }
 
 export function rootEventCategoryIds(event) {
@@ -176,11 +219,18 @@ export function rootEventMatchesQuery(event, query) {
   return tokens.every((token) => queryAlternatives(token).some((candidate) => haystack.includes(candidate)));
 }
 
+function canonicalCategoryId(value) {
+  const id = String(value || "").trim().toLocaleLowerCase("es-CL");
+  if (id === "cultura") return "";
+  return CATEGORY_ALIASES.get(id) || id;
+}
+
 export function rootEventMatchesCategories(event, selectedCategories) {
   const selected = selectedCategories instanceof Set ? selectedCategories : new Set(selectedCategories || []);
-  if (!selected.size) return true;
+  const canonicalSelected = [...selected].map(canonicalCategoryId).filter(Boolean);
+  if (!canonicalSelected.length) return true;
   const eventCategories = rootEventCategoryIds(event);
-  return [...selected].some((categoryId) => eventCategories.has(CATEGORY_ALIASES.get(categoryId) || categoryId));
+  return canonicalSelected.some((categoryId) => eventCategories.has(categoryId));
 }
 
 export function rootEventMatchesAccess(event, access = "todos") {

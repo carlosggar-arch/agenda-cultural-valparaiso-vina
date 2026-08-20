@@ -134,6 +134,7 @@ function smartTitleCase(value) {
     const trailing = part.match(/[^\p{L}\p{N}]*$/u)?.[0] || "";
     const end = trailing.length ? part.length - trailing.length : part.length;
     const core = part.slice(leading.length, end);
+    if (!core) return part;
     const upperCore = core.toLocaleUpperCase("es");
     const lowerCore = core.toLocaleLowerCase("es");
     const firstWord = wordIndex++ === 0;
@@ -279,6 +280,10 @@ function stripGenericPrefixes(value) {
   return text;
 }
 
+function normalizeSeparatorRuns(value) {
+  return clean(value).replace(/(?:\s*[—–-]\s*){2,}/gu, " — ");
+}
+
 export function normalizeRootPublicEventTitle(value, event = null) {
   let text = clean(value);
   if (!text || !event) return text;
@@ -292,7 +297,7 @@ export function normalizeRootPublicEventTitle(value, event = null) {
     text = normalizeInternalAllCaps(text);
     text = normalizeLeadingAllCapsRun(text);
   }
-  return clean(text);
+  return normalizeSeparatorRuns(text);
 }
 
 export function isRootNonEventDescription(value) {

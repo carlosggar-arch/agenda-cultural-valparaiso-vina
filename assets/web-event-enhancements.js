@@ -1,6 +1,6 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";
-import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-merge";
-import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity1";
+import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-parity2";
+import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity2";
 import "./root-combined-filters.js?v=20260820-category-ui";
 // Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
 // Legacy contract marker: ./plan-ahead-web.js?v=20260817
@@ -125,9 +125,10 @@ function publicCategoryCatalog(events) {
 
 function canonicalRequestedCategory(value) {
   const id = String(value || "").trim();
-  if (id === "museos") return "exposiciones";
-  if (["ferias", "gastronomia"].includes(id)) return "ferias-gastronomia";
+  if (["museo", "museos", "exposicion"].includes(id)) return "exposiciones";
+  if (["feria", "ferias", "gastronomia"].includes(id)) return "ferias-gastronomia";
   if (["naturaleza", "naturaleza-montana", "deportes"].includes(id)) return "naturaleza-deportes";
+  if (id === "talleres") return "cursos-talleres";
   if (id === "cultura") return "";
   return id;
 }
@@ -239,6 +240,15 @@ function applyTextPresentation(card, event) {
   if (permalink) permalink.setAttribute("aria-label", `Abrir ficha completa de ${publicTitle}`);
   const image = card.querySelector(".card-media img");
   if (image && !String(event?.image?.alt || "").trim()) image.alt = publicTitle;
+}
+
+function applyCategoryPresentation(card, event) {
+  const id = categoryId(event);
+  const label = categoryLabel(event);
+  setTextIfChanged(card.querySelector(".pill-category"), label);
+  card.dataset.category = id;
+  const media = card.querySelector(".card-media");
+  if (media) media.dataset.category = id;
 }
 
 function validHttpUrl(value) {
@@ -415,6 +425,7 @@ function installPermalink(card, event) {
 }
 
 function enhanceCard(card, event) {
+  applyCategoryPresentation(card, event);
   installImageTreatment(card, event);
   compactMetaRow(card, event);
   installPermalink(card, event);
@@ -428,6 +439,11 @@ function enhanceDetail(event) {
   if (!dialog?.open) return;
   const publicTitle = normalizedPublicTitle(event);
   setTextIfChanged(dialog.querySelector("#detail-title"), publicTitle);
+  const eyebrow = dialog.querySelector(".eyebrow");
+  if (eyebrow) {
+    const type = String(eyebrow.textContent || "Evento").split("·")[0].trim() || "Evento";
+    setTextIfChanged(eyebrow, `${type} · ${categoryLabel(event)}`);
+  }
   const description = dialog.querySelector(".detail-lead");
   if (description && isRootNonEventDescription(description.textContent || event?.description || "")) {
     setTextIfChanged(description, "Descripción no disponible.");
@@ -463,12 +479,13 @@ function enhanceDetail(event) {
 }
 
 async function start() {
+  document.documentElement.dataset.rootEnhancementsVersion = "20260820-webparity2";
   installHomeLayoutOverrides();
   placePrimaryNavigationAfterCategories();
   installMediaStyles();
   let payload;
   try {
-    const response = await fetch(DATASET_URL, { headers: { Accept: "application/json" } });
+    const response = await fetch(DATASET_URL, { headers: { Accept: "application/json" }, cache: "no-store" });
     if (!response.ok) return;
     payload = await response.json();
   } catch { return; }
