@@ -1,6 +1,7 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
 
 const FALLBACK_CONFIG = Object.freeze({
   valparaiso: { id: "valparaiso", locale: "es-CL", timezone: "America/Santiago" },
@@ -52,6 +53,13 @@ function stripMediaControls(root = document) {
 function scheduleForDisplay(event) {
   const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
   if (!schedule) return "Horario por confirmar";
+
+  // A multi-session event that happens today must show only today's sessions.
+  // This rule is structural: it uses structured occurrences when available and
+  // can also recover explicit dated function/session lists from source copy.
+  const todaySessions = todaySessionScheduleLabel({ ...event, schedule }, activeConfig);
+  if (todaySessions) return todaySessions;
+
   return formatSchedule(schedule, activeConfig);
 }
 
