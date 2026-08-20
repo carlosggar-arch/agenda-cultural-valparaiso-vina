@@ -9,15 +9,13 @@
 
 // pwa.js owns shell/install/UI-only behavior. Content presentation is owned once
 // by app.js so query-string aliases cannot instantiate duplicate card observers
-// or duplicate dataset consumers in the same page.
+// or duplicate dataset consumers in the same page. In particular, sources,
+// community-source and participation-footer are app.js-owned content modules.
 const OPTIONAL_UI_MODULES = [
   "./vivamos-brand.js",
   "./compact-top.js",
   "./gijon-visual-reference.js",
-  "./sources-toggle.js",
-  "./community-source.js?v=20260818-feedback3",
   "./remove-like.js?v=20260819-remove3",
-  "./participation-footer.js?v=20260819-feedback7",
   "./header-redesign.js?v=20260817-brandicon2",
   "./density-polish.js",
   "./combined-filters-polish.js",

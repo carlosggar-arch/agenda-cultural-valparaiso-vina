@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v161 focuses multi-session cards on the sessions of the current local day.
-  const RELEASE = 161;
+  // v162 hardens canonical source identity, single module ownership and dual-origin production smoke.
+  const RELEASE = 162;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

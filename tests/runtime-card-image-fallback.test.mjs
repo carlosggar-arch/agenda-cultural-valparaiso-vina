@@ -51,6 +51,8 @@ test("image quality guard is retried independently from optional modules", () =>
   assert.doesNotMatch(app, /OPTIONAL_MODULES\.push\([\s\S]*image-quality-guard\.js/);
 });
 
-test("PWA release changes so Cloudflare and GitHub replace stale presentation caches", () => {
-  assert.match(release, /const RELEASE = 161;/);
+test("PWA release is new enough to replace stale presentation caches", () => {
+  const match = release.match(/const RELEASE = (\d+);/);
+  assert.ok(match, "release-version.js must expose a numeric release");
+  assert.ok(Number(match[1]) >= 162, "PWA release must include the source/deploy hardening cache boundary");
 });

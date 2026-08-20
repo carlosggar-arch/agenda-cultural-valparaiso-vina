@@ -98,8 +98,10 @@ assert 'scale(1.45)' in gijon_svg
 assert "function sourceDiagnosticText(source)" in sources_toggle
 assert "reviewed_items" in sources_toggle
 assert "source_diagnostics" in sources_toggle
-assert "cinearte_vina" in sources_toggle
-assert "insomniacine" in sources_toggle
+assert "canonical_source_id" in sources_toggle
+assert "eventCountsBySourceId" in sources_toggle
+assert "runtimeById" in sources_toggle
+assert "DIAGNOSTIC_SOURCE_META" not in sources_toggle
 
 assert 'globalThis.__VIVAMOS_RELEASE__' in pwa
 assert 'const APP_VERSION = `PWA v${APP_RELEASE}`;' in pwa
@@ -150,4 +152,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours3"' in app_sc
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact filters, favorites reminders and shared-release PWA cache: OK")
+print("Semantic search plus compact filters, favorites reminders and canonical source diagnostics: OK")

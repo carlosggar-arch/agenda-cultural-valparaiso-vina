@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import re
 import shutil
@@ -13,7 +14,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
-BASE = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/"
+ORIGINS = {
+    "github-pages": "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/",
+    "cloudflare": "https://vivamos.pages.dev/app/",
+}
+PRIMARY_ORIGIN = "github-pages"
+
+CRITICAL_ASSETS = (
+    ("app/index.html", ""),
+    ("app/app.js", "app.js"),
+    ("app/pwa.js", "pwa.js"),
+    ("app/release-version.js", "release-version.js"),
+    ("agenda_web.json", "../agenda_web.json"),
+    ("app/data/gijon/agenda_web.json", "data/gijon/agenda_web.json"),
+    ("fuentes_publicas.json", "../fuentes_publicas.json"),
+    ("app/data/source-registry.json", "data/source-registry.json"),
+)
 
 
 def read(relative: str) -> str:
@@ -55,6 +71,7 @@ def local_contract() -> None:
     app = read("app/app.js")
     pwa = read("app/pwa.js")
     worker = read("app/service-worker.js")
+    sources = read("app/sources-toggle.js")
 
     required_index = (
         '<script src="./release-version.js"></script>',
@@ -77,6 +94,9 @@ def local_contract() -> None:
         "card-image-fallback.js",
         "public-presentation-guard.js",
         "exhibition-hours.js",
+        "sources-toggle.js",
+        "community-source.js",
+        "participation-footer.js",
     ):
         if marker not in app:
             raise SystemExit(f"Local app.js is missing content-runtime marker: {marker}")
@@ -87,10 +107,19 @@ def local_contract() -> None:
         '"./public-presentation-guard.js"',
         '"./schedule-display.js',
         '"./exhibition-hours.js',
+        '"./sources-toggle.js',
+        '"./community-source.js',
+        '"./participation-footer.js',
     )
     for marker in forbidden_pwa_runtime_entries:
         if marker in pwa:
-            raise SystemExit(f"pwa.js must not instantiate content presentation module: {marker}")
+            raise SystemExit(f"pwa.js must not instantiate app.js-owned content module: {marker}")
+
+    if "DIAGNOSTIC_SOURCE_META" in sources:
+        raise SystemExit("sources-toggle.js must not contain hard-coded per-source metadata")
+    for marker in ("canonical_source_id", "eventCountsBySourceId", "runtimeById"):
+        if marker not in sources:
+            raise SystemExit(f"sources-toggle.js is missing canonical source identity marker: {marker}")
 
     for marker in (
         "./release-version.js",
@@ -106,52 +135,71 @@ def local_contract() -> None:
         if marker not in worker:
             raise SystemExit(f"Local service worker is missing: {marker}")
 
-    print(f"LOCAL_PWA_SHELL_OK release=v{release_number()}")
+    print(f"LOCAL_PWA_SHELL_OK release=v{release_number()} ownership=single canonical_sources=enabled")
 
 
-def fetch(path: str, timeout: int = 12) -> str:
+def fetch_bytes(base: str, path: str, timeout: int = 15) -> bytes:
     sep = "&" if "?" in path else "?"
-    url = BASE + path + sep + "smoke=" + uuid.uuid4().hex
+    url = base + path + sep + "smoke=" + uuid.uuid4().hex
     request = urllib.request.Request(
         url,
         headers={
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
-            "User-Agent": "vivamos-production-smoke/3",
+            "User-Agent": "vivamos-production-smoke/4",
         },
     )
-    with urllib.request.urlopen(request, timeout=timeout) as response:  # nosec B310 - fixed public HTTPS origin
+    with urllib.request.urlopen(request, timeout=timeout) as response:  # nosec B310 - fixed public HTTPS origins
         if response.status != 200:
             raise RuntimeError(f"HTTP {response.status}: {url}")
-        return response.read().decode("utf-8", errors="replace")
+        return response.read()
 
 
-def wait_for_release(expected: int, attempts: int = 30, interval: int = 10) -> None:
+def fetch_text(base: str, path: str, timeout: int = 15) -> str:
+    return fetch_bytes(base, path, timeout=timeout).decode("utf-8", errors="replace")
+
+
+def local_hash(relative: str) -> str:
+    return hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+
+
+def wait_for_origin_parity(name: str, base: str, attempts: int = 36, interval: int = 10) -> None:
+    expected_release = release_number()
+    expected_hashes = {remote: local_hash(local) for local, remote in CRITICAL_ASSETS}
     last = ""
     for attempt in range(1, attempts + 1):
         try:
-            published_source = fetch("release-version.js")
+            published_source = fetch_text(base, "release-version.js")
             match = re.search(r"const RELEASE = (\d+);", published_source)
             published = int(match.group(1)) if match else -1
-            last = f"published v{published}, expected v{expected}"
-            if published == expected:
-                return
+            if published != expected_release:
+                last = f"published v{published}, expected v{expected_release}"
+            else:
+                mismatches = []
+                for remote, expected_hash in expected_hashes.items():
+                    actual_hash = hashlib.sha256(fetch_bytes(base, remote)).hexdigest()
+                    if actual_hash != expected_hash:
+                        mismatches.append(remote or "index.html")
+                if not mismatches:
+                    print(f"PRODUCTION_ORIGIN_PARITY_OK origin={name} release=v{expected_release} assets={len(expected_hashes)}")
+                    return
+                last = "content mismatch: " + ", ".join(mismatches)
         except Exception as exc:
             last = str(exc)
         if attempt == attempts:
-            raise SystemExit(f"GitHub Pages did not publish the expected release: {last}")
+            raise SystemExit(f"{name} did not reach current main parity: {last}")
         time.sleep(interval)
 
 
-def verify_http() -> None:
+def verify_http_origin(name: str, base: str) -> None:
     expected_release = release_number()
     expected = expected_shell()
-    wait_for_release(expected_release)
+    wait_for_origin_parity(name, base)
 
-    index = fetch("")
-    app = fetch("app.js")
-    pwa = fetch("pwa.js")
-    worker = fetch("service-worker.js")
+    index = fetch_text(base, "")
+    app = fetch_text(base, "app.js")
+    pwa = fetch_text(base, "pwa.js")
+    worker = fetch_text(base, "service-worker.js")
 
     for marker in (
         '<script src="./release-version.js"></script>',
@@ -159,17 +207,20 @@ def verify_http() -> None:
         expected["mobile_style"],
         "data-header-search-toggle",
         "data-header-search-popover",
+        'data-filter-value="hoy"',
+        'data-filter-value="manana"',
+        'data-filter-value="fin-de-semana"',
     ):
         if marker not in index:
-            raise SystemExit(f"Published index is missing current shell marker: {marker}")
+            raise SystemExit(f"{name} index is missing current shell/filter marker: {marker}")
 
     for marker in (expected["header_module"], expected["mobile_module"]):
         if marker not in pwa:
-            raise SystemExit(f"Published pwa.js is missing current shell marker: {marker}")
+            raise SystemExit(f"{name} pwa.js is missing current shell marker: {marker}")
 
-    for marker in ("render-lifecycle.js", "card-experience.js", "public-presentation-guard.js"):
+    for marker in ("render-lifecycle.js", "card-experience.js", "public-presentation-guard.js", "sources-toggle.js"):
         if marker not in app:
-            raise SystemExit(f"Published app.js is missing content-runtime marker: {marker}")
+            raise SystemExit(f"{name} app.js is missing content-runtime marker: {marker}")
 
     for marker in (
         expected["header_style"],
@@ -182,9 +233,14 @@ def verify_http() -> None:
         "public-presentation-rules.mjs",
     ):
         if marker not in worker:
-            raise SystemExit(f"Published service worker is missing current shell marker: {marker}")
+            raise SystemExit(f"{name} service worker is missing current shell marker: {marker}")
 
-    print(f"PUBLISHED_PWA_SHELL_OK release=v{expected_release}")
+    print(f"PUBLISHED_PWA_SHELL_OK origin={name} release=v{expected_release}")
+
+
+def verify_http() -> None:
+    for name, base in ORIGINS.items():
+        verify_http_origin(name, base)
 
 
 def chrome_binary() -> str:
@@ -201,9 +257,9 @@ def chrome_binary() -> str:
     return chrome
 
 
-def profile_dom(chrome: str, profile: str, city: str, width: int, height: int, extra: str = "") -> str:
+def profile_dom(chrome: str, profile: str, base: str, city: str, width: int, height: int, extra: str = "") -> str:
     suffix = f"&{extra.lstrip('&?')}" if extra else ""
-    url = f"{BASE}?city={city}{suffix}&smoke={uuid.uuid4().hex}"
+    url = f"{base}?city={city}{suffix}&smoke={uuid.uuid4().hex}"
     cmd = [
         chrome,
         "--headless=new",
@@ -231,20 +287,20 @@ def profile_dom(chrome: str, profile: str, city: str, width: int, height: int, e
     raise RuntimeError(result.stderr[-1600:] or f"Chrome exit code {result.returncode} with empty DOM")
 
 
-def cold_dom(chrome: str, city: str, width: int, height: int) -> str:
+def cold_dom(chrome: str, origin: str, base: str, city: str, width: int, height: int) -> str:
     last_error = ""
     for attempt in range(1, 3):
-        with tempfile.TemporaryDirectory(prefix=f"vivamos-prod-{city}-") as profile:
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-prod-{origin}-{city}-") as profile:
             try:
-                return profile_dom(chrome, profile, city, width, height)
+                return profile_dom(chrome, profile, base, city, width, height)
             except Exception as exc:
                 last_error = str(exc)
         if attempt < 2:
             time.sleep(2)
-    raise SystemExit(f"Chrome failed for {city} {width}x{height} after retry: {last_error}")
+    raise SystemExit(f"Chrome failed for {origin}/{city} {width}x{height} after retry: {last_error}")
 
 
-def assert_loaded_dom(dom: str, city: str, label: str, width: int, height: int, expected_release: int, expected: dict[str, str]) -> None:
+def assert_loaded_dom(dom: str, origin: str, city: str, label: str, width: int, height: int, expected_release: int, expected: dict[str, str]) -> None:
     browser_header_style = expected["header_style"].removeprefix("./")
     browser_mobile_style = expected["mobile_style"].removeprefix("./")
     checks = {
@@ -255,15 +311,23 @@ def assert_loaded_dom(dom: str, city: str, label: str, width: int, height: int, 
         label: "city title/label is stale",
         browser_mobile_style: "mobile stylesheet revision is stale",
         browser_header_style: "header stylesheet revision is stale",
+        'data-filter-value="hoy"': "Hoy filter disappeared",
+        'data-filter-value="manana"': "Mañana filter disappeared",
+        'data-filter-value="fin-de-semana"': "Fin de semana filter disappeared",
     }
     for marker, message in checks.items():
         if marker not in dom:
-            raise SystemExit(f"{message}: {city} {width}x{height}")
+            raise SystemExit(f"{message}: {origin}/{city} {width}x{height}")
     if dom.count('class="event-card') <= 0:
-        raise SystemExit(f"No event cards rendered: {city} {width}x{height}")
+        raise SystemExit(f"No event cards rendered: {origin}/{city} {width}x{height}")
+    source_controls = dom.count("data-sources-toggle") + dom.count("data-sources-fallback")
+    if source_controls <= 0:
+        raise SystemExit(f"Sources control disappeared: {origin}/{city} {width}x{height}")
+    if dom.count("data-sources-toggle") > 1:
+        raise SystemExit(f"Duplicate sources controls detected: {origin}/{city} {width}x{height}")
     status = re.search(r"data-status[^>]*>(.*?)</", dom, flags=re.S)
     if status and "Preparando la agenda" in html.unescape(re.sub(r"<[^>]+>", "", status.group(1))):
-        raise SystemExit(f"Production stayed in loading state: {city} {width}x{height}")
+        raise SystemExit(f"Production stayed in loading state: {origin}/{city} {width}x{height}")
 
 
 def verify_browser() -> None:
@@ -274,21 +338,23 @@ def verify_browser() -> None:
         ("valparaiso", "Valparaíso / Viña del Mar", 390, 844),
         ("gijon", "Gijón / Xixón", 1280, 900),
     )
-    for city, label, width, height in cases:
-        dom = cold_dom(chrome, city, width, height)
-        assert_loaded_dom(dom, city, label, width, height, expected_release, expected)
-        print(f"PRODUCTION_COLD_LOAD_OK city={city} viewport={width}x{height}")
+    for origin, base in ORIGINS.items():
+        for city, label, width, height in cases:
+            dom = cold_dom(chrome, origin, base, city, width, height)
+            assert_loaded_dom(dom, origin, city, label, width, height, expected_release, expected)
+            print(f"PRODUCTION_COLD_LOAD_OK origin={origin} city={city} viewport={width}x{height}")
 
-    # Reuse one browser profile to catch stale service-worker/localStorage/runtime
-    # interactions across the exact city roundtrip that previously exposed the
-    # lightweight-Gijon -> Valpo/Viña presentation regression.
+    # Keep the heavier city roundtrip on the primary origin. The parity check
+    # above guarantees Cloudflare serves the same critical assets, while the two
+    # cold-load cases still execute its own runtime in Chromium.
+    base = ORIGINS[PRIMARY_ORIGIN]
     with tempfile.TemporaryDirectory(prefix="vivamos-roundtrip-") as profile:
-        first_valpo = profile_dom(chrome, profile, "valparaiso", 390, 844)
-        assert_loaded_dom(first_valpo, "valparaiso", "Valparaíso / Viña del Mar", 390, 844, expected_release, expected)
-        gijon = profile_dom(chrome, profile, "gijon", 1280, 900)
-        assert_loaded_dom(gijon, "gijon", "Gijón / Xixón", 1280, 900, expected_release, expected)
-        final_valpo = profile_dom(chrome, profile, "valparaiso", 390, 844, "when=7-dias")
-        assert_loaded_dom(final_valpo, "valparaiso", "Valparaíso / Viña del Mar", 390, 844, expected_release, expected)
+        first_valpo = profile_dom(chrome, profile, base, "valparaiso", 390, 844)
+        assert_loaded_dom(first_valpo, PRIMARY_ORIGIN, "valparaiso", "Valparaíso / Viña del Mar", 390, 844, expected_release, expected)
+        gijon = profile_dom(chrome, profile, base, "gijon", 1280, 900)
+        assert_loaded_dom(gijon, PRIMARY_ORIGIN, "gijon", "Gijón / Xixón", 1280, 900, expected_release, expected)
+        final_valpo = profile_dom(chrome, profile, base, "valparaiso", 390, 844, "when=7-dias")
+        assert_loaded_dom(final_valpo, PRIMARY_ORIGIN, "valparaiso", "Valparaíso / Viña del Mar", 390, 844, expected_release, expected)
         if 'data-card-enhanced="true"' not in final_valpo:
             raise SystemExit("Valpo/Viña rich cards did not recover after Gijón roundtrip")
         if "event-card-photo" not in final_valpo and "event-card-media" not in final_valpo:
@@ -300,11 +366,11 @@ def verify_browser() -> None:
         )
         if not active_seven_days:
             raise SystemExit("Roundtrip filter state did not apply after returning to Valpo/Viña")
-        print("PRODUCTION_CITY_ROUNDTRIP_OK valparaiso->gijon->valparaiso filter=7-dias")
+        print("PRODUCTION_CITY_ROUNDTRIP_OK origin=github-pages valparaiso->gijon->valparaiso filter=7-dias")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Validate the local or published ¡Vivamos! PWA shell.")
+    parser = argparse.ArgumentParser(description="Validate local and published ¡Vivamos! PWA parity on GitHub Pages and Cloudflare.")
     parser.add_argument("mode", choices=("local", "http", "browser", "all"))
     args = parser.parse_args()
     if args.mode in {"local", "all"}:
