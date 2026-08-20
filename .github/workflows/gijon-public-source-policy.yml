@@ -1,0 +1,68 @@
+name: Gijon public source policy
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/data/gijon/agenda_web.json"
+      - "app/event-detail.js"
+      - "assets/event-page.js"
+      - ".github/workflows/gijon-public-source-policy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/data/gijon/agenda_web.json"
+      - "app/event-detail.js"
+      - "assets/event-page.js"
+      - ".github/workflows/gijon-public-source-policy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-public-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require corroborating source for Open Data events
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          path = Path("app/data/gijon/agenda_web.json")
+          payload = json.loads(path.read_text(encoding="utf-8"))
+
+          def host(value):
+              try:
+                  return urlparse(str(value or "")).hostname or ""
+              except Exception:
+                  return ""
+
+          def is_open_data(value):
+              return host(value).lower() == "opendata.gijon.es"
+
+          failures = []
+          checked = 0
+          for event in payload.get("events", []):
+              links = event.get("links") or {}
+              source = event.get("source_url") or links.get("source")
+              name = str(event.get("source_name") or "").lower()
+              if not (is_open_data(source) or ("open data" in name and "gij" in name)):
+                  continue
+              checked += 1
+              candidates = [links.get("municipal_page"), links.get("official")]
+              corroborating = [u for u in candidates if u and not is_open_data(u)]
+              if not corroborating:
+                  failures.append(f"{event.get('id')}: {event.get('title')}")
+
+          if failures:
+              raise SystemExit(
+                  "Open Data events without a corroborating public source:\n- "
+                  + "\n- ".join(failures)
+              )
+
+          print(f"GIJON_PUBLIC_SOURCE_POLICY_OK: {checked} Open Data events have a corroborating source")
+          PY
