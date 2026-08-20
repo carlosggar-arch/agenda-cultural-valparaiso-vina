@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T09:34:06.261999-04:00",
-  "publication_date": "2026-08-19",
+  "generated_at": "2026-08-20T16:44:11.350712-04:00",
+  "publication_date": "2026-08-20",
   "policy_reviewed_on": "2026-08-18",
   "counts": {
     "tracked": 16,
-    "producing": 1,
-    "covered_elsewhere": 8,
-    "explained_zero": 7,
+    "producing": 2,
+    "covered_elsewhere": 1,
+    "explained_zero": 13,
     "actionable_zero": 0
   },
   "sources": [
@@ -15,15 +15,13 @@
       "id": "museo_fonck",
       "name": "Museo Fonck",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
-      "attention": "none",
+      "cross_covered_event_count": 0,
+      "state": "direct_official_recovery_enabled",
+      "attention": "explained_zero",
       "actionable": false,
       "reason": "La web oficial del Museo Fonck confirma programación 2026 con año y hora explícitos; desde el 17-08-2026 existe recuperación directa conservadora desde artículos oficiales.",
       "next_action": "Mantener el refresco oficial y preservar el último evento válido si la web deja de publicar fechas inequívocas.",
-      "cross_covered_event_ids": [
-        "agenda_visitavina_fonck_85802cc1354e5044"
-      ]
+      "cross_covered_event_ids": []
     },
     {
       "id": "teatro_municipal_valparaiso",
@@ -41,86 +39,80 @@
       "id": "centex",
       "name": "CENTEX",
       "direct_event_count": 0,
-      "cross_covered_event_count": 2,
+      "cross_covered_event_count": 6,
       "state": "covered_elsewhere",
       "attention": "none",
       "actionable": false,
       "reason": "Valpo Cultura publica la cartelera oficial de CENTEX para agosto de 2026, con rango explícito del 01-08-2026 al 31-08-2026. La cobertura municipal permite recuperar el programa sin depender de Instagram.",
       "next_action": "Mantener la recuperación municipal conservadora y preferir actividades individuales oficiales cuando estén disponibles.",
       "cross_covered_event_ids": [
-        "agenda_valpocultura_recovery_971bd421084a1a0b",
-        "agenda_93e4dbf4da87420c93c629c6"
+        "agenda_830a18503430778edbfe0743",
+        "agenda_3791028a64c27dec1a858970",
+        "agenda_befceafebbbc4032ed74175a",
+        "agenda_b8159ca255186b6c32b4b6a3",
+        "agenda_3b98f0178ab61958e35b0176",
+        "agenda_27d20b59be94c4342a9a8ca0"
       ]
     },
     {
       "id": "estrella_negra_jazz",
       "name": "Estrella Negra Club de Jazz",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
-      "attention": "none",
+      "cross_covered_event_count": 0,
+      "state": "cross_source_official_active",
+      "attention": "explained_zero",
       "actionable": false,
       "reason": "Valpo Cultura publica una cartelera vigente de Estrella Negra para agosto de 2026, con rango explícito del 03-08-2026 al 29-08-2026. El recinto ya no debe tratarse como cero accionable mientras esa cobertura oficial esté vigente.",
       "next_action": "Mantener la cobertura municipal y reemplazar el programa agregado por eventos individuales sólo cuando existan fichas con fecha y hora inequívocas.",
-      "cross_covered_event_ids": [
-        "agenda_valpocultura_recovery_d8e8b0c68682163e"
-      ]
+      "cross_covered_event_ids": []
     },
     {
       "id": "valparaiso_profundo",
       "name": "Valparaíso Profundo",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
-      "attention": "none",
+      "cross_covered_event_count": 0,
+      "state": "cross_source_official_active",
+      "attention": "explained_zero",
       "actionable": false,
       "reason": "Valpo Cultura publica programación oficial de Valparaíso Profundo para agosto de 2026, con rango explícito del 01-08-2026 al 28-08-2026. La cobertura cruzada municipal es suficiente para dejar de considerarlo un cero accionable.",
       "next_action": "Mantener la recuperación municipal conservadora y priorizar fichas individuales o ticketera cuando aporten mayor granularidad.",
-      "cross_covered_event_ids": [
-        "agenda_valpocultura_recovery_21df649558ca1873"
-      ]
+      "cross_covered_event_ids": []
     },
     {
       "id": "centro_extension_duoc_valpo",
       "name": "Centro de Extensión Duoc UC Valparaíso",
-      "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
+      "direct_event_count": 6,
+      "cross_covered_event_count": 0,
+      "state": "producing",
       "attention": "none",
       "actionable": false,
-      "reason": "Los listados antiguos de Duoc muestran días y meses sin año; eventos que parecían de agosto actual resultaron ser de 2022.",
-      "next_action": "Aceptar solo páginas individuales o metadatos que indiquen explícitamente 2026.",
-      "cross_covered_event_ids": [
-        "agenda_93e4dbf4da87420c93c629c6"
-      ]
+      "reason": null,
+      "next_action": null,
+      "cross_covered_event_ids": []
     },
     {
       "id": "balmaceda_arte_joven_valpo",
       "name": "Balmaceda Arte Joven Valparaíso",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
-      "attention": "none",
+      "cross_covered_event_count": 0,
+      "state": "monitored_confirmed_zero",
+      "attention": "explained_zero",
       "actionable": false,
       "reason": "El 18-08-2026 volvió a funcionar el acceso oficial desde GitHub Actions: las landings de BAJ Valparaíso respondieron correctamente, se escanearon todas las fichas descubiertas sin fallos y no se encontró ninguna fecha futura publicable. El estado de cero sólo se confirma tras una comprobación oficial completa; cualquier fallo de transporte, escaneo parcial o nueva fecha futura revoca automáticamente esta clasificación.",
       "next_action": "Mantener el refresco oficial dentro del único publicador atómico y conservar la sonda resiliente semanal en modo no-write; volver a estado accionable si la comprobación queda incompleta o aparece programación futura verificable.",
-      "cross_covered_event_ids": [
-        "agenda_portaltickets_valparaiso_f49fa727f83b40e0"
-      ]
+      "cross_covered_event_ids": []
     },
     {
       "id": "casa_cultura_valparaiso",
       "name": "Casa de la Cultura de Valparaíso",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
-      "attention": "none",
+      "cross_covered_event_count": 0,
+      "state": "cross_source_official_active",
+      "attention": "explained_zero",
       "actionable": false,
       "reason": "Valpo Cultura publica una actividad concreta y futura de la Casa de la Cultura: Luciana Jury en Chile, el 28-08-2026. La ficha municipal aporta fecha y condiciones suficientes para cobertura oficial sin inventar la hora de recurrencias incompletas.",
       "next_action": "Mantener la recuperación de fichas municipales concretas y no materializar recurrencias semanales si carecen de hora explícita.",
-      "cross_covered_event_ids": [
-        "agenda_valpocultura_recovery_4a9f34768c8a891a"
-      ]
+      "cross_covered_event_ids": []
     },
     {
       "id": "sala_secreta",
@@ -149,7 +141,7 @@
     {
       "id": "teatro_la_peste",
       "name": "Teatro La Peste",
-      "direct_event_count": 1,
+      "direct_event_count": 2,
       "cross_covered_event_count": 0,
       "state": "producing",
       "attention": "none",
@@ -174,15 +166,13 @@
       "id": "estadio_espanol_recreo",
       "name": "Estadio Español Recreo",
       "direct_event_count": 0,
-      "cross_covered_event_count": 1,
-      "state": "covered_elsewhere",
-      "attention": "none",
+      "cross_covered_event_count": 0,
+      "state": "direct_official_recovery_enabled",
+      "attention": "explained_zero",
       "actionable": false,
       "reason": "Existe recuperación automática desde Visita Viña para actividades verificables del Estadio Español Recreo. El diagnóstico público ya lo reconoce como cubierto por `visitavina_estadio_espanol_recovery`, por lo que no debe tratarse como cero accionable mientras esa cobertura esté vigente.",
       "next_action": "Mantener la recuperación conservadora y no convertir clases o actividad deportiva permanente en eventos culturales puntuales.",
-      "cross_covered_event_ids": [
-        "agenda_visitavina_estadio_espanol_b0d70d835ca50bc4"
-      ]
+      "cross_covered_event_ids": []
     },
     {
       "id": "ecoliderazgo",

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T20:00:10+00:00",
+  "generated_at": "2026-08-20T16:44:15-04:00",
   "status": "stable_with_observation",
   "stable_baseline": true,
   "blockers": [],
@@ -13,7 +13,7 @@
       "duplicates_zero": true,
       "fresh": true,
       "suspicious_titles_zero": true,
-      "quality_score": 91.6,
+      "quality_score": 91.1,
       "official_links_pct": 100.0,
       "source_attribution_pct": 100.0
     },
@@ -22,13 +22,13 @@
       "duplicates_zero": true,
       "fresh": true,
       "suspicious_titles_zero": true,
-      "quality_score": 97.3,
+      "quality_score": 94.5,
       "official_links_pct": 100.0,
       "source_attribution_pct": 100.0
     },
     "high_value_zero": {
       "actionable_zero": 0,
-      "tracked": 6
+      "tracked": 16
     },
     "apify_study": {
       "status": "collecting",
@@ -36,7 +36,7 @@
       "fresh_snapshots": 2,
       "minimum_days": 28,
       "minimum_fresh_snapshots": 4,
-      "instagram_only_events": 11,
+      "instagram_only_events": 18,
       "paid_refresh_triggered": false,
       "safety_rule_present": true
     },
@@ -47,5 +47,5 @@
     },
     "daily_email_retired": true
   },
-  "release_policy": "Stable means no critical data/publication regressions; longitudinal studies and noncritical source availability may continue in observation mode."
+  "release_policy": "Stable means no critical data/publication regressions; longitudinal Apify study and noncritical coverage discovery may continue in observation mode."
 }
