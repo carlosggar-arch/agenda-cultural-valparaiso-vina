@@ -150,6 +150,113 @@ jobs:
           print("CLOUDFLARE_LIGHT_SMOKE_OK")
           PY
 
+      - name: Verify public Gijón corroborating event on Cloudflare
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import html
+          import json
+          import urllib.request
+          import uuid
+          from pathlib import Path
+          from urllib.parse import urlparse
+
+          BASE = "https://vivamos.pages.dev"
+          ROOT = Path("_cloudflare_site")
+          DATASET = ROOT / "app" / "data" / "gijon" / "agenda_web.json"
+
+
+          def is_open_data_url(value: object) -> bool:
+              text = str(value or "").strip()
+              if not text.lower().startswith(("http://", "https://")):
+                  return False
+              try:
+                  return (urlparse(text).hostname or "").lower() == "opendata.gijon.es"
+              except ValueError:
+                  return False
+
+
+          def fetch(path: str, timeout: int = 6) -> bytes:
+              separator = "&" if "?" in path else "?"
+              url = f"{BASE}{path}{separator}smoke={uuid.uuid4().hex}"
+              request = urllib.request.Request(
+                  url,
+                  headers={
+                      "Cache-Control": "no-cache",
+                      "Pragma": "no-cache",
+                      "User-Agent": "vivamos-cloudflare-public-event-smoke/1",
+                  },
+              )
+              with urllib.request.urlopen(request, timeout=timeout) as response:  # nosec B310 - fixed HTTPS origin
+                  if response.status != 200:
+                      raise RuntimeError(f"HTTP {response.status}: {url}")
+                  return response.read()
+
+
+          payload = json.loads(DATASET.read_text(encoding="utf-8"))
+          selected = None
+          for event in payload.get("events") or []:
+              links = event.get("links") or {}
+              source_name = str(event.get("source_name") or "").lower()
+              provenance = event.get("source_url") or links.get("source")
+              if not (is_open_data_url(provenance) or ("open data" in source_name and "gij" in source_name)):
+                  continue
+
+              corroborating = None
+              for candidate in (links.get("municipal_page"), links.get("official")):
+                  text = str(candidate or "").strip()
+                  if text.lower().startswith(("http://", "https://")) and not is_open_data_url(text):
+                      corroborating = text
+                      break
+              if not corroborating:
+                  continue
+
+              event_id = str(event.get("id") or "").strip()
+              local_html = ROOT / "evento" / "gijon" / event_id / "index.html"
+              local_ics = ROOT / "evento" / "gijon" / event_id / "evento.ics"
+              if event_id and local_html.is_file() and local_ics.is_file():
+                  selected = (event_id, str(event.get("title") or event_id), corroborating, local_html, local_ics)
+                  break
+
+          if selected is None:
+              raise SystemExit("No deployed Gijón Open Data event with a corroborating permanent page was found")
+
+          event_id, title, corroborating, local_html, local_ics = selected
+          html_path = f"/evento/gijon/{event_id}/"
+          ics_path = f"/evento/gijon/{event_id}/evento.ics"
+          remote_html = fetch(html_path)
+          remote_ics = fetch(ics_path)
+
+          for label, remote, local in (
+              ("HTML", remote_html, local_html.read_bytes()),
+              ("ICS", remote_ics, local_ics.read_bytes()),
+          ):
+              if hashlib.sha256(remote).digest() != hashlib.sha256(local).digest():
+                  raise SystemExit(f"Cloudflare {label} does not match the synchronized build for {event_id}")
+
+          event_html = remote_html.decode("utf-8", errors="replace")
+          escaped_url = html.escape(corroborating, quote=True)
+          if corroborating not in event_html and escaped_url not in event_html:
+              raise SystemExit(f"Corroborating URL is absent from deployed HTML: {corroborating}")
+          for marker in ("Fuente mostrada", "Fuente corroborante", '"sameAs"'):
+              if marker not in event_html:
+                  raise SystemExit(f"Deployed permanent page is missing {marker}: {event_id}")
+          if "opendata.gijon.es" in event_html.lower():
+              raise SystemExit(f"Open Data leaked into the deployed public HTML for {event_id}")
+
+          event_ics = remote_ics.decode("utf-8", errors="replace")
+          if f"URL:{corroborating}" not in event_ics:
+              raise SystemExit(f"Corroborating URL is absent from deployed ICS: {event_id}")
+          if "opendata.gijon.es" in event_ics.lower():
+              raise SystemExit(f"Open Data leaked into the deployed public ICS for {event_id}")
+
+          print(f"CLOUDFLARE_GIJON_CORROBORATING_EVENT_OK id={event_id} title={title!r}")
+          PY
+
       - name: Recheck Gijón source policy against deployed snapshot
         shell: bash
         run: |
