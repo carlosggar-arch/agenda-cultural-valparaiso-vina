@@ -34,6 +34,7 @@ jobs:
             app/scripts/test_startup_resilience_browser.py \
             app/scripts/test_date_filter_browser.py \
             app/scripts/test_exhibition_visual_parity.py \
+            app/scripts/test_structural_event_visibility_browser.py \
             app/scripts/test_pwa_install_browser.py \
             app/scripts/test_multicity_source_registry_coverage.py
           node --check app/app.js
@@ -82,6 +83,7 @@ jobs:
           python app/scripts/test_startup_resilience_browser.py
           python app/scripts/test_date_filter_browser.py
           python app/scripts/test_exhibition_visual_parity.py --output-dir /tmp/exhibition-visual-parity
+          python app/scripts/test_structural_event_visibility_browser.py
           python app/scripts/test_multicity_source_registry_coverage.py
 
       - name: Upload exhibition visual parity
@@ -95,5 +97,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, registration-reminder classification/architecture, and visual parity for grouped exhibitions at Muséu del Pueblu d'Asturies and Palacio Rioja."
+          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, registration-reminder classification/architecture, visual parity for grouped exhibitions, and a synthetic end-to-end visibility invariant for theatre, Parque Cultural and Estadio Espanol events."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
