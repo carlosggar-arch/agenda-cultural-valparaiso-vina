@@ -1,5 +1,6 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";
 import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-merge";
+import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity1";
 import "./root-combined-filters.js?v=20260820-category-ui";
 // Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
 // Legacy contract marker: ./plan-ahead-web.js?v=20260817
@@ -224,6 +225,22 @@ function setTextIfChanged(node, value) {
   return true;
 }
 
+function normalizedPublicTitle(event, fallback = "Actividad") {
+  return normalizeRootPublicEventTitle(event?.title || fallback, event) || event?.title || fallback;
+}
+
+function applyTextPresentation(card, event) {
+  const title = card.querySelector(".card-body h3");
+  const publicTitle = normalizedPublicTitle(event);
+  if (title) setTextIfChanged(title, publicTitle);
+  const detailButton = card.querySelector(".detail-button");
+  if (detailButton) detailButton.setAttribute("aria-label", `Ver detalles de ${publicTitle}`);
+  const permalink = card.querySelector("[data-event-permalink]");
+  if (permalink) permalink.setAttribute("aria-label", `Abrir ficha completa de ${publicTitle}`);
+  const image = card.querySelector(".card-media img");
+  if (image && !String(event?.image?.alt || "").trim()) image.alt = publicTitle;
+}
+
 function validHttpUrl(value) {
   try {
     const url = new URL(String(value || ""), window.location.href);
@@ -334,7 +351,7 @@ function applyRelevantMedia(media, image, imageUrl, event) {
   media.classList.remove("event-media--generic");
   media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
   image.dataset.eventImage = "relevant";
-  image.alt = String(event?.image?.alt || event?.title || "Imagen de la actividad");
+  image.alt = String(event?.image?.alt || normalizedPublicTitle(event, "Imagen de la actividad"));
 }
 
 function installImageTreatment(card, event) {
@@ -392,7 +409,7 @@ function installPermalink(card, event) {
   link.dataset.eventPermalink = "true";
   link.href = href;
   link.textContent = "Ficha completa →";
-  link.setAttribute("aria-label", `Abrir ficha completa de ${event?.title || "la actividad"}`);
+  link.setAttribute("aria-label", `Abrir ficha completa de ${normalizedPublicTitle(event, "la actividad")}`);
   link.addEventListener("click", (clickEvent) => clickEvent.stopPropagation());
   card.append(link);
 }
@@ -401,6 +418,7 @@ function enhanceCard(card, event) {
   installImageTreatment(card, event);
   compactMetaRow(card, event);
   installPermalink(card, event);
+  applyTextPresentation(card, event);
   const date = card.querySelector(".card-date");
   setTextIfChanged(date, formatSchedule(event?.schedule, SCHEDULE_OPTIONS));
 }
@@ -408,6 +426,12 @@ function enhanceCard(card, event) {
 function enhanceDetail(event) {
   const dialog = document.querySelector("[data-detail-dialog]");
   if (!dialog?.open) return;
+  const publicTitle = normalizedPublicTitle(event);
+  setTextIfChanged(dialog.querySelector("#detail-title"), publicTitle);
+  const description = dialog.querySelector(".detail-lead");
+  if (description && isRootNonEventDescription(description.textContent || event?.description || "")) {
+    setTextIfChanged(description, "Descripción no disponible.");
+  }
   const terms = [...dialog.querySelectorAll("dt")];
   const term = terms.find((node) => node.textContent.trim() === "Fecha y horario");
   if (term?.nextElementSibling) {

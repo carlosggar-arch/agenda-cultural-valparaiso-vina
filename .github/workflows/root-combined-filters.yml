@@ -9,9 +9,11 @@ on:
       - "assets/root-combined-filter-core.mjs"
       - "assets/root-combined-filters.js"
       - "assets/root-combined-filters.css"
+      - "assets/root-public-presentation-rules.mjs"
       - "assets/web-event-enhancements.js"
       - "tests/root-combined-filters.test.mjs"
       - "tests/root-current-events.test.mjs"
+      - "tests/root-public-presentation-rules.test.mjs"
       - ".github/workflows/root-combined-filters.yml"
   push:
     branches: [main]
@@ -21,9 +23,11 @@ on:
       - "assets/root-combined-filter-core.mjs"
       - "assets/root-combined-filters.js"
       - "assets/root-combined-filters.css"
+      - "assets/root-public-presentation-rules.mjs"
       - "assets/web-event-enhancements.js"
       - "tests/root-combined-filters.test.mjs"
       - "tests/root-current-events.test.mjs"
+      - "tests/root-public-presentation-rules.test.mjs"
       - ".github/workflows/root-combined-filters.yml"
   workflow_dispatch:
 
@@ -43,3 +47,4 @@ jobs:
         run: |
           node --test tests/root-combined-filters.test.mjs
           node --test tests/root-current-events.test.mjs
+          node --test tests/root-public-presentation-rules.test.mjs
