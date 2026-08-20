@@ -49,10 +49,12 @@ class Stage32AnalyticsTests(unittest.TestCase):
         web = (ROOT / "assets" / "web-event-enhancements.js").read_text(encoding="utf-8")
         event_page = (ROOT / "assets" / "event-page.js").read_text(encoding="utf-8")
         worker = (ROOT / "app" / "service-worker.js").read_text(encoding="utf-8")
+        shell_manifest = (ROOT / "app" / "service-worker-assets.generated.js").read_text(encoding="utf-8")
         self.assertIn("usage-analytics.js?v=20260817-stage32", pwa)
         self.assertIn("usage-analytics.js?v=20260817-stage32", web)
         self.assertIn("usage-analytics.js?v=20260817-stage32", event_page)
-        self.assertIn("usage-analytics.js?v=20260817-stage32", worker)
+        self.assertIn("service-worker-assets.generated.js", worker)
+        self.assertIn('"../assets/usage-analytics.js"', shell_manifest)
 
     def test_city_model_is_extensible_and_known_cities_are_detected(self):
         text = (ROOT / "assets" / "usage-analytics.js").read_text(encoding="utf-8")
