@@ -54,7 +54,21 @@ def parse_day(value: object) -> date | None:
         return None
 
 
-def build(dataset: dict, coverage: dict, catalog: dict, registry: dict, today: date) -> dict:
+def core_policy() -> tuple[str, dict]:
+    """Compatibility shim for older tests/callers; source coherence is now local-registry based."""
+    return "retired_local_registry", {}
+
+
+def default_registry() -> dict:
+    return {
+        "requirements": {flag: True for flag in REQUIRED_REGISTRY_FLAGS},
+        "name_aliases": {},
+        "public_catalog_exceptions": {},
+    }
+
+
+def build(dataset: dict, coverage: dict, catalog: dict, today: date, registry: dict | None = None) -> dict:
+    registry = registry or default_registry()
     public_rows = catalog.get("sources") or []
     city = ((coverage.get("cities") or {}).get("valparaiso-vina") or {})
     coverage_rows = city.get("sources") or []
@@ -187,8 +201,8 @@ def main() -> None:
         load(DATASET_PATH),
         load(COVERAGE_PATH),
         load(CATALOG_PATH),
-        load(REGISTRY_PATH),
         datetime.now(ZoneInfo(TIMEZONE)).date(),
+        registry=load(REGISTRY_PATH),
     )
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if not args.no_write:
