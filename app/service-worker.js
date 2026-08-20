@@ -34,6 +34,7 @@ const SHELL_ASSETS = [
   "./title-normalizer-bootstrap.js",
   "./public-title-normalizer.mjs",
   "./session-occurrence-normalizer.js",
+  "./formation-cycle-classifier.js",
   "./program-visibility-policy.js",
   "./program-visibility-policy.css",
   "./public-category-rules.mjs",
