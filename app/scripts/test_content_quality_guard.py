@@ -8,6 +8,7 @@ from apply_content_quality_guard import (
     clean_html_text,
     configured_datasets,
     recover_generic_title,
+    sanitize_public_event_text,
 )
 
 
@@ -37,10 +38,71 @@ def test_html_is_removed() -> None:
     assert clean_html_text(raw) == '“Nebulosa carina” es una muestra.'
     assert clean_html_text(r'<p>Texto limpio.</p>\n') == 'Texto limpio.'
     assert clean_html_text('Texto limpio. n') == 'Texto limpio.'
+    assert clean_html_text('2 < 3 y 5 > 4') == '2 < 3 y 5 > 4'
+    assert clean_html_text('Hola &amp;lt;p&amp;gt;mundo&amp;lt;/p&amp;gt;') == 'Hola mundo'
     dataset = {"events": [event(description=raw)], "counts": {"total": 1}}
     changes = apply_guard(dataset)
     assert dataset["events"][0]["description"] == '“Nebulosa carina” es una muestra.'
     assert changes["html_cleaned"] == ["event-1"]
+    assert changes["html_cleaned_fields"] == [{"id": "event-1", "fields": ["description"]}]
+
+
+def test_all_public_text_fields_are_sanitized_without_touching_urls() -> None:
+    sample = event(
+        id="markup-everywhere",
+        title="<p>Evento válido</p>",
+        description="<div>Descripción <strong>válida</strong>.</div>",
+        organizer="<span>Organizador</span>",
+        source_name="Fuente &amp; Cultura",
+        primary_category={"id": "exposiciones", "label": "<b>Exposiciones</b>"},
+        categories=[{"id": "exposiciones", "label": "&lt;p&gt;Exposiciones&lt;/p&gt;"}],
+        schedule={
+            "mode": "dated",
+            "start": "2026-08-20T10:00:00-04:00",
+            "end": None,
+            "display_text": "<p>20 ago · 10:00</p>",
+            "opening_hours": {"display_text": "<p>10:00–18:00</p>", "source_url": "https://example.org/hours?p=<p>"},
+            "occurrences": [{"start": "2026-08-20T10:00:00-04:00", "display_text": "<span>10:00</span>"}],
+        },
+        location={"venue_id": None, "venue": "<p>Museo</p>", "city": "Viña del Mar", "address": "<span>Calle 1</span>"},
+        price={"is_free": False, "display_text": "<b>$5.000</b>"},
+        public_status={"source_official": True, "information_completeness": "complete", "advisory_text": "<p>Confirmar antes de asistir</p>"},
+        image={"url": "https://example.org/image?p=<p>", "alt": "<p>Cartel</p>"},
+        tags=["<i>museo</i>", "noche"],
+        links={"official": "https://example.org/event?p=<p>", "source": "https://example.org/event?p=<p>"},
+        source_url="https://example.org/source?p=<p>",
+    )
+    original_links = copy.deepcopy(sample["links"])
+    original_source_url = sample["source_url"]
+    original_image_url = sample["image"]["url"]
+    original_hours_url = sample["schedule"]["opening_hours"]["source_url"]
+
+    fields = sanitize_public_event_text(sample)
+    assert "title" in fields
+    assert "description" in fields
+    assert "location.venue" in fields
+    assert "schedule.opening_hours.display_text" in fields
+    assert sample["title"] == "Evento válido"
+    assert sample["description"] == "Descripción válida."
+    assert sample["organizer"] == "Organizador"
+    assert sample["source_name"] == "Fuente & Cultura"
+    assert sample["primary_category"]["label"] == "Exposiciones"
+    assert sample["categories"][0]["label"] == "Exposiciones"
+    assert sample["schedule"]["display_text"] == "20 ago · 10:00"
+    assert sample["schedule"]["opening_hours"]["display_text"] == "10:00–18:00"
+    assert sample["schedule"]["occurrences"][0]["display_text"] == "10:00"
+    assert sample["location"]["venue"] == "Museo"
+    assert sample["location"]["address"] == "Calle 1"
+    assert sample["price"]["display_text"] == "$5.000"
+    assert sample["public_status"]["advisory_text"] == "Confirmar antes de asistir"
+    assert sample["image"]["alt"] == "Cartel"
+    assert sample["tags"] == ["museo", "noche"]
+
+    # Transport fields must remain byte-for-byte unchanged.
+    assert sample["links"] == original_links
+    assert sample["source_url"] == original_source_url
+    assert sample["image"]["url"] == original_image_url
+    assert sample["schedule"]["opening_hours"]["source_url"] == original_hours_url
 
 
 def test_recovers_les_esperamos_from_explicit_activity_phrase() -> None:
@@ -174,6 +236,7 @@ def test_registry_exposes_both_current_city_datasets() -> None:
 
 def main() -> None:
     test_html_is_removed()
+    test_all_public_text_fields_are_sanitized_without_touching_urls()
     test_recovers_les_esperamos_from_explicit_activity_phrase()
     test_consolidates_same_exhibition_same_venue_and_keeps_image()
     test_does_not_merge_same_title_in_different_venues()
