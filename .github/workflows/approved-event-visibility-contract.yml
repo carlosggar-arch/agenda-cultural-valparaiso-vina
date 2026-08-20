@@ -7,10 +7,18 @@ on:
       - "agenda_web.json"
       - "app/data/gijon/agenda_web.json"
       - "app/app.js"
+      - "app/data-pipeline.js"
       - "app/category-normalizer.js"
       - "app/public-category-rules.mjs"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
+      - "app/public-text-sanitizer.mjs"
+      - "app/public-text-sanitizer.test.mjs"
+      - "app/public-presentation-guard.js"
+      - "app/program-visibility-policy.js"
+      - "app/program-visibility-policy.test.mjs"
+      - "app/exhibition-hours.js"
+      - "app/exhibition-card-structure.test.mjs"
       - "app/static-exhibition-groups.js"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
@@ -25,10 +33,18 @@ on:
       - "agenda_web.json"
       - "app/data/gijon/agenda_web.json"
       - "app/app.js"
+      - "app/data-pipeline.js"
       - "app/category-normalizer.js"
       - "app/public-category-rules.mjs"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
+      - "app/public-text-sanitizer.mjs"
+      - "app/public-text-sanitizer.test.mjs"
+      - "app/public-presentation-guard.js"
+      - "app/program-visibility-policy.js"
+      - "app/program-visibility-policy.test.mjs"
+      - "app/exhibition-hours.js"
+      - "app/exhibition-card-structure.test.mjs"
       - "app/static-exhibition-groups.js"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
@@ -53,10 +69,15 @@ jobs:
       - name: Check public runtime syntax
         run: |
           node --check app/app.js
+          node --check app/data-pipeline.js
           node --check app/category-normalizer.js
           node --check app/public-category-rules.mjs
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
+          node --check app/public-text-sanitizer.mjs
+          node --check app/public-presentation-guard.js
+          node --check app/program-visibility-policy.js
+          node --check app/exhibition-hours.js
           node --check app/static-exhibition-groups.js
           node --check app/combined-filters-bootstrap.js
           node --check app/combined-filters.js
@@ -66,3 +87,9 @@ jobs:
         run: node app/scripts/test_approved_event_visibility_contract.mjs
       - name: Verify Gijón exhibition regression contract
         run: node app/scripts/test_gijon_exhibition_filter_contract.mjs
+      - name: Verify monthly program visibility contract
+        run: node app/program-visibility-policy.test.mjs
+      - name: Verify structural public text contract
+        run: node app/public-text-sanitizer.test.mjs
+      - name: Verify grouped exhibition card contract
+        run: node app/exhibition-card-structure.test.mjs
