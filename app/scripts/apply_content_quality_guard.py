@@ -52,9 +52,23 @@ CANONICAL_PREFIX = re.compile(
     re.I,
 )
 OUTER_QUOTES = re.compile(r"^[\s'\"“”«»]+|[\s'\"“”«»]+$")
-HTML_TAG = re.compile(r"<[^>]+>")
+# Match tag-shaped source markup, not ordinary comparison signs such as 2 < 3.
+HTML_TAG = re.compile(r"</?[A-Za-z][^>]*>")
+HTML_SCRIPT_STYLE = re.compile(r"<(script|style)\b[^>]*>[\s\S]*?</\1\s*>", re.I)
+HTML_COMMENT = re.compile(r"<!--[\s\S]*?-->")
 SPACE = re.compile(r"\s+")
 DATE_PREFIX = re.compile(r"^(\d{4}-\d{2}-\d{2})")
+
+PUBLIC_TOP_LEVEL_FIELDS = (
+    "title",
+    "description",
+    "organizer",
+    "source_name",
+    "registration_requirements",
+    "audience",
+)
+PUBLIC_SCHEDULE_FIELDS = ("display_text", "venue_opening_hours", "visit_hours")
+PUBLIC_LOCATION_FIELDS = ("venue", "city", "commune", "address", "opening_hours")
 
 
 def clean_space(value: object) -> str:
@@ -71,7 +85,16 @@ def clean_html_text(value: object) -> str:
     raw = str(value or "")
     if not raw:
         return ""
-    text = html.unescape(raw)
+    text = raw
+    # Some feeds double-encode HTML (&amp;lt;p&amp;gt;). Decode in bounded passes
+    # before removing tags so encoded markup cannot escape the publication guard.
+    for _ in range(3):
+        decoded = html.unescape(text)
+        if decoded == text:
+            break
+        text = decoded
+    text = HTML_SCRIPT_STYLE.sub(" ", text)
+    text = HTML_COMMENT.sub(" ", text)
     text = re.sub(r"<\s*(?:br|/p|/div|/li|/h[1-6])\s*/?>", " ", text, flags=re.I)
     text = HTML_TAG.sub(" ", text)
     # Remove scraper escape artifacts: literal backslash-n/backslash-r or backslash + real newline.
@@ -81,6 +104,79 @@ def clean_html_text(value: object) -> str:
     # Repair the one-character legacy artifact produced by the previous sanitizer version.
     text = re.sub(r"(?<=[.!?])\s+n\s*$", "", text)
     return text
+
+
+def _clean_public_string(container: dict, key: str, path: str, changed: list[str]) -> None:
+    value = container.get(key)
+    if not isinstance(value, str):
+        return
+    cleaned = clean_html_text(value)
+    if cleaned != value:
+        container[key] = cleaned
+        changed.append(path)
+
+
+def sanitize_public_event_text(event: dict) -> list[str]:
+    """Strip source HTML from every field that can be rendered as public text.
+
+    Transport/identity fields (URLs, ids, ISO timestamps, provenance) are never
+    rewritten. This is the dataset publication boundary used by every city.
+    """
+    changed: list[str] = []
+    for key in PUBLIC_TOP_LEVEL_FIELDS:
+        _clean_public_string(event, key, key, changed)
+
+    primary = event.get("primary_category")
+    if isinstance(primary, dict):
+        _clean_public_string(primary, "label", "primary_category.label", changed)
+
+    categories = event.get("categories")
+    if isinstance(categories, list):
+        for index, category in enumerate(categories):
+            if isinstance(category, dict):
+                _clean_public_string(category, "label", f"categories[{index}].label", changed)
+
+    schedule = event.get("schedule")
+    if isinstance(schedule, dict):
+        for key in PUBLIC_SCHEDULE_FIELDS:
+            _clean_public_string(schedule, key, f"schedule.{key}", changed)
+        opening_hours = schedule.get("opening_hours")
+        if isinstance(opening_hours, dict):
+            _clean_public_string(opening_hours, "display_text", "schedule.opening_hours.display_text", changed)
+        occurrences = schedule.get("occurrences")
+        if isinstance(occurrences, list):
+            for index, occurrence in enumerate(occurrences):
+                if isinstance(occurrence, dict):
+                    _clean_public_string(occurrence, "display_text", f"schedule.occurrences[{index}].display_text", changed)
+
+    location = event.get("location")
+    if isinstance(location, dict):
+        for key in PUBLIC_LOCATION_FIELDS:
+            _clean_public_string(location, key, f"location.{key}", changed)
+
+    price = event.get("price")
+    if isinstance(price, dict):
+        _clean_public_string(price, "display_text", "price.display_text", changed)
+
+    status = event.get("public_status")
+    if isinstance(status, dict):
+        _clean_public_string(status, "advisory_text", "public_status.advisory_text", changed)
+
+    image = event.get("image")
+    if isinstance(image, dict):
+        _clean_public_string(image, "alt", "image.alt", changed)
+
+    tags = event.get("tags")
+    if isinstance(tags, list):
+        for index, tag in enumerate(tags):
+            if not isinstance(tag, str):
+                continue
+            cleaned = clean_html_text(tag)
+            if cleaned != tag:
+                tags[index] = cleaned
+                changed.append(f"tags[{index}]")
+
+    return changed
 
 
 def is_generic_title(value: object) -> bool:
@@ -273,6 +369,7 @@ def apply_guard(dataset: dict) -> dict:
     events = list(dataset.get("events") or [])
     changes: dict[str, list] = {
         "html_cleaned": [],
+        "html_cleaned_fields": [],
         "titles_recovered": [],
         "duplicates_consolidated": [],
         "quarantined": [],
@@ -286,15 +383,10 @@ def apply_guard(dataset: dict) -> dict:
         event = copy.deepcopy(event)
         event_id = str(event.get("id") or "")
 
-        old_description = str(event.get("description") or "")
-        new_description = clean_html_text(old_description)
-        if old_description and new_description != clean_space(old_description):
-            event["description"] = new_description
+        cleaned_fields = sanitize_public_event_text(event)
+        if cleaned_fields:
             changes["html_cleaned"].append(event_id)
-
-        old_title = clean_html_text(event.get("title"))
-        if old_title and old_title != event.get("title"):
-            event["title"] = old_title
+            changes["html_cleaned_fields"].append({"id": event_id, "fields": cleaned_fields})
 
         if is_non_event_title(event.get("title")):
             changes["quarantined"].append({
