@@ -8,6 +8,7 @@ on:
       - "app/card-experience.js"
       - "app/card-experience.css"
       - "app/card-image-fallback.js"
+      - "app/image-quality-guard.js"
       - "app/event-data-corrections.js"
       - "app/release-version.js"
       - "tests/card-representative-images.test.mjs"
@@ -20,6 +21,7 @@ on:
       - "app/card-experience.js"
       - "app/card-experience.css"
       - "app/card-image-fallback.js"
+      - "app/image-quality-guard.js"
       - "app/event-data-corrections.js"
       - "app/release-version.js"
       - "tests/card-representative-images.test.mjs"
@@ -37,7 +39,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check card JavaScript syntax
         run: |
+          node --check app/app.js
           node --check app/card-experience.js
           node --check app/card-image-fallback.js
+          node --check app/image-quality-guard.js
       - name: Verify card image policies
         run: node --test tests/card-representative-images.test.mjs tests/runtime-card-image-fallback.test.mjs
