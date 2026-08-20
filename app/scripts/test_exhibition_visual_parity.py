@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__exhibition_visual_parity.html"
+CAPTURE_PAGE = APP / "__exhibition_visual_capture.html"
 
 CASES = (
     ("gijon", "Muséu del Pueblu d'Asturies", "museu del pueblu d'asturies", "gijon-museu-pueblu.png"),
@@ -67,6 +68,7 @@ def make_test_page(city: str, target: str) -> None:
       width:100% !important;
       margin:0 !important;
     }
+    #visual-parity-status { display:none !important; }
   </style>'''
 
     diagnostic = f'''
@@ -100,13 +102,17 @@ def make_test_page(city: str, target: str) -> None:
         const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
         const clipped = rows.filter((row) => row.scrollHeight > row.clientHeight + 1);
 
-        html.dataset.visualTargetVenue = card.querySelector("h4")?.textContent?.trim() || "";
-        html.dataset.visualTargetRows = String(rows.length);
-        html.dataset.visualMissingParts = missing.length ? missing.join(",") : "none";
-        html.dataset.visualClippedRows = String(clipped.length);
-
         const root = document.createElement("div");
         root.id = "visual-capture-root";
+        const status = document.createElement("output");
+        status.id = "visual-parity-status";
+        status.dataset.targetVenue = card.querySelector("h4")?.textContent?.trim() || "";
+        status.dataset.rowCount = String(rows.length);
+        status.dataset.missingParts = missing.length ? missing.join(",") : "none";
+        status.dataset.clippedRows = String(clipped.length);
+        status.dataset.renderer = card.dataset.unifiedExhibitionGroup === "true" ? "unified" : "other";
+        root.append(status);
+
         const grid = document.createElement("div");
         grid.className = "event-grid";
         const clone = card.cloneNode(true);
@@ -166,13 +172,32 @@ def dump_dom(city: str, url: str) -> str:
         return result.stdout
 
 
+def write_static_capture(dom: str) -> None:
+    # The first browser process has already isolated the exact rendered card.
+    # Persist that serialized DOM without executable scripts; the screenshot
+    # process then captures the same state instead of racing the app startup again.
+    static_dom = re.sub(r"<script\b[^>]*>[\s\S]*?</script>", "", dom, flags=re.I)
+    CAPTURE_PAGE.write_text(static_dom, encoding="utf-8")
+
+
 def screenshot(city: str, url: str, output: Path) -> None:
     with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-shot-{city}-", ignore_cleanup_errors=True) as profile:
         cmd = chrome_command(profile, url)
+        cmd.insert(-1, "--run-all-compositor-stages-before-draw")
         cmd.insert(-1, f"--screenshot={output}")
         result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
         if result.returncode != 0 or not output.exists() or output.stat().st_size < 1000:
             raise AssertionError(f"Chrome screenshot failed for {city}: {result.stderr[-1400:]}")
+
+
+def status_tag(dom: str) -> str | None:
+    match = re.search(r'<output(?=[^>]*\bid="visual-parity-status")[^>]*>', dom, flags=re.I)
+    return match.group(0) if match else None
+
+
+def attr(tag: str, name: str) -> str | None:
+    match = re.search(rf'\b{re.escape(name)}="([^"]*)"', tag, flags=re.I)
+    return match.group(1) if match else None
 
 
 def run_case(city: str, expected_label: str, target: str, filename: str, base_url: str, output_dir: Path) -> None:
@@ -180,27 +205,31 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     url = f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1"
     dom = dump_dom(city, url)
 
-    # Finding the card through the canonical data-unified-exhibition-group selector
-    # is itself the ownership proof. Capture it before geometry assertions so a
-    # failed gate still leaves a screenshot artifact for diagnosis.
     if 'data-visual-parity-ready="true"' not in dom:
         raise AssertionError(f"grouped venue not rendered for visual check: {expected_label} ({city})")
 
-    output = output_dir / filename
-    screenshot(city, url, output)
+    status = status_tag(dom)
+    if status is None:
+        raise AssertionError(f"visual parity status was not serialized for {expected_label}")
 
-    if 'data-visual-missing-parts="none"' not in dom:
-        match = re.search(r'data-visual-missing-parts="([^"]*)"', dom)
-        raise AssertionError(f"shared card structure is incomplete for {expected_label}: {match.group(1) if match else 'unknown'}")
-    if 'data-visual-clipped-rows="0"' not in dom:
-        match = re.search(r'data-visual-clipped-rows="(\d+)"', dom)
-        raise AssertionError(f"grouped exhibition subcards are vertically clipped for {expected_label}: {match.group(1) if match else 'unknown'}")
-    rows = re.search(r'data-visual-target-rows="(\d+)"', dom)
-    if not rows or int(rows.group(1)) < 2:
+    write_static_capture(dom)
+    output = output_dir / filename
+    screenshot(city, f"{base_url}/app/{CAPTURE_PAGE.name}?capture={city}", output)
+
+    if attr(status, "data-renderer") != "unified":
+        raise AssertionError(f"target venue is not owned by the unified renderer: {expected_label}")
+    missing = attr(status, "data-missing-parts")
+    if missing != "none":
+        raise AssertionError(f"shared card structure is incomplete for {expected_label}: {missing or 'unknown'}")
+    clipped = attr(status, "data-clipped-rows")
+    if clipped != "0":
+        raise AssertionError(f"grouped exhibition subcards are vertically clipped for {expected_label}: {clipped or 'unknown'}")
+    rows = attr(status, "data-row-count")
+    if not rows or int(rows) < 2:
         raise AssertionError(f"expected a grouped venue with at least two exhibitions: {expected_label}")
 
-    venue = re.search(r'data-visual-target-venue="([^"]+)"', dom)
-    print(f"EXHIBITION_VISUAL_OK city={city} venue={venue.group(1) if venue else expected_label} rows={rows.group(1)} screenshot={output}")
+    venue = attr(status, "data-target-venue") or expected_label
+    print(f"EXHIBITION_VISUAL_OK city={city} venue={venue} rows={rows} screenshot={output}")
 
 
 def main() -> None:
@@ -227,6 +256,7 @@ def main() -> None:
                     errors.append(str(exc))
         finally:
             TEST_PAGE.unlink(missing_ok=True)
+            CAPTURE_PAGE.unlink(missing_ok=True)
             server.shutdown()
             thread.join(timeout=2)
 
