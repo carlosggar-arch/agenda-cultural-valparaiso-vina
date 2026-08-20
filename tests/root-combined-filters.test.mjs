@@ -181,8 +181,9 @@ test("root homepage places the quick navigation after category shortcuts", async
 
 test("root homepage rebuilds merged category controls and compacts vertical spacing", async () => {
   const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  const core = await readFile(new URL("../assets/root-combined-filter-core.mjs", import.meta.url), "utf8");
   assert.match(enhancements, /function installPublicCategoryUi/);
-  assert.match(enhancements, /Exposiciones y museos/);
+  assert.match(core, /Exposiciones y museos/);
   assert.match(enhancements, /__VIVAMOS_ROOT_FILTERS__/);
   assert.match(enhancements, /padding-bottom: \.65rem !important/);
   assert.match(enhancements, /padding-top: \.7rem !important/);
