@@ -1,6 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v157 renders the official MHNV visit hours inside grouped exhibition cards.
-  const RELEASE = 157;
+  // v158 adds structural public-text sanitation so source HTML can never leak
+  // into visible agenda labels, titles, descriptions, schedules or locations.
+  const RELEASE = 158;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
