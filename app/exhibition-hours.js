@@ -14,18 +14,39 @@ function ensureExhibitionCardPolishStyles() {
   const style = document.createElement("style");
   style.id = EXHIBITION_CARD_POLISH_STYLE_ID;
   style.textContent = `
-    /* Keep three compact exhibition rows fully visible before internal scrolling. */
-    .exhibition-group-list {
-      max-height: 228px !important;
+    /* Keep the internal scroll compact, but never vertically clip an
+       individual exhibition sub-card. Two complete rows are preferable to
+       three cropped rows. The collage and the rest of the large card stay unchanged. */
+    .grouped-exhibition-item {
+      height: auto !important;
+      min-height: 84px !important;
+      max-height: none !important;
+      align-items: start !important;
     }
+
+    .grouped-exhibition-media,
+    .grouped-exhibition-copy,
+    .grouped-exhibition-actions {
+      align-self: start !important;
+    }
+
+    .grouped-exhibition-copy {
+      padding-top: 1px !important;
+    }
+
+    .grouped-exhibition-copy strong {
+      margin-bottom: 3px !important;
+    }
+
     @media (max-width: 900px) {
-      .exhibition-group-list {
-        max-height: 222px !important;
+      .grouped-exhibition-item {
+        min-height: 82px !important;
       }
     }
+
     @media (max-width: 560px) {
-      .exhibition-group-list {
-        max-height: 216px !important;
+      .grouped-exhibition-item {
+        min-height: 80px !important;
       }
     }
   `;
