@@ -35,7 +35,10 @@ jobs:
             app/scripts/test_date_filter_browser.py \
             app/scripts/test_exhibition_visual_parity.py \
             app/scripts/test_pwa_install_browser.py \
-            app/scripts/test_multicity_source_registry_coverage.py
+            app/scripts/test_multicity_source_registry_coverage.py \
+            app/scripts/generate_runtime_contracts.py \
+            app/scripts/release_bundle.py \
+            app/scripts/test_structural_hardening.py
           node --check app/app.js
           node --check app/app-core.js
           node --check app/data-pipeline.js
@@ -53,8 +56,14 @@ jobs:
           node --check app/exhibition-group-core.mjs
           node --check app/exhibition-group-core.test.mjs
           node --check app/city-presentation-adapter.mjs
+          node --check app/venue-registry.generated.mjs
+          node --check app/venue-identity.mjs
+          node --check app/venue-identity.test.mjs
+          node --check app/gijon-venue-hours.js
+          node --check app/exhibition-hours.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          node --check app/service-worker-assets.generated.js
           node --check app/release-version.js
           node --check app/header-redesign.js
           node --check app/mobile-experience.js
@@ -62,6 +71,10 @@ jobs:
       - name: Run required release guard
         run: |
           set -euo pipefail
+          python app/scripts/generate_runtime_contracts.py --check
+          python app/scripts/release_bundle.py --check
+          python app/scripts/test_structural_hardening.py
+          node app/venue-identity.test.mjs
           python app/scripts/test_release_guard.py
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_contextual_filters.py
@@ -90,5 +103,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, and visual parity for grouped exhibitions at Muséu del Pueblu d'Asturies and Palacio Rioja."
+          echo "This required check exercises the v164 generation bundle, generated PWA shell manifest, canonical venue registry/aliases, normal startup for Valparaiso and Gijon, watchdog safe mode, date filtering and exhibition visual parity."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
