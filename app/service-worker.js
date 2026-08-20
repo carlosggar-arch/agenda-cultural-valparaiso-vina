@@ -199,15 +199,25 @@ async function refreshShell(cache, request) {
   }
 }
 
-async function networkFirstShell(request) {
+async function networkFirstFreshShell(request) {
   const cache = await caches.open(SHELL_CACHE);
-  const cached = await cache.match(request, { ignoreSearch: true });
+  const response = await refreshShell(cache, request);
+  if (response) return response;
+  return (await cache.match(request))
+    || (await cache.match(request, { ignoreSearch: true }))
+    || Response.error();
+}
+
+async function networkFirstShell(request, event) {
+  const cache = await caches.open(SHELL_CACHE);
+  const cached = await cache.match(request);
   if (cached) {
-    void refreshShell(cache, request);
+    event.waitUntil(refreshShell(cache, request).then(() => undefined));
     return cached;
   }
   const response = await refreshShell(cache, request);
-  return response || Response.error();
+  if (response) return response;
+  return (await cache.match(request, { ignoreSearch: true })) || Response.error();
 }
 
 async function fetchAndCacheDataset(cache, request) {
@@ -221,12 +231,13 @@ async function fetchAndCacheDataset(cache, request) {
   }
 }
 
-async function networkFirstDataset(request) {
+async function networkFirstDataset(request, event) {
   const cache = await caches.open(DATA_CACHE);
   const cached = await cache.match(request, { ignoreSearch: true });
   const networkPromise = fetchAndCacheDataset(cache, request);
 
   if (cached) {
+    event.waitUntil(networkPromise.then(() => undefined));
     const quickNetwork = await Promise.race([
       networkPromise,
       timeout(DATA_NETWORK_BUDGET_MS),
@@ -252,10 +263,14 @@ self.addEventListener("fetch", (event) => {
     return;
   }
   if (requestUrl.origin !== self.location.origin) return;
+  if (requestUrl.pathname.endsWith("/release-version.js")) {
+    event.respondWith(networkFirstFreshShell(request));
+    return;
+  }
   event.respondWith((async () => {
     const urls = await datasetUrls();
     const supplemental = requestUrl.pathname.endsWith("/supplemental-events.json");
-    if (urls.has(requestUrl.href) || supplemental) return networkFirstDataset(request);
-    return networkFirstShell(request);
+    if (urls.has(requestUrl.href) || supplemental) return networkFirstDataset(request, event);
+    return networkFirstShell(request, event);
   })());
 });
