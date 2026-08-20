@@ -1,7 +1,7 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";
-import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-parity3";
+import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-parity2";
 import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity2";
-import "./root-combined-filters.js?v=20260820-category-ui2";
+import "./root-combined-filters.js?v=20260820-category-ui";
 // Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
 // Legacy contract marker: ./plan-ahead-web.js?v=20260817
 import "./favorites-web.js?v=20260817";
@@ -479,7 +479,7 @@ function enhanceDetail(event) {
 }
 
 async function start() {
-  document.documentElement.dataset.rootEnhancementsVersion = "20260820-webcatfix1";
+  document.documentElement.dataset.rootEnhancementsVersion = "20260820-webparity2";
   installHomeLayoutOverrides();
   placePrimaryNavigationAfterCategories();
   installMediaStyles();
@@ -491,14 +491,15 @@ async function start() {
   } catch { return; }
 
   const sourceEvents = payload.events || [];
+  const publicEvents = sourceEvents.map(publicEvent);
+  const categoryController = installPublicCategoryUi(sourceEvents);
   const rejectedIds = new Set(
     sourceEvents.filter(isEditorialSocialFalsePositive).map((event) => String(event.id)),
   );
-  const publicSourceEvents = sourceEvents.filter((event) => !rejectedIds.has(String(event.id)));
-  const publicEvents = publicSourceEvents.map(publicEvent);
-  const categoryController = installPublicCategoryUi(publicSourceEvents);
   const events = new Map(
-    publicEvents.map((event) => [String(event.id), event]),
+    publicEvents
+      .filter((event) => !rejectedIds.has(String(event.id)))
+      .map((event) => [String(event.id), event]),
   );
 
   const apply = () => {
@@ -513,9 +514,7 @@ async function start() {
       if (event) enhanceCard(card, event);
     });
     const total = document.querySelector("[data-total]");
-    const visibleCards = [...document.querySelectorAll(".event-card[data-event-id]")]
-      .filter((card) => !card.hidden);
-    setTextIfChanged(total, visibleCards.length);
+    setTextIfChanged(total, sourceEvents.length - rejectedIds.size);
     const requested = new URL(window.location.href).searchParams.get("evento");
     if (rejectedIds.has(String(requested || ""))) {
       document.querySelector("[data-detail-dialog]")?.close?.();

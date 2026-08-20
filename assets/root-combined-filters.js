@@ -2,7 +2,7 @@ import {
   filterRootEvents,
   rootEventMatchesAdvancedFilters,
   rootEventPublicCategories,
-} from "./root-combined-filter-core.mjs?v=20260820-category-merge2";
+} from "./root-combined-filter-core.mjs?v=20260820-category-merge";
 
 const DATASET_PATH = "./agenda_web.json";
 const form = document.querySelector("[data-filter-form]");
@@ -15,7 +15,6 @@ const legacyFree = document.querySelector("[data-filter-free]");
 const headerQuery = document.querySelector("[data-header-query]");
 const mobileQuery = document.querySelector("[data-mobile-query]");
 const topCategory = document.querySelector("[data-top-category]");
-const heroTotal = document.querySelector("[data-total]");
 
 if (!form || !grid || !legacyQuery || !legacyCategory) {
   // Root agenda shell is not present on this page.
@@ -161,14 +160,6 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
     return [...grid.querySelectorAll(".event-card")];
   }
 
-  function matchesCorrectedQuickSection(event) {
-    const active = document.querySelector('[data-top-section][aria-pressed="true"]')?.dataset.topSection || "";
-    if (active === "talleres-cursos") {
-      return rootEventPublicCategories(event).some((category) => category?.id === "cursos-talleres");
-    }
-    return true;
-  }
-
   function applyAdvancedFilters() {
     if (state.applying) return;
     state.applying = true;
@@ -176,7 +167,7 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
       let visible = 0;
       for (const card of visibleBaseCards()) {
         const event = state.byId.get(card.dataset.eventId);
-        const matches = event ? matchesCorrectedQuickSection(event) && rootEventMatchesAdvancedFilters(event, currentAdvancedFilters()) : true;
+        const matches = event ? rootEventMatchesAdvancedFilters(event, currentAdvancedFilters()) : true;
         card.hidden = !matches;
         if (matches) visible += 1;
       }
@@ -185,7 +176,6 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
         const suffix = state.query ? ` para “${state.query}”` : "";
         resultLine.textContent = `${visible} ${visible === 1 ? "actividad" : "actividades"}${suffix}.`;
       }
-      if (heroTotal) heroTotal.textContent = String(visible);
       if (empty) empty.hidden = visible > 0;
       advanced.dataset.visibleResults = String(visible);
       advanced.dataset.baseResults = String(baseCount);
