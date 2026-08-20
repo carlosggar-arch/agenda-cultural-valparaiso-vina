@@ -1,109 +1,109 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T19:13:30+00:00",
+  "generated_at": "2026-08-20T20:00:10+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-20",
-      "generated_at": "2026-08-20T15:05:33-04:00",
+      "generated_at": "2026-08-20T15:52:04-04:00",
       "summary": {
-        "total_events": 187,
-        "average_quality_score": 90.9,
+        "total_events": 207,
+        "average_quality_score": 91.6,
         "quality_class": "excellent",
         "sources_catalogued": 45,
-        "sources_producing": 26,
-        "sources_zero": 12,
-        "review_priority_zero_sources": 12,
+        "sources_producing": 27,
+        "sources_zero": 11,
+        "review_priority_zero_sources": 11,
         "zero_sources_covered_elsewhere": 6,
-        "top3_source_share_pct": 47.1,
+        "top3_source_share_pct": 45.9,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 1
       },
       "field_coverage": {
-        "date_pct": 93.0,
-        "time_pct": 90.9,
+        "date_pct": 94.2,
+        "time_pct": 92.3,
         "venue_pct": 100.0,
-        "image_pct": 56.1,
+        "image_pct": 56.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 43.9,
-        "price_known_pct": 84.0
+        "official_source_pct": 49.3,
+        "price_known_pct": 86.0
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 78,
-          "share_pct": 41.7,
+          "count": 80,
+          "share_pct": 38.6,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 25,
-          "share_pct": 13.4,
+          "count": 37,
+          "share_pct": 17.9,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 23,
-          "share_pct": 12.3,
-          "underrepresented": false
-        },
-        {
-          "id": "cultura",
-          "label": "Cultura",
-          "count": 19,
-          "share_pct": 10.2,
+          "share_pct": 11.1,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
-          "count": 15,
-          "share_pct": 8.0,
+          "count": 20,
+          "share_pct": 9.7,
+          "underrepresented": false
+        },
+        {
+          "id": "cultura",
+          "label": "Cultura",
+          "count": 20,
+          "share_pct": 9.7,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 11,
-          "share_pct": 5.9,
+          "share_pct": 5.3,
           "underrepresented": false
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 6,
-          "share_pct": 3.2,
+          "share_pct": 2.9,
           "underrepresented": true
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 6,
-          "share_pct": 3.2,
+          "share_pct": 2.9,
           "underrepresented": true
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
           "count": 4,
-          "share_pct": 2.1,
+          "share_pct": 1.9,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 120,
-          "share_pct": 64.2
+          "count": 125,
+          "share_pct": 60.4
         },
         {
           "area": "Viña del Mar",
-          "count": 67,
-          "share_pct": 35.8
+          "count": 82,
+          "share_pct": 39.6
         }
       ],
       "coverage_gaps": {
@@ -124,8 +124,7 @@
           "sala_secreta",
           "visitavina_fonck_recovery",
           "legacy_instagram_com",
-          "legacy_jardin_botanico_nacional_de_vina_del_mar",
-          "visitavina_palacio_rioja_recovery"
+          "legacy_jardin_botanico_nacional_de_vina_del_mar"
         ],
         "zero_sources_covered_elsewhere": [
           "casa_cultura_valparaiso",
@@ -141,7 +140,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 56.1,
+        "relevant_image_pct": 56.0,
         "removed_events": {}
       },
       "sources": [
@@ -172,9 +171,34 @@
           "verified_inactive": false
         },
         {
+          "id": "cinearte_vina",
+          "name": "Cine Arte Viña del Mar",
+          "count": 20,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 20
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "trotamundosvalpo",
           "name": "Trotamundos Valparaíso",
-          "count": 18,
+          "count": 19,
           "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
@@ -193,61 +217,7 @@
           },
           "categories": {
             "teatro": 1,
-            "musica": 17
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "cinearte_vina",
-          "name": "Cine Arte Viña del Mar",
-          "count": 14,
-          "quality_score": 96.8,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 92.9,
-            "time_pct": 92.9,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 92.9
-          },
-          "categories": {
-            "cine": 14
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "culturasvina",
-          "name": "Culturas Viña",
-          "count": 12,
-          "quality_score": 87.5,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 25.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 66.7
-          },
-          "categories": {
-            "exposiciones": 8,
-            "ferias-gastronomia": 1,
-            "cursos-talleres": 1,
-            "musica": 1,
-            "naturaleza-deportes": 1
+            "musica": 18
           },
           "verified_inactive": false
         },
@@ -279,6 +249,60 @@
             "exposiciones": 1,
             "otros": 1,
             "ferias-gastronomia": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "culturasvina",
+          "name": "Culturas Viña",
+          "count": 11,
+          "quality_score": 86.4,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 18.2,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 63.6
+          },
+          "categories": {
+            "exposiciones": 7,
+            "ferias-gastronomia": 1,
+            "cursos-talleres": 1,
+            "musica": 1,
+            "naturaleza-deportes": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "insomniacine",
+          "name": "INSOMNIA Teatro Condell",
+          "count": 11,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 90.9,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 11
           },
           "verified_inactive": false
         },
@@ -335,10 +359,10 @@
           "verified_inactive": false
         },
         {
-          "id": "insomniacine",
-          "name": "Insomnia Cine",
-          "count": 7,
-          "quality_score": 100.0,
+          "id": "visitavina_palacio_rioja_recovery",
+          "name": "Visita Viña — Museo Palacio Rioja",
+          "count": 10,
+          "quality_score": 91.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -349,13 +373,17 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 10.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
             "price_known_pct": 100.0
           },
           "categories": {
-            "cine": 7
+            "exposiciones": 1,
+            "cursos-talleres": 5,
+            "cine": 2,
+            "cultura": 1,
+            "musica": 1
           },
           "verified_inactive": false
         },

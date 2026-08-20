@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T15:11:49-04:00",
+  "generated_at": "2026-08-20T15:58:24-04:00",
   "window_days": 10,
-  "targets": 121,
+  "targets": 141,
   "fetched": 20,
-  "updated_events": 11,
-  "review_needed": 8,
+  "updated_events": 9,
+  "review_needed": 7,
   "fetch_errors": 0,
-  "skipped": 101,
+  "skipped": 121,
   "teatro_vina_cartelera": "ok",
   "rows": [
     {
@@ -54,12 +54,10 @@
     },
     {
       "id": "agenda_baburizza_a37f94515515258cdea3",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
       "match_score": 1.0,
-      "fields": [
-        "display_text"
-      ],
+      "fields": [],
       "visible_schedule_used": false
     },
     {
@@ -68,9 +66,7 @@
       "url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
       "match_score": 1.0,
       "fields": [
-        "display_text",
-        "end",
-        "start"
+        "display_text"
       ],
       "visible_schedule_used": false
     },
@@ -82,9 +78,17 @@
     },
     {
       "id": "agenda_67defc9c064344e04c20aca6",
-      "state": "updated",
+      "state": "verified_unchanged",
       "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "match_score": 1.0,
+      "fields": [],
+      "visible_schedule_used": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_f330a25add773e39c6",
+      "state": "updated",
+      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/?occurrence=2026-08-20",
+      "match_score": 0.94,
       "fields": [
         "address",
         "display_text",
@@ -128,7 +132,7 @@
       "match_score": 0.0
     },
     {
-      "id": "agenda_436aa2104216f8e9dea2473f",
+      "id": "agenda_cinema_80ddbf36d7706645c9cc",
       "state": "updated",
       "url": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
       "match_score": 0.94,
@@ -142,35 +146,9 @@
       "visible_schedule_used": false
     },
     {
-      "id": "agenda_e5e70d2d0bb6975591ebe862",
+      "id": "agenda_cinema_89fad76159b4f9f63f23",
       "state": "updated",
       "url": "https://www.passline.com/eventos/la-invitacion-546125",
-      "match_score": 1.0,
-      "fields": [
-        "address",
-        "display_text",
-        "end",
-        "start"
-      ],
-      "visible_schedule_used": false
-    },
-    {
-      "id": "agenda_e02df7fa13fda35c81f15cd9",
-      "state": "updated",
-      "url": "https://www.passline.com/eventos/la-odisea-546119",
-      "match_score": 1.0,
-      "fields": [
-        "address",
-        "display_text",
-        "end",
-        "start"
-      ],
-      "visible_schedule_used": false
-    },
-    {
-      "id": "agenda_830a18503430778edbfe0743",
-      "state": "updated",
-      "url": "https://luma.com/wallevinadelmar",
       "match_score": 1.0,
       "fields": [
         "address",
@@ -182,11 +160,33 @@
       "visible_schedule_used": false
     },
     {
+      "id": "agenda_cinema_ba27d66cc859b30a8f0a",
+      "state": "updated",
+      "url": "https://www.passline.com/eventos/la-odisea-546119",
+      "match_score": 1.0,
+      "fields": [
+        "address",
+        "display_text",
+        "end",
+        "start",
+        "venue"
+      ],
+      "visible_schedule_used": false
+    },
+    {
+      "id": "agenda_830a18503430778edbfe0743",
+      "state": "verified_unchanged",
+      "url": "https://luma.com/wallevinadelmar",
+      "match_score": 1.0,
+      "fields": [],
+      "visible_schedule_used": false
+    },
+    {
       "id": "agenda_fd3ddae09e1576497c5cb7d7",
       "state": "no_event_specific_structured_url"
     },
     {
-      "id": "agenda_78a395c8d6980d1679196a95",
+      "id": "agenda_cinema_0185b50a0ec511cdd9ec",
       "state": "updated",
       "url": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
       "match_score": 0.94,
@@ -207,9 +207,8 @@
     },
     {
       "id": "agenda_846d22de7ff64e051ae64c9f",
-      "state": "no_confident_event_jsonld_match",
-      "url": "https://salasscd.cl/sitio/events/alma-pajara/",
-      "match_score": 0.0
+      "state": "fetch_budget_exhausted",
+      "url": "https://salasscd.cl/sitio/events/alma-pajara/"
     },
     {
       "id": "agenda_fc5b16b0d58fec6b6a646522",
@@ -222,7 +221,7 @@
       "url": "https://www.portaldisc.com/evento/sctriobrillovina"
     },
     {
-      "id": "agenda_b173bd3c93b9cb2b2acc821e",
+      "id": "agenda_cinema_e60a0358b48e09591dcc",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/pearl-546140"
     },
@@ -232,7 +231,7 @@
       "url": "https://www.passline.com/eventos/angelo-soul-docente-indecente"
     },
     {
-      "id": "agenda_611565f0e8baa963ee0e0be5",
+      "id": "agenda_cinema_295160d63e666d9784b9",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
     },
@@ -240,11 +239,6 @@
       "id": "agenda_trotamundos_fe7bdef9de6229b3d4f5",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso"
-    },
-    {
-      "id": "agenda_eb89b5ee606c6cb270ea04c4",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
     },
     {
       "id": "agenda_eeea936319edc98db3c75f29",
@@ -262,14 +256,29 @@
       "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/"
     },
     {
+      "id": "agenda_cinema_642656d914c0f022cdcf",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar"
+    },
+    {
+      "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-21&time=1787324400"
+    },
+    {
       "id": "agenda_ffec605015840bafa9a42844",
       "state": "fetch_budget_exhausted",
       "url": "https://www.mhnv.gob.cl/cartelera/conversatorio-sobre-emile-dubois-y-su-vinculo-con-la-historia-portena"
     },
     {
-      "id": "agenda_c178de14e87c2c3936ddc5c9",
+      "id": "agenda_cinema_5ee2f4f5596cbda91c68",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164"
+    },
+    {
+      "id": "agenda_cinema_57286ee4ba67785c340e",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-odisea-546119"
     },
     {
       "id": "agenda_3791028a64c27dec1a858970",
@@ -297,7 +306,7 @@
       "url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso"
     },
     {
-      "id": "agenda_1740e4aa552f79135839e5b9",
+      "id": "agenda_cinema_806946634d753dfa6b80",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/marie-antoinette-20-aniversario-cine-arte-vina-del-mar"
     },
@@ -317,7 +326,7 @@
       "url": "https://www.passline.com/eventos/tributo-al-bloque-depresivo-por-melancolicos-anonimos-en-trotamundos-valparaiso"
     },
     {
-      "id": "agenda_1a55c8e4c92db5d2263ba2a8",
+      "id": "agenda_cinema_f0c86b1d5ef3cf18ebbe",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/crash-extranos-placeres"
     },
@@ -400,9 +409,14 @@
       "url": "https://www.portaldisc.com/evento/aniversariowareba"
     },
     {
-      "id": "agenda_78336fdc79b86633bed47aa4",
+      "id": "agenda_cinema_421b9c209e42c15fc0b4",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546127"
+    },
+    {
+      "id": "agenda_visitavina_rioja_fba2e51062fde39628",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-22&time=1787410800"
     },
     {
       "id": "agenda_36631639a2e2b3dac3e9be67",
@@ -414,7 +428,7 @@
       "url": "https://luma.com/nemesiopelao"
     },
     {
-      "id": "agenda_c284bf1bccf17498e7c74b3c",
+      "id": "agenda_cinema_23077bf7f9a944762fed",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128"
     },
@@ -429,7 +443,7 @@
       "url": "https://www.portaldisc.com/evento/ninocoheteenteatromauriscdvalparaso"
     },
     {
-      "id": "agenda_15b5df5e38b07b13b1a5e2d2",
+      "id": "agenda_cinema_27d4c2d95cdbe0c8bea3",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/backrooms-version-extendida-546604"
     },
@@ -483,6 +497,16 @@
       "url": "https://artequinvina.cl/events/talleres-en-patota-manos-a-la-masa/"
     },
     {
+      "id": "agenda_cinema_2b9c2c70dd899aca993c",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172"
+    },
+    {
+      "id": "agenda_cinema_dc14f15b93c6f4d7f5b2",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-odisea-546119"
+    },
+    {
       "id": "agenda_9f2c3149e973e3b7a37b56ed",
       "state": "fetch_budget_exhausted",
       "url": "https://artequinvina.cl/events/juegos-en-patota-detectives-del-arte-ago/"
@@ -493,27 +517,52 @@
       "url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821"
     },
     {
+      "id": "agenda_cinema_d1e5006686db34c43df6",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128"
+    },
+    {
+      "id": "agenda_cinema_fdc91967cf8e1f7706d7",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
+    },
+    {
       "id": "agenda_e4928ff2115c71c2958263c9",
       "state": "fetch_budget_exhausted",
       "url": "https://teatrovina.cl/evento/obra-noche-de-reyes/"
     },
     {
-      "id": "agenda_d938b5ed74baf7c48fb6b297",
+      "id": "agenda_cinema_82e9d4d1d32353eed25c",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-546168"
     },
     {
-      "id": "agenda_e42a6b80fe70ee4ef124f17d",
+      "id": "agenda_cinema_5d3a0a24fd27ce923439",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/calle-malaga-2025-cine-arte-vina-del-mar-546164"
+    },
+    {
+      "id": "agenda_cinema_468a21ffae3babeddbd7",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-546181"
     },
     {
-      "id": "agenda_a3ac6b5483d67fc3f25f5c9f",
+      "id": "agenda_cinema_41b7c0f323fee13942e5",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar"
     },
     {
-      "id": "agenda_6dd67d21bf651faa58e3c438",
+      "id": "agenda_cinema_fd9132e60d11365a5d42",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172"
+    },
+    {
+      "id": "agenda_visitavina_rioja_ae225a6c686b76cf9d",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/travesias-cinematografica-ficvina-el-angel-exterminador/?occurrence=2026-08-25"
+    },
+    {
+      "id": "agenda_cinema_896f067d01ed8b013880",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-546163"
     },
@@ -523,9 +572,29 @@
       "url": "https://teatrovina.cl/evento/concierto-noche-de-opera/"
     },
     {
-      "id": "agenda_43408b27e24060adccd60f44",
+      "id": "agenda_cinema_73b32b58557b2782e61b",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/el-gran-lebowski-1998-cine-arte-vina-del-mar"
+    },
+    {
+      "id": "agenda_visitavina_rioja_a94d7b8aaea18a1ada",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/taller-qi-gong-2-622/?occurrence=2026-08-26&time=1787738400"
+    },
+    {
+      "id": "agenda_cinema_d049c21c51679f81dea0",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-546168"
+    },
+    {
+      "id": "agenda_visitavina_rioja_e6078534235a01bfa2",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/ciclo-de-cine-de-autor-jacques-tati-playtime/?occurrence=2026-08-26"
+    },
+    {
+      "id": "agenda_cinema_a4cad74882939946323e",
+      "state": "fetch_budget_exhausted",
+      "url": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172"
     },
     {
       "id": "agenda_6dd77b85bbb70408a93c0034",
@@ -533,14 +602,24 @@
       "url": "https://teatrovina.cl/evento/concierto-te-mana/"
     },
     {
-      "id": "agenda_98b25e130e7446da2181833b",
+      "id": "agenda_cinema_b1a3e5d3eb57a166301c",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/melancholia-2011-cine-arte-vina-del-mar"
+    },
+    {
+      "id": "agenda_visitavina_rioja_32e715c4633ac89132",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/taller-el-museo-en-tus-manos-3/?occurrence=2026-08-27&time=1787846400"
     },
     {
       "id": "agenda_2bccb360f5f63a0cf3818441",
       "state": "fetch_budget_exhausted",
       "url": "https://www.pucv.cl/pucv/evento/institucional/taller-de-liderazgo-prosocial-para-agentes-de-cambio"
+    },
+    {
+      "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/presentacion-libro-decadencia/?occurrence=2026-08-27"
     },
     {
       "id": "agenda_portaltickets_valparaiso_dbae012960aa5b0b",
@@ -582,7 +661,12 @@
       "state": "no_event_specific_structured_url"
     },
     {
-      "id": "agenda_b0f00a5bde1ece295138e869",
+      "id": "agenda_cinema_3dbe6cea935ecc258b88",
+      "state": "fetch_budget_exhausted",
+      "url": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/"
+    },
+    {
+      "id": "agenda_cinema_591aedbc6375ea9be0c1",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar"
     },
@@ -646,6 +730,16 @@
       "url": "https://jbn.cl/calendario-actividades/"
     },
     {
+      "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-29&time=1788015600"
+    },
+    {
+      "id": "agenda_visitavina_rioja_ac4f49f1fe79ef03d0",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/concierto-jazz-moncho-perez/?occurrence=2026-08-29"
+    },
+    {
       "id": "agenda_7d6db81df72c46da7e8e3849",
       "state": "fetch_budget_exhausted",
       "url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/"
@@ -656,7 +750,7 @@
       "url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/"
     },
     {
-      "id": "agenda_60f99e3a996e3f091586f0d1",
+      "id": "agenda_cinema_cfdf8ef1738036d37302",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/high-school-musical-sing-along-2006-cine-arte-vina-del-mar"
     },
