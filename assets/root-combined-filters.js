@@ -1,7 +1,8 @@
 import {
   filterRootEvents,
   rootEventMatchesAdvancedFilters,
-} from "./root-combined-filter-core.mjs?v=20260817";
+  rootEventPublicCategories,
+} from "./root-combined-filter-core.mjs?v=20260820-category-merge";
 
 const DATASET_PATH = "./agenda_web.json";
 const form = document.querySelector("[data-filter-form]");
@@ -84,8 +85,13 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
   const active = advanced.querySelector("[data-advanced-active]");
   const chips = advanced.querySelector("[data-advanced-chips]");
 
-  function normalizeCategoryLabel(value) {
-    return String(value || "").trim();
+  function publicEvent(event) {
+    const categories = rootEventPublicCategories(event);
+    return {
+      ...event,
+      categories,
+      primary_category: categories[0] || event?.primary_category,
+    };
   }
 
   function categoryCatalog() {
@@ -136,7 +142,6 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
     setOrDelete("format", state.format);
     setOrDelete("aud", state.audience);
     setOrDelete("price", state.price);
-    // Legacy root parameters are intentionally retained for city/date/section/workshops.
     history.replaceState({}, "", url);
   }
 
@@ -224,6 +229,20 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
     clearLegacyAdvancedHooks();
     legacyQuery.dispatchEvent(new Event("input", { bubbles: true }));
   }
+
+  function setExternalCategories(values) {
+    state.categories = new Set((values || []).filter(Boolean));
+    requestAnimationFrame(() => {
+      requestBaseRerender();
+      renderAdvancedState();
+    });
+  }
+
+  globalThis.__VIVAMOS_ROOT_FILTERS__ = {
+    setCategories: setExternalCategories,
+    getCategories: () => [...state.categories],
+    apply: () => requestAnimationFrame(renderAdvancedState),
+  };
 
   function absorbLegacyCategory() {
     const value = legacyCategory.value;
@@ -333,7 +352,7 @@ if (!form || !grid || !legacyQuery || !legacyCategory) {
       const response = await fetch(DATASET_PATH, { headers: { Accept: "application/json" } });
       if (!response.ok) return;
       const dataset = await response.json();
-      state.dataset = Array.isArray(dataset.events) ? dataset.events : [];
+      state.dataset = Array.isArray(dataset.events) ? dataset.events.map(publicEvent) : [];
       state.byId = new Map(state.dataset.map((event) => [event.id, event]));
       restoreAdvancedUrl();
       renderCategories();
