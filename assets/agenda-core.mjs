@@ -4,6 +4,29 @@ export * from "./agenda-core-base.mjs";
 
 const ROOT_TIME_ZONE = base.DISPLAY_TIME_ZONE || "America/Santiago";
 
+if (typeof document !== "undefined") {
+  const style = document.createElement("style");
+  style.dataset.rootCompactLayout = "true";
+  style.textContent = `
+    #destacados,
+    #categorias,
+    #explorar .explore-heading,
+    #explorar .section-tabs {
+      display: none !important;
+    }
+    .category-section {
+      padding-bottom: .8rem !important;
+    }
+    .category-section + .primary-navigation {
+      margin-top: 0 !important;
+    }
+    #explorar {
+      padding-top: .75rem !important;
+    }
+  `;
+  document.head.append(style);
+}
+
 const ROOT_CATEGORY_ALIASES = new Map([
   ["ferias", "ferias-gastronomia"],
   ["gastronomia", "ferias-gastronomia"],
