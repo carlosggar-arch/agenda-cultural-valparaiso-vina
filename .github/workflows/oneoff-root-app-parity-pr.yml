@@ -1,0 +1,31 @@
+name: One-off root APP parity PR trigger
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - ".github/workflows/oneoff-root-app-parity-pr.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  trigger-patch:
+    if: github.head_ref == 'web/align-counts-and-app-parity'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: web/align-counts-and-app-parity
+          fetch-depth: 0
+      - name: Touch one-off workflow to trigger branch patch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          echo "# pr-trigger $(date -u +%s)" >> .github/workflows/oneoff-root-app-parity.yml
+          git add .github/workflows/oneoff-root-app-parity.yml
+          git commit -m "Trigger root parity patch"
+          git push origin HEAD:web/align-counts-and-app-parity
