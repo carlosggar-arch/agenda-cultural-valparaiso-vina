@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v160 restores grouped exhibition integrity and structural text/program guards.
-  const RELEASE = 160;
+  // v161 focuses multi-session cards on the sessions of the current local day.
+  const RELEASE = 161;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
