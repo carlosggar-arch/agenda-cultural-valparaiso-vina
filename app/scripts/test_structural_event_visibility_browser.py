@@ -3,6 +3,7 @@ from __future__ import annotations
 import http.server
 import json
 import os
+import re
 import shutil
 import socketserver
 import subprocess
@@ -118,7 +119,7 @@ def fixture_payload(original: dict) -> dict:
             venue="Estadio Español", city="Viña del Mar", source_name="Estadio Español Recreo", source_url="https://www.instagram.com/p/fixture-c/",
         ),
     ]
-    payload = {
+    return {
         "schema_version": original.get("schema_version", "1.2.0"),
         "generated_at": f"{today.isoformat()}T12:00:00-04:00",
         "publication_date": today.isoformat(),
@@ -126,7 +127,6 @@ def fixture_payload(original: dict) -> dict:
         "counts": {"total": len(events), "events": len(events), "courses": 0, "flexible_offers": 0, "programs": 0},
         "events": events,
     }
-    return payload
 
 
 def make_test_page() -> None:
@@ -158,9 +158,11 @@ def make_test_page() -> None:
           .find((node) => pcdv.every((id) => String(node.dataset.eventGroup || '').split(',').includes(id)) && visible(node));
         const teatroVisible = represented({json.dumps(THEATRE_ID)});
         const estadioVisible = estadio.filter(represented).length;
+        const pcdvVisible = pcdv.filter(represented).length;
         document.body.dataset.structuralVisibilityExpected = String(expected.length);
         document.body.dataset.structuralVisibilityVisible = String(expected.length - missing.length);
         document.body.dataset.structuralVisibilityMissing = missing.join(',');
+        document.body.dataset.structuralVisibilityPcdv = String(pcdvVisible);
         document.body.dataset.structuralVisibilityPcdvGroup = group ? 'true' : 'false';
         document.body.dataset.structuralVisibilityTheatre = teatroVisible ? 'true' : 'false';
         document.body.dataset.structuralVisibilityEstadio = String(estadioVisible);
@@ -200,6 +202,17 @@ def dump_dom(url: str) -> str:
         return result.stdout
 
 
+def diagnostic_values(dom: str) -> dict[str, str]:
+    names = (
+        "expected", "visible", "missing", "pcdv", "pcdv-group", "theatre", "estadio",
+    )
+    values: dict[str, str] = {}
+    for name in names:
+        match = re.search(rf'data-structural-visibility-{re.escape(name)}="([^"]*)"', dom)
+        values[name] = match.group(1) if match else "(absent)"
+    return values
+
+
 def main() -> None:
     original_text = DATASET.read_text(encoding="utf-8")
     original = json.loads(original_text)
@@ -219,17 +232,20 @@ def main() -> None:
                 server.shutdown()
                 thread.join(timeout=2)
 
+        diagnostics = diagnostic_values(dom)
+        print("STRUCTURAL_VISIBILITY_DIAGNOSTICS " + json.dumps(diagnostics, ensure_ascii=False, sort_keys=True))
         expected_markers = {
             'data-structural-visibility-expected="6"': "fixture count was not evaluated",
             'data-structural-visibility-visible="6"': "one or more approved fixture events disappeared from the rendered agenda",
             'data-structural-visibility-missing=""': "approved fixture IDs are missing from the visible DOM",
-            'data-structural-visibility-pcdv-group="true"': "Parque Cultural exhibitions were lost or hidden during grouping",
+            'data-structural-visibility-pcdv="2"': "one or more Parque Cultural exhibitions were lost or hidden",
+            'data-structural-visibility-pcdv-group="true"': "Parque Cultural exhibitions were visible but did not survive the grouping renderer as one accessible group",
             'data-structural-visibility-theatre="true"': "theatre event was lost or hidden",
             'data-structural-visibility-estadio="3"': "one or more Estadio Español events were lost or hidden",
         }
         for marker, message in expected_markers.items():
             if marker not in dom:
-                raise AssertionError(message + f"; expected marker {marker}")
+                raise AssertionError(message + f"; diagnostics={diagnostics}; expected marker {marker}")
         print("Structural event visibility browser contract: OK (theatre + Parque Cultural grouped exhibitions + Estadio Español)")
     finally:
         DATASET.write_text(original_text, encoding="utf-8")
