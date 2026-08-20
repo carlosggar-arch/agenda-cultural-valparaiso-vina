@@ -5,6 +5,7 @@ import test from "node:test";
 const fallback = await readFile(new URL("../app/card-image-fallback.js", import.meta.url), "utf8");
 const corrections = await readFile(new URL("../app/event-data-corrections.js", import.meta.url), "utf8");
 const app = await readFile(new URL("../app/app.js", import.meta.url), "utf8");
+const release = await readFile(new URL("../app/release-version.js", import.meta.url), "utf8");
 
 test("runtime-only events are indexed from the shared final normalized snapshot", () => {
   assert.match(fallback, /getAgendaRuntimeSnapshot/);
@@ -37,4 +38,17 @@ test("Valpo image modules use the shared runtime cache token", () => {
   assert.match(app, /card-image-fallback\.js\?v=20260819-runtime1/);
   assert.match(app, /public-presentation-guard\.js\?v=20260819-runtime1/);
   assert.doesNotMatch(app, /card-title-consistency\.js\?/);
+});
+
+test("image quality guard is retried independently from optional modules", () => {
+  assert.match(app, /const IMAGE_QUALITY_GUARD = "\.\/image-quality-guard\.js\?v=20260820-images3"/);
+  assert.match(app, /async function loadImageQualityGuard\(\)/);
+  assert.match(app, /const delays = \[0, 250, 1000\]/);
+  assert.match(app, /await import\(IMAGE_QUALITY_GUARD\)/);
+  assert.match(app, /void loadImageQualityGuard\(\)/);
+  assert.doesNotMatch(app, /OPTIONAL_MODULES\.push\([\s\S]*image-quality-guard\.js/);
+});
+
+test("PWA release changes so Cloudflare and GitHub replace stale image caches", () => {
+  assert.match(release, /const RELEASE = 159;/);
 });
