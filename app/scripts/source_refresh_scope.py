@@ -3,11 +3,10 @@ from __future__ import annotations
 import argparse
 import sys
 
-# Files that can change how official/source data is fetched, reconciled,
-# validated or automatically maintained in the public repository.
 SOURCE_RUNTIME_PATHS = {
     ".github/workflows/event-pages.yml",
     "app/data/high_value_sources.json",
+    "app/data/source-registry.json",
     "app/scripts/fetch_high_value_sources.py",
     "app/scripts/validate_high_value_refresh.py",
     "app/scripts/refresh_museo_maritimo.py",
@@ -35,10 +34,13 @@ SOURCE_RUNTIME_PATHS = {
     "app/scripts/source_refresh_scope.py",
 }
 
-# Fast deterministic policy tests should run whenever either source runtime or
-# its dedicated regression tests change. Network probes are reserved for
-# runtime/config/workflow changes only.
 SOURCE_TEST_PATHS = {
+    "fuentes_publicas.json",
+    "agenda_web.json",
+    "app/data/gijon/agenda_web.json",
+    "app/data/quality/source-coverage.json",
+    "app/scripts/validate_source_registry.py",
+    "app/scripts/test_source_registry.py",
     "app/scripts/test_high_value_sources.py",
     "app/scripts/test_museo_maritimo.py",
     "app/scripts/test_balmaceda_valpo.py",
@@ -66,22 +68,12 @@ def classify(paths: list[str]) -> dict[str, bool]:
     normalized = normalize_paths(paths)
     runtime = any(path in SOURCE_RUNTIME_PATHS for path in normalized)
     tests = runtime or any(path in SOURCE_TEST_PATHS for path in normalized)
-    return {
-        "tests_needed": tests,
-        "live_needed": runtime,
-        "refresh_needed": runtime,
-    }
+    return {"tests_needed": tests, "live_needed": runtime, "refresh_needed": runtime}
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Classify changed repository paths for source policy tests, live probes and production refresh."
-    )
-    parser.add_argument(
-        "paths",
-        nargs="*",
-        help="Changed paths. If omitted, newline-separated paths are read from stdin.",
-    )
+    parser = argparse.ArgumentParser(description="Classify changed repository paths for source policy tests, live probes and production refresh.")
+    parser.add_argument("paths", nargs="*", help="Changed paths. If omitted, newline-separated paths are read from stdin.")
     args = parser.parse_args()
     paths = args.paths if args.paths else sys.stdin.read().splitlines()
     result = classify(paths)
