@@ -18,7 +18,6 @@ let indexedCity = null;
 let indexedRevision = 0;
 let eventsById = new Map();
 let buildTimer = null;
-let syncTimer = null;
 let building = false;
 
 function installStyles() {
@@ -71,32 +70,6 @@ function groupIds(card) {
 function directCards() {
   return [...(grid?.children || [])]
     .filter((node) => node instanceof HTMLElement && node.classList.contains("event-card"));
-}
-
-function sentinelRoot() {
-  let root = document.querySelector("[data-unified-exhibition-sentinels]");
-  if (root) return root;
-  root = document.createElement("div");
-  root.dataset.unifiedExhibitionSentinels = "";
-  root.hidden = true;
-  root.setAttribute("aria-hidden", "true");
-  document.body.append(root);
-  return root;
-}
-
-function resetSentinels() {
-  sentinelRoot().replaceChildren();
-}
-
-function ensureSentinel(id) {
-  const root = sentinelRoot();
-  let node = root.querySelector(`[data-event-id="${CSS.escape(id)}"]`);
-  if (node) return node;
-  node = document.createElement("span");
-  node.className = "event-card unified-exhibition-filter-sentinel";
-  node.dataset.eventId = id;
-  root.append(node);
-  return node;
 }
 
 function eventImage(event) {
@@ -220,7 +193,30 @@ function sortEvents(events, config) {
   });
 }
 
-function buildGroupCard(events) {
+function applyInitialVisibility(card, visibleIds) {
+  const ids = groupIds(card);
+  const visible = visibleIds instanceof Set ? visibleIds : new Set(ids);
+  card.hidden = visible.size === 0;
+  for (const row of card.querySelectorAll("[data-grouped-event-id]")) {
+    row.hidden = !visible.has(String(row.dataset.groupedEventId || ""));
+  }
+  const count = card.querySelector("[data-exhibition-visible-count]");
+  if (count) count.textContent = `${visible.size} ${visible.size === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
+  const summary = card.querySelector("[data-exhibition-summary]");
+  if (summary) summary.textContent = `Ver ${visible.size} ${visible.size === 1 ? "exposición" : "exposiciones"}`;
+}
+
+function visibleIdsFromExistingGroup(card, ids) {
+  if (card.hidden) return new Set();
+  const rows = [...card.querySelectorAll("[data-grouped-event-id]")];
+  if (!rows.length) return new Set(ids);
+  return new Set(rows
+    .filter((row) => !row.hidden)
+    .map((row) => String(row.dataset.groupedEventId || ""))
+    .filter(Boolean));
+}
+
+function buildGroupCard(events, visibleIds = null) {
   const cityId = currentCityId();
   const config = currentConfig();
   const sorted = sortEvents(events, config);
@@ -282,7 +278,7 @@ function buildGroupCard(events) {
 
   body.append(meta, heading, facts, details);
   card.append(body);
-  ids.forEach(ensureSentinel);
+  applyInitialVisibility(card, visibleIds ?? new Set(ids));
   return card;
 }
 
@@ -300,7 +296,7 @@ function replaceCoreGroups() {
     const ids = groupIds(card);
     const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
     if (events.length < EXHIBITION_GROUP_MIN || events.some((event) => publicExhibitionCategoryId(event) !== EXHIBITION_ID)) continue;
-    const replacement = buildGroupCard(events);
+    const replacement = buildGroupCard(events, visibleIdsFromExistingGroup(card, ids));
     card.replaceWith(replacement);
   }
 }
@@ -328,87 +324,32 @@ function groupStandaloneCards() {
       .map((event) => nodeById.get(String(event?.id || "")))
       .filter((node) => node?.isConnected && node.parentElement === grid);
     if (nodes.length < EXHIBITION_GROUP_MIN) continue;
+    const visibleIds = new Set(group.events
+      .map((event) => String(event?.id || ""))
+      .filter((id) => id && nodeById.get(id) && !nodeById.get(id).hidden));
     const anchor = firstNode(nodes);
-    const replacement = buildGroupCard(group.events);
+    const replacement = buildGroupCard(group.events, visibleIds);
     grid.insertBefore(replacement, anchor);
     nodes.forEach((node) => node.remove());
   }
 }
 
 function refreshCombinedFilters() {
+  // combined-filters.js is the single authority for filtered visibility. After
+  // replacing individual cards with one group card, request one normal filter
+  // pass instead of maintaining a second, competing visibility state here.
   const search = document.querySelector("[data-smart-search]");
   if (search) search.dispatchEvent(new Event("input", { bubbles: true }));
 }
 
-function visibleIdsForGroup(card) {
-  return groupIds(card).filter((id) => {
-    const sentinel = sentinelRoot().querySelector(`[data-event-id="${CSS.escape(id)}"]`);
-    return !sentinel || !sentinel.hidden;
-  });
-}
-
-function syncGroup(card) {
-  const visibleIds = new Set(visibleIdsForGroup(card));
-  card.hidden = visibleIds.size === 0;
-  for (const row of card.querySelectorAll("[data-grouped-event-id]")) {
-    row.hidden = !visibleIds.has(String(row.dataset.groupedEventId || ""));
-  }
-  const count = card.querySelector("[data-exhibition-visible-count]");
-  if (count) count.textContent = `${visibleIds.size} ${visibleIds.size === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
-  const summary = card.querySelector("[data-exhibition-summary]");
-  if (summary) summary.textContent = `Ver ${visibleIds.size} ${visibleIds.size === 1 ? "exposición" : "exposiciones"}`;
-}
-
-function directVisibleCount(targetGrid) {
-  if (!targetGrid) return 0;
-  let count = 0;
-  for (const card of targetGrid.children) {
-    if (!(card instanceof HTMLElement) || !card.classList.contains("event-card") || card.hidden) continue;
-    if (card.dataset.unifiedExhibitionGroup === "true") count += visibleIdsForGroup(card).length;
-    else if (card.dataset.eventId) count += 1;
-  }
-  return count;
-}
-
-function syncTotals() {
-  const dated = directVisibleCount(document.querySelector("[data-dated-grid]"));
-  const program = directVisibleCount(document.querySelector("[data-program-grid]"));
-  const flexible = directVisibleCount(document.querySelector("[data-flexible-grid]"));
-  const total = dated + program + flexible;
-  const datedNode = document.querySelector("[data-dated-total]");
-  const programNode = document.querySelector("[data-program-total]");
-  const flexibleNode = document.querySelector("[data-flexible-total]");
-  const totalNode = document.querySelector("[data-total]");
-  if (datedNode) datedNode.textContent = String(dated);
-  if (programNode) programNode.textContent = String(program);
-  if (flexibleNode) flexibleNode.textContent = String(flexible);
-  if (totalNode) totalNode.textContent = String(total);
-}
-
-function syncAll() {
-  syncTimer = null;
-  for (const card of grid?.querySelectorAll(':scope > [data-unified-exhibition-group="true"]') || []) syncGroup(card);
-  syncTotals();
-}
-
-function scheduleSync(delay = 0) {
-  if (syncTimer) clearTimeout(syncTimer);
-  syncTimer = setTimeout(() => requestAnimationFrame(syncAll), delay);
-}
-
 function buildGroups() {
   buildTimer = null;
-  if (!grid || building || !syncRuntimeIndex()) {
-    scheduleSync(0);
-    return;
-  }
+  if (!grid || building || !syncRuntimeIndex()) return;
   building = true;
   try {
-    resetSentinels();
     replaceCoreGroups();
     groupStandaloneCards();
     refreshCombinedFilters();
-    scheduleSync(20);
     window.dispatchEvent(new CustomEvent("vivamos:exhibition-groups-rendered", {
       detail: { city: currentCityId(), renderer: "unified" },
     }));
@@ -434,7 +375,6 @@ for (const eventName of ["vivamos:agenda-data-ready", "vivamos:agenda-rendered",
   window.addEventListener(eventName, () => scheduleBuild(20));
 }
 window.addEventListener("pageshow", () => scheduleBuild(40), { passive: true });
-window.addEventListener("popstate", () => scheduleSync(20), { passive: true });
 
 if (grid) new MutationObserver(() => scheduleBuild(40)).observe(grid, { childList: true });
 new MutationObserver(resetCity).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
@@ -443,15 +383,12 @@ document.addEventListener("click", (event) => {
   const target = event.target instanceof Element ? event.target : null;
   if (!target) return;
   if (target.closest("[data-city-option]")) resetCity();
-  else if (target.closest("[data-section-filter], [data-category-filter], [data-filter-clear]")) scheduleBuild(30);
-  else if (target.closest("[data-filter-value], [data-combined-category]")) scheduleSync(20);
+  else if (target.closest("[data-section-filter], [data-category-filter]")) scheduleBuild(30);
 }, { passive: true });
 
 document.addEventListener("input", (event) => {
   const target = event.target instanceof Element ? event.target : null;
-  if (!target) return;
-  if (target.matches("[data-search]")) scheduleBuild(30);
-  else if (target.matches("[data-smart-search], [data-date-from], [data-date-to]")) scheduleSync(20);
+  if (target?.matches("[data-search]")) scheduleBuild(30);
 }, { passive: true });
 
 scheduleBuild(0);
