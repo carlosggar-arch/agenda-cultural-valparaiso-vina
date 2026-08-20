@@ -39,15 +39,15 @@ def event_rows(dataset: dict) -> list[dict]:
     return rows if isinstance(rows, list) else []
 
 
-def validate(registry: dict) -> dict:
+def validate(registry: dict, root: Path = ROOT) -> dict:
     errors: list[str] = []
     warnings: list[str] = []
 
     if registry.get("schema_version") != "1.0.0":
         errors.append("registry_schema_version")
 
-    public_path = ROOT / str(registry.get("public_catalog") or "")
-    coverage_path = ROOT / str(registry.get("coverage_catalog") or "")
+    public_path = root / str(registry.get("public_catalog") or "")
+    coverage_path = root / str(registry.get("coverage_catalog") or "")
     if not public_path.is_file():
         errors.append(f"missing_public_catalog:{public_path}")
         return {"status": "error", "errors": errors, "warnings": warnings}
@@ -94,15 +94,13 @@ def validate(registry: dict) -> dict:
     verification_policies = registry.get("verification_policies") or {}
     for spec in registry.get("datasets") or []:
         dataset_id = str(spec.get("id") or "")
-        path = ROOT / str(spec.get("path") or "")
+        path = root / str(spec.get("path") or "")
         if not path.is_file():
             errors.append(f"missing_dataset:{dataset_id}:{path}")
             continue
         dataset = load(path)
         sources = source_rows(dataset)
         source_ids = {str(row.get("id") or "") for row in sources if row.get("id")}
-        # Valparaíso's current public dataset does not carry a top-level source inventory;
-        # the coverage registry is the operational inventory for that city.
         coverage_city_id = str(spec.get("coverage_city_id") or "")
         if not source_ids and coverage_city_id:
             source_ids = {
@@ -166,7 +164,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Validate the canonical source registry contract.")
     parser.add_argument("--registry", default=str(REGISTRY_PATH))
     args = parser.parse_args()
-    report = validate(load(Path(args.registry)))
+    registry_path = Path(args.registry).resolve()
+    report = validate(load(registry_path), ROOT)
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if report["status"] != "ok":
         raise SystemExit(2)
