@@ -1,24 +1,17 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T15:13:19-04:00",
-  "current_events": 174,
-  "events_with_images_before": 95,
-  "missing_images_before": 79,
+  "generated_at": "2026-08-20T15:59:56-04:00",
+  "current_events": 195,
+  "events_with_images_before": 108,
+  "missing_images_before": 87,
   "fetched_pages": 10,
-  "recovered_event_specific_images": 1,
+  "recovered_event_specific_images": 0,
   "fetch_errors": 0,
   "no_confident_match": 5,
-  "missing_images_after": 78,
+  "missing_images_after": 87,
   "representative_fallback_available_after": 7,
-  "event_specific_image_pct_after": 55.2,
+  "event_specific_image_pct_after": 55.4,
   "rows": [
-    {
-      "id": "agenda_e7e2a4a89dc447f9bd2633e7",
-      "state": "recovered",
-      "url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
-      "match_score": 1.0,
-      "image_url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png"
-    },
     {
       "id": "agenda_67defc9c064344e04c20aca6",
       "state": "matched_but_no_event_image",
@@ -53,6 +46,13 @@
       "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
       "match_score": 1.0,
       "representative_available": true
+    },
+    {
+      "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
+      "state": "matched_but_no_event_image",
+      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-21&time=1787324400",
+      "match_score": 1.0,
+      "representative_available": false
     },
     {
       "id": "agenda_portaltickets_valparaiso_9c8ea1f08c183926",
@@ -123,6 +123,11 @@
       "representative_available": false
     },
     {
+      "id": "agenda_visitavina_rioja_fba2e51062fde39628",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
       "id": "agenda_portaltickets_valparaiso_c235b452c6f385e8",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -149,6 +154,31 @@
     },
     {
       "id": "agenda_teatromuseo_43ba6181f70d7b0b9058",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_ae225a6c686b76cf9d",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_a94d7b8aaea18a1ada",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_e6078534235a01bfa2",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_32e715c4633ac89132",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
@@ -209,6 +239,16 @@
     },
     {
       "id": "agenda_0abfa83cf72008bef8cfe20e",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_ac4f49f1fe79ef03d0",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
