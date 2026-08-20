@@ -8,19 +8,23 @@ from datetime import date, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from event_page_tools import fetch
-
 ROOT = Path(__file__).resolve().parents[2]
 DATASET_PATH = ROOT / "agenda_web.json"
 COVERAGE_PATH = ROOT / "app/data/quality/source-coverage.json"
 CATALOG_PATH = ROOT / "fuentes_publicas.json"
+REGISTRY_PATH = ROOT / "app/data/source-registry.json"
 REPORT_PATH = ROOT / "app/data/quality/source-coherence.json"
-CORE_POLICY_URL = "https://raw.githubusercontent.com/carlosggar-arch/agenda-cultural-core/main/config/valpo_high_value_zero_policy.json"
 TIMEZONE = "America/Santiago"
 
 ALIASES = {
     "insomnia teatro condell": "insomnia cine",
 }
+
+REQUIRED_REGISTRY_FLAGS = (
+    "event_source_id_required",
+    "event_source_must_be_registered",
+    "new_public_source_requires_operational_mapping",
+)
 
 
 def load(path: Path) -> dict:
@@ -38,6 +42,10 @@ def norm(value: object) -> str:
     return ALIASES.get(value, value)
 
 
+def source_id(value: object) -> str:
+    return str(value or "").strip()
+
+
 def parse_day(value: object) -> date | None:
     text = str(value or "").strip()[:10]
     try:
@@ -46,36 +54,67 @@ def parse_day(value: object) -> date | None:
         return None
 
 
-def core_policy() -> tuple[str, dict]:
-    ok, _, text, error = fetch(CORE_POLICY_URL)
-    if not ok:
-        return f"fetch_error:{error}", {}
-    try:
-        return "ok", json.loads(text)
-    except json.JSONDecodeError:
-        return "invalid_json", {}
-
-
-def build(dataset: dict, coverage: dict, catalog: dict, today: date) -> dict:
+def build(dataset: dict, coverage: dict, catalog: dict, registry: dict, today: date) -> dict:
     public_rows = catalog.get("sources") or []
     city = ((coverage.get("cities") or {}).get("valparaiso-vina") or {})
     coverage_rows = city.get("sources") or []
+
     public_names = [norm(row.get("name")) for row in public_rows if row.get("name")]
     coverage_names = [norm(row.get("name")) for row in coverage_rows if row.get("name")]
     public_name_set = set(public_names)
     coverage_name_set = set(coverage_names)
+    coverage_ids = {source_id(row.get("id")) for row in coverage_rows if source_id(row.get("id"))}
+
+    registry_aliases = {
+        norm(name): source_id(target)
+        for name, target in (registry.get("name_aliases") or {}).items()
+        if norm(name) and source_id(target)
+    }
+    registry_exceptions = {
+        norm(name): str(reason or "").strip()
+        for name, reason in (registry.get("public_catalog_exceptions") or {}).items()
+        if norm(name)
+    }
 
     duplicate_public_ids = sorted(
-        sid for sid in {str(row.get("id") or "") for row in public_rows}
-        if sid and sum(str(row.get("id") or "") == sid for row in public_rows) > 1
+        sid for sid in {source_id(row.get("id")) for row in public_rows}
+        if sid and sum(source_id(row.get("id")) == sid for row in public_rows) > 1
     )
     duplicate_public_names = sorted(name for name in set(public_names) if public_names.count(name) > 1)
-    missing_in_coverage = sorted(
-        str(row.get("name") or "") for row in public_rows if norm(row.get("name")) not in coverage_name_set
-    )
+
+    missing_in_coverage: list[str] = []
+    operational_aliases: list[dict] = []
+    explicit_exceptions: list[dict] = []
+    public_operational_ids: set[str] = set()
+
+    for row in public_rows:
+        name = str(row.get("name") or "").strip()
+        name_key = norm(name)
+        canonical_id = source_id(row.get("canonical_source_id"))
+        alias_id = registry_aliases.get(name_key, "")
+        if canonical_id:
+            public_operational_ids.add(canonical_id)
+        if alias_id:
+            public_operational_ids.add(alias_id)
+
+        if name_key in coverage_name_set:
+            continue
+        if canonical_id and canonical_id in coverage_ids:
+            continue
+        if alias_id and alias_id in coverage_ids:
+            operational_aliases.append({"name": name, "coverage_source_id": alias_id})
+            continue
+        if name_key in registry_exceptions:
+            explicit_exceptions.append({"name": name, "reason": registry_exceptions[name_key]})
+            continue
+        missing_in_coverage.append(name)
+
     coverage_without_catalog = sorted(
-        str(row.get("name") or "") for row in coverage_rows
-        if norm(row.get("name")) not in public_name_set and not str(row.get("id") or "").startswith(("legacy_", "visitavina_", "portaltickets_", "valpocultura"))
+        str(row.get("name") or "")
+        for row in coverage_rows
+        if norm(row.get("name")) not in public_name_set
+        and source_id(row.get("id")) not in public_operational_ids
+        and not source_id(row.get("id")).startswith(("legacy_", "visitavina_", "portaltickets_", "valpocultura"))
     )
 
     stale = []
@@ -85,16 +124,12 @@ def build(dataset: dict, coverage: dict, catalog: dict, today: date) -> dict:
             stale.append({"name": row.get("name"), "last_verified_at": row.get("last_verified_at"), "age_days": (today - verified).days})
 
     unattributed = [
-        str(item.get("id") or "") for item in dataset.get("events") or []
-        if not (item.get("source_id") or item.get("source_name"))
+        source_id(item.get("id")) for item in dataset.get("events") or []
+        if not source_id(item.get("source_id"))
     ]
 
-    core_state, policy = core_policy()
-    core_missing = []
-    for row in policy.get("sources") or []:
-        candidates = [row.get("name")] + list(row.get("aliases") or [])
-        if not any(norm(value) in public_name_set for value in candidates if value):
-            core_missing.append(str(row.get("name") or row.get("id") or ""))
+    requirements = registry.get("requirements") or {}
+    registry_contract_errors = [flag for flag in REQUIRED_REGISTRY_FLAGS if requirements.get(flag) is not True]
 
     critical = []
     if duplicate_public_ids:
@@ -103,19 +138,17 @@ def build(dataset: dict, coverage: dict, catalog: dict, today: date) -> dict:
         critical.append(f"duplicate_public_names:{len(duplicate_public_names)}")
     if unattributed:
         critical.append(f"unattributed_events:{len(unattributed)}")
+    if registry_contract_errors:
+        critical.append(f"registry_contract_errors:{len(registry_contract_errors)}")
 
     warnings = []
     if missing_in_coverage:
         warnings.append(f"public_sources_missing_in_coverage:{len(missing_in_coverage)}")
     if stale:
         warnings.append(f"stale_public_source_verifications:{len(stale)}")
-    if core_state != "ok":
-        warnings.append(f"core_policy:{core_state}")
-    if core_missing:
-        warnings.append(f"core_policy_without_public_source:{len(core_missing)}")
 
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "2.0.0",
         "generated_at": datetime.now(ZoneInfo(TIMEZONE)).isoformat(timespec="seconds"),
         "status": "critical" if critical else ("attention" if warnings else "healthy"),
         "critical": critical,
@@ -126,26 +159,37 @@ def build(dataset: dict, coverage: dict, catalog: dict, today: date) -> dict:
             "events": len(dataset.get("events") or []),
             "missing_in_coverage": len(missing_in_coverage),
             "coverage_without_catalog": len(coverage_without_catalog),
+            "operational_aliases": len(operational_aliases),
+            "explicit_catalog_exceptions": len(explicit_exceptions),
             "stale_verifications": len(stale),
-            "core_policy_state": core_state,
-            "core_policy_missing": len(core_missing),
+            "registry_state": "ok" if not registry_contract_errors else "invalid_contract",
         },
         "duplicate_public_ids": duplicate_public_ids,
         "duplicate_public_names": duplicate_public_names,
-        "public_sources_missing_in_coverage": missing_in_coverage,
+        "public_sources_missing_in_coverage": sorted(missing_in_coverage),
+        "public_sources_with_operational_alias": sorted(operational_aliases, key=lambda row: row["name"]),
+        "public_catalog_exceptions_applied": sorted(explicit_exceptions, key=lambda row: row["name"]),
         "coverage_without_catalog": coverage_without_catalog,
         "stale_public_source_verifications": stale,
         "unattributed_event_ids": unattributed,
-        "core_policy_without_public_source": core_missing,
+        "registry_contract_errors": registry_contract_errors,
     }
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Audit consistency among the public source catalog, source coverage, canonical dataset and core high-value policy.")
+    parser = argparse.ArgumentParser(
+        description="Audit consistency among the public source catalog, source coverage, canonical datasets and local source registry."
+    )
     parser.add_argument("--no-write", action="store_true")
     parser.add_argument("--fail-on-critical", action="store_true")
     args = parser.parse_args()
-    report = build(load(DATASET_PATH), load(COVERAGE_PATH), load(CATALOG_PATH), datetime.now(ZoneInfo(TIMEZONE)).date())
+    report = build(
+        load(DATASET_PATH),
+        load(COVERAGE_PATH),
+        load(CATALOG_PATH),
+        load(REGISTRY_PATH),
+        datetime.now(ZoneInfo(TIMEZONE)).date(),
+    )
     print(json.dumps(report, ensure_ascii=False, indent=2))
     if not args.no_write:
         save(REPORT_PATH, report)
