@@ -7,7 +7,14 @@ function restoreFooterContact() {
   const version = footer.querySelector("[data-app-version]");
   if (contact) footer.insertBefore(contact, version || null);
   rail?.remove();
-  footer.querySelector("[data-sources-toggle]")?.remove();
+
+  // Fuentes is owned by app.js/sources-toggle.js. This module may run again
+  // after those modules (retry timer, delayed mount or resize), so it must
+  // preserve whichever source access is already installed instead of deleting it.
+  const sourcesAccess = footer.querySelector("[data-sources-toggle], [data-sources-fallback]");
+  if (sourcesAccess && version && sourcesAccess.nextElementSibling !== version) {
+    footer.insertBefore(sourcesAccess, version);
+  }
 }
 
 function ensureHeaderFeedbackStyles() {
