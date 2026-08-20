@@ -73,7 +73,7 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
 
   dataset = await withSupplemental(city, dataset, fetchImpl, diagnostics);
   // Structural ingress boundary: no scraped/source HTML is allowed beyond this
-  // point. Every later normalizer and every renderer works with plain public text.
+  // point. Every later normalizer starts from plain public text.
   dataset = applyStage("public-text-sanitizer", normalizeAgendaPublicText, dataset, diagnostics);
   if (city.id === "valparaiso") {
     dataset = applyStage("event-data-corrections", applyEventDataCorrections, dataset, diagnostics);
@@ -104,6 +104,9 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     dataset,
     diagnostics,
   );
+  // Structural egress boundary: corrections and future pipeline stages are not
+  // allowed to reintroduce markup into anything that can become public text.
+  dataset = applyStage("public-text-sanitizer-final", normalizeAgendaPublicText, dataset, diagnostics);
 
   let programResult;
   try {
