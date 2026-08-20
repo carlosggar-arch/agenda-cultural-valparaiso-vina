@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T14:55:02-04:00",
+  "generated_at": "2026-08-20T15:11:49-04:00",
   "window_days": 10,
-  "targets": 132,
+  "targets": 121,
   "fetched": 20,
   "updated_events": 11,
-  "review_needed": 7,
-  "fetch_errors": 1,
-  "skipped": 112,
+  "review_needed": 8,
+  "fetch_errors": 0,
+  "skipped": 101,
   "teatro_vina_cartelera": "ok",
   "rows": [
     {
@@ -155,13 +155,6 @@
       "visible_schedule_used": false
     },
     {
-      "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
-      "state": "fetch_error",
-      "url": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
-      "http_status": null,
-      "error": "TimeoutError: The read operation timed out"
-    },
-    {
       "id": "agenda_e02df7fa13fda35c81f15cd9",
       "state": "updated",
       "url": "https://www.passline.com/eventos/la-odisea-546119",
@@ -214,8 +207,9 @@
     },
     {
       "id": "agenda_846d22de7ff64e051ae64c9f",
-      "state": "fetch_budget_exhausted",
-      "url": "https://salasscd.cl/sitio/events/alma-pajara/"
+      "state": "no_confident_event_jsonld_match",
+      "url": "https://salasscd.cl/sitio/events/alma-pajara/",
+      "match_score": 0.0
     },
     {
       "id": "agenda_fc5b16b0d58fec6b6a646522",
@@ -266,11 +260,6 @@
       "id": "agenda_a933180663b5f1d4af1ec329",
       "state": "fetch_budget_exhausted",
       "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/"
-    },
-    {
-      "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-21&time=1787324400"
     },
     {
       "id": "agenda_ffec605015840bafa9a42844",
@@ -416,11 +405,6 @@
       "url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546127"
     },
     {
-      "id": "agenda_visitavina_rioja_fba2e51062fde39628",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-22&time=1787410800"
-    },
-    {
       "id": "agenda_36631639a2e2b3dac3e9be67",
       "state": "no_event_specific_structured_url"
     },
@@ -529,11 +513,6 @@
       "url": "https://www.passline.com/eventos/party-monster-2003-cine-arte-vina-del-mar"
     },
     {
-      "id": "agenda_visitavina_rioja_ae225a6c686b76cf9d",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/travesias-cinematografica-ficvina-el-angel-exterminador/?occurrence=2026-08-25"
-    },
-    {
       "id": "agenda_6dd67d21bf651faa58e3c438",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-546163"
@@ -549,16 +528,6 @@
       "url": "https://www.passline.com/eventos/el-gran-lebowski-1998-cine-arte-vina-del-mar"
     },
     {
-      "id": "agenda_visitavina_rioja_a94d7b8aaea18a1ada",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/taller-qi-gong-2-622/?occurrence=2026-08-26&time=1787738400"
-    },
-    {
-      "id": "agenda_visitavina_rioja_e6078534235a01bfa2",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/ciclo-de-cine-de-autor-jacques-tati-playtime/?occurrence=2026-08-26"
-    },
-    {
       "id": "agenda_6dd77b85bbb70408a93c0034",
       "state": "fetch_budget_exhausted",
       "url": "https://teatrovina.cl/evento/concierto-te-mana/"
@@ -569,19 +538,9 @@
       "url": "https://www.passline.com/eventos/melancholia-2011-cine-arte-vina-del-mar"
     },
     {
-      "id": "agenda_visitavina_rioja_32e715c4633ac89132",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/taller-el-museo-en-tus-manos-3/?occurrence=2026-08-27&time=1787846400"
-    },
-    {
       "id": "agenda_2bccb360f5f63a0cf3818441",
       "state": "fetch_budget_exhausted",
       "url": "https://www.pucv.cl/pucv/evento/institucional/taller-de-liderazgo-prosocial-para-agentes-de-cambio"
-    },
-    {
-      "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/presentacion-libro-decadencia/?occurrence=2026-08-27"
     },
     {
       "id": "agenda_portaltickets_valparaiso_dbae012960aa5b0b",
@@ -626,11 +585,6 @@
       "id": "agenda_b0f00a5bde1ece295138e869",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/little-miss-sunshine-2006-cine-arte-vina-del-mar"
-    },
-    {
-      "id": "agenda_visitavina_rioja_8c01d0d993729991bf",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/presentacion-libro-consome-punk/?occurrence=2026-08-28"
     },
     {
       "id": "agenda_portaltickets_valparaiso_f49fa727f83b40e0",
@@ -690,16 +644,6 @@
       "id": "agenda_0abfa83cf72008bef8cfe20e",
       "state": "fetch_budget_exhausted",
       "url": "https://jbn.cl/calendario-actividades/"
-    },
-    {
-      "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-29&time=1788015600"
-    },
-    {
-      "id": "agenda_visitavina_rioja_ac4f49f1fe79ef03d0",
-      "state": "fetch_budget_exhausted",
-      "url": "https://visitavina.munivina.cl/actividad/concierto-jazz-moncho-perez/?occurrence=2026-08-29"
     },
     {
       "id": "agenda_7d6db81df72c46da7e8e3849",

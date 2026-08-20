@@ -1,96 +1,96 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T18:57:26+00:00",
+  "generated_at": "2026-08-20T19:13:30+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-20",
-      "generated_at": "2026-08-20T14:49:07-04:00",
+      "generated_at": "2026-08-20T15:05:33-04:00",
       "summary": {
-        "total_events": 198,
+        "total_events": 187,
         "average_quality_score": 90.9,
         "quality_class": "excellent",
         "sources_catalogued": 45,
-        "sources_producing": 27,
-        "sources_zero": 11,
-        "review_priority_zero_sources": 11,
+        "sources_producing": 26,
+        "sources_zero": 12,
+        "review_priority_zero_sources": 12,
         "zero_sources_covered_elsewhere": 6,
-        "top3_source_share_pct": 43.9,
+        "top3_source_share_pct": 47.1,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 1
       },
       "field_coverage": {
-        "date_pct": 93.4,
-        "time_pct": 91.4,
+        "date_pct": 93.0,
+        "time_pct": 90.9,
         "venue_pct": 100.0,
-        "image_pct": 53.0,
+        "image_pct": 56.1,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 47.0,
-        "price_known_pct": 84.8
+        "official_source_pct": 43.9,
+        "price_known_pct": 84.0
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 79,
-          "share_pct": 39.9,
+          "count": 78,
+          "share_pct": 41.7,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 27,
-          "share_pct": 13.6,
+          "count": 25,
+          "share_pct": 13.4,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 24,
-          "share_pct": 12.1,
+          "count": 23,
+          "share_pct": 12.3,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
-          "count": 21,
-          "share_pct": 10.6,
+          "count": 19,
+          "share_pct": 10.2,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
-          "count": 20,
-          "share_pct": 10.1,
+          "count": 15,
+          "share_pct": 8.0,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 11,
-          "share_pct": 5.6,
+          "share_pct": 5.9,
           "underrepresented": false
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 6,
-          "share_pct": 3.0,
+          "share_pct": 3.2,
           "underrepresented": true
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 6,
-          "share_pct": 3.0,
+          "share_pct": 3.2,
           "underrepresented": true
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
           "count": 4,
-          "share_pct": 2.0,
+          "share_pct": 2.1,
           "underrepresented": true
         }
       ],
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 120,
-          "share_pct": 60.6
+          "share_pct": 64.2
         },
         {
           "area": "Viña del Mar",
-          "count": 78,
-          "share_pct": 39.4
+          "count": 67,
+          "share_pct": 35.8
         }
       ],
       "coverage_gaps": {
@@ -124,7 +124,8 @@
           "sala_secreta",
           "visitavina_fonck_recovery",
           "legacy_instagram_com",
-          "legacy_jardin_botanico_nacional_de_vina_del_mar"
+          "legacy_jardin_botanico_nacional_de_vina_del_mar",
+          "visitavina_palacio_rioja_recovery"
         ],
         "zero_sources_covered_elsewhere": [
           "casa_cultura_valparaiso",
@@ -140,7 +141,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 53.0,
+        "relevant_image_pct": 56.1,
         "removed_events": {}
       },
       "sources": [
@@ -199,8 +200,8 @@
         {
           "id": "cinearte_vina",
           "name": "Cine Arte Viña del Mar",
-          "count": 13,
-          "quality_score": 100.0,
+          "count": 14,
+          "quality_score": 96.8,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -208,16 +209,16 @@
           "role": null,
           "source_type": null,
           "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
+            "date_pct": 92.9,
+            "time_pct": 92.9,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 100.0
+            "price_known_pct": 92.9
           },
           "categories": {
-            "cine": 13
+            "cine": 14
           },
           "verified_inactive": false
         },
@@ -304,35 +305,6 @@
           "categories": {
             "exposiciones": 10,
             "cursos-talleres": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "visitavina_palacio_rioja_recovery",
-          "name": "Visita Viña — Museo Palacio Rioja",
-          "count": 11,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 0.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "exposiciones": 1,
-            "cursos-talleres": 5,
-            "cine": 2,
-            "cultura": 2,
-            "musica": 1
           },
           "verified_inactive": false
         },

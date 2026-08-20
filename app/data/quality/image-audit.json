@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T14:56:41-04:00",
-  "current_events": 185,
+  "generated_at": "2026-08-20T15:13:19-04:00",
+  "current_events": 174,
   "events_with_images_before": 95,
-  "missing_images_before": 90,
+  "missing_images_before": 79,
   "fetched_pages": 10,
   "recovered_event_specific_images": 1,
   "fetch_errors": 0,
-  "no_confident_match": 3,
-  "missing_images_after": 89,
+  "no_confident_match": 5,
+  "missing_images_after": 78,
   "representative_fallback_available_after": 7,
-  "event_specific_image_pct_after": 51.9,
+  "event_specific_image_pct_after": 55.2,
   "rows": [
     {
       "id": "agenda_e7e2a4a89dc447f9bd2633e7",
@@ -25,13 +25,6 @@
       "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "match_score": 1.0,
       "representative_available": true
-    },
-    {
-      "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
-      "state": "matched_but_no_event_image",
-      "url": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
-      "match_score": 1.0,
-      "representative_available": false
     },
     {
       "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
@@ -62,13 +55,6 @@
       "representative_available": true
     },
     {
-      "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
-      "state": "matched_but_no_event_image",
-      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-21&time=1787324400",
-      "match_score": 1.0,
-      "representative_available": false
-    },
-    {
       "id": "agenda_portaltickets_valparaiso_9c8ea1f08c183926",
       "state": "no_confident_event_match",
       "url": "https://www.portaldisc.com/evento/colombina21agosto",
@@ -84,12 +70,16 @@
     },
     {
       "id": "agenda_portaltickets_valparaiso_d7aa1a5f4528fe20",
-      "state": "fetch_budget_exhausted",
+      "state": "no_confident_event_match",
+      "url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
+      "match_score": 0.0,
       "representative_available": false
     },
     {
       "id": "agenda_portaltickets_valparaiso_04b3bfd7a67d38f5",
-      "state": "fetch_budget_exhausted",
+      "state": "no_confident_event_match",
+      "url": "https://www.portaldisc.com/evento/elcoloramorvalpo",
+      "match_score": 0.0,
       "representative_available": false
     },
     {
@@ -133,11 +123,6 @@
       "representative_available": false
     },
     {
-      "id": "agenda_visitavina_rioja_fba2e51062fde39628",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
       "id": "agenda_portaltickets_valparaiso_c235b452c6f385e8",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -168,31 +153,6 @@
       "representative_available": false
     },
     {
-      "id": "agenda_visitavina_rioja_ae225a6c686b76cf9d",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_a94d7b8aaea18a1ada",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_e6078534235a01bfa2",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_32e715c4633ac89132",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
       "id": "agenda_portaltickets_valparaiso_dbae012960aa5b0b",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -204,11 +164,6 @@
     },
     {
       "id": "agenda_visitavina_estadio_espanol_b0d70d835ca50bc4",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_8c01d0d993729991bf",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
@@ -254,16 +209,6 @@
     },
     {
       "id": "agenda_0abfa83cf72008bef8cfe20e",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_ac4f49f1fe79ef03d0",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },

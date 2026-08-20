@@ -1,9 +1,24 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T14:55:02-04:00",
-  "checked_suspected_sources": 0,
-  "suspected_sources": [],
-  "restored_sources": [],
-  "restored_events": 0,
+  "generated_at": "2026-08-20T15:11:43-04:00",
+  "checked_suspected_sources": 1,
+  "suspected_sources": [
+    {
+      "source_id": "museobaburizza",
+      "state": "suspected_parser_drift_preserved",
+      "last_good_count": 2,
+      "active_prior_events": 2,
+      "restored_events": 2,
+      "url": "https://museobaburizza.cl",
+      "http_status": 200
+    }
+  ],
+  "restored_sources": [
+    {
+      "source_id": "museobaburizza",
+      "events": 2
+    }
+  ],
+  "restored_events": 2,
   "state_source_snapshots": 28
 }
