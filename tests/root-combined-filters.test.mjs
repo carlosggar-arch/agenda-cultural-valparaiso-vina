@@ -7,6 +7,7 @@ import {
   normalizeRootSearchText,
   rootEventMatchesAdvancedFilters,
   rootEventMatchesQuery,
+  rootEventPublicCategories,
 } from "../assets/root-combined-filter-core.mjs";
 
 const events = [
@@ -89,6 +90,49 @@ test("multiple categories are OR within category and AND with other dimensions",
   }), true);
 });
 
+test("Museos and Exposiciones share one public category", () => {
+  const museum = {
+    id: "museo",
+    title: "Visita al museo",
+    primary_category: { id: "museos", label: "Museos" },
+    categories: [
+      { id: "museos", label: "Museos" },
+      { id: "exposiciones", label: "Exposiciones" },
+    ],
+  };
+  assert.deepEqual(rootEventPublicCategories(museum), [
+    { id: "exposiciones", label: "Exposiciones y museos" },
+  ]);
+  assert.equal(rootEventMatchesAdvancedFilters(museum, {
+    categories: new Set(["exposiciones"]),
+  }), true);
+});
+
+test("Cultura is redistributed and is no longer public", () => {
+  const culture = {
+    id: "culture",
+    title: "Charla y taller de patrimonio en el museo",
+    description: "Conversatorio y visita guiada.",
+    primary_category: { id: "cultura", label: "Cultura" },
+    categories: [{ id: "cultura", label: "Cultura" }],
+    location: { venue: "Museo" },
+  };
+  const categories = rootEventPublicCategories(culture);
+  assert.equal(categories.some(({ id }) => id === "cultura"), false);
+  assert.equal(categories.some(({ id }) => id === "exposiciones"), true);
+  assert.equal(categories.some(({ id }) => id === "cursos-talleres"), true);
+});
+
+test("ambiguous Cultura falls back to Otros panoramas", () => {
+  const categories = rootEventPublicCategories({
+    id: "culture-generic",
+    title: "Encuentro comunitario",
+    primary_category: { id: "cultura", label: "Cultura" },
+    categories: [{ id: "cultura", label: "Cultura" }],
+  });
+  assert.deepEqual(categories, [{ id: "otros", label: "Otros panoramas" }]);
+});
+
 test("Los Fantasmas is discoverable through Teatro even before the raw dataset republishes", () => {
   const losFantasmas = {
     id: "agenda_bc147abef119a17edb8a9770",
@@ -133,4 +177,13 @@ test("root homepage places the quick navigation after category shortcuts", async
   assert.match(enhancements, /document\.querySelector\("\.category-section"\)/);
   assert.match(enhancements, /categories\.after\(navigation\)/);
   assert.match(enhancements, /placePrimaryNavigationAfterCategories\(\)/);
+});
+
+test("root homepage rebuilds merged category controls and compacts vertical spacing", async () => {
+  const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  assert.match(enhancements, /function installPublicCategoryUi/);
+  assert.match(enhancements, /Exposiciones y museos/);
+  assert.match(enhancements, /__VIVAMOS_ROOT_FILTERS__/);
+  assert.match(enhancements, /padding-bottom: \.65rem !important/);
+  assert.match(enhancements, /padding-top: \.7rem !important/);
 });
