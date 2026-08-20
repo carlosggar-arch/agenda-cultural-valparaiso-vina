@@ -208,14 +208,41 @@ def apply_quality(
     gaps["verified_inactive_zero_sources"] = inactive_ids
 
     covered_lookup = {source_id: recovered.get(source_id) or [] for source_id in covered_ids}
+    final_inactive = set(inactive_ids)
     for row in city["sources"]:
         source_id = str(row.get("id") or "")
         row["covered_by_other_sources"] = covered_lookup.get(source_id, row.get("covered_by_other_sources") or [])
-        row["verified_inactive"] = source_id in verified_zero
+        row["verified_inactive"] = source_id in final_inactive
     return quality
 
 
-def build() -> tuple[dict, dict, dict]:
+def reconcile_monitor_with_coverage(monitor: dict, coverage: dict) -> tuple[dict, list[str]]:
+    """Remove stale verified-inactive flags when final coverage has stronger evidence.
+
+    A zero-source probe is an intermediate observation. The final coverage is
+    authoritative after cross-source recovery and direct event composition. If
+    a source is producing or covered elsewhere, it must not remain marked as a
+    confirmed inactive zero in the monitor consumed by the atomic finalizer.
+    """
+    city = (coverage.get("cities") or {}).get(CITY_ID) or {}
+    final_status = {
+        str(row.get("id") or "").strip(): str(row.get("status") or "").strip()
+        for row in city.get("sources") or []
+        if str(row.get("id") or "").strip()
+    }
+    reconciled: list[str] = []
+    for item in monitor.get("sources") or []:
+        source_id = str(item.get("id") or "").strip()
+        status = final_status.get(source_id, "")
+        if item.get("verified_inactive") is True and status in {"producing", "covered_elsewhere"}:
+            item["verified_inactive"] = False
+            item["state"] = "reclassified_by_final_coverage"
+            item["reclassified_status"] = status
+            reconciled.append(source_id)
+    return monitor, reconciled
+
+
+def build() -> tuple[dict, dict, dict, dict]:
     coverage = load(COVERAGE_PATH)
     quality = load(EVENT_QUALITY_PATH)
     recovery = load(RECOVERY_PATH)
@@ -224,28 +251,36 @@ def build() -> tuple[dict, dict, dict]:
     verified_zero = monitored_inactive(monitor)
     coverage = apply_coverage(coverage, recovered, verified_zero)
     quality = apply_quality(quality, coverage, recovered, verified_zero)
+    monitor, reconciled = reconcile_monitor_with_coverage(monitor, coverage)
+    final_inactive = {
+        str(row.get("id") or "")
+        for row in (((coverage.get("cities") or {}).get(CITY_ID) or {}).get("sources") or [])
+        if row.get("status") == "monitored_confirmed_zero"
+    }
     report = {
         "covered_source_ids": sorted(recovered),
-        "verified_inactive_source_ids": sorted(verified_zero),
+        "verified_inactive_source_ids": sorted(final_inactive),
+        "reconciled_monitor_ids": sorted(reconciled),
         "valparaiso_summary": ((coverage.get("cities") or {}).get(CITY_ID) or {}).get("summary") or {},
         "review_priority_zero_sources": (
             (((quality.get("cities") or {}).get(CITY_ID) or {}).get("coverage_gaps") or {})
             .get("review_priority_zero_sources") or []
         ),
     }
-    return coverage, quality, report
+    return coverage, quality, monitor, report
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Apply conservative source aliases, official cross-source coverage and verified inactivity to quality diagnostics.")
     parser.add_argument("--no-write", action="store_true")
     args = parser.parse_args()
-    coverage, quality, report = build()
+    coverage, quality, monitor, report = build()
     if args.no_write:
         print(json.dumps(report, ensure_ascii=False, indent=2))
         return
     save(COVERAGE_PATH, coverage)
     save(EVENT_QUALITY_PATH, quality)
+    save(MONITOR_PATH, monitor)
     print(json.dumps(report, ensure_ascii=False))
 
 
