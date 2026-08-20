@@ -31,7 +31,7 @@ jobs:
             sleep 8
           done
           curl -L -fsS -H 'Cache-Control: no-cache' "$PREVIEW_BASE/app/app.js?visualcheck=$RANDOM" -o /tmp/app.js
-          grep -q 'exhibition-hours.js?v=20260820-hours4' /tmp/app.js
+          grep -q 'exhibition-hours.js?v=20260820-hours5' /tmp/app.js
           grep -q 'public-presentation-guard.js?v=20260820-text1' /tmp/app.js
           echo "CLOUDFLARE_RECOVERY_RUNTIME_OK"
 
@@ -97,10 +97,17 @@ jobs:
                 return [...arguments[0].querySelectorAll('.grouped-exhibition-item')]
                   .filter((row)=>row.scrollHeight > row.clientHeight + 2).length;
               """, rioja))
+              d["rioja_list_clipped"] = bool(driver.execute_script("""
+                const list=arguments[0].querySelector('.exhibition-group-list');
+                return !!list && list.scrollHeight > list.clientHeight + 2;
+              """, rioja))
               d["sources_total"] = int(driver.execute_script("""
                 const n=document.querySelector('[data-sources-total]');
                 const m=String(n?.textContent||'').match(/\d+/); return m ? Number(m[0]) : 0;
               """))
+
+              rioja.screenshot(str(out / "palacio-rioja-card.png"))
+              driver.save_screenshot(str(out / "valparaiso-preview-page.png"))
 
               if d["rioja_venue_hours_rows"] != 1:
                   raise AssertionError(f"Palacio Rioja has {d['rioja_venue_hours_rows']} venue-hours rows; expected 1")
@@ -108,12 +115,13 @@ jobs:
                   raise AssertionError(f"Palacio Rioja has only {d['rioja_subcard_count']} grouped exhibition rows")
               if d["rioja_clipped_rows"] != 0:
                   raise AssertionError(f"Palacio Rioja still has {d['rioja_clipped_rows']} clipped subcards")
+              if d["rioja_list_clipped"]:
+                  raise AssertionError("Palacio Rioja list still clips one of its three rows")
 
-              rioja.screenshot(str(out / "palacio-rioja-card.png"))
-              driver.save_screenshot(str(out / "valparaiso-preview-page.png"))
               print("PALACIO_RIOJA_GROUP_FOUND")
               print("PALACIO_RIOJA_SINGLE_HOURS_OK")
               print("PALACIO_RIOJA_SUBCARDS_NOT_CLIPPED")
+              print("PALACIO_RIOJA_ALL_THREE_ROWS_VISIBLE")
               print("DESTINO_VALPARAISO_MONTHLY_EVENT_ABSENT")
               print("SOURCES_TOTAL", d["sources_total"])
           finally:
