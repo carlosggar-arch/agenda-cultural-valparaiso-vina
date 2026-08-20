@@ -208,13 +208,10 @@ async function networkFirstFreshShell(request) {
     || Response.error();
 }
 
-async function networkFirstShell(request, event) {
+async function cacheFirstShell(request) {
   const cache = await caches.open(SHELL_CACHE);
   const cached = await cache.match(request);
-  if (cached) {
-    event.waitUntil(refreshShell(cache, request).then(() => undefined));
-    return cached;
-  }
+  if (cached) return cached;
   const response = await refreshShell(cache, request);
   if (response) return response;
   return (await cache.match(request, { ignoreSearch: true })) || Response.error();
@@ -271,6 +268,6 @@ self.addEventListener("fetch", (event) => {
     const urls = await datasetUrls();
     const supplemental = requestUrl.pathname.endsWith("/supplemental-events.json");
     if (urls.has(requestUrl.href) || supplemental) return networkFirstDataset(request, event);
-    return networkFirstShell(request, event);
+    return cacheFirstShell(request);
   })());
 });
