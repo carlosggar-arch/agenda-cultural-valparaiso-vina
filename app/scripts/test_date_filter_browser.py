@@ -18,6 +18,7 @@ APP = ROOT / "app"
 TEST_PAGE = APP / "__date_filter_test.html"
 STALE_EVENT_ID = "agenda_93e4dbf4da87420c93c629c6"
 DATASET = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
+GROUPED_CINEMA_ID: dict[str, str] = {}
 
 
 def chrome_binary() -> str:
@@ -110,6 +111,10 @@ def visible_direct_cards(dom: str) -> int:
 
 
 def recurring_cinema_id_for_date(selected: str) -> str:
+    cached = GROUPED_CINEMA_ID.get(selected)
+    if cached:
+        return cached
+
     candidates: list[str] = []
     for event in DATASET.get("events", []):
         categories = {
@@ -134,7 +139,8 @@ def recurring_cinema_id_for_date(selected: str) -> str:
 
     if not candidates:
         raise AssertionError(f"no current recurring cinema event covers {selected}")
-    return sorted(candidates)[0]
+    GROUPED_CINEMA_ID[selected] = sorted(candidates)[0]
+    return GROUPED_CINEMA_ID[selected]
 
 
 def assert_selected_date(dom: str, selected: str) -> None:
