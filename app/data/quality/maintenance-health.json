@@ -1,25 +1,26 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-19T01:42:31+00:00",
+  "generated_at": "2026-08-20T17:09:42+00:00",
   "mode": "daily",
-  "status": "healthy",
+  "status": "attention",
   "critical": [],
-  "warnings": [],
+  "warnings": [
+    "balmaceda:official_site_fetch_error"
+  ],
   "observations": [
-    "actionable_zero_sources:7",
-    "balmaceda:official_site_checked_no_recent_activity_detected",
-    "covered_elsewhere:7",
-    "verified_inactive:2"
+    "actionable_zero_sources:9",
+    "covered_elsewhere:6",
+    "verified_inactive:1"
   ],
   "summary": {
-    "total_events": 166,
-    "quality_score": 92.8,
-    "actionable_zero_sources": 7,
-    "covered_elsewhere": 7,
-    "verified_inactive_zero_sources": 2,
+    "total_events": 196,
+    "quality_score": 90.8,
+    "actionable_zero_sources": 9,
+    "covered_elsewhere": 6,
+    "verified_inactive_zero_sources": 1,
     "duplicate_groups": 0,
     "unattributed_events": 0,
-    "balmaceda_state": "official_site_checked_no_recent_activity_detected"
+    "balmaceda_state": "official_site_fetch_error"
   },
   "actionable_zero_source_ids": [
     "balmaceda_arte_joven_valpo",
@@ -28,27 +29,27 @@
     "ecoliderazgo",
     "la_escala_galeria",
     "masita_rica",
-    "sala_secreta"
+    "museo_fonck",
+    "sala_secreta",
+    "visitavina_fonck_recovery"
   ],
   "covered_elsewhere_ids": [
     "casa_cultura_valparaiso",
     "centex",
     "estadio_espanol_recreo",
     "estrella_negra_jazz",
-    "museo_fonck",
     "teatro_municipal_valparaiso",
     "valparaiso_profundo"
   ],
   "verified_inactive_ids": [
-    "sala_teatro_ipa",
-    "teatro_la_peste"
+    "sala_teatro_ipa"
   ],
   "report_age_hours": {
     "coverage": 0.0,
     "quality": 0.0,
     "readiness": 0.0,
-    "balmaceda": 0.0,
+    "balmaceda": 0.1,
     "priority_zero": 0.0,
-    "valpocultura": 0.0
+    "valpocultura": 0.1
   }
 }

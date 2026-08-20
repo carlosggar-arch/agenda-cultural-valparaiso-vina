@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T21:40:59-04:00",
+  "generated_at": "2026-08-20T13:04:27-04:00",
   "source_id": "visitavina_fonck_recovery",
   "source_name": "Visita Viña — Museo Fonck",
   "covered_source_id": "museo_fonck",
-  "state": "publishing_future_occurrences",
+  "state": "official_listing_no_future_occurrences",
   "listing": {
     "url": "https://visitavina.munivina.cl/actividades/",
     "fetch_ok": true,
@@ -17,34 +17,13 @@
       "2026-08-12",
       "2026-08-19"
     ],
-    "future_dates": [
-      "2026-08-19"
-    ],
+    "future_dates": [],
     "method": "exact_event_slug_occurrence_links"
   },
-  "details": [
-    {
-      "date": "2026-08-19",
-      "url": "https://visitavina.munivina.cl/actividad/taller-de-lengua-rapanui-2/?occurrence=2026-08-19&time=1787155200",
-      "fetch_ok": true,
-      "http_status": 200,
-      "error": null,
-      "title": "Taller // Lengua Rapanui",
-      "title_ok": true,
-      "venue_ok": true,
-      "clock": "16:00"
-    }
-  ],
-  "events_published": 1,
+  "details": [],
+  "events_published": 0,
   "semantic_duplicates_dropped": 0,
-  "previous_future_events": 1,
-  "coverage": [
-    {
-      "source_id": "museo_fonck",
-      "source_name": "Museo Fonck",
-      "covered_by": "visitavina_fonck_recovery",
-      "reason": "future_recurring_occurrence"
-    }
-  ],
+  "previous_future_events": 0,
+  "coverage": [],
   "policy": "Publish only dates exposed in occurrence links for the exact Museo Fonck workshop slug on the official Visita Viña activities listing; unrelated occurrence links, generic opening hours and iCal ambiguity are ignored."
 }

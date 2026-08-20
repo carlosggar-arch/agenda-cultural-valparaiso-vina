@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T21:42:17-04:00",
-  "current_events": 162,
-  "events_with_images_before": 91,
-  "missing_images_before": 71,
+  "generated_at": "2026-08-20T13:09:18-04:00",
+  "current_events": 183,
+  "events_with_images_before": 96,
+  "missing_images_before": 87,
   "fetched_pages": 10,
   "recovered_event_specific_images": 1,
   "fetch_errors": 0,
-  "no_confident_match": 4,
-  "missing_images_after": 70,
+  "no_confident_match": 3,
+  "missing_images_after": 86,
   "representative_fallback_available_after": 7,
-  "event_specific_image_pct_after": 56.8,
+  "event_specific_image_pct_after": 53.0,
   "rows": [
     {
       "id": "agenda_e7e2a4a89dc447f9bd2633e7",
@@ -25,6 +25,20 @@
       "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "match_score": 1.0,
       "representative_available": true
+    },
+    {
+      "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
+      "state": "matched_but_no_event_image",
+      "url": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
+      "match_score": 1.0,
+      "representative_available": false
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
+      "state": "no_confident_event_match",
+      "url": "https://www.portaldisc.com/evento/sctriobrillovina",
+      "match_score": 0.0,
+      "representative_available": false
     },
     {
       "id": "agenda_eeea936319edc98db3c75f29",
@@ -48,17 +62,10 @@
       "representative_available": true
     },
     {
-      "id": "agenda_visitavina_fonck_85802cc1354e5044",
+      "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
       "state": "matched_but_no_event_image",
-      "url": "https://visitavina.munivina.cl/actividad/taller-de-lengua-rapanui-2/?occurrence=2026-08-19&time=1787155200",
+      "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-21&time=1787324400",
       "match_score": 1.0,
-      "representative_available": false
-    },
-    {
-      "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
-      "state": "no_confident_event_match",
-      "url": "https://www.portaldisc.com/evento/sctriobrillovina",
-      "match_score": 0.0,
       "representative_available": false
     },
     {
@@ -77,9 +84,7 @@
     },
     {
       "id": "agenda_portaltickets_valparaiso_d7aa1a5f4528fe20",
-      "state": "no_confident_event_match",
-      "url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
-      "match_score": 0.0,
+      "state": "fetch_budget_exhausted",
       "representative_available": false
     },
     {
@@ -113,12 +118,22 @@
       "representative_available": true
     },
     {
+      "id": "agenda_ffb0ad3e758847dad1520be5",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
       "id": "agenda_c235f3d24c1eea1a2c3fcb2f",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
     {
       "id": "agenda_portaltickets_valparaiso_5d2ca949ef9690c8",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_fba2e51062fde39628",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
@@ -143,7 +158,27 @@
       "representative_available": false
     },
     {
+      "id": "agenda_b99f7dd404a16dcae5052dd5",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
       "id": "agenda_teatromuseo_43ba6181f70d7b0b9058",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_a94d7b8aaea18a1ada",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_e6078534235a01bfa2",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
@@ -198,6 +233,26 @@
       "representative_available": false
     },
     {
+      "id": "agenda_d710e9788b9a18d19945d9ba",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_0abfa83cf72008bef8cfe20e",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_ac4f49f1fe79ef03d0",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
       "id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -221,6 +276,11 @@
       "id": "agenda_50164437b46a6452e4842a37",
       "state": "fetch_budget_exhausted",
       "representative_available": true
+    },
+    {
+      "id": "agenda_bec2ac1f485ef894aee178a0",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
     },
     {
       "id": "agenda_teatromuseo_397a4c357cfdd376130f",
@@ -253,6 +313,11 @@
       "representative_available": false
     },
     {
+      "id": "agenda_81c5fd841257cbacd02890e8",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
       "id": "agenda_portaltickets_valparaiso_defc0269dc9a63ce",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -265,6 +330,11 @@
     {
       "id": "agenda_7d6d45b67ce8c34608b88fa3",
       "state": "no_event_specific_url",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_6f68c485702bdc7a04e97cbf",
+      "state": "fetch_budget_exhausted",
       "representative_available": false
     },
     {
@@ -338,6 +408,11 @@
       "representative_available": false
     },
     {
+      "id": "agenda_f3e785e192964ffa6f49e58d",
+      "state": "no_event_specific_url",
+      "representative_available": false
+    },
+    {
       "id": "agenda_portaltickets_valparaiso_7de90329dc46f4b7",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -384,6 +459,11 @@
     },
     {
       "id": "agenda_portaltickets_valparaiso_986ddf8bb7bfa380",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_9e934076bf977af5",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     }

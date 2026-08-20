@@ -1,8 +1,8 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-19T01:41:28+00:00",
+  "generated_at": "2026-08-20T17:07:57+00:00",
   "timezone": "America/Santiago",
-  "date": "2026-08-18",
+  "date": "2026-08-20",
   "state": "ok",
   "verified_inactive_count": 2,
   "future_detected_count": 0,
@@ -31,8 +31,8 @@
       "name": "Teatro La Peste",
       "url": "https://ticketplus.cl/companies/teatro-la-peste",
       "evidence": "official_ticketing_company_page",
-      "state": "verified_no_publishable_future",
-      "verified_inactive": true,
+      "state": "reclassified_by_final_coverage",
+      "verified_inactive": false,
       "verification_reason": "official_ticketing_page_explicitly_empty",
       "future_candidates": [],
       "future_candidates_count": 0,
@@ -42,7 +42,8 @@
       "explicit_empty_state": true,
       "fetch_ok": true,
       "http_status": 200,
-      "error": null
+      "error": null,
+      "reclassified_status": "producing"
     },
     {
       "id": "ecoliderazgo",
@@ -63,5 +64,25 @@
       "error": null
     }
   ],
-  "geography_policy": "Excursions generally qualify by departure/origin in Valparaiso or Vina del Mar, not by destination. EcoLiderazgo has a source-specific default: when no departure is stated, treat the departure scope as Vina del Mar / Valparaiso; explicit departure text always overrides that default."
+  "geography_policy": "Excursions generally qualify by departure/origin in Valparaiso or Vina del Mar, not by destination. EcoLiderazgo has a source-specific default: when no departure is stated, treat the departure scope as Vina del Mar / Valparaiso; explicit departure text always overrides that default.",
+  "official_source_recoveries": {
+    "parque_cultural_multidate": {
+      "state": "no_missing_multidate_occurrences",
+      "pages_checked": 3,
+      "multidate_pages": 0,
+      "events_added": 0,
+      "fetch_errors": 0
+    },
+    "palacio_rioja": {
+      "state": "publishing_rioja_events",
+      "fetch_ok": true,
+      "http_status": 200,
+      "error": null,
+      "candidates": 148,
+      "details_checked": 125,
+      "events_published": 8,
+      "covered_source_id": "museo_palacio_rioja"
+    },
+    "events_after": 197
+  }
 }

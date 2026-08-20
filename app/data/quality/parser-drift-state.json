@@ -336,11 +336,11 @@
     },
     "museobaburizza": {
       "name": "Museo Baburizza",
-      "last_good_at": "2026-08-18T21:41:30-04:00",
+      "last_good_at": "2026-08-20T13:07:59-04:00",
       "last_good_count": 2,
       "events": [
         {
-          "id": "agenda_baburizza_1c7f799286855aee48c8",
+          "id": "agenda_baburizza_a37f94515515258cdea3",
           "title": "Nebulosa Carina",
           "event_type": "event",
           "primary_category": {
@@ -355,16 +355,13 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-06T00:00:00+00:00",
-            "end": "2026-10-04T23:59:59+00:00",
+            "start": "2026-08-06",
+            "end": "2026-10-04",
             "timezone": "America/Santiago",
-            "display_text": "06-08-2026 · 00:00 – 04-10-2026 · 23:59",
+            "display_text": "2026-08-06 – 2026-10-04",
             "occurrences": [],
-            "start_confidence": "official_revalidation",
-            "end_confidence": "official_revalidation",
-            "opening_time": "00:00",
-            "closing_time": "23:59",
-            "hours_confidence": "source_schedule_pair"
+            "start_confidence": "explicit",
+            "end_confidence": "explicit"
           },
           "location": {
             "venue_id": "museobaburizza",
@@ -393,10 +390,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-          "last_verified_at": "2026-08-18T21:14:20-04:00",
+          "last_verified_at": "2026-08-20T12:45:12-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T21:14:20-04:00",
+            "last_verified_at": "2026-08-20T12:45:12-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -422,17 +419,11 @@
           "editorial": {
             "classification": "event",
             "reason": "official_baburizza_agenda",
-            "duration_days": 60,
-            "last_automatic_revalidation_at": "2026-08-18T21:14:20-04:00",
-            "automatic_revalidation_fields": [
-              "display_text",
-              "end",
-              "start"
-            ]
+            "duration_days": 59
           }
         },
         {
-          "id": "agenda_baburizza_8fa99fe4ed3a8e9e66e0",
+          "id": "agenda_baburizza_82ca6a27bc5861af85cb",
           "title": "“Las cumbias que escuchamos allá arriba”",
           "event_type": "event",
           "primary_category": {
@@ -447,13 +438,13 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-14T10:00:00+00:00",
-            "end": "2026-10-04T18:00:00+00:00",
+            "start": "2026-08-14",
+            "end": "2026-10-04",
             "timezone": "America/Santiago",
-            "display_text": "14-08-2026 · 10:00 – 04-10-2026 · 18:00",
+            "display_text": "2026-08-14 – 2026-10-04",
             "occurrences": [],
-            "start_confidence": "official_revalidation",
-            "end_confidence": "official_revalidation",
+            "start_confidence": "explicit",
+            "end_confidence": "explicit",
             "opening_hours": {
               "mode": "weekly",
               "open_weekdays": [
@@ -467,7 +458,7 @@
               "opening_time": "10:00",
               "closing_time": "18:00",
               "display_text": "Martes a domingo · 10:00–18:00",
-              "reference_date": "2026-08-18",
+              "reference_date": "2026-08-20",
               "is_open_on_reference_date": true,
               "source_url": "https://www.museobaburizza.cl/visita/",
               "source_name": "Museo Baburizza",
@@ -504,10 +495,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-          "last_verified_at": "2026-08-18T21:14:20-04:00",
+          "last_verified_at": "2026-08-20T12:45:12-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T21:14:20-04:00",
+            "last_verified_at": "2026-08-20T12:45:12-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -534,13 +525,7 @@
             "classification": "event",
             "reason": "official_baburizza_agenda",
             "duration_days": 51,
-            "venue_hours_enriched": true,
-            "last_automatic_revalidation_at": "2026-08-18T21:14:20-04:00",
-            "automatic_revalidation_fields": [
-              "display_text",
-              "end",
-              "start"
-            ]
+            "venue_hours_enriched": true
           }
         }
       ]
@@ -890,8 +875,8 @@
     },
     "trotamundosvalpo": {
       "name": "Trotamundos Valparaíso",
-      "last_good_at": "2026-08-18T10:09:55-04:00",
-      "last_good_count": 14,
+      "last_good_at": "2026-08-20T13:07:59-04:00",
+      "last_good_count": 19,
       "events": [
         {
           "id": "agenda_trotamundos_11aa2cc70ba8cec49b24",
@@ -927,11 +912,11 @@
             "longitude": null
           },
           "price": {
-            "is_free": false,
+            "is_free": null,
             "currency": "CLP",
-            "min_amount": 12000,
+            "min_amount": null,
             "max_amount": null,
-            "display_text": "Desde $12.000"
+            "display_text": "Consultar condiciones"
           },
           "links": {
             "official": "https://linktr.ee/trotavalparaiso",
@@ -943,16 +928,16 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": null,
             "price_stage": null,
-            "price_confirmed": true,
+            "price_confirmed": false,
             "information_completeness": "complete",
             "external_link_quality": "direct_ticketing",
             "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
@@ -974,6 +959,421 @@
             "classification": "event",
             "reason": "official_linktree_passline_refresh",
             "ticket_url": "https://www.passline.com/eventos/angelo-soul-docente-indecente"
+          }
+        },
+        {
+          "id": "agenda_trotamundos_fe7bdef9de6229b3d4f5",
+          "title": "Piano Bar por Javier Diaz - Trotamundos Valparaíso",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2026-08-20T22:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-20 · 22:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "trotamundosvalpo",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Trotamundos Valparaíso",
+            "address": "Blanco 1253, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 5000,
+            "max_amount": null,
+            "display_text": "Desde $5.000"
+          },
+          "links": {
+            "official": "https://linktr.ee/trotavalparaiso",
+            "tickets": "https://www.passline.com/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso",
+            "registration": null,
+            "source": "https://linktr.ee/trotavalparaiso"
+          },
+          "organizer": "Trotamundos Valparaíso",
+          "source_id": "trotamundosvalpo",
+          "source_name": "Trotamundos Valparaíso",
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "external_link_quality": "direct_ticketing",
+            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+          },
+          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+          "tags": [
+            "Música",
+            "Trotamundos Valparaíso"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://www.passline.com/imagenes/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso-546760-rec.jpg",
+            "alt": "Piano Bar por Javier Diaz - Trotamundos Valparaíso",
+            "source": "passline_og",
+            "relevance": "event_specific"
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_linktree_passline_refresh",
+            "ticket_url": "https://www.passline.com/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso"
+          }
+        },
+        {
+          "id": "agenda_trotamundos_491cd4a6b95ddaa82fdd",
+          "title": "Fiesta Bailable con Dj Ethan en Trotamundos Valparaíso",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2026-08-21T23:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 23:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "trotamundosvalpo",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Trotamundos Valparaíso",
+            "address": "Blanco 1253, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 5000,
+            "max_amount": null,
+            "display_text": "Desde $5.000"
+          },
+          "links": {
+            "official": "https://linktr.ee/trotavalparaiso",
+            "tickets": "https://www.passline.com/eventos/fiesta-bailable-con-dj-ethan-en-trotamundos-valparaiso",
+            "registration": null,
+            "source": "https://linktr.ee/trotavalparaiso"
+          },
+          "organizer": "Trotamundos Valparaíso",
+          "source_id": "trotamundosvalpo",
+          "source_name": "Trotamundos Valparaíso",
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "external_link_quality": "direct_ticketing",
+            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+          },
+          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+          "tags": [
+            "Música",
+            "Trotamundos Valparaíso"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://www.passline.com/imagenes/eventos/fiesta-bailable-con-dj-ethan-en-trotamundos-valparaiso-546859-rec.jpg",
+            "alt": "Fiesta Bailable con Dj Ethan en Trotamundos Valparaíso",
+            "source": "passline_og",
+            "relevance": "event_specific"
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_linktree_passline_refresh",
+            "ticket_url": "https://www.passline.com/eventos/fiesta-bailable-con-dj-ethan-en-trotamundos-valparaiso"
+          }
+        },
+        {
+          "id": "agenda_trotamundos_a195281cf7f5d0d3549a",
+          "title": "Los Cosmicos Cumbia Cover + Fiesta - Mes Aniversario Trotamundos Valparaíso",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2026-08-21T23:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 23:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "trotamundosvalpo",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Trotamundos Valparaíso",
+            "address": "Blanco 1253, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 5000,
+            "max_amount": null,
+            "display_text": "Desde $5.000"
+          },
+          "links": {
+            "official": "https://linktr.ee/trotavalparaiso",
+            "tickets": "https://www.passline.com/eventos/los-cosmicos-cumbia-cover-fiesta-mes-aniversario-trotamundos-valparaiso",
+            "registration": null,
+            "source": "https://linktr.ee/trotavalparaiso"
+          },
+          "organizer": "Trotamundos Valparaíso",
+          "source_id": "trotamundosvalpo",
+          "source_name": "Trotamundos Valparaíso",
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "external_link_quality": "direct_ticketing",
+            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+          },
+          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+          "tags": [
+            "Música",
+            "Trotamundos Valparaíso"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://www.passline.com/imagenes/eventos/los-cosmicos-cumbia-cover-fiesta-mes-aniversario-trotamundos-valparaiso-546757-rec.jpg",
+            "alt": "Los Cosmicos Cumbia Cover + Fiesta - Mes Aniversario Trotamundos Valparaíso",
+            "source": "passline_og",
+            "relevance": "event_specific"
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_linktree_passline_refresh",
+            "ticket_url": "https://www.passline.com/eventos/los-cosmicos-cumbia-cover-fiesta-mes-aniversario-trotamundos-valparaiso"
+          }
+        },
+        {
+          "id": "agenda_trotamundos_734676e8fca85dd6bbf6",
+          "title": "Tributo al Bloque Depresivo por Melancolicos Anonimos en Trotamundos Valparaíso",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2026-08-21T20:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 20:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "trotamundosvalpo",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Trotamundos Valparaíso",
+            "address": "Blanco 1253, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 5000,
+            "max_amount": null,
+            "display_text": "Desde $5.000"
+          },
+          "links": {
+            "official": "https://linktr.ee/trotavalparaiso",
+            "tickets": "https://www.passline.com/eventos/tributo-al-bloque-depresivo-por-melancolicos-anonimos-en-trotamundos-valparaiso",
+            "registration": null,
+            "source": "https://linktr.ee/trotavalparaiso"
+          },
+          "organizer": "Trotamundos Valparaíso",
+          "source_id": "trotamundosvalpo",
+          "source_name": "Trotamundos Valparaíso",
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "external_link_quality": "direct_ticketing",
+            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+          },
+          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+          "tags": [
+            "Música",
+            "Trotamundos Valparaíso"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://www.passline.com/imagenes/eventos/tributo-al-bloque-depresivo-por-melancolicos-anonimos-en-trotamundos-valparaiso-546755-rec.jpg",
+            "alt": "Tributo al Bloque Depresivo por Melancolicos Anonimos en Trotamundos Valparaíso",
+            "source": "passline_og",
+            "relevance": "event_specific"
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_linktree_passline_refresh",
+            "ticket_url": "https://www.passline.com/eventos/tributo-al-bloque-depresivo-por-melancolicos-anonimos-en-trotamundos-valparaiso"
+          }
+        },
+        {
+          "id": "agenda_trotamundos_1b0f3e41879c494a1b10",
+          "title": "Fiesta Porteña con Dj Sarc en Trotamundos Valparaíso",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2026-08-22T23:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-22 · 23:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "trotamundosvalpo",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Trotamundos Valparaíso",
+            "address": "Blanco 1253, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 5000,
+            "max_amount": null,
+            "display_text": "Desde $5.000"
+          },
+          "links": {
+            "official": "https://linktr.ee/trotavalparaiso",
+            "tickets": "https://www.passline.com/eventos/fiesta-portena-con-dj-sarc-en-trotamundos-valparaiso",
+            "registration": null,
+            "source": "https://linktr.ee/trotavalparaiso"
+          },
+          "organizer": "Trotamundos Valparaíso",
+          "source_id": "trotamundosvalpo",
+          "source_name": "Trotamundos Valparaíso",
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "external_link_quality": "direct_ticketing",
+            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+          },
+          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+          "tags": [
+            "Música",
+            "Trotamundos Valparaíso"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://www.passline.com/imagenes/eventos/fiesta-portena-con-dj-sarc-en-trotamundos-valparaiso-546858-rec.jpg",
+            "alt": "Fiesta Porteña con Dj Sarc en Trotamundos Valparaíso",
+            "source": "passline_og",
+            "relevance": "event_specific"
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_linktree_passline_refresh",
+            "ticket_url": "https://www.passline.com/eventos/fiesta-portena-con-dj-sarc-en-trotamundos-valparaiso"
           }
         },
         {
@@ -1026,10 +1426,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1109,10 +1509,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1131,7 +1531,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/sergio-freire-en-trotamundos-valparaiso-525232-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/-781227-rec.jpg",
             "alt": "Sergio Freire en Trotamundos Valparaíso",
             "source": "passline_og",
             "relevance": "event_specific"
@@ -1192,10 +1592,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1275,10 +1675,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1358,10 +1758,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1441,10 +1841,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1524,10 +1924,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1607,10 +2007,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1690,10 +2090,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1773,10 +2173,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1856,10 +2256,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1939,10 +2339,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-18T05:47:22-04:00",
+          "last_verified_at": "2026-08-20T12:44:02-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T05:47:22-04:00",
+            "last_verified_at": "2026-08-20T12:44:02-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2054,8 +2454,8 @@
     },
     "valpocultura": {
       "name": "Valpo Cultura",
-      "last_good_at": "2026-08-18T18:56:15-04:00",
-      "last_good_count": 10,
+      "last_good_at": "2026-08-20T13:07:59-04:00",
+      "last_good_count": 12,
       "events": [
         {
           "id": "agenda_valpocultura_recovery_971bd421084a1a0b",
@@ -2108,10 +2508,10 @@
           "source_id": "valpocultura",
           "source_name": "Valpo Cultura",
           "source_url": "https://valpocultura.cl/evento/centex-cartelera-agosto/",
-          "last_verified_at": "2026-08-18T18:56:09-04:00",
+          "last_verified_at": "2026-08-20T13:04:57-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T18:56:09-04:00",
+            "last_verified_at": "2026-08-20T13:04:57-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -2195,10 +2595,10 @@
           "source_id": "valpocultura",
           "source_name": "Valpo Cultura",
           "source_url": "https://valpocultura.cl/evento/valparaiso-profundo-programacion-agosto/",
-          "last_verified_at": "2026-08-18T18:56:09-04:00",
+          "last_verified_at": "2026-08-20T13:04:57-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T18:56:09-04:00",
+            "last_verified_at": "2026-08-20T13:04:57-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -2282,10 +2682,10 @@
           "source_id": "valpocultura",
           "source_name": "Valpo Cultura",
           "source_url": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
-          "last_verified_at": "2026-08-18T18:56:09-04:00",
+          "last_verified_at": "2026-08-20T13:04:57-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T18:56:09-04:00",
+            "last_verified_at": "2026-08-20T13:04:57-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -2334,10 +2734,10 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-18T10:00:00-04:00",
+            "start": "2026-08-20T10:00:00-04:00",
             "end": "2026-08-21",
             "timezone": "America/Santiago",
-            "display_text": "2026-08-18 · 10:00, 18:00, 11:00, 17:00",
+            "display_text": "2026-08-20 · 10:00, 18:00, 11:00, 17:00",
             "occurrences": []
           },
           "location": {
@@ -2443,10 +2843,10 @@
           "source_id": "valpocultura",
           "source_name": "Valpo Cultura",
           "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-          "last_verified_at": "2026-08-18T18:56:09-04:00",
+          "last_verified_at": "2026-08-20T13:04:57-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-18T18:56:09-04:00",
+            "last_verified_at": "2026-08-20T13:04:57-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -2482,9 +2882,9 @@
       ]
     },
     "portaltickets_valparaiso": {
-      "name": "PortalTickets — Región de Valparaíso",
-      "last_good_at": "2026-08-18T10:09:55-04:00",
-      "last_good_count": 55,
+      "name": "portaltickets_valparaiso",
+      "last_good_at": "2026-08-20T13:07:59-04:00",
+      "last_good_count": 56,
       "events": [
         {
           "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
@@ -2525,7 +2925,7 @@
             "currency": "CLP",
             "min_amount": 1000,
             "max_amount": 5000,
-            "display_text": "$1.000–$5.000"
+            "display_text": "$1.000–$5.000 · Algunos sectores agotados"
           },
           "links": {
             "official": null,
@@ -2537,15 +2937,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sctriobrillovina",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": null,
+            "price_stage": "Disponibilidad parcial",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -2568,7 +2968,8 @@
             "source_title_original": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO EN BAR VIENÉS, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "partial_ticket_availability": true
           }
         },
         {
@@ -2622,10 +3023,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/citynoisejournal",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2653,7 +3054,7 @@
             "source_title_original": "CITY NOISE EN JOURNAL, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true,
             "last_tickets": true
           }
@@ -2709,10 +3110,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/colombina21agosto",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2740,7 +3141,7 @@
             "source_title_original": "EDUARDO PERALTA CANTA A FEDERICO EN LA COLOMBINA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -2794,10 +3195,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/elcoloramorvalpo",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2825,7 +3226,7 @@
             "source_title_original": "EL COLOR AMOR GIRA 2026 EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -2880,10 +3281,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/eternamentebukis-21-08-2026",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2911,7 +3312,7 @@
             "source_title_original": "ETERNAMENTE BUKIS EN LOS ALQUINTA DEL PUERTO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -2965,10 +3366,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2994,7 +3395,7 @@
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -3049,10 +3450,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/pascualailabacaylucianolaterraenteatromauri",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3080,7 +3481,7 @@
             "source_title_original": "PASCUALA ILABACA + LUCIANO LATERRA EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -3123,7 +3524,7 @@
             "currency": "CLP",
             "min_amount": 5000,
             "max_amount": 11000,
-            "display_text": "$5.000–$11.000 · Últimos tickets"
+            "display_text": "$5.000–$11.000 · Algunos sectores agotados"
           },
           "links": {
             "official": null,
@@ -3135,15 +3536,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/aniversariowareba",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": "Últimos tickets",
+            "price_stage": "Disponibilidad parcial",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -3166,9 +3567,8 @@
             "source_title_original": "2 AÑOS DE WAREBA EN ESPACIO BARCELONA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
-            "partial_ticket_availability": true,
-            "last_tickets": true
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "partial_ticket_availability": true
           }
         },
         {
@@ -3222,10 +3622,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/diadelvinilofiesta",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3253,7 +3653,7 @@
             "source_title_original": "FIESTA DE CIERRE DIA DEL VINILO: EN VIVO JORGE CAMPOS EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -3295,7 +3695,7 @@
             "currency": "CLP",
             "min_amount": 1000,
             "max_amount": 12000,
-            "display_text": "$1.000–$12.000 · Algunos sectores agotados"
+            "display_text": "$1.000–$12.000 · Últimos tickets"
           },
           "links": {
             "official": null,
@@ -3307,15 +3707,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/ninocoheteenteatromauriscdvalparaso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": "Disponibilidad parcial",
+            "price_stage": "Últimos tickets",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -3338,8 +3738,9 @@
             "source_title_original": "NIÑO COHETE EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
-            "partial_ticket_availability": true
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "partial_ticket_availability": true,
+            "last_tickets": true
           }
         },
         {
@@ -3393,10 +3794,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/portavozenelpatio",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3424,7 +3825,7 @@
             "source_title_original": "PORTAVOZ EN PATIO SÓCRATES, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -3479,10 +3880,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sombraspurpuras22agosto",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3510,7 +3911,7 @@
             "source_title_original": "SOMBRAS PÚRPURAS EN EL CLUB ALEMAN, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "last_tickets": true
           }
         },
@@ -3565,10 +3966,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/despuesdelalluviahaysol",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3596,7 +3997,7 @@
             "source_title_original": "DESPUÉS DE LA LLUVIA HAY SOL EN BAR VIENÉS, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -3605,13 +4006,13 @@
           "title": "LUCY BRICEÑO",
           "event_type": "event",
           "primary_category": {
-            "id": "cultura",
-            "label": "Cultura"
+            "id": "musica",
+            "label": "Música"
           },
           "categories": [
             {
-              "id": "cultura",
-              "label": "Cultura"
+              "id": "musica",
+              "label": "Música"
             }
           ],
           "schedule": {
@@ -3651,10 +4052,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lucybriceoenteatromauriscdvalparaiso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3664,9 +4065,9 @@
             "information_completeness": "complete",
             "advisory_text": null
           },
-          "description": "Celebraremos los 56 años de trayectoria y tendra 5 artistas invitados que cantaran un tema con ella. Tenemos algunos confirmados como John Pasten, Claudio Silva Rey, Rene Torito Alfaro, Las Huenchus.",
+          "description": "Lucy Briceño, Tesoro Humano Vivo de Chile e Hija Ilustre de Valparaíso, celebra sus 56 años de trayectoria artística con un concierto especial en el Teatro Mauri SCD. En esta noche de homenaje, la destacada cantora porteña recorrerá parte del repertorio que la ha convertido en una de las principales exponentes de la bohemia tradicional de Valparaíso. La celebración contará con la participación de cinco artistas invitados, quienes interpretarán una canción junto a ella. Entre los confirmados se encuentran John Pasté",
           "tags": [
-            "Cultura",
+            "Música",
             "PortalTickets"
           ],
           "audience": null,
@@ -3682,7 +4083,7 @@
             "source_title_original": "LUCY BRICEÑO EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -3736,10 +4137,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/cuentoscasipasandoagosto",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3767,7 +4168,7 @@
             "source_title_original": "CASI PASANDO AGOSTO EN LA COLOMBINA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -3821,10 +4222,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3852,7 +4253,7 @@
             "source_title_original": "ESSTELAR BDAY EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -3892,9 +4293,9 @@
           "price": {
             "is_free": false,
             "currency": "CLP",
-            "min_amount": 1000,
-            "max_amount": 7000,
-            "display_text": "$1.000–$7.000"
+            "min_amount": 3000,
+            "max_amount": 10000,
+            "display_text": "$3.000–$10.000 · Algunos sectores agotados"
           },
           "links": {
             "official": null,
@@ -3906,15 +4307,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lilliaenvalparaso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": null,
+            "price_stage": "Disponibilidad parcial",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -3937,7 +4338,8 @@
             "source_title_original": "LILLIA: GIRA 2026 CAMPO SINTETICO EN BAR VIENES, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "partial_ticket_availability": true
           }
         },
         {
@@ -3991,10 +4393,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/loscrackdelpuertoenteatromauriscd",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4022,7 +4424,7 @@
             "source_title_original": "LOS CRACK DEL PUERTO EN TEATRO MAURI SCD VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true,
             "last_tickets": true
           }
@@ -4078,10 +4480,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4109,7 +4511,7 @@
             "source_title_original": "MATRIARCAS EN PARQUE CULTURAL DE VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4163,10 +4565,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sonidosdecasa-agosto2026",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -4194,7 +4596,7 @@
             "source_title_original": "SONIDOS DE CASA: CONCIERTOS GRATUITOS 2026 EN BALMACEDA ARTE JOVEN, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4248,10 +4650,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/viernescebollalemutt",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4279,7 +4681,7 @@
             "source_title_original": "VIERNES CEBOLLA EN BAR LEMUTT, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4333,10 +4735,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/aniversariocalatheaclub",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4364,7 +4766,7 @@
             "source_title_original": "ANIVERSARIO CALATHEA CLUB EN CASSOT BAR, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4418,10 +4820,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/musica-ensamble-notas-que-transforman-en-el-teatro-del-pcdv",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4449,7 +4851,7 @@
             "source_title_original": "MÚSICA ENSAMBLE PRESENTA “NOTAS QUE TRANSFORMAN” EN PARQUE CULTURAL DE VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -4490,9 +4892,9 @@
           "price": {
             "is_free": false,
             "currency": "CLP",
-            "min_amount": 8000,
+            "min_amount": 1000,
             "max_amount": 12000,
-            "display_text": "$8.000–$12.000"
+            "display_text": "$1.000–$12.000"
           },
           "links": {
             "official": null,
@@ -4504,10 +4906,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/puertoorquestaenteatromauriscd",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4535,7 +4937,7 @@
             "source_title_original": "PUERTO ORQUESTA EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4589,10 +4991,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4620,7 +5022,7 @@
             "source_title_original": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true,
             "last_tickets": true
           }
@@ -4664,7 +5066,7 @@
             "currency": "CLP",
             "min_amount": 5000,
             "max_amount": 10000,
-            "display_text": "$5.000–$10.000"
+            "display_text": "$5.000–$10.000 · Algunos sectores agotados"
           },
           "links": {
             "official": null,
@@ -4676,15 +5078,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lacosasepusocalienteenteatromauriscd",
-          "last_verified_at": "2026-08-18T10:09:35-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T10:09:35-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": null,
+            "price_stage": "Disponibilidad parcial",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -4707,7 +5109,8 @@
             "source_title_original": "LA COSA SE PUSO CALIENTE! EN TEATRO MAURI SCD VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T10:09:35-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "partial_ticket_availability": true
           }
         },
         {
@@ -4749,7 +5152,7 @@
             "currency": "CLP",
             "min_amount": 1000,
             "max_amount": 11000,
-            "display_text": "$1.000–$11.000"
+            "display_text": "$1.000–$11.000 · Últimos tickets"
           },
           "links": {
             "official": null,
@@ -4761,20 +5164,20 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/evelyncornejoenjournal",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": null,
+            "price_stage": "Últimos tickets",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
           },
-          "description": "Evelyn Cornejo regresa a Viña del Mar, y en esta ocasión se presentará en formato íntimo solista en Journal. El concierto será el viernes 4 de septiembre, a las 22:00 hrs. Evento sólo para mayores de 18 años",
+          "description": "Evelyn Cornejo regresa a Viña del Mar, y en esta ocasión se presentará en formato íntimo solista en Journal. El concierto será el viernes 4 de septiembre, a las 22:00 hrs. El ingreso es por orden de llegada, y las mesas pueden ser compartidas según la distribución que realice el local.",
           "tags": [
             "Música",
             "PortalTickets"
@@ -4792,7 +5195,8 @@
             "source_title_original": "EVELYN CORNEJO EN VIÑA DEL MAR - JOURNAL",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_tickets": true
           }
         },
         {
@@ -4846,10 +5250,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4877,7 +5281,7 @@
             "source_title_original": "FIESTA BOHEMIA PRESENTA: NOCHES DE BOHEMIA EN IPANEMA CLUB, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4931,10 +5335,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sonoradellegarenclubsegundopiso",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4962,7 +5366,7 @@
             "source_title_original": "SONORA DE LLEGAR EN EL CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5016,10 +5420,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/volverasabailarconlasonoradetommyrey",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5047,7 +5451,7 @@
             "source_title_original": "VOLVERAS A BAILAR CON LA SONORA DE TOMMY REY EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5101,10 +5505,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lostetaspresentafunkparaisoenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5132,7 +5536,7 @@
             "source_title_original": "LOS TETAS: PRESENTA FUNKPARAISO EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -5187,10 +5591,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/matiahperezfenvina",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5218,7 +5622,7 @@
             "source_title_original": "MATIAH CHINASKI + DJ PÉREZ + MALDITO FEN EN VIÑA - JOURNAL",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5272,10 +5676,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/mariaylostemplosenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5303,7 +5707,7 @@
             "source_title_original": "MARIA Y LOS TEMPLOS: FIEBRE EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00",
+            "detail_verified_at": "2026-08-20T13:04:38-04:00",
             "last_tickets": true
           }
         },
@@ -5358,10 +5762,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/carnedeperro",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5389,7 +5793,7 @@
             "source_title_original": "DESTRUYE LO QUE TE DESTRUYE EN CASSOT BAR, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5443,10 +5847,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/previaaniversarioposeidon",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5474,7 +5878,7 @@
             "source_title_original": "PREVIA ANIVERSARIO EN POSEIDÓN BAR, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5528,10 +5932,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/elartedelvolantin",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5559,7 +5963,7 @@
             "source_title_original": "EL ARTE DEL VOLANTÍN EN CASA POLANCO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5613,10 +6017,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/aniversarioposeidondia2",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5644,7 +6048,7 @@
             "source_title_original": "FIESTA ANIVERSARIO POSEIDON, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5698,10 +6102,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/quilapayunenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5729,7 +6133,7 @@
             "source_title_original": "QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5783,10 +6187,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/oshifonda2026",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5814,7 +6218,7 @@
             "source_title_original": "OSHIKATSU PARTY OSHIFONDA EN LOS ALQUINTA DEL PUERTO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5868,10 +6272,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/chaiseroom18sept2026",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5899,7 +6303,7 @@
             "source_title_original": "CHAISENROOM | NO BRANDING NO NATION EN EMPORIO ECHAURREN, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -5953,10 +6357,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/ailinashaktienteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5984,7 +6388,7 @@
             "source_title_original": "AILINASHAKTI EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6038,10 +6442,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/paularivasenteatromauriscdvalparaiso",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6069,7 +6473,7 @@
             "source_title_original": "PAULA RIVAS EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6123,10 +6527,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sofiaalvezvinadelmar",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6154,7 +6558,7 @@
             "source_title_original": "SOFÍA ALVEZ EN EL PASAJE, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6208,10 +6612,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/mauricioredolesenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6239,7 +6643,7 @@
             "source_title_original": "EL MAURI EN EL MAURI, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6293,10 +6697,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/josealfredofuentes60goldenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6324,7 +6728,7 @@
             "source_title_original": "JOSE ALFREDO FUENTES 60 GOLD EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6378,10 +6782,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/pielmacrobia",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6409,7 +6813,7 @@
             "source_title_original": "PIEL + MACROBIA EN VIENES BAR, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6463,10 +6867,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/subhiraquintetogiranorteasurenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6494,7 +6898,7 @@
             "source_title_original": "SUBHIRA QUINTETO GIRA NORTE A SUR EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6548,10 +6952,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/coversolutionsenvivobarvienes",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6579,7 +6983,7 @@
             "source_title_original": "SEBASTIAN SANHUEZA (COVER SOLUTIONS) EN BAR VIENÉS, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6633,10 +7037,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/llenode97",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6664,7 +7068,7 @@
             "source_title_original": "SEBA & EL MONSTRUO, LANZAMIENTO: LLENO DE 97 EN TEATRO IPA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6718,10 +7122,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/estoybienenteatromauriscdvalparaiso",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6747,11 +7151,11 @@
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
-          "id": "agenda_portaltickets_valparaiso_66056f21df455b0f",
+          "id": "agenda_portaltickets_valparaiso_f81afd5b09e2e1bd",
           "title": "MARIO REYES LEYENDA GIPSY",
           "event_type": "event",
           "primary_category": {
@@ -6801,10 +7205,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/gipsyvalparaiso",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6829,8 +7233,10 @@
             "classification": "event",
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
+            "source_title_original": "MARIO REYES LEYENDA GIPSY EN CLUB SEGUNDO PISO, VALPARAÍSO",
+            "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6884,10 +7290,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/ratosdeporaoenvalparaiso",
-          "last_verified_at": "2026-08-18T07:50:13-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:50:13-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6915,7 +7321,7 @@
             "source_title_original": "RATOS DE PORAO 45 AÑOS EN TROTAMUNDOS, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:50:13-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -6969,10 +7375,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lossantosdumontcancioneschilenas",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7000,7 +7406,7 @@
             "source_title_original": "LOS SANTOS DUMONT: CANCIONES CHILENAS EN TEATRO MAURI SCD",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -7054,10 +7460,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/fernandoubiergoenvalparaiso",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7083,7 +7489,7 @@
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -7137,10 +7543,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/tatabarahonaylsdenteatromauriscd",
-          "last_verified_at": "2026-08-18T07:41:56-04:00",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-18T07:41:56-04:00",
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7168,7 +7574,92 @@
             "source_title_original": "TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-18T07:41:56-04:00"
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+          }
+        },
+        {
+          "id": "agenda_portaltickets_valparaiso_9e934076bf977af5",
+          "title": "EL MULU: DERRAMAR EL TIEMPO TOUR EN EL PASAJE",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2027-01-23T20:00:00-03:00",
+            "end": "2027-01-23T20:00:00-03:00",
+            "timezone": "America/Santiago",
+            "display_text": "2027-01-23 · 20:00",
+            "occurrences": [],
+            "start_confidence": "explicit",
+            "end_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "portaltickets_valparaiso",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "El Pasaje, Viña del Mar",
+            "address": null,
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 1000,
+            "max_amount": 9000,
+            "display_text": "$1.000–$9.000"
+          },
+          "links": {
+            "official": null,
+            "tickets": "https://www.portaldisc.com/evento/elmuluvina",
+            "registration": null,
+            "source": "https://www.portaldisc.com/evento/elmuluvina"
+          },
+          "organizer": null,
+          "source_id": "portaltickets_valparaiso",
+          "source_name": "PortalTickets — Región de Valparaíso",
+          "source_url": "https://www.portaldisc.com/evento/elmuluvina",
+          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "public_status": {
+            "source_official": false,
+            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": false,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "El Mulu regresa a Viña del Mar como parte del Derramar el Tiempo Tour, gira con la que presenta en vivo su primer álbum de estudio, Derramar el Tiempo, recorriendo distintas ciudades de México y Chile. Con raíces cordilleranas e identidad latinoamericana, la música de El Mulu sostiene un universo emocional que invita a la escucha profunda y al viaje interior. Sus letras exploran la memoria, la fragilidad y los vínculos humanos, posicionándose como una de las voces mas envolventes de la escena actual.",
+          "tags": [
+            "Música",
+            "PortalTickets"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "secondary_ticketing_source:portaltickets_valparaiso",
+            "duration_days": 0,
+            "source_title_original": "EL MULU: DERRAMAR EL TIEMPO TOUR EN EL PASAJE, VIÑA DEL MAR",
+            "venue_suffix_removed": true,
+            "detail_enriched": true,
+            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         }
       ]
@@ -7356,7 +7847,694 @@
           }
         }
       ]
+    },
+    "visitavina_palacio_rioja_recovery": {
+      "name": "Visita Viña — Museo Palacio Rioja",
+      "last_good_at": "2026-08-20T13:07:59-04:00",
+      "last_good_count": 8,
+      "events": [
+        {
+          "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
+          "title": "Visita guiada exposición // “A veces un mar dulce”",
+          "event_type": "event",
+          "primary_category": {
+            "id": "exposiciones",
+            "label": "Exposiciones"
+          },
+          "categories": [
+            {
+              "id": "exposiciones",
+              "label": "Exposiciones"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-20T15:00:00-04:00",
+            "end": "2026-08-20T17:00:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-20 · 15:00–17:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Gratis"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:51-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:51-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Exposiciones",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
+          "title": "Taller // Expresión textil: Moviendo Hilos",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cursos-talleres",
+            "label": "Cursos y talleres"
+          },
+          "categories": [
+            {
+              "id": "cursos-talleres",
+              "label": "Cursos y talleres"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-21T15:00:00-04:00",
+            "end": "2026-08-21T16:30:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 15:00–16:30",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-21&time=1787324400",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:51-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:51-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cursos y talleres",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_fba2e51062fde39628",
+          "title": "Taller // Expresión textil: Moviendo Hilos",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cursos-talleres",
+            "label": "Cursos y talleres"
+          },
+          "categories": [
+            {
+              "id": "cursos-talleres",
+              "label": "Cursos y talleres"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-22T15:00:00-04:00",
+            "end": "2026-08-22T16:30:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-22 · 15:00–16:30",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-22&time=1787410800",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:51-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:51-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cursos y talleres",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_e6078534235a01bfa2",
+          "title": "Ciclo de Cine de Autor // Jacques Tati, “Playtime”",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cine",
+            "label": "Cine"
+          },
+          "categories": [
+            {
+              "id": "cine",
+              "label": "Cine"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-26T16:00:00-04:00",
+            "end": "2026-08-26T18:00:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-26 · 16:00–18:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja, Sala Aldo Francia",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Gratis"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/ciclo-de-cine-de-autor-jacques-tati-playtime/?occurrence=2026-08-26",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:52-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:52-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cine",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_a94d7b8aaea18a1ada",
+          "title": "Taller // Qi Gong",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cursos-talleres",
+            "label": "Cursos y talleres"
+          },
+          "categories": [
+            {
+              "id": "cursos-talleres",
+              "label": "Cursos y talleres"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-26T10:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-26 · 10:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": null
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Jardines Palacio Rioja",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/taller-qi-gong-2-622/?occurrence=2026-08-26&time=1787738400",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:52-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:52-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cursos y talleres",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
+          "title": "Presentación libro // “Decadencia”",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cultura",
+            "label": "Cultura"
+          },
+          "categories": [
+            {
+              "id": "cultura",
+              "label": "Cultura"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-27T17:00:00-04:00",
+            "end": "2026-08-27T19:00:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-27 · 17:00–19:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/presentacion-libro-decadencia/?occurrence=2026-08-27",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:52-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:52-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cultura",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_ac4f49f1fe79ef03d0",
+          "title": "Concierto jazz // Moncho Pérez",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-29T19:00:00-04:00",
+            "end": "2026-08-29T21:00:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-29 · 19:00–21:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja, Sala Aldo Francia",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/concierto-jazz-moncho-perez/?occurrence=2026-08-29",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:52-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:52-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Música",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
+          "title": "Taller // Expresión textil: Moviendo Hilos",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cursos-talleres",
+            "label": "Cursos y talleres"
+          },
+          "categories": [
+            {
+              "id": "cursos-talleres",
+              "label": "Cursos y talleres"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-29T15:00:00-04:00",
+            "end": "2026-08-29T16:30:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-29 · 15:00–16:30",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/?occurrence=2026-08-29&time=1788015600",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-20T13:07:52-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T13:07:52-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cursos y talleres",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        }
+      ]
     }
   },
-  "generated_at": "2026-08-18T21:41:30-04:00"
+  "generated_at": "2026-08-20T13:07:59-04:00"
 }

@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-18T21:42:16-04:00",
+  "generated_at": "2026-08-20T13:09:18-04:00",
   "window_days": 120,
-  "fetched": 2,
-  "updated_events": 2,
-  "fetch_errors": 0,
+  "fetched": 11,
+  "updated_events": 9,
+  "fetch_errors": 1,
   "skipped": 0,
   "rows": [
     {
@@ -24,6 +24,96 @@
         "end",
         "end_confidence",
         "start",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_738a464c120c73aecfe90622",
+      "state": "verified_unchanged",
+      "url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+      "fields": []
+    },
+    {
+      "id": "agenda_26f14816799b9528b2e76c37",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_b1114421c88d89be3830c456",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/la-orquesta-de-camara-de-chile-junto-a-emmanuel-siffert/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_16a301f160b75711409b3820",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_1a591564f0fa8b0f2cb0394a",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/alberto-plaza-sinfonico-esencial-tour-2026/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_c5a59d2ed011cefed562727b",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/el-nuevo-referente-del-bolero-catalina-y-las-bordonas-de-oro/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_fc4ffc2a0c13509cadd71cb1",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/la-leyenda-del-piano-edith-fischer-en-concierto/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
+        "start_confidence"
+      ]
+    },
+    {
+      "id": "agenda_d8ec40944baa69699c7fe878",
+      "state": "fetch_error",
+      "url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
+      "http_status": 404,
+      "error": "HTTP 404"
+    },
+    {
+      "id": "agenda_3d26d294c61eab9cc0d28780",
+      "state": "updated",
+      "url": "https://cultura.usm.cl/eventos/concierto-de-clausura-86a-temporada-artistica-usm-orquesta-sinfonica-nacional-de-chile/",
+      "fields": [
+        "display_text",
+        "end",
+        "end_confidence",
         "start_confidence"
       ]
     }
