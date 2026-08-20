@@ -1,6 +1,7 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
+const MHNV_HOURS = "Mar–vie 10:00–18:00 · sáb 11:00–16:00 · dom/lun/festivos cerrado";
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
@@ -32,6 +33,32 @@ function validTime(value) {
   return /^\d{2}:\d{2}$/.test(String(value || "").trim());
 }
 
+function fold(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es");
+}
+
+function isMultiDayVisit(event) {
+  const schedule = event?.schedule || {};
+  if (schedule.mode === "multi_day") return true;
+  const start = String(schedule.start || "").slice(0, 10);
+  const end = String(schedule.end || "").slice(0, 10);
+  return Boolean(start && end && start !== end);
+}
+
+function knownVenueHours(event) {
+  if (!isExhibition(event) || !isMultiDayVisit(event)) return null;
+  const identity = fold([
+    event?.location?.venue,
+    event?.organizer,
+    event?.source_name,
+  ].filter(Boolean).join(" "));
+  if (identity.includes("museo de historia natural de valparaiso")) return MHNV_HOURS;
+  return null;
+}
+
 function explicitVenueHours(event) {
   if (!isExhibition(event)) return null;
   const schedule = event?.schedule || {};
@@ -40,8 +67,8 @@ function explicitVenueHours(event) {
   const closing = String(schedule.closing_time || openingHours.closing_time || "").trim();
   if (validTime(opening) && validTime(closing)) return `${opening}–${closing}`;
   const display = String(openingHours.display_text || "").replace(/\s+/g, " ").trim();
-  const match = display.match(/\b([01]?\d|2[0-3]):[0-5]\d\s*[–—-]\s*([01]?\d|2[0-3]):[0-5]\d\b/u);
-  return match ? match[0].replace(/\s*[–—-]\s*/u, "–") : null;
+  if (display && /\b(?:[01]?\d|2[0-3]):[0-5]\d\b/.test(display)) return display;
+  return knownVenueHours(event);
 }
 
 function patchStandaloneCard(card) {
