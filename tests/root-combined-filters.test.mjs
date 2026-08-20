@@ -125,3 +125,12 @@ test("root homepage hides the agenda heading and section tabs", async () => {
   assert.match(css, /#explorar\s+\.explore-heading/);
   assert.match(css, /#explorar\s+\.section-tabs/);
 });
+
+test("root homepage places the quick navigation after category shortcuts", async () => {
+  const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  assert.match(enhancements, /function placePrimaryNavigationAfterCategories/);
+  assert.match(enhancements, /document\.querySelector\("\.primary-navigation"\)/);
+  assert.match(enhancements, /document\.querySelector\("\.category-section"\)/);
+  assert.match(enhancements, /categories\.after\(navigation\)/);
+  assert.match(enhancements, /placePrimaryNavigationAfterCategories\(\)/);
+});
