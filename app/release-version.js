@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v148 keeps Cine as the primary category for Los Fantasmas and also exposes it under Teatro.
-  const RELEASE = 148;
+  // v149 rejects generic event images, normalizes partial all-caps titles and prunes expired sessions.
+  const RELEASE = 149;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {
