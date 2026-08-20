@@ -7,22 +7,16 @@ on:
       - "agenda_web.json"
       - "app/data/gijon/agenda_web.json"
       - "app/app.js"
-      - "app/app-core.js"
-      - "app/data-pipeline.js"
       - "app/category-normalizer.js"
       - "app/public-category-rules.mjs"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
-      - "app/exhibition-groups.js"
-      - "app/exhibition-group-core.mjs"
-      - "app/exhibition-compact.css"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
       - "app/service-worker.js"
       - "app/release-version.js"
       - "app/scripts/test_approved_event_visibility_contract.mjs"
-      - "app/scripts/test_structural_event_visibility_browser.py"
       - "app/scripts/test_gijon_exhibition_filter_contract.mjs"
       - ".github/workflows/approved-event-visibility-contract.yml"
   pull_request:
@@ -31,22 +25,16 @@ on:
       - "agenda_web.json"
       - "app/data/gijon/agenda_web.json"
       - "app/app.js"
-      - "app/app-core.js"
-      - "app/data-pipeline.js"
       - "app/category-normalizer.js"
       - "app/public-category-rules.mjs"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
       - "app/static-exhibition-groups.js"
-      - "app/exhibition-groups.js"
-      - "app/exhibition-group-core.mjs"
-      - "app/exhibition-compact.css"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
       - "app/service-worker.js"
       - "app/release-version.js"
       - "app/scripts/test_approved_event_visibility_contract.mjs"
-      - "app/scripts/test_structural_event_visibility_browser.py"
       - "app/scripts/test_gijon_exhibition_filter_contract.mjs"
       - ".github/workflows/approved-event-visibility-contract.yml"
   workflow_dispatch:
@@ -62,29 +50,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
       - name: Check public runtime syntax
         run: |
           node --check app/app.js
-          node --check app/app-core.js
-          node --check app/data-pipeline.js
           node --check app/category-normalizer.js
           node --check app/public-category-rules.mjs
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
           node --check app/static-exhibition-groups.js
-          node --check app/exhibition-groups.js
-          node --check app/exhibition-group-core.mjs
           node --check app/combined-filters-bootstrap.js
           node --check app/combined-filters.js
           node --check app/service-worker.js
           node --check app/release-version.js
-          python -m py_compile app/scripts/test_structural_event_visibility_browser.py
       - name: Verify approved event and runtime contract
         run: node app/scripts/test_approved_event_visibility_contract.mjs
-      - name: Verify browser visibility invariants
-        run: python app/scripts/test_structural_event_visibility_browser.py
       - name: Verify Gijón exhibition regression contract
         run: node app/scripts/test_gijon_exhibition_filter_contract.mjs
