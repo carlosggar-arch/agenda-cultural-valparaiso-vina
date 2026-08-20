@@ -26,6 +26,18 @@ def event(event_id="e1", title="Concierto Azul", source_id="s1", start="2099-08-
     }
 
 
+def source_registry():
+    return {
+        "requirements": {
+            "event_source_id_required": True,
+            "event_source_must_be_registered": True,
+            "new_public_source_requires_operational_mapping": True,
+        },
+        "name_aliases": {"Barrio Poniente Viña": "culturasvina"},
+        "public_catalog_exceptions": {"Fuente Pública Legacy": "Pendiente de monitor operativo propio."},
+    }
+
+
 def jsonld_markup(name="Concierto Azul", start="2099-08-20T21:00:00-04:00", image="https://example.org/media/concierto.jpg", status="https://schema.org/EventScheduled", end=None):
     end = start if end is None else end
     return f'''<html><head><meta property="og:image" content="{image}"></head><body>
@@ -164,15 +176,42 @@ def test_source_coherence_detects_hard_duplicates_and_core_alignment():
         {"id": "fuente_1", "name": "Fuente Uno", "last_verified_at": "2099-08-01"},
         {"id": "fuente_1", "name": "Fuente Uno", "last_verified_at": "2099-08-01"},
     ]}
-    original_core = coherence.core_policy
-    try:
-        coherence.core_policy = lambda: ("ok", {"sources": [{"id": "s1", "name": "Fuente Uno", "aliases": []}]})
-        report = coherence.build(dataset, coverage, catalog, date(2099, 8, 18))
-    finally:
-        coherence.core_policy = original_core
+    report = coherence.build(dataset, coverage, catalog, date(2099, 8, 18), registry=source_registry())
     assert report["status"] == "critical"
     assert report["duplicate_public_ids"]
     assert report["duplicate_public_names"]
+
+
+def test_source_coherence_uses_registry_aliases_and_exceptions():
+    dataset = {"events": [event(source_id="culturasvina")]}
+    coverage = {"cities": {"valparaiso-vina": {"sources": [
+        {"id": "culturasvina", "name": "Culturas Viña"}
+    ]}}}
+    catalog = {"sources": [
+        {"id": "fuente_barrio", "name": "Barrio Poniente Viña", "canonical_source_id": "barrio_poniente_vina", "last_verified_at": "2099-08-01"},
+        {"id": "fuente_legacy", "name": "Fuente Pública Legacy", "last_verified_at": "2099-08-01"},
+    ]}
+    report = coherence.build(dataset, coverage, catalog, date(2099, 8, 18), registry=source_registry())
+    assert report["status"] == "healthy"
+    assert report["public_sources_missing_in_coverage"] == []
+    assert report["summary"]["operational_aliases"] == 1
+    assert report["summary"]["explicit_catalog_exceptions"] == 1
+    assert report["summary"]["registry_state"] == "ok"
+
+
+def test_source_coherence_requires_source_id_and_registry_contract():
+    missing_id = {"events": [{"id": "e1", "source_name": "Fuente Uno"}]}
+    empty_coverage = {"cities": {"valparaiso-vina": {"sources": []}}}
+    empty_catalog = {"sources": []}
+    report = coherence.build(missing_id, empty_coverage, empty_catalog, date(2099, 8, 18), registry=source_registry())
+    assert report["status"] == "critical"
+    assert report["unattributed_event_ids"] == ["e1"]
+
+    broken = source_registry()
+    broken["requirements"]["event_source_must_be_registered"] = False
+    broken_report = coherence.build({"events": []}, empty_coverage, empty_catalog, date(2099, 8, 18), registry=broken)
+    assert broken_report["status"] == "critical"
+    assert broken_report["registry_contract_errors"] == ["event_source_must_be_registered"]
 
 
 def test_image_recovery_uses_matched_event_page_only():
@@ -198,6 +237,8 @@ def main():
     test_cancelled_event_is_marked_not_deleted()
     test_parser_drift_restores_only_active_last_good_events()
     test_source_coherence_detects_hard_duplicates_and_core_alignment()
+    test_source_coherence_uses_registry_aliases_and_exceptions()
+    test_source_coherence_requires_source_id_and_registry_contract()
     test_image_recovery_uses_matched_event_page_only()
     print("MAINTENANCE_AUTOMATION_TESTS_OK")
 
