@@ -93,7 +93,7 @@ const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
 assert.ok(Number(releaseMatch[1]) >= 128, "PWA release must include startup resilience architecture");
 assert.doesNotMatch(release, /window\.stop|caches\.delete|pwa_recovered/);
-assert.match(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
-assert.match(release, /window\.location\.reload\(\)/);
+assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
+assert.doesNotMatch(release, /window\.location\.reload\(\)/);
 
 console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline)`);
