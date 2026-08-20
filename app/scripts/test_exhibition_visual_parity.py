@@ -38,54 +38,7 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-def fold(value: str) -> str:
-    import unicodedata
-
-    normalized = unicodedata.normalize("NFD", str(value or ""))
-    return " ".join(
-        "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
-        .lower()
-        .split()
-    )
-
-
-def dataset_for(city: str) -> dict:
-    path = APP / "data/gijon/agenda_web.json" if city == "gijon" else ROOT / "agenda_web.json"
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def exhibition_like(event: dict) -> bool:
-    ids = {str((event.get("primary_category") or {}).get("id") or "").strip().lower()}
-    ids.update(
-        str(category.get("id") or "").strip().lower()
-        for category in event.get("categories") or []
-        if isinstance(category, dict)
-    )
-    return bool(ids & {"exposiciones", "museos"})
-
-
-def fixture_events(city: str, target: str) -> list[dict]:
-    dataset = dataset_for(city)
-    needle = fold(target)
-    events = []
-    for event in dataset.get("events") or []:
-        venue = str((event.get("location") or {}).get("venue") or "")
-        if needle not in fold(venue) or not exhibition_like(event):
-            continue
-        # Visual parity tests the real titles/schedules/locations but intentionally
-        # avoids remote image fetches. The canonical renderer then uses its own
-        # local exhibition fallback, which makes the browser probe deterministic.
-        candidate = json.loads(json.dumps(event))
-        candidate["image"] = {}
-        events.append(candidate)
-    if len(events) < 2:
-        raise AssertionError(f"{city}: target venue has fewer than two exhibition events: {target}")
-    return events
-
-
 def make_test_page(city: str, expected_label: str, target: str) -> None:
-    events = fixture_events(city, target)
-    payload = html.escape(json.dumps(events, ensure_ascii=False), quote=False)
     city_json = json.dumps(city, ensure_ascii=False)
     target_json = json.dumps(target, ensure_ascii=False)
     label_json = json.dumps(expected_label, ensure_ascii=False)
@@ -127,10 +80,10 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
   <main id="fixture-root">
     <div class="event-grid" data-dated-grid></div>
   </main>
-  <script id="fixture-data" type="application/json">{payload}</script>
   <script type="module">
+    import {{ loadCityRegistry }} from "../assets/city-registry.mjs?v=20260817-city-registry";
+    import {{ loadAgendaDataset }} from "./data-pipeline.js";
     import {{ publishAgendaRuntimeSnapshot }} from "./agenda-runtime-state.mjs?v=20260819-runtime1";
-    import {{ normalizeVenueAliases }} from "./venue-identity.mjs";
 
     const cityId = {city_json};
     const targetNeedle = {target_json};
@@ -141,11 +94,28 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
       .toLowerCase()
       .replace(/\\s+/g, " ")
       .trim();
+    const exhibitionLike = (event) => {{
+      const ids = new Set([String(event?.primary_category?.id || "").trim().toLowerCase()]);
+      for (const category of event?.categories || []) ids.add(String(category?.id || "").trim().toLowerCase());
+      return ids.has("exposiciones") || ids.has("museos");
+    }};
 
-    const rawEvents = JSON.parse(document.getElementById("fixture-data").textContent);
-    const events = normalizeVenueAliases(rawEvents);
+    const registry = await loadCityRegistry();
+    const config = registry.byId[cityId];
+    if (!config) throw new Error(`Unknown city for visual parity: ${{cityId}}`);
+
+    // Use the same normalized data pipeline as production, including supplements,
+    // corrections and venue-alias normalization. Only after normalization do we
+    // isolate the two real museum venues, so the test stays fast without becoming
+    // a synthetic renderer fixture.
+    const normalized = await loadAgendaDataset(config);
+    const targetEvents = normalized.dataset.events
+      .filter((event) => exhibitionLike(event))
+      .filter((event) => fold(event?.location?.venue).includes(fold(targetNeedle)))
+      .map((event) => ({{ ...event, image: {{}} }}));
+
     const grid = document.querySelector("[data-dated-grid]");
-    for (const event of events) {{
+    for (const event of targetEvents) {{
       const card = document.createElement("article");
       card.className = "event-card event-card--dated";
       card.dataset.eventId = String(event.id || "");
@@ -153,28 +123,29 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
       grid.append(card);
     }}
 
-    publishAgendaRuntimeSnapshot({{ id: cityId }}, {{
-      dataset: {{ events }},
+    publishAgendaRuntimeSnapshot(config, {{
+      ...normalized,
+      dataset: {{ ...normalized.dataset, events: targetEvents }},
       secondaryPrograms: [],
       hiddenPrograms: [],
-      diagnostics: [],
     }});
 
     function structureSignature(card) {{
+      const structuralClasses = new Set([
+        "exhibition-collage",
+        "exhibition-venue-body",
+        "exhibition-venue-meta",
+        "exhibition-venue-heading",
+        "exhibition-venue-facts",
+        "exhibition-group-details",
+        "exhibition-group-list",
+        "grouped-exhibition-item",
+        "grouped-exhibition-media",
+        "grouped-exhibition-copy",
+        "grouped-exhibition-actions",
+      ]);
       const pick = (node) => node
-        ? [...node.classList].filter((name) => [
-            "exhibition-collage",
-            "exhibition-venue-body",
-            "exhibition-venue-meta",
-            "exhibition-venue-heading",
-            "exhibition-venue-facts",
-            "exhibition-group-details",
-            "exhibition-group-list",
-            "grouped-exhibition-item",
-            "grouped-exhibition-media",
-            "grouped-exhibition-copy",
-            "grouped-exhibition-actions",
-          ].includes(name)).join(".")
+        ? [...node.classList].filter((name) => structuralClasses.has(name)).join(".")
         : "missing";
       const body = card.querySelector(".exhibition-venue-body");
       const details = card.querySelector(".exhibition-group-details");
@@ -211,6 +182,7 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
       const status = document.createElement("output");
       status.id = "visual-parity-status";
       status.dataset.targetVenue = card.querySelector("h4")?.textContent?.trim() || expectedLabel;
+      status.dataset.targetEvents = String(targetEvents.length);
       status.dataset.rowCount = String(rows.length);
       status.dataset.missingParts = missing.length ? missing.join(",") : "none";
       status.dataset.clippedRows = String(clipped.length);
@@ -262,7 +234,7 @@ def chrome_command(profile: str, url: str, width: int = 720, height: int = 980) 
         "--no-first-run",
         "--no-default-browser-check",
         f"--window-size={width},{height}",
-        "--virtual-time-budget=3000",
+        "--virtual-time-budget=4000",
         f"--user-data-dir={profile}",
         url,
     ]
@@ -275,7 +247,7 @@ def dump_dom(city: str, url: str) -> str:
             cmd = chrome_command(profile, url)
             cmd.insert(-1, "--dump-dom")
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=18)
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=22)
             except subprocess.TimeoutExpired as exc:
                 last_error = f"timeout after {exc.timeout}s"
                 if attempt < 2:
@@ -288,8 +260,6 @@ def dump_dom(city: str, url: str) -> str:
 
 
 def write_static_capture(dom: str) -> None:
-    # Persist exactly the isolated card that Chromium validated. Executable scripts
-    # are stripped so the screenshot process cannot race application startup again.
     static_dom = re.sub(r"<script\b[^>]*>[\s\S]*?</script>", "", dom, flags=re.I)
     CAPTURE_PAGE.write_text(static_dom, encoding="utf-8")
 
@@ -299,7 +269,7 @@ def screenshot(city: str, url: str, output: Path) -> None:
         cmd = chrome_command(profile, url)
         cmd.insert(-1, "--run-all-compositor-stages-before-draw")
         cmd.insert(-1, f"--screenshot={output}")
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=18)
+        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=22)
         if result.returncode != 0 or not output.exists() or output.stat().st_size < 1000:
             raise AssertionError(f"Chrome screenshot failed for {city}: {result.stderr[-1400:]}")
 
@@ -325,7 +295,6 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     status = status_tag(dom)
     if status is None:
         raise AssertionError(f"visual parity status was not serialized for {expected_label}")
-
     if attr(status, "data-renderer") != "unified":
         raise AssertionError(f"target venue is not owned by the unified renderer: {expected_label}")
     missing = attr(status, "data-missing-parts")
@@ -344,7 +313,8 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
 
     venue = attr(status, "data-target-venue") or expected_label
     signature = attr(status, "data-structure-signature") or ""
-    print(f"EXHIBITION_VISUAL_OK city={city} venue={venue} rows={rows} screenshot={output}")
+    targets = attr(status, "data-target-events") or "0"
+    print(f"EXHIBITION_VISUAL_OK city={city} venue={venue} target_events={targets} rows={rows} screenshot={output}")
     return {"city": city, "venue": venue, "rows": rows, "signature": signature, "screenshot": str(output)}
 
 
