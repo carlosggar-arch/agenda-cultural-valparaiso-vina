@@ -1,51 +1,71 @@
-from __future__ import annotations
-
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-APP = ROOT / "app"
+combined = Path("app/combined-filters.js").read_text(encoding="utf-8")
+combined_css = Path("app/combined-filters.css").read_text(encoding="utf-8")
+polish = Path("app/combined-filters-polish.js").read_text(encoding="utf-8")
+compact = Path("app/compact-top.css").read_text(encoding="utf-8")
+compact_js = Path("app/compact-top.js").read_text(encoding="utf-8")
+density = Path("app/density-polish.js").read_text(encoding="utf-8")
+gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8")
+sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
+pwa = Path("app/pwa.js").read_text(encoding="utf-8")
+service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
+root_index = Path("index.html").read_text(encoding="utf-8")
+app_index = Path("app/index.html").read_text(encoding="utf-8")
+web_enhancements = Path("assets/web-event-enhancements.js").read_text(encoding="utf-8")
+media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
+schedule_module = Path("assets/event-schedule-display.mjs").read_text(encoding="utf-8")
+app_schedule = Path("app/schedule-display.js").read_text(encoding="utf-8")
+favorites_view = Path("assets/favorites-view.mjs").read_text(encoding="utf-8")
+favorites_reminders = Path("assets/favorites-reminders.mjs").read_text(encoding="utf-8")
+favorites_css = Path("assets/favorites.css").read_text(encoding="utf-8")
 
-index = (APP / "index.html").read_text(encoding="utf-8")
-combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
-bootstrap = (APP / "combined-filters-bootstrap.js").read_text(encoding="utf-8")
-polish = (APP / "combined-filters-polish.js").read_text(encoding="utf-8")
-compact = (APP / "compact-top.css").read_text(encoding="utf-8")
-compact_js = (APP / "compact-top.js").read_text(encoding="utf-8")
-density = (APP / "density-polish.js").read_text(encoding="utf-8")
-sources_toggle = (APP / "sources-toggle.js").read_text(encoding="utf-8")
-pwa = (APP / "pwa.js").read_text(encoding="utf-8")
-service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
-gijon_svg = (APP / "illustrations/gijon-header.svg").read_text(encoding="utf-8")
+for marker in (
+    "function eventMatchesWhen", "function eventMatchesArea",
+    "function eventMatchesAccess", "function eventMatchesFormat",
+    "function eventMatchesAudience", "function eventMatchesCategories",
+    "function eventMatchesQuery", "function derivedSearchTerms",
+    "const SEARCH_ALIASES", "function queryAlternatives",
+    'ignore.has("access")', 'ignore.has("format")', 'ignore.has("audience")',
+    'state.categories.has(id)', 'queryAlternatives(token)', 'normalize("NFD")',
+    'state.when = "personalizado"', 'history.replaceState', 'url.searchParams.set',
+    'setOrDelete("access"', 'setOrDelete("format"', 'setOrDelete("aud"',
+    'url.searchParams.delete("price")', 'currentCityId() !== "valparaiso"',
+    'forceBaseAppFilters', 'state.query ? "Resultados de búsqueda"',
+):
+    assert marker in combined
+assert "function eventMatchesPrice" not in combined
 
-assert 'data-combined-when' in index
-assert 'data-combined-area' in index
-assert 'data-combined-category-filters' in index
-assert 'data-filter-value="manana"' in index
-assert 'data-filter-value="7-dias"' in index
-assert 'data-filter-value="personalizado"' in index
-assert 'data-date-from' in index
-assert 'data-date-to' in index
-assert 'data-header-search-toggle' in index
-assert 'data-header-search-popover' in index
+for marker in (
+    'data-smart-search', 'data-combined-when', 'data-combined-area',
+    'data-combined-category-filters', 'data-date-from', 'data-date-to',
+):
+    assert marker in app_index
+for removed in ('data-combined-price', 'data-combined-access', 'data-combined-format', 'data-combined-audience'):
+    assert removed not in app_index
+assert '["access", "format", "aud"]' in app_index
+assert './combined-filters-bootstrap.js' in app_index
+assert './contextual-filters.js' not in app_index
+assert '<link rel="stylesheet" href="./compact-top.css">' in app_index
+assert '<link rel="stylesheet" href="./header-redesign.css' in app_index
+assert app_index.index('./compact-top.css') < app_index.index('./header-redesign.css') < app_index.index('</head>')
+assert '.filter-workbench' in combined_css
+assert '.custom-date-range' in combined_css
+assert '.smart-search' in combined_css
+assert '.legacy-filter-hooks' in combined_css
+assert '.event-card[hidden]{display:none!important}' in combined_css
 
-assert 'const WHEN_VALUES = new Set(["todos", "hoy", "manana", "fin-de-semana", "7-dias", "terminan-pronto", "personalizado"]);' in combined
-assert 'selectedWhen === "manana"' in combined
-assert 'selectedWhen === "7-dias"' in combined
-assert 'selectedWhen === "personalizado"' in combined
-assert 'customFrom' in combined
-assert 'customTo' in combined
-assert 'URLSearchParams' in combined
-assert 'url.searchParams.set("when", state.when)' in combined
-assert 'url.searchParams.set("from", state.customFrom)' in combined
-assert 'url.searchParams.set("to", state.customTo)' in combined
-assert 'data-combined-count' in index
-assert 'aria-pressed' in index
-
-assert 'new CombinedFilterController' in bootstrap
-assert 'data-combined-filters-ready' in bootstrap
-assert 'data-combined-filter-panel' in polish
-assert 'data-filter-summary' in polish
-assert 'data-filter-clear' in polish
+assert 'function removeNonActionableFilterCopy()' in polish
+assert 'document.querySelector(selector)?.remove()' in polish
+assert 'function removePriceFilter()' in polish
+assert 'function clearRemovedFilterState()' in polish
+assert '["price", "access", "format", "aud"]' in polish
+assert '["when", "area", "cat", "q", "from", "to"]' in polish
+assert 'function queueFilterResync()' in polish
+assert 'new MutationObserver(queueFilterResync)' in polish
+assert '.discovery-heading { display: flex !important;' not in polish
+assert '.category-filter-panel .category-explorer-heading { display: flex !important;' not in polish
+assert '.agenda-heading { display: flex !important;' not in polish
 
 assert '.filter-workbench {' in compact
 assert 'padding: 0 !important;' in compact
@@ -105,5 +125,31 @@ assert '"../assets/favorites-core.mjs"' in service_worker
 assert '"../assets/favorites-view.mjs"' in service_worker
 assert '"../assets/favorites-reminders.mjs"' in service_worker
 assert '"../assets/favorites.css"' in service_worker
+assert "client.navigate(" not in service_worker
+assert "refreshOpenWindows" not in service_worker
 
-print("Contextual filters and canonical source diagnostics contract: OK")
+assert 'reminderOptionsForEvent' in favorites_view
+assert 'downloadReminderIcs' in favorites_view
+assert 'BEGIN:VALARM' in favorites_reminders
+assert 'TRIGGER:${option.trigger}' in favorites_reminders
+assert '.my-plan-reminder' in favorites_css
+
+assert '<div class="mosaic-top"' in root_index
+assert '<div class="mosaic-wave"' in root_index
+assert '<div class="footer-mosaic"' in root_index
+assert './assets/web-event-enhancements.js' in root_index
+assert 'window.location.replace(target.href)' not in root_index
+
+assert 'MEDIA_STYLESHEET = "./assets/event-media-layout.css?v=20260816b"' in web_enhancements
+assert 'formatSchedule(event?.schedule, SCHEDULE_OPTIONS)' in web_enhancements
+assert './plan-ahead-web.js?v=20260817' in web_enhancements
+assert './favorites-web.js?v=20260817' in web_enhancements
+assert 'object-fit: contain !important' in media_layout
+assert '.event-card-media > button' in media_layout
+assert 'export function formatSchedule' in schedule_module
+assert 'schedule?.opening_hours' in schedule_module
+assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours3"' in app_schedule
+assert 'formatSchedule(schedule, activeConfig)' in app_schedule
+assert 'scheduleForGijonEvent' in app_schedule
+
+print("Semantic search plus compact filters, favorites reminders and canonical source diagnostics: OK")
