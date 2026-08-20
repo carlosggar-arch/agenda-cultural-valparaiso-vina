@@ -1,4 +1,4 @@
-import { normalizePublicEventTitle } from "./public-title-normalizer.mjs?v=20260819-title4";
+import { normalizePublicEventTitle } from "./public-title-normalizer.mjs?v=20260820-title5";
 
 export function normalizeAgendaTitles(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
