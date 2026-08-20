@@ -1,0 +1,196 @@
+name: Apples-to-apples Cloudflare startup benchmark
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify immutable candidate preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import urllib.request, uuid
+          url = 'https://46751d07.vivamos.pages.dev/app/?city=valparaiso&probe=' + uuid.uuid4().hex
+          req = urllib.request.Request(url, headers={'Cache-Control':'no-cache','User-Agent':'vivamos-apples-benchmark/1'})
+          with urllib.request.urlopen(req, timeout=10) as r:
+              body = r.read(200000)
+              assert r.status == 200 and b'<html' in body.lower()
+          print('CANDIDATE_PREVIEW_READY')
+          PY
+
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium==4.35.0
+
+      - name: Benchmark identical runtime signals
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          import shutil
+          import statistics
+          import time
+          import uuid
+          from pathlib import Path
+
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          ORIGINS = {
+              'production': 'https://vivamos.pages.dev/app/?city=valparaiso',
+              'candidate': 'https://46751d07.vivamos.pages.dev/app/?city=valparaiso',
+          }
+          REPEATS = 5
+          OUT = Path('benchmark-results.json')
+          chrome = next((shutil.which(n) for n in ('google-chrome-stable','google-chrome','chromium','chromium-browser') if shutil.which(n)), None)
+          if not chrome:
+              raise SystemExit('Chrome/Chromium not found')
+
+          INSTRUMENT = r'''
+          (() => {
+            window.__vivamosBenchmark = {
+              agendaReadyAt: null,
+              agendaEventCount: null,
+              agendaCity: null,
+              coreReadyAt: null,
+              coreMode: null
+            };
+            window.addEventListener('vivamos:agenda-data-ready', (event) => {
+              const b = window.__vivamosBenchmark;
+              b.agendaReadyAt = performance.now();
+              b.agendaEventCount = Number(event?.detail?.eventCount ?? -1);
+              b.agendaCity = String(event?.detail?.cityId || '');
+            });
+            window.addEventListener('vivamos:core-ready', (event) => {
+              const b = window.__vivamosBenchmark;
+              b.coreReadyAt = performance.now();
+              b.coreMode = String(event?.detail?.mode || 'core');
+            });
+          })();
+          '''
+
+          def new_driver():
+              opts = Options()
+              opts.binary_location = chrome
+              opts.page_load_strategy = 'none'
+              for arg in (
+                  '--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage',
+                  '--disable-extensions','--disable-sync','--no-first-run','--no-default-browser-check',
+                  '--window-size=1280,900','--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication',
+              ):
+                  opts.add_argument(arg)
+              d = webdriver.Chrome(options=opts)
+              d.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': INSTRUMENT})
+              return d
+
+          def collect(driver, timeout=20):
+              wait = WebDriverWait(driver, timeout, poll_frequency=0.04)
+              wait.until(lambda d: d.execute_script("return window.__vivamosBenchmark?.agendaReadyAt != null"))
+              wait.until(lambda d: d.execute_script("return window.__vivamosBenchmark?.coreReadyAt != null"))
+              wait.until(lambda d: d.execute_script("return document.querySelectorAll('.event-card').length > 0"))
+              return driver.execute_script(r'''
+                const b = window.__vivamosBenchmark || {};
+                const n = performance.getEntriesByType('navigation')[0] || {};
+                const resources = performance.getEntriesByType('resource');
+                return {
+                  agenda_ready_ms: b.agendaReadyAt,
+                  agenda_event_count: b.agendaEventCount,
+                  agenda_city: b.agendaCity,
+                  core_ready_ms: b.coreReadyAt,
+                  core_mode: b.coreMode,
+                  release: Number(globalThis.__VIVAMOS_RELEASE__ || 0),
+                  cards_at_sample: document.querySelectorAll('.event-card').length,
+                  dom_content_loaded_ms: n.domContentLoadedEventEnd || null,
+                  response_end_ms: n.responseEnd || null,
+                  sw_controller: Boolean(navigator.serviceWorker?.controller),
+                  resource_count: resources.length,
+                  transfer_bytes: resources.reduce((s,r) => s + (r.transferSize || 0), 0)
+                };
+              ''')
+
+          def pair(label, base, i):
+              d = new_driver()
+              try:
+                  d.get(base + '&bench=' + uuid.uuid4().hex)
+                  cold = collect(d)
+                  d.execute_async_script(r'''
+                    const done = arguments[0];
+                    if (!navigator.serviceWorker) return done(false);
+                    navigator.serviceWorker.ready.then(() => done(true), () => done(false));
+                  ''')
+                  time.sleep(0.35)
+                  d.refresh()
+                  warm = collect(d)
+                  print('PAIR', label, i, json.dumps({'cold':cold,'warm':warm}, sort_keys=True))
+                  return {'cold':cold,'warm':warm}
+              finally:
+                  d.quit()
+
+          raw = {label:[pair(label,url,i+1) for i in range(REPEATS)] for label,url in ORIGINS.items()}
+
+          for phase in ('cold','warm'):
+              prod_counts = [p[phase]['agenda_event_count'] for p in raw['production']]
+              cand_counts = [p[phase]['agenda_event_count'] for p in raw['candidate']]
+              if len(set(prod_counts + cand_counts)) != 1:
+                  raise SystemExit(f'DATASET_MISMATCH phase={phase} production={prod_counts} candidate={cand_counts}')
+
+          def median(label, phase, key):
+              vals = [float(x[phase][key]) for x in raw[label] if x[phase].get(key) is not None]
+              return round(statistics.median(vals), 1)
+
+          summary = {}
+          for label in ORIGINS:
+              summary[label] = {
+                  'release': raw[label][0]['cold']['release'],
+                  'event_count': raw[label][0]['cold']['agenda_event_count'],
+                  'cold_agenda_ready_ms': median(label,'cold','agenda_ready_ms'),
+                  'warm_agenda_ready_ms': median(label,'warm','agenda_ready_ms'),
+                  'cold_core_ready_ms': median(label,'cold','core_ready_ms'),
+                  'warm_core_ready_ms': median(label,'warm','core_ready_ms'),
+                  'cold_transfer_bytes': median(label,'cold','transfer_bytes'),
+                  'warm_transfer_bytes': median(label,'warm','transfer_bytes'),
+              }
+
+          prod, cand = summary['production'], summary['candidate']
+          comparison = {}
+          for phase in ('cold','warm'):
+              for signal in ('agenda','core'):
+                  pk = f'{phase}_{signal}_ready_ms'
+                  delta = prod[pk] - cand[pk]
+                  comparison[f'{phase}_{signal}_improvement_ms'] = round(delta,1)
+                  comparison[f'{phase}_{signal}_improvement_pct'] = round(100 * delta / prod[pk],1)
+
+          payload = {'summary':summary,'comparison':comparison,'raw':raw}
+          OUT.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding='utf-8')
+          print('BENCHMARK_SUMMARY', json.dumps(summary, sort_keys=True))
+          print('BENCHMARK_COMPARISON', json.dumps(comparison, sort_keys=True))
+          print('APPLES_TO_APPLES_BENCHMARK_OK')
+          PY
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: apples-to-apples-startup-benchmark
+          path: benchmark-results.json
+          retention-days: 7
