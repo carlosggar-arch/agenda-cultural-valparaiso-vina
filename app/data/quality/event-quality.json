@@ -1,13 +1,13 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T18:02:11+00:00",
+  "generated_at": "2026-08-20T18:57:26+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-20",
-      "generated_at": "2026-08-20T13:36:03-04:00",
+      "generated_at": "2026-08-20T14:49:07-04:00",
       "summary": {
-        "total_events": 197,
+        "total_events": 198,
         "average_quality_score": 90.9,
         "quality_class": "excellent",
         "sources_catalogued": 45,
@@ -15,7 +15,7 @@
         "sources_zero": 11,
         "review_priority_zero_sources": 11,
         "zero_sources_covered_elsewhere": 6,
-        "top3_source_share_pct": 44.2,
+        "top3_source_share_pct": 43.9,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 1
       },
@@ -23,10 +23,10 @@
         "date_pct": 93.4,
         "time_pct": 91.4,
         "venue_pct": 100.0,
-        "image_pct": 53.3,
+        "image_pct": 53.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 47.2,
+        "official_source_pct": 47.0,
         "price_known_pct": 84.8
       },
       "category_distribution": [
@@ -34,35 +34,35 @@
           "id": "musica",
           "label": "Música",
           "count": 79,
-          "share_pct": 40.1,
+          "share_pct": 39.9,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 27,
-          "share_pct": 13.7,
+          "share_pct": 13.6,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 23,
-          "share_pct": 11.7,
+          "count": 24,
+          "share_pct": 12.1,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 21,
-          "share_pct": 10.7,
+          "share_pct": 10.6,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 20,
-          "share_pct": 10.2,
+          "share_pct": 10.1,
           "underrepresented": false
         },
         {
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 120,
-          "share_pct": 60.9
+          "share_pct": 60.6
         },
         {
           "area": "Viña del Mar",
-          "count": 77,
-          "share_pct": 39.1
+          "count": 78,
+          "share_pct": 39.4
         }
       ],
       "coverage_gaps": {
@@ -140,7 +140,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 53.3,
+        "relevant_image_pct": 53.0,
         "removed_events": {}
       },
       "sources": [
@@ -222,6 +222,35 @@
           "verified_inactive": false
         },
         {
+          "id": "culturasvina",
+          "name": "Culturas Viña",
+          "count": 12,
+          "quality_score": 87.5,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 25.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 66.7
+          },
+          "categories": {
+            "exposiciones": 8,
+            "ferias-gastronomia": 1,
+            "cursos-talleres": 1,
+            "musica": 1,
+            "naturaleza-deportes": 1
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "valpocultura",
           "name": "Valpo Cultura",
           "count": 12,
@@ -249,35 +278,6 @@
             "exposiciones": 1,
             "otros": 1,
             "ferias-gastronomia": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "culturasvina",
-          "name": "Culturas Viña",
-          "count": 11,
-          "quality_score": 86.4,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 18.2,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 63.6
-          },
-          "categories": {
-            "exposiciones": 7,
-            "ferias-gastronomia": 1,
-            "cursos-talleres": 1,
-            "musica": 1,
-            "naturaleza-deportes": 1
           },
           "verified_inactive": false
         },
@@ -311,7 +311,7 @@
           "id": "visitavina_palacio_rioja_recovery",
           "name": "Visita Viña — Museo Palacio Rioja",
           "count": 11,
-          "quality_score": 90.9,
+          "quality_score": 90.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -322,7 +322,7 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 9.1,
+            "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
             "price_known_pct": 100.0

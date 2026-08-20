@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T14:00:15-04:00",
+  "generated_at": "2026-08-20T14:55:02-04:00",
   "window_days": 10,
-  "targets": 131,
+  "targets": 132,
   "fetched": 20,
-  "updated_events": 5,
+  "updated_events": 11,
   "review_needed": 7,
-  "fetch_errors": 0,
-  "skipped": 111,
+  "fetch_errors": 1,
+  "skipped": 112,
   "teatro_vina_cartelera": "ok",
   "rows": [
     {
@@ -54,10 +54,12 @@
     },
     {
       "id": "agenda_baburizza_a37f94515515258cdea3",
-      "state": "verified_unchanged",
+      "state": "updated",
       "url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
       "match_score": 1.0,
-      "fields": [],
+      "fields": [
+        "display_text"
+      ],
       "visible_schedule_used": false
     },
     {
@@ -66,7 +68,9 @@
       "url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
       "match_score": 1.0,
       "fields": [
-        "display_text"
+        "display_text",
+        "end",
+        "start"
       ],
       "visible_schedule_used": false
     },
@@ -78,17 +82,9 @@
     },
     {
       "id": "agenda_67defc9c064344e04c20aca6",
-      "state": "verified_unchanged",
+      "state": "updated",
       "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "match_score": 1.0,
-      "fields": [],
-      "visible_schedule_used": false
-    },
-    {
-      "id": "agenda_visitavina_rioja_f330a25add773e39c6",
-      "state": "updated",
-      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/?occurrence=2026-08-20",
-      "match_score": 0.94,
       "fields": [
         "address",
         "display_text",
@@ -126,54 +122,89 @@
       "match_score": 0.0
     },
     {
-      "id": "agenda_436aa2104216f8e9dea2473f",
-      "state": "verified_unchanged",
-      "url": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
-      "match_score": 0.94,
-      "fields": [],
-      "visible_schedule_used": false
-    },
-    {
-      "id": "agenda_e5e70d2d0bb6975591ebe862",
-      "state": "verified_unchanged",
-      "url": "https://www.passline.com/eventos/la-invitacion-546125",
-      "match_score": 1.0,
-      "fields": [],
-      "visible_schedule_used": false
-    },
-    {
       "id": "agenda_650e95f9b205b8665b0bce6d",
       "state": "no_confident_event_jsonld_match",
       "url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
       "match_score": 0.0
     },
     {
+      "id": "agenda_436aa2104216f8e9dea2473f",
+      "state": "updated",
+      "url": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+      "match_score": 0.94,
+      "fields": [
+        "address",
+        "display_text",
+        "end",
+        "price",
+        "start"
+      ],
+      "visible_schedule_used": false
+    },
+    {
+      "id": "agenda_e5e70d2d0bb6975591ebe862",
+      "state": "updated",
+      "url": "https://www.passline.com/eventos/la-invitacion-546125",
+      "match_score": 1.0,
+      "fields": [
+        "address",
+        "display_text",
+        "end",
+        "start"
+      ],
+      "visible_schedule_used": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
+      "state": "fetch_error",
+      "url": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
+      "http_status": null,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
       "id": "agenda_e02df7fa13fda35c81f15cd9",
-      "state": "verified_unchanged",
+      "state": "updated",
       "url": "https://www.passline.com/eventos/la-odisea-546119",
       "match_score": 1.0,
-      "fields": [],
+      "fields": [
+        "address",
+        "display_text",
+        "end",
+        "start"
+      ],
       "visible_schedule_used": false
     },
     {
       "id": "agenda_830a18503430778edbfe0743",
-      "state": "verified_unchanged",
+      "state": "updated",
       "url": "https://luma.com/wallevinadelmar",
       "match_score": 1.0,
-      "fields": [],
-      "visible_schedule_used": false
-    },
-    {
-      "id": "agenda_78a395c8d6980d1679196a95",
-      "state": "verified_unchanged",
-      "url": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-      "match_score": 0.94,
-      "fields": [],
+      "fields": [
+        "address",
+        "display_text",
+        "end",
+        "start",
+        "venue"
+      ],
       "visible_schedule_used": false
     },
     {
       "id": "agenda_fd3ddae09e1576497c5cb7d7",
       "state": "no_event_specific_structured_url"
+    },
+    {
+      "id": "agenda_78a395c8d6980d1679196a95",
+      "state": "updated",
+      "url": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+      "match_score": 0.94,
+      "fields": [
+        "address",
+        "display_text",
+        "end",
+        "price",
+        "start"
+      ],
+      "visible_schedule_used": false
     },
     {
       "id": "agenda_c6cc02c904fd295bccbc24a5",
@@ -215,6 +246,11 @@
       "id": "agenda_trotamundos_fe7bdef9de6229b3d4f5",
       "state": "fetch_budget_exhausted",
       "url": "https://www.passline.com/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso"
+    },
+    {
+      "id": "agenda_eb89b5ee606c6cb270ea04c4",
+      "state": "fetch_budget_exhausted",
+      "url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
     },
     {
       "id": "agenda_eeea936319edc98db3c75f29",
