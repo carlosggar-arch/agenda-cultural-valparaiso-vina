@@ -89,6 +89,8 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Exhibition visual parity</title>
   <link rel="stylesheet" href="./app.css">
+  <link id="unified-exhibition-gallery-styles" rel="stylesheet" href="./exhibition-gallery.css?v=20260818-gallery2">
+  <link id="unified-exhibition-compact-styles" rel="stylesheet" href="./exhibition-compact.css?v=20260818-compact8">
   <style>
     html, body {{ margin:0; min-height:100%; background:#f6f3ec; }}
     body {{ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }}
