@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - perf-faster-startup-cache-cf-20260820
+    paths-ignore:
+      - .github/benchmarks/isolated-cloudflare-startup.json
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   benchmark:
@@ -187,3 +189,19 @@ jobs:
           name: isolated-cloudflare-startup-benchmark
           path: benchmark-results.json
           retention-days: 7
+
+      - name: Persist benchmark summary on isolated branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .github/benchmarks
+          cp benchmark-results.json .github/benchmarks/isolated-cloudflare-startup.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/benchmarks/isolated-cloudflare-startup.json
+          if git diff --cached --quiet; then
+            echo 'BENCHMARK_RESULT_UNCHANGED'
+          else
+            git commit -m 'Record isolated Cloudflare startup benchmark'
+            git push origin HEAD:perf-faster-startup-cache-cf-20260820
+          fi
