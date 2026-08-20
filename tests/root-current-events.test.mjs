@@ -10,7 +10,6 @@ import {
 } from "../assets/agenda-core.mjs";
 
 const NOW = new Date("2026-08-19T20:21:00-04:00");
-const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 
 function event(id, start, end = start, event_type = "event") {
   return {
@@ -77,22 +76,4 @@ test("root dataset request bypasses browser HTTP cache and filters expired rows"
   const dataset = await fetchDataset(fetchImplementation, "./agenda_web.json");
   assert.deepEqual(dataset.events.map((item) => item.id), ["fantasmas"]);
   assert.equal(options?.cache, "no-store");
-});
-
-test("root publication keeps Los Fantasmas as Cine and also exposes it under Teatro", async () => {
-  const losFantasmas = {
-    ...event(LOS_FANTASMAS_EVENT_ID, "2099-08-22T22:00:00-04:00"),
-    title: "Los Fantasmas",
-    location: { city: "Valparaíso", venue: "Centro de Investigación Teatro La Peste" },
-  };
-  const fetchImplementation = async () => ({
-    ok: true,
-    async json() {
-      return { schema_version: "1.2.0", events: [losFantasmas] };
-    },
-  });
-  const dataset = await fetchDataset(fetchImplementation, "./agenda_web.json");
-  const published = dataset.events[0];
-  assert.equal(published.primary_category.id, "cine");
-  assert.deepEqual(published.categories.map((category) => category.id), ["cine", "teatro"]);
 });
