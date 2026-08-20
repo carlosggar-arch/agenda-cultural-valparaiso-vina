@@ -42,6 +42,7 @@ const SHELL_ASSETS = [
   "./exhibition-groups.js?v=20260820-groups1",
   "./exhibition-group-core.mjs?v=20260820-groups1",
   "./city-presentation-adapter.mjs?v=20260820-cityui1",
+  "./registration-reminders.js?v=20260820-registration1",
   "./exhibition-gallery.css?v=20260818-gallery2",
   "./exhibition-compact-loader.js?v=20260818-compact9",
   "./exhibition-compact.js?v=20260818-compact9",

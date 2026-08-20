@@ -11,6 +11,7 @@ const IMAGE_QUALITY_GUARD = "./image-quality-guard.js?v=20260820-images3";
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
   "./exhibition-groups.js?v=20260820-groups1",
+  "./registration-reminders.js?v=20260820-registration1",
   "./multievent-layout-fix.js?v=20260820-multievent2",
   "./schedule-display.js?v=20260819-runtime1",
   "./footer-credit.js?v=20260818-footer3",
