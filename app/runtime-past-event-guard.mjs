@@ -39,6 +39,35 @@ function datedWindows(event) {
   return [];
 }
 
+function pruneExpiredOccurrences(event, { today, timeZone }) {
+  if (["program", "flexible_offer"].includes(event?.event_type)) return event;
+  const schedule = event?.schedule;
+  const occurrences = schedule?.occurrences;
+  if (!Array.isArray(occurrences) || !occurrences.length) return event;
+
+  const currentOrFuture = occurrences.filter((occurrence) => {
+    const end = dateKeyForValue(occurrence?.end || occurrence?.start, timeZone);
+    return !end || end >= today;
+  });
+  if (!currentOrFuture.length) return null;
+  if (currentOrFuture.length === occurrences.length) return event;
+
+  const first = currentOrFuture[0];
+  const last = currentOrFuture[currentOrFuture.length - 1];
+  return {
+    ...event,
+    schedule: {
+      ...schedule,
+      start: first?.start || schedule.start,
+      end: last?.end || last?.start || first?.end || first?.start || schedule.end,
+      occurrences: currentOrFuture,
+      // The original display text may contain already-expired sessions. Let the
+      // presentation formatter rebuild a clean label from the remaining dates.
+      display_text: null,
+    },
+  };
+}
+
 export function eventIsCurrentOrFuture(event, {
   now = new Date(),
   timeZone = "UTC",
@@ -61,8 +90,13 @@ export function removeExpiredDatedEvents(dataset, {
   timeZone = dataset?.timezone || "UTC",
 } = {}) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
-  return {
-    ...dataset,
-    events: dataset.events.filter((event) => eventIsCurrentOrFuture(event, { now, timeZone })),
-  };
+  const today = dateKeyForDate(now, timeZone);
+  if (!today) return dataset;
+
+  const events = dataset.events
+    .map((event) => pruneExpiredOccurrences(event, { today, timeZone }))
+    .filter(Boolean)
+    .filter((event) => eventIsCurrentOrFuture(event, { now, timeZone }));
+
+  return { ...dataset, events };
 }
