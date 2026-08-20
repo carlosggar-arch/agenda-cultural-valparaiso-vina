@@ -13,11 +13,8 @@ import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260
 
 const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 
-async function fetchJson(url, fetchImpl, { refresh = false } = {}) {
-  const response = await fetchImpl(url, {
-    headers: { Accept: "application/json" },
-    cache: refresh ? "reload" : "default",
-  });
+async function fetchJson(url, fetchImpl) {
+  const response = await fetchImpl(url, { headers: { Accept: "application/json" }, cache: "no-store" });
   if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
   const payload = await response.json();
   if (!payload || !Array.isArray(payload.events)) throw new Error(`Dataset inválido: ${url}`);
