@@ -47,6 +47,7 @@ def check_manifest_and_icons() -> None:
 
 def check_service_worker() -> None:
     sw = (APP / "service-worker.js").read_text(encoding="utf-8")
+    shell_manifest = (APP / "service-worker-assets.generated.js").read_text(encoding="utf-8")
     assert "networkFirstDataset" in sw
     assert "CITY_REGISTRY_URL" in sw
     assert "datasetUrls" in sw
@@ -54,17 +55,23 @@ def check_service_worker() -> None:
     assert "./data/gijon/agenda_web.json" in sw
     assert "DATA_CACHE" in sw
     assert "SHELL_CACHE" in sw
+    assert "service-worker-assets.generated.js" in sw
 
-    shell_start = sw.index("const SHELL_ASSETS")
-    shell_end = sw.index("];", shell_start)
-    shell_block = sw[shell_start:shell_end]
-    assert "agenda_web.json" not in shell_block, "city datasets must never be precached"
-    assert '"./cities.json"' in shell_block
-    assert '"../assets/city-registry.mjs"' in shell_block
-    assert '"./mis-planes.html"' in shell_block
-    assert '"../assets/favorites-reminders.mjs"' in shell_block
-    assert '"./agenda-runtime-state.mjs"' in shell_block
-    assert '"./render-lifecycle.js"' in shell_block
+    # City datasets are fetched through the dedicated DATA_CACHE. The generated
+    # shell manifest owns the complete offline application shell and may also
+    # include dataset files discovered from runtime references; it must not be
+    # duplicated as a hand-maintained list inside service-worker.js.
+    for asset in (
+        "./cities.json",
+        "../assets/city-registry.mjs",
+        "./mis-planes.html",
+        "../assets/favorites-reminders.mjs",
+        "./agenda-runtime-state.mjs",
+        "./render-lifecycle.js",
+        "./registration-reminders.js",
+    ):
+        assert f'"{asset}"' in shell_manifest, f"generated shell missing {asset}"
+    assert "const SHELL_ASSETS = [" not in sw, "manual shell list returned to service worker"
 
 
 def check_ui_contract() -> None:
