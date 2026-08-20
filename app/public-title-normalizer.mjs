@@ -145,13 +145,36 @@ function smartAllCaps(value, event) {
 }
 
 function normalizeInternalAllCaps(value) {
-  const parts = clean(value).split(/(\s*(?::|;|—|–)\s*|\s+-\s+)/u);
+  const parts = clean(value).split(/(\s*(?::|;|\/\/|—|–)\s*|\s+-\s+)/u);
   return parts.map((part, index) => {
     if (index % 2 === 1 || !isAllCaps(part)) return part;
     const words = clean(part).replace(/[.!?]+$/u, "").split(/\s+/u).filter(Boolean);
     const hasMinorWord = words.slice(1).some((word) => MINOR_WORDS.has(word.toLocaleLowerCase("es").replace(/[^\p{L}\p{N}]/gu, "")));
     return words.length <= 2 && !hasMinorWord ? smartTitleCase(part) : sentenceCase(part);
   }).join("");
+}
+
+function normalizeLeadingAllCapsRun(value) {
+  const text = clean(value);
+  const words = text.split(/\s+/u);
+  if (words.length < 3) return text;
+
+  let runLength = 0;
+  let hasNormalizableWord = false;
+  for (const word of words) {
+    const leading = word.match(/^[^\p{L}\p{N}]*/u)?.[0] || "";
+    const trailing = word.match(/[^\p{L}\p{N}]*$/u)?.[0] || "";
+    const end = trailing.length ? word.length - trailing.length : word.length;
+    const core = word.slice(leading.length, end);
+    const letters = casedLetters(core);
+    if (letters.length < 2 || !letters.every((char) => char === char.toLocaleUpperCase("es"))) break;
+    runLength += 1;
+    if (!protectedUpperToken(core)) hasNormalizableWord = true;
+  }
+
+  if (runLength < 2 || runLength >= words.length || !hasNormalizableWord) return text;
+  const prefix = smartTitleCase(words.slice(0, runLength).join(" "));
+  return clean(`${prefix} ${words.slice(runLength).join(" ")}`);
 }
 
 function stripGenericPrefixes(value) {
@@ -171,6 +194,9 @@ export function normalizePublicEventTitle(value, event = null) {
   text = stripGenericPrefixes(text);
   text = stripTerminalPeriod(stripOuterQuotes(text));
   if (isAllCaps(text) || isMostlyAllCaps(text)) text = smartAllCaps(text, event);
-  else text = normalizeInternalAllCaps(text);
+  else {
+    text = normalizeInternalAllCaps(text);
+    text = normalizeLeadingAllCapsRun(text);
+  }
   return clean(text);
 }
