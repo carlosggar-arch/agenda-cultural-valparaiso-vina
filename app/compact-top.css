@@ -220,3 +220,10 @@ html[data-installed-app-actions="below-mosaic"] .app-header {
   min-height: 214px !important;
   padding-bottom: .55rem !important;
 }
+
+/* Preview-only experiment: four event cards per row on desktop. */
+@media (min-width: 1000px) {
+  .event-grid:not(.compact-grid) {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
