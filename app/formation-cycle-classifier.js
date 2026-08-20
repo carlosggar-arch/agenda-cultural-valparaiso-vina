@@ -60,13 +60,18 @@ function registrationText(event) {
   ].filter(Boolean).join(" "));
 }
 
+function explicitRegistrationProcess(event) {
+  const text = registrationText(event);
+  return /\b(?:proceso de inscripcion|periodo de inscripcion|plazos? de inscripcion|inscripciones?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza)\b/.test(text);
+}
+
 function explicitRegistrationSignal(event) {
   if (String(event?.links?.registration || "").trim()) return true;
   if (String(event?.registration_requirements || "").trim()) return true;
   if (event?.public_status?.registration_open === true) return true;
   if (event?.public_status?.sold_out === true && formationLike(event)) return true;
   const text = registrationText(event);
-  return /\b(?:proceso de inscripcion|periodo de inscripcion|plazo de inscripcion|inscripciones? abiertas?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza|plazas? agotadas?|plazas? disponibles?)\b/.test(text);
+  return /\b(?:inscripciones? abiertas?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza|plazas? agotadas?|plazas? disponibles?)\b/.test(text);
 }
 
 function longFormationOfferingSignal(event) {
@@ -76,14 +81,16 @@ function longFormationOfferingSignal(event) {
 }
 
 export function isRegistrationReminder(event) {
-  if (!event || event?.event_type !== "event") return false;
+  if (!event || !["event", "program"].includes(event?.event_type)) return false;
   if (event?.schedule?.mode !== "multi_day") return false;
   if (hasOccurrences(event)) return false;
   if (spanDays(event) < 7) return false;
 
-  const text = registrationText(event);
-  const explicitProcess = /\b(?:proceso de inscripcion|periodo de inscripcion|plazo de inscripcion|inscripciones? abiertas?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza)\b/.test(text);
-  if (explicitProcess) return true;
+  // Existing programme records are reclassified only when their public copy
+  // explicitly says that the item is an enrollment/application process.
+  if (event.event_type === "program") return explicitRegistrationProcess(event);
+
+  if (explicitRegistrationProcess(event)) return true;
   if (formationLike(event) && explicitRegistrationSignal(event)) return true;
   return longFormationOfferingSignal(event);
 }
