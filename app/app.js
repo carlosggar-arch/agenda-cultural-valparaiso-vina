@@ -49,34 +49,83 @@ if (IS_GIJON) {
   );
 }
 
+function ensureSourcesFallbackLink() {
+  const footer = document.querySelector("body > footer");
+  if (!footer) return null;
+  const dynamic = footer.querySelector("[data-sources-toggle]");
+  if (dynamic) return dynamic;
+
+  let fallback = footer.querySelector("[data-sources-fallback]");
+  if (!fallback) {
+    fallback = document.createElement("a");
+    fallback.href = "../fuentes.html";
+    fallback.className = "sources-toggle sources-fallback";
+    fallback.dataset.sourcesFallback = "";
+    fallback.textContent = "Fuentes";
+    fallback.setAttribute("aria-label", "Ver todas las fuentes de la agenda");
+    const version = footer.querySelector("[data-app-version]");
+    if (version) footer.insertBefore(fallback, version);
+    else footer.append(fallback);
+  }
+  footer.classList.add("vivamos-footer--with-sources");
+  return fallback;
+}
+
 function placeSourcesButtonInFooter() {
   const footer = document.querySelector("body > footer");
   const button = footer?.querySelector("[data-sources-toggle]");
-  if (!footer || !button) return;
+  if (!footer || !button) return false;
 
+  footer.querySelector("[data-sources-fallback]")?.remove();
   const version = footer.querySelector("[data-app-version]");
   if (version && button.nextElementSibling !== version) footer.insertBefore(button, version);
   footer.classList.add("vivamos-footer--with-sources");
 
   const styleId = "vivamos-footer-sources-layout";
-  if (document.getElementById(styleId)) return;
-  const style = document.createElement("style");
-  style.id = styleId;
-  style.textContent = `
-    .vivamos-footer.vivamos-footer--with-sources {
-      grid-template-columns: auto minmax(0, 1fr) auto auto auto;
-    }
-    @media (max-width: 900px) {
+  if (!document.getElementById(styleId)) {
+    const style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = `
       .vivamos-footer.vivamos-footer--with-sources {
-        grid-template-columns: 1fr auto;
+        grid-template-columns: auto minmax(0, 1fr) auto auto auto;
       }
-      .vivamos-footer.vivamos-footer--with-sources .sources-toggle {
-        grid-column: 1;
-        width: max-content;
+      .vivamos-footer .sources-toggle {
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-height:2.35rem;
+        padding:.5rem .85rem;
+        border:1px solid rgba(255,255,255,.72);
+        border-radius:999px;
+        background:#fff;
+        color:#174f46;
+        font:inherit;
+        font-weight:850;
+        line-height:1;
+        text-decoration:none;
+        cursor:pointer;
       }
-    }
-  `;
-  document.head.append(style);
+      .vivamos-footer .sources-toggle:hover,
+      .vivamos-footer .sources-toggle:focus-visible {
+        border-color:#f4d16d;
+        background:#f4d16d;
+        color:#103c36;
+        outline:2px solid rgba(255,255,255,.72);
+        outline-offset:2px;
+      }
+      @media (max-width: 900px) {
+        .vivamos-footer.vivamos-footer--with-sources {
+          grid-template-columns: 1fr auto;
+        }
+        .vivamos-footer.vivamos-footer--with-sources .sources-toggle {
+          grid-column: 1;
+          width: max-content;
+        }
+      }
+    `;
+    document.head.append(style);
+  }
+  return true;
 }
 
 async function loadOptionalEnhancements() {
@@ -85,15 +134,17 @@ async function loadOptionalEnhancements() {
     if (result.status === "rejected") console.warn(`¡Vivamos!: mejora opcional omitida (${OPTIONAL_MODULES[index]})`, result.reason);
   });
 
-  // sources-toggle used to be part of the public app shell. Load it only after
-  // footer-credit has finished rebuilding the footer, otherwise replaceChildren()
-  // can remove the button depending on module timing.
+  // The public source catalogue must always be reachable. Install a normal
+  // link first; if the richer in-page source toggle loads successfully, it
+  // replaces this fallback. This avoids losing Fuentes because of an optional
+  // module failure, missing source section, cache mismatch or footer timing.
+  ensureSourcesFallbackLink();
   try {
-    await import("./sources-toggle.js");
-    placeSourcesButtonInFooter();
+    await import("./sources-toggle.js?v=20260820-sources2");
   } catch (error) {
-    console.warn("¡Vivamos!: acceso a fuentes omitido", error);
+    console.warn("¡Vivamos!: vista integrada de fuentes omitida; se conserva el enlace de catálogo", error);
   }
+  if (!placeSourcesButtonInFooter()) ensureSourcesFallbackLink();
 }
 
 await coreReady;
