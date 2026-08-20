@@ -3,8 +3,8 @@
   "sources": {
     "culturasvina": {
       "name": "Culturas Viña",
-      "last_good_at": "2026-08-20T14:00:14-04:00",
-      "last_good_count": 11,
+      "last_good_at": "2026-08-20T14:55:02-04:00",
+      "last_good_count": 12,
       "events": [
         {
           "id": "agenda_67defc9c064344e04c20aca6",
@@ -26,23 +26,21 @@
           ],
           "schedule": {
             "mode": "dated",
-            "start": "2026-08-20T06:00:00-04:00",
-            "end": "2026-08-20T13:30:00-04:00",
+            "start": "2026-08-20T10:00:00-04:00",
+            "end": null,
             "timezone": "America/Santiago",
-            "display_text": "20-08-2026 · 06:00–13:30",
+            "display_text": "2026-08-20 · 10:00, 17:30",
             "occurrences": [],
             "opening_time": "10:00",
             "closing_time": "17:30",
-            "hours_confidence": "source_schedule_pair",
-            "start_confidence": "official_revalidation",
-            "end_confidence": "official_revalidation"
+            "hours_confidence": "source_schedule_pair"
           },
           "location": {
             "venue_id": "palacio-vergara",
             "city": "Viña del Mar",
             "commune": "Viña del Mar",
             "venue": "Palacio Vergara",
-            "address": "Errázuriz 563",
+            "address": "Errázuriz 563, Viña del Mar",
             "online": false,
             "latitude": null,
             "longitude": null
@@ -63,10 +61,10 @@
           "organizer": "Culturas Viña",
           "source_name": "Culturas Viña",
           "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
-          "last_verified_at": "2026-08-20T13:41:48-04:00",
+          "last_verified_at": null,
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:41:48-04:00",
+            "last_verified_at": null,
             "registration_open": null,
             "registration_closed": null,
             "cancelled": null,
@@ -84,16 +82,7 @@
             "url": null,
             "alt": null
           },
-          "source_id": "culturasvina",
-          "editorial": {
-            "last_automatic_revalidation_at": "2026-08-20T13:41:48-04:00",
-            "automatic_revalidation_fields": [
-              "address",
-              "display_text",
-              "end",
-              "start"
-            ]
-          }
+          "source_id": "culturasvina"
         },
         {
           "id": "agenda_eeea936319edc98db3c75f29",
@@ -118,7 +107,7 @@
             "start": "2026-08-21T10:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-21 · 10:00–17:30",
+            "display_text": "2026-08-21 · 10:00, 17:30",
             "occurrences": [],
             "opening_time": "10:00",
             "closing_time": "17:30",
@@ -174,6 +163,114 @@
           "source_id": "culturasvina"
         },
         {
+          "id": "agenda_eb89b5ee606c6cb270ea04c4",
+          "title": "A veces un mar dulce",
+          "event_type": "event",
+          "primary_category": {
+            "id": "exposiciones",
+            "label": "Exposiciones"
+          },
+          "categories": [
+            {
+              "id": "exposiciones",
+              "label": "Exposiciones"
+            },
+            {
+              "id": "museos",
+              "label": "Museos"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-21T10:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 10:00, 17:30",
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair",
+            "opening_hours": {
+              "mode": "weekly",
+              "open_weekdays": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "opening_time": "10:00",
+              "closing_time": "17:30",
+              "display_text": "Martes a domingo · 10:00–17:30",
+              "reference_date": "2026-08-30",
+              "is_open_on_reference_date": true,
+              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+              "verified_at": "2026-08-17"
+            }
+          },
+          "location": {
+            "venue_id": null,
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Museo Palacio Rioja",
+            "address": null,
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Gratis"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
+          },
+          "organizer": "Culturas Viña",
+          "source_name": "Culturas Viña",
+          "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+          "last_verified_at": null,
+          "public_status": {
+            "source_official": false,
+            "last_verified_at": null,
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": null,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "Inicio actividad - Visita Viña Exposición temporal // A veces un mar dulce Fecha 21-agosto-2026 Hora De: Josefina Acevedo, Rocio Mercado, Rosario Sotomayor, Krishna Escovedo y Javiera Sepúlveda. El eje curatorial es el concepto de balneario. Las artistas reuni...",
+          "tags": [],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFlE3fdTZhOl0VMa_HwamrWmdUs_MQIkGloqoTF2fE8oQGa5E1dHC__Bi7VxUixFr5DtihP2cToZieJZQ9yT52w&_nc_ohc=h6IK9MlftDkQ7kNvwFh2dGX&_nc_gid=5wD9mnd4Trwl5fasjyNvOA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQFzXCO57AukmVD9LPBjfUioJYI_5bZX4rnPMeVu9my81A&oe=6A888B33&_nc_sid=c6f216",
+            "alt": "Museo Palacio Rioja"
+          },
+          "source_id": "culturasvina",
+          "editorial": {
+            "duplicate_sources": [
+              {
+                "id": "agenda_8c2b6ba0de30c34fe3529930",
+                "title": "A veces un mar dulce",
+                "source_name": "Museo Palacio Rioja",
+                "source_url": "https://www.instagram.com/p/DbtU4Tst0CB/"
+              }
+            ],
+            "duplicates_consolidated": 1
+          }
+        },
+        {
           "id": "agenda_909c0ee35fef43fe785f4eb4",
           "title": "Exposición temporal // Tàpies, colección del grabador Barbara",
           "event_type": "event",
@@ -196,7 +293,7 @@
             "start": "2026-08-21T10:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-21 · 10:00–17:30",
+            "display_text": "2026-08-21 · 10:00, 17:30",
             "occurrences": [],
             "opening_time": "10:00",
             "closing_time": "17:30",
@@ -274,7 +371,7 @@
             "start": "2026-08-21T10:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-21 · 10:00–17:30",
+            "display_text": "2026-08-21 · 10:00, 17:30",
             "occurrences": [],
             "opening_time": "10:00",
             "closing_time": "17:30",
@@ -352,7 +449,7 @@
             "start": "2026-08-22T10:30:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-22 · 10:30–17:00",
+            "display_text": "2026-08-22 · 10:30, 17:00",
             "occurrences": [],
             "opening_time": "10:30",
             "closing_time": "17:00",
@@ -426,7 +523,7 @@
             "start": "2026-08-22T10:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-22 · 10:00–17:00",
+            "display_text": "2026-08-22 · 10:00, 17:00",
             "occurrences": []
           },
           "location": {
@@ -500,7 +597,7 @@
             "start": "2026-08-22T10:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-22 · 10:00–12:00",
+            "display_text": "2026-08-22 · 10:00, 12:00",
             "occurrences": []
           },
           "location": {
@@ -645,7 +742,7 @@
             "start": "2026-08-22T11:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-22 · 11:00–12:00",
+            "display_text": "2026-08-22 · 11:00, 12:00",
             "occurrences": []
           },
           "location": {
@@ -722,7 +819,7 @@
             "start": "2026-08-28T16:00:00-04:00",
             "end": "2026-08-30",
             "timezone": "America/Santiago",
-            "display_text": "2026-08-28 – 2026-08-30",
+            "display_text": "2026-08-28 · 16:00, 10:00, 17:30, 16:08, 15:08",
             "occurrences": [],
             "opening_hours": {
               "mode": "weekly",
@@ -831,7 +928,7 @@
             "start": "2026-08-30T10:00:00-04:00",
             "end": null,
             "timezone": "America/Santiago",
-            "display_text": "2026-08-30 · 10:00–17:30",
+            "display_text": "2026-08-30 · 10:00, 17:30",
             "occurrences": [],
             "opening_time": "10:00",
             "closing_time": "17:30",
@@ -1142,7 +1239,7 @@
     },
     "museobaburizza": {
       "name": "Museo Baburizza",
-      "last_good_at": "2026-08-20T14:00:14-04:00",
+      "last_good_at": "2026-08-20T14:55:02-04:00",
       "last_good_count": 2,
       "events": [
         {
@@ -1164,7 +1261,7 @@
             "start": "2026-08-06",
             "end": "2026-10-04",
             "timezone": "America/Santiago",
-            "display_text": "06-08-2026 – 04-10-2026",
+            "display_text": "2026-08-06 – 2026-10-04",
             "occurrences": [],
             "start_confidence": "explicit",
             "end_confidence": "explicit"
@@ -1196,10 +1293,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-          "last_verified_at": "2026-08-20T13:41:48-04:00",
+          "last_verified_at": "2026-08-20T14:49:07-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T13:41:48-04:00",
+            "last_verified_at": "2026-08-20T14:49:07-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -1225,11 +1322,7 @@
           "editorial": {
             "classification": "event",
             "reason": "official_baburizza_agenda",
-            "duration_days": 59,
-            "last_automatic_revalidation_at": "2026-08-20T13:41:48-04:00",
-            "automatic_revalidation_fields": [
-              "display_text"
-            ]
+            "duration_days": 59
           }
         },
         {
@@ -1248,13 +1341,13 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-14T10:00:00+00:00",
-            "end": "2026-10-04T18:00:00+00:00",
+            "start": "2026-08-14",
+            "end": "2026-10-04",
             "timezone": "America/Santiago",
             "display_text": "2026-08-14 – 2026-10-04",
             "occurrences": [],
-            "start_confidence": "official_revalidation",
-            "end_confidence": "official_revalidation",
+            "start_confidence": "explicit",
+            "end_confidence": "explicit",
             "opening_hours": {
               "mode": "weekly",
               "open_weekdays": [
@@ -1305,10 +1398,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-          "last_verified_at": "2026-08-20T13:41:48-04:00",
+          "last_verified_at": "2026-08-20T14:49:07-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T13:41:48-04:00",
+            "last_verified_at": "2026-08-20T14:49:07-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -1335,13 +1428,7 @@
             "classification": "event",
             "reason": "official_baburizza_agenda",
             "duration_days": 51,
-            "venue_hours_enriched": true,
-            "last_automatic_revalidation_at": "2026-08-20T13:41:48-04:00",
-            "automatic_revalidation_fields": [
-              "display_text",
-              "end",
-              "start"
-            ]
+            "venue_hours_enriched": true
           }
         }
       ]
@@ -9182,12 +9269,12 @@
     },
     "visitavina_palacio_rioja_recovery": {
       "name": "Visita Viña — Museo Palacio Rioja",
-      "last_good_at": "2026-08-20T14:00:14-04:00",
+      "last_good_at": "2026-08-20T14:55:02-04:00",
       "last_good_count": 11,
       "events": [
         {
-          "id": "agenda_visitavina_rioja_f330a25add773e39c6",
-          "title": "A veces un mar dulce",
+          "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
+          "title": "Visita guiada exposición // “A veces un mar dulce”",
           "event_type": "event",
           "primary_category": {
             "id": "exposiciones",
@@ -9201,41 +9288,19 @@
           ],
           "schedule": {
             "mode": "dated",
-            "start": "2026-08-20T10:00:00-04:00",
-            "end": "2026-08-20T17:30:00-04:00",
+            "start": "2026-08-20T15:00:00-04:00",
+            "end": "2026-08-20T17:00:00-04:00",
             "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 10:00–17:30",
+            "display_text": "2026-08-20 · 15:00–17:00",
             "occurrences": [],
             "start_confidence": "official_visible_schedule",
-            "end_confidence": "official_visible_schedule",
-            "opening_hours": {
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "reference_date": "2026-08-30",
-              "is_open_on_reference_date": true,
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "closing_time": "17:30",
-            "hours_confidence": "source_schedule_pair"
+            "end_confidence": "official_visible_schedule"
           },
           "location": {
             "venue_id": "museo_palacio_rioja",
             "city": "Viña del Mar",
             "commune": "Viña del Mar",
-            "venue": "Museo Palacio Rioja",
+            "venue": "Palacio Rioja",
             "address": "Quillota 214, Viña del Mar",
             "online": false,
             "latitude": null,
@@ -9249,7 +9314,7 @@
             "display_text": "Gratis"
           },
           "links": {
-            "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/?occurrence=2026-08-20",
+            "official": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
             "tickets": null,
             "registration": null,
             "source": "https://visitavina.munivina.cl/actividades/"
@@ -9258,10 +9323,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:55-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:55-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9280,8 +9345,8 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFlE3fdTZhOl0VMa_HwamrWmdUs_MQIkGloqoTF2fE8oQGa5E1dHC__Bi7VxUixFr5DtihP2cToZieJZQ9yT52w&_nc_ohc=h6IK9MlftDkQ7kNvwFh2dGX&_nc_gid=5wD9mnd4Trwl5fasjyNvOA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQFzXCO57AukmVD9LPBjfUioJYI_5bZX4rnPMeVu9my81A&oe=6A888B33&_nc_sid=c6f216",
-            "alt": "Museo Palacio Rioja"
+            "url": null,
+            "alt": null
           },
           "editorial": {
             "classification": "event",
@@ -9289,64 +9354,7 @@
             "covered_source_ids": [
               "museo_palacio_rioja"
             ],
-            "duration_days": 0,
-            "duplicate_sources": [
-              {
-                "id": "agenda_eb89b5ee606c6cb270ea04c4",
-                "title": "A veces un mar dulce",
-                "source_name": "Culturas Viña",
-                "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_e34f6f45f0dfe53c00",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_6af128d844e3e2dd26",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_40c09c905da21c525a",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_0e753c92481191930a",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_3b72ff992f826ca977",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_1fe9c0c99aafe0fb0b",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_002cd14bbd8b92655d",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_f108b786e10339f436",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              }
-            ],
-            "duplicates_consolidated": 9
+            "duration_days": 0
           }
         },
         {
@@ -9400,10 +9408,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:55-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:55-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9485,10 +9493,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9570,10 +9578,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9655,10 +9663,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9740,10 +9748,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9825,10 +9833,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9910,10 +9918,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9995,10 +10003,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -10080,10 +10088,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:08-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:08-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -10165,10 +10173,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T14:00:09-04:00",
+          "last_verified_at": "2026-08-20T14:54:56-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T14:00:09-04:00",
+            "last_verified_at": "2026-08-20T14:54:56-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -15132,5 +15140,5 @@
       ]
     }
   },
-  "generated_at": "2026-08-20T14:00:14-04:00"
+  "generated_at": "2026-08-20T14:55:02-04:00"
 }
