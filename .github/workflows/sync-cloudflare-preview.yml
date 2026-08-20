@@ -91,7 +91,7 @@ jobs:
               return hashlib.sha256(payload).hexdigest()
 
 
-          def fetch(path: str, timeout: int = 12) -> bytes:
+          def fetch(path: str, timeout: int = 6) -> bytes:
               separator = "&" if "?" in path else "?"
               url = f"{BASE}{path}{separator}smoke={uuid.uuid4().hex}"
               request = urllib.request.Request(
