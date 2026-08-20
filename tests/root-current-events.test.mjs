@@ -56,7 +56,7 @@ test("unbounded root filters cannot reintroduce yesterday events", () => {
   );
 });
 
-test("root dataset request bypasses browser HTTP cache", async () => {
+test("root dataset request bypasses browser HTTP cache and filters expired rows", async () => {
   let options;
   const fetchImplementation = async (_path, receivedOptions) => {
     options = receivedOptions;
@@ -65,12 +65,15 @@ test("root dataset request bypasses browser HTTP cache", async () => {
       async json() {
         return {
           schema_version: "1.2.0",
-          events: [event("fantasmas", "2026-08-22T22:00:00-04:00")],
+          events: [
+            event("ayer", "2026-08-18T20:00:00-04:00"),
+            event("fantasmas", "2099-08-22T22:00:00-04:00"),
+          ],
         };
       },
     };
   };
   const dataset = await fetchDataset(fetchImplementation, "./agenda_web.json");
-  assert.equal(dataset.events[0].id, "fantasmas");
+  assert.deepEqual(dataset.events.map((item) => item.id), ["fantasmas"]);
   assert.equal(options?.cache, "no-store");
 });
