@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v164 accelerates repeat startup while preserving fresh navigation and the complete offline shell.
-  const RELEASE = 164;
+  // v165 keeps fresh navigation/data while avoiding redundant shell revalidation on warm startup.
+  const RELEASE = 165;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
