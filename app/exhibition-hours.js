@@ -1,7 +1,7 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { venueRecordForEvent, venueRecordForName } from "./venue-identity.mjs?v=20260820-venues1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
-const MHNV_HOURS = "Mar–vie 10:00–18:00 · sáb 11:00–16:00 · dom/lun/festivos cerrado";
 const EXHIBITION_CARD_POLISH_STYLE_ID = "exhibition-card-polish-20260820";
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
@@ -14,8 +14,6 @@ function ensureExhibitionCardPolishStyles() {
   const style = document.createElement("style");
   style.id = EXHIBITION_CARD_POLISH_STYLE_ID;
   style.textContent = `
-    /* Grouped rows are content-driven: schedule/location enrichment must never
-       be hidden by the older fixed 70–74 px row contract. */
     .grouped-exhibition-item {
       height: auto !important;
       min-height: 96px !important;
@@ -39,9 +37,6 @@ function ensureExhibitionCardPolishStyles() {
       margin-bottom: 3px !important;
     }
 
-    /* Three-item museum groups such as Palacio Rioja should show all three
-       subcards completely. Larger groups keep an internal scroll instead of
-       making the whole agenda card arbitrarily tall. */
     .exhibition-group-list {
       max-height: 306px !important;
     }
@@ -52,21 +47,13 @@ function ensureExhibitionCardPolishStyles() {
     }
 
     @media (max-width: 900px) {
-      .grouped-exhibition-item {
-        min-height: 94px !important;
-      }
-      .exhibition-group-list {
-        max-height: 300px !important;
-      }
+      .grouped-exhibition-item { min-height: 94px !important; }
+      .exhibition-group-list { max-height: 300px !important; }
     }
 
     @media (max-width: 560px) {
-      .grouped-exhibition-item {
-        min-height: 92px !important;
-      }
-      .exhibition-group-list {
-        max-height: 294px !important;
-      }
+      .grouped-exhibition-item { min-height: 92px !important; }
+      .exhibition-group-list { max-height: 294px !important; }
     }
   `;
   document.head.append(style);
@@ -97,13 +84,6 @@ function validTime(value) {
   return /^\d{2}:\d{2}$/.test(String(value || "").trim());
 }
 
-function fold(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es");
-}
-
 function isMultiDayVisit(event) {
   const schedule = event?.schedule || {};
   if (schedule.mode === "multi_day") return true;
@@ -114,13 +94,7 @@ function isMultiDayVisit(event) {
 
 function knownVenueHours(event) {
   if (!isExhibition(event) || !isMultiDayVisit(event)) return null;
-  const identity = fold([
-    event?.location?.venue,
-    event?.organizer,
-    event?.source_name,
-  ].filter(Boolean).join(" "));
-  if (identity.includes("museo de historia natural de valparaiso")) return MHNV_HOURS;
-  return null;
+  return venueRecordForEvent(event)?.opening_hours?.display || null;
 }
 
 function explicitVenueHours(event) {
@@ -160,15 +134,11 @@ function patchStandaloneCard(card) {
 function groupedOpeningHoursNode(card, create = false) {
   const candidates = [...card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")];
   let node = candidates[0] || null;
-
-  // Static and runtime renderers must share one venue-hours row. Reuse the
-  // first one and remove any duplicate so venue schedules can never stack.
   if (node) {
     node.dataset.exhibitionOpeningHours = "";
     for (const duplicate of candidates.slice(1)) duplicate.remove();
     return node;
   }
-
   if (!create) return null;
   const facts = card.querySelector(".exhibition-venue-facts");
   if (!facts) return null;
@@ -196,9 +166,8 @@ function setGroupedOpeningHours(card, hours) {
 }
 
 function knownGroupedVenueHours(card) {
-  const identity = fold(card.querySelector(".exhibition-venue-heading h4")?.textContent || "");
-  if (identity.includes("museo de historia natural de valparaiso")) return MHNV_HOURS;
-  return null;
+  const name = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
+  return venueRecordForName(name)?.opening_hours?.display || null;
 }
 
 function patchGroupCard(card) {
