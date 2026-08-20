@@ -53,6 +53,9 @@ jobs:
           node --check app/exhibition-group-core.mjs
           node --check app/exhibition-group-core.test.mjs
           node --check app/city-presentation-adapter.mjs
+          node --check app/formation-cycle-classifier.js
+          node --check app/registration-reminder-classifier.test.mjs
+          node --check app/registration-reminders-architecture.test.mjs
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/release-version.js
@@ -70,6 +73,8 @@ jobs:
           node app/session-occurrence-normalizer.test.mjs
           node app/program-visibility-policy.test.mjs
           node app/exhibition-group-core.test.mjs
+          node app/registration-reminder-classifier.test.mjs
+          node app/registration-reminders-architecture.test.mjs
           node app/startup-architecture.test.mjs
           node app/date-filter-architecture.test.mjs
           node app/public-title-normalizer.test.mjs
@@ -90,5 +95,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, and visual parity for grouped exhibitions at Muséu del Pueblu d'Asturies and Palacio Rioja."
+          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, registration-reminder classification/architecture, and visual parity for grouped exhibitions at Muséu del Pueblu d'Asturies and Palacio Rioja."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."

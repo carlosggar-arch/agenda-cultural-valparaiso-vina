@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v163 adds the canonical multi-city exhibition renderer and its visual-parity release gate on top of the v162 source/deploy hardening.
-  const RELEASE = 163;
+  // v164 separates enrollment/booking processes from dated cultural events in a shared multi-city reminder section.
+  const RELEASE = 164;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
