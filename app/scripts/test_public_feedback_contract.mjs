@@ -73,15 +73,17 @@ assert.match(shareQrCss, /header-search-toggle\[data-header-search-toggle\][\s\S
 assert.match(shareQrCss, /data-installed-real-mosaic="true"[\s\S]*share-qr-button\[data-share-qr-open\][\s\S]*width:100%!important/);
 assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*justify-self:stretch!important/);
 
+// app.js owns content feedback modules; pwa.js must not instantiate them again.
 assert.match(appJs, /community-source\.js\?v=20260818-feedback3/);
 assert.match(appJs, /participation-footer\.js\?v=20260819-feedback7/);
-assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
+assert.doesNotMatch(pwa, /["']\.\/community-source\.js/);
+assert.doesNotMatch(pwa, /["']\.\/participation-footer\.js/);
 assert.match(pwa, /remove-like\.js\?v=20260819-remove3/);
-assert.match(pwa, /participation-footer\.js\?v=20260819-feedback7/);
 assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(pwa, /mobile-action-strip-six\.js\?v=20260819-actions7/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
+// The worker caches app-owned modules without becoming their runtime owner.
 assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
 assert.match(worker, /participation-footer\.js/);
 assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
@@ -90,6 +92,6 @@ assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 136, "PWA release must include recovered v136 UI contract");
+assert.ok(Number(releaseMatch[1]) >= 162, "PWA release must include single-owner feedback runtime");
 
-console.log("Public feedback: shell-free proportional WEB strip + current comments-only six-action installed strip: OK");
+console.log("Public feedback: single-owner content modules + current comments-only six-action installed strip: OK");
