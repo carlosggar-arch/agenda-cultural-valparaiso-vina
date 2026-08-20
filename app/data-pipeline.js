@@ -42,7 +42,7 @@ async function withSupplemental(city, dataset, fetchImpl, diagnostics) {
   }
 }
 
-export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch } = {}) {
+export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, now = new Date() } = {}) {
   if (!city?.dataset) throw new Error("Ciudad sin dataset configurado");
   if (typeof fetchImpl !== "function") throw new Error("fetch no disponible");
 
@@ -62,7 +62,10 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch } =
   dataset = applyStage("cross-source-deduplication", deduplicateCrossSourceDataset, dataset, diagnostics);
   dataset = applyStage(
     "past-event-guard",
-    (current) => removeExpiredDatedEvents(current, { timeZone: city.timezone || current?.timezone || "UTC" }),
+    (current) => removeExpiredDatedEvents(current, {
+      now,
+      timeZone: city.timezone || current?.timezone || "UTC",
+    }),
     dataset,
     diagnostics,
   );
