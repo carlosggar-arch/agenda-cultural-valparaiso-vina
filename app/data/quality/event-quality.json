@@ -1,81 +1,81 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T01:34:41.664982+00:00",
+  "generated_at": "2026-08-20T13:34:05.966337+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-19",
-      "generated_at": "2026-08-19T19:49:56-04:00",
+      "generated_at": "2026-08-20T04:03:39-04:00",
       "summary": {
-        "total_events": 180,
-        "average_quality_score": 96.6,
+        "total_events": 175,
+        "average_quality_score": 96.5,
         "quality_class": "excellent",
         "sources_catalogued": 41,
         "sources_producing": 26,
         "sources_zero": 15,
         "review_priority_zero_sources": 9,
         "zero_sources_covered_elsewhere": 6,
-        "top3_source_share_pct": 51.7,
+        "top3_source_share_pct": 52.0,
         "unattributed_events": 0
       },
       "field_coverage": {
-        "date_pct": 97.8,
-        "time_pct": 95.0,
+        "date_pct": 97.7,
+        "time_pct": 94.9,
         "venue_pct": 100.0,
-        "image_pct": 89.4,
+        "image_pct": 89.1,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 52.8,
-        "price_known_pct": 91.1
+        "official_source_pct": 51.4,
+        "price_known_pct": 90.9
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 71,
-          "share_pct": 39.4,
+          "count": 73,
+          "share_pct": 41.7,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 40,
-          "share_pct": 22.2,
+          "count": 33,
+          "share_pct": 18.9,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 20,
-          "share_pct": 11.1,
+          "share_pct": 11.4,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 20,
-          "share_pct": 11.1,
+          "share_pct": 11.4,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 12,
-          "share_pct": 6.7,
+          "share_pct": 6.9,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 9,
-          "share_pct": 5.0,
+          "share_pct": 5.1,
           "underrepresented": false
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 4,
-          "share_pct": 2.2,
+          "share_pct": 2.3,
           "underrepresented": true
         },
         {
@@ -96,13 +96,13 @@
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 114,
-          "share_pct": 63.3
+          "count": 113,
+          "share_pct": 64.6
         },
         {
           "area": "Viña del Mar",
-          "count": 66,
-          "share_pct": 36.7
+          "count": 62,
+          "share_pct": 35.4
         }
       ],
       "coverage_gaps": {
@@ -134,7 +134,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 89.4,
+        "relevant_image_pct": 89.1,
         "removed_events": {
           "removed_title_quality": 1,
           "removed_location_mismatch": 0,
@@ -171,7 +171,7 @@
         {
           "id": "cinearte_vina",
           "name": "Cine Arte Viña del Mar",
-          "count": 24,
+          "count": 20,
           "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
@@ -189,13 +189,13 @@
             "price_known_pct": 100.0
           },
           "categories": {
-            "cine": 24
+            "cine": 20
           }
         },
         {
           "id": "trotamundosvalpo",
           "name": "Trotamundos Valparaíso",
-          "count": 18,
+          "count": 20,
           "quality_score": 99.2,
           "quality_class": "excellent",
           "attention": "none",
@@ -205,41 +205,17 @@
           "source_type": "instagram",
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 94.4,
+            "time_pct": 95.0,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 88.9
+            "price_known_pct": 90.0
           },
           "categories": {
             "ferias-gastronomia": 1,
-            "musica": 16,
+            "musica": 18,
             "teatro": 1
-          }
-        },
-        {
-          "id": "insomniacine",
-          "name": "Insomnia Cine",
-          "count": 14,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 92.9,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "cine": 14
           }
         },
         {
@@ -268,6 +244,30 @@
             "ferias-gastronomia": 1,
             "musica": 1,
             "naturaleza-deportes": 1
+          }
+        },
+        {
+          "id": "insomniacine",
+          "name": "Insomnia Cine",
+          "count": 11,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": 1,
+          "role": "venue",
+          "source_type": "instagram",
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 90.9,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 11
           }
         },
         {
@@ -1130,7 +1130,7 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-08-20",
-      "generated_at": "2026-08-20T01:36:49+02:00",
+      "generated_at": "2026-08-20T09:08:22+02:00",
       "summary": {
         "total_events": 128,
         "average_quality_score": 94.5,
@@ -1583,10 +1583,10 @@
             "musica": 2
           },
           "diagnostics": {
-            "reviewed_items": 3,
-            "dated_candidates": 0,
+            "reviewed_items": 0,
+            "dated_candidates": null,
             "published_events": 2,
-            "filtered_or_deduplicated": 0,
+            "filtered_or_deduplicated": null,
             "web_probe_status": "monitored_empty",
             "zero_event_reason": null,
             "actionable_zero": false

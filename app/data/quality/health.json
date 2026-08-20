@@ -1,12 +1,12 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T01:34:41+00:00",
+  "generated_at": "2026-08-20T13:34:05+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "timezone": "America/Santiago",
-      "today": "2026-08-19",
+      "today": "2026-08-20",
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
@@ -14,16 +14,16 @@
       ],
       "freshness": {
         "publication_date": "2026-08-19",
-        "publication_age_days": 0,
-        "generated_at": "2026-08-19T19:49:56-04:00",
-        "generated_age_hours": 1.7
+        "publication_age_days": 1,
+        "generated_at": "2026-08-20T04:03:39-04:00",
+        "generated_age_hours": 5.5
       },
       "counts": {
-        "total_events": 180,
-        "schedule_expected_events": 173,
-        "dated_events": 173,
-        "timed_events": 171,
-        "relevant_image_events": 161,
+        "total_events": 175,
+        "schedule_expected_events": 168,
+        "dated_events": 168,
+        "timed_events": 166,
+        "relevant_image_events": 156,
         "suspicious_titles": 0,
         "title_review_candidates": 1,
         "duplicate_groups": 0,
@@ -32,7 +32,7 @@
       "coverage": {
         "date_pct": 100.0,
         "time_pct": 98.8,
-        "relevant_image_pct": 89.4
+        "relevant_image_pct": 89.1
       },
       "samples": {
         "missing_time": [
@@ -100,8 +100,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 24,
-            "venue_events": 24,
+            "direct_events": 20,
+            "venue_events": 20,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -111,17 +111,9 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 14,
-            "indirect_venue_events": 14,
+            "venue_events": 11,
+            "indirect_venue_events": 11,
             "indirect_samples": [
-              {
-                "id": "agenda_cinema_94fe0a4864dbb6ad343c",
-                "title": "Gattaca: Experimento genético"
-              },
-              {
-                "id": "agenda_cinema_12c87725d899d24a8316",
-                "title": "La invitación"
-              },
               {
                 "id": "agenda_cinema_89fad76159b4f9f63f23",
                 "title": "La invitación"
@@ -135,16 +127,24 @@
                 "title": "Pearl"
               },
               {
-                "id": "agenda_cinema_b0f9cd44000d374b8723",
-                "title": "Spider-Man: Un nuevo día"
-              },
-              {
-                "id": "agenda_cinema_7e1c788bfd3f967b7583",
+                "id": "agenda_cinema_57286ee4ba67785c340e",
                 "title": "La odisea"
               },
               {
-                "id": "agenda_cinema_77605312d9af26794190",
+                "id": "agenda_cinema_f0c86b1d5ef3cf18ebbe",
                 "title": "Crash: Extraños placeres"
+              },
+              {
+                "id": "agenda_cinema_421b9c209e42c15fc0b4",
+                "title": "Spider-Man: Un nuevo día"
+              },
+              {
+                "id": "agenda_cinema_23077bf7f9a944762fed",
+                "title": "Adolescencia, sexo y muerte en Campamento Miasma"
+              },
+              {
+                "id": "agenda_cinema_27d4c2d95cdbe0c8bea3",
+                "title": "Backrooms: Version Extendida"
               }
             ]
           },
@@ -197,17 +197,9 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 14,
-            "indirect_venue_events": 14,
+            "venue_events": 11,
+            "indirect_venue_events": 11,
             "indirect_samples": [
-              {
-                "id": "agenda_cinema_94fe0a4864dbb6ad343c",
-                "title": "Gattaca: Experimento genético"
-              },
-              {
-                "id": "agenda_cinema_12c87725d899d24a8316",
-                "title": "La invitación"
-              },
               {
                 "id": "agenda_cinema_89fad76159b4f9f63f23",
                 "title": "La invitación"
@@ -221,16 +213,24 @@
                 "title": "Pearl"
               },
               {
-                "id": "agenda_cinema_b0f9cd44000d374b8723",
-                "title": "Spider-Man: Un nuevo día"
-              },
-              {
-                "id": "agenda_cinema_7e1c788bfd3f967b7583",
+                "id": "agenda_cinema_57286ee4ba67785c340e",
                 "title": "La odisea"
               },
               {
-                "id": "agenda_cinema_77605312d9af26794190",
+                "id": "agenda_cinema_f0c86b1d5ef3cf18ebbe",
                 "title": "Crash: Extraños placeres"
+              },
+              {
+                "id": "agenda_cinema_421b9c209e42c15fc0b4",
+                "title": "Spider-Man: Un nuevo día"
+              },
+              {
+                "id": "agenda_cinema_23077bf7f9a944762fed",
+                "title": "Adolescencia, sexo y muerte en Campamento Miasma"
+              },
+              {
+                "id": "agenda_cinema_27d4c2d95cdbe0c8bea3",
+                "title": "Backrooms: Version Extendida"
               }
             ]
           }
@@ -248,9 +248,9 @@
         "removed_retrospective_post": 0
       },
       "publication_corrections": {
-        "checked_at": "2026-08-19",
-        "active_corrections": 7,
-        "applied_count": 4,
+        "checked_at": "2026-08-20",
+        "active_corrections": 8,
+        "applied_count": 5,
         "applied": [
           {
             "correction_id": "teatro_vina_beyond_2026_schedule",
@@ -281,6 +281,18 @@
             "previous_title": "ALMA PAJARÁ",
             "official_url": "https://salasscd.cl/sitio/events/alma-pajara/",
             "reason": "La ficha oficial de Salas SCD separa horas prácticas (apertura 18:20, inicio aproximado 19:00 y término aproximado 20:10) del bloque formal de agenda 'Hora 7:00 pm - 9:00 pm'. Solo este último define el rango público de la función; las horas auxiliares no son sesiones adicionales."
+          },
+          {
+            "correction_id": "teatro_la_peste_los_fantasmas_2026_categories",
+            "event_id": "agenda_bc147abef119a17edb8a9770",
+            "title": "Los Fantasmas",
+            "action": "patch_verified_fields",
+            "patched_fields": [
+              "categories"
+            ],
+            "previous_title": "Los Fantasmas",
+            "official_url": "https://www.instagram.com/p/DNbKM5_vI_8/",
+            "reason": "Los Fantasmas es el estreno de una película realizada en un taller de actuación y presentada por el Centro de Investigación Teatro La Peste. Debe conservar Cine como categoría principal y ser localizable también desde Teatro."
           },
           {
             "correction_id": "valpocultura_luciana_jury_2026_schedule",
@@ -326,8 +338,8 @@
       "freshness": {
         "publication_date": "2026-08-20",
         "publication_age_days": 0,
-        "generated_at": "2026-08-20T01:36:49+02:00",
-        "generated_age_hours": 2.0
+        "generated_at": "2026-08-20T09:08:22+02:00",
+        "generated_age_hours": 6.4
       },
       "counts": {
         "total_events": 128,
@@ -483,9 +495,9 @@
             "name": "Toma 3 Xixón",
             "role": null,
             "event_count": 2,
-            "reviewed_items": 3,
-            "dated_candidates": 0,
-            "filtered_or_deduplicated": 0,
+            "reviewed_items": 0,
+            "dated_candidates": null,
+            "filtered_or_deduplicated": null,
             "with_start_time": 2,
             "without_start_time": 0
           },
@@ -717,7 +729,7 @@
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 0,
+            "with_start_time": 1,
             "without_start_time": 0
           },
           {
@@ -923,7 +935,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.598728472591489,
+    "usage_usd": 4.5991961186461365,
     "remaining_usd": 0.0
   }
 }
