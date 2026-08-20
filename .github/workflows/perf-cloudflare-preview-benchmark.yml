@@ -6,6 +6,9 @@ on:
       - perf-faster-startup-cache-cf-20260820
     paths-ignore:
       - .github/benchmarks/isolated-cloudflare-startup.json
+  pull_request:
+    branches:
+      - perf/faster-startup-cache-20260820
   workflow_dispatch:
 
 permissions:
@@ -191,6 +194,7 @@ jobs:
           retention-days: 7
 
       - name: Persist benchmark summary on isolated branch
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
