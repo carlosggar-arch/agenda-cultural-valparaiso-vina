@@ -119,3 +119,9 @@ test("root page loads the advanced filter layer through existing enhancements", 
   assert.match(browserLayer, /data-advanced-audience/);
   assert.match(css, /event-card\[hidden\]/);
 });
+
+test("root homepage hides the agenda heading and section tabs", async () => {
+  const css = await readFile(new URL("../assets/accessibility.css", import.meta.url), "utf8");
+  assert.match(css, /#explorar\s+\.explore-heading/);
+  assert.match(css, /#explorar\s+\.section-tabs/);
+});
