@@ -35,8 +35,11 @@ function safeHttpUrl(value) {
 
 export function isGenericProgramListing(event) {
   if (!event || typeof event !== "object" || event?.event_type === PROGRAM_TYPE) return false;
-  if (event?.image?.relevance !== "generic_schedule") return false;
 
+  // Program classification is semantic, not visual. A later image-recovery
+  // pass may legitimately replace a generic schedule image with an
+  // event-specific image; that must never turn a monthly programme shell into
+  // a dated public event again.
   const title = fold(event?.title);
   const description = fold(event?.description);
   const mentions = (String(event?.description || "").match(/@[a-z0-9_.]+/gi) || []).length;
