@@ -8,10 +8,8 @@ from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from xml.sax.saxutils import escape as xml_escape
-
-from gijon_source_policy import corroborating_source, is_open_data_event, public_source
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_BASE = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina"
@@ -70,6 +68,55 @@ def clean_text(value: Any) -> str:
 def safe_http_url(value: Any) -> str | None:
     text = str(value or "").strip()
     return text if re.match(r"^https?://", text, re.I) else None
+
+
+def is_gijon_open_data_url(value: Any) -> bool:
+    candidate = safe_http_url(value)
+    if not candidate:
+        return False
+    try:
+        return (urlparse(candidate).hostname or "").lower() == "opendata.gijon.es"
+    except ValueError:
+        return False
+
+
+def is_open_data_event(event: dict[str, Any]) -> bool:
+    links = event.get("links") or {}
+    name = str(event.get("source_name") or "").lower()
+    source = event.get("source_url") or links.get("source")
+    return is_gijon_open_data_url(source) or ("open data" in name and "gij" in name)
+
+
+def corroborating_source(event: dict[str, Any]) -> tuple[str, str] | None:
+    """Return the best non-Open-Data public page that corroborates the event."""
+    links = event.get("links") or {}
+    candidates = (
+        (links.get("municipal_page"), "Ayuntamiento de Gijón/Xixón — ficha específica del evento"),
+        (links.get("official"), "Fuente oficial específica del evento"),
+    )
+    for value, label in candidates:
+        url = safe_http_url(value)
+        if url and not is_gijon_open_data_url(url):
+            return url, label
+    return None
+
+
+def public_source(event: dict[str, Any]) -> tuple[str | None, str, bool]:
+    """Return ``(url, label, last_resort_open_data)`` for the public page."""
+    links = event.get("links") or {}
+    if is_open_data_event(event):
+        corroborating = corroborating_source(event)
+        if corroborating:
+            url, label = corroborating
+            return url, label, False
+        fallback = safe_http_url(event.get("source_url") or links.get("source"))
+        return fallback, "Open Data — último recurso", bool(fallback)
+
+    official = safe_http_url(links.get("official"))
+    if official:
+        return official, str(event.get("source_name") or "Fuente oficial"), False
+    source = safe_http_url(event.get("source_url") or links.get("source"))
+    return source, str(event.get("source_name") or "Fuente de datos"), False
 
 
 def event_slug(event_id: Any) -> str:
@@ -507,7 +554,7 @@ def render_page(
     registration = safe_http_url(links.get("registration"))
     official = safe_http_url(links.get("official"))
     gijon_open_data = city_id == "gijon" and is_gijon_open_data(event)
-    public_source_url, public_source_label, public_source_last_resort = public_source(event, safe_http_url)
+    public_source_url, public_source_label, public_source_last_resort = public_source(event)
     image = safe_http_url((event.get("image") or {}).get("url"))
     notices = status_notices(event, changes)
     status = event.get("public_status") or {}
