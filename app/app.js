@@ -43,6 +43,7 @@ if (IS_GIJON) {
   OPTIONAL_MODULES.push(
     "./card-experience.js?v=20260819-runtime1",
     "./card-image-fallback.js?v=20260819-runtime1",
+    "./image-quality-guard.js?v=20260820-images2",
     "./public-presentation-guard.js?v=20260819-runtime1",
     "./exhibition-hours.js?v=20260819-runtime1",
   );

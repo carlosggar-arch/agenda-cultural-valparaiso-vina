@@ -41,8 +41,8 @@ assert.match(safety, /pressedFilterValue\("\[data-combined-when\]"\) !== "todos"
 assert.match(safety, /pressedFilterValue\("\[data-combined-area\]"\) !== "todos"/);
 assert.match(safety, /if \(!currentFilterStateIsNeutral\(\)\) return;/);
 
-// Keep the real-browser regression for both affected dates and grouped cinema sessions.
-for (const token of ["2026-08-19", "2026-08-25", "STALE_EVENT_ID", "GROUPED_CINEMA_ID"]) {
+// Keep the real-browser regression for the current/future grouped cinema sessions.
+for (const token of ["2026-08-20", "2026-08-25", "STALE_EVENT_ID", "GROUPED_CINEMA_ID"]) {
   assert.match(browserTest, new RegExp(token.replaceAll("-", "\\-")));
 }
 

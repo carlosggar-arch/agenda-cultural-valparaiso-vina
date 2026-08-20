@@ -71,6 +71,7 @@ const SHELL_ASSETS = [
   "./event-detail.js",
   "./card-experience.css",
   "./card-image-fallback.js",
+  "./image-quality-guard.js",
   "./compact-top.js",
   "./gijon-visual-reference.js",
   "./sources-toggle.js",

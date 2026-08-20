@@ -1,10 +1,10 @@
 import { mergeSupplementalPayload } from "./supplemental-events-fetch.js?v=20260819-pipeline1";
 import { applyEventDataCorrections } from "./event-data-corrections.js?v=20260819-pipeline1";
 import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-pipeline1";
-import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260819-pipeline1";
+import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260820-pipeline2";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
-import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260819-pastguard1";
+import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260820-pastguard2";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260819-pipeline1";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 

@@ -70,6 +70,18 @@ assert.equal(
 );
 
 assert.equal(
+  normalizePublicEventTitle("GRAN FESTIVAL NAVIDEÑO Ballet y grandes invitados", valpoTheatre),
+  "Gran Festival Navideño Ballet y grandes invitados",
+  "an uppercase source prefix followed by normal mixed-case text must be normalized",
+);
+
+assert.equal(
+  normalizePublicEventTitle("GRAN FESTIVAL NAVIDEÑO // Ballet y grandes invitados", valpoTheatre),
+  "Gran festival navideño // Ballet y grandes invitados",
+  "uppercase fragments separated with source-style double slashes must be normalized",
+);
+
+assert.equal(
   normalizePublicEventTitle("Concierto de Aranjuez", {
     primary_category: { id: "musica", label: "Música" },
     categories: [{ id: "musica", label: "Música" }],
