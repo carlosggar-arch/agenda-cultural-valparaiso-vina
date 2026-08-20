@@ -1,0 +1,176 @@
+{
+  "comparison": {
+    "cold_ready_improvement_ms": 234.8,
+    "cold_ready_improvement_pct": 8.7,
+    "warm_ready_improvement_ms": -720.1,
+    "warm_ready_improvement_pct": -34.2
+  },
+  "raw": {
+    "optimized_preview": [
+      {
+        "cold": {
+          "cards": 148,
+          "dom_content_loaded_ms": 283.79999999993015,
+          "encoded_bytes": 2177767,
+          "load_event_ms": 289.89999999990687,
+          "ready_ms": 3208.6999999999534,
+          "resource_count": 163,
+          "response_end_ms": 54.79999999993015,
+          "sw_controller": true,
+          "transfer_bytes": 524830
+        },
+        "warm": {
+          "cards": 134,
+          "dom_content_loaded_ms": 168,
+          "encoded_bytes": 3190897,
+          "load_event_ms": 169.09999999997672,
+          "ready_ms": 3158.9000000000233,
+          "resource_count": 191,
+          "response_end_ms": 27.099999999976717,
+          "sw_controller": true,
+          "transfer_bytes": 0
+        }
+      },
+      {
+        "cold": {
+          "cards": 130,
+          "dom_content_loaded_ms": 290.29999999993015,
+          "encoded_bytes": 1796828,
+          "load_event_ms": 293.9000000000233,
+          "ready_ms": 2469.4000000000233,
+          "resource_count": 159,
+          "response_end_ms": 48.79999999993015,
+          "sw_controller": true,
+          "transfer_bytes": 523906
+        },
+        "warm": {
+          "cards": 130,
+          "dom_content_loaded_ms": 155.80000000004657,
+          "encoded_bytes": 2804075,
+          "load_event_ms": 156.90000000002328,
+          "ready_ms": 2189.1999999999534,
+          "resource_count": 177,
+          "response_end_ms": 25.800000000046566,
+          "sw_controller": true,
+          "transfer_bytes": 0
+        }
+      },
+      {
+        "cold": {
+          "cards": 130,
+          "dom_content_loaded_ms": 227.69999999995343,
+          "encoded_bytes": 1784799,
+          "load_event_ms": 232.69999999995343,
+          "ready_ms": 2465.5,
+          "resource_count": 157,
+          "response_end_ms": 45.699999999953434,
+          "sw_controller": true,
+          "transfer_bytes": 524653
+        },
+        "warm": {
+          "cards": 148,
+          "dom_content_loaded_ms": 135.19999999995343,
+          "encoded_bytes": 3282176,
+          "load_event_ms": 137,
+          "ready_ms": 2825.5,
+          "resource_count": 187,
+          "response_end_ms": 24.5,
+          "sw_controller": true,
+          "transfer_bytes": 0
+        }
+      }
+    ],
+    "production": [
+      {
+        "cold": {
+          "cards": 130,
+          "dom_content_loaded_ms": 1136.8000000000466,
+          "encoded_bytes": 545310,
+          "load_event_ms": 1156.1999999999534,
+          "ready_ms": 3438,
+          "resource_count": 91,
+          "response_end_ms": 235.80000000004657,
+          "sw_controller": false,
+          "transfer_bytes": 551903
+        },
+        "warm": {
+          "cards": 130,
+          "dom_content_loaded_ms": 185,
+          "encoded_bytes": 2793755,
+          "load_event_ms": 185.90000000002328,
+          "ready_ms": 2210.9000000000233,
+          "resource_count": 165,
+          "response_end_ms": 56.10000000009313,
+          "sw_controller": true,
+          "transfer_bytes": 0
+        }
+      },
+      {
+        "cold": {
+          "cards": 130,
+          "dom_content_loaded_ms": 294.5,
+          "encoded_bytes": 1794431,
+          "load_event_ms": 297.20000000006985,
+          "ready_ms": 2704.20000000007,
+          "resource_count": 159,
+          "response_end_ms": 79.59999999997672,
+          "sw_controller": true,
+          "transfer_bytes": 526767
+        },
+        "warm": {
+          "cards": 18,
+          "dom_content_loaded_ms": 171.59999999997672,
+          "encoded_bytes": 1419848,
+          "load_event_ms": 173.19999999995343,
+          "ready_ms": 936.6999999999534,
+          "resource_count": 53,
+          "response_end_ms": 24.199999999953434,
+          "sw_controller": true,
+          "transfer_bytes": 0
+        }
+      },
+      {
+        "cold": {
+          "cards": 130,
+          "dom_content_loaded_ms": 226.40000000002328,
+          "encoded_bytes": 2152981,
+          "load_event_ms": 229.90000000002328,
+          "ready_ms": 2470.29999999993,
+          "resource_count": 158,
+          "response_end_ms": 47.59999999997672,
+          "sw_controller": true,
+          "transfer_bytes": 524748
+        },
+        "warm": {
+          "cards": 130,
+          "dom_content_loaded_ms": 165.5,
+          "encoded_bytes": 2793755,
+          "load_event_ms": 166.40000000002328,
+          "ready_ms": 2105.4000000000233,
+          "resource_count": 169,
+          "response_end_ms": 25.100000000093132,
+          "sw_controller": true,
+          "transfer_bytes": 0
+        }
+      }
+    ]
+  },
+  "summary": {
+    "optimized_preview": {
+      "cold_cards_median": 130.0,
+      "cold_ready_ms_median": 2469.4,
+      "cold_transfer_bytes_median": 524653.0,
+      "warm_cards_median": 134.0,
+      "warm_ready_ms_median": 2825.5,
+      "warm_transfer_bytes_median": 0.0
+    },
+    "production": {
+      "cold_cards_median": 130.0,
+      "cold_ready_ms_median": 2704.2,
+      "cold_transfer_bytes_median": 526767.0,
+      "warm_cards_median": 130.0,
+      "warm_ready_ms_median": 2105.4,
+      "warm_transfer_bytes_median": 0.0
+    }
+  }
+}
