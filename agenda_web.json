@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-19T19:49:56-04:00",
+  "generated_at": "2026-08-19T21:35:46-04:00",
   "publication_date": "2026-08-19",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 180,
-    "events": 173,
+    "total": 181,
+    "events": 174,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 3
@@ -444,10 +444,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-19T06:27:55-04:00",
+      "last_verified_at": "2026-08-19T21:35:46-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T06:27:55-04:00",
+        "last_verified_at": "2026-08-19T21:35:46-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -549,10 +549,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-19T06:27:55-04:00",
+      "last_verified_at": "2026-08-19T21:35:46-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T06:27:55-04:00",
+        "last_verified_at": "2026-08-19T21:35:46-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1354,6 +1354,7 @@
           "start"
         ],
         "verified_publication_patches": [
+          "teatro_vina_beyond_2026_schedule",
           "teatro_vina_beyond_2026_schedule",
           "teatro_vina_beyond_2026_schedule",
           "teatro_vina_beyond_2026_schedule",
@@ -3045,6 +3046,7 @@
           "teatro_mauri_alma_pajara_2026_schedule",
           "teatro_mauri_alma_pajara_2026_schedule",
           "teatro_mauri_alma_pajara_2026_schedule",
+          "teatro_mauri_alma_pajara_2026_schedule",
           "teatro_mauri_alma_pajara_2026_schedule"
         ],
         "schedule_authority_fields": [
@@ -3268,10 +3270,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3434,10 +3436,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4445,10 +4447,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4651,6 +4653,89 @@
       }
     },
     {
+      "id": "agenda_trotamundos_491cd4a6b95ddaa82fdd",
+      "title": "Fiesta Bailable con Dj Ethan en Trotamundos Valparaíso",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-21T23:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-21 · 23:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "trotamundosvalpo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Trotamundos Valparaíso",
+        "address": "Blanco 1253, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 5000,
+        "max_amount": null,
+        "display_text": "Desde $5.000"
+      },
+      "links": {
+        "official": "https://linktr.ee/trotavalparaiso",
+        "tickets": "https://www.passline.com/eventos/fiesta-bailable-con-dj-ethan-en-trotamundos-valparaiso",
+        "registration": null,
+        "source": "https://linktr.ee/trotavalparaiso"
+      },
+      "organizer": "Trotamundos Valparaíso",
+      "source_id": "trotamundosvalpo",
+      "source_name": "Trotamundos Valparaíso",
+      "source_url": "https://linktr.ee/trotavalparaiso",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "external_link_quality": "direct_ticketing",
+        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+      },
+      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+      "tags": [
+        "Música",
+        "Trotamundos Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/fiesta-bailable-con-dj-ethan-en-trotamundos-valparaiso-546859-rec.jpg",
+        "alt": "Fiesta Bailable con Dj Ethan en Trotamundos Valparaíso",
+        "source": "passline_og",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_linktree_passline_refresh",
+        "ticket_url": "https://www.passline.com/eventos/fiesta-bailable-con-dj-ethan-en-trotamundos-valparaiso"
+      }
+    },
+    {
       "id": "agenda_trotamundos_a195281cf7f5d0d3549a",
       "title": "Los Cosmicos Cumbia Cover + Fiesta - Mes Aniversario Trotamundos Valparaíso",
       "event_type": "event",
@@ -4700,10 +4785,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6217,10 +6302,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6405,6 +6490,172 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T21:41:10-04:00"
+      }
+    },
+    {
+      "id": "agenda_bc147abef119a17edb8a9770",
+      "title": "Los Fantasmas",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        },
+        {
+          "id": "teatro",
+          "label": "Teatro"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-22T22:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 22:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": "centro-investigacion-teatro-la-peste",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Centro de Investigación Teatro La Peste",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcO02VlNE0i/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcO02VlNE0i/"
+      },
+      "organizer": "Teatro La Peste",
+      "source_name": "Teatro La Peste",
+      "source_url": "https://www.instagram.com/teatrolapeste/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "🎥🎬ESTRENO🎥🎬 \"Los Fantasmas\". Una película realizada durante el Taller de Actuación Frente a Cámara conducido por Andrés Nazarala @solofilms76 y Daniel Antivilo @danielantivilo, y que fue parte de los Talleres Temporada de Otoño del Centro de Investigación Teat...",
+      "tags": [
+        "cine",
+        "película"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://instagram.fmex11-1.fna.fbcdn.net/v/t51.82787-15/782019728_18453394513188775_3424142531269347329_n.webp?_nc_cat=103&ig_cache_key=Mzk2NzM0MDc1NDIwMzA2OTczMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0Y6luIIKQBgQ7kNvwHCo-b0&_nc_oc=Adqf2HmDAakMurRQg4dtHm34LXkvvT2oYayz-_Oz-jxXp_2HyOGwnkI1RyktI9AxKhLbP3yZ663Kv4J33MsXD3Gw&_nc_zt=23&_nc_ht=instagram.fmex11-1.fna&_nc_gid=UEDC_Rz3IXLWx2z_Vi_Aow&_nc_ss=7ca8c&oh=00_AQFynuEKIdfQn5tC-7bHvgIUxsogtmf7HMaVsoo4-9fdyQ&oe=6A8C0E7C",
+        "alt": "Los Fantasmas"
+      },
+      "source_id": "teatro_la_peste",
+      "editorial": {
+        "verified_publication_patches": [
+          "teatro_la_peste_los_fantasmas_2026_categories"
+        ]
+      }
+    },
+    {
+      "id": "agenda_trotamundos_1b0f3e41879c494a1b10",
+      "title": "Fiesta Porteña con Dj Sarc en Trotamundos Valparaíso",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-08-22T23:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-22 · 23:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "trotamundosvalpo",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Trotamundos Valparaíso",
+        "address": "Blanco 1253, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 5000,
+        "max_amount": null,
+        "display_text": "Desde $5.000"
+      },
+      "links": {
+        "official": "https://linktr.ee/trotavalparaiso",
+        "tickets": "https://www.passline.com/eventos/fiesta-portena-con-dj-sarc-en-trotamundos-valparaiso",
+        "registration": null,
+        "source": "https://linktr.ee/trotavalparaiso"
+      },
+      "organizer": "Trotamundos Valparaíso",
+      "source_id": "trotamundosvalpo",
+      "source_name": "Trotamundos Valparaíso",
+      "source_url": "https://linktr.ee/trotavalparaiso",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "external_link_quality": "direct_ticketing",
+        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
+      },
+      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
+      "tags": [
+        "Música",
+        "Trotamundos Valparaíso"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://www.passline.com/imagenes/eventos/fiesta-portena-con-dj-sarc-en-trotamundos-valparaiso-546858-rec.jpg",
+        "alt": "Fiesta Porteña con Dj Sarc en Trotamundos Valparaíso",
+        "source": "passline_og",
+        "relevance": "event_specific"
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "official_linktree_passline_refresh",
+        "ticket_url": "https://www.passline.com/eventos/fiesta-portena-con-dj-sarc-en-trotamundos-valparaiso"
       }
     },
     {
@@ -6847,10 +7098,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-19T06:27:50-04:00",
+      "last_verified_at": "2026-08-19T21:35:41-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T06:27:50-04:00",
+        "last_verified_at": "2026-08-19T21:35:41-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8445,10 +8696,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9297,10 +9548,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9513,6 +9764,7 @@
         ],
         "schedule_authority_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
         "verified_publication_patches": [
+          "valpocultura_luciana_jury_2026_schedule",
           "valpocultura_luciana_jury_2026_schedule",
           "valpocultura_luciana_jury_2026_schedule",
           "valpocultura_luciana_jury_2026_schedule"
@@ -9849,6 +10101,7 @@
       },
       "editorial": {
         "verified_publication_patches": [
+          "cultura_usm_gala_lirica_2026_schedule",
           "cultura_usm_gala_lirica_2026_schedule",
           "cultura_usm_gala_lirica_2026_schedule",
           "cultura_usm_gala_lirica_2026_schedule"
@@ -10430,10 +10683,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-19T06:27:50-04:00",
+      "last_verified_at": "2026-08-19T21:35:41-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T06:27:50-04:00",
+        "last_verified_at": "2026-08-19T21:35:41-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10594,10 +10847,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10764,10 +11017,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10847,10 +11100,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11351,10 +11604,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11522,10 +11775,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11692,10 +11945,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11949,10 +12202,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12278,10 +12531,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12396,89 +12649,6 @@
         "venue_suffix_removed": true,
         "detail_enriched": true,
         "detail_verified_at": "2026-08-18T21:41:10-04:00"
-      }
-    },
-    {
-      "id": "agenda_trotamundos_3e84e82b7ea24667f8ba",
-      "title": "Los Mirlos Presentan The World Meet Los Mirlos en Trotamundos Valparaíso",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-09-18T20:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-18 · 20:00",
-        "occurrences": [],
-        "start_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": "trotamundosvalpo",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Trotamundos Valparaíso",
-        "address": "Blanco 1253, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 10000,
-        "max_amount": null,
-        "display_text": "Desde $10.000"
-      },
-      "links": {
-        "official": "https://linktr.ee/trotavalparaiso",
-        "tickets": "https://www.passline.com/eventos/los-mirlos-presentan-the-world-meet-los-mirlos-en-trotamundos-valparaiso",
-        "registration": null,
-        "source": "https://linktr.ee/trotavalparaiso"
-      },
-      "organizer": "Trotamundos Valparaíso",
-      "source_id": "trotamundosvalpo",
-      "source_name": "Trotamundos Valparaíso",
-      "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
-        "registration_open": true,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "external_link_quality": "direct_ticketing",
-        "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
-      },
-      "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
-      "tags": [
-        "Música",
-        "Trotamundos Valparaíso"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://www.passline.com/imagenes/eventos/los-mirlos-presentan-the-world-meet-los-mirlos-en-trotamundos-valparaiso-545035-rec.jpg",
-        "alt": "Los Mirlos Presentan The World Meet Los Mirlos en Trotamundos Valparaíso",
-        "source": "passline_og",
-        "relevance": "event_specific"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_linktree_passline_refresh",
-        "ticket_url": "https://www.passline.com/eventos/los-mirlos-presentan-the-world-meet-los-mirlos-en-trotamundos-valparaiso"
       }
     },
     {
@@ -12618,10 +12788,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-19T10:04:53-04:00",
+      "last_verified_at": "2026-08-19T21:34:36-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-19T10:04:53-04:00",
+        "last_verified_at": "2026-08-19T21:34:36-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14874,86 +15044,12 @@
         "alt": null
       },
       "source_id": "valparaiso_trekking"
-    },
-    {
-      "id": "agenda_bc147abef119a17edb8a9770",
-      "title": "Los Fantasmas",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
-      "categories": [
-        {
-          "id": "cine",
-          "label": "Cine"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-22T22:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-22 · 22:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "centro-investigacion-teatro-la-peste",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Centro de Investigación Teatro La Peste",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcO02VlNE0i/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcO02VlNE0i/"
-      },
-      "organizer": "Teatro La Peste",
-      "source_name": "Teatro La Peste",
-      "source_url": "https://www.instagram.com/teatrolapeste/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "🎥🎬ESTRENO🎥🎬 \"Los Fantasmas\". Una película realizada durante el Taller de Actuación Frente a Cámara conducido por Andrés Nazarala @solofilms76 y Daniel Antivilo @danielantivilo, y que fue parte de los Talleres Temporada de Otoño del Centro de Investigación Teat...",
-      "tags": [
-        "cine",
-        "película"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fmex11-1.fna.fbcdn.net/v/t51.82787-15/782019728_18453394513188775_3424142531269347329_n.webp?_nc_cat=103&ig_cache_key=Mzk2NzM0MDc1NDIwMzA2OTczMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0Y6luIIKQBgQ7kNvwHCo-b0&_nc_oc=Adqf2HmDAakMurRQg4dtHm34LXkvvT2oYayz-_Oz-jxXp_2HyOGwnkI1RyktI9AxKhLbP3yZ663Kv4J33MsXD3Gw&_nc_zt=23&_nc_ht=instagram.fmex11-1.fna&_nc_gid=UEDC_Rz3IXLWx2z_Vi_Aow&_nc_ss=7ca8c&oh=00_AQFynuEKIdfQn5tC-7bHvgIUxsogtmf7HMaVsoo4-9fdyQ&oe=6A8C0E7C",
-        "alt": "Los Fantasmas"
-      },
-      "source_id": "teatro_la_peste"
     }
   ],
   "publication_corrections": {
     "checked_at": "2026-08-19",
-    "active_corrections": 7,
-    "applied_count": 4,
+    "active_corrections": 8,
+    "applied_count": 5,
     "applied": [
       {
         "correction_id": "teatro_vina_beyond_2026_schedule",
@@ -15014,18 +15110,30 @@
         "previous_title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
         "official_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
         "reason": "La ficha oficial de Cultura USM identifica una sola función el 29 de agosto de 2026, con Hora inicio 19:00 y Hora término 20:30. El término es el fin de la misma función y no una segunda sesión."
+      },
+      {
+        "correction_id": "teatro_la_peste_los_fantasmas_2026_categories",
+        "event_id": "agenda_bc147abef119a17edb8a9770",
+        "title": "Los Fantasmas",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "categories"
+        ],
+        "previous_title": "Los Fantasmas",
+        "official_url": "https://www.instagram.com/p/DNbKM5_vI_8/",
+        "reason": "Los Fantasmas es el estreno de una película realizada en un taller de actuación y presentada por el Centro de Investigación Teatro La Peste. Debe conservar Cine como categoría principal y ser localizable también desde Teatro."
       }
     ]
   },
   "source_diagnostics": {
     "trotamundosvalpo": {
       "discovery_url": "https://linktr.ee/trotavalparaiso",
-      "links_discovered": 19,
-      "pages_fetched": 19,
-      "events_detected": 17,
-      "refreshed_at": "2026-08-19T10:04:53-04:00",
+      "links_discovered": 22,
+      "pages_fetched": 22,
+      "events_detected": 19,
+      "refreshed_at": "2026-08-19T21:34:36-04:00",
       "mode": "official_linktree_passline_refresh",
-      "events_published": 17,
+      "events_published": 19,
       "preserved_existing": false
     },
     "museo_fonck": {
@@ -15033,7 +15141,7 @@
       "links_discovered": 12,
       "pages_fetched": 12,
       "events_detected": 0,
-      "refreshed_at": "2026-08-19T10:05:36-04:00",
+      "refreshed_at": "2026-08-19T21:35:33-04:00",
       "mode": "official_museo_fonck_article_refresh",
       "events_published": 0,
       "preserved_existing": true
@@ -15045,7 +15153,7 @@
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-19T06:27:50-04:00",
+      "refreshed_at": "2026-08-19T21:35:41-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
@@ -15053,7 +15161,7 @@
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-19T06:27:55-04:00",
+      "refreshed_at": "2026-08-19T21:35:46-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
@@ -15068,7 +15176,17 @@
       "sessions_detected": 14,
       "sessions_published": 14,
       "refreshed_at": "2026-08-19T10:03:50-04:00",
-      "mode": "official_session_refresh"
+      "mode": "official_session_refresh",
+      "secondary_probe_status": "current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 2,
+      "secondary_probe_current_candidates": 1,
+      "secondary_probe_candidate_titles": [
+        "Cine Insomnia - Ojo de Pescado"
+      ],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_has_current_candidates",
+      "secondary_probe_checked_on": "2026-08-19"
     },
     "valparaiso_profundo": {
       "secondary_probe_status": "no_current_candidates",
@@ -15681,7 +15799,7 @@
     }
   },
   "media_diagnostics": {
-    "existing_images": 162,
+    "existing_images": 163,
     "images_from_cache": 0,
     "images_fetched": 0,
     "generic_schedule_images_rejected": 0,
