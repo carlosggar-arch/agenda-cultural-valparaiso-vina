@@ -81,7 +81,8 @@ def make_test_page(city: str, target: str) -> None:
         .trim();
 
       function captureTarget() {{
-        if (document.documentElement.dataset.visualParityReady === "true") return true;
+        const html = document.documentElement;
+        if (html.dataset.visualParityReady === "true") return true;
         const cards = [...document.querySelectorAll('.exhibition-venue-card[data-unified-exhibition-group="true"]')];
         const card = cards.find((candidate) => fold(candidate.querySelector("h4")?.textContent).includes(fold(targetNeedle)));
         if (!card) return false;
@@ -99,11 +100,11 @@ def make_test_page(city: str, target: str) -> None:
         const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
         const clipped = rows.filter((row) => row.scrollHeight > row.clientHeight + 1);
 
-        document.body.dataset.visualTargetVenue = card.querySelector("h4")?.textContent?.trim() || "";
-        document.body.dataset.visualTargetRows = String(rows.length);
-        document.body.dataset.visualMissingParts = missing.join(",");
-        document.body.dataset.visualClippedRows = String(clipped.length);
-        document.body.dataset.visualRenderer = card.dataset.unifiedExhibitionGroup || "";
+        html.dataset.visualTargetVenue = card.querySelector("h4")?.textContent?.trim() || "";
+        html.dataset.visualTargetRows = String(rows.length);
+        html.dataset.visualMissingParts = missing.join(",");
+        html.dataset.visualClippedRows = String(clipped.length);
+        html.dataset.visualRenderer = card.dataset.unifiedExhibitionGroup === "true" ? "true" : "false";
 
         const root = document.createElement("div");
         root.id = "visual-capture-root";
@@ -119,7 +120,7 @@ def make_test_page(city: str, target: str) -> None:
         grid.append(clone);
         root.append(grid);
         document.body.append(root);
-        document.documentElement.dataset.visualParityReady = "true";
+        html.dataset.visualParityReady = "true";
         return true;
       }}
 
