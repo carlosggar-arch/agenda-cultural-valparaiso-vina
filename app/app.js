@@ -3,7 +3,7 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 
 // The core is intentionally a dynamic import: the watchdog above must execute
 // even if the core module graph fails to load or evaluate.
-const { coreReady } = await import("./app-core.js?v=20260819-pipeline1");
+const { coreReady } = await import("./app-core.js?v=20260820-recovery1");
 
 // Deferred-module compatibility marker kept aligned with the single runtime URL.
 // import "./schedule-display.js?v=20260819-runtime1";
@@ -44,8 +44,8 @@ if (IS_GIJON) {
   OPTIONAL_MODULES.push(
     "./card-experience.js?v=20260819-runtime1",
     "./card-image-fallback.js?v=20260819-runtime1",
-    "./public-presentation-guard.js?v=20260819-runtime1",
-    "./exhibition-hours.js?v=20260819-runtime1",
+    "./public-presentation-guard.js?v=20260820-text1",
+    "./exhibition-hours.js?v=20260820-hours4",
   );
 }
 
