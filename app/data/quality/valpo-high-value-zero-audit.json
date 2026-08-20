@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-19T09:31:27.763309-04:00",
-  "publication_date": "2026-08-18",
+  "generated_at": "2026-08-19T21:34:41.878056-04:00",
+  "publication_date": "2026-08-19",
   "policy_reviewed_on": "2026-08-18",
   "counts": {
     "tracked": 16,
-    "producing": 0,
+    "producing": 1,
     "covered_elsewhere": 8,
-    "explained_zero": 8,
+    "explained_zero": 7,
     "actionable_zero": 0
   },
   "sources": [
@@ -149,13 +149,13 @@
     {
       "id": "teatro_la_peste",
       "name": "Teatro La Peste",
-      "direct_event_count": 0,
+      "direct_event_count": 1,
       "cross_covered_event_count": 0,
-      "state": "monitored_confirmed_zero",
-      "attention": "explained_zero",
+      "state": "producing",
+      "attention": "none",
       "actionable": false,
-      "reason": "El monitor automático verificó el 18-08-2026 la página oficial de Ticketplus con HTTP 200 y el estado explícito 'No hay eventos disponibles'; no existe una función futura publicable en este momento.",
-      "next_action": "Mantener la comprobación automática; si Ticketplus publica una fecha futura, devolver la fuente inmediatamente a estado accionable.",
+      "reason": null,
+      "next_action": null,
       "cross_covered_event_ids": []
     },
     {

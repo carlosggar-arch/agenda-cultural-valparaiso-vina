@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-19T13:31:27+00:00",
+  "generated_at": "2026-08-20T01:34:41+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -13,10 +13,10 @@
         "verified_corrections_applied"
       ],
       "freshness": {
-        "publication_date": "2026-08-18",
-        "publication_age_days": 1,
-        "generated_at": "2026-08-19T06:27:55-04:00",
-        "generated_age_hours": 3.1
+        "publication_date": "2026-08-19",
+        "publication_age_days": 0,
+        "generated_at": "2026-08-19T19:49:56-04:00",
+        "generated_age_hours": 1.7
       },
       "counts": {
         "total_events": 180,
@@ -25,7 +25,7 @@
         "timed_events": 171,
         "relevant_image_events": 161,
         "suspicious_titles": 0,
-        "title_review_candidates": 0,
+        "title_review_candidates": 1,
         "duplicate_groups": 0,
         "generic_schedule_images_rejected": 4
       },
@@ -82,7 +82,14 @@
           }
         ],
         "suspicious_titles": [],
-        "title_review_candidates": [],
+        "title_review_candidates": [
+          {
+            "id": "agenda_trotamundos_3e84e82b7ea24667f8ba",
+            "title": "Los Mirlos Presentan The World Meet Los Mirlos en Trotamundos Valparaíso",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
+          }
+        ],
         "duplicates": []
       },
       "source_coverage": {
@@ -93,8 +100,8 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 26,
-            "venue_events": 26,
+            "direct_events": 24,
+            "venue_events": 24,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -311,32 +318,32 @@
     "gijon": {
       "city_id": "gijon",
       "timezone": "Europe/Madrid",
-      "today": "2026-08-19",
+      "today": "2026-08-20",
       "status": "warning",
       "warnings": [
         "zero_event_sources"
       ],
       "freshness": {
-        "publication_date": "2026-08-19",
+        "publication_date": "2026-08-20",
         "publication_age_days": 0,
-        "generated_at": "2026-08-19T09:07:15+02:00",
-        "generated_age_hours": 6.4
+        "generated_at": "2026-08-20T01:36:49+02:00",
+        "generated_age_hours": 2.0
       },
       "counts": {
-        "total_events": 121,
-        "schedule_expected_events": 112,
-        "dated_events": 112,
-        "timed_events": 87,
-        "relevant_image_events": 119,
+        "total_events": 128,
+        "schedule_expected_events": 119,
+        "dated_events": 119,
+        "timed_events": 93,
+        "relevant_image_events": 128,
         "suspicious_titles": 0,
-        "title_review_candidates": 40,
+        "title_review_candidates": 45,
         "duplicate_groups": 0,
         "generic_schedule_images_rejected": 0
       },
       "coverage": {
         "date_pct": 100.0,
-        "time_pct": 77.7,
-        "relevant_image_pct": 98.3
+        "time_pct": 78.2,
+        "relevant_image_pct": 100.0
       },
       "samples": {
         "missing_time": [
@@ -381,16 +388,7 @@
             "venue": "LABoral Centro de Arte y Creación Industrial"
           }
         ],
-        "missing_relevant_image": [
-          {
-            "id": "gijon_el_huerto_gijon_d82b12515e494fc7",
-            "title": "0 eventos encontrados. No hay eventos programados. No hay eventos programados. Navegación de vistas Navegación de vistas de Evento Foto Foto Hoy Próximos Próximos Seleccionar fecha"
-          },
-          {
-            "id": "gijon_festival_piano_gijon_1b8faf90b258369e",
-            "title": "Navegación de búsqueda y vistas de Eventos"
-          }
-        ],
+        "missing_relevant_image": [],
         "suspicious_titles": [],
         "title_review_candidates": [
           {
@@ -408,12 +406,6 @@
           {
             "id": "agenda_gijon_6fb58f98d9761c56",
             "title": "La cerámica de Cangas del Narcea. Tradición, adaptación e innovación",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          },
-          {
-            "id": "gijon_el_huerto_gijon_d82b12515e494fc7",
-            "title": "0 eventos encontrados. No hay eventos programados. No hay eventos programados. Navegación de vistas Navegación de vistas de Evento Foto Foto Hoy Próximos Próximos Seleccionar fecha",
             "issue": "suspicious_title_structure",
             "decision": "review"
           },
@@ -440,6 +432,12 @@
             "title": "FESTIVAL ARCU ATLÁNTICU. Exposición. Postales N’alcordanza d’Ígor y Carlos",
             "issue": "suspicious_title_structure",
             "decision": "review"
+          },
+          {
+            "id": "agenda_gijon_32234a75b037c601",
+            "title": "FESTIVAL ARCU ATLÁNTICU. Exposición. Pablo Casanueva, La imaxe, lo tapecío",
+            "issue": "suspicious_title_structure",
+            "decision": "review"
           }
         ],
         "duplicates": []
@@ -451,11 +449,11 @@
             "id": "gijon_opendata_events",
             "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
             "role": null,
-            "event_count": 78,
+            "event_count": 85,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 55,
+            "with_start_time": 62,
             "without_start_time": 23
           },
           {
@@ -484,11 +482,11 @@
             "id": "toma3_xixon",
             "name": "Toma 3 Xixón",
             "role": null,
-            "event_count": 0,
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "filtered_or_deduplicated": null,
-            "with_start_time": 0,
+            "event_count": 2,
+            "reviewed_items": 3,
+            "dated_candidates": 0,
+            "filtered_or_deduplicated": 0,
+            "with_start_time": 2,
             "without_start_time": 0
           },
           {
@@ -594,11 +592,11 @@
             "id": "festival_piano_gijon",
             "name": "Festival Internacional de Piano de Gijón",
             "role": null,
-            "event_count": 5,
+            "event_count": 3,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 5,
+            "with_start_time": 4,
             "without_start_time": 0
           },
           {
@@ -693,12 +691,12 @@
             "id": "ciclismo_asturias",
             "name": "Federación de Ciclismo del Principado de Asturias — Calendario",
             "role": null,
-            "event_count": 3,
+            "event_count": 4,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
             "with_start_time": 0,
-            "without_start_time": 3
+            "without_start_time": 4
           },
           {
             "id": "turismo_asturias_deporte",
@@ -715,11 +713,11 @@
             "id": "el_huerto_gijon",
             "name": "El Huerto Espacio Escénico",
             "role": null,
-            "event_count": 1,
+            "event_count": 0,
             "reviewed_items": null,
             "dated_candidates": null,
             "filtered_or_deduplicated": null,
-            "with_start_time": 1,
+            "with_start_time": 0,
             "without_start_time": 0
           },
           {
@@ -843,6 +841,13 @@
             "zero_event_reason": null
           },
           {
+            "id": "el_huerto_gijon",
+            "name": "El Huerto Espacio Escénico",
+            "role": null,
+            "web_probe_status": null,
+            "zero_event_reason": null
+          },
+          {
             "id": "el_percebe_gijon",
             "name": "El Percebe Comedy",
             "role": null,
@@ -887,13 +892,6 @@
             "zero_event_reason": "documented_periodic_program_summer_pause"
           },
           {
-            "id": "toma3_xixon",
-            "name": "Toma 3 Xixón",
-            "role": null,
-            "web_probe_status": "monitored_empty",
-            "zero_event_reason": "secondary_calendar_checked_no_current_candidates"
-          },
-          {
             "id": "meidinerz_jazz_club",
             "name": "Meidinerz Jazz Club",
             "role": null,
@@ -925,7 +923,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.541585145134484,
+    "usage_usd": 4.598728472591489,
     "remaining_usd": 0.0
   }
 }
