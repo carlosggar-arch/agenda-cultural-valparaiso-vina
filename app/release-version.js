@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v155 makes the Fuentes access deterministic: the footer keeps a direct
-  // catalogue link even if the richer in-page source module cannot initialize.
-  const RELEASE = 155;
+  // v156 preserves the Fuentes access across delayed footer remounts and adds
+  // the official MHNV visit hours to multi-day museum exhibition cards.
+  const RELEASE = 156;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
