@@ -114,10 +114,6 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
     const events = normalizeVenueAliases(JSON.parse(document.getElementById("fixture-data").textContent));
     const grid = document.querySelector("[data-dated-grid]");
 
-    // Feed the canonical renderer a real core-group anchor. This intentionally
-    // avoids coupling visual parity to the current overlap/date window: temporal
-    // grouping already has dedicated CI, while this probe verifies that both
-    // cities use the same component, DOM structure and no-clipping geometry.
     const anchor = document.createElement("article");
     anchor.className = "event-card event-card--dated";
     anchor.dataset.eventGroup = events.map((event) => String(event.id || "")).filter(Boolean).join(",");
@@ -135,12 +131,16 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
       return [pick(card.firstElementChild), pick(body), ...(body ? [...body.children].map(pick) : []), ...(details ? [...details.children].map(pick) : []), ...(row ? [...row.children].map(pick) : [])].join(">");
     }}
 
+    function stylesReady() {{
+      const compact = document.getElementById("unified-exhibition-compact-styles");
+      const gallery = document.getElementById("unified-exhibition-gallery-styles");
+      return Boolean(compact?.sheet && gallery?.sheet);
+    }}
+
     function captureTarget() {{
       const rootHtml = document.documentElement;
       if (rootHtml.dataset.visualParityReady === "true") return true;
-      const compact = document.getElementById("unified-exhibition-compact-styles");
-      const gallery = document.getElementById("unified-exhibition-gallery-styles");
-      if (!compact?.sheet || !gallery?.sheet) return false;
+      if (!stylesReady()) return false;
       const card = [...document.querySelectorAll('.exhibition-venue-card[data-unified-exhibition-group="true"]')]
         .find((candidate) => fold(candidate.querySelector("h4")?.textContent).includes(fold(targetNeedle)));
       if (!card) return false;
