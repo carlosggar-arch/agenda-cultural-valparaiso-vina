@@ -1,3 +1,5 @@
+import { resolveRootPublicCategory } from "./root-public-category-rules.mjs?v=20260820-webcat2";
+
 const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 
 export const ROOT_SEARCH_ALIASES = Object.freeze({
@@ -21,30 +23,17 @@ export const ROOT_SEARCH_ALIASES = Object.freeze({
 });
 
 const CATEGORY_ALIASES = new Map([
+  ["museo", "exposiciones"],
+  ["museos", "exposiciones"],
+  ["exposicion", "exposiciones"],
+  ["feria", "ferias-gastronomia"],
   ["ferias", "ferias-gastronomia"],
   ["gastronomia", "ferias-gastronomia"],
   ["naturaleza", "naturaleza-deportes"],
   ["naturaleza-montana", "naturaleza-deportes"],
   ["deportes", "naturaleza-deportes"],
-  ["museos", "exposiciones"],
+  ["talleres", "cursos-talleres"],
 ]);
-
-const CATEGORY_LABELS = new Map([
-  ["ferias-gastronomia", "Ferias y gastronomía"],
-  ["naturaleza-deportes", "Naturaleza y deportes"],
-  ["exposiciones", "Exposiciones y museos"],
-  ["otros", "Otros panoramas"],
-]);
-
-const CULTURE_RULES = [
-  ["musica", "Música", /\b(musica|musical|concierto|recital|jazz|orquesta|coro|tocata|banda|cantautor|cantante|sinfon|sonoro|payada)\b/],
-  ["cine", "Cine", /\b(cine|pelicula|film|documental|cortometraje|largometraje|audiovisual|proyeccion)\b/],
-  ["teatro", "Teatro", /\b(teatro|teatral|obra|dramaturg|escena|danza|ballet|circo|performance|actor|actriz)\b/],
-  ["exposiciones", "Exposiciones y museos", /\b(museo|exposicion|exhibicion|muestra|galeria|patrimonio|fotografia|pintura|escultura|artes visuales|visita guiada)\b/],
-  ["cursos-talleres", "Cursos y talleres", /\b(taller|curso|seminario|charla|conversatorio|capacitacion|laboratorio|workshop|ponencia)\b/],
-  ["naturaleza-deportes", "Naturaleza y deportes", /\b(naturaleza|trekking|senderismo|caminata|montana|cerro|deporte|deportivo|yoga|ciclismo|bicicleta|kayak|surf|ecologia|ecosistema)\b/],
-  ["ferias-gastronomia", "Ferias y gastronomía", /\b(feria|gastronomia|gastronomico|comida|cocina|mercado|degustacion|restaurante|cafe)\b/],
-];
 
 export function normalizeRootSearchText(value) {
   return String(value || "")
@@ -87,50 +76,12 @@ function isFamilyFriendly(event) {
   return /\bfamiliar(?:es)?\b|\bfamilias?\b|\binfantil(?:es)?\b|\bninos?\b|\bninas?\b|\btodo publico\b|\btodas las edades\b/.test(text);
 }
 
-function inferCultureCategories(event) {
-  const text = normalizeRootSearchText([
-    event?.title,
-    event?.description,
-    event?.organizer,
-    event?.source_name,
-    event?.location?.venue,
-    ...(event?.tags || []),
-  ].filter(Boolean).join(" "));
-  const inferred = [];
-  for (const [id, label, pattern] of CULTURE_RULES) {
-    if (pattern.test(text)) inferred.push({ id, label });
-  }
-  return inferred.length ? inferred : [{ id: "otros", label: "Otros panoramas" }];
-}
-
 export function rootEventPublicCategories(event) {
-  const source = Array.isArray(event?.categories) ? event.categories : [];
-  const categories = new Map();
-  let hadCulture = String(event?.primary_category?.id || "").trim().toLocaleLowerCase("es-CL") === "cultura";
-
-  for (const category of source) {
-    const rawId = String(category?.id || "").trim().toLocaleLowerCase("es-CL");
-    if (!rawId) continue;
-    if (rawId === "cultura") {
-      hadCulture = true;
-      continue;
-    }
-    const id = CATEGORY_ALIASES.get(rawId) || rawId;
-    if (!categories.has(id)) {
-      categories.set(id, { id, label: CATEGORY_LABELS.get(id) || category?.label || id });
-    }
+  if (String(event?.id || "") === LOS_FANTASMAS_EVENT_ID) {
+    return [{ id: "teatro", label: "Teatro" }];
   }
-
-  if (String(event?.id || "") === LOS_FANTASMAS_EVENT_ID && !categories.has("teatro")) {
-    categories.set("teatro", { id: "teatro", label: "Teatro" });
-  }
-
-  if (hadCulture && categories.size === 0) {
-    for (const category of inferCultureCategories(event)) categories.set(category.id, category);
-  }
-
-  if (categories.size === 0) categories.set("otros", { id: "otros", label: "Otros panoramas" });
-  return [...categories.values()];
+  const category = resolveRootPublicCategory(event);
+  return [category || { id: "otros", label: "Otros panoramas" }];
 }
 
 export function rootEventCategoryIds(event) {
@@ -176,11 +127,18 @@ export function rootEventMatchesQuery(event, query) {
   return tokens.every((token) => queryAlternatives(token).some((candidate) => haystack.includes(candidate)));
 }
 
+function canonicalCategoryId(value) {
+  const id = String(value || "").trim().toLocaleLowerCase("es-CL");
+  if (id === "cultura") return "";
+  return CATEGORY_ALIASES.get(id) || id;
+}
+
 export function rootEventMatchesCategories(event, selectedCategories) {
   const selected = selectedCategories instanceof Set ? selectedCategories : new Set(selectedCategories || []);
-  if (!selected.size) return true;
+  const canonicalSelected = [...selected].map(canonicalCategoryId).filter(Boolean);
+  if (!canonicalSelected.length) return true;
   const eventCategories = rootEventCategoryIds(event);
-  return [...selected].some((categoryId) => eventCategories.has(CATEGORY_ALIASES.get(categoryId) || categoryId));
+  return canonicalSelected.some((categoryId) => eventCategories.has(categoryId));
 }
 
 export function rootEventMatchesAccess(event, access = "todos") {
