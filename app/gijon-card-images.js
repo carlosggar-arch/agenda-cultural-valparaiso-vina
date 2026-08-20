@@ -112,7 +112,12 @@ function enhanceCards() {
     addImage(card, event);
     setVenueHours(card, verifiedVenueHours(event));
   }
+
+  // Shared exhibition groups are owned entirely by exhibition-groups.js.
+  // Gijón-specific enrichment must never prepend a second hero image or venue
+  // hours to that common component.
   for (const card of document.querySelectorAll(".event-card[data-event-group]")) {
+    if (card.dataset.category === "exposiciones" || card.classList.contains("exhibition-venue-card")) continue;
     const ids = String(card.dataset.eventGroup || "").split(",").map((id) => id.trim()).filter(Boolean);
     const events = ids.map((id) => byId.get(id)).filter(Boolean);
     const imageEvent = events.find((candidate) => safeImage(candidate));
@@ -131,5 +136,6 @@ function queueEnhancement() {
 installStyles();
 window.addEventListener("vivamos:agenda-data-ready", queueEnhancement);
 window.addEventListener("vivamos:agenda-rendered", queueEnhancement);
+window.addEventListener("vivamos:exhibition-groups-rendered", queueEnhancement);
 window.addEventListener("pageshow", queueEnhancement, { passive: true });
 queueEnhancement();

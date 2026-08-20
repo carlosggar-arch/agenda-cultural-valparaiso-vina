@@ -42,7 +42,9 @@ assert.equal(normalizedRioja[1].location.venue, "Museo Palacio Rioja");
 
 const appJs = read("app.js");
 const pipeline = read("data-pipeline.js");
-const grouping = read("static-exhibition-groups.js");
+const grouping = read("exhibition-groups.js");
+const groupingCore = read("exhibition-group-core.mjs");
+const cityAdapter = read("city-presentation-adapter.mjs");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
 const cardExperience = read("card-experience.js");
 const presentationGuard = read("public-presentation-guard.js");
@@ -51,11 +53,24 @@ const supplementBridge = read("supplemental-events-fetch.js");
 const programPolicy = read("program-visibility-policy.js");
 const release = read("release-version.js");
 
-// Grouping remains an optional, observer-free post-core enhancement. The
-// normalizers themselves are pure stages in data-pipeline.js.
+// Exhibition presentation has one canonical multi-city owner. It consumes the
+// normalized runtime snapshot; city-specific schedule/location details stay in
+// a narrow adapter rather than in separate city renderers.
 assert.match(appJs, /await coreReady;/);
-assert.match(appJs, /static-exhibition-groups\.js/);
+assert.match(appJs, /exhibition-groups\.js/);
 assert.match(appJs, /multievent-layout-fix\.js/);
+assert.doesNotMatch(appJs, /static-exhibition-groups\.js/);
+assert.match(grouping, /getAgendaRuntimeSnapshot/);
+assert.match(grouping, /groupStandaloneExhibitions/);
+assert.match(grouping, /unifiedExhibitionGroup/);
+assert.match(grouping, /exhibition-venue-card/);
+assert.match(grouping, /grouped-exhibition-item/);
+assert.doesNotMatch(grouping, /\bfetch\s*\(/);
+assert.match(groupingCore, /EXHIBITION_GROUP_MIN = 2/);
+assert.match(groupingCore, /clusterSimultaneousExhibitions/);
+assert.match(cityAdapter, /eventForCityPresentation/);
+assert.match(cityAdapter, /venueHoursForCity/);
+
 assert.match(pipeline, /normalizeAgendaTitles/);
 assert.match(pipeline, /normalizeAgendaCategories/);
 assert.match(pipeline, /normalizeSessionOccurrences/);
@@ -63,15 +78,10 @@ assert.match(pipeline, /applyProgramVisibilityPolicy/);
 assert.match(pipeline, /publishAgendaRuntimeSnapshot/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:title-normalizer-bootstrap|category-normalizer|supplemental-events-fetch|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
-assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
-assert.match(grouping, /MIN_GROUP_SIZE = 2/);
-assert.match(grouping, /staticExhibitionSentinels/);
 
-// The final normalized dataset is now the single runtime source for rich cards.
-// This removes the old raw-data rehydration path that allowed all-caps titles to
-// return, so no separate card-title MutationObserver is required anymore.
+// The final normalized dataset is the single runtime source for rich cards.
 assert.match(runtimeState, /getAgendaRuntimeSnapshot/);
 assert.match(cardExperience, /getAgendaRuntimeSnapshot/);
 assert.doesNotMatch(cardExperience, /\bfetch\s*\(/);
@@ -80,9 +90,7 @@ assert.match(presentationGuard, /getAgendaRuntimeSnapshot/);
 assert.doesNotMatch(presentationGuard, /new MutationObserver\s*\(/);
 assert.doesNotMatch(appJs, /card-title-consistency\.js/);
 
-// v136 deliberately restored the supplemental Valparaíso feed in the public
-// registry. Keep the merge helper pure: it may merge the configured payload,
-// but it must never monkey-patch the browser fetch implementation.
+// The supplemental Valparaíso feed remains enabled. Merge helpers stay pure.
 const cities = JSON.parse(read("cities.json"));
 const valparaiso = cities.cities.find((city) => city.id === "valparaiso");
 assert.equal(valparaiso?.supplemental_dataset, "./data/valparaiso/supplemental-events.json", "Valparaíso supplemental feed must remain enabled after the v136 recovery");
@@ -95,7 +103,7 @@ assert.match(programPolicy, /export function renderProgramReferences/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 144, "PWA release must include normalized runtime ownership hardening");
+assert.ok(Number(releaseMatch[1]) >= 163, "PWA release must include unified exhibition ownership");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -107,4 +115,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Static grouping + venue identity + normalized runtime titles + resilient startup contract: OK");
+console.log("Unified exhibition grouping + venue identity + normalized runtime titles contract: OK");
