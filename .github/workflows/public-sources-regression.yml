@@ -2,17 +2,31 @@ name: Public sources regression guard
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "fuentes_publicas.json"
+      - "agenda_web.json"
+      - "app/data/gijon/agenda_web.json"
+      - "app/data/quality/source-coverage.json"
+      - "app/data/source-registry.json"
+      - "app/scripts/validate_source_registry.py"
+      - "app/scripts/test_source_registry.py"
+      - "app/scripts/source_refresh_scope.py"
+      - "app/scripts/test_source_refresh_scope.py"
       - "tests/public-sources-regression.test.mjs"
       - ".github/workflows/public-sources-regression.yml"
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "fuentes_publicas.json"
+      - "agenda_web.json"
+      - "app/data/gijon/agenda_web.json"
+      - "app/data/quality/source-coverage.json"
+      - "app/data/source-registry.json"
+      - "app/scripts/validate_source_registry.py"
+      - "app/scripts/test_source_registry.py"
+      - "app/scripts/source_refresh_scope.py"
+      - "app/scripts/test_source_refresh_scope.py"
       - "tests/public-sources-regression.test.mjs"
       - ".github/workflows/public-sources-regression.yml"
   workflow_dispatch:
@@ -27,11 +41,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-
-      - name: Run public sources regression tests
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Preserve public source catalogue regression tests
         run: node --test tests/public-sources-regression.test.mjs
+      - name: Test source registry contract
+        working-directory: app/scripts
+        run: |
+          python test_source_registry.py
+          python test_source_refresh_scope.py
+      - name: Validate repository source registry
+        run: python app/scripts/validate_source_registry.py

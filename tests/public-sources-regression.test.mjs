@@ -47,10 +47,7 @@ const PROTECTED_BASELINE = [
 ];
 
 function normalizedUrl(value) {
-  return String(value ?? "")
-    .trim()
-    .replace(/\/$/, "")
-    .toLocaleLowerCase("es");
+  return String(value ?? "").trim().replace(/\/$/, "").toLocaleLowerCase("es");
 }
 
 test("public sources catalogue preserves the integrated baseline", () => {
@@ -60,39 +57,31 @@ test("public sources catalogue preserves the integrated baseline", () => {
     catalogue.sources.length >= PROTECTED_BASELINE.length,
     `expected at least ${PROTECTED_BASELINE.length} integrated sources, got ${catalogue.sources.length}`,
   );
-
   const names = new Set(catalogue.sources.map((source) => source.name));
   const missing = PROTECTED_BASELINE.filter((name) => !names.has(name));
-  assert.deepEqual(
-    missing,
-    [],
-    `previously integrated public sources disappeared: ${missing.join(", ")}`,
-  );
+  assert.deepEqual(missing, [], `previously integrated public sources disappeared: ${missing.join(", ")}`);
 });
 
 test("public sources catalogue has stable unique public records", () => {
   const ids = catalogue.sources.map((source) => source.id);
   assert.equal(new Set(ids).size, ids.length, "duplicate public source ids detected");
-
   const urls = catalogue.sources.map((source) => normalizedUrl(source.website_url));
   assert.ok(urls.every(Boolean), "every public source must have a usable public URL");
   assert.equal(new Set(urls).size, urls.length, "duplicate public source URLs detected");
-
   for (const source of catalogue.sources) {
     assert.equal(source.public_status, "integrada");
     assert.ok(Array.isArray(source.cities) && source.cities.length > 0);
-    assert.ok(
-      source.cities.every((city) => city === "Valparaíso" || city === "Viña del Mar"),
-      `${source.name} contains an out-of-scope city`,
-    );
+    assert.ok(source.cities.every((city) => city === "Valparaíso" || city === "Viña del Mar"), `${source.name} contains an out-of-scope city`);
   }
 });
 
 test("priority source expansion is present and BAJ remains single", () => {
-  assert.equal(catalogue.sources.length, 37);
+  assert.ok(
+    catalogue.sources.length >= PROTECTED_BASELINE.length,
+    "source catalogue may grow but must not shrink below the protected baseline",
+  );
   const names = catalogue.sources.map((source) => source.name);
   assert.equal(names.filter((name) => name === "Balmaceda Arte Joven Valparaíso").length, 1);
-
   for (const name of [
     "Teatro Municipal de Valparaíso",
     "Casa de la Cultura de Valparaíso",
@@ -102,14 +91,12 @@ test("priority source expansion is present and BAJ remains single", () => {
     "El Pasaje Café Viña",
     "Teatro Desastre",
     "Del Barrio Valpo",
-  ]) {
-    assert.ok(names.includes(name), `${name} must remain integrated`);
-  }
+  ]) assert.ok(names.includes(name), `${name} must remain integrated`);
 });
 
 test("Teatro Desastre remains an organizer source", () => {
   const source = catalogue.sources.find((item) => item.name === "Teatro Desastre");
-  assert.ok(source, "Teatro Desastre must remain in the public source catalogue");
+  assert.ok(source);
   assert.equal(source.website_url, "https://www.instagram.com/desastreteatro/");
   assert.deepEqual(source.cities, ["Valparaíso"]);
   assert.equal(source.source_type, "Organización cultural");
@@ -118,7 +105,7 @@ test("Teatro Desastre remains an organizer source", () => {
 
 test("Del Barrio Valpo remains a filtered local venue source", () => {
   const source = catalogue.sources.find((item) => item.name === "Del Barrio Valpo");
-  assert.ok(source, "Del Barrio Valpo must remain in the public source catalogue");
+  assert.ok(source);
   assert.equal(source.website_url, "https://www.instagram.com/delbarriovalpo/");
   assert.deepEqual(source.cities, ["Valparaíso"]);
   assert.equal(source.source_type, "Centro cultural");
@@ -127,7 +114,7 @@ test("Del Barrio Valpo remains a filtered local venue source", () => {
 
 test("El Pasaje Café Viña remains a local integrated source", () => {
   const source = catalogue.sources.find((item) => item.name === "El Pasaje Café Viña");
-  assert.ok(source, "El Pasaje Café Viña must remain in the public source catalogue");
+  assert.ok(source);
   assert.equal(source.website_url, "https://elpasaje.cl/");
   assert.deepEqual(source.cities, ["Viña del Mar"]);
   assert.deepEqual(source.categories, ["Música", "Ferias y gastronomía"]);
@@ -136,7 +123,7 @@ test("El Pasaje Café Viña remains a local integrated source", () => {
 
 test("Valparaíso Profundo remains a first-class integrated source", () => {
   const source = catalogue.sources.find((item) => item.name === "Valparaíso Profundo");
-  assert.ok(source, "Valparaíso Profundo must remain in the public source catalogue");
+  assert.ok(source);
   assert.equal(source.website_url, "https://valparaisoprofundo.cl/");
   assert.deepEqual(source.cities, ["Valparaíso"]);
   assert.equal(source.public_status, "integrada");
