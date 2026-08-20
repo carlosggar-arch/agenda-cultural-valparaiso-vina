@@ -8,6 +8,7 @@ import sys
 SOURCE_RUNTIME_PATHS = {
     ".github/workflows/event-pages.yml",
     "app/data/high_value_sources.json",
+    "app/data/source-registry.json",
     "app/scripts/fetch_high_value_sources.py",
     "app/scripts/validate_high_value_refresh.py",
     "app/scripts/refresh_museo_maritimo.py",
@@ -39,6 +40,12 @@ SOURCE_RUNTIME_PATHS = {
 # its dedicated regression tests change. Network probes are reserved for
 # runtime/config/workflow changes only.
 SOURCE_TEST_PATHS = {
+    "fuentes_publicas.json",
+    "agenda_web.json",
+    "app/data/gijon/agenda_web.json",
+    "app/data/quality/source-coverage.json",
+    "app/scripts/validate_source_registry.py",
+    "app/scripts/test_source_registry.py",
     "app/scripts/test_high_value_sources.py",
     "app/scripts/test_museo_maritimo.py",
     "app/scripts/test_balmaceda_valpo.py",
