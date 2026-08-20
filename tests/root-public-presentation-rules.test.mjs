@@ -23,6 +23,27 @@ test("WEB converts all-caps public titles while preserving acronyms", () => {
   );
 });
 
+test("WEB normalizes the all-caps titles observed on production cards", () => {
+  const musicEvent = {
+    ...baseEvent,
+    location: { venue: "Espacio La Compañía", city: "Valparaíso" },
+    primary_category: { id: "musica", label: "Música" },
+    categories: [{ id: "musica", label: "Música" }],
+  };
+  assert.equal(
+    normalizeRootPublicEventTitle("INUNDAREMOS EN VALPARAÍSO - GIRA TANQUEMANTE", musicEvent),
+    "Inundaremos — Gira Tanquemante",
+  );
+  assert.equal(
+    normalizeRootPublicEventTitle("EL COLOR AMOR GIRA 2026", musicEvent),
+    "El Color Amor Gira 2026",
+  );
+  assert.equal(
+    normalizeRootPublicEventTitle("PASCUALA ILABACA + LUCIANO LATERRA", musicEvent),
+    "Pascuala Ilabaca + Luciano Laterra",
+  );
+});
+
 test("WEB removes generic format prefixes and outer quotes", () => {
   assert.equal(
     normalizeRootPublicEventTitle('TEATRO: “LA CASA DE BERNARDA ALBA”', baseEvent),
