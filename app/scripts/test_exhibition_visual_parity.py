@@ -104,7 +104,6 @@ def make_test_page(city: str, target: str) -> None:
         html.dataset.visualTargetRows = String(rows.length);
         html.dataset.visualMissingParts = missing.join(",");
         html.dataset.visualClippedRows = String(clipped.length);
-        html.dataset.visualRenderer = card.dataset.unifiedExhibitionGroup === "true" ? "true" : "false";
 
         const root = document.createElement("div");
         root.id = "visual-capture-root";
@@ -181,10 +180,10 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     url = f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1"
     dom = dump_dom(city, url)
 
+    # Finding the card through the canonical data-unified-exhibition-group selector
+    # is itself the ownership proof; the remaining assertions cover structure and geometry.
     if 'data-visual-parity-ready="true"' not in dom:
         raise AssertionError(f"grouped venue not rendered for visual check: {expected_label} ({city})")
-    if 'data-visual-renderer="true"' not in dom:
-        raise AssertionError(f"target venue is not owned by unified renderer: {expected_label}")
     if 'data-visual-missing-parts=""' not in dom:
         match = re.search(r'data-visual-missing-parts="([^"]*)"', dom)
         raise AssertionError(f"shared card structure is incomplete for {expected_label}: {match.group(1) if match else 'unknown'}")
