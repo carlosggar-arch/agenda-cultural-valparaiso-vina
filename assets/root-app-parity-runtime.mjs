@@ -34,10 +34,6 @@ if (publicDataset?.events) {
   };
 }
 
-// La estética y el render siguen siendo exclusivamente los de la WEB.
-await import("./agenda.js?v=20260820-app-parity1");
-await import("./web-event-enhancements.js?v=20260820-webparity5");
-
 function installCountParity() {
   const total = document.querySelector("[data-total]");
   const result = document.querySelector("[data-result-line]");
@@ -60,4 +56,6 @@ function installCountParity() {
   sync();
 }
 
+// La estética y el render siguen siendo exclusivamente los de la WEB.
+// Los scripts actuales de la WEB se cargan después de este adaptador desde index.html.
 installCountParity();
