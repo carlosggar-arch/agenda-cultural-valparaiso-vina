@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import copy
 
-from apply_source_coverage_overrides import apply_coverage, apply_quality, monitored_inactive, recovery_coverage
+from apply_source_coverage_overrides import (
+    apply_coverage,
+    apply_quality,
+    monitored_inactive,
+    reconcile_monitor_with_coverage,
+    recovery_coverage,
+)
 
 
 def fixtures():
@@ -98,8 +104,68 @@ def test_alias_cross_source_and_verified_inactive_states() -> None:
     assert coverage["cities"]["gijon"] == gijon_before
 
 
+def test_final_coverage_reclassifies_stale_verified_inactive_monitor() -> None:
+    coverage = {
+        "thresholds": {"zero_warning_days": 3, "zero_week_days": 7, "zero_critical_days": 14},
+        "cities": {
+            "valparaiso-vina": {
+                "summary": {},
+                "sources": [
+                    {
+                        "id": "teatro_la_peste",
+                        "name": "Teatro La Peste",
+                        "current_count": 0,
+                        "status": "zero_recent",
+                        "severity": "info",
+                        "zero_streak_days": 2,
+                    },
+                    {
+                        "id": "sala_teatro_ipa",
+                        "name": "Sala Teatro IPA",
+                        "current_count": 0,
+                        "status": "zero_recent",
+                        "severity": "info",
+                        "zero_streak_days": 2,
+                    },
+                ],
+            }
+        },
+    }
+    recovery = {"teatro_la_peste": ["valpocultura"]}
+    monitor = {
+        "sources": [
+            {
+                "id": "teatro_la_peste",
+                "fetch_ok": True,
+                "state": "verified_no_publishable_future",
+                "verified_inactive": True,
+            },
+            {
+                "id": "sala_teatro_ipa",
+                "fetch_ok": True,
+                "state": "verified_no_publishable_future",
+                "verified_inactive": True,
+            },
+        ]
+    }
+    inactive = monitored_inactive(monitor)
+    apply_coverage(coverage, recovery, inactive)
+    monitor, reconciled = reconcile_monitor_with_coverage(monitor, coverage)
+
+    rows = {row["id"]: row for row in coverage["cities"]["valparaiso-vina"]["sources"]}
+    monitor_rows = {row["id"]: row for row in monitor["sources"]}
+    assert rows["teatro_la_peste"]["status"] == "covered_elsewhere"
+    assert rows["sala_teatro_ipa"]["status"] == "monitored_confirmed_zero"
+    assert reconciled == ["teatro_la_peste"]
+    assert monitor_rows["teatro_la_peste"]["verified_inactive"] is False
+    assert monitor_rows["teatro_la_peste"]["state"] == "reclassified_by_final_coverage"
+    assert monitor_rows["teatro_la_peste"]["reclassified_status"] == "covered_elsewhere"
+    assert monitor_rows["sala_teatro_ipa"]["verified_inactive"] is True
+
+
 def main() -> None:
     test_alias_cross_source_and_verified_inactive_states()
+    test_final_coverage_reclassifies_stale_verified_inactive_monitor()
     print("SOURCE_COVERAGE_OVERRIDES_TESTS_OK")
 
 
