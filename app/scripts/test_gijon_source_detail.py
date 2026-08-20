@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from urllib.parse import urlparse
 
+# This contract is part of the existing multi-city pre-release gate.
 DETAIL = Path("app/event-detail.js").read_text(encoding="utf-8")
 DATASET = json.loads(Path("app/data/gijon/agenda_web.json").read_text(encoding="utf-8"))
 
