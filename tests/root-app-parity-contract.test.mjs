@@ -13,15 +13,18 @@ test("root WEB consumes APP publication logic through a root-only adapter", asyn
 
 test("root WEB keeps its own renderer and synchronizes the headline count with visible results", async () => {
   const runtime = await readFile(new URL("../assets/root-app-parity-runtime.mjs", import.meta.url), "utf8");
-  assert.match(runtime, /import\("\.\/agenda\.js/);
-  assert.match(runtime, /import\("\.\/web-event-enhancements\.js/);
   assert.match(runtime, /data-result-line/);
   assert.match(runtime, /data-total/);
+  assert.doesNotMatch(runtime, /import\("\.\/agenda\.js/);
+  assert.doesNotMatch(runtime, /import\("\.\/web-event-enhancements\.js/);
 });
 
-test("root entrypoint is the root-only parity runtime", async () => {
+test("root parity adapter loads before the existing WEB renderers", async () => {
   const index = await readFile(new URL("../index.html", import.meta.url), "utf8");
-  assert.match(index, /root-app-parity-runtime\.mjs/);
-  assert.doesNotMatch(index, /<script type="module" src="\.\/assets\/agenda\.js/);
-  assert.doesNotMatch(index, /<script type="module" src="\.\/assets\/web-event-enhancements\.js/);
+  const parity = index.indexOf("root-app-parity-runtime.mjs");
+  const agenda = index.indexOf("./assets/agenda.js");
+  const enhancements = index.indexOf("./assets/web-event-enhancements.js");
+  assert.ok(parity >= 0, "root parity runtime must be present");
+  assert.ok(agenda > parity, "agenda.js must load after parity runtime");
+  assert.ok(enhancements > agenda, "web-event-enhancements.js must load after agenda.js");
 });
