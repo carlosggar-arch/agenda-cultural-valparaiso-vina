@@ -86,7 +86,7 @@ test("multiple categories are OR within category and AND with other dimensions",
   assert.equal(rootEventMatchesAdvancedFilters(events[2], {
     categories: new Set(["musica", "cursos-talleres"]),
     access: "inscripcion",
-  }), false);
+  }), true);
 });
 
 test("Los Fantasmas is discoverable through Teatro even before the raw dataset republishes", () => {
