@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 # This contract is part of the existing multi-city pre-release gate.
 DETAIL = Path("app/event-detail.js").read_text(encoding="utf-8")
 DATASET = json.loads(Path("app/data/gijon/agenda_web.json").read_text(encoding="utf-8"))
+CLOUDFLARE_SYNC = Path(".github/workflows/sync-cloudflare-preview.yml").read_text(encoding="utf-8")
 
 assert "function isGijonOpenDataEvent" in DETAIL
 assert "function isGijonOpenDataUrl" in DETAIL
@@ -21,6 +22,31 @@ assert '"Ficha permanente →"' not in DETAIL
 assert '"Añadir al calendario"' in DETAIL
 assert '"Compartir"' in DETAIL
 assert '"Copiar enlace"' not in DETAIL
+
+cloudflare_markers = (
+    "Lightweight smoke of vivamos.pages.dev",
+    "https://vivamos.pages.dev",
+    "/app/event-detail.js",
+    "/app/data/gijon/agenda_web.json",
+    "/agenda_web.json",
+    "hashlib.sha256",
+    "CLOUDFLARE_DEPLOY_MATCH",
+    "CLOUDFLARE_LIGHT_HTTP_OK city={city}",
+    "CLOUDFLARE_LIGHT_SMOKE_OK",
+    "python app/scripts/test_gijon_source_detail.py",
+)
+for marker in cloudflare_markers:
+    assert marker in CLOUDFLARE_SYNC, f"Cloudflare lightweight smoke contract is missing: {marker}"
+
+assert CLOUDFLARE_SYNC.index("Push synchronized Cloudflare branch") < CLOUDFLARE_SYNC.index(
+    "Lightweight smoke of vivamos.pages.dev"
+), "Cloudflare smoke must run only after the deployment branch is pushed"
+for forbidden in ("google-chrome", "chromium", "upload-artifact", "actions/upload-artifact"):
+    assert forbidden not in CLOUDFLARE_SYNC.lower(), (
+        f"Cloudflare lightweight smoke must not use heavy browser/artifact step: {forbidden}"
+    )
+assert "range(1, 13)" in CLOUDFLARE_SYNC
+assert "time.sleep(5)" in CLOUDFLARE_SYNC
 
 
 def host(value):
@@ -51,3 +77,4 @@ assert not failures, "Open Data events without corroborating public source:\n- "
 assert checked > 0, "Expected at least one Gijón Open Data event in the public dataset"
 
 print(f"Gijón corroborating-source event-detail contract: OK ({checked} Open Data events checked)")
+print("Cloudflare lightweight smoke workflow contract: OK")
