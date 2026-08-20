@@ -89,6 +89,8 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
     location = event.get("location") or {}
     organizer = str(event.get("organizer") or "").strip()
     links = event.get("links") or {}
+    gijon_open_data = city_id == "gijon" and base.is_gijon_open_data(event)
+    corroborating = base.corroborating_source(event) if gijon_open_data else None
 
     eligible_event = event_type in EVENT_TYPES and bool(start) and location.get("online") is not True
     if eligible_event:
@@ -105,6 +107,8 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
             "location": _place_schema(city_id, event),
             "inLanguage": seo["lang"],
         }
+        if corroborating:
+            data["sameAs"] = corroborating[0]
         if description:
             data["description"] = description
         end = (event.get("schedule") or {}).get("end")
@@ -116,16 +120,17 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
             data["image"] = [image]
         if organizer:
             organization: dict[str, Any] = {"@type": "Organization", "name": organizer}
-            organizer_url = base.safe_http_url(links.get("official"))
-            if organizer_url:
-                organization["url"] = organizer_url
+            if not gijon_open_data:
+                organizer_url = base.safe_http_url(links.get("official"))
+                if organizer_url:
+                    organization["url"] = organizer_url
             data["organizer"] = organization
 
         price = event.get("price") or {}
         free = price.get("is_free") is True
         if price.get("is_free") is not None:
             data["isAccessibleForFree"] = free
-        offer_url = base.safe_http_url(links.get("tickets")) or base.safe_http_url(links.get("registration"))
+        offer_url = base.preferred_action_url(city_id, event)
         price_value = 0 if free else price.get("min_amount")
         if offer_url and price_value is not None:
             offer: dict[str, Any] = {
@@ -148,6 +153,8 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
         "url": event_url,
         "inLanguage": seo["lang"],
     }
+    if corroborating:
+        common["sameAs"] = corroborating[0]
     if description:
         common["description"] = description
     if image:
@@ -166,7 +173,6 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
     else:
         common["@type"] = "WebPage"
     return common
-
 
 
 def breadcrumb_schema(city_id: str, event: dict[str, Any], event_url: str) -> dict[str, Any]:
@@ -189,6 +195,7 @@ def structured_page_document(city_id: str, event: dict[str, Any], event_url: str
     primary = dict(structured_document(city_id, event, event_url))
     primary.pop("@context", None)
     return {"@context": "https://schema.org", "@graph": [primary, breadcrumb_schema(city_id, event, event_url)]}
+
 
 def enhance_event_page(
     city_id: str,
@@ -351,7 +358,6 @@ def render_city_landing(city_id: str, city: dict[str, Any], payload: dict[str, A
 '''
 
 
-
 def root_structured_document(payload: dict[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
     canonical = CITY_SEO["valparaiso"]["canonical"]
     org = f"{SITE_BASE}/#organization"
@@ -393,6 +399,7 @@ def render_root_landing(payload: dict[str, Any], events: list[dict[str, Any]]) -
     pattern = r'<script id="stage31-root-jsonld" type="application/ld\+json">.*?</script>'
     page = re.sub(pattern, script, page, count=1, flags=re.S) if re.search(pattern, page, flags=re.S) else page.replace('</head>', f'  {script}\n</head>', 1)
     return page
+
 
 def render_sitemap(event_entries: list[tuple[str, str | None]], city_lastmod: dict[str, str | None]) -> str:
     static_entries = [
