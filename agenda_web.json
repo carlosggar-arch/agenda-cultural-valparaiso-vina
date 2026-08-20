@@ -6188,11 +6188,11 @@
         "longitude": null
       },
       "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
       },
       "links": {
         "official": "https://artequinvina.cl/events/talleres-en-patota-manos-a-la-masa/",
@@ -6212,7 +6212,7 @@
         "cancelled": null,
         "sold_out": null,
         "price_stage": null,
-        "price_confirmed": null,
+        "price_confirmed": true,
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
@@ -6225,6 +6225,18 @@
       "image": {
         "url": "https://artequinvina.cl/wp-content/uploads/2026/08/1.POST_TALLER-EN-PATOTA_MANOS-A-LA-MASA.png",
         "alt": "Talleres en Patota: MANOS A LA MASA"
+      },
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://artequinvina.cl/events/talleres-en-patota-manos-a-la-masa/",
+            "host": "artequinvina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
       }
     },
     {
@@ -14408,10 +14420,24 @@
       "audience": null,
       "registration_requirements": "consulta y confirmación directa con la tallerista",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://www.nataliasaldias.com/wp-content/uploads/2016/08/marcanaty.jpg",
+        "alt": "Curso particular de joyería 2026 — Natalia Saldías",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
-      "source_id": "natalia_saldias"
+      "source_id": "natalia_saldias",
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://www.nataliasaldias.com/clases-particulares/",
+            "host": "nataliasaldias.com",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "image"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "agenda_def663d9f57fbb5c594c7d02",
@@ -15337,14 +15363,14 @@
       "fetch_failures": 0
     },
     "official_event_metadata": {
-      "candidate_events": 33,
-      "pages_fetched": 35,
-      "pages_failed": 3,
-      "events_enriched": 12,
-      "images_added": 0,
-      "prices_added": 12,
+      "candidate_events": 22,
+      "pages_fetched": 24,
+      "pages_failed": 1,
+      "events_enriched": 2,
+      "images_added": 1,
+      "prices_added": 1,
       "times_added": 0,
-      "provenance_entries_added": 12,
+      "provenance_entries_added": 2,
       "page_limit": 60
     }
   },
