@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-20T16:41:30-04:00",
+  "generated_at": "2026-08-20T17:00:57-04:00",
   "publication_date": "2026-08-20",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 127,
-    "events": 123,
+    "total": 130,
+    "events": 126,
     "courses": 0,
     "flexible_offers": 4,
     "programs": 0
@@ -142,10 +142,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-08-20T16:41:30-04:00",
+      "last_verified_at": "2026-08-20T17:00:57-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:41:30-04:00",
+        "last_verified_at": "2026-08-20T17:00:57-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -247,10 +247,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-08-20T16:41:30-04:00",
+      "last_verified_at": "2026-08-20T17:00:57-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:41:30-04:00",
+        "last_verified_at": "2026-08-20T17:00:57-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1521,6 +1521,7 @@
       },
       "editorial": {
         "verified_publication_patches": [
+          "teatro_mauri_alma_pajara_2026_schedule",
           "teatro_mauri_alma_pajara_2026_schedule"
         ]
       },
@@ -1720,10 +1721,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -1885,10 +1886,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2539,6 +2540,92 @@
       "source_id": "centro_extension_duoc_valpo"
     },
     {
+      "title": "Noche Temática Argentina en Estadio Español",
+      "event_type": "event",
+      "primary_category": {
+        "id": "ferias-gastronomia",
+        "label": "Ferias y gastronomía"
+      },
+      "categories": [
+        {
+          "id": "ferias-gastronomia",
+          "label": "Ferias y gastronomía"
+        },
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-21T19:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "21-08-2026 · 19:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "estadio_espanol_recreo",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Estadio Español",
+        "address": "Alonso de Ercilla 795, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": "CLP",
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcRJI71DYFv/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcRJI71DYFv/"
+      },
+      "organizer": "Estadio Español Recreo",
+      "source_id": "estadio_espanol_recreo",
+      "source_name": "Estadio Español Recreo",
+      "source_url": "https://www.instagram.com/p/DcRJI71DYFv/",
+      "last_verified_at": "2026-08-20T16:30:00-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-20T16:30:00-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": false,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma precio y condiciones directamente con el Estadio Español."
+      },
+      "description": "Noche temática dedicada a sabores de Argentina, con menú especial y música en vivo de Claudio Silva Rey.",
+      "tags": [
+        "gastronomía",
+        "música en vivo",
+        "Estadio Español"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "verified_official_instagram_snapshot",
+        "duration_days": 0,
+        "verified_public_event_overlay": true
+      },
+      "id": "agenda_3232f6486ecd72f77e38f3d3"
+    },
+    {
       "id": "agenda_1740e4aa552f79135839e5b9",
       "title": "Marie Antoinette (20 Aniversario)",
       "event_type": "event",
@@ -2666,10 +2753,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2822,10 +2909,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -2905,10 +2992,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3384,8 +3471,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Yoga todos los sábados",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -4326,10 +4415,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4508,6 +4597,7 @@
       },
       "editorial": {
         "verified_publication_patches": [
+          "teatro_la_peste_los_fantasmas_2026_categories",
           "teatro_la_peste_los_fantasmas_2026_categories"
         ]
       },
@@ -4563,10 +4653,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4665,8 +4755,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Invierno Mágico",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -4947,10 +5039,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821",
-      "last_verified_at": "2026-08-20T16:41:22-04:00",
+      "last_verified_at": "2026-08-20T17:00:54-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:41:22-04:00",
+        "last_verified_at": "2026-08-20T17:00:54-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5516,6 +5608,88 @@
       "source_id": "cinearte_vina"
     },
     {
+      "title": "Ao son da nova regueifa — Ciclo Mestre Mateo",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "categories": [
+        {
+          "id": "cine",
+          "label": "Cine"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-26T18:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "26-08-2026 · 18:30",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "estadio_espanol_recreo",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Estadio Español",
+        "address": "Alonso de Ercilla 795, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Entrada gratuita"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcPiE0ZDYl4/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcPiE0ZDYl4/"
+      },
+      "organizer": "Estadio Español Recreo",
+      "source_id": "estadio_espanol_recreo",
+      "source_name": "Estadio Español Recreo",
+      "source_url": "https://www.instagram.com/p/DcPiE0ZDYl4/",
+      "last_verified_at": "2026-08-20T16:30:00-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-20T16:30:00-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Proyección del documental gallego “Ao son da nova regueifa”, sobre la tradición de la improvisación oral y sus nuevas formas de expresión cultural.",
+      "tags": [
+        "cine",
+        "documental",
+        "cultura gallega"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "verified_official_instagram_snapshot",
+        "duration_days": 0,
+        "verified_public_event_overlay": true
+      },
+      "id": "agenda_225d84d83de9877bcc7bca09"
+    },
+    {
       "id": "agenda_6dd77b85bbb70408a93c0034",
       "title": "Concierto “Te Mana”",
       "event_type": "event",
@@ -5739,6 +5913,88 @@
       "source_id": "cultura_pucv"
     },
     {
+      "title": "Armonías — Orquesta Marga Marga",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-27T18:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "27-08-2026 · 18:00",
+        "occurrences": [],
+        "start_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "estadio_espanol_recreo",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Estadio Español",
+        "address": "Alonso de Ercilla 795, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Entrada gratuita"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcJas3iD-cL/",
+        "tickets": null,
+        "registration": "https://www.instagram.com/p/DcJas3iD-cL/",
+        "source": "https://www.instagram.com/p/DcJas3iD-cL/"
+      },
+      "organizer": "Estadio Español Recreo",
+      "source_id": "estadio_espanol_recreo",
+      "source_name": "Estadio Español Recreo",
+      "source_url": "https://www.instagram.com/p/DcJas3iD-cL/",
+      "last_verified_at": "2026-08-20T16:30:00-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-20T16:30:00-04:00",
+        "registration_open": true,
+        "registration_closed": false,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": "Entrada gratuita con inscripción previa."
+      },
+      "description": "Concierto gratuito de la Orquesta Marga Marga en Estadio Español, presentado bajo el título “Armonías”.",
+      "tags": [
+        "música",
+        "orquesta",
+        "Estadio Español"
+      ],
+      "audience": null,
+      "registration_requirements": "Inscripción previa requerida; la publicación oficial indica solicitar el enlace de reserva mediante comentarios.",
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "editorial": {
+        "classification": "event",
+        "reason": "verified_official_instagram_snapshot",
+        "duration_days": 0,
+        "verified_public_event_overlay": true
+      },
+      "id": "agenda_72260006eccc32a0e35a87d2"
+    },
+    {
       "id": "agenda_trotamundos_00958a65dbf15234e780",
       "title": "Sergio Freire en Trotamundos Valparaíso",
       "event_type": "event",
@@ -5788,10 +6044,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6350,10 +6606,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6452,8 +6708,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Yoga todos los sábados",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -6526,8 +6784,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Feria Shonen",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -6675,6 +6935,7 @@
       },
       "editorial": {
         "verified_publication_patches": [
+          "cultura_usm_gala_lirica_2026_schedule",
           "cultura_usm_gala_lirica_2026_schedule"
         ]
       },
@@ -7003,8 +7264,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Feria Shonen",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -7059,10 +7322,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pionero_822",
-      "last_verified_at": "2026-08-20T16:41:22-04:00",
+      "last_verified_at": "2026-08-20T17:00:54-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:41:22-04:00",
+        "last_verified_at": "2026-08-20T17:00:54-04:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7212,10 +7475,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7295,10 +7558,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7378,10 +7641,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7480,8 +7743,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Feria Kids Fiesta",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -7627,8 +7892,10 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+        "alt": "Feria Kids Fiesta",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "jardin_botanico_vina"
     },
@@ -7682,10 +7949,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7765,10 +8032,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7848,10 +8115,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7931,10 +8198,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8014,10 +8281,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8097,10 +8364,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-08-20T16:40:58-04:00",
+      "last_verified_at": "2026-08-20T17:00:27-04:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-20T16:40:58-04:00",
+        "last_verified_at": "2026-08-20T17:00:27-04:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8269,8 +8536,10 @@
       "audience": null,
       "registration_requirements": "Inscripciones abiertas; 13.500 cupos y valores por etapa o hasta agotar stock",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
+        "alt": "Itaú Maratón de Viña 2026",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "maraton_vina_official"
     },
@@ -8984,8 +9253,10 @@
       "audience": null,
       "registration_requirements": "inscripción disponible en el sitio oficial",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://redsalsa.cl/img/gal3.jpg",
+        "alt": "Clases de salsa y bachata RED Studio",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "red_studio"
     },
@@ -9501,8 +9772,10 @@
       "audience": null,
       "registration_requirements": "permite incorporarse durante el año",
       "image": {
-        "url": null,
-        "alt": null
+        "url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+        "alt": "Taller permanente de cerámica Le Chat",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
       },
       "source_id": "instituto_le_chat"
     },
@@ -9802,17 +10075,8 @@
   "publication_corrections": {
     "checked_at": "2026-08-20",
     "active_corrections": 8,
-    "applied_count": 4,
+    "applied_count": 3,
     "applied": [
-      {
-        "correction_id": "baburizza_requiem_2026_end",
-        "event_id": "agenda_c16d049f287e6bc4922b56de",
-        "title": "Museo Baburizza – «Requiem para Pianos»",
-        "action": "drop_after_end",
-        "official_end_date": "2026-08-06",
-        "official_url": "https://www.museobaburizza.cl/agenda/",
-        "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
-      },
       {
         "correction_id": "teatro_mauri_alma_pajara_2026_schedule",
         "event_id": "agenda_846d22de7ff64e051ae64c9f",
@@ -9864,7 +10128,7 @@
       "links_discovered": 22,
       "pages_fetched": 22,
       "events_detected": 19,
-      "refreshed_at": "2026-08-20T16:40:58-04:00",
+      "refreshed_at": "2026-08-20T17:00:27-04:00",
       "mode": "official_linktree_passline_refresh",
       "events_published": 19,
       "preserved_existing": false
@@ -9874,7 +10138,7 @@
       "links_discovered": 12,
       "pages_fetched": 12,
       "events_detected": 0,
-      "refreshed_at": "2026-08-20T16:41:13-04:00",
+      "refreshed_at": "2026-08-20T17:00:46-04:00",
       "mode": "official_museo_fonck_article_refresh",
       "events_published": 0,
       "preserved_existing": true
@@ -9886,7 +10150,7 @@
     "teatromuseo": {
       "events_detected": 2,
       "events_published": 2,
-      "refreshed_at": "2026-08-20T16:41:22-04:00",
+      "refreshed_at": "2026-08-20T17:00:54-04:00",
       "mode": "official_cartelera_refresh",
       "preserved_existing": false
     },
@@ -9894,10 +10158,32 @@
       "links_discovered": 2,
       "pages_fetched": 2,
       "events_detected": 2,
-      "refreshed_at": "2026-08-20T16:41:30-04:00",
+      "refreshed_at": "2026-08-20T17:00:57-04:00",
       "mode": "official_jsonld_agenda_refresh",
       "events_published": 2,
       "preserved_existing": false
+    },
+    "insomniacine": {
+      "secondary_probe_status": "current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 2,
+      "secondary_probe_current_candidates": 1,
+      "secondary_probe_candidate_titles": [
+        "Cine Insomnia - Ojo de Pescado"
+      ],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_has_current_candidates",
+      "secondary_probe_checked_on": "2026-08-20"
+    },
+    "valparaiso_profundo": {
+      "secondary_probe_status": "no_current_candidates",
+      "secondary_probe_url": "https://valpocultura.cl/agenda-cultural/",
+      "secondary_probe_reviewed_items": 1,
+      "secondary_probe_current_candidates": 0,
+      "secondary_probe_candidate_titles": [],
+      "secondary_probe_actionable": true,
+      "secondary_probe_reason": "secondary_calendar_checked_no_current_candidates",
+      "secondary_probe_checked_on": "2026-08-20"
     }
   },
   "media_cache": {
@@ -10100,15 +10386,85 @@
       "image_url": null,
       "checked_at": "2026-08-20",
       "source": "official_page_metadata"
+    },
+    "https://visitavina.munivina.cl/actividad/actividades-juega-y-explora-el-museo-palacio-vergara/": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://jbn.cl/calendario-actividades/": {
+      "image_url": "https://jbn.cl/wp/wp-content/uploads/2022/02/IMG_0163-scaled.jpg",
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://www.teatromuseo.cl/obra/un-buen-cuento-maléfico_821": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805/": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://www.teatromuseo.cl/obra/pionero_822": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://mediamaratontps.cl/": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://maratonvina.cl/": {
+      "image_url": "https://maratonvina.cl/wp-content/uploads/2026/04/cropped-flaticon.jpg",
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://www.redstudio.cl/": {
+      "image_url": "https://redsalsa.cl/img/gal3.jpg",
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://www.nataliasaldias.com/clases-particulares/": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/": {
+      "image_url": "https://lechat.cl/wp-content/uploads/2024/04/MARCA-LE-CHAT-2024.jpg",
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
+    },
+    "https://valparaisotrekking.cl/pages/servicios": {
+      "image_url": null,
+      "checked_at": "2026-08-20",
+      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 82,
-    "images_from_cache": 0,
-    "images_fetched": 20,
-    "generic_schedule_images_rejected": 1,
-    "pages_fetched": 40,
-    "pages_skipped_by_limit": 20
+    "existing_images": 101,
+    "images_from_cache": 6,
+    "images_fetched": 4,
+    "generic_schedule_images_rejected": 0,
+    "pages_fetched": 14,
+    "pages_skipped_by_limit": 0
   },
   "enrichment": {
     "valpo_municipal_quality": {
@@ -10121,16 +10477,52 @@
       "visitavina_rows_parsed": 0,
       "valpocultura_rows_parsed": 7,
       "page_fetch_errors": {}
+    },
+    "zero_source_secondary_probe": {
+      "checked_on": "2026-08-20",
+      "sources": [
+        "insomniacine",
+        "valparaiso_profundo"
+      ],
+      "apify_used": false
     }
   },
   "publication_guard": {
     "titles_recovered": 0,
     "target_city_blocks_recovered": 0,
-    "visit_hours_enriched": 18,
-    "venue_hours_enriched": 3,
+    "visit_hours_enriched": 1,
+    "venue_hours_enriched": 0,
     "removed_title_quality": 1,
     "removed_location_mismatch": 0,
     "removed_deadline_only_call": 0,
-    "removed_retrospective_post": 1
+    "removed_retrospective_post": 0
+  },
+  "verified_public_events": {
+    "applied_at": "2026-08-20T17:00:27-04:00",
+    "added_count": 3,
+    "added": [
+      {
+        "id": "agenda_3232f6486ecd72f77e38f3d3",
+        "title": "Noche Temática Argentina en Estadio Español",
+        "start": "2026-08-21T19:00:00-04:00",
+        "source_id": "estadio_espanol_recreo",
+        "official_url": "https://www.instagram.com/p/DcRJI71DYFv/"
+      },
+      {
+        "id": "agenda_225d84d83de9877bcc7bca09",
+        "title": "Ao son da nova regueifa — Ciclo Mestre Mateo",
+        "start": "2026-08-26T18:30:00-04:00",
+        "source_id": "estadio_espanol_recreo",
+        "official_url": "https://www.instagram.com/p/DcPiE0ZDYl4/"
+      },
+      {
+        "id": "agenda_72260006eccc32a0e35a87d2",
+        "title": "Armonías — Orquesta Marga Marga",
+        "start": "2026-08-27T18:00:00-04:00",
+        "source_id": "estadio_espanol_recreo",
+        "official_url": "https://www.instagram.com/p/DcJas3iD-cL/"
+      }
+    ],
+    "skipped": []
   }
 }
