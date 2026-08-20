@@ -102,7 +102,7 @@ def make_test_page(city: str, target: str) -> None:
 
         html.dataset.visualTargetVenue = card.querySelector("h4")?.textContent?.trim() || "";
         html.dataset.visualTargetRows = String(rows.length);
-        html.dataset.visualMissingParts = missing.join(",");
+        html.dataset.visualMissingParts = missing.length ? missing.join(",") : "none";
         html.dataset.visualClippedRows = String(clipped.length);
 
         const root = document.createElement("div");
@@ -181,10 +181,15 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     dom = dump_dom(city, url)
 
     # Finding the card through the canonical data-unified-exhibition-group selector
-    # is itself the ownership proof; the remaining assertions cover structure and geometry.
+    # is itself the ownership proof. Capture it before geometry assertions so a
+    # failed gate still leaves a screenshot artifact for diagnosis.
     if 'data-visual-parity-ready="true"' not in dom:
         raise AssertionError(f"grouped venue not rendered for visual check: {expected_label} ({city})")
-    if 'data-visual-missing-parts=""' not in dom:
+
+    output = output_dir / filename
+    screenshot(city, url, output)
+
+    if 'data-visual-missing-parts="none"' not in dom:
         match = re.search(r'data-visual-missing-parts="([^"]*)"', dom)
         raise AssertionError(f"shared card structure is incomplete for {expected_label}: {match.group(1) if match else 'unknown'}")
     if 'data-visual-clipped-rows="0"' not in dom:
@@ -194,8 +199,6 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     if not rows or int(rows.group(1)) < 2:
         raise AssertionError(f"expected a grouped venue with at least two exhibitions: {expected_label}")
 
-    output = output_dir / filename
-    screenshot(city, url, output)
     venue = re.search(r'data-visual-target-venue="([^"]+)"', dom)
     print(f"EXHIBITION_VISUAL_OK city={city} venue={venue.group(1) if venue else expected_label} rows={rows.group(1)} screenshot={output}")
 
@@ -209,6 +212,7 @@ def main() -> None:
 
     os.chdir(ROOT)
     handler = lambda *handler_args, **handler_kwargs: QuietHandler(*handler_args, directory=str(ROOT), **handler_kwargs)
+    errors: list[str] = []
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -217,11 +221,17 @@ def main() -> None:
         try:
             base_url = f"http://127.0.0.1:{port}"
             for case in CASES:
-                run_case(*case, base_url, output_dir)
+                try:
+                    run_case(*case, base_url, output_dir)
+                except AssertionError as exc:
+                    errors.append(str(exc))
         finally:
             TEST_PAGE.unlink(missing_ok=True)
             server.shutdown()
             thread.join(timeout=2)
+
+    if errors:
+        raise AssertionError(" | ".join(errors))
 
 
 if __name__ == "__main__":
