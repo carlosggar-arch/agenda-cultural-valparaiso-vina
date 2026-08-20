@@ -4,6 +4,7 @@ import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-p
 import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260820-pipeline2";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
 import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260820-cycle1";
+import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
 import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260820-pastguard2";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260819-pipeline1";
@@ -84,6 +85,11 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
   dataset = applyStage("formation-cycle-classifier", normalizeFormationCycles, dataset, diagnostics);
+  if (city.id === "valparaiso") {
+    dataset = applyStage("artequin-session-correction", correctArtequinNaturalArtSessions, dataset, diagnostics);
+  } else {
+    diagnostics.push({ name: "artequin-session-correction", status: "not-applicable" });
+  }
   dataset = applyStage("cross-source-deduplication", deduplicateCrossSourceDataset, dataset, diagnostics);
   dataset = applyStage(
     "past-event-guard",
