@@ -53,6 +53,15 @@ function installMediaStyles() {
   installStylesheet(PERMALINK_STYLESHEET, "data-event-permalink-styles");
 }
 
+function placePrimaryNavigationAfterCategories() {
+  const navigation = document.querySelector(".primary-navigation");
+  const categories = document.querySelector(".category-section");
+  if (!navigation || !categories) return false;
+  if (categories.nextElementSibling !== navigation) categories.after(navigation);
+  navigation.dataset.homePosition = "after-categories";
+  return true;
+}
+
 function setTextIfChanged(node, value) {
   if (!node) return false;
   const text = String(value ?? "");
@@ -276,6 +285,7 @@ function enhanceDetail(event) {
 }
 
 async function start() {
+  placePrimaryNavigationAfterCategories();
   installMediaStyles();
   let payload;
   try {
