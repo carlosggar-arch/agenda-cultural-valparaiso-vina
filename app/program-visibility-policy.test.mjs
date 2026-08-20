@@ -97,6 +97,27 @@ function destinoMonthly(overrides = {}) {
 }
 
 {
+  const monthlyWithRecoveredImage = destinoMonthly({
+    image: {
+      url: "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png",
+      relevance: "event_specific",
+      source: "official_event_page",
+    },
+  });
+  assert.equal(
+    isGenericProgramListing(monthlyWithRecoveredImage),
+    true,
+    "recovering an event-specific image must never turn a monthly programme shell back into a dated event",
+  );
+  const result = applyProgramVisibilityPolicy({
+    counts: { total: 2, events: 2, programs: 0 },
+    events: [monthlyWithRecoveredImage, event()],
+  });
+  assert.deepEqual(result.dataset.events.map((item) => item.id), ["event-1"]);
+  assert.deepEqual(result.secondaryPrograms.map((item) => item.id), ["agenda_e7e2a4a89dc447f9bd2633e7"]);
+}
+
+{
   const realExhibition = destinoMonthly({
     title: "Exposición temporal — A veces un mar dulce",
     description: "Exposición individual en curso.",
