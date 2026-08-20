@@ -44,6 +44,7 @@ function installWebOnlyPresentationState() {
   const style = document.createElement("style");
   style.dataset.rootWebStateFix = "true";
   style.textContent = `
+    .hero-actions,
     .hero-dots,
     .hero-visual figcaption {
       display: none !important;
@@ -55,32 +56,21 @@ function installWebOnlyPresentationState() {
       transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
     }
 
-    .category-shortcut[aria-pressed="true"],
-    .category-shortcut.is-selected {
+    .category-shortcut[aria-pressed="true"] {
       background: #eef8f7;
       box-shadow: inset 0 0 0 2px var(--teal);
     }
 
-    .category-shortcut[aria-pressed="true"] strong,
-    .category-shortcut.is-selected strong {
+    .category-shortcut[aria-pressed="true"] strong {
       color: var(--navy);
     }
 
-    .category-shortcut[aria-pressed="true"] .category-symbol,
-    .category-shortcut.is-selected .category-symbol {
+    .category-shortcut[aria-pressed="true"] .category-symbol {
       box-shadow: 0 0 0 3px #fffdf8, 0 0 0 5px var(--teal);
       transform: translateY(-1px);
     }
   `;
   document.head.append(style);
-
-  document.querySelectorAll(".hero-dots, .hero-visual figcaption").forEach((node) => node.remove());
-}
-
-function syncCategorySelectionState() {
-  document.querySelectorAll(".category-shortcut").forEach((button) => {
-    button.classList.toggle("is-selected", button.getAttribute("aria-pressed") === "true");
-  });
 }
 
 function resultCount() {
@@ -97,43 +87,37 @@ function forceCountParity() {
 }
 
 function installCountParity() {
-  let queued = false;
+  const result = document.querySelector("[data-result-line]");
+  if (!result) return;
+
+  let frame = 0;
   const sync = () => {
-    if (queued) return;
-    queued = true;
-    queueMicrotask(() => {
-      queued = false;
+    if (frame) cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      frame = 0;
       forceCountParity();
-      syncCategorySelectionState();
-    });
-    requestAnimationFrame(() => {
-      forceCountParity();
-      syncCategorySelectionState();
     });
   };
 
+  // Watch only the result text. The previous broad observer on document.body
+  // could create feedback loops with the WEB renderers and make the page hang.
   const observer = new MutationObserver(sync);
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-    attributes: true,
-    attributeFilter: ["hidden", "aria-pressed"],
-  });
+  observer.observe(result, { childList: true, subtree: true, characterData: true });
 
   for (const eventName of ["click", "change", "input"]) {
-    document.addEventListener(eventName, sync, true);
+    document.addEventListener(eventName, () => {
+      sync();
+      setTimeout(forceCountParity, 80);
+      setTimeout(forceCountParity, 220);
+    }, true);
   }
 
-  // Late renderers on the WEB can finish a few frames after the navigation click.
-  // Keep the hero total pinned to the result line during initialisation, then the
-  // observer/event hooks above maintain parity for subsequent interactions.
+  // Cover initial asynchronous renders without keeping a permanent polling loop.
   let checks = 0;
   const initialTimer = setInterval(() => {
     forceCountParity();
-    syncCategorySelectionState();
     checks += 1;
-    if (checks >= 24) clearInterval(initialTimer);
+    if (checks >= 20) clearInterval(initialTimer);
   }, 250);
 
   sync();
