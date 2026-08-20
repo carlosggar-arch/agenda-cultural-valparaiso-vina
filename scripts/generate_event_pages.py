@@ -8,7 +8,7 @@ from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from xml.sax.saxutils import escape as xml_escape
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,6 +68,55 @@ def clean_text(value: Any) -> str:
 def safe_http_url(value: Any) -> str | None:
     text = str(value or "").strip()
     return text if re.match(r"^https?://", text, re.I) else None
+
+
+def is_gijon_open_data_url(value: Any) -> bool:
+    candidate = safe_http_url(value)
+    if not candidate:
+        return False
+    try:
+        return (urlparse(candidate).hostname or "").lower() == "opendata.gijon.es"
+    except ValueError:
+        return False
+
+
+def is_open_data_event(event: dict[str, Any]) -> bool:
+    links = event.get("links") or {}
+    name = str(event.get("source_name") or "").lower()
+    source = event.get("source_url") or links.get("source")
+    return is_gijon_open_data_url(source) or ("open data" in name and "gij" in name)
+
+
+def corroborating_source(event: dict[str, Any]) -> tuple[str, str] | None:
+    """Return the best non-Open-Data public page that corroborates the event."""
+    links = event.get("links") or {}
+    candidates = (
+        (links.get("municipal_page"), "Ayuntamiento de Gijón/Xixón — ficha específica del evento"),
+        (links.get("official"), "Fuente oficial específica del evento"),
+    )
+    for value, label in candidates:
+        url = safe_http_url(value)
+        if url and not is_gijon_open_data_url(url):
+            return url, label
+    return None
+
+
+def public_source(event: dict[str, Any]) -> tuple[str | None, str, bool]:
+    """Return ``(url, label, last_resort_open_data)`` for the public page."""
+    links = event.get("links") or {}
+    if is_open_data_event(event):
+        corroborating = corroborating_source(event)
+        if corroborating:
+            url, label = corroborating
+            return url, label, False
+        fallback = safe_http_url(event.get("source_url") or links.get("source"))
+        return fallback, "Open Data — último recurso", bool(fallback)
+
+    official = safe_http_url(links.get("official"))
+    if official:
+        return official, str(event.get("source_name") or "Fuente oficial"), False
+    source = safe_http_url(event.get("source_url") or links.get("source"))
+    return source, str(event.get("source_name") or "Fuente de datos"), False
 
 
 def event_slug(event_id: Any) -> str:
@@ -181,9 +230,6 @@ def schedule_text(event: dict[str, Any]) -> str:
         return f"{date_text} · {start_clock}"
 
     if display_clocks:
-        # Normalized multi-day schedules carry the dates before the first
-        # middle dot and the authoritative clock/range information after it.
-        # Reuse only that clock-bearing tail and humanize the date span here.
         parts = [part.strip() for part in display.split(" · ") if part.strip()]
         first_clock_part = next((index for index, part in enumerate(parts) if CLOCK_RE.search(part)), None)
         if first_clock_part is not None:
@@ -224,19 +270,23 @@ def category_text(event: dict[str, Any]) -> str:
 
 
 def is_gijon_open_data(event: dict[str, Any]) -> bool:
-    name = str(event.get("source_name") or "").lower()
-    url = str(event.get("source_url") or (event.get("links") or {}).get("source") or "")
-    return ("open data" in name and "gij" in name) or url.startswith("https://opendata.gijon.es/")
+    return is_open_data_event(event)
 
 
 def preferred_action_url(city_id: str, event: dict[str, Any]) -> str | None:
     links = event.get("links") or {}
-    candidates = ["tickets", "registration"]
+    for key in ("tickets", "registration"):
+        candidate = safe_http_url(links.get(key))
+        if candidate:
+            return candidate
+
     if city_id == "gijon" and is_gijon_open_data(event):
-        candidates.append("source")
-    else:
-        candidates.extend(["official", "source"])
-    for key in candidates:
+        corroborating = corroborating_source(event)
+        if corroborating:
+            return corroborating[0]
+        return safe_http_url(event.get("source_url") or links.get("source"))
+
+    for key in ("official", "source"):
         candidate = safe_http_url(links.get(key))
         if candidate:
             return candidate
@@ -391,6 +441,8 @@ def structured_event(city_id: str, event: dict[str, Any], event_url: str) -> dic
     links = event.get("links") or {}
     status = event.get("public_status") or {}
     venue, address = event_location(event)
+    gijon_open_data = city_id == "gijon" and is_gijon_open_data(event)
+    corroborating = corroborating_source(event) if gijon_open_data else None
     data: dict[str, Any] = {
         "@context": "https://schema.org",
         "@type": "Event",
@@ -408,6 +460,8 @@ def structured_event(city_id: str, event: dict[str, Any], event_url: str) -> dic
             else "https://schema.org/OfflineEventAttendanceMode"
         ),
     }
+    if corroborating:
+        data["sameAs"] = corroborating[0]
     start = schedule_start(event)
     if start:
         data["startDate"] = start
@@ -431,9 +485,10 @@ def structured_event(city_id: str, event: dict[str, Any], event_url: str) -> dic
     organizer = str(event.get("organizer") or event.get("source_name") or "").strip()
     if organizer:
         organization: dict[str, Any] = {"@type": "Organization", "name": organizer}
-        org_url = safe_http_url(event.get("source_url") or links.get("source"))
-        if org_url:
-            organization["url"] = org_url
+        if not gijon_open_data:
+            org_url = safe_http_url(event.get("source_url") or links.get("source"))
+            if org_url:
+                organization["url"] = org_url
         data["organizer"] = organization
     price = event.get("price") or {}
     offer: dict[str, Any] = {
@@ -499,6 +554,7 @@ def render_page(
     registration = safe_http_url(links.get("registration"))
     official = safe_http_url(links.get("official"))
     gijon_open_data = city_id == "gijon" and is_gijon_open_data(event)
+    public_source_url, public_source_label, public_source_last_resort = public_source(event)
     image = safe_http_url((event.get("image") or {}).get("url"))
     notices = status_notices(event, changes)
     status = event.get("public_status") or {}
@@ -517,8 +573,9 @@ def render_page(
     if google:
         actions.append(f'<a class="event-action" href="{html.escape(google, quote=True)}" target="_blank" rel="noopener noreferrer">Google Calendar ↗</a>')
     if gijon_open_data:
-        if source_url and source_url not in {tickets, registration}:
-            actions.append(f'<a class="event-action" href="{html.escape(source_url, quote=True)}" target="_blank" rel="noopener noreferrer">Open Data oficial ↗</a>')
+        if public_source_url and public_source_url not in {tickets, registration}:
+            action_label = "Open Data — último recurso ↗" if public_source_last_resort else "Fuente corroborante ↗"
+            actions.append(f'<a class="event-action" href="{html.escape(public_source_url, quote=True)}" target="_blank" rel="noopener noreferrer">{action_label}</a>')
     elif official and official not in {tickets, registration}:
         actions.append(f'<a class="event-action" href="{html.escape(official, quote=True)}" target="_blank" rel="noopener noreferrer">Fuente oficial ↗</a>')
     elif source_url and source_url not in {tickets, registration}:
@@ -531,7 +588,12 @@ def render_page(
     facts.append(f'<div><dt>Precio</dt><dd>{html.escape(price)}</dd></div>')
     if organizer:
         facts.append(f'<div><dt>Organiza</dt><dd>{html.escape(organizer)}</dd></div>')
-    if source_name:
+    if gijon_open_data:
+        label = html.escape(public_source_label)
+        if public_source_url:
+            label = f'<a href="{html.escape(public_source_url, quote=True)}" target="_blank" rel="noopener noreferrer">{label} ↗</a>'
+        facts.append(f'<div><dt>Fuente mostrada</dt><dd>{label}</dd></div>')
+    elif source_name:
         label = html.escape(source_name)
         if source_url:
             label = f'<a href="{html.escape(source_url, quote=True)}" target="_blank" rel="noopener noreferrer">{label} ↗</a>'
