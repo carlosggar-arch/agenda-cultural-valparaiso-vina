@@ -48,6 +48,13 @@
   cursor: progress;
 }
 
+/* La portada mantiene búsqueda y filtros rápidos, pero oculta los bloques redundantes. */
+#destacados,
+#categorias,
+.section-tabs [data-section="destacados"] {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
