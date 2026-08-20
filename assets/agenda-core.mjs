@@ -4,138 +4,6 @@ export * from "./agenda-core-base.mjs";
 
 const ROOT_TIME_ZONE = base.DISPLAY_TIME_ZONE || "America/Santiago";
 
-if (typeof document !== "undefined") {
-  const style = document.createElement("style");
-  style.dataset.rootCompactLayout = "true";
-  style.textContent = `
-    #destacados,
-    #categorias,
-    #explorar .explore-heading,
-    #explorar .section-tabs {
-      display: none !important;
-    }
-    .category-section {
-      padding-bottom: .8rem !important;
-    }
-    .category-section + .primary-navigation {
-      margin-top: 0 !important;
-    }
-    #explorar {
-      padding-top: .75rem !important;
-    }
-  `;
-  document.head.append(style);
-}
-
-const ROOT_CATEGORY_ALIASES = new Map([
-  ["ferias", "ferias-gastronomia"],
-  ["gastronomia", "ferias-gastronomia"],
-  ["naturaleza", "naturaleza-deportes"],
-  ["naturaleza-montana", "naturaleza-deportes"],
-  ["deportes", "naturaleza-deportes"],
-  ["museos", "exposiciones"],
-]);
-
-const ROOT_CATEGORY_LABELS = new Map([
-  ["ferias-gastronomia", "Ferias y gastronomía"],
-  ["naturaleza-deportes", "Naturaleza y deportes"],
-  ["exposiciones", "Exposiciones y museos"],
-  ["otros", "Otros panoramas"],
-]);
-
-const CULTURE_CATEGORY_RULES = [
-  ["musica", "Música", /\b(musica|musical|concierto|recital|jazz|orquesta|coro|tocata|banda|cantautor|cantante|sinfon|sonoro|payada)\b/],
-  ["cine", "Cine", /\b(cine|pelicula|film|documental|cortometraje|largometraje|audiovisual|proyeccion)\b/],
-  ["teatro", "Teatro", /\b(teatro|teatral|obra|dramaturg|escena|danza|ballet|circo|performance|actor|actriz)\b/],
-  ["exposiciones", "Exposiciones y museos", /\b(museo|exposicion|exhibicion|muestra|galeria|patrimonio|fotografia|pintura|escultura|artes visuales|visita guiada)\b/],
-  ["cursos-talleres", "Cursos y talleres", /\b(taller|curso|seminario|charla|conversatorio|capacitacion|laboratorio|workshop|ponencia)\b/],
-  ["naturaleza-deportes", "Naturaleza y deportes", /\b(naturaleza|trekking|senderismo|caminata|montana|cerro|deporte|deportivo|yoga|ciclismo|bicicleta|kayak|surf|ecologia|ecosistema)\b/],
-  ["ferias-gastronomia", "Ferias y gastronomía", /\b(feria|gastronomia|gastronomico|comida|cocina|mercado|degustacion|restaurante|cafe)\b/],
-];
-
-function normalizeCategoryText(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es-CL")
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
-}
-
-function canonicalRootCategory(category) {
-  const rawId = String(category?.id || "").trim().toLocaleLowerCase("es-CL");
-  if (!rawId || rawId === "cultura") return null;
-  const id = ROOT_CATEGORY_ALIASES.get(rawId) || rawId;
-  return {
-    id,
-    label: ROOT_CATEGORY_LABELS.get(id) || category?.label || id,
-  };
-}
-
-function inferredCultureCategories(event) {
-  const text = normalizeCategoryText([
-    event?.title,
-    event?.description,
-    event?.organizer,
-    event?.source_name,
-    event?.location?.venue,
-    ...(event?.tags || []),
-  ].filter(Boolean).join(" "));
-  const inferred = [];
-  for (const [id, label, pattern] of CULTURE_CATEGORY_RULES) {
-    if (pattern.test(text)) inferred.push({ id, label });
-  }
-  return inferred.length ? inferred : [{ id: "otros", label: "Otros panoramas" }];
-}
-
-export function normalizeRootEventCategories(event) {
-  const categories = new Map();
-  let hadCulture = false;
-
-  for (const category of event?.categories || []) {
-    if (String(category?.id || "").trim().toLocaleLowerCase("es-CL") === "cultura") {
-      hadCulture = true;
-      continue;
-    }
-    const normalized = canonicalRootCategory(category);
-    if (normalized && !categories.has(normalized.id)) categories.set(normalized.id, normalized);
-  }
-
-  if (String(event?.primary_category?.id || "").trim().toLocaleLowerCase("es-CL") === "cultura") {
-    hadCulture = true;
-  }
-
-  if (hadCulture && categories.size === 0) {
-    for (const category of inferredCultureCategories(event)) categories.set(category.id, category);
-  }
-
-  if (categories.size === 0) {
-    const primary = canonicalRootCategory(event?.primary_category);
-    if (primary) categories.set(primary.id, primary);
-  }
-
-  if (categories.size === 0) categories.set("otros", { id: "otros", label: "Otros panoramas" });
-
-  const normalizedCategories = [...categories.values()];
-  const rawPrimaryId = String(event?.primary_category?.id || "").trim().toLocaleLowerCase("es-CL");
-  const canonicalPrimaryId = ROOT_CATEGORY_ALIASES.get(rawPrimaryId) || rawPrimaryId;
-  const primary = categories.get(canonicalPrimaryId) || normalizedCategories[0];
-
-  return {
-    ...event,
-    primary_category: primary,
-    categories: normalizedCategories,
-  };
-}
-
-export function normalizeRootEvents(events) {
-  return (events || []).map(normalizeRootEventCategories);
-}
-
-export function collectCategories(events) {
-  return base.collectCategories(normalizeRootEvents(events));
-}
-
 function localDateKey(value, timeZone = ROOT_TIME_ZONE) {
   const text = String(value || "").trim();
   if (!text) return null;
@@ -210,12 +78,12 @@ export async function fetchDataset(fetchImplementation = globalThis.fetch, path 
   const now = new Date();
   return {
     ...validated,
-    events: normalizeRootEvents(validated.events.filter((event) => eventIsCurrentOrFuture(event, now))),
+    events: validated.events.filter((event) => eventIsCurrentOrFuture(event, now)),
   };
 }
 
 export function eventsForSection(events, sectionId, now = new Date()) {
-  return normalizeRootEvents(events).filter(
+  return (events || []).filter(
     (event) => eventIsCurrentOrFuture(event, now) && base.eventMatchesSection(event, sectionId, now),
   );
 }
@@ -228,7 +96,7 @@ export function sectionCounts(events, now = new Date()) {
 
 export function filterEvents(events, filters = base.defaultFilterState(), now = new Date()) {
   return base.filterEvents(
-    normalizeRootEvents(events).filter((event) => eventIsCurrentOrFuture(event, now)),
+    (events || []).filter((event) => eventIsCurrentOrFuture(event, now)),
     filters,
     now,
   );
