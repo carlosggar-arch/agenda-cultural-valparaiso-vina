@@ -10,6 +10,7 @@ const { coreReady } = await import("./app-core.js?v=20260819-pipeline1");
 // The equivalent data path now lives in data-pipeline.js and is published once
 // through agenda-runtime-state.mjs for all presentation consumers.
 
+const IMAGE_QUALITY_GUARD = "./image-quality-guard.js?v=20260820-images3";
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260818-staticgroups1",
@@ -43,7 +44,6 @@ if (IS_GIJON) {
   OPTIONAL_MODULES.push(
     "./card-experience.js?v=20260819-runtime1",
     "./card-image-fallback.js?v=20260819-runtime1",
-    "./image-quality-guard.js?v=20260820-images2",
     "./public-presentation-guard.js?v=20260819-runtime1",
     "./exhibition-hours.js?v=20260819-runtime1",
   );
@@ -128,7 +128,31 @@ function placeSourcesButtonInFooter() {
   return true;
 }
 
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function loadImageQualityGuard() {
+  if (IS_GIJON) return;
+  const delays = [0, 250, 1000];
+  let lastError = null;
+  for (const delay of delays) {
+    if (delay) await wait(delay);
+    try {
+      await import(IMAGE_QUALITY_GUARD);
+      document.documentElement.dataset.imageQualityGuard = "ready";
+      return;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  document.documentElement.dataset.imageQualityGuard = "failed";
+  console.warn("¡Vivamos!: no se pudo cargar la protección de imágenes tras varios intentos", lastError);
+}
+
 async function loadOptionalEnhancements() {
+  if (!IS_GIJON) void loadImageQualityGuard();
+
   const results = await Promise.allSettled(OPTIONAL_MODULES.map((module) => import(module)));
   results.forEach((result, index) => {
     if (result.status === "rejected") console.warn(`¡Vivamos!: mejora opcional omitida (${OPTIONAL_MODULES[index]})`, result.reason);
