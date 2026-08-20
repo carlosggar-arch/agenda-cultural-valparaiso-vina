@@ -1,27 +1,32 @@
 import { loadRootPublicDataset } from "./root-app-parity-data.mjs?v=20260820-app-parity1";
 
 const nativeFetch = globalThis.fetch.bind(globalThis);
-let publicDataset = null;
 
-try {
-  publicDataset = await loadRootPublicDataset({ fetchImpl: nativeFetch });
-  document.documentElement.dataset.rootAppParity = "active";
-} catch (error) {
-  console.warn("¡Vivamos! WEB: no se pudo aplicar el pipeline compartido; se usa el dataset base.", error);
-  document.documentElement.dataset.rootAppParity = "fallback";
-}
+// Start the APP publication pipeline immediately, but do not block installation
+// of the root fetch adapter. Independent module scripts may otherwise begin
+// loading while a top-level await is still pending.
+const publicDatasetPromise = loadRootPublicDataset({ fetchImpl: nativeFetch })
+  .then((dataset) => {
+    document.documentElement.dataset.rootAppParity = "active";
+    return dataset;
+  })
+  .catch((error) => {
+    document.documentElement.dataset.rootAppParity = "fallback";
+    console.warn("¡Vivamos! WEB: no se pudo aplicar el pipeline compartido; se usa el dataset base.", error);
+    return null;
+  });
 
-if (publicDataset?.events) {
-  const serialized = JSON.stringify(publicDataset);
-  globalThis.fetch = async (input, init) => {
-    let candidate = "";
-    if (typeof input === "string" || input instanceof URL) candidate = String(input);
-    else if (input && typeof input.url === "string") candidate = input.url;
+globalThis.fetch = async (input, init) => {
+  let candidate = "";
+  if (typeof input === "string" || input instanceof URL) candidate = String(input);
+  else if (input && typeof input.url === "string") candidate = input.url;
 
-    try {
-      const url = new URL(candidate, globalThis.location.href);
-      if (url.pathname.endsWith("/agenda_web.json")) {
-        return new Response(serialized, {
+  try {
+    const url = new URL(candidate, globalThis.location.href);
+    if (url.pathname.endsWith("/agenda_web.json")) {
+      const publicDataset = await publicDatasetPromise;
+      if (publicDataset?.events) {
+        return new Response(JSON.stringify(publicDataset), {
           status: 200,
           headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -29,10 +34,10 @@ if (publicDataset?.events) {
           },
         });
       }
-    } catch {}
-    return nativeFetch(input, init);
-  };
-}
+    }
+  } catch {}
+  return nativeFetch(input, init);
+};
 
 function installCountParity() {
   const total = document.querySelector("[data-total]");
