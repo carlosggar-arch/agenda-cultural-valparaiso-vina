@@ -1,0 +1,45 @@
+name: One-off WEB cache bust
+
+on:
+  push:
+    branches:
+      - fix/web-cache-bust-20260820
+    paths:
+      - ".github/workflows/oneoff-web-cache-bust.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/web-cache-bust-20260820
+          fetch-depth: 0
+
+      - name: Bump WEB enhancement entrypoint version
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+          old = './assets/web-event-enhancements.js?v=20260816-media-hours'
+          new = './assets/web-event-enhancements.js?v=20260820-webparity3'
+          if old not in text:
+              raise SystemExit(f"Expected WEB enhancement entrypoint not found: {old}")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          PY
+
+      - name: Commit cache-bust change
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Force fresh WEB enhancement bundle"
+          git push origin HEAD:fix/web-cache-bust-20260820
