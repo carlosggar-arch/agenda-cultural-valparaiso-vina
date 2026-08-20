@@ -56,6 +56,8 @@ jobs:
           test -f _cloudflare_site/app/index.html
           test -f _cloudflare_site/app/release-version.js
           test -f _cloudflare_site/app/service-worker.js
+          test -f _cloudflare_site/app/event-detail.js
+          test -f _cloudflare_site/app/data/gijon/agenda_web.json
           cmp app/release-version.js _cloudflare_site/app/release-version.js
 
       - name: Push synchronized Cloudflare branch
@@ -63,3 +65,93 @@ jobs:
         run: |
           set -euo pipefail
           git push origin HEAD:cloudflare-preview
+
+      - name: Lightweight smoke of vivamos.pages.dev
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import time
+          import urllib.request
+          import uuid
+          from pathlib import Path
+
+          BASE = "https://vivamos.pages.dev"
+          EXPECTED = {
+              "/app/event-detail.js": Path("_cloudflare_site/app/event-detail.js").read_bytes(),
+              "/app/data/gijon/agenda_web.json": Path("_cloudflare_site/app/data/gijon/agenda_web.json").read_bytes(),
+              "/agenda_web.json": Path("_cloudflare_site/agenda_web.json").read_bytes(),
+          }
+
+
+          def digest(payload: bytes) -> str:
+              return hashlib.sha256(payload).hexdigest()
+
+
+          def fetch(path: str, timeout: int = 6) -> bytes:
+              separator = "&" if "?" in path else "?"
+              url = f"{BASE}{path}{separator}smoke={uuid.uuid4().hex}"
+              request = urllib.request.Request(
+                  url,
+                  headers={
+                      "Cache-Control": "no-cache",
+                      "Pragma": "no-cache",
+                      "User-Agent": "vivamos-cloudflare-light-smoke/1",
+                  },
+              )
+              with urllib.request.urlopen(request, timeout=timeout) as response:  # nosec B310 - fixed HTTPS origin
+                  if response.status != 200:
+                      raise RuntimeError(f"HTTP {response.status}: {url}")
+                  return response.read()
+
+
+          remote = {}
+          last_error = ""
+          for attempt in range(1, 13):
+              try:
+                  candidate = {path: fetch(path) for path in EXPECTED}
+                  mismatches = [
+                      path
+                      for path, expected in EXPECTED.items()
+                      if digest(candidate[path]) != digest(expected)
+                  ]
+                  if not mismatches:
+                      remote = candidate
+                      print(f"CLOUDFLARE_DEPLOY_MATCH attempt={attempt}")
+                      break
+                  last_error = "stale files: " + ", ".join(mismatches)
+              except Exception as exc:
+                  last_error = str(exc)
+
+              if attempt < 12:
+                  time.sleep(5)
+          else:
+              raise SystemExit(f"Cloudflare did not publish the synchronized snapshot: {last_error}")
+
+          detail = remote["/app/event-detail.js"].decode("utf-8", errors="replace")
+          for marker in (
+              "function gijonCorroboratingSource",
+              '"Fuente mostrada"',
+              '"Fuente corroborante ↗"',
+              '"Open Data — último recurso ↗"',
+          ):
+              if marker not in detail:
+                  raise SystemExit(f"Cloudflare Gijón source runtime is missing: {marker}")
+
+          for city in ("valparaiso", "gijon"):
+              page = fetch(f"/app/?city={city}")
+              if b"<html" not in page.lower():
+                  raise SystemExit(f"Cloudflare app shell is invalid for city={city}")
+              print(f"CLOUDFLARE_LIGHT_HTTP_OK city={city}")
+
+          print("CLOUDFLARE_LIGHT_SMOKE_OK")
+          PY
+
+      - name: Recheck Gijón source policy against deployed snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/test_gijon_source_detail.py
