@@ -3,6 +3,17 @@ import * as base from "./agenda-core-base.mjs";
 export * from "./agenda-core-base.mjs";
 
 const ROOT_TIME_ZONE = base.DISPLAY_TIME_ZONE || "America/Santiago";
+const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
+
+export function applyKnownPublicationCorrections(event) {
+  if (!event || String(event.id || "") !== LOS_FANTASMAS_EVENT_ID) return event;
+  const categories = Array.isArray(event.categories) ? event.categories : [];
+  if (categories.some((category) => category?.id === "teatro")) return event;
+  return {
+    ...event,
+    categories: [...categories, { id: "teatro", label: "Teatro" }],
+  };
+}
 
 function localDateKey(value, timeZone = ROOT_TIME_ZONE) {
   const text = String(value || "").trim();
@@ -78,7 +89,9 @@ export async function fetchDataset(fetchImplementation = globalThis.fetch, path 
   const now = new Date();
   return {
     ...validated,
-    events: validated.events.filter((event) => eventIsCurrentOrFuture(event, now)),
+    events: validated.events
+      .map(applyKnownPublicationCorrections)
+      .filter((event) => eventIsCurrentOrFuture(event, now)),
   };
 }
 
