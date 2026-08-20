@@ -40,16 +40,8 @@ function fold(value) {
     .toLocaleLowerCase("es");
 }
 
-function isMultiDayVisit(event) {
-  const schedule = event?.schedule || {};
-  if (schedule.mode === "multi_day") return true;
-  const start = String(schedule.start || "").slice(0, 10);
-  const end = String(schedule.end || "").slice(0, 10);
-  return Boolean(start && end && start !== end);
-}
-
 function knownVenueHours(event) {
-  if (!isExhibition(event) || !isMultiDayVisit(event)) return null;
+  if (!isExhibition(event)) return null;
   const identity = fold([
     event?.location?.venue,
     event?.organizer,
@@ -121,6 +113,12 @@ function setGroupedOpeningHours(card, hours) {
   node.replaceChildren(icon, copy);
 }
 
+function knownGroupedVenueHours(card) {
+  const identity = fold(card.querySelector(".exhibition-venue-heading h4")?.textContent || "");
+  if (identity.includes("museo de historia natural de valparaiso")) return MHNV_HOURS;
+  return null;
+}
+
 function patchGroupCard(card) {
   if (!card.classList.contains("exhibition-venue-card")) return;
   const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
@@ -129,20 +127,22 @@ function patchGroupCard(card) {
   const counts = new Map();
   for (const range of ranges) counts.set(range, (counts.get(range) || 0) + 1);
   const ranked = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  const hours = ranked.length === 1
+  let hours = ranked.length === 1
     ? ranked[0][0]
     : ranked.length > 1 && ranked[0][1] >= 2 && ranked[0][1] > ranked[1][1]
       ? ranked[0][0]
       : null;
+  if (!hours) hours = knownGroupedVenueHours(card);
   setGroupedOpeningHours(card, hours);
 }
 
 function patchCards() {
   patchQueued = false;
-  if (!datedGrid || !syncRuntimeIndex()) return;
+  if (!datedGrid) return;
+  const runtimeReady = syncRuntimeIndex();
   for (const card of datedGrid.querySelectorAll(".event-card")) {
     if (card.dataset.eventGroup) patchGroupCard(card);
-    else patchStandaloneCard(card);
+    else if (runtimeReady) patchStandaloneCard(card);
   }
 }
 
