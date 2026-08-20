@@ -8,6 +8,8 @@ import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260819-pipeline1";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 
+const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
+
 async function fetchJson(url, fetchImpl) {
   const response = await fetchImpl(url, { headers: { Accept: "application/json" }, cache: "no-store" });
   if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
@@ -42,6 +44,22 @@ async function withSupplemental(city, dataset, fetchImpl, diagnostics) {
   }
 }
 
+function applyKnownPublicationCategories(dataset) {
+  if (!dataset || !Array.isArray(dataset.events)) return dataset;
+  let changed = false;
+  const events = dataset.events.map((event) => {
+    if (String(event?.id || "") !== LOS_FANTASMAS_EVENT_ID) return event;
+    const categories = Array.isArray(event.categories) ? event.categories : [];
+    if (categories.some((category) => category?.id === "teatro")) return event;
+    changed = true;
+    return {
+      ...event,
+      categories: [...categories, { id: "teatro", label: "Teatro" }],
+    };
+  });
+  return changed ? { ...dataset, events } : dataset;
+}
+
 export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, now = new Date() } = {}) {
   if (!city?.dataset) throw new Error("Ciudad sin dataset configurado");
   if (typeof fetchImpl !== "function") throw new Error("fetch no disponible");
@@ -57,6 +75,11 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     diagnostics.push({ name: "event-data-corrections", status: "not-applicable" });
   }
   dataset = applyStage("category-normalizer", normalizeAgendaCategories, dataset, diagnostics);
+  if (city.id === "valparaiso") {
+    dataset = applyStage("known-publication-categories", applyKnownPublicationCategories, dataset, diagnostics);
+  } else {
+    diagnostics.push({ name: "known-publication-categories", status: "not-applicable" });
+  }
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
   dataset = applyStage("cross-source-deduplication", deduplicateCrossSourceDataset, dataset, diagnostics);
