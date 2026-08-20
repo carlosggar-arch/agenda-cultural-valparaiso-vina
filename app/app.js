@@ -6,7 +6,7 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 const { coreReady } = await import("./app-core.js?v=20260820-recovery1");
 
 // Deferred-module compatibility marker kept aligned with the single runtime URL.
-// import "./schedule-display.js?v=20260819-runtime1";
+// import "./schedule-display.js?v=20260820-today1";
 // The equivalent data path now lives in data-pipeline.js and is published once
 // through agenda-runtime-state.mjs for all presentation consumers.
 
@@ -15,7 +15,7 @@ const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260818-staticgroups1",
   "./multievent-layout-fix.js?v=20260819-multievent1",
-  "./schedule-display.js?v=20260819-runtime1",
+  "./schedule-display.js?v=20260820-today1",
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
@@ -28,7 +28,7 @@ const GIJON_DEFERRED_MODULES = new Set([
   "./temporal-priority.js?v=20260819-temporal3",
   "./static-exhibition-groups.js?v=20260818-staticgroups1",
   "./multievent-layout-fix.js?v=20260819-multievent1",
-  "./schedule-display.js?v=20260819-runtime1",
+  "./schedule-display.js?v=20260820-today1",
 ]);
 const IS_GIJON = String(document.documentElement.dataset.city || "") === "gijon";
 if (IS_GIJON) {
