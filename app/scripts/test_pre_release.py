@@ -127,15 +127,17 @@ def check_exhibition_layout_guard() -> None:
     assert ".exhibition-group-card[data-event-group]:not(.exhibition-venue-card)" in compact_css
     assert "display: none !important" in compact_css
 
-    # The hours layer may update only a completed group card and must target the
-    # gallery's dedicated hours node rather than appending content to the anchor.
+    # The hours layer may update only a completed group card. Static and runtime
+    # renderers share the same hours row and any duplicate is removed.
     group_start = hours_js.index("function patchGroupCard")
     group_end = hours_js.index("function patchCards", group_start)
     group_block = hours_js[group_start:group_end]
     assert 'card.classList.contains("exhibition-venue-card")' in group_block
     assert "setGroupedOpeningHours(card, hours)" in group_block
     assert "upsertOpeningParagraph" not in group_block
-    assert 'card.querySelector("[data-exhibition-opening-hours]")' in hours_js
+    assert 'card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")' in hours_js
+    assert "candidates.slice(1)" in hours_js
+    assert "duplicate.remove()" in hours_js
 
 
 def validate_dataset(path: Path) -> dict:

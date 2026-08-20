@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v159 hardens Cloudflare/GitHub image fallback parity for transient image failures.
-  const RELEASE = 159;
+  // v160 restores grouped exhibition integrity and structural text/program guards.
+  const RELEASE = 160;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

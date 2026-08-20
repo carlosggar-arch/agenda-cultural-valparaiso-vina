@@ -33,10 +33,11 @@ test("Palacio Rioja Qi Gong and Jacques Tati corrections stay covered", () => {
   ]) assert.match(corrections, new RegExp(id));
 });
 
-test("Valpo image modules use the shared runtime cache token", () => {
+test("Valpo presentation modules use the intended cache tokens", () => {
   assert.match(app, /card-experience\.js\?v=20260819-runtime1/);
   assert.match(app, /card-image-fallback\.js\?v=20260819-runtime1/);
-  assert.match(app, /public-presentation-guard\.js\?v=20260819-runtime1/);
+  assert.match(app, /public-presentation-guard\.js\?v=20260820-text1/);
+  assert.match(app, /exhibition-hours\.js\?v=20260820-hours5/);
   assert.doesNotMatch(app, /card-title-consistency\.js\?/);
 });
 
@@ -50,5 +51,5 @@ test("image quality guard is retried independently from optional modules", () =>
 });
 
 test("PWA release changes so Cloudflare and GitHub replace stale image caches", () => {
-  assert.match(release, /const RELEASE = 159;/);
+  assert.match(release, /const RELEASE = 160;/);
 });
