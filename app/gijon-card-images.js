@@ -1,4 +1,5 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { scheduleForGijonEvent } from "./gijon-venue-hours.js?v=20260820-hours1";
 
 const STYLE_ID = "gijon-core-card-images";
 const CITY_ID = "gijon";
@@ -24,6 +25,10 @@ function installStyles() {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    html[data-city="gijon"] .event-card > .gijon-venue-hours {
+      margin-top: -.15rem;
+      font-weight: 700;
     }
     @media (max-width: 560px) {
       html[data-city="gijon"] .event-card > .gijon-card-media { height: 170px; }
@@ -63,6 +68,30 @@ function addImage(card, event) {
   card.prepend(media);
 }
 
+function verifiedVenueHours(event) {
+  if (!event) return null;
+  const schedule = scheduleForGijonEvent(event) || event.schedule || {};
+  const display = String(schedule?.opening_hours?.display_text || "").replace(/\s+/g, " ").trim();
+  return display || null;
+}
+
+function setVenueHours(card, hours) {
+  if (!card) return;
+  let node = card.querySelector(":scope > .gijon-venue-hours");
+  if (!hours) {
+    node?.remove();
+    return;
+  }
+  if (!node) {
+    node = document.createElement("p");
+    node.className = "venue-opening-hours gijon-venue-hours";
+    const schedule = card.querySelector(":scope > h4 + p");
+    if (schedule) schedule.insertAdjacentElement("afterend", node);
+    else card.querySelector(":scope > h4")?.insertAdjacentElement("afterend", node);
+  }
+  node.textContent = `Horario del recinto: ${hours}`;
+}
+
 function syncIndex() {
   if (String(document.documentElement.dataset.city || "") !== CITY_ID) return false;
   const snapshot = getAgendaRuntimeSnapshot(CITY_ID);
@@ -75,23 +104,28 @@ function syncIndex() {
   return true;
 }
 
-function enhanceImages() {
+function enhanceCards() {
   queued = false;
   if (!syncIndex()) return;
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-    addImage(card, byId.get(String(card.dataset.eventId || "")));
+    const event = byId.get(String(card.dataset.eventId || ""));
+    addImage(card, event);
+    setVenueHours(card, verifiedVenueHours(event));
   }
   for (const card of document.querySelectorAll(".event-card[data-event-group]")) {
     const ids = String(card.dataset.eventGroup || "").split(",").map((id) => id.trim()).filter(Boolean);
-    const event = ids.map((id) => byId.get(id)).find((candidate) => safeImage(candidate));
-    addImage(card, event);
+    const events = ids.map((id) => byId.get(id)).filter(Boolean);
+    const imageEvent = events.find((candidate) => safeImage(candidate));
+    addImage(card, imageEvent);
+    const hours = events.map(verifiedVenueHours).find(Boolean) || null;
+    setVenueHours(card, hours);
   }
 }
 
 function queueEnhancement() {
   if (queued) return;
   queued = true;
-  queueMicrotask(enhanceImages);
+  queueMicrotask(enhanceCards);
 }
 
 installStyles();
