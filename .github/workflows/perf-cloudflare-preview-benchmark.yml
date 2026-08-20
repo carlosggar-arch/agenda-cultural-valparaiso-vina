@@ -3,7 +3,7 @@ name: Isolated Cloudflare startup benchmark
 on:
   push:
     branches:
-      - perf-faster-startup-cache-cf-20260820
+      - cf-preview-faster-startup-cache-20260820
     paths-ignore:
       - .github/benchmarks/isolated-cloudflare-startup.json
   pull_request:
@@ -36,7 +36,7 @@ jobs:
           import urllib.request
           import uuid
 
-          url = 'https://perf-faster-startup-cache-cf-20260820.vivamos.pages.dev/app/?city=valparaiso'
+          url = 'https://cf-preview-faster-startup-cache-20260820.vivamos.pages.dev/app/?city=valparaiso'
           last = ''
           for attempt in range(1, 31):
               try:
@@ -86,7 +86,7 @@ jobs:
 
           ORIGINS = {
               'production': 'https://vivamos.pages.dev/app/?city=valparaiso',
-              'optimized_preview': 'https://perf-faster-startup-cache-cf-20260820.vivamos.pages.dev/app/?city=valparaiso',
+              'optimized_preview': 'https://cf-preview-faster-startup-cache-20260820.vivamos.pages.dev/app/?city=valparaiso',
           }
           REPEATS = 3
           OUT = Path('benchmark-results.json')
@@ -207,5 +207,5 @@ jobs:
             echo 'BENCHMARK_RESULT_UNCHANGED'
           else
             git commit -m 'Record isolated Cloudflare startup benchmark'
-            git push origin HEAD:perf-faster-startup-cache-cf-20260820
+            git push origin HEAD:cf-preview-faster-startup-cache-20260820
           fi
