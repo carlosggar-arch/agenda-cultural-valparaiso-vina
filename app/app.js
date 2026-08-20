@@ -45,7 +45,7 @@ if (IS_GIJON) {
     "./card-experience.js?v=20260819-runtime1",
     "./card-image-fallback.js?v=20260819-runtime1",
     "./public-presentation-guard.js?v=20260820-text1",
-    "./exhibition-hours.js?v=20260820-hours4",
+    "./exhibition-hours.js?v=20260820-hours5",
   );
 }
 
