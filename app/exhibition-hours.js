@@ -2,11 +2,35 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 const MHNV_HOURS = "Mar–vie 10:00–18:00 · sáb 11:00–16:00 · dom/lun/festivos cerrado";
+const EXHIBITION_CARD_POLISH_STYLE_ID = "exhibition-card-polish-20260820";
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
 let eventsById = new Map();
 let patchQueued = false;
+
+function ensureExhibitionCardPolishStyles() {
+  if (document.getElementById(EXHIBITION_CARD_POLISH_STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = EXHIBITION_CARD_POLISH_STYLE_ID;
+  style.textContent = `
+    /* Keep three compact exhibition rows fully visible before internal scrolling. */
+    .exhibition-group-list {
+      max-height: 228px !important;
+    }
+    @media (max-width: 900px) {
+      .exhibition-group-list {
+        max-height: 222px !important;
+      }
+    }
+    @media (max-width: 560px) {
+      .exhibition-group-list {
+        max-height: 216px !important;
+      }
+    }
+  `;
+  document.head.append(style);
+}
 
 function currentCityId() {
   return String(document.documentElement.dataset.city || "").trim();
@@ -94,8 +118,19 @@ function patchStandaloneCard(card) {
 }
 
 function groupedOpeningHoursNode(card, create = false) {
-  let node = card.querySelector("[data-exhibition-opening-hours]");
-  if (node || !create) return node;
+  const candidates = [...card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")];
+  let node = candidates[0] || null;
+
+  // Older/static group renderers can provide the same venue-hours row without
+  // the data hook. Reuse that row and remove any duplicate instead of adding a
+  // second identical opening-hours line (seen, for example, at Palacio Rioja).
+  if (node) {
+    node.dataset.exhibitionOpeningHours = "";
+    for (const duplicate of candidates.slice(1)) duplicate.remove();
+    return node;
+  }
+
+  if (!create) return null;
   const facts = card.querySelector(".exhibition-venue-facts");
   if (!facts) return null;
   node = document.createElement("p");
@@ -152,6 +187,7 @@ function queuePatch() {
   queueMicrotask(patchCards);
 }
 
+ensureExhibitionCardPolishStyles();
 for (const eventName of [
   "vivamos:agenda-data-ready",
   "vivamos:agenda-rendered",
