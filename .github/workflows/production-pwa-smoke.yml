@@ -118,6 +118,15 @@ jobs:
             exit 1
           fi
 
+      - name: Align smoke candidate with latest public main
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+          echo "PRODUCTION_SMOKE_HEAD=$(git rev-parse HEAD)"
+
       - name: Validate local shell before network smoke
         run: |
           set -euo pipefail
