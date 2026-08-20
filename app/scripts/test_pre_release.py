@@ -204,7 +204,10 @@ def check_gijon_dataset() -> None:
         check_gijon_geographic_scope(event)
         assert event.get("event_type") in {"event", "course", "program", "flexible_offer"}
         editorial = event.get("editorial") or {}
-        assert editorial.get("classification") == event.get("event_type")
+        assert editorial.get("classification") == event.get("event_type"), (
+            f"{event.get('id')} ({event.get('title')}): editorial classification "
+            f"{editorial.get('classification')!r} != event_type {event.get('event_type')!r}"
+        )
 
 
 def check_valparaiso_dataset_compatibility() -> None:
