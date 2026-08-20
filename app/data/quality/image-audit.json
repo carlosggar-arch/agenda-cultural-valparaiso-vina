@@ -1,37 +1,23 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T13:43:16-04:00",
-  "current_events": 185,
-  "events_with_images_before": 95,
-  "missing_images_before": 90,
+  "generated_at": "2026-08-20T14:01:58-04:00",
+  "current_events": 184,
+  "events_with_images_before": 96,
+  "missing_images_before": 88,
   "fetched_pages": 10,
-  "recovered_event_specific_images": 1,
+  "recovered_event_specific_images": 0,
   "fetch_errors": 0,
-  "no_confident_match": 3,
-  "missing_images_after": 89,
+  "no_confident_match": 5,
+  "missing_images_after": 88,
   "representative_fallback_available_after": 7,
-  "event_specific_image_pct_after": 51.9,
+  "event_specific_image_pct_after": 52.2,
   "rows": [
-    {
-      "id": "agenda_e7e2a4a89dc447f9bd2633e7",
-      "state": "recovered",
-      "url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
-      "match_score": 1.0,
-      "image_url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png"
-    },
     {
       "id": "agenda_67defc9c064344e04c20aca6",
       "state": "matched_but_no_event_image",
       "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
       "match_score": 1.0,
       "representative_available": true
-    },
-    {
-      "id": "agenda_visitavina_rioja_0af3a654c0cc0d3e45",
-      "state": "matched_but_no_event_image",
-      "url": "https://visitavina.munivina.cl/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20",
-      "match_score": 1.0,
-      "representative_available": false
     },
     {
       "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
@@ -84,12 +70,16 @@
     },
     {
       "id": "agenda_portaltickets_valparaiso_d7aa1a5f4528fe20",
-      "state": "fetch_budget_exhausted",
+      "state": "no_confident_event_match",
+      "url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
+      "match_score": 0.0,
       "representative_available": false
     },
     {
       "id": "agenda_portaltickets_valparaiso_04b3bfd7a67d38f5",
-      "state": "fetch_budget_exhausted",
+      "state": "no_confident_event_match",
+      "url": "https://www.portaldisc.com/evento/elcoloramorvalpo",
+      "match_score": 0.0,
       "representative_available": false
     },
     {
