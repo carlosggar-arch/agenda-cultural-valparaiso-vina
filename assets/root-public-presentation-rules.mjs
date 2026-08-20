@@ -279,6 +279,10 @@ function stripGenericPrefixes(value) {
   return text;
 }
 
+function normalizeSeparatorRuns(value) {
+  return clean(value).replace(/(?:\s*[—–-]\s*){2,}/gu, " — ");
+}
+
 export function normalizeRootPublicEventTitle(value, event = null) {
   let text = clean(value);
   if (!text || !event) return text;
@@ -292,7 +296,7 @@ export function normalizeRootPublicEventTitle(value, event = null) {
     text = normalizeInternalAllCaps(text);
     text = normalizeLeadingAllCapsRun(text);
   }
-  return clean(text);
+  return normalizeSeparatorRuns(text);
 }
 
 export function isRootNonEventDescription(value) {
