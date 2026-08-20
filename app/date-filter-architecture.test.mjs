@@ -46,13 +46,14 @@ for (const token of ["2026-08-20", "2026-08-25", "STALE_EVENT_ID", "GROUPED_CINE
   assert.match(browserTest, new RegExp(token.replaceAll("-", "\\-")));
 }
 
-// Releases must actively check for a fresh service worker; the worker replaces stale
-// shell/data caches immediately, and already-controlled tabs reload once on takeover.
+// Releases must actively check for a fresh service worker. The worker can replace
+// stale shell/data caches immediately, but taking control must not force a visible
+// second page load; the refreshed shell is picked up on the next normal navigation.
 assert.match(pwa, /registration\.update\(\)\.catch\(\(\) => \{\}\)/);
 assert.match(worker, /await self\.skipWaiting\(\)/);
 assert.match(worker, /await self\.clients\.claim\(\)/);
 assert.match(worker, /fetch\(request, \{ cache: "no-store" \}\)/);
-assert.match(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
-assert.match(release, /window\.location\.reload\(\)/);
+assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
+assert.doesNotMatch(release, /window\.location\.reload\(\)/);
 
 console.log("DATE_FILTER_ARCHITECTURE_OK");
