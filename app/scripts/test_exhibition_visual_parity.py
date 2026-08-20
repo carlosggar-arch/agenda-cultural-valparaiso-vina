@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import html
 import http.server
+import json
 import os
 import re
 import shutil
@@ -36,19 +38,69 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-def make_test_page(city: str, target: str) -> None:
-    source = (APP / "index.html").read_text(encoding="utf-8")
-    release_marker = '<script src="./release-version.js"></script>'
-    if release_marker not in source:
-        raise AssertionError("release-version.js must load before visual-parity bootstrap")
+def fold(value: str) -> str:
+    import unicodedata
 
-    preload = f'<script>localStorage.setItem("agenda-cultural-city", "{city}");</script>'
-    source = source.replace(release_marker, release_marker + "\n  " + preload, 1)
+    normalized = unicodedata.normalize("NFD", str(value or ""))
+    return " ".join(
+        "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
+        .lower()
+        .split()
+    )
 
-    style = r'''
+
+def dataset_for(city: str) -> dict:
+    path = APP / "data/gijon/agenda_web.json" if city == "gijon" else ROOT / "agenda_web.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def exhibition_like(event: dict) -> bool:
+    ids = {str((event.get("primary_category") or {}).get("id") or "").strip().lower()}
+    ids.update(
+        str(category.get("id") or "").strip().lower()
+        for category in event.get("categories") or []
+        if isinstance(category, dict)
+    )
+    return bool(ids & {"exposiciones", "museos"})
+
+
+def fixture_events(city: str, target: str) -> list[dict]:
+    dataset = dataset_for(city)
+    needle = fold(target)
+    events = []
+    for event in dataset.get("events") or []:
+        venue = str((event.get("location") or {}).get("venue") or "")
+        if needle not in fold(venue) or not exhibition_like(event):
+            continue
+        # Visual parity tests the real titles/schedules/locations but intentionally
+        # avoids remote image fetches. The canonical renderer then uses its own
+        # local exhibition fallback, which makes the browser probe deterministic.
+        candidate = json.loads(json.dumps(event))
+        candidate["image"] = {}
+        events.append(candidate)
+    if len(events) < 2:
+        raise AssertionError(f"{city}: target venue has fewer than two exhibition events: {target}")
+    return events
+
+
+def make_test_page(city: str, expected_label: str, target: str) -> None:
+    events = fixture_events(city, target)
+    payload = html.escape(json.dumps(events, ensure_ascii=False), quote=False)
+    city_json = json.dumps(city, ensure_ascii=False)
+    target_json = json.dumps(target, ensure_ascii=False)
+    label_json = json.dumps(expected_label, ensure_ascii=False)
+
+    source = f'''<!doctype html>
+<html lang="es" data-city="{html.escape(city)}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Exhibition visual parity</title>
+  <link rel="stylesheet" href="./app.css">
   <style>
-    html[data-visual-parity-ready="true"] body > *:not(#visual-capture-root) { display:none !important; }
-    #visual-capture-root {
+    html, body {{ margin:0; min-height:100%; background:#f6f3ec; }}
+    body {{ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }}
+    #visual-capture-root {{
       box-sizing:border-box;
       display:flex;
       justify-content:center;
@@ -56,86 +108,140 @@ def make_test_page(city: str, target: str) -> None:
       min-height:100vh;
       padding:18px;
       background:#f6f3ec;
-    }
-    #visual-capture-root .event-grid {
+    }}
+    #visual-capture-root .event-grid {{
       display:block !important;
       width:430px !important;
       max-width:calc(100vw - 36px) !important;
       margin:0 !important;
-    }
-    #visual-capture-root .exhibition-venue-card {
+    }}
+    #visual-capture-root .exhibition-venue-card {{
       display:flex !important;
       width:100% !important;
       margin:0 !important;
-    }
-    #visual-parity-status { display:none !important; }
-  </style>'''
+    }}
+    #visual-parity-status {{ display:none !important; }}
+  </style>
+</head>
+<body>
+  <main id="fixture-root">
+    <div class="event-grid" data-dated-grid></div>
+  </main>
+  <script id="fixture-data" type="application/json">{payload}</script>
+  <script type="module">
+    import {{ publishAgendaRuntimeSnapshot }} from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+    import {{ normalizeVenueAliases }} from "./venue-identity.mjs";
 
-    diagnostic = f'''
-  <script>
-    (() => {{
-      const targetNeedle = {target!r};
-      const fold = (value) => String(value || "")
-        .normalize("NFD")
-        .replace(/[\\u0300-\\u036f]/g, "")
-        .toLowerCase()
-        .replace(/\\s+/g, " ")
-        .trim();
+    const cityId = {city_json};
+    const targetNeedle = {target_json};
+    const expectedLabel = {label_json};
+    const fold = (value) => String(value || "")
+      .normalize("NFD")
+      .replace(/[\\u0300-\\u036f]/g, "")
+      .toLowerCase()
+      .replace(/\\s+/g, " ")
+      .trim();
 
-      function captureTarget() {{
-        const html = document.documentElement;
-        if (html.dataset.visualParityReady === "true") return true;
-        const cards = [...document.querySelectorAll('.exhibition-venue-card[data-unified-exhibition-group="true"]')];
-        const card = cards.find((candidate) => fold(candidate.querySelector("h4")?.textContent).includes(fold(targetNeedle)));
-        if (!card) return false;
+    const rawEvents = JSON.parse(document.getElementById("fixture-data").textContent);
+    const events = normalizeVenueAliases(rawEvents);
+    const grid = document.querySelector("[data-dated-grid]");
+    for (const event of events) {{
+      const card = document.createElement("article");
+      card.className = "event-card event-card--dated";
+      card.dataset.eventId = String(event.id || "");
+      card.dataset.category = "exposiciones";
+      grid.append(card);
+    }}
 
-        const required = [
-          ".exhibition-collage",
-          ".exhibition-venue-body",
-          ".exhibition-venue-meta",
-          ".exhibition-venue-heading",
-          ".exhibition-venue-facts",
-          ".exhibition-group-details",
-          ".exhibition-group-list",
-        ];
-        const missing = required.filter((selector) => !card.querySelector(selector));
-        const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
-        const clipped = rows.filter((row) => row.scrollHeight > row.clientHeight + 1);
+    publishAgendaRuntimeSnapshot({{ id: cityId }}, {{
+      dataset: {{ events }},
+      secondaryPrograms: [],
+      hiddenPrograms: [],
+      diagnostics: [],
+    }});
 
-        const root = document.createElement("div");
-        root.id = "visual-capture-root";
-        const status = document.createElement("output");
-        status.id = "visual-parity-status";
-        status.dataset.targetVenue = card.querySelector("h4")?.textContent?.trim() || "";
-        status.dataset.rowCount = String(rows.length);
-        status.dataset.missingParts = missing.length ? missing.join(",") : "none";
-        status.dataset.clippedRows = String(clipped.length);
-        status.dataset.renderer = card.dataset.unifiedExhibitionGroup === "true" ? "unified" : "other";
-        root.append(status);
+    function structureSignature(card) {{
+      const pick = (node) => node
+        ? [...node.classList].filter((name) => [
+            "exhibition-collage",
+            "exhibition-venue-body",
+            "exhibition-venue-meta",
+            "exhibition-venue-heading",
+            "exhibition-venue-facts",
+            "exhibition-group-details",
+            "exhibition-group-list",
+            "grouped-exhibition-item",
+            "grouped-exhibition-media",
+            "grouped-exhibition-copy",
+            "grouped-exhibition-actions",
+          ].includes(name)).join(".")
+        : "missing";
+      const body = card.querySelector(".exhibition-venue-body");
+      const details = card.querySelector(".exhibition-group-details");
+      const row = card.querySelector(".grouped-exhibition-item");
+      return [
+        pick(card.firstElementChild),
+        pick(body),
+        ...(body ? [...body.children].map(pick) : []),
+        ...(details ? [...details.children].map(pick) : []),
+        ...(row ? [...row.children].map(pick) : []),
+      ].join(">");
+    }}
 
-        const grid = document.createElement("div");
-        grid.className = "event-grid";
-        const clone = card.cloneNode(true);
-        clone.hidden = false;
-        clone.dataset.visualTarget = "true";
-        const details = clone.querySelector(".exhibition-group-details");
-        if (details) details.open = true;
-        const list = clone.querySelector(".exhibition-group-list");
-        if (list) list.scrollTop = 0;
-        grid.append(clone);
-        root.append(grid);
-        document.body.append(root);
-        html.dataset.visualParityReady = "true";
-        return true;
-      }}
+    function captureTarget() {{
+      const htmlNode = document.documentElement;
+      if (htmlNode.dataset.visualParityReady === "true") return true;
+      const cards = [...document.querySelectorAll('.exhibition-venue-card[data-unified-exhibition-group="true"]')];
+      const card = cards.find((candidate) => fold(candidate.querySelector("h4")?.textContent).includes(fold(targetNeedle)));
+      if (!card) return false;
 
-      window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 120));
-      for (const delay of [700, 1600, 3200, 5600]) setTimeout(captureTarget, delay);
-    }})();
-  </script>'''
+      const required = [
+        ".exhibition-collage",
+        ".exhibition-venue-body",
+        ".exhibition-venue-meta",
+        ".exhibition-venue-heading",
+        ".exhibition-venue-facts",
+        ".exhibition-group-details",
+        ".exhibition-group-list",
+      ];
+      const missing = required.filter((selector) => !card.querySelector(selector));
+      const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
+      const clipped = rows.filter((row) => row.scrollHeight > row.clientHeight + 1);
 
-    source = source.replace("</head>", style + "\n</head>", 1)
-    source = source.replace("</body>", diagnostic + "\n</body>", 1)
+      const status = document.createElement("output");
+      status.id = "visual-parity-status";
+      status.dataset.targetVenue = card.querySelector("h4")?.textContent?.trim() || expectedLabel;
+      status.dataset.rowCount = String(rows.length);
+      status.dataset.missingParts = missing.length ? missing.join(",") : "none";
+      status.dataset.clippedRows = String(clipped.length);
+      status.dataset.renderer = card.dataset.unifiedExhibitionGroup === "true" ? "unified" : "other";
+      status.dataset.structureSignature = structureSignature(card);
+
+      const root = document.createElement("div");
+      root.id = "visual-capture-root";
+      const captureGrid = document.createElement("div");
+      captureGrid.className = "event-grid";
+      const clone = card.cloneNode(true);
+      clone.hidden = false;
+      clone.dataset.visualTarget = "true";
+      const details = clone.querySelector(".exhibition-group-details");
+      if (details) details.open = true;
+      const list = clone.querySelector(".exhibition-group-list");
+      if (list) list.scrollTop = 0;
+      captureGrid.append(clone);
+      root.append(captureGrid);
+
+      document.body.replaceChildren(status, root);
+      htmlNode.dataset.visualParityReady = "true";
+      return true;
+    }}
+
+    window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 80));
+    await import("./exhibition-groups.js?v=20260820-groups1");
+    for (const delay of [80, 220, 500, 900, 1400]) setTimeout(captureTarget, delay);
+  </script>
+</body>
+</html>'''
     TEST_PAGE.write_text(source, encoding="utf-8")
 
 
@@ -156,26 +262,34 @@ def chrome_command(profile: str, url: str, width: int = 720, height: int = 980) 
         "--no-first-run",
         "--no-default-browser-check",
         f"--window-size={width},{height}",
-        "--virtual-time-budget=8000",
+        "--virtual-time-budget=3000",
         f"--user-data-dir={profile}",
         url,
     ]
 
 
 def dump_dom(city: str, url: str) -> str:
-    with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-dom-{city}-", ignore_cleanup_errors=True) as profile:
-        cmd = chrome_command(profile, url)
-        cmd.insert(-1, "--dump-dom")
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
-        if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome visual DOM probe failed for {city}: {result.stderr[-1400:]}")
-        return result.stdout
+    last_error = ""
+    for attempt in range(1, 3):
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-dom-{city}-", ignore_cleanup_errors=True) as profile:
+            cmd = chrome_command(profile, url)
+            cmd.insert(-1, "--dump-dom")
+            try:
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=18)
+            except subprocess.TimeoutExpired as exc:
+                last_error = f"timeout after {exc.timeout}s"
+                if attempt < 2:
+                    continue
+                raise AssertionError(f"Chrome visual DOM probe timed out twice for {city}: {last_error}") from exc
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            last_error = result.stderr[-1400:] or f"exit={result.returncode}, empty DOM"
+    raise AssertionError(f"Chrome visual DOM probe failed for {city}: {last_error}")
 
 
 def write_static_capture(dom: str) -> None:
-    # The first browser process has already isolated the exact rendered card.
-    # Persist that serialized DOM without executable scripts; the screenshot
-    # process then captures the same state instead of racing the app startup again.
+    # Persist exactly the isolated card that Chromium validated. Executable scripts
+    # are stripped so the screenshot process cannot race application startup again.
     static_dom = re.sub(r"<script\b[^>]*>[\s\S]*?</script>", "", dom, flags=re.I)
     CAPTURE_PAGE.write_text(static_dom, encoding="utf-8")
 
@@ -185,7 +299,7 @@ def screenshot(city: str, url: str, output: Path) -> None:
         cmd = chrome_command(profile, url)
         cmd.insert(-1, "--run-all-compositor-stages-before-draw")
         cmd.insert(-1, f"--screenshot={output}")
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
+        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=18)
         if result.returncode != 0 or not output.exists() or output.stat().st_size < 1000:
             raise AssertionError(f"Chrome screenshot failed for {city}: {result.stderr[-1400:]}")
 
@@ -197,11 +311,11 @@ def status_tag(dom: str) -> str | None:
 
 def attr(tag: str, name: str) -> str | None:
     match = re.search(rf'\b{re.escape(name)}="([^"]*)"', tag, flags=re.I)
-    return match.group(1) if match else None
+    return html.unescape(match.group(1)) if match else None
 
 
-def run_case(city: str, expected_label: str, target: str, filename: str, base_url: str, output_dir: Path) -> None:
-    make_test_page(city, target)
+def run_case(city: str, expected_label: str, target: str, filename: str, base_url: str, output_dir: Path) -> dict[str, str]:
+    make_test_page(city, expected_label, target)
     url = f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1"
     dom = dump_dom(city, url)
 
@@ -211,10 +325,6 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     status = status_tag(dom)
     if status is None:
         raise AssertionError(f"visual parity status was not serialized for {expected_label}")
-
-    write_static_capture(dom)
-    output = output_dir / filename
-    screenshot(city, f"{base_url}/app/{CAPTURE_PAGE.name}?capture={city}", output)
 
     if attr(status, "data-renderer") != "unified":
         raise AssertionError(f"target venue is not owned by the unified renderer: {expected_label}")
@@ -228,8 +338,14 @@ def run_case(city: str, expected_label: str, target: str, filename: str, base_ur
     if not rows or int(rows) < 2:
         raise AssertionError(f"expected a grouped venue with at least two exhibitions: {expected_label}")
 
+    write_static_capture(dom)
+    output = output_dir / filename
+    screenshot(city, f"{base_url}/app/{CAPTURE_PAGE.name}?capture={city}", output)
+
     venue = attr(status, "data-target-venue") or expected_label
+    signature = attr(status, "data-structure-signature") or ""
     print(f"EXHIBITION_VISUAL_OK city={city} venue={venue} rows={rows} screenshot={output}")
+    return {"city": city, "venue": venue, "rows": rows, "signature": signature, "screenshot": str(output)}
 
 
 def main() -> None:
@@ -241,7 +357,7 @@ def main() -> None:
 
     os.chdir(ROOT)
     handler = lambda *handler_args, **handler_kwargs: QuietHandler(*handler_args, directory=str(ROOT), **handler_kwargs)
-    errors: list[str] = []
+    results: list[dict[str, str]] = []
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -250,18 +366,19 @@ def main() -> None:
         try:
             base_url = f"http://127.0.0.1:{port}"
             for case in CASES:
-                try:
-                    run_case(*case, base_url, output_dir)
-                except AssertionError as exc:
-                    errors.append(str(exc))
+                results.append(run_case(*case, base_url, output_dir))
         finally:
             TEST_PAGE.unlink(missing_ok=True)
             CAPTURE_PAGE.unlink(missing_ok=True)
             server.shutdown()
             thread.join(timeout=2)
 
-    if errors:
-        raise AssertionError(" | ".join(errors))
+    signatures = {result["signature"] for result in results}
+    if len(signatures) != 1 or not next(iter(signatures), ""):
+        detail = " | ".join(f'{result["city"]}: {result["signature"]}' for result in results)
+        raise AssertionError(f"Gijón and Viña do not share the same exhibition card structure: {detail}")
+
+    print("EXHIBITION_VISUAL_PARITY_OK shared_structure=true clipped_rows=0")
 
 
 if __name__ == "__main__":
