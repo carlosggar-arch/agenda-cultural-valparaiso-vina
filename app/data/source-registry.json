@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Contrato único entre catálogo público, inventario operativo, datasets publicados y políticas de verificación. Las fuentes se incorporan al pipeline sin añadir lógica específica al frontend.",
+  "public_catalog": "fuentes_publicas.json",
+  "coverage_catalog": "app/data/quality/source-coverage.json",
+  "datasets": [
+    {
+      "id": "valparaiso-vina",
+      "path": "agenda_web.json",
+      "coverage_city_id": "valparaiso-vina"
+    },
+    {
+      "id": "gijon",
+      "path": "app/data/gijon/agenda_web.json",
+      "coverage_city_id": "gijon"
+    }
+  ],
+  "requirements": {
+    "event_source_id_required": true,
+    "event_source_must_be_registered": true,
+    "new_public_source_requires_operational_mapping": true
+  },
+  "name_aliases": {
+    "INSOMNIA Teatro Condell": "Insomnia Cine",
+    "Itaú Maratón de Viña — sitio oficial": "maraton_vina_official"
+  },
+  "public_catalog_exceptions": {
+    "CONAF — Reserva Nacional Lago Peñuelas": "Fuente pública verificada sin monitor operativo continuo; se conserva para consulta y actividades puntuales.",
+    "Del Barrio Valpo": "Fuente local integrada y filtrada editorialmente; no dispone todavía de monitor operativo continuo.",
+    "El Pasaje Café Viña": "Fuente local integrada; no dispone todavía de monitor operativo continuo.",
+    "Teatro Desastre": "Fuente organizadora integrada; no dispone todavía de monitor operativo continuo."
+  },
+  "verification_policies": {
+    "gijon_opendata_events": {
+      "policy": "corroboration_required",
+      "blocked_public_hosts": [
+        "opendata.gijon.es"
+      ],
+      "candidate_paths": [
+        "links.municipal_page",
+        "links.official",
+        "editorial.direct_official_source"
+      ],
+      "note": "Open Data puede descubrir el evento, pero la ficha pública debe disponer de una fuente específica no-OpenData que corrobore la información."
+    }
+  }
+}
