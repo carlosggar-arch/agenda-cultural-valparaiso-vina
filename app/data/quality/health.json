@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T13:34:05+00:00",
+  "generated_at": "2026-08-20T20:44:10+00:00",
   "status": "warning",
   "cities": {
     "valparaiso-vina": {
@@ -10,29 +10,30 @@
       "status": "warning",
       "warnings": [
         "direct_source_preferred",
-        "verified_corrections_applied"
+        "verified_corrections_applied",
+        "zero_event_sources"
       ],
       "freshness": {
-        "publication_date": "2026-08-19",
-        "publication_age_days": 1,
-        "generated_at": "2026-08-20T04:03:39-04:00",
-        "generated_age_hours": 5.5
+        "publication_date": "2026-08-20",
+        "publication_age_days": 0,
+        "generated_at": "2026-08-20T16:41:30-04:00",
+        "generated_age_hours": 0.0
       },
       "counts": {
-        "total_events": 175,
-        "schedule_expected_events": 168,
-        "dated_events": 168,
-        "timed_events": 166,
-        "relevant_image_events": 156,
+        "total_events": 127,
+        "schedule_expected_events": 123,
+        "dated_events": 114,
+        "timed_events": 113,
+        "relevant_image_events": 100,
         "suspicious_titles": 0,
-        "title_review_candidates": 1,
+        "title_review_candidates": 0,
         "duplicate_groups": 0,
-        "generic_schedule_images_rejected": 4
+        "generic_schedule_images_rejected": 1
       },
       "coverage": {
-        "date_pct": 100.0,
-        "time_pct": 98.8,
-        "relevant_image_pct": 89.1
+        "date_pct": 92.7,
+        "time_pct": 91.9,
+        "relevant_image_pct": 78.7
       },
       "samples": {
         "missing_time": [
@@ -42,24 +43,42 @@
             "venue": "Sitio web Museo Baburizza"
           },
           {
-            "id": "agenda_8fdb648a4006f282d5228bb1",
-            "title": "PORQUE NO NOS BASTA CON GOZAR EN VALPARADAIS A LA FLORI UNA VEZ AL AÑO.",
-            "venue": "Trotamundos Valparaíso"
+            "id": "agenda_847eddd1d97066721e6d98ab",
+            "title": "AGOSTO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
+            "venue": "Centro de Investigación Teatro La Peste"
+          },
+          {
+            "id": "agenda_97e3a24843b28f27243a99d3",
+            "title": "#educación #museos #patrimonio #conocerparacuidar",
+            "venue": "Museo de Historia Natural de Valparaíso"
+          },
+          {
+            "id": "agenda_0a67eaa41934144b3408c224",
+            "title": "Envía tu foto hasta el: 24/08",
+            "venue": "Museo de Historia Natural de Valparaíso"
+          },
+          {
+            "id": "agenda_cb11de3205743209b185176a",
+            "title": "La historia se desarrolla en tres partes:",
+            "venue": "Museo de Historia Natural de Valparaíso"
+          },
+          {
+            "id": "agenda_7b8121a1ee3ce9d593a851ec",
+            "title": "¿Quieres postular a los Fondos de Cultura 2027 y necesitas nuestra carta de apoyo?",
+            "venue": "Valpo Cultura"
+          },
+          {
+            "id": "agenda_ce4f049efd2d5962b6781671",
+            "title": "Reforzamiento estructural y conservación del inmueble.",
+            "venue": "Valpo Cultura"
+          },
+          {
+            "id": "agenda_d32a8bf4a36405aeef46f362",
+            "title": "¿Te sumas?",
+            "venue": "Cine Arte Viña del Mar"
           }
         ],
         "missing_relevant_image": [
-          {
-            "id": "agenda_valpocultura_recovery_971bd421084a1a0b",
-            "title": "Centex – Cartelera Agosto"
-          },
-          {
-            "id": "agenda_valpocultura_recovery_21df649558ca1873",
-            "title": "Valparaíso Profundo – Programación Agosto"
-          },
-          {
-            "id": "agenda_valpocultura_recovery_d8e8b0c68682163e",
-            "title": "Club de Jazz Estrella Negra – Cartelera Agosto"
-          },
           {
             "id": "agenda_e7e2a4a89dc447f9bd2633e7",
             "title": "Destino Valparaíso – Agosto 2026"
@@ -73,23 +92,28 @@
             "title": "Exposición // Horario de verano: Memorias fuera de temporada"
           },
           {
+            "id": "agenda_eb89b5ee606c6cb270ea04c4",
+            "title": "Exposición temporal // A veces un mar dulce"
+          },
+          {
             "id": "agenda_909c0ee35fef43fe785f4eb4",
             "title": "Exposición temporal // Tàpies, colección del grabador Barbara"
           },
           {
             "id": "agenda_a933180663b5f1d4af1ec329",
             "title": "Exposición transitoria // “Entre mareas”"
+          },
+          {
+            "id": "agenda_bdc6269a0b11d9323cf2dd1f",
+            "title": "Feria // Invierno mágico"
+          },
+          {
+            "id": "agenda_bdeeb33b91baec73d91f6284",
+            "title": "Taller // “Fluir con la Acuarela: profundización en paisaje urbano y natural”"
           }
         ],
         "suspicious_titles": [],
-        "title_review_candidates": [
-          {
-            "id": "agenda_trotamundos_3e84e82b7ea24667f8ba",
-            "title": "Los Mirlos Presentan The World Meet Los Mirlos en Trotamundos Valparaíso",
-            "issue": "suspicious_title_structure",
-            "decision": "review"
-          }
-        ],
+        "title_review_candidates": [],
         "duplicates": []
       },
       "source_coverage": {
@@ -100,10 +124,15 @@
             "name": "Cine Arte Viña del Mar",
             "city": "Viña del Mar",
             "agenda_url": "https://cineartevina.cl/",
-            "direct_events": 20,
-            "venue_events": 20,
-            "indirect_venue_events": 0,
-            "indirect_samples": []
+            "direct_events": 13,
+            "venue_events": 14,
+            "indirect_venue_events": 1,
+            "indirect_samples": [
+              {
+                "id": "agenda_d32a8bf4a36405aeef46f362",
+                "title": "¿Te sumas?"
+              }
+            ]
           },
           {
             "id": "insomniacine",
@@ -111,40 +140,36 @@
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 11,
-            "indirect_venue_events": 11,
+            "venue_events": 7,
+            "indirect_venue_events": 7,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_89fad76159b4f9f63f23",
-                "title": "La invitación"
+                "id": "agenda_e5e70d2d0bb6975591ebe862",
+                "title": "La invitación."
               },
               {
-                "id": "agenda_cinema_ba27d66cc859b30a8f0a",
-                "title": "La odisea"
+                "id": "agenda_e02df7fa13fda35c81f15cd9",
+                "title": "La odisea."
               },
               {
-                "id": "agenda_cinema_e60a0358b48e09591dcc",
-                "title": "Pearl"
+                "id": "agenda_b173bd3c93b9cb2b2acc821e",
+                "title": "Pearl."
               },
               {
-                "id": "agenda_cinema_57286ee4ba67785c340e",
-                "title": "La odisea"
+                "id": "agenda_1a55c8e4c92db5d2263ba2a8",
+                "title": "Crash: Extraños placeres."
               },
               {
-                "id": "agenda_cinema_f0c86b1d5ef3cf18ebbe",
-                "title": "Crash: Extraños placeres"
+                "id": "agenda_78336fdc79b86633bed47aa4",
+                "title": "Spider-Man: Un nuevo día."
               },
               {
-                "id": "agenda_cinema_421b9c209e42c15fc0b4",
-                "title": "Spider-Man: Un nuevo día"
+                "id": "agenda_c284bf1bccf17498e7c74b3c",
+                "title": "Adolescencia, sexo y muerte en Campamento Miasma."
               },
               {
-                "id": "agenda_cinema_23077bf7f9a944762fed",
-                "title": "Adolescencia, sexo y muerte en Campamento Miasma"
-              },
-              {
-                "id": "agenda_cinema_27d4c2d95cdbe0c8bea3",
-                "title": "Backrooms: Version Extendida"
+                "id": "agenda_15b5df5e38b07b13b1a5e2d2",
+                "title": "Backrooms: Version Extendida."
               }
             ]
           },
@@ -174,7 +199,7 @@
             "city": "Viña del Mar",
             "agenda_url": null,
             "direct_events": 0,
-            "venue_events": 3,
+            "venue_events": 4,
             "indirect_venue_events": 0,
             "indirect_samples": []
           },
@@ -184,53 +209,75 @@
             "city": "Valparaíso",
             "agenda_url": null,
             "direct_events": 0,
-            "venue_events": 1,
+            "venue_events": 0,
             "indirect_venue_events": 0,
             "indirect_samples": []
           }
         ],
-        "zero_event_sources": [],
+        "zero_event_sources": [
+          {
+            "id": "valparaiso_profundo",
+            "name": "Valparaíso Profundo",
+            "city": "Valparaíso",
+            "primary_recovery_attempted": null,
+            "primary_recovery_sessions": null,
+            "secondary_probe_status": null,
+            "secondary_probe_current_candidates": null,
+            "secondary_probe_reason": null
+          }
+        ],
         "indirect_source_warnings": [
+          {
+            "id": "cinearte_vina",
+            "name": "Cine Arte Viña del Mar",
+            "city": "Viña del Mar",
+            "agenda_url": "https://cineartevina.cl/",
+            "direct_events": 13,
+            "venue_events": 14,
+            "indirect_venue_events": 1,
+            "indirect_samples": [
+              {
+                "id": "agenda_d32a8bf4a36405aeef46f362",
+                "title": "¿Te sumas?"
+              }
+            ]
+          },
           {
             "id": "insomniacine",
             "name": "INSOMNIA Teatro Condell",
             "city": "Valparaíso",
             "agenda_url": "https://www.insomniacine.cl/cartelera/",
             "direct_events": 0,
-            "venue_events": 11,
-            "indirect_venue_events": 11,
+            "venue_events": 7,
+            "indirect_venue_events": 7,
             "indirect_samples": [
               {
-                "id": "agenda_cinema_89fad76159b4f9f63f23",
-                "title": "La invitación"
+                "id": "agenda_e5e70d2d0bb6975591ebe862",
+                "title": "La invitación."
               },
               {
-                "id": "agenda_cinema_ba27d66cc859b30a8f0a",
-                "title": "La odisea"
+                "id": "agenda_e02df7fa13fda35c81f15cd9",
+                "title": "La odisea."
               },
               {
-                "id": "agenda_cinema_e60a0358b48e09591dcc",
-                "title": "Pearl"
+                "id": "agenda_b173bd3c93b9cb2b2acc821e",
+                "title": "Pearl."
               },
               {
-                "id": "agenda_cinema_57286ee4ba67785c340e",
-                "title": "La odisea"
+                "id": "agenda_1a55c8e4c92db5d2263ba2a8",
+                "title": "Crash: Extraños placeres."
               },
               {
-                "id": "agenda_cinema_f0c86b1d5ef3cf18ebbe",
-                "title": "Crash: Extraños placeres"
+                "id": "agenda_78336fdc79b86633bed47aa4",
+                "title": "Spider-Man: Un nuevo día."
               },
               {
-                "id": "agenda_cinema_421b9c209e42c15fc0b4",
-                "title": "Spider-Man: Un nuevo día"
+                "id": "agenda_c284bf1bccf17498e7c74b3c",
+                "title": "Adolescencia, sexo y muerte en Campamento Miasma."
               },
               {
-                "id": "agenda_cinema_23077bf7f9a944762fed",
-                "title": "Adolescencia, sexo y muerte en Campamento Miasma"
-              },
-              {
-                "id": "agenda_cinema_27d4c2d95cdbe0c8bea3",
-                "title": "Backrooms: Version Extendida"
+                "id": "agenda_15b5df5e38b07b13b1a5e2d2",
+                "title": "Backrooms: Version Extendida."
               }
             ]
           }
@@ -240,32 +287,26 @@
       "publication_guard": {
         "titles_recovered": 0,
         "target_city_blocks_recovered": 0,
-        "visit_hours_enriched": 1,
-        "venue_hours_enriched": 0,
+        "visit_hours_enriched": 18,
+        "venue_hours_enriched": 3,
         "removed_title_quality": 1,
         "removed_location_mismatch": 0,
         "removed_deadline_only_call": 0,
-        "removed_retrospective_post": 0
+        "removed_retrospective_post": 1
       },
       "publication_corrections": {
         "checked_at": "2026-08-20",
         "active_corrections": 8,
-        "applied_count": 5,
+        "applied_count": 4,
         "applied": [
           {
-            "correction_id": "teatro_vina_beyond_2026_schedule",
-            "event_id": "agenda_931051bdc7666597d6e2e274",
-            "title": "Beyond",
-            "action": "patch_verified_fields",
-            "patched_fields": [
-              "schedule.display_text",
-              "schedule.end",
-              "schedule.start",
-              "schedule.start_confidence"
-            ],
-            "previous_title": "Beyond",
-            "official_url": "https://teatrovina.cl/cartelera/",
-            "reason": "La cartelera visible oficial del Teatro Municipal de Viña del Mar publica Beyond el 18 de agosto de 2026 a las 20:00. Se corrige la hora contradictoria expuesta por metadatos JSON-LD del plugin y se normaliza el formato de un evento de un solo día."
+            "correction_id": "baburizza_requiem_2026_end",
+            "event_id": "agenda_c16d049f287e6bc4922b56de",
+            "title": "Museo Baburizza – «Requiem para Pianos»",
+            "action": "drop_after_end",
+            "official_end_date": "2026-08-06",
+            "official_url": "https://www.museobaburizza.cl/agenda/",
+            "reason": "La agenda oficial del Museo Baburizza fija Requiem para pianos del 3 de junio al 6 de agosto de 2026. No debe sobrevivir una refecha posterior procedente de un agregador."
           },
           {
             "correction_id": "teatro_mauri_alma_pajara_2026_schedule",
@@ -293,20 +334,6 @@
             "previous_title": "Los Fantasmas",
             "official_url": "https://www.instagram.com/p/DNbKM5_vI_8/",
             "reason": "Los Fantasmas es el estreno de una película realizada en un taller de actuación y presentada por el Centro de Investigación Teatro La Peste. Debe conservar Cine como categoría principal y ser localizable también desde Teatro."
-          },
-          {
-            "correction_id": "valpocultura_luciana_jury_2026_schedule",
-            "event_id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
-            "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-            "action": "patch_verified_fields",
-            "patched_fields": [
-              "schedule.display_text",
-              "schedule.start",
-              "schedule.start_confidence"
-            ],
-            "previous_title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-            "official_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-            "reason": "La pieza oficial del evento Luciana Jury en Chile indica 28/8 a las 20:30 hrs. Se conserva esa hora explícita sin inventar una hora de término cuando la fuente no la especifica."
           },
           {
             "correction_id": "cultura_usm_gala_lirica_2026_schedule",
@@ -339,7 +366,7 @@
         "publication_date": "2026-08-20",
         "publication_age_days": 0,
         "generated_at": "2026-08-20T09:08:22+02:00",
-        "generated_age_hours": 6.4
+        "generated_age_hours": 13.6
       },
       "counts": {
         "total_events": 128,
@@ -935,7 +962,7 @@
     "actor_calls_performed": false,
     "paid_refresh_triggered": false,
     "status": "cap_reached",
-    "usage_usd": 4.5991961186461365,
+    "usage_usd": 4.653496004453185,
     "remaining_usd": 0.0
   }
 }

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.1.0",
   "started_on": "2026-08-17",
-  "updated_at": "2026-08-20T13:34:06.095614+00:00",
+  "updated_at": "2026-08-20T20:44:11.216417+00:00",
   "observation_window_days": 28,
   "minimum_fresh_instagram_snapshots": 4,
   "snapshots": [
@@ -1078,15 +1078,15 @@
     },
     {
       "date": "2026-08-20",
-      "total_published_events": 175,
+      "total_published_events": 127,
       "instagram_capable_sources": 35,
-      "instagram_source_events": 112,
-      "instagram_only_events": 11,
-      "non_instagram_supported_events": 101,
-      "instagram_state_updated_at": "2026-08-20T10:04:55.876886+00:00",
+      "instagram_source_events": 108,
+      "instagram_only_events": 18,
+      "non_instagram_supported_events": 90,
+      "instagram_state_updated_at": "2026-08-20T20:29:52.472711+00:00",
       "apify": {
         "status": "cap_reached",
-        "usage_usd": 4.5991961186461365,
+        "usage_usd": 4.653496004453185,
         "cap_usd": 3.5,
         "paid_refresh_triggered": false
       },
@@ -1134,9 +1134,9 @@
         {
           "id": "centro_extension_duoc_valpo",
           "name": "Centro de Extensión Duoc UC Valparaíso",
-          "published_events": 1,
+          "published_events": 6,
           "direct_web": 0,
-          "non_instagram_support": 0,
+          "non_instagram_support": 5,
           "instagram_only": 1,
           "unknown": 0,
           "web_fetchable": false
@@ -1144,10 +1144,10 @@
         {
           "id": "cinearte_vina",
           "name": "Cine Arte Viña del Mar",
-          "published_events": 20,
-          "direct_web": 20,
+          "published_events": 14,
+          "direct_web": 13,
           "non_instagram_support": 0,
-          "instagram_only": 0,
+          "instagram_only": 1,
           "unknown": 0,
           "web_fetchable": true
         },
@@ -1164,9 +1164,9 @@
         {
           "id": "cultura_pucv",
           "name": "Cultura PUCV",
-          "published_events": 1,
+          "published_events": 4,
           "direct_web": 0,
-          "non_instagram_support": 1,
+          "non_instagram_support": 4,
           "instagram_only": 0,
           "unknown": 0,
           "web_fetchable": false
@@ -1184,8 +1184,8 @@
         {
           "id": "culturasvina",
           "name": "Culturas Viña",
-          "published_events": 13,
-          "direct_web": 11,
+          "published_events": 12,
+          "direct_web": 10,
           "non_instagram_support": 0,
           "instagram_only": 2,
           "unknown": 0,
@@ -1244,9 +1244,9 @@
         {
           "id": "insomniacine",
           "name": "Insomnia Cine",
-          "published_events": 11,
+          "published_events": 7,
           "direct_web": 0,
-          "non_instagram_support": 11,
+          "non_instagram_support": 7,
           "instagram_only": 0,
           "unknown": 0,
           "web_fetchable": true
@@ -1284,19 +1284,19 @@
         {
           "id": "mhnvalpo",
           "name": "Museo de Historia Natural de Valparaíso",
-          "published_events": 8,
+          "published_events": 11,
           "direct_web": 8,
           "non_instagram_support": 0,
-          "instagram_only": 0,
+          "instagram_only": 3,
           "unknown": 0,
           "web_fetchable": true
         },
         {
           "id": "museo_fonck",
           "name": "Museo Fonck",
-          "published_events": 1,
+          "published_events": 0,
           "direct_web": 0,
-          "non_instagram_support": 1,
+          "non_instagram_support": 0,
           "instagram_only": 0,
           "unknown": 0,
           "web_fetchable": true
@@ -1304,10 +1304,10 @@
         {
           "id": "museo_palacio_rioja",
           "name": "Museo Palacio Rioja",
-          "published_events": 1,
+          "published_events": 2,
           "direct_web": 0,
           "non_instagram_support": 0,
-          "instagram_only": 1,
+          "instagram_only": 2,
           "unknown": 0,
           "web_fetchable": false
         },
@@ -1374,10 +1374,10 @@
         {
           "id": "teatro_la_peste",
           "name": "Teatro La Peste",
-          "published_events": 1,
+          "published_events": 2,
           "direct_web": 0,
           "non_instagram_support": 0,
-          "instagram_only": 1,
+          "instagram_only": 2,
           "unknown": 0,
           "web_fetchable": false
         },
@@ -1394,8 +1394,8 @@
         {
           "id": "teatro_municipal_vina",
           "name": "Teatro Municipal de Viña del Mar",
-          "published_events": 8,
-          "direct_web": 7,
+          "published_events": 7,
+          "direct_web": 6,
           "non_instagram_support": 0,
           "instagram_only": 1,
           "unknown": 0,
@@ -1414,10 +1414,10 @@
         {
           "id": "trotamundosvalpo",
           "name": "Trotamundos Valparaíso",
-          "published_events": 20,
+          "published_events": 18,
           "direct_web": 0,
-          "non_instagram_support": 19,
-          "instagram_only": 1,
+          "non_instagram_support": 18,
+          "instagram_only": 0,
           "unknown": 0,
           "web_fetchable": false
         },
@@ -1434,10 +1434,10 @@
         {
           "id": "valpocultura",
           "name": "Valpo Cultura",
-          "published_events": 10,
-          "direct_web": 7,
+          "published_events": 8,
+          "direct_web": 3,
           "non_instagram_support": 0,
-          "instagram_only": 3,
+          "instagram_only": 5,
           "unknown": 0,
           "web_fetchable": true
         }
@@ -2122,7 +2122,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-18",
+      "last_seen": "2026-08-20",
       "latest_evidence": "instagram_only"
     },
     "cae4e21b00b78f48405f": {
@@ -2142,7 +2142,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-18",
+      "last_seen": "2026-08-20",
       "latest_evidence": "instagram_only"
     },
     "f5bc913563a1d19379d8": {
@@ -2212,7 +2212,7 @@
       "first_seen": "2026-08-17",
       "first_instagram_only_seen": "2026-08-17",
       "first_non_instagram_supported": null,
-      "last_seen": "2026-08-18",
+      "last_seen": "2026-08-20",
       "latest_evidence": "instagram_only"
     },
     "430bbc1543c87477ed65": {
@@ -2954,6 +2954,296 @@
       "first_non_instagram_supported": "2026-08-20",
       "last_seen": "2026-08-20",
       "latest_evidence": "non_instagram_support"
+    },
+    "198a5cb70648f6b1d502": {
+      "source_id": "culturasvina",
+      "title": "Exhibición temporal // Mientras tanto",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "101106a072b8fae34744": {
+      "source_id": "valpocultura",
+      "title": "Galería Municipal de Arte de Valparaíso",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "3c867ffb624c4ee9b44c": {
+      "source_id": "mhnvalpo",
+      "title": "Cráneos, esenciales para la vida",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "286bf35d73addfa42502": {
+      "source_id": "mhnvalpo",
+      "title": "Insectos Imaginarios",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "0cfa37e5e3d4924d14c6": {
+      "source_id": "mhnvalpo",
+      "title": "Vida v/s muerte, el costo del tráfico ilícito",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "26f83d61b70667b017f5": {
+      "source_id": "mhnvalpo",
+      "title": "Exposición “Micromundos, ciencia y arte en tus manos”",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "aafc410880b99cb0c5c5": {
+      "source_id": "centro_extension_duoc_valpo",
+      "title": "Ciclo de cine: Wall-E",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "689a9e0646fefcd61d6e": {
+      "source_id": "museo_palacio_rioja",
+      "title": "Fortalece tus herramientas para la gestión cultural",
+      "event_date": "2026-08-20",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "d37ce117910d7a49d0f9": {
+      "source_id": "culturasvina",
+      "title": "Exposición // Horario de verano: Memorias fuera de temporada",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "c8ea4bbddc9152839bc8": {
+      "source_id": "culturasvina",
+      "title": "Exposición temporal // A veces un mar dulce",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "83f4ebf5872422b52b3d": {
+      "source_id": "culturasvina",
+      "title": "Exposición temporal // Tàpies, colección del grabador Barbara",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "121d7ce11b96fde2db59": {
+      "source_id": "culturasvina",
+      "title": "Exposición transitoria // “Entre mareas”",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "d2e779c21897a722970b": {
+      "source_id": "centro_extension_duoc_valpo",
+      "title": "Festival de Danzas Árabes: Cairo Stars",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "8976f17be502375d9a35": {
+      "source_id": "centro_extension_duoc_valpo",
+      "title": "Ciclo de cine: Wall-E",
+      "event_date": "2026-08-21",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "33fc9e55613cf2dd1467": {
+      "source_id": "pcdv",
+      "title": "Exposición \"Ira, Esperanza, Frustración\"",
+      "event_date": "2026-08-22",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "direct_web"
+    },
+    "59dbdfb5149fba3f38a7": {
+      "source_id": "centro_extension_duoc_valpo",
+      "title": "Cuentacuento Musicalizado: Los Bunkers, en un lugar muy cercano",
+      "event_date": "2026-08-22",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "48faf1dbac2be312ac37": {
+      "source_id": "centro_extension_duoc_valpo",
+      "title": "Obra Teatro Musical - Nemesio Pelao: ¿Qué es lo que te ha pasao?",
+      "event_date": "2026-08-22",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "fa10a9ee832738adc5fa": {
+      "source_id": "cultura_pucv",
+      "title": "Taller de Liderazgo Prosocial para Agentes de Cambio",
+      "event_date": "2026-08-27",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "9c675a630be66529b13f": {
+      "source_id": "cultura_pucv",
+      "title": "IMA PUCV organizará Math Rocks Fest Chile en Valparaíso",
+      "event_date": "2026-08-28",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "5079cc7c1cf98af833bc": {
+      "source_id": "cultura_pucv",
+      "title": "Universidad celebrará 4° edición de Festival de las Ciencias FECI Placilla",
+      "event_date": "2026-10-07",
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": null,
+      "first_non_instagram_supported": "2026-08-20",
+      "last_seen": "2026-08-20",
+      "latest_evidence": "non_instagram_support"
+    },
+    "96eb1586492b72dec570": {
+      "source_id": "teatro_la_peste",
+      "title": "AGOSTO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "2dc2c687d192dc6d1b16": {
+      "source_id": "mhnvalpo",
+      "title": "#educación #museos #patrimonio #conocerparacuidar",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "36e833f65b65cbb4f398": {
+      "source_id": "mhnvalpo",
+      "title": "Envía tu foto hasta el: 24/08",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "66dc70db3337ab65b1fc": {
+      "source_id": "mhnvalpo",
+      "title": "La historia se desarrolla en tres partes:",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "56353e0e511b981de1b8": {
+      "source_id": "valpocultura",
+      "title": "¿Quieres postular a los Fondos de Cultura 2027 y necesitas nuestra carta de apoyo?",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "2c6c84dde13bcd7cd92d": {
+      "source_id": "valpocultura",
+      "title": "Reforzamiento estructural y conservación del inmueble.",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "011477fe405d25d7460f": {
+      "source_id": "cinearte_vina",
+      "title": "¿Te sumas?",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "80ecc1dff6a50c0f8910": {
+      "source_id": "teatro_municipal_vina",
+      "title": "Un Año de Cultura y Reencuentro en el Teatro Municipal de Viña del Mar",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
+    },
+    "4066083200f19283f163": {
+      "source_id": "centro_extension_duoc_valpo",
+      "title": "¿Y si miramos las películas de Miyazaki con otros ojos?",
+      "event_date": null,
+      "first_seen": "2026-08-20",
+      "first_instagram_only_seen": "2026-08-20",
+      "first_non_instagram_supported": null,
+      "last_seen": "2026-08-20",
+      "latest_evidence": "instagram_only"
     }
   },
   "recommendations": [
@@ -3023,11 +3313,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": false,
-      "distinct_events_observed": 1,
-      "ever_instagram_only": 1,
+      "distinct_events_observed": 7,
+      "ever_instagram_only": 2,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 1,
-      "current_unresolved_instagram_only": 1,
+      "historical_instagram_only_without_alternative": 2,
+      "current_unresolved_instagram_only": 2,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3038,11 +3328,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": true,
-      "distinct_events_observed": 29,
-      "ever_instagram_only": 0,
+      "distinct_events_observed": 30,
+      "ever_instagram_only": 1,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 0,
-      "current_unresolved_instagram_only": 0,
+      "historical_instagram_only_without_alternative": 1,
+      "current_unresolved_instagram_only": 1,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3068,7 +3358,7 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": false,
-      "distinct_events_observed": 1,
+      "distinct_events_observed": 4,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -3087,7 +3377,7 @@
       "ever_instagram_only": 2,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 2,
-      "current_unresolved_instagram_only": 1,
+      "current_unresolved_instagram_only": 2,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3098,11 +3388,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": true,
-      "distinct_events_observed": 19,
+      "distinct_events_observed": 24,
       "ever_instagram_only": 3,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 3,
-      "current_unresolved_instagram_only": 2,
+      "current_unresolved_instagram_only": 3,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3248,11 +3538,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": true,
-      "distinct_events_observed": 12,
-      "ever_instagram_only": 0,
+      "distinct_events_observed": 19,
+      "ever_instagram_only": 3,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 0,
-      "current_unresolved_instagram_only": 0,
+      "historical_instagram_only_without_alternative": 3,
+      "current_unresolved_instagram_only": 3,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3278,11 +3568,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": false,
-      "distinct_events_observed": 3,
-      "ever_instagram_only": 3,
+      "distinct_events_observed": 4,
+      "ever_instagram_only": 4,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 3,
-      "current_unresolved_instagram_only": 1,
+      "historical_instagram_only_without_alternative": 4,
+      "current_unresolved_instagram_only": 3,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3308,7 +3598,7 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": true,
-      "distinct_events_observed": 4,
+      "distinct_events_observed": 5,
       "ever_instagram_only": 0,
       "instagram_lead_cases": 0,
       "historical_instagram_only_without_alternative": 0,
@@ -3383,11 +3673,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": false,
-      "distinct_events_observed": 1,
-      "ever_instagram_only": 1,
+      "distinct_events_observed": 2,
+      "ever_instagram_only": 2,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 1,
-      "current_unresolved_instagram_only": 1,
+      "historical_instagram_only_without_alternative": 2,
+      "current_unresolved_instagram_only": 2,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3413,11 +3703,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": true,
-      "distinct_events_observed": 12,
-      "ever_instagram_only": 5,
+      "distinct_events_observed": 13,
+      "ever_instagram_only": 6,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 5,
-      "current_unresolved_instagram_only": 1,
+      "historical_instagram_only_without_alternative": 6,
+      "current_unresolved_instagram_only": 2,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
@@ -3473,11 +3763,11 @@
       "observed_days": 4,
       "fresh_instagram_snapshots_observed": 2,
       "web_fetchable": true,
-      "distinct_events_observed": 12,
-      "ever_instagram_only": 4,
+      "distinct_events_observed": 15,
+      "ever_instagram_only": 7,
       "instagram_lead_cases": 0,
-      "historical_instagram_only_without_alternative": 4,
-      "current_unresolved_instagram_only": 3,
+      "historical_instagram_only_without_alternative": 7,
+      "current_unresolved_instagram_only": 6,
       "current_unknown": 0,
       "recommendation": "study_in_progress",
       "reason": "Esperar al menos 28 días de observación antes de reducir Instagram."
