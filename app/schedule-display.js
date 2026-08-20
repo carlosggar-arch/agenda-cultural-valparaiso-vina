@@ -50,7 +50,18 @@ function stripMediaControls(root = document) {
   });
 }
 
+function registrationStatusForDisplay(event) {
+  const advisory = String(event?.public_status?.advisory_text || "").replace(/\s+/g, " ").trim();
+  if (event?.public_status?.sold_out === true || /plazas? agotadas?/i.test(advisory)) return "Plazas agotadas";
+  if (event?.public_status?.cancelled === true) return "Inscripción cerrada";
+  if (event?.public_status?.registration_open === true) return "Inscripción abierta";
+  if (/inscripci[oó]n cerrada|plazo cerrado/i.test(advisory)) return "Inscripción cerrada";
+  if (/inscripci[oó]n abierta|plazas? disponibles?/i.test(advisory)) return "Inscripción abierta";
+  return "Consulta inscripción y plazas";
+}
+
 function scheduleForDisplay(event) {
+  if (event?.event_type === "registration_period") return registrationStatusForDisplay(event);
   const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
   if (!schedule) return "Horario por confirmar";
 
