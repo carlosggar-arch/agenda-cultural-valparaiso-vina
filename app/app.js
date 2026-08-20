@@ -49,11 +49,51 @@ if (IS_GIJON) {
   );
 }
 
+function placeSourcesButtonInFooter() {
+  const footer = document.querySelector("body > footer");
+  const button = footer?.querySelector("[data-sources-toggle]");
+  if (!footer || !button) return;
+
+  const version = footer.querySelector("[data-app-version]");
+  if (version && button.nextElementSibling !== version) footer.insertBefore(button, version);
+  footer.classList.add("vivamos-footer--with-sources");
+
+  const styleId = "vivamos-footer-sources-layout";
+  if (document.getElementById(styleId)) return;
+  const style = document.createElement("style");
+  style.id = styleId;
+  style.textContent = `
+    .vivamos-footer.vivamos-footer--with-sources {
+      grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+    }
+    @media (max-width: 900px) {
+      .vivamos-footer.vivamos-footer--with-sources {
+        grid-template-columns: 1fr auto;
+      }
+      .vivamos-footer.vivamos-footer--with-sources .sources-toggle {
+        grid-column: 1;
+        width: max-content;
+      }
+    }
+  `;
+  document.head.append(style);
+}
+
 async function loadOptionalEnhancements() {
   const results = await Promise.allSettled(OPTIONAL_MODULES.map((module) => import(module)));
   results.forEach((result, index) => {
     if (result.status === "rejected") console.warn(`¡Vivamos!: mejora opcional omitida (${OPTIONAL_MODULES[index]})`, result.reason);
   });
+
+  // sources-toggle used to be part of the public app shell. Load it only after
+  // footer-credit has finished rebuilding the footer, otherwise replaceChildren()
+  // can remove the button depending on module timing.
+  try {
+    await import("./sources-toggle.js");
+    placeSourcesButtonInFooter();
+  } catch (error) {
+    console.warn("¡Vivamos!: acceso a fuentes omitido", error);
+  }
 }
 
 await coreReady;
