@@ -104,15 +104,29 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
     const config = registry.byId[cityId];
     if (!config) throw new Error(`Unknown city for visual parity: ${{cityId}}`);
 
-    // Use the same normalized data pipeline as production, including supplements,
-    // corrections and venue-alias normalization. Only after normalization do we
-    // isolate the two real museum venues, so the test stays fast without becoming
-    // a synthetic renderer fixture.
+    // Use the same normalized production data for titles, venue identity, facts,
+    // categories and opening-hours metadata. The overlap rule itself is protected
+    // independently by exhibition-group-core.test.mjs, so visual parity uses a
+    // deterministic shared date window instead of depending on today's programme.
     const normalized = await loadAgendaDataset(config);
-    const targetEvents = normalized.dataset.events
+    const realTargetEvents = normalized.dataset.events
       .filter((event) => exhibitionLike(event))
-      .filter((event) => fold(event?.location?.venue).includes(fold(targetNeedle)))
-      .map((event) => ({{ ...event, image: {{}} }}));
+      .filter((event) => fold(event?.location?.venue).includes(fold(targetNeedle)));
+    if (realTargetEvents.length < 2) {{
+      throw new Error(`Visual parity needs at least two real exhibition records for ${{expectedLabel}}; found ${{realTargetEvents.length}}`);
+    }}
+    const targetEvents = realTargetEvents.map((event) => ({{
+      ...event,
+      image: {{}},
+      schedule: {{
+        ...(event.schedule || {{}}),
+        mode: "multi_day",
+        start: "2099-08-20",
+        end: "2099-09-20",
+        occurrences: [],
+        display_text: "20-08-2099 – 20-09-2099",
+      }},
+    }}));
 
     const grid = document.querySelector("[data-dated-grid]");
     for (const event of targetEvents) {{
