@@ -1,5 +1,6 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";
-import "./root-combined-filters.js?v=20260817-root-search";
+import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-merge";
+import "./root-combined-filters.js?v=20260820-category-ui";
 // Plan-ahead remains available for future transversal use, but is intentionally not loaded on the home page.
 // Legacy contract marker: ./plan-ahead-web.js?v=20260817
 import "./favorites-web.js?v=20260817";
@@ -29,13 +30,22 @@ const CATEGORY_SYMBOLS = Object.freeze({
   cine: "▣",
   teatro: "◒",
   exposiciones: "◇",
-  museos: "▥",
   "cursos-talleres": "✦",
-  deportes: "●",
-  gastronomia: "✺",
-  ferias: "◆",
-  "naturaleza-montana": "⌁",
+  "naturaleza-deportes": "●",
+  "ferias-gastronomia": "✺",
+  otros: "◆",
 });
+
+const CATEGORY_PRIORITY = [
+  "musica",
+  "cine",
+  "exposiciones",
+  "cursos-talleres",
+  "teatro",
+  "naturaleza-deportes",
+  "ferias-gastronomia",
+  "otros",
+];
 
 const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
 
@@ -53,6 +63,30 @@ function installMediaStyles() {
   installStylesheet(PERMALINK_STYLESHEET, "data-event-permalink-styles");
 }
 
+function installHomeLayoutOverrides() {
+  if (document.querySelector("style[data-root-compact-layout]")) return;
+  const style = document.createElement("style");
+  style.dataset.rootCompactLayout = "true";
+  style.textContent = `
+    #destacados,
+    #categorias,
+    #explorar .explore-heading,
+    #explorar .section-tabs {
+      display: none !important;
+    }
+    .category-section {
+      padding-bottom: .65rem !important;
+    }
+    .category-section + .primary-navigation {
+      margin-top: 0 !important;
+    }
+    #explorar {
+      padding-top: .7rem !important;
+    }
+  `;
+  document.head.append(style);
+}
+
 function placePrimaryNavigationAfterCategories() {
   const navigation = document.querySelector(".primary-navigation");
   const categories = document.querySelector(".category-section");
@@ -60,6 +94,126 @@ function placePrimaryNavigationAfterCategories() {
   if (categories.nextElementSibling !== navigation) categories.after(navigation);
   navigation.dataset.homePosition = "after-categories";
   return true;
+}
+
+function publicEvent(event) {
+  const categories = rootEventPublicCategories(event);
+  return {
+    ...event,
+    categories,
+    primary_category: categories[0] || event?.primary_category,
+  };
+}
+
+function publicCategoryCatalog(events) {
+  const counts = new Map();
+  for (const event of events) {
+    for (const category of rootEventPublicCategories(event)) {
+      const current = counts.get(category.id) || { ...category, count: 0 };
+      current.count += 1;
+      counts.set(category.id, current);
+    }
+  }
+  return [...counts.values()].sort((a, b) => {
+    const ai = CATEGORY_PRIORITY.indexOf(a.id);
+    const bi = CATEGORY_PRIORITY.indexOf(b.id);
+    if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    return b.count - a.count || a.label.localeCompare(b.label, "es-CL");
+  });
+}
+
+function canonicalRequestedCategory(value) {
+  const id = String(value || "").trim();
+  if (id === "museos") return "exposiciones";
+  if (["ferias", "gastronomia"].includes(id)) return "ferias-gastronomia";
+  if (["naturaleza", "naturaleza-montana", "deportes"].includes(id)) return "naturaleza-deportes";
+  if (id === "cultura") return "";
+  return id;
+}
+
+function installPublicCategoryUi(sourceEvents) {
+  const shortcuts = document.querySelector("[data-category-shortcuts]");
+  const existingTop = document.querySelector("[data-top-category]");
+  if (!shortcuts || !existingTop) return null;
+
+  const catalog = publicCategoryCatalog(sourceEvents);
+  const categoriesById = new Map(catalog.map((category) => [category.id, category]));
+  let selected = canonicalRequestedCategory(
+    new URL(location.href).searchParams.get("cat")
+      || new URL(location.href).searchParams.get("categoria")
+      || "",
+  );
+  if (!categoriesById.has(selected)) selected = "";
+
+  let top = existingTop;
+  if (top.dataset.publicCategoryControl !== "true") {
+    const replacement = top.cloneNode(false);
+    replacement.dataset.publicCategoryControl = "true";
+    top.replaceWith(replacement);
+    top = replacement;
+  }
+
+  function populateTop() {
+    top.replaceChildren();
+    const all = document.createElement("option");
+    all.value = "";
+    all.textContent = "Todas las categorías";
+    top.append(all);
+    for (const category of catalog) {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.label;
+      top.append(option);
+    }
+    top.value = selected;
+  }
+
+  function updatePressedState() {
+    shortcuts.querySelectorAll("[data-public-category]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.publicCategory === selected));
+    });
+    top.value = selected;
+  }
+
+  function applySelection(next) {
+    selected = categoriesById.has(next) ? next : "";
+    updatePressedState();
+    globalThis.__VIVAMOS_ROOT_FILTERS__?.setCategories(selected ? [selected] : []);
+  }
+
+  function renderShortcuts() {
+    shortcuts.replaceChildren();
+    for (const category of catalog.slice(0, 10)) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "category-shortcut";
+      button.dataset.categoryId = category.id;
+      button.dataset.publicCategory = category.id;
+      button.setAttribute("aria-pressed", String(category.id === selected));
+
+      const symbol = document.createElement("span");
+      symbol.className = "category-symbol";
+      symbol.textContent = CATEGORY_SYMBOLS[category.id] || "◆";
+      const label = document.createElement("strong");
+      label.textContent = category.label;
+      const count = document.createElement("small");
+      count.textContent = `${category.count} ${category.count === 1 ? "actividad" : "actividades"}`;
+      button.append(symbol, label, count);
+      button.addEventListener("click", () => applySelection(selected === category.id ? "" : category.id));
+      shortcuts.append(button);
+    }
+  }
+
+  populateTop();
+  renderShortcuts();
+  top.addEventListener("change", () => applySelection(top.value));
+
+  return {
+    sync() {
+      if (!shortcuts.querySelector("[data-public-category]")) renderShortcuts();
+      updatePressedState();
+    },
+  };
 }
 
 function setTextIfChanged(node, value) {
@@ -116,11 +270,11 @@ function isEditorialSocialFalsePositive(event) {
 }
 
 function categoryId(event) {
-  return event?.primary_category?.id || event?.categories?.[0]?.id || "cultura";
+  return event?.primary_category?.id || event?.categories?.[0]?.id || "otros";
 }
 
 function categoryLabel(event) {
-  return event?.primary_category?.label || event?.categories?.[0]?.label || "Actividad cultural";
+  return event?.primary_category?.label || event?.categories?.[0]?.label || "Otros panoramas";
 }
 
 function eventPageHref(event) {
@@ -285,6 +439,7 @@ function enhanceDetail(event) {
 }
 
 async function start() {
+  installHomeLayoutOverrides();
   placePrimaryNavigationAfterCategories();
   installMediaStyles();
   let payload;
@@ -295,16 +450,19 @@ async function start() {
   } catch { return; }
 
   const sourceEvents = payload.events || [];
+  const publicEvents = sourceEvents.map(publicEvent);
+  const categoryController = installPublicCategoryUi(sourceEvents);
   const rejectedIds = new Set(
     sourceEvents.filter(isEditorialSocialFalsePositive).map((event) => String(event.id)),
   );
   const events = new Map(
-    sourceEvents
+    publicEvents
       .filter((event) => !rejectedIds.has(String(event.id)))
       .map((event) => [String(event.id), event]),
   );
 
   const apply = () => {
+    categoryController?.sync();
     document.querySelectorAll(".event-card[data-event-id]").forEach((card) => {
       const id = String(card.dataset.eventId || "");
       if (rejectedIds.has(id)) {
