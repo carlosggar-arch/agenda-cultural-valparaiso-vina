@@ -16,35 +16,21 @@ jobs:
       PREVIEW_BASE: https://cf-preview-recuperacion-ui-2.vivamos.pages.dev
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Wait for isolated Cloudflare branch deployment
+      - name: Verify isolated Cloudflare deployment and recovered runtime
         shell: bash
         run: |
           set -euo pipefail
           for attempt in $(seq 1 30); do
-            code="$(curl -L -sS -o /tmp/app.html -w '%{http_code}' --max-time 10 \
-              -H 'Cache-Control: no-cache' \
-              "$PREVIEW_BASE/app/?city=valparaiso&when=todos&visualcheck=$RANDOM" || true)"
-            if [[ "$code" == "200" ]] && grep -qi '<html' /tmp/app.html; then
-              echo "CLOUDFLARE_BRANCH_PREVIEW_READY attempt=$attempt"
-              exit 0
-            fi
-            echo "Waiting for Cloudflare branch preview (attempt=$attempt, HTTP=$code)"
+            code="$(curl -L -sS -o /tmp/app.html -w '%{http_code}' --max-time 10 -H 'Cache-Control: no-cache' "$PREVIEW_BASE/app/?city=valparaiso&when=todos&visualcheck=$RANDOM" || true)"
+            if [[ "$code" == "200" ]] && grep -qi '<html' /tmp/app.html; then break; fi
+            [[ "$attempt" == "30" ]] && { echo "Cloudflare branch preview unavailable" >&2; exit 1; }
             sleep 8
           done
-          echo "Cloudflare branch preview did not become reachable: $PREVIEW_BASE" >&2
-          exit 1
-
-      - name: Verify recovered runtime reached Cloudflare
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl -L -fsS -H 'Cache-Control: no-cache' \
-            "$PREVIEW_BASE/app/app.js?visualcheck=$RANDOM" -o /tmp/app.js
+          curl -L -fsS -H 'Cache-Control: no-cache' "$PREVIEW_BASE/app/app.js?visualcheck=$RANDOM" -o /tmp/app.js
           grep -q 'exhibition-hours.js?v=20260820-hours4' /tmp/app.js
           grep -q 'public-presentation-guard.js?v=20260820-text1' /tmp/app.js
           echo "CLOUDFLARE_RECOVERY_RUNTIME_OK"
@@ -58,128 +44,80 @@ jobs:
           set -euo pipefail
           mkdir -p visual-artifacts
           python - <<'PY'
-          from __future__ import annotations
-
-          import json
-          import os
-          import shutil
-          import time
+          import json, os, shutil, time
           from pathlib import Path
-
           from selenium import webdriver
           from selenium.webdriver.chrome.options import Options
           from selenium.webdriver.support.ui import WebDriverWait
 
           base = os.environ["PREVIEW_BASE"]
           out = Path("visual-artifacts")
-          out.mkdir(exist_ok=True)
-
-          chrome = next((shutil.which(name) for name in (
-              "google-chrome-stable", "google-chrome", "chromium", "chromium-browser"
-          ) if shutil.which(name)), None)
+          chrome = next((shutil.which(n) for n in ("google-chrome-stable","google-chrome","chromium","chromium-browser") if shutil.which(n)), None)
           if not chrome:
               raise SystemExit("No Chrome/Chromium binary available")
 
-          options = Options()
-          options.binary_location = chrome
-          for arg in (
-              "--headless=new", "--no-sandbox", "--disable-gpu",
-              "--disable-dev-shm-usage", "--window-size=1440,1200",
-              "--disable-extensions", "--no-first-run", "--no-default-browser-check",
-          ):
+          options = Options(); options.binary_location = chrome
+          for arg in ("--headless=new","--no-sandbox","--disable-gpu","--disable-dev-shm-usage","--window-size=1440,1200","--disable-extensions","--no-first-run","--no-default-browser-check"):
               options.add_argument(arg)
 
           driver = webdriver.Chrome(options=options)
-          diagnostics = {}
+          d = {}
           try:
-              url = f"{base}/app/?city=valparaiso&when=todos&visualcheck={int(time.time())}"
-              driver.get(url)
-              wait = WebDriverWait(driver, 30)
-              wait.until(lambda d: d.execute_script("return document.querySelectorAll('.event-card').length") > 0)
+              driver.get(f"{base}/app/?city=valparaiso&when=todos&visualcheck={int(time.time())}")
+              WebDriverWait(driver, 30).until(lambda x: x.execute_script("return document.querySelectorAll('.event-card').length") > 0)
               time.sleep(4)
 
-              public = driver.execute_script("""
-                const cards = [...document.querySelectorAll('.event-card[data-event-id]')];
-                return {
-                  count: cards.length,
-                  texts: cards.map((card) => String(card.innerText || card.textContent || '')),
-                };
-              """)
-              public_text = "\n".join(public["texts"])
-              monthly_present = "Destino Valparaíso" in public_text and "Agosto 2026" in public_text
-              diagnostics["public_event_card_count"] = public["count"]
-              diagnostics["monthly_agosto_as_event"] = monthly_present
-              if monthly_present:
+              d["public_event_card_count"] = int(driver.execute_script("return document.querySelectorAll('.event-card[data-event-id]').length"))
+              d["monthly_agosto_as_event"] = bool(driver.execute_script("""
+                return [...document.querySelectorAll('.event-card[data-event-id]')].some((card) => {
+                  const t = String(card.textContent || '');
+                  return t.includes('Destino Valparaíso') && t.includes('Agosto 2026');
+                });
+              """))
+              if d["monthly_agosto_as_event"]:
                   raise AssertionError("Destino Valparaíso – Agosto 2026 reappeared as a normal event card")
 
               rioja = driver.execute_script("""
                 return [...document.querySelectorAll('.exhibition-venue-card, .exhibition-group-card')]
-                  .find((node) => String(node.innerText || node.textContent || '').includes('Museo Palacio Rioja')) || null;
+                  .find((node) => String(node.textContent || '').includes('Museo Palacio Rioja')) || null;
               """)
               if rioja is None:
                   raise AssertionError("Grouped Museo Palacio Rioja card was not found")
               driver.execute_script("arguments[0].scrollIntoView({block:'center'});", rioja)
-              time.sleep(1)
-
               driver.execute_script("""
-                const card = arguments[0];
-                const disclosure = [...card.querySelectorAll('summary, button')]
-                  .find((node) => /(?:ver\s+)?3\s+exposiciones/i.test(String(node.innerText || node.textContent || '')));
-                if (!disclosure) return;
-                const details = disclosure.closest('details');
-                const collapsed = disclosure.getAttribute('aria-expanded') === 'false' || (details && !details.open);
-                if (collapsed) disclosure.click();
+                const card=arguments[0];
+                const e=[...card.querySelectorAll('summary,button')].find((n)=>String(n.textContent||'').includes('3 exposiciones'));
+                if (e) { const details=e.closest('details'); if (e.getAttribute('aria-expanded')==='false' || (details && !details.open)) e.click(); }
               """, rioja)
               time.sleep(1)
 
-              state = driver.execute_script("""
-                const card = arguments[0];
-                const hours = [...card.querySelectorAll('.exhibition-venue-hours')];
-                const rows = [...card.querySelectorAll('.grouped-exhibition-item')];
-                const sourceTotal = document.querySelector('[data-sources-total]');
-                return {
-                  hoursCount: hours.length,
-                  hoursText: hours.map((node) => String(node.innerText || node.textContent || '').trim()),
-                  rows: rows.map((row) => ({
-                    text: String(row.innerText || row.textContent || '').trim(),
-                    clientHeight: row.clientHeight,
-                    scrollHeight: row.scrollHeight,
-                    clipped: row.scrollHeight > row.clientHeight + 2,
-                    rectHeight: row.getBoundingClientRect().height,
-                  })),
-                  sourceTotal: sourceTotal ? String(sourceTotal.innerText || sourceTotal.textContent || '').trim() : null,
-                };
-              """, rioja)
+              d["rioja_venue_hours_rows"] = int(driver.execute_script("return arguments[0].querySelectorAll('.exhibition-venue-hours').length", rioja))
+              d["rioja_subcard_count"] = int(driver.execute_script("return arguments[0].querySelectorAll('.grouped-exhibition-item').length", rioja))
+              d["rioja_clipped_rows"] = int(driver.execute_script("""
+                return [...arguments[0].querySelectorAll('.grouped-exhibition-item')]
+                  .filter((row)=>row.scrollHeight > row.clientHeight + 2).length;
+              """, rioja))
+              d["sources_total"] = int(driver.execute_script("""
+                const n=document.querySelector('[data-sources-total]');
+                const m=String(n?.textContent||'').match(/\d+/); return m ? Number(m[0]) : 0;
+              """))
 
-              diagnostics["rioja_venue_hours_rows"] = state["hoursCount"]
-              diagnostics["rioja_venue_hours_text"] = state["hoursText"]
-              diagnostics["rioja_subcard_count"] = len(state["rows"])
-              diagnostics["rioja_rows"] = state["rows"]
-              diagnostics["rioja_clipped_rows"] = sum(1 for row in state["rows"] if row["clipped"])
-              diagnostics["sources_total"] = state["sourceTotal"]
-
-              if state["hoursCount"] != 1:
-                  raise AssertionError(f"Palacio Rioja has {state['hoursCount']} venue-hours rows; expected exactly 1")
-              if len(state["rows"]) < 3:
-                  raise AssertionError(f"Expected 3 grouped Rioja exhibition rows, found {len(state['rows'])}")
-              clipped = [row for row in state["rows"] if row["clipped"]]
-              if clipped:
-                  raise AssertionError(f"Grouped Rioja subcards are still clipped: {clipped}")
+              if d["rioja_venue_hours_rows"] != 1:
+                  raise AssertionError(f"Palacio Rioja has {d['rioja_venue_hours_rows']} venue-hours rows; expected 1")
+              if d["rioja_subcard_count"] < 3:
+                  raise AssertionError(f"Palacio Rioja has only {d['rioja_subcard_count']} grouped exhibition rows")
+              if d["rioja_clipped_rows"] != 0:
+                  raise AssertionError(f"Palacio Rioja still has {d['rioja_clipped_rows']} clipped subcards")
 
               rioja.screenshot(str(out / "palacio-rioja-card.png"))
               driver.save_screenshot(str(out / "valparaiso-preview-page.png"))
-              diagnostics["url"] = driver.current_url
-              diagnostics["title"] = driver.title
-
               print("PALACIO_RIOJA_GROUP_FOUND")
               print("PALACIO_RIOJA_SINGLE_HOURS_OK")
               print("PALACIO_RIOJA_SUBCARDS_NOT_CLIPPED")
               print("DESTINO_VALPARAISO_MONTHLY_EVENT_ABSENT")
-              print("SOURCES_TOTAL", diagnostics["sources_total"])
+              print("SOURCES_TOTAL", d["sources_total"])
           finally:
-              (out / "diagnostics.json").write_text(
-                  json.dumps(diagnostics, ensure_ascii=False, indent=2), encoding="utf-8"
-              )
+              (out / "diagnostics.json").write_text(json.dumps(d, ensure_ascii=False, indent=2), encoding="utf-8")
               driver.quit()
           PY
 
