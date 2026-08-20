@@ -100,11 +100,33 @@ function detailDescription(event) {
   return text;
 }
 
+function isGijonOpenDataUrl(value) {
+  const safe = safeHttpUrl(value);
+  if (!safe) return false;
+  try {
+    return new URL(safe).hostname.toLocaleLowerCase("es") === "opendata.gijon.es";
+  } catch {
+    return false;
+  }
+}
+
 function isGijonOpenDataEvent(event, presentation) {
   const name = String(presentation?.sourceName || event?.source_name || "").toLocaleLowerCase("es");
   const source = safeHttpUrl(presentation?.sourceUrl || event?.source_url || event?.links?.source);
-  return (name.includes("open data") && name.includes("gij"))
-    || Boolean(source?.startsWith("https://opendata.gijon.es/"));
+  return (name.includes("open data") && name.includes("gij")) || isGijonOpenDataUrl(source);
+}
+
+function gijonCorroboratingSource(event, presentation) {
+  const candidates = [
+    [event?.links?.municipal_page, "Ayuntamiento de Gijón/Xixón — ficha específica"],
+    [presentation?.officialUrl, "Fuente oficial del evento"],
+    [event?.links?.official, "Fuente oficial del evento"],
+  ];
+  for (const [value, label] of candidates) {
+    const url = safeHttpUrl(value);
+    if (url && !isGijonOpenDataUrl(url)) return { url, label };
+  }
+  return null;
 }
 
 function currentCityId() {
@@ -239,22 +261,29 @@ export function openEventDetail(event, presentation = {}) {
   }
 
   const gijonOpenData = isGijonOpenDataEvent(event, presentation);
+  const corroborating = gijonOpenData ? gijonCorroboratingSource(event, presentation) : null;
   const extra = document.createElement("div");
   extra.className = "event-detail-extra";
   if (event?.organizer) addFact(extra, "Organiza", event.organizer, "•");
   if (event?.audience) addFact(extra, "Público", event.audience, "◎");
-  if (presentation.sourceName) addFact(extra, gijonOpenData ? "Datos oficiales" : "Fuente", presentation.sourceName, "✓");
+  if (gijonOpenData) {
+    addFact(extra, "Fuente mostrada", corroborating?.label || "Open Data municipal (último recurso)", "✓");
+  } else if (presentation.sourceName) {
+    addFact(extra, "Fuente", presentation.sourceName, "✓");
+  }
   if (extra.childElementCount) content.append(extra);
 
   if (gijonOpenData) {
     const provenance = document.createElement("section");
     provenance.className = "event-detail-description event-detail-provenance";
-    addText(provenance, "h3", "", "Información oficial disponible");
+    addText(provenance, "h3", "", "Verificación de la información");
     addText(
       provenance,
       "p",
       "",
-      "Esta ficha reproduce los datos oficiales publicados por Open Data del Ayuntamiento de Gijón/Xixón. Para evitar páginas municipales individuales que no muestran contenido, la Agenda ofrece directamente la inscripción cuando está disponible y conserva Open Data como referencia oficial.",
+      corroborating
+        ? "La actividad se detectó inicialmente mediante Open Data del Ayuntamiento de Gijón/Xixón, pero la fuente que se muestra al público es una ficha específica que corrobora la información del evento."
+        : "La actividad se detectó mediante Open Data del Ayuntamiento de Gijón/Xixón. No se encontró todavía otra ficha específica verificable; Open Data se conserva únicamente como último recurso.",
     );
     content.append(provenance);
   }
@@ -294,7 +323,8 @@ export function openEventDetail(event, presentation = {}) {
   }
 
   if (gijonOpenData) {
-    if (source) addExternalAction(actions, source, "Open Data oficial ↗");
+    if (corroborating) addExternalAction(actions, corroborating.url, "Fuente corroborante ↗");
+    else if (source) addExternalAction(actions, source, "Open Data — último recurso ↗");
   } else if (official) {
     addExternalAction(actions, official, "Fuente oficial ↗");
   } else if (source) {
