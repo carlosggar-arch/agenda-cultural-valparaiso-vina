@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import normalize_schedule_display as normalizer
 
 
@@ -131,6 +133,10 @@ def test_real_multiple_session_times_are_not_paired_without_timed_start() -> Non
     assert schedule["display_text"].endswith("11:30, 13:00, 18:30, 20:00")
 
 
+def test_relative_dataset_path_has_stable_repo_label() -> None:
+    assert normalizer.dataset_label(Path("agenda_web.json")) == "agenda_web.json"
+
+
 def main() -> None:
     test_gallery_flattened_hours_become_ranges()
     test_artequin_flattened_hours_become_ranges()
@@ -142,6 +148,7 @@ def main() -> None:
     test_all_day_sentinel_becomes_date_only()
     test_opening_hours_separate_from_event_range()
     test_real_multiple_session_times_are_not_paired_without_timed_start()
+    test_relative_dataset_path_has_stable_repo_label()
     print("SCHEDULE_PRESENTATION_NORMALIZER_TESTS_OK")
 
 
