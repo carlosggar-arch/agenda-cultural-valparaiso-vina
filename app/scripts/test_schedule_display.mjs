@@ -1,3 +1,4 @@
+import "../today-session-presentation.test.mjs";
 import assert from "node:assert/strict";
 import { compactScheduleDayLabel, formatSchedule } from "../../assets/event-schedule-display.mjs";
 
