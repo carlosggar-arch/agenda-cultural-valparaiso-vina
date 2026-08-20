@@ -113,6 +113,7 @@
     "./public-title-normalizer.mjs",
     "./pwa-header-64px.css",
     "./pwa.js",
+    "./registration-reminders.js",
     "./release-version.js",
     "./remove-like.js",
     "./render-lifecycle.js",
