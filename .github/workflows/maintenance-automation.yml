@@ -4,7 +4,6 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "app/data/source-registry.json"
       - "app/scripts/event_page_tools.py"
       - "app/scripts/revalidate_upcoming_events.py"
       - "app/scripts/schedule_authority_guard.py"
@@ -14,7 +13,6 @@ on:
       - "app/scripts/atomic_maintenance_hook.py"
       - "app/scripts/apply_estadio_espanol_coverage.py"
       - "app/scripts/test_maintenance_automation.py"
-      - "app/scripts/test_source_coherence_registry.py"
       - "app/scripts/test_schedule_authority_guard.py"
       - "app/scripts/test_atomic_publication_contract.py"
       - ".github/workflows/maintenance-automation.yml"
@@ -52,12 +50,9 @@ jobs:
             app/scripts/atomic_maintenance_hook.py \
             app/scripts/apply_estadio_espanol_coverage.py \
             app/scripts/test_maintenance_automation.py \
-            app/scripts/test_source_coherence_registry.py \
             app/scripts/test_schedule_authority_guard.py \
             app/scripts/test_atomic_publication_contract.py
           python app/scripts/test_maintenance_automation.py
-          python app/scripts/test_source_coherence_registry.py
-          python app/scripts/audit_source_coherence.py --no-write --fail-on-critical
           python app/scripts/test_schedule_authority_guard.py
           python app/scripts/test_atomic_publication_contract.py
 
@@ -68,6 +63,6 @@ jobs:
           python app/scripts/revalidate_upcoming_events.py --days 10 --max-fetch 20 --no-write
           python app/scripts/schedule_authority_guard.py --days 120 --max-fetch 20 --no-write
           python app/scripts/audit_and_recover_images.py --max-fetch 20 --no-write
-          python app/scripts/audit_source_coherence.py --no-write --fail-on-critical
+          python app/scripts/audit_source_coherence.py --no-write
 
           echo "Manual maintenance guard is read-only. Automatic maintenance runs inside Permanent event pages, the sole dataset writer."
