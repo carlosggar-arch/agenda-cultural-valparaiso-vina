@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import http.server
+import json
 import os
 import re
 import shutil
@@ -16,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__date_filter_test.html"
 STALE_EVENT_ID = "agenda_93e4dbf4da87420c93c629c6"
-GROUPED_CINEMA_ID = "agenda_cinema_80ddbf36d7706645c9cc"
+DATASET = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
 
 
 def chrome_binary() -> str:
@@ -108,6 +109,34 @@ def visible_direct_cards(dom: str) -> int:
     return sum(not is_hidden(tag) for tag in tags)
 
 
+def recurring_cinema_id_for_date(selected: str) -> str:
+    candidates: list[str] = []
+    for event in DATASET.get("events", []):
+        categories = {
+            str(category.get("id") or category.get("label") or "").strip().lower()
+            for category in (event.get("categories") or [])
+            if isinstance(category, dict)
+        }
+        primary = event.get("primary_category") or {}
+        categories.add(str(primary.get("id") or primary.get("label") or "").strip().lower())
+        if not ({"cine", "cinema"} & categories):
+            continue
+
+        schedule = event.get("schedule") or {}
+        occurrences = schedule.get("occurrences") or []
+        occurrence_dates = {
+            str(occurrence.get("start") or "")[:10]
+            for occurrence in occurrences
+            if isinstance(occurrence, dict) and occurrence.get("start")
+        }
+        if len(occurrences) >= 2 and selected in occurrence_dates and event.get("id"):
+            candidates.append(str(event["id"]))
+
+    if not candidates:
+        raise AssertionError(f"no current recurring cinema event covers {selected}")
+    return sorted(candidates)[0]
+
+
 def assert_selected_date(dom: str, selected: str) -> None:
     if 'data-vivamos-ready="true"' not in dom:
         raise AssertionError(f"core did not reach ready state for {selected}")
@@ -121,8 +150,9 @@ def assert_selected_date(dom: str, selected: str) -> None:
 
 
 def assert_grouped_cinema(dom: str, selected: str) -> None:
-    if is_hidden(card_tag(dom, GROUPED_CINEMA_ID)):
-        raise AssertionError(f"grouped cinema card disappeared for its occurrence on {selected}")
+    event_id = recurring_cinema_id_for_date(selected)
+    if is_hidden(card_tag(dom, event_id)):
+        raise AssertionError(f"grouped cinema card disappeared for its occurrence on {selected}: {event_id}")
 
 
 def main() -> None:
