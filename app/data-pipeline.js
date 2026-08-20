@@ -1,4 +1,5 @@
 import { mergeSupplementalPayload } from "./supplemental-events-fetch.js?v=20260819-pipeline1";
+import { normalizeAgendaPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
 import { applyEventDataCorrections } from "./event-data-corrections.js?v=20260819-pipeline1";
 import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-pipeline1";
 import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260820-pipeline2";
@@ -71,6 +72,9 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   diagnostics.push({ name: "base", status: "ok" });
 
   dataset = await withSupplemental(city, dataset, fetchImpl, diagnostics);
+  // Structural ingress boundary: no scraped/source HTML is allowed beyond this
+  // point. Every later normalizer and every renderer works with plain public text.
+  dataset = applyStage("public-text-sanitizer", normalizeAgendaPublicText, dataset, diagnostics);
   if (city.id === "valparaiso") {
     dataset = applyStage("event-data-corrections", applyEventDataCorrections, dataset, diagnostics);
   } else {
