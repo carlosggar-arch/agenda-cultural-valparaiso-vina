@@ -39,91 +39,28 @@ globalThis.fetch = async (input, init) => {
   return nativeFetch(input, init);
 };
 
-function installWebOnlyPresentationState() {
-  if (document.querySelector("style[data-root-web-state-fix]")) return;
-  const style = document.createElement("style");
-  style.dataset.rootWebStateFix = "true";
-  style.textContent = `
-    .hero-actions,
-    .hero-dots,
-    .hero-visual figcaption {
-      display: none !important;
-    }
-
-    .category-shortcut {
-      border-radius: .8rem;
-      padding: .45rem .35rem;
-      transition: background-color .16s ease, box-shadow .16s ease, transform .16s ease;
-    }
-
-    .category-shortcut[aria-pressed="true"] {
-      background: #eef8f7;
-      box-shadow: inset 0 0 0 2px var(--teal);
-    }
-
-    .category-shortcut[aria-pressed="true"] strong {
-      color: var(--navy);
-    }
-
-    .category-shortcut[aria-pressed="true"] .category-symbol {
-      box-shadow: 0 0 0 3px #fffdf8, 0 0 0 5px var(--teal);
-      transform: translateY(-1px);
-    }
-  `;
-  document.head.append(style);
-}
-
-function resultCount() {
-  const result = document.querySelector("[data-result-line]");
-  const match = String(result?.textContent || "").match(/^\s*(\d+)\s+actividades?\b/iu);
-  return match ? match[1] : null;
-}
-
-function forceCountParity() {
-  const total = document.querySelector("[data-total]");
-  const count = resultCount();
-  if (!total || count === null) return;
-  if (total.textContent !== count) total.textContent = count;
-}
-
 function installCountParity() {
+  const total = document.querySelector("[data-total]");
   const result = document.querySelector("[data-result-line]");
-  if (!result) return;
+  if (!total || !result) return;
 
-  let frame = 0;
+  let queued = false;
   const sync = () => {
-    if (frame) cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(() => {
-      frame = 0;
-      forceCountParity();
+    if (queued) return;
+    queued = true;
+    queueMicrotask(() => {
+      queued = false;
+      const match = String(result.textContent || "").match(/^\s*(\d+)\s+actividades?\b/iu);
+      if (match && total.textContent !== match[1]) total.textContent = match[1];
     });
   };
 
-  // Watch only the result text. The previous broad observer on document.body
-  // could create feedback loops with the WEB renderers and make the page hang.
   const observer = new MutationObserver(sync);
   observer.observe(result, { childList: true, subtree: true, characterData: true });
-
-  for (const eventName of ["click", "change", "input"]) {
-    document.addEventListener(eventName, () => {
-      sync();
-      setTimeout(forceCountParity, 80);
-      setTimeout(forceCountParity, 220);
-    }, true);
-  }
-
-  // Cover initial asynchronous renders without keeping a permanent polling loop.
-  let checks = 0;
-  const initialTimer = setInterval(() => {
-    forceCountParity();
-    checks += 1;
-    if (checks >= 20) clearInterval(initialTimer);
-  }, 250);
-
+  observer.observe(total, { childList: true, subtree: true, characterData: true });
   sync();
 }
 
 // La estética y el render siguen siendo exclusivamente los de la WEB.
 // Los scripts actuales de la WEB se cargan después de este adaptador desde index.html.
-installWebOnlyPresentationState();
 installCountParity();
