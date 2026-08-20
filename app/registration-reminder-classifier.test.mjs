@@ -45,6 +45,31 @@ const explicitEnrollment = formationEvent({
 });
 assert.equal(isRegistrationReminder(explicitEnrollment), true, "explicit enrollment periods must be separated structurally");
 
+const registrationProgram = formationEvent({
+  id: "fixture-registration-program",
+  title: "Programa municipal: inscripciones",
+  event_type: "program",
+  primary_category: { id: "cultura", label: "Cultura" },
+  categories: [{ id: "cultura", label: "Cultura" }],
+  description: "Plazos de inscripción para las actividades de verano.",
+  public_status: {},
+});
+assert.equal(isRegistrationReminder(registrationProgram), true, "administrative programmes whose content is the registration process must enter the reminder section");
+const normalizedProgram = normalizeFormationCycles({ events: [registrationProgram] }).events[0];
+assert.equal(normalizedProgram.event_type, "registration_period");
+assert.equal(normalizedProgram.editorial.original_event_type, "program");
+
+const culturalProgram = formationEvent({
+  id: "fixture-cultural-program",
+  title: "Festival municipal de verano",
+  event_type: "program",
+  primary_category: { id: "cultura", label: "Cultura" },
+  categories: [{ id: "cultura", label: "Cultura" }],
+  description: "Programación cultural de julio y agosto.",
+  public_status: {},
+});
+assert.equal(isRegistrationReminder(culturalProgram), false, "ordinary cultural programmes must remain programmes");
+
 const singleWorkshop = formationEvent({
   title: "Taller de grabado",
   description: "Requiere inscripción previa.",
