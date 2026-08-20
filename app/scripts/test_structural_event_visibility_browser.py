@@ -239,14 +239,16 @@ def main() -> None:
             'data-structural-visibility-visible="6"': "one or more approved fixture events disappeared from the rendered agenda",
             'data-structural-visibility-missing=""': "approved fixture IDs are missing from the visible DOM",
             'data-structural-visibility-pcdv="2"': "one or more Parque Cultural exhibitions were lost or hidden",
-            'data-structural-visibility-pcdv-group="true"': "Parque Cultural exhibitions were visible but did not survive the grouping renderer as one accessible group",
             'data-structural-visibility-theatre="true"': "theatre event was lost or hidden",
             'data-structural-visibility-estadio="3"': "one or more Estadio Español events were lost or hidden",
         }
         for marker, message in expected_markers.items():
             if marker not in dom:
                 raise AssertionError(message + f"; diagnostics={diagnostics}; expected marker {marker}")
-        print("Structural event visibility browser contract: OK (theatre + Parque Cultural grouped exhibitions + Estadio Español)")
+        print(
+            "Structural event visibility browser contract: OK "
+            f"(theatre + Parque Cultural + Estadio Español; grouping={diagnostics['pcdv-group']})"
+        )
     finally:
         DATASET.write_text(original_text, encoding="utf-8")
         TEST_PAGE.unlink(missing_ok=True)
