@@ -72,15 +72,17 @@ assert.match(shareQrCss, /data-installed-real-mosaic="true"[\s\S]*share-qr-butto
 assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*min-width:0!important/);
 assert.match(shareQrCss, /share-qr-button\[data-share-qr-open\][\s\S]*justify-self:stretch!important/);
 
+// Content modules have one runtime owner: app.js. pwa.js remains shell/UI only.
 assert.match(app, /community-source\.js\?v=20260818-feedback3/);
 assert.match(app, /participation-footer\.js\?v=20260819-feedback7/);
-assert.match(pwa, /community-source\.js\?v=20260818-feedback3/);
+assert.doesNotMatch(pwa, /["']\.\/community-source\.js/);
+assert.doesNotMatch(pwa, /["']\.\/participation-footer\.js/);
 assert.match(pwa, /remove-like\.js\?v=20260819-remove3/);
-assert.match(pwa, /participation-footer\.js\?v=20260819-feedback7/);
 assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(pwa, /mobile-action-strip-six\.js\?v=20260819-actions7/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
+// The service worker still caches the app-owned modules; caching is not runtime ownership.
 assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
 assert.match(worker, /participation-footer\.js/);
 assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
@@ -89,6 +91,6 @@ assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
 assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 136, "PWA release must include recovered v136 UI contract");
+assert.ok(Number(releaseMatch[1]) >= 162, "PWA release must include single-owner feedback runtime");
 
-console.log("Community feedback UI contract: shell-free proportional WEB strip + current six-action installed strip");
+console.log("Community feedback UI contract: single-owner content modules + current six-action installed strip");
