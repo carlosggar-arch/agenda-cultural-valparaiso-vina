@@ -1,8 +1,8 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v151 corrects Artequin's "El arte es natural" to its four official Friday sessions,
-  // preventing the workshop from appearing as a continuous daily "Hoy" event.
-  const RELEASE = 151;
+  // v152 moves the public share/install QR to vivamos.pages.dev while keeping
+  // the GitHub Pages and Cloudflare deployments on the same application code.
+  const RELEASE = 152;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 
   if (typeof window !== "undefined" && "serviceWorker" in navigator && navigator.serviceWorker.controller) {

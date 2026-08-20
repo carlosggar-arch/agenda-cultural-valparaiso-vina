@@ -1,6 +1,7 @@
-const SHARE_URL = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/?install=1";
+const SHARE_URL = "https://vivamos.pages.dev/app/?install=1";
 const SHARE_TITLE = "¡Vivamos!";
 const SHARE_TEXT = "Abre ¡Vivamos! en tu móvil e instala la aplicación para tener la agenda cultural a mano.";
+const SHARE_QR_ICON = "./icons/share-qr-app.svg?v=20260820-vivamos1";
 
 function installShareStyles() {
   if (document.querySelector('link[data-share-qr-styles]')) return;
@@ -24,7 +25,7 @@ function ensureShareButton() {
   button.dataset.shareQrOpen = "true";
   button.setAttribute("aria-label", "Compartir e instalar aplicación");
   button.title = "Compartir e instalar aplicación";
-  button.innerHTML = '<img src="./icons/share-qr-app.svg" width="20" height="20" alt="" aria-hidden="true">';
+  button.innerHTML = `<img src="${SHARE_QR_ICON}" width="20" height="20" alt="" aria-hidden="true">`;
 
   const citySwitch = headerActions.querySelector("[data-city-switch]");
   if (citySwitch) headerActions.insertBefore(button, citySwitch);
@@ -47,7 +48,7 @@ function ensureShareDialog() {
       <h2 id="share-qr-title">Instalar o compartir la aplicación</h2>
       <p>Escanea el código desde un móvil. Se abrirá ¡Vivamos! y aparecerá la opción de instalar la aplicación.</p>
       <div class="share-qr-preview">
-        <img src="./icons/share-qr-app.svg" alt="Código QR para abrir e instalar la aplicación ¡Vivamos!" width="220" height="220">
+        <img src="${SHARE_QR_ICON}" alt="Código QR para abrir e instalar la aplicación ¡Vivamos!" width="220" height="220">
       </div>
       <p class="share-qr-link">${SHARE_URL}</p>
       <div class="share-qr-actions">
