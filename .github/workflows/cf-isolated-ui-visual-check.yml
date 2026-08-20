@@ -1,0 +1,186 @@
+name: Cloudflare isolated UI visual check
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PREVIEW_BASE: https://cf-preview-recuperacion-ui-20260820.vivamos.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Wait for isolated Cloudflare branch deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 30); do
+            code="$(curl -L -sS -o /tmp/app.html -w '%{http_code}' --max-time 10 \
+              -H 'Cache-Control: no-cache' \
+              "$PREVIEW_BASE/app/?city=valparaiso&when=todos&visualcheck=$RANDOM" || true)"
+            if [[ "$code" == "200" ]] && grep -qi '<html' /tmp/app.html; then
+              echo "CLOUDFLARE_BRANCH_PREVIEW_READY attempt=$attempt"
+              exit 0
+            fi
+            echo "Waiting for Cloudflare branch preview (attempt=$attempt, HTTP=$code)"
+            sleep 8
+          done
+          echo "Cloudflare branch preview did not become reachable: $PREVIEW_BASE" >&2
+          exit 1
+
+      - name: Verify recovered runtime reached Cloudflare
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -L -fsS -H 'Cache-Control: no-cache' \
+            "$PREVIEW_BASE/app/app.js?visualcheck=$RANDOM" -o /tmp/app.js
+          grep -q 'exhibition-hours.js?v=20260820-hours4' /tmp/app.js
+          grep -q 'public-presentation-guard.js?v=20260820-text1' /tmp/app.js
+          echo "CLOUDFLARE_RECOVERY_RUNTIME_OK"
+
+      - name: Install browser driver
+        run: python -m pip install --disable-pip-version-check selenium
+
+      - name: Check Palacio Rioja visually and structurally
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p visual-artifacts
+          python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          import os
+          import shutil
+          import time
+          from pathlib import Path
+
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          base = os.environ["PREVIEW_BASE"]
+          out = Path("visual-artifacts")
+          out.mkdir(exist_ok=True)
+
+          chrome = next((shutil.which(name) for name in (
+              "google-chrome-stable", "google-chrome", "chromium", "chromium-browser"
+          ) if shutil.which(name)), None)
+          if not chrome:
+              raise SystemExit("No Chrome/Chromium binary available")
+
+          options = Options()
+          options.binary_location = chrome
+          for arg in (
+              "--headless=new", "--no-sandbox", "--disable-gpu",
+              "--disable-dev-shm-usage", "--window-size=1440,1200",
+              "--disable-extensions", "--no-first-run", "--no-default-browser-check",
+          ):
+              options.add_argument(arg)
+
+          driver = webdriver.Chrome(options=options)
+          diagnostics = {}
+          try:
+              url = f"{base}/app/?city=valparaiso&when=todos&visualcheck={int(time.time())}"
+              driver.get(url)
+              wait = WebDriverWait(driver, 30)
+              wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".event-card")) > 0)
+              time.sleep(4)
+
+              # Monthly aggregate must not return as a normal public event card.
+              public_cards = driver.find_elements(By.CSS_SELECTOR, ".event-card[data-event-id]")
+              public_text = "\n".join(card.text for card in public_cards)
+              monthly_present = "Destino Valparaíso" in public_text and "Agosto 2026" in public_text
+              diagnostics["public_event_card_count"] = len(public_cards)
+              diagnostics["monthly_agosto_as_event"] = monthly_present
+              if monthly_present:
+                  raise AssertionError("Destino Valparaíso – Agosto 2026 reappeared as a normal event card")
+
+              # Locate the grouped Palacio Rioja exhibition card.
+              candidates = driver.find_elements(By.CSS_SELECTOR, ".exhibition-venue-card, .exhibition-group-card")
+              rioja = next((node for node in candidates if "Museo Palacio Rioja" in node.text), None)
+              if rioja is None:
+                  raise AssertionError("Grouped Museo Palacio Rioja card was not found")
+              driver.execute_script("arguments[0].scrollIntoView({block:'center'});", rioja)
+              time.sleep(1)
+
+              # Open the internal exhibition list if its disclosure is collapsed.
+              for element in rioja.find_elements(By.CSS_SELECTOR, "summary, button"):
+                  label = (element.text or "").strip().lower()
+                  if "ver 3 exposiciones" in label or "3 exposiciones" in label:
+                      expanded = element.get_attribute("aria-expanded")
+                      parent = element.find_element(By.XPATH, "..")
+                      is_details = parent.tag_name.lower() == "details"
+                      if expanded == "false" or (is_details and not parent.get_attribute("open")):
+                          driver.execute_script("arguments[0].click();", element)
+                          time.sleep(1)
+                      break
+
+              hours = rioja.find_elements(By.CSS_SELECTOR, ".exhibition-venue-hours")
+              diagnostics["rioja_venue_hours_rows"] = len(hours)
+              diagnostics["rioja_venue_hours_text"] = [h.text for h in hours]
+              if len(hours) != 1:
+                  raise AssertionError(f"Palacio Rioja has {len(hours)} venue-hours rows; expected exactly 1")
+
+              rows = rioja.find_elements(By.CSS_SELECTOR, ".grouped-exhibition-item")
+              diagnostics["rioja_subcard_count"] = len(rows)
+              if len(rows) < 3:
+                  raise AssertionError(f"Expected 3 grouped Rioja exhibition rows, found {len(rows)}")
+
+              clipping = driver.execute_script("""
+                return arguments[0].querySelectorAll('.grouped-exhibition-item').length
+                  ? [...arguments[0].querySelectorAll('.grouped-exhibition-item')].map((row) => ({
+                      text: (row.innerText || '').trim(),
+                      clientHeight: row.clientHeight,
+                      scrollHeight: row.scrollHeight,
+                      clipped: row.scrollHeight > row.clientHeight + 2,
+                      rectHeight: row.getBoundingClientRect().height,
+                    })) : [];
+              """, rioja)
+              diagnostics["rioja_rows"] = clipping
+              clipped = [row for row in clipping if row["clipped"]]
+              diagnostics["rioja_clipped_rows"] = len(clipped)
+              if clipped:
+                  raise AssertionError(f"Grouped Rioja subcards are still clipped: {clipped}")
+
+              # Source count is informational: preserve the current data snapshot if exposed in the UI.
+              source_totals = driver.find_elements(By.CSS_SELECTOR, "[data-sources-total]")
+              diagnostics["sources_total"] = source_totals[0].text.strip() if source_totals else None
+
+              rioja.screenshot(str(out / "palacio-rioja-card.png"))
+              driver.save_screenshot(str(out / "valparaiso-preview-page.png"))
+              diagnostics["url"] = driver.current_url
+              diagnostics["title"] = driver.title
+
+              print("PALACIO_RIOJA_GROUP_FOUND")
+              print("PALACIO_RIOJA_SINGLE_HOURS_OK")
+              print("PALACIO_RIOJA_SUBCARDS_NOT_CLIPPED")
+              print("DESTINO_VALPARAISO_MONTHLY_EVENT_ABSENT")
+              print("SOURCES_TOTAL", diagnostics["sources_total"])
+          finally:
+              (out / "diagnostics.json").write_text(
+                  json.dumps(diagnostics, ensure_ascii=False, indent=2), encoding="utf-8"
+              )
+              driver.quit()
+          PY
+
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cf-isolated-ui-visual-evidence
+          path: visual-artifacts/
+          if-no-files-found: warn
+          retention-days: 7
