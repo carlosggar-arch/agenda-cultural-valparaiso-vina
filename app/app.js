@@ -5,42 +5,35 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 // even if the core module graph fails to load or evaluate.
 const { coreReady } = await import("./app-core.js?v=20260820-recovery1");
 
-// Deferred-module compatibility marker kept aligned with the single runtime URL.
-// import "./schedule-display.js?v=20260819-runtime1";
-// The equivalent data path now lives in data-pipeline.js and is published once
-// through agenda-runtime-state.mjs for all presentation consumers.
-
+// Content presentation is shared across cities. City-specific modules are data
+// adapters or media enrichers only; they do not own exhibition-card structure.
 const IMAGE_QUALITY_GUARD = "./image-quality-guard.js?v=20260820-images3";
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
-  "./static-exhibition-groups.js?v=20260818-staticgroups1",
-  "./multievent-layout-fix.js?v=20260819-multievent1",
+  "./exhibition-groups.js?v=20260820-groups1",
+  "./multievent-layout-fix.js?v=20260820-multievent2",
   "./schedule-display.js?v=20260819-runtime1",
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
 ];
 
-// Gijon keeps the stable core renderer. Combined filters own its temporal
-// selection and the heavier Valpo/Viña presentation modules remain out of this
-// runtime. A clean city reload guarantees that these module sets never mix.
+// Only genuinely city-specific behavior is deferred for Gijón. Exhibition
+// grouping, subcards, scrolling and schedule presentation use the same modules
+// as Valparaíso/Viña and every future city.
 const GIJON_DEFERRED_MODULES = new Set([
   "./temporal-priority.js?v=20260819-temporal3",
-  "./static-exhibition-groups.js?v=20260818-staticgroups1",
-  "./multievent-layout-fix.js?v=20260819-multievent1",
-  "./schedule-display.js?v=20260819-runtime1",
 ]);
 const IS_GIJON = String(document.documentElement.dataset.city || "") === "gijon";
 if (IS_GIJON) {
   for (let index = OPTIONAL_MODULES.length - 1; index >= 0; index -= 1) {
     if (GIJON_DEFERRED_MODULES.has(OPTIONAL_MODULES[index])) OPTIONAL_MODULES.splice(index, 1);
   }
-  OPTIONAL_MODULES.push("./gijon-card-images.js?v=20260819-images1");
+  OPTIONAL_MODULES.push("./gijon-card-images.js?v=20260820-images2");
   document.documentElement.dataset.gijonStableRuntime = "true";
 } else {
-  // app.js is the single owner of content presentation. These modules consume
-  // the normalized runtime snapshot and react to bounded agenda lifecycle events;
-  // none installs a body-wide subtree observer or re-fetches the raw dataset.
+  // These enrichers are currently Valpo/Viña specific, but the exhibition
+  // renderer itself above is common and consumes the shared runtime snapshot.
   OPTIONAL_MODULES.push(
     "./card-experience.js?v=20260819-runtime1",
     "./card-image-fallback.js?v=20260819-runtime1",
@@ -209,19 +202,16 @@ function scheduleExhibitionOrder() {
   queueMicrotask(placeExhibitionsLast);
 }
 
-// The Gijon stable path intentionally avoids even this small ordering observer.
-// Valpo/Viña keeps one grid-level child-list observer; descendant/text/image
-// changes are ignored, so presentation enhancers cannot recursively wake it.
-if (!IS_GIJON) {
-  const datedGrid = document.querySelector('[data-dated-grid]');
-  if (datedGrid) {
-    new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
-  }
-  document.addEventListener("click", (event) => {
-    if (event.target.closest('[data-filter-value], [data-combined-category], [data-filter-clear]')) scheduleExhibitionOrder();
-  });
-  document.addEventListener("input", (event) => {
-    if (event.target.matches('[data-smart-search], [data-date-from], [data-date-to]')) scheduleExhibitionOrder();
-  });
-  scheduleExhibitionOrder();
+// Ordering is presentation policy too, so it is now shared rather than tied to
+// one city. The observer only watches direct children and cannot loop on text or images.
+const datedGrid = document.querySelector('[data-dated-grid]');
+if (datedGrid) {
+  new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
 }
+document.addEventListener("click", (event) => {
+  if (event.target.closest('[data-filter-value], [data-combined-category], [data-filter-clear]')) scheduleExhibitionOrder();
+});
+document.addEventListener("input", (event) => {
+  if (event.target.matches('[data-smart-search], [data-date-from], [data-date-to]')) scheduleExhibitionOrder();
+});
+scheduleExhibitionOrder();

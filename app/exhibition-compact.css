@@ -3,12 +3,12 @@
    - Mobile cards remain content-driven because a single column does not benefit from forced heights.
    - All top-level card images use the same compact height.
    - All category labels and top-level titles use the same typography and spacing.
-   - Grouped exhibition rows use a fixed compact row height and scroll internally. */
+   - Grouped exhibition rows keep a compact minimum height but grow with their content and scroll internally. */
 
 :root {
   --agenda-card-media-height: 124px;
   --agenda-card-title-size: 1.28rem;
-  --agenda-group-row-height: 74px;
+  --agenda-group-row-height: 84px;
 }
 
 /* ---------- Global card geometry ---------- */
@@ -201,13 +201,14 @@
   font-size: 0.85rem !important;
 }
 
-/* Roughly two rows remain visible before scrolling. This prevents an exhibition venue
-   from becoming the tallest card and therefore minimizes blank space in equalized grids. */
+/* Keep roughly two compact rows in view. Rows themselves are content-driven,
+   so long metadata is never clipped; the list remains the scrolling boundary. */
 .exhibition-group-list {
-  max-height: 154px !important;
+  max-height: 178px !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   overscroll-behavior: contain;
+  scroll-snap-type: y proximity;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: rgba(19, 95, 85, 0.32) transparent;
@@ -230,22 +231,26 @@
   background: rgba(19, 95, 85, 0.48);
 }
 
-/* Every exhibition row has exactly the same compact height. */
+/* A row may grow beyond the compact minimum. This is deliberate: title, dates,
+   venue and price must remain inside the same sub-card instead of being cut by
+   the following row. */
 .grouped-exhibition-item {
   box-sizing: border-box !important;
   grid-template-columns: 50px minmax(0, 1fr) auto !important;
   gap: 7px !important;
-  align-items: center !important;
+  align-items: start !important;
   width: 100%;
-  height: var(--agenda-group-row-height) !important;
+  height: auto !important;
   min-height: var(--agenda-group-row-height) !important;
-  max-height: var(--agenda-group-row-height) !important;
+  max-height: none !important;
   padding: 6px 8px !important;
-  overflow: hidden !important;
+  overflow: visible !important;
+  scroll-snap-align: start;
 }
 
 .grouped-exhibition-media {
   position: relative;
+  align-self: start !important;
   width: 50px !important;
   height: 50px !important;
   min-width: 50px !important;
@@ -284,7 +289,7 @@
 
 .grouped-exhibition-copy strong {
   display: -webkit-box !important;
-  margin-bottom: 2px !important;
+  margin-bottom: 3px !important;
   overflow: hidden !important;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -312,7 +317,7 @@
 }
 
 .grouped-exhibition-actions {
-  align-self: center !important;
+  align-self: start !important;
   min-width: max-content;
 }
 
@@ -327,11 +332,11 @@
   :root {
     --agenda-card-media-height: 116px;
     --agenda-card-title-size: 1.24rem;
-    --agenda-group-row-height: 72px;
+    --agenda-group-row-height: 82px;
   }
 
   .exhibition-group-list {
-    max-height: 150px !important;
+    max-height: 174px !important;
   }
 
   .grouped-exhibition-item {
@@ -352,7 +357,7 @@
   :root {
     --agenda-card-media-height: 104px;
     --agenda-card-title-size: 1.2rem;
-    --agenda-group-row-height: 70px;
+    --agenda-group-row-height: 80px;
   }
 
   .event-grid > .event-card {
@@ -370,7 +375,7 @@
   }
 
   .exhibition-group-list {
-    max-height: 146px !important;
+    max-height: 170px !important;
   }
 
   .grouped-exhibition-item {

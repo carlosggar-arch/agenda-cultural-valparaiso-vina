@@ -14,6 +14,9 @@ const startup = read("./startup-stability.js");
 const pwa = read("./pwa.js");
 const combined = read("./combined-filters.js");
 const gijonImages = read("./gijon-card-images.js");
+const exhibitionGroups = read("./exhibition-groups.js");
+const exhibitionGroupCore = read("./exhibition-group-core.mjs");
+const cityPresentationAdapter = read("./city-presentation-adapter.mjs");
 const cardExperience = read("./card-experience.js");
 const imageFallback = read("./card-image-fallback.js");
 const presentationGuard = read("./public-presentation-guard.js");
@@ -40,14 +43,22 @@ for (const critical of [
   assert.doesNotMatch(app, new RegExp(`^import\\s+["']\\./${critical.replaceAll(".", "\\.")}`, "m"), `${critical} must not be an eager app.js side-effect import`);
 }
 
-assert.match(app, /const GIJON_DEFERRED_MODULES = new Set/, "Gijon must have an explicit stable-core enhancement boundary");
-for (const deferred of ["temporal-priority.js", "static-exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
-  assert.match(app, new RegExp(`GIJON_DEFERRED_MODULES[\\s\\S]*${deferred.replaceAll(".", "\\.")}`), `${deferred} must stay deferred on Gijon startup`);
+// Gijón keeps a small city-specific boundary, but shared presentation modules
+// must no longer be excluded. Exhibition layout and schedule behavior are one
+// common runtime contract for all cities.
+assert.match(app, /const GIJON_DEFERRED_MODULES = new Set/, "Gijon must retain an explicit city-specific enhancement boundary");
+assert.match(app, /GIJON_DEFERRED_MODULES[\s\S]*temporal-priority\.js/, "temporal priority may remain deferred on Gijon");
+for (const shared of ["exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
+  assert.match(app, new RegExp(shared.replaceAll(".", "\\.")), `${shared} must be present in the common runtime`);
+  const deferredBlock = app.match(/const GIJON_DEFERRED_MODULES = new Set\(\[([\s\S]*?)\]\);/)?.[1] || "";
+  assert.doesNotMatch(deferredBlock, new RegExp(shared.replaceAll(".", "\\.")), `${shared} must not be deferred on Gijon`);
 }
-assert.match(app, /gijon-card-images\.js/, "Gijon must restore images through a lightweight stable-core enhancer");
-assert.match(app, /if \(!IS_GIJON\)[\s\S]*new MutationObserver\(scheduleExhibitionOrder\)/, "Gijon must stay out of the grid-order observer path");
+assert.doesNotMatch(app, /static-exhibition-groups\.js/, "legacy Valpo-only exhibition renderer must not be loaded");
+assert.match(app, /gijon-card-images\.js/, "Gijon may keep a lightweight media/data enhancer");
+assert.match(app, /new MutationObserver\(scheduleExhibitionOrder\)/, "shared exhibition ordering may use one direct-grid observer");
+assert.doesNotMatch(app, /observe\(datedGrid, \{[^}]*subtree:\s*true/, "shared ordering must never observe descendant churn");
 for (const module of ["card-experience.js", "card-image-fallback.js", "public-presentation-guard.js", "exhibition-hours.js"]) {
-  assert.match(app, new RegExp(module.replaceAll(".", "\\.")), `${module} must be owned by app.js on the rich runtime`);
+  assert.match(app, new RegExp(module.replaceAll(".", "\\.")), `${module} must remain owned by app.js on the Valpo rich runtime`);
 }
 
 assert.match(core, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/, "app-core must own the data pipeline");
@@ -93,6 +104,18 @@ assert.doesNotMatch(cardExperience, /\bfetch\s*\(/, "rich card rendering must ne
 assert.doesNotMatch(presentationGuard, /\bfetch\s*\(/, "presentation guard must never re-fetch raw data");
 assert.doesNotMatch(exhibitionHours, /\bfetch\s*\(/, "exhibition hours must never re-fetch raw data");
 
+// Canonical exhibition groups consume the same snapshot and isolate city data
+// adaptations behind a small adapter. They may observe direct grid membership,
+// but never descendants/text/media changes.
+assert.match(exhibitionGroups, /getAgendaRuntimeSnapshot/, "shared exhibition renderer must consume normalized runtime state");
+assert.match(exhibitionGroups, /groupStandaloneExhibitions/, "shared exhibition renderer must use the pure grouping core");
+assert.doesNotMatch(exhibitionGroups, /\bfetch\s*\(/, "shared exhibition renderer must never re-fetch datasets");
+assert.match(exhibitionGroups, /new MutationObserver/, "shared exhibition renderer may react to direct grid/city transitions");
+assert.doesNotMatch(exhibitionGroups, /subtree:\s*true|characterData:\s*true/, "shared exhibition renderer must not watch descendant churn");
+assert.match(exhibitionGroupCore, /EXHIBITION_GROUP_MIN = 2/, "simultaneous exhibitions must group consistently from two items");
+assert.match(cityPresentationAdapter, /scheduleForGijonEvent/, "Gijon schedule differences must stay in the city adapter");
+assert.match(cityPresentationAdapter, /gijonLocationForEvent/, "Gijon location differences must stay in the city adapter");
+
 assert.match(combined, /loadAgendaDataset/, "combined filters must use the same normalized pipeline as the renderer");
 assert.match(combined, /id === "museos"[\s\S]*id = "exposiciones"/, "Museos must collapse into Exposiciones in filter semantics");
 assert.match(combined, /\.event-card\[data-event-group\]/, "grouped exhibitions must participate in filtering");
@@ -100,6 +123,7 @@ assert.match(combined, /rows\[index\]\.hidden/, "grouped exhibition children mus
 assert.match(gijonImages, /getAgendaRuntimeSnapshot/, "Gijon images must consume shared normalized runtime state");
 assert.match(gijonImages, /vivamos:agenda-rendered/, "Gijon images must react to the bounded render lifecycle");
 assert.match(gijonImages, /\.event-card\[data-event-id\]/, "Gijon image enrichment must target stable core cards directly");
+assert.match(gijonImages, /exhibition-venue-card/, "Gijon media enhancer must explicitly leave shared exhibition groups alone");
 assert.doesNotMatch(gijonImages, /loadAgendaDataset/, "Gijon images must not rerun the data pipeline");
 assert.doesNotMatch(gijonImages, /new MutationObserver\s*\(/, "Gijon image enrichment must not install DOM observers");
 
@@ -143,9 +167,12 @@ for (const marker of [
 assert.match(worker, /"\.\/data-pipeline\.js"/, "service worker must cache the resilient data pipeline");
 assert.match(worker, /agenda-runtime-state\.mjs/, "service worker must cache shared normalized runtime state");
 assert.match(worker, /render-lifecycle\.js/, "service worker must cache the bounded render lifecycle");
+assert.match(worker, /exhibition-groups\.js/, "service worker must cache the canonical exhibition renderer");
+assert.match(worker, /exhibition-group-core\.mjs/, "service worker must cache the canonical exhibition grouping core");
+assert.match(worker, /city-presentation-adapter\.mjs/, "service worker must cache the city adapter boundary");
 assert.match(worker, /"\.\/app-safe-mode\.js"/, "service worker must cache safe mode");
 assert.match(worker, /"\.\/startup-stability\.js"/, "service worker must cache the startup watchdog");
 const releaseNumber = Number(release.match(/const RELEASE = (\d+);/)?.[1]);
-assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 144, "render lifecycle hardening requires a fresh service-worker cache generation");
+assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 163, "unified exhibition architecture requires a fresh service-worker cache generation");
 
 console.log("STARTUP_ARCHITECTURE_OK");

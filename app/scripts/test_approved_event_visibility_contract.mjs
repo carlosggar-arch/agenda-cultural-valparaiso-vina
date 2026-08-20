@@ -47,16 +47,18 @@ const bootstrap = read("combined-filters-bootstrap.js");
 const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
-const grouping = read("static-exhibition-groups.js");
+const grouping = read("exhibition-groups.js");
+const groupingCore = read("exhibition-group-core.mjs");
 const titleBootstrap = read("title-normalizer-bootstrap.js");
 const categoryNormalizer = read("category-normalizer.js");
 
-// The startup entry point must stay thin: watchdog first, core through a dynamic
-// boundary, and presentation modules only after coreReady.
+// The startup entry point stays thin and one shared renderer owns grouped
+// exhibitions for every city after coreReady.
 assert.match(appJs, /^import "\.\/startup-stability\.js/m);
 assert.match(appJs, /await import\("\.\/app-core\.js/);
 assert.match(appJs, /await coreReady;/);
-assert.match(appJs, /static-exhibition-groups\.js/);
+assert.match(appJs, /exhibition-groups\.js/);
+assert.doesNotMatch(appJs, /static-exhibition-groups\.js/);
 assert.match(appJs, /footer-credit\.js/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:category-normalizer|title-normalizer-bootstrap|session-occurrence-normalizer|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
@@ -73,12 +75,17 @@ assert.doesNotMatch(categoryNormalizer, /(?:window|globalThis|target)\.fetch\s*=
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 
-assert.match(grouping, /MIN_GROUP_SIZE = 2/);
-assert.match(grouping, /staticExhibitionSentinels/);
-assert.doesNotMatch(grouping, /MutationObserver|IntersectionObserver|getBoundingClientRect|offsetHeight|addEventListener\(["']scroll/);
+// The grouping contract is common: two or more simultaneous exhibitions in the
+// same venue are rendered by the canonical component from the runtime snapshot.
+assert.match(grouping, /getAgendaRuntimeSnapshot/);
+assert.match(grouping, /groupStandaloneExhibitions/);
+assert.match(grouping, /unifiedExhibitionGroup/);
+assert.doesNotMatch(grouping, /\bfetch\s*\(/);
+assert.match(groupingCore, /EXHIBITION_GROUP_MIN = 2/);
+assert.match(groupingCore, /clusterSimultaneousExhibitions/);
 
-// Combined filters can still import the pure category helpers, but must load
-// through a versioned module and use the normalized agenda pipeline.
+// Combined filters can still import pure category helpers, but must load through
+// a versioned module and use the normalized agenda pipeline.
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=[^"]+"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
@@ -91,9 +98,9 @@ assert.match(combined, /data-section-filter="todos"/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 128, "PWA release must include startup resilience architecture");
+assert.ok(Number(releaseMatch[1]) >= 163, "PWA release must include unified exhibition architecture");
 assert.doesNotMatch(release, /window\.stop|caches\.delete|pwa_recovered/);
 assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
 assert.doesNotMatch(release, /window\.location\.reload\(\)/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + unified exhibition renderer)`);
