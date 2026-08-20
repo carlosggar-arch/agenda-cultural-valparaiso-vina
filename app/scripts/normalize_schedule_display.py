@@ -184,6 +184,15 @@ def dataset_targets(primary: Path) -> list[Path]:
     return targets
 
 
+def dataset_label(dataset_path: Path) -> str:
+    """Return a stable display label for relative or absolute dataset paths."""
+    resolved = dataset_path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Normalize schedule presentation noise without fetching sources.")
     parser.add_argument("--dataset", type=Path, default=DATASET_PATH)
@@ -195,7 +204,7 @@ def main() -> None:
     for dataset_path in dataset_targets(args.dataset):
         dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
         normalized, rows = normalize_dataset(dataset)
-        summaries.append({"dataset": str(dataset_path.relative_to(ROOT)), "normalized_events": len(rows), "rows": rows})
+        summaries.append({"dataset": dataset_label(dataset_path), "normalized_events": len(rows), "rows": rows})
         changed_any = changed_any or bool(rows)
         if rows and not args.check:
             dataset_path.write_text(json.dumps(normalized, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
