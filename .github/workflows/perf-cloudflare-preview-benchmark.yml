@@ -1,0 +1,189 @@
+name: Isolated Cloudflare startup benchmark
+
+on:
+  push:
+    branches:
+      - perf-faster-startup-cache-cf-20260820
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Wait for isolated Cloudflare preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import time
+          import urllib.request
+          import uuid
+
+          url = 'https://perf-faster-startup-cache-cf-20260820.vivamos.pages.dev/app/?city=valparaiso'
+          last = ''
+          for attempt in range(1, 31):
+              try:
+                  req = urllib.request.Request(
+                      url + '&deployprobe=' + uuid.uuid4().hex,
+                      headers={
+                          'User-Agent': 'vivamos-performance-preview-probe/1',
+                          'Cache-Control': 'no-cache',
+                          'Pragma': 'no-cache',
+                      },
+                  )
+                  with urllib.request.urlopen(req, timeout=8) as response:
+                      body = response.read(200000)
+                      if response.status == 200 and b'<html' in body.lower():
+                          print(f'PREVIEW_HTTP_READY attempt={attempt} url={url}')
+                          raise SystemExit(0)
+                      last = f'HTTP {response.status}'
+              except Exception as exc:
+                  last = repr(exc)
+              print(f'preview not ready attempt={attempt}: {last}')
+              if attempt < 30:
+                  time.sleep(5)
+          raise SystemExit(f'Preview did not become reachable: {last}')
+          PY
+
+      - name: Install browser benchmark dependency
+        run: python -m pip install --disable-pip-version-check selenium==4.35.0
+
+      - name: Benchmark production vs optimized preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          import shutil
+          import statistics
+          import time
+          import uuid
+          from pathlib import Path
+
+          from selenium import webdriver
+          from selenium.common.exceptions import TimeoutException
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          ORIGINS = {
+              'production': 'https://vivamos.pages.dev/app/?city=valparaiso',
+              'optimized_preview': 'https://perf-faster-startup-cache-cf-20260820.vivamos.pages.dev/app/?city=valparaiso',
+          }
+          REPEATS = 3
+          OUT = Path('benchmark-results.json')
+
+          chrome = next((shutil.which(name) for name in ('google-chrome-stable','google-chrome','chromium','chromium-browser') if shutil.which(name)), None)
+          if not chrome:
+              raise SystemExit('Chrome/Chromium not found')
+          print('CHROME_BINARY', chrome)
+
+          def new_driver():
+              opts = Options()
+              opts.binary_location = chrome
+              opts.page_load_strategy = 'none'
+              for arg in (
+                  '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
+                  '--disable-extensions', '--disable-sync', '--no-first-run', '--no-default-browser-check',
+                  '--window-size=1280,900', '--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication',
+              ):
+                  opts.add_argument(arg)
+              return webdriver.Chrome(options=opts)
+
+          def wait_ready(driver, timeout=20):
+              wait = WebDriverWait(driver, timeout, poll_frequency=0.05)
+              wait.until(lambda d: d.execute_script("return document.documentElement.dataset.vivamosReady === 'true'"))
+              wait.until(lambda d: d.execute_script("return document.querySelectorAll('.event-card').length > 0"))
+              return driver.execute_script("""
+                  const n = performance.getEntriesByType('navigation')[0] || {};
+                  const resources = performance.getEntriesByType('resource');
+                  return {
+                    ready_ms: performance.now(),
+                    dom_content_loaded_ms: n.domContentLoadedEventEnd || null,
+                    load_event_ms: n.loadEventEnd || null,
+                    response_end_ms: n.responseEnd || null,
+                    cards: document.querySelectorAll('.event-card').length,
+                    sw_controller: Boolean(navigator.serviceWorker && navigator.serviceWorker.controller),
+                    resource_count: resources.length,
+                    transfer_bytes: resources.reduce((sum, r) => sum + (r.transferSize || 0), 0),
+                    encoded_bytes: resources.reduce((sum, r) => sum + (r.encodedBodySize || 0), 0),
+                  };
+              """)
+
+          def one_pair(label, base_url, iteration):
+              driver = new_driver()
+              try:
+                  token = uuid.uuid4().hex
+                  url = base_url + '&perf=' + token
+                  driver.get(url)
+                  cold = wait_ready(driver)
+                  try:
+                      driver.execute_async_script("""
+                        const done = arguments[0];
+                        if (!navigator.serviceWorker) return done(false);
+                        navigator.serviceWorker.ready.then(() => done(true), () => done(false));
+                      """)
+                  except Exception:
+                      pass
+                  time.sleep(0.35)
+                  driver.refresh()
+                  warm = wait_ready(driver)
+                  print('PAIR', label, iteration, json.dumps({'cold': cold, 'warm': warm}, sort_keys=True))
+                  return {'cold': cold, 'warm': warm}
+              except TimeoutException:
+                  print('TIMEOUT_DOM', driver.page_source[-4000:])
+                  raise
+              finally:
+                  driver.quit()
+
+          raw = {label: [one_pair(label, url, i + 1) for i in range(REPEATS)] for label, url in ORIGINS.items()}
+
+          def med(label, phase, key):
+              values = [float(item[phase][key]) for item in raw[label] if item[phase].get(key) is not None]
+              return round(statistics.median(values), 1)
+
+          summary = {}
+          for label in ORIGINS:
+              summary[label] = {
+                  'cold_ready_ms_median': med(label, 'cold', 'ready_ms'),
+                  'warm_ready_ms_median': med(label, 'warm', 'ready_ms'),
+                  'cold_transfer_bytes_median': med(label, 'cold', 'transfer_bytes'),
+                  'warm_transfer_bytes_median': med(label, 'warm', 'transfer_bytes'),
+                  'cold_cards_median': med(label, 'cold', 'cards'),
+                  'warm_cards_median': med(label, 'warm', 'cards'),
+              }
+
+          prod = summary['production']
+          opt = summary['optimized_preview']
+          comparison = {
+              'cold_ready_improvement_ms': round(prod['cold_ready_ms_median'] - opt['cold_ready_ms_median'], 1),
+              'cold_ready_improvement_pct': round(100 * (prod['cold_ready_ms_median'] - opt['cold_ready_ms_median']) / prod['cold_ready_ms_median'], 1),
+              'warm_ready_improvement_ms': round(prod['warm_ready_ms_median'] - opt['warm_ready_ms_median'], 1),
+              'warm_ready_improvement_pct': round(100 * (prod['warm_ready_ms_median'] - opt['warm_ready_ms_median']) / prod['warm_ready_ms_median'], 1),
+          }
+
+          payload = {'raw': raw, 'summary': summary, 'comparison': comparison}
+          OUT.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding='utf-8')
+          print('BENCHMARK_SUMMARY', json.dumps(summary, sort_keys=True))
+          print('BENCHMARK_COMPARISON', json.dumps(comparison, sort_keys=True))
+          PY
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: isolated-cloudflare-startup-benchmark
+          path: benchmark-results.json
+          retention-days: 7
