@@ -108,6 +108,37 @@ function processedCacheName() {
   return `${PROCESSED_CACHE_PREFIX}${Number.isFinite(release) ? `v${release}` : "dev"}`;
 }
 
+function processedCacheMarkerKey(city) {
+  return `${PROCESSED_CACHE_PREFIX}marker-${encodeURIComponent(String(city?.id || "default"))}`;
+}
+
+function readProcessedMarker(city) {
+  try {
+    const raw = globalThis.localStorage?.getItem(processedCacheMarkerKey(city));
+    if (!raw) return null;
+    const marker = JSON.parse(raw);
+    return marker && typeof marker === "object" ? marker : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeProcessedMarker(city, cacheName, signature) {
+  try {
+    globalThis.localStorage?.setItem(processedCacheMarkerKey(city), JSON.stringify({ cacheName, signature }));
+  } catch {
+    // The processed cache is an optimization only; storage may be unavailable.
+  }
+}
+
+function clearProcessedMarker(city) {
+  try {
+    globalThis.localStorage?.removeItem(processedCacheMarkerKey(city));
+  } catch {
+    // Best-effort cleanup only.
+  }
+}
+
 function processedCacheRequest(city) {
   if (typeof Request !== "function" || !globalThis.location?.href) return null;
   try {
@@ -123,21 +154,35 @@ function processedCacheRequest(city) {
 
 async function readProcessedResult(city, signature) {
   if (!globalThis.caches?.open) return null;
+  const cacheName = processedCacheName();
+  const marker = readProcessedMarker(city);
+  if (marker?.cacheName !== cacheName || marker?.signature !== signature) return null;
+
   const request = processedCacheRequest(city);
   if (!request) return null;
   try {
-    const cache = await globalThis.caches.open(processedCacheName());
+    const cache = await globalThis.caches.open(cacheName);
     const response = await cache.match(request);
-    if (!response) return null;
+    if (!response) {
+      clearProcessedMarker(city);
+      return null;
+    }
     const cached = await response.json();
-    if (cached?.signature !== signature) return null;
-    if (!cached?.dataset || !Array.isArray(cached.dataset.events)) return null;
+    if (cached?.signature !== signature) {
+      clearProcessedMarker(city);
+      return null;
+    }
+    if (!cached?.dataset || !Array.isArray(cached.dataset.events)) {
+      clearProcessedMarker(city);
+      return null;
+    }
     return {
       dataset: cached.dataset,
       secondaryPrograms: Array.isArray(cached.secondaryPrograms) ? cached.secondaryPrograms : [],
       hiddenPrograms: Array.isArray(cached.hiddenPrograms) ? cached.hiddenPrograms : [],
     };
   } catch (error) {
+    clearProcessedMarker(city);
     console.warn("¡Vivamos!: caché procesada no disponible; continúa el pipeline normal", error);
     return null;
   }
@@ -173,8 +218,10 @@ async function writeProcessedResult(city, signature, result) {
       headers: { "Content-Type": "application/json; charset=utf-8" },
     });
     await cache.put(request, response);
+    writeProcessedMarker(city, cacheName, signature);
     void cleanupObsoleteProcessedCaches(cacheName);
   } catch (error) {
+    clearProcessedMarker(city);
     console.warn("¡Vivamos!: no se pudo guardar la caché procesada", error);
   }
 }
