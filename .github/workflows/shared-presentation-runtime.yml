@@ -37,5 +37,6 @@ jobs:
         run: |
           node app/shared-presentation-runtime.test.mjs
           node app/exhibition-group-architecture.test.mjs
+          node app/event-card-data-quality.test.mjs
           node app/startup-architecture.test.mjs
           python app/scripts/test_third_city_architecture.py
