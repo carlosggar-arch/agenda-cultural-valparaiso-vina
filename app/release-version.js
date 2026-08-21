@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v174 reuses the already-processed agenda on warm starts when source data and local day are unchanged.
-  const RELEASE = 174;
+  // v175 makes cross-source deduplication resilient to incorrect upstream official flags for direct venue sources.
+  const RELEASE = 175;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

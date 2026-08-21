@@ -64,6 +64,28 @@ function sourceIdentity(event) {
   return label ? `label:${label}` : "";
 }
 
+function urlHost(value) {
+  if (!value) return "";
+  try { return new URL(String(value)).hostname.toLocaleLowerCase("en"); } catch { return ""; }
+}
+
+function labelsLikelySame(a, b) {
+  const left = fold(a);
+  const right = fold(b);
+  if (!(left && right)) return false;
+  if (left === right) return true;
+  const shorter = left.length <= right.length ? left : right;
+  const longer = shorter === left ? right : left;
+  return shorter.length >= 8 && longer.includes(shorter);
+}
+
+function hasDirectVenueSource(event) {
+  if (!labelsLikelySame(event?.source_name, event?.location?.venue)) return false;
+  const sourceHost = urlHost(event?.source_url || event?.links?.source);
+  const officialHost = urlHost(event?.links?.official);
+  return Boolean(sourceHost && officialHost && sourceHost === officialHost);
+}
+
 function sameLocalStart(a, b, toleranceMinutes = STRICT_START_TOLERANCE_MINUTES) {
   const startsA = timedStarts(a);
   const startsB = timedStarts(b);
@@ -185,8 +207,12 @@ function hasOfficialSource(event) {
   return event?.public_status?.source_official === true;
 }
 
+function hasAuthoritativeSource(event) {
+  return hasOfficialSource(event) || hasDirectVenueSource(event);
+}
+
 function scheduleConflictDuplicate(a, b) {
-  if (!(hasOfficialSource(a) || hasOfficialSource(b))) return false;
+  if (!(hasAuthoritativeSource(a) || hasAuthoritativeSource(b))) return false;
   if (!sameLocalDate(a, b)) return false;
   if (minimumStartDifferenceMinutes(a, b) > SCHEDULE_CONFLICT_TOLERANCE_MINUTES) return false;
   return recurringTitlesLikelySame(a?.title, b?.title);
@@ -217,7 +243,7 @@ function mergeCategories(primary = [], secondary = []) {
 
 function qualityScore(event) {
   let score = 0;
-  if (hasOfficialSource(event)) score += 100;
+  if (hasAuthoritativeSource(event)) score += 100;
   if (event?.public_status?.information_completeness === "complete") score += 20;
   if (event?.links?.official) score += 10;
   if (event?.image?.url) score += 6;
@@ -229,7 +255,7 @@ function qualityScore(event) {
 
 function priceAuthorityScore(event) {
   let score = 0;
-  if (hasOfficialSource(event)) score += 100;
+  if (hasAuthoritativeSource(event)) score += 100;
   if (event?.public_status?.price_confirmed === true) score += 20;
   const price = event?.price;
   if (price && typeof price === "object") {
