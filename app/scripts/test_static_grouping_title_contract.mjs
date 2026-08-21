@@ -55,6 +55,7 @@ const release = read("release-version.js");
 const filterSafety = read("combined-filters-safety.js");
 const compactCss = read("exhibition-compact.css");
 const exhibitionHours = read("exhibition-hours.js");
+const venueHours = read("venue-hours.mjs");
 const staticCompat = read("static-exhibition-groups.js");
 const generatedManifest = read("service-worker-assets.generated.js");
 
@@ -98,14 +99,18 @@ assert.match(filterSafety, /data-smart-search/);
 assert.doesNotMatch(filterSafety, /static-exhibition-sentinels/);
 assert.doesNotMatch(filterSafety, /\.hidden\s*=/);
 
-// Grouped-card geometry belongs to CSS, not runtime JavaScript patches.
+// Grouped-card geometry belongs to CSS, not runtime JavaScript patches. Venue
+// identity also has one owner: exhibition presentation calls the shared hours
+// layer, and that layer resolves the canonical venue registry.
 assert.match(compactCss, /--agenda-group-row-min-height:\s*96px/);
 assert.match(compactCss, /--agenda-group-list-max-height:\s*306px/);
 assert.match(compactCss, /nth-child\(4\)/);
 assert.match(compactCss, /overflow-wrap:\s*anywhere/);
 assert.doesNotMatch(exhibitionHours, /style\.textContent|createElement\(["']style["']\)/);
-assert.match(exhibitionHours, /venueRecordForEvent/);
-assert.match(exhibitionHours, /venueRecordForName/);
+assert.match(exhibitionHours, /venueHoursForDate/);
+assert.doesNotMatch(exhibitionHours, /venueRecordForEvent|venueRecordForName/);
+assert.match(venueHours, /venueRecordForEvent/);
+assert.match(venueHours, /export function venueHoursForDate/);
 
 assert.match(pipeline, /normalizeAgendaTitles/);
 assert.match(pipeline, /normalizeAgendaCategories/);

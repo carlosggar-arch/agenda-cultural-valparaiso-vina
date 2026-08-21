@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs";
-import { dateSpecificHours } from "./gijon-venue-hours.js";
+import { dateSpecificHours } from "./venue-hours.mjs";
 
 function read(path) {
   return readFileSync(new URL(path, import.meta.url), "utf8");
@@ -67,7 +67,8 @@ assert.match(scheduleDisplay, /scheduleWithoutVisitHours/);
 assert.match(scheduleDisplay, /visibleReferenceDateKey/);
 assert.match(scheduleDisplay, /!node\.classList\.contains\("venue-opening-hours"\)/);
 assert.doesNotMatch(scheduleDisplay, /const copy = schedule\?\.nextElementSibling/);
-assert.match(exhibitionHours, /gijonVenueHoursForDate/);
+assert.match(exhibitionHours, /venueHoursForDate/);
+assert.doesNotMatch(exhibitionHours, /gijonVenueHoursForDate/);
 assert.match(exhibitionHours, /Horario del recinto:/);
 assert.match(exhibitionHours, /for \(const event of events\)/);
 assert.match(gijonCardImages, /if \(!isExhibition\(event\)\) setVenueHours\(card, verifiedVenueHours\(event\)\)/);

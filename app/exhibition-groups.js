@@ -5,7 +5,6 @@ import { eventForCityPresentation, venueHoursForCity } from "./city-presentation
 import {
   EXHIBITION_GROUP_MIN,
   groupStandaloneExhibitions,
-  partitionExhibitionsByDuration,
   publicExhibitionCategoryId,
 } from "./exhibition-group-core.mjs?v=20260820-groups1";
 
@@ -315,11 +314,13 @@ function groupStandaloneCards() {
   }
 
   const config = currentConfig();
-  const { regular, long } = partitionExhibitionsByDuration(events, config);
-  const groups = [regular, long].flatMap((partition) => groupStandaloneExhibitions(partition, {
+  // Duration affects temporal priority, not venue identity. This pass only
+  // considers cards that are still standalone (data-event-id); existing
+  // data-event-group cards are never reopened or repartitioned here.
+  const groups = groupStandaloneExhibitions(events, {
     timezone: config?.timezone || "UTC",
     minSize: EXHIBITION_GROUP_MIN,
-  }));
+  });
 
   for (const group of groups) {
     const nodes = group.events
