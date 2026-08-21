@@ -10,15 +10,18 @@ const runtime = read("./agenda-runtime-state.mjs");
 const firstRun = read("./city-first-run.js");
 const exhibitionGroups = read("./exhibition-groups.js");
 const commonBlock = app.match(/const OPTIONAL_MODULES = \[([\s\S]*?)\];/)?.[1] || "";
+const sharedPresentationModules = [
+  "./temporal-priority.js",
+  "./exhibition-groups.js",
+  "./exhibition-hours.js",
+  "./schedule-display.js",
+  "./card-experience.js",
+  "./public-presentation-guard.js",
+  "./image-quality-guard.js",
+];
 
-for (const moduleName of [
-  "temporal-priority.js",
-  "exhibition-groups.js",
-  "exhibition-hours.js",
-  "card-experience.js",
-  "public-presentation-guard.js",
-  "image-quality-guard.js",
-]) {
+for (const modulePath of sharedPresentationModules) {
+  const moduleName = modulePath.replace("./", "");
   assert.match(
     commonBlock,
     new RegExp(moduleName.replaceAll(".", "\\.")),
@@ -43,12 +46,7 @@ assert.match(
   "the shared runtime must publish adapted presentation events",
 );
 
-for (const modulePath of [
-  "./exhibition-hours.js",
-  "./public-presentation-guard.js",
-  "./card-experience.js",
-  "./temporal-priority.js",
-]) {
+for (const modulePath of sharedPresentationModules) {
   const source = read(modulePath);
   assert.match(
     source,
@@ -59,6 +57,11 @@ for (const modulePath of [
     source,
     /fetch\([^\n]*\.dataset|loadCityRegistry\(\)[\s\S]*?fetch\(/,
     `${modulePath} must not maintain a parallel city dataset runtime`,
+  );
+  assert.doesNotMatch(
+    source,
+    /\b(?:gijon|valparaiso)\b|America\/Santiago|Europe\/Madrid|es-CL|es-ES/i,
+    `${modulePath} must not know concrete cities, city timezones or city locales`,
   );
 }
 
