@@ -1,0 +1,59 @@
+name: Temporary regenerate v179 contracts
+
+on:
+  push:
+    branches:
+      - fix/gijon-exhibition-hours-location-20260821
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tmp-regenerate-v179
+  cancel-in-progress: false
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/gijon-exhibition-hours-location-20260821
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run focused regression
+        run: node app/date-filter-architecture.test.mjs
+
+      - name: Regenerate runtime contracts
+        run: |
+          python app/scripts/generate_runtime_contracts.py --write
+          python app/scripts/generate_runtime_contracts.py --check
+          python app/scripts/release_bundle.py --write
+          python app/scripts/release_bundle.py --check
+
+      - name: Commit generated contracts if needed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/service-worker-assets.generated.js app/venue-registry.generated.mjs app/data/release-bundle.json
+          if git diff --cached --quiet; then
+            echo "Generated contracts already current."
+            exit 0
+          fi
+          git commit -m "Regenera contratos de publicación v179"
+          git push origin HEAD:fix/gijon-exhibition-hours-location-20260821
