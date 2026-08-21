@@ -65,6 +65,7 @@
     "./data/release-bundle.json",
     "./data/valparaiso/supplemental-events.json",
     "./data/venue-registry.json",
+    "./date-aware-exhibition-hours.mjs",
     "./density-polish.js",
     "./event-data-corrections.js",
     "./event-detail.js",

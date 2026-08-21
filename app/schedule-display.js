@@ -2,11 +2,13 @@ import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
+import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 
 const FALLBACK_CONFIG = Object.freeze({
   valparaiso: { id: "valparaiso", locale: "es-CL", timezone: "America/Santiago" },
   gijon: { id: "gijon", locale: "es-ES", timezone: "Europe/Madrid" },
 });
+const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 
 let eventIndex = new Map();
 let activeConfig = FALLBACK_CONFIG.valparaiso;
@@ -60,16 +62,40 @@ function registrationStatusForDisplay(event) {
   return "Consulta inscripción y plazas";
 }
 
+function isExhibition(event) {
+  const primaryId = String(event?.primary_category?.id || "").trim();
+  if (EXHIBITION_IDS.has(primaryId)) return true;
+  return (event?.categories || []).some((category) => EXHIBITION_IDS.has(String(category?.id || "").trim()));
+}
+
+function scheduleWithoutVisitHours(schedule) {
+  if (!schedule || typeof schedule !== "object") return schedule;
+  const clean = { ...schedule };
+  delete clean.opening_time;
+  delete clean.closing_time;
+  delete clean.opening_hours;
+  delete clean.venue_opening_hours;
+  delete clean.visit_hours;
+  return clean;
+}
+
 function scheduleForDisplay(event) {
   if (event?.event_type === "registration_period") return registrationStatusForDisplay(event);
   const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
   if (!schedule) return "Horario por confirmar";
 
-  // A multi-session event that happens today must show only today's sessions.
-  // This rule is structural: it uses structured occurrences when available and
-  // can also recover explicit dated function/session lists from source copy.
   const todaySessions = todaySessionScheduleLabel({ ...event, schedule }, activeConfig);
   if (todaySessions) return todaySessions;
+
+  if (isExhibition(event)) {
+    const daily = dailyExhibitionHours(schedule, {
+      timezone: activeConfig.timezone,
+      now: new Date(),
+    });
+    const range = formatSchedule(scheduleWithoutVisitHours(schedule), activeConfig);
+    if (daily?.label) return [range, daily.label].filter(Boolean).join(" · ");
+    return range;
+  }
 
   return formatSchedule(schedule, activeConfig);
 }
