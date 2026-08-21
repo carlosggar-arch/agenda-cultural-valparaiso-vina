@@ -56,7 +56,7 @@ for (const shared of ["exhibition-groups.js", "schedule-display.js"]) {
 }
 assert.doesNotMatch(app, /static-exhibition-groups\.js/, "legacy Valpo-only exhibition renderer must not be loaded");
 assert.match(app, /gijon-card-images\.js/, "Gijon may keep a lightweight media/data enhancer");
-assert.match(app, /new MutationObserver\(scheduleExhibitionOrder\)/, "shared exhibition ordering may use one direct-grid observer");
+assert.match(app, /new MutationObserver\(scheduleTemporalOrder\)/, "shared temporal ordering may use bounded direct-grid observers");
 assert.doesNotMatch(app, /observe\(datedGrid, \{[^}]*subtree:\s*true/, "shared ordering must never observe descendant churn");
 for (const module of ["card-experience.js", "card-image-fallback.js", "public-presentation-guard.js", "exhibition-hours.js"]) {
   assert.match(app, new RegExp(module.replaceAll(".", "\\.")), `${module} must remain owned by app.js on the Valpo rich runtime`);
