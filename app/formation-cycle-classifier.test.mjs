@@ -5,8 +5,8 @@ const formationCycle = {
   id: "agenda_fd3ddae09e1576497c5cb7d7",
   title: "Fortalece tus herramientas para la gestión cultural",
   event_type: "event",
-  primary_category: { id: "cursos-talleres", label: "Cursos y talleres" },
-  categories: [{ id: "cursos-talleres", label: "Cursos y talleres" }],
+  primary_category: { id: "cursos-talleres-campus", label: "Cursos, talleres y campus" },
+  categories: [{ id: "cursos-talleres-campus", label: "Cursos, talleres y campus" }],
   schedule: {
     mode: "multi_day",
     start: "2026-08-18T18:00:00-04:00",
@@ -24,6 +24,14 @@ const formationCycle = {
 };
 
 assert.equal(isLongFormationCycle(formationCycle), true, "a long formation cycle without explicit sessions must not behave like a daily event");
+
+const legacyFormationCycle = {
+  ...formationCycle,
+  id: "legacy-formation-cycle",
+  primary_category: { id: "formacion-taller", label: "Formación / taller" },
+  categories: [{ id: "formacion-taller", label: "Formación / taller" }],
+};
+assert.equal(isLongFormationCycle(legacyFormationCycle), true, "legacy formation categories must remain compatible during normalization");
 
 const normalized = normalizeFormationCycles({ events: [formationCycle] });
 assert.equal(normalized.events[0].event_type, "program");

@@ -3,11 +3,21 @@ const CATEGORY = Object.freeze({
   cine: { id: "cine", label: "Cine" },
   musica: { id: "musica", label: "Música" },
   teatro: { id: "teatro", label: "Teatro" },
-  talleres: { id: "cursos-talleres", label: "Cursos y talleres" },
+  talleres: { id: "cursos-talleres-campus", label: "Cursos, talleres y campus" },
   ferias: { id: "ferias-gastronomia", label: "Ferias y gastronomía" },
   naturaleza: { id: "naturaleza-deportes", label: "Naturaleza y deportes" },
   otros: { id: "otros", label: "Otros panoramas" },
 });
+
+const TRAINING_CATEGORY_IDS = new Set([
+  "formacion",
+  "formacion-taller",
+  "cursos-talleres",
+  "cursos-talleres-campus",
+  "talleres-cursos",
+  "cursos",
+  "talleres",
+]);
 
 function fold(value) {
   return String(value || "")
@@ -36,14 +46,27 @@ function evidenceText(event) {
   ].filter(Boolean).join(" "));
 }
 
+function isTrainingSource(source) {
+  if (TRAINING_CATEGORY_IDS.has(source.id)) return true;
+  return /\b(?:formacion|curso|cursos|taller|talleres|campus)\b/u.test(fold(source.label));
+}
+
+function isSummerProgram(event) {
+  if (!["program", "registration_period"].includes(String(event?.event_type || ""))) return false;
+  const title = fold(event?.title);
+  return /\b(?:campus|campamento|escuela de verano)\b/u.test(title)
+    || (/\bverano\b/u.test(title) && /\binscripciones?\b/u.test(title));
+}
+
 function explicitTitleCategory(event) {
   const title = fold(event?.title);
   if (!title) return null;
+  if (/\b(?:campus|campamento|escuela de verano)\b/u.test(title) || isSummerProgram(event)) return CATEGORY.talleres;
   if (/\b(exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\b/u.test(title)) return CATEGORY.exposiciones;
   if (/\b(cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\b/u.test(title)) return CATEGORY.cine;
   if (/\b(concierto|recital|jazz|coro|coral|orquesta|musica)\b/u.test(title)) return CATEGORY.musica;
   if (/\b(teatro|danza|ballet|circo|performance|funcion|espectaculo)\b/u.test(title)) return CATEGORY.teatro;
-  if (/\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion)\b/u.test(title)) return CATEGORY.talleres;
+  if (/\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion|formacion)\b/u.test(title)) return CATEGORY.talleres;
   if (/\b(presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\b/u.test(title)) return CATEGORY.otros;
   return null;
 }
@@ -57,7 +80,7 @@ function inferCultureCategory(event) {
   if (/\b(cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\b/u.test(text)) return CATEGORY.cine;
   if (/\b(musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\b/u.test(text)) return CATEGORY.musica;
   if (/\b(teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\b/u.test(text)) return CATEGORY.teatro;
-  if (/\b(taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion)\b/u.test(text)) return CATEGORY.talleres;
+  if (/\b(taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano)\b/u.test(text)) return CATEGORY.talleres;
   if (/\b(feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\b/u.test(text)) return CATEGORY.ferias;
   if (/\b(naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\b/u.test(text)) return CATEGORY.naturaleza;
   return CATEGORY.otros;
@@ -65,9 +88,11 @@ function inferCultureCategory(event) {
 
 export function resolvePublicCategory(event) {
   const source = sourceCategory(event);
+  if (isTrainingSource(source)) return CATEGORY.talleres;
+  if (isSummerProgram(event)) return CATEGORY.talleres;
   if (source.id === "museos" || source.id === "exposiciones") return CATEGORY.exposiciones;
   if (source.id === "cultura" || fold(source.label) === "cultura") return inferCultureCategory(event);
-  if (!source.id) return CATEGORY.otros;
+  if (!source.id) return explicitTitleCategory(event) || CATEGORY.otros;
   return { id: source.id, label: source.label || "Otros panoramas" };
 }
 

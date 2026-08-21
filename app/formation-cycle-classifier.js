@@ -8,6 +8,16 @@ function fold(value) {
     .trim();
 }
 
+const TRAINING_CATEGORY_IDS = new Set([
+  "formacion",
+  "formacion-taller",
+  "cursos-talleres",
+  "cursos-talleres-campus",
+  "talleres-cursos",
+  "cursos",
+  "talleres",
+]);
+
 function categoryId(event) {
   return String(event?.primary_category?.id || event?.categories?.[0]?.id || "").trim();
 }
@@ -43,11 +53,11 @@ function hasOccurrences(event) {
 
 function formationLike(event) {
   const ids = categoryIds(event);
-  if ([...ids].some((id) => /^(?:formacion|formacion-taller|cursos-talleres|talleres-cursos|cursos|talleres)$/.test(id))) return true;
+  if ([...ids].some((id) => TRAINING_CATEGORY_IDS.has(id))) return true;
   const labels = [event?.primary_category?.label, ...(event?.categories || []).map((category) => category?.label)]
     .filter(Boolean)
     .join(" ");
-  return /\b(?:formacion|curso|cursos|taller|talleres)\b/.test(fold(labels));
+  return /\b(?:formacion|curso|cursos|taller|talleres|campus)\b/.test(fold(labels));
 }
 
 function registrationText(event) {
@@ -110,7 +120,7 @@ function asRegistrationReminder(event) {
 
 export function isLongFormationCycle(event) {
   if (!event || event?.event_type !== "event") return false;
-  if (categoryId(event) !== "cursos-talleres") return false;
+  if (!TRAINING_CATEGORY_IDS.has(categoryId(event))) return false;
   if (event?.schedule?.mode !== "multi_day") return false;
   if (hasOccurrences(event)) return false;
   if (spanDays(event) < 21) return false;
