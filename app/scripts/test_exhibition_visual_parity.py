@@ -15,6 +15,10 @@ import time
 import unicodedata
 from pathlib import Path
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__exhibition_visual_parity.html"
@@ -78,6 +82,9 @@ def real_venue_events(city: str, target: str) -> list[dict]:
 def make_test_page(city: str, expected_label: str, target: str) -> None:
     events = real_venue_events(city, target)
     payload = html.escape(json.dumps(events, ensure_ascii=False), quote=False)
+    registry_payload = html.escape((APP / "cities.json").read_text(encoding="utf-8"), quote=False)
+    gallery_css = (APP / "exhibition-gallery.css").read_text(encoding="utf-8").replace("</style", "<\\/style")
+    compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8").replace("</style", "<\\/style")
     city_json = json.dumps(city, ensure_ascii=False)
     target_json = json.dumps(target, ensure_ascii=False)
     label_json = json.dumps(expected_label, ensure_ascii=False)
@@ -89,8 +96,8 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Exhibition visual parity</title>
   <link rel="stylesheet" href="./app.css">
-  <link id="unified-exhibition-gallery-styles" rel="stylesheet" href="./exhibition-gallery.css?v=20260818-gallery2">
-  <link id="unified-exhibition-compact-styles" rel="stylesheet" href="./exhibition-compact.css?v=20260818-compact8">
+  <style id="unified-exhibition-gallery-styles">{gallery_css}</style>
+  <style id="unified-exhibition-compact-styles">{compact_css}</style>
   <style>
     html, body {{ margin:0; min-height:100%; background:#f6f3ec; }}
     body {{ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }}
@@ -103,6 +110,7 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
 <body>
   <main><div class="event-grid" data-dated-grid></div></main>
   <script id="fixture-data" type="application/json">{payload}</script>
+  <script id="city-registry-fixture" type="application/json">{registry_payload}</script>
   <script type="module">
     import {{ publishAgendaRuntimeSnapshot }} from "./agenda-runtime-state.mjs?v=20260819-runtime1";
     import {{ normalizeVenueAliases }} from "./venue-identity.mjs";
@@ -112,7 +120,24 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
     const expectedLabel = {label_json};
     const fold = (value) => String(value || "").normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase().replace(/\\s+/g, " ").trim();
     const events = normalizeVenueAliases(JSON.parse(document.getElementById("fixture-data").textContent));
+    const registryText = document.getElementById("city-registry-fixture").textContent;
     const grid = document.querySelector("[data-dated-grid]");
+
+    // Keep this visual fixture deterministic: exhibition-groups.js loads the
+    // same cities.json used by production, but the synthetic browser probe does
+    // not depend on a second HTTP round trip for that registry.
+    const nativeFetch = window.fetch.bind(window);
+    window.fetch = (input, init) => {{
+      const rawUrl = input instanceof Request ? input.url : String(input || "");
+      const url = new URL(rawUrl, window.location.href);
+      if (url.pathname.endsWith("/app/cities.json")) {{
+        return Promise.resolve(new Response(registryText, {{
+          status: 200,
+          headers: {{ "Content-Type": "application/json; charset=utf-8" }},
+        }}));
+      }}
+      return nativeFetch(input, init);
+    }};
 
     // Feed the canonical renderer a real core-group anchor. This intentionally
     // avoids coupling visual parity to the current overlap/date window: temporal
@@ -178,10 +203,13 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
       return true;
     }}
 
-    window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 60));
+    window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 40));
     await import("./exhibition-groups.js?v=20260820-groups1");
+    for (let attempt = 0; attempt < 60 && !captureTarget(); attempt += 1) {{
+      window.dispatchEvent(new CustomEvent("vivamos:agenda-data-ready", {{ detail: {{ city: cityId }} }}));
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }}
     captureTarget();
-    for (const delay of [60, 140, 260, 500, 900, 1400, 2200, 3200, 4800, 6200]) setTimeout(captureTarget, delay);
   </script>
 </body>
 </html>'''
@@ -198,24 +226,48 @@ def chrome_command(profile: str, url: str) -> list[str]:
     ]
 
 
-def dump_dom(city: str, url: str) -> str:
+def browser_dom(city: str, url: str) -> str:
     last_error = ""
-    for attempt in range(3):
-        with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-dom-{city}-", ignore_cleanup_errors=True) as profile:
-            cmd = chrome_command(profile, url)
-            cmd.insert(-1, "--dump-dom")
+    for attempt in range(2):
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-browser-{city}-", ignore_cleanup_errors=True) as profile:
+            options = Options()
+            options.binary_location = chrome_binary()
+            options.page_load_strategy = "none"
+            for arg in (
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-extensions",
+                "--disable-sync",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--window-size=720,980",
+                f"--user-data-dir={profile}",
+            ):
+                options.add_argument(arg)
+            driver = None
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
-            except subprocess.TimeoutExpired as exc:
-                last_error = f"attempt {attempt + 1}: timeout after {exc.timeout}s"
-                continue
-            if result.returncode == 0 and result.stdout:
-                if 'data-visual-parity-ready="true"' in result.stdout:
-                    return result.stdout
-                last_error = f"attempt {attempt + 1}: DOM returned before visual parity became ready"
-                continue
-            last_error = result.stderr[-1400:] or f"attempt {attempt + 1}: exit={result.returncode}, empty DOM"
-    raise AssertionError(f"Chrome visual DOM probe failed after 3 attempts for {city}: {last_error}")
+                driver = webdriver.Chrome(options=options)
+                driver.get(url)
+                WebDriverWait(driver, 20, poll_frequency=0.05).until(
+                    lambda current: current.execute_script(
+                        'return document.documentElement.dataset.visualParityReady === "true"'
+                    )
+                )
+                dom = driver.page_source
+                if 'data-visual-parity-ready="true"' in dom:
+                    return dom
+                last_error = f"attempt {attempt + 1}: ready flag disappeared before serialization"
+            except Exception as exc:  # Selenium wraps browser timeouts and renderer failures.
+                last_error = f"attempt {attempt + 1}: {type(exc).__name__}: {exc}"
+            finally:
+                if driver is not None:
+                    try:
+                        driver.quit()
+                    except Exception:
+                        pass
+    raise AssertionError(f"Chrome visual browser probe failed after 2 attempts for {city}: {last_error}")
 
 
 def write_static_capture(dom: str) -> None:
@@ -244,7 +296,7 @@ def attr(tag: str, name: str) -> str | None:
 
 def run_case(city: str, expected_label: str, target: str, filename: str, base_url: str, output_dir: Path) -> dict[str, str]:
     make_test_page(city, expected_label, target)
-    dom = dump_dom(city, f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1")
+    dom = browser_dom(city, f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1")
     if 'data-visual-parity-ready="true"' not in dom:
         raise AssertionError(f"grouped venue not rendered for visual check: {expected_label} ({city})")
     status = status_tag(dom)
