@@ -15,6 +15,10 @@ import time
 import unicodedata
 from pathlib import Path
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__exhibition_visual_parity.html"
@@ -222,25 +226,48 @@ def chrome_command(profile: str, url: str) -> list[str]:
     ]
 
 
-def dump_dom(city: str, url: str) -> str:
+def browser_dom(city: str, url: str) -> str:
     last_error = ""
-    for attempt in range(3):
-        with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-dom-{city}-", ignore_cleanup_errors=True) as profile:
-            cmd = chrome_command(profile, url)
-            cmd.insert(-1, "--run-all-compositor-stages-before-draw")
-            cmd.insert(-1, "--dump-dom")
+    for attempt in range(2):
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-browser-{city}-", ignore_cleanup_errors=True) as profile:
+            options = Options()
+            options.binary_location = chrome_binary()
+            options.page_load_strategy = "none"
+            for arg in (
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-extensions",
+                "--disable-sync",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--window-size=720,980",
+                f"--user-data-dir={profile}",
+            ):
+                options.add_argument(arg)
+            driver = None
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
-            except subprocess.TimeoutExpired as exc:
-                last_error = f"attempt {attempt + 1}: timeout after {exc.timeout}s"
-                continue
-            if result.returncode == 0 and result.stdout:
-                if 'data-visual-parity-ready="true"' in result.stdout:
-                    return result.stdout
-                last_error = f"attempt {attempt + 1}: DOM returned before visual parity became ready"
-                continue
-            last_error = result.stderr[-1400:] or f"attempt {attempt + 1}: exit={result.returncode}, empty DOM"
-    raise AssertionError(f"Chrome visual DOM probe failed after 3 attempts for {city}: {last_error}")
+                driver = webdriver.Chrome(options=options)
+                driver.get(url)
+                WebDriverWait(driver, 20, poll_frequency=0.05).until(
+                    lambda current: current.execute_script(
+                        'return document.documentElement.dataset.visualParityReady === "true"'
+                    )
+                )
+                dom = driver.page_source
+                if 'data-visual-parity-ready="true"' in dom:
+                    return dom
+                last_error = f"attempt {attempt + 1}: ready flag disappeared before serialization"
+            except Exception as exc:  # Selenium wraps browser timeouts and renderer failures.
+                last_error = f"attempt {attempt + 1}: {type(exc).__name__}: {exc}"
+            finally:
+                if driver is not None:
+                    try:
+                        driver.quit()
+                    except Exception:
+                        pass
+    raise AssertionError(f"Chrome visual browser probe failed after 2 attempts for {city}: {last_error}")
 
 
 def write_static_capture(dom: str) -> None:
@@ -269,7 +296,7 @@ def attr(tag: str, name: str) -> str | None:
 
 def run_case(city: str, expected_label: str, target: str, filename: str, base_url: str, output_dir: Path) -> dict[str, str]:
     make_test_page(city, expected_label, target)
-    dom = dump_dom(city, f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1")
+    dom = browser_dom(city, f"{base_url}/app/{TEST_PAGE.name}?city={city}&visual-parity=1")
     if 'data-visual-parity-ready="true"' not in dom:
         raise AssertionError(f"grouped venue not rendered for visual check: {expected_label} ({city})")
     status = status_tag(dom)
