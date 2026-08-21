@@ -1,8 +1,8 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-08-20T19:58:22+00:00",
+  "generated_at": "2026-08-21T09:34:08+00:00",
   "timezone": "America/Santiago",
-  "date": "2026-08-20",
+  "date": "2026-08-21",
   "state": "ok",
   "verified_inactive_count": 2,
   "future_detected_count": 0,
@@ -68,11 +68,11 @@
   "official_source_recoveries": {
     "parque_cultural_multidate": {
       "state": "persistent_multidate_series_active",
-      "pages_checked": 3,
-      "multidate_pages": 0,
-      "events_added": 0,
+      "pages_checked": 4,
+      "multidate_pages": 1,
+      "events_added": 1,
       "fetch_errors": 0,
-      "series_refreshed": 0,
+      "series_refreshed": 1,
       "series_active": 1,
       "series_state": [
         {
@@ -84,15 +84,28 @@
             "id": "agenda_970a461a24590f90dad68803",
             "title": "Danza Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso",
             "event_type": "event",
-            "primary_category": {"id": "teatro", "label": "Teatro"},
-            "categories": [{"id": "teatro", "label": "Teatro"}],
+            "primary_category": {
+              "id": "teatro",
+              "label": "Teatro"
+            },
+            "categories": [
+              {
+                "id": "teatro",
+                "label": "Teatro"
+              }
+            ],
             "schedule": {
               "mode": "dated",
               "start": "2026-08-19T19:00:00-04:00",
               "end": null,
               "timezone": "America/Santiago",
               "display_text": "19-08-2026 · 19:00",
-              "occurrences": [{"start": "2026-08-19T19:00:00-04:00", "end": null}]
+              "occurrences": [
+                {
+                  "start": "2026-08-19T19:00:00-04:00",
+                  "end": null
+                }
+              ]
             },
             "location": {
               "venue_id": "parque-cultural-valparaiso",
@@ -104,7 +117,13 @@
               "latitude": null,
               "longitude": null
             },
-            "price": {"is_free": true, "currency": "CLP", "min_amount": 0, "max_amount": 0, "display_text": "Gratis"},
+            "price": {
+              "is_free": true,
+              "currency": "CLP",
+              "min_amount": 0,
+              "max_amount": 0,
+              "display_text": "Gratis"
+            },
             "links": {
               "official": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
               "tickets": null,
@@ -115,16 +134,27 @@
             "source_id": "pcdv",
             "source_name": "Parque Cultural de Valparaíso",
             "source_url": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
-            "public_status": {"source_official": true, "cancelled": false, "price_confirmed": true, "information_completeness": "complete"},
+            "public_status": {
+              "source_official": true,
+              "cancelled": false,
+              "price_confirmed": true,
+              "information_completeness": "complete"
+            },
             "description": "Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso.",
-            "tags": ["danza", "bienal"],
+            "tags": [
+              "danza",
+              "bienal"
+            ],
             "audience": null,
             "registration_requirements": null,
             "image": {
               "url": "https://parquecultural.cl/wp-content/uploads/2026/08/II_BdDMyCRdV_PCdV_web_01.jpg",
               "alt": "Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso"
             },
-            "editorial": {"classification": "event", "reason": "official_parquecultural_event"}
+            "editorial": {
+              "classification": "event",
+              "reason": "official_parquecultural_event"
+            }
           },
           "occurrences": [
             {
@@ -142,7 +172,7 @@
               "description": "hangar_espacio_ presenta “Estado #3” en la Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso."
             }
           ],
-          "last_verified_at": "2026-08-19T06:21:31-04:00"
+          "last_verified_at": "2026-08-21T05:31:59-04:00"
         }
       ]
     },
@@ -151,11 +181,11 @@
       "fetch_ok": true,
       "http_status": 200,
       "error": null,
-      "candidates": 148,
-      "details_checked": 139,
-      "events_published": 18,
+      "candidates": 135,
+      "details_checked": 135,
+      "events_published": 10,
       "covered_source_id": "museo_palacio_rioja"
     },
-    "events_after": 216
+    "events_after": 206
   }
 }

@@ -1,28 +1,35 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T15:59:56-04:00",
-  "current_events": 195,
-  "events_with_images_before": 108,
-  "missing_images_before": 87,
+  "generated_at": "2026-08-21T05:35:54-04:00",
+  "current_events": 189,
+  "events_with_images_before": 105,
+  "missing_images_before": 84,
   "fetched_pages": 10,
-  "recovered_event_specific_images": 0,
+  "recovered_event_specific_images": 1,
   "fetch_errors": 0,
   "no_confident_match": 5,
-  "missing_images_after": 87,
-  "representative_fallback_available_after": 7,
-  "event_specific_image_pct_after": 55.4,
+  "missing_images_after": 83,
+  "representative_fallback_available_after": 6,
+  "event_specific_image_pct_after": 56.1,
   "rows": [
     {
-      "id": "agenda_67defc9c064344e04c20aca6",
-      "state": "matched_but_no_event_image",
-      "url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
-      "match_score": 1.0,
-      "representative_available": true
+      "id": "agenda_80d234fcefe35f6ba08d660a",
+      "state": "no_confident_event_match",
+      "url": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/",
+      "match_score": 0.0,
+      "representative_available": false
     },
     {
-      "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
+      "id": "agenda_e7e2a4a89dc447f9bd2633e7",
+      "state": "recovered",
+      "url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
+      "match_score": 1.0,
+      "image_url": "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-05-092332.png"
+    },
+    {
+      "id": "agenda_d1a7609621e1947f7148b94c",
       "state": "no_confident_event_match",
-      "url": "https://www.portaldisc.com/evento/sctriobrillovina",
+      "url": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/",
       "match_score": 0.0,
       "representative_available": false
     },
@@ -62,17 +69,15 @@
       "representative_available": false
     },
     {
-      "id": "agenda_portaltickets_valparaiso_0a88d665ec0a9cc8",
-      "state": "no_confident_event_match",
-      "url": "https://www.portaldisc.com/evento/eternamentebukis-21-08-2026",
-      "match_score": 0.0,
-      "representative_available": false
-    },
-    {
       "id": "agenda_portaltickets_valparaiso_d7aa1a5f4528fe20",
       "state": "no_confident_event_match",
       "url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
       "match_score": 0.0,
+      "representative_available": false
+    },
+    {
+      "id": "agenda_3232f6486ecd72f77e38f3d3",
+      "state": "no_event_specific_url",
       "representative_available": false
     },
     {
@@ -106,11 +111,6 @@
       "id": "agenda_f80fdf35e613ff3f1b593302",
       "state": "fetch_budget_exhausted",
       "representative_available": true
-    },
-    {
-      "id": "agenda_ffb0ad3e758847dad1520be5",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
     },
     {
       "id": "agenda_c235f3d24c1eea1a2c3fcb2f",
@@ -148,11 +148,6 @@
       "representative_available": false
     },
     {
-      "id": "agenda_b99f7dd404a16dcae5052dd5",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
       "id": "agenda_teatromuseo_43ba6181f70d7b0b9058",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -173,6 +168,11 @@
       "representative_available": false
     },
     {
+      "id": "agenda_225d84d83de9877bcc7bca09",
+      "state": "no_event_specific_url",
+      "representative_available": false
+    },
+    {
       "id": "agenda_visitavina_rioja_32e715c4633ac89132",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -180,6 +180,11 @@
     {
       "id": "agenda_visitavina_rioja_6a5e87f4963ca05062",
       "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_72260006eccc32a0e35a87d2",
+      "state": "no_event_specific_url",
       "representative_available": false
     },
     {
@@ -194,6 +199,11 @@
     },
     {
       "id": "agenda_visitavina_estadio_espanol_b0d70d835ca50bc4",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
+      "id": "agenda_visitavina_rioja_8c01d0d993729991bf",
       "state": "fetch_budget_exhausted",
       "representative_available": false
     },
@@ -233,16 +243,6 @@
       "representative_available": false
     },
     {
-      "id": "agenda_d710e9788b9a18d19945d9ba",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_0abfa83cf72008bef8cfe20e",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
       "id": "agenda_visitavina_rioja_8ab643adaaaf907eab",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -278,11 +278,6 @@
       "representative_available": true
     },
     {
-      "id": "agenda_bec2ac1f485ef894aee178a0",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
       "id": "agenda_teatromuseo_397a4c357cfdd376130f",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -313,11 +308,6 @@
       "representative_available": false
     },
     {
-      "id": "agenda_81c5fd841257cbacd02890e8",
-      "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
       "id": "agenda_portaltickets_valparaiso_defc0269dc9a63ce",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -330,11 +320,6 @@
     {
       "id": "agenda_7d6d45b67ce8c34608b88fa3",
       "state": "no_event_specific_url",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_6f68c485702bdc7a04e97cbf",
-      "state": "fetch_budget_exhausted",
       "representative_available": false
     },
     {
@@ -383,6 +368,11 @@
       "representative_available": false
     },
     {
+      "id": "agenda_portaltickets_valparaiso_797cc81ca409753f",
+      "state": "fetch_budget_exhausted",
+      "representative_available": false
+    },
+    {
       "id": "agenda_portaltickets_valparaiso_c1420addc439ca88",
       "state": "fetch_budget_exhausted",
       "representative_available": false
@@ -405,11 +395,6 @@
     {
       "id": "agenda_portaltickets_valparaiso_94c9fd8018416239",
       "state": "fetch_budget_exhausted",
-      "representative_available": false
-    },
-    {
-      "id": "agenda_f3e785e192964ffa6f49e58d",
-      "state": "no_event_specific_url",
       "representative_available": false
     },
     {

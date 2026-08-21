@@ -1,13 +1,13 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T19:55:18+00:00",
+  "generated_at": "2026-08-21T09:31:31+00:00",
   "source_id": "portaltickets_valparaiso",
   "source_role": "secondary_ticketing_aggregator",
   "fetch_ok": true,
   "http_status": 200,
-  "candidates_parsed": 57,
+  "candidates_parsed": 55,
   "parse": {
-    "ticket_blocks": 68,
+    "ticket_blocks": 66,
     "no_date": 0,
     "expired": 0,
     "invalid_card": 3,
@@ -16,22 +16,22 @@
     "duplicate_card": 0
   },
   "details": {
-    "requested": 57,
-    "fetched": 57,
+    "requested": 55,
+    "fetched": 55,
     "failed": 0,
-    "titles_shortened": 54,
-    "descriptions_added": 57,
+    "titles_shortened": 52,
+    "descriptions_added": 55,
     "descriptions_missing": 0,
     "sold_out": 0,
-    "partial_availability": 16,
-    "last_tickets": 7,
-    "prices_confirmed": 56
+    "partial_availability": 14,
+    "last_tickets": 5,
+    "prices_confirmed": 54
   },
   "refresh": {
     "legacy_removed": 0,
-    "previous_corrected": 56,
-    "corrected_published": 56,
-    "semantic_duplicates_dropped": 1
+    "previous_corrected": 0,
+    "corrected_published": 55,
+    "semantic_duplicates_dropped": 0
   },
   "error": null
 }

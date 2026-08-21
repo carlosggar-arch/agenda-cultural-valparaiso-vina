@@ -3,8 +3,8 @@
   "sources": {
     "culturasvina": {
       "name": "Culturas Viña",
-      "last_good_at": "2026-08-20T15:58:24-04:00",
-      "last_good_count": 11,
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 12,
       "events": [
         {
           "id": "agenda_67defc9c064344e04c20aca6",
@@ -26,23 +26,21 @@
           ],
           "schedule": {
             "mode": "dated",
-            "start": "2026-08-20T06:00:00-04:00",
-            "end": "2026-08-20T13:30:00-04:00",
+            "start": "2026-08-20T10:00:00-04:00",
+            "end": null,
             "timezone": "America/Santiago",
-            "display_text": "20-08-2026 · 06:00–13:30",
+            "display_text": "2026-08-20 · 10:00–17:30",
             "occurrences": [],
             "opening_time": "10:00",
             "closing_time": "17:30",
-            "hours_confidence": "source_schedule_pair",
-            "start_confidence": "official_revalidation",
-            "end_confidence": "official_revalidation"
+            "hours_confidence": "source_schedule_pair"
           },
           "location": {
             "venue_id": "palacio-vergara",
             "city": "Viña del Mar",
             "commune": "Viña del Mar",
             "venue": "Palacio Vergara",
-            "address": "Errázuriz 563",
+            "address": "Errázuriz 563, Viña del Mar",
             "online": false,
             "latitude": null,
             "longitude": null
@@ -63,10 +61,10 @@
           "organizer": "Culturas Viña",
           "source_name": "Culturas Viña",
           "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-mientras-tanto/",
-          "last_verified_at": "2026-08-20T15:11:49-04:00",
+          "last_verified_at": null,
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T15:11:49-04:00",
+            "last_verified_at": null,
             "registration_open": null,
             "registration_closed": null,
             "cancelled": null,
@@ -84,16 +82,7 @@
             "url": null,
             "alt": null
           },
-          "source_id": "culturasvina",
-          "editorial": {
-            "last_automatic_revalidation_at": "2026-08-20T15:11:49-04:00",
-            "automatic_revalidation_fields": [
-              "address",
-              "display_text",
-              "end",
-              "start"
-            ]
-          }
+          "source_id": "culturasvina"
         },
         {
           "id": "agenda_eeea936319edc98db3c75f29",
@@ -172,6 +161,114 @@
             "alt": null
           },
           "source_id": "culturasvina"
+        },
+        {
+          "id": "agenda_eb89b5ee606c6cb270ea04c4",
+          "title": "A veces un mar dulce",
+          "event_type": "event",
+          "primary_category": {
+            "id": "exposiciones",
+            "label": "Exposiciones"
+          },
+          "categories": [
+            {
+              "id": "exposiciones",
+              "label": "Exposiciones"
+            },
+            {
+              "id": "museos",
+              "label": "Museos"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-21T10:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 10:00–17:30",
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair",
+            "opening_hours": {
+              "mode": "weekly",
+              "open_weekdays": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "opening_time": "10:00",
+              "closing_time": "17:30",
+              "display_text": "Martes a domingo · 10:00–17:30",
+              "reference_date": "2026-08-30",
+              "is_open_on_reference_date": true,
+              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
+              "verified_at": "2026-08-17"
+            }
+          },
+          "location": {
+            "venue_id": null,
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Museo Palacio Rioja",
+            "address": null,
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Gratis"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
+          },
+          "organizer": "Culturas Viña",
+          "source_name": "Culturas Viña",
+          "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+          "last_verified_at": null,
+          "public_status": {
+            "source_official": false,
+            "last_verified_at": null,
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": null,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "Inicio actividad - Visita Viña Exposición temporal // A veces un mar dulce Fecha 21-agosto-2026 Hora De: Josefina Acevedo, Rocio Mercado, Rosario Sotomayor, Krishna Escovedo y Javiera Sepúlveda. El eje curatorial es el concepto de balneario. Las artistas reuni...",
+          "tags": [],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFlE3fdTZhOl0VMa_HwamrWmdUs_MQIkGloqoTF2fE8oQGa5E1dHC__Bi7VxUixFr5DtihP2cToZieJZQ9yT52w&_nc_ohc=h6IK9MlftDkQ7kNvwFh2dGX&_nc_gid=5wD9mnd4Trwl5fasjyNvOA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQFzXCO57AukmVD9LPBjfUioJYI_5bZX4rnPMeVu9my81A&oe=6A888B33&_nc_sid=c6f216",
+            "alt": "Museo Palacio Rioja"
+          },
+          "source_id": "culturasvina",
+          "editorial": {
+            "duplicate_sources": [
+              {
+                "id": "agenda_8c2b6ba0de30c34fe3529930",
+                "title": "A veces un mar dulce",
+                "source_name": "Museo Palacio Rioja",
+                "source_url": "https://www.instagram.com/p/DbtU4Tst0CB/"
+              }
+            ],
+            "duplicates_consolidated": 1
+          }
         },
         {
           "id": "agenda_909c0ee35fef43fe785f4eb4",
@@ -1142,7 +1239,7 @@
     },
     "museobaburizza": {
       "name": "Museo Baburizza",
-      "last_good_at": "2026-08-20T15:58:24-04:00",
+      "last_good_at": "2026-08-21T05:34:10-04:00",
       "last_good_count": 2,
       "events": [
         {
@@ -1164,7 +1261,7 @@
             "start": "2026-08-06",
             "end": "2026-10-04",
             "timezone": "America/Santiago",
-            "display_text": "06-08-2026 – 04-10-2026",
+            "display_text": "2026-08-06 – 2026-10-04",
             "occurrences": [],
             "start_confidence": "explicit",
             "end_confidence": "explicit"
@@ -1196,10 +1293,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-          "last_verified_at": "2026-08-20T15:11:49-04:00",
+          "last_verified_at": "2026-08-20T17:00:57-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:11:49-04:00",
+            "last_verified_at": "2026-08-20T17:00:57-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -1225,14 +1322,7 @@
           "editorial": {
             "classification": "event",
             "reason": "official_baburizza_agenda",
-            "duration_days": 59,
-            "preserved_by_parser_drift_guard": true,
-            "parser_drift_preserved_at": "2026-08-20T15:11:43-04:00",
-            "parser_drift_source_id": "museobaburizza",
-            "last_automatic_revalidation_at": "2026-08-20T15:11:49-04:00",
-            "automatic_revalidation_fields": [
-              "display_text"
-            ]
+            "duration_days": 59
           }
         },
         {
@@ -1251,13 +1341,13 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-08-14T10:00:00+00:00",
-            "end": "2026-10-04T18:00:00+00:00",
+            "start": "2026-08-14",
+            "end": "2026-10-04",
             "timezone": "America/Santiago",
             "display_text": "2026-08-14 – 2026-10-04",
             "occurrences": [],
-            "start_confidence": "official_revalidation",
-            "end_confidence": "official_revalidation",
+            "start_confidence": "explicit",
+            "end_confidence": "explicit",
             "opening_hours": {
               "mode": "weekly",
               "open_weekdays": [
@@ -1308,10 +1398,10 @@
           "source_id": "museobaburizza",
           "source_name": "Museo Baburizza",
           "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-          "last_verified_at": "2026-08-20T15:11:49-04:00",
+          "last_verified_at": "2026-08-20T17:00:57-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:11:49-04:00",
+            "last_verified_at": "2026-08-20T17:00:57-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -1338,16 +1428,7 @@
             "classification": "event",
             "reason": "official_baburizza_agenda",
             "duration_days": 51,
-            "venue_hours_enriched": true,
-            "preserved_by_parser_drift_guard": true,
-            "parser_drift_preserved_at": "2026-08-20T15:11:43-04:00",
-            "parser_drift_source_id": "museobaburizza",
-            "last_automatic_revalidation_at": "2026-08-20T15:11:49-04:00",
-            "automatic_revalidation_fields": [
-              "display_text",
-              "end",
-              "start"
-            ]
+            "venue_hours_enriched": true
           }
         }
       ]
@@ -1697,175 +1778,9 @@
     },
     "trotamundosvalpo": {
       "name": "Trotamundos Valparaíso",
-      "last_good_at": "2026-08-20T15:58:24-04:00",
-      "last_good_count": 19,
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 17,
       "events": [
-        {
-          "id": "agenda_trotamundos_11aa2cc70ba8cec49b24",
-          "title": "Angelo Soul - Docente Indecente (+18)",
-          "event_type": "event",
-          "primary_category": {
-            "id": "teatro",
-            "label": "Teatro"
-          },
-          "categories": [
-            {
-              "id": "teatro",
-              "label": "Teatro"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T20:30:00-04:00",
-            "end": null,
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 20:30",
-            "occurrences": [],
-            "start_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "trotamundosvalpo",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "Trotamundos Valparaíso",
-            "address": "Blanco 1253, Valparaíso",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": null,
-            "currency": "CLP",
-            "min_amount": null,
-            "max_amount": null,
-            "display_text": "Consultar condiciones"
-          },
-          "links": {
-            "official": "https://linktr.ee/trotavalparaiso",
-            "tickets": "https://www.passline.com/eventos/angelo-soul-docente-indecente",
-            "registration": null,
-            "source": "https://linktr.ee/trotavalparaiso"
-          },
-          "organizer": "Trotamundos Valparaíso",
-          "source_id": "trotamundosvalpo",
-          "source_name": "Trotamundos Valparaíso",
-          "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
-            "registration_open": true,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": false,
-            "information_completeness": "complete",
-            "external_link_quality": "direct_ticketing",
-            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
-          },
-          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
-          "tags": [
-            "Teatro",
-            "Trotamundos Valparaíso"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/angelo-soul-docente-indecente-528149-rec.jpg",
-            "alt": "Angelo Soul - Docente Indecente (+18)",
-            "source": "passline_og",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_linktree_passline_refresh",
-            "ticket_url": "https://www.passline.com/eventos/angelo-soul-docente-indecente"
-          }
-        },
-        {
-          "id": "agenda_trotamundos_fe7bdef9de6229b3d4f5",
-          "title": "Piano Bar por Javier Diaz - Trotamundos Valparaíso",
-          "event_type": "event",
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T22:00:00-04:00",
-            "end": null,
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 22:00",
-            "occurrences": [],
-            "start_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "trotamundosvalpo",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "Trotamundos Valparaíso",
-            "address": "Blanco 1253, Valparaíso",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 5000,
-            "max_amount": null,
-            "display_text": "Desde $5.000"
-          },
-          "links": {
-            "official": "https://linktr.ee/trotavalparaiso",
-            "tickets": "https://www.passline.com/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso",
-            "registration": null,
-            "source": "https://linktr.ee/trotavalparaiso"
-          },
-          "organizer": "Trotamundos Valparaíso",
-          "source_id": "trotamundosvalpo",
-          "source_name": "Trotamundos Valparaíso",
-          "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
-            "registration_open": true,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "external_link_quality": "direct_ticketing",
-            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos."
-          },
-          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
-          "tags": [
-            "Música",
-            "Trotamundos Valparaíso"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso-546760-rec.jpg",
-            "alt": "Piano Bar por Javier Diaz - Trotamundos Valparaíso",
-            "source": "passline_og",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_linktree_passline_refresh",
-            "ticket_url": "https://www.passline.com/eventos/piano-bar-por-javier-diaz-trotamundos-valparaiso"
-          }
-        },
         {
           "id": "agenda_trotamundos_491cd4a6b95ddaa82fdd",
           "title": "Fiesta Bailable con Dj Ethan en Trotamundos Valparaíso",
@@ -1916,10 +1831,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -1999,10 +1914,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2082,10 +1997,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2165,10 +2080,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2248,10 +2163,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2331,10 +2246,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2414,10 +2329,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2497,10 +2412,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2580,10 +2495,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2663,10 +2578,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2746,10 +2661,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2829,10 +2744,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2912,10 +2827,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -2995,10 +2910,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3078,10 +2993,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3161,10 +3076,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -3244,10 +3159,10 @@
           "source_id": "trotamundosvalpo",
           "source_name": "Trotamundos Valparaíso",
           "source_url": "https://linktr.ee/trotavalparaiso",
-          "last_verified_at": "2026-08-20T15:52:04-04:00",
+          "last_verified_at": "2026-08-21T04:02:51-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:52:04-04:00",
+            "last_verified_at": "2026-08-21T04:02:51-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4303,96 +4218,10 @@
       ]
     },
     "portaltickets_valparaiso": {
-      "name": "portaltickets_valparaiso",
-      "last_good_at": "2026-08-20T13:07:59-04:00",
-      "last_good_count": 56,
+      "name": "PortalTickets — Región de Valparaíso",
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 55,
       "events": [
-        {
-          "id": "agenda_portaltickets_valparaiso_980bd9c3f8a58921",
-          "title": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO",
-          "event_type": "event",
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T19:00:00-04:00",
-            "end": "2026-08-20T19:00:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 19:00",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "portaltickets_valparaiso",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Bar Vienés, Viña del Mar",
-            "address": null,
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 1000,
-            "max_amount": 5000,
-            "display_text": "$1.000–$5.000 · Algunos sectores agotados"
-          },
-          "links": {
-            "official": null,
-            "tickets": "https://www.portaldisc.com/evento/sctriobrillovina",
-            "registration": null,
-            "source": "https://www.portaldisc.com/evento/sctriobrillovina"
-          },
-          "organizer": null,
-          "source_id": "portaltickets_valparaiso",
-          "source_name": "PortalTickets — Región de Valparaíso",
-          "source_url": "https://www.portaldisc.com/evento/sctriobrillovina",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
-          "public_status": {
-            "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
-            "registration_open": true,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": false,
-            "price_stage": "Disponibilidad parcial",
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": null
-          },
-          "description": "El próximo jueves 20 de agosto (en 2 horarios), Simón Campusano llega a la Ciudad Jardín con un concierto único y especialmente preparado para revisitar Brillo, el álbum que marcó el inicio de su camino como solista. En formato trío, el músico y compositor chileno recorrerá de principio a fin este trabajo fundamental de la escena independiente nacional, reinterpretando sus canciones con nuevos arreglos y una puesta en escena pensada exclusivamente para esta presentación.",
-          "tags": [
-            "Música",
-            "PortalTickets"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": null,
-            "alt": null
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "secondary_ticketing_source:portaltickets_valparaiso",
-            "duration_days": 0,
-            "source_title_original": "SIMÓN CAMPUSANO TRÍO PRESENTA BRILLO EN BAR VIENÉS, VIÑA DEL MAR",
-            "venue_suffix_removed": true,
-            "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
-            "partial_ticket_availability": true
-          }
-        },
         {
           "id": "agenda_portaltickets_valparaiso_fc0e51e3aa51c47e",
           "title": "CITY NOISE EN JOURNAL",
@@ -4444,10 +4273,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/citynoisejournal",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4475,7 +4304,7 @@
             "source_title_original": "CITY NOISE EN JOURNAL, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true,
             "last_tickets": true
           }
@@ -4531,10 +4360,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/colombina21agosto",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4562,7 +4391,7 @@
             "source_title_original": "EDUARDO PERALTA CANTA A FEDERICO EN LA COLOMBINA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -4616,10 +4445,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/elcoloramorvalpo",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4647,93 +4476,8 @@
             "source_title_original": "EL COLOR AMOR GIRA 2026 EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
-          }
-        },
-        {
-          "id": "agenda_portaltickets_valparaiso_0a88d665ec0a9cc8",
-          "title": "ETERNAMENTE BUKIS EN LOS ALQUINTA DEL PUERTO",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cultura",
-            "label": "Cultura"
-          },
-          "categories": [
-            {
-              "id": "cultura",
-              "label": "Cultura"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-21T19:00:00-04:00",
-            "end": "2026-08-21T19:00:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-21 · 19:00",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "portaltickets_valparaiso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "Los Alquinta del Puerto, Valparaíso",
-            "address": null,
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 5000,
-            "max_amount": 5000,
-            "display_text": "$5.000"
-          },
-          "links": {
-            "official": null,
-            "tickets": "https://www.portaldisc.com/evento/eternamentebukis-21-08-2026",
-            "registration": null,
-            "source": "https://www.portaldisc.com/evento/eternamentebukis-21-08-2026"
-          },
-          "organizer": null,
-          "source_id": "portaltickets_valparaiso",
-          "source_name": "PortalTickets — Región de Valparaíso",
-          "source_url": "https://www.portaldisc.com/evento/eternamentebukis-21-08-2026",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
-          "public_status": {
-            "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
-            "registration_open": true,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": false,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": null
-          },
-          "description": "¡Prepárese para vivir una noche inolvidable! 🎶✨ En \"Los Alquinta del Puerto\" le invitamos a ser parte de nuestro homenaje a Marco Antonio Solís, un espacio diseñado para el deleite de los sentidos donde la nostalgia, la elegancia y la buena mesa se fusionan a la perfección.",
-          "tags": [
-            "Cultura",
-            "PortalTickets"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": null,
-            "alt": null
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "secondary_ticketing_source:portaltickets_valparaiso",
-            "duration_days": 0,
-            "source_title_original": "ETERNAMENTE BUKIS EN LOS ALQUINTA DEL PUERTO, VALPARAÍSO",
-            "venue_suffix_removed": true,
-            "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
           }
         },
         {
@@ -4787,10 +4531,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/inundaremosenvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4816,7 +4560,7 @@
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -4871,10 +4615,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/pascualailabacaylucianolaterraenteatromauri",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4902,7 +4646,7 @@
             "source_title_original": "PASCUALA ILABACA + LUCIANO LATERRA EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -4957,10 +4701,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/aniversariowareba",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -4988,7 +4732,7 @@
             "source_title_original": "2 AÑOS DE WAREBA EN ESPACIO BARCELONA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -5043,10 +4787,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/diadelvinilofiesta",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5074,7 +4818,7 @@
             "source_title_original": "FIESTA DE CIERRE DIA DEL VINILO: EN VIVO JORGE CAMPOS EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -5128,10 +4872,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/ninocoheteenteatromauriscdvalparaso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5159,7 +4903,7 @@
             "source_title_original": "NIÑO COHETE EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true,
             "last_tickets": true
           }
@@ -5215,10 +4959,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/portavozenelpatio",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5246,7 +4990,7 @@
             "source_title_original": "PORTAVOZ EN PATIO SÓCRATES, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -5289,7 +5033,7 @@
             "currency": "CLP",
             "min_amount": 10000,
             "max_amount": 32000,
-            "display_text": "$10.000–$32.000 · Últimos tickets"
+            "display_text": "$10.000–$32.000"
           },
           "links": {
             "official": null,
@@ -5301,15 +5045,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sombraspurpuras22agosto",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": "Últimos tickets",
+            "price_stage": null,
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -5332,8 +5076,7 @@
             "source_title_original": "SOMBRAS PÚRPURAS EN EL CLUB ALEMAN, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
-            "last_tickets": true
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -5387,10 +5130,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/despuesdelalluviahaysol",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5418,7 +5161,7 @@
             "source_title_original": "DESPUÉS DE LA LLUVIA HAY SOL EN BAR VIENÉS, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -5473,10 +5216,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lucybriceoenteatromauriscdvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5504,7 +5247,7 @@
             "source_title_original": "LUCY BRICEÑO EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -5558,10 +5301,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/cuentoscasipasandoagosto",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5589,7 +5332,7 @@
             "source_title_original": "CASI PASANDO AGOSTO EN LA COLOMBINA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -5643,10 +5386,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5674,7 +5417,7 @@
             "source_title_original": "ESSTELAR BDAY EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -5728,10 +5471,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lilliaenvalparaso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5759,7 +5502,7 @@
             "source_title_original": "LILLIA: GIRA 2026 CAMPO SINTETICO EN BAR VIENES, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -5814,10 +5557,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/loscrackdelpuertoenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5845,7 +5588,7 @@
             "source_title_original": "LOS CRACK DEL PUERTO EN TEATRO MAURI SCD VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true,
             "last_tickets": true
           }
@@ -5901,10 +5644,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -5932,7 +5675,7 @@
             "source_title_original": "MATRIARCAS EN PARQUE CULTURAL DE VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -5986,10 +5729,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sonidosdecasa-agosto2026",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -6017,7 +5760,7 @@
             "source_title_original": "SONIDOS DE CASA: CONCIERTOS GRATUITOS 2026 EN BALMACEDA ARTE JOVEN, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6071,10 +5814,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/viernescebollalemutt",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6102,7 +5845,7 @@
             "source_title_original": "VIERNES CEBOLLA EN BAR LEMUTT, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6156,10 +5899,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/aniversariocalatheaclub",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6187,7 +5930,7 @@
             "source_title_original": "ANIVERSARIO CALATHEA CLUB EN CASSOT BAR, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6241,10 +5984,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/musica-ensamble-notas-que-transforman-en-el-teatro-del-pcdv",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6272,7 +6015,7 @@
             "source_title_original": "MÚSICA ENSAMBLE PRESENTA “NOTAS QUE TRANSFORMAN” EN PARQUE CULTURAL DE VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -6327,10 +6070,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/puertoorquestaenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6358,7 +6101,7 @@
             "source_title_original": "PUERTO ORQUESTA EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6400,7 +6143,7 @@
             "currency": "CLP",
             "min_amount": 3000,
             "max_amount": 7000,
-            "display_text": "$3.000–$7.000 · Últimos tickets"
+            "display_text": "$3.000–$7.000 · Algunos sectores agotados"
           },
           "links": {
             "official": null,
@@ -6412,15 +6155,15 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
             "sold_out": false,
-            "price_stage": "Últimos tickets",
+            "price_stage": "Disponibilidad parcial",
             "price_confirmed": true,
             "information_completeness": "complete",
             "advisory_text": null
@@ -6443,9 +6186,8 @@
             "source_title_original": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
-            "partial_ticket_availability": true,
-            "last_tickets": true
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
+            "partial_ticket_availability": true
           }
         },
         {
@@ -6499,10 +6241,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lacosasepusocalienteenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6530,7 +6272,7 @@
             "source_title_original": "LA COSA SE PUSO CALIENTE! EN TEATRO MAURI SCD VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -6585,10 +6327,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/evelyncornejoenjournal",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6616,7 +6358,7 @@
             "source_title_original": "EVELYN CORNEJO EN VIÑA DEL MAR - JOURNAL",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "last_tickets": true
           }
         },
@@ -6671,10 +6413,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6702,7 +6444,7 @@
             "source_title_original": "FIESTA BOHEMIA PRESENTA: NOCHES DE BOHEMIA EN IPANEMA CLUB, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6756,10 +6498,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sonoradellegarenclubsegundopiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6787,7 +6529,7 @@
             "source_title_original": "SONORA DE LLEGAR EN EL CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6841,10 +6583,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/volverasabailarconlasonoradetommyrey",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6872,7 +6614,7 @@
             "source_title_original": "VOLVERAS A BAILAR CON LA SONORA DE TOMMY REY EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -6926,10 +6668,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lostetaspresentafunkparaisoenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -6957,7 +6699,7 @@
             "source_title_original": "LOS TETAS: PRESENTA FUNKPARAISO EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "partial_ticket_availability": true
           }
         },
@@ -7012,10 +6754,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/matiahperezfenvina",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7043,7 +6785,7 @@
             "source_title_original": "MATIAH CHINASKI + DJ PÉREZ + MALDITO FEN EN VIÑA - JOURNAL",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7097,10 +6839,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/mariaylostemplosenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7128,7 +6870,7 @@
             "source_title_original": "MARIA Y LOS TEMPLOS: FIEBRE EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00",
+            "detail_verified_at": "2026-08-21T05:31:31-04:00",
             "last_tickets": true
           }
         },
@@ -7183,10 +6925,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/carnedeperro",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7214,7 +6956,7 @@
             "source_title_original": "DESTRUYE LO QUE TE DESTRUYE EN CASSOT BAR, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7268,10 +7010,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/previaaniversarioposeidon",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7299,7 +7041,7 @@
             "source_title_original": "PREVIA ANIVERSARIO EN POSEIDÓN BAR, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7353,10 +7095,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/elartedelvolantin",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7384,7 +7126,7 @@
             "source_title_original": "EL ARTE DEL VOLANTÍN EN CASA POLANCO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7438,10 +7180,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/aniversarioposeidondia2",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7469,7 +7211,7 @@
             "source_title_original": "FIESTA ANIVERSARIO POSEIDON, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7523,10 +7265,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/quilapayunenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7554,7 +7296,7 @@
             "source_title_original": "QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7608,10 +7350,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/oshifonda2026",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7639,7 +7381,7 @@
             "source_title_original": "OSHIKATSU PARTY OSHIFONDA EN LOS ALQUINTA DEL PUERTO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7693,10 +7435,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/chaiseroom18sept2026",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7724,7 +7466,7 @@
             "source_title_original": "CHAISENROOM | NO BRANDING NO NATION EN EMPORIO ECHAURREN, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7778,10 +7520,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/ailinashaktienteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7809,7 +7551,92 @@
             "source_title_original": "AILINASHAKTI EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
+          }
+        },
+        {
+          "id": "agenda_portaltickets_valparaiso_797cc81ca409753f",
+          "title": "LOS CUATRO CUARTOS 64 AÑOS DE NEOFOLCLOR, LA TRADICIÓN NOS UNE, CHILE NOS INSPIRA",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "single",
+            "start": "2026-09-25T19:30:00-03:00",
+            "end": "2026-09-25T19:30:00-03:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-09-25 · 19:30",
+            "occurrences": [],
+            "start_confidence": "explicit",
+            "end_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "portaltickets_valparaiso",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Teatro Mauri SCD, Valparaíso",
+            "address": null,
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": false,
+            "currency": "CLP",
+            "min_amount": 2000,
+            "max_amount": 25000,
+            "display_text": "$2.000–$25.000"
+          },
+          "links": {
+            "official": null,
+            "tickets": "https://www.portaldisc.com/evento/loscuatrocuartos64deneofolclor",
+            "registration": null,
+            "source": "https://www.portaldisc.com/evento/loscuatrocuartos64deneofolclor"
+          },
+          "organizer": null,
+          "source_id": "portaltickets_valparaiso",
+          "source_name": "PortalTickets — Región de Valparaíso",
+          "source_url": "https://www.portaldisc.com/evento/loscuatrocuartos64deneofolclor",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
+          "public_status": {
+            "source_official": false,
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
+            "registration_open": true,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": false,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "Para cerrar las Fiestas Patrias, los invitamos a disfrutar de un recorrido por los más grandes e inolvidables éxitos del neofolclor chileno. Un viaje musical que revive los inicios de Los Cuatro Cuartos, pasando por la emblemática obra \"Al Séptimo de Línea\" y por aquellas melodías que habitan el alma nacional: \"Adiós Santiago Querido\", \"Qué Bonita Va\", \"El Corralero\", \"Juan Payé\", \"Ende que te Vi\", \"Dos Corazones\", junto a muchas otras canciones y sorpresas que harán renacer toda la magia y el arte del neofolclor.",
+          "tags": [
+            "Música",
+            "PortalTickets"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "secondary_ticketing_source:portaltickets_valparaiso",
+            "duration_days": 0,
+            "source_title_original": "LOS CUATRO CUARTOS 64 AÑOS DE NEOFOLCLOR, LA TRADICIÓN NOS UNE, CHILE NOS INSPIRA EN TEATRO MAURI VALPARAISO",
+            "venue_suffix_removed": true,
+            "detail_enriched": true,
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7863,10 +7690,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/paularivasenteatromauriscdvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7894,7 +7721,7 @@
             "source_title_original": "PAULA RIVAS EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -7948,10 +7775,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/sofiaalvezvinadelmar",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -7979,7 +7806,7 @@
             "source_title_original": "SOFÍA ALVEZ EN EL PASAJE, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8033,10 +7860,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/mauricioredolesenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8064,7 +7891,7 @@
             "source_title_original": "EL MAURI EN EL MAURI, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8118,10 +7945,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/josealfredofuentes60goldenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8149,7 +7976,7 @@
             "source_title_original": "JOSE ALFREDO FUENTES 60 GOLD EN TEATRO MAURI SCD, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8203,10 +8030,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/pielmacrobia",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8234,7 +8061,7 @@
             "source_title_original": "PIEL + MACROBIA EN VIENES BAR, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8288,10 +8115,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/subhiraquintetogiranorteasurenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8319,7 +8146,7 @@
             "source_title_original": "SUBHIRA QUINTETO GIRA NORTE A SUR EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8373,10 +8200,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/coversolutionsenvivobarvienes",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8404,7 +8231,7 @@
             "source_title_original": "SEBASTIAN SANHUEZA (COVER SOLUTIONS) EN BAR VIENÉS, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8458,10 +8285,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/llenode97",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8489,7 +8316,7 @@
             "source_title_original": "SEBA & EL MONSTRUO, LANZAMIENTO: LLENO DE 97 EN TEATRO IPA, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8543,10 +8370,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/estoybienenteatromauriscdvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8572,7 +8399,7 @@
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8626,10 +8453,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/gipsyvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8657,7 +8484,7 @@
             "source_title_original": "MARIO REYES LEYENDA GIPSY EN CLUB SEGUNDO PISO, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8711,10 +8538,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/ratosdeporaoenvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8742,7 +8569,7 @@
             "source_title_original": "RATOS DE PORAO 45 AÑOS EN TROTAMUNDOS, VALPARAÍSO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8796,10 +8623,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/lossantosdumontcancioneschilenas",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8827,7 +8654,7 @@
             "source_title_original": "LOS SANTOS DUMONT: CANCIONES CHILENAS EN TEATRO MAURI SCD",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8881,10 +8708,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/fernandoubiergoenvalparaiso",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8910,7 +8737,7 @@
             "reason": "secondary_ticketing_source:portaltickets_valparaiso",
             "duration_days": 0,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -8964,10 +8791,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/tatabarahonaylsdenteatromauriscd",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -8995,7 +8822,7 @@
             "source_title_original": "TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS EN TEATRO MAURI SCD, VALPARAISO",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         },
         {
@@ -9049,10 +8876,10 @@
           "source_id": "portaltickets_valparaiso",
           "source_name": "PortalTickets — Región de Valparaíso",
           "source_url": "https://www.portaldisc.com/evento/elmuluvina",
-          "last_verified_at": "2026-08-20T13:04:38-04:00",
+          "last_verified_at": "2026-08-21T05:31:31-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T13:04:38-04:00",
+            "last_verified_at": "2026-08-21T05:31:31-04:00",
             "registration_open": true,
             "registration_closed": null,
             "cancelled": false,
@@ -9080,7 +8907,7 @@
             "source_title_original": "EL MULU: DERRAMAR EL TIEMPO TOUR EN EL PASAJE, VIÑA DEL MAR",
             "venue_suffix_removed": true,
             "detail_enriched": true,
-            "detail_verified_at": "2026-08-20T13:04:38-04:00"
+            "detail_verified_at": "2026-08-21T05:31:31-04:00"
           }
         }
       ]
@@ -9271,173 +9098,9 @@
     },
     "visitavina_palacio_rioja_recovery": {
       "name": "Visita Viña — Museo Palacio Rioja",
-      "last_good_at": "2026-08-20T15:58:24-04:00",
+      "last_good_at": "2026-08-21T05:34:10-04:00",
       "last_good_count": 10,
       "events": [
-        {
-          "id": "agenda_visitavina_rioja_f330a25add773e39c6",
-          "title": "A veces un mar dulce",
-          "event_type": "event",
-          "primary_category": {
-            "id": "exposiciones",
-            "label": "Exposiciones"
-          },
-          "categories": [
-            {
-              "id": "exposiciones",
-              "label": "Exposiciones"
-            }
-          ],
-          "schedule": {
-            "mode": "dated",
-            "start": "2026-08-20T10:00:00-04:00",
-            "end": "2026-08-20T17:30:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 10:00–17:30",
-            "occurrences": [],
-            "start_confidence": "official_visible_schedule",
-            "end_confidence": "official_visible_schedule",
-            "opening_hours": {
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "reference_date": "2026-08-30",
-              "is_open_on_reference_date": true,
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "closing_time": "17:30",
-            "hours_confidence": "source_schedule_pair"
-          },
-          "location": {
-            "venue_id": "museo_palacio_rioja",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Museo Palacio Rioja",
-            "address": "Quillota 214, Viña del Mar",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": true,
-            "currency": "CLP",
-            "min_amount": 0,
-            "max_amount": 0,
-            "display_text": "Gratis"
-          },
-          "links": {
-            "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/?occurrence=2026-08-20",
-            "tickets": null,
-            "registration": null,
-            "source": "https://visitavina.munivina.cl/actividades/"
-          },
-          "organizer": "Museo Palacio Rioja",
-          "source_id": "visitavina_palacio_rioja_recovery",
-          "source_name": "Visita Viña — Museo Palacio Rioja",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
-          },
-          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-          "tags": [
-            "Exposiciones",
-            "Museo Palacio Rioja",
-            "Visita Viña"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFlE3fdTZhOl0VMa_HwamrWmdUs_MQIkGloqoTF2fE8oQGa5E1dHC__Bi7VxUixFr5DtihP2cToZieJZQ9yT52w&_nc_ohc=h6IK9MlftDkQ7kNvwFh2dGX&_nc_gid=5wD9mnd4Trwl5fasjyNvOA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQFzXCO57AukmVD9LPBjfUioJYI_5bZX4rnPMeVu9my81A&oe=6A888B33&_nc_sid=c6f216",
-            "alt": "Museo Palacio Rioja"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cross_source:visitavina_palacio_rioja",
-            "covered_source_ids": [
-              "museo_palacio_rioja"
-            ],
-            "duration_days": 0,
-            "duplicate_sources": [
-              {
-                "id": "agenda_eb89b5ee606c6cb270ea04c4",
-                "title": "A veces un mar dulce",
-                "source_name": "Culturas Viña",
-                "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_e34f6f45f0dfe53c00",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_6af128d844e3e2dd26",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_40c09c905da21c525a",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_0e753c92481191930a",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_3b72ff992f826ca977",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_1fe9c0c99aafe0fb0b",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_002cd14bbd8b92655d",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              },
-              {
-                "id": "agenda_visitavina_rioja_f108b786e10339f436",
-                "title": "Exposición temporal // A veces un mar dulce",
-                "source_name": "Visita Viña — Museo Palacio Rioja",
-                "source_url": "https://visitavina.munivina.cl/actividades/"
-              }
-            ],
-            "duplicates_consolidated": 9
-          }
-        },
         {
           "id": "agenda_visitavina_rioja_69b6832b726aa7725b",
           "title": "Taller // Expresión textil: Moviendo Hilos",
@@ -9489,10 +9152,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9574,10 +9237,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9659,10 +9322,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9744,10 +9407,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9829,10 +9492,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9914,10 +9577,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -9999,10 +9662,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -10015,6 +9678,91 @@
           "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
           "tags": [
             "Cursos y talleres",
+            "Museo Palacio Rioja",
+            "Visita Viña"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_cross_source:visitavina_palacio_rioja",
+            "covered_source_ids": [
+              "museo_palacio_rioja"
+            ],
+            "duration_days": 0
+          }
+        },
+        {
+          "id": "agenda_visitavina_rioja_8c01d0d993729991bf",
+          "title": "Presentación libro // “Consomé Punk”",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cultura",
+            "label": "Cultura"
+          },
+          "categories": [
+            {
+              "id": "cultura",
+              "label": "Cultura"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-28T18:00:00-04:00",
+            "end": "2026-08-28T20:00:00-04:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-28 · 18:00–20:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_schedule",
+            "end_confidence": "official_visible_schedule"
+          },
+          "location": {
+            "venue_id": "museo_palacio_rioja",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Palacio Rioja, Sala Aldo Francia",
+            "address": "Quillota 214, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar condiciones"
+          },
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/presentacion-libro-consome-punk/?occurrence=2026-08-28",
+            "tickets": null,
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividades/"
+          },
+          "organizer": "Museo Palacio Rioja",
+          "source_id": "visitavina_palacio_rioja_recovery",
+          "source_name": "Visita Viña — Museo Palacio Rioja",
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "complete",
+            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja."
+          },
+          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
+          "tags": [
+            "Cultura",
             "Museo Palacio Rioja",
             "Visita Viña"
           ],
@@ -10084,10 +9832,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -10169,10 +9917,10 @@
           "source_id": "visitavina_palacio_rioja_recovery",
           "source_name": "Visita Viña — Museo Palacio Rioja",
           "source_url": "https://visitavina.munivina.cl/actividades/",
-          "last_verified_at": "2026-08-20T15:58:19-04:00",
+          "last_verified_at": "2026-08-21T05:34:03-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:58:19-04:00",
+            "last_verified_at": "2026-08-21T05:34:03-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11033,258 +10781,9 @@
     },
     "cinearte_vina": {
       "name": "Cine Arte Viña del Mar",
-      "last_good_at": "2026-08-20T15:58:24-04:00",
-      "last_good_count": 20,
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 17,
       "events": [
-        {
-          "id": "agenda_cinema_0185b50a0ec511cdd9ec",
-          "title": "La Muerte de Robin Hood",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T18:00:00-04:00",
-            "end": "2026-08-20T18:00:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 18:00",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "cinearte_vina",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Cine Arte Viña del Mar",
-            "address": "Plaza Vergara 142, Viña del Mar",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 4000,
-            "max_amount": 5500,
-            "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-          },
-          "links": {
-            "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-            "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-            "registration": null,
-            "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
-          },
-          "organizer": "Cine Arte Viña del Mar",
-          "source_id": "cinearte_vina",
-          "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-          },
-          "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-          "tags": [
-            "Cine",
-            "Función"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
-            "alt": "La Muerte de Robin Hood",
-            "source": "passline_event_metadata",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cinema_session",
-            "duration_days": 0
-          }
-        },
-        {
-          "id": "agenda_cinema_80ddbf36d7706645c9cc",
-          "title": "La Odisea (2026)",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T15:00:00-04:00",
-            "end": "2026-08-20T15:00:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 15:00",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "cinearte_vina",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Cine Arte Viña del Mar",
-            "address": "Plaza Vergara 142, Viña del Mar",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 4000,
-            "max_amount": 5500,
-            "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-          },
-          "links": {
-            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
-            "registration": null,
-            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172"
-          },
-          "organizer": "Cine Arte Viña del Mar",
-          "source_id": "cinearte_vina",
-          "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-          },
-          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
-          "tags": [
-            "Cine",
-            "Función"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172-rec.jpg",
-            "alt": "La Odisea (2026)",
-            "source": "passline_event_metadata",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cinema_session",
-            "duration_days": 0
-          }
-        },
-        {
-          "id": "agenda_cinema_295160d63e666d9784b9",
-          "title": "The Doors: The Final Cut (1991-2026)",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T20:30:00-04:00",
-            "end": "2026-08-20T20:30:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 20:30",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "cinearte_vina",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Cine Arte Viña del Mar",
-            "address": "Plaza Vergara 142, Viña del Mar",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 4000,
-            "max_amount": 5500,
-            "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
-          },
-          "links": {
-            "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-            "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-            "registration": null,
-            "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
-          },
-          "organizer": "Cine Arte Viña del Mar",
-          "source_id": "cinearte_vina",
-          "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-          },
-          "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-          "tags": [
-            "Cine",
-            "Función"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
-            "alt": "The Doors: The Final Cut (1991-2026)",
-            "source": "passline_event_metadata",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cinema_session",
-            "duration_days": 0
-          }
-        },
         {
           "id": "agenda_cinema_5ee2f4f5596cbda91c68",
           "title": "Calle Malaga (2025)",
@@ -11336,10 +10835,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11410,19 +10909,19 @@
             "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
           },
           "links": {
-            "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-            "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+            "official": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
+            "tickets": "https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
             "registration": null,
-            "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar"
+            "source": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620"
           },
           "organizer": "Cine Arte Viña del Mar",
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11432,7 +10931,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 18:00 hrs; viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 20 de agosto de 2026; 21 de agosto de 2026. Horario: jueves 18:00 hrs; viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar",
+          "description": "Función confirmada por Cine Arte Viña del Mar. La Muerte de Robin Hood Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: viernes 21 de agosto de 2026, 15:00 hrs. Fecha: 21 de agosto de 2026. Horario: viernes 15:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
           "tags": [
             "Cine",
             "Función"
@@ -11440,7 +10939,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545619-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620-rec.jpg",
             "alt": "La Muerte de Robin Hood",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -11502,10 +11001,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-marie-antoinette-20-aniversario-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11585,10 +11084,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11659,19 +11158,19 @@
             "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
           },
           "links": {
-            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
+            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173",
             "registration": null,
-            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172"
+            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173"
           },
           "organizer": "Cine Arte Viña del Mar",
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11681,7 +11180,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173",
           "tags": [
             "Cine",
             "Función"
@@ -11689,7 +11188,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173-rec.jpg",
             "alt": "La Odisea (2026)",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -11742,19 +11241,19 @@
             "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
           },
           "links": {
-            "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-            "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+            "official": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545631",
+            "tickets": "https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545631",
             "registration": null,
-            "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar"
+            "source": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545631"
           },
           "organizer": "Cine Arte Viña del Mar",
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://cineartevina.cl/#funcion-the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545631",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11764,7 +11263,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 20:30 hrs; domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026. Horario: jueves 20:30 hrs; domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar",
+          "description": "Función confirmada por Cine Arte Viña del Mar. The Doors: The Final Cut (1991-2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 18:00 hrs. Fecha: 23 de agosto de 2026. Horario: domingo 18:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545631",
           "tags": [
             "Cine",
             "Función"
@@ -11772,7 +11271,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545630-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/the-doors-the-final-cut-19912026-cine-arte-vina-del-mar-545631-rec.jpg",
             "alt": "The Doors: The Final Cut (1991-2026)",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -11834,10 +11333,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -11917,10 +11416,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-546181",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12000,10 +11499,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-party-monster-2003-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12083,10 +11582,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-adolescencia-sexo-y-muerte-en-camp-miasma-cine-arte-vina-del-mar-546163",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12166,10 +11665,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-el-gran-lebowski-1998-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12240,19 +11739,19 @@
             "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
           },
           "links": {
-            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
+            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173",
             "registration": null,
-            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172"
+            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173"
           },
           "organizer": "Cine Arte Viña del Mar",
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12262,7 +11761,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173",
           "tags": [
             "Cine",
             "Función"
@@ -12270,7 +11769,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173-rec.jpg",
             "alt": "La Odisea (2026)",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -12332,10 +11831,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-546168",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12406,19 +11905,19 @@
             "display_text": "Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000"
           },
           "links": {
-            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+            "official": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
+            "tickets": "https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173",
             "registration": null,
-            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172"
+            "source": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173"
           },
           "organizer": "Cine Arte Viña del Mar",
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
-          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546172",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12428,7 +11927,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 20 de agosto de 2026, 15:00 hrs; domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 20 de agosto de 2026; 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: jueves 15:00 hrs; domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172",
+          "description": "Función confirmada por Cine Arte Viña del Mar. La Odisea (2026) Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: domingo 23 de agosto de 2026, 15:00 hrs; martes 25 de agosto de 2026, 15:00 hrs; miércoles 26 de agosto de 2026, 17:00 hrs. Fecha: 23 de agosto de 2026; 25 de agosto de 2026; 26 de agosto de 2026. Horario: domingo 15:00 hrs; martes 15:00 hrs; miércoles 17:00 hrs. Lugar: Cine Arte Viña del Mar, Viña del Mar. Organiza: Cine Arte Viña del Mar. Categoría: Cine. Entrada: Entrada General: $5.500 · Estudiantes y Personas Mayores: $4.000. Comprar entradas: https://www.passline.com/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173",
           "tags": [
             "Cine",
             "Función"
@@ -12436,7 +11935,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546172-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/la-odisea-2026-cine-arte-vina-del-mar-546173-rec.jpg",
             "alt": "La Odisea (2026)",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -12498,10 +11997,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-melancholia-2011-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12581,10 +12080,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -12664,10 +12163,10 @@
           "source_id": "cinearte_vina",
           "source_name": "Cine Arte Viña del Mar",
           "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -13732,258 +13231,9 @@
     },
     "insomniacine": {
       "name": "Insomnia Cine",
-      "last_good_at": "2026-08-20T15:58:24-04:00",
-      "last_good_count": 11,
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 8,
       "events": [
-        {
-          "id": "agenda_cinema_89fad76159b4f9f63f23",
-          "title": "La invitación",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T15:00:00-04:00",
-            "end": "2026-08-20T15:00:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 15:00",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "insomniacine",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "INSOMNIA Teatro Condell",
-            "address": "Condell 1585, Valparaíso",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 4000,
-            "max_amount": 4000,
-            "display_text": "$4.000"
-          },
-          "links": {
-            "official": "https://www.passline.com/eventos/la-invitacion-546125",
-            "tickets": "https://www.passline.com/eventos/la-invitacion-546125",
-            "registration": null,
-            "source": "https://www.passline.com/eventos/la-invitacion-546125"
-          },
-          "organizer": "INSOMNIA Teatro Condell",
-          "source_id": "insomniacine",
-          "source_name": "INSOMNIA Teatro Condell",
-          "source_url": "https://www.passline.com/eventos/la-invitacion-546125",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-          },
-          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La invitación. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 15:00 hrs",
-          "tags": [
-            "Cine",
-            "Función"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-invitacion-546125-rec.jpg",
-            "alt": "La invitación",
-            "source": "passline_event_metadata",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cinema_session",
-            "duration_days": 0
-          }
-        },
-        {
-          "id": "agenda_cinema_ba27d66cc859b30a8f0a",
-          "title": "La odisea",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T17:10:00-04:00",
-            "end": "2026-08-20T17:10:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 17:10",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "insomniacine",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "INSOMNIA Teatro Condell",
-            "address": "Condell 1585, Valparaíso",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 4000,
-            "max_amount": 4000,
-            "display_text": "$4.000"
-          },
-          "links": {
-            "official": "https://www.passline.com/eventos/la-odisea-546119",
-            "tickets": "https://www.passline.com/eventos/la-odisea-546119",
-            "registration": null,
-            "source": "https://www.passline.com/eventos/la-odisea-546119"
-          },
-          "organizer": "INSOMNIA Teatro Condell",
-          "source_id": "insomniacine",
-          "source_name": "INSOMNIA Teatro Condell",
-          "source_url": "https://www.passline.com/eventos/la-odisea-546119",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-          },
-          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:30 hrs; Domingo 23 de agosto, 15:00 hrs",
-          "tags": [
-            "Cine",
-            "Función"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-546119-rec.jpg",
-            "alt": "La odisea",
-            "source": "passline_event_metadata",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cinema_session",
-            "duration_days": 0
-          }
-        },
-        {
-          "id": "agenda_cinema_e60a0358b48e09591dcc",
-          "title": "Pearl",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "single",
-            "start": "2026-08-20T20:10:00-04:00",
-            "end": "2026-08-20T20:10:00-04:00",
-            "timezone": "America/Santiago",
-            "display_text": "2026-08-20 · 20:10",
-            "occurrences": [],
-            "start_confidence": "explicit",
-            "end_confidence": "explicit"
-          },
-          "location": {
-            "venue_id": "insomniacine",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "INSOMNIA Teatro Condell",
-            "address": "Condell 1585, Valparaíso",
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": false,
-            "currency": "CLP",
-            "min_amount": 4000,
-            "max_amount": 4000,
-            "display_text": "$4.000"
-          },
-          "links": {
-            "official": "https://www.passline.com/eventos/pearl-546140",
-            "tickets": "https://www.passline.com/eventos/pearl-546140",
-            "registration": null,
-            "source": "https://www.passline.com/eventos/pearl-546140"
-          },
-          "organizer": "INSOMNIA Teatro Condell",
-          "source_id": "insomniacine",
-          "source_name": "INSOMNIA Teatro Condell",
-          "source_url": "https://www.passline.com/eventos/pearl-546140",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": false,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": true,
-            "information_completeness": "complete",
-            "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
-          },
-          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: Pearl. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 20:10 hrs",
-          "tags": [
-            "Cine",
-            "Función"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://www.passline.com/imagenes/eventos/pearl-546140-rec.jpg",
-            "alt": "Pearl",
-            "source": "passline_event_metadata",
-            "relevance": "event_specific"
-          },
-          "editorial": {
-            "classification": "event",
-            "reason": "official_cinema_session",
-            "duration_days": 0
-          }
-        },
         {
           "id": "agenda_cinema_f0c86b1d5ef3cf18ebbe",
           "title": "Crash: Extraños placeres",
@@ -14035,10 +13285,10 @@
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
           "source_url": "https://www.passline.com/eventos/crash-extranos-placeres",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14109,19 +13359,19 @@
             "display_text": "$4.000"
           },
           "links": {
-            "official": "https://www.passline.com/eventos/la-odisea-546119",
-            "tickets": "https://www.passline.com/eventos/la-odisea-546119",
+            "official": "https://www.passline.com/eventos/la-odisea-546120",
+            "tickets": "https://www.passline.com/eventos/la-odisea-546120",
             "registration": null,
-            "source": "https://www.passline.com/eventos/la-odisea-546119"
+            "source": "https://www.passline.com/eventos/la-odisea-546120"
           },
           "organizer": "INSOMNIA Teatro Condell",
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
-          "source_url": "https://www.passline.com/eventos/la-odisea-546119",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://www.passline.com/eventos/la-odisea-546120",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14131,7 +13381,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:30 hrs; Domingo 23 de agosto, 15:00 hrs",
+          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Viernes 21 de agosto, 17:30 hrs; Domingo 23 de agosto, 15:00 hrs",
           "tags": [
             "Cine",
             "Función"
@@ -14139,7 +13389,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-546119-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/la-odisea-546120-rec.jpg",
             "alt": "La odisea",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -14201,10 +13451,10 @@
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
           "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14284,10 +13534,10 @@
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
           "source_url": "https://www.passline.com/eventos/backrooms-version-extendida-546604",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14367,10 +13617,10 @@
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
           "source_url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-546127",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14450,10 +13700,10 @@
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
           "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-546128",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14524,19 +13774,19 @@
             "display_text": "$4.000"
           },
           "links": {
-            "official": "https://www.passline.com/eventos/la-odisea-546119",
-            "tickets": "https://www.passline.com/eventos/la-odisea-546119",
+            "official": "https://www.passline.com/eventos/la-odisea-546120",
+            "tickets": "https://www.passline.com/eventos/la-odisea-546120",
             "registration": null,
-            "source": "https://www.passline.com/eventos/la-odisea-546119"
+            "source": "https://www.passline.com/eventos/la-odisea-546120"
           },
           "organizer": "INSOMNIA Teatro Condell",
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
-          "source_url": "https://www.passline.com/eventos/la-odisea-546119",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "source_url": "https://www.passline.com/eventos/la-odisea-546120",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": true,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -14546,7 +13796,7 @@
             "information_completeness": "complete",
             "advisory_text": "Confirma disponibilidad de entradas en la fuente oficial."
           },
-          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes 21 de agosto, 17:30 hrs; Domingo 23 de agosto, 15:00 hrs",
+          "description": "Función confirmada por INSOMNIA Teatro Condell. Título: La odisea. Organiza: Insomnia Cine Lugar: Insomnia Teatro Condell Dirección: Condell 1585, Valparaíso. Categoría: Cine. Entrada: $4.000 clp Funciones: Viernes 21 de agosto, 17:30 hrs; Domingo 23 de agosto, 15:00 hrs",
           "tags": [
             "Cine",
             "Función"
@@ -14554,7 +13804,7 @@
           "audience": null,
           "registration_requirements": null,
           "image": {
-            "url": "https://www.passline.com/imagenes/eventos/la-odisea-546119-rec.jpg",
+            "url": "https://www.passline.com/imagenes/eventos/la-odisea-546120-rec.jpg",
             "alt": "La odisea",
             "source": "passline_event_metadata",
             "relevance": "event_specific"
@@ -14616,10 +13866,10 @@
           "source_id": "insomniacine",
           "source_name": "INSOMNIA Teatro Condell",
           "source_url": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/",
-          "last_verified_at": "2026-08-20T15:49:06-04:00",
+          "last_verified_at": "2026-08-21T04:01:20-04:00",
           "public_status": {
             "source_official": false,
-            "last_verified_at": "2026-08-20T15:49:06-04:00",
+            "last_verified_at": "2026-08-21T04:01:20-04:00",
             "registration_open": null,
             "registration_closed": null,
             "cancelled": false,
@@ -15607,9 +14857,258 @@
     },
     "pcdv": {
       "name": "Parque Cultural de Valparaíso",
-      "last_good_at": "2026-08-20T13:41:48-04:00",
-      "last_good_count": 3,
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 6,
       "events": [
+        {
+          "title": "Operación Colombo",
+          "event_type": "event",
+          "primary_category": {
+            "id": "exposiciones",
+            "label": "Exposiciones"
+          },
+          "categories": [
+            {
+              "id": "exposiciones",
+              "label": "Exposiciones"
+            },
+            {
+              "id": "patrimonio",
+              "label": "Patrimonio"
+            }
+          ],
+          "schedule": {
+            "mode": "multi_day",
+            "start": "2026-07-10",
+            "end": "2026-08-30",
+            "timezone": "America/Santiago",
+            "display_text": "Martes a domingo · 10:00–19:30 · hasta 30-08-2026",
+            "occurrences": [],
+            "start_confidence": "explicit",
+            "end_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "pcdv",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "1º nivel del Edificio de la Ex Galería de Reos — Parque Cultural de Valparaíso",
+            "address": "Cumming 590, Cerro Cárcel, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Entrada liberada"
+          },
+          "links": {
+            "official": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/"
+          },
+          "organizer": "Parque Cultural de Valparaíso",
+          "source_id": "pcdv",
+          "source_name": "Parque Cultural de Valparaíso",
+          "source_url": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/",
+          "last_verified_at": "2026-08-20T17:15:00-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T17:15:00-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "Exposición de memoria y derechos humanos dedicada a las 119 personas detenidas desaparecidas asociadas a la Operación Colombo.",
+          "tags": [
+            "exposición",
+            "memoria",
+            "derechos humanos",
+            "Parque Cultural"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "verified_official_parquecultural_event",
+            "duration_days": 51,
+            "verified_public_event_overlay": true
+          },
+          "id": "agenda_80d234fcefe35f6ba08d660a"
+        },
+        {
+          "title": "Campos materiales: 70 experiencias de integración proyectual",
+          "event_type": "event",
+          "primary_category": {
+            "id": "exposiciones",
+            "label": "Exposiciones"
+          },
+          "categories": [
+            {
+              "id": "exposiciones",
+              "label": "Exposiciones"
+            }
+          ],
+          "schedule": {
+            "mode": "multi_day",
+            "start": "2026-08-06",
+            "end": "2026-09-24",
+            "timezone": "America/Santiago",
+            "display_text": "Martes a domingo · 10:00–13:30 y 15:30–18:30 · hasta 24-09-2026",
+            "occurrences": [],
+            "start_confidence": "explicit",
+            "end_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "pcdv",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Galería de Artes Visuales — Parque Cultural de Valparaíso",
+            "address": "Cumming 590, Cerro Cárcel, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Entrada liberada"
+          },
+          "links": {
+            "official": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/"
+          },
+          "organizer": "Parque Cultural de Valparaíso",
+          "source_id": "pcdv",
+          "source_name": "Parque Cultural de Valparaíso",
+          "source_url": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/",
+          "last_verified_at": "2026-08-20T17:15:00-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T17:15:00-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "Exposición con 70 maquetas y dispositivos exploratorios que recorre siete décadas de enseñanza, investigación e innovación proyectual de la Escuela de Arquitectura de la Universidad de Valparaíso.",
+          "tags": [
+            "exposición",
+            "arquitectura",
+            "Parque Cultural"
+          ],
+          "audience": "Todas las edades",
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "verified_official_parquecultural_publication",
+            "duration_days": 49,
+            "verified_public_event_overlay": true
+          },
+          "id": "agenda_d1a7609621e1947f7148b94c"
+        },
+        {
+          "id": "agenda_parquecultural_multidate_9f45e2d3815c834b0a",
+          "title": "Segunda Bienal de Danza — hangar_espacio_ — Estado #3",
+          "event_type": "event",
+          "primary_category": {
+            "id": "teatro",
+            "label": "Teatro"
+          },
+          "categories": [
+            {
+              "id": "teatro",
+              "label": "Teatro"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-21T19:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-21 · 19:00",
+            "occurrences": [],
+            "start_confidence": "official_visible_multidate",
+            "end_confidence": null
+          },
+          "location": {
+            "venue_id": "parque-cultural-valparaiso",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Parque Cultural de Valparaíso",
+            "address": null,
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Gratis"
+          },
+          "links": {
+            "official": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/"
+          },
+          "organizer": "Parque Cultural de Valparaíso",
+          "source_id": "pcdv",
+          "source_name": "Parque Cultural de Valparaíso",
+          "source_url": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+          "public_status": {
+            "source_official": true,
+            "cancelled": false,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "last_verified_at": "2026-08-21T05:31:59-04:00"
+          },
+          "description": "hangar_espacio_ presenta “Estado #3” en la Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso.",
+          "tags": [
+            "danza",
+            "bienal"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": "https://parquecultural.cl/wp-content/uploads/2026/08/II_BdDMyCRdV_PCdV_web_01.jpg",
+            "alt": "Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso"
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "official_multidate:parquecultural",
+            "multidate_parent_id": "agenda_970a461a24590f90dad68803",
+            "multidate_series_key": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+            "series_state": "persistent_official_schedule"
+          },
+          "last_verified_at": "2026-08-21T05:31:59-04:00"
+        },
         {
           "id": "agenda_c392b73a6891246d4a7c8b0e",
           "title": "Exposición \"Ira, Esperanza, Frustración\"",
@@ -17121,7 +16620,264 @@
           "source_id": "jardin_botanico_vina"
         }
       ]
+    },
+    "estadio_espanol_recreo": {
+      "name": "Estadio Español Recreo",
+      "last_good_at": "2026-08-21T05:34:10-04:00",
+      "last_good_count": 3,
+      "events": [
+        {
+          "title": "Noche Temática Argentina en Estadio Español",
+          "event_type": "event",
+          "primary_category": {
+            "id": "ferias-gastronomia",
+            "label": "Ferias y gastronomía"
+          },
+          "categories": [
+            {
+              "id": "ferias-gastronomia",
+              "label": "Ferias y gastronomía"
+            },
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-21T19:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "21-08-2026 · 19:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "estadio_espanol_recreo",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Estadio Español",
+            "address": "Alonso de Ercilla 795, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": null
+          },
+          "links": {
+            "official": "https://www.instagram.com/p/DcRJI71DYFv/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://www.instagram.com/p/DcRJI71DYFv/"
+          },
+          "organizer": "Estadio Español Recreo",
+          "source_id": "estadio_espanol_recreo",
+          "source_name": "Estadio Español Recreo",
+          "source_url": "https://www.instagram.com/p/DcRJI71DYFv/",
+          "last_verified_at": "2026-08-20T16:30:00-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T16:30:00-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "partial",
+            "advisory_text": "Confirma precio y condiciones directamente con el Estadio Español."
+          },
+          "description": "Noche temática dedicada a sabores de Argentina, con menú especial y música en vivo de Claudio Silva Rey.",
+          "tags": [
+            "gastronomía",
+            "música en vivo",
+            "Estadio Español"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "verified_official_instagram_snapshot",
+            "duration_days": 0,
+            "verified_public_event_overlay": true
+          },
+          "id": "agenda_3232f6486ecd72f77e38f3d3"
+        },
+        {
+          "title": "Ao son da nova regueifa — Ciclo Mestre Mateo",
+          "event_type": "event",
+          "primary_category": {
+            "id": "cine",
+            "label": "Cine"
+          },
+          "categories": [
+            {
+              "id": "cine",
+              "label": "Cine"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-26T18:30:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "26-08-2026 · 18:30",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "estadio_espanol_recreo",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Estadio Español",
+            "address": "Alonso de Ercilla 795, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Entrada gratuita"
+          },
+          "links": {
+            "official": "https://www.instagram.com/p/DcPiE0ZDYl4/",
+            "tickets": null,
+            "registration": null,
+            "source": "https://www.instagram.com/p/DcPiE0ZDYl4/"
+          },
+          "organizer": "Estadio Español Recreo",
+          "source_id": "estadio_espanol_recreo",
+          "source_name": "Estadio Español Recreo",
+          "source_url": "https://www.instagram.com/p/DcPiE0ZDYl4/",
+          "last_verified_at": "2026-08-20T16:30:00-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T16:30:00-04:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": null
+          },
+          "description": "Proyección del documental gallego “Ao son da nova regueifa”, sobre la tradición de la improvisación oral y sus nuevas formas de expresión cultural.",
+          "tags": [
+            "cine",
+            "documental",
+            "cultura gallega"
+          ],
+          "audience": null,
+          "registration_requirements": null,
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "verified_official_instagram_snapshot",
+            "duration_days": 0,
+            "verified_public_event_overlay": true
+          },
+          "id": "agenda_225d84d83de9877bcc7bca09"
+        },
+        {
+          "title": "Armonías — Orquesta Marga Marga",
+          "event_type": "event",
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-27T18:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "27-08-2026 · 18:00",
+            "occurrences": [],
+            "start_confidence": "explicit"
+          },
+          "location": {
+            "venue_id": "estadio_espanol_recreo",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "venue": "Estadio Español",
+            "address": "Alonso de Ercilla 795, Viña del Mar",
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "price": {
+            "is_free": true,
+            "currency": "CLP",
+            "min_amount": 0,
+            "max_amount": 0,
+            "display_text": "Entrada gratuita"
+          },
+          "links": {
+            "official": "https://www.instagram.com/p/DcJas3iD-cL/",
+            "tickets": null,
+            "registration": "https://www.instagram.com/p/DcJas3iD-cL/",
+            "source": "https://www.instagram.com/p/DcJas3iD-cL/"
+          },
+          "organizer": "Estadio Español Recreo",
+          "source_id": "estadio_espanol_recreo",
+          "source_name": "Estadio Español Recreo",
+          "source_url": "https://www.instagram.com/p/DcJas3iD-cL/",
+          "last_verified_at": "2026-08-20T16:30:00-04:00",
+          "public_status": {
+            "source_official": true,
+            "last_verified_at": "2026-08-20T16:30:00-04:00",
+            "registration_open": true,
+            "registration_closed": false,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": true,
+            "information_completeness": "complete",
+            "advisory_text": "Entrada gratuita con inscripción previa."
+          },
+          "description": "Concierto gratuito de la Orquesta Marga Marga en Estadio Español, presentado bajo el título “Armonías”.",
+          "tags": [
+            "música",
+            "orquesta",
+            "Estadio Español"
+          ],
+          "audience": null,
+          "registration_requirements": "Inscripción previa requerida; la publicación oficial indica solicitar el enlace de reserva mediante comentarios.",
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "verified_official_instagram_snapshot",
+            "duration_days": 0,
+            "verified_public_event_overlay": true
+          },
+          "id": "agenda_72260006eccc32a0e35a87d2"
+        }
+      ]
     }
   },
-  "generated_at": "2026-08-20T15:58:24-04:00"
+  "generated_at": "2026-08-21T05:34:10-04:00"
 }
