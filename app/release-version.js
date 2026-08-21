@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v176 shows only the exhibition hours that apply to the date being viewed.
-  const RELEASE = 176;
+  // v177 reduces repeated JavaScript and DOM work in initial and filtered renders.
+  const RELEASE = 177;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

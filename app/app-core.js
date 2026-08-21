@@ -75,9 +75,51 @@ const dom = {
 
 let activeCity = null;
 let allEvents = [];
+let sortedEvents = [];
 let secondaryPrograms = [];
 let activeSection = "proximos";
 let activeCategory = "";
+let cachedCategories = [];
+let cachedSources = [];
+let sourcesRenderGeneration = 0;
+let timeContext = null;
+
+const formatterCache = new Map();
+let rawCategoryCache = new WeakMap();
+let primaryCategoryCache = new WeakMap();
+let scheduleWindowCache = new WeakMap();
+let dateRangeCache = new WeakMap();
+let workshopCache = new WeakMap();
+let sortKeyCache = new WeakMap();
+let exhibitionRangeCache = new WeakMap();
+let longExhibitionCache = new WeakMap();
+let searchHaystackCache = new WeakMap();
+
+function resetEventCaches() {
+  rawCategoryCache = new WeakMap();
+  primaryCategoryCache = new WeakMap();
+  scheduleWindowCache = new WeakMap();
+  dateRangeCache = new WeakMap();
+  workshopCache = new WeakMap();
+  sortKeyCache = new WeakMap();
+  exhibitionRangeCache = new WeakMap();
+  longExhibitionCache = new WeakMap();
+  searchHaystackCache = new WeakMap();
+  sortedEvents = [];
+  cachedCategories = [];
+  cachedSources = [];
+  timeContext = null;
+}
+
+function formatterFor(locale, options) {
+  const key = `${locale}|${JSON.stringify(options)}`;
+  let formatter = formatterCache.get(key);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, options);
+    formatterCache.set(key, formatter);
+  }
+  return formatter;
+}
 
 function showChooser(force = false) {
   dom.chooserBackdrop.hidden = false;
@@ -156,7 +198,7 @@ function saveCity(id) {
 }
 
 function dateKeyForDate(date, city) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
+  const parts = formatterFor("en-CA", {
     timeZone: city.timezone,
     year: "numeric",
     month: "2-digit",
@@ -178,7 +220,7 @@ function formatDateOnly(value, city, withWeekday = false) {
   if (!key) return String(value || "");
   const [year, month, day] = key.split("-").map(Number);
   const date = new Date(Date.UTC(year, month - 1, day, 12));
-  return new Intl.DateTimeFormat(city.locale, {
+  return formatterFor(city.locale, {
     timeZone: "UTC",
     weekday: withWeekday ? "short" : undefined,
     day: "numeric",
@@ -195,7 +237,7 @@ function formatSchedule(event, city) {
   const startDate = dateKeyForValue(start, city);
   const endDate = end ? dateKeyForValue(end, city) : null;
   if (eventCategoryId(event) === EXHIBITION_CATEGORY_ID && startDate && endDate && startDate !== endDate) {
-    const today = dateKeyForDate(new Date(), city);
+    const today = currentTimeContext().today;
     if (startDate <= today && endDate >= today) return `En exhibición hasta el ${formatDateOnly(end, city)}`;
     return `${formatDateOnly(start, city)} – ${formatDateOnly(end, city)}`;
   }
@@ -204,7 +246,7 @@ function formatSchedule(event, city) {
     if (/^\d{4}-\d{2}-\d{2}$/.test(String(value))) return formatDateOnly(value, city, withWeekday);
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
-    return new Intl.DateTimeFormat(city.locale, {
+    return formatterFor(city.locale, {
       timeZone: city.timezone,
       weekday: withWeekday ? "short" : undefined,
       day: "numeric",
@@ -224,6 +266,8 @@ function formatSchedule(event, city) {
 }
 
 function rawEventCategories(event) {
+  const cached = rawCategoryCache.get(event);
+  if (cached) return cached;
   const values = [];
   if (event?.primary_category?.id || event?.primary_category?.label) values.push(event.primary_category);
   for (const category of event?.categories || []) values.push(category);
@@ -233,10 +277,13 @@ function rawEventCategories(event) {
     const id = String(category?.id || slugify(label)).trim();
     if (label && id && !unique.has(id)) unique.set(id, label);
   }
+  rawCategoryCache.set(event, unique);
   return unique;
 }
 
 function publicPrimaryCategory(event) {
+  const cached = primaryCategoryCache.get(event);
+  if (cached) return cached;
   const source = event?.primary_category || event?.categories?.[0] || null;
   let label = String(source?.label || "Actividad cultural").trim() || "Actividad cultural";
   let id = String(source?.id || slugify(label)).trim();
@@ -246,7 +293,9 @@ function publicPrimaryCategory(event) {
   } else if (id === EXHIBITION_CATEGORY_ID) {
     label = "Exposiciones";
   }
-  return { id, label };
+  const category = { id, label };
+  primaryCategoryCache.set(event, category);
+  return category;
 }
 
 function eventCategory(event) {
@@ -332,23 +381,40 @@ function weekendBounds(todayKey) {
   return { start: friday, end: addDays(friday, 2) };
 }
 
+function currentTimeContext() {
+  if (timeContext) return timeContext;
+  const today = dateKeyForDate(new Date(), activeCity);
+  timeContext = { today, weekend: weekendBounds(today), soon: addDays(today, 3) };
+  return timeContext;
+}
+
 function scheduleWindows(event) {
-  if (["program", "flexible_offer"].includes(event?.event_type)) return [];
-  const occurrences = event?.schedule?.occurrences;
-  if (Array.isArray(occurrences) && occurrences.length) {
-    return occurrences.map((occurrence) => ({ start: occurrence?.start, end: occurrence?.end || occurrence?.start }));
+  const cached = scheduleWindowCache.get(event);
+  if (cached) return cached;
+  let windows = [];
+  if (!["program", "flexible_offer"].includes(event?.event_type)) {
+    const occurrences = event?.schedule?.occurrences;
+    if (Array.isArray(occurrences) && occurrences.length) {
+      windows = occurrences.map((occurrence) => ({ start: occurrence?.start, end: occurrence?.end || occurrence?.start }));
+    } else if (event?.schedule?.start) {
+      windows = [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
+    }
   }
-  if (event?.schedule?.start) return [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
-  return [];
+  scheduleWindowCache.set(event, windows);
+  return windows;
 }
 
 function eventDateRanges(event) {
-  return scheduleWindows(event)
+  const cached = dateRangeCache.get(event);
+  if (cached) return cached;
+  const ranges = scheduleWindows(event)
     .map((window) => ({
       start: dateKeyForValue(window.start, activeCity),
       end: dateKeyForValue(window.end, activeCity),
     }))
     .filter((range) => range.start && range.end);
+  dateRangeCache.set(event, ranges);
+  return ranges;
 }
 
 function rangesOverlap(range, start, end) {
@@ -356,14 +422,19 @@ function rangesOverlap(range, start, end) {
 }
 
 function isWorkshop(event) {
-  if (["course", "workshop"].includes(event?.event_type)) return true;
-  const text = [...rawEventCategories(event).entries()]
-    .flat()
-    .join(" ")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es");
-  return /taller|curso|formacion/.test(text);
+  if (workshopCache.has(event)) return workshopCache.get(event);
+  let result = ["course", "workshop"].includes(event?.event_type);
+  if (!result) {
+    const text = [...rawEventCategories(event).entries()]
+      .flat()
+      .join(" ")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLocaleLowerCase("es");
+    result = /taller|curso|formacion/.test(text);
+  }
+  workshopCache.set(event, result);
+  return result;
 }
 
 function eventMatchesSection(event, sectionId) {
@@ -371,19 +442,13 @@ function eventMatchesSection(event, sectionId) {
   if (sectionId === "gratis") return event?.price?.is_free === true;
   if (sectionId === "talleres-cursos") return isWorkshop(event);
 
-  const today = dateKeyForDate(new Date(), activeCity);
+  const { today, weekend, soon } = currentTimeContext();
   const ranges = eventDateRanges(event);
   if (!ranges.length) return false;
 
   if (sectionId === "hoy") return ranges.some((range) => rangesOverlap(range, today, today));
-  if (sectionId === "fin-de-semana") {
-    const weekend = weekendBounds(today);
-    return ranges.some((range) => rangesOverlap(range, weekend.start, weekend.end));
-  }
-  if (sectionId === "terminan-pronto") {
-    const limit = addDays(today, 3);
-    return ranges.some((range) => range.start <= today && range.end > today && range.end <= limit);
-  }
+  if (sectionId === "fin-de-semana") return ranges.some((range) => rangesOverlap(range, weekend.start, weekend.end));
+  if (sectionId === "terminan-pronto") return ranges.some((range) => range.start <= today && range.end > today && range.end <= soon);
   if (sectionId === "proximos") return ranges.some((range) => range.end >= today);
   return true;
 }
@@ -394,12 +459,18 @@ function eventMatchesCategory(event, categoryId) {
 }
 
 function eventSortKey(event) {
+  if (sortKeyCache.has(event)) return sortKeyCache.get(event);
   const windows = scheduleWindows(event);
   const candidate = windows[0]?.start || event?.schedule?.start;
-  if (!candidate) return Number.POSITIVE_INFINITY;
-  if (/^\d{4}-\d{2}-\d{2}$/.test(String(candidate))) return Date.parse(`${candidate}T12:00:00Z`);
-  const value = Date.parse(candidate);
-  return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;
+  let result = Number.POSITIVE_INFINITY;
+  if (candidate) {
+    result = /^\d{4}-\d{2}-\d{2}$/.test(String(candidate))
+      ? Date.parse(`${candidate}T12:00:00Z`)
+      : Date.parse(candidate);
+    if (!Number.isFinite(result)) result = Number.POSITIVE_INFINITY;
+  }
+  sortKeyCache.set(event, result);
+  return result;
 }
 
 function sortEvents(events) {
@@ -422,22 +493,29 @@ function exhibitionVenueKey(event) {
 }
 
 function exhibitionRange(event) {
+  if (exhibitionRangeCache.has(event)) return exhibitionRangeCache.get(event);
   const ranges = eventDateRanges(event);
-  if (!ranges.length) return null;
-  return {
-    start: ranges.reduce((value, range) => value < range.start ? value : range.start, ranges[0].start),
-    end: ranges.reduce((value, range) => value > range.end ? value : range.end, ranges[0].end),
-  };
+  const range = ranges.length ? {
+    start: ranges.reduce((value, item) => value < item.start ? value : item.start, ranges[0].start),
+    end: ranges.reduce((value, item) => value > item.end ? value : item.end, ranges[0].end),
+  } : null;
+  exhibitionRangeCache.set(event, range);
+  return range;
 }
 
 function isLongExhibition(event) {
-  if (eventCategoryId(event) !== EXHIBITION_CATEGORY_ID) return false;
-  const range = exhibitionRange(event);
-  if (!range) return false;
-  const start = Date.parse(`${range.start}T12:00:00Z`);
-  const end = Date.parse(`${range.end}T12:00:00Z`);
-  if (!Number.isFinite(start) || !Number.isFinite(end)) return false;
-  return (end - start) / 86400000 > LONG_EXHIBITION_DAYS;
+  if (longExhibitionCache.has(event)) return longExhibitionCache.get(event);
+  let result = false;
+  if (eventCategoryId(event) === EXHIBITION_CATEGORY_ID) {
+    const range = exhibitionRange(event);
+    if (range) {
+      const start = Date.parse(`${range.start}T12:00:00Z`);
+      const end = Date.parse(`${range.end}T12:00:00Z`);
+      result = Number.isFinite(start) && Number.isFinite(end) && (end - start) / 86400000 > LONG_EXHIBITION_DAYS;
+    }
+  }
+  longExhibitionCache.set(event, result);
+  return result;
 }
 
 function clusterVenueExhibitions(events) {
@@ -525,26 +603,30 @@ function buildDatedItems(events) {
 }
 
 function renderDatedGroup(grid, section, total, events) {
-  grid.replaceChildren();
   total.textContent = String(events.length);
   section.hidden = events.length === 0;
-  if (!events.length) return;
+  if (!events.length) {
+    grid.replaceChildren();
+    return;
+  }
 
   const deferLongExhibitions = activeCategory === "";
   const regularEvents = deferLongExhibitions ? events.filter((event) => !isLongExhibition(event)) : events;
   const longExhibitions = deferLongExhibitions ? events.filter(isLongExhibition) : [];
   const items = [...buildDatedItems(regularEvents), ...buildDatedItems(longExhibitions)];
-
+  const fragment = document.createDocumentFragment();
   for (const item of items) {
-    grid.append(item.type === "group" ? createExhibitionGroupCard(item.events) : createEventCard(item.event));
+    fragment.append(item.type === "group" ? createExhibitionGroupCard(item.events) : createEventCard(item.event));
   }
+  grid.replaceChildren(fragment);
 }
 
 function renderGroup(grid, section, total, events) {
-  grid.replaceChildren();
   total.textContent = String(events.length);
   section.hidden = events.length === 0;
-  for (const event of events) grid.append(createEventCard(event));
+  const fragment = document.createDocumentFragment();
+  for (const event of events) fragment.append(createEventCard(event));
+  grid.replaceChildren(fragment);
 }
 
 function collectCategoryCounts(events) {
@@ -573,12 +655,34 @@ function collectSources(events) {
   return [...sources.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, activeCity?.locale || "es"));
 }
 
+function prepareStaticMetadata() {
+  sortedEvents = sortEvents(allEvents);
+  cachedCategories = collectCategoryCounts(allEvents);
+  cachedSources = collectSources(allEvents);
+}
+
+function computeSectionCounts(events) {
+  const counts = new Map(Object.keys(SECTION_META).map((section) => [section, 0]));
+  const { today, weekend, soon } = currentTimeContext();
+  for (const event of events) {
+    counts.set("todos", counts.get("todos") + 1);
+    if (event?.price?.is_free === true) counts.set("gratis", counts.get("gratis") + 1);
+    if (isWorkshop(event)) counts.set("talleres-cursos", counts.get("talleres-cursos") + 1);
+    const ranges = eventDateRanges(event);
+    if (!ranges.length) continue;
+    if (ranges.some((range) => rangesOverlap(range, today, today))) counts.set("hoy", counts.get("hoy") + 1);
+    if (ranges.some((range) => rangesOverlap(range, weekend.start, weekend.end))) counts.set("fin-de-semana", counts.get("fin-de-semana") + 1);
+    if (ranges.some((range) => range.start <= today && range.end > today && range.end <= soon)) counts.set("terminan-pronto", counts.get("terminan-pronto") + 1);
+    if (ranges.some((range) => range.end >= today)) counts.set("proximos", counts.get("proximos") + 1);
+  }
+  return counts;
+}
+
 function renderSources() {
-  const sources = collectSources(allEvents);
-  dom.sourcesGrid.replaceChildren();
+  const sources = cachedSources;
   dom.sourcesTotal.textContent = String(sources.length);
   dom.sourcesSection.hidden = sources.length === 0;
-
+  const fragment = document.createDocumentFragment();
   for (const source of sources) {
     const card = document.createElement("article");
     card.className = "source-card";
@@ -607,67 +711,93 @@ function renderSources() {
       link.textContent = "Abrir referencia →";
       card.append(link);
     }
-    dom.sourcesGrid.append(card);
+    fragment.append(card);
   }
+  dom.sourcesGrid.replaceChildren(fragment);
+}
+
+function scheduleSourcesRender() {
+  const generation = ++sourcesRenderGeneration;
+  const run = () => {
+    if (generation !== sourcesRenderGeneration) return;
+    renderSources();
+  };
+  if (typeof requestIdleCallback === "function") requestIdleCallback(run, { timeout: 1200 });
+  else requestAnimationFrame(() => setTimeout(run, 0));
 }
 
 function renderCategories() {
-  const categories = collectCategoryCounts(allEvents);
-  dom.categoryFilters.replaceChildren();
-
+  const fragment = document.createDocumentFragment();
   const allButton = document.createElement("button");
   allButton.type = "button";
   allButton.dataset.categoryFilter = "";
-  allButton.className = `category-chip${activeCategory === "" ? " active" : ""}`;
-  allButton.setAttribute("aria-pressed", activeCategory === "" ? "true" : "false");
+  allButton.className = "category-chip";
   allButton.innerHTML = `<span>Todas</span><small>${allEvents.length}</small>`;
-  dom.categoryFilters.append(allButton);
+  fragment.append(allButton);
 
-  for (const category of categories) {
+  for (const category of cachedCategories) {
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.categoryFilter = category.id;
-    button.className = `category-chip${activeCategory === category.id ? " active" : ""}`;
-    button.setAttribute("aria-pressed", activeCategory === category.id ? "true" : "false");
+    button.className = "category-chip";
     button.innerHTML = `<span>${escapeHtml(category.label)}</span><small>${category.count}</small>`;
-    dom.categoryFilters.append(button);
+    fragment.append(button);
+  }
+  dom.categoryFilters.replaceChildren(fragment);
+  updateCategoryButtons();
+}
+
+function updateCategoryButtons() {
+  for (const button of dom.categoryFilters.querySelectorAll("[data-category-filter]")) {
+    const active = (button.dataset.categoryFilter || "") === activeCategory;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
   }
 }
 
-function updateSectionCounts() {
+function updateSectionCounts(counts) {
   for (const button of dom.sectionButtons) {
     const section = button.dataset.sectionFilter;
-    const count = allEvents.filter((event) => eventMatchesSection(event, section)).length;
     const countNode = button.querySelector("[data-section-count]");
-    if (countNode) countNode.textContent = String(count);
+    if (countNode) countNode.textContent = String(counts.get(section) || 0);
     const active = section === activeSection;
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", active ? "true" : "false");
   }
 }
 
-function currentFilteredEvents() {
-  const query = dom.search.value.trim().toLocaleLowerCase(activeCity?.locale || "es");
-  return sortEvents(allEvents.filter((event) => {
-    if (!eventMatchesSection(event, activeSection)) return false;
-    if (!eventMatchesCategory(event, activeCategory)) return false;
-    if (!query) return true;
-    const haystack = [
-      event?.title,
-      ...rawEventCategories(event).values(),
-      eventCategory(event),
-      event?.location?.venue,
-      event?.location?.city,
-      event?.description,
-      eventSourceName(event),
-      event?.organizer,
-      typeBadge(event),
-    ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
-    return haystack.includes(query);
-  }));
+function eventSearchHaystack(event) {
+  const cached = searchHaystackCache.get(event);
+  if (cached !== undefined) return cached;
+  const haystack = [
+    event?.title,
+    ...rawEventCategories(event).values(),
+    eventCategory(event),
+    event?.location?.venue,
+    event?.location?.city,
+    event?.description,
+    eventSourceName(event),
+    event?.organizer,
+    typeBadge(event),
+  ].filter(Boolean).join(" ").toLocaleLowerCase(activeCity.locale);
+  searchHaystackCache.set(event, haystack);
+  return haystack;
 }
 
-function updateResultHeading(events) {
+function currentFilteredEvents() {
+  const query = dom.search.value.trim().toLocaleLowerCase(activeCity?.locale || "es");
+  return sortedEvents.filter((event) => {
+    if (!eventMatchesSection(event, activeSection)) return false;
+    if (!eventMatchesCategory(event, activeCategory)) return false;
+    return !query || eventSearchHaystack(event).includes(query);
+  });
+}
+
+function defaultSection(sectionCounts = computeSectionCounts(allEvents)) {
+  return (sectionCounts.get("hoy") || 0) > 0 ? "hoy" : "proximos";
+}
+
+function updateResultHeading(events, sectionCounts) {
   const meta = SECTION_META[activeSection] || SECTION_META.todos;
   dom.agendaKicker.textContent = activeSection === "hoy" ? "Qué hacer hoy" : "Agenda actual";
   dom.agendaTitle.textContent = meta.label;
@@ -675,16 +805,18 @@ function updateResultHeading(events) {
 
   const parts = [`${events.length} ${events.length === 1 ? "actividad" : "actividades"}`];
   if (activeCategory) {
-    const category = collectCategoryCounts(allEvents).find((item) => item.id === activeCategory);
+    const category = cachedCategories.find((item) => item.id === activeCategory);
     if (category) parts.push(category.label);
   }
   if (dom.search.value.trim()) parts.push(`“${dom.search.value.trim()}”`);
   dom.filterSummary.textContent = parts.join(" · ");
-  dom.filterClear.hidden = activeCategory === "" && !dom.search.value.trim() && activeSection === defaultSection();
+  dom.filterClear.hidden = activeCategory === "" && !dom.search.value.trim() && activeSection === defaultSection(sectionCounts);
   dom.emptyCopy.textContent = meta.empty;
 }
 
 function renderEvents() {
+  timeContext = null;
+  const sectionCounts = computeSectionCounts(allEvents);
   const events = currentFilteredEvents();
   const groups = { dated: [], program: [], flexible: [] };
   for (const event of events) groups[contentGroup(event)].push(event);
@@ -697,17 +829,13 @@ function renderEvents() {
     renderProgramReferences({ section: dom.programSection, grid: dom.programGrid, total: dom.programTotal }, secondaryPrograms);
   }
   renderGroup(dom.flexibleGrid, dom.flexibleSection, dom.flexibleTotal, groups.flexible);
-  updateResultHeading(events);
-  updateSectionCounts();
-  renderCategories();
-  renderSources();
-}
-
-function defaultSection() {
-  return allEvents.some((event) => eventMatchesSection(event, "hoy")) ? "hoy" : "proximos";
+  updateResultHeading(events, sectionCounts);
+  updateSectionCounts(sectionCounts);
+  updateCategoryButtons();
 }
 
 function resetDiscoveryFilters() {
+  timeContext = null;
   activeSection = defaultSection();
   activeCategory = "";
   dom.search.value = "";
@@ -720,6 +848,7 @@ async function loadCity(id) {
   activeCity = city;
   saveCity(id);
   hideChooser();
+  sourcesRenderGeneration += 1;
 
   document.documentElement.lang = city.lang || city.locale || "es";
   document.documentElement.dataset.city = id;
@@ -734,28 +863,38 @@ async function loadCity(id) {
   dom.search.value = "";
   dom.discovery.hidden = true;
   dom.agenda.hidden = true;
+  dom.sourcesSection.hidden = true;
+  dom.sourcesGrid.replaceChildren();
   setStatus("Cargando agenda", `Estamos buscando las actividades disponibles en ${city.label}.`);
 
   try {
     const result = await loadAgendaDataset(city);
     const dataset = result.dataset;
     if (!dataset || !Array.isArray(dataset.events)) throw new Error("Dataset inválido");
+    resetEventCaches();
     allEvents = dataset.events;
     secondaryPrograms = result.secondaryPrograms || [];
+    prepareStaticMetadata();
     activeCategory = "";
+    timeContext = null;
     activeSection = defaultSection();
     dom.discovery.hidden = false;
     dom.agenda.hidden = false;
     dom.status.hidden = true;
+    renderCategories();
     renderEvents();
     markCoreReady({ city: id, mode: "full", diagnostics: result.diagnostics || [] });
+    scheduleSourcesRender();
   } catch (error) {
+    resetEventCaches();
     allEvents = [];
     secondaryPrograms = [];
+    prepareStaticMetadata();
     activeCategory = "";
     activeSection = "todos";
     dom.discovery.hidden = true;
     dom.agenda.hidden = false;
+    renderCategories();
     renderEvents();
     setStatus("No pudimos cargar la agenda", `La aplicación no pudo leer el dataset de ${city.label}. Intenta nuevamente más tarde.`);
     markCoreReady({ city: id, mode: "error", error: String(error?.message || error) });
