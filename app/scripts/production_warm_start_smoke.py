@@ -20,10 +20,18 @@ MAX_WARM_RATIO = 1.75
 MAX_WARM_EXTRA_SECONDS = 4.0
 
 
-def timed_profile_dom(chrome: str, profile: str, base: str) -> tuple[str, float]:
-    started = time.monotonic()
-    dom = profile_dom(chrome, profile, base, MOBILE_CITY, MOBILE_WIDTH, MOBILE_HEIGHT)
-    return dom, time.monotonic() - started
+def timed_profile_dom(chrome: str, profile: str, base: str, attempts: int = 2) -> tuple[str, float]:
+    last_error = ""
+    for attempt in range(1, attempts + 1):
+        started = time.monotonic()
+        try:
+            dom = profile_dom(chrome, profile, base, MOBILE_CITY, MOBILE_WIDTH, MOBILE_HEIGHT)
+            return dom, time.monotonic() - started
+        except Exception as exc:
+            last_error = str(exc)
+            if attempt < attempts:
+                time.sleep(2)
+    raise RuntimeError(f"Chrome warm probe failed after retry: {last_error}")
 
 
 def main() -> None:
