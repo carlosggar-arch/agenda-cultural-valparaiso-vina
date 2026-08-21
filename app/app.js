@@ -231,21 +231,31 @@ function orderingEventSortKey(event) {
   return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;
 }
 
-function orderingCardEvents(card, eventsById) {
-  const ids = card.dataset.eventGroup
+function orderingCardEventIds(card, { visibleOnly = false } = {}) {
+  const allIds = card.dataset.eventGroup
     ? String(card.dataset.eventGroup).split(",").map((id) => id.trim()).filter(Boolean)
     : [String(card.dataset.eventId || "").trim()].filter(Boolean);
-  return ids.map((id) => eventsById.get(id)).filter(Boolean);
+  if (!visibleOnly || !card.dataset.eventGroup) return allIds;
+
+  const visibleIds = [...card.querySelectorAll("[data-grouped-event-id]")]
+    .filter((row) => !row.hidden)
+    .map((row) => String(row.dataset.groupedEventId || "").trim())
+    .filter(Boolean);
+  return visibleIds.length ? visibleIds : allIds;
+}
+
+function orderingCardEvents(card, eventsById, options = {}) {
+  return orderingCardEventIds(card, options).map((id) => eventsById.get(id)).filter(Boolean);
 }
 
 function orderingCardSortKey(card, eventsById) {
-  const events = orderingCardEvents(card, eventsById);
+  const events = orderingCardEvents(card, eventsById, { visibleOnly: !card.hidden });
   if (!events.length) return Number.POSITIVE_INFINITY;
   return Math.min(...events.map(orderingEventSortKey));
 }
 
 function orderingCardIsLongExhibition(card, eventsById, city) {
-  const events = orderingCardEvents(card, eventsById);
+  const events = orderingCardEvents(card, eventsById, { visibleOnly: !card.hidden });
   return events.length > 0 && events.every((event) => orderingIsLongExhibition(event, city));
 }
 
@@ -289,7 +299,9 @@ function scheduleExhibitionOrder() {
 }
 
 const datedGrid = document.querySelector('[data-dated-grid]');
-if (datedGrid) new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+if (datedGrid) {
+  new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+}
 const combinedCategories = document.querySelector('[data-combined-category-filters]');
 if (combinedCategories) {
   new MutationObserver(scheduleExhibitionOrder).observe(combinedCategories, {
@@ -297,6 +309,14 @@ if (combinedCategories) {
     subtree: true,
     attributes: true,
     attributeFilter: ["class", "aria-pressed"],
+  });
+}
+const filterSummary = document.querySelector('[data-filter-summary]');
+if (filterSummary) {
+  new MutationObserver(scheduleExhibitionOrder).observe(filterSummary, {
+    childList: true,
+    characterData: true,
+    subtree: true,
   });
 }
 window.addEventListener("vivamos:agenda-data-ready", scheduleExhibitionOrder);
