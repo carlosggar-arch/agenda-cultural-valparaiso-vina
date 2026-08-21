@@ -144,16 +144,25 @@ def test_parque_multidate_survives_parent_pruning() -> None:
     try:
         recoveries._load_previous_series_state = lambda: [state]
         recoveries.legacy.fetch = lambda *_args, **_kwargs: (False, None, "", "offline test")
-        dataset = {"events": []}
-        report = recoveries.recover_parque_multidate(dataset, date(2026, 8, 20))
+        dataset_20 = {"events": []}
+        report_20 = recoveries.recover_parque_multidate(dataset_20, date(2026, 8, 20))
+        dataset_21 = {"events": []}
+        report_21 = recoveries.recover_parque_multidate(dataset_21, date(2026, 8, 21))
     finally:
         recoveries._load_previous_series_state = original_load
         recoveries.legacy.fetch = original_fetch
-    dates = [str((event.get("schedule") or {}).get("start") or "")[:10] for event in dataset["events"]]
-    assert dates == ["2026-08-20", "2026-08-21"], dataset["events"]
-    assert [event["title"] for event in dataset["events"]] == ["Sesión 2", "Sesión 3"]
-    assert report["series_active"] == 1
-    assert len(report["series_state"][0]["occurrences"]) == 3
+
+    dates_20 = [str((event.get("schedule") or {}).get("start") or "")[:10] for event in dataset_20["events"]]
+    assert dates_20 == ["2026-08-20", "2026-08-21"], dataset_20["events"]
+    assert [event["title"] for event in dataset_20["events"]] == ["Sesión 2", "Sesión 3"]
+    assert report_20["series_active"] == 1
+    assert len(report_20["series_state"][0]["occurrences"]) == 3
+
+    dates_21 = [str((event.get("schedule") or {}).get("start") or "")[:10] for event in dataset_21["events"]]
+    assert dates_21 == ["2026-08-21"], dataset_21["events"]
+    assert [event["title"] for event in dataset_21["events"]] == ["Sesión 3"]
+    assert report_21["series_active"] == 1
+    assert len(report_21["series_state"][0]["occurrences"]) == 3
 
 
 def test_visitavina_occurrences_and_rioja_detail() -> None:
