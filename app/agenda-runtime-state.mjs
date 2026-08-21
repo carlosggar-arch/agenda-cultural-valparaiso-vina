@@ -1,3 +1,5 @@
+import { normalizeTemporalMetadata } from "./temporal-priority-core.mjs?v=20260821-temporal4";
+
 let revision = 0;
 let snapshot = null;
 
@@ -10,11 +12,14 @@ export function publishAgendaRuntimeSnapshot(city, result) {
   const dataset = result?.dataset;
   if (!cityId || !dataset || !Array.isArray(dataset.events)) return snapshot;
 
+  const normalizedDataset = normalizeTemporalMetadata(dataset, city, new Date());
+  result.dataset = normalizedDataset;
+
   snapshot = {
     cityId,
     city,
-    dataset,
-    events: dataset.events,
+    dataset: normalizedDataset,
+    events: normalizedDataset.events,
     secondaryPrograms: Array.isArray(result?.secondaryPrograms) ? result.secondaryPrograms : [],
     hiddenPrograms: Array.isArray(result?.hiddenPrograms) ? result.hiddenPrograms : [],
     diagnostics: Array.isArray(result?.diagnostics) ? result.diagnostics : [],
