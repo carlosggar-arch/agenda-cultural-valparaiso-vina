@@ -11,6 +11,7 @@ if (!Array.isArray(SHELL_ASSETS) || !SHELL_ASSETS.length) {
 const CACHE_VERSION = `v${RELEASE}`;
 const SHELL_CACHE = `agenda-cultural-shell-${CACHE_VERSION}`;
 const DATA_CACHE = `agenda-cultural-data-${CACHE_VERSION}`;
+const DATA_NETWORK_BUDGET_MS = 700;
 
 const CITY_REGISTRY_URL = new URL("./cities.json", self.registration.scope).href;
 let datasetUrlsPromise = null;
@@ -65,6 +66,10 @@ self.addEventListener("activate", (event) => {
   })());
 });
 
+function timeout(ms) {
+  return new Promise((resolve) => setTimeout(() => resolve(null), ms));
+}
+
 async function networkFirstNavigation(request) {
   try {
     return await fetch(request, { cache: "no-store" });
@@ -76,32 +81,71 @@ async function networkFirstNavigation(request) {
   }
 }
 
-async function networkFirstShell(request) {
-  const cache = await caches.open(SHELL_CACHE);
+async function refreshShell(cache, request) {
   try {
     const response = await fetch(request, { cache: "no-store" });
-    if (response.ok && new URL(request.url).origin === self.location.origin) await cache.put(request, response.clone());
+    if (response.ok && new URL(request.url).origin === self.location.origin) {
+      await cache.put(request, response.clone());
+    }
     return response;
   } catch {
-    return (await cache.match(request, { ignoreSearch: true })) || Response.error();
+    return null;
   }
 }
 
-async function networkFirstDataset(request) {
-  const cache = await caches.open(DATA_CACHE);
+async function networkFirstFreshShell(request) {
+  const cache = await caches.open(SHELL_CACHE);
+  const response = await refreshShell(cache, request);
+  if (response) return response;
+  return (await cache.match(request))
+    || (await cache.match(request, { ignoreSearch: true }))
+    || Response.error();
+}
+
+async function cacheFirstShell(request, event) {
+  const cache = await caches.open(SHELL_CACHE);
+  const cached = await cache.match(request);
+  if (cached) {
+    event.waitUntil(refreshShell(cache, request).then(() => undefined));
+    return cached;
+  }
+  const response = await refreshShell(cache, request);
+  if (response) return response;
+  return (await cache.match(request, { ignoreSearch: true })) || Response.error();
+}
+
+async function fetchAndCacheDataset(cache, request) {
   try {
     const response = await fetch(request, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await cache.put(request, response.clone());
     return response;
   } catch {
-    const cached = await cache.match(request, { ignoreSearch: true });
-    if (cached) return cached;
-    return new Response(JSON.stringify({ error: "offline_dataset_unavailable" }), {
-      status: 503,
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-    });
+    return null;
   }
+}
+
+async function networkFirstDataset(request, event) {
+  const cache = await caches.open(DATA_CACHE);
+  const cached = await cache.match(request, { ignoreSearch: true });
+  const networkPromise = fetchAndCacheDataset(cache, request);
+
+  if (cached) {
+    event.waitUntil(networkPromise.then(() => undefined));
+    const quickNetwork = await Promise.race([
+      networkPromise,
+      timeout(DATA_NETWORK_BUDGET_MS),
+    ]);
+    if (quickNetwork?.ok) return quickNetwork;
+    return cached;
+  }
+
+  const network = await networkPromise;
+  if (network?.ok) return network;
+  return new Response(JSON.stringify({ error: "offline_dataset_unavailable" }), {
+    status: 503,
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+  });
 }
 
 self.addEventListener("fetch", (event) => {
@@ -113,9 +157,14 @@ self.addEventListener("fetch", (event) => {
     return;
   }
   if (requestUrl.origin !== self.location.origin) return;
+  if (requestUrl.pathname.endsWith("/release-version.js")) {
+    event.respondWith(networkFirstFreshShell(request));
+    return;
+  }
   event.respondWith((async () => {
     const urls = await datasetUrls();
-    if (urls.has(requestUrl.href)) return networkFirstDataset(request);
-    return networkFirstShell(request);
+    const supplemental = requestUrl.pathname.endsWith("/supplemental-events.json");
+    if (urls.has(requestUrl.href) || supplemental) return networkFirstDataset(request, event);
+    return cacheFirstShell(request, event);
   })());
 });

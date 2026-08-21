@@ -33,18 +33,35 @@ function applyStage(name, transform, dataset, diagnostics) {
   }
 }
 
-async function withSupplemental(city, dataset, fetchImpl, diagnostics) {
-  const url = String(city?.supplemental_dataset || "").trim();
-  if (!url) return dataset;
-  try {
-    const supplemental = await fetchJson(url, fetchImpl);
+async function loadPayloads(city, fetchImpl, diagnostics) {
+  const supplementalUrl = String(city?.supplemental_dataset || "").trim();
+  const basePromise = fetchJson(city.dataset, fetchImpl);
+  const supplementalPromise = supplementalUrl
+    ? fetchJson(supplementalUrl, fetchImpl).then(
+      (payload) => ({ status: "ok", payload }),
+      (error) => ({ status: "error", error }),
+    )
+    : Promise.resolve({ status: "absent" });
+
+  const [base, supplementalResult] = await Promise.all([basePromise, supplementalPromise]);
+  diagnostics.push({ name: "base", status: "ok" });
+
+  if (supplementalResult.status === "ok") {
     diagnostics.push({ name: "supplemental", status: "ok" });
-    return mergeSupplementalPayload(dataset, supplemental);
-  } catch (error) {
-    diagnostics.push({ name: "supplemental", status: "skipped", error: String(error?.message || error) });
-    console.warn("¡Vivamos!: eventos suplementarios no disponibles; continúa el dataset principal", error);
-    return dataset;
+    return mergeSupplementalPayload(base, supplementalResult.payload);
   }
+  if (supplementalResult.status === "error") {
+    diagnostics.push({
+      name: "supplemental",
+      status: "skipped",
+      error: String(supplementalResult.error?.message || supplementalResult.error),
+    });
+    console.warn(
+      "¡Vivamos!: eventos suplementarios no disponibles; continúa el dataset principal",
+      supplementalResult.error,
+    );
+  }
+  return base;
 }
 
 function applyKnownPublicationCategories(dataset) {
@@ -68,10 +85,8 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   if (typeof fetchImpl !== "function") throw new Error("fetch no disponible");
 
   const diagnostics = [];
-  let dataset = await fetchJson(city.dataset, fetchImpl);
-  diagnostics.push({ name: "base", status: "ok" });
+  let dataset = await loadPayloads(city, fetchImpl, diagnostics);
 
-  dataset = await withSupplemental(city, dataset, fetchImpl, diagnostics);
   // Structural ingress boundary: no scraped/source HTML is allowed beyond this
   // point. Every later normalizer starts from plain public text.
   dataset = applyStage("public-text-sanitizer", normalizeAgendaPublicText, dataset, diagnostics);
