@@ -1,4 +1,5 @@
 export const EXHIBITION_GROUP_MIN = 2;
+export const LONG_EXHIBITION_DAYS = 7;
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 
@@ -61,6 +62,29 @@ export function exhibitionRange(event, timezone) {
     start: ranges.reduce((value, range) => range.start < value ? range.start : value, ranges[0].start),
     end: ranges.reduce((value, range) => range.end > value ? range.end : value, ranges[0].end),
   };
+}
+
+export function exhibitionDurationDays(event, { timezone = "UTC" } = {}) {
+  const range = exhibitionRange(event, timezone);
+  if (!range) return null;
+  const start = Date.parse(`${range.start}T12:00:00Z`);
+  const end = Date.parse(`${range.end}T12:00:00Z`);
+  if (!Number.isFinite(start) || !Number.isFinite(end)) return null;
+  return (end - start) / 86400000;
+}
+
+export function isLongExhibitionDuration(event, options = {}) {
+  const days = exhibitionDurationDays(event, options);
+  return Number.isFinite(days) && days > LONG_EXHIBITION_DAYS;
+}
+
+export function partitionExhibitionsByDuration(events, options = {}) {
+  const regular = [];
+  const long = [];
+  for (const event of events || []) {
+    (isLongExhibitionDuration(event, options) ? long : regular).push(event);
+  }
+  return { regular, long };
 }
 
 export function clusterSimultaneousExhibitions(events, { timezone = "UTC" } = {}) {
