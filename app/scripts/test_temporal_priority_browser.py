@@ -31,6 +31,7 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 def check_ui_removed() -> None:
     module = (APP / "temporal-priority.js").read_text(encoding="utf-8")
     core = (APP / "temporal-priority-core.mjs").read_text(encoding="utf-8")
+    runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
     entry = (APP / "app.js").read_text(encoding="utf-8")
 
     for removed_marker in (
@@ -55,6 +56,7 @@ def check_ui_removed() -> None:
     assert "export const LONG_RUNNING_DAYS = 7" in core, "long-running threshold must remain seven days in the shared core"
     assert '"this_weekend"' in core and '"always_available"' in core, "shared core must expose the six-bucket hierarchy"
     assert "classifyContentKind" in core, "content_kind classification must be owned by the shared temporal core"
+    assert 'Symbol.for("vivamos.agendaRuntimeState")' in runtime_state, "runtime snapshot must remain shared across versioned module identities"
     assert "compareTemporalPriority" in entry, "rendered cards must consume shared temporal priority"
     assert "classifyTemporalEvent" in entry, "rendered cards must expose content kind and temporal bucket metadata"
     assert "orderingCardEventIds" in entry, "group ordering must resolve the events represented by each card"
@@ -77,8 +79,8 @@ import {
   temporalBadge,
 } from "./temporal-priority-core.mjs";
 
-const valpo = { timezone: "America/Santiago", locale: "es-CL" };
-const gijon = { timezone: "Europe/Madrid", locale: "es-ES" };
+const valpo = { id: "valparaiso", timezone: "America/Santiago", locale: "es-CL" };
+const gijon = { id: "gijon", timezone: "Europe/Madrid", locale: "es-ES" };
 const instant = new Date("2026-08-19T00:30:00Z");
 const event = (id, start, end, startConfidence, endConfidence, category = "musica", options = {}) => ({
   id,
@@ -115,6 +117,19 @@ const recurring = event("recurring", null, null, null, null, "musica", {
 const hierarchyBlocks = organizeTemporalPriority([weekendLong, weekendSingle, recurring], valpo, hierarchyNow);
 const recurringState = classifyTemporalEvent(recurring, valpo, hierarchyNow);
 
+const runtimeWriter = await import("./agenda-runtime-state.mjs?browser-writer");
+const runtimeReader = await import("./agenda-runtime-state.mjs?browser-reader");
+runtimeWriter.clearAgendaRuntimeSnapshot();
+const runtimeResult = { dataset: { events: [recurring] }, diagnostics: [] };
+runtimeWriter.publishAgendaRuntimeSnapshot(valpo, runtimeResult);
+const runtimeShared = runtimeReader.getAgendaRuntimeSnapshot("valparaiso");
+const runtimeSharedOk = Boolean(
+  runtimeShared?.events?.[0]?.content_kind === "recurring_offer" &&
+  runtimeShared?.events?.[0]?.temporal_bucket === "always_available" &&
+  runtimeResult.dataset.events[0]?.content_kind === "recurring_offer" &&
+  runtimeResult.dataset.events[0]?.temporal_bucket === "always_available"
+);
+
 document.body.dataset.temporalBrowserDone = "true";
 document.body.dataset.gijonToday = String(gijonBlocks.today.some((item) => item.id === "explicit"));
 document.body.dataset.valpoToday = String(valpoBlocks.today.some((item) => item.id === "explicit"));
@@ -126,6 +141,7 @@ document.body.dataset.closingBadge = String(temporalBadge(closing, gijon, instan
 document.body.dataset.weekendOrder = hierarchyBlocks.thisWeekend.map((item) => item.id).join(",");
 document.body.dataset.recurringKind = classifyContentKind(recurring, valpo);
 document.body.dataset.recurringBucket = recurringState.bucket;
+document.body.dataset.runtimeShared = String(runtimeSharedOk);
 </script>
 </body></html>''',
         encoding="utf-8",
@@ -185,11 +201,12 @@ def main() -> None:
         'data-weekend-order="weekend-single,weekend-long"': "punctual weekend event did not outrank long-running content",
         'data-recurring-kind="recurring_offer"': "recurring flexible offer did not get recurring_offer content_kind",
         'data-recurring-bucket="always_available"': "recurring offer did not land in always_available",
+        'data-runtime-shared="true"': "versioned runtime modules did not share one temporal snapshot",
     }
     for marker, message in expected.items():
         if marker not in dom:
             raise AssertionError(message)
-    print("Temporal hierarchy, content_kind, timezone and confidence browser contracts: OK")
+    print("Temporal hierarchy, content_kind, shared runtime, timezone and confidence browser contracts: OK")
 
 
 if __name__ == "__main__":
