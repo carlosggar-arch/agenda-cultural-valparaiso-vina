@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { loadAgendaDataset } from "./data-pipeline.js";
+import { loadAgendaDataset, normalizeSourceDisplayNames } from "./data-pipeline.js";
 
 const TEST_NOW = new Date("2026-08-19T12:00:00-04:00");
 
@@ -151,6 +151,37 @@ const supplemental = {
   const result = await loadAgendaDataset({ id: "gijon", dataset: "gijon.json", timezone: "Europe/Madrid" }, { fetchImpl, now: TEST_NOW });
   assert.equal(result.dataset.events.some((event) => String(event.id).startsWith("agenda_rioja_")), false, "Valpo recovery rows must never leak into Gijón");
   assert.equal(result.diagnostics.find((stage) => stage.name === "event-data-corrections")?.status, "not-applicable");
+}
+
+{
+  const publicName = "Visita Viña — Municipalidad de Viña del Mar";
+  const normalized = normalizeSourceDisplayNames({
+    events: [
+      {
+        id: "visitavina-yoga",
+        source_id: "culturasvina",
+        source_name: "Culturas Viña",
+        organizer: "Culturas Viña",
+      },
+      {
+        id: "visitavina-specific-organizer",
+        source_id: "culturasvina",
+        source_name: "Culturas Viña",
+        organizer: "Museo Palacio Vergara",
+      },
+      {
+        id: "unrelated-source",
+        source_id: "centex",
+        source_name: "CENTEX",
+        organizer: "CENTEX",
+      },
+    ],
+  });
+  assert.equal(normalized.events[0].source_name, publicName);
+  assert.equal(normalized.events[0].organizer, publicName, "legacy organizer labels should follow the public source name");
+  assert.equal(normalized.events[1].source_name, publicName);
+  assert.equal(normalized.events[1].organizer, "Museo Palacio Vergara", "specific organizers must be preserved");
+  assert.equal(normalized.events[2].source_name, "CENTEX", "unrelated sources must remain unchanged");
 }
 
 console.log("DATA_PIPELINE_OK");
