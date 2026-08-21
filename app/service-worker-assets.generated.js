@@ -67,6 +67,7 @@
     "./data/venue-registry.json",
     "./date-aware-exhibition-hours.mjs",
     "./density-polish.js",
+    "./event-card-data-quality.mjs",
     "./event-data-corrections.js",
     "./event-detail.js",
     "./exhibition-compact.css",
