@@ -6,6 +6,7 @@ sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 release = (APP / "release-version.js").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 exhibition_guard = (APP / "exhibition-presentation-guard.js").read_text(encoding="utf-8")
+data_pipeline = (APP / "data-pipeline.js").read_text(encoding="utf-8")
 
 # Warm starts must not wait for the network: both the HTML navigation and
 # already-cached datasets are returned immediately while a refresh is attached
@@ -39,5 +40,18 @@ assert "queueMicrotask(applyExhibitionOrderPolicy)" not in app_js
 assert "const orderingDateFormatters = new Map();" in app_js
 assert "requestAnimationFrame(applyGuard)" in exhibition_guard
 assert "queueMicrotask(applyGuard)" not in exhibition_guard
+
+# Once raw payloads are already in the service-worker cache, repeat openings
+# must not redo every sanitizer/normalizer/deduplication pass. The processed
+# result is keyed by release, source generation and local day so data changes or
+# the midnight expiry boundary invalidate it automatically.
+assert 'const PROCESSED_CACHE_PREFIX = "vivamos-processed-pipeline-";' in data_pipeline
+assert "function buildSourceSignature(city, base, supplementalResult, now)" in data_pipeline
+assert "generated_at" in data_pipeline
+assert "localDateKey(now" in data_pipeline
+assert "async function readProcessedResult(city, signature)" in data_pipeline
+assert "async function writeProcessedResult(city, signature, result)" in data_pipeline
+assert 'diagnostics.push({ name: "processed-pipeline-cache", status: "hit" });' in data_pipeline
+assert "publishAgendaRuntimeSnapshot(city, result);\n      return result;" in data_pipeline
 
 print("PWA cache-first startup regression: OK")
