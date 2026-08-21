@@ -47,8 +47,10 @@ def check_ui_removed() -> None:
     assert "removeLegacyTemporalUi" in module, "legacy temporal UI cleanup must remain active"
     assert "const CITY_REGISTRY = await" not in module, "temporal guard must not block app startup on top-level await"
     assert 'temporal-priority.js?v=20260819-temporal3' in entry, "app entrypoint must load the non-blocking temporal guard"
-    assert "placeExhibitionsLast" in entry, "default agenda must place exhibition cards after other dated events"
-    assert 'card.dataset.category === "exposiciones"' in entry, "exhibition-last ordering must use the public category id"
+    assert "LONG_EXHIBITION_DAYS = 7" in entry, "long exhibition threshold must remain seven days"
+    assert "orderingIsLongExhibition" in entry, "default agenda must distinguish long exhibitions before deferring them"
+    assert "categoryFilterIsActive" in entry, "category filters must disable long-exhibition deferral and restore chronological order"
+    assert "placeExhibitionsLast" not in entry, "legacy all-exhibitions-last policy must not return"
 
 
 def make_page() -> None:
