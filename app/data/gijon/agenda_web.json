@@ -1,11 +1,11 @@
 {
   "schema_version": "1.3.0",
-  "generated_at": "2026-08-21T15:42:51+02:00",
+  "generated_at": "2026-08-21T16:08:12+02:00",
   "publication_date": "2026-08-21",
   "timezone": "Europe/Madrid",
   "counts": {
-    "total": 203,
-    "events": 194,
+    "total": 201,
+    "events": 192,
     "courses": 0,
     "flexible_offers": 1,
     "programs": 8
@@ -973,24 +973,24 @@
       "kind": "web_calendar",
       "official": true,
       "scope": "Gijón",
-      "event_count": 3,
-      "status": "ok",
-      "detail": null,
+      "event_count": 1,
+      "status": "error",
+      "detail": "ConnectionError: HTTPSConnectionPool(host='elpercebecomedy.com', port=443): Max retries exceeded with url: /percebe/ (Caused by NewConnectionError(\"HTTPSConnection(host='elpercebecomedy.com', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))",
       "diagnostics": {
         "reviewed_items": null,
         "dated_candidates": null,
-        "published_events": 3,
+        "published_events": 1,
         "filtered_or_deduplicated": null,
         "with_start_time": 0,
-        "without_start_time": 3,
+        "without_start_time": 1,
         "time_coverage_percent": 0,
         "time_adequacy_percent": 0,
-        "actionable_time_gaps": 3,
+        "actionable_time_gaps": 1,
         "no_single_start_expected": 0,
         "venue_hours_available": 0,
         "needs_venue_hours": 0,
         "needs_schedule_detail": 0,
-        "missing_start_time": 3
+        "missing_start_time": 1
       }
     },
     {
@@ -1217,8 +1217,8 @@
       "official": true,
       "scope": "Gijón",
       "event_count": 0,
-      "status": "ok",
-      "detail": null,
+      "status": "error",
+      "detail": "HTTPError: 429 Client Error: Too Many Requests for url: https://www.google.com/sorry/index?continue=https://picu-urriellu.blogspot.com/&q=EgQEmvXpGMu3odQGIi3c1UmeYWmRHwJH0oQ3UawVskA6SY0NQ1wVZbOfoR5vDNqt9NXXNUi7ckZLUF8yAnJSWgFD",
       "diagnostics": {
         "reviewed_items": null,
         "dated_candidates": null,
@@ -1314,10 +1314,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1426,10 +1426,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1540,10 +1540,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1648,10 +1648,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -1760,10 +1760,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1833,7 +1833,7 @@
         "start": "2026-02-20",
         "end": "2026-09-12",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-02-20 – 2026-09-12",
+        "display_text": "2026-02-20",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -1872,10 +1872,10 @@
       "source_id": "laboral_centro_arte",
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -1929,7 +1929,7 @@
         "start": "2026-03-12",
         "end": "2026-08-23",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-03-12 – 2026-08-23",
+        "display_text": "2026-03-12 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -1967,10 +1967,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2053,7 +2053,7 @@
         "start": "2026-03-25",
         "end": "2026-11-01",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-03-25 – 2026-11-01",
+        "display_text": "2026-03-25 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -2091,10 +2091,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2201,10 +2201,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2281,7 +2281,7 @@
         "start": "2026-04-14",
         "end": "2026-11-30",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-04-14 – 2026-11-30",
+        "display_text": "2026-04-14 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -2319,10 +2319,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2399,7 +2399,7 @@
         "start": "2026-04-17",
         "end": "2026-10-17",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-04-17 – 2026-10-17",
+        "display_text": "2026-04-17",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -2438,10 +2438,10 @@
       "source_id": "laboral_centro_arte",
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2524,10 +2524,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Jardín Botánico Atlántico",
       "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2579,7 +2579,7 @@
         "start": "2026-05-07",
         "end": "2026-10-04",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-05-07 – 2026-10-04",
+        "display_text": "2026-05-07 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -2617,10 +2617,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2735,10 +2735,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2823,7 +2823,7 @@
         "start": "2026-05-15",
         "end": "2026-09-20",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-05-15 – 2026-09-20",
+        "display_text": "2026-05-15",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -2862,10 +2862,10 @@
       "source_id": "laboral_centro_arte",
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -2919,7 +2919,7 @@
         "start": "2026-06-09",
         "end": "2026-12-31",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-06-09 – 2026-12-31",
+        "display_text": "2026-06-09 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -2957,10 +2957,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3068,10 +3068,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3102,11 +3102,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 60,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/campus-de-verano-de-la-laboral-2026-/16671776/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -3128,7 +3128,7 @@
         "start": "2026-07-01",
         "end": "2026-09-20",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-07-01 – 2026-09-20",
+        "display_text": "2026-07-01 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -3166,10 +3166,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3268,10 +3268,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3348,7 +3348,7 @@
         "start": "2026-07-09",
         "end": "2026-09-13",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-07-09 – 2026-09-13",
+        "display_text": "2026-07-09 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -3386,10 +3386,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3468,7 +3468,7 @@
         "start": "2026-07-23",
         "end": "2026-08-30",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-07-23 – 2026-08-30",
+        "display_text": "2026-07-23",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -3507,10 +3507,10 @@
       "source_id": "laboral_centro_arte",
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3593,10 +3593,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3684,10 +3684,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3747,7 +3747,7 @@
         "start": "2026-07-30T09:00:00+02:00",
         "end": "2026-08-27",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-07-30 – 2026-08-27",
+        "display_text": "2026-07-30 · 09:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -3785,10 +3785,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3891,10 +3891,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -3954,7 +3954,7 @@
         "start": "2026-08-04",
         "end": "2026-08-28",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-08-04 – 2026-08-28",
+        "display_text": "2026-08-04 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -3992,10 +3992,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4066,7 +4066,7 @@
         "start": "2026-08-04",
         "end": "2026-08-28",
         "timezone": "Europe/Madrid",
-        "display_text": "2026-08-04 – 2026-08-28",
+        "display_text": "2026-08-04 · 00:00",
         "occurrences": [],
         "opening_hours": {
           "mode": "venue",
@@ -4104,10 +4104,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4208,10 +4208,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4317,10 +4317,10 @@
       "organizer": "Divertia",
       "source_name": "Jardín Botánico Atlántico",
       "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4476,10 +4476,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4582,10 +4582,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4669,10 +4669,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4767,10 +4767,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -4873,10 +4873,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -4984,10 +4984,10 @@
       "source_id": "festival_piano_gijon",
       "source_name": "Festival Internacional de Piano de Gijón",
       "source_url": "https://gijonpiano.com/nuestros-eventos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5072,10 +5072,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5164,10 +5164,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5258,10 +5258,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5357,10 +5357,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5452,10 +5452,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5633,10 +5633,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-21T15:43:01+02:00",
+      "last_verified_at": "2026-08-21T16:08:26+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:43:01+02:00",
+        "last_verified_at": "2026-08-21T16:08:26+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -5722,10 +5722,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5830,10 +5830,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -5927,10 +5927,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6035,10 +6035,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6159,10 +6159,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6246,10 +6246,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6345,10 +6345,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6443,10 +6443,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6537,10 +6537,10 @@
       "source_id": "festival_piano_gijon",
       "source_name": "Festival Internacional de Piano de Gijón",
       "source_url": "https://gijonpiano.com/nuestros-eventos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6626,10 +6626,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -6731,10 +6731,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6822,10 +6822,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -6933,10 +6933,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7046,10 +7046,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7133,10 +7133,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7231,10 +7231,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7322,10 +7322,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7426,10 +7426,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7536,10 +7536,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7626,10 +7626,10 @@
       "source_id": "juventud_gijon",
       "source_name": "Juventud Gijón/Xixón — Oficina de Juventud",
       "source_url": "https://juventudgijon.wordpress.com/2026/05/15/actividades-jovenes-creativos-gijon-verano-2026/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7719,10 +7719,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7814,10 +7814,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -7919,10 +7919,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8097,10 +8097,10 @@
       "source_id": "turismo_asturias_deporte",
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8187,10 +8187,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8288,10 +8288,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8383,10 +8383,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8487,10 +8487,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8582,10 +8582,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8777,10 +8777,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -8872,10 +8872,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8970,10 +8970,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9079,10 +9079,10 @@
       "source_id": "museo_evaristo_valle",
       "source_name": "Museo Evaristo Valle",
       "source_url": "https://evaristovalle.com/actualidad/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9168,10 +9168,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9272,10 +9272,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9367,10 +9367,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9465,10 +9465,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9565,10 +9565,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9671,10 +9671,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-21T15:43:01+02:00",
+      "last_verified_at": "2026-08-21T16:08:26+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:43:01+02:00",
+        "last_verified_at": "2026-08-21T16:08:26+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9760,10 +9760,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9856,10 +9856,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -9951,10 +9951,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10059,10 +10059,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10168,10 +10168,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10256,10 +10256,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10369,10 +10369,10 @@
       "source_id": "bioparc_acuario_gijon",
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10457,10 +10457,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10563,10 +10563,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10597,11 +10597,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/trialogfem-show/18005869/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -10654,10 +10654,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-21T15:43:01+02:00",
+      "last_verified_at": "2026-08-21T16:08:26+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:43:01+02:00",
+        "last_verified_at": "2026-08-21T16:08:26+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10743,10 +10743,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -10850,10 +10850,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10945,10 +10945,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11044,10 +11044,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11143,10 +11143,10 @@
       "organizer": "Divertia",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11249,10 +11249,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11358,10 +11358,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11452,10 +11452,10 @@
       "source_id": "laboral_centro_arte",
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11538,10 +11538,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11630,10 +11630,10 @@
       "source_id": "ciclismo_asturias",
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "last_verified_at": "2026-08-21T15:43:01+02:00",
+      "last_verified_at": "2026-08-21T16:08:26+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:43:01+02:00",
+        "last_verified_at": "2026-08-21T16:08:26+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -11719,10 +11719,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11827,10 +11827,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11926,10 +11926,10 @@
       "source_id": "camara_recinto_ferial_gijon",
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12015,10 +12015,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12113,10 +12113,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "last_verified_at": "2026-08-21T15:40:15+02:00",
+      "last_verified_at": "2026-08-21T16:05:30+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:40:15+02:00",
+        "last_verified_at": "2026-08-21T16:05:30+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12224,10 +12224,10 @@
       "source_id": "teatro_albeniz_gijon",
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12312,10 +12312,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12406,10 +12406,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12498,10 +12498,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12542,96 +12542,6 @@
         "content_quality_issues": [
           "generic_description"
         ]
-      }
-    },
-    {
-      "id": "gijon_el_percebe_gijon_6955cfcf2adf7808",
-      "title": "Bianca Kovacs",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro / artes escénicas"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro / artes escénicas"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-09-12",
-        "end": "2026-09-12",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-09-12",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Gijón",
-        "commune": "Gijón",
-        "region": null,
-        "venue": "El Percebe Comedy",
-        "address": "Calle Marqués de San Esteban 25, Gijón, Asturias",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://elpercebecomedy.com/percebe/",
-        "tickets": "https://entradium.com/events/bianca-kovacs-una-rumana-muy-legal",
-        "registration": "https://entradium.com/events/bianca-kovacs-una-rumana-muy-legal",
-        "source": "https://elpercebecomedy.com/percebe/"
-      },
-      "organizer": "El Percebe Comedy",
-      "source_id": "el_percebe_gijon",
-      "source_name": "El Percebe Comedy",
-      "source_url": "https://elpercebecomedy.com/percebe/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
-        "time_information_quality": "missing_start_time",
-        "time_followup_needed": true,
-        "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
-        "source_enrichment_opportunity": false
-      },
-      "description": "Bianca Kovacs. Fecha y horario verificados mediante una fuente secundaria de agenda, corroborando la cartelera oficial de El Percebe.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://elpercebecomedy.com/wp-content/uploads/2026/04/Bianca-731x1024.jpeg",
-        "alt": "Bianca Kovacs"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "multisource_dated_event",
-        "duration_days": 0,
-        "time_audit_status": "missing_start_time",
-        "time_audit_reason": "single_day_event_without_explicit_clock",
-        "time_audit_duration_days": 1,
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://elpercebecomedy.com/percebe/",
-        "content_quality": "rich",
-        "content_quality_issues": []
       }
     },
     {
@@ -12682,10 +12592,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12776,10 +12686,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12810,11 +12720,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 3,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/festival-rincones-y-recovecos-2026/18251289/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -12865,10 +12775,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12959,10 +12869,10 @@
       "source_id": "teatro_albeniz_gijon",
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13047,10 +12957,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13141,10 +13051,10 @@
       "source_id": "camara_recinto_ferial_gijon",
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13229,10 +13139,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13322,10 +13232,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13356,11 +13266,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 2,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/joaquin-pajaron-filososidra/16237740/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -13413,10 +13323,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13428,8 +13338,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "Festival Caparina. Gala de circo contemporáneo Iglesia de la Laboral Tiempo 2026-09-27 13:00:00.000 27 septiembre 2026 13:00 h - 14:20 h",
@@ -13437,7 +13347,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/caparina-700.jpg/cb5a65b1-4ab3-3936-41fa-ac81c5e48a4d?version=1.0&amp;t=1786699586347&amp;imageThumbnail=2",
         "alt": "Festival Caparina. Gala de circo contemporáneo"
       },
       "editorial": {
@@ -13447,10 +13357,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/festival-caparina-gala-de-circo-contemporaneo/18173452/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -13501,10 +13412,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13590,10 +13501,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13683,10 +13594,10 @@
       "organizer": "FMCE y UP",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13775,10 +13686,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13864,10 +13775,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13952,10 +13863,10 @@
       "source_id": "teatro_albeniz_gijon",
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -14042,10 +13953,10 @@
       "source_id": "camara_recinto_ferial_gijon",
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -14130,10 +14041,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14224,10 +14135,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -14239,8 +14150,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "El Kanka. Gira La Calma Teatro de la Laboral Tiempo 2026-10-03 20:30:00.000 03 octubre 2026 20:30 h - 22:10 h",
@@ -14248,7 +14159,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/KAN26_GIJ_RECINTO_700x700.jpg/689d376d-fc8c-c465-f658-d7e440af1150?version=1.0&amp;t=1762869671779&amp;imageThumbnail=2",
         "alt": "El Kanka. Gira La Calma"
       },
       "editorial": {
@@ -14258,10 +14169,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-kanka-gira-la-calma/14692791/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -14314,10 +14226,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -14403,10 +14315,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14494,10 +14406,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14587,10 +14499,10 @@
       "source_id": "teatro_albeniz_gijon",
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -14678,10 +14590,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14773,10 +14685,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14864,10 +14776,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14955,10 +14867,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -14989,11 +14901,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 2,
+        "content_quality": "rich",
+        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/formacion-off-iv-muestra-d-artes-esceniques-escena-en-rede/18233910/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
-        "content_quality": "rich",
-        "content_quality_issues": []
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
       }
     },
     {
@@ -15044,10 +14956,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15084,96 +14996,6 @@
         "content_quality_issues": [
           "generic_description"
         ]
-      }
-    },
-    {
-      "id": "gijon_el_percebe_gijon_2fcf0a562683bf38",
-      "title": "Jaime Caravaca",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro / artes escénicas"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro / artes escénicas"
-        }
-      ],
-      "schedule": {
-        "mode": "single",
-        "start": "2026-10-16",
-        "end": "2026-10-16",
-        "timezone": "Europe/Madrid",
-        "display_text": "2026-10-16",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Gijón",
-        "commune": "Gijón",
-        "region": null,
-        "venue": "El Percebe Comedy",
-        "address": "Calle Marqués de San Esteban 25, Gijón, Asturias",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": "EUR",
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "Consultar condiciones"
-      },
-      "links": {
-        "official": "https://elpercebecomedy.com/percebe/",
-        "tickets": "https://entradium.com/events/monologo-de-jaime-caravaca-en-el-percebe-gijon",
-        "registration": "https://entradium.com/events/monologo-de-jaime-caravaca-en-el-percebe-gijon",
-        "source": "https://elpercebecomedy.com/percebe/"
-      },
-      "organizer": "El Percebe Comedy",
-      "source_id": "el_percebe_gijon",
-      "source_name": "El Percebe Comedy",
-      "source_url": "https://elpercebecomedy.com/percebe/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": false,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": false,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma horario, precio y condiciones en la fuente enlazada.",
-        "time_information_quality": "missing_start_time",
-        "time_followup_needed": true,
-        "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
-        "source_enrichment_opportunity": false
-      },
-      "description": "Jaime Caravaca. Fecha y horario verificados mediante una fuente secundaria de agenda, corroborando la cartelera oficial de El Percebe.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://elpercebecomedy.com/wp-content/uploads/2026/04/Jaime-578x1024.jpeg",
-        "alt": "Jaime Caravaca"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "multisource_dated_event",
-        "duration_days": 0,
-        "time_audit_status": "missing_start_time",
-        "time_audit_reason": "single_day_event_without_explicit_clock",
-        "time_audit_duration_days": 1,
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://elpercebecomedy.com/percebe/",
-        "content_quality": "rich",
-        "content_quality_issues": []
       }
     },
     {
@@ -15226,10 +15048,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -15241,8 +15063,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "Hovik. Grito Teatro de la Laboral Tiempo 2026-10-16 20:30:00.000 16 octubre 2026 20:30 h - 22:00 h",
@@ -15250,7 +15072,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/GRITO_700x700px.jpg/1e8d67c8-81cc-5d02-a637-5a78f399e2a2?version=1.0&amp;t=1781088025887&amp;imageThumbnail=2",
         "alt": "Hovik. Grito"
       },
       "editorial": {
@@ -15260,10 +15082,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/hovik-grito/17337043/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -15314,10 +15137,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15408,10 +15231,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -15423,8 +15246,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "CantaJuego. Yo quiero ser... Teatro de la Laboral Tiempo 2026-10-18 12:30:00.000 18 octubre 2026 12:30 h - 18:20 h",
@@ -15432,7 +15255,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/cantajuego-26-700.jpg/d45c4ff5-6f98-303c-12e6-f7f680faeeff?version=1.0&amp;t=1776431778376&amp;imageThumbnail=2",
         "alt": "CantaJuego. Yo quiero ser..."
       },
       "editorial": {
@@ -15442,10 +15265,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/cantajuego-yo-quiero-ser-/16782777/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -15496,10 +15320,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15588,10 +15412,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15681,10 +15505,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -15772,10 +15596,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15867,10 +15691,10 @@
       "source_id": "teatro_albeniz_gijon",
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -15957,10 +15781,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -15991,11 +15815,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-arrebato-el-viaje-inesperado/14744240/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -16046,10 +15870,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16137,10 +15961,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16227,10 +16051,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16318,10 +16142,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -16333,8 +16157,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "Ángel Martín. Somos monos Teatro de la Laboral Tiempo 2026-10-30 20:30:00.000 30 octubre 2026 20:30 h - 21:50 h",
@@ -16342,7 +16166,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/angel-martin.jpg/539b2292-25ff-ed5c-759a-c09dfbbc1a26?version=1.0&amp;t=1773844756227&amp;imageThumbnail=2",
         "alt": "Ángel Martín. Somos monos"
       },
       "editorial": {
@@ -16352,10 +16176,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/angel-martin-somos-monos/16421303/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -16408,10 +16233,10 @@
       "source_id": "camara_recinto_ferial_gijon",
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -16498,10 +16323,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -16586,10 +16411,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16677,10 +16502,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16767,10 +16592,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16859,10 +16684,10 @@
       "source_id": "camara_recinto_ferial_gijon",
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -16947,10 +16772,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17039,10 +16864,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -17130,10 +16955,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -17219,10 +17044,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17309,10 +17134,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17403,10 +17228,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17500,10 +17325,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17595,10 +17420,10 @@
       "source_id": "teatro_albeniz_gijon",
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -17686,10 +17511,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17784,10 +17609,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17879,10 +17704,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17970,10 +17795,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -17985,8 +17810,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
         "source_enrichment_opportunity": false
       },
       "description": "Juan Dávila. El Palacio del Pecado Teatro de la Laboral Tiempo 2026-11-27 20:30:00.000 27 noviembre 2026 / 2026-11-29 18:00:00.000 29 noviembre 2026 20:30 h - 18:00 h",
@@ -17994,7 +17819,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/juan-davila-700.jpg/b49215b2-2a99-238d-4899-d59801cd9c7b?version=1.0&amp;t=1778503390726&amp;imageThumbnail=2",
+        "url": null,
         "alt": "Juan Dávila. El Palacio del Pecado"
       },
       "editorial": {
@@ -18004,11 +17829,10 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 3,
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/juan-davila-el-palacio-del-pecado/17055899/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
-        "content_quality": "rich",
-        "content_quality_issues": []
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -18059,10 +17883,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18150,10 +17974,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18239,10 +18063,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18328,10 +18152,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18417,10 +18241,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18508,10 +18332,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -18523,8 +18347,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "Depedro Teatro de la Laboral Tiempo 2026-12-05 20:30:00.000 05 diciembre 2026 20:30 h - 22:10 h",
@@ -18532,7 +18356,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/depedro-700.jpg/fc5ccb31-d68a-a938-e95a-36db1dc00b8b?version=1.0&amp;t=1777976983881&amp;imageThumbnail=2",
         "alt": "Depedro"
       },
       "editorial": {
@@ -18542,10 +18366,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/depedro/16939349/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -18596,10 +18421,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18685,10 +18510,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18776,10 +18601,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -18791,8 +18616,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "Eliades Ochoa Teatro de la Laboral Tiempo 2026-12-06 20:30:00.000 06 diciembre 2026 20:30 h - 22:10 h",
@@ -18800,7 +18625,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/eliades-ochoa-700.jpg/6fde69fd-e14f-9ac0-2508-a1f423207123?version=1.0&amp;t=1772634103002&amp;imageThumbnail=2",
         "alt": "Eliades Ochoa"
       },
       "editorial": {
@@ -18810,10 +18635,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "content_quality": "rich",
+        "content_quality_issues": [],
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/eliades-ochoa/16038545/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
       }
     },
     {
@@ -18864,10 +18690,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18953,10 +18779,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19042,10 +18868,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19132,10 +18958,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19225,10 +19051,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -19240,8 +19066,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "OBK. Vértigo Tour Teatro de la Laboral Tiempo 2026-12-11 20:30:00.000 11 diciembre 2026 20:30 h - 22:00 h",
@@ -19249,7 +19075,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/OBK+GIJ%C3%93N.jpg/501b7f67-09be-d559-5eb9-d28e2713c87b?version=1.0&amp;t=1786087528048&amp;imageThumbnail=2",
         "alt": "OBK. Vértigo Tour"
       },
       "editorial": {
@@ -19259,10 +19085,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/obk-vertigo-tour/18086821/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -19313,10 +19140,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19404,10 +19231,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19495,10 +19322,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19584,10 +19411,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19675,10 +19502,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -19764,10 +19591,10 @@
       "organizer": "Ayuntamiento",
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -19855,10 +19682,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -19870,8 +19697,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
         "source_enrichment_opportunity": false
       },
       "description": "Eva Soriano. Disfrutona Teatro de la Laboral Tiempo 2026-12-19 20:30:00.000 19 diciembre 2026 20:30 h - 21:50 h",
@@ -19879,7 +19706,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/eva-soriano-700.jpg/e5194f23-f5b6-0569-215c-4c9b5ebad496?version=1.0&amp;t=1780492341003&amp;imageThumbnail=2",
+        "url": null,
         "alt": "Eva Soriano. Disfrutona"
       },
       "editorial": {
@@ -19889,11 +19716,10 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/eva-soriano-disfrutona/17262554/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
-        "content_quality": "rich",
-        "content_quality_issues": []
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -19947,10 +19773,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -20044,10 +19870,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20078,11 +19904,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/abraham-cupeiro-loira/17817485/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -20135,10 +19961,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20169,11 +19995,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "rich",
-        "content_quality_issues": [],
         "image_enrichment_reason": "official_page_metadata_or_event_block",
         "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/miguel-miguel-acojonado-/17817416/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -20226,10 +20052,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20241,8 +20067,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
         "source_enrichment_opportunity": false
       },
       "description": "El Pollo Pepe. La gran aventura Teatro de la Laboral Tiempo 2027-01-03 17:30:00.000 03 enero 2027 17:30 h - 18:30 h",
@@ -20250,7 +20076,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/17237446/pollo-pepe-700.jpg/6e3336a0-da0b-d465-8776-b756a1aa2721?version=1.0&amp;t=1784884885915&amp;imageThumbnail=2",
+        "url": null,
         "alt": "El Pollo Pepe. La gran aventura"
       },
       "editorial": {
@@ -20260,11 +20086,10 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "rich",
-        "content_quality_issues": [],
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-pollo-pepe-la-gran-aventura/17937524/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -20317,10 +20142,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20332,8 +20157,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
         "source_enrichment_opportunity": false
       },
       "description": "Karim. Solo para adultos Teatro de la Laboral Tiempo 2027-01-08 20:30:00.000 08 enero 2027 20:30 h - 22:00 h",
@@ -20341,7 +20166,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/17237446/solo-para-adultos-700x700-01.jpg/26cb0bdf-7242-8093-c935-a60c3edf31a0?version=1.0&amp;t=1785417698411&amp;imageThumbnail=2",
+        "url": null,
         "alt": "Karim. Solo para adultos"
       },
       "editorial": {
@@ -20351,11 +20176,10 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/karim-solo-para-adultos/18005680/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
-        "content_quality": "rich",
-        "content_quality_issues": []
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -20408,10 +20232,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20423,8 +20247,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
         "source_enrichment_opportunity": false
       },
       "description": "Fito & Fitipaldis. Aullidos Tour Teatro de la Laboral Tiempo 2027-01-22 20:30:00.000 22 enero 2027 / 2027-01-23 22:10:00.000 23 enero 2027 20:30 h - 22:10 h",
@@ -20432,7 +20256,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/17237446/Fito-700.jpg/e9c12a1b-e462-67fa-3770-3fecb7d8e028?version=1.0&amp;t=1782385896272&amp;imageThumbnail=2",
+        "url": null,
         "alt": "Fito & Fitipaldis. Aullidos Tour"
       },
       "editorial": {
@@ -20442,11 +20266,10 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 2,
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/fito-fitipaldis-aullidos-tour/17493732/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
-        "content_quality": "rich",
-        "content_quality_issues": []
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     },
     {
@@ -20500,10 +20323,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -20597,10 +20420,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20688,10 +20511,10 @@
       "source_id": "gijon_arena",
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -20783,10 +20606,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20798,8 +20621,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "needs_enrichment",
-        "content_followup_needed": true,
+        "content_information_quality": "rich",
+        "content_followup_needed": false,
         "source_enrichment_opportunity": false
       },
       "description": "Albert Pla. No quiero hablar de mí, pero yo Teatro de la Laboral Tiempo 2027-02-12 20:30:00.000 12 febrero 2027 20:30 h - 22:00 h",
@@ -20807,7 +20630,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": null,
+        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/17237446/albert-pla-700.jpg/b2d042f8-3be3-ebac-e5d8-e772aa4b4639?version=1.0&amp;t=1782292407528&amp;imageThumbnail=2",
         "alt": "Albert Pla. No quiero hablar de mí, pero yo"
       },
       "editorial": {
@@ -20817,10 +20640,11 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "needs_enrichment",
-        "content_quality_issues": [
-          "missing_image"
-        ]
+        "image_enrichment_reason": "official_page_metadata_or_event_block",
+        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/albert-pla-no-quiero-hablar-de-mi-pero-yo/17481820/kiUgFekyAvs3",
+        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry",
+        "content_quality": "rich",
+        "content_quality_issues": []
       }
     },
     {
@@ -20873,10 +20697,10 @@
       "source_id": "laboral_ciudad_cultura",
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "last_verified_at": "2026-08-21T15:42:51+02:00",
+      "last_verified_at": "2026-08-21T16:08:12+02:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-08-21T15:42:51+02:00",
+        "last_verified_at": "2026-08-21T16:08:12+02:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -20888,8 +20712,8 @@
         "time_information_quality": "confirmed_start_time",
         "time_followup_needed": false,
         "time_external_update_pending": false,
-        "content_information_quality": "rich",
-        "content_followup_needed": false,
+        "content_information_quality": "needs_enrichment",
+        "content_followup_needed": true,
         "source_enrichment_opportunity": false
       },
       "description": "Belén Aguilera. Puro Teatro Tour Teatro de la Laboral Tiempo 2027-02-13 21:00:00.000 13 febrero 2027 21:00 h - 22:45 h",
@@ -20897,7 +20721,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://www.laboralciudaddelacultura.com/documents/3175198/13557590/belen-aguilera-web.jpg/5049db56-fee0-db4d-237b-0e616148ae5d?version=1.0&amp;t=1778580908225&amp;imageThumbnail=2",
+        "url": null,
         "alt": "Belén Aguilera. Puro Teatro Tour"
       },
       "editorial": {
@@ -20907,11 +20731,10 @@
         "time_audit_status": "confirmed_start_time",
         "time_audit_reason": "explicit_start_time",
         "time_audit_duration_days": 1,
-        "content_quality": "rich",
-        "content_quality_issues": [],
-        "image_enrichment_reason": "official_page_metadata_or_event_block",
-        "image_enrichment_source": "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/belen-aguilera-puro-teatro-tour/17063341/kiUgFekyAvs3",
-        "image_fetch_tls_policy": "verified_first_scoped_laboral_retry"
+        "content_quality": "needs_enrichment",
+        "content_quality_issues": [
+          "missing_image"
+        ]
       }
     }
   ],
@@ -20936,16 +20759,16 @@
         "Centenario AMADOR (1926-2026)",
         "La cerámica de Cangas del Narcea. Tradición, adaptación e innovación",
         "Diviértete en familia en Veranes",
-        "L’antigua Xixón mirando al mar",
         "Nunca es tarde para pintar",
+        "L’antigua Xixón mirando al mar",
         "Arte en la Calle. Begoña. LA SONRISA DEL LAGARTO. La Ratita presumida",
-        "Arte en la Calle. Begoña. HUYENDO CON ASTERIA. (Rock)",
         "Cantando con la Coral Amanecer",
-        "Arte en la Calle. Begoña. TRIPLE MALTA. (Rock, Pop, Indie)",
-        "Arte en la Calle. Begoña. MAS QUÉ MAL. (Rock)",
+        "Arte en la Calle. Begoña. MORIARTY. (Pop-Rockl)",
         "Arte en la Calle. Begoña. TANGERINE. (Rock y Metal)",
-        "Arte en la Calle. Begoña. THE SOUL COMPANY. (Soul, Funk, Juke Box)",
-        "Arte en la Calle. Begoña. MORIARTY. (Pop-Rockl)"
+        "Arte en la Calle. Begoña. MAS QUÉ MAL. (Rock)",
+        "Arte en la Calle. Begoña. TRIPLE MALTA. (Rock, Pop, Indie)",
+        "Arte en la Calle. Begoña. HUYENDO CON ASTERIA. (Rock)",
+        "Arte en la Calle. Begoña. THE SOUL COMPANY. (Soul, Funk, Juke Box)"
       ],
       "direct_enrichment_errors": {
         "Centenario AMADOR (1926-2026)": [
@@ -20957,40 +20780,40 @@
         "Diviértete en familia en Veranes": [
           "content_mismatch:https://drupal.gijon.es/es/diviertete-en-familia-en-veranes"
         ],
-        "L’antigua Xixón mirando al mar": [
-          "content_mismatch:https://drupal.gijon.es/es/lantigua-xixon-mirando-al-mar"
-        ],
         "Nunca es tarde para pintar": [
           "content_mismatch:https://drupal.gijon.es/es/nunca-es-tarde-para-pintar"
+        ],
+        "L’antigua Xixón mirando al mar": [
+          "content_mismatch:https://drupal.gijon.es/es/lantigua-xixon-mirando-al-mar"
         ],
         "Arte en la Calle. Begoña. LA SONRISA DEL LAGARTO. La Ratita presumida": [
           "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-la-sonrisa-del-lagarto-la-ratita-presumida"
         ],
-        "Arte en la Calle. Begoña. HUYENDO CON ASTERIA. (Rock)": [
-          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-huyendo-con-asteria-rock-0"
-        ],
         "Cantando con la Coral Amanecer": [
           "content_mismatch:https://drupal.gijon.es/es/cantando-con-la-coral-amanecer-0"
         ],
-        "Arte en la Calle. Begoña. TRIPLE MALTA. (Rock, Pop, Indie)": [
-          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-triple-malta-rock-pop-indie"
-        ],
-        "Arte en la Calle. Begoña. MAS QUÉ MAL. (Rock)": [
-          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-mas-que-mal-rock"
+        "Arte en la Calle. Begoña. MORIARTY. (Pop-Rockl)": [
+          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-moriarty-pop-rockl"
         ],
         "Arte en la Calle. Begoña. TANGERINE. (Rock y Metal)": [
           "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-tangerine-rock-y-metal"
         ],
+        "Arte en la Calle. Begoña. MAS QUÉ MAL. (Rock)": [
+          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-mas-que-mal-rock"
+        ],
+        "Arte en la Calle. Begoña. TRIPLE MALTA. (Rock, Pop, Indie)": [
+          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-triple-malta-rock-pop-indie"
+        ],
+        "Arte en la Calle. Begoña. HUYENDO CON ASTERIA. (Rock)": [
+          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-huyendo-con-asteria-rock-0"
+        ],
         "Arte en la Calle. Begoña. THE SOUL COMPANY. (Soul, Funk, Juke Box)": [
           "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-soul-company-soul-funk-juke-box"
-        ],
-        "Arte en la Calle. Begoña. MORIARTY. (Pop-Rockl)": [
-          "content_mismatch:https://drupal.gijon.es/es/arte-en-la-calle-begona-moriarty-pop-rockl"
         ]
       }
     },
     "gijon_time_quality_audit": {
-      "events_reviewed": 205,
+      "events_reviewed": 203,
       "verified_time_corrections": 1,
       "source_artifacts_removed": 1,
       "confirmed_start_time": 160,
@@ -20999,8 +20822,8 @@
       "awaiting_official_time": 4,
       "needs_venue_hours": 5,
       "needs_schedule_detail": 4,
-      "missing_start_time": 10,
-      "actionable_time_gaps": 19,
+      "missing_start_time": 8,
+      "actionable_time_gaps": 17,
       "external_time_pending": 4,
       "actionable_event_ids": [
         "agenda_gijon_ee08bcce65967e5b",
@@ -21012,11 +20835,9 @@
         "agenda_gijon_1b2c89e08c5f68b5",
         "gijon_laboral_centro_arte_9f6a290c2e4567b1",
         "gijon_camara_recinto_ferial_gijon_ab30151ca07a883e",
-        "gijon_el_percebe_gijon_6955cfcf2adf7808",
         "gijon_camara_recinto_ferial_gijon_783c024abcda13d8",
         "agenda_gijon_56958d5f043d36de",
         "gijon_camara_recinto_ferial_gijon_e8b8f925f9501139",
-        "gijon_el_percebe_gijon_2fcf0a562683bf38",
         "gijon_gijon_arena_ca74fb33345d8da4",
         "gijon_camara_recinto_ferial_gijon_f998a19e7c34490c",
         "gijon_camara_recinto_ferial_gijon_a68bdf785ac4055a",
@@ -21033,11 +20854,9 @@
         "Exposición Iglesias de Fábrica Románica en Gijón",
         "Documenta Asturies",
         "COMETCON 2026",
-        "Bianca Kovacs",
         "AGROPEC, 40 Feria del Campo y de las Industrias Agrícolas, Ganaderas, Forestales y Pesqueras",
         "Encuentro Internacional de Fotoperiodismo de Asturias",
         "XVI TRAINING DAY DE LA LEGIÓN 501",
-        "Jaime Caravaca",
         "Anastacia",
         "EL GRAN SHOWMAN",
         "HOMENAJE DIRE STRAITS",
@@ -21056,7 +20875,7 @@
         "JORNADA TECNIFICACION CICLO-CROSS 2026",
         "II TROFEO VILLA DE GRADO"
       ],
-      "time_adequacy_percent": 89
+      "time_adequacy_percent": 90
     },
     "start_times_added": 1,
     "known_event_corrections_applied": 1,
@@ -21110,14 +20929,14 @@
       "apify_used": false
     },
     "gijon_content_quality_audit": {
-      "events_reviewed": 203,
-      "rich": 86,
+      "events_reviewed": 201,
+      "rich": 87,
       "adequate": 40,
       "adequate_with_source_fallback": 1,
-      "needs_enrichment": 76,
+      "needs_enrichment": 73,
       "issue_counts": {
         "generic_description": 59,
-        "missing_image": 10,
+        "missing_image": 7,
         "opendata_only_link": 13,
         "structured_description": 40,
         "weak_venue": 7
@@ -21149,28 +20968,23 @@
         "agenda_gijon_8e2c9e268d9924d8",
         "agenda_gijon_7c578c6ad675e2ed",
         "agenda_gijon_f697df0d83b15149",
-        "gijon_laboral_ciudad_cultura_510d03f944afc863",
         "agenda_gijon_a7f15437779d18d5",
         "agenda_gijon_028acb09de6a6827",
         "agenda_gijon_704d1c12fe9a0424",
         "agenda_gijon_dc70ada159dd43b8",
         "agenda_gijon_56958d5f043d36de",
         "agenda_gijon_3d1f67f42810b56f",
-        "gijon_laboral_ciudad_cultura_b66326771a5da955",
         "agenda_gijon_4dfeb973ead214da",
         "agenda_gijon_d8701abda6be2542",
         "agenda_gijon_18e842a6c65e8622",
         "agenda_gijon_6810f5c51adf81f2",
         "agenda_gijon_9b5742dabeb9cb04",
-        "gijon_laboral_ciudad_cultura_bc9165c4f44d113c",
         "agenda_gijon_62f4401d0d87bdb2",
-        "gijon_laboral_ciudad_cultura_b79b3095a37b8bf5",
         "agenda_gijon_fca68df06973802b",
         "agenda_gijon_d9fcd89c6d1cf001",
         "agenda_gijon_eb7eb24668cda48e",
         "agenda_gijon_548da141eba7621e",
         "agenda_gijon_1b65c23d1e559303",
-        "gijon_laboral_ciudad_cultura_de01acfd79cb6455",
         "gijon_laboral_ciudad_cultura_bd4207817a3f138b",
         "agenda_gijon_d61163d70b9e0536",
         "agenda_gijon_c3a4741f510947fa",
@@ -21179,26 +20993,28 @@
         "agenda_gijon_c800ccb208a368c5",
         "agenda_gijon_2f72e6e7421a107a",
         "agenda_gijon_44af6747ca0fe5aa",
+        "gijon_laboral_ciudad_cultura_607958255bbc9352",
         "agenda_gijon_bfb915c4c56e12cd",
         "agenda_gijon_7ef5df922bf3488f",
         "agenda_gijon_a7ea4d654e50ca46",
         "agenda_gijon_02d6541660505daf",
         "agenda_gijon_94efa196197a9045",
-        "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
         "agenda_gijon_f9ef8cd806b6c154",
         "agenda_gijon_f4d06c0e8cc7096e",
-        "gijon_laboral_ciudad_cultura_024e6e919d498307",
         "agenda_gijon_7b1d24a963848ce3",
         "agenda_gijon_fd5694a3606d6919",
         "agenda_gijon_5c0278b94108389a",
         "agenda_gijon_be488f34fadc97f3",
-        "gijon_laboral_ciudad_cultura_35d42210fbda93f5",
         "agenda_gijon_01a281b235f68fa5",
         "agenda_gijon_8471d1487ef428a2",
         "agenda_gijon_d7519b0e555a8c5f",
         "agenda_gijon_f71427692faf4b31",
         "agenda_gijon_456dad9a42c08f84",
-        "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752"
+        "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
+        "gijon_laboral_ciudad_cultura_229d3806419a20b4",
+        "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
+        "gijon_laboral_ciudad_cultura_3b36a3327baa6ac2",
+        "gijon_laboral_ciudad_cultura_312e78286078f0c5"
       ],
       "actionable_titles": [
         "Escena Xixón",
@@ -21227,28 +21043,23 @@
         "JORNADAS: COMADRES DE ORO INVITADAS",
         "Conferencia: La huella de Cervantes en La narrativa actual.",
         "DRÁCULA",
-        "Festival Caparina. Gala de circo contemporáneo",
         "RICARDO LEZÓN | ENCAJA2",
         "Presentación del Libro: \"En la Escuela del Capitalismo\"",
         "Presentación del Libro: Gaza, un genocidio televisado",
         "PRESA | ENCAJA2",
         "Encuentro Internacional de Fotoperiodismo de Asturias",
         "ESTE HIMNO LLEVARÁ LA PALABRA EUFORIA",
-        "El Kanka. Gira La Calma",
         "FERIANTES",
         "TODO TERMINARÁ PARA NAVIDADÂ",
         "LOS DOS HIDALGOS DE VERONA",
         "CAAMAÑO & AMEIXEIRAS | ENCAJA2",
         "METAMORFOSIS. ENSEMBLE 4.70",
-        "Hovik. Grito",
         "BLOODMOON",
-        "CantaJuego. Yo quiero ser...",
         "EL LUGAR DE LO INSERVIBLE",
         "INSTRUCCIONES PARA CRUZAR UNA HABITACIÓN A OSCURAS",
         "QOROQ",
         "A CUATRO MANOS",
         "MOHAMA SAZ | ENCAJA2",
-        "Ángel Martín. Somos monos",
         "Jorge Blass. Flipar",
         "MALQUERIDA",
         "DANIEL GARCÍA DIEGO - PABLO MARTÍN CAMINERO. RECITAL 2.0 | JAZZ XIXÓN",
@@ -21257,26 +21068,28 @@
         "EMMA-JEAN THACKRAY | JAZZ XIXÓN",
         "EL ENTUSIASMO",
         "ABOUT SHAKESPEARE",
+        "Juan Dávila. El Palacio del Pecado",
         "LA VERDAD",
         "L'ARANNÀ | ENCAJA2",
         "VINCENT BESTAVEN | ENCAJA2",
         "TITIZÉ",
         "TITIZÉ",
-        "Depedro",
         "TITIZÉ",
         "TITIZÉ",
-        "Eliades Ochoa",
         "TITIZÉ",
         "TITIZÉ",
         "'DIFERENCIAS', de ENSEMBLE DUOPLUS",
         "VIAJE AL PROFUNDO NORTE",
-        "OBK. Vértigo Tour",
         "LA ÓPERA DE LOS TRES CENTAVOS",
         "LA ÓPERA DE LOS TRES CENTAVOS",
         "¡GLORIA!",
         "MARDI JASS PARTY | LOS GRANDES DEL GOSPEL",
         "THE SOUL OF GOSPEL | LOS GRANDES DEL GOSPEL",
-        "Albert Pla. No quiero hablar de mí, pero yo"
+        "Eva Soriano. Disfrutona",
+        "El Pollo Pepe. La gran aventura",
+        "Karim. Solo para adultos",
+        "Fito & Fitipaldis. Aullidos Tour",
+        "Belén Aguilera. Puro Teatro Tour"
       ],
       "source_enrichment_opportunities": 13,
       "source_enrichment_event_ids": [
@@ -21312,32 +21125,26 @@
       "known_card_corrections": 0,
       "structured_descriptions_added": 0,
       "image_enrichment": {
-        "missing_images_reviewed": 19,
-        "images_added": 9,
-        "unresolved_images": 10,
+        "missing_images_reviewed": 9,
+        "images_added": 2,
+        "unresolved_images": 7,
         "unresolved_titles": [
-          "Festival Caparina. Gala de circo contemporáneo",
-          "El Kanka. Gira La Calma",
-          "Hovik. Grito",
-          "CantaJuego. Yo quiero ser...",
-          "Ángel Martín. Somos monos",
           "Jorge Blass. Flipar",
-          "Depedro",
-          "Eliades Ochoa",
-          "OBK. Vértigo Tour",
-          "Albert Pla. No quiero hablar de mí, pero yo"
+          "Juan Dávila. El Palacio del Pecado",
+          "Eva Soriano. Disfrutona",
+          "El Pollo Pepe. La gran aventura",
+          "Karim. Solo para adultos",
+          "Fito & Fitipaldis. Aullidos Tour",
+          "Belén Aguilera. Puro Teatro Tour"
         ],
         "fetch_errors": {
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/festival-caparina-gala-de-circo-contemporaneo/18173452/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/festival-caparina-gala-de-circo-contemporaneo/18173452/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-kanka-gira-la-calma/14692791/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-kanka-gira-la-calma/14692791/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/hovik-grito/17337043/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/hovik-grito/17337043/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/cantajuego-yo-quiero-ser-/16782777/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/cantajuego-yo-quiero-ser-/16782777/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/angel-martin-somos-monos/16421303/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/angel-martin-somos-monos/16421303/kiUgFekyAvs3",
           "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/jorge-blass-flipar-/17262394/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/jorge-blass-flipar-/17262394/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/depedro/16939349/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/depedro/16939349/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/eliades-ochoa/16038545/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/eliades-ochoa/16038545/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/obk-vertigo-tour/18086821/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/obk-vertigo-tour/18086821/kiUgFekyAvs3",
-          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/albert-pla-no-quiero-hablar-de-mi-pero-yo/17481820/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/albert-pla-no-quiero-hablar-de-mi-pero-yo/17481820/kiUgFekyAvs3"
+          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/juan-davila-el-palacio-del-pecado/17055899/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/juan-davila-el-palacio-del-pecado/17055899/kiUgFekyAvs3",
+          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/eva-soriano-disfrutona/17262554/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/eva-soriano-disfrutona/17262554/kiUgFekyAvs3",
+          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-pollo-pepe-la-gran-aventura/17937524/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/el-pollo-pepe-la-gran-aventura/17937524/kiUgFekyAvs3",
+          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/karim-solo-para-adultos/18005680/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/karim-solo-para-adultos/18005680/kiUgFekyAvs3",
+          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/fito-fitipaldis-aullidos-tour/17493732/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/fito-fitipaldis-aullidos-tour/17493732/kiUgFekyAvs3",
+          "https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/belen-aguilera-puro-teatro-tour/17063341/kiUgFekyAvs3": "HTTPError: 404 Client Error:  for url: https://www.laboralciudaddelacultura.com/agenda/-/calendarsuite/event/belen-aguilera-puro-teatro-tour/17063341/kiUgFekyAvs3"
         }
       }
     },
@@ -21383,61 +21190,7 @@
         "reason": "calendar_navigation_or_empty_state"
       }
     ],
-    "shared_publication_content_removed": [],
-    "official_event_metadata": {
-      "candidate_events": 189,
-      "pages_fetched": 60,
-      "pages_failed": 3,
-      "events_enriched": 0,
-      "images_added": 0,
-      "prices_added": 0,
-      "times_added": 0,
-      "provenance_entries_added": 0,
-      "page_limit": 60
-    },
-    "gijon_semantic_schedule": {
-      "reference_date": "2026-08-21",
-      "events_reviewed": 203,
-      "explicit_start_times_added": 0,
-      "venue_hours_added": 0,
-      "before": {
-        "no_single_start_expected": 9,
-        "venue_hours_available": 13,
-        "needs_venue_hours": 5,
-        "confirmed_start_time": 158,
-        "needs_schedule_detail": 4,
-        "awaiting_official_time": 4,
-        "missing_start_time": 10
-      },
-      "after": {
-        "no_single_start_expected": 9,
-        "venue_hours_available": 13,
-        "needs_venue_hours": 5,
-        "confirmed_start_time": 158,
-        "needs_schedule_detail": 4,
-        "awaiting_official_time": 4,
-        "missing_start_time": 10
-      },
-      "time_adequacy_before_pct": 90.6,
-      "time_adequacy_after_pct": 90.6,
-      "venue_hours": {
-        "eligible_exhibitions": 1,
-        "eligible_venue_hour_items": 1,
-        "venue_matches": 1,
-        "hours_added": 0,
-        "matched_by_venue_id": 0,
-        "verified_id_fallbacks": 0,
-        "matched_without_hours": 1,
-        "unmatched_venues": 0,
-        "enriched_event_ids": [],
-        "enriched_titles": [],
-        "venues_without_hours": [
-          "Palacio de Revillagigedo de la Fundación Cajastur"
-        ],
-        "unmatched_venue_names": [],
-        "status": "ok"
-      }
-    }
+    "shared_publication_content_removed": []
   },
-  "diagnostics_generated_at": "2026-08-21T15:42:59+02:00"
+  "diagnostics_generated_at": "2026-08-21T16:08:23+02:00"
 }
