@@ -1,8 +1,15 @@
+const RECURRENCE_TITLE_TOKENS = new Set([
+  "cada", "todos", "todas", "semanal", "semanales",
+  "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "sabados", "domingo", "domingos",
+]);
 const TITLE_STOPWORDS = new Set([
   "de", "del", "la", "el", "los", "las", "un", "una", "unos", "unas", "y", "e", "en", "para", "por", "con",
   "teatro", "obra", "funcion", "presentacion", "evento", "actividad", "espectaculo", "concierto", "show",
+  ...RECURRENCE_TITLE_TOKENS,
 ]);
 const VENUE_STOPWORDS = new Set(["de", "del", "la", "el", "los", "las", "y", "e", "ex"]);
+const STRICT_START_TOLERANCE_MINUTES = 5;
+const SCHEDULE_CONFLICT_TOLERANCE_MINUTES = 60;
 
 function fold(value) {
   return String(value || "")
@@ -28,10 +35,22 @@ function localMinute(value) {
   return Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), Number(match[4]), Number(match[5])) / 60000;
 }
 
-function timedStarts(event) {
+function localDate(value) {
+  const match = String(value || "").match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : null;
+}
+
+function eventStarts(event) {
   const occurrences = Array.isArray(event?.schedule?.occurrences) ? event.schedule.occurrences : [];
-  const values = occurrences.length ? occurrences.map((item) => item?.start) : [event?.schedule?.start];
-  return values.map(localMinute).filter(Number.isFinite);
+  return occurrences.length ? occurrences.map((item) => item?.start).filter(Boolean) : [event?.schedule?.start].filter(Boolean);
+}
+
+function timedStarts(event) {
+  return eventStarts(event).map(localMinute).filter(Number.isFinite);
+}
+
+function localDates(event) {
+  return unique(eventStarts(event).map(localDate).filter(Boolean));
 }
 
 function sourceIdentity(event) {
@@ -45,11 +64,28 @@ function sourceIdentity(event) {
   return label ? `label:${label}` : "";
 }
 
-function sameLocalStart(a, b, toleranceMinutes = 5) {
+function sameLocalStart(a, b, toleranceMinutes = STRICT_START_TOLERANCE_MINUTES) {
   const startsA = timedStarts(a);
   const startsB = timedStarts(b);
   if (!startsA.length || !startsB.length) return false;
   return startsA.some((left) => startsB.some((right) => Math.abs(left - right) <= toleranceMinutes));
+}
+
+function sameLocalDate(a, b) {
+  const datesA = localDates(a);
+  const datesB = new Set(localDates(b));
+  return datesA.length > 0 && datesA.some((date) => datesB.has(date));
+}
+
+function minimumStartDifferenceMinutes(a, b) {
+  const startsA = timedStarts(a);
+  const startsB = timedStarts(b);
+  if (!startsA.length || !startsB.length) return Number.POSITIVE_INFINITY;
+  let minimum = Number.POSITIVE_INFINITY;
+  for (const left of startsA) {
+    for (const right of startsB) minimum = Math.min(minimum, Math.abs(left - right));
+  }
+  return minimum;
 }
 
 function titleCore(value) {
@@ -87,6 +123,20 @@ function titlesLikelySame(a, b) {
   const minSize = Math.min(leftSet.size, rightSet.size);
   if (minSize === 1) return shared.length === 1 && shared[0].length >= 7;
   return shared.length >= 2 && shared.length / minSize >= 0.8;
+}
+
+function hasRecurrenceNoise(value) {
+  return fold(value).split(" ").some((token) => RECURRENCE_TITLE_TOKENS.has(token));
+}
+
+function recurringTitlesLikelySame(a, b) {
+  if (!(hasRecurrenceNoise(a) || hasRecurrenceNoise(b))) return false;
+  const left = new Set(titleCore(a));
+  const right = new Set(titleCore(b));
+  if (!left.size || !right.size) return false;
+  const shared = [...left].filter((token) => right.has(token));
+  if (!shared.some((token) => token.length >= 4)) return false;
+  return titleSimilarity(a, b) >= 0.75;
 }
 
 function cityKey(event) {
@@ -131,6 +181,23 @@ function venuesLikelySame(a, b) {
   return shared.length >= 2 && shared.length / minSize >= 0.8;
 }
 
+function hasOfficialSource(event) {
+  return event?.public_status?.source_official === true;
+}
+
+function scheduleConflictDuplicate(a, b) {
+  if (!(hasOfficialSource(a) || hasOfficialSource(b))) return false;
+  if (!sameLocalDate(a, b)) return false;
+  if (minimumStartDifferenceMinutes(a, b) > SCHEDULE_CONFLICT_TOLERANCE_MINUTES) return false;
+  return recurringTitlesLikelySame(a?.title, b?.title);
+}
+
+function duplicateRule(a, b) {
+  if (sameLocalStart(a, b) && titlesLikelySame(a?.title, b?.title)) return "same_time_similar_venue_similar_title";
+  if (scheduleConflictDuplicate(a, b)) return "same_date_similar_venue_recurring_title_authoritative_source";
+  return "cross_source_probable_duplicate";
+}
+
 function mergeObjectMissing(primary = {}, secondary = {}) {
   const output = { ...secondary, ...primary };
   for (const [key, value] of Object.entries(primary)) {
@@ -150,7 +217,7 @@ function mergeCategories(primary = [], secondary = []) {
 
 function qualityScore(event) {
   let score = 0;
-  if (event?.public_status?.source_official === true) score += 100;
+  if (hasOfficialSource(event)) score += 100;
   if (event?.public_status?.information_completeness === "complete") score += 20;
   if (event?.links?.official) score += 10;
   if (event?.image?.url) score += 6;
@@ -158,6 +225,27 @@ function qualityScore(event) {
   if (event?.public_status?.price_confirmed === true) score += 3;
   if (String(event?.description || "").length >= 80) score += 2;
   return score;
+}
+
+function priceAuthorityScore(event) {
+  let score = 0;
+  if (hasOfficialSource(event)) score += 100;
+  if (event?.public_status?.price_confirmed === true) score += 20;
+  const price = event?.price;
+  if (price && typeof price === "object") {
+    if (String(price.display_text || "").trim()) score += 5;
+    if (price.is_free === true || price.is_free === false) score += 2;
+    if (price.min_amount !== null && price.min_amount !== undefined) score += 1;
+  }
+  return score;
+}
+
+function selectPrice(primary, secondary) {
+  const primaryScore = priceAuthorityScore(primary);
+  const secondaryScore = priceAuthorityScore(secondary);
+  if (primaryScore === 0 && secondaryScore === 0) return mergeObjectMissing(primary.price || {}, secondary.price || {});
+  const chosen = secondaryScore > primaryScore ? secondary : primary;
+  return chosen?.price ? { ...chosen.price } : {};
 }
 
 function editorialList(event, field, fallback) {
@@ -175,7 +263,10 @@ export function areProbableDuplicateEvents(a, b) {
   const sourceA = sourceIdentity(a);
   const sourceB = sourceIdentity(b);
   if (!sourceA || !sourceB || sourceA === sourceB) return false;
-  return sameLocalStart(a, b) && venuesLikelySame(a, b) && titlesLikelySame(a?.title, b?.title);
+  if (!venuesLikelySame(a, b)) return false;
+
+  if (sameLocalStart(a, b) && titlesLikelySame(a?.title, b?.title)) return true;
+  return scheduleConflictDuplicate(a, b);
 }
 
 export function mergeDuplicateEvents(a, b) {
@@ -202,6 +293,8 @@ export function mergeDuplicateEvents(a, b) {
   ]);
   const mergedLocation = mergeObjectMissing(primary.location || {}, secondary.location || {});
   mergedLocation.venue_id = primary?.location?.venue_id ?? null;
+  const rule = duplicateRule(primary, secondary);
+  const scheduleConflictResolved = sameLocalDate(primary, secondary) && !sameLocalStart(primary, secondary);
 
   return {
     ...secondary,
@@ -211,7 +304,7 @@ export function mergeDuplicateEvents(a, b) {
     source_url: primary.source_url || primary?.links?.source || primary?.links?.official || secondary.source_url || null,
     organizer: primary.organizer ?? secondary.organizer ?? null,
     location: mergedLocation,
-    price: mergeObjectMissing(primary.price || {}, secondary.price || {}),
+    price: selectPrice(primary, secondary),
     image: primary?.image?.url ? primary.image : secondary.image || primary.image,
     links: mergeObjectMissing(primary.links || {}, secondary.links || {}),
     categories: mergeCategories(primary.categories, secondary.categories),
@@ -224,7 +317,8 @@ export function mergeDuplicateEvents(a, b) {
       ...(secondary.editorial || {}),
       ...(primary.editorial || {}),
       cross_source_deduplicated: true,
-      deduplication_rule: "same_time_similar_venue_similar_title",
+      deduplication_rule: rule,
+      schedule_conflict_resolved: scheduleConflictResolved || undefined,
       merged_duplicate_ids: mergedIds,
       merged_source_names: mergedSourceNames,
       merged_source_urls: mergedSourceUrls,
@@ -261,4 +355,4 @@ export function deduplicateCrossSourceDataset(dataset) {
   return { ...dataset, events, counts: recalculateCounts(events, dataset.counts) };
 }
 
-export { fold, sameLocalStart, venuesLikelySame, titlesLikelySame };
+export { fold, sameLocalStart, sameLocalDate, venuesLikelySame, titlesLikelySame };
