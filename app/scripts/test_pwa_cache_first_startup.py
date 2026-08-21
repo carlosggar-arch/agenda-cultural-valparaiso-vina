@@ -5,6 +5,7 @@ APP = Path("app")
 sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 release = (APP / "release-version.js").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
+app_core = (APP / "app-core.js").read_text(encoding="utf-8")
 exhibition_guard = (APP / "exhibition-presentation-guard.js").read_text(encoding="utf-8")
 data_pipeline = (APP / "data-pipeline.js").read_text(encoding="utf-8")
 
@@ -28,7 +29,7 @@ assert "Promise.race" not in sw
 assert 'requestUrl.pathname.endsWith("/release-version.js")' in sw
 assert "networkFirstFreshShell(request)" in sw
 match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release)
-assert match and int(match.group(1)) >= 170
+assert match and int(match.group(1)) >= 177
 
 # Post-render presentation work must yield to the browser. This keeps mobile
 # paint/input responsive while preserving the same eventual visual result.
@@ -53,5 +54,27 @@ assert "async function readProcessedResult(city, signature)" in data_pipeline
 assert "async function writeProcessedResult(city, signature, result)" in data_pipeline
 assert 'diagnostics.push({ name: "processed-pipeline-cache", status: "hit" });' in data_pipeline
 assert "publishAgendaRuntimeSnapshot(city, result);\n      return result;" in data_pipeline
+
+# v177 moves repeated render work out of the hot path. These are structural
+# guards rather than fragile timing thresholds: CI should fail if later edits
+# start sorting the whole dataset, rebuilding source/category DOM, or creating
+# date formatters on every filter render again.
+for marker in (
+    "const formatterCache = new Map();",
+    "let searchHaystackCache = new WeakMap();",
+    "sortedEvents = sortEvents(allEvents);",
+    "function computeSectionCounts(events)",
+    "grid.replaceChildren(fragment);",
+    "function scheduleSourcesRender()",
+    'requestIdleCallback(run, { timeout: 1200 })',
+    "scheduleSourcesRender();",
+):
+    assert marker in app_core, f"v177 app-core performance contract missing: {marker}"
+
+render_events = app_core.split("function renderEvents()", 1)[1].split("function resetDiscoveryFilters()", 1)[0]
+assert "renderSources();" not in render_events
+assert "renderCategories();" not in render_events
+assert "return sortEvents(allEvents.filter" not in app_core
+assert "allEvents.filter((event) => eventMatchesSection" not in app_core
 
 print("PWA cache-first startup regression: OK")
