@@ -119,23 +119,44 @@ def check_ui_contract() -> None:
 
 
 def check_exhibition_layout_guard() -> None:
-    compact_js = (APP / "exhibition-compact.js").read_text(encoding="utf-8")
     compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8")
+    grouping_js = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
     hours_js = (APP / "exhibition-hours.js").read_text(encoding="utf-8")
+    app_js = (APP / "app.js").read_text(encoding="utf-8")
 
-    # Equal heights must be calculated per visual row. A single tallest card in
-    # the whole Gijon dataset must never stretch every card on the page again.
-    assert "function visualRows(cards)" in compact_js
-    assert "for (const row of visualRows(cards))" in compact_js
-    assert "ROW_TOP_TOLERANCE" in compact_js
+    # Historical exhibition runtimes must stay retired. Rendering has one owner
+    # and grouped-card geometry has one CSS owner for every city.
+    for retired in (
+        "exhibition-compact.js",
+        "exhibition-compact-loader.js",
+        "exhibition-gallery.js",
+        "exhibition-venue-grouping.js",
+        "multievent-layout-fix.js",
+    ):
+        assert not (APP / retired).exists(), f"retired exhibition runtime returned: {retired}"
+        assert retired not in app_js, f"app.js references retired exhibition runtime: {retired}"
 
-    # Temporary venue-group anchors are hidden until exhibition-gallery.js has
-    # assembled their full content, preventing blank/half-rendered cards.
+    assert "getAgendaRuntimeSnapshot" in grouping_js
+    assert "groupStandaloneExhibitions" in grouping_js
+    assert "unifiedExhibitionGroup" in grouping_js
+    assert "exhibition-venue-card" in grouping_js
+    assert "grouped-exhibition-item" in grouping_js
+    assert "fetch(" not in grouping_js
+
+    # Temporary group anchors stay out of layout until the unified renderer has
+    # built the complete card. Up to three rows are fully visible; larger groups
+    # scroll within the card rather than clipping individual subcards.
     assert ".exhibition-group-card[data-event-group]:not(.exhibition-venue-card)" in compact_css
     assert "display: none !important" in compact_css
+    assert ".exhibition-group-list" in compact_css
+    assert "nth-child(4)" in compact_css
+    assert "overflow-y: auto !important" in compact_css
+    assert "--agenda-group-row-min-height" in compact_css
+    assert "height: auto !important" in compact_css
+    assert "max-height: none !important" in compact_css
 
-    # The hours layer may update only a completed group card. Static and runtime
-    # renderers share the same hours row and any duplicate is removed.
+    # The hours layer may update only completed group cards. It deduplicates the
+    # canonical hours row and must never inject competing presentation styles.
     group_start = hours_js.index("function patchGroupCard")
     group_end = hours_js.index("function patchCards", group_start)
     group_block = hours_js[group_start:group_end]
@@ -145,6 +166,8 @@ def check_exhibition_layout_guard() -> None:
     assert 'card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")' in hours_js
     assert "candidates.slice(1)" in hours_js
     assert "duplicate.remove()" in hours_js
+    assert 'document.createElement("style")' not in hours_js
+    assert "document.head.append" not in hours_js
 
 
 def validate_dataset(path: Path) -> dict:
