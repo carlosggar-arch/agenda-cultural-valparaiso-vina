@@ -1,7 +1,7 @@
+import { canonicalPublicCategoryId, isPublicCategoryInGroup } from "./public-category-rules.mjs";
+
 export const EXHIBITION_GROUP_MIN = 2;
 export const LONG_EXHIBITION_DAYS = 7;
-
-const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 
 function fold(value) {
   return String(value || "")
@@ -13,12 +13,12 @@ function fold(value) {
 }
 
 export function publicExhibitionCategoryId(event) {
-  const primary = String(event?.primary_category?.id || "").trim();
-  if (EXHIBITION_IDS.has(primary)) return "exposiciones";
+  const primary = event?.primary_category || null;
+  if (isPublicCategoryInGroup(primary, "exhibition")) return "exposiciones";
   for (const category of event?.categories || []) {
-    if (EXHIBITION_IDS.has(String(category?.id || "").trim())) return "exposiciones";
+    if (isPublicCategoryInGroup(category, "exhibition")) return "exposiciones";
   }
-  return primary;
+  return canonicalPublicCategoryId(primary) || String(primary?.id || "").trim();
 }
 
 export function exhibitionVenueKey(event) {

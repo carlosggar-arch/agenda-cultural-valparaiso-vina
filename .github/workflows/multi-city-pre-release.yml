@@ -7,6 +7,7 @@ on:
       - feature/multi-city-pwa
     paths:
       - "app/**"
+      - "shared/**"
       - "index.html"
       - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
@@ -31,9 +32,11 @@ on:
       - "assets/favorites-event-page.js"
       - "assets/favorites.css"
       - "scripts/generate_event_pages.py"
+      - "scripts/generate_public_category_module.py"
       - "scripts/public_category_rules.py"
       - "scripts/stage31_site_generator.py"
       - "tests/test_public_category_rules.py"
+      - "tests/test_shared_public_taxonomy.py"
       - "tests/test_stage31.py"
       - "tests/test_stage32_analytics.py"
       - "tests/root-combined-filters.test.mjs"
@@ -61,6 +64,7 @@ on:
       - main
     paths:
       - "app/**"
+      - "shared/**"
       - "index.html"
       - "manifest.webmanifest"
       - "assets/web-event-enhancements.js"
@@ -85,9 +89,11 @@ on:
       - "assets/favorites-event-page.js"
       - "assets/favorites.css"
       - "scripts/generate_event_pages.py"
+      - "scripts/generate_public_category_module.py"
       - "scripts/public_category_rules.py"
       - "scripts/stage31_site_generator.py"
       - "tests/test_public_category_rules.py"
+      - "tests/test_shared_public_taxonomy.py"
       - "tests/test_stage31.py"
       - "tests/test_stage32_analytics.py"
       - "tests/root-combined-filters.test.mjs"
@@ -156,9 +162,11 @@ jobs:
             app/scripts/normalize_schedule_display.py \
             app/scripts/test_normalize_schedule_display.py \
             scripts/generate_event_pages.py \
+            scripts/generate_public_category_module.py \
             scripts/public_category_rules.py \
             scripts/stage31_site_generator.py \
             tests/test_public_category_rules.py \
+            tests/test_shared_public_taxonomy.py \
             tests/test_stage31.py \
             tests/test_stage32_analytics.py
           node --check app/app.js
@@ -178,6 +186,10 @@ jobs:
           node --check app/favorites.js
           node --check app/session-occurrence-normalizer.js
           node --check app/program-visibility-policy.js
+          node --check app/public-category-taxonomy.generated.mjs
+          node --check app/public-category-rules.mjs
+          node --check app/formation-cycle-classifier.js
+          node --check app/exhibition-group-core.mjs
           node --check assets/web-event-enhancements.js
           node --check assets/event-schedule-display.mjs
           node --check assets/root-combined-filters.js
@@ -195,6 +207,10 @@ jobs:
       - name: Run current multi-city contracts
         run: |
           set -euo pipefail
+          python scripts/generate_public_category_module.py --check
+          node app/public-category-rules.test.mjs
+          node app/exhibition-group-core.test.mjs
+          python -m unittest discover -s tests -p 'test_shared_public_taxonomy.py' -v
           python app/scripts/test_gijon_editorial.py
           python app/scripts/test_gijon_source_detail.py
           python app/scripts/test_multi_city_ui.py
@@ -302,7 +318,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|fuentes_publicas\.json$|docs/SOURCE_ONBOARDING\.md$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/root-public-presentation-rules\.mjs$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/public_category_rules\.py$|scripts/stage31_site_generator\.py$|tests/test_public_category_rules\.py$|tests/test_stage31\.py$|tests/test_stage32_analytics\.py$|tests/public-sources-regression\.test\.mjs$|tests/root-combined-filters\.test\.mjs$|tests/root-public-presentation-rules\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/public-sources-regression\.yml$|\.github/workflows/production-pwa-smoke\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|shared/|index\.html$|manifest\.webmanifest$|fuentes_publicas\.json$|docs/SOURCE_ONBOARDING\.md$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/root-public-presentation-rules\.mjs$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/generate_public_category_module\.py$|scripts/public_category_rules\.py$|scripts/stage31_site_generator\.py$|tests/test_public_category_rules\.py$|tests/test_shared_public_taxonomy\.py$|tests/test_stage31\.py$|tests/test_stage32_analytics\.py$|tests/public-sources-regression\.test\.mjs$|tests/root-combined-filters\.test\.mjs$|tests/root-public-presentation-rules\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/public-sources-regression\.yml$|\.github/workflows/production-pwa-smoke\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
