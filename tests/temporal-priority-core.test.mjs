@@ -58,6 +58,45 @@ test("missing confidence can classify a usable date without creating a badge", (
   assert.equal(blocks.today[0]?.id, "missing-confidence");
   assert.equal(temporalBadge(item, valpo, now), null);
   assert.equal(shouldSuppressForTemporalFilter(item, "hoy"), false);
+  assert.equal(shouldSuppressForTemporalFilter(item, "7-dias"), false);
+});
+
+test("reliable explicit start creates Hoy and its badge", () => {
+  const item = event("today", "2026-08-21T20:00:00-04:00", null, { startConfidence: "explicit" });
+  const blocks = organizeTemporalPriority([item], valpo, now);
+  assert.equal(blocks.today[0]?.id, "today");
+  assert.equal(temporalBadge(item, valpo, now), "Hoy");
+});
+
+test("reliable close within three days gets ending urgency", () => {
+  const item = event("closing", "2026-08-01", "2026-08-23", {
+    startConfidence: "technical_fallback",
+    endConfidence: "official_revalidation",
+  });
+  const blocks = organizeTemporalPriority([item], valpo, now);
+  assert.equal(blocks.endingSoon[0]?.id, "closing");
+  assert.equal(temporalBadge(item, valpo, now), "Últimos 3 días");
+  assert.equal(shouldSuppressForTemporalFilter(item, "terminan-pronto"), false);
+});
+
+test("missing end confidence does not erase an ending-soon candidate", () => {
+  const item = event("closing-without-confidence", "2026-08-01", "2026-08-25", {
+    startConfidence: "explicit",
+  });
+  assert.equal(classifyTemporalEvent(item, valpo, now).bucket, "ending_soon");
+  assert.equal(shouldSuppressForTemporalFilter(item, "terminan-pronto"), false);
+});
+
+test("explicitly unreliable close does not create ending-soon urgency", () => {
+  const item = event("bad-end", "2026-08-01", "2026-08-23", {
+    startConfidence: "explicit",
+    endConfidence: "technical_fallback",
+  });
+  const blocks = organizeTemporalPriority([item], valpo, now);
+  assert.deepEqual(blocks.endingSoon, []);
+  assert.equal(classifyTemporalEvent(item, valpo, now).bucket, "ongoing");
+  assert.equal(temporalBadge(item, valpo, now), null);
+  assert.equal(shouldSuppressForTemporalFilter(item, "terminan-pronto"), true);
 });
 
 test("long temporary event is not a permanent offer", () => {
@@ -71,6 +110,18 @@ test("long temporary event is not a permanent offer", () => {
   assert.equal(classifyContentKind(permanent, valpo), "permanent_offer");
 });
 
+test("long current exhibition is a long-running ongoing event", () => {
+  const item = event("museum", "2026-08-01", "2026-09-30", {
+    category: "exposiciones",
+    startConfidence: "technical_fallback",
+    endConfidence: "explicit",
+  });
+  const state = classifyTemporalEvent(item, valpo, now);
+  assert.equal(state.contentKind, "long_running_event");
+  assert.equal(state.bucket, "ongoing");
+  assert.equal(organizeTemporalPriority([item], valpo, now).ongoing[0]?.id, "museum");
+});
+
 test("weekly flexible offer becomes recurring and always available", () => {
   const item = event("salsa", null, null, {
     eventType: "flexible_offer",
@@ -80,6 +131,18 @@ test("weekly flexible offer becomes recurring and always available", () => {
   const state = classifyTemporalEvent(item, valpo, now);
   assert.equal(state.contentKind, "recurring_offer");
   assert.equal(state.bucket, "always_available");
+});
+
+test("permanent and undated contents remain distinct inside always available", () => {
+  const permanent = event("permanent", null, null, {
+    eventType: "flexible_offer",
+    displayText: "Horario flexible, a convenir",
+  });
+  const undated = event("undated", null, null, { eventType: "event" });
+  const blocks = organizeTemporalPriority([undated, permanent], valpo, now);
+  assert.equal(classifyContentKind(permanent, valpo), "permanent_offer");
+  assert.equal(classifyContentKind(undated, valpo), "undated");
+  assert.deepEqual(blocks.alwaysAvailable.map((item) => item.id), ["permanent", "undated"]);
 });
 
 test("finite recurring-looking course remains a long-running event", () => {
@@ -92,12 +155,15 @@ test("finite recurring-looking course remains a long-running event", () => {
 test("weekend is exactly Friday Saturday Sunday", () => {
   assert.deepEqual(weekendBounds("2026-08-19"), { start: "2026-08-21", end: "2026-08-23" });
   assert.deepEqual(weekendBounds("2026-08-22"), { start: "2026-08-21", end: "2026-08-23" });
+  assert.deepEqual(weekendBounds("2026-08-23"), { start: "2026-08-21", end: "2026-08-23" });
   const friday = event("friday", "2026-08-21", null);
   const saturday = event("saturday", "2026-08-22", null);
   const sunday = event("sunday", "2026-08-23", null);
+  const monday = event("monday", "2026-08-24", null);
   assert.equal(classifyTemporalEvent(friday, valpo, now).bucket, "today");
   assert.equal(classifyTemporalEvent(saturday, valpo, now).bucket, "this_weekend");
   assert.equal(classifyTemporalEvent(sunday, valpo, now).bucket, "this_weekend");
+  assert.equal(classifyTemporalEvent(monday, valpo, now).bucket, "upcoming");
 });
 
 test("long active event is ongoing unless it ends soon", () => {
@@ -113,6 +179,18 @@ test("single-date event outranks long-running content in the same weekend", () =
   assert.ok(compareTemporalPriority(concert, long, valpo, now) < 0);
   const blocks = organizeTemporalPriority([long, concert], valpo, now);
   assert.deepEqual(blocks.thisWeekend.map((item) => item.id), ["concert", "long"]);
+});
+
+test("future long-running event stays upcoming but follows a punctual event", () => {
+  const concert = event("concert", "2026-08-25", null, { startConfidence: "official_visible_schedule" });
+  const exhibition = event("future-exhibition", "2026-08-25", "2026-09-10", {
+    category: "exposiciones",
+    startConfidence: "explicit",
+    endConfidence: "explicit",
+  });
+  const blocks = organizeTemporalPriority([exhibition, concert], valpo, now);
+  assert.deepEqual(blocks.upcoming.map((item) => item.id), ["concert", "future-exhibition"]);
+  assert.equal(classifyContentKind(exhibition, valpo), "long_running_event");
 });
 
 test("hierarchy no longer follows oldest start date", () => {
