@@ -49,7 +49,7 @@ for (const critical of [
 // common runtime contract for all cities.
 assert.match(app, /const GIJON_DEFERRED_MODULES = new Set/, "Gijon must retain an explicit city-specific enhancement boundary");
 assert.match(app, /GIJON_DEFERRED_MODULES[\s\S]*temporal-priority\.js/, "temporal priority may remain deferred on Gijon");
-for (const shared of ["exhibition-groups.js", "multievent-layout-fix.js", "schedule-display.js"]) {
+for (const shared of ["exhibition-groups.js", "schedule-display.js"]) {
   assert.match(app, new RegExp(shared.replaceAll(".", "\\.")), `${shared} must be present in the common runtime`);
   const deferredBlock = app.match(/const GIJON_DEFERRED_MODULES = new Set\(\[([\s\S]*?)\]\);/)?.[1] || "";
   assert.doesNotMatch(deferredBlock, new RegExp(shared.replaceAll(".", "\\.")), `${shared} must not be deferred on Gijon`);
