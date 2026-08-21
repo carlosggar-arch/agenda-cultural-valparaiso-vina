@@ -1,4 +1,4 @@
-import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260819-public-categories2";
+import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260820-shared-training1";
 import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260819-venue1";
 
 const QUOTED_ACTIVITY = [
