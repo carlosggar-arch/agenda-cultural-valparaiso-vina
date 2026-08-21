@@ -15,6 +15,7 @@ const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 const SOURCE_DISPLAY_NAMES = Object.freeze({
   culturasvina: "Visita Viña — Municipalidad de Viña del Mar",
 });
+const PROCESSED_CACHE_PREFIX = "vivamos-processed-pipeline-";
 
 export function normalizeSourceDisplayNames(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
@@ -59,7 +60,173 @@ function applyStage(name, transform, dataset, diagnostics) {
   }
 }
 
-async function loadPayloads(city, fetchImpl, diagnostics) {
+function localDateKey(now, timeZone) {
+  try {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: timeZone || "UTC",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts(now);
+    const get = (type) => parts.find((part) => part.type === type)?.value;
+    return `${get("year")}-${get("month")}-${get("day")}`;
+  } catch {
+    return now.toISOString().slice(0, 10);
+  }
+}
+
+function payloadSignature(payload, status = "ok") {
+  const events = Array.isArray(payload?.events) ? payload.events : [];
+  const middle = events.length ? events[Math.floor(events.length / 2)] : null;
+  return {
+    status,
+    schema_version: String(payload?.schema_version || ""),
+    generated_at: String(payload?.generated_at || ""),
+    publication_date: String(payload?.publication_date || ""),
+    counts: payload?.counts || null,
+    event_count: events.length,
+    first_id: String(events[0]?.id || ""),
+    middle_id: String(middle?.id || ""),
+    last_id: String(events[events.length - 1]?.id || ""),
+  };
+}
+
+function buildSourceSignature(city, base, supplementalResult, now) {
+  const supplemental = supplementalResult?.status === "ok" ? supplementalResult.payload : null;
+  return JSON.stringify({
+    city: String(city?.id || ""),
+    day: localDateKey(now, city?.timezone || base?.timezone || "UTC"),
+    base: payloadSignature(base, "ok"),
+    supplemental: supplemental
+      ? payloadSignature(supplemental, "ok")
+      : payloadSignature(null, supplementalResult?.status || "absent"),
+  });
+}
+
+function processedCacheName() {
+  const release = Number(globalThis.__VIVAMOS_RELEASE__);
+  return `${PROCESSED_CACHE_PREFIX}${Number.isFinite(release) ? `v${release}` : "dev"}`;
+}
+
+function processedCacheMarkerKey(city) {
+  return `${PROCESSED_CACHE_PREFIX}marker-${encodeURIComponent(String(city?.id || "default"))}`;
+}
+
+function readProcessedMarker(city) {
+  try {
+    const raw = globalThis.localStorage?.getItem(processedCacheMarkerKey(city));
+    if (!raw) return null;
+    const marker = JSON.parse(raw);
+    return marker && typeof marker === "object" ? marker : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeProcessedMarker(city, cacheName, signature) {
+  try {
+    globalThis.localStorage?.setItem(processedCacheMarkerKey(city), JSON.stringify({ cacheName, signature }));
+  } catch {
+    // The processed cache is an optimization only; storage may be unavailable.
+  }
+}
+
+function clearProcessedMarker(city) {
+  try {
+    globalThis.localStorage?.removeItem(processedCacheMarkerKey(city));
+  } catch {
+    // Best-effort cleanup only.
+  }
+}
+
+function processedCacheRequest(city) {
+  if (typeof Request !== "function" || !globalThis.location?.href) return null;
+  try {
+    const url = new URL(
+      `./__processed-pipeline-cache__/${encodeURIComponent(String(city?.id || "default"))}.json`,
+      globalThis.location.href,
+    );
+    return new Request(url.href, { method: "GET" });
+  } catch {
+    return null;
+  }
+}
+
+async function readProcessedResult(city, signature) {
+  if (!globalThis.caches?.open) return null;
+  const cacheName = processedCacheName();
+  const marker = readProcessedMarker(city);
+  if (marker?.cacheName !== cacheName || marker?.signature !== signature) return null;
+
+  const request = processedCacheRequest(city);
+  if (!request) return null;
+  try {
+    const cache = await globalThis.caches.open(cacheName);
+    const response = await cache.match(request);
+    if (!response) {
+      clearProcessedMarker(city);
+      return null;
+    }
+    const cached = await response.json();
+    if (cached?.signature !== signature) {
+      clearProcessedMarker(city);
+      return null;
+    }
+    if (!cached?.dataset || !Array.isArray(cached.dataset.events)) {
+      clearProcessedMarker(city);
+      return null;
+    }
+    return {
+      dataset: cached.dataset,
+      secondaryPrograms: Array.isArray(cached.secondaryPrograms) ? cached.secondaryPrograms : [],
+      hiddenPrograms: Array.isArray(cached.hiddenPrograms) ? cached.hiddenPrograms : [],
+    };
+  } catch (error) {
+    clearProcessedMarker(city);
+    console.warn("¡Vivamos!: caché procesada no disponible; continúa el pipeline normal", error);
+    return null;
+  }
+}
+
+async function cleanupObsoleteProcessedCaches(currentName) {
+  if (!globalThis.caches?.keys || !globalThis.caches?.delete) return;
+  try {
+    const names = await globalThis.caches.keys();
+    await Promise.all(
+      names
+        .filter((name) => name.startsWith(PROCESSED_CACHE_PREFIX) && name !== currentName)
+        .map((name) => globalThis.caches.delete(name)),
+    );
+  } catch {
+    // Cache cleanup is best-effort and must never block agenda rendering.
+  }
+}
+
+async function writeProcessedResult(city, signature, result) {
+  if (!globalThis.caches?.open || typeof Response !== "function") return;
+  const request = processedCacheRequest(city);
+  if (!request) return;
+  const cacheName = processedCacheName();
+  try {
+    const cache = await globalThis.caches.open(cacheName);
+    const response = new Response(JSON.stringify({
+      signature,
+      dataset: result.dataset,
+      secondaryPrograms: result.secondaryPrograms || [],
+      hiddenPrograms: result.hiddenPrograms || [],
+    }), {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+    });
+    await cache.put(request, response);
+    writeProcessedMarker(city, cacheName, signature);
+    void cleanupObsoleteProcessedCaches(cacheName);
+  } catch (error) {
+    clearProcessedMarker(city);
+    console.warn("¡Vivamos!: no se pudo guardar la caché procesada", error);
+  }
+}
+
+async function loadPayloads(city, fetchImpl, diagnostics, now) {
   const supplementalUrl = String(city?.supplemental_dataset || "").trim();
   const basePromise = fetchJson(city.dataset, fetchImpl);
   const supplementalPromise = supplementalUrl
@@ -72,11 +239,11 @@ async function loadPayloads(city, fetchImpl, diagnostics) {
   const [base, supplementalResult] = await Promise.all([basePromise, supplementalPromise]);
   diagnostics.push({ name: "base", status: "ok" });
 
+  let dataset = base;
   if (supplementalResult.status === "ok") {
     diagnostics.push({ name: "supplemental", status: "ok" });
-    return mergeSupplementalPayload(base, supplementalResult.payload);
-  }
-  if (supplementalResult.status === "error") {
+    dataset = mergeSupplementalPayload(base, supplementalResult.payload);
+  } else if (supplementalResult.status === "error") {
     diagnostics.push({
       name: "supplemental",
       status: "skipped",
@@ -87,7 +254,11 @@ async function loadPayloads(city, fetchImpl, diagnostics) {
       supplementalResult.error,
     );
   }
-  return base;
+
+  return {
+    dataset,
+    sourceSignature: buildSourceSignature(city, base, supplementalResult, now),
+  };
 }
 
 function applyKnownPublicationCategories(dataset) {
@@ -111,7 +282,20 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   if (typeof fetchImpl !== "function") throw new Error("fetch no disponible");
 
   const diagnostics = [];
-  let dataset = await loadPayloads(city, fetchImpl, diagnostics);
+  const payloadResult = await loadPayloads(city, fetchImpl, diagnostics, now);
+  let dataset = payloadResult.dataset;
+  const cacheEligible = fetchImpl === globalThis.fetch && globalThis.caches?.open;
+
+  if (cacheEligible) {
+    const cached = await readProcessedResult(city, payloadResult.sourceSignature);
+    if (cached) {
+      diagnostics.push({ name: "processed-pipeline-cache", status: "hit" });
+      const result = { ...cached, diagnostics };
+      publishAgendaRuntimeSnapshot(city, result);
+      return result;
+    }
+    diagnostics.push({ name: "processed-pipeline-cache", status: "miss" });
+  }
 
   // Structural ingress boundary: no scraped/source HTML is allowed beyond this
   // point. Every later normalizer starts from plain public text.
@@ -169,5 +353,8 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     diagnostics,
   };
   publishAgendaRuntimeSnapshot(city, result);
+  if (cacheEligible) {
+    void writeProcessedResult(city, payloadResult.sourceSignature, result);
+  }
   return result;
 }
