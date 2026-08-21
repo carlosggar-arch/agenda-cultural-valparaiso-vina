@@ -1,11 +1,11 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
-import { partitionExhibitionsByDuration } from "./exhibition-duration-policy.mjs?v=20260820-duration1";
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
 import { eventForCityPresentation, venueHoursForCity } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
 import {
   EXHIBITION_GROUP_MIN,
   groupStandaloneExhibitions,
+  partitionExhibitionsByDuration,
   publicExhibitionCategoryId,
 } from "./exhibition-group-core.mjs?v=20260820-groups1";
 
