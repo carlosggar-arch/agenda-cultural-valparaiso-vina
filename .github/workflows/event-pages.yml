@@ -10,6 +10,7 @@ on:
       - "agenda_web.json"
       - "app/data/gijon/agenda_web.json"
       - "scripts/generate_event_pages.py"
+      - "scripts/public_category_rules.py"
       - "scripts/stage31_site_generator.py"
       - "assets/event-page.css"
       - "assets/event-page.js"
@@ -22,6 +23,7 @@ on:
       - "app/service-worker.js"
       - "app/stage31-accessibility-seo.js"
       - "app/stage31-accessibility.css"
+      - "tests/test_public_category_rules.py"
       - "tests/test_stage31.py"
       - ".github/workflows/event-pages.yml"
   push:
@@ -30,7 +32,9 @@ on:
       - "agenda_web.json"
       - "app/data/gijon/agenda_web.json"
       - "scripts/generate_event_pages.py"
+      - "scripts/public_category_rules.py"
       - "scripts/stage31_site_generator.py"
+      - "tests/test_public_category_rules.py"
       - ".github/workflows/event-pages.yml"
   workflow_dispatch:
 
@@ -61,7 +65,9 @@ jobs:
           set -euo pipefail
           python -m py_compile \
             scripts/generate_event_pages.py \
+            scripts/public_category_rules.py \
             scripts/stage31_site_generator.py \
+            tests/test_public_category_rules.py \
             tests/test_stage31.py
           node --check assets/event-page.js
           node --check assets/web-event-enhancements.js
@@ -69,6 +75,7 @@ jobs:
           node --check app/stage31-accessibility-seo.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          python -m unittest discover -s tests -p 'test_public_category_rules.py' -v
           python -m unittest discover -s tests -p 'test_stage31.py' -v
           python scripts/stage31_site_generator.py --check
 
