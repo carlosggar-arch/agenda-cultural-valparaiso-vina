@@ -51,6 +51,8 @@ jobs:
           node --check app/data-pipeline.js
           node --check app/artequin-session-correction.js
           node --check app/artequin-session-correction.test.mjs
+          node --check app/event-card-data-quality.mjs
+          node --check app/event-card-data-quality.test.mjs
           node --check app/startup-stability.js
           node --check app/app-safe-mode.js
           node --check app/program-visibility-policy.js
@@ -86,6 +88,7 @@ jobs:
           python app/scripts/test_structural_hardening.py
           python app/scripts/test_priority_zero_monitors.py
           node app/venue-identity.test.mjs
+          node app/event-card-data-quality.test.mjs
           python app/scripts/test_release_guard.py
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_contextual_filters.py
