@@ -52,8 +52,10 @@ jobs:
           node --check app/date-filter-architecture.test.mjs
           node --check app/public-title-normalizer.test.mjs
           node --check app/exhibition-groups.js
+          node --check app/exhibition-hours.js
           node --check app/exhibition-group-core.mjs
           node --check app/exhibition-group-core.test.mjs
+          node --check app/scripts/test_static_grouping_title_contract.mjs
           node --check app/city-presentation-adapter.mjs
           node --check app/formation-cycle-classifier.js
           node --check app/registration-reminder-classifier.test.mjs
@@ -75,6 +77,7 @@ jobs:
           node app/session-occurrence-normalizer.test.mjs
           node app/program-visibility-policy.test.mjs
           node app/exhibition-group-core.test.mjs
+          node app/scripts/test_static_grouping_title_contract.mjs
           node app/registration-reminder-classifier.test.mjs
           node app/registration-reminders-architecture.test.mjs
           node app/startup-architecture.test.mjs
@@ -99,5 +102,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, registration-reminder classification/architecture, visual parity for grouped exhibitions, category isolation for grouped exhibitions, and the structural visibility invariant for approved events."
+          echo "This required check exercises normal startup for Valparaiso and Gijon, watchdog safe mode, single-source date filtering, exact-date visibility, Artequin session correction, shared public-title normalization, registration-reminder classification/architecture, single-owner filter/exhibition architecture, visual parity for grouped exhibitions, category isolation for grouped exhibitions, and the structural visibility invariant for approved events."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
