@@ -10,6 +10,7 @@ gijon_svg = Path("app/illustrations/gijon-header.svg").read_text(encoding="utf-8
 sources_toggle = Path("app/sources-toggle.js").read_text(encoding="utf-8")
 pwa = Path("app/pwa.js").read_text(encoding="utf-8")
 service_worker = Path("app/service-worker.js").read_text(encoding="utf-8")
+shell_manifest = Path("app/service-worker-assets.generated.js").read_text(encoding="utf-8")
 root_index = Path("index.html").read_text(encoding="utf-8")
 app_index = Path("app/index.html").read_text(encoding="utf-8")
 web_enhancements = Path("assets/web-event-enhancements.js").read_text(encoding="utf-8")
@@ -109,22 +110,17 @@ assert 'service-worker.js?v=${APP_RELEASE}' in pwa
 assert 'import "./combined-filters-polish.js";' in pwa
 assert 'import "./plan-ahead.js";' in pwa
 assert 'import "./favorites.js";' in pwa
-assert 'importScripts("./release-version.js")' in service_worker
+assert 'importScripts("./release-version.js", "./service-worker-assets.generated.js")' in service_worker
 assert 'const CACHE_VERSION = `v${RELEASE}`;' in service_worker
-assert '"./release-version.js"' in service_worker
-assert '"./combined-filters.js"' in service_worker
-assert '"./combined-filters.css"' in service_worker
-assert '"./combined-filters-polish.js"' in service_worker
-assert '"./compact-top.css"' in service_worker
-assert '"./plan-ahead.js"' in service_worker
-assert '"./favorites.js"' in service_worker
-assert '"./mis-planes.html"' in service_worker
-assert '"../assets/plan-ahead-core.mjs"' in service_worker
-assert '"../assets/plan-ahead.css"' in service_worker
-assert '"../assets/favorites-core.mjs"' in service_worker
-assert '"../assets/favorites-view.mjs"' in service_worker
-assert '"../assets/favorites-reminders.mjs"' in service_worker
-assert '"../assets/favorites.css"' in service_worker
+for asset in (
+    './release-version.js', './combined-filters.js', './combined-filters.css',
+    './combined-filters-polish.js', './compact-top.css', './plan-ahead.js',
+    './favorites.js', './mis-planes.html', '../assets/plan-ahead-core.mjs',
+    '../assets/plan-ahead.css', '../assets/favorites-core.mjs',
+    '../assets/favorites-view.mjs', '../assets/favorites-reminders.mjs',
+    '../assets/favorites.css',
+):
+    assert f'"{asset}"' in shell_manifest
 assert "client.navigate(" not in service_worker
 assert "refreshOpenWindows" not in service_worker
 
@@ -152,4 +148,4 @@ assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours3"' in app_sc
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
 assert 'scheduleForGijonEvent' in app_schedule
 
-print("Semantic search plus compact filters, favorites reminders and canonical source diagnostics: OK")
+print("Semantic search plus compact filters, favorites reminders, generated shell and canonical source diagnostics: OK")

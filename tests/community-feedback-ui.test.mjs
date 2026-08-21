@@ -11,6 +11,7 @@ const shareQrCss = fs.readFileSync(new URL("../app/share-qr.css", import.meta.ur
 const app = fs.readFileSync(new URL("../app/app.js", import.meta.url), "utf8");
 const pwa = fs.readFileSync(new URL("../app/pwa.js", import.meta.url), "utf8");
 const worker = fs.readFileSync(new URL("../app/service-worker.js", import.meta.url), "utf8");
+const shellManifest = fs.readFileSync(new URL("../app/service-worker-assets.generated.js", import.meta.url), "utf8");
 const release = fs.readFileSync(new URL("../app/release-version.js", import.meta.url), "utf8");
 
 assert.match(js, /data-community-comments/);
@@ -35,8 +36,6 @@ assert.match(participation, /restoreFooterContact/);
 assert.doesNotMatch(participation, /comments\.insertAdjacentElement\("afterend", like\)/);
 assert.doesNotMatch(participation, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 
-// The base WEB action module must already be correct on its own. Do not depend
-// on a later optional enhancement to remove the white shell or distribute width.
 assert.match(webActions, /display: flex !important/);
 assert.match(webActions, /background: transparent !important/);
 assert.match(webActions, /border: 0 !important/);
@@ -57,9 +56,6 @@ assert.match(actionLayout, /@media \(min-width: 701px\)/);
 assert.match(actionLayout, /flex-basis: 0 !important/);
 assert.doesNotMatch(actionLayout, /MutationObserver|IntersectionObserver|addEventListener\(["']scroll/);
 
-// installed-mosaic.js still provides the legacy seven-track base. The later,
-// intentional mobile-action-strip-six.js override owns the current six-action
-// installed-app layout and hides the retired like control.
 assert.match(installedMosaic, /grid-template-columns: repeat\(7, minmax\(0, 1fr\)\) !important/);
 assert.match(installedMosaic, /data-community-comments/);
 assert.match(installedMosaic, /data-community-like/);
@@ -82,15 +78,22 @@ assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(pwa, /mobile-action-strip-six\.js\?v=20260819-actions7/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
-// The service worker still caches the app-owned modules; caching is not runtime ownership.
-assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
-assert.match(worker, /participation-footer\.js/);
-assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
-assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
-assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
-assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
+
+// The service worker owns cache behavior only; its generated manifest owns the
+// concrete shell list, so tests no longer fossilize query-string versions there.
+assert.match(worker, /service-worker-assets\.generated\.js/);
+for (const asset of [
+  "./community-source.js",
+  "./participation-footer.js",
+  "./installed-mosaic.js",
+  "./web-actions-below-mosaic.js",
+  "./action-strip-layout.js",
+  "./pwa.js",
+]) {
+  assert.ok(shellManifest.includes(`"${asset}"`), `generated shell manifest must cache ${asset}`);
+}
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
 assert.ok(Number(releaseMatch[1]) >= 162, "PWA release must include single-owner feedback runtime");
 
-console.log("Community feedback UI contract: single-owner content modules + current six-action installed strip");
+console.log("Community feedback UI contract: single-owner content modules + generated shell cache + current six-action installed strip");

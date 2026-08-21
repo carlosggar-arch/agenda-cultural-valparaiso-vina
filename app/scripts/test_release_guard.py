@@ -21,19 +21,30 @@ def release_number() -> int:
     return int(match.group(1))
 
 
+def shell_asset(value: str) -> str:
+    return value.split("?", 1)[0]
+
+
+def shell_contains(manifest: str, value: str) -> bool:
+    return f'"{shell_asset(value)}"' in manifest
+
+
 def check_single_release_source() -> None:
     release = release_number()
     index = text(APP / "index.html")
     pwa = text(APP / "pwa.js")
     sw = text(APP / "service-worker.js")
+    shell = text(APP / "service-worker-assets.generated.js")
 
     head = index.split("</head>", 1)[0]
     assert '<script src="./release-version.js"></script>' in head, "release source must load in <head>"
     assert 'globalThis.__VIVAMOS_RELEASE__' in pwa, "PWA must consume the shared release source"
-    assert 'importScripts("./release-version.js")' in sw, "service worker must consume the shared release source"
+    assert 'importScripts("./release-version.js", "./service-worker-assets.generated.js")' in sw, (
+        "service worker must consume the shared release source and generated shell manifest"
+    )
     assert 'const CACHE_VERSION = `v${RELEASE}`' in sw, "cache version must derive from the shared release"
     assert 'service-worker.js?v=${APP_RELEASE}' in pwa, "service-worker registration must derive from the shared release"
-    assert '"./release-version.js"' in sw, "release-version.js must be part of the shell cache"
+    assert shell_contains(shell, "./release-version.js"), "release-version.js must be part of the generated shell cache"
 
     assert not re.search(r'const APP_VERSION = "PWA v\d+"', pwa), "hard-coded PWA version returned"
     assert not re.search(r'const CACHE_VERSION = "v\d+"', sw), "hard-coded cache version returned"
@@ -51,9 +62,9 @@ def check_asset_coherence() -> None:
     index = text(APP / "index.html")
     app_js = text(APP / "app.js")
     pwa = text(APP / "pwa.js")
-    sw = text(APP / "service-worker.js")
     schedule_js = text(APP / "schedule-display.js")
     header_js = text(APP / "header-redesign.js")
+    shell = text(APP / "service-worker-assets.generated.js")
     head = index.split("</head>", 1)[0]
 
     header_style = re.search(r'const HEADER_STYLESHEET = "([^"]+)"', header_js)
@@ -62,21 +73,21 @@ def check_asset_coherence() -> None:
     assert f'<link rel="stylesheet" href="{header_style_href}">' in head, (
         "header stylesheet in <head> must match header-redesign.js before first paint"
     )
-    assert f'"{header_style_href}"' in sw, "service-worker shell must cache the canonical header stylesheet"
+    assert shell_contains(shell, header_style_href), "generated service-worker shell must cache the canonical header stylesheet"
 
     mobile_style = re.search(
         r'<link rel="stylesheet" href="(\./mobile-experience\.css[^\"]*)" data-mobile-experience-styles>',
         head,
     )
     assert mobile_style, "mobile CSS must be render-blocking in <head>"
-    assert f'"{mobile_style.group(1)}"' in sw, "service-worker shell must cache the exact mobile stylesheet"
+    assert shell_contains(shell, mobile_style.group(1)), "generated shell must cache the exact mobile stylesheet"
 
     header_module = module_url(pwa, "header-redesign.js")
     mobile_module = module_url(pwa, "mobile-experience.js")
     assert header_module, "pwa.js must declare the versioned header module"
     assert mobile_module, "pwa.js must declare the versioned mobile module"
-    assert f'"{header_module}"' in sw, "service worker must cache the exact header module declared by pwa.js"
-    assert f'"{mobile_module}"' in sw, "service worker must cache the exact mobile module declared by pwa.js"
+    assert shell_contains(shell, header_module), "generated shell must cache the header module declared by pwa.js"
+    assert shell_contains(shell, mobile_module), "generated shell must cache the mobile module declared by pwa.js"
 
     # Content presentation has a single owner: app.js. pwa.js is shell/UI only,
     # so it must not instantiate a second schedule-display module with a distinct
@@ -86,7 +97,7 @@ def check_asset_coherence() -> None:
     assert app_schedule, "app.js must declare the shared schedule display module"
     assert pwa_schedule is None, "pwa.js must not instantiate schedule-display.js"
     assert "?v=" in app_schedule, "schedule display module must be explicitly versioned"
-    assert f'"{app_schedule}"' in sw, "service worker must cache the exact schedule module URL"
+    assert shell_contains(shell, app_schedule), "generated shell must cache the schedule module"
 
     for stem in ("card-experience.js", "card-image-fallback.js", "public-presentation-guard.js", "exhibition-hours.js"):
         assert module_url(app_js, stem), f"app.js must own {stem}"
@@ -95,7 +106,7 @@ def check_asset_coherence() -> None:
     formatter = re.search(r'from "(\.\./assets/event-schedule-display\.mjs[^\"]*)"', schedule_js)
     assert formatter, "schedule-display.js must import the shared schedule formatter"
     assert "?v=" in formatter.group(1), "shared schedule formatter must be explicitly versioned"
-    assert f'"{formatter.group(1)}"' in sw, "service worker must cache the exact shared schedule formatter URL"
+    assert shell_contains(shell, formatter.group(1)), "generated shell must cache the shared schedule formatter"
 
 
 def check_manifest_entrypoint() -> None:

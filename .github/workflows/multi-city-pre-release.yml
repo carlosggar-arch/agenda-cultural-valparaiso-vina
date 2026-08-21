@@ -33,6 +33,7 @@ on:
       - "scripts/generate_event_pages.py"
       - "scripts/stage31_site_generator.py"
       - "tests/test_stage31.py"
+      - "tests/test_stage32_analytics.py"
       - "tests/root-combined-filters.test.mjs"
       - "tests/root-public-presentation-rules.test.mjs"
       - "tests/plan-ahead-core.test.mjs"
@@ -84,6 +85,7 @@ on:
       - "scripts/generate_event_pages.py"
       - "scripts/stage31_site_generator.py"
       - "tests/test_stage31.py"
+      - "tests/test_stage32_analytics.py"
       - "tests/root-combined-filters.test.mjs"
       - "tests/root-public-presentation-rules.test.mjs"
       - "tests/plan-ahead-core.test.mjs"
@@ -151,10 +153,12 @@ jobs:
             app/scripts/test_normalize_schedule_display.py \
             scripts/generate_event_pages.py \
             scripts/stage31_site_generator.py \
-            tests/test_stage31.py
+            tests/test_stage31.py \
+            tests/test_stage32_analytics.py
           node --check app/app.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          node --check app/service-worker-assets.generated.js
           node --check app/release-version.js
           node --check app/stage31-accessibility-seo.js
           node --check app/combined-filters.js
@@ -204,6 +208,7 @@ jobs:
           node --test tests/favorites-reminders.test.mjs
           node --test tests/temporal-priority-core.test.mjs
           python -m unittest discover -s tests -p 'test_stage31.py' -v
+          python -m unittest discover -s tests -p 'test_stage32_analytics.py' -v
           python scripts/generate_event_pages.py --check
           python scripts/stage31_site_generator.py --check
 
@@ -234,29 +239,33 @@ jobs:
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'importScripts("./release-version.js")' app/service-worker.js
-          grep -F '"./release-version.js"' app/service-worker.js
-          grep -F 'header-redesign.css' app/service-worker.js
-          grep -F 'header-redesign.js' app/service-worker.js
-          grep -F 'mobile-experience.css' app/service-worker.js
-          grep -F 'mobile-experience.js' app/service-worker.js
-          grep -F '"./plan-ahead.js"' app/service-worker.js
-          grep -F '"./favorites.js"' app/service-worker.js
-          grep -F '"./mis-planes.html"' app/service-worker.js
-          grep -F '"./stage31-accessibility-seo.js"' app/service-worker.js
-          grep -F '"./stage31-accessibility.css"' app/service-worker.js
-          grep -F '"../assets/plan-ahead-core.mjs"' app/service-worker.js
-          grep -F '"../assets/plan-ahead.css"' app/service-worker.js
-          grep -F '"../assets/favorites-core.mjs"' app/service-worker.js
-          grep -F '"../assets/favorites-view.mjs"' app/service-worker.js
-          grep -F '"../assets/favorites-reminders.mjs"' app/service-worker.js
-          grep -F '"../assets/favorites.css"' app/service-worker.js
-          grep -F '"./compact-top.css"' app/service-worker.js
-          grep -F '"./combined-filters.js"' app/service-worker.js
-          grep -F '"./combined-filters.css"' app/service-worker.js
-          grep -F '"./combined-filters-polish.js"' app/service-worker.js
-          grep -F '"./gijon-venue-hours.js"' app/service-worker.js
-          grep -F '"./event-detail.js"' app/service-worker.js
+          grep -F 'importScripts("./release-version.js", "./service-worker-assets.generated.js")' app/service-worker.js
+          for asset in \
+            '"./release-version.js"' \
+            'header-redesign.css' \
+            'header-redesign.js' \
+            'mobile-experience.css' \
+            'mobile-experience.js' \
+            '"./plan-ahead.js"' \
+            '"./favorites.js"' \
+            '"./mis-planes.html"' \
+            '"./stage31-accessibility-seo.js"' \
+            '"./stage31-accessibility.css"' \
+            '"../assets/plan-ahead-core.mjs"' \
+            '"../assets/plan-ahead.css"' \
+            '"../assets/favorites-core.mjs"' \
+            '"../assets/favorites-view.mjs"' \
+            '"../assets/favorites-reminders.mjs"' \
+            '"../assets/favorites.css"' \
+            '"./compact-top.css"' \
+            '"./combined-filters.js"' \
+            '"./combined-filters.css"' \
+            '"./combined-filters-polish.js"' \
+            '"./gijon-venue-hours.js"' \
+            '"./event-detail.js"'; do
+            grep -F "$asset" app/service-worker-assets.generated.js
+          done
+          ! grep -F 'const SHELL_ASSETS = [' app/service-worker.js
           ! grep -F 'client.navigate(' app/service-worker.js
           ! grep -F 'refreshOpenWindows' app/service-worker.js
           grep -F 'object-fit: contain !important' assets/event-media-layout.css
@@ -286,7 +295,7 @@ jobs:
             exit 1
           fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|fuentes_publicas\.json$|docs/SOURCE_ONBOARDING\.md$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/root-public-presentation-rules\.mjs$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/public-sources-regression\.test\.mjs$|tests/root-combined-filters\.test\.mjs$|tests/root-public-presentation-rules\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/public-sources-regression\.yml$|\.github/workflows/production-pwa-smoke\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|index\.html$|manifest\.webmanifest$|fuentes_publicas\.json$|docs/SOURCE_ONBOARDING\.md$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/root-public-presentation-rules\.mjs$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/stage31_site_generator\.py$|tests/test_stage31\.py$|tests/test_stage32_analytics\.py$|tests/public-sources-regression\.test\.mjs$|tests/root-combined-filters\.test\.mjs$|tests/root-public-presentation-rules\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/public-sources-regression\.yml$|\.github/workflows/production-pwa-smoke\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
