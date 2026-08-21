@@ -48,7 +48,10 @@ def check_manifest_and_icons() -> None:
 def check_service_worker() -> None:
     sw = (APP / "service-worker.js").read_text(encoding="utf-8")
     shell_manifest = (APP / "service-worker-assets.generated.js").read_text(encoding="utf-8")
-    assert "networkFirstDataset" in sw
+    assert "cacheFirstDataset" in sw
+    assert "cacheFirstNavigation" in sw
+    assert "networkFirstDataset" not in sw
+    assert "DATA_NETWORK_BUDGET_MS" not in sw
     assert "CITY_REGISTRY_URL" in sw
     assert "datasetUrls" in sw
     assert "../agenda_web.json" in sw
