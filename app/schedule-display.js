@@ -150,8 +150,19 @@ function replaceSimpleCardSchedule(card, value) {
 
 function replaceSimpleCardLocation(card, value) {
   const schedule = card.querySelector(":scope > h4 + p");
-  const copy = schedule?.nextElementSibling;
-  if (!copy || copy.tagName !== "P") return false;
+  if (!schedule) return false;
+
+  // Optional enrichers may insert a visit-hours paragraph immediately after the
+  // schedule. Never treat that inserted paragraph as the location: doing so
+  // replaced "Horario de visita" with the venue name and left the real location
+  // untouched, which produced the duplicated venue visible in Gijón.
+  const copy = card.querySelector(":scope > p[data-location-display]")
+    || [...card.querySelectorAll(":scope > p")].find((node) => (
+      node !== schedule
+      && !node.classList.contains("venue-opening-hours")
+      && !node.hasAttribute("data-exhibition-opening-hours")
+    ));
+  if (!copy) return false;
   if (copy.textContent.trim() === value && copy.dataset.locationDisplay === value) return true;
   copy.textContent = value;
   copy.dataset.locationDisplay = value;
