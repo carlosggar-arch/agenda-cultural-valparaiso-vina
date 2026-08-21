@@ -24,6 +24,7 @@ const scheduleDisplay = read("./schedule-display.js");
 const exhibitionHours = read("./exhibition-hours.js");
 const programPolicy = read("./program-visibility-policy.js");
 const worker = read("./service-worker.js");
+const shellManifest = read("./service-worker-assets.generated.js");
 const release = read("./release-version.js");
 
 assert.match(app, /^import "\.\/startup-stability\.js/m, "startup watchdog must remain eager before core");
@@ -164,14 +165,20 @@ for (const marker of [
   assert.equal(pwa.includes(marker), false, `pwa.js must not instantiate content presentation module ${marker}`);
 }
 
-assert.match(worker, /"\.\/data-pipeline\.js"/, "service worker must cache the resilient data pipeline");
-assert.match(worker, /agenda-runtime-state\.mjs/, "service worker must cache shared normalized runtime state");
-assert.match(worker, /render-lifecycle\.js/, "service worker must cache the bounded render lifecycle");
-assert.match(worker, /exhibition-groups\.js/, "service worker must cache the canonical exhibition renderer");
-assert.match(worker, /exhibition-group-core\.mjs/, "service worker must cache the canonical exhibition grouping core");
-assert.match(worker, /city-presentation-adapter\.mjs/, "service worker must cache the city adapter boundary");
-assert.match(worker, /"\.\/app-safe-mode\.js"/, "service worker must cache safe mode");
-assert.match(worker, /"\.\/startup-stability\.js"/, "service worker must cache the startup watchdog");
+for (const asset of [
+  "./data-pipeline.js",
+  "./agenda-runtime-state.mjs",
+  "./render-lifecycle.js",
+  "./exhibition-groups.js",
+  "./exhibition-group-core.mjs",
+  "./city-presentation-adapter.mjs",
+  "./app-safe-mode.js",
+  "./startup-stability.js",
+]) {
+  assert.match(shellManifest, new RegExp(`"${asset.replaceAll(".", "\\.")}"`), `generated shell must cache ${asset}`);
+}
+assert.match(worker, /service-worker-assets\.generated\.js/, "service worker must load the generated shell manifest");
+assert.doesNotMatch(worker, /const SHELL_ASSETS = \[/, "service worker must not restore a manual shell asset list");
 const releaseNumber = Number(release.match(/const RELEASE = (\d+);/)?.[1]);
 assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 163, "unified exhibition architecture requires a fresh service-worker cache generation");
 
