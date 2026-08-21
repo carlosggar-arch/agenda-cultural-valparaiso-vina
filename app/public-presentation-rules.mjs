@@ -80,14 +80,39 @@ function stripEmbeddedCityStop(value, event) {
   return text;
 }
 
-function exactLocationSuffixMatches(value, event) {
-  const suffix = fold(value);
+function exactLocationSuffixCandidates(event) {
   const venue = cleanSpace(event?.location?.venue);
   const city = cleanSpace(event?.location?.city);
+  const candidates = new Set();
+  const add = (value) => {
+    const normalized = cleanSpace(value).replace(/^[,·|/:–—-]+|[,·|/:–—-]+$/gu, "").trim();
+    if (normalized) candidates.add(normalized);
+  };
+
+  add(venue);
+  add(city);
+
+  if (venue && city) {
+    const cityRx = flexibleLiteral(city);
+    add(venue.replace(new RegExp(`\\s*[,·]\\s*${cityRx}\\s*$`, "iu"), ""));
+  }
+
+  if (venue) {
+    const base = venue.split(/\s+[–—-]\s+/u)[0];
+    add(base);
+    if (city) {
+      const cityRx = flexibleLiteral(city);
+      add(base.replace(new RegExp(`\\s*[,·]\\s*${cityRx}\\s*$`, "iu"), ""));
+    }
+  }
+
+  return [...candidates];
+}
+
+function exactLocationSuffixMatches(value, event) {
+  const suffix = fold(value);
   if (!suffix) return false;
-  if (venue && suffix === fold(venue)) return true;
-  if (city && suffix === fold(city)) return true;
-  return Boolean(venue && city && suffix === fold(`${venue} ${city}`));
+  return exactLocationSuffixCandidates(event).some((candidate) => fold(candidate) === suffix);
 }
 
 function stripExactLocationSuffix(value, event) {
