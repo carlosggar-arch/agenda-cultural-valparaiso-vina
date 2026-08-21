@@ -25,9 +25,9 @@ export function browserFriendlySourceUrl(value) {
   const url = safeAbsoluteHttpUrl(value);
   if (!url) return null;
 
-  // Gijón Open Data exposes the same official dataset in several formats.
-  // XHTML is useful for machines but poor as a public destination; PDF is a
-  // browser-readable rendering of the same authoritative dataset.
+  // Source-adapter policy, not an event exception: Gijón Open Data exposes the
+  // same authoritative dataset as XHTML and PDF. XHTML is useful for machines;
+  // PDF is the stable human-readable public fallback.
   if (url.hostname.toLocaleLowerCase("es") === "opendata.gijon.es" && url.pathname.endsWith("/descargar.php")) {
     const type = String(url.searchParams.get("tipo") || "").toLocaleUpperCase("es");
     if (type === "XHTML") url.searchParams.set("tipo", "PDF");
@@ -89,16 +89,20 @@ function clock(hour, minute) {
   return `${String(Number(hour)).padStart(2, "0")}:${minute}`;
 }
 
+function scheduleClauses(displayText) {
+  // Do not split on the decimal dot inside clocks such as 9.30. A sentence dot
+  // only acts as a separator when the next non-space character is a letter.
+  return String(displayText || "")
+    .split(/;|\.(?=\s*[A-Za-zÁÉÍÓÚÜÑáéíóúüñ])/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
 export function openingHoursForWeekday(displayText, weekday) {
   const source = String(displayText || "").trim();
   if (!source || dayIndex(weekday) < 0) return null;
 
-  const clauses = source
-    .split(/[.;]/)
-    .map((part) => part.trim())
-    .filter(Boolean);
-
-  for (const clause of clauses) {
+  for (const clause of scheduleClauses(source)) {
     if (!clauseAppliesToDay(clause, weekday)) continue;
     const ranges = [];
     for (const match of clause.matchAll(TIME_RANGE_RE)) {
@@ -139,6 +143,10 @@ export function currentVisitHours(event, { now = new Date(), timezone = "UTC" } 
   const today = localDateKey(now, timezone);
   const start = dateKey(event?.schedule?.start);
   const end = dateKey(event?.schedule?.end || event?.schedule?.start);
+
+  // Weekly venue hours are useful on the card only while the dated exhibition
+  // is actually running. This prevents today's venue schedule leaking into a
+  // future or already-finished exhibition.
   if (start && today < start) return null;
   if (end && today > end) return null;
 
@@ -200,10 +208,14 @@ function scheduleApply() {
   });
 }
 
-for (const selector of ["[data-dated-grid]", "[data-program-grid]", "[data-flexible-grid]"]) {
-  const grid = document.querySelector(selector);
-  if (grid) new MutationObserver(scheduleApply).observe(grid, { childList: true, subtree: false });
+if (typeof document !== "undefined" && typeof window !== "undefined") {
+  for (const selector of ["[data-dated-grid]", "[data-program-grid]", "[data-flexible-grid]"]) {
+    const grid = document.querySelector(selector);
+    if (grid && typeof MutationObserver !== "undefined") {
+      new MutationObserver(scheduleApply).observe(grid, { childList: true, subtree: false });
+    }
+  }
+  window.addEventListener("vivamos:agenda-data-ready", scheduleApply);
+  window.addEventListener("vivamos:cards-enriched", scheduleApply);
+  scheduleApply();
 }
-window.addEventListener("vivamos:agenda-data-ready", scheduleApply);
-window.addEventListener("vivamos:cards-enriched", scheduleApply);
-scheduleApply();
