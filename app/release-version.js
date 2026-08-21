@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v173 canonicalizes exhibition venues before grouping and presentation.
-  const RELEASE = 173;
+  // v174 makes cross-source deduplication resilient to incorrect upstream official flags for direct venue sources.
+  const RELEASE = 174;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
