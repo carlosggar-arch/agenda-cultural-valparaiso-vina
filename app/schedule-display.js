@@ -3,6 +3,8 @@ import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hour
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
+import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
+import "./exhibition-hours.js?v=20260821-visible-date1";
 
 const FALLBACK_CONFIG = Object.freeze({
   valparaiso: { id: "valparaiso", locale: "es-CL", timezone: "America/Santiago" },
@@ -84,20 +86,25 @@ function scheduleForDisplay(event) {
   const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
   if (!schedule) return "Horario por confirmar";
 
-  const todaySessions = todaySessionScheduleLabel({ ...event, schedule }, activeConfig);
+  // Venue opening hours are a separate fact. Never let a weekly/seasonal venue
+  // schedule masquerade as the time of the event itself (for example Noches
+  // Mágicas at the Jardín Botánico).
+  const eventSchedule = scheduleWithoutVisitHours(schedule);
+  const todaySessions = todaySessionScheduleLabel({ ...event, schedule: eventSchedule }, activeConfig);
   if (todaySessions) return todaySessions;
 
   if (isExhibition(event)) {
+    const referenceDate = visibleReferenceDateKey({ timezone: activeConfig.timezone });
     const daily = dailyExhibitionHours(schedule, {
       timezone: activeConfig.timezone,
-      now: new Date(),
+      referenceDate,
     });
-    const range = formatSchedule(scheduleWithoutVisitHours(schedule), activeConfig);
+    const range = formatSchedule(eventSchedule, activeConfig);
     if (daily?.label) return [range, daily.label].filter(Boolean).join(" · ");
     return range;
   }
 
-  return formatSchedule(schedule, activeConfig);
+  return formatSchedule(eventSchedule, activeConfig);
 }
 
 function locationForDisplay(event) {
@@ -232,6 +239,13 @@ for (const eventName of [
   window.addEventListener(eventName, queueApply);
 }
 document.addEventListener("click", (event) => {
-  if (event.target instanceof Element && event.target.closest("[data-open-event]")) queueMicrotask(queueApply);
+  const target = event.target instanceof Element ? event.target : null;
+  if (!target) return;
+  if (target.closest("[data-open-event]")) queueMicrotask(queueApply);
+  if (target.closest("[data-combined-when] [data-filter-value]")) setTimeout(queueApply, 0);
+});
+document.addEventListener("change", (event) => {
+  const target = event.target instanceof Element ? event.target : null;
+  if (target?.matches("[data-date-from], [data-date-to]")) setTimeout(queueApply, 0);
 });
 queueApply();
