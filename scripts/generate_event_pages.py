@@ -11,6 +11,8 @@ from typing import Any
 from urllib.parse import urlencode, urlparse
 from xml.sax.saxutils import escape as xml_escape
 
+from public_category_rules import public_category_text
+
 ROOT = Path(__file__).resolve().parents[1]
 SITE_BASE = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina"
 SITEMAP = ROOT / "sitemap.xml"
@@ -262,11 +264,7 @@ def price_text(event: dict[str, Any]) -> str:
 
 
 def category_text(event: dict[str, Any]) -> str:
-    return str(
-        (event.get("primary_category") or {}).get("label")
-        or ((event.get("categories") or [{}])[0].get("label"))
-        or "Actividad cultural"
-    )
+    return public_category_text(event)
 
 
 def is_gijon_open_data(event: dict[str, Any]) -> bool:
