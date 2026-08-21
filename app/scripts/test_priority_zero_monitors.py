@@ -107,6 +107,55 @@ def test_parque_multidate_visible_schedule_preserves_all_dates() -> None:
     assert all(value[11:16] == "19:00" for value in starts)
 
 
+def test_parque_multidate_survives_parent_pruning() -> None:
+    official = "https://parquecultural.cl/events/serie-prueba-2026-08-19/"
+    template = {
+        "id": "agenda_parent",
+        "title": "Serie de prueba",
+        "event_type": "event",
+        "schedule": {
+            "mode": "dated",
+            "start": "2026-08-19T19:00:00-04:00",
+            "end": None,
+            "timezone": "America/Santiago",
+            "occurrences": [],
+        },
+        "location": {"city": "Valparaíso", "venue": "Parque Cultural de Valparaíso"},
+        "links": {"official": official, "source": official},
+        "source_url": official,
+        "source_id": "pcdv",
+        "source_name": "Parque Cultural de Valparaíso",
+        "editorial": {},
+    }
+    state = {
+        "series_key": official,
+        "source_url": official,
+        "title": "Serie de prueba",
+        "parent_id": "agenda_parent",
+        "template_event": template,
+        "occurrences": [
+            {"start": "2026-08-19T19:00:00-04:00"},
+            {"start": "2026-08-20T19:00:00-04:00", "title": "Sesión 2"},
+            {"start": "2026-08-21T19:00:00-04:00", "title": "Sesión 3"},
+        ],
+    }
+    original_load = recoveries._load_previous_series_state
+    original_fetch = recoveries.legacy.fetch
+    try:
+        recoveries._load_previous_series_state = lambda: [state]
+        recoveries.legacy.fetch = lambda *_args, **_kwargs: (False, None, "", "offline test")
+        dataset = {"events": []}
+        report = recoveries.recover_parque_multidate(dataset, date(2026, 8, 20))
+    finally:
+        recoveries._load_previous_series_state = original_load
+        recoveries.legacy.fetch = original_fetch
+    dates = [str((event.get("schedule") or {}).get("start") or "")[:10] for event in dataset["events"]]
+    assert dates == ["2026-08-20", "2026-08-21"], dataset["events"]
+    assert [event["title"] for event in dataset["events"]] == ["Sesión 2", "Sesión 3"]
+    assert report["series_active"] == 1
+    assert len(report["series_state"][0]["occurrences"]) == 3
+
+
 def test_visitavina_occurrences_and_rioja_detail() -> None:
     listing = """
     <a href="/actividad/visita-guiada-exposicion-a-veces-un-mar-dulce/?occurrence=2026-08-20">Visita guiada</a>
@@ -138,6 +187,7 @@ def main() -> None:
     test_ecoliderazgo_explicit_nonlocal_departure_overrides_default()
     test_ecoliderazgo_policy_is_destination_agnostic()
     test_parque_multidate_visible_schedule_preserves_all_dates()
+    test_parque_multidate_survives_parent_pruning()
     test_visitavina_occurrences_and_rioja_detail()
     print("PRIORITY_ZERO_MONITORS_TESTS_OK")
 

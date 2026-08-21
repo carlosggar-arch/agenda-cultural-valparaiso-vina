@@ -67,11 +67,84 @@
   "geography_policy": "Excursions generally qualify by departure/origin in Valparaiso or Vina del Mar, not by destination. EcoLiderazgo has a source-specific default: when no departure is stated, treat the departure scope as Vina del Mar / Valparaiso; explicit departure text always overrides that default.",
   "official_source_recoveries": {
     "parque_cultural_multidate": {
-      "state": "no_missing_multidate_occurrences",
+      "state": "persistent_multidate_series_active",
       "pages_checked": 3,
       "multidate_pages": 0,
       "events_added": 0,
-      "fetch_errors": 0
+      "fetch_errors": 0,
+      "series_refreshed": 0,
+      "series_active": 1,
+      "series_state": [
+        {
+          "series_key": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+          "source_url": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+          "title": "Danza Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso",
+          "parent_id": "agenda_970a461a24590f90dad68803",
+          "template_event": {
+            "id": "agenda_970a461a24590f90dad68803",
+            "title": "Danza Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso",
+            "event_type": "event",
+            "primary_category": {"id": "teatro", "label": "Teatro"},
+            "categories": [{"id": "teatro", "label": "Teatro"}],
+            "schedule": {
+              "mode": "dated",
+              "start": "2026-08-19T19:00:00-04:00",
+              "end": null,
+              "timezone": "America/Santiago",
+              "display_text": "19-08-2026 · 19:00",
+              "occurrences": [{"start": "2026-08-19T19:00:00-04:00", "end": null}]
+            },
+            "location": {
+              "venue_id": "parque-cultural-valparaiso",
+              "city": "Valparaíso",
+              "commune": "Valparaíso",
+              "venue": "Parque Cultural de Valparaíso",
+              "address": null,
+              "online": false,
+              "latitude": null,
+              "longitude": null
+            },
+            "price": {"is_free": true, "currency": "CLP", "min_amount": 0, "max_amount": 0, "display_text": "Gratis"},
+            "links": {
+              "official": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+              "tickets": null,
+              "registration": null,
+              "source": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/"
+            },
+            "organizer": "Parque Cultural de Valparaíso",
+            "source_id": "pcdv",
+            "source_name": "Parque Cultural de Valparaíso",
+            "source_url": "https://parquecultural.cl/events/segunda-bienal-de-danza-moderna-y-contemporanea-de-la-region-de-valparaiso-2026-08-19/",
+            "public_status": {"source_official": true, "cancelled": false, "price_confirmed": true, "information_completeness": "complete"},
+            "description": "Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso.",
+            "tags": ["danza", "bienal"],
+            "audience": null,
+            "registration_requirements": null,
+            "image": {
+              "url": "https://parquecultural.cl/wp-content/uploads/2026/08/II_BdDMyCRdV_PCdV_web_01.jpg",
+              "alt": "Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso"
+            },
+            "editorial": {"classification": "event", "reason": "official_parquecultural_event"}
+          },
+          "occurrences": [
+            {
+              "start": "2026-08-19T19:00:00-04:00",
+              "title": "Danza Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso"
+            },
+            {
+              "start": "2026-08-20T19:00:00-04:00",
+              "title": "Segunda Bienal de Danza — La Fuga + Compañía Consecuencia",
+              "description": "Cooperativa de Artes Escénicas La Fuga — “Mi sombra en azul de un reflejo”; Compañía Consecuencia — “18.0 cenizas de la revuelta”."
+            },
+            {
+              "start": "2026-08-21T19:00:00-04:00",
+              "title": "Segunda Bienal de Danza — hangar_espacio_ — Estado #3",
+              "description": "hangar_espacio_ presenta “Estado #3” en la Segunda Bienal de Danza Moderna y Contemporánea de la Región de Valparaíso."
+            }
+          ],
+          "last_verified_at": "2026-08-19T06:21:31-04:00"
+        }
+      ]
     },
     "palacio_rioja": {
       "state": "publishing_rioja_events",
