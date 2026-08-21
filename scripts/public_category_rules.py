@@ -1,29 +1,29 @@
 from __future__ import annotations
 
+import json
 import re
 import unicodedata
+from pathlib import Path
 from typing import Any
 
-CATEGORY = {
-    "exposiciones": {"id": "exposiciones", "label": "Exposiciones"},
-    "cine": {"id": "cine", "label": "Cine"},
-    "musica": {"id": "musica", "label": "Música"},
-    "teatro": {"id": "teatro", "label": "Teatro"},
-    "talleres": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y campus"},
-    "ferias": {"id": "ferias-gastronomia", "label": "Ferias y gastronomía"},
-    "naturaleza": {"id": "naturaleza-deportes", "label": "Naturaleza y deportes"},
-    "otros": {"id": "otros", "label": "Otros panoramas"},
-}
-
-TRAINING_CATEGORY_IDS = {
-    "formacion",
-    "formacion-taller",
-    "cursos-talleres",
-    "cursos-talleres-campus",
-    "talleres-cursos",
-    "cursos",
-    "talleres",
-}
+ROOT = Path(__file__).resolve().parents[1]
+TAXONOMY_PATH = ROOT / "shared" / "public-category-taxonomy.json"
+TAXONOMY = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
+CATEGORIES: dict[str, dict[str, str]] = TAXONOMY["categories"]
+ALIASES: dict[str, str] = TAXONOMY["aliases"]
+LABEL_ALIASES: dict[str, str] = TAXONOMY["label_aliases"]
+GROUPS: dict[str, list[str]] = TAXONOMY["groups"]
+RULES = TAXONOMY["rules"]
+FALLBACK_ID = TAXONOMY["fallback_category"]
+SUMMER_PROGRAM_EVENT_TYPES = set(RULES["summer_program_event_types"])
+SUMMER_PROGRAM_RE = re.compile(RULES["summer_program_title_pattern"])
+SUMMER_REGISTRATION_RE = re.compile(RULES["summer_registration_title_pattern"])
+EXPLICIT_TITLE_RULES = [
+    (rule["category"], re.compile(rule["pattern"])) for rule in RULES["explicit_title"]
+]
+CULTURE_EVIDENCE_RULES = [
+    (rule["category"], re.compile(rule["pattern"])) for rule in RULES["culture_evidence"]
+]
 
 
 def fold(value: Any) -> str:
@@ -41,6 +41,35 @@ def source_category(event: dict[str, Any]) -> dict[str, str]:
     return {"id": category_id, "label": label}
 
 
+def canonical_public_category(category: dict[str, Any] | str | None) -> dict[str, str] | None:
+    raw = {"id": category, "label": ""} if isinstance(category, str) else (category or {})
+    label = str(raw.get("label") or "").strip()
+    category_id = str(raw.get("id") or re.sub(r"\s+", "-", fold(label))).strip().casefold()
+    canonical_id = ALIASES.get(category_id) or LABEL_ALIASES.get(fold(label))
+    if not canonical_id and category_id in CATEGORIES:
+        canonical_id = category_id
+    if canonical_id:
+        return {"id": canonical_id, "label": CATEGORIES[canonical_id]["label"]}
+    if category_id or label:
+        return {"id": category_id, "label": label or category_id}
+    return None
+
+
+def canonical_public_category_id(category: dict[str, Any] | str | None) -> str | None:
+    resolved = canonical_public_category(category)
+    return resolved.get("id") if resolved else None
+
+
+def is_public_category_in_group(category: dict[str, Any] | str | None, group_name: str) -> bool:
+    category_id = canonical_public_category_id(category)
+    return bool(category_id and category_id in GROUPS.get(group_name, []))
+
+
+def category(category_id: str) -> dict[str, str]:
+    resolved_id = category_id if category_id in CATEGORIES else FALLBACK_ID
+    return {"id": resolved_id, "label": CATEGORIES[resolved_id]["label"]}
+
+
 def evidence_text(event: dict[str, Any]) -> str:
     values = [
         event.get("title"),
@@ -52,79 +81,54 @@ def evidence_text(event: dict[str, Any]) -> str:
     return fold(" ".join(str(value) for value in values if value))
 
 
-def is_training_source(source: dict[str, str]) -> bool:
-    if source.get("id") in TRAINING_CATEGORY_IDS:
-        return True
-    return bool(re.search(r"\b(?:formacion|curso|cursos|taller|talleres|campus)\b", fold(source.get("label"))))
-
-
 def is_summer_program(event: dict[str, Any]) -> bool:
-    if str(event.get("event_type") or "") not in {"program", "registration_period"}:
+    if str(event.get("event_type") or "") not in SUMMER_PROGRAM_EVENT_TYPES:
         return False
     title = fold(event.get("title"))
-    return bool(
-        re.search(r"\b(?:campus|campamento|escuela de verano)\b", title)
-        or (re.search(r"\bverano\b", title) and re.search(r"\binscripciones?\b", title))
-    )
+    return bool(SUMMER_PROGRAM_RE.search(title) or SUMMER_REGISTRATION_RE.search(title))
+
+
+def category_from_rules(text: str, rules: list[tuple[str, re.Pattern[str]]]) -> dict[str, str] | None:
+    for category_id, pattern in rules:
+        if pattern.search(text):
+            return category(category_id)
+    return None
 
 
 def explicit_title_category(event: dict[str, Any]) -> dict[str, str] | None:
     title = fold(event.get("title"))
     if not title:
         return None
-    if re.search(r"\b(?:campus|campamento|escuela de verano)\b", title) or is_summer_program(event):
-        return CATEGORY["talleres"]
-    if re.search(r"\b(exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\b", title):
-        return CATEGORY["exposiciones"]
-    if re.search(r"\b(cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\b", title):
-        return CATEGORY["cine"]
-    if re.search(r"\b(concierto|recital|jazz|coro|coral|orquesta|musica)\b", title):
-        return CATEGORY["musica"]
-    if re.search(r"\b(teatro|danza|ballet|circo|performance|funcion|espectaculo)\b", title):
-        return CATEGORY["teatro"]
-    if re.search(r"\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion|formacion)\b", title):
-        return CATEGORY["talleres"]
-    if re.search(r"\b(presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\b", title):
-        return CATEGORY["otros"]
-    return None
+    if SUMMER_PROGRAM_RE.search(title) or is_summer_program(event):
+        return category("cursos-talleres-campus")
+    return category_from_rules(title, EXPLICIT_TITLE_RULES)
 
 
 def infer_culture_category(event: dict[str, Any]) -> dict[str, str]:
     explicit = explicit_title_category(event)
     if explicit:
         return explicit
-
-    text = evidence_text(event)
-    if re.search(r"\b(exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\b", text):
-        return CATEGORY["exposiciones"]
-    if re.search(r"\b(cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\b", text):
-        return CATEGORY["cine"]
-    if re.search(r"\b(musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\b", text):
-        return CATEGORY["musica"]
-    if re.search(r"\b(teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\b", text):
-        return CATEGORY["teatro"]
-    if re.search(r"\b(taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano)\b", text):
-        return CATEGORY["talleres"]
-    if re.search(r"\b(feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\b", text):
-        return CATEGORY["ferias"]
-    if re.search(r"\b(naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\b", text):
-        return CATEGORY["naturaleza"]
-    return CATEGORY["otros"]
+    return category_from_rules(evidence_text(event), CULTURE_EVIDENCE_RULES) or category(FALLBACK_ID)
 
 
 def resolve_public_category(event: dict[str, Any]) -> dict[str, str]:
     source = source_category(event)
-    if is_training_source(source):
-        return dict(CATEGORY["talleres"])
+    canonical = canonical_public_category(source)
+
+    if canonical and canonical.get("id") != source.get("id"):
+        return dict(canonical)
     if is_summer_program(event):
-        return dict(CATEGORY["talleres"])
-    if source.get("id") in {"museos", "exposiciones"}:
-        return dict(CATEGORY["exposiciones"])
+        return category("cursos-talleres-campus")
+    if canonical and canonical.get("id") in CATEGORIES:
+        return dict(canonical)
     if source.get("id") == "cultura" or fold(source.get("label")) == "cultura":
         return dict(infer_culture_category(event))
-    if not source.get("id"):
-        return dict(explicit_title_category(event) or CATEGORY["otros"])
-    return {"id": source["id"], "label": source.get("label") or "Otros panoramas"}
+    if not source.get("id") and not source.get("label"):
+        return dict(explicit_title_category(event) or category(FALLBACK_ID))
+
+    # Source-specific categories are preserved only when the shared architecture
+    # contract registers them. No city renderer may redefine them locally.
+    return {"id": source["id"], "label": source.get("label") or source["id"]}
 
 
 def public_category_text(event: dict[str, Any]) -> str:

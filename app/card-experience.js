@@ -1,23 +1,16 @@
 import { openEventDetail } from "./event-detail.js";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import {
+  canonicalPublicCategoryId,
+  publicCategorySymbol,
+  publicEventTypeLabel,
+} from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
 const FALLBACK_CONFIG = Object.freeze({
   valparaiso: { timezone: "America/Santiago", locale: "es-CL" },
   gijon: { timezone: "Europe/Madrid", locale: "es-ES" },
-});
-const CATEGORY_SYMBOLS = Object.freeze({
-  musica: "♪",
-  cine: "▣",
-  teatro: "◒",
-  exposiciones: "◇",
-  museos: "▥",
-  "cursos-talleres": "✦",
-  deportes: "●",
-  gastronomia: "✺",
-  ferias: "◆",
-  "naturaleza-montana": "⌁",
 });
 
 let indexedCity = null;
@@ -61,16 +54,12 @@ function primaryCategory(event) {
 }
 
 function categoryId(event) {
-  const id = event?.primary_category?.id || event?.categories?.[0]?.id || "cultura";
-  return id === "museos" ? "exposiciones" : id;
+  const source = event?.primary_category || event?.categories?.[0] || null;
+  return canonicalPublicCategoryId(source) || source?.id || "cultura";
 }
 
 function contentTypeLabel(event) {
-  if (event?.event_type === "program") return "Programa";
-  if (event?.event_type === "flexible_offer") return "Actividad disponible";
-  if (event?.event_type === "course") return "Curso";
-  if (event?.event_type === "workshop") return "Taller";
-  return null;
+  return publicEventTypeLabel(event?.event_type);
 }
 
 function looksLikeGenericSchedule(event) {
@@ -301,7 +290,8 @@ function addPlaceholder(media, event, genericSchedule = false) {
   media.classList.remove("has-relevant-image", "has-representative-image");
   media.style.removeProperty("--event-image");
   delete media.dataset.representativeImage;
-  addTextElement(media, "span", "event-card-symbol", CATEGORY_SYMBOLS[categoryId(event)] || "✦");
+  const category = event?.primary_category || event?.categories?.[0] || null;
+  addTextElement(media, "span", "event-card-symbol", publicCategorySymbol(category));
   addTextElement(media, "small", "event-card-placeholder-label", genericSchedule ? "Sin imagen específica" : primaryCategory(event));
   if (genericSchedule) media.dataset.genericScheduleFallback = "true";
 }

@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Fuente única de verdad para categorías públicas compartidas por todas las ciudades.",
+  "fallback_category": "otros",
+  "categories": {
+    "exposiciones": {
+      "label": "Exposiciones",
+      "symbol": "◇"
+    },
+    "cine": {
+      "label": "Cine",
+      "symbol": "▣"
+    },
+    "musica": {
+      "label": "Música",
+      "symbol": "♪"
+    },
+    "teatro": {
+      "label": "Teatro",
+      "symbol": "◒"
+    },
+    "cursos-talleres-campus": {
+      "label": "Cursos, talleres y campus",
+      "symbol": "✦"
+    },
+    "ferias-gastronomia": {
+      "label": "Ferias y gastronomía",
+      "symbol": "◆"
+    },
+    "naturaleza-deportes": {
+      "label": "Naturaleza y deportes",
+      "symbol": "⌁"
+    },
+    "otros": {
+      "label": "Otros panoramas",
+      "symbol": "✦"
+    }
+  },
+  "aliases": {
+    "museos": "exposiciones",
+    "artes-visuales-museo": "exposiciones",
+    "formacion": "cursos-talleres-campus",
+    "formacion-taller": "cursos-talleres-campus",
+    "cursos-talleres": "cursos-talleres-campus",
+    "talleres-cursos": "cursos-talleres-campus",
+    "cursos": "cursos-talleres-campus",
+    "talleres": "cursos-talleres-campus",
+    "deportes": "naturaleza-deportes",
+    "deporte-bienestar": "naturaleza-deportes",
+    "naturaleza-montana": "naturaleza-deportes",
+    "gastronomia": "ferias-gastronomia",
+    "gastronomia-ferias": "ferias-gastronomia",
+    "ferias": "ferias-gastronomia",
+    "teatro-artes-escenicas": "teatro",
+    "actividad-panorama": "otros"
+  },
+  "label_aliases": {
+    "museos": "exposiciones",
+    "artes visuales museo": "exposiciones",
+    "formacion": "cursos-talleres-campus",
+    "formacion taller": "cursos-talleres-campus",
+    "cursos y talleres": "cursos-talleres-campus",
+    "cursos talleres y campus": "cursos-talleres-campus",
+    "talleres y cursos": "cursos-talleres-campus",
+    "deportes": "naturaleza-deportes",
+    "deporte bienestar": "naturaleza-deportes",
+    "naturaleza y deportes": "naturaleza-deportes",
+    "naturaleza montana": "naturaleza-deportes",
+    "gastronomia": "ferias-gastronomia",
+    "gastronomia ferias": "ferias-gastronomia",
+    "ferias": "ferias-gastronomia",
+    "ferias y gastronomia": "ferias-gastronomia",
+    "teatro artes escenicas": "teatro",
+    "actividad panorama": "otros"
+  },
+  "registered_source_ids": [
+    "actividad-panorama",
+    "artes-visuales-museo",
+    "cine",
+    "cultura",
+    "cursos",
+    "cursos-talleres",
+    "cursos-talleres-campus",
+    "deporte-bienestar",
+    "deportes",
+    "exposiciones",
+    "ferias",
+    "ferias-gastronomia",
+    "formacion",
+    "formacion-taller",
+    "gastronomia",
+    "gastronomia-ferias",
+    "museos",
+    "musica",
+    "naturaleza-deportes",
+    "naturaleza-montana",
+    "otros",
+    "patrimonio",
+    "talleres",
+    "talleres-cursos",
+    "teatro",
+    "teatro-artes-escenicas"
+  ],
+  "groups": {
+    "training": [
+      "cursos-talleres-campus"
+    ],
+    "exhibition": [
+      "exposiciones"
+    ]
+  },
+  "event_type_labels": {
+    "program": "Programa",
+    "registration_period": "Inscripción",
+    "flexible_offer": "Actividad disponible",
+    "course": "Curso",
+    "workshop": "Taller"
+  },
+  "rules": {
+    "summer_program_event_types": [
+      "program",
+      "registration_period"
+    ],
+    "summer_program_title_pattern": "\\b(?:campus|campamento|escuela de verano)\\b",
+    "summer_registration_title_pattern": "\\bverano\\b.*\\binscripciones?\\b|\\binscripciones?\\b.*\\bverano\\b",
+    "explicit_title": [
+      {
+        "category": "exposiciones",
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\\b"
+      },
+      {
+        "category": "cine",
+        "pattern": "\\b(?:cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\\b"
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|musica)\\b"
+      },
+      {
+        "category": "teatro",
+        "pattern": "\\b(?:teatro|danza|ballet|circo|performance|funcion|espectaculo)\\b"
+      },
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:taller|curso|clase|seminario|laboratorio|workshop|capacitacion|formacion)\\b"
+      },
+      {
+        "category": "otros",
+        "pattern": "\\b(?:presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\\b"
+      }
+    ],
+    "culture_evidence": [
+      {
+        "category": "exposiciones",
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b"
+      },
+      {
+        "category": "cine",
+        "pattern": "\\b(?:cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\\b"
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\\b"
+      },
+      {
+        "category": "teatro",
+        "pattern": "\\b(?:teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\\b"
+      },
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano)\\b"
+      },
+      {
+        "category": "ferias-gastronomia",
+        "pattern": "\\b(?:feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\\b"
+      },
+      {
+        "category": "naturaleza-deportes",
+        "pattern": "\\b(?:naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\\b"
+      }
+    ]
+  }
+}
