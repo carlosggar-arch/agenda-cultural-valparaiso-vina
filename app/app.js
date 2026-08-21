@@ -10,7 +10,7 @@ const { coreReady } = await import("./app-core.js?v=20260820-exhibitionorder2");
 const IMAGE_QUALITY_GUARD = "./image-quality-guard.js?v=20260820-images3";
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260819-temporal3",
-  "./exhibition-groups.js?v=20260820-groups1",
+  "./exhibition-groups.js?v=20260821-groups2",
   "./registration-reminders.js?v=20260820-registration1",
   "./schedule-display.js?v=20260819-runtime1",
   "./footer-credit.js?v=20260818-footer3",
@@ -188,12 +188,16 @@ function orderingDateKey(value, city) {
 
 function orderingScheduleWindows(event) {
   if (["program", "flexible_offer"].includes(event?.event_type)) return [];
-  const occurrences = event?.schedule?.occurrences;
-  if (Array.isArray(occurrences) && occurrences.length) {
-    return occurrences.map((occurrence) => ({ start: occurrence?.start, end: occurrence?.end || occurrence?.start }));
+  const schedule = event?.schedule || {};
+  const windows = [];
+  if (schedule.start) windows.push({ start: schedule.start, end: schedule.end || schedule.start });
+  if (Array.isArray(schedule.occurrences)) {
+    windows.push(...schedule.occurrences.map((occurrence) => ({
+      start: occurrence?.start,
+      end: occurrence?.end || occurrence?.start,
+    })));
   }
-  if (event?.schedule?.start) return [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
-  return [];
+  return windows;
 }
 
 function orderingRanges(event, city) {

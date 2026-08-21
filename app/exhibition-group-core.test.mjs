@@ -55,6 +55,21 @@ assert.equal(isLongExhibitionDuration(exactlySevenDays, durationOptions), false,
 assert.equal(exhibitionDurationDays(moreThanSevenDays, durationOptions), 8);
 assert.equal(isLongExhibitionDuration(moreThanSevenDays, durationOptions), true, "more than seven days must be deferred when no category is active");
 
+const longWithPartialOccurrence = exhibition("partial-occurrence", "Museo mixto", "2026-08-01", "2026-09-30");
+longWithPartialOccurrence.schedule.occurrences = [
+  { start: "2026-08-21T10:00:00+02:00", end: "2026-08-21T18:00:00+02:00" },
+];
+assert.equal(
+  exhibitionDurationDays(longWithPartialOccurrence, durationOptions),
+  60,
+  "a partial occurrence must not replace the declared exhibition envelope",
+);
+assert.equal(
+  isLongExhibitionDuration(longWithPartialOccurrence, durationOptions),
+  true,
+  "a long exhibition remains long even when occurrences only describe one visible day",
+);
+
 const mixedDurationSameVenue = [
   exhibition("short-1", "Museo mixto", "2026-08-01", "2026-08-08"),
   exhibition("short-2", "Museo mixto", "2026-08-02", "2026-08-08"),

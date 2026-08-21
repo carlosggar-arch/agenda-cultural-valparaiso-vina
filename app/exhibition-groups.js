@@ -7,7 +7,7 @@ import {
   groupStandaloneExhibitions,
   partitionExhibitionsByDuration,
   publicExhibitionCategoryId,
-} from "./exhibition-group-core.mjs?v=20260820-groups1";
+} from "./exhibition-group-core.mjs?v=20260821-groups2";
 
 const REGISTRY = await loadCityRegistry();
 const CITIES = REGISTRY.byId;
@@ -292,13 +292,25 @@ function firstNode(nodes) {
 }
 
 function replaceCoreGroups() {
+  const config = currentConfig();
   for (const card of directCards()) {
     if (!card.dataset.eventGroup || card.dataset.unifiedExhibitionGroup === "true") continue;
     const ids = groupIds(card);
     const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
     if (events.length < EXHIBITION_GROUP_MIN || events.some((event) => publicExhibitionCategoryId(event) !== EXHIBITION_ID)) continue;
-    const replacement = buildGroupCard(events, visibleIdsFromExistingGroup(card, ids));
-    card.replaceWith(replacement);
+
+    const oldVisibleIds = visibleIdsFromExistingGroup(card, ids);
+    const { regular, long } = partitionExhibitionsByDuration(events, {
+      timezone: config?.timezone || "UTC",
+    });
+    const partitions = [regular, long].filter((partition) => partition.length);
+
+    for (const partition of partitions) {
+      const partitionIds = new Set(partition.map((event) => String(event?.id || "")).filter(Boolean));
+      const visibleIds = new Set([...oldVisibleIds].filter((id) => partitionIds.has(id)));
+      card.parentElement?.insertBefore(buildGroupCard(partition, visibleIds), card);
+    }
+    card.remove();
   }
 }
 
