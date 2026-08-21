@@ -11,8 +11,6 @@ function pressedFilterValue(selector, fallback = "todos") {
 
 function currentFilterStateIsNeutral() {
   // Live controls change before history.replaceState, so they are authoritative.
-  // Otherwise the startup fail-open can briefly mistake an active date for a
-  // neutral state and unhide cards from the previous day.
   if (pressedFilterValue("[data-combined-when]") !== "todos") return false;
   if (pressedFilterValue("[data-combined-area]") !== "todos") return false;
   if (document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length) return false;
@@ -42,7 +40,7 @@ function resetContextualUrlState() {
   window.dispatchEvent(new PopStateEvent("popstate"));
 }
 
-function repairNeutralAgendaVisibility() {
+function requestCanonicalFilterPass() {
   repairTimer = null;
   if (!currentFilterStateIsNeutral()) return;
 
@@ -51,27 +49,25 @@ function repairNeutralAgendaVisibility() {
   const directCards = [...grid.querySelectorAll('.event-card[data-event-id]')];
   if (!directCards.length || directCards.some((card) => !card.hidden)) return;
 
-  // Fail open only when the interface is genuinely neutral. Active filters
-  // always win over this recovery layer.
-  for (const card of directCards) card.hidden = false;
-  for (const sentinel of document.querySelectorAll('[data-static-exhibition-sentinels] .event-card[data-event-id]')) sentinel.hidden = false;
-  for (const grouped of grid.querySelectorAll('.event-card[data-event-group]')) grouped.hidden = false;
-
-  const section = document.querySelector('[data-dated-section]');
-  if (section) section.hidden = false;
-
-  document.documentElement.dataset.filterFailOpen = "true";
-  window.dispatchEvent(new CustomEvent("vivamos:filter-fail-open", {
-    detail: { city: document.documentElement.dataset.city || "", restored: directCards.length },
+  // This safety layer deliberately never changes card/row/section visibility.
+  // combined-filters.js is the single owner of the hidden state. Replaying the
+  // canonical search input asks that owner to recompute from the normalized
+  // dataset instead of maintaining a second fail-open visibility algorithm.
+  const search = document.querySelector('[data-smart-search]');
+  if (!search) return;
+  document.documentElement.dataset.filterRecovery = "requested";
+  search.dispatchEvent(new Event("input", { bubbles: true }));
+  window.dispatchEvent(new CustomEvent("vivamos:filter-recovery-requested", {
+    detail: { city: document.documentElement.dataset.city || "", reason: "neutral-grid-hidden" },
   }));
 }
 
 function queueVisibilityRepair(delay = 0) {
   if (repairTimer) clearTimeout(repairTimer);
-  repairTimer = setTimeout(() => requestAnimationFrame(repairNeutralAgendaVisibility), delay);
+  repairTimer = setTimeout(() => requestAnimationFrame(requestCanonicalFilterPass), delay);
 }
 
-// Bounded startup retries; deliberately no grid observer.
+// Bounded startup retries; deliberately no grid observer and no visibility writes.
 queueVisibilityRepair(0);
 setTimeout(() => queueVisibilityRepair(0), 350);
 setTimeout(() => queueVisibilityRepair(0), 900);
@@ -80,7 +76,7 @@ new MutationObserver(() => {
   const city = String(document.documentElement.dataset.city || "");
   if (city === lastCity) return;
   lastCity = city;
-  delete document.documentElement.dataset.filterFailOpen;
+  delete document.documentElement.dataset.filterRecovery;
   resetContextualUrlState();
   queueVisibilityRepair(350);
 }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
