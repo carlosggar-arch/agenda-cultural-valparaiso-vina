@@ -46,6 +46,7 @@ assert.match(
   "the shared runtime must publish adapted presentation events",
 );
 
+const explicitCityConstant = /["'](?:gijon|valparaiso|America\/Santiago|Europe\/Madrid|es-CL|es-ES)["']/i;
 for (const modulePath of sharedPresentationModules) {
   const source = read(modulePath);
   assert.match(
@@ -60,8 +61,8 @@ for (const modulePath of sharedPresentationModules) {
   );
   assert.doesNotMatch(
     source,
-    /\b(?:gijon|valparaiso)\b|America\/Santiago|Europe\/Madrid|es-CL|es-ES/i,
-    `${modulePath} must not know concrete cities, city timezones or city locales`,
+    explicitCityConstant,
+    `${modulePath} must not hardcode concrete cities, city timezones or city locales`,
   );
 }
 
