@@ -1,4 +1,4 @@
-import { normalizePublicTitle } from "./public-presentation-rules.mjs?v=20260818-presentation4";
+import { normalizePublicTitle } from "./public-presentation-rules.mjs?v=20260821-title7";
 
 const KNOWN_ACRONYMS = new Set([
   "AI", "CMI", "DJ", "DJS", "FETEN", "FICX", "FMCE", "IA", "LGBT", "LGBTQ", "MNHN", "ONU", "PUCV",
@@ -6,6 +6,10 @@ const KNOWN_ACRONYMS = new Set([
 ]);
 const MINOR_WORDS = new Set(["a", "al", "de", "del", "el", "en", "la", "las", "los", "o", "para", "por", "y"]);
 const GENERIC_PREFIX = /^(?:actividad|evento|teatro|obra(?:\s+de\s+teatro)?|concierto|recital|exposici[oó]n(?:\s+temporal)?|exhibici[oó]n|muestra|charla|taller|curso|funci[oó]n|cine|proyecci[oó]n|danza|m[uú]sica|espect[aá]culo|presentaci[oó]n|visita\s+guiada)\s*(?:(?:\/\/|[:|–—-])\s*|(?=["“‘'«‹]))/iu;
+const PROMOTIONAL_BLOCK = String.raw`(?:no\s+te\s+lo\s+pierdas|no\s+te\s+lo\s+puedes\s+perder|imperdible|[uú]ltimos?\s+cupos?|[uú]ltimas?\s+entradas?|[uú]ltimos?\s+tickets?|[uú]ltimas?\s+localidades?)`;
+const PROMOTIONAL_LEADING_WITH_SEPARATOR = new RegExp(`^\\s*[¡!]*\\s*${PROMOTIONAL_BLOCK}\\s*[!¡.]*\\s*(?:(?:\\/\\/|[:|·/–—-])\\s*)+`, "iu");
+const PROMOTIONAL_LEADING_EXCLAMATION = new RegExp(`^\\s*¡?\\s*${PROMOTIONAL_BLOCK}\\s*!+\\s+`, "iu");
+const PROMOTIONAL_TRAILING_WITH_SEPARATOR = new RegExp(`\\s*(?:(?:\\/\\/|[:|·/–—-])\\s*)+[¡!]*\\s*${PROMOTIONAL_BLOCK}\\s*[!¡.]*\\s*$`, "iu");
 const OUTER_QUOTES = [["\"", "\""], ["“", "”"], ["‘", "’"], ["'", "'"], ["«", "»"], ["‹", "›"]];
 const OPEN_QUOTE_CHARS = new Set(OUTER_QUOTES.map(([open]) => open));
 const CLOSE_QUOTE_CHARS = new Set(OUTER_QUOTES.map(([, close]) => close));
@@ -73,6 +77,30 @@ function casedLetters(value) {
   return [...String(value || "")].filter((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
 }
 
+function viableEditorialTitle(value) {
+  const text = clean(value).replace(/^[,·|/:–—-]+|[,·|/:–—-]+$/gu, "").trim();
+  return casedLetters(text).length >= 4 ? text : null;
+}
+
+function stripPromotionalBlocks(value) {
+  let text = clean(value);
+  for (let pass = 0; pass < 3; pass += 1) {
+    const before = text;
+    for (const pattern of [
+      PROMOTIONAL_LEADING_WITH_SEPARATOR,
+      PROMOTIONAL_LEADING_EXCLAMATION,
+      PROMOTIONAL_TRAILING_WITH_SEPARATOR,
+    ]) {
+      const candidate = viableEditorialTitle(text.replace(pattern, "").trim());
+      if (!candidate || candidate === text) continue;
+      text = candidate;
+      break;
+    }
+    if (text === before) break;
+  }
+  return text;
+}
+
 function isAllCaps(value) {
   const letters = casedLetters(value);
   return letters.length >= 5 && letters.every((char) => char === char.toLocaleUpperCase("es"));
@@ -129,7 +157,7 @@ function smartTitleCase(value) {
 
 function smartAllCaps(value, event) {
   const category = String(event?.primary_category?.id || event?.categories?.[0]?.id || "").trim();
-  if (category === "cursos-talleres") return sentenceCase(value);
+  if (category === "cursos-talleres-campus" || category === "cursos-talleres") return sentenceCase(value);
 
   const sentences = clean(value).split(/(?<=[.!?])\s+/u);
   if (sentences.length > 1) {
@@ -189,9 +217,11 @@ function stripGenericPrefixes(value) {
 
 export function normalizePublicEventTitle(value, event = null) {
   let text = normalizePublicTitle(value, event);
+  text = stripPromotionalBlocks(text);
   text = stripKnownLocationSuffix(text, event);
   text = stripTerminalPeriod(stripOuterQuotes(text));
   text = stripGenericPrefixes(text);
+  text = stripPromotionalBlocks(text);
   text = stripTerminalPeriod(stripOuterQuotes(text));
   if (isAllCaps(text) || isMostlyAllCaps(text)) text = smartAllCaps(text, event);
   else {
