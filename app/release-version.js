@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v175 makes cross-source deduplication resilient to incorrect upstream official flags for direct venue sources.
-  const RELEASE = 175;
+  // v176 shows only the exhibition hours that apply to the date being viewed.
+  const RELEASE = 176;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
