@@ -123,23 +123,48 @@ function setGroupedOpeningHours(card, hours) {
   node.replaceChildren(icon, copy);
 }
 
-function patchGroupCard(card) {
-  if (!card.classList.contains("exhibition-venue-card")) return;
-  const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
-  if (!ids.length) return;
-  const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
+function commonExplicitHours(events) {
   const labels = events.map(explicitVenueHours);
-  let hours = events.length > 0
+  return events.length > 0
     && labels.length === events.length
     && labels.every(Boolean)
     && new Set(labels).size === 1
     ? labels[0]
     : null;
+}
 
-  if (!hours && labels.every((label) => !label) && indexedCity !== "gijon") {
-    const venueName = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
-    hours = structuredRegistryHours(venueRecordForName(venueName), referenceDateKey());
+function patchGroupCard(card) {
+  if (!card.classList.contains("exhibition-venue-card")) return;
+  const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
+  if (!ids.length) return;
+  const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
+  let hours = null;
+
+  if (indexedCity === "gijon") {
+    // A grouped card represents one venue. Its header must therefore use the
+    // venue's date-specific opening hours, not compare event-level schedules
+    // across all exhibitions in the group. Those schedules can legitimately
+    // differ even though the museum opening hours are identical.
+    const referenceDate = referenceDateKey();
+    for (const event of events) {
+      const venueHours = gijonVenueHoursForDate(event, referenceDate)?.display || null;
+      if (venueHours) {
+        hours = venueHours;
+        break;
+      }
+    }
+    if (!hours) hours = commonExplicitHours(events);
+  } else {
+    hours = commonExplicitHours(events);
+    if (!hours) {
+      const labels = events.map(explicitVenueHours);
+      if (labels.every((label) => !label)) {
+        const venueName = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
+        hours = structuredRegistryHours(venueRecordForName(venueName), referenceDateKey());
+      }
+    }
   }
+
   setGroupedOpeningHours(card, hours);
 }
 
