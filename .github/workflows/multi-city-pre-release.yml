@@ -155,6 +155,7 @@ jobs:
           node --check app/app.js
           node --check app/pwa.js
           node --check app/service-worker.js
+          node --check app/service-worker-assets.generated.js
           node --check app/release-version.js
           node --check app/stage31-accessibility-seo.js
           node --check app/combined-filters.js
@@ -234,29 +235,33 @@ jobs:
           grep -F 'import "./plan-ahead.js";' app/pwa.js
           grep -F 'import "./favorites.js";' app/pwa.js
           grep -F 'import "./stage31-accessibility-seo.js";' app/pwa.js
-          grep -F 'importScripts("./release-version.js")' app/service-worker.js
-          grep -F '"./release-version.js"' app/service-worker.js
-          grep -F 'header-redesign.css' app/service-worker.js
-          grep -F 'header-redesign.js' app/service-worker.js
-          grep -F 'mobile-experience.css' app/service-worker.js
-          grep -F 'mobile-experience.js' app/service-worker.js
-          grep -F '"./plan-ahead.js"' app/service-worker.js
-          grep -F '"./favorites.js"' app/service-worker.js
-          grep -F '"./mis-planes.html"' app/service-worker.js
-          grep -F '"./stage31-accessibility-seo.js"' app/service-worker.js
-          grep -F '"./stage31-accessibility.css"' app/service-worker.js
-          grep -F '"../assets/plan-ahead-core.mjs"' app/service-worker.js
-          grep -F '"../assets/plan-ahead.css"' app/service-worker.js
-          grep -F '"../assets/favorites-core.mjs"' app/service-worker.js
-          grep -F '"../assets/favorites-view.mjs"' app/service-worker.js
-          grep -F '"../assets/favorites-reminders.mjs"' app/service-worker.js
-          grep -F '"../assets/favorites.css"' app/service-worker.js
-          grep -F '"./compact-top.css"' app/service-worker.js
-          grep -F '"./combined-filters.js"' app/service-worker.js
-          grep -F '"./combined-filters.css"' app/service-worker.js
-          grep -F '"./combined-filters-polish.js"' app/service-worker.js
-          grep -F '"./gijon-venue-hours.js"' app/service-worker.js
-          grep -F '"./event-detail.js"' app/service-worker.js
+          grep -F 'importScripts("./release-version.js", "./service-worker-assets.generated.js")' app/service-worker.js
+          for asset in \
+            '"./release-version.js"' \
+            'header-redesign.css' \
+            'header-redesign.js' \
+            'mobile-experience.css' \
+            'mobile-experience.js' \
+            '"./plan-ahead.js"' \
+            '"./favorites.js"' \
+            '"./mis-planes.html"' \
+            '"./stage31-accessibility-seo.js"' \
+            '"./stage31-accessibility.css"' \
+            '"../assets/plan-ahead-core.mjs"' \
+            '"../assets/plan-ahead.css"' \
+            '"../assets/favorites-core.mjs"' \
+            '"../assets/favorites-view.mjs"' \
+            '"../assets/favorites-reminders.mjs"' \
+            '"../assets/favorites.css"' \
+            '"./compact-top.css"' \
+            '"./combined-filters.js"' \
+            '"./combined-filters.css"' \
+            '"./combined-filters-polish.js"' \
+            '"./gijon-venue-hours.js"' \
+            '"./event-detail.js"'; do
+            grep -F "$asset" app/service-worker-assets.generated.js
+          done
+          ! grep -F 'const SHELL_ASSETS = [' app/service-worker.js
           ! grep -F 'client.navigate(' app/service-worker.js
           ! grep -F 'refreshOpenWindows' app/service-worker.js
           grep -F 'object-fit: contain !important' assets/event-media-layout.css
