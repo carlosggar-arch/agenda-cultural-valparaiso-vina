@@ -182,4 +182,4 @@ assert.doesNotMatch(worker, /const SHELL_ASSETS = \[/, "service worker must not 
 const releaseNumber = Number(release.match(/const RELEASE = (\d+);/)?.[1]);
 assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 163, "unified exhibition architecture requires a fresh service-worker cache generation");
 
-console.log("STARTUP_ARCHITECTURE_OK");
+console.log("STARTUP_ARCHITECTURE_GENERATED_SHELL_OK");
