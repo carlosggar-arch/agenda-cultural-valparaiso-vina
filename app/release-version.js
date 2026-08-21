@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v172 lets the browser paint before secondary presentation work on mobile.
-  const RELEASE = 172;
+  // v173 canonicalizes exhibition venues before grouping and presentation.
+  const RELEASE = 173;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
