@@ -1,4 +1,4 @@
-import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260820-shared-training1";
+import { canonicalPublicCategory, resolvePublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260819-venue1";
 
 const QUOTED_ACTIVITY = [
@@ -88,7 +88,7 @@ function repairVenueTitle(event) {
   let categories = event?.categories;
   const evidence = `${recovered} ${String(event?.description || "").slice(0, 500)}`;
   if (EXHIBITION_TERMS.test(evidence)) {
-    primaryCategory = { id: "exposiciones", label: "Exposiciones" };
+    primaryCategory = canonicalPublicCategory("exposiciones");
     categories = [primaryCategory];
     editorial.category_recovered_from_title_context = true;
   }

@@ -1,10 +1,10 @@
 import { mergeSupplementalPayload } from "./supplemental-events-fetch.js?v=20260819-pipeline1";
 import { normalizeAgendaPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
 import { applyEventDataCorrections } from "./event-data-corrections.js?v=20260819-pipeline1";
-import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260819-pipeline1";
+import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260821-shared-taxonomy1";
 import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260820-pipeline2";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
-import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260820-cycle2";
+import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260821-shared-taxonomy1";
 import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
 import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260820-pastguard2";

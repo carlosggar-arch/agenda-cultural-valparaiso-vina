@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -10,22 +11,29 @@ sys.path.insert(0, str(SCRIPTS))
 
 import generate_event_pages as base  # noqa: E402
 import stage31_site_generator as stage31  # noqa: E402
-from public_category_rules import resolve_public_category  # noqa: E402
+from public_category_rules import (  # noqa: E402
+    canonical_public_category_id,
+    is_public_category_in_group,
+    resolve_public_category,
+)
+
+FIXTURES = json.loads((ROOT / "shared" / "public-category-fixtures.json").read_text(encoding="utf-8"))
 
 
 class SharedPublicCategoryRulesTests(unittest.TestCase):
-    def test_gijon_summer_registration_program_uses_shared_training_category(self):
-        event = {
-            "id": "agenda_gijon_summer",
-            "title": "Gijón Verano: inscripciones",
-            "event_type": "program",
-            "primary_category": {"id": "cultura", "label": "Cultura"},
-            "categories": [{"id": "cultura", "label": "Cultura"}],
-        }
+    def test_shared_multicity_fixtures(self):
+        for fixture in FIXTURES["cases"]:
+            with self.subTest(name=fixture["name"]):
+                self.assertEqual(resolve_public_category(fixture["event"]), fixture["expected"])
+
+    def test_shared_alias_helpers(self):
         self.assertEqual(
-            resolve_public_category(event),
-            {"id": "cursos-talleres-campus", "label": "Cursos, talleres y campus"},
+            canonical_public_category_id({"id": "formacion-taller", "label": "Formación / taller"}),
+            "cursos-talleres-campus",
         )
+        self.assertEqual(canonical_public_category_id({"id": "museos", "label": "Museos"}), "exposiciones")
+        self.assertTrue(is_public_category_in_group({"id": "cursos-talleres"}, "training"))
+        self.assertFalse(is_public_category_in_group({"id": "exposiciones"}, "training"))
 
     def test_old_training_aliases_are_merged_for_all_cities(self):
         for category_id, label in (
@@ -41,24 +49,6 @@ class SharedPublicCategoryRulesTests(unittest.TestCase):
                     "categories": [{"id": category_id, "label": label}],
                 }
                 self.assertEqual(base.category_text(event), "Cursos, talleres y campus")
-
-    def test_laboral_summer_campus_is_training_even_as_dated_event(self):
-        event = {
-            "title": "Campus de Verano de la Laboral 2026",
-            "event_type": "event",
-            "primary_category": {"id": "formacion-taller", "label": "Formación / taller"},
-            "categories": [{"id": "formacion-taller", "label": "Formación / taller"}],
-        }
-        self.assertEqual(base.category_text(event), "Cursos, talleres y campus")
-
-    def test_specific_nature_activity_keeps_its_specific_category(self):
-        event = {
-            "title": "Ruta de senderismo por la costa",
-            "event_type": "event",
-            "primary_category": {"id": "naturaleza-deportes", "label": "Naturaleza y deportes"},
-            "categories": [{"id": "naturaleza-deportes", "label": "Naturaleza y deportes"}],
-        }
-        self.assertEqual(base.category_text(event), "Naturaleza y deportes")
 
     def test_static_gijon_landing_uses_canonical_shared_labels(self):
         events = [
