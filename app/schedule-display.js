@@ -4,7 +4,7 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-
 import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
-import "./exhibition-hours.js?v=20260821-visible-date1";
+import "./exhibition-hours.js?v=20260820-hours5";
 
 const FALLBACK_CONFIG = Object.freeze({
   valparaiso: { id: "valparaiso", locale: "es-CL", timezone: "America/Santiago" },
@@ -81,6 +81,10 @@ function scheduleWithoutVisitHours(schedule) {
   return clean;
 }
 
+function formatEventSchedule(schedule) {
+  return formatSchedule(schedule, activeConfig);
+}
+
 function scheduleForDisplay(event) {
   if (event?.event_type === "registration_period") return registrationStatusForDisplay(event);
   const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
@@ -99,12 +103,12 @@ function scheduleForDisplay(event) {
       timezone: activeConfig.timezone,
       referenceDate,
     });
-    const range = formatSchedule(eventSchedule, activeConfig);
+    const range = formatEventSchedule(eventSchedule);
     if (daily?.label) return [range, daily.label].filter(Boolean).join(" · ");
     return range;
   }
 
-  return formatSchedule(eventSchedule, activeConfig);
+  return formatEventSchedule(eventSchedule);
 }
 
 function locationForDisplay(event) {
