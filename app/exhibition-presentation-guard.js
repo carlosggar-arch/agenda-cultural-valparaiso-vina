@@ -138,7 +138,13 @@ function applyGuard() {
 function scheduleGuard() {
   if (queued || applying) return;
   queued = true;
-  queueMicrotask(applyGuard);
+  // Consolidation/order is presentation work. Coalesce mutation bursts into a
+  // frame so the newly rendered agenda can paint before this secondary pass.
+  if (typeof window.requestAnimationFrame === "function") {
+    window.requestAnimationFrame(applyGuard);
+  } else {
+    window.setTimeout(applyGuard, 0);
+  }
 }
 
 for (const eventName of [
