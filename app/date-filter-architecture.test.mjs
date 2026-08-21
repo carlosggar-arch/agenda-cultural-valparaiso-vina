@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs";
 import { dateSpecificHours } from "./venue-hours.mjs";
 
@@ -16,7 +16,8 @@ const worker = read("./service-worker.js");
 const release = read("./release-version.js");
 const scheduleDisplay = read("./schedule-display.js");
 const exhibitionHours = read("./exhibition-hours.js");
-const gijonCardImages = read("./gijon-card-images.js");
+const runtimeState = read("./agenda-runtime-state.mjs");
+const presentationAdapter = read("./city-presentation-adapter.mjs");
 
 assert.match(combined, /^import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/m);
 assert.match(combined, /const result = await loadAgendaDataset\(CITY_CONFIG\[cityId\]\)/);
@@ -65,13 +66,21 @@ assert.equal(dateSpecificHours(pinoleHours, "2026-08-22"), "10:00–14:00 y 17:0
 
 assert.match(scheduleDisplay, /scheduleWithoutVisitHours/);
 assert.match(scheduleDisplay, /visibleReferenceDateKey/);
+assert.match(scheduleDisplay, /getAgendaRuntimeSnapshot/);
 assert.match(scheduleDisplay, /!node\.classList\.contains\("venue-opening-hours"\)/);
 assert.doesNotMatch(scheduleDisplay, /const copy = schedule\?\.nextElementSibling/);
+assert.doesNotMatch(scheduleDisplay, /scheduleForGijonEvent/);
 assert.match(exhibitionHours, /venueHoursForDate/);
 assert.doesNotMatch(exhibitionHours, /gijonVenueHoursForDate/);
 assert.match(exhibitionHours, /Horario del recinto:/);
 assert.match(exhibitionHours, /for \(const event of events\)/);
-assert.match(gijonCardImages, /if \(!isExhibition\(event\)\) setVenueHours\(card, verifiedVenueHours\(event\)\)/);
+assert.match(presentationAdapter, /scheduleForGijonEvent/);
+assert.match(runtimeState, /eventForCityPresentation\(event, cityId\)/);
+assert.equal(
+  existsSync(new URL("./gijon-card-images.js", import.meta.url)),
+  false,
+  "the retired Gijon-specific card renderer must not return",
+);
 
 assert.match(safety, /pressedFilterValue\("\[data-combined-when\]"\) !== "todos"/);
 assert.match(safety, /pressedFilterValue\("\[data-combined-area\]"\) !== "todos"/);
