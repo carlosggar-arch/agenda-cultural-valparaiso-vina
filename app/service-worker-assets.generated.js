@@ -123,6 +123,8 @@
     "./session-occurrence-normalizer.js",
     "./share-qr.css",
     "./share-qr.js",
+    "./source-evidence-normalizer.mjs",
+    "./source-evidence-policy.mjs",
     "./sources-toggle.js",
     "./stage31-accessibility-seo.js",
     "./stage31-accessibility.css",
