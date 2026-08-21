@@ -1,3 +1,5 @@
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
+
 const CATEGORY_IMAGES = Object.freeze({
   musica: "../assets/categoria-musica.jpg",
   cine: "../assets/categoria-cine.jpg",
@@ -17,6 +19,8 @@ const GENERIC_PROVIDER_PATH = /(?:^|\/)(?:assets?\/(?:img|images?)\/)?(?:icon|lo
 const GENERIC_AVATAR_HOSTS = /(^|\.)gravatar\.com$/i;
 
 let scanQueued = false;
+let indexedRevision = 0;
+let eventIndex = new Map();
 
 function fold(value) {
   return String(value || "")
@@ -27,10 +31,23 @@ function fold(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+function syncRuntimeIndex() {
+  const snapshot = getAgendaRuntimeSnapshot();
+  if (!snapshot) return;
+  if (snapshot.revision === indexedRevision && eventIndex.size) return;
+  indexedRevision = snapshot.revision;
+  eventIndex = new Map(snapshot.events
+    .map((event) => [String(event?.id || "").trim(), event])
+    .filter(([id]) => id));
+}
+
 function categoryIdForCard(card) {
-  const explicit = fold(card?.dataset?.category);
+  const event = eventIndex.get(String(card?.dataset?.eventId || "").trim());
+  const runtimeCategory = event?.primary_category?.id || event?.categories?.[0]?.id;
+  const explicit = fold(runtimeCategory || card?.dataset?.category);
   if (explicit && CATEGORY_IMAGES[explicit]) return explicit;
-  const label = fold(card?.querySelector(".meta")?.textContent || card?.querySelector(".event-card-placeholder-label")?.textContent);
+  const runtimeLabel = event?.primary_category?.label || event?.categories?.[0]?.label;
+  const label = fold(runtimeLabel || card?.querySelector(".meta")?.textContent || card?.querySelector(".event-card-placeholder-label")?.textContent);
   if (/musica/.test(label)) return "musica";
   if (/cine/.test(label)) return "cine";
   if (/(teatro|artes-escenicas|danza)/.test(label)) return "teatro";
@@ -96,6 +113,7 @@ function repairCard(card) {
 
 function scan() {
   scanQueued = false;
+  syncRuntimeIndex();
   document.querySelectorAll('[data-agenda] .event-card').forEach(repairCard);
 }
 
