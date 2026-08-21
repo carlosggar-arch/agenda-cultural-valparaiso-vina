@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v177 reduces repeated JavaScript and DOM work in initial and filtered renders.
-  const RELEASE = 177;
+  // v178 fixes visible-date venue hours and grouped exhibition hours in Gijón.
+  const RELEASE = 178;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
