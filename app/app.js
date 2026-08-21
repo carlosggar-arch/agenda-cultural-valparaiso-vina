@@ -5,42 +5,21 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 // even if the core module graph fails to load or evaluate.
 const { coreReady } = await import("./app-core.js?v=20260820-exhibitionorder2");
 
-// Content presentation is shared across cities. City-specific modules are data
-// adapters or media enrichers only; they do not own exhibition-card structure.
-const IMAGE_QUALITY_GUARD = "./image-quality-guard.js?v=20260820-images3";
+// Presentation is one shared runtime. A city may contribute data, configuration
+// or a presentation adapter, but it must not select a different renderer.
 const OPTIONAL_MODULES = [
-  "./temporal-priority.js?v=20260819-temporal3",
-  "./exhibition-groups.js?v=20260820-groups1",
+  "./temporal-priority.js?v=20260821-shared-runtime1",
+  "./exhibition-groups.js?v=20260821-single-owner1",
   "./registration-reminders.js?v=20260820-registration1",
   "./schedule-display.js?v=20260819-runtime1",
   "./exhibition-hours.js?v=20260821-gijonhours1",
+  "./card-experience.js?v=20260821-shared-runtime1",
+  "./public-presentation-guard.js?v=20260821-shared-runtime1",
+  "./image-quality-guard.js?v=20260821-shared-runtime1",
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
 ];
-
-// Only genuinely city-specific behavior is deferred for Gijón. Exhibition
-// grouping, subcards, scrolling and schedule presentation use the same modules
-// as Valparaíso/Viña and every future city.
-const GIJON_DEFERRED_MODULES = new Set([
-  "./temporal-priority.js?v=20260819-temporal3",
-]);
-const IS_GIJON = String(document.documentElement.dataset.city || "") === "gijon";
-if (IS_GIJON) {
-  for (let index = OPTIONAL_MODULES.length - 1; index >= 0; index -= 1) {
-    if (GIJON_DEFERRED_MODULES.has(OPTIONAL_MODULES[index])) OPTIONAL_MODULES.splice(index, 1);
-  }
-  OPTIONAL_MODULES.push("./gijon-card-images.js?v=20260820-images2");
-  document.documentElement.dataset.gijonStableRuntime = "true";
-} else {
-  // These enrichers are currently Valpo/Viña specific, but the exhibition
-  // renderer itself above is common and consumes the shared runtime snapshot.
-  OPTIONAL_MODULES.push(
-    "./card-experience.js?v=20260819-runtime1",
-    "./card-image-fallback.js?v=20260819-runtime1",
-    "./public-presentation-guard.js?v=20260820-text1",
-  );
-}
 
 function ensureSourcesFallbackLink() {
   const footer = document.querySelector("body > footer");
@@ -121,31 +100,7 @@ function placeSourcesButtonInFooter() {
   return true;
 }
 
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function loadImageQualityGuard() {
-  if (IS_GIJON) return;
-  const delays = [0, 250, 1000];
-  let lastError = null;
-  for (const delay of delays) {
-    if (delay) await wait(delay);
-    try {
-      await import(IMAGE_QUALITY_GUARD);
-      document.documentElement.dataset.imageQualityGuard = "ready";
-      return;
-    } catch (error) {
-      lastError = error;
-    }
-  }
-  document.documentElement.dataset.imageQualityGuard = "failed";
-  console.warn("¡Vivamos!: no se pudo cargar la protección de imágenes tras varios intentos", lastError);
-}
-
 async function loadOptionalEnhancements() {
-  if (!IS_GIJON) void loadImageQualityGuard();
-
   const results = await Promise.allSettled(OPTIONAL_MODULES.map((module) => import(module)));
   results.forEach((result, index) => {
     if (result.status === "rejected") console.warn(`¡Vivamos!: mejora opcional omitida (${OPTIONAL_MODULES[index]})`, result.reason);
