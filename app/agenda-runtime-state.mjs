@@ -1,7 +1,7 @@
 import { normalizeTemporalMetadata } from "./temporal-priority-core.mjs?v=20260821-temporal4";
 
-let revision = 0;
-let snapshot = null;
+const STATE_KEY = Symbol.for("vivamos.agendaRuntimeState");
+const state = globalThis[STATE_KEY] || (globalThis[STATE_KEY] = { revision: 0, snapshot: null });
 
 function safeCityId(city) {
   return String(city?.id || "").trim();
@@ -10,12 +10,12 @@ function safeCityId(city) {
 export function publishAgendaRuntimeSnapshot(city, result) {
   const cityId = safeCityId(city);
   const dataset = result?.dataset;
-  if (!cityId || !dataset || !Array.isArray(dataset.events)) return snapshot;
+  if (!cityId || !dataset || !Array.isArray(dataset.events)) return state.snapshot;
 
   const normalizedDataset = normalizeTemporalMetadata(dataset, city, new Date());
   result.dataset = normalizedDataset;
 
-  snapshot = {
+  state.snapshot = {
     cityId,
     city,
     dataset: normalizedDataset,
@@ -23,27 +23,27 @@ export function publishAgendaRuntimeSnapshot(city, result) {
     secondaryPrograms: Array.isArray(result?.secondaryPrograms) ? result.secondaryPrograms : [],
     hiddenPrograms: Array.isArray(result?.hiddenPrograms) ? result.hiddenPrograms : [],
     diagnostics: Array.isArray(result?.diagnostics) ? result.diagnostics : [],
-    revision: ++revision,
+    revision: ++state.revision,
   };
 
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("vivamos:agenda-data-ready", {
       detail: {
         cityId,
-        revision: snapshot.revision,
-        eventCount: snapshot.events.length,
+        revision: state.snapshot.revision,
+        eventCount: state.snapshot.events.length,
       },
     }));
   }
-  return snapshot;
+  return state.snapshot;
 }
 
 export function getAgendaRuntimeSnapshot(cityId = null) {
-  if (!snapshot) return null;
-  if (cityId && snapshot.cityId !== String(cityId)) return null;
-  return snapshot;
+  if (!state.snapshot) return null;
+  if (cityId && state.snapshot.cityId !== String(cityId)) return null;
+  return state.snapshot;
 }
 
 export function clearAgendaRuntimeSnapshot() {
-  snapshot = null;
+  state.snapshot = null;
 }
