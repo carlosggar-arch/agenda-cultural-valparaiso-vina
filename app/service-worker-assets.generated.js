@@ -104,6 +104,7 @@
     "./proponer-fuente.html",
     "./proponer-fuente.js",
     "./public-category-rules.mjs",
+    "./public-category-taxonomy.generated.mjs",
     "./public-presentation-guard.js",
     "./public-presentation-rules.mjs",
     "./public-text-sanitizer.mjs",
