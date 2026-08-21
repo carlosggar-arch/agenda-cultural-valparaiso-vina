@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-20T20:53:00-04:00",
+  "generated_at": "2026-08-21T05:36:15-04:00",
   "sources": [
     {
       "id": "fuente_2572d9324bbe6ce5",
@@ -16,11 +16,7 @@
         "Cultura"
       ],
       "public_status": "integrada",
-      "canonical_source_id": "barrio_alegre_concepcion",
-      "social_urls": [
-        "https://www.instagram.com/barrioalegreconcepcion/"
-      ],
-      "audit_note": "Instagram secundario del Distrito BAC ya integrado. No crear una fuente duplicada."
+      "canonical_source_id": "barrio_alegre_concepcion"
     },
     {
       "id": "fuente_9e89c2c4e3af34f5",
@@ -34,11 +30,7 @@
         "Ferias y gastronomía"
       ],
       "public_status": "integrada",
-      "canonical_source_id": "barrio_poniente_vina",
-      "social_urls": [
-        "https://www.instagram.com/barrioponiente_vina/"
-      ],
-      "audit_note": "Instagram secundario de Barrio Poniente Viña ya integrado. No crear una fuente duplicada."
+      "canonical_source_id": "barrio_poniente_vina"
     },
     {
       "id": "fuente_3ab5e5424ec335d8",
@@ -711,98 +703,6 @@
       ],
       "public_status": "integrada",
       "canonical_source_id": "upla_vinculacion"
-    },
-    {
-      "id": "fuente_13a46e4c85d83173",
-      "name": "Radio Ciudad Musical",
-      "website_url": "https://www.instagram.com/radiociudadmusical/",
-      "cities": [
-        "Valparaíso"
-      ],
-      "source_type": "Medio cultural local",
-      "categories": [
-        "Música",
-        "Cultura"
-      ],
-      "public_status": "integrada",
-      "canonical_source_id": "radio_ciudad_musical",
-      "source_role": "standard",
-      "requires_corroboration": false,
-      "last_verified_at": "2026-08-20",
-      "publication_policy": "La programación propia puede publicarse tras validación normal; los reposts de terceros deben corroborarse con organizador o recinto.",
-      "audit_note": "Fuente local de alta utilidad con respaldo institucional municipal; distinguir programación propia de reposts."
-    },
-    {
-      "id": "fuente_caf6e76cdedd1295",
-      "name": "REC Región Valparaíso — Red de Espacios Culturales",
-      "website_url": "https://www.instagram.com/rec_regvalparaiso/",
-      "cities": [
-        "Valparaíso",
-        "Viña del Mar"
-      ],
-      "source_type": "Red cultural",
-      "categories": [
-        "Cultura",
-        "Música",
-        "Teatro",
-        "Cine",
-        "Exposiciones"
-      ],
-      "public_status": "integrada",
-      "canonical_source_id": "rec_region_valparaiso",
-      "source_role": "discovery",
-      "requires_corroboration": true,
-      "last_verified_at": "2026-08-20",
-      "publication_policy": "Usar para descubrir programación y preferir como fuente canónica al espacio u organizador original cuando pueda resolverse.",
-      "audit_note": "Fuente paraguas territorial; requiere deduplicación frente a espacios miembros ya integrados."
-    },
-    {
-      "id": "fuente_39cda324878a8030",
-      "name": "Panoramas Valparaíso",
-      "website_url": "https://panoramasvalparaiso.cl/",
-      "cities": [
-        "Valparaíso"
-      ],
-      "source_type": "Cartelera cultural",
-      "categories": [
-        "Cultura",
-        "Música",
-        "Teatro",
-        "Ferias y gastronomía"
-      ],
-      "public_status": "integrada",
-      "canonical_source_id": "panoramas_valparaiso",
-      "source_role": "discovery",
-      "requires_corroboration": true,
-      "social_urls": [
-        "https://www.instagram.com/panoramasvalparaiso/"
-      ],
-      "last_verified_at": "2026-08-20",
-      "publication_policy": "No publicar un evento basándose únicamente en esta fuente agregadora; corroborar fecha, hora y lugar en la fuente primaria.",
-      "audit_note": "Buena cobertura local para descubrimiento; no sustituye al organizador o recinto como fuente primaria."
-    },
-    {
-      "id": "fuente_14bb5a99740574d9",
-      "name": "VamosEventos — Valparaíso",
-      "website_url": "https://www.vamoseventos.com/valparaiso",
-      "cities": [
-        "Valparaíso",
-        "Viña del Mar"
-      ],
-      "source_type": "Cartelera cultural",
-      "categories": [
-        "Cultura",
-        "Música",
-        "Teatro",
-        "Ferias y gastronomía"
-      ],
-      "public_status": "integrada",
-      "canonical_source_id": "vamoseventos_valparaiso",
-      "source_role": "discovery",
-      "requires_corroboration": true,
-      "last_verified_at": "2026-08-20",
-      "publication_policy": "Fuente de descubrimiento solamente; corroborar ubicación, precio, fecha y hora con organizador o recinto antes de publicar.",
-      "audit_note": "La auditoría detectó inconsistencias de normalización de ubicación/precio; nunca debe ser evidencia única."
     }
   ]
 }

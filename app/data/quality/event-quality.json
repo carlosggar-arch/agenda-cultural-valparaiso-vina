@@ -1,150 +1,182 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-20T21:00:28.877587+00:00",
+  "generated_at": "2026-08-21T09:36:14+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-20",
-      "generated_at": "2026-08-20T16:41:30-04:00",
+      "generated_at": "2026-08-21T04:02:51-04:00",
       "summary": {
-        "total_events": 127,
-        "average_quality_score": 91.1,
+        "total_events": 205,
+        "average_quality_score": 91.6,
         "quality_class": "excellent",
-        "sources_catalogued": 39,
-        "sources_producing": 24,
-        "sources_zero": 15,
-        "review_priority_zero_sources": 11,
-        "zero_sources_covered_elsewhere": 4,
-        "top3_source_share_pct": 34.6,
-        "unattributed_events": 0
+        "sources_catalogued": 42,
+        "sources_producing": 28,
+        "sources_zero": 8,
+        "review_priority_zero_sources": 8,
+        "zero_sources_covered_elsewhere": 5,
+        "top3_source_share_pct": 43.4,
+        "unattributed_events": 0,
+        "verified_inactive_zero_sources": 1
       },
       "field_coverage": {
-        "date_pct": 89.8,
-        "time_pct": 89.0,
+        "date_pct": 94.1,
+        "time_pct": 91.2,
         "venue_pct": 100.0,
-        "image_pct": 78.7,
+        "image_pct": 58.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 61.4,
-        "price_known_pct": 70.1
+        "official_source_pct": 48.8,
+        "price_known_pct": 85.9
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 36,
-          "share_pct": 28.3,
+          "count": 80,
+          "share_pct": 39.0,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 25,
-          "share_pct": 19.7,
+          "count": 32,
+          "share_pct": 15.6,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 23,
-          "share_pct": 18.1,
+          "count": 25,
+          "share_pct": 12.2,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
-          "count": 15,
-          "share_pct": 11.8,
+          "count": 20,
+          "share_pct": 9.8,
+          "underrepresented": false
+        },
+        {
+          "id": "cultura",
+          "label": "Cultura",
+          "count": 20,
+          "share_pct": 9.8,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 11,
-          "share_pct": 8.7,
+          "share_pct": 5.4,
           "underrepresented": false
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 7,
-          "share_pct": 5.5,
-          "underrepresented": false
+          "share_pct": 3.4,
+          "underrepresented": true
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
           "count": 6,
-          "share_pct": 4.7,
-          "underrepresented": false
+          "share_pct": 2.9,
+          "underrepresented": true
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
           "count": 4,
-          "share_pct": 3.1,
+          "share_pct": 2.0,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 71,
-          "share_pct": 55.9
+          "count": 123,
+          "share_pct": 60.0
         },
         {
           "area": "Viña del Mar",
-          "count": 56,
-          "share_pct": 44.1
+          "count": 82,
+          "share_pct": 40.0
         }
       ],
       "coverage_gaps": {
         "underrepresented_categories": [
+          "ferias-gastronomia",
+          "naturaleza-deportes",
           "otros"
         ],
         "source_concentration_high": false,
         "review_priority_zero_sources": [
+          "balmaceda_arte_joven_valpo",
           "casa_prisma_valpo",
-          "centex",
           "compania_la_paila",
           "ecoliderazgo",
-          "estadio_espanol_recreo",
-          "estrella_negra_jazz",
           "la_escala_galeria",
           "masita_rica",
           "museo_fonck",
-          "sala_secreta",
-          "sala_teatro_ipa"
+          "sala_secreta"
         ],
         "zero_sources_covered_elsewhere": [
-          "balmaceda_arte_joven_valpo",
           "casa_cultura_valparaiso",
+          "centex",
+          "estrella_negra_jazz",
           "teatro_municipal_valparaiso",
           "valparaiso_profundo"
+        ],
+        "verified_inactive_zero_sources": [
+          "sala_teatro_ipa"
         ]
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 78.7,
-        "removed_events": {
-          "removed_title_quality": 1,
-          "removed_location_mismatch": 0,
-          "removed_deadline_only_call": 0,
-          "removed_retrospective_post": 1
-        }
+        "relevant_image_pct": 58.0,
+        "removed_events": {}
       },
       "sources": [
         {
-          "id": "trotamundosvalpo",
-          "name": "Trotamundos Valparaíso",
-          "count": 18,
-          "quality_score": 99.7,
+          "id": "portaltickets_valparaiso",
+          "name": "PortalTickets — Región de Valparaíso",
+          "count": 55,
+          "quality_score": 89.7,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 0.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 98.2
+          },
+          "categories": {
+            "cultura": 16,
+            "musica": 39
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "cinearte_vina",
+          "name": "Cine Arte Viña del Mar",
+          "count": 17,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -152,76 +184,109 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 94.4
+            "price_known_pct": 100.0
           },
           "categories": {
-            "musica": 17,
-            "teatro": 1
-          }
+            "cine": 17
+          },
+          "verified_inactive": false
         },
         {
-          "id": "cinearte_vina",
-          "name": "Cine Arte Viña del Mar",
-          "count": 14,
-          "quality_score": 97.5,
+          "id": "trotamundosvalpo",
+          "name": "Trotamundos Valparaíso",
+          "count": 17,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
-          "role": "venue",
+          "role": null,
           "source_type": null,
           "coverage": {
-            "date_pct": 92.9,
-            "time_pct": 92.9,
+            "date_pct": 100.0,
+            "time_pct": 100.0,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 92.9
+            "price_known_pct": 100.0
           },
           "categories": {
-            "cine": 14
-          }
+            "musica": 17
+          },
+          "verified_inactive": false
         },
         {
           "id": "culturasvina",
           "name": "Culturas Viña",
           "count": 12,
-          "quality_score": 81.7,
+          "quality_score": 88.8,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "aggregator",
-          "source_type": "web",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 16.7,
+            "image_pct": 25.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
+            "price_known_pct": 75.0
+          },
+          "categories": {
+            "exposiciones": 8,
+            "ferias-gastronomia": 1,
+            "cursos-talleres": 1,
+            "musica": 1,
+            "naturaleza-deportes": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "valpocultura",
+          "name": "Valpo Cultura",
+          "count": 12,
+          "quality_score": 87.5,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 83.3,
+            "time_pct": 58.3,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 33.3,
             "price_known_pct": 66.7
           },
           "categories": {
-            "cursos-talleres": 1,
-            "exposiciones": 8,
-            "ferias-gastronomia": 1,
-            "musica": 1,
-            "naturaleza-deportes": 1
-          }
+            "cursos-talleres": 3,
+            "teatro": 1,
+            "cultura": 2,
+            "musica": 3,
+            "exposiciones": 1,
+            "otros": 1,
+            "ferias-gastronomia": 1
+          },
+          "verified_inactive": false
         },
         {
           "id": "mhnvalpo",
           "name": "Museo de Historia Natural de Valparaíso",
           "count": 11,
-          "quality_score": 90.5,
-          "quality_class": "excellent",
+          "quality_score": 87.7,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 72.7,
             "time_pct": 72.7,
@@ -232,9 +297,10 @@
             "price_known_pct": 72.7
           },
           "categories": {
-            "cursos-talleres": 1,
-            "exposiciones": 10
-          }
+            "exposiciones": 10,
+            "cursos-talleres": 1
+          },
+          "verified_inactive": false
         },
         {
           "id": "cultura_usm",
@@ -244,9 +310,9 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -259,67 +325,15 @@
           "categories": {
             "musica": 9,
             "teatro": 1
-          }
-        },
-        {
-          "id": "valpocultura",
-          "name": "Valpo Cultura",
-          "count": 8,
-          "quality_score": 87.5,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "aggregator",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 75.0,
-            "time_pct": 75.0,
-            "venue_pct": 100.0,
-            "image_pct": 87.5,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 50.0
           },
-          "categories": {
-            "cursos-talleres": 3,
-            "exposiciones": 1,
-            "ferias-gastronomia": 1,
-            "musica": 1,
-            "otros": 1,
-            "teatro": 1
-          }
+          "verified_inactive": false
         },
         {
-          "id": "insomniacine",
-          "name": "Insomnia Cine",
-          "count": 7,
-          "quality_score": 100.0,
+          "id": "visitavina_palacio_rioja_recovery",
+          "name": "Visita Viña — Museo Palacio Rioja",
+          "count": 10,
+          "quality_score": 90.0,
           "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "cine": 7
-          }
-        },
-        {
-          "id": "jardin_botanico_vina",
-          "name": "jardin_botanico_vina",
-          "count": 7,
-          "quality_score": 76.4,
-          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -331,26 +345,80 @@
             "venue_pct": 100.0,
             "image_pct": 0.0,
             "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 28.6
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
           "categories": {
-            "ferias-gastronomia": 4,
+            "cursos-talleres": 5,
+            "cine": 2,
+            "cultura": 2,
+            "musica": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "insomniacine",
+          "name": "INSOMNIA Teatro Condell",
+          "count": 8,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 87.5,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 8
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "jardin_botanico_vina",
+          "name": "Jardín Botánico Nacional de Viña del Mar",
+          "count": 7,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
             "naturaleza-deportes": 2,
-            "otros": 1
-          }
+            "otros": 1,
+            "ferias-gastronomia": 4
+          },
+          "verified_inactive": false
         },
         {
           "id": "teatro_municipal_vina",
           "name": "Teatro Municipal de Viña del Mar",
           "count": 7,
-          "quality_score": 91.4,
-          "quality_class": "excellent",
+          "quality_score": 82.9,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 85.7,
             "time_pct": 85.7,
@@ -361,21 +429,22 @@
             "price_known_pct": 14.3
           },
           "categories": {
-            "musica": 3,
-            "teatro": 4
-          }
+            "teatro": 4,
+            "musica": 3
+          },
+          "verified_inactive": false
         },
         {
           "id": "centro_extension_duoc_valpo",
           "name": "Centro de Extensión Duoc UC Valparaíso",
           "count": 6,
-          "quality_score": 94.2,
+          "quality_score": 92.5,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 83.3,
             "time_pct": 83.3,
@@ -387,21 +456,49 @@
           },
           "categories": {
             "cine": 3,
-            "musica": 2,
-            "teatro": 1
-          }
+            "teatro": 1,
+            "musica": 2
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "pcdv",
+          "name": "Parque Cultural de Valparaíso",
+          "count": 6,
+          "quality_score": 93.3,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 66.7,
+            "venue_pct": 100.0,
+            "image_pct": 66.7,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 3,
+            "teatro": 2,
+            "musica": 1
+          },
+          "verified_inactive": false
         },
         {
           "id": "artequinvina",
           "name": "Artequin Viña del Mar",
           "count": 5,
-          "quality_score": 99.0,
+          "quality_score": 97.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "jsonld",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -414,7 +511,8 @@
           "categories": {
             "cursos-talleres": 4,
             "exposiciones": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "cultura_pucv",
@@ -424,9 +522,9 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "aggregator",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -434,39 +532,41 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 25.0
+            "price_known_pct": 75.0
           },
           "categories": {
-            "cursos-talleres": 1,
             "musica": 1,
+            "cursos-talleres": 1,
             "otros": 2
-          }
+          },
+          "verified_inactive": false
         },
         {
-          "id": "pcdv",
-          "name": "Parque Cultural de Valparaíso",
+          "id": "estadio_espanol_recreo",
+          "name": "Estadio Español Recreo",
           "count": 3,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
+          "quality_score": 85.0,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 0.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 100.0
+            "price_known_pct": 66.7
           },
           "categories": {
-            "exposiciones": 1,
-            "musica": 1,
-            "teatro": 1
-          }
+            "ferias-gastronomia": 1,
+            "cine": 1,
+            "musica": 1
+          },
+          "verified_inactive": false
         },
         {
           "id": "museobaburizza",
@@ -476,9 +576,9 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 50.0,
@@ -486,48 +586,24 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 50.0
+            "price_known_pct": 100.0
           },
           "categories": {
             "exposiciones": 2
-          }
-        },
-        {
-          "id": "museo_palacio_rioja",
-          "name": "Museo Palacio Rioja",
-          "count": 2,
-          "quality_score": 97.5,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 50.0
           },
-          "categories": {
-            "cursos-talleres": 1,
-            "ferias-gastronomia": 1
-          }
+          "verified_inactive": false
         },
         {
           "id": "teatro_la_peste",
           "name": "Teatro La Peste",
           "count": 2,
-          "quality_score": 80.0,
-          "quality_class": "correct",
+          "quality_score": 70.0,
+          "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 50.0,
             "time_pct": 50.0,
@@ -538,9 +614,10 @@
             "price_known_pct": 0.0
           },
           "categories": {
-            "cine": 1,
-            "cursos-talleres": 1
-          }
+            "cursos-talleres": 1,
+            "cine": 1
+          },
+          "verified_inactive": false
         },
         {
           "id": "teatromuseo",
@@ -550,9 +627,9 @@
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -564,14 +641,15 @@
           },
           "categories": {
             "teatro": 2
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "instituto_le_chat",
-          "name": "instituto_le_chat",
+          "name": "Instituto Le Chat",
           "count": 1,
-          "quality_score": 50.0,
-          "quality_class": "needs_attention",
+          "quality_score": 70.0,
+          "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -581,21 +659,22 @@
             "date_pct": 0.0,
             "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 0.0,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
           },
           "categories": {
             "cursos-talleres": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "maraton_vina_official",
-          "name": "maraton_vina_official",
+          "name": "Prokart SpA",
           "count": 1,
-          "quality_score": 80.0,
-          "quality_class": "correct",
+          "quality_score": 100.0,
+          "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -605,21 +684,22 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 0.0,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
           },
           "categories": {
             "naturaleza-deportes": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "media_maraton_tps_official",
-          "name": "media_maraton_tps_official",
+          "name": "Prokart SpA y Terminal Pacífico Sur Valparaíso",
           "count": 1,
-          "quality_score": 80.0,
-          "quality_class": "correct",
+          "quality_score": 90.0,
+          "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -636,14 +716,40 @@
           },
           "categories": {
             "naturaleza-deportes": 1
-          }
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "museo_palacio_rioja",
+          "name": "Museo Palacio Rioja",
+          "count": 1,
+          "quality_score": 85.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "cursos-talleres": 1
+          },
+          "verified_inactive": false
         },
         {
           "id": "natalia_saldias",
-          "name": "natalia_saldias",
+          "name": "Natalia Paz Saldías Donoso",
           "count": 1,
-          "quality_score": 50.0,
-          "quality_class": "needs_attention",
+          "quality_score": 60.0,
+          "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -660,14 +766,15 @@
           },
           "categories": {
             "cursos-talleres": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "red_studio",
-          "name": "red_studio",
+          "name": "RED Studio",
           "count": 1,
-          "quality_score": 50.0,
-          "quality_class": "needs_attention",
+          "quality_score": 70.0,
+          "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -677,26 +784,27 @@
             "date_pct": 0.0,
             "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 0.0,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
           },
           "categories": {
             "cursos-talleres": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "teatro_mauri_scd",
           "name": "Teatro Mauri SCD",
           "count": 1,
-          "quality_score": 95.0,
-          "quality_class": "excellent",
+          "quality_score": 85.0,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -708,14 +816,15 @@
           },
           "categories": {
             "musica": 1
-          }
+          },
+          "verified_inactive": false
         },
         {
           "id": "valparaiso_trekking",
-          "name": "valparaiso_trekking",
+          "name": "Valparaíso Trekking SpA",
           "count": 1,
           "quality_score": 45.0,
-          "quality_class": "needs_attention",
+          "quality_class": "review",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -732,498 +841,194 @@
           },
           "categories": {
             "naturaleza-deportes": 1
-          }
-        },
-        {
-          "id": "balmaceda_arte_joven_valpo",
-          "name": "Balmaceda Arte Joven Valparaíso",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "cultura_pucv"
-          ],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
           },
-          "categories": {}
+          "verified_inactive": false
         },
         {
-          "id": "casa_cultura_valparaiso",
-          "name": "Casa de la Cultura de Valparaíso",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "cultura_pucv"
-          ],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "casa_prisma_valpo",
-          "name": "Casa Prisma Valpo",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
+          "id": "visitavina_estadio_espanol_recovery",
+          "name": "Visita Viña — Estadio Español",
+          "count": 1,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "organizer",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
             "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
-          "categories": {}
-        },
-        {
-          "id": "centex",
-          "name": "CENTEX",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
+          "categories": {
+            "musica": 1
           },
-          "categories": {}
-        },
-        {
-          "id": "compania_la_paila",
-          "name": "Compañía La Paila",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "organizer",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "ecoliderazgo",
-          "name": "EcoLiderazgo",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "organizer",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "estadio_espanol_recreo",
-          "name": "Estadio Español Recreo",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "estrella_negra_jazz",
-          "name": "Estrella Negra Club de Jazz",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "la_escala_galeria",
-          "name": "La Escala Galería",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "masita_rica",
-          "name": "Masita Rica",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "museo_fonck",
-          "name": "Museo Fonck",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "web",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "sala_secreta",
-          "name": "Sala Secreta",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "sala_teatro_ipa",
-          "name": "Sala Teatro IPA",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "teatro_municipal_valparaiso",
-          "name": "Teatro Municipal de Valparaíso",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "cultura_pucv"
-          ],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "valparaiso_profundo",
-          "name": "Valparaíso Profundo",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "cultura_pucv"
-          ],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
+          "verified_inactive": false
         }
       ]
     },
     "gijon": {
       "city_id": "gijon",
-      "publication_date": "2026-08-20",
-      "generated_at": "2026-08-20T09:08:22+02:00",
+      "publication_date": "2026-08-21",
+      "generated_at": "2026-08-21T00:13:58+02:00",
       "summary": {
-        "total_events": 128,
-        "average_quality_score": 94.5,
+        "total_events": 168,
+        "average_quality_score": 97.8,
         "quality_class": "excellent",
         "sources_catalogued": 33,
-        "sources_producing": 11,
-        "sources_zero": 22,
-        "review_priority_zero_sources": 13,
-        "zero_sources_covered_elsewhere": 5,
-        "top3_source_share_pct": 78.9,
+        "sources_producing": 15,
+        "sources_zero": 18,
+        "review_priority_zero_sources": 18,
+        "zero_sources_covered_elsewhere": 0,
+        "top3_source_share_pct": 75.0,
         "unattributed_events": 0
       },
       "field_coverage": {
         "date_pct": 100.0,
-        "time_pct": 72.7,
+        "time_pct": 78.0,
         "venue_pct": 100.0,
         "image_pct": 100.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
         "official_source_pct": 100.0,
-        "price_known_pct": 16.4
+        "price_known_pct": 100.0
       },
       "category_distribution": [
         {
+          "id": "teatro",
+          "label": "Teatro",
+          "count": 42,
+          "share_pct": 25.0,
+          "underrepresented": false
+        },
+        {
           "id": "musica",
           "label": "Música",
-          "count": 34,
-          "share_pct": 26.6,
+          "count": 37,
+          "share_pct": 22.0,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 27,
-          "share_pct": 21.1,
+          "count": 26,
+          "share_pct": 15.5,
           "underrepresented": false
         },
         {
           "id": "museos",
           "label": "Museos",
-          "count": 19,
-          "share_pct": 14.8,
+          "count": 20,
+          "share_pct": 11.9,
           "underrepresented": false
         },
         {
-          "id": "teatro",
-          "label": "Teatro",
+          "id": "cultura",
+          "label": "Cultura",
           "count": 12,
-          "share_pct": 9.4,
-          "underrepresented": false
-        },
-        {
-          "id": "actividad-panorama",
-          "label": "Actividad / panorama",
-          "count": 11,
-          "share_pct": 8.6,
+          "share_pct": 7.1,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 11,
-          "share_pct": 8.6,
+          "share_pct": 6.5,
+          "underrepresented": false
+        },
+        {
+          "id": "actividad-panorama",
+          "label": "Actividad / panorama",
+          "count": 11,
+          "share_pct": 6.5,
           "underrepresented": false
         },
         {
           "id": "deporte-bienestar",
           "label": "Deporte / bienestar",
           "count": 6,
-          "share_pct": 4.7,
-          "underrepresented": false
-        },
-        {
-          "id": "cultura",
-          "label": "Cultura",
-          "count": 5,
-          "share_pct": 3.9,
-          "underrepresented": false
+          "share_pct": 3.6,
+          "underrepresented": true
         },
         {
           "id": "formacion-taller",
           "label": "Formación / taller",
-          "count": 3,
-          "share_pct": 2.3,
+          "count": 2,
+          "share_pct": 1.2,
+          "underrepresented": true
+        },
+        {
+          "id": "artes-visuales-museo",
+          "label": "Artes visuales / museo",
+          "count": 1,
+          "share_pct": 0.6,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Gijón",
-          "count": 123,
-          "share_pct": 96.1
-        },
-        {
-          "area": "AVILES",
-          "count": 1,
-          "share_pct": 0.8
+          "count": 163,
+          "share_pct": 97.0
         },
         {
           "area": "Cudillero",
           "count": 1,
-          "share_pct": 0.8
+          "share_pct": 0.6
         },
         {
-          "area": "GRADO",
+          "area": "AVILES",
           "count": 1,
-          "share_pct": 0.8
-        },
-        {
-          "area": "LA MORGAL (LLANERA)",
-          "count": 1,
-          "share_pct": 0.8
+          "share_pct": 0.6
         },
         {
           "area": "NAVA",
           "count": 1,
-          "share_pct": 0.8
+          "share_pct": 0.6
+        },
+        {
+          "area": "LA MORGAL (LLANERA)",
+          "count": 1,
+          "share_pct": 0.6
+        },
+        {
+          "area": "GRADO",
+          "count": 1,
+          "share_pct": 0.6
         }
       ],
       "coverage_gaps": {
         "underrepresented_categories": [
-          "formacion-taller"
+          "deporte-bienestar",
+          "formacion-taller",
+          "artes-visuales-museo"
         ],
         "source_concentration_high": true,
         "review_priority_zero_sources": [
+          "agenda_gijon",
           "ateneo_jovellanos",
+          "cafe_dindurra",
           "el_huerto_gijon",
           "el_percebe_gijon",
+          "ficx",
           "foro_jovellanos",
           "grupo_montana_picu_urriellu",
           "la_caja_de_musicos",
           "la_habitacion_propia_gijon",
+          "la_revoltosa_gijon",
           "laboral_cinemateca",
+          "meidinerz_jazz_club",
           "mercado_artesano_ecologico_gijon",
           "museo_barjola",
-          "museo_ferrocarril_asturias",
-          "museo_evaristo_valle",
-          "sala_acapulco_conciertos"
+          "sala_acapulco_conciertos",
+          "universidad_popular_gijon",
+          "museo_ferrocarril_asturias"
         ],
-        "zero_sources_covered_elsewhere": [
-          "centro_cultura_antiguo_instituto",
-          "ficx",
-          "jardin_botanico_atlantico",
-          "teatro_jovellanos",
-          "universidad_popular_gijon"
-        ]
+        "zero_sources_covered_elsewhere": []
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
@@ -1234,14 +1039,14 @@
         {
           "id": "gijon_opendata_events",
           "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-          "count": 85,
-          "quality_score": 93.7,
+          "count": 59,
+          "quality_score": 97.3,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 2,
+          "priority": null,
           "role": null,
-          "source_type": "structured_opendata",
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 72.9,
@@ -1249,34 +1054,81 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 1.2
+            "price_known_pct": 100.0
           },
           "categories": {
-            "cine": 11,
-            "cultura": 3,
-            "exposiciones": 23,
-            "museos": 19,
-            "musica": 18,
-            "teatro": 11
+            "cine": 3,
+            "teatro": 6,
+            "museos": 20,
+            "exposiciones": 18,
+            "cultura": 1,
+            "musica": 11
+          }
+        },
+        {
+          "id": "teatro_jovellanos",
+          "name": "Teatro Jovellanos",
+          "count": 41,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 85,
-            "filtered_or_deduplicated": null
+          "categories": {
+            "teatro": 33,
+            "musica": 8
+          }
+        },
+        {
+          "id": "centro_cultura_antiguo_instituto",
+          "name": "Centro de Cultura Antiguo Instituto",
+          "count": 26,
+          "quality_score": 97.3,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 73.1,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "teatro": 1,
+            "musica": 4,
+            "exposiciones": 3,
+            "cultura": 10,
+            "cine": 8
           }
         },
         {
           "id": "gijon_arena",
           "name": "Gijón Arena — Próximos eventos",
           "count": 9,
-          "quality_score": 98.3,
+          "quality_score": 96.7,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web_calendar",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 66.7,
@@ -1288,25 +1140,19 @@
           },
           "categories": {
             "musica": 9
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 9,
-            "filtered_or_deduplicated": null
           }
         },
         {
           "id": "bioparc_acuario_gijon",
           "name": "BIOPARC Acuario de Gijón — Actividades y talleres",
           "count": 7,
-          "quality_score": 98.6,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web_calendar",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -1314,61 +1160,24 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 71.4
+            "price_known_pct": 100.0
           },
           "categories": {
             "actividad-panorama": 5,
             "musica": 2
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 7,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "laboral_centro_arte",
-          "name": "LABoral Centro de Arte y Creación Industrial",
-          "count": 6,
-          "quality_score": 91.7,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "contemporary_art_center",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 16.7,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 16.7
-          },
-          "categories": {
-            "cultura": 2,
-            "exposiciones": 4
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 6,
-            "filtered_or_deduplicated": null
           }
         },
         {
           "id": "teatro_albeniz_gijon",
           "name": "Teatro Albéniz Gijón",
           "count": 6,
-          "quality_score": 95.0,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web_calendar",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -1376,16 +1185,35 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 0.0
+            "price_known_pct": 100.0
           },
           "categories": {
             "actividad-panorama": 6
+          }
+        },
+        {
+          "id": "laboral_centro_arte",
+          "name": "LABoral Centro de Arte y Creación Industrial",
+          "count": 5,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 0.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 6,
-            "filtered_or_deduplicated": null
+          "categories": {
+            "exposiciones": 4,
+            "cultura": 1
           }
         },
         {
@@ -1396,9 +1224,9 @@
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "federation",
-          "source_type": "web_calendar",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 0.0,
@@ -1406,120 +1234,23 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 0.0
+            "price_known_pct": 100.0
           },
           "categories": {
             "deporte-bienestar": 4
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 4,
-            "filtered_or_deduplicated": null
           }
         },
         {
           "id": "festival_piano_gijon",
           "name": "Festival Internacional de Piano de Gijón",
-          "count": 3,
-          "quality_score": 96.7,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "music_festival",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 33.3
-          },
-          "categories": {
-            "musica": 3
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 3,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "juventud_gijon",
-          "name": "Juventud Gijón/Xixón — Oficina de Juventud",
           "count": 2,
           "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "municipal_youth",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "formacion-taller": 2
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 2,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "laboral_ciudad_cultura",
-          "name": "Laboral Ciudad de la Cultura — Agenda",
-          "count": 2,
-          "quality_score": 95.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "cultural_center",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {
-            "formacion-taller": 1,
-            "teatro": 1
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 2,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "toma3_xixon",
-          "name": "Toma 3 Xixón",
-          "count": 2,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -1531,28 +1262,44 @@
           },
           "categories": {
             "musica": 2
-          },
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 2,
-            "filtered_or_deduplicated": null,
-            "web_probe_status": "monitored_empty",
-            "zero_event_reason": null,
-            "actionable_zero": false
           }
         },
         {
-          "id": "turismo_asturias_deporte",
-          "name": "Turismo Asturias — Agenda deportiva",
+          "id": "jardin_botanico_atlantico",
+          "name": "Jardín Botánico Atlántico",
           "count": 2,
-          "quality_score": 95.0,
+          "quality_score": 90.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 2,
-          "role": "regional_aggregator",
-          "source_type": "web_calendar",
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 0.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 1,
+            "teatro": 1
+          }
+        },
+        {
+          "id": "laboral_ciudad_cultura",
+          "name": "Laboral Ciudad de la Cultura — Agenda",
+          "count": 2,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
             "date_pct": 100.0,
             "time_pct": 100.0,
@@ -1560,636 +1307,107 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 0.0
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "formacion-taller": 1,
+            "teatro": 1
+          }
+        },
+        {
+          "id": "turismo_asturias_deporte",
+          "name": "Turismo Asturias — Agenda deportiva",
+          "count": 2,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
           "categories": {
             "deporte-bienestar": 2
-          },
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 2,
-            "filtered_or_deduplicated": null
           }
         },
         {
-          "id": "agenda_gijon",
-          "name": "Agenda Gijón",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "explained_zero",
+          "id": "juventud_gijon",
+          "name": "Juventud Gijón/Xixón — Oficina de Juventud",
+          "count": 1,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 3,
-          "role": "aggregator",
-          "source_type": "aggregator",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null,
-            "web_probe_status": "discovery_only",
-            "zero_event_reason": "discovery_aggregator",
-            "actionable_zero": false
+          "categories": {
+            "formacion-taller": 1
           }
-        },
-        {
-          "id": "ateneo_jovellanos",
-          "name": "Ateneo Jovellanos — Actividades",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "cultural_center",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "cafe_dindurra",
-          "name": "Café Dindurra",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "explained_zero",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null,
-            "web_probe_status": "monitored_empty",
-            "zero_event_reason": "secondary_calendar_checked_no_current_candidates",
-            "actionable_zero": false
-          }
-        },
-        {
-          "id": "centro_cultura_antiguo_instituto",
-          "name": "Centro de Cultura Antiguo Instituto",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "gijon_opendata_events"
-          ],
-          "priority": 1,
-          "role": "municipal_cultural_center",
-          "source_type": "municipal_venue_feed",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "el_huerto_gijon",
-          "name": "El Huerto Espacio Escénico",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "el_percebe_gijon",
-          "name": "El Percebe Comedy",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "ficx",
-          "name": "Festival Internacional de Cine de Gijón/Xixón (FICX)",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "gijon_opendata_events"
-          ],
-          "priority": 1,
-          "role": "film_festival",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "foro_jovellanos",
-          "name": "Fundación Foro Jovellanos — Agenda de actividades",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "cultural_foundation",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "grupo_montana_picu_urriellu",
-          "name": "Grupo de Montaña Picu Urriellu",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "outdoor_club",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "jardin_botanico_atlantico",
-          "name": "Jardín Botánico Atlántico",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "gijon_opendata_events"
-          ],
-          "priority": 1,
-          "role": "municipal_botanical_garden",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "la_caja_de_musicos",
-          "name": "La Caja de Músicos",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "la_habitacion_propia_gijon",
-          "name": "La Habitación Propia",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "cultural_space",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "la_revoltosa_gijon",
-          "name": "La Revoltosa Gijón",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "explained_zero",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null,
-            "web_probe_status": "seasonal_secondary_empty",
-            "zero_event_reason": "documented_periodic_program_summer_pause",
-            "actionable_zero": false
-          }
-        },
-        {
-          "id": "laboral_cinemateca",
-          "name": "Laboral Cinemateca — Programación",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "cinematheque",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "meidinerz_jazz_club",
-          "name": "Meidinerz Jazz Club",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "explained_zero",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "web",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null,
-            "web_probe_status": "expected_empty",
-            "zero_event_reason": "official_august_break",
-            "actionable_zero": false
-          }
-        },
-        {
-          "id": "mercado_artesano_ecologico_gijon",
-          "name": "Mercado Artesano y Ecológico de Gijón",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "market",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "museo_barjola",
-          "name": "Museo Barjola",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "museum",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "museo_ferrocarril_asturias",
-          "name": "Museo del Ferrocarril de Asturias",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
-          "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "municipal_museum",
-          "source_type": "municipal_venue_feed",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
         },
         {
           "id": "museo_evaristo_valle",
           "name": "Museo Evaristo Valle",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
+          "count": 1,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "museum",
-          "source_type": "web_calendar",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
+          "categories": {
+            "artes-visuales-museo": 1
           }
         },
         {
-          "id": "sala_acapulco_conciertos",
-          "name": "Sala Acapulco — Conciertos",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "review_priority",
+          "id": "toma3_xixon",
+          "name": "Toma 3 Xixón",
+          "count": 1,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
           "covered_by_other_sources": [],
-          "priority": 1,
-          "role": "venue",
-          "source_type": "instagram",
+          "priority": null,
+          "role": null,
+          "source_type": null,
           "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": 0,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
-          }
-        },
-        {
-          "id": "teatro_jovellanos",
-          "name": "Teatro Jovellanos",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "gijon_opendata_events"
-          ],
-          "priority": 1,
-          "role": "municipal_theatre",
-          "source_type": "municipal_venue_feed",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {}
-        },
-        {
-          "id": "universidad_popular_gijon",
-          "name": "Universidad Popular de Gijón/Xixón — Cursos y talleres",
-          "count": 0,
-          "quality_score": 0.0,
-          "quality_class": "zero",
-          "attention": "covered_by_other_source",
-          "covered_by_other_sources": [
-            "gijon_opendata_events"
-          ],
-          "priority": 1,
-          "role": "municipal_program",
-          "source_type": "web_calendar",
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 0.0,
-            "image_pct": 0.0,
-            "official_link_pct": 0.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {},
-          "diagnostics": {
-            "reviewed_items": null,
-            "dated_candidates": null,
-            "published_events": 0,
-            "filtered_or_deduplicated": null
+          "categories": {
+            "musica": 1
           }
         }
       ]

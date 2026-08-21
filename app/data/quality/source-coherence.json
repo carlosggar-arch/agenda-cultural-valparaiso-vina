@@ -1,17 +1,17 @@
 {
   "schema_version": "2.0.0",
-  "generated_at": "2026-08-20T16:30:43-04:00",
+  "generated_at": "2026-08-21T05:36:15-04:00",
   "status": "healthy",
   "critical": [],
   "warnings": [],
   "summary": {
-    "public_sources": 47,
-    "coverage_sources": 45,
-    "events": 207,
+    "public_sources": 51,
+    "coverage_sources": 42,
+    "events": 205,
     "missing_in_coverage": 0,
     "coverage_without_catalog": 5,
     "operational_aliases": 2,
-    "explicit_catalog_exceptions": 12,
+    "explicit_catalog_exceptions": 16,
     "stale_verifications": 0,
     "registry_state": "ok"
   },
@@ -58,8 +58,20 @@
       "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
     },
     {
+      "name": "Panoramas Valparaíso",
+      "reason": "Fuente agregadora local auditada como canal de descubrimiento; requiere corroboración con organizador o recinto antes de publicar eventos y aún no dispone de monitor operativo propio."
+    },
+    {
       "name": "Puerto Valparaíso — Calendario de Eventos",
       "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "REC Región Valparaíso — Red de Espacios Culturales",
+      "reason": "Fuente paraguas territorial auditada como canal de descubrimiento; requiere resolver el espacio u organizador original y deduplicar antes de publicar."
+    },
+    {
+      "name": "Radio Ciudad Musical",
+      "reason": "Fuente local auditada de alta utilidad; pendiente de monitor operativo propio. La programación propia puede validarse normalmente y los reposts de terceros deben corroborarse."
     },
     {
       "name": "Sala El Farol — Universidad de Valparaíso",
@@ -76,6 +88,10 @@
     {
       "name": "Universidad de Valparaíso — Agenda",
       "reason": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    },
+    {
+      "name": "VamosEventos — Valparaíso",
+      "reason": "Fuente agregadora auditada como canal de descubrimiento; requiere corroborar ubicación, precio, fecha y hora con fuente primaria antes de publicar y aún no dispone de monitor operativo propio."
     }
   ],
   "coverage_without_catalog": [
