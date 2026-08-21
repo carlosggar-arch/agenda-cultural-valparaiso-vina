@@ -8,7 +8,7 @@
         "event_type": "program",
         "primary_category": {"id": "cultura", "label": "Cultura"}
       },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y campus"}
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
     },
     {
       "name": "gijon_laboral_campus",
@@ -17,7 +17,7 @@
         "event_type": "event",
         "primary_category": {"id": "formacion-taller", "label": "Formación / taller"}
       },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y campus"}
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
     },
     {
       "name": "vina_training_alias",
@@ -26,7 +26,43 @@
         "event_type": "event",
         "primary_category": {"id": "cursos-talleres", "label": "Cursos y talleres"}
       },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y campus"}
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
+    },
+    {
+      "name": "new_core_label_alias",
+      "event": {
+        "title": "Curso de mediación cultural",
+        "event_type": "event",
+        "primary_category": {"label": "Cursos, talleres y experiencias"}
+      },
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
+    },
+    {
+      "name": "culture_taller_theatre_prefers_training",
+      "event": {
+        "title": "Taller de teatro físico",
+        "event_type": "event",
+        "primary_category": {"id": "cultura", "label": "Cultura"}
+      },
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
+    },
+    {
+      "name": "culture_course_cooking_prefers_training",
+      "event": {
+        "title": "Curso de cocina italiana",
+        "event_type": "event",
+        "primary_category": {"id": "cultura", "label": "Cultura"}
+      },
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
+    },
+    {
+      "name": "music_school_concert_stays_music",
+      "event": {
+        "title": "Escuela de Música presenta concierto de jazz",
+        "event_type": "event",
+        "primary_category": {"id": "cultura", "label": "Cultura"}
+      },
+      "expected": {"id": "musica", "label": "Música"}
     },
     {
       "name": "culture_infers_training",
@@ -36,7 +72,7 @@
         "primary_category": {"id": "cultura", "label": "Cultura"},
         "tags": ["formación", "taller"]
       },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y campus"}
+      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
     },
     {
       "name": "museum_alias",
