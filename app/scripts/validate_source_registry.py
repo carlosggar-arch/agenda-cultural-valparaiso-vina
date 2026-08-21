@@ -56,10 +56,23 @@ def validate(registry: dict, root: Path = ROOT) -> dict:
 
     public_ids = [str(row.get("id") or "") for row in public_rows]
     public_names = [str(row.get("name") or "") for row in public_rows]
+    public_name_set = set(public_names)
+    public_canonical_ids = {
+        str(row.get("canonical_source_id") or "")
+        for row in public_rows
+        if row.get("canonical_source_id")
+    }
     if len(set(public_ids)) != len(public_ids):
         errors.append("duplicate_public_source_ids")
     if len(set(public_names)) != len(public_names):
         errors.append("duplicate_public_source_names")
+
+    orphan_aliases = sorted(set(aliases) - public_name_set)
+    orphan_exceptions = sorted(set(exceptions) - public_name_set)
+    if orphan_aliases:
+        errors.append("source_aliases_without_public_source:" + ",".join(orphan_aliases))
+    if orphan_exceptions:
+        errors.append("source_exceptions_without_public_source:" + ",".join(orphan_exceptions))
 
     coverage_by_city = coverage.get("cities") or {}
     operational_ids: set[str] = set()
@@ -71,18 +84,41 @@ def validate(registry: dict, root: Path = ROOT) -> dict:
             if row.get("name"):
                 operational_names.add(str(row["name"]))
 
-    missing_public_mappings = []
+    missing_public_mappings: list[str] = []
+    redundant_aliases: list[str] = []
+    stale_exceptions: list[str] = []
+    missing_canonical_ids: list[str] = []
     for row in public_rows:
         name = str(row.get("name") or "")
+        canonical_id = str(row.get("canonical_source_id") or "")
         alias = str(aliases.get(name) or "")
-        mapped = name in operational_names or alias in operational_ids or alias in operational_names
+        if not canonical_id:
+            missing_canonical_ids.append(name)
+
+        mapped_by_name = name in operational_names
+        mapped_by_canonical = canonical_id in operational_ids or canonical_id in operational_names
+        mapped_by_alias = alias in operational_ids or alias in operational_names
+        mapped = mapped_by_name or mapped_by_canonical or mapped_by_alias
+
+        if alias and canonical_id and alias == canonical_id:
+            redundant_aliases.append(name)
+        if mapped and name in exceptions:
+            stale_exceptions.append(name)
         if not mapped and name not in exceptions:
             missing_public_mappings.append(name)
+
     if missing_public_mappings:
         errors.append("public_sources_without_operational_mapping:" + ",".join(sorted(missing_public_mappings)))
+    if redundant_aliases:
+        warnings.append("redundant_source_aliases:" + ",".join(sorted(redundant_aliases)))
+    if stale_exceptions:
+        warnings.append("stale_public_source_exceptions:" + ",".join(sorted(stale_exceptions)))
+    if missing_canonical_ids:
+        warnings.append("public_sources_without_canonical_source_id:" + ",".join(sorted(missing_canonical_ids)))
 
     dataset_summaries = {}
     verification_policies = registry.get("verification_policies") or {}
+    known_policy_source_ids = set(operational_ids) | set(public_canonical_ids)
     seen_legacy: set[str] = set()
     stale_legacy: list[str] = []
 
@@ -101,6 +137,7 @@ def validate(registry: dict, root: Path = ROOT) -> dict:
                 for row in ((coverage_by_city.get(coverage_city_id) or {}).get("sources") or [])
                 if row.get("id")
             }
+        known_policy_source_ids.update(source_ids)
 
         unattributed = []
         legacy_debt = []
@@ -160,6 +197,10 @@ def validate(registry: dict, root: Path = ROOT) -> dict:
             "verification_failure_ids": verification_failures,
         }
 
+    unknown_policy_ids = sorted(set(verification_policies) - known_policy_source_ids)
+    if unknown_policy_ids:
+        errors.append("verification_policies_without_registered_source:" + ",".join(unknown_policy_ids))
+
     absent_legacy = sorted(set(legacy) - seen_legacy)
     if absent_legacy:
         errors.append("legacy_exceptions_without_event:" + ",".join(absent_legacy))
@@ -171,6 +212,14 @@ def validate(registry: dict, root: Path = ROOT) -> dict:
         "errors": errors,
         "warnings": warnings,
         "missing_public_mappings": sorted(missing_public_mappings),
+        "maintenance": {
+            "redundant_aliases": sorted(redundant_aliases),
+            "stale_public_exceptions": sorted(stale_exceptions),
+            "public_sources_without_canonical_source_id": sorted(missing_canonical_ids),
+            "orphan_aliases": orphan_aliases,
+            "orphan_exceptions": orphan_exceptions,
+            "orphan_verification_policies": unknown_policy_ids,
+        },
         "summary": {
             "public_sources": len(public_rows),
             "operational_sources": len(operational_ids),
