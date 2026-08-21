@@ -1,6 +1,8 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 import { venueRecordForEvent, venueRecordForName } from "./venue-identity.mjs?v=20260820-venues1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
+import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
+import { gijonVenueHoursForDate } from "./gijon-venue-hours.js?v=20260821-visible-date1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 const datedGrid = document.querySelector("[data-dated-grid]");
@@ -32,7 +34,11 @@ function isExhibition(event) {
   return (event?.categories || []).some((category) => EXHIBITION_IDS.has(String(category?.id || "").trim()));
 }
 
-function structuredRegistryHours(record) {
+function referenceDateKey() {
+  return visibleReferenceDateKey({ timezone: indexedTimezone });
+}
+
+function structuredRegistryHours(record, referenceDate) {
   const hours = record?.opening_hours;
   if (!hours || typeof hours !== "object") return null;
   const hasStructuredWeekdays = Array.isArray(hours.open_weekdays) && hours.open_weekdays.length > 0;
@@ -41,22 +47,24 @@ function structuredRegistryHours(record) {
   if (!(hasStructuredWeekdays || hasStructuredRange)) return null;
   return dailyExhibitionHours({ opening_hours: hours }, {
     timezone: indexedTimezone,
-    now: new Date(),
+    referenceDate,
   })?.label || null;
 }
 
 function explicitVenueHours(event) {
   if (!isExhibition(event)) return null;
+  const referenceDate = referenceDateKey();
   const scheduleHours = dailyExhibitionHours(event?.schedule, {
     timezone: indexedTimezone,
-    now: new Date(),
+    referenceDate,
   })?.label || null;
   if (scheduleHours) return scheduleHours;
 
-  // Preserve the canonical venue registry as a fallback, but only consume
-  // structured weekday/range fields. Free-form weekly display strings are not
-  // safe on a card for one concrete date and therefore remain hidden.
-  return structuredRegistryHours(venueRecordForEvent(event));
+  if (indexedCity === "gijon") {
+    return gijonVenueHoursForDate(event, referenceDate)?.display || null;
+  }
+
+  return structuredRegistryHours(venueRecordForEvent(event), referenceDate);
 }
 
 function patchStandaloneCard(card) {
@@ -128,9 +136,9 @@ function patchGroupCard(card) {
     ? labels[0]
     : null;
 
-  if (!hours && labels.every((label) => !label)) {
+  if (!hours && labels.every((label) => !label) && indexedCity !== "gijon") {
     const venueName = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
-    hours = structuredRegistryHours(venueRecordForName(venueName));
+    hours = structuredRegistryHours(venueRecordForName(venueName), referenceDateKey());
   }
   setGroupedOpeningHours(card, hours);
 }
@@ -161,4 +169,12 @@ for (const eventName of [
   window.addEventListener(eventName, queuePatch);
 }
 window.addEventListener("pageshow", queuePatch, { passive: true });
+document.addEventListener("click", (event) => {
+  const target = event.target instanceof Element ? event.target : null;
+  if (target?.closest("[data-combined-when] [data-filter-value]")) setTimeout(queuePatch, 0);
+});
+document.addEventListener("change", (event) => {
+  const target = event.target instanceof Element ? event.target : null;
+  if (target?.matches("[data-date-from], [data-date-to]")) setTimeout(queuePatch, 0);
+});
 queuePatch();
