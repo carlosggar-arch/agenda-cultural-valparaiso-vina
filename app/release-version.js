@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v179 restores date-specific exhibition hours and removes duplicated venue text in Gijón.
-  const RELEASE = 179;
+  // v180 unifies exhibition grouping and date-specific venue hours across cities.
+  const RELEASE = 180;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

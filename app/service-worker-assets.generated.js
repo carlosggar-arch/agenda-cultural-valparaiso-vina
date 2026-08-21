@@ -133,6 +133,7 @@
     "./temporal-priority.js",
     "./title-normalizer-bootstrap.js",
     "./today-session-presentation.mjs",
+    "./venue-hours.mjs",
     "./venue-identity.mjs",
     "./venue-registry.generated.mjs",
     "./vivamos-brand.js",

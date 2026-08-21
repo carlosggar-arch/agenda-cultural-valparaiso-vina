@@ -77,13 +77,19 @@ const partitions = partitionExhibitionsByDuration(mixedDurationSameVenue, durati
 assert.deepEqual(partitions.regular.map((event) => event.id), ["short-1", "short-2"]);
 assert.deepEqual(partitions.long.map((event) => event.id), ["long-1", "long-2"]);
 
-const durationSafeGroups = [partitions.regular, partitions.long].flatMap((partition) =>
-  groupStandaloneExhibitions(partition, { timezone, minSize: EXHIBITION_GROUP_MIN }),
-);
-assert.equal(durationSafeGroups.length, 2, "short and long exhibitions at one venue must form separate groups");
-for (const group of durationSafeGroups) {
-  const durationClasses = new Set(group.events.map((event) => isLongExhibitionDuration(event, durationOptions)));
-  assert.equal(durationClasses.size, 1, "a grouped card must never mix short and long exhibitions");
-}
+const crossDurationGroups = groupStandaloneExhibitions(mixedDurationSameVenue, {
+  timezone,
+  minSize: EXHIBITION_GROUP_MIN,
+});
+assert.equal(crossDurationGroups.length, 1, "still-standalone exhibitions may group across duration classes");
+assert.deepEqual(crossDurationGroups[0].events.map((event) => event.id), ["short-1", "long-1", "short-2", "long-2"]);
+
+const pinoleMixedCategories = [
+  exhibition("pinole-itinerary", "Museo Nicanor Piñole", "2026-08-22", "2026-08-22", "museos"),
+  exhibition("pinole-sirio", "Museo Nicanor Piñole", "2026-03-12", "2026-08-23", "exposiciones"),
+];
+const pinoleGroups = groupStandaloneExhibitions(pinoleMixedCategories, { timezone, minSize: EXHIBITION_GROUP_MIN });
+assert.equal(pinoleGroups.length, 1, "museum/exhibition labels must not prevent same-venue grouping");
+assert.deepEqual(pinoleGroups[0].events.map((event) => event.id), ["pinole-sirio", "pinole-itinerary"]);
 
 console.log("Unified exhibition grouping core tests: OK");

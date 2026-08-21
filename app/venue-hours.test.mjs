@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import { dateSpecificHours, venueHoursForDate } from "./venue-hours.mjs";
+const pinole = "Mar–vie 09:30–14:00 y 17:00–19:30 · sáb, dom y festivos 10:00–14:00 y 17:00–19:30 · lunes cerrado.";
+assert.equal(dateSpecificHours(pinole, "2026-08-21"), "09:30–14:00 y 17:00–19:30");
+assert.equal(dateSpecificHours(pinole, "2026-08-22"), "10:00–14:00 y 17:00–19:30");
+assert.equal(dateSpecificHours("Lun–vie 08:00–21:30.", "2026-08-22"), "Cerrado");
+assert.equal(dateSpecificHours("Mar–vie 10:00–19:30 · sáb 11:00–19:30.", "2026-08-22"), "11:00–19:30");
+assert.equal(dateSpecificHours("Mar–vie 10:00–19:30 · sáb 11:00–19:30.", "2026-08-23"), "Cerrado");
+const laboral = { location: { venue: "LABoral Centro de Arte y Creación Industrial", city: "Gijón" }, schedule: {} };
+assert.equal(venueHoursForDate(laboral, "gijon", "2026-08-22")?.display, "11:00–19:30");
+console.log("VENUE_HOURS_DATE_SPECIFIC_OK");
