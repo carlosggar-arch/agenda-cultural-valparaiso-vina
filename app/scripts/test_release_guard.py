@@ -99,9 +99,19 @@ def check_asset_coherence() -> None:
     assert "?v=" in app_schedule, "schedule display module must be explicitly versioned"
     assert shell_contains(shell, app_schedule), "generated shell must cache the schedule module"
 
-    for stem in ("card-experience.js", "card-image-fallback.js", "public-presentation-guard.js", "exhibition-hours.js"):
+    for stem in ("card-experience.js", "public-presentation-guard.js", "exhibition-hours.js"):
         assert module_url(app_js, stem), f"app.js must own {stem}"
         assert module_url(pwa, stem) is None, f"pwa.js must not instantiate {stem}"
+
+    assert module_url(app_js, "card-image-fallback.js") is None, (
+        "legacy card-image-fallback.js must stay removed from app.js"
+    )
+    assert module_url(pwa, "card-image-fallback.js") is None, (
+        "legacy card-image-fallback.js must stay removed from pwa.js"
+    )
+    assert not shell_contains(shell, "./card-image-fallback.js"), (
+        "legacy card-image-fallback.js must stay out of the generated shell"
+    )
 
     formatter = re.search(r'from "(\.\./assets/event-schedule-display\.mjs[^\"]*)"', schedule_js)
     assert formatter, "schedule-display.js must import the shared schedule formatter"
