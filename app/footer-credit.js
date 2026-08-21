@@ -179,7 +179,8 @@ if (footer) {
 
   const version = document.createElement("small");
   version.dataset.appVersion = "";
-  version.textContent = "PWA";
+  const release = Number(globalThis.__VIVAMOS_RELEASE__);
+  version.textContent = Number.isInteger(release) && release > 0 ? `PWA v${release}` : "PWA";
 
   footer.append(identity, credit, contact, version);
 }
