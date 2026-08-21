@@ -1,5 +1,6 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { partitionExhibitionsByDuration } from "./exhibition-duration-policy.mjs?v=20260820-duration1";
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
 import { eventForCityPresentation, venueHoursForCity } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
 import {
@@ -314,10 +315,11 @@ function groupStandaloneCards() {
   }
 
   const config = currentConfig();
-  const groups = groupStandaloneExhibitions(events, {
+  const { regular, long } = partitionExhibitionsByDuration(events, config);
+  const groups = [regular, long].flatMap((partition) => groupStandaloneExhibitions(partition, {
     timezone: config?.timezone || "UTC",
     minSize: EXHIBITION_GROUP_MIN,
-  });
+  }));
 
   for (const group of groups) {
     const nodes = group.events
