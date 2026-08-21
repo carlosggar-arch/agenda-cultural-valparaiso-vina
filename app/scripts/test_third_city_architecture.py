@@ -56,6 +56,43 @@ runtime_files = {
 for name, text in runtime_files.items():
     assert "city-registry.mjs" in text, f"{name} does not consume the canonical city registry"
 
+# Presentation invariant: a third city must inherit the same renderer. Local
+# differences are permitted only as data/configuration/adapter behavior.
+common_presentation = [
+    "temporal-priority.js",
+    "exhibition-groups.js",
+    "schedule-display.js",
+    "exhibition-hours.js",
+    "card-experience.js",
+    "public-presentation-guard.js",
+    "image-quality-guard.js",
+]
+for module in common_presentation:
+    assert module in app_entry, f"{module} is not loaded by the shared presentation runtime"
+
+for forbidden in ["GIJON_DEFERRED_MODULES", "IS_GIJON", "gijon-card-images.js", "card-image-fallback.js"]:
+    assert forbidden not in app_entry, f"city-specific renderer selection reintroduced: {forbidden}"
+
+runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
+assert "eventForCityPresentation(event, cityId)" in runtime_state, "city presentation differences must enter through the adapter boundary"
+
+for module in ["exhibition-hours.js", "public-presentation-guard.js", "card-experience.js", "temporal-priority.js"]:
+    text = (APP / module).read_text(encoding="utf-8")
+    assert "getAgendaRuntimeSnapshot" in text, f"{module} does not consume the shared runtime snapshot"
+    assert "loadAgendaDataset" not in text, f"{module} must not own a parallel data runtime"
+
+exhibition_groups = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
+for forbidden in ["groupStandaloneExhibitions", "groupStandaloneCards", "EXHIBITION_GROUP_MIN"]:
+    assert forbidden not in exhibition_groups, f"second exhibition grouping authority reintroduced: {forbidden}"
+assert "function enhanceCoreGroups()" in exhibition_groups
+
+first_run = runtime_files["first_run"]
+assert "window.location.assign" not in first_run
+assert "window.location.replace" not in first_run
+assert "location.reload" not in first_run
+assert not (APP / "gijon-card-images.js").exists(), "city-specific card renderer must stay retired"
+assert not (APP / "card-image-fallback.js").exists(), "duplicate card fallback renderer must stay retired"
+
 favorites_core = (ASSETS / "favorites-core.mjs").read_text(encoding="utf-8")
 assert "isSafeCityId" in favorites_core
 assert 'new Set(["valparaiso", "gijon"])' not in favorites_core
