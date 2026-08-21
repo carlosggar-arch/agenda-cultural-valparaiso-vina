@@ -78,6 +78,20 @@ function isPhoneLike() {
   return uaMobile || screenWidth <= 900 || viewportWidth <= 900;
 }
 
+function isIosLike() {
+  const ua = String(navigator.userAgent || "");
+  const classicIos = /iPhone|iPad|iPod/i.test(ua);
+  const ipadDesktopMode = /Macintosh/i.test(ua) && Number(navigator.maxTouchPoints || 0) > 1;
+  return classicIos || ipadDesktopMode;
+}
+
+function installHelpContent() {
+  if (isIosLike()) {
+    return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instalar en iPhone o iPad</h2><p>En iPhone y iPad la instalación se hace desde el menú de compartir del navegador:</p><ol><li>Pulsa <strong>Compartir ↑</strong>.</li><li>Elige <strong>Añadir a pantalla de inicio</strong>.</li><li>Pulsa <strong>Añadir</strong>.</li></ol><p class="privacy-note">Si no ves “Añadir a pantalla de inicio”, abre este enlace en Safari o en otro navegador compatible y vuelve a usar su menú Compartir.</p></section>`;
+  }
+  return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instala la aplicación</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
+}
+
 function installHelpElement() {
   let backdrop = document.querySelector("[data-install-help-backdrop]");
   if (backdrop) return backdrop;
@@ -85,7 +99,7 @@ function installHelpElement() {
   backdrop.className = "chooser-backdrop";
   backdrop.dataset.installHelpBackdrop = "true";
   backdrop.hidden = true;
-  backdrop.innerHTML = `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instala la aplicación</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
+  backdrop.innerHTML = installHelpContent();
   document.body.append(backdrop);
   const close = () => { backdrop.hidden = true; };
   backdrop.querySelector("[data-install-help-close]")?.addEventListener("click", close);
@@ -124,8 +138,8 @@ function ensureMobileInstallButton() {
     button.addEventListener("click", requestInstall);
     document.body.append(button);
   }
-  button.textContent = "Instalar ¡Vivamos!";
-  button.setAttribute("aria-label", installIntent ? "Instalar la aplicación ¡Vivamos!" : "Instalar ¡Vivamos!");
+  button.textContent = isIosLike() && !deferredInstallPrompt ? "Cómo instalar ¡Vivamos!" : "Instalar ¡Vivamos!";
+  button.setAttribute("aria-label", isIosLike() && !deferredInstallPrompt ? "Cómo instalar ¡Vivamos! en iPhone o iPad" : (installIntent ? "Instalar la aplicación ¡Vivamos!" : "Instalar ¡Vivamos!"));
   if (installIntent) button.dataset.installPriority = "true";
   else delete button.dataset.installPriority;
   mobileInstallButton = button;
