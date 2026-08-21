@@ -1,0 +1,79 @@
+name: Temporary Gijon tomorrow diagnostic
+
+on:
+  push:
+    branches:
+      - fix/gijon-date-hours-count-20260821
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compare normalized tomorrow candidates
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { loadAgendaDataset } from './app/data-pipeline.js';
+
+          const payload = JSON.parse(fs.readFileSync('./app/data/gijon/agenda_web.json', 'utf8'));
+          const day = '2026-08-22';
+          const city = { id: 'gijon', dataset: 'gijon.json', timezone: 'Europe/Madrid' };
+          const fetchImpl = async () => ({ ok: true, status: 200, async json() { return payload; } });
+          const { dataset, diagnostics } = await loadAgendaDataset(city, {
+            fetchImpl,
+            now: new Date('2026-08-21T12:00:00+02:00'),
+          });
+
+          const datePart = (v) => String(v || '').slice(0, 10);
+          const overlaps = (start, end, target) => {
+            const a = datePart(start);
+            const b = datePart(end || start);
+            return /^\d{4}-\d{2}-\d{2}$/.test(a) && /^\d{4}-\d{2}-\d{2}$/.test(b) && a <= target && b >= target;
+          };
+          const strict = (event) => {
+            if (['program', 'flexible_offer'].includes(event?.event_type)) return false;
+            const occurrences = event?.schedule?.occurrences;
+            if (Array.isArray(occurrences) && occurrences.length) {
+              return occurrences.some((o) => overlaps(o?.start, o?.end, day));
+            }
+            return overlaps(event?.schedule?.start, event?.schedule?.end, day);
+          };
+          const broad = (event) => {
+            if (['program', 'flexible_offer'].includes(event?.event_type)) return false;
+            return overlaps(event?.schedule?.start, event?.schedule?.end, day);
+          };
+          const strictEvents = dataset.events.filter(strict);
+          const broadEvents = dataset.events.filter(broad);
+          const strictIds = new Set(strictEvents.map((e) => e.id));
+          const broadOnly = broadEvents.filter((e) => !strictIds.has(e.id));
+
+          console.log(`NORMALIZED_TOTAL=${dataset.events.length}`);
+          console.log(`STRICT_TOMORROW=${strictEvents.length}`);
+          console.log(`BROAD_TOMORROW=${broadEvents.length}`);
+          console.log('BROAD_ONLY_BEGIN');
+          for (const e of broadOnly) {
+            console.log(JSON.stringify({
+              id: e.id,
+              title: e.title,
+              category: e.primary_category?.id,
+              start: e.schedule?.start,
+              end: e.schedule?.end,
+              occurrences: e.schedule?.occurrences,
+              venue: e.location?.venue,
+              source: e.source_id,
+            }));
+          }
+          console.log('BROAD_ONLY_END');
+          console.log('STRICT_TITLES_BEGIN');
+          for (const e of strictEvents) console.log(`${e.id} :: ${e.title}`);
+          console.log('STRICT_TITLES_END');
+          console.log(`PIPELINE=${diagnostics.map((d) => `${d.name}:${d.status}`).join(' | ')}`);
+          NODE
