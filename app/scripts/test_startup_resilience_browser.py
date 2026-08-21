@@ -80,9 +80,10 @@ PROBE_SCRIPT = r'''
 
 
 def inject_probe_before_app(source: str) -> str:
-    marker = '  <script type="module" src="./app.js"></script>'
-    if marker not in source:
+    match = re.search(r'  <script type="module" src="\./app\.js(?:\?[^\"]*)?"></script>', source)
+    if not match:
         raise AssertionError("index.html no longer contains the app.js module entrypoint")
+    marker = match.group(0)
     return source.replace(marker, PROBE_SCRIPT + "\n" + marker, 1)
 
 
