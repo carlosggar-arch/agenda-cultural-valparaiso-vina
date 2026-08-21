@@ -1,4 +1,5 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { venueRecordForEvent, venueRecordForName } from "./venue-identity.mjs?v=20260820-venues1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
@@ -31,12 +32,31 @@ function isExhibition(event) {
   return (event?.categories || []).some((category) => EXHIBITION_IDS.has(String(category?.id || "").trim()));
 }
 
-function explicitVenueHours(event) {
-  if (!isExhibition(event)) return null;
-  return dailyExhibitionHours(event?.schedule, {
+function structuredRegistryHours(record) {
+  const hours = record?.opening_hours;
+  if (!hours || typeof hours !== "object") return null;
+  const hasStructuredWeekdays = Array.isArray(hours.open_weekdays) && hours.open_weekdays.length > 0;
+  const hasStructuredRange = /^\d{2}:\d{2}$/.test(String(hours.opening_time || ""))
+    && /^\d{2}:\d{2}$/.test(String(hours.closing_time || ""));
+  if (!(hasStructuredWeekdays || hasStructuredRange)) return null;
+  return dailyExhibitionHours({ opening_hours: hours }, {
     timezone: indexedTimezone,
     now: new Date(),
   })?.label || null;
+}
+
+function explicitVenueHours(event) {
+  if (!isExhibition(event)) return null;
+  const scheduleHours = dailyExhibitionHours(event?.schedule, {
+    timezone: indexedTimezone,
+    now: new Date(),
+  })?.label || null;
+  if (scheduleHours) return scheduleHours;
+
+  // Preserve the canonical venue registry as a fallback, but only consume
+  // structured weekday/range fields. Free-form weekly display strings are not
+  // safe on a card for one concrete date and therefore remain hidden.
+  return structuredRegistryHours(venueRecordForEvent(event));
 }
 
 function patchStandaloneCard(card) {
@@ -101,12 +121,17 @@ function patchGroupCard(card) {
   if (!ids.length) return;
   const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
   const labels = events.map(explicitVenueHours);
-  const safeCommonHours = events.length > 0
+  let safeCommonHours = events.length > 0
     && labels.length === events.length
     && labels.every(Boolean)
     && new Set(labels).size === 1
     ? labels[0]
     : null;
+
+  if (!safeCommonHours && labels.every((label) => !label)) {
+    const venueName = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
+    safeCommonHours = structuredRegistryHours(venueRecordForName(venueName));
+  }
   setGroupedOpeningHours(card, safeCommonHours);
 }
 
