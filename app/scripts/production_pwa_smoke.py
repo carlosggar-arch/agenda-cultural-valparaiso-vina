@@ -25,6 +25,9 @@ CRITICAL_ASSETS = (
     ("app/app.js", "app.js"),
     ("app/pwa.js", "pwa.js"),
     ("app/release-version.js", "release-version.js"),
+    ("app/service-worker-assets.generated.js", "service-worker-assets.generated.js"),
+    ("app/data/venue-registry.json", "data/venue-registry.json"),
+    ("app/data/release-bundle.json", "data/release-bundle.json"),
     ("agenda_web.json", "../agenda_web.json"),
     ("app/data/gijon/agenda_web.json", "data/gijon/agenda_web.json"),
     ("fuentes_publicas.json", "../fuentes_publicas.json"),
@@ -65,12 +68,21 @@ def expected_shell() -> dict[str, str]:
     }
 
 
+def canonical_manifest_asset(value: str) -> str:
+    return value.split("?", 1)[0]
+
+
+def manifest_has(manifest: str, value: str) -> bool:
+    return f'"{canonical_manifest_asset(value)}"' in manifest
+
+
 def local_contract() -> None:
     expected = expected_shell()
     index = read("app/index.html")
     app = read("app/app.js")
     pwa = read("app/pwa.js")
     worker = read("app/service-worker.js")
+    shell_manifest = read("app/service-worker-assets.generated.js")
     sources = read("app/sources-toggle.js")
 
     required_index = (
@@ -121,21 +133,23 @@ def local_contract() -> None:
         if marker not in sources:
             raise SystemExit(f"sources-toggle.js is missing canonical source identity marker: {marker}")
 
+    if "service-worker-assets.generated.js" not in worker:
+        raise SystemExit("Local service worker is not wired to the generated shell manifest")
     for marker in (
         "./release-version.js",
         expected["header_style"],
         expected["mobile_style"],
         expected["header_module"],
         expected["mobile_module"],
-        "agenda-runtime-state.mjs",
-        "render-lifecycle.js",
-        "public-presentation-guard.js",
-        "public-presentation-rules.mjs",
+        "./agenda-runtime-state.mjs",
+        "./render-lifecycle.js",
+        "./public-presentation-guard.js",
+        "./public-presentation-rules.mjs",
     ):
-        if marker not in worker:
-            raise SystemExit(f"Local service worker is missing: {marker}")
+        if not manifest_has(shell_manifest, marker):
+            raise SystemExit(f"Generated local shell manifest is missing: {canonical_manifest_asset(marker)}")
 
-    print(f"LOCAL_PWA_SHELL_OK release=v{release_number()} ownership=single canonical_sources=enabled")
+    print(f"LOCAL_PWA_SHELL_OK release=v{release_number()} ownership=single canonical_sources=enabled generated_manifest=enabled")
 
 
 def fetch_bytes(base: str, path: str, timeout: int = 15) -> bytes:
@@ -200,6 +214,7 @@ def verify_http_origin(name: str, base: str) -> None:
     app = fetch_text(base, "app.js")
     pwa = fetch_text(base, "pwa.js")
     worker = fetch_text(base, "service-worker.js")
+    shell_manifest = fetch_text(base, "service-worker-assets.generated.js")
 
     for marker in (
         '<script src="./release-version.js"></script>',
@@ -222,18 +237,20 @@ def verify_http_origin(name: str, base: str) -> None:
         if marker not in app:
             raise SystemExit(f"{name} app.js is missing content-runtime marker: {marker}")
 
+    if "service-worker-assets.generated.js" not in worker:
+        raise SystemExit(f"{name} service worker is not wired to generated shell manifest")
     for marker in (
         expected["header_style"],
         expected["mobile_style"],
         expected["header_module"],
         expected["mobile_module"],
-        "agenda-runtime-state.mjs",
-        "render-lifecycle.js",
-        "public-presentation-guard.js",
-        "public-presentation-rules.mjs",
+        "./agenda-runtime-state.mjs",
+        "./render-lifecycle.js",
+        "./public-presentation-guard.js",
+        "./public-presentation-rules.mjs",
     ):
-        if marker not in worker:
-            raise SystemExit(f"{name} service worker is missing current shell marker: {marker}")
+        if not manifest_has(shell_manifest, marker):
+            raise SystemExit(f"{name} generated shell manifest is missing current shell marker: {canonical_manifest_asset(marker)}")
 
     print(f"PUBLISHED_PWA_SHELL_OK origin={name} release=v{expected_release}")
 

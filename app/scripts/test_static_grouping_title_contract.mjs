@@ -34,7 +34,7 @@ const riojaGarden = { location: { venue: "Jardines Palacio Rioja", city: "Viña 
 const riojaRoom = { location: { venue: "Palacio Rioja, Sala Aldo Francia", city: "Viña del Mar" } };
 assert.equal(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaShort));
 assert.notEqual(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaGarden));
-assert.notEqual(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaRoom));
+assert.equal(canonicalVenueKey(riojaMuseum), canonicalVenueKey(riojaRoom));
 assert.equal(preferredVenueLabel(["Palacio Rioja", "Museo Palacio Rioja"]), "Museo Palacio Rioja");
 const normalizedRioja = normalizeVenueAliases([riojaShort, riojaMuseum]);
 assert.equal(normalizedRioja[0].location.venue, "Museo Palacio Rioja");
@@ -115,4 +115,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Unified exhibition grouping + venue identity + normalized runtime titles contract: OK");
+console.log("Unified exhibition grouping + canonical venue aliases + normalized runtime titles contract: OK");

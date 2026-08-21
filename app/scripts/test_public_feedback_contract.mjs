@@ -17,6 +17,7 @@ const shareQrCss = read("share-qr.css");
 const appJs = read("app.js");
 const pwa = read("pwa.js");
 const worker = read("service-worker.js");
+const shellManifest = read("service-worker-assets.generated.js");
 const release = read("release-version.js");
 
 // The feedback API and pending-like storage remain supported by the data layer,
@@ -83,15 +84,22 @@ assert.match(pwa, /installed-mosaic\.js\?v=20260818-f12-dual4/);
 assert.match(pwa, /mobile-action-strip-six\.js\?v=20260819-actions7/);
 assert.match(pwa, /web-actions-below-mosaic\.js\?v=20260818-web2/);
 assert.match(pwa, /action-strip-layout\.js\?v=20260818-fill1/);
-// The worker caches app-owned modules without becoming their runtime owner.
-assert.match(worker, /community-source\.js\?v=20260818-feedback3/);
-assert.match(worker, /participation-footer\.js/);
-assert.match(worker, /installed-mosaic\.js\?v=20260818-f12-dual4/);
-assert.match(worker, /web-actions-below-mosaic\.js\?v=20260818-web2/);
-assert.match(worker, /action-strip-layout\.js\?v=20260818-fill1/);
-assert.match(worker, /pwa\.js\?v=20260818-feedback6/);
+
+// The service worker owns cache behavior only. The generated manifest is the
+// canonical source for concrete shell assets and must cache every app-owned module.
+assert.match(worker, /service-worker-assets\.generated\.js/);
+for (const asset of [
+  "./community-source.js",
+  "./participation-footer.js",
+  "./installed-mosaic.js",
+  "./web-actions-below-mosaic.js",
+  "./action-strip-layout.js",
+  "./pwa.js",
+]) {
+  assert.ok(shellManifest.includes(`"${asset}"`), `generated shell manifest must cache ${asset}`);
+}
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
 assert.ok(Number(releaseMatch[1]) >= 162, "PWA release must include single-owner feedback runtime");
 
-console.log("Public feedback: single-owner content modules + current comments-only six-action installed strip: OK");
+console.log("Public feedback: single-owner content modules + generated shell cache + current comments-only six-action installed strip: OK");

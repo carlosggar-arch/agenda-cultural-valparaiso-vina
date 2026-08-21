@@ -63,28 +63,35 @@ def make_test_page(city: str) -> None:
 
 
 def dump_dom(city: str, url: str, width: int, height: int) -> str:
-    with tempfile.TemporaryDirectory(prefix=f"vivamos-first-{city}-", ignore_cleanup_errors=True) as profile:
-        cmd = [
-            chrome_binary(),
-            "--headless=new",
-            "--no-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-background-networking",
-            "--disable-extensions",
-            "--disable-sync",
-            "--no-first-run",
-            "--no-default-browser-check",
-            f"--window-size={width},{height}",
-            "--virtual-time-budget=1200",
-            f"--user-data-dir={profile}",
-            "--dump-dom",
-            url,
-        ]
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
-        if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome first-render probe failed: {result.stderr[-1200:]}")
-        return result.stdout
+    last_error = ""
+    for attempt in range(3):
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-first-{city}-", ignore_cleanup_errors=True) as profile:
+            cmd = [
+                chrome_binary(),
+                "--headless=new",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--disable-dev-shm-usage",
+                "--disable-background-networking",
+                "--disable-extensions",
+                "--disable-sync",
+                "--no-first-run",
+                "--no-default-browser-check",
+                f"--window-size={width},{height}",
+                "--virtual-time-budget=1200",
+                f"--user-data-dir={profile}",
+                "--dump-dom",
+                url,
+            ]
+            try:
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
+            except subprocess.TimeoutExpired as exc:
+                last_error = f"attempt {attempt + 1}: timeout after {exc.timeout}s"
+                continue
+            if result.returncode == 0 and result.stdout:
+                return result.stdout
+            last_error = result.stderr[-1200:] or f"attempt {attempt + 1}: exit={result.returncode}, empty DOM"
+    raise AssertionError(f"Chrome first-render probe failed after 3 attempts: {last_error}")
 
 
 def run_case(city: str, label: str, base_url: str, width: int, height: int) -> None:

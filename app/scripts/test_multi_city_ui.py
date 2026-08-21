@@ -31,6 +31,7 @@ plan_ahead = (APP / "plan-ahead.js").read_text(encoding="utf-8")
 favorites = (APP / "favorites.js").read_text(encoding="utf-8")
 mis_planes = (APP / "mis-planes.html").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
+shell_manifest = (APP / "service-worker-assets.generated.js").read_text(encoding="utf-8")
 runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
 render_lifecycle = (APP / "render-lifecycle.js").read_text(encoding="utf-8")
 media_layout = Path("assets/event-media-layout.css").read_text(encoding="utf-8")
@@ -245,7 +246,7 @@ assert '.my-plans-section' in favorites_css
 assert '.favorite-toggle' in favorites_css
 assert '.my-plan-reminder' in favorites_css
 
-assert 'importScripts("./release-version.js")' in service_worker
+assert 'importScripts("./release-version.js", "./service-worker-assets.generated.js")' in service_worker
 assert 'const CACHE_VERSION = `v${RELEASE}`;' in service_worker
 assert "clients.claim()" in service_worker
 assert "client.navigate(" not in service_worker
@@ -257,10 +258,16 @@ assert 'new URL("./data/gijon/agenda_web.json", self.registration.scope).href' i
 assert 'async function warmDatasetCache()' in service_worker
 assert 'await datasetUrls()' in service_worker
 assert 'await warmDatasetCache()' in service_worker
-assert '"./city-first-run.js"' in service_worker
-shell_block = service_worker.split("const SHELL_ASSETS = [", 1)[1].split("];", 1)[0]
+
+
+def canonical_shell_asset(quoted_asset: str) -> str:
+    asset = quoted_asset.strip('"').split("?", 1)[0]
+    return f'"{asset}"'
+
+
 for asset in (
     '"./release-version.js"', '"./cities.json"', '"../assets/city-registry.mjs"',
+    '"./city-first-run.js"',
     '"./combined-filters.css"', '"./combined-filters.js"', '"./combined-filters-polish.js"',
     '"./city-header.css"', '"./compact-top.css"', '"./header-redesign.css?v=20260817-brandicon1"',
     '"./header-redesign.js?v=20260817-brandicon2"', '"./card-experience.js"',
@@ -272,8 +279,8 @@ for asset in (
     '"../assets/favorites-core.mjs"', '"../assets/favorites-view.mjs"', '"../assets/favorites-reminders.mjs"',
     '"../assets/favorites.css"',
 ):
-    assert asset in shell_block
-assert '"./lean-filters.js"' not in shell_block
-assert '"./contextual-filters.js"' not in shell_block
+    assert canonical_shell_asset(asset) in shell_manifest
+assert '"./lean-filters.js"' not in shell_manifest
+assert '"./contextual-filters.js"' not in shell_manifest
 
-print("Multi-city shared-release, shared-registry, bounded runtime, reminders, install and offline contracts: OK")
+print("Multi-city shared-release, shared-registry, generated-shell, bounded runtime, reminders, install and offline contracts: OK")
