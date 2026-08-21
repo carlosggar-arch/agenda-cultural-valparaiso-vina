@@ -164,24 +164,53 @@ async function loadOptionalEnhancements() {
   if (!placeSourcesButtonInFooter()) ensureSourcesFallbackLink();
 }
 
+function runWhenMainThreadIsIdle(callback) {
+  const run = () => {
+    try {
+      callback();
+    } catch (error) {
+      console.warn("¡Vivamos!: mejora diferida omitida", error);
+    }
+  };
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(run, { timeout: 1200 });
+  } else {
+    window.setTimeout(run, 120);
+  }
+}
+
 await coreReady;
-void loadOptionalEnhancements();
+// Do not make the just-rendered page compete with optional enrichers. On mobile
+// this gives the browser a paint/input opportunity before loading the secondary
+// presentation modules.
+runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });
 
 const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260819-runtime1");
 const LONG_EXHIBITION_DAYS = 7;
 let exhibitionOrderQueued = false;
+const orderingDateFormatters = new Map();
+
+function orderingDateFormatter(city) {
+  const timezone = String(city?.timezone || "UTC");
+  let formatter = orderingDateFormatters.get(timezone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone: timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    orderingDateFormatters.set(timezone, formatter);
+  }
+  return formatter;
+}
 
 function orderingDateKey(value, city) {
   const text = String(value || "");
   if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
   const date = new Date(text);
   if (Number.isNaN(date.getTime()) || !city?.timezone) return null;
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: city.timezone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
+  const parts = orderingDateFormatter(city).formatToParts(date);
   const get = (type) => parts.find((part) => part.type === type)?.value;
   return `${get("year")}-${get("month")}-${get("day")}`;
 }
@@ -294,7 +323,13 @@ function applyExhibitionOrderPolicy() {
 function scheduleExhibitionOrder() {
   if (exhibitionOrderQueued) return;
   exhibitionOrderQueued = true;
-  queueMicrotask(applyExhibitionOrderPolicy);
+  // A frame boundary coalesces MutationObserver bursts and lets the freshly
+  // rendered UI paint before the secondary ordering pass runs.
+  if (typeof window.requestAnimationFrame === "function") {
+    window.requestAnimationFrame(applyExhibitionOrderPolicy);
+  } else {
+    window.setTimeout(applyExhibitionOrderPolicy, 0);
+  }
 }
 
 const datedGrid = document.querySelector('[data-dated-grid]');
