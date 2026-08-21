@@ -2,62 +2,11 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-
 import { venueRecordForEvent, venueRecordForName } from "./venue-identity.mjs?v=20260820-venues1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
-const EXHIBITION_CARD_POLISH_STYLE_ID = "exhibition-card-polish-20260820";
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
 let eventsById = new Map();
 let patchQueued = false;
-
-function ensureExhibitionCardPolishStyles() {
-  if (document.getElementById(EXHIBITION_CARD_POLISH_STYLE_ID)) return;
-  const style = document.createElement("style");
-  style.id = EXHIBITION_CARD_POLISH_STYLE_ID;
-  style.textContent = `
-    .grouped-exhibition-item {
-      height: auto !important;
-      min-height: 96px !important;
-      max-height: none !important;
-      align-items: start !important;
-      overflow: visible !important;
-    }
-
-    .grouped-exhibition-media,
-    .grouped-exhibition-copy,
-    .grouped-exhibition-actions {
-      align-self: start !important;
-    }
-
-    .grouped-exhibition-copy {
-      padding-top: 1px !important;
-      overflow: visible !important;
-    }
-
-    .grouped-exhibition-copy strong {
-      margin-bottom: 3px !important;
-    }
-
-    .exhibition-group-list {
-      max-height: 306px !important;
-    }
-
-    .exhibition-group-list:not(:has(> .grouped-exhibition-item:nth-child(4))) {
-      max-height: none !important;
-      overflow-y: visible !important;
-    }
-
-    @media (max-width: 900px) {
-      .grouped-exhibition-item { min-height: 94px !important; }
-      .exhibition-group-list { max-height: 300px !important; }
-    }
-
-    @media (max-width: 560px) {
-      .grouped-exhibition-item { min-height: 92px !important; }
-      .exhibition-group-list { max-height: 294px !important; }
-    }
-  `;
-  document.head.append(style);
-}
 
 function currentCityId() {
   return String(document.documentElement.dataset.city || "").trim();
@@ -203,7 +152,6 @@ function queuePatch() {
   queueMicrotask(patchCards);
 }
 
-ensureExhibitionCardPolishStyles();
 for (const eventName of [
   "vivamos:agenda-data-ready",
   "vivamos:agenda-rendered",
@@ -212,4 +160,5 @@ for (const eventName of [
 ]) {
   window.addEventListener(eventName, queuePatch);
 }
+window.addEventListener("pageshow", queuePatch, { passive: true });
 queuePatch();
