@@ -30,6 +30,7 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def check_ui_removed() -> None:
     module = (APP / "temporal-priority.js").read_text(encoding="utf-8")
+    core = (APP / "temporal-priority-core.mjs").read_text(encoding="utf-8")
     entry = (APP / "app.js").read_text(encoding="utf-8")
 
     for removed_marker in (
@@ -47,12 +48,20 @@ def check_ui_removed() -> None:
     assert "removeLegacyTemporalUi" in module, "legacy temporal UI cleanup must remain active"
     assert "const CITY_REGISTRY = await" not in module, "temporal guard must not block app startup on top-level await"
     assert 'temporal-priority.js?v=20260819-temporal3' in entry, "app entrypoint must load the non-blocking temporal guard"
-    assert "LONG_EXHIBITION_DAYS = 7" in entry, "long exhibition threshold must remain seven days"
-    assert "orderingIsLongExhibition" in entry, "default agenda must distinguish long exhibitions before deferring them"
-    assert "categoryFilterIsActive" in entry, "category filters must disable long-exhibition deferral and restore chronological order"
+
+    # Point 4/5 ownership moved from a special exhibition sorter in app.js to
+    # the shared temporal core. Keep the seven-day threshold, but enforce it at
+    # its canonical owner instead of duplicating the constant in the entrypoint.
+    assert "export const LONG_RUNNING_DAYS = 7" in core, "long-running threshold must remain seven days in the shared core"
+    assert '"this_weekend"' in core and '"always_available"' in core, "shared core must expose the six-bucket hierarchy"
+    assert "classifyContentKind" in core, "content_kind classification must be owned by the shared temporal core"
+    assert "compareTemporalPriority" in entry, "rendered cards must consume shared temporal priority"
+    assert "classifyTemporalEvent" in entry, "rendered cards must expose content kind and temporal bucket metadata"
     assert "orderingCardEventIds" in entry, "group ordering must resolve the events represented by each card"
-    assert "visibleOnly: !card.hidden" in entry, "filtered grouped cards must be ordered from their currently visible exhibitions"
+    assert "visibleOnly: !card.hidden" in entry, "filtered grouped cards must be ordered from their currently visible events"
     assert "data-filter-summary" in entry and "filterSummary" in entry, "date/area/search filters must trigger ordering after visibility settles"
+    assert "orderingIsLongExhibition" not in entry, "special-case long-exhibition ordering must not return"
+    assert "categoryFilterIsActive" not in entry, "category-dependent temporal ordering must not return"
     assert "placeExhibitionsLast" not in entry, "legacy all-exhibitions-last policy must not return"
 
 
@@ -61,18 +70,31 @@ def make_page() -> None:
         r'''<!doctype html>
 <html><body>
 <script type="module">
-import { organizeTemporalPriority, temporalBadge } from "./temporal-priority-core.mjs";
+import {
+  classifyContentKind,
+  classifyTemporalEvent,
+  organizeTemporalPriority,
+  temporalBadge,
+} from "./temporal-priority-core.mjs";
 
 const valpo = { timezone: "America/Santiago", locale: "es-CL" };
 const gijon = { timezone: "Europe/Madrid", locale: "es-ES" };
 const instant = new Date("2026-08-19T00:30:00Z");
-const event = (id, start, end, startConfidence, endConfidence, category = "musica") => ({
+const event = (id, start, end, startConfidence, endConfidence, category = "musica", options = {}) => ({
   id,
   title: id,
-  event_type: "event",
+  event_type: options.eventType || "event",
   primary_category: { id: category, label: category === "exposiciones" ? "Exposiciones" : "Música" },
   categories: [],
-  schedule: { start, end, start_confidence: startConfidence, end_confidence: endConfidence, occurrences: [] },
+  description: options.description || "",
+  schedule: {
+    start,
+    end,
+    display_text: options.displayText || "",
+    start_confidence: startConfidence,
+    end_confidence: endConfidence,
+    occurrences: [],
+  },
 });
 
 const explicit = event("explicit", "2026-08-19", null, "explicit", null);
@@ -83,6 +105,16 @@ const unreliableClose = event("bad-close", "2026-08-01", "2026-08-21", "explicit
 const gijonBlocks = organizeTemporalPriority([explicit, fallback, closing, unreliableClose], gijon, instant);
 const valpoBlocks = organizeTemporalPriority([explicit, fallback, closing, unreliableClose], valpo, instant);
 
+const hierarchyNow = new Date("2026-08-21T12:00:00Z");
+const weekendLong = event("weekend-long", "2026-08-22", "2026-09-30", "explicit", "explicit", "exposiciones");
+const weekendSingle = event("weekend-single", "2026-08-22", null, "explicit", null);
+const recurring = event("recurring", null, null, null, null, "musica", {
+  eventType: "flexible_offer",
+  displayText: "Lunes a viernes, desde las 18:20",
+});
+const hierarchyBlocks = organizeTemporalPriority([weekendLong, weekendSingle, recurring], valpo, hierarchyNow);
+const recurringState = classifyTemporalEvent(recurring, valpo, hierarchyNow);
+
 document.body.dataset.temporalBrowserDone = "true";
 document.body.dataset.gijonToday = String(gijonBlocks.today.some((item) => item.id === "explicit"));
 document.body.dataset.valpoToday = String(valpoBlocks.today.some((item) => item.id === "explicit"));
@@ -91,6 +123,9 @@ document.body.dataset.reliableClosing = String(gijonBlocks.endingSoon.some((item
 document.body.dataset.unreliableClosing = String(gijonBlocks.endingSoon.some((item) => item.id === "bad-close"));
 document.body.dataset.fallbackBadge = String(temporalBadge(fallback, gijon, instant) || "");
 document.body.dataset.closingBadge = String(temporalBadge(closing, gijon, instant) || "");
+document.body.dataset.weekendOrder = hierarchyBlocks.thisWeekend.map((item) => item.id).join(",");
+document.body.dataset.recurringKind = classifyContentKind(recurring, valpo);
+document.body.dataset.recurringBucket = recurringState.bucket;
 </script>
 </body></html>''',
         encoding="utf-8",
@@ -147,11 +182,14 @@ def main() -> None:
         'data-unreliable-closing="false"': "unreliable end created ending-soon status",
         'data-fallback-badge=""': "technical fallback generated an affirmative badge in the core",
         'data-closing-badge="Últimos 3 días"': "reliable closing badge core contract changed unexpectedly",
+        'data-weekend-order="weekend-single,weekend-long"': "punctual weekend event did not outrank long-running content",
+        'data-recurring-kind="recurring_offer"': "recurring flexible offer did not get recurring_offer content_kind",
+        'data-recurring-bucket="always_available"': "recurring offer did not land in always_available",
     }
     for marker, message in expected.items():
         if marker not in dom:
             raise AssertionError(message)
-    print("Temporal UI removed; startup guard is non-blocking and confidence core remains OK")
+    print("Temporal hierarchy, content_kind, timezone and confidence browser contracts: OK")
 
 
 if __name__ == "__main__":
