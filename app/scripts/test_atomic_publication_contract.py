@@ -3,9 +3,10 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EVENT_PAGES = (ROOT / ".github/workflows/event-pages.yml").read_text(encoding="utf-8")
-FALLBACK = (ROOT / ".github/workflows/compose-valpo-dataset.yml").read_text(encoding="utf-8")
-MAINTENANCE_WORKFLOW = (ROOT / ".github/workflows/maintenance-automation.yml").read_text(encoding="utf-8")
+WORKFLOWS_DIR = ROOT / ".github/workflows"
+EVENT_PAGES = (WORKFLOWS_DIR / "event-pages.yml").read_text(encoding="utf-8")
+FALLBACK = (WORKFLOWS_DIR / "compose-valpo-dataset.yml").read_text(encoding="utf-8")
+MAINTENANCE_WORKFLOW = (WORKFLOWS_DIR / "maintenance-automation.yml").read_text(encoding="utf-8")
 ESTADIO_APPLIER = (ROOT / "app/scripts/apply_estadio_espanol_coverage.py").read_text(encoding="utf-8")
 MAINTENANCE_HOOK = (ROOT / "app/scripts/atomic_maintenance_hook.py").read_text(encoding="utf-8")
 
@@ -48,6 +49,18 @@ def push_block() -> str:
     return EVENT_PAGES[start:end]
 
 
+def public_dataset_writers() -> list[str]:
+    offenders: list[str] = []
+    for path in sorted(WORKFLOWS_DIR.glob("*.yml")):
+        text = path.read_text(encoding="utf-8")
+        touches_root_dataset = "agenda_web.json" in text
+        can_commit = "git commit" in text or "git push" in text
+        has_write_permission = "contents: write" in text
+        if touches_root_dataset and can_commit and has_write_permission:
+            offenders.append(path.name)
+    return offenders
+
+
 def main() -> None:
     assert FINALIZER_MARKER in EVENT_PAGES
     assert "permissions:\n  contents: read" in EVENT_PAGES
@@ -80,6 +93,12 @@ def main() -> None:
     assert "contents: read" in MAINTENANCE_WORKFLOW
     assert "git commit" not in MAINTENANCE_WORKFLOW
     assert "git push" not in MAINTENANCE_WORKFLOW
+
+    offenders = public_dataset_writers()
+    assert not offenders, (
+        "PUBLIC_DATASET_SECONDARY_WRITERS: " + ", ".join(offenders)
+        + ". Root agenda_web.json must only be written by agenda-cultural-core/finalize-public-agenda.yml"
+    )
 
     assert "run_atomic_maintenance_hook()" in ESTADIO_APPLIER
     assert "--skip-maintenance-hook" in ESTADIO_APPLIER
