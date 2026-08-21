@@ -9,7 +9,7 @@ APP = ROOT / "app"
 
 release_text = (APP / "release-version.js").read_text(encoding="utf-8")
 release_match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release_text)
-assert release_match and int(release_match.group(1)) >= 164, "release must be >=164"
+assert release_match and int(release_match.group(1)) >= 167, "release must be >=167"
 
 registry = json.loads((APP / "data/venue-registry.json").read_text(encoding="utf-8"))
 assert registry.get("policy", {}).get("canonical_data_source") == "app/data/venue-registry.json"
@@ -28,10 +28,31 @@ exhibition_hours = (APP / "exhibition-hours.js").read_text(encoding="utf-8")
 gijon_hours = (APP / "gijon-venue-hours.js").read_text(encoding="utf-8")
 assert "MHNV_HOURS" not in exhibition_hours
 assert "venueRecordForEvent" in exhibition_hours and "venueRecordForName" in exhibition_hours
+assert "style.textContent" not in exhibition_hours and 'createElement("style")' not in exhibition_hours
 assert "GIJON_MUSEUM_DIRECTORY" not in gijon_hours
 assert "const HOURS = new Map" not in gijon_hours
 assert "venue-registry.generated.mjs" in gijon_hours
 assert "venueRecordForEvent" in gijon_hours
+
+app_js = (APP / "app.js").read_text(encoding="utf-8")
+filter_safety = (APP / "combined-filters-safety.js").read_text(encoding="utf-8")
+compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8")
+static_compat = (APP / "static-exhibition-groups.js").read_text(encoding="utf-8")
+assert "multievent-layout-fix.js" not in app_js
+assert "requestCanonicalFilterPass" in filter_safety
+assert "static-exhibition-sentinels" not in filter_safety
+assert re.search(r"\.hidden\s*=", filter_safety) is None, "filter safety must not own visibility"
+assert "--agenda-group-row-min-height: 96px" in compact_css
+assert "--agenda-group-list-max-height: 306px" in compact_css
+assert "STATIC_EXHIBITION_GROUPS_RETIRED = true" in static_compat
+for retired in (
+    "exhibition-compact-loader.js",
+    "exhibition-compact.js",
+    "exhibition-gallery.js",
+    "exhibition-venue-grouping.js",
+    "multievent-layout-fix.js",
+):
+    assert not (APP / retired).exists(), f"retired runtime returned: {retired}"
 
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
 assert 'importScripts("./release-version.js", "./service-worker-assets.generated.js")' in service_worker
@@ -47,6 +68,16 @@ for token in (
     "./exhibition-groups.js",
 ):
     assert token in manifest_text, f"missing shell asset: {token}"
+for retired in (
+    "./exhibition-compact-loader.js",
+    "./exhibition-compact.js",
+    "./multievent-layout-fix.js",
+):
+    assert retired not in manifest_text, f"retired shell asset returned: {retired}"
+
+generator = (APP / "scripts/generate_runtime_contracts.py").read_text(encoding="utf-8")
+assert "assets = discover_runtime_assets()" in generator
+assert "existing_assets() | discover_runtime_assets()" not in generator
 
 bundle = json.loads((APP / "data/release-bundle.json").read_text(encoding="utf-8"))
 assert bundle.get("release") == int(release_match.group(1))

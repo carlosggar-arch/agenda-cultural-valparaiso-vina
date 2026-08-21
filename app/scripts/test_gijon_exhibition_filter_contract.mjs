@@ -31,14 +31,17 @@ const normalizerPos = bootstrap.indexOf("category-normalizer.js");
 const filtersPos = bootstrap.indexOf("combined-filters.js");
 const safetyPos = bootstrap.indexOf("combined-filters-safety.js");
 assert.ok(normalizerPos >= 0 && filtersPos > normalizerPos, "taxonomy normalizer must load before combined filters");
-assert.ok(safetyPos > filtersPos, "filter fail-open safety must load after combined filters");
+assert.ok(safetyPos > filtersPos, "filter recovery safety must load after combined filters");
 
 assert.match(safety, /resetContextualUrlState/);
 assert.match(safety, /data-event-id/);
-assert.match(safety, /data-event-group/);
-assert.match(safety, /filterFailOpen/);
+assert.match(safety, /filterRecovery/);
 assert.match(safety, /FILTER_PARAMS/);
 assert.match(safety, /new PopStateEvent\("popstate"\)/);
+assert.match(safety, /dispatchEvent\(new Event\("input"/);
+assert.doesNotMatch(safety, /data-event-group/);
+assert.doesNotMatch(safety, /filterFailOpen/);
+assert.doesNotMatch(safety, /\.hidden\s*=/);
 assert.doesNotMatch(safety, /\.observe\(grid/);
 
-console.log(`Gijón exhibition filter contract: OK (${exposures.length} public exhibitions; ${[...byVenue.values()].filter((count) => count >= 2).length} multi-exhibition venues; fail-open guard active)`);
+console.log(`Gijón exhibition filter contract: OK (${exposures.length} public exhibitions; ${[...byVenue.values()].filter((count) => count >= 2).length} multi-exhibition venues; canonical filter recovery active)`);
