@@ -3,7 +3,7 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 
 // The core is intentionally a dynamic import: the watchdog above must execute
 // even if the core module graph fails to load or evaluate.
-const { coreReady } = await import("./app-core.js?v=20260820-recovery1");
+const { coreReady } = await import("./app-core.js?v=20260820-exhibitionorder2");
 
 // Content presentation is shared across cities. City-specific modules are data
 // adapters or media enrichers only; they do not own exhibition-card structure.
@@ -168,51 +168,136 @@ async function loadOptionalEnhancements() {
 await coreReady;
 void loadOptionalEnhancements();
 
+const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260819-runtime1");
+const LONG_EXHIBITION_DAYS = 7;
 let exhibitionOrderQueued = false;
 
-function defaultFiltersAreNeutral() {
-  const when = document.querySelector('[data-combined-when] [data-filter-value].active')?.dataset?.filterValue || "todos";
-  const area = document.querySelector('[data-combined-area] [data-filter-value].active')?.dataset?.filterValue || "todos";
-  const categories = document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length;
-  const query = String(document.querySelector('[data-smart-search]')?.value || "").trim();
-  const from = String(document.querySelector('[data-date-from]')?.value || "").trim();
-  const to = String(document.querySelector('[data-date-to]')?.value || "").trim();
-  return when === "todos" && area === "todos" && categories === 0 && !query && !from && !to;
+function orderingDateKey(value, city) {
+  const text = String(value || "");
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  const date = new Date(text);
+  if (Number.isNaN(date.getTime()) || !city?.timezone) return null;
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: city.timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const get = (type) => parts.find((part) => part.type === type)?.value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
 }
 
-function placeExhibitionsLast() {
+function orderingScheduleWindows(event) {
+  if (["program", "flexible_offer"].includes(event?.event_type)) return [];
+  const occurrences = event?.schedule?.occurrences;
+  if (Array.isArray(occurrences) && occurrences.length) {
+    return occurrences.map((occurrence) => ({ start: occurrence?.start, end: occurrence?.end || occurrence?.start }));
+  }
+  if (event?.schedule?.start) return [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
+  return [];
+}
+
+function orderingRanges(event, city) {
+  return orderingScheduleWindows(event)
+    .map((window) => ({ start: orderingDateKey(window.start, city), end: orderingDateKey(window.end, city) }))
+    .filter((range) => range.start && range.end);
+}
+
+function orderingEventCategoryId(event) {
+  const source = event?.primary_category || event?.categories?.[0] || null;
+  const label = String(source?.label || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
+  const id = String(source?.id || "").trim();
+  if (id === "museos" || id === "exposiciones" || /\bmuseos?\b|\bexposiciones?\b/.test(label)) return "exposiciones";
+  return id;
+}
+
+function orderingIsLongExhibition(event, city) {
+  if (orderingEventCategoryId(event) !== "exposiciones") return false;
+  const ranges = orderingRanges(event, city);
+  if (!ranges.length) return false;
+  const start = ranges.reduce((value, range) => value < range.start ? value : range.start, ranges[0].start);
+  const end = ranges.reduce((value, range) => value > range.end ? value : range.end, ranges[0].end);
+  const startTime = Date.parse(`${start}T12:00:00Z`);
+  const endTime = Date.parse(`${end}T12:00:00Z`);
+  if (!Number.isFinite(startTime) || !Number.isFinite(endTime)) return false;
+  return (endTime - startTime) / 86400000 > LONG_EXHIBITION_DAYS;
+}
+
+function orderingEventSortKey(event) {
+  const candidate = orderingScheduleWindows(event)[0]?.start || event?.schedule?.start;
+  if (!candidate) return Number.POSITIVE_INFINITY;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(candidate))) return Date.parse(`${candidate}T12:00:00Z`);
+  const value = Date.parse(candidate);
+  return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;
+}
+
+function orderingCardEvents(card, eventsById) {
+  const ids = card.dataset.eventGroup
+    ? String(card.dataset.eventGroup).split(",").map((id) => id.trim()).filter(Boolean)
+    : [String(card.dataset.eventId || "").trim()].filter(Boolean);
+  return ids.map((id) => eventsById.get(id)).filter(Boolean);
+}
+
+function orderingCardSortKey(card, eventsById) {
+  const events = orderingCardEvents(card, eventsById);
+  if (!events.length) return Number.POSITIVE_INFINITY;
+  return Math.min(...events.map(orderingEventSortKey));
+}
+
+function orderingCardIsLongExhibition(card, eventsById, city) {
+  const events = orderingCardEvents(card, eventsById);
+  return events.length > 0 && events.every((event) => orderingIsLongExhibition(event, city));
+}
+
+function categoryFilterIsActive() {
+  return document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length > 0;
+}
+
+function applyExhibitionOrderPolicy() {
   exhibitionOrderQueued = false;
-  if (!defaultFiltersAreNeutral()) return;
+  const snapshot = getAgendaRuntimeSnapshot();
   const grid = document.querySelector('[data-dated-grid]');
-  if (!grid) return;
+  if (!snapshot?.events?.length || !grid) return;
+
+  const eventsById = new Map(
+    snapshot.events
+      .map((event) => [String(event?.id || ""), event])
+      .filter(([id]) => id),
+  );
   const cards = [...grid.children].filter((node) => node.classList?.contains("event-card"));
   if (cards.length < 2) return;
-  const regular = cards.filter((card) => card.dataset.category !== "exposiciones");
-  const exhibitions = cards.filter((card) => card.dataset.category === "exposiciones");
-  if (!regular.length || !exhibitions.length) return;
-  const ordered = [...regular, ...exhibitions];
-  if (ordered.every((card, index) => card === cards[index])) return;
+
+  const deferLongExhibitions = !categoryFilterIsActive();
+  const indexed = cards.map((card, index) => ({
+    card,
+    index,
+    order: orderingCardSortKey(card, eventsById),
+    deferred: deferLongExhibitions && orderingCardIsLongExhibition(card, eventsById, snapshot.city) ? 1 : 0,
+  }));
+  indexed.sort((a, b) => a.deferred - b.deferred || a.order - b.order || a.index - b.index);
+  if (indexed.every((item, index) => item.card === cards[index])) return;
+
   const fragment = document.createDocumentFragment();
-  for (const card of ordered) fragment.append(card);
+  for (const item of indexed) fragment.append(item.card);
   grid.append(fragment);
 }
 
 function scheduleExhibitionOrder() {
   if (exhibitionOrderQueued) return;
   exhibitionOrderQueued = true;
-  queueMicrotask(placeExhibitionsLast);
+  queueMicrotask(applyExhibitionOrderPolicy);
 }
 
-// Ordering is presentation policy too, so it is now shared rather than tied to
-// one city. The observer only watches direct children and cannot loop on text or images.
 const datedGrid = document.querySelector('[data-dated-grid]');
-if (datedGrid) {
-  new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+if (datedGrid) new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+const combinedCategories = document.querySelector('[data-combined-category-filters]');
+if (combinedCategories) {
+  new MutationObserver(scheduleExhibitionOrder).observe(combinedCategories, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["class", "aria-pressed"],
+  });
 }
-document.addEventListener("click", (event) => {
-  if (event.target.closest('[data-filter-value], [data-combined-category], [data-filter-clear]')) scheduleExhibitionOrder();
-});
-document.addEventListener("input", (event) => {
-  if (event.target.matches('[data-smart-search], [data-date-from], [data-date-to]')) scheduleExhibitionOrder();
-});
+window.addEventListener("vivamos:agenda-data-ready", scheduleExhibitionOrder);
 scheduleExhibitionOrder();
