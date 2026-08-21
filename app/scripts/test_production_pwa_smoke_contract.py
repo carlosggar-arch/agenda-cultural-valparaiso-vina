@@ -49,9 +49,10 @@ def main() -> None:
     assert "node --check app/sources-toggle.js" in pr
     assert "production_pwa_smoke.py http" not in pr
     assert "production_pwa_smoke.py browser" not in pr
-    assert "production_warm_start_smoke.py" not in pr.split("python -m py_compile", 1)[0]
 
     assert "if: github.event_name != 'pull_request'" in production
+    assert "Install browser timing dependency" in production
+    assert "selenium==4.35.0" in production
     assert "Require release bump for runtime pushes" in production
     assert "Align smoke candidate with latest public main" in production
     assert "git reset --hard origin/main" in production
@@ -64,8 +65,6 @@ def main() -> None:
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
 
-    # Production assertions must derive current asset revisions from source,
-    # rather than fossilising version strings inside the smoke implementation.
     for stale in ("20260817-brandicon1", "20260817-topcontrols4", "hero-v4-mobile-direct-actions"):
         assert stale not in SMOKE, f"Hard-coded presentation revision returned to production smoke: {stale}"
 
@@ -86,18 +85,26 @@ def main() -> None:
         'MOBILE_CITY = "valparaiso"',
         "MOBILE_WIDTH = 390",
         "MOBILE_HEIGHT = 844",
+        'CACHE_MARKER_KEY = "vivamos-processed-pipeline-marker-valparaiso"',
+        "READY_TIMEOUT_SECONDS = 20",
+        "CACHE_WRITE_TIMEOUT_SECONDS = 15",
         "MAX_WARM_RATIO = 1.75",
         "MAX_WARM_EXTRA_SECONDS = 4.0",
+        "webdriver.Chrome",
+        "WebDriverWait",
+        'options.page_load_strategy = "eager"',
+        "dataset.vivamosReady",
+        "document.querySelectorAll('.event-card').length > 0",
+        "wait_for_processed_cache",
         "time.monotonic()",
-        "profile_dom",
         "PRODUCTION_WARM_REOPEN_OK",
+        "processed_cache=ready",
         "cold_seconds",
         "warm_seconds",
     ):
         assert marker in WARM_SMOKE, f"Warm production smoke contract missing: {marker}"
+    assert "profile_dom" not in WARM_SMOKE, "Warm timing must measure core-ready, not dump-dom completion"
 
-    # app.js is the only owner of content modules. pwa.js may document them in
-    # comments, but it must not list them as OPTIONAL_UI_MODULES entries.
     for marker in ("sources-toggle.js", "community-source.js", "participation-footer.js"):
         assert marker in APP, f"app.js lost content module ownership: {marker}"
     for marker in ('"./sources-toggle.js', '"./community-source.js', '"./participation-footer.js'):

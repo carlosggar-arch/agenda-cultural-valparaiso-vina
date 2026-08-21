@@ -97,6 +97,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install browser timing dependency
+        run: python -m pip install --disable-pip-version-check selenium==4.35.0
+
       - name: Require release bump for runtime pushes
         if: github.event_name == 'push'
         shell: bash

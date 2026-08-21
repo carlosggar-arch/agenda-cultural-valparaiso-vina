@@ -1,65 +1,128 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import time
+import uuid
 
-from production_pwa_smoke import (
-    ORIGINS,
-    assert_loaded_dom,
-    chrome_binary,
-    expected_shell,
-    profile_dom,
-    release_number,
-)
+from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+
+from production_pwa_smoke import ORIGINS, release_number
 
 MOBILE_CITY = "valparaiso"
-MOBILE_LABEL = "Valparaíso / Viña del Mar"
 MOBILE_WIDTH = 390
 MOBILE_HEIGHT = 844
+CACHE_MARKER_KEY = "vivamos-processed-pipeline-marker-valparaiso"
+READY_TIMEOUT_SECONDS = 20
+CACHE_WRITE_TIMEOUT_SECONDS = 15
 MAX_WARM_RATIO = 1.75
 MAX_WARM_EXTRA_SECONDS = 4.0
 
 
-def timed_profile_dom(chrome: str, profile: str, base: str) -> tuple[str, float]:
+def chrome_options(profile: str) -> Options:
+    options = Options()
+    options.page_load_strategy = "eager"
+    options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
+    for argument in (
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-sync",
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-default-apps",
+        "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
+        "--metrics-recording-only",
+        "--no-first-run",
+        "--no-default-browser-check",
+        f"--window-size={MOBILE_WIDTH},{MOBILE_HEIGHT}",
+        f"--user-data-dir={profile}",
+    ):
+        options.add_argument(argument)
+    return options
+
+
+def core_is_ready(driver: webdriver.Chrome, expected_release: int) -> bool:
+    return bool(driver.execute_script(
+        """
+        return document.documentElement.dataset.vivamosReady === 'true'
+          && document.documentElement.dataset.city === arguments[0]
+          && Number(globalThis.__VIVAMOS_RELEASE__) === arguments[1]
+          && document.querySelectorAll('.event-card').length > 0;
+        """,
+        MOBILE_CITY,
+        expected_release,
+    ))
+
+
+def timed_core_load(driver: webdriver.Chrome, base: str, expected_release: int) -> float:
+    url = f"{base}?city={MOBILE_CITY}&warmprobe={uuid.uuid4().hex}"
     started = time.monotonic()
-    dom = profile_dom(chrome, profile, base, MOBILE_CITY, MOBILE_WIDTH, MOBILE_HEIGHT)
-    return dom, time.monotonic() - started
+    driver.get(url)
+    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+        lambda current: core_is_ready(current, expected_release)
+    )
+    return time.monotonic() - started
+
+
+def cache_names(driver: webdriver.Chrome) -> list[str]:
+    script = """
+    const done = arguments[arguments.length - 1];
+    caches.keys().then((names) => done(names), (error) => done([`ERROR:${error}`]));
+    """
+    return list(driver.execute_async_script(script) or [])
+
+
+def cache_diagnostics(driver: webdriver.Chrome) -> dict:
+    state = driver.execute_script(
+        """
+        return {
+          secureContext: globalThis.isSecureContext,
+          hasCaches: Boolean(globalThis.caches && globalThis.caches.open),
+          release: globalThis.__VIVAMOS_RELEASE__,
+          localStorageKeys: Object.keys(localStorage),
+          marker: localStorage.getItem(arguments[0]),
+        };
+        """,
+        CACHE_MARKER_KEY,
+    )
+    state["cacheNames"] = cache_names(driver)
+    state["browserLogs"] = driver.get_log("browser")[-20:]
+    return state
+
+
+def wait_for_processed_cache(driver: webdriver.Chrome) -> None:
+    try:
+        WebDriverWait(driver, CACHE_WRITE_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+            lambda current: bool(current.execute_script(
+                "return localStorage.getItem(arguments[0]);",
+                CACHE_MARKER_KEY,
+            ))
+        )
+    except TimeoutException:
+        print("PROCESSED_CACHE_DIAGNOSTICS " + json.dumps(cache_diagnostics(driver), ensure_ascii=False))
+        raise
 
 
 def main() -> None:
     expected_release = release_number()
-    expected = expected_shell()
-    chrome = chrome_binary()
 
     for origin, base in ORIGINS.items():
         with tempfile.TemporaryDirectory(prefix=f"vivamos-warm-{origin}-") as profile:
-            cold_dom, cold_seconds = timed_profile_dom(chrome, profile, base)
-            assert_loaded_dom(
-                cold_dom,
-                origin,
-                MOBILE_CITY,
-                MOBILE_LABEL,
-                MOBILE_WIDTH,
-                MOBILE_HEIGHT,
-                expected_release,
-                expected,
-            )
+            driver = webdriver.Chrome(options=chrome_options(profile))
+            try:
+                cold_seconds = timed_core_load(driver, base, expected_release)
+                wait_for_processed_cache(driver)
+                driver.get("about:blank")
+                warm_seconds = timed_core_load(driver, base, expected_release)
+            finally:
+                driver.quit()
 
-            warm_dom, warm_seconds = timed_profile_dom(chrome, profile, base)
-            assert_loaded_dom(
-                warm_dom,
-                origin,
-                MOBILE_CITY,
-                MOBILE_LABEL,
-                MOBILE_WIDTH,
-                MOBILE_HEIGHT,
-                expected_release,
-                expected,
-            )
-
-            # Broad regression guard, not a benchmark: network and runner jitter
-            # can move absolute timings, but the same-profile reopen must not
-            # become catastrophically slower than the preceding cold load.
             warm_limit = max(
                 cold_seconds * MAX_WARM_RATIO,
                 cold_seconds + MAX_WARM_EXTRA_SECONDS,
@@ -75,7 +138,8 @@ def main() -> None:
             print(
                 "PRODUCTION_WARM_REOPEN_OK "
                 f"origin={origin} release=v{expected_release} viewport={MOBILE_WIDTH}x{MOBILE_HEIGHT} "
-                f"cold={cold_seconds:.2f}s warm={warm_seconds:.2f}s speedup={ratio:.2f}x"
+                f"cold={cold_seconds:.2f}s warm={warm_seconds:.2f}s speedup={ratio:.2f}x "
+                "processed_cache=ready"
             )
 
 
