@@ -95,6 +95,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium==4.35.0
+
       - name: Verify live parity and warm mobile reopen
         run: |
           set -euo pipefail
