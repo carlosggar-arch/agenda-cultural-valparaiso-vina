@@ -1,4 +1,4 @@
-name: Static grouping, title and layout contract
+name: Unified grouping, title and layout contract
 
 on:
   push:
@@ -7,9 +7,13 @@ on:
       - "app/app.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
-      - "app/static-exhibition-groups.js"
-      - "app/public-presentation-rules.mjs"
+      - "app/exhibition-groups.js"
+      - "app/exhibition-group-core.mjs"
+      - "app/exhibition-hours.js"
       - "app/exhibition-compact.css"
+      - "app/combined-filters-safety.js"
+      - "app/service-worker.js"
+      - "app/public-presentation-rules.mjs"
       - "app/data/gijon/agenda_web.json"
       - "app/release-version.js"
       - "app/scripts/test_static_grouping_title_contract.mjs"
@@ -20,9 +24,13 @@ on:
       - "app/app.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
-      - "app/static-exhibition-groups.js"
-      - "app/public-presentation-rules.mjs"
+      - "app/exhibition-groups.js"
+      - "app/exhibition-group-core.mjs"
+      - "app/exhibition-hours.js"
       - "app/exhibition-compact.css"
+      - "app/combined-filters-safety.js"
+      - "app/service-worker.js"
+      - "app/public-presentation-rules.mjs"
       - "app/data/gijon/agenda_web.json"
       - "app/release-version.js"
       - "app/scripts/test_static_grouping_title_contract.mjs"
@@ -40,11 +48,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Check modules
+      - name: Check canonical modules
         run: |
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
-          node --check app/static-exhibition-groups.js
+          node --check app/exhibition-groups.js
+          node --check app/exhibition-group-core.mjs
+          node --check app/exhibition-hours.js
+          node --check app/combined-filters-safety.js
+          node --check app/service-worker.js
           node --check app/app.js
-      - name: Verify static grouping, title and layout contract
+      - name: Verify unified grouping, filter ownership and layout contract
         run: node app/scripts/test_static_grouping_title_contract.mjs
