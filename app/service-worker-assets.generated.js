@@ -76,6 +76,7 @@
     "./exhibition-hours.js",
     "./exhibition-presentation-guard.js",
     "./favorites.js",
+    "./filter-reference-date.mjs",
     "./footer-credit.js",
     "./formation-cycle-classifier.js",
     "./gijon-card-images.js",
