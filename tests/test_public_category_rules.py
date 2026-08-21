@@ -48,7 +48,7 @@ class SharedPublicCategoryRulesTests(unittest.TestCase):
                     "primary_category": {"id": category_id, "label": label},
                     "categories": [{"id": category_id, "label": label}],
                 }
-                self.assertEqual(base.category_text(event), "Cursos, talleres y campus")
+                self.assertEqual(base.category_text(event), "Cursos, talleres y experiencias")
 
     def test_static_gijon_landing_uses_canonical_shared_labels(self):
         events = [
@@ -79,7 +79,7 @@ class SharedPublicCategoryRulesTests(unittest.TestCase):
             {"generated_at": "2026-08-21T02:00:00+02:00"},
             events,
         )
-        self.assertEqual(page.count('class="city-eyebrow">Cursos, talleres y campus</p>'), 2)
+        self.assertEqual(page.count('class="city-eyebrow">Cursos, talleres y experiencias</p>'), 2)
         self.assertNotIn('class="city-eyebrow">Formación / taller</p>', page)
 
 

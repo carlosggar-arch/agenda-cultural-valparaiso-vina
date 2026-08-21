@@ -22,7 +22,10 @@ for (const fixture of fixtures.cases) {
 
 assert.equal(canonicalPublicCategoryId({ id: "formacion-taller", label: "Formación / taller" }), "cursos-talleres-campus");
 assert.equal(canonicalPublicCategoryId({ id: "museos", label: "Museos" }), "exposiciones");
+assert.equal(canonicalPublicCategoryId({ label: "Cursos, talleres y experiencias" }), "cursos-talleres-campus");
+assert.equal(canonicalPublicCategoryId({ id: "cursos-talleres-experiencias" }), "cursos-talleres-campus");
 assert.equal(isPublicCategoryInGroup({ id: "cursos-talleres" }, "training"), true);
+assert.equal(isPublicCategoryInGroup({ label: "Cursos, talleres y experiencias" }, "training"), true);
 assert.equal(isPublicCategoryInGroup({ id: "exposiciones" }, "training"), false);
 assert.equal(publicCategorySymbol({ id: "cursos-talleres-campus" }), "✦");
 assert.equal(publicCategorySymbol({ id: "naturaleza-deportes" }), "⌁");

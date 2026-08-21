@@ -7,6 +7,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "artes-visuales-museo": "exposiciones",
     "cursos": "cursos-talleres-campus",
     "cursos-talleres": "cursos-talleres-campus",
+    "cursos-talleres-experiencias": "cursos-talleres-campus",
+    "cursos-talleres-y-experiencias": "cursos-talleres-campus",
     "deporte-bienestar": "naturaleza-deportes",
     "deportes": "naturaleza-deportes",
     "ferias": "ferias-gastronomia",
@@ -26,7 +28,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       "symbol": "▣"
     },
     "cursos-talleres-campus": {
-      "label": "Cursos, talleres y campus",
+      "label": "Cursos, talleres y experiencias",
       "symbol": "✦"
     },
     "exposiciones": {
@@ -75,6 +77,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "actividad panorama": "otros",
     "artes visuales museo": "exposiciones",
     "cursos talleres y campus": "cursos-talleres-campus",
+    "cursos talleres y experiencias": "cursos-talleres-campus",
     "cursos y talleres": "cursos-talleres-campus",
     "deporte bienestar": "naturaleza-deportes",
     "deportes": "naturaleza-deportes",
@@ -98,6 +101,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "cursos",
     "cursos-talleres",
     "cursos-talleres-campus",
+    "cursos-talleres-experiencias",
+    "cursos-talleres-y-experiencias",
     "deporte-bienestar",
     "deportes",
     "exposiciones",
@@ -121,6 +126,10 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
   "rules": {
     "culture_evidence": [
       {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|clase magistral|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano|escuela de invierno)\\b"
+      },
+      {
         "category": "exposiciones",
         "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b"
       },
@@ -137,10 +146,6 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "pattern": "\\b(?:teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\\b"
       },
       {
-        "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano)\\b"
-      },
-      {
         "category": "ferias-gastronomia",
         "pattern": "\\b(?:feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\\b"
       },
@@ -150,6 +155,10 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ],
     "explicit_title": [
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno)\\b"
+      },
       {
         "category": "exposiciones",
         "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\\b"
@@ -167,10 +176,6 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "pattern": "\\b(?:teatro|danza|ballet|circo|performance|funcion|espectaculo)\\b"
       },
       {
-        "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|curso|clase|seminario|laboratorio|workshop|capacitacion|formacion)\\b"
-      },
-      {
         "category": "otros",
         "pattern": "\\b(?:presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\\b"
       }
@@ -179,7 +184,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       "program",
       "registration_period"
     ],
-    "summer_program_title_pattern": "\\b(?:campus|campamento|escuela de verano)\\b",
+    "summer_program_title_pattern": "\\b(?:campus|campamento|escuela de verano|escuela de invierno)\\b",
     "summer_registration_title_pattern": "\\bverano\\b.*\\binscripciones?\\b|\\binscripciones?\\b.*\\bverano\\b"
   },
   "schema_version": "1.0.0"
