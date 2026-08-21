@@ -1,4 +1,4 @@
-import { gijonLocationForEvent, gijonVenueHours, scheduleForGijonEvent } from "./gijon-venue-hours.js?v=20260820-hours1";
+import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js?v=20260820-hours1";
 
 export function eventForCityPresentation(event, cityId) {
   if (!event || typeof event !== "object") return event;
@@ -12,15 +12,10 @@ export function eventForCityPresentation(event, cityId) {
 
 export function venueHoursForCity(event, cityId) {
   if (!event || typeof event !== "object") return null;
-  if (cityId === "gijon") return gijonVenueHours(event)?.display || null;
-
-  const schedule = event?.schedule || {};
-  const opening = schedule?.opening_hours || {};
-  const candidates = [
-    opening.display_text,
-    schedule.venue_opening_hours,
-    schedule.visit_hours,
-    event?.location?.opening_hours,
-  ];
-  return candidates.map((value) => String(value || "").replace(/\s+/g, " ").trim()).find(Boolean) || null;
+  void cityId;
+  // Group headers must not repeat a weekly/seasonal venue schedule because the
+  // card represents one concrete viewing date. Date-specific visit hours are
+  // rendered later from structured schedule data by the shared presentation
+  // layer; when that cannot be determined reliably, showing no hours is safer.
+  return null;
 }
