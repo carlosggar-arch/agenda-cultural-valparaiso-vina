@@ -15,6 +15,7 @@ const sharedPresentationModules = [
   "./exhibition-groups.js",
   "./exhibition-hours.js",
   "./schedule-display.js",
+  "./event-card-data-quality.mjs",
   "./card-experience.js",
   "./public-presentation-guard.js",
   "./image-quality-guard.js",
