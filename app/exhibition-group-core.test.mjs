@@ -4,6 +4,7 @@ import {
   LONG_EXHIBITION_DAYS,
   clusterSimultaneousExhibitions,
   exhibitionDurationDays,
+  exhibitionVenueKey,
   groupStandaloneExhibitions,
   isLongExhibitionDuration,
   partitionExhibitionsByDuration,
@@ -35,6 +36,17 @@ assert.equal(clusters[0].events.length, 3);
 const grouped = groupStandaloneExhibitions(simultaneous, { timezone });
 assert.equal(grouped.length, 1);
 assert.equal(grouped[0].events.length, 3);
+
+const riojaAliases = [
+  exhibition("rioja-canonical", "Museo Palacio Rioja", "2026-08-01", "2026-08-31", "exposiciones", "Viña del Mar"),
+  exhibition("rioja-alias", "Palacio Rioja", "2026-08-03", "2026-08-28", "exposiciones", "Viña del Mar"),
+  exhibition("rioja-gardens", "Jardines Palacio Rioja", "2026-08-03", "2026-08-28", "exposiciones", "Viña del Mar"),
+];
+assert.equal(exhibitionVenueKey(riojaAliases[0]), exhibitionVenueKey(riojaAliases[1]));
+assert.notEqual(exhibitionVenueKey(riojaAliases[0]), exhibitionVenueKey(riojaAliases[2]));
+const riojaGroups = groupStandaloneExhibitions(riojaAliases, { timezone: "America/Santiago" });
+assert.equal(riojaGroups.length, 1, "registered aliases must converge before exhibition grouping");
+assert.deepEqual(riojaGroups[0].events.map((item) => item.id), ["rioja-canonical", "rioja-alias"]);
 
 const nonOverlapping = [
   exhibition("early", "Museo común", "2026-01-01", "2026-01-31"),
