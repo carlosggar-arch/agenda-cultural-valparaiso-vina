@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - fix/multicity-exhibition-group-hours-20260821
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -44,9 +47,6 @@ jobs:
                   raise SystemExit(f'anchor not unique in {path}: count={text.count(old)}')
               p.write_text(text.replace(old, new, 1), encoding='utf-8')
 
-          # Only still-standalone cards are considered here. Existing grouped
-          # cards have data-event-group rather than data-event-id and therefore
-          # remain untouched.
           replace_once(
               'app/exhibition-groups.js',
               '  groupStandaloneExhibitions,\n  partitionExhibitionsByDuration,\n  publicExhibitionCategoryId,',
@@ -76,7 +76,7 @@ jobs:
           replace_once(
               'app/exhibition-hours.js',
               '''function explicitVenueHours(event) {\n  if (!isExhibition(event)) return null;\n  const referenceDate = referenceDateKey();\n  const scheduleHours = dailyExhibitionHours(event?.schedule, {\n    timezone: indexedTimezone,\n    referenceDate,\n  })?.label || null;\n  if (scheduleHours) return scheduleHours;\n\n  if (indexedCity === "gijon") {\n    return gijonVenueHoursForDate(event, referenceDate)?.display || null;\n  }\n\n  return structuredRegistryHours(venueRecordForEvent(event), referenceDate);\n}''',
-              '''function explicitVenueHours(event) {\n  if (!isExhibition(event)) return null;\n  const referenceDate = referenceDateKey();\n  const scheduleHours = dailyExhibitionHours(event?.schedule, {\n    timezone: indexedTimezone,\n    referenceDate,\n  })?.label || null;\n  if (scheduleHours) return scheduleHours;\n\n  // Canonical venue hours are resolved through one shared, city-neutral path.\n  // City adapters may normalize the event beforehand, but presentation rules\n  // (selected date, closed days, grouped headers) are common to every city.\n  return venueHoursForDate(event, indexedCity, referenceDate)?.display || null;\n}''',
+              '''function explicitVenueHours(event) {\n  if (!isExhibition(event)) return null;\n  const referenceDate = referenceDateKey();\n  const scheduleHours = dailyExhibitionHours(event?.schedule, {\n    timezone: indexedTimezone,\n    referenceDate,\n  })?.label || null;\n  if (scheduleHours) return scheduleHours;\n\n  // Canonical venue hours are resolved through one shared, city-neutral path.\n  return venueHoursForDate(event, indexedCity, referenceDate)?.display || null;\n}''',
           )
           start = '''function patchGroupCard(card) {\n  if (!card.classList.contains("exhibition-venue-card")) return;'''
           end = '''\n  setGroupedOpeningHours(card, hours);\n}'''
@@ -84,11 +84,9 @@ jobs:
           text = p.read_text(encoding='utf-8')
           i = text.index(start)
           j = text.index(end, i) + len(end)
-          replacement = '''function patchGroupCard(card) {\n  if (!card.classList.contains("exhibition-venue-card")) return;\n  const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);\n  if (!ids.length) return;\n  const events = ids.map((id) => eventsById.get(id)).filter(Boolean);\n  const referenceDate = referenceDateKey();\n  let hours = null;\n\n  // A group represents one canonical venue. Prefer the venue's date-specific\n  // official hours, independently of which city supplied the events.\n  for (const event of events) {\n    const venueHours = venueHoursForDate(event, indexedCity, referenceDate)?.display || null;\n    if (venueHours) {\n      hours = venueHours;\n      break;\n    }\n  }\n  if (!hours) hours = commonExplicitHours(events);\n  setGroupedOpeningHours(card, hours);\n}'''
+          replacement = '''function patchGroupCard(card) {\n  if (!card.classList.contains("exhibition-venue-card")) return;\n  const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);\n  if (!ids.length) return;\n  const events = ids.map((id) => eventsById.get(id)).filter(Boolean);\n  const referenceDate = referenceDateKey();\n  let hours = null;\n  for (const event of events) {\n    const venueHours = venueHoursForDate(event, indexedCity, referenceDate)?.display || null;\n    if (venueHours) {\n      hours = venueHours;\n      break;\n    }\n  }\n  if (!hours) hours = commonExplicitHours(events);\n  setGroupedOpeningHours(card, hours);\n}'''
           p.write_text(text[:i] + replacement + text[j:], encoding='utf-8')
 
-          # Add LABoral to the canonical venue registry without rewriting the
-          # rest of the registry. Its official visit page supplies these hours.
           registry = Path('app/data/venue-registry.json')
           text = registry.read_text(encoding='utf-8')
           if '"id": "laboral_centro_arte"' not in text:
@@ -98,16 +96,12 @@ jobs:
                   raise SystemExit('venue registry insertion anchor not found')
               registry.write_text(text.replace(anchor, entry + anchor, 1), encoding='utf-8')
 
-          # Cross-duration grouping is now expected for cards that remained
-          # standalone; duration partitioning itself is retained for temporal
-          # priority code and tested separately.
           replace_once(
               'app/exhibition-group-core.test.mjs',
               '''const durationSafeGroups = [partitions.regular, partitions.long].flatMap((partition) =>\n  groupStandaloneExhibitions(partition, { timezone, minSize: EXHIBITION_GROUP_MIN }),\n);\nassert.equal(durationSafeGroups.length, 2, "short and long exhibitions at one venue must form separate groups");\nfor (const group of durationSafeGroups) {\n  const durationClasses = new Set(group.events.map((event) => isLongExhibitionDuration(event, durationOptions)));\n  assert.equal(durationClasses.size, 1, "a grouped card must never mix short and long exhibitions");\n}''',
               '''const crossDurationGroups = groupStandaloneExhibitions(mixedDurationSameVenue, {\n  timezone,\n  minSize: EXHIBITION_GROUP_MIN,\n});\nassert.equal(crossDurationGroups.length, 1, "standalone exhibitions at one venue may group across duration classes");\nassert.deepEqual(\n  crossDurationGroups[0].events.map((event) => event.id),\n  ["short-1", "short-2", "long-1", "long-2"],\n);\n\nconst pinoleMixedCategories = [\n  exhibition("pinole-itinerary", "Museo Nicanor Piñole", "2026-08-22", "2026-08-22", "museos"),\n  exhibition("pinole-sirio", "Museo Nicanor Piñole", "2026-03-12", "2026-08-23", "exposiciones"),\n];\nconst pinoleGroups = groupStandaloneExhibitions(pinoleMixedCategories, { timezone, minSize: EXHIBITION_GROUP_MIN });\nassert.equal(pinoleGroups.length, 1, "museum/exhibition labels must not prevent same-venue grouping");\nassert.deepEqual(pinoleGroups[0].events.map((event) => event.id), ["pinole-sirio", "pinole-itinerary"]);''',
           )
 
-          # Release bump is required for runtime changes/PWA cache invalidation.
           release = Path('app/release-version.js')
           text = release.read_text(encoding='utf-8')
           text = text.replace('v179 restores date-specific exhibition hours and removes duplicated venue text in Gijón.',
@@ -126,35 +120,24 @@ jobs:
           const pinole = "Mar–vie 09:30–14:00 y 17:00–19:30 · sáb, dom y festivos 10:00–14:00 y 17:00–19:30 · lunes cerrado.";
           assert.equal(dateSpecificHours(pinole, "2026-08-21"), "09:30–14:00 y 17:00–19:30");
           assert.equal(dateSpecificHours(pinole, "2026-08-22"), "10:00–14:00 y 17:00–19:30");
-
           const larena = "Lun–vie 08:00–21:30.";
           assert.equal(dateSpecificHours(larena, "2026-08-21"), "08:00–21:30");
           assert.equal(dateSpecificHours(larena, "2026-08-22"), "Cerrado");
-
           const laboral = "Mar–vie 10:00–19:30 · sáb 11:00–19:30.";
           assert.equal(dateSpecificHours(laboral, "2026-08-22"), "11:00–19:30");
           assert.equal(dateSpecificHours(laboral, "2026-08-23"), "Cerrado");
-
-          const laboralEvent = {
-            location: { venue: "LABoral Centro de Arte y Creación Industrial", city: "Gijón" },
-            schedule: {},
-          };
+          const laboralEvent = { location: { venue: "LABoral Centro de Arte y Creación Industrial", city: "Gijón" }, schedule: {} };
           assert.equal(venueHoursForDate(laboralEvent, "gijon", "2026-08-22")?.display, "11:00–19:30");
-
           console.log("VENUE_HOURS_DATE_SPECIFIC_OK");
           EOF
 
           cat > app/exhibition-group-architecture.test.mjs <<'EOF'
           import assert from "node:assert/strict";
           import { readFileSync } from "node:fs";
-
           const source = readFileSync(new URL("./exhibition-groups.js", import.meta.url), "utf8");
-          assert.doesNotMatch(source, /partitionExhibitionsByDuration\(events, config\)/,
-            "standalone grouping must not split same-venue exhibitions by duration");
-          assert.match(source, /const id = String\(card\.dataset\.eventId \|\| ""\)\.trim\(\);[\s\S]*?if \(!id\) continue;/,
-            "new grouping must only consume still-standalone event cards");
-          assert.match(source, /if \(!card\.dataset\.eventGroup \|\| card\.dataset\.unifiedExhibitionGroup === "true"\) continue;/,
-            "existing groups must remain on their dedicated replacement path");
+          assert.doesNotMatch(source, /partitionExhibitionsByDuration\(events, config\)/);
+          assert.match(source, /const id = String\(card\.dataset\.eventId \|\| ""\)\.trim\(\);[\s\S]*?if \(!id\) continue;/);
+          assert.match(source, /if \(!card\.dataset\.eventGroup \|\| card\.dataset\.unifiedExhibitionGroup === "true"\) continue;/);
           console.log("EXHIBITION_GROUP_ARCHITECTURE_OK");
           EOF
 
