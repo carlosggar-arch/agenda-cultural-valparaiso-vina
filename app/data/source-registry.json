@@ -25,11 +25,15 @@
     "El Pasaje Café Viña": "Fuente local integrada; no dispone todavía de monitor operativo continuo.",
     "Ipanema Club Viña": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
     "Museo Universitario del Grabado UPLA": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
+    "Panoramas Valparaíso": "Fuente agregadora local auditada como canal de descubrimiento; requiere corroboración con organizador o recinto antes de publicar eventos y aún no dispone de monitor operativo propio.",
     "Puerto Valparaíso — Calendario de Eventos": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
+    "Radio Ciudad Musical": "Fuente local auditada de alta utilidad; pendiente de monitor operativo propio. La programación propia puede validarse normalmente y los reposts de terceros deben corroborarse.",
+    "REC Región Valparaíso — Red de Espacios Culturales": "Fuente paraguas territorial auditada como canal de descubrimiento; requiere resolver el espacio u organizador original y deduplicar antes de publicar.",
     "Sala El Farol — Universidad de Valparaíso": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
     "Teatro Desastre": "Fuente organizadora integrada; no dispone todavía de monitor operativo continuo.",
     "UPLA — Vinculación con el Medio": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
-    "Universidad de Valparaíso — Agenda": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio."
+    "Universidad de Valparaíso — Agenda": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
+    "VamosEventos — Valparaíso": "Fuente agregadora auditada como canal de descubrimiento; requiere corroborar ubicación, precio, fecha y hora con fuente primaria antes de publicar y aún no dispone de monitor operativo propio."
   },
   "legacy_event_exceptions": {},
   "verification_policies": {
@@ -38,6 +42,24 @@
       "blocked_public_hosts": ["opendata.gijon.es"],
       "candidate_paths": ["links.municipal_page", "links.official", "editorial.direct_official_source"],
       "note": "Open Data puede descubrir el evento, pero la ficha pública debe disponer de una fuente específica no-OpenData que corrobore la información."
+    },
+    "rec_region_valparaiso": {
+      "policy": "corroboration_required",
+      "blocked_public_hosts": ["instagram.com", "www.instagram.com"],
+      "candidate_paths": ["links.official", "links.municipal_page", "editorial.direct_official_source"],
+      "note": "REC funciona como fuente paraguas de descubrimiento. Antes de publicar, resolver y corroborar con el espacio u organizador original."
+    },
+    "panoramas_valparaiso": {
+      "policy": "corroboration_required",
+      "blocked_public_hosts": ["panoramasvalparaiso.cl", "www.panoramasvalparaiso.cl", "instagram.com", "www.instagram.com"],
+      "candidate_paths": ["links.official", "links.municipal_page", "editorial.direct_official_source"],
+      "note": "Panoramas Valparaíso puede descubrir actividades, pero no debe ser la única evidencia publicada."
+    },
+    "vamoseventos_valparaiso": {
+      "policy": "corroboration_required",
+      "blocked_public_hosts": ["vamoseventos.com", "www.vamoseventos.com"],
+      "candidate_paths": ["links.official", "links.municipal_page", "editorial.direct_official_source"],
+      "note": "VamosEventos es sólo fuente de descubrimiento; corroborar ubicación, precio, fecha y hora con organizador o recinto."
     }
   }
 }
