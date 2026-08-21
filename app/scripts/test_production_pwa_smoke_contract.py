@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = (ROOT / ".github/workflows/production-pwa-smoke.yml").read_text(encoding="utf-8")
 SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8")
+WARM_SMOKE = (ROOT / "app/scripts/production_warm_start_smoke.py").read_text(encoding="utf-8")
 APP = (ROOT / "app/app.js").read_text(encoding="utf-8")
 PWA = (ROOT / "app/pwa.js").read_text(encoding="utf-8")
 SOURCES = (ROOT / "app/sources-toggle.js").read_text(encoding="utf-8")
@@ -31,6 +32,7 @@ def main() -> None:
         '      - "fuentes_publicas.json"',
         '      - "app/data/source-registry.json"',
         '      - "app/scripts/production_pwa_smoke.py"',
+        '      - "app/scripts/production_warm_start_smoke.py"',
         '      - ".github/workflows/production-pwa-smoke.yml"',
     ):
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
@@ -43,9 +45,11 @@ def main() -> None:
     assert "if: github.event_name == 'pull_request'" in pr
     assert "python app/scripts/production_pwa_smoke.py local" in pr
     assert "python app/scripts/test_production_pwa_smoke_contract.py" in pr
+    assert "app/scripts/production_warm_start_smoke.py" in pr
     assert "node --check app/sources-toggle.js" in pr
     assert "production_pwa_smoke.py http" not in pr
     assert "production_pwa_smoke.py browser" not in pr
+    assert "production_warm_start_smoke.py" not in pr.split("python -m py_compile", 1)[0]
 
     assert "if: github.event_name != 'pull_request'" in production
     assert "Require release bump for runtime pushes" in production
@@ -54,6 +58,8 @@ def main() -> None:
     assert "app/release-version.js" in production
     assert "python app/scripts/production_pwa_smoke.py http" in production
     assert "python app/scripts/production_pwa_smoke.py browser" in production
+    assert "python app/scripts/production_warm_start_smoke.py" in production
+    assert "Warm-reopen Valpo mobile on GitHub Pages and Cloudflare" in production
     assert "timeout-minutes: 18" in production
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
@@ -75,6 +81,20 @@ def main() -> None:
     assert 'data-filter-value="manana"' in SMOKE
     assert "--disable-background-networking" in SMOKE
     assert "after retry" in SMOKE
+
+    for marker in (
+        'MOBILE_CITY = "valparaiso"',
+        "MOBILE_WIDTH = 390",
+        "MOBILE_HEIGHT = 844",
+        "MAX_WARM_RATIO = 1.75",
+        "MAX_WARM_EXTRA_SECONDS = 4.0",
+        "time.monotonic()",
+        "profile_dom",
+        "PRODUCTION_WARM_REOPEN_OK",
+        "cold_seconds",
+        "warm_seconds",
+    ):
+        assert marker in WARM_SMOKE, f"Warm production smoke contract missing: {marker}"
 
     # app.js is the only owner of content modules. pwa.js may document them in
     # comments, but it must not list them as OPTIONAL_UI_MODULES entries.

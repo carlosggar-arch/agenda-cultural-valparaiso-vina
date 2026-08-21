@@ -16,6 +16,7 @@ on:
       - "manifest.webmanifest"
       - "app/scripts/test_public_presentation.mjs"
       - "app/scripts/production_pwa_smoke.py"
+      - "app/scripts/production_warm_start_smoke.py"
       - "app/scripts/test_production_pwa_smoke_contract.py"
       - ".github/workflows/production-pwa-smoke.yml"
   push:
@@ -32,6 +33,7 @@ on:
       - "fuentes_publicas.json"
       - "manifest.webmanifest"
       - "app/scripts/production_pwa_smoke.py"
+      - "app/scripts/production_warm_start_smoke.py"
       - ".github/workflows/production-pwa-smoke.yml"
   workflow_dispatch:
 
@@ -67,6 +69,7 @@ jobs:
           set -euo pipefail
           python -m py_compile \
             app/scripts/production_pwa_smoke.py \
+            app/scripts/production_warm_start_smoke.py \
             app/scripts/test_production_pwa_smoke_contract.py
           node --check app/pwa.js
           node --check app/sources-toggle.js
@@ -130,7 +133,9 @@ jobs:
       - name: Validate local shell before network smoke
         run: |
           set -euo pipefail
-          python -m py_compile app/scripts/production_pwa_smoke.py
+          python -m py_compile \
+            app/scripts/production_pwa_smoke.py \
+            app/scripts/production_warm_start_smoke.py
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for both deployments and verify byte parity
@@ -138,3 +143,6 @@ jobs:
 
       - name: Cold-load both cities on GitHub Pages and Cloudflare
         run: python app/scripts/production_pwa_smoke.py browser
+
+      - name: Warm-reopen Valpo mobile on GitHub Pages and Cloudflare
+        run: python app/scripts/production_warm_start_smoke.py
