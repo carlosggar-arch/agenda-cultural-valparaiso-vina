@@ -103,9 +103,12 @@ def local_contract() -> None:
     for marker in (
         "render-lifecycle.js",
         "card-experience.js",
-        "card-image-fallback.js",
+        "image-quality-guard.js",
+        "event-card-data-quality.mjs",
         "public-presentation-guard.js",
+        "exhibition-groups.js",
         "exhibition-hours.js",
+        "schedule-display.js",
         "sources-toggle.js",
         "community-source.js",
         "participation-footer.js",
@@ -113,12 +116,18 @@ def local_contract() -> None:
         if marker not in app:
             raise SystemExit(f"Local app.js is missing content-runtime marker: {marker}")
 
+    for retired in ("card-image-fallback.js", "gijon-card-images.js"):
+        if retired in app or (APP / retired).exists():
+            raise SystemExit(f"Retired parallel presentation module returned: {retired}")
+
     forbidden_pwa_runtime_entries = (
         '"./card-experience.js"',
-        '"./card-image-fallback.js"',
+        '"./image-quality-guard.js"',
+        '"./event-card-data-quality.mjs"',
         '"./public-presentation-guard.js"',
         '"./schedule-display.js',
         '"./exhibition-hours.js',
+        '"./exhibition-groups.js',
         '"./sources-toggle.js',
         '"./community-source.js',
         '"./participation-footer.js',
@@ -143,6 +152,11 @@ def local_contract() -> None:
         expected["mobile_module"],
         "./agenda-runtime-state.mjs",
         "./render-lifecycle.js",
+        "./card-experience.js",
+        "./image-quality-guard.js",
+        "./event-card-data-quality.mjs",
+        "./exhibition-groups.js",
+        "./exhibition-hours.js",
         "./public-presentation-guard.js",
         "./public-presentation-rules.mjs",
     ):
@@ -233,7 +247,15 @@ def verify_http_origin(name: str, base: str) -> None:
         if marker not in pwa:
             raise SystemExit(f"{name} pwa.js is missing current shell marker: {marker}")
 
-    for marker in ("render-lifecycle.js", "card-experience.js", "public-presentation-guard.js", "sources-toggle.js"):
+    for marker in (
+        "render-lifecycle.js",
+        "card-experience.js",
+        "image-quality-guard.js",
+        "event-card-data-quality.mjs",
+        "exhibition-groups.js",
+        "public-presentation-guard.js",
+        "sources-toggle.js",
+    ):
         if marker not in app:
             raise SystemExit(f"{name} app.js is missing content-runtime marker: {marker}")
 
@@ -246,6 +268,10 @@ def verify_http_origin(name: str, base: str) -> None:
         expected["mobile_module"],
         "./agenda-runtime-state.mjs",
         "./render-lifecycle.js",
+        "./card-experience.js",
+        "./image-quality-guard.js",
+        "./event-card-data-quality.mjs",
+        "./exhibition-groups.js",
         "./public-presentation-guard.js",
         "./public-presentation-rules.mjs",
     ):
