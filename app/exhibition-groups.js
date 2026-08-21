@@ -5,6 +5,7 @@ import { eventForCityPresentation, venueHoursForCity } from "./city-presentation
 import {
   EXHIBITION_GROUP_MIN,
   groupStandaloneExhibitions,
+  partitionExhibitionsByDuration,
   publicExhibitionCategoryId,
 } from "./exhibition-group-core.mjs?v=20260820-groups1";
 
@@ -314,10 +315,11 @@ function groupStandaloneCards() {
   }
 
   const config = currentConfig();
-  const groups = groupStandaloneExhibitions(events, {
+  const { regular, long } = partitionExhibitionsByDuration(events, config);
+  const groups = [regular, long].flatMap((partition) => groupStandaloneExhibitions(partition, {
     timezone: config?.timezone || "UTC",
     minSize: EXHIBITION_GROUP_MIN,
-  });
+  }));
 
   for (const group of groups) {
     const nodes = group.events

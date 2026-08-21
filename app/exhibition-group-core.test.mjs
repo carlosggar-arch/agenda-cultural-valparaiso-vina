@@ -1,12 +1,17 @@
 import assert from "node:assert/strict";
 import {
   EXHIBITION_GROUP_MIN,
+  LONG_EXHIBITION_DAYS,
   clusterSimultaneousExhibitions,
+  exhibitionDurationDays,
   groupStandaloneExhibitions,
+  isLongExhibitionDuration,
+  partitionExhibitionsByDuration,
   publicExhibitionCategoryId,
 } from "./exhibition-group-core.mjs";
 
 const timezone = "Europe/Madrid";
+const durationOptions = { timezone };
 const exhibition = (id, venue, start, end, category = "exposiciones", city = "Gijón") => ({
   id,
   primary_category: { id: category, label: category === "museos" ? "Museos" : "Exposiciones" },
@@ -15,6 +20,7 @@ const exhibition = (id, venue, start, end, category = "exposiciones", city = "Gi
 });
 
 assert.equal(EXHIBITION_GROUP_MIN, 2);
+assert.equal(LONG_EXHIBITION_DAYS, 7);
 assert.equal(publicExhibitionCategoryId(exhibition("m1", "Museo", "2026-08-01", "2026-08-31", "museos")), "exposiciones");
 
 const simultaneous = [
@@ -41,5 +47,31 @@ const differentVenues = [
   exhibition("y", "Museo B", "2026-08-01", "2026-08-31"),
 ];
 assert.equal(groupStandaloneExhibitions(differentVenues, { timezone }).length, 0);
+
+const exactlySevenDays = exhibition("seven", "Museo mixto", "2026-08-01", "2026-08-08");
+const moreThanSevenDays = exhibition("eight", "Museo mixto", "2026-08-01", "2026-08-09");
+assert.equal(exhibitionDurationDays(exactlySevenDays, durationOptions), 7);
+assert.equal(isLongExhibitionDuration(exactlySevenDays, durationOptions), false, "exactly seven days must remain in chronological flow");
+assert.equal(exhibitionDurationDays(moreThanSevenDays, durationOptions), 8);
+assert.equal(isLongExhibitionDuration(moreThanSevenDays, durationOptions), true, "more than seven days must be deferred when no category is active");
+
+const mixedDurationSameVenue = [
+  exhibition("short-1", "Museo mixto", "2026-08-01", "2026-08-08"),
+  exhibition("short-2", "Museo mixto", "2026-08-02", "2026-08-08"),
+  exhibition("long-1", "Museo mixto", "2026-08-01", "2026-08-15"),
+  exhibition("long-2", "Museo mixto", "2026-08-02", "2026-08-20"),
+];
+const partitions = partitionExhibitionsByDuration(mixedDurationSameVenue, durationOptions);
+assert.deepEqual(partitions.regular.map((event) => event.id), ["short-1", "short-2"]);
+assert.deepEqual(partitions.long.map((event) => event.id), ["long-1", "long-2"]);
+
+const durationSafeGroups = [partitions.regular, partitions.long].flatMap((partition) =>
+  groupStandaloneExhibitions(partition, { timezone, minSize: EXHIBITION_GROUP_MIN }),
+);
+assert.equal(durationSafeGroups.length, 2, "short and long exhibitions at one venue must form separate groups");
+for (const group of durationSafeGroups) {
+  const durationClasses = new Set(group.events.map((event) => isLongExhibitionDuration(event, durationOptions)));
+  assert.equal(durationClasses.size, 1, "a grouped card must never mix short and long exhibitions");
+}
 
 console.log("Unified exhibition grouping core tests: OK");
