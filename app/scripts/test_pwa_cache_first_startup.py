@@ -6,6 +6,7 @@ sw = (APP / "service-worker.js").read_text(encoding="utf-8")
 release = (APP / "release-version.js").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 app_core = (APP / "app-core.js").read_text(encoding="utf-8")
+temporal_core = (APP / "temporal-priority-core.mjs").read_text(encoding="utf-8")
 exhibition_guard = (APP / "exhibition-presentation-guard.js").read_text(encoding="utf-8")
 data_pipeline = (APP / "data-pipeline.js").read_text(encoding="utf-8")
 
@@ -31,14 +32,16 @@ assert "networkFirstFreshShell(request)" in sw
 match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release)
 assert match and int(match.group(1)) >= 177
 
-# Post-render presentation work must yield to the browser. This keeps mobile
-# paint/input responsive while preserving the same eventual visual result.
+# Post-render presentation work must yield to the browser. Point 4/5 moves the
+# former exhibition-only sorter into the shared temporal policy, so the same
+# performance invariants are checked at the new canonical owner.
 assert "function runWhenMainThreadIsIdle(callback)" in app_js
 assert "requestIdleCallback" in app_js
 assert "runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });" in app_js
-assert "requestAnimationFrame(applyExhibitionOrderPolicy)" in app_js
-assert "queueMicrotask(applyExhibitionOrderPolicy)" not in app_js
-assert "const orderingDateFormatters = new Map();" in app_js
+assert "requestAnimationFrame(applyTemporalOrderPolicy)" in app_js
+assert "queueMicrotask(applyTemporalOrderPolicy)" not in app_js
+assert "const DATE_FORMATTERS = new Map();" in temporal_core
+assert "dateFormatterForCity" in temporal_core
 assert "requestAnimationFrame(applyGuard)" in exhibition_guard
 assert "queueMicrotask(applyGuard)" not in exhibition_guard
 

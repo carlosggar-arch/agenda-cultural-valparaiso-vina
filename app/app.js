@@ -185,79 +185,9 @@ await coreReady;
 // presentation modules.
 runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });
 
-const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260819-runtime1");
-const LONG_EXHIBITION_DAYS = 7;
-let exhibitionOrderQueued = false;
-const orderingDateFormatters = new Map();
-
-function orderingDateFormatter(city) {
-  const timezone = String(city?.timezone || "UTC");
-  let formatter = orderingDateFormatters.get(timezone);
-  if (!formatter) {
-    formatter = new Intl.DateTimeFormat("en-CA", {
-      timeZone: timezone,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-    orderingDateFormatters.set(timezone, formatter);
-  }
-  return formatter;
-}
-
-function orderingDateKey(value, city) {
-  const text = String(value || "");
-  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-  const date = new Date(text);
-  if (Number.isNaN(date.getTime()) || !city?.timezone) return null;
-  const parts = orderingDateFormatter(city).formatToParts(date);
-  const get = (type) => parts.find((part) => part.type === type)?.value;
-  return `${get("year")}-${get("month")}-${get("day")}`;
-}
-
-function orderingScheduleWindows(event) {
-  if (["program", "flexible_offer"].includes(event?.event_type)) return [];
-  const occurrences = event?.schedule?.occurrences;
-  if (Array.isArray(occurrences) && occurrences.length) {
-    return occurrences.map((occurrence) => ({ start: occurrence?.start, end: occurrence?.end || occurrence?.start }));
-  }
-  if (event?.schedule?.start) return [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
-  return [];
-}
-
-function orderingRanges(event, city) {
-  return orderingScheduleWindows(event)
-    .map((window) => ({ start: orderingDateKey(window.start, city), end: orderingDateKey(window.end, city) }))
-    .filter((range) => range.start && range.end);
-}
-
-function orderingEventCategoryId(event) {
-  const source = event?.primary_category || event?.categories?.[0] || null;
-  const label = String(source?.label || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
-  const id = String(source?.id || "").trim();
-  if (id === "museos" || id === "exposiciones" || /\bmuseos?\b|\bexposiciones?\b/.test(label)) return "exposiciones";
-  return id;
-}
-
-function orderingIsLongExhibition(event, city) {
-  if (orderingEventCategoryId(event) !== "exposiciones") return false;
-  const ranges = orderingRanges(event, city);
-  if (!ranges.length) return false;
-  const start = ranges.reduce((value, range) => value < range.start ? value : range.start, ranges[0].start);
-  const end = ranges.reduce((value, range) => value > range.end ? value : range.end, ranges[0].end);
-  const startTime = Date.parse(`${start}T12:00:00Z`);
-  const endTime = Date.parse(`${end}T12:00:00Z`);
-  if (!Number.isFinite(startTime) || !Number.isFinite(endTime)) return false;
-  return (endTime - startTime) / 86400000 > LONG_EXHIBITION_DAYS;
-}
-
-function orderingEventSortKey(event) {
-  const candidate = orderingScheduleWindows(event)[0]?.start || event?.schedule?.start;
-  if (!candidate) return Number.POSITIVE_INFINITY;
-  if (/^\d{4}-\d{2}-\d{2}$/.test(String(candidate))) return Date.parse(`${candidate}T12:00:00Z`);
-  const value = Date.parse(candidate);
-  return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;
-}
+const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260821-temporal4");
+const { compareTemporalPriority, classifyTemporalEvent } = await import("./temporal-priority-core.mjs?v=20260821-temporal4");
+let temporalOrderQueued = false;
 
 function orderingCardEventIds(card, { visibleOnly = false } = {}) {
   const allIds = card.dataset.eventGroup
@@ -272,86 +202,105 @@ function orderingCardEventIds(card, { visibleOnly = false } = {}) {
   return visibleIds.length ? visibleIds : allIds;
 }
 
-function orderingCardEvents(card, eventsById, options = {}) {
-  return orderingCardEventIds(card, options).map((id) => eventsById.get(id)).filter(Boolean);
+function orderingCardEvents(card, eventsById) {
+  return orderingCardEventIds(card, { visibleOnly: !card.hidden })
+    .map((id) => eventsById.get(id))
+    .filter(Boolean);
 }
 
-function orderingCardSortKey(card, eventsById) {
-  const events = orderingCardEvents(card, eventsById, { visibleOnly: !card.hidden });
-  if (!events.length) return Number.POSITIVE_INFINITY;
-  return Math.min(...events.map(orderingEventSortKey));
+function representativeEvent(card, eventsById, city, now) {
+  const events = orderingCardEvents(card, eventsById);
+  if (!events.length) return null;
+  return [...events].sort((a, b) => compareTemporalPriority(a, b, city, now))[0] || null;
 }
 
-function orderingCardIsLongExhibition(card, eventsById, city) {
-  const events = orderingCardEvents(card, eventsById, { visibleOnly: !card.hidden });
-  return events.length > 0 && events.every((event) => orderingIsLongExhibition(event, city));
+function annotateCard(card, item, city, now) {
+  if (!item) return;
+  const state = classifyTemporalEvent(item, city, now);
+  if (state?.contentKind) card.dataset.contentKind = state.contentKind;
+  else delete card.dataset.contentKind;
+  if (state?.bucket) card.dataset.temporalBucket = state.bucket;
+  else delete card.dataset.temporalBucket;
 }
 
-function categoryFilterIsActive() {
-  return document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length > 0;
+function orderGrid(grid, eventsById, city, now) {
+  if (!grid) return;
+  const cards = [...grid.children].filter((node) => node.classList?.contains("event-card"));
+  if (!cards.length) return;
+
+  const indexed = cards.map((card, index) => {
+    const item = representativeEvent(card, eventsById, city, now);
+    annotateCard(card, item, city, now);
+    return { card, index, item };
+  });
+
+  indexed.sort((left, right) => {
+    if (left.item && right.item) {
+      const diff = compareTemporalPriority(left.item, right.item, city, now);
+      if (diff) return diff;
+    } else if (left.item) {
+      return -1;
+    } else if (right.item) {
+      return 1;
+    }
+    return left.index - right.index;
+  });
+
+  if (indexed.every((item, index) => item.card === cards[index])) return;
+  const fragment = document.createDocumentFragment();
+  for (const item of indexed) fragment.append(item.card);
+  grid.append(fragment);
 }
 
-function applyExhibitionOrderPolicy() {
-  exhibitionOrderQueued = false;
+function applyTemporalOrderPolicy() {
+  temporalOrderQueued = false;
   const snapshot = getAgendaRuntimeSnapshot();
-  const grid = document.querySelector('[data-dated-grid]');
-  if (!snapshot?.events?.length || !grid) return;
+  if (!snapshot?.events?.length || !snapshot?.city) return;
 
   const eventsById = new Map(
     snapshot.events
       .map((event) => [String(event?.id || ""), event])
       .filter(([id]) => id),
   );
-  const cards = [...grid.children].filter((node) => node.classList?.contains("event-card"));
-  if (cards.length < 2) return;
-
-  const deferLongExhibitions = !categoryFilterIsActive();
-  const indexed = cards.map((card, index) => ({
-    card,
-    index,
-    order: orderingCardSortKey(card, eventsById),
-    deferred: deferLongExhibitions && orderingCardIsLongExhibition(card, eventsById, snapshot.city) ? 1 : 0,
-  }));
-  indexed.sort((a, b) => a.deferred - b.deferred || a.order - b.order || a.index - b.index);
-  if (indexed.every((item, index) => item.card === cards[index])) return;
-
-  const fragment = document.createDocumentFragment();
-  for (const item of indexed) fragment.append(item.card);
-  grid.append(fragment);
+  const now = new Date();
+  orderGrid(document.querySelector("[data-dated-grid]"), eventsById, snapshot.city, now);
+  orderGrid(document.querySelector("[data-program-grid]"), eventsById, snapshot.city, now);
+  orderGrid(document.querySelector("[data-flexible-grid]"), eventsById, snapshot.city, now);
 }
 
-function scheduleExhibitionOrder() {
-  if (exhibitionOrderQueued) return;
-  exhibitionOrderQueued = true;
-  // A frame boundary coalesces MutationObserver bursts and lets the freshly
-  // rendered UI paint before the secondary ordering pass runs.
+function scheduleTemporalOrder() {
+  if (temporalOrderQueued) return;
+  temporalOrderQueued = true;
   if (typeof window.requestAnimationFrame === "function") {
-    window.requestAnimationFrame(applyExhibitionOrderPolicy);
+    window.requestAnimationFrame(applyTemporalOrderPolicy);
   } else {
-    window.setTimeout(applyExhibitionOrderPolicy, 0);
+    window.setTimeout(applyTemporalOrderPolicy, 0);
   }
 }
 
-const datedGrid = document.querySelector('[data-dated-grid]');
-if (datedGrid) {
-  new MutationObserver(scheduleExhibitionOrder).observe(datedGrid, { childList: true });
+for (const selector of ["[data-dated-grid]", "[data-program-grid]", "[data-flexible-grid]"]) {
+  const grid = document.querySelector(selector);
+  if (grid) new MutationObserver(scheduleTemporalOrder).observe(grid, { childList: true });
 }
-const combinedCategories = document.querySelector('[data-combined-category-filters]');
+
+const combinedCategories = document.querySelector("[data-combined-category-filters]");
 if (combinedCategories) {
-  new MutationObserver(scheduleExhibitionOrder).observe(combinedCategories, {
+  new MutationObserver(scheduleTemporalOrder).observe(combinedCategories, {
     childList: true,
     subtree: true,
     attributes: true,
     attributeFilter: ["class", "aria-pressed"],
   });
 }
-const filterSummary = document.querySelector('[data-filter-summary]');
+
+const filterSummary = document.querySelector("[data-filter-summary]");
 if (filterSummary) {
-  new MutationObserver(scheduleExhibitionOrder).observe(filterSummary, {
+  new MutationObserver(scheduleTemporalOrder).observe(filterSummary, {
     childList: true,
     characterData: true,
     subtree: true,
   });
 }
-window.addEventListener("vivamos:agenda-data-ready", scheduleExhibitionOrder);
-scheduleExhibitionOrder();
+
+window.addEventListener("vivamos:agenda-data-ready", scheduleTemporalOrder);
+scheduleTemporalOrder();
