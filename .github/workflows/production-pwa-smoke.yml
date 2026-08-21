@@ -24,6 +24,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Selenium
+        run: python -m pip install selenium==4.35.0
+
       - name: Validate local shell before network smoke
         run: |
           set -euo pipefail
