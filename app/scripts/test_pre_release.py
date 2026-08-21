@@ -140,7 +140,10 @@ def check_exhibition_layout_guard() -> None:
         assert retired not in app_js, f"app.js references retired exhibition runtime: {retired}"
 
     assert "getAgendaRuntimeSnapshot" in grouping_js
-    assert "groupStandaloneExhibitions" in grouping_js
+    assert "enhanceCoreGroups" in grouping_js
+    assert "app-core.js is the sole authority for exhibition membership" in grouping_js
+    assert "groupStandaloneExhibitions" not in grouping_js
+    assert "groupStandaloneCards" not in grouping_js
     assert "unifiedExhibitionGroup" in grouping_js
     assert "exhibition-venue-card" in grouping_js
     assert "grouped-exhibition-item" in grouping_js
