@@ -178,10 +178,13 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
       return true;
     }}
 
-    window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 60));
+    window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 40));
     await import("./exhibition-groups.js?v=20260820-groups1");
+    for (let attempt = 0; attempt < 60 && !captureTarget(); attempt += 1) {{
+      window.dispatchEvent(new CustomEvent("vivamos:agenda-data-ready", {{ detail: {{ city: cityId }} }}));
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }}
     captureTarget();
-    for (const delay of [60, 140, 260, 500, 900, 1400, 2200, 3200, 4800, 6200]) setTimeout(captureTarget, delay);
   </script>
 </body>
 </html>'''
@@ -203,6 +206,7 @@ def dump_dom(city: str, url: str) -> str:
     for attempt in range(3):
         with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-dom-{city}-", ignore_cleanup_errors=True) as profile:
             cmd = chrome_command(profile, url)
+            cmd.insert(-1, "--run-all-compositor-stages-before-draw")
             cmd.insert(-1, "--dump-dom")
             try:
                 result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
