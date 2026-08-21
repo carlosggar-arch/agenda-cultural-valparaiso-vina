@@ -1,6 +1,17 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-temporal4";
 
 const DAY_ORDER = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
+const DAY_ALIASES = new Map([
+  ["lunes", 0],
+  ["martes", 1],
+  ["miercoles", 2],
+  ["jueves", 3],
+  ["viernes", 4],
+  ["sabado", 5],
+  ["sabados", 5],
+  ["domingo", 6],
+  ["domingos", 6],
+]);
 const TIME_RANGE_RE = /(?<!\d)([01]?\d|2[0-3])\s*[:.]\s*([0-5]\d)\s*(?:a|hasta|[-–—])\s*([01]?\d|2[0-3])\s*[:.]\s*([0-5]\d)(?!\d)/gi;
 
 function fold(value) {
@@ -65,8 +76,7 @@ export function publicEventSourceUrl(event) {
 }
 
 function dayIndex(value) {
-  const key = fold(value).replace(/s$/, "");
-  return DAY_ORDER.indexOf(key);
+  return DAY_ALIASES.get(fold(value)) ?? -1;
 }
 
 function clauseAppliesToDay(clause, weekday) {
