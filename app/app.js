@@ -13,6 +13,7 @@ const OPTIONAL_MODULES = [
   "./exhibition-groups.js?v=20260820-groups1",
   "./registration-reminders.js?v=20260820-registration1",
   "./schedule-display.js?v=20260819-runtime1",
+  "./event-card-data-quality.mjs?v=20260821-quality1",
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
