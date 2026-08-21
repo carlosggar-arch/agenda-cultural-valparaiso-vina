@@ -78,6 +78,9 @@ def real_venue_events(city: str, target: str) -> list[dict]:
 def make_test_page(city: str, expected_label: str, target: str) -> None:
     events = real_venue_events(city, target)
     payload = html.escape(json.dumps(events, ensure_ascii=False), quote=False)
+    registry_payload = html.escape((APP / "cities.json").read_text(encoding="utf-8"), quote=False)
+    gallery_css = (APP / "exhibition-gallery.css").read_text(encoding="utf-8").replace("</style", "<\\/style")
+    compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8").replace("</style", "<\\/style")
     city_json = json.dumps(city, ensure_ascii=False)
     target_json = json.dumps(target, ensure_ascii=False)
     label_json = json.dumps(expected_label, ensure_ascii=False)
@@ -89,8 +92,8 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Exhibition visual parity</title>
   <link rel="stylesheet" href="./app.css">
-  <link id="unified-exhibition-gallery-styles" rel="stylesheet" href="./exhibition-gallery.css?v=20260818-gallery2">
-  <link id="unified-exhibition-compact-styles" rel="stylesheet" href="./exhibition-compact.css?v=20260818-compact8">
+  <style id="unified-exhibition-gallery-styles">{gallery_css}</style>
+  <style id="unified-exhibition-compact-styles">{compact_css}</style>
   <style>
     html, body {{ margin:0; min-height:100%; background:#f6f3ec; }}
     body {{ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }}
@@ -103,6 +106,7 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
 <body>
   <main><div class="event-grid" data-dated-grid></div></main>
   <script id="fixture-data" type="application/json">{payload}</script>
+  <script id="city-registry-fixture" type="application/json">{registry_payload}</script>
   <script type="module">
     import {{ publishAgendaRuntimeSnapshot }} from "./agenda-runtime-state.mjs?v=20260819-runtime1";
     import {{ normalizeVenueAliases }} from "./venue-identity.mjs";
@@ -112,7 +116,24 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
     const expectedLabel = {label_json};
     const fold = (value) => String(value || "").normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase().replace(/\\s+/g, " ").trim();
     const events = normalizeVenueAliases(JSON.parse(document.getElementById("fixture-data").textContent));
+    const registryText = document.getElementById("city-registry-fixture").textContent;
     const grid = document.querySelector("[data-dated-grid]");
+
+    // Keep this visual fixture deterministic: exhibition-groups.js loads the
+    // same cities.json used by production, but the synthetic browser probe does
+    // not depend on a second HTTP round trip for that registry.
+    const nativeFetch = window.fetch.bind(window);
+    window.fetch = (input, init) => {{
+      const rawUrl = input instanceof Request ? input.url : String(input || "");
+      const url = new URL(rawUrl, window.location.href);
+      if (url.pathname.endsWith("/app/cities.json")) {{
+        return Promise.resolve(new Response(registryText, {{
+          status: 200,
+          headers: {{ "Content-Type": "application/json; charset=utf-8" }},
+        }}));
+      }}
+      return nativeFetch(input, init);
+    }};
 
     // Feed the canonical renderer a real core-group anchor. This intentionally
     // avoids coupling visual parity to the current overlap/date window: temporal
