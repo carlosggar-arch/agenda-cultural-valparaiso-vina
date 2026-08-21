@@ -1,10 +1,7 @@
-import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { shouldSuppressForTemporalFilter } from "./temporal-priority-core.mjs?v=20260819-temporal1";
 
-let registry = null;
-let city = null;
-let dataset = null;
-let refreshToken = 0;
+let snapshot = null;
 let guardQueued = false;
 
 function removeLegacyTemporalUi() {
@@ -27,12 +24,20 @@ function activeWhenFilter() {
   return legacy?.dataset?.sectionFilter || "todos";
 }
 
+function syncSnapshot() {
+  const cityId = String(document.documentElement.dataset.city || "").trim();
+  const next = getAgendaRuntimeSnapshot(cityId || null);
+  if (!next) return false;
+  snapshot = next;
+  return true;
+}
+
 function applyTemporalFilterGuard() {
   guardQueued = false;
   removeLegacyTemporalUi();
-  if (!dataset || !city) return;
+  if (!syncSnapshot()) return;
   const when = activeWhenFilter();
-  const byId = new Map((dataset.events || []).map((event) => [String(event?.id || ""), event]));
+  const byId = new Map((snapshot.events || []).map((event) => [String(event?.id || ""), event]));
   for (const card of document.querySelectorAll('[data-agenda] .event-card[data-event-id]')) {
     const item = byId.get(String(card.dataset.eventId || ""));
     const suppress = item ? shouldSuppressForTemporalFilter(item, when) : false;
@@ -47,35 +52,17 @@ function scheduleGuard() {
   queueMicrotask(applyTemporalFilterGuard);
 }
 
-async function refreshDataset() {
-  const token = ++refreshToken;
-  try {
-    registry ||= await loadCityRegistry();
-    const cityId = document.documentElement.dataset.city || registry.defaultCityId;
-    const nextCity = registry.byId[cityId] || registry.byId[registry.defaultCityId];
-    if (!nextCity) return;
-    const response = await fetch(nextCity.dataset, { headers: { Accept: "application/json" }, cache: "no-store" });
-    if (!response.ok) return;
-    const payload = await response.json();
-    if (token !== refreshToken || !Array.isArray(payload?.events)) return;
-    city = nextCity;
-    dataset = payload;
-    scheduleGuard();
-  } catch {
-    if (token === refreshToken) {
-      city = null;
-      dataset = null;
-    }
-  }
-}
-
 removeLegacyTemporalUi();
 ensureGuardStyles();
-void refreshDataset();
+scheduleGuard();
 
-new MutationObserver(() => {
-  void refreshDataset();
-}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
+for (const eventName of ["vivamos:agenda-data-ready", "vivamos:agenda-rendered", "vivamos:core-ready"]) {
+  window.addEventListener(eventName, scheduleGuard);
+}
+new MutationObserver(scheduleGuard).observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ["data-city"],
+});
 
 document.addEventListener("click", (event) => {
   if (event.target.closest('[data-filter-value], [data-section-filter], [data-filter-clear]')) setTimeout(scheduleGuard, 0);
