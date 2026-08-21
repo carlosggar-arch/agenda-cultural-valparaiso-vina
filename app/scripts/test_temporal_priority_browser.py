@@ -50,6 +50,9 @@ def check_ui_removed() -> None:
     assert "LONG_EXHIBITION_DAYS = 7" in entry, "long exhibition threshold must remain seven days"
     assert "orderingIsLongExhibition" in entry, "default agenda must distinguish long exhibitions before deferring them"
     assert "categoryFilterIsActive" in entry, "category filters must disable long-exhibition deferral and restore chronological order"
+    assert "orderingCardEventIds" in entry, "group ordering must resolve the events represented by each card"
+    assert "visibleOnly: !card.hidden" in entry, "filtered grouped cards must be ordered from their currently visible exhibitions"
+    assert "data-filter-summary" in entry and "filterSummary" in entry, "date/area/search filters must trigger ordering after visibility settles"
     assert "placeExhibitionsLast" not in entry, "legacy all-exhibitions-last policy must not return"
 
 
