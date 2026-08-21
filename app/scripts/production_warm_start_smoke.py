@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import time
 import uuid
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -23,6 +25,7 @@ MAX_WARM_EXTRA_SECONDS = 4.0
 def chrome_options(profile: str) -> Options:
     options = Options()
     options.page_load_strategy = "eager"
+    options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
     for argument in (
         "--headless=new",
         "--no-sandbox",
@@ -67,13 +70,43 @@ def timed_core_load(driver: webdriver.Chrome, base: str, expected_release: int) 
     return time.monotonic() - started
 
 
-def wait_for_processed_cache(driver: webdriver.Chrome) -> None:
-    WebDriverWait(driver, CACHE_WRITE_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-        lambda current: bool(current.execute_script(
-            "return localStorage.getItem(arguments[0]);",
-            CACHE_MARKER_KEY,
-        ))
+def cache_names(driver: webdriver.Chrome) -> list[str]:
+    script = """
+    const done = arguments[arguments.length - 1];
+    caches.keys().then((names) => done(names), (error) => done([`ERROR:${error}`]));
+    """
+    return list(driver.execute_async_script(script) or [])
+
+
+def cache_diagnostics(driver: webdriver.Chrome) -> dict:
+    state = driver.execute_script(
+        """
+        return {
+          secureContext: globalThis.isSecureContext,
+          hasCaches: Boolean(globalThis.caches && globalThis.caches.open),
+          release: globalThis.__VIVAMOS_RELEASE__,
+          localStorageKeys: Object.keys(localStorage),
+          marker: localStorage.getItem(arguments[0]),
+        };
+        """,
+        CACHE_MARKER_KEY,
     )
+    state["cacheNames"] = cache_names(driver)
+    state["browserLogs"] = driver.get_log("browser")[-20:]
+    return state
+
+
+def wait_for_processed_cache(driver: webdriver.Chrome) -> None:
+    try:
+        WebDriverWait(driver, CACHE_WRITE_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+            lambda current: bool(current.execute_script(
+                "return localStorage.getItem(arguments[0]);",
+                CACHE_MARKER_KEY,
+            ))
+        )
+    except TimeoutException:
+        print("PROCESSED_CACHE_DIAGNOSTICS " + json.dumps(cache_diagnostics(driver), ensure_ascii=False))
+        raise
 
 
 def main() -> None:
