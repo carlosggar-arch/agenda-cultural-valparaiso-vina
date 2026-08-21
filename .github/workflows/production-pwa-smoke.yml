@@ -81,6 +81,29 @@ jobs:
           python app/scripts/production_pwa_smoke.py local
           python app/scripts/test_production_pwa_smoke_contract.py
 
+  warm-production-probe:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify live parity and warm mobile reopen
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/production_pwa_smoke.py \
+            app/scripts/production_warm_start_smoke.py
+          python app/scripts/production_pwa_smoke.py http
+          python app/scripts/production_warm_start_smoke.py
+
   production-smoke:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
