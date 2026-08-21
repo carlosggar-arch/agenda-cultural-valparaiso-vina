@@ -57,8 +57,12 @@ for (const sample of [cultureCinema, cultureTheatre, cultureExhibition, museumBo
   assert.notEqual(resolvePublicCategory(sample).label, "Cultura");
 }
 
+const appCore = readFileSync(new URL("../app-core.js", import.meta.url), "utf8");
 const exhibitionGroups = readFileSync(new URL("../exhibition-groups.js", import.meta.url), "utf8");
-assert.match(exhibitionGroups, /groupStandaloneExhibitions/);
+assert.match(appCore, /function buildDatedItems\(/);
+assert.match(appCore, /card\.dataset\.eventGroup/);
+assert.match(exhibitionGroups, /function enhanceCoreGroups\(/);
+assert.doesNotMatch(exhibitionGroups, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/);
 assert.match(exhibitionGroups, /FALLBACK_IMAGE[\s\S]*categoria-exposiciones\.jpg/);
 assert.match(exhibitionGroups, /grouped-exhibition-item/);
 
