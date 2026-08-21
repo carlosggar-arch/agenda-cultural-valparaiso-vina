@@ -35,6 +35,7 @@ jobs:
             app/scripts/test_contextual_filters.py \
             app/scripts/test_first_render_browser.py \
             app/scripts/test_startup_resilience_browser.py \
+            app/scripts/test_pwa_cache_first_startup.py \
             app/scripts/test_date_filter_browser.py \
             app/scripts/test_exhibition_visual_parity.py \
             app/scripts/test_exhibition_filter_isolation_browser.py \
@@ -88,6 +89,7 @@ jobs:
           python app/scripts/test_release_guard.py
           python app/scripts/test_multi_city_ui.py
           python app/scripts/test_contextual_filters.py
+          python app/scripts/test_pwa_cache_first_startup.py
           node app/data-pipeline.test.mjs
           node app/artequin-session-correction.test.mjs
           node app/session-occurrence-normalizer.test.mjs
@@ -117,5 +119,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises the v166 generation bundle, generated PWA shell manifest, canonical venue registry/aliases, persistent PCV multi-date recovery, registration-reminder classification/architecture, grouped-exhibition filter isolation, structural approved-event visibility, normal startup for Valparaiso and Gijon, watchdog safe mode, date filtering and exhibition visual parity."
+          echo "This required check exercises the v170 generation bundle, generated PWA shell manifest, cache-first warm startup, canonical venue registry/aliases, persistent PCV multi-date recovery, registration-reminder classification/architecture, grouped-exhibition filter isolation, structural approved-event visibility, normal startup for Valparaiso and Gijon, watchdog safe mode, date filtering and exhibition visual parity."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
