@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v180 unifies exhibition grouping and date-specific venue hours across cities.
-  const RELEASE = 180;
+  // v181 loads date-specific exhibition venue hours in the shared runtime, including Gijón.
+  const RELEASE = 181;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
