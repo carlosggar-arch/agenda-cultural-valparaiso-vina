@@ -51,6 +51,22 @@ const BUCKET_RANK = Object.freeze({
   always_available: 5,
 });
 
+const DATE_FORMATTERS = new Map();
+
+function dateFormatterForCity(city) {
+  const timezone = String(city?.timezone || "").trim();
+  if (!timezone) return null;
+  if (!DATE_FORMATTERS.has(timezone)) {
+    DATE_FORMATTERS.set(timezone, new Intl.DateTimeFormat("en-CA", {
+      timeZone: timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }));
+  }
+  return DATE_FORMATTERS.get(timezone);
+}
+
 function normalizeConfidence(value) {
   return String(value ?? "").trim().toLocaleLowerCase("en");
 }
@@ -83,13 +99,9 @@ function endIsUsable(event) {
 
 export function dateKeyForDate(value, city) {
   const date = value instanceof Date ? value : new Date(value);
-  if (!city?.timezone || Number.isNaN(date.getTime())) return null;
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: city.timezone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
+  const formatter = dateFormatterForCity(city);
+  if (!formatter || Number.isNaN(date.getTime())) return null;
+  const parts = formatter.formatToParts(date);
   const get = (type) => parts.find((part) => part.type === type)?.value;
   return `${get("year")}-${get("month")}-${get("day")}`;
 }
