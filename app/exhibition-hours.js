@@ -121,18 +121,18 @@ function patchGroupCard(card) {
   if (!ids.length) return;
   const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
   const labels = events.map(explicitVenueHours);
-  let safeCommonHours = events.length > 0
+  let hours = events.length > 0
     && labels.length === events.length
     && labels.every(Boolean)
     && new Set(labels).size === 1
     ? labels[0]
     : null;
 
-  if (!safeCommonHours && labels.every((label) => !label)) {
+  if (!hours && labels.every((label) => !label)) {
     const venueName = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
-    safeCommonHours = structuredRegistryHours(venueRecordForName(venueName));
+    hours = structuredRegistryHours(venueRecordForName(venueName));
   }
-  setGroupedOpeningHours(card, safeCommonHours);
+  setGroupedOpeningHours(card, hours);
 }
 
 function patchCards() {
