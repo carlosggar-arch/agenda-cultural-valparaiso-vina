@@ -237,7 +237,7 @@ async function loadPayloads(city, fetchImpl, diagnostics, now) {
     )
     : Promise.resolve({ status: "absent" });
 
-  const [base, supplementalResult] = await Promise.all([basePromise, supplementalResult]);
+  const [base, supplementalResult] = await Promise.all([basePromise, supplementalPromise]);
   diagnostics.push({ name: "base", status: "ok" });
 
   let dataset = base;
