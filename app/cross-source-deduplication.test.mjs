@@ -5,7 +5,17 @@ import {
   deduplicateCrossSourceDataset,
 } from "./cross-source-deduplication.mjs";
 
-function event({ id, title, sourceId, sourceName, official = false, start = "2026-08-28T19:00:00-04:00", venue = "Parque Cultural de Valparaíso", city = "Valparaíso" }) {
+function event({
+  id,
+  title,
+  sourceId,
+  sourceName,
+  official = false,
+  start = "2026-08-28T19:00:00-04:00",
+  venue = "Parque Cultural de Valparaíso",
+  city = "Valparaíso",
+  price = { is_free: false, currency: "CLP", min_amount: 7000, max_amount: 12000, display_text: "$7.000 · $12.000" },
+}) {
   return {
     id,
     title,
@@ -17,7 +27,7 @@ function event({ id, title, sourceId, sourceName, official = false, start = "202
     categories: [{ id: "teatro", label: "Teatro" }],
     schedule: { mode: "dated", start, end: start, occurrences: [{ start, end: start }] },
     location: { venue, city },
-    price: { is_free: false, currency: "CLP", min_amount: 7000, max_amount: 12000, display_text: "$7.000 · $12.000" },
+    price,
     links: official
       ? { official: "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/", source: "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/" }
       : { tickets: "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso", source: "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso" },
@@ -56,6 +66,64 @@ test("Matriarcas from ticketing and official sources is one event", () => {
   assert.equal(result.events[0].links.tickets, portal.links.tickets, "ticket link from secondary source should be preserved");
   assert.equal(result.events[0].public_status.registration_open, true, "useful registration status should be preserved");
   assert.deepEqual(new Set(result.events[0].editorial.merged_duplicate_ids), new Set(["portal-matriarcas", "official-matriarcas"]));
+});
+
+test("recurring event with a small cross-source time disagreement collapses to the official record", () => {
+  const aggregator = event({
+    id: "municipal-yoga",
+    title: "Yoga y meditación",
+    sourceId: "municipal-agenda",
+    sourceName: "Agenda municipal",
+    start: "2026-08-22T11:00:00-04:00",
+    venue: "Jardín Botánico · Viña del Mar",
+    city: "Viña del Mar",
+    price: { is_free: true, display_text: "Gratis" },
+  });
+  const venueOfficial = event({
+    id: "official-yoga",
+    title: "Yoga todos los sábados",
+    sourceId: "jardin-botanico",
+    sourceName: "Jardín Botánico Nacional de Viña del Mar",
+    official: true,
+    start: "2026-08-22T10:30:00-04:00",
+    venue: "Jardín Botánico Nacional de Viña del Mar",
+    city: "Viña del Mar",
+    price: { is_free: false, display_text: "Actividad gratuita; se paga entrada al parque" },
+  });
+
+  assert.equal(areProbableDuplicateEvents(aggregator, venueOfficial), true);
+  const result = deduplicateCrossSourceDataset({ counts: { total: 2, events: 2 }, events: [aggregator, venueOfficial] });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].id, "official-yoga");
+  assert.equal(result.events[0].source_name, "Jardín Botánico Nacional de Viña del Mar");
+  assert.equal(result.events[0].schedule.start, "2026-08-22T10:30:00-04:00", "official schedule should win the conflict");
+  assert.equal(result.events[0].price.is_free, false, "secondary free flag must not overwrite authoritative conditional pricing");
+  assert.equal(result.events[0].price.display_text, "Actividad gratuita; se paga entrada al parque");
+  assert.equal(result.events[0].editorial.schedule_conflict_resolved, true);
+  assert.equal(result.events[0].editorial.deduplication_rule, "same_date_similar_venue_recurring_title_authoritative_source");
+});
+
+test("nearby sessions with only a generic title token stay separate without recurrence wording", () => {
+  const adults = event({
+    id: "yoga-adults",
+    title: "Yoga adultos",
+    sourceId: "venue",
+    sourceName: "Recinto oficial",
+    official: true,
+    start: "2026-08-22T10:30:00-04:00",
+    venue: "Jardín Botánico Nacional de Viña del Mar",
+    city: "Viña del Mar",
+  });
+  const children = event({
+    id: "yoga-children",
+    title: "Yoga infantil",
+    sourceId: "aggregator",
+    sourceName: "Agenda externa",
+    start: "2026-08-22T11:00:00-04:00",
+    venue: "Jardín Botánico · Viña del Mar",
+    city: "Viña del Mar",
+  });
+  assert.equal(areProbableDuplicateEvents(adults, children), false);
 });
 
 test("same venue and time with unrelated titles stays separate", () => {
