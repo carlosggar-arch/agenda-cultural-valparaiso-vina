@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { sourceDisplayName } from "../assets/fuentes.js";
 
 const catalogue = JSON.parse(
   await readFile(new URL("../fuentes_publicas.json", import.meta.url), "utf8"),
@@ -60,6 +61,13 @@ test("public sources catalogue preserves the integrated baseline", () => {
   const names = new Set(catalogue.sources.map((source) => source.name));
   const missing = PROTECTED_BASELINE.filter((name) => !names.has(name));
   assert.deepEqual(missing, [], `previously integrated public sources disappeared: ${missing.join(", ")}`);
+});
+
+test("Visita Viña has a clear public display name without changing its stable source id", () => {
+  const source = catalogue.sources.find((item) => item.canonical_source_id === "culturasvina");
+  assert.ok(source, "the existing culturasvina source must remain registered");
+  assert.equal(sourceDisplayName(source), "Visita Viña — Municipalidad de Viña del Mar");
+  assert.equal(source.canonical_source_id, "culturasvina");
 });
 
 test("public sources catalogue has stable unique public records", () => {

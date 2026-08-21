@@ -2,6 +2,7 @@ export const SOURCES_PATH = "./fuentes_publicas.json";
 
 export const SOURCE_DISPLAY_NAME_OVERRIDES = Object.freeze({
   "fuente_5c58c0825171c93a": "INSOMNIA Teatro Condell",
+  "fuente_385dfe622cd80209": "Visita Viña — Municipalidad de Viña del Mar",
 });
 
 export function sourceDisplayName(source) {
