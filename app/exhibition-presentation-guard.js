@@ -1,4 +1,5 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { canonicalVenueKeyForEvents } from "./venue-identity.mjs?v=20260821-venueidentity1";
 
 const grid = document.querySelector("[data-dated-grid]");
 let queued = false;
@@ -25,10 +26,29 @@ function directUnifiedCards() {
   );
 }
 
-function venueKey(card) {
-  const venue = fold(card.querySelector("h4")?.textContent);
-  const city = fold(card.querySelector(".exhibition-venue-city")?.textContent);
-  return venue ? `${venue}|${city}` : null;
+function cardEventIds(card) {
+  if (card.dataset.eventGroup) {
+    return String(card.dataset.eventGroup).split(",").map((id) => id.trim()).filter(Boolean);
+  }
+  const id = String(card.dataset.eventId || "").trim();
+  return id ? [id] : [];
+}
+
+function runtimeEventsById() {
+  const snapshot = getAgendaRuntimeSnapshot();
+  return new Map((snapshot?.events || [])
+    .map((event) => [String(event?.id || "").trim(), event])
+    .filter(([id]) => id));
+}
+
+function venueKey(card, eventsById) {
+  const structural = String(card.dataset.venueKey || "").trim();
+  if (structural) return structural;
+
+  const events = cardEventIds(card).map((id) => eventsById.get(id)).filter(Boolean);
+  const venue = String(card.querySelector("h4")?.textContent || "").trim();
+  const city = String(card.querySelector(".exhibition-venue-city")?.textContent || "").trim();
+  return canonicalVenueKeyForEvents(events, { venue, city }) || null;
 }
 
 function groupedRows(card) {
@@ -39,15 +59,21 @@ function refreshCount(card) {
   const rows = groupedRows(card);
   const visible = rows.filter((row) => !row.hidden).length;
   const count = card.querySelector("[data-exhibition-visible-count]");
-  if (count) count.textContent = `${visible} ${visible === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
+  const countText = `${visible} ${visible === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
+  if (count && count.textContent !== countText) count.textContent = countText;
   const summary = card.querySelector("[data-exhibition-summary]");
-  if (summary) summary.textContent = `Ver ${visible} ${visible === 1 ? "exposición" : "exposiciones"}`;
-  card.hidden = visible === 0;
+  const summaryText = `Ver ${visible} ${visible === 1 ? "exposición" : "exposiciones"}`;
+  if (summary && summary.textContent !== summaryText) summary.textContent = summaryText;
+  const shouldHide = visible === 0;
+  if (card.hidden !== shouldHide) card.hidden = shouldHide;
 }
 
-function consolidateVenueCards(cards) {
+function consolidateVenueCards(cards, key) {
   if (cards.length < 2) {
-    if (cards[0]) refreshCount(cards[0]);
+    if (cards[0]) {
+      cards[0].dataset.venueKey = key;
+      refreshCount(cards[0]);
+    }
     return;
   }
 
@@ -78,18 +104,11 @@ function consolidateVenueCards(cards) {
   }
   list.replaceChildren(...orderedRows);
   canonical.dataset.eventGroup = [...rowById.keys()].join(",");
+  canonical.dataset.venueKey = key;
   for (const card of cards) {
     if (card !== canonical) card.remove();
   }
   refreshCount(canonical);
-}
-
-function cardEventIds(card) {
-  if (card.dataset.eventGroup) {
-    return String(card.dataset.eventGroup).split(",").map((id) => id.trim()).filter(Boolean);
-  }
-  const id = String(card.dataset.eventId || "").trim();
-  return id ? [id] : [];
 }
 
 function cityRank(cityName) {
@@ -99,12 +118,7 @@ function cityRank(cityName) {
   return 0;
 }
 
-function applyPresentationOrder() {
-  const snapshot = getAgendaRuntimeSnapshot();
-  const eventsById = new Map((snapshot?.events || [])
-    .map((event) => [String(event?.id || "").trim(), event])
-    .filter(([id]) => id));
-
+function applyPresentationOrder(eventsById) {
   for (const card of directCards()) {
     const ids = cardEventIds(card);
     const event = ids.map((id) => eventsById.get(id)).find(Boolean);
@@ -120,16 +134,17 @@ function applyGuard() {
   if (!grid || applying) return;
   applying = true;
   try {
+    const eventsById = runtimeEventsById();
     const byVenue = new Map();
     for (const card of directUnifiedCards()) {
-      const key = venueKey(card);
+      const key = venueKey(card, eventsById);
       if (!key) continue;
       const bucket = byVenue.get(key) || [];
       bucket.push(card);
       byVenue.set(key, bucket);
     }
-    for (const cards of byVenue.values()) consolidateVenueCards(cards);
-    applyPresentationOrder();
+    for (const [key, cards] of byVenue) consolidateVenueCards(cards, key);
+    applyPresentationOrder(eventsById);
   } finally {
     applying = false;
   }

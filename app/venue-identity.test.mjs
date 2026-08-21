@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   canonicalVenueKey,
+  canonicalVenueKeyForEvents,
   normalizeVenueAliases,
   venueRecordForEvent,
   venueRecordForName,
@@ -21,6 +22,14 @@ assert.equal(
 assert.equal(
   canonicalVenueKey(event("Sala Blanca – Museo Baburizza")),
   canonicalVenueKey(event("Museo Baburizza")),
+);
+assert.notEqual(
+  canonicalVenueKey(event("Jardines Palacio Rioja", "Viña del Mar")),
+  canonicalVenueKey(event("Museo Palacio Rioja", "Viña del Mar")),
+);
+assert.equal(
+  canonicalVenueKeyForEvents([event("Palacio Rioja", "Viña del Mar")]),
+  canonicalVenueKey(event("Museo Palacio Rioja", "Viña del Mar")),
 );
 
 const gijon = venueRecordForEvent(event("Nombre secundario", "Gijón", "1118"));
