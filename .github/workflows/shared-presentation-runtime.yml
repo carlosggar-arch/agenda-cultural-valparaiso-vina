@@ -1,0 +1,41 @@
+name: Shared presentation runtime
+
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "assets/city-registry.mjs"
+      - ".github/workflows/shared-presentation-runtime.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-presentation-runtime-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  architecture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate shared presentation contracts
+        run: |
+          node app/shared-presentation-runtime.test.mjs
+          node app/exhibition-group-architecture.test.mjs
+          node app/startup-architecture.test.mjs
+          python app/scripts/test_third_city_architecture.py
