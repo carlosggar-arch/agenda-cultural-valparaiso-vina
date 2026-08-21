@@ -3,6 +3,7 @@ import { scheduleForGijonEvent } from "./gijon-venue-hours.js?v=20260820-hours1"
 
 const STYLE_ID = "gijon-core-card-images";
 const CITY_ID = "gijon";
+const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 let queued = false;
 let indexedRevision = 0;
 let byId = new Map();
@@ -68,6 +69,12 @@ function addImage(card, event) {
   card.prepend(media);
 }
 
+function isExhibition(event) {
+  const primaryId = String(event?.primary_category?.id || "").trim();
+  if (EXHIBITION_IDS.has(primaryId)) return true;
+  return (event?.categories || []).some((category) => EXHIBITION_IDS.has(String(category?.id || "").trim()));
+}
+
 function verifiedVenueHours(event) {
   if (!event) return null;
   const schedule = scheduleForGijonEvent(event) || event.schedule || {};
@@ -110,7 +117,12 @@ function enhanceCards() {
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
     const event = byId.get(String(card.dataset.eventId || ""));
     addImage(card, event);
-    setVenueHours(card, verifiedVenueHours(event));
+
+    // Exhibition visit hours are date-sensitive and are owned by the shared
+    // exhibition-hours.js layer. Keeping this Gijón media enricher out of that
+    // path prevents a second writer from restoring the full weekly schedule or
+    // racing with the selected-date presentation.
+    if (!isExhibition(event)) setVenueHours(card, verifiedVenueHours(event));
   }
 
   // Shared exhibition groups are owned entirely by exhibition-groups.js.
