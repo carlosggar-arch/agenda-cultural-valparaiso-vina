@@ -1,10 +1,11 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
-import { venueRecordForEvent, venueRecordForName } from "./venue-identity.mjs?v=20260820-venues1";
+import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
+let indexedTimezone = "America/Santiago";
 let eventsById = new Map();
 let patchQueued = false;
 
@@ -19,6 +20,7 @@ function syncRuntimeIndex() {
   if (indexedCity === cityId && indexedRevision === snapshot.revision && eventsById.size) return true;
   indexedCity = cityId;
   indexedRevision = snapshot.revision;
+  indexedTimezone = snapshot.city?.timezone || "America/Santiago";
   eventsById = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
   return true;
 }
@@ -29,33 +31,12 @@ function isExhibition(event) {
   return (event?.categories || []).some((category) => EXHIBITION_IDS.has(String(category?.id || "").trim()));
 }
 
-function validTime(value) {
-  return /^\d{2}:\d{2}$/.test(String(value || "").trim());
-}
-
-function isMultiDayVisit(event) {
-  const schedule = event?.schedule || {};
-  if (schedule.mode === "multi_day") return true;
-  const start = String(schedule.start || "").slice(0, 10);
-  const end = String(schedule.end || "").slice(0, 10);
-  return Boolean(start && end && start !== end);
-}
-
-function knownVenueHours(event) {
-  if (!isExhibition(event) || !isMultiDayVisit(event)) return null;
-  return venueRecordForEvent(event)?.opening_hours?.display || null;
-}
-
 function explicitVenueHours(event) {
   if (!isExhibition(event)) return null;
-  const schedule = event?.schedule || {};
-  const openingHours = schedule.opening_hours || {};
-  const opening = String(schedule.opening_time || openingHours.opening_time || "").trim();
-  const closing = String(schedule.closing_time || openingHours.closing_time || "").trim();
-  if (validTime(opening) && validTime(closing)) return `${opening}–${closing}`;
-  const display = String(openingHours.display_text || "").replace(/\s+/g, " ").trim();
-  if (display && /\b(?:[01]?\d|2[0-3]):[0-5]\d\b/.test(display)) return display;
-  return knownVenueHours(event);
+  return dailyExhibitionHours(event?.schedule, {
+    timezone: indexedTimezone,
+    now: new Date(),
+  })?.label || null;
 }
 
 function patchStandaloneCard(card) {
@@ -114,35 +95,29 @@ function setGroupedOpeningHours(card, hours) {
   node.replaceChildren(icon, copy);
 }
 
-function knownGroupedVenueHours(card) {
-  const name = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
-  return venueRecordForName(name)?.opening_hours?.display || null;
-}
-
 function patchGroupCard(card) {
   if (!card.classList.contains("exhibition-venue-card")) return;
   const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
   if (!ids.length) return;
-  const ranges = ids.map((id) => eventsById.get(id)).filter(Boolean).map(explicitVenueHours).filter(Boolean);
-  const counts = new Map();
-  for (const range of ranges) counts.set(range, (counts.get(range) || 0) + 1);
-  const ranked = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  let hours = ranked.length === 1
-    ? ranked[0][0]
-    : ranked.length > 1 && ranked[0][1] >= 2 && ranked[0][1] > ranked[1][1]
-      ? ranked[0][0]
-      : null;
-  if (!hours) hours = knownGroupedVenueHours(card);
-  setGroupedOpeningHours(card, hours);
+  const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
+  const labels = events.map(explicitVenueHours);
+  const safeCommonHours = events.length > 0
+    && labels.length === events.length
+    && labels.every(Boolean)
+    && new Set(labels).size === 1
+    ? labels[0]
+    : null;
+  setGroupedOpeningHours(card, safeCommonHours);
 }
 
 function patchCards() {
   patchQueued = false;
   if (!datedGrid) return;
   const runtimeReady = syncRuntimeIndex();
+  if (!runtimeReady) return;
   for (const card of datedGrid.querySelectorAll(".event-card")) {
     if (card.dataset.eventGroup) patchGroupCard(card);
-    else if (runtimeReady) patchStandaloneCard(card);
+    else patchStandaloneCard(card);
   }
 }
 
