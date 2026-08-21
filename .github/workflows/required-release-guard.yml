@@ -41,6 +41,7 @@ jobs:
             app/scripts/test_structural_event_visibility_browser.py \
             app/scripts/test_pwa_install_browser.py \
             app/scripts/test_multicity_source_registry_coverage.py \
+            app/scripts/test_priority_zero_monitors.py \
             app/scripts/generate_runtime_contracts.py \
             app/scripts/release_bundle.py \
             app/scripts/test_structural_hardening.py
@@ -82,6 +83,7 @@ jobs:
           python app/scripts/generate_runtime_contracts.py --check
           python app/scripts/release_bundle.py --check
           python app/scripts/test_structural_hardening.py
+          python app/scripts/test_priority_zero_monitors.py
           node app/venue-identity.test.mjs
           python app/scripts/test_release_guard.py
           python app/scripts/test_multi_city_ui.py
@@ -115,5 +117,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises the v166 generation bundle, generated PWA shell manifest, canonical venue registry/aliases, registration-reminder classification/architecture, grouped-exhibition filter isolation, structural approved-event visibility, normal startup for Valparaiso and Gijon, watchdog safe mode, date filtering and exhibition visual parity."
+          echo "This required check exercises the v166 generation bundle, generated PWA shell manifest, canonical venue registry/aliases, persistent PCV multi-date recovery, registration-reminder classification/architecture, grouped-exhibition filter isolation, structural approved-event visibility, normal startup for Valparaiso and Gijon, watchdog safe mode, date filtering and exhibition visual parity."
           echo "The post-merge production PWA smoke still verifies the deployed GitHub Pages runtime."
