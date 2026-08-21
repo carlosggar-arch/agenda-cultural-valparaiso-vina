@@ -5,9 +5,11 @@ import {
   publicLocationLabel,
 } from "./public-presentation-rules.mjs";
 import { plainPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 
 const STYLE_ID = "public-presentation-guard-style";
+const DEFAULT_LOCALE = "es";
+const DEFAULT_TIMEZONE = "UTC";
 let indexedCity = null;
 let indexedRevision = 0;
 let eventsById = new Map();
@@ -184,8 +186,8 @@ function enhanceGroupedRow(row) {
     }
   }
   const nextSchedule = plainPublicText(groupedScheduleLabel(event, {
-    locale: activeCity?.locale || "es-CL",
-    timezone: activeCity?.timezone || "America/Santiago",
+    locale: activeCity?.locale || DEFAULT_LOCALE,
+    timezone: activeCity?.timezone || DEFAULT_TIMEZONE,
   }));
   if (schedule.textContent !== nextSchedule) schedule.textContent = nextSchedule;
   let location = copy.querySelector(".grouped-exhibition-location");
