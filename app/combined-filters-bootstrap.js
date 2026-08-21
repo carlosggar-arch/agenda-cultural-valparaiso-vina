@@ -1,3 +1,3 @@
 import "./category-normalizer.js?v=20260818-categories3";
 await import("./combined-filters.js?v=20260819-normalized-gijon2");
-await import("./combined-filters-safety.js?v=20260819-date-neutral3");
+await import("./combined-filters-safety.js?v=20260820-single-owner1");

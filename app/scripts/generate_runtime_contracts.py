@@ -121,7 +121,10 @@ def validate_local_assets(assets: set[str]) -> list[str]:
 
 def write_contracts() -> None:
     VENUE_BRIDGE_PATH.write_text(VENUE_BRIDGE, encoding="utf-8")
-    assets = existing_assets() | discover_runtime_assets()
+    # Generated runtime assets are derived only from the current entrypoint graph.
+    # Never union with the previous manifest: doing so makes deleted/retired
+    # modules immortal in the PWA cache contract.
+    assets = discover_runtime_assets()
     MANIFEST_PATH.write_text(render_manifest(assets), encoding="utf-8")
 
 
