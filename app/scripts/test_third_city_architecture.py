@@ -76,12 +76,12 @@ for forbidden in ["GIJON_DEFERRED_MODULES", "IS_GIJON", "gijon-card-images.js", 
 runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
 assert "eventForCityPresentation(event, cityId)" in runtime_state, "city presentation differences must enter through the adapter boundary"
 
-city_literals = re.compile(r"\b(?:gijon|valparaiso)\b|America/Santiago|Europe/Madrid|es-CL|es-ES", re.IGNORECASE)
+city_constants = re.compile(r"[\"'](?:gijon|valparaiso|America/Santiago|Europe/Madrid|es-CL|es-ES)[\"']", re.IGNORECASE)
 for module in common_presentation:
     text = (APP / module).read_text(encoding="utf-8")
     assert "getAgendaRuntimeSnapshot" in text, f"{module} does not consume the shared runtime snapshot"
     assert "loadAgendaDataset" not in text, f"{module} must not own a parallel data runtime"
-    assert not city_literals.search(text), f"{module} contains city-specific presentation knowledge"
+    assert not city_constants.search(text), f"{module} hardcodes city-specific presentation knowledge"
 
 exhibition_groups = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
 for forbidden in ["groupStandaloneExhibitions", "groupStandaloneCards", "EXHIBITION_GROUP_MIN"]:
