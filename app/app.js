@@ -13,6 +13,7 @@ const OPTIONAL_MODULES = [
   "./exhibition-groups.js?v=20260820-groups1",
   "./registration-reminders.js?v=20260820-registration1",
   "./schedule-display.js?v=20260819-runtime1",
+  "./exhibition-hours.js?v=20260821-gijonhours1",
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
@@ -38,7 +39,6 @@ if (IS_GIJON) {
     "./card-experience.js?v=20260819-runtime1",
     "./card-image-fallback.js?v=20260819-runtime1",
     "./public-presentation-guard.js?v=20260820-text1",
-    "./exhibition-hours.js?v=20260820-hours5",
   );
 }
 
