@@ -1,5 +1,3 @@
-import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 import "./startup-stability.js?v=20260819-startup2";
 import "./render-lifecycle.js?v=20260819-lifecycle1";
 
@@ -170,25 +168,15 @@ async function loadOptionalEnhancements() {
 await coreReady;
 void loadOptionalEnhancements();
 
-const ORDER_CITY_REGISTRY = await loadCityRegistry();
-const ORDER_CITIES = ORDER_CITY_REGISTRY.byId;
-const ORDER_DEFAULT_CITY_ID = ORDER_CITY_REGISTRY.defaultCityId;
+const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260819-runtime1");
 const LONG_EXHIBITION_DAYS = 7;
 let exhibitionOrderQueued = false;
-let orderingCityId = null;
-let orderingEventsById = new Map();
-let orderingDatasetPromise = null;
-
-function orderingCurrentCityId() {
-  const id = String(document.documentElement.dataset.city || "");
-  return ORDER_CITIES[id] ? id : ORDER_DEFAULT_CITY_ID;
-}
 
 function orderingDateKey(value, city) {
   const text = String(value || "");
   if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
   const date = new Date(text);
-  if (Number.isNaN(date.getTime())) return null;
+  if (Number.isNaN(date.getTime()) || !city?.timezone) return null;
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: city.timezone,
     year: "numeric",
@@ -209,8 +197,7 @@ function orderingScheduleWindows(event) {
   return [];
 }
 
-function orderingRanges(event) {
-  const city = ORDER_CITIES[orderingCurrentCityId()];
+function orderingRanges(event, city) {
   return orderingScheduleWindows(event)
     .map((window) => ({ start: orderingDateKey(window.start, city), end: orderingDateKey(window.end, city) }))
     .filter((range) => range.start && range.end);
@@ -224,9 +211,9 @@ function orderingEventCategoryId(event) {
   return id;
 }
 
-function orderingIsLongExhibition(event) {
+function orderingIsLongExhibition(event, city) {
   if (orderingEventCategoryId(event) !== "exposiciones") return false;
-  const ranges = orderingRanges(event);
+  const ranges = orderingRanges(event, city);
   if (!ranges.length) return false;
   const start = ranges.reduce((value, range) => value < range.start ? value : range.start, ranges[0].start);
   const end = ranges.reduce((value, range) => value > range.end ? value : range.end, ranges[0].end);
@@ -244,65 +231,52 @@ function orderingEventSortKey(event) {
   return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;
 }
 
-async function ensureOrderingDataset() {
-  const cityId = orderingCurrentCityId();
-  if (orderingCityId === cityId && orderingEventsById.size) return;
-  if (orderingDatasetPromise) return orderingDatasetPromise;
-  orderingDatasetPromise = (async () => {
-    try {
-      const result = await loadAgendaDataset(ORDER_CITIES[cityId]);
-      const events = Array.isArray(result?.dataset?.events) ? result.dataset.events : [];
-      orderingEventsById = new Map(events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
-      orderingCityId = cityId;
-    } catch (error) {
-      orderingEventsById = new Map();
-      orderingCityId = cityId;
-      console.warn("¡Vivamos!: no se pudo resolver el orden final de exposiciones", error);
-    } finally {
-      orderingDatasetPromise = null;
-    }
-  })();
-  return orderingDatasetPromise;
-}
-
-function orderingCardEvents(card) {
+function orderingCardEvents(card, eventsById) {
   const ids = card.dataset.eventGroup
     ? String(card.dataset.eventGroup).split(",").map((id) => id.trim()).filter(Boolean)
     : [String(card.dataset.eventId || "").trim()].filter(Boolean);
-  return ids.map((id) => orderingEventsById.get(id)).filter(Boolean);
+  return ids.map((id) => eventsById.get(id)).filter(Boolean);
 }
 
-function orderingCardSortKey(card) {
-  const events = orderingCardEvents(card);
+function orderingCardSortKey(card, eventsById) {
+  const events = orderingCardEvents(card, eventsById);
   if (!events.length) return Number.POSITIVE_INFINITY;
   return Math.min(...events.map(orderingEventSortKey));
 }
 
-function orderingCardIsLongExhibition(card) {
-  const events = orderingCardEvents(card);
-  return events.length > 0 && events.every(orderingIsLongExhibition);
+function orderingCardIsLongExhibition(card, eventsById, city) {
+  const events = orderingCardEvents(card, eventsById);
+  return events.length > 0 && events.every((event) => orderingIsLongExhibition(event, city));
 }
 
 function categoryFilterIsActive() {
   return document.querySelectorAll('[data-combined-category-filters] [data-combined-category].active').length > 0;
 }
 
-async function applyExhibitionOrderPolicy() {
+function applyExhibitionOrderPolicy() {
   exhibitionOrderQueued = false;
-  await ensureOrderingDataset();
+  const snapshot = getAgendaRuntimeSnapshot();
   const grid = document.querySelector('[data-dated-grid]');
-  if (!grid || !orderingEventsById.size) return;
+  if (!snapshot?.events?.length || !grid) return;
+
+  const eventsById = new Map(
+    snapshot.events
+      .map((event) => [String(event?.id || ""), event])
+      .filter(([id]) => id),
+  );
   const cards = [...grid.children].filter((node) => node.classList?.contains("event-card"));
   if (cards.length < 2) return;
+
   const deferLongExhibitions = !categoryFilterIsActive();
   const indexed = cards.map((card, index) => ({
     card,
     index,
-    order: orderingCardSortKey(card),
-    deferred: deferLongExhibitions && orderingCardIsLongExhibition(card) ? 1 : 0,
+    order: orderingCardSortKey(card, eventsById),
+    deferred: deferLongExhibitions && orderingCardIsLongExhibition(card, eventsById, snapshot.city) ? 1 : 0,
   }));
   indexed.sort((a, b) => a.deferred - b.deferred || a.order - b.order || a.index - b.index);
   if (indexed.every((item, index) => item.card === cards[index])) return;
+
   const fragment = document.createDocumentFragment();
   for (const item of indexed) fragment.append(item.card);
   grid.append(fragment);
@@ -311,7 +285,7 @@ async function applyExhibitionOrderPolicy() {
 function scheduleExhibitionOrder() {
   if (exhibitionOrderQueued) return;
   exhibitionOrderQueued = true;
-  queueMicrotask(() => { void applyExhibitionOrderPolicy(); });
+  queueMicrotask(applyExhibitionOrderPolicy);
 }
 
 const datedGrid = document.querySelector('[data-dated-grid]');
@@ -325,10 +299,5 @@ if (combinedCategories) {
     attributeFilter: ["class", "aria-pressed"],
   });
 }
-new MutationObserver(() => {
-  orderingCityId = null;
-  orderingEventsById = new Map();
-  orderingDatasetPromise = null;
-  scheduleExhibitionOrder();
-}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
+window.addEventListener("vivamos:agenda-data-ready", scheduleExhibitionOrder);
 scheduleExhibitionOrder();
