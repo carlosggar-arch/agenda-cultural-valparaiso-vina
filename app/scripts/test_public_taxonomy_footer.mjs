@@ -57,9 +57,10 @@ for (const sample of [cultureCinema, cultureTheatre, cultureExhibition, museumBo
   assert.notEqual(resolvePublicCategory(sample).label, "Cultura");
 }
 
-const compact = readFileSync(new URL("../exhibition-compact.js", import.meta.url), "utf8");
-assert.match(compact, /GENERIC_EXHIBITION_FALLBACK/);
-assert.match(compact, /categoria-exposiciones\.jpg/);
+const exhibitionGroups = readFileSync(new URL("../exhibition-groups.js", import.meta.url), "utf8");
+assert.match(exhibitionGroups, /groupStandaloneExhibitions/);
+assert.match(exhibitionGroups, /FALLBACK_IMAGE[\s\S]*categoria-exposiciones\.jpg/);
+assert.match(exhibitionGroups, /grouped-exhibition-item/);
 
 const footer = readFileSync(new URL("../footer-credit.js", import.meta.url), "utf8");
 assert.match(footer, /Carlos García García/);
