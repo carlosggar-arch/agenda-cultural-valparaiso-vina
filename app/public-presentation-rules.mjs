@@ -51,7 +51,8 @@ function activityCategoryId(event) {
 
 function stripRedundantFormatPrefix(value, event) {
   let text = cleanSpace(value);
-  if (activityCategoryId(event) !== "cursos-talleres") return text;
+  const categoryId = activityCategoryId(event);
+  if (categoryId !== "cursos-talleres-campus" && categoryId !== "cursos-talleres") return text;
   const candidate = text.replace(
     /^ciclo\s+(?:de\s+)?taller(?:es)?\s*(?:(?:[:|/–—-])\s*)?/iu,
     "",
@@ -76,6 +77,31 @@ function stripEmbeddedCityStop(value, event) {
     new RegExp(`^(.+?)\\s+en\\s+${cityRx}\\s*$`, "iu"),
     (_match, before) => before.trim(),
   );
+  return text;
+}
+
+function exactLocationSuffixMatches(value, event) {
+  const suffix = fold(value);
+  const venue = cleanSpace(event?.location?.venue);
+  const city = cleanSpace(event?.location?.city);
+  if (!suffix) return false;
+  if (venue && suffix === fold(venue)) return true;
+  if (city && suffix === fold(city)) return true;
+  return Boolean(venue && city && suffix === fold(`${venue} ${city}`));
+}
+
+function stripExactLocationSuffix(value, event) {
+  const text = cleanSpace(value);
+  const patterns = [
+    /^(.+)\s+(?:en|@)\s+(.+)$/iu,
+    /^(.+)\s*(?:\/\/|[:|·/–—-])\s*(.+)$/u,
+  ];
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (!match || !exactLocationSuffixMatches(match[2], event)) continue;
+    const candidate = viableTitle(match[1]);
+    if (candidate) return candidate;
+  }
   return text;
 }
 
@@ -114,6 +140,7 @@ export function normalizePublicTitle(value, event = null) {
 
   text = stripRedundantFormatPrefix(text, event);
   text = stripEmbeddedCityStop(text, event);
+  text = stripExactLocationSuffix(text, event);
 
   const city = cleanSpace(event?.location?.city);
   const cityRx = city ? flexibleLiteral(city) : null;
@@ -127,8 +154,6 @@ export function normalizePublicTitle(value, event = null) {
         : "";
       const patterns = [
         new RegExp(`^${aliasRx}${optionalCity}\\s*(?:[:|·/–—-])\\s*(.+)$`, "iu"),
-        new RegExp(`^(.+?)\\s+(?:en|@)\\s+${aliasRx}${optionalCity}\\s*$`, "iu"),
-        new RegExp(`^(.+?)\\s*(?:[:|·/–—-])\\s*${aliasRx}${optionalCity}\\s*$`, "iu"),
       ];
       let changed = false;
       for (const pattern of patterns) {
