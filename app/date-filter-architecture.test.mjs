@@ -16,6 +16,7 @@ const worker = read("./service-worker.js");
 const release = read("./release-version.js");
 const scheduleDisplay = read("./schedule-display.js");
 const exhibitionHours = read("./exhibition-hours.js");
+const gijonCardImages = read("./gijon-card-images.js");
 
 assert.match(combined, /^import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/m);
 assert.match(combined, /const result = await loadAgendaDataset\(CITY_CONFIG\[cityId\]\)/);
@@ -58,10 +59,18 @@ assert.equal(dateSpecificHours(botanicoSeasonal, "2026-08-22"), "10:00–21:00")
 assert.equal(dateSpecificHours(botanicoSeasonal, "2026-08-17"), "10:00–21:00");
 assert.equal(dateSpecificHours(botanicoSeasonal, "2026-10-05"), "Cerrado");
 
+const pinoleHours = "Mar–vie 09:30–14:00 y 17:00–19:30 · sáb, dom y festivos 10:00–14:00 y 17:00–19:30 · lunes cerrado.";
+assert.equal(dateSpecificHours(pinoleHours, "2026-08-21"), "09:30–14:00 y 17:00–19:30");
+assert.equal(dateSpecificHours(pinoleHours, "2026-08-22"), "10:00–14:00 y 17:00–19:30");
+
 assert.match(scheduleDisplay, /scheduleWithoutVisitHours/);
 assert.match(scheduleDisplay, /visibleReferenceDateKey/);
+assert.match(scheduleDisplay, /!node\.classList\.contains\("venue-opening-hours"\)/);
+assert.doesNotMatch(scheduleDisplay, /const copy = schedule\?\.nextElementSibling/);
 assert.match(exhibitionHours, /gijonVenueHoursForDate/);
 assert.match(exhibitionHours, /Horario del recinto:/);
+assert.match(exhibitionHours, /for \(const event of events\)/);
+assert.match(gijonCardImages, /if \(!isExhibition\(event\)\) setVenueHours\(card, verifiedVenueHours\(event\)\)/);
 
 assert.match(safety, /pressedFilterValue\("\[data-combined-when\]"\) !== "todos"/);
 assert.match(safety, /pressedFilterValue\("\[data-combined-area\]"\) !== "todos"/);
