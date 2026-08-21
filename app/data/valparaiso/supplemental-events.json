@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-19T14:03:00-04:00",
+  "generated_at": "2026-08-20T19:45:00-04:00",
   "timezone": "America/Santiago",
   "events": [
     {
@@ -85,6 +85,175 @@
         "classification": "manual_official_recovery",
         "reason": "official_municipal_listing_missing_from_generated_dataset",
         "verified_source": "https://visitavina.munivina.cl/actividades/"
+      }
+    },
+    {
+      "id": "agenda_verified_campos_materiales_20260806",
+      "title": "Campos materiales: 70 experiencias de integración proyectual",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-08-06",
+        "end": "2026-09-24",
+        "timezone": "America/Santiago",
+        "display_text": "Martes a domingo · 10:00–13:30 y 15:30–18:30 · hasta 24-09-2026",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "pcdv",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Galería de Artes Visuales — Parque Cultural de Valparaíso",
+        "address": "Cumming 590, Cerro Cárcel, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Entrada liberada"
+      },
+      "links": {
+        "official": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/"
+      },
+      "organizer": "Parque Cultural de Valparaíso",
+      "source_id": "pcdv",
+      "source_name": "Parque Cultural de Valparaíso",
+      "source_url": "https://parquecultural.cl/2026/08/07/con-amplia-convocatoria-se-inauguro-la-exposicion-campos-materiales-que-da-inicio-a-los-70-anos-de-la-escuela-de-arquitectura-uv-en-el-parque-cultural-de-valparaiso/",
+      "last_verified_at": "2026-08-20T17:15:00-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-20T17:15:00-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Exposición con 70 maquetas y dispositivos exploratorios que recorre siete décadas de enseñanza, investigación e innovación proyectual de la Escuela de Arquitectura de la Universidad de Valparaíso.",
+      "tags": [
+        "exposición",
+        "arquitectura",
+        "Parque Cultural"
+      ],
+      "audience": "Todas las edades",
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "editorial": {
+        "classification": "manual_official_recovery",
+        "reason": "verified_official_parquecultural_publication_missing_from_generated_dataset",
+        "verified_source": "https://parquecultural.cl/publicaciones/"
+      }
+    },
+    {
+      "id": "agenda_verified_operacion_colombo_20260710",
+      "title": "Operación Colombo",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "patrimonio",
+          "label": "Patrimonio"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-07-10",
+        "end": "2026-08-30",
+        "timezone": "America/Santiago",
+        "display_text": "Martes a domingo · 10:00–19:30 · hasta 30-08-2026",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "pcdv",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "1º nivel del Edificio de la Ex Galería de Reos — Parque Cultural de Valparaíso",
+        "address": "Cumming 590, Cerro Cárcel, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Entrada liberada"
+      },
+      "links": {
+        "official": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/"
+      },
+      "organizer": "Parque Cultural de Valparaíso",
+      "source_id": "pcdv",
+      "source_name": "Parque Cultural de Valparaíso",
+      "source_url": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/",
+      "last_verified_at": "2026-08-20T17:15:00-04:00",
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": "2026-08-20T17:15:00-04:00",
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Exposición de memoria y derechos humanos dedicada a las 119 personas detenidas desaparecidas asociadas a la Operación Colombo.",
+      "tags": [
+        "exposición",
+        "memoria",
+        "derechos humanos",
+        "Parque Cultural"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "editorial": {
+        "classification": "manual_official_recovery",
+        "reason": "verified_official_parquecultural_event_missing_from_generated_dataset",
+        "verified_source": "https://parquecultural.cl/publicaciones/"
       }
     }
   ]

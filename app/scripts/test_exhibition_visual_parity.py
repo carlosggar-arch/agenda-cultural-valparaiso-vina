@@ -180,7 +180,8 @@ def make_test_page(city: str, expected_label: str, target: str) -> None:
 
     window.addEventListener("vivamos:exhibition-groups-rendered", () => setTimeout(captureTarget, 60));
     await import("./exhibition-groups.js?v=20260820-groups1");
-    for (const delay of [60, 140, 260, 500, 900, 1400]) setTimeout(captureTarget, delay);
+    captureTarget();
+    for (const delay of [60, 140, 260, 500, 900, 1400, 2200, 3200, 4800, 6200]) setTimeout(captureTarget, delay);
   </script>
 </body>
 </html>'''
@@ -192,28 +193,29 @@ def chrome_command(profile: str, url: str) -> list[str]:
         chrome_binary(), "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
         "--disable-background-networking", "--disable-component-update", "--disable-default-apps", "--disable-extensions",
         "--disable-sync", "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication", "--metrics-recording-only",
-        "--no-first-run", "--no-default-browser-check", "--window-size=720,980", "--virtual-time-budget=2800",
+        "--no-first-run", "--no-default-browser-check", "--window-size=720,980", "--virtual-time-budget=7000",
         f"--user-data-dir={profile}", url,
     ]
 
 
 def dump_dom(city: str, url: str) -> str:
     last_error = ""
-    for attempt in range(2):
+    for attempt in range(3):
         with tempfile.TemporaryDirectory(prefix=f"vivamos-exhibition-dom-{city}-", ignore_cleanup_errors=True) as profile:
             cmd = chrome_command(profile, url)
             cmd.insert(-1, "--dump-dom")
             try:
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=18)
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
             except subprocess.TimeoutExpired as exc:
-                last_error = f"timeout after {exc.timeout}s"
-                if attempt == 0:
-                    continue
-                raise AssertionError(f"Chrome visual DOM probe timed out twice for {city}: {last_error}") from exc
+                last_error = f"attempt {attempt + 1}: timeout after {exc.timeout}s"
+                continue
             if result.returncode == 0 and result.stdout:
-                return result.stdout
-            last_error = result.stderr[-1400:] or f"exit={result.returncode}, empty DOM"
-    raise AssertionError(f"Chrome visual DOM probe failed for {city}: {last_error}")
+                if 'data-visual-parity-ready="true"' in result.stdout:
+                    return result.stdout
+                last_error = f"attempt {attempt + 1}: DOM returned before visual parity became ready"
+                continue
+            last_error = result.stderr[-1400:] or f"attempt {attempt + 1}: exit={result.returncode}, empty DOM"
+    raise AssertionError(f"Chrome visual DOM probe failed after 3 attempts for {city}: {last_error}")
 
 
 def write_static_capture(dom: str) -> None:
@@ -225,7 +227,7 @@ def screenshot(city: str, url: str, output: Path) -> None:
         cmd = chrome_command(profile, url)
         cmd.insert(-1, "--run-all-compositor-stages-before-draw")
         cmd.insert(-1, f"--screenshot={output}")
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=18)
+        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=30)
         if result.returncode != 0 or not output.exists() or output.stat().st_size < 1000:
             raise AssertionError(f"Chrome screenshot failed for {city}: {result.stderr[-1400:]}")
 
