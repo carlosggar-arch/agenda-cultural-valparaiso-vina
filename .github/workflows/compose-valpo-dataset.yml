@@ -4,31 +4,28 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
-# Emergency/manual fallback only. Normal publication composes supplements atomically
-# inside event-pages.yml so a bot-authored base commit cannot bypass recoveries.
 concurrency:
-  group: permanent-event-pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: compose-valpo-dataset-readonly-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  compose:
+  compose-diagnostic:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Checkout latest published dataset
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          ref: main
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Compose all official and editorial supplements
+      - name: Compose all official and editorial supplements in workspace
         run: |
           set -euo pipefail
           python app/scripts/test_museo_maritimo.py
@@ -59,10 +56,13 @@ jobs:
           python app/scripts/apply_balmaceda_coverage.py
           python app/scripts/apply_fonck_coverage.py
           python app/scripts/apply_estadio_espanol_coverage.py
+
+      - name: Validate composed dataset and synchronized diagnostics
+        run: |
+          set -euo pipefail
           python - <<'PY'
           import json
           from pathlib import Path
-
           root = Path('.')
           dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
@@ -76,32 +76,10 @@ jobs:
               raise SystemExit(f'Manual fallback produced release blockers: {readiness.get("blockers")}')
           if not ((readiness.get('checks') or {}).get('valparaiso-vina') or {}).get('duplicates_zero'):
               raise SystemExit('Manual fallback produced duplicates')
-          print(f'MANUAL_VALPO_COMPOSE_OK total={len(events)} zero_now={summary.get("zero_now")}')
+          print(f'MANUAL_VALPO_COMPOSE_READ_ONLY_OK total={len(events)} zero_now={summary.get("zero_now")}')
           PY
 
-      - name: Commit composed dataset and synchronized diagnostics
+      - name: Confirm writer ownership
         run: |
-          set -euo pipefail
-          git config user.name "agenda-cultural-composer[bot]"
-          git config user.email "agenda-cultural-composer[bot]@users.noreply.github.com"
-          git add \
-            agenda_web.json \
-            app/data/quality/museo-maritimo.json \
-            app/data/quality/balmaceda-valpo.json \
-            app/data/quality/visitavina-fonck.json \
-            app/data/quality/visitavina-estadio-espanol.json \
-            app/data/quality/portaltickets-editorial.json \
-            app/data/quality/valpocultura-zero-recovery.json \
-            app/data/quality/priority-zero-monitors.json \
-            app/data/quality/title-quality.json \
-            app/data/quality/content-quality.json \
-            app/data/quality/source-coverage.json \
-            app/data/quality/event-quality.json \
-            app/data/quality/release-readiness.json
-          if git diff --cached --quiet; then
-            echo "Valpo dataset already composed."
-            exit 0
-          fi
-          git commit -m "Compone agenda Valpo/Vina con suplementos oficiales"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          echo "PUBLIC_WRITE=false"
+          echo "PUBLIC_WRITER=agenda-cultural-core/.github/workflows/finalize-public-agenda.yml"

@@ -3,9 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EVENT_PAGES = (ROOT / ".github/workflows/event-pages.yml").read_text(encoding="utf-8")
-FALLBACK = (ROOT / ".github/workflows/compose-valpo-dataset.yml").read_text(encoding="utf-8")
-MAINTENANCE_WORKFLOW = (ROOT / ".github/workflows/maintenance-automation.yml").read_text(encoding="utf-8")
+WORKFLOWS = ROOT / ".github" / "workflows"
+EVENT_PAGES = (WORKFLOWS / "event-pages.yml").read_text(encoding="utf-8")
+FALLBACK = (WORKFLOWS / "compose-valpo-dataset.yml").read_text(encoding="utf-8")
+CONTENT_QUALITY = (WORKFLOWS / "content-quality-guard.yml").read_text(encoding="utf-8")
+CROSS_SOURCE = (WORKFLOWS / "cross-source-reconciliation.yml").read_text(encoding="utf-8")
+CLOUDFLARE_SYNC = (WORKFLOWS / "sync-cloudflare-preview.yml").read_text(encoding="utf-8")
+MAINTENANCE_WORKFLOW = (WORKFLOWS / "maintenance-automation.yml").read_text(encoding="utf-8")
 ESTADIO_APPLIER = (ROOT / "app/scripts/apply_estadio_espanol_coverage.py").read_text(encoding="utf-8")
 MAINTENANCE_HOOK = (ROOT / "app/scripts/atomic_maintenance_hook.py").read_text(encoding="utf-8")
 
@@ -48,7 +52,63 @@ def push_block() -> str:
     return EVENT_PAGES[start:end]
 
 
+def git_add_blocks(text: str) -> list[str]:
+    """Return complete shell git-add commands, including continued lines."""
+    lines = text.splitlines()
+    blocks: list[str] = []
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        if "git add" not in line:
+            index += 1
+            continue
+        block = [line]
+        while block[-1].rstrip().endswith("\\") and index + 1 < len(lines):
+            index += 1
+            block.append(lines[index])
+        blocks.append("\n".join(block))
+        index += 1
+    return blocks
+
+
+def stages_root_valpo_dataset(text: str) -> bool:
+    """Match only the root Valpo dataset, never Gijon's nested agenda_web.json."""
+    for block in git_add_blocks(text):
+        tokens = block.replace("\\", " ").split()
+        if "agenda_web.json" in tokens:
+            return True
+    return False
+
+
+def pushes_public_main(text: str) -> bool:
+    """Recognize direct writes to main while allowing deployment-branch syncs."""
+    compact = text.replace("'", "").replace('"', "")
+    markers = (
+        "git push origin HEAD:main",
+        "git push origin main",
+        "git push --force origin HEAD:main",
+        "git push --force-with-lease origin HEAD:main",
+    )
+    return any(marker in compact for marker in markers)
+
+
+def secondary_public_main_writers() -> list[str]:
+    offenders: list[str] = []
+    for path in sorted(WORKFLOWS.glob("*.yml")):
+        text = path.read_text(encoding="utf-8")
+        if stages_root_valpo_dataset(text) and pushes_public_main(text):
+            offenders.append(path.name)
+    return offenders
+
+
+def assert_read_only_workflow(text: str, name: str) -> None:
+    assert "contents: read" in text, f"{name} must have read-only contents permission"
+    assert "contents: write" not in text, f"{name} must not request contents: write"
+    assert not pushes_public_main(text), f"{name} must not push to public main"
+
+
 def main() -> None:
+    # Permanent pages are validation-only; the protected cross-repo finalizer owns publication.
     assert FINALIZER_MARKER in EVENT_PAGES
     assert "permissions:\n  contents: read" in EVENT_PAGES
     assert "git commit" not in EVENT_PAGES
@@ -71,8 +131,27 @@ def main() -> None:
     for marker in FORBIDDEN_VALIDATION_PUSH_PATHS:
         assert marker not in current_push, f"Redundant validation push trigger returned: {marker.strip()}"
 
-    assert "push:" not in FALLBACK.split("permissions:", 1)[0], "Fallback composer must not auto-run on push"
+    # Former local writers remain available as diagnostics/fallback validators, never writers.
+    fallback_triggers = FALLBACK.split("permissions:", 1)[0]
+    assert "push:" not in fallback_triggers, "Fallback composer must not auto-run on push"
     assert "workflow_dispatch:" in FALLBACK, "Fallback composer must remain manually runnable"
+    for name, workflow in (
+        ("compose-valpo-dataset.yml", FALLBACK),
+        ("content-quality-guard.yml", CONTENT_QUALITY),
+        ("cross-source-reconciliation.yml", CROSS_SOURCE),
+    ):
+        assert_read_only_workflow(workflow, name)
+
+    # Cloudflare is deliberately allowed to synchronize its deployment branch, but never main.
+    assert "git push origin HEAD:cloudflare-preview" in CLOUDFLARE_SYNC
+    assert not pushes_public_main(CLOUDFLARE_SYNC)
+
+    offenders = secondary_public_main_writers()
+    assert not offenders, (
+        "PUBLIC_DATASET_SECONDARY_MAIN_WRITERS: " + ", ".join(offenders)
+        + ". Root agenda_web.json may only be written by " + FINALIZER_MARKER
+    )
+
     maintenance_triggers = MAINTENANCE_WORKFLOW.split("permissions:", 1)[0]
     assert "push:" not in maintenance_triggers, "Maintenance guard must not be a second automatic writer"
     assert "workflow_run:" not in maintenance_triggers, "Maintenance guard must not write after another workflow"
@@ -97,7 +176,11 @@ def main() -> None:
     assert "git push" not in MAINTENANCE_HOOK
     assert "stage_outputs()" in MAINTENANCE_HOOK
 
-    print("ATOMIC_PUBLICATION_CONTRACT_OK protected_writer=agenda-cultural-core/finalize-public-agenda.yml")
+    print(
+        "ATOMIC_PUBLICATION_CONTRACT_OK "
+        "protected_writer=agenda-cultural-core/finalize-public-agenda.yml "
+        "secondary_public_main_writers=0"
+    )
 
 
 if __name__ == "__main__":

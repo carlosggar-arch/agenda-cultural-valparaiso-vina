@@ -11,30 +11,28 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
-# Share the same lock as the post-publication composer so both writers serialize.
 concurrency:
-  group: permanent-event-pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: public-content-quality-readonly-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  sanitize-public-content:
+  validate-public-content:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout latest main
+      - name: Checkout current revision
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          ref: main
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Validate content quality guard
+      - name: Validate content quality without mutating public main
         run: |
           set -euo pipefail
           python -m py_compile \
@@ -42,22 +40,9 @@ jobs:
             app/scripts/test_content_quality_guard.py
           python app/scripts/test_content_quality_guard.py
           python app/scripts/apply_content_quality_guard.py --no-write
+          echo "PUBLIC_CONTENT_QUALITY_READ_ONLY_OK"
 
-      - name: Apply content quality guard
+      - name: Confirm writer ownership
         run: |
-          set -euo pipefail
-          python app/scripts/apply_content_quality_guard.py
-
-      - name: Commit sanitized public dataset
-        run: |
-          set -euo pipefail
-          git config user.name "agenda-content-quality[bot]"
-          git config user.email "agenda-content-quality[bot]@users.noreply.github.com"
-          git add agenda_web.json app/data/quality/content-quality.json
-          if git diff --cached --quiet; then
-            echo "Public content is already sanitized."
-            exit 0
-          fi
-          git commit -m "Sanea títulos, descripciones y duplicados públicos"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          echo "PUBLIC_WRITE=false"
+          echo "PUBLIC_WRITER=agenda-cultural-core/.github/workflows/finalize-public-agenda.yml"

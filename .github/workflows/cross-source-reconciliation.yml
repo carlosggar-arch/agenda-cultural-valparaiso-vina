@@ -12,24 +12,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
-# Emergency/manual fallback only. The primary event-pages workflow is the sole
-# automatic writer of the public dataset and synchronized diagnostics.
 concurrency:
-  group: permanent-event-pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: cross-source-reconciliation-readonly-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  reconcile:
+  reconcile-diagnostic:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -47,7 +44,7 @@ jobs:
           python app/scripts/test_valpocultura_resilience.py
           python app/scripts/test_event_derived_source_coverage.py
 
-      - name: Reconcile current public dataset
+      - name: Reconcile in workspace only
         if: github.event_name == 'workflow_dispatch'
         run: |
           set -euo pipefail
@@ -69,7 +66,6 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-
           root = Path('.')
           dataset = json.loads((root / 'agenda_web.json').read_text(encoding='utf-8'))
           coverage = json.loads((root / 'app/data/quality/source-coverage.json').read_text(encoding='utf-8'))
@@ -80,47 +76,18 @@ jobs:
           city = (coverage.get('cities') or {}).get('valparaiso-vina') or {}
           summary = city.get('summary') or {}
           qcity = (quality.get('cities') or {}).get('valparaiso-vina') or {}
-
           if summary.get('total_events') != len(events) or summary.get('attributed_events') != len(events):
               raise SystemExit('CROSS_SOURCE_RECONCILIATION_UNSYNCHRONIZED_COVERAGE')
           if (qcity.get('summary') or {}).get('total_events') != len(events):
               raise SystemExit('CROSS_SOURCE_RECONCILIATION_UNSYNCHRONIZED_QUALITY')
           if readiness.get('blockers'):
               raise SystemExit(f'CROSS_SOURCE_RECONCILIATION_BLOCKERS: {readiness.get("blockers")}')
-          check = (readiness.get('checks') or {}).get('valparaiso-vina') or {}
-          if not check.get('duplicates_zero') or not check.get('events_present'):
-              raise SystemExit('CROSS_SOURCE_RECONCILIATION_INVALID_DATASET')
-          if municipal.get('fetch_ok') is True and municipal.get('listing_discovered') == 0:
-              if municipal.get('direct_fallback_added', 0) <= 0:
-                  raise SystemExit('VALPOCULTURA_LISTING_DRIFT_WITHOUT_FALLBACK')
-          print(
-              'CROSS_SOURCE_RECONCILIATION_OK',
-              f'total={len(events)}',
-              f'zero={summary.get("zero_now")}',
-              f'covered={summary.get("covered_elsewhere")}',
-              f'municipal_state={municipal.get("state")}',
-          )
+          if municipal.get('fetch_ok') is True and municipal.get('listing_discovered') == 0 and municipal.get('direct_fallback_added', 0) <= 0:
+              raise SystemExit('VALPOCULTURA_LISTING_DRIFT_WITHOUT_FALLBACK')
+          print('CROSS_SOURCE_RECONCILIATION_READ_ONLY_OK', f'total={len(events)}')
           PY
 
-      - name: Commit material reconciliation
-        if: github.event_name == 'workflow_dispatch'
+      - name: Confirm writer ownership
         run: |
-          set -euo pipefail
-          git config user.name "agenda-cross-source-reconciliation[bot]"
-          git config user.email "agenda-cross-source-reconciliation[bot]@users.noreply.github.com"
-          git add \
-            agenda_web.json \
-            app/data/quality/valpocultura-zero-recovery.json \
-            app/data/quality/title-quality.json \
-            app/data/quality/content-quality.json \
-            app/data/quality/source-coverage.json \
-            app/data/quality/event-quality.json \
-            app/data/quality/release-readiness.json \
-            index.html evento sitemap.xml
-          if git diff --cached --quiet; then
-            echo "Cross-source state already reconciled."
-            exit 0
-          fi
-          git commit -m "Reconcilia manualmente cobertura entre fuentes"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          echo "PUBLIC_WRITE=false"
+          echo "PUBLIC_WRITER=agenda-cultural-core/.github/workflows/finalize-public-agenda.yml"
