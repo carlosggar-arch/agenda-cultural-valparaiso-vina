@@ -46,11 +46,9 @@ export function dateKey(value, timezone) {
 
 export function exhibitionRange(event, timezone) {
   const schedule = event?.schedule || {};
-  const windows = Array.isArray(schedule.occurrences) && schedule.occurrences.length
-    ? schedule.occurrences
-    : schedule.start
-      ? [{ start: schedule.start, end: schedule.end || schedule.start }]
-      : [];
+  const windows = [];
+  if (schedule.start) windows.push({ start: schedule.start, end: schedule.end || schedule.start });
+  if (Array.isArray(schedule.occurrences)) windows.push(...schedule.occurrences);
   const ranges = windows
     .map((window) => ({
       start: dateKey(window?.start, timezone),

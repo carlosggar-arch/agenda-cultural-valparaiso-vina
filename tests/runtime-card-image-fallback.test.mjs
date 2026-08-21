@@ -38,7 +38,7 @@ test("shared presentation modules use the intended cache tokens", () => {
   assert.match(app, /card-image-fallback\.js\?v=20260819-runtime1/);
   assert.match(app, /public-presentation-guard\.js\?v=20260820-text1/);
   assert.match(app, /exhibition-hours\.js\?v=20260820-hours5/);
-  assert.match(app, /exhibition-groups\.js\?v=20260820-groups1/);
+  assert.match(app, /exhibition-groups\.js\?v=20260821-groups2/);
   assert.match(app, /schedule-display\.js\?v=20260819-runtime1/);
   assert.doesNotMatch(app, /static-exhibition-groups\.js/);
   assert.doesNotMatch(app, /card-title-consistency\.js\?/);
