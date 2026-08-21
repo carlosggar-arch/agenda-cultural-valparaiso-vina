@@ -1,25 +1,26 @@
-const CATEGORY = Object.freeze({
-  exposiciones: { id: "exposiciones", label: "Exposiciones" },
-  cine: { id: "cine", label: "Cine" },
-  musica: { id: "musica", label: "Música" },
-  teatro: { id: "teatro", label: "Teatro" },
-  talleres: { id: "cursos-talleres-campus", label: "Cursos, talleres y campus" },
-  ferias: { id: "ferias-gastronomia", label: "Ferias y gastronomía" },
-  naturaleza: { id: "naturaleza-deportes", label: "Naturaleza y deportes" },
-  otros: { id: "otros", label: "Otros panoramas" },
-});
+import {
+  PUBLIC_CATEGORIES,
+  PUBLIC_CATEGORY_ALIASES,
+  PUBLIC_CATEGORY_GROUPS,
+  PUBLIC_CATEGORY_LABEL_ALIASES,
+  PUBLIC_CATEGORY_TAXONOMY,
+  PUBLIC_EVENT_TYPE_LABELS,
+} from "./public-category-taxonomy.generated.mjs";
 
-const TRAINING_CATEGORY_IDS = new Set([
-  "formacion",
-  "formacion-taller",
-  "cursos-talleres",
-  "cursos-talleres-campus",
-  "talleres-cursos",
-  "cursos",
-  "talleres",
-]);
+const RULES = PUBLIC_CATEGORY_TAXONOMY.rules;
+const EXPLICIT_TITLE_RULES = RULES.explicit_title.map((rule) => ({
+  ...rule,
+  regex: new RegExp(rule.pattern, "u"),
+}));
+const CULTURE_EVIDENCE_RULES = RULES.culture_evidence.map((rule) => ({
+  ...rule,
+  regex: new RegExp(rule.pattern, "u"),
+}));
+const SUMMER_PROGRAM_RE = new RegExp(RULES.summer_program_title_pattern, "u");
+const SUMMER_REGISTRATION_RE = new RegExp(RULES.summer_registration_title_pattern, "u");
+const SUMMER_PROGRAM_EVENT_TYPES = new Set(RULES.summer_program_event_types);
 
-function fold(value) {
+export function foldPublicCategoryText(value) {
   return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -32,12 +33,47 @@ function fold(value) {
 function sourceCategory(event) {
   const source = event?.primary_category || event?.categories?.[0] || null;
   const label = String(source?.label || "").trim();
-  const id = String(source?.id || fold(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
+  const id = String(source?.id || foldPublicCategoryText(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
   return { id, label };
 }
 
+export function canonicalPublicCategory(category) {
+  const raw = typeof category === "string" ? { id: category, label: "" } : (category || {});
+  const label = String(raw?.label || "").trim();
+  const id = String(raw?.id || foldPublicCategoryText(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
+  const labelKey = foldPublicCategoryText(label);
+  const canonicalId = PUBLIC_CATEGORY_ALIASES[id]
+    || PUBLIC_CATEGORY_LABEL_ALIASES[labelKey]
+    || (PUBLIC_CATEGORIES[id] ? id : null);
+  if (!canonicalId) return id || label ? { id, label: label || id } : null;
+  return { id: canonicalId, label: PUBLIC_CATEGORIES[canonicalId].label };
+}
+
+export function canonicalPublicCategoryId(category) {
+  return canonicalPublicCategory(category)?.id || null;
+}
+
+export function isPublicCategoryInGroup(category, groupName) {
+  const id = canonicalPublicCategoryId(category);
+  return Boolean(id && (PUBLIC_CATEGORY_GROUPS[groupName] || []).includes(id));
+}
+
+export function publicCategorySymbol(category) {
+  const id = canonicalPublicCategoryId(category);
+  return id && PUBLIC_CATEGORIES[id]?.symbol ? PUBLIC_CATEGORIES[id].symbol : PUBLIC_CATEGORIES[PUBLIC_CATEGORY_TAXONOMY.fallback_category].symbol;
+}
+
+export function publicEventTypeLabel(eventType) {
+  return PUBLIC_EVENT_TYPE_LABELS[String(eventType || "")] || null;
+}
+
+function category(id) {
+  const config = PUBLIC_CATEGORIES[id] || PUBLIC_CATEGORIES[PUBLIC_CATEGORY_TAXONOMY.fallback_category];
+  return { id: PUBLIC_CATEGORIES[id] ? id : PUBLIC_CATEGORY_TAXONOMY.fallback_category, label: config.label };
+}
+
 function evidenceText(event) {
-  return fold([
+  return foldPublicCategoryText([
     event?.title,
     event?.description,
     event?.organizer,
@@ -46,54 +82,45 @@ function evidenceText(event) {
   ].filter(Boolean).join(" "));
 }
 
-function isTrainingSource(source) {
-  if (TRAINING_CATEGORY_IDS.has(source.id)) return true;
-  return /\b(?:formacion|curso|cursos|taller|talleres|campus)\b/u.test(fold(source.label));
+function isSummerProgram(event) {
+  if (!SUMMER_PROGRAM_EVENT_TYPES.has(String(event?.event_type || ""))) return false;
+  const title = foldPublicCategoryText(event?.title);
+  return SUMMER_PROGRAM_RE.test(title) || SUMMER_REGISTRATION_RE.test(title);
 }
 
-function isSummerProgram(event) {
-  if (!["program", "registration_period"].includes(String(event?.event_type || ""))) return false;
-  const title = fold(event?.title);
-  return /\b(?:campus|campamento|escuela de verano)\b/u.test(title)
-    || (/\bverano\b/u.test(title) && /\binscripciones?\b/u.test(title));
+function categoryFromRules(text, rules) {
+  for (const rule of rules) {
+    if (rule.regex.test(text)) return category(rule.category);
+  }
+  return null;
 }
 
 function explicitTitleCategory(event) {
-  const title = fold(event?.title);
+  const title = foldPublicCategoryText(event?.title);
   if (!title) return null;
-  if (/\b(?:campus|campamento|escuela de verano)\b/u.test(title) || isSummerProgram(event)) return CATEGORY.talleres;
-  if (/\b(exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\b/u.test(title)) return CATEGORY.exposiciones;
-  if (/\b(cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\b/u.test(title)) return CATEGORY.cine;
-  if (/\b(concierto|recital|jazz|coro|coral|orquesta|musica)\b/u.test(title)) return CATEGORY.musica;
-  if (/\b(teatro|danza|ballet|circo|performance|funcion|espectaculo)\b/u.test(title)) return CATEGORY.teatro;
-  if (/\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion|formacion)\b/u.test(title)) return CATEGORY.talleres;
-  if (/\b(presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\b/u.test(title)) return CATEGORY.otros;
-  return null;
+  if (SUMMER_PROGRAM_RE.test(title) || isSummerProgram(event)) return category("cursos-talleres-campus");
+  return categoryFromRules(title, EXPLICIT_TITLE_RULES);
 }
 
 function inferCultureCategory(event) {
   const explicit = explicitTitleCategory(event);
   if (explicit) return explicit;
-
-  const text = evidenceText(event);
-  if (/\b(exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\b/u.test(text)) return CATEGORY.exposiciones;
-  if (/\b(cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\b/u.test(text)) return CATEGORY.cine;
-  if (/\b(musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\b/u.test(text)) return CATEGORY.musica;
-  if (/\b(teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\b/u.test(text)) return CATEGORY.teatro;
-  if (/\b(taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano)\b/u.test(text)) return CATEGORY.talleres;
-  if (/\b(feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\b/u.test(text)) return CATEGORY.ferias;
-  if (/\b(naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\b/u.test(text)) return CATEGORY.naturaleza;
-  return CATEGORY.otros;
+  return categoryFromRules(evidenceText(event), CULTURE_EVIDENCE_RULES)
+    || category(PUBLIC_CATEGORY_TAXONOMY.fallback_category);
 }
 
 export function resolvePublicCategory(event) {
   const source = sourceCategory(event);
-  if (isTrainingSource(source)) return CATEGORY.talleres;
-  if (isSummerProgram(event)) return CATEGORY.talleres;
-  if (source.id === "museos" || source.id === "exposiciones") return CATEGORY.exposiciones;
-  if (source.id === "cultura" || fold(source.label) === "cultura") return inferCultureCategory(event);
-  if (!source.id) return explicitTitleCategory(event) || CATEGORY.otros;
-  return { id: source.id, label: source.label || "Otros panoramas" };
-}
+  const canonical = canonicalPublicCategory(source);
 
-export { CATEGORY, explicitTitleCategory, inferCultureCategory };
+  if (canonical && canonical.id !== source.id) return canonical;
+  if (isSummerProgram(event)) return category("cursos-talleres-campus");
+  if (canonical && PUBLIC_CATEGORIES[canonical.id]) return canonical;
+  if (source.id === "cultura" || foldPublicCategoryText(source.label) === "cultura") return inferCultureCategory(event);
+  if (!source.id && !source.label) return explicitTitleCategory(event) || category(PUBLIC_CATEGORY_TAXONOMY.fallback_category);
+
+  // Source-specific categories remain visible only when they are explicitly
+  // registered by the shared architecture contract. They are not redefined
+  // inside a city adapter.
+  return source;
+}
