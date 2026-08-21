@@ -204,7 +204,7 @@ function orderingCardEventIds(card, { visibleOnly = false } = {}) {
 }
 
 function orderingCardEvents(card, eventsById) {
-  return orderingCardEventIds(card, eventsById)
+  return orderingCardEventIds(card, { visibleOnly: !card.hidden })
     .map((id) => eventsById.get(id))
     .filter(Boolean);
 }
