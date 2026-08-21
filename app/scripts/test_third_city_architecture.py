@@ -62,6 +62,7 @@ common_presentation = [
     "temporal-priority.js",
     "exhibition-groups.js",
     "schedule-display.js",
+    "event-card-data-quality.mjs",
     "exhibition-hours.js",
     "card-experience.js",
     "public-presentation-guard.js",
