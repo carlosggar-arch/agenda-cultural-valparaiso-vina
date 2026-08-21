@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "audited_at": "2026-08-20",
+  "city_id": "valparaiso-vina",
+  "candidates": [
+    {
+      "id": "red_conciertos_chile",
+      "name": "Red de Conciertos de Chile",
+      "url": "https://www.instagram.com/reddeconciertosdechile/",
+      "status": "pilot",
+      "requires_corroboration": true,
+      "promotion_rule": "Revisar una muestra reciente y exigir publicaciones futuras con fecha, hora y lugar antes de incorporarla al catálogo público."
+    },
+    {
+      "id": "morgado_taller_estudio",
+      "name": "Morgado Taller Estudio",
+      "url": "https://www.instagram.com/morgado.tallerestudio/",
+      "status": "pilot",
+      "requires_corroboration": true,
+      "promotion_rule": "Confirmar regularidad de talleres o actividades futuras y calidad de fecha, hora y lugar."
+    },
+    {
+      "id": "ceramica_merak",
+      "name": "Cerámica Merak",
+      "url": "https://www.instagram.com/ceramica.merak/",
+      "status": "pilot",
+      "requires_corroboration": true,
+      "promotion_rule": "Confirmar regularidad de talleres o actividades futuras y calidad de fecha, hora y lugar."
+    },
+    {
+      "id": "marselene_encuadernacion",
+      "name": "Marselene Encuadernación",
+      "url": "https://www.instagram.com/marselene_encuadernacion/",
+      "status": "pilot",
+      "requires_corroboration": true,
+      "promotion_rule": "Confirmar regularidad de talleres o actividades futuras y calidad de fecha, hora y lugar."
+    }
+  ],
+  "excluded": [
+    {
+      "name": "Nati de la Paz — Stories",
+      "url": "https://www.instagram.com/stories/natidelapaz/",
+      "reason": "Stories efímeras y cuenta personal; utilizar sólo como pista puntual si el evento puede corroborarse en una fuente persistente."
+    }
+  ]
+}
