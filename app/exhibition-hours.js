@@ -1,8 +1,7 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
-import { venueRecordForEvent, venueRecordForName } from "./venue-identity.mjs?v=20260820-venues1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
-import { gijonVenueHoursForDate } from "./gijon-venue-hours.js?v=20260821-visible-date1";
+import { venueHoursForDate } from "./venue-hours.mjs?v=20260821-datevenue1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 const datedGrid = document.querySelector("[data-dated-grid]");
@@ -38,19 +37,6 @@ function referenceDateKey() {
   return visibleReferenceDateKey({ timezone: indexedTimezone });
 }
 
-function structuredRegistryHours(record, referenceDate) {
-  const hours = record?.opening_hours;
-  if (!hours || typeof hours !== "object") return null;
-  const hasStructuredWeekdays = Array.isArray(hours.open_weekdays) && hours.open_weekdays.length > 0;
-  const hasStructuredRange = /^\d{2}:\d{2}$/.test(String(hours.opening_time || ""))
-    && /^\d{2}:\d{2}$/.test(String(hours.closing_time || ""));
-  if (!(hasStructuredWeekdays || hasStructuredRange)) return null;
-  return dailyExhibitionHours({ opening_hours: hours }, {
-    timezone: indexedTimezone,
-    referenceDate,
-  })?.label || null;
-}
-
 function explicitVenueHours(event) {
   if (!isExhibition(event)) return null;
   const referenceDate = referenceDateKey();
@@ -59,12 +45,7 @@ function explicitVenueHours(event) {
     referenceDate,
   })?.label || null;
   if (scheduleHours) return scheduleHours;
-
-  if (indexedCity === "gijon") {
-    return gijonVenueHoursForDate(event, referenceDate)?.display || null;
-  }
-
-  return structuredRegistryHours(venueRecordForEvent(event), referenceDate);
+  return venueHoursForDate(event, indexedCity, referenceDate)?.display || null;
 }
 
 function patchStandaloneCard(card) {
@@ -138,33 +119,16 @@ function patchGroupCard(card) {
   const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
   if (!ids.length) return;
   const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
+  const referenceDate = referenceDateKey();
   let hours = null;
-
-  if (indexedCity === "gijon") {
-    // A grouped card represents one venue. Its header must therefore use the
-    // venue's date-specific opening hours, not compare event-level schedules
-    // across all exhibitions in the group. Those schedules can legitimately
-    // differ even though the museum opening hours are identical.
-    const referenceDate = referenceDateKey();
-    for (const event of events) {
-      const venueHours = gijonVenueHoursForDate(event, referenceDate)?.display || null;
-      if (venueHours) {
-        hours = venueHours;
-        break;
-      }
-    }
-    if (!hours) hours = commonExplicitHours(events);
-  } else {
-    hours = commonExplicitHours(events);
-    if (!hours) {
-      const labels = events.map(explicitVenueHours);
-      if (labels.every((label) => !label)) {
-        const venueName = card.querySelector(".exhibition-venue-heading h4")?.textContent || "";
-        hours = structuredRegistryHours(venueRecordForName(venueName), referenceDateKey());
-      }
+  for (const event of events) {
+    const venueHours = venueHoursForDate(event, indexedCity, referenceDate)?.display || null;
+    if (venueHours) {
+      hours = venueHours;
+      break;
     }
   }
-
+  if (!hours) hours = commonExplicitHours(events);
   setGroupedOpeningHours(card, hours);
 }
 
