@@ -7,6 +7,7 @@ import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?
 import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260821-shared-taxonomy1";
 import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
+import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs?v=20260821-sources1";
 import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260820-pastguard2";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260820-programs4";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
@@ -323,6 +324,7 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     diagnostics.push({ name: "artequin-session-correction", status: "not-applicable" });
   }
   dataset = applyStage("cross-source-deduplication", deduplicateCrossSourceDataset, dataset, diagnostics);
+  dataset = applyStage("source-evidence-normalizer", normalizeAgendaSourceEvidence, dataset, diagnostics);
   dataset = applyStage(
     "past-event-guard",
     (current) => removeExpiredDatedEvents(current, {
