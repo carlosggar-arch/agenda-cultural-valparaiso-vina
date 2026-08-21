@@ -103,6 +103,50 @@ test("recurring event with a small cross-source time disagreement collapses to t
   assert.equal(result.events[0].editorial.deduplication_rule, "same_date_similar_venue_recurring_title_authoritative_source");
 });
 
+test("direct venue source resolves a recurring schedule conflict even when upstream marks it non-official", () => {
+  const aggregator = event({
+    id: "visitavina-yoga",
+    title: "Yoga y meditación",
+    sourceId: "culturasvina",
+    sourceName: "Visita Viña — Municipalidad de Viña del Mar",
+    start: "2026-08-22T11:00:00-04:00",
+    venue: "Jardín Botánico",
+    city: "Viña del Mar",
+    price: { is_free: true, display_text: "Gratis" },
+  });
+  aggregator.source_url = "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/";
+  aggregator.links = {
+    official: "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/",
+    source: "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/",
+  };
+
+  const directVenue = event({
+    id: "jbn-yoga",
+    title: "Yoga todos los sábados",
+    sourceId: "jbn",
+    sourceName: "Jardín Botánico Nacional de Viña del Mar",
+    start: "2026-08-22T10:30:00-04:00",
+    venue: "Jardín Botánico Nacional de Viña del Mar",
+    city: "Viña del Mar",
+    price: { is_free: false, display_text: "Actividad gratuita; se paga entrada al parque" },
+  });
+  directVenue.source_url = "https://jbn.cl/calendario-actividades/";
+  directVenue.links = {
+    official: "https://jbn.cl/calendario-actividades/",
+    source: "https://jbn.cl/calendario-actividades/",
+  };
+  directVenue.public_status.source_official = false;
+
+  assert.equal(areProbableDuplicateEvents(aggregator, directVenue), true);
+  const result = deduplicateCrossSourceDataset({ counts: { total: 2, events: 2 }, events: [aggregator, directVenue] });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].id, "jbn-yoga", "direct venue source should become canonical despite the bad upstream flag");
+  assert.equal(result.events[0].source_name, "Jardín Botánico Nacional de Viña del Mar");
+  assert.equal(result.events[0].schedule.start, "2026-08-22T10:30:00-04:00");
+  assert.equal(result.events[0].price.is_free, false);
+  assert.equal(result.events[0].price.display_text, "Actividad gratuita; se paga entrada al parque");
+});
+
 test("nearby sessions with only a generic title token stay separate without recurrence wording", () => {
   const adults = event({
     id: "yoga-adults",
