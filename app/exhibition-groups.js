@@ -1,11 +1,7 @@
-import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
-import { eventForCityPresentation, venueHoursForCity } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
 import { publicExhibitionCategoryId } from "./exhibition-group-core.mjs?v=20260820-groups1";
 
-const REGISTRY = await loadCityRegistry();
-const CITIES = REGISTRY.byId;
 const EXHIBITION_ID = "exposiciones";
 const FALLBACK_IMAGE = new URL("../assets/categoria-exposiciones.jpg", import.meta.url).href;
 const grid = document.querySelector("[data-dated-grid]");
@@ -31,12 +27,11 @@ function installStyles() {
 }
 
 function currentCityId() {
-  const id = String(document.documentElement.dataset.city || "").trim();
-  return CITIES[id] ? id : null;
+  return String(document.documentElement.dataset.city || "").trim() || null;
 }
 
 function currentConfig() {
-  return CITIES[currentCityId()] || null;
+  return getAgendaRuntimeSnapshot(currentCityId())?.city || null;
 }
 
 function syncRuntimeIndex() {
@@ -48,10 +43,7 @@ function syncRuntimeIndex() {
   indexedCity = cityId;
   indexedRevision = snapshot.revision;
   eventsById = new Map(snapshot.events
-    .map((event) => {
-      const presented = eventForCityPresentation(event, cityId);
-      return [String(presented?.id || "").trim(), presented];
-    })
+    .map((event) => [String(event?.id || "").trim(), event])
     .filter(([id]) => id));
   return eventsById.size > 0;
 }
@@ -172,14 +164,6 @@ function buildRow(event, config) {
   return row;
 }
 
-function commonVenueHours(events, cityId) {
-  const values = new Set(events
-    .map((event) => venueHoursForCity(event, cityId))
-    .map((value) => String(value || "").replace(/\s+/g, " ").trim())
-    .filter(Boolean));
-  return values.size === 1 ? [...values][0] : null;
-}
-
 function sortEvents(events, config) {
   return [...events].sort((a, b) => {
     const aStart = String(a?.schedule?.start || a?.schedule?.occurrences?.[0]?.start || "9999");
@@ -213,7 +197,6 @@ function visibleIdsFromExistingGroup(card, ids) {
 }
 
 function buildGroupCard(events, visibleIds = null) {
-  const cityId = currentCityId();
   const config = currentConfig();
   const sorted = sortEvents(events, config);
   const first = sorted[0];
@@ -247,14 +230,6 @@ function buildGroupCard(events, visibleIds = null) {
 
   const facts = document.createElement("div");
   facts.className = "exhibition-venue-facts";
-  const hours = commonVenueHours(sorted, cityId);
-  if (hours) {
-    const hoursNode = document.createElement("p");
-    hoursNode.className = "venue-opening-hours exhibition-venue-hours";
-    hoursNode.dataset.exhibitionOpeningHours = "";
-    hoursNode.textContent = `Horario del recinto: ${hours}`;
-    facts.append(hoursNode);
-  }
   if (city) {
     const cityNode = document.createElement("p");
     cityNode.className = "exhibition-venue-city";
