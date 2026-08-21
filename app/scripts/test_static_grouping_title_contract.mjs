@@ -52,14 +52,28 @@ const runtimeState = read("agenda-runtime-state.mjs");
 const supplementBridge = read("supplemental-events-fetch.js");
 const programPolicy = read("program-visibility-policy.js");
 const release = read("release-version.js");
+const filterSafety = read("combined-filters-safety.js");
+const compactCss = read("exhibition-compact.css");
+const exhibitionHours = read("exhibition-hours.js");
+const serviceWorker = read("service-worker.js");
 
-// Exhibition presentation has one canonical multi-city owner. It consumes the
-// normalized runtime snapshot; city-specific schedule/location details stay in
-// a narrow adapter rather than in separate city renderers.
+// Exhibition presentation has one canonical multi-city owner. Retired renderers
+// must not remain available for accidental reactivation.
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
-assert.match(appJs, /multievent-layout-fix\.js/);
-assert.doesNotMatch(appJs, /static-exhibition-groups\.js/);
+assert.doesNotMatch(appJs, /multievent-layout-fix\.js/);
+assert.doesNotMatch(appJs, /static-exhibition-groups\.js|exhibition-venue-grouping\.js|exhibition-gallery\.js|exhibition-compact-loader\.js|exhibition-compact\.js/);
+for (const retired of [
+  "static-exhibition-groups.js",
+  "exhibition-venue-grouping.js",
+  "exhibition-gallery.js",
+  "exhibition-compact-loader.js",
+  "exhibition-compact.js",
+  "multievent-layout-fix.js",
+]) {
+  assert.equal(fs.existsSync(path.join(app, retired)), false, `${retired} must stay retired`);
+  assert.doesNotMatch(serviceWorker, new RegExp(retired.replaceAll(".", "\\.")));
+}
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
 assert.match(grouping, /groupStandaloneExhibitions/);
 assert.match(grouping, /unifiedExhibitionGroup/);
@@ -71,13 +85,27 @@ assert.match(groupingCore, /clusterSimultaneousExhibitions/);
 assert.match(cityAdapter, /eventForCityPresentation/);
 assert.match(cityAdapter, /venueHoursForCity/);
 
+// Visibility has one owner too: the safety module may request a canonical
+// filter pass, but it may never expose cards, rows or sections itself.
+assert.match(filterSafety, /requestCanonicalFilterPass/);
+assert.match(filterSafety, /data-smart-search/);
+assert.doesNotMatch(filterSafety, /static-exhibition-sentinels/);
+assert.doesNotMatch(filterSafety, /\.hidden\s*=/);
+
+// Grouped-card geometry belongs to CSS, not runtime JavaScript patches.
+assert.match(compactCss, /--agenda-group-row-min-height:\s*96px/);
+assert.match(compactCss, /--agenda-group-list-max-height:\s*306px/);
+assert.match(compactCss, /nth-child\(4\)/);
+assert.match(compactCss, /overflow-wrap:\s*anywhere/);
+assert.doesNotMatch(exhibitionHours, /style\.textContent|createElement\(["']style["']\)/);
+assert.match(exhibitionHours, /venueHoursForEvents/);
+
 assert.match(pipeline, /normalizeAgendaTitles/);
 assert.match(pipeline, /normalizeAgendaCategories/);
 assert.match(pipeline, /normalizeSessionOccurrences/);
 assert.match(pipeline, /applyProgramVisibilityPolicy/);
 assert.match(pipeline, /publishAgendaRuntimeSnapshot/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:title-normalizer-bootstrap|category-normalizer|supplemental-events-fetch|program-visibility-policy)\.js/m);
-assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 
@@ -103,7 +131,7 @@ assert.match(programPolicy, /export function renderProgramReferences/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 163, "PWA release must include unified exhibition ownership");
+assert.ok(Number(releaseMatch[1]) >= 165, "PWA release must include single-owner filter/exhibition architecture");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -115,4 +143,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Unified exhibition grouping + venue identity + normalized runtime titles contract: OK");
+console.log("Single-owner filters + unified exhibition renderer/layout contract: OK");
