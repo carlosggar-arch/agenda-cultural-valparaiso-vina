@@ -1,16 +1,8 @@
 import { canonicalPublicCategoryId, isPublicCategoryInGroup } from "./public-category-rules.mjs";
+import { canonicalVenueKey } from "./venue-identity.mjs?v=20260820-venues1";
 
 export const EXHIBITION_GROUP_MIN = 2;
 export const LONG_EXHIBITION_DAYS = 7;
-
-function fold(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 export function publicExhibitionCategoryId(event) {
   const primary = event?.primary_category || null;
@@ -23,10 +15,7 @@ export function publicExhibitionCategoryId(event) {
 
 export function exhibitionVenueKey(event) {
   if (publicExhibitionCategoryId(event) !== "exposiciones") return null;
-  const venue = String(event?.location?.venue || "").trim();
-  if (!venue) return null;
-  const city = String(event?.location?.city || "").trim();
-  return fold(`${venue}|${city}`);
+  return canonicalVenueKey(event) || null;
 }
 
 export function dateKey(value, timezone) {

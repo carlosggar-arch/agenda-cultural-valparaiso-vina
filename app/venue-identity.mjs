@@ -84,6 +84,16 @@ export function canonicalVenueKey(event) {
   return `${venue}|${city}`;
 }
 
+export function canonicalVenueKeyForEvents(events, fallbackLocation = {}) {
+  for (const event of events || []) {
+    const key = canonicalVenueKey(event);
+    if (key) return key;
+  }
+  const venue = String(fallbackLocation?.venue || "").trim();
+  if (!venue) return "";
+  return canonicalVenueKey({ location: { ...fallbackLocation, venue } });
+}
+
 export function preferredVenueLabel(values) {
   const labels = [...new Set((values || []).map((value) => String(value || "").trim()).filter(Boolean))];
   labels.sort((a, b) => {
