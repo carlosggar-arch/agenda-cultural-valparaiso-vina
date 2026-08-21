@@ -73,6 +73,7 @@
     "./exhibition-group-core.mjs",
     "./exhibition-groups.js",
     "./exhibition-hours.js",
+    "./exhibition-presentation-guard.js",
     "./favorites.js",
     "./footer-credit.js",
     "./formation-cycle-classifier.js",
