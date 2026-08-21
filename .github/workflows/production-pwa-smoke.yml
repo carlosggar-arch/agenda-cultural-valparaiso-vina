@@ -27,11 +27,11 @@ jobs:
       - name: Validate local shell before network smoke
         run: |
           set -euo pipefail
-          python -m py_compile app/scripts/production_pwa_smoke.py
+          python -m py_compile app/scripts/production_pwa_smoke.py app/scripts/temp_production_functional_probe.py
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for both deployments and verify byte parity
         run: python app/scripts/production_pwa_smoke.py http
 
-      - name: Cold-load both cities on GitHub Pages and Cloudflare
-        run: python app/scripts/production_pwa_smoke.py browser
+      - name: Probe all four production browser cases
+        run: python app/scripts/temp_production_functional_probe.py
