@@ -8,7 +8,8 @@ on:
       - "app/category-normalizer.js"
       - "app/combined-filters-bootstrap.js"
       - "app/index.html"
-      - "app/exhibition-compact.js"
+      - "app/exhibition-groups.js"
+      - "app/exhibition-compact.css"
       - "app/footer-credit.js"
       - "app/community-source.js"
       - "app/community-source.css"
@@ -27,7 +28,8 @@ on:
       - "app/category-normalizer.js"
       - "app/combined-filters-bootstrap.js"
       - "app/index.html"
-      - "app/exhibition-compact.js"
+      - "app/exhibition-groups.js"
+      - "app/exhibition-compact.css"
       - "app/footer-credit.js"
       - "app/community-source.js"
       - "app/community-source.css"
@@ -57,7 +59,7 @@ jobs:
           node --check app/public-category-rules.mjs
           node --check app/category-normalizer.js
           node --check app/combined-filters-bootstrap.js
-          node --check app/exhibition-compact.js
+          node --check app/exhibition-groups.js
           node --check app/footer-credit.js
           node --check app/community-source.js
           node --check app/pwa.js
