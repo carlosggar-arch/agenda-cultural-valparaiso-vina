@@ -9,6 +9,7 @@ const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId;
 const EXHIBITION_CATEGORY_ID = "exposiciones";
 const MUSEUM_CATEGORY_ID = "museos";
 const EXHIBITION_GROUP_MIN = 3;
+const LONG_EXHIBITION_DAYS = 7;
 
 let resolveCoreReady;
 let coreReadySettled = false;
@@ -429,6 +430,16 @@ function exhibitionRange(event) {
   };
 }
 
+function isLongExhibition(event) {
+  if (eventCategoryId(event) !== EXHIBITION_CATEGORY_ID) return false;
+  const range = exhibitionRange(event);
+  if (!range) return false;
+  const start = Date.parse(`${range.start}T12:00:00Z`);
+  const end = Date.parse(`${range.end}T12:00:00Z`);
+  if (!Number.isFinite(start) || !Number.isFinite(end)) return false;
+  return (end - start) / 86400000 > LONG_EXHIBITION_DAYS;
+}
+
 function clusterVenueExhibitions(events) {
   const sortable = events
     .map((event) => ({ event, range: exhibitionRange(event) }))
@@ -482,12 +493,7 @@ function createExhibitionGroupCard(events) {
   return card;
 }
 
-function renderDatedGroup(grid, section, total, events) {
-  grid.replaceChildren();
-  total.textContent = String(events.length);
-  section.hidden = events.length === 0;
-  if (!events.length) return;
-
+function buildDatedItems(events) {
   const exhibitionBuckets = new Map();
   const standalone = [];
   for (const event of events) {
@@ -515,7 +521,21 @@ function renderDatedGroup(grid, section, total, events) {
   }
 
   standalone.sort((a, b) => a.order - b.order);
-  for (const item of standalone) {
+  return standalone;
+}
+
+function renderDatedGroup(grid, section, total, events) {
+  grid.replaceChildren();
+  total.textContent = String(events.length);
+  section.hidden = events.length === 0;
+  if (!events.length) return;
+
+  const deferLongExhibitions = activeCategory === "";
+  const regularEvents = deferLongExhibitions ? events.filter((event) => !isLongExhibition(event)) : events;
+  const longExhibitions = deferLongExhibitions ? events.filter(isLongExhibition) : [];
+  const items = [...buildDatedItems(regularEvents), ...buildDatedItems(longExhibitions)];
+
+  for (const item of items) {
     grid.append(item.type === "group" ? createExhibitionGroupCard(item.events) : createEventCard(item.event));
   }
 }
