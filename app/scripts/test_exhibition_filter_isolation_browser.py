@@ -3,14 +3,16 @@ from __future__ import annotations
 import http.server
 import json
 import os
-import re
 import shutil
 import socketserver
-import subprocess
 import tempfile
 import threading
 import time
 from pathlib import Path
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
@@ -31,101 +33,127 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def make_test_page() -> None:
+    # Use the real app shell; Selenium supplies the deterministic interaction and
+    # waiting contract instead of injecting a virtual-time dump-dom probe.
     source = (APP / "index.html").read_text(encoding="utf-8")
-    probe = r'''
-<script data-exhibition-filter-isolation-probe>
-(() => {
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const visible = (node) => {
-    if (!node || node.hidden || node.closest('[hidden]')) return false;
-    const style = getComputedStyle(node);
-    return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
-  };
-  const visibleGroups = () => [...document.querySelectorAll('[data-unified-exhibition-group="true"]')].filter(visible);
-  const chip = (id) => document.querySelector(`[data-combined-category="${CSS.escape(id)}"]`);
-  const waitFor = async (predicate, timeout = 7000) => {
-    const started = performance.now();
-    while (performance.now() - started < timeout) {
-      const value = predicate();
-      if (value) return value;
-      await sleep(80);
-    }
-    return null;
-  };
-
-  async function run() {
-    try {
-      await waitFor(() => visibleGroups().length > 0);
-      const nonExhibition = await waitFor(() => [...document.querySelectorAll('[data-combined-category]')]
-        .find((button) => button.dataset.combinedCategory !== 'exposiciones' && Number(button.querySelector('small')?.textContent || 0) > 0));
-      if (!nonExhibition) throw new Error('No non-exhibition category with results found');
-
-      const nonId = nonExhibition.dataset.combinedCategory;
-      nonExhibition.click();
-      await sleep(700);
-      const nonGroups = visibleGroups().length;
-      const nonActive = chip(nonId)?.getAttribute('aria-pressed') === 'true';
-
-      chip(nonId)?.click();
-      await sleep(300);
-      const exhibitions = await waitFor(() => chip('exposiciones'));
-      if (!exhibitions) throw new Error('Exposiciones category chip not found');
-      exhibitions.click();
-      await sleep(700);
-      const expoGroups = visibleGroups().length;
-      const expoActive = chip('exposiciones')?.getAttribute('aria-pressed') === 'true';
-
-      document.body.dataset.exhibitionFilterIsolationReady = 'true';
-      document.body.dataset.exhibitionFilterNonCategory = nonId || '';
-      document.body.dataset.exhibitionFilterNonActive = nonActive ? 'true' : 'false';
-      document.body.dataset.exhibitionFilterGroupsUnderNon = String(nonGroups);
-      document.body.dataset.exhibitionFilterExpoActive = expoActive ? 'true' : 'false';
-      document.body.dataset.exhibitionFilterGroupsUnderExpo = String(expoGroups);
-    } catch (error) {
-      document.body.dataset.exhibitionFilterIsolationReady = 'error';
-      document.body.dataset.exhibitionFilterIsolationError = String(error?.message || error);
-    }
-  }
-
-  window.addEventListener('vivamos:exhibition-groups-rendered', () => setTimeout(run, 120), { once: true });
-  setTimeout(() => {
-    if (!document.body.dataset.exhibitionFilterIsolationReady) run();
-  }, 1800);
-})();
-</script>
-'''
-    source = source.replace("</body>", probe + "\n</body>", 1)
     TEST_PAGE.write_text(source, encoding="utf-8")
 
 
-def dump_dom(url: str) -> str:
-    with tempfile.TemporaryDirectory(prefix="vivamos-exhibition-filter-", ignore_cleanup_errors=True) as profile:
-        cmd = [
-            chrome_binary(),
-            "--headless=new",
-            "--no-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-background-networking",
-            "--disable-extensions",
-            "--disable-sync",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--window-size=1360,1000",
-            "--virtual-time-budget=10500",
-            f"--user-data-dir={profile}",
-            "--dump-dom",
-            url,
-        ]
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=40)
-        if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome exhibition-filter probe failed: {result.stderr[-1600:]}")
-        return result.stdout
+def new_driver(profile: str):
+    options = Options()
+    options.binary_location = chrome_binary()
+    options.page_load_strategy = "none"
+    for arg in (
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+        "--disable-sync",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--window-size=1360,1000",
+        f"--user-data-dir={profile}",
+    ):
+        options.add_argument(arg)
+    return webdriver.Chrome(options=options)
 
 
-def attr(dom: str, name: str) -> str:
-    match = re.search(rf'\b{re.escape(name)}="([^"]*)"', dom)
-    return match.group(1) if match else "(absent)"
+VISIBLE_GROUPS_JS = r'''
+const visible = (node) => {
+  if (!node || node.hidden || node.closest('[hidden]')) return false;
+  const style = getComputedStyle(node);
+  return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
+};
+return [...document.querySelectorAll('[data-unified-exhibition-group="true"]')].filter(visible).length;
+'''
+
+
+def visible_groups(driver) -> int:
+    return int(driver.execute_script(VISIBLE_GROUPS_JS) or 0)
+
+
+def chip_state(driver, category_id: str) -> str | None:
+    return driver.execute_script(
+        "const b=[...document.querySelectorAll('[data-combined-category]')].find(x=>x.dataset.combinedCategory===arguments[0]); return b?.getAttribute('aria-pressed') ?? null;",
+        category_id,
+    )
+
+
+def click_chip(driver, category_id: str) -> bool:
+    return bool(driver.execute_script(
+        "const b=[...document.querySelectorAll('[data-combined-category]')].find(x=>x.dataset.combinedCategory===arguments[0]); if(!b) return false; b.click(); return true;",
+        category_id,
+    ))
+
+
+def non_exhibition_category(driver) -> str | None:
+    return driver.execute_script(r'''
+      const button = [...document.querySelectorAll('[data-combined-category]')]
+        .find((candidate) => candidate.dataset.combinedCategory !== 'exposiciones'
+          && Number(candidate.querySelector('small')?.textContent || 0) > 0);
+      return button?.dataset.combinedCategory || null;
+    ''')
+
+
+def run_browser(url: str) -> dict[str, str]:
+    last_error = ""
+    for attempt in range(2):
+        with tempfile.TemporaryDirectory(prefix="vivamos-exhibition-filter-", ignore_cleanup_errors=True) as profile:
+            driver = None
+            try:
+                driver = new_driver(profile)
+                wait = WebDriverWait(driver, 25, poll_frequency=0.05)
+                driver.get(url)
+
+                wait.until(lambda current: visible_groups(current) > 0)
+                non_id = wait.until(lambda current: non_exhibition_category(current))
+                if not click_chip(driver, non_id):
+                    raise AssertionError(f"could not click non-exhibition category {non_id}")
+
+                wait.until(lambda current: chip_state(current, non_id) == "true")
+                wait.until(lambda current: visible_groups(current) == 0)
+                non_groups = visible_groups(driver)
+                non_active = chip_state(driver, non_id) == "true"
+
+                if not click_chip(driver, non_id):
+                    raise AssertionError(f"could not clear non-exhibition category {non_id}")
+                wait.until(lambda current: chip_state(current, non_id) != "true")
+                wait.until(lambda current: chip_state(current, "exposiciones") is not None)
+                if not click_chip(driver, "exposiciones"):
+                    raise AssertionError("could not click Exposiciones category")
+
+                wait.until(lambda current: chip_state(current, "exposiciones") == "true")
+                wait.until(lambda current: visible_groups(current) > 0)
+                expo_groups = visible_groups(driver)
+                expo_active = chip_state(driver, "exposiciones") == "true"
+
+                return {
+                    "ready": "true",
+                    "non_category": str(non_id),
+                    "non_active": "true" if non_active else "false",
+                    "groups_under_non": str(non_groups),
+                    "expo_active": "true" if expo_active else "false",
+                    "groups_under_expo": str(expo_groups),
+                    "error": "(absent)",
+                }
+            except Exception as exc:
+                last_error = f"attempt {attempt + 1}: {type(exc).__name__}: {exc}"
+            finally:
+                if driver is not None:
+                    try:
+                        driver.quit()
+                    except Exception:
+                        pass
+    return {
+        "ready": "error",
+        "non_category": "(unknown)",
+        "non_active": "false",
+        "groups_under_non": "(unknown)",
+        "expo_active": "false",
+        "groups_under_expo": "(unknown)",
+        "error": last_error or "browser probe failed",
+    }
 
 
 def main() -> None:
@@ -139,22 +167,13 @@ def main() -> None:
             thread.start()
             time.sleep(0.2)
             try:
-                dom = dump_dom(f"http://127.0.0.1:{port}/app/{TEST_PAGE.name}?city=gijon&when=todos")
+                diagnostics = run_browser(f"http://127.0.0.1:{port}/app/{TEST_PAGE.name}?city=gijon&when=todos")
             finally:
                 server.shutdown()
                 thread.join(timeout=2)
     finally:
         TEST_PAGE.unlink(missing_ok=True)
 
-    diagnostics = {
-        "ready": attr(dom, "data-exhibition-filter-isolation-ready"),
-        "non_category": attr(dom, "data-exhibition-filter-non-category"),
-        "non_active": attr(dom, "data-exhibition-filter-non-active"),
-        "groups_under_non": attr(dom, "data-exhibition-filter-groups-under-non"),
-        "expo_active": attr(dom, "data-exhibition-filter-expo-active"),
-        "groups_under_expo": attr(dom, "data-exhibition-filter-groups-under-expo"),
-        "error": attr(dom, "data-exhibition-filter-isolation-error"),
-    }
     print("EXHIBITION_FILTER_ISOLATION_DIAGNOSTICS " + json.dumps(diagnostics, ensure_ascii=False, sort_keys=True))
 
     assert diagnostics["ready"] == "true", f"filter isolation probe did not finish: {diagnostics}"
