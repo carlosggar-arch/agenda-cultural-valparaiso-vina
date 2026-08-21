@@ -12,6 +12,7 @@ const OPTIONAL_MODULES = [
   "./exhibition-groups.js?v=20260821-single-owner1",
   "./registration-reminders.js?v=20260820-registration1",
   "./schedule-display.js?v=20260819-runtime1",
+  "./event-card-data-quality.mjs?v=20260821-quality1",
   "./exhibition-hours.js?v=20260821-gijonhours1",
   "./card-experience.js?v=20260821-shared-runtime1",
   "./public-presentation-guard.js?v=20260821-shared-runtime1",
