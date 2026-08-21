@@ -1,9 +1,13 @@
 from __future__ import annotations
 
-import html
-import re
+import tempfile
+import uuid
 
-from production_pwa_smoke import ORIGINS, chrome_binary, cold_dom, release_number
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+
+from production_pwa_smoke import ORIGINS, release_number
 
 EXPECTED_RELEASE = release_number()
 CASES = (
@@ -11,52 +15,92 @@ CASES = (
     ("gijon", "Gijón / Xixón", 1280, 900),
 )
 
-chrome = chrome_binary()
 errors: list[str] = []
 
 for origin, base in ORIGINS.items():
     for city, label, width, height in CASES:
-        try:
-            dom = cold_dom(chrome, origin, base, city, width, height)
-        except Exception as exc:
-            errors.append(f"{origin}/{city}: Chrome failed: {exc}")
-            print(f"FUNCTIONAL_PROBE_FAIL origin={origin} city={city} error={exc!r}")
-            continue
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-selenium-{origin}-{city}-") as profile:
+            options = webdriver.ChromeOptions()
+            options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--no-first-run")
+            options.add_argument("--no-default-browser-check")
+            options.add_argument(f"--window-size={width},{height}")
+            options.add_argument(f"--user-data-dir={profile}")
 
-        version_node = re.search(r"data-app-version[^>]*>(.*?)</", dom, flags=re.S)
-        visible_version = html.unescape(re.sub(r"<[^>]+>", "", version_node.group(1))).strip() if version_node else "<missing>"
-        cards = dom.count('class="event-card')
-        source_controls = dom.count("data-sources-toggle") + dom.count("data-sources-fallback")
-        city_applied = f'data-city="{city}"' in dom
-        city_label = label in dom
-        ready = 'data-vivamos-ready="true"' in dom
-        safe_mode = 'data-vivamos-safe-mode="active"' in dom
-        agenda_hidden = bool(re.search(r"<section[^>]*data-agenda[^>]*\shidden(?:=|\s|>)", dom))
+            driver = webdriver.Chrome(options=options)
+            try:
+                url = f"{base}?city={city}&smoke={uuid.uuid4().hex}"
+                driver.get(url)
+                wait = WebDriverWait(driver, 45)
+                wait.until(lambda d: d.execute_script(
+                    "return document.documentElement.dataset.vivamosReady === 'true'"
+                ))
+                wait.until(lambda d: len(d.find_elements(By.CSS_SELECTOR, ".event-card")) > 0)
+                wait.until(lambda d: len(d.find_elements(
+                    By.CSS_SELECTOR, "[data-sources-toggle], [data-sources-fallback]"
+                )) > 0)
 
-        print(
-            "FUNCTIONAL_PROBE "
-            f"origin={origin} city={city} version={visible_version!r} "
-            f"cards={cards} sources={source_controls} city_applied={city_applied} "
-            f"city_label={city_label} ready={ready} safe_mode={safe_mode} agenda_hidden={agenda_hidden}"
-        )
+                release_global = driver.execute_script("return window.__VIVAMOS_RELEASE__")
+                city_applied = driver.execute_script("return document.documentElement.dataset.city || ''")
+                ready = driver.execute_script("return document.documentElement.dataset.vivamosReady || ''")
+                safe_mode = driver.execute_script("return document.documentElement.dataset.vivamosSafeMode || ''")
 
-        if visible_version != f"PWA v{EXPECTED_RELEASE}":
-            errors.append(f"{origin}/{city}: visible version {visible_version!r}, expected PWA v{EXPECTED_RELEASE}")
-        if not city_applied:
-            errors.append(f"{origin}/{city}: city not applied")
-        if not city_label:
-            errors.append(f"{origin}/{city}: city label missing")
-        if cards <= 0:
-            errors.append(f"{origin}/{city}: no event cards")
-        if source_controls <= 0:
-            errors.append(f"{origin}/{city}: source control missing")
-        if agenda_hidden:
-            errors.append(f"{origin}/{city}: agenda still hidden")
+                version = driver.find_element(By.CSS_SELECTOR, "[data-app-version]").text.strip()
+                city_title = driver.find_element(By.CSS_SELECTOR, "[data-header-city-title]").text.strip()
+                agenda = driver.find_element(By.CSS_SELECTOR, "[data-agenda]")
+                status = driver.find_element(By.CSS_SELECTOR, "[data-status]")
+                cards = driver.find_elements(By.CSS_SELECTOR, ".event-card")
+                visible_cards = sum(1 for card in cards if card.is_displayed())
+                source_controls = driver.find_elements(
+                    By.CSS_SELECTOR, "[data-sources-toggle], [data-sources-fallback]"
+                )
+                visible_sources = sum(1 for node in source_controls if node.is_displayed())
+                stuck_loading = status.is_displayed() and "Preparando la agenda" in status.text
+
+                print(
+                    "SELENIUM_FUNCTIONAL_PROBE "
+                    f"origin={origin} city={city} release_global={release_global!r} "
+                    f"version={version!r} city_applied={city_applied!r} city_title={city_title!r} "
+                    f"ready={ready!r} safe_mode={safe_mode!r} agenda_visible={agenda.is_displayed()} "
+                    f"cards={len(cards)} visible_cards={visible_cards} "
+                    f"sources={len(source_controls)} visible_sources={visible_sources} "
+                    f"stuck_loading={stuck_loading}"
+                )
+
+                if release_global != EXPECTED_RELEASE:
+                    errors.append(f"{origin}/{city}: global release {release_global!r}, expected {EXPECTED_RELEASE}")
+                if version != f"PWA v{EXPECTED_RELEASE}":
+                    errors.append(f"{origin}/{city}: visible version {version!r}, expected PWA v{EXPECTED_RELEASE}")
+                if city_applied != city:
+                    errors.append(f"{origin}/{city}: city dataset is {city_applied!r}")
+                if city_title != label:
+                    errors.append(f"{origin}/{city}: city title {city_title!r}, expected {label!r}")
+                if ready != "true":
+                    errors.append(f"{origin}/{city}: vivamosReady={ready!r}")
+                if safe_mode == "active":
+                    errors.append(f"{origin}/{city}: safe mode active")
+                if not agenda.is_displayed():
+                    errors.append(f"{origin}/{city}: agenda not visible")
+                if visible_cards <= 0:
+                    errors.append(f"{origin}/{city}: no visible event cards")
+                if visible_sources <= 0:
+                    errors.append(f"{origin}/{city}: no visible source control")
+                if stuck_loading:
+                    errors.append(f"{origin}/{city}: still showing loading state")
+            except Exception as exc:
+                errors.append(f"{origin}/{city}: Selenium probe failed: {exc}")
+                print(f"SELENIUM_FUNCTIONAL_PROBE_FAIL origin={origin} city={city} error={exc!r}")
+            finally:
+                driver.quit()
 
 if errors:
-    print("FUNCTIONAL_PROBE_ERRORS")
+    print("SELENIUM_FUNCTIONAL_PROBE_ERRORS")
     for error in errors:
         print(f"- {error}")
     raise SystemExit(1)
 
-print(f"FUNCTIONAL_PROBE_OK release=v{EXPECTED_RELEASE} cases={len(ORIGINS) * len(CASES)}")
+print(f"SELENIUM_FUNCTIONAL_PROBE_OK release=v{EXPECTED_RELEASE} cases={len(ORIGINS) * len(CASES)}")
