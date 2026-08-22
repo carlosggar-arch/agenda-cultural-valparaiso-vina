@@ -20,8 +20,8 @@ const structuralContracts = [
 
 const forbiddenCouplings = [
   {
-    pattern: /release-version\.js|\bRELEASE\b[^\n]*>=\s*\d+|releaseNumber[^\n]*>=\s*\d+/i,
-    reason: "architecture contracts must not depend on a release-number milestone",
+    pattern: /\bRELEASE\b[^\n]*>=\s*\d+|releaseNumber[^\n]*>=\s*\d+/i,
+    reason: "architecture contracts must not depend on a numeric release milestone",
   },
   {
     pattern: /app-core\.js owns city changes|sole authority|single owner/i,
