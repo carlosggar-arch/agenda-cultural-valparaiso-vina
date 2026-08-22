@@ -59,10 +59,15 @@ for (const sample of [cultureCinema, cultureTheatre, cultureExhibition, museumBo
 
 const appCore = readFileSync(new URL("../app-core.js", import.meta.url), "utf8");
 const exhibitionGroups = readFileSync(new URL("../exhibition-groups.js", import.meta.url), "utf8");
+const exhibitionGroupCore = readFileSync(new URL("../exhibition-group-core.mjs", import.meta.url), "utf8");
 assert.match(appCore, /function buildDatedItems\(/);
 assert.match(appCore, /card\.dataset\.eventGroup/);
 assert.match(exhibitionGroups, /function enhanceCoreGroups\(/);
-assert.doesNotMatch(exhibitionGroups, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/);
+assert.match(exhibitionGroups, /groupStandaloneExhibitions/);
+assert.match(exhibitionGroups, /function reconcileCommonMembership\(/);
+assert.doesNotMatch(exhibitionGroups, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/);
+assert.match(exhibitionGroupCore, /export const EXHIBITION_GROUP_MIN = 2/);
+assert.match(exhibitionGroupCore, /exhibitionGroupingVenueKey/);
 assert.match(exhibitionGroups, /FALLBACK_IMAGE[\s\S]*categoria-exposiciones\.jpg/);
 assert.match(exhibitionGroups, /grouped-exhibition-item/);
 
