@@ -1,5 +1,5 @@
 export const SUPPORT_VIVAMOS = Object.freeze({
-  enabled: false,
+  enabled: true,
   label: "❤️ Apoya ¡Vivamos!",
   placement: "footer-near-sources",
   methods: Object.freeze([
