@@ -266,6 +266,26 @@ async function loadPublicCatalogue(url) {
   return catalogueCache.get(url);
 }
 
+function scheduleConfiguredMerge(generation, city) {
+  const run = () => {
+    if (generation !== loadGeneration) return;
+    if (city !== (document.documentElement.dataset.city || "valparaiso")) return;
+    mergeConfiguredSourcesIntoGrid();
+  };
+
+  // agenda-data-ready fires before app-core schedules its own idle source render.
+  // Register this idle pass from the next task, so the canonical base renderer
+  // gets first ownership of the grid and this module only enriches it once.
+  setTimeout(() => {
+    if (generation !== loadGeneration) return;
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      window.requestAnimationFrame(() => setTimeout(run, 0));
+    }
+  }, 0);
+}
+
 async function loadConfiguredSources() {
   const generation = ++loadGeneration;
   const city = document.documentElement.dataset.city || "valparaiso";
@@ -294,7 +314,20 @@ async function loadConfiguredSources() {
   } else {
     configuredSources = datasetSources;
   }
+
   mergeConfiguredSourcesIntoGrid();
+  scheduleConfiguredMerge(generation, city);
+}
+
+function invalidateConfiguredSources() {
+  loadGeneration += 1;
+  configuredSources = [];
+  authoritativeCatalogue = false;
+  if (button) {
+    button.textContent = "Fuentes";
+    button.setAttribute("aria-expanded", "false");
+  }
+  sourcesSection?.classList.remove("sources-user-open");
 }
 
 let button = null;
@@ -330,16 +363,12 @@ if (sourcesSection && sourcesGrid && footer) {
     if (opening) sourcesSection.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  new MutationObserver(() => queueMicrotask(mergeConfiguredSourcesIntoGrid)).observe(sourcesGrid, {
-    childList: true,
-  });
-
-  new MutationObserver(loadConfiguredSources).observe(document.documentElement, {
+  new MutationObserver(invalidateConfiguredSources).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["data-city"],
   });
-  addEventListener("vivamos:agenda-data-ready", loadConfiguredSources);
+  addEventListener("vivamos:agenda-data-ready", () => { void loadConfiguredSources(); });
 
-  loadConfiguredSources();
+  void loadConfiguredSources();
   updateSourceCount();
 }
