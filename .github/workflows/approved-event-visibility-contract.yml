@@ -11,7 +11,8 @@ on:
       - "app/public-category-rules.mjs"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
-      - "app/static-exhibition-groups.js"
+      - "app/exhibition-group-core.mjs"
+      - "app/exhibition-groups.js"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
       - "app/service-worker.js"
@@ -29,7 +30,8 @@ on:
       - "app/public-category-rules.mjs"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
-      - "app/static-exhibition-groups.js"
+      - "app/exhibition-group-core.mjs"
+      - "app/exhibition-groups.js"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
       - "app/service-worker.js"
@@ -57,7 +59,8 @@ jobs:
           node --check app/public-category-rules.mjs
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
-          node --check app/static-exhibition-groups.js
+          node --check app/exhibition-group-core.mjs
+          node --check app/exhibition-groups.js
           node --check app/combined-filters-bootstrap.js
           node --check app/combined-filters.js
           node --check app/service-worker.js
