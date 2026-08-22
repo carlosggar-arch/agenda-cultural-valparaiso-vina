@@ -7,6 +7,7 @@ release = (APP / "release-version.js").read_text(encoding="utf-8")
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 app_core = (APP / "app-core.js").read_text(encoding="utf-8")
 temporal_core = (APP / "temporal-priority-core.mjs").read_text(encoding="utf-8")
+agenda_order = (APP / "agenda-order-core.mjs").read_text(encoding="utf-8")
 exhibition_guard = (APP / "exhibition-presentation-guard.js").read_text(encoding="utf-8")
 data_pipeline = (APP / "data-pipeline.js").read_text(encoding="utf-8")
 
@@ -32,9 +33,9 @@ assert "networkFirstFreshShell(request)" in sw
 match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release)
 assert match and int(match.group(1)) >= 177
 
-# Post-render presentation work must yield to the browser. Point 4/5 moves the
-# former exhibition-only sorter into the shared temporal policy, so the same
-# performance invariants are checked at the new canonical owner.
+# Post-render presentation work must yield to the browser. Point 4/5 semantics
+# remain in temporal-priority-core; C1 composes them through agenda-order-core
+# without moving sort work back into the hot filter-render path.
 assert "function runWhenMainThreadIsIdle(callback)" in app_js
 assert "requestIdleCallback" in app_js
 assert "runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });" in app_js
@@ -42,6 +43,8 @@ assert "requestAnimationFrame(applyTemporalOrderPolicy)" in app_js
 assert "queueMicrotask(applyTemporalOrderPolicy)" not in app_js
 assert "const DATE_FORMATTERS = new Map();" in temporal_core
 assert "dateFormatterForCity" in temporal_core
+assert "compareTemporalPriority" in agenda_order
+assert "compareAgendaOrder" in app_js
 assert "requestAnimationFrame(applyGuard)" in exhibition_guard
 assert "queueMicrotask(applyGuard)" not in exhibition_guard
 
@@ -61,11 +64,12 @@ assert "publishAgendaRuntimeSnapshot(city, result);\n      return result;" in da
 # v177 moves repeated render work out of the hot path. These are structural
 # guards rather than fragile timing thresholds: CI should fail if later edits
 # start sorting the whole dataset, rebuilding source/category DOM, or creating
-# date formatters on every filter render again.
+# date formatters on every filter render again. C1 changes only the canonical
+# comparator name, not this performance contract.
 for marker in (
     "const formatterCache = new Map();",
     "let searchHaystackCache = new WeakMap();",
-    "sortedEvents = sortEvents(allEvents);",
+    "sortedEvents = sortAgendaEvents(allEvents);",
     "function computeSectionCounts(events)",
     "grid.replaceChildren(fragment);",
     "function scheduleSourcesRender()",
@@ -77,7 +81,7 @@ for marker in (
 render_events = app_core.split("function renderEvents()", 1)[1].split("function resetDiscoveryFilters()", 1)[0]
 assert "renderSources();" not in render_events
 assert "renderCategories();" not in render_events
-assert "return sortEvents(allEvents.filter" not in app_core
+assert "return sortAgendaEvents(allEvents.filter" not in app_core
 assert "allEvents.filter((event) => eventMatchesSection" not in app_core
 
 print("PWA cache-first startup regression: OK")

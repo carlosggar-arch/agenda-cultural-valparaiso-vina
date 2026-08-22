@@ -60,16 +60,19 @@ for (const shared of [
 assert.doesNotMatch(app, /GIJON_DEFERRED_MODULES|IS_GIJON|gijon-card-images\.js|card-image-fallback\.js/, "app.js must not select presentation modules by city");
 assert.match(app, /new MutationObserver\(scheduleTemporalOrder\)/, "shared temporal ordering may use bounded direct-grid observers");
 assert.doesNotMatch(app, /observe\(datedGrid, \{[^}]*subtree:\s*true/, "shared ordering must never observe descendant churn");
+assert.match(app, /compareAgendaOrder/, "post-render ordering must use the canonical agenda-order authority");
+assert.doesNotMatch(app, /compareTemporalPriority/, "app.js must not bypass agenda-order-core");
 
 assert.match(core, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/, "core startup must consume the canonical data pipeline");
 assert.match(core, /export const coreReady = new Promise/, "core startup must expose readiness");
 assert.match(core, /function markCoreReady\(/, "core startup must explicitly settle readiness");
 assert.match(core, /dataset\.vivamosReady = "true"/, "core startup must mark the DOM ready");
 assert.match(core, /renderProgramReferences\(/, "program references must be rendered explicitly");
-assert.match(core, /function buildDatedItems\(events\)/, "core may emit initial grouped cards before common reconciliation");
+assert.match(core, /function buildDatedItems\(events, now = new Date\(\)\)/, "core may emit canonically ordered initial grouped cards before common reconciliation");
 assert.match(core, /from "\.\/exhibition-group-core\.mjs/, "core grouping must consume the canonical exhibition policy");
 assert.match(core, /groupStandaloneExhibitions\(events, \{ timezone:/, "core initial grouping must use canonical membership");
-assert.match(core, /isLongExhibitionDuration/, "core long-exhibition ordering must use the canonical duration policy");
+assert.match(core, /compareAgendaOrder/, "core top-level ordering must use the canonical agenda-order authority");
+assert.doesNotMatch(core, /isLongExhibitionDuration/, "core must not maintain a parallel long-exhibition ordering rule");
 assert.doesNotMatch(core, /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/, "core must not duplicate exhibition policy");
 
 const stageOrder = [
@@ -179,6 +182,7 @@ for (const marker of [
 
 for (const asset of [
   "./data-pipeline.js",
+  "./agenda-order-core.mjs",
   "./agenda-runtime-state.mjs",
   "./render-lifecycle.js",
   "./exhibition-groups.js",

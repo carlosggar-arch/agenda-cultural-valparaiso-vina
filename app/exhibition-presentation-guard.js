@@ -5,15 +5,6 @@ const grid = document.querySelector("[data-dated-grid]");
 let queued = false;
 let applying = false;
 
-function fold(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
 function directCards() {
   return [...(grid?.children || [])].filter((node) =>
     node instanceof HTMLElement && node.classList.contains("event-card"),
@@ -111,24 +102,6 @@ function consolidateVenueCards(cards, key) {
   refreshCount(canonical);
 }
 
-function cityRank(cityName) {
-  const city = fold(cityName);
-  if (city.includes("vina del mar")) return 0;
-  if (city.includes("valparaiso")) return 1;
-  return 0;
-}
-
-function applyPresentationOrder(eventsById) {
-  for (const card of directCards()) {
-    const ids = cardEventIds(card);
-    const event = ids.map((id) => eventsById.get(id)).find(Boolean);
-    const category = String(card.dataset.category || event?.primary_category?.id || "").trim();
-    const exhibitionRank = category === "exposiciones" || category === "museos" ? 100 : 0;
-    const areaRank = cityRank(event?.location?.city || event?.location?.commune || "");
-    card.style.order = String(exhibitionRank + areaRank);
-  }
-}
-
 function applyGuard() {
   queued = false;
   if (!grid || applying) return;
@@ -144,7 +117,6 @@ function applyGuard() {
       byVenue.set(key, bucket);
     }
     for (const [key, cards] of byVenue) consolidateVenueCards(cards, key);
-    applyPresentationOrder(eventsById);
   } finally {
     applying = false;
   }
@@ -153,8 +125,8 @@ function applyGuard() {
 function scheduleGuard() {
   if (queued || applying) return;
   queued = true;
-  // Consolidation/order is presentation work. Coalesce mutation bursts into a
-  // frame so the newly rendered agenda can paint before this secondary pass.
+  // Consolidation is presentation work. Agenda ordering has a single owner in
+  // agenda-order-core/app.js and is intentionally not rewritten here.
   if (typeof window.requestAnimationFrame === "function") {
     window.requestAnimationFrame(applyGuard);
   } else {

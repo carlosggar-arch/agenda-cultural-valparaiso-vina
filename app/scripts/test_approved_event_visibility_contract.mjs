@@ -73,11 +73,13 @@ assert.doesNotMatch(categoryNormalizer, /(?:window|globalThis|target)\.fetch\s*=
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 
-// Initial and presentation grouping share one pure policy. Neither consumer may
-// redeclare cardinality, duration, venue identity or clustering.
+// Initial and presentation grouping share one pure membership policy. Top-level
+// ordering is separately owned by agenda-order-core and must not be recreated in
+// the grouping consumer.
 assert.match(appCore, /from "\.\/exhibition-group-core\.mjs/);
 assert.match(appCore, /groupStandaloneExhibitions\(events, \{ timezone:/);
-assert.match(appCore, /isLongExhibitionDuration/);
+assert.match(appCore, /compareAgendaOrder/);
+assert.doesNotMatch(appCore, /isLongExhibitionDuration/);
 assert.doesNotMatch(appCore, /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/);
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
 assert.match(grouping, /function enhanceCoreGroups\(/);

@@ -142,7 +142,8 @@ await coreReady;
 runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });
 
 const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260821-temporal4");
-const { compareTemporalPriority, classifyTemporalEvent } = await import("./temporal-priority-core.mjs?v=20260821-temporal4");
+const { compareAgendaOrder } = await import("./agenda-order-core.mjs?v=20260822-order1");
+const { classifyTemporalEvent } = await import("./temporal-priority-core.mjs?v=20260821-temporal4");
 let temporalOrderQueued = false;
 
 function orderingCardEventIds(card, { visibleOnly = false } = {}) {
@@ -167,7 +168,7 @@ function orderingCardEvents(card, eventsById) {
 function representativeEvent(card, eventsById, city, now) {
   const events = orderingCardEvents(card, eventsById);
   if (!events.length) return null;
-  return [...events].sort((a, b) => compareTemporalPriority(a, b, city, now))[0] || null;
+  return [...events].sort((a, b) => compareAgendaOrder(a, b, city, now))[0] || null;
 }
 
 function annotateCard(card, item, city, now) {
@@ -192,7 +193,7 @@ function orderGrid(grid, eventsById, city, now) {
 
   indexed.sort((left, right) => {
     if (left.item && right.item) {
-      const diff = compareTemporalPriority(left.item, right.item, city, now);
+      const diff = compareAgendaOrder(left.item, right.item, city, now);
       if (diff) return diff;
     } else if (left.item) {
       return -1;

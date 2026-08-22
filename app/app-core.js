@@ -1,7 +1,8 @@
 import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 import { renderProgramReferences } from "./program-visibility-policy.js?v=20260819-pipeline1";
-import { groupStandaloneExhibitions, isLongExhibitionDuration } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
+import { groupStandaloneExhibitions } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
+import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
@@ -90,7 +91,6 @@ let scheduleWindowCache = new WeakMap();
 let dateRangeCache = new WeakMap();
 let workshopCache = new WeakMap();
 let sortKeyCache = new WeakMap();
-let longExhibitionCache = new WeakMap();
 let searchHaystackCache = new WeakMap();
 
 function resetEventCaches() {
@@ -100,7 +100,6 @@ function resetEventCaches() {
   dateRangeCache = new WeakMap();
   workshopCache = new WeakMap();
   sortKeyCache = new WeakMap();
-  longExhibitionCache = new WeakMap();
   searchHaystackCache = new WeakMap();
   sortedEvents = [];
   cachedCategories = [];
@@ -470,27 +469,20 @@ function eventSortKey(event) {
   return result;
 }
 
-function sortEvents(events) {
+function sortGroupedExhibitionEvents(events) {
   return [...events].sort((a, b) => {
-    const aGroup = contentGroup(a) === "dated" ? 0 : contentGroup(a) === "program" ? 1 : 2;
-    const bGroup = contentGroup(b) === "dated" ? 0 : contentGroup(b) === "program" ? 1 : 2;
-    if (aGroup !== bGroup) return aGroup - bGroup;
     const dateDiff = eventSortKey(a) - eventSortKey(b);
     if (Number.isFinite(dateDiff) && dateDiff !== 0) return dateDiff;
     return String(a?.title || "").localeCompare(String(b?.title || ""), activeCity?.locale || "es");
   });
 }
 
-function isLongExhibition(event) {
-  if (longExhibitionCache.has(event)) return longExhibitionCache.get(event);
-  const result = eventCategoryId(event) === EXHIBITION_CATEGORY_ID
-    && isLongExhibitionDuration(event, { timezone: activeCity?.timezone || "UTC" });
-  longExhibitionCache.set(event, result);
-  return result;
+function sortAgendaEvents(events, now = new Date()) {
+  return [...events].sort((a, b) => compareAgendaOrder(a, b, activeCity, now));
 }
 
 function createExhibitionGroupCard(events) {
-  const sorted = sortEvents(events);
+  const sorted = sortGroupedExhibitionEvents(events);
   const first = sorted[0];
   const venue = String(first?.location?.venue || "Espacio cultural").trim();
   const city = String(first?.location?.city || "").trim();
@@ -520,7 +512,11 @@ function createExhibitionGroupCard(events) {
   return card;
 }
 
-function buildDatedItems(events) {
+function representativeEventForOrder(events, now) {
+  return sortAgendaEvents(events, now)[0] || null;
+}
+
+function buildDatedItems(events, now = new Date()) {
   const groups = groupStandaloneExhibitions(events, { timezone: activeCity?.timezone || "UTC" });
   const groupedEvents = new Set();
   const items = [];
@@ -530,15 +526,20 @@ function buildDatedItems(events) {
     items.push({
       type: "group",
       events: group.events,
-      order: Math.min(...group.events.map(eventSortKey)),
+      representative: representativeEventForOrder(group.events, now),
     });
   }
 
   for (const event of events) {
-    if (!groupedEvents.has(event)) items.push({ type: "event", event, order: eventSortKey(event) });
+    if (!groupedEvents.has(event)) items.push({ type: "event", event, representative: event });
   }
 
-  items.sort((a, b) => a.order - b.order);
+  items.sort((a, b) => {
+    if (a.representative && b.representative) return compareAgendaOrder(a.representative, b.representative, activeCity, now);
+    if (a.representative) return -1;
+    if (b.representative) return 1;
+    return 0;
+  });
   return items;
 }
 
@@ -550,10 +551,7 @@ function renderDatedGroup(grid, section, total, events) {
     return;
   }
 
-  const deferLongExhibitions = activeCategory === "";
-  const regularEvents = deferLongExhibitions ? events.filter((event) => !isLongExhibition(event)) : events;
-  const longExhibitions = deferLongExhibitions ? events.filter(isLongExhibition) : [];
-  const items = [...buildDatedItems(regularEvents), ...buildDatedItems(longExhibitions)];
+  const items = buildDatedItems(events);
   const fragment = document.createDocumentFragment();
   for (const item of items) {
     fragment.append(item.type === "group" ? createExhibitionGroupCard(item.events) : createEventCard(item.event));
@@ -596,7 +594,7 @@ function collectSources(events) {
 }
 
 function prepareStaticMetadata() {
-  sortedEvents = sortEvents(allEvents);
+  sortedEvents = sortAgendaEvents(allEvents);
   cachedCategories = collectCategoryCounts(allEvents);
   cachedSources = collectSources(allEvents);
 }
