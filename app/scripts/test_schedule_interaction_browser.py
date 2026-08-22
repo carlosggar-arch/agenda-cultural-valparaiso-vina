@@ -34,14 +34,11 @@ def make_test_page() -> None:
     if pwa_marker not in source:
         raise AssertionError("pwa.js script marker not found in app/index.html")
 
-    # Load the same enhancement stack as pwa.js without registering a service
-    # worker. This contract is about UI responsiveness and observer stability,
-    # so external image hosts are deliberately isolated by the Chrome command.
+    # app.js remains the single owner of card, schedule and image presentation.
+    # This fixture replaces only pwa.js so it can exercise shell interactions
+    # without registering a service worker or duplicating presentation owners.
     enhancement_stack = '''<script type="module">
       import "./vivamos-brand.js";
-      import "./card-experience.js";
-      import "./schedule-display.js";
-      import "./card-image-fallback.js";
       import "./compact-top.js";
       import "./gijon-visual-reference.js";
       import "./sources-toggle.js";
@@ -139,11 +136,11 @@ def main() -> None:
     valpo_match = re.search(r'data-valpo-media-before-switch="(\d+)"', dom)
     gijon_match = re.search(r'data-gijon-media-after-switch="(\d+)"', dom)
     if not valpo_match or int(valpo_match.group(1)) <= 0:
-        raise AssertionError("Valparaiso enhancement stack did not render event media")
+        raise AssertionError("Valparaiso canonical presentation did not render event media")
     if not gijon_match or int(gijon_match.group(1)) <= 0:
-        raise AssertionError("Gijon enhancement stack did not render event media after city switch")
+        raise AssertionError("Gijon canonical presentation did not render event media after city switch")
 
-    print("Schedule observer interaction test: production stack responsive, city switch and media containers render")
+    print("City-switch browser scenario: UI responsive and media preserved across Valparaiso → Gijon")
 
 
 if __name__ == "__main__":
