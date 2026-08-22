@@ -64,7 +64,7 @@ const generatedManifest = read("service-worker-assets.generated.js");
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
 assert.doesNotMatch(appJs, /multievent-layout-fix\.js/);
-assert.doesNotMatch(appJs, /static-exhibition-groups\.js|exhibition-venue-grouping\.js|exhibition-gallery\.js|exhibition-compact-loader\.js|exhibition-compact\.js/);
+assert.doesNotMatch(appJs, /exhibition-venue-grouping\.js|exhibition-gallery\.js|exhibition-compact-loader\.js|exhibition-compact\.js/);
 assert.match(appCore, /function buildDatedItems\(/);
 assert.match(appCore, /function createExhibitionGroupCard\(/);
 assert.match(appCore, /card\.dataset\.eventGroup/);
@@ -84,7 +84,6 @@ assert.match(cityAdapter, /eventForCityPresentation/);
 assert.match(cityAdapter, /venueHoursForCity/);
 
 for (const retired of [
-  "static-exhibition-groups.js",
   "exhibition-venue-grouping.js",
   "exhibition-gallery.js",
   "exhibition-compact-loader.js",
