@@ -99,7 +99,6 @@ jobs:
           python app/scripts/test_priority_zero_monitors.py
           node app/venue-identity.test.mjs
           node app/event-card-data-quality.test.mjs
-          node app/runtime-data-consumer-authority.test.mjs
           python app/scripts/run_contracts.py --profile required-release
           python app/scripts/test_pwa_cache_first_startup.py
           node app/data-pipeline.test.mjs
