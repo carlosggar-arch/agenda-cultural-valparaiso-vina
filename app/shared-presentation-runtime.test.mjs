@@ -105,11 +105,10 @@ assert.doesNotMatch(
   /window\.location\.(?:assign|replace)|location\.reload/,
   "switching city must not require a document reload",
 );
-assert.match(
-  firstRun,
-  /app-core\.js owns city changes/,
-  "the city switch ownership boundary must remain documented",
-);
+assert.match(firstRun, /loadCityRegistry/, "first-run city choices must come from the canonical registry");
+assert.match(firstRun, /SUPPORTED_CITIES/, "first-run validation must be registry-driven");
+assert.match(firstRun, /releaseRequiredSelection/, "first-run may release the chooser lock after a valid selection");
+assert.doesNotMatch(firstRun, /loadAgendaDataset|setAgendaCity/, "first-run must not own dataset reload or dynamic city switching");
 
 assert.equal(
   existsSync(new URL("./gijon-card-images.js", import.meta.url)),
