@@ -62,8 +62,19 @@ export function exhibitionReferenceDateKey(schedule, options = {}) {
   return startKey || requested;
 }
 
+function normalizedVenueRanges(weekly) {
+  const ranges = Array.isArray(weekly?.ranges) ? weekly.ranges : [];
+  return ranges.map((range) => {
+    const opening = validClock(range?.opening_time);
+    const closing = validClock(range?.closing_time);
+    return opening && closing && opening !== closing ? `${opening}–${closing}` : null;
+  }).filter(Boolean);
+}
+
 function scheduleRange(schedule) {
   const weekly = canonicalVenueHours(schedule);
+  const ranges = normalizedVenueRanges(weekly);
+  if (ranges.length) return ranges.join(" y ");
   const opening = validClock(schedule?.opening_time || weekly?.opening_time);
   const closing = validClock(schedule?.closing_time || weekly?.closing_time);
   return opening && closing && opening !== closing ? `${opening}–${closing}` : null;
