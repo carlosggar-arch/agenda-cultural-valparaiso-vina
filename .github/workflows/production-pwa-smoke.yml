@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "app/*.js"
+      - "app/*.mjs"
       - "app/*.css"
       - "app/*.html"
       - "app/*.webmanifest"
@@ -23,6 +24,7 @@ on:
     branches: [main]
     paths:
       - "app/*.js"
+      - "app/*.mjs"
       - "app/*.css"
       - "app/*.html"
       - "app/*.webmanifest"
@@ -115,7 +117,7 @@ jobs:
           fi
 
           git diff --name-only "$before" "${{ github.sha }}" | tee changed-pwa-files.txt
-          runtime_changed="$(grep -E '^(app/[^/]+\.(js|css|html|webmanifest)|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
+          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
           release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
           if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
             echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2

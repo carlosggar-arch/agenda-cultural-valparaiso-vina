@@ -24,6 +24,7 @@ def main() -> None:
     assert '      - "app/**"' not in triggers, "Production smoke must not wake for every app file"
     for marker in (
         '      - "app/*.js"',
+        '      - "app/*.mjs"',
         '      - "app/*.css"',
         '      - "app/*.html"',
         '      - "app/*.webmanifest"',
@@ -57,6 +58,7 @@ def main() -> None:
     assert "Align smoke candidate with latest public main" in production
     assert "git reset --hard origin/main" in production
     assert "app/release-version.js" in production
+    assert "js|mjs|css|html|webmanifest" in production
     assert "python app/scripts/production_pwa_smoke.py http" in production
     assert "python app/scripts/production_pwa_smoke.py browser" in production
     assert "python app/scripts/production_warm_start_smoke.py" in production
