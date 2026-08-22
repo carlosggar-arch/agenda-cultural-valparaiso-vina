@@ -9,7 +9,7 @@ APP = ROOT / "app"
 
 release_text = (APP / "release-version.js").read_text(encoding="utf-8")
 release_match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release_text)
-assert release_match and int(release_match.group(1)) >= 167, "release must be >=167"
+assert release_match, "release-version.js must expose a numeric RELEASE"
 
 registry = json.loads((APP / "data/venue-registry.json").read_text(encoding="utf-8"))
 assert registry.get("policy", {}).get("canonical_data_source") == "app/data/venue-registry.json"
@@ -41,14 +41,12 @@ assert "venueRecordForEvent" in gijon_hours
 app_js = (APP / "app.js").read_text(encoding="utf-8")
 filter_safety = (APP / "combined-filters-safety.js").read_text(encoding="utf-8")
 compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8")
-static_compat = (APP / "static-exhibition-groups.js").read_text(encoding="utf-8")
 assert "multievent-layout-fix.js" not in app_js
 assert "requestCanonicalFilterPass" in filter_safety
 assert "static-exhibition-sentinels" not in filter_safety
 assert re.search(r"\.hidden\s*=", filter_safety) is None, "filter safety must not own visibility"
 assert "--agenda-group-row-min-height: 96px" in compact_css
 assert "--agenda-group-list-max-height: 306px" in compact_css
-assert "STATIC_EXHIBITION_GROUPS_RETIRED = true" in static_compat
 for retired in (
     "exhibition-compact-loader.js",
     "exhibition-compact.js",

@@ -5,27 +5,51 @@ on:
     branches: [main]
     paths:
       - "app/app.js"
+      - "app/app-core.js"
+      - "app/city-first-run.js"
+      - "app/data-pipeline.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
-      - "app/static-exhibition-groups.js"
       - "app/public-presentation-rules.mjs"
+      - "app/exhibition-group-core.mjs"
+      - "app/exhibition-groups.js"
+      - "app/venue-identity.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
-      - "app/release-version.js"
+      - "app/exhibition-group-architecture.test.mjs"
+      - "app/shared-presentation-runtime.test.mjs"
+      - "app/startup-architecture.test.mjs"
+      - "app/scripts/test_architecture_contract_hygiene.mjs"
+      - "app/scripts/test_approved_event_visibility_contract.mjs"
+      - "app/scripts/test_multi_city_ui.py"
+      - "app/scripts/test_pre_release.py"
       - "app/scripts/test_static_grouping_title_contract.mjs"
+      - "app/scripts/test_third_city_architecture.py"
       - ".github/workflows/static-grouping-title-contract.yml"
   pull_request:
     branches: [main]
     paths:
       - "app/app.js"
+      - "app/app-core.js"
+      - "app/city-first-run.js"
+      - "app/data-pipeline.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
-      - "app/static-exhibition-groups.js"
       - "app/public-presentation-rules.mjs"
+      - "app/exhibition-group-core.mjs"
+      - "app/exhibition-groups.js"
+      - "app/venue-identity.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
-      - "app/release-version.js"
+      - "app/exhibition-group-architecture.test.mjs"
+      - "app/shared-presentation-runtime.test.mjs"
+      - "app/startup-architecture.test.mjs"
+      - "app/scripts/test_architecture_contract_hygiene.mjs"
+      - "app/scripts/test_approved_event_visibility_contract.mjs"
+      - "app/scripts/test_multi_city_ui.py"
+      - "app/scripts/test_pre_release.py"
       - "app/scripts/test_static_grouping_title_contract.mjs"
+      - "app/scripts/test_third_city_architecture.py"
       - ".github/workflows/static-grouping-title-contract.yml"
   workflow_dispatch:
 
@@ -40,11 +64,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Check modules
+      - name: Check shared architecture modules
         run: |
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
-          node --check app/static-exhibition-groups.js
+          node --check app/exhibition-group-core.mjs
+          node --check app/exhibition-groups.js
+          node --check app/app-core.js
           node --check app/app.js
-      - name: Verify static grouping, title and layout contract
-        run: node app/scripts/test_static_grouping_title_contract.mjs
+      - name: Verify architecture contract hygiene
+        run: node app/scripts/test_architecture_contract_hygiene.mjs
+      - name: Verify shared grouping, title and layout contracts
+        run: |
+          node app/exhibition-group-architecture.test.mjs
+          node app/shared-presentation-runtime.test.mjs
+          node app/startup-architecture.test.mjs
+          node app/scripts/test_static_grouping_title_contract.mjs

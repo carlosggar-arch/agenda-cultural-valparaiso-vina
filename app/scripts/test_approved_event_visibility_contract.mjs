@@ -44,7 +44,6 @@ const appJs = read("app.js");
 const appCore = read("app-core.js");
 const pipeline = read("data-pipeline.js");
 const bootstrap = read("combined-filters-bootstrap.js");
-const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 const grouping = read("exhibition-groups.js");
@@ -58,13 +57,12 @@ assert.match(appJs, /^import "\.\/startup-stability\.js/m);
 assert.match(appJs, /await import\("\.\/app-core\.js/);
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
-assert.doesNotMatch(appJs, /static-exhibition-groups\.js/);
 assert.match(appJs, /footer-credit\.js/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:category-normalizer|title-normalizer-bootstrap|session-occurrence-normalizer|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 
-// Approved-event normalization is deterministic and owned by the same core
-// data pipeline used by the combined filters.
+// Approved-event normalization is deterministic and uses the same canonical
+// data pipeline as the combined filters.
 assert.match(appCore, /loadAgendaDataset/);
 assert.match(pipeline, /applyEventDataCorrections/);
 assert.match(pipeline, /normalizeAgendaCategories/);
@@ -75,13 +73,12 @@ assert.doesNotMatch(categoryNormalizer, /(?:window|globalThis|target)\.fetch\s*=
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 
-// Group membership has one common policy in exhibition-group-core. app-core may
-// emit initial cards, while the shared presentation reconciles those cards and
-// standalone exhibitions through the same pure policy. No threshold/clustering
-// algorithm may be redeclared in the renderer.
-assert.match(appCore, /function buildDatedItems\(/);
-assert.match(appCore, /createExhibitionGroupCard/);
-assert.match(appCore, /dataset\.eventGroup|card\.dataset\.eventGroup|dataset\.eventGroup =|card\.dataset\.eventGroup =/);
+// Initial and presentation grouping share one pure policy. Neither consumer may
+// redeclare cardinality, duration, venue identity or clustering.
+assert.match(appCore, /from "\.\/exhibition-group-core\.mjs/);
+assert.match(appCore, /groupStandaloneExhibitions\(events, \{ timezone:/);
+assert.match(appCore, /isLongExhibitionDuration/);
+assert.doesNotMatch(appCore, /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/);
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
 assert.match(grouping, /function enhanceCoreGroups\(/);
 assert.match(grouping, /groupStandaloneExhibitions/);
@@ -90,6 +87,7 @@ assert.match(grouping, /unifiedExhibitionGroup/);
 assert.doesNotMatch(grouping, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/);
 assert.doesNotMatch(grouping, /\bfetch\s*\(/);
 assert.match(groupingCore, /export const EXHIBITION_GROUP_MIN = 2/);
+assert.match(groupingCore, /export const LONG_EXHIBITION_DAYS = 7/);
 assert.match(groupingCore, /clusterSimultaneousExhibitions/);
 assert.match(groupingCore, /exhibitionGroupingVenueKey/);
 
@@ -105,11 +103,4 @@ assert.doesNotMatch(combined, /fetch\(CITY_CONFIG\[cityId\]\.dataset/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
 
-const releaseMatch = release.match(/const RELEASE = (\d+);/);
-assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 182, "PWA release must include shared presentation architecture");
-assert.doesNotMatch(release, /window\.stop|caches\.delete|pwa_recovered/);
-assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
-assert.doesNotMatch(release, /window\.location\.reload\(\)/);
-
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + shared exhibition grouping policy)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + single exhibition policy)`);

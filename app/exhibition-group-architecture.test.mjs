@@ -8,23 +8,43 @@ const venueIdentity = readFileSync(new URL("./venue-identity.mjs", import.meta.u
 
 assert.match(
   core,
-  /function buildDatedItems\(events\)/,
-  "app-core may keep emitting initial groups during the migration",
+  /from "\.\/exhibition-group-core\.mjs/,
+  "core rendering must consume the shared exhibition grouping module",
+);
+assert.match(
+  core,
+  /groupStandaloneExhibitions\(events, \{ timezone:/,
+  "core initial grouping must use the shared membership policy",
+);
+assert.match(
+  core,
+  /isLongExhibitionDuration/,
+  "core long-exhibition ordering must use the shared duration policy",
+);
+assert.doesNotMatch(
+  core,
+  /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/,
+  "core must not maintain a second grouping threshold, duration threshold, clustering algorithm or venue identity",
 );
 assert.match(
   presentation,
   /groupStandaloneExhibitions/,
-  "the final runtime membership pass must consume the shared grouping policy",
+  "presentation reconciliation must consume the same shared grouping policy",
 );
 assert.match(
   presentation,
   /function reconcileCommonMembership\(\)/,
-  "the renderer must reconcile legacy initial groups against common membership",
+  "the renderer must reconcile initial cards through common membership",
 );
 assert.match(
   grouping,
   /export const EXHIBITION_GROUP_MIN = 2/,
   "the common grouping core owns group cardinality",
+);
+assert.match(
+  grouping,
+  /export const LONG_EXHIBITION_DAYS = 7/,
+  "the common grouping core owns the long-exhibition duration threshold",
 );
 assert.match(
   grouping,
@@ -44,7 +64,7 @@ assert.doesNotMatch(
 assert.match(
   presentation,
   /safeMerge/,
-  "legacy cards must never be split or lose unrelated exhibitions during reconciliation",
+  "reconciliation must never split grouped cards or lose unrelated exhibitions",
 );
 
-console.log("EXHIBITION_GROUP_SHARED_AUTHORITY_OK");
+console.log("EXHIBITION_GROUP_SINGLE_POLICY_OK");

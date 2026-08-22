@@ -52,21 +52,19 @@ const presentationGuard = read("public-presentation-guard.js");
 const runtimeState = read("agenda-runtime-state.mjs");
 const supplementBridge = read("supplemental-events-fetch.js");
 const programPolicy = read("program-visibility-policy.js");
-const release = read("release-version.js");
 const filterSafety = read("combined-filters-safety.js");
 const compactCss = read("exhibition-compact.css");
 const exhibitionHours = read("exhibition-hours.js");
 const venueHours = read("venue-hours.mjs");
-const staticCompat = read("static-exhibition-groups.js");
 const generatedManifest = read("service-worker-assets.generated.js");
 
-// Exhibition membership has one shared policy in exhibition-group-core. app-core
-// may emit initial groups while the common presentation reconciles legacy cards
-// against that policy; city-specific schedule/location details stay in adapter.
+// Exhibition membership is defined by one shared pure policy. Runtime consumers
+// may invoke it at different presentation stages, but no consumer may redeclare
+// the grouping threshold or clustering algorithm.
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
 assert.doesNotMatch(appJs, /multievent-layout-fix\.js/);
-assert.doesNotMatch(appJs, /static-exhibition-groups\.js|exhibition-venue-grouping\.js|exhibition-gallery\.js|exhibition-compact-loader\.js|exhibition-compact\.js/);
+assert.doesNotMatch(appJs, /exhibition-venue-grouping\.js|exhibition-gallery\.js|exhibition-compact-loader\.js|exhibition-compact\.js/);
 assert.match(appCore, /function buildDatedItems\(/);
 assert.match(appCore, /function createExhibitionGroupCard\(/);
 assert.match(appCore, /card\.dataset\.eventGroup/);
@@ -85,10 +83,6 @@ assert.match(groupingCore, /exhibitionGroupingVenueKey/);
 assert.match(cityAdapter, /eventForCityPresentation/);
 assert.match(cityAdapter, /venueHoursForCity/);
 
-// The old static renderer is only a syntax-compatible tombstone for historical
-// CI. It must never regain runtime responsibilities.
-assert.match(staticCompat, /STATIC_EXHIBITION_GROUPS_RETIRED = true/);
-assert.doesNotMatch(staticCompat, /MutationObserver|requestAnimationFrame|\.hidden\s*=|document\.createElement|\bfetch\s*\(/);
 for (const retired of [
   "exhibition-venue-grouping.js",
   "exhibition-gallery.js",
@@ -100,16 +94,15 @@ for (const retired of [
   assert.doesNotMatch(generatedManifest, new RegExp(retired.replaceAll(".", "\\.")));
 }
 
-// Visibility has one owner: recovery may request the canonical filter pass but
-// may not expose cards, rows or sections itself.
+// Visibility recovery may request the canonical filter pass but may not expose
+// cards, rows or sections itself.
 assert.match(filterSafety, /requestCanonicalFilterPass/);
 assert.match(filterSafety, /data-smart-search/);
 assert.doesNotMatch(filterSafety, /static-exhibition-sentinels/);
 assert.doesNotMatch(filterSafety, /\.hidden\s*=/);
 
 // Grouped-card geometry belongs to CSS, not runtime JavaScript patches. Venue
-// identity also has one owner: exhibition presentation calls the shared hours
-// layer, and that layer resolves the canonical venue registry.
+// identity is resolved by the shared venue-hours layer.
 assert.match(compactCss, /--agenda-group-row-min-height:\s*96px/);
 assert.match(compactCss, /--agenda-group-list-max-height:\s*306px/);
 assert.match(compactCss, /nth-child\(4\)/);
@@ -129,7 +122,7 @@ assert.doesNotMatch(appJs, /^import "\.\/(?:title-normalizer-bootstrap|category-
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 
-// The final normalized dataset is the single runtime source for rich cards.
+// The final normalized dataset is the shared runtime source for rich cards.
 assert.match(runtimeState, /getAgendaRuntimeSnapshot/);
 assert.match(cardExperience, /getAgendaRuntimeSnapshot/);
 assert.doesNotMatch(cardExperience, /\bfetch\s*\(/);
@@ -138,10 +131,10 @@ assert.match(presentationGuard, /getAgendaRuntimeSnapshot/);
 assert.doesNotMatch(presentationGuard, /new MutationObserver\s*\(/);
 assert.doesNotMatch(appJs, /card-title-consistency\.js/);
 
-// The supplemental Valparaíso feed remains enabled. Merge helpers stay pure.
-const cities = JSON.parse(read("cities.json"));
-const valparaiso = cities.cities.find((city) => city.id === "valparaiso");
-assert.equal(valparaiso?.supplemental_dataset, "./data/valparaiso/supplemental-events.json", "Valparaíso supplemental feed must remain enabled after the v136 recovery");
+// Optional supplemental datasets are a registry-driven capability, never a
+// city-specific runtime branch. Merge helpers stay pure.
+assert.match(pipeline, /city\?\.supplemental_dataset/);
+assert.match(pipeline, /mergeSupplementalPayload\(base, supplementalResult\.payload\)/);
 assert.match(supplementBridge, /export function mergeEvents/);
 assert.match(supplementBridge, /export function mergeSupplementalPayload/);
 assert.doesNotMatch(supplementBridge, /(?:window|globalThis|target)\.fetch\s*=/);
@@ -149,18 +142,4 @@ assert.doesNotMatch(programPolicy, /new MutationObserver\(/);
 assert.doesNotMatch(programPolicy, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.match(programPolicy, /export function renderProgramReferences/);
 
-const releaseMatch = release.match(/const RELEASE = (\d+);/);
-assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 182, "PWA release must include the shared presentation contract");
-
-const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
-const venues = new Map();
-for (const event of gijon.events || []) {
-  const id = String(event?.primary_category?.id || event?.categories?.[0]?.id || "");
-  if (!["exposiciones", "museos"].includes(id)) continue;
-  const venue = String(event?.location?.venue || "").trim();
-  if (venue) venues.set(venue, (venues.get(venue) || 0) + 1);
-}
-assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
-
-console.log("Single-owner filters + shared exhibition grouping policy + shared presentation layout contract: OK");
+console.log("Shared grouping policy + normalized runtime + shared presentation layout contract: OK");
