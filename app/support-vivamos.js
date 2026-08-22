@@ -4,39 +4,20 @@ function createSupportMenu(config = SUPPORT_VIVAMOS) {
   const methods = getEnabledSupportMethods(config);
   if (!config?.enabled || methods.length === 0) return null;
 
+  const method = methods[0];
   const wrap = document.createElement("div");
   wrap.className = "vivamos-support";
   wrap.dataset.vivamosSupport = "";
 
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "vivamos-support-toggle";
-  button.textContent = config.label || "❤️ Apoya ¡Vivamos!";
-  button.setAttribute("aria-expanded", "false");
-  button.setAttribute("aria-haspopup", "menu");
+  const link = document.createElement("a");
+  link.href = method.url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.className = "vivamos-support-toggle";
+  link.textContent = config.label || "❤️ Apoya ¡Vivamos!";
+  link.setAttribute("aria-label", "Apoya ¡Vivamos! con PayPal");
 
-  const menu = document.createElement("div");
-  menu.className = "vivamos-support-menu";
-  menu.hidden = true;
-  menu.setAttribute("role", "menu");
-
-  for (const method of methods) {
-    const link = document.createElement("a");
-    link.href = method.url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.setAttribute("role", "menuitem");
-    link.textContent = `${method.audience} — ${method.provider}`;
-    menu.append(link);
-  }
-
-  button.addEventListener("click", () => {
-    const opening = menu.hidden;
-    menu.hidden = !opening;
-    button.setAttribute("aria-expanded", opening ? "true" : "false");
-  });
-
-  wrap.append(button, menu);
+  wrap.append(link);
   return wrap;
 }
 
