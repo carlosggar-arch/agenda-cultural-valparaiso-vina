@@ -234,12 +234,12 @@ def check_workflow_guard() -> None:
     assert scenarios["temporal-order"] == ["browser.temporal-priority"]
     assert topology["temporary_overlaps"] == [], "D4 must leave no temporary overlap"
 
-    for browser_owner in (
-        "test_first_render_browser.py",
-        "test_temporal_priority_browser.py",
-        "run_browser_scenarios.py",
+    for browser_command in (
+        "python app/scripts/test_first_render_browser.py",
+        "python app/scripts/test_temporal_priority_browser.py",
+        "python app/scripts/run_browser_scenarios.py",
     ):
-        assert browser_owner not in multicity, f"browser execution leaked into multi-city gate: {browser_owner}"
+        assert browser_command not in multicity, f"browser execution leaked into multi-city gate: {browser_command}"
 
     production_triggers = production.split("permissions:", 1)[0]
     assert "pull_request:" not in production_triggers, "production smoke must be post-merge/manual only"
