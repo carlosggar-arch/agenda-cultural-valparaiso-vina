@@ -18,8 +18,13 @@ assert.match(
 );
 assert.match(
   core,
+  /compareAgendaOrder/,
+  "top-level exhibition cards must use the canonical agenda ordering authority",
+);
+assert.doesNotMatch(
+  core,
   /isLongExhibitionDuration/,
-  "core long-exhibition ordering must use the shared duration policy",
+  "core must not maintain a parallel long-exhibition ordering rule after C1",
 );
 assert.doesNotMatch(
   core,
@@ -44,7 +49,7 @@ assert.match(
 assert.match(
   grouping,
   /export const LONG_EXHIBITION_DAYS = 7/,
-  "the common grouping core owns the long-exhibition duration threshold",
+  "the common grouping core owns the reusable long-exhibition duration threshold",
 );
 assert.match(
   grouping,
