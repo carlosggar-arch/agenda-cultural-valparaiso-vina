@@ -1,12 +1,9 @@
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
+
 const sourcesSection = document.querySelector("[data-sources-section]");
 const sourcesGrid = document.querySelector("[data-sources-grid]");
 const sourcesTotal = document.querySelector("[data-sources-total]");
 const footer = document.querySelector("footer");
-
-const DATASETS = Object.freeze({
-  valparaiso: "../agenda_web.json",
-  gijon: "./data/gijon/agenda_web.json",
-});
 
 const PUBLIC_CATALOGUES = Object.freeze({
   valparaiso: "../fuentes_publicas.json",
@@ -15,6 +12,7 @@ const PUBLIC_CATALOGUES = Object.freeze({
 let configuredSources = [];
 let authoritativeCatalogue = false;
 let loadGeneration = 0;
+const catalogueCache = new Map();
 
 function sourceKey(value) {
   return String(value || "").trim().toLocaleLowerCase(document.documentElement.lang || "es");
@@ -251,49 +249,85 @@ function sourcesFromPublicCatalogue(catalogue, dataset, datasetSources = []) {
     });
 }
 
-async function fetchJson(url) {
-  const response = await fetch(url, {
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-  });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return response.json();
+async function loadPublicCatalogue(url) {
+  if (!url) return null;
+  if (!catalogueCache.has(url)) {
+    catalogueCache.set(url, fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    }).then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }).catch((error) => {
+      catalogueCache.delete(url);
+      throw error;
+    }));
+  }
+  return catalogueCache.get(url);
+}
+
+function scheduleConfiguredMerge(generation, city) {
+  const run = () => {
+    if (generation !== loadGeneration) return;
+    if (city !== (document.documentElement.dataset.city || "valparaiso")) return;
+    mergeConfiguredSourcesIntoGrid();
+  };
+
+  // agenda-data-ready fires before app-core schedules its own idle source render.
+  // Register this idle pass from the next task, so the canonical base renderer
+  // gets first ownership of the grid and this module only enriches it once.
+  setTimeout(() => {
+    if (generation !== loadGeneration) return;
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(run, { timeout: 1500 });
+    } else {
+      window.requestAnimationFrame(() => setTimeout(run, 0));
+    }
+  }, 0);
 }
 
 async function loadConfiguredSources() {
   const generation = ++loadGeneration;
-  configuredSources = [];
-  authoritativeCatalogue = false;
   const city = document.documentElement.dataset.city || "valparaiso";
-  const datasetUrl = DATASETS[city];
-  if (!datasetUrl) {
-    mergeConfiguredSourcesIntoGrid();
+  const snapshot = getAgendaRuntimeSnapshot(city);
+  if (!snapshot?.dataset) {
+    updateSourceCount();
     return;
   }
 
-  try {
-    const dataset = await fetchJson(datasetUrl);
-    if (generation !== loadGeneration) return;
-    const datasetSources = sourcesFromDataset(dataset);
-    const catalogueUrl = PUBLIC_CATALOGUES[city];
+  configuredSources = [];
+  authoritativeCatalogue = false;
+  const dataset = snapshot.dataset;
+  const datasetSources = sourcesFromDataset(dataset);
+  const catalogueUrl = PUBLIC_CATALOGUES[city];
 
-    if (catalogueUrl) {
-      try {
-        const catalogue = await fetchJson(catalogueUrl);
-        if (generation !== loadGeneration) return;
-        configuredSources = sourcesFromPublicCatalogue(catalogue, dataset, datasetSources);
-        authoritativeCatalogue = configuredSources.length > 0;
-      } catch {
-        configuredSources = datasetSources;
-      }
-    } else {
+  if (catalogueUrl) {
+    try {
+      const catalogue = await loadPublicCatalogue(catalogueUrl);
+      if (generation !== loadGeneration || city !== document.documentElement.dataset.city) return;
+      configuredSources = sourcesFromPublicCatalogue(catalogue, dataset, datasetSources);
+      authoritativeCatalogue = configuredSources.length > 0;
+    } catch {
+      if (generation !== loadGeneration) return;
       configuredSources = datasetSources;
     }
-  } catch {
-    if (generation !== loadGeneration) return;
-    configuredSources = [];
+  } else {
+    configuredSources = datasetSources;
   }
+
   mergeConfiguredSourcesIntoGrid();
+  scheduleConfiguredMerge(generation, city);
+}
+
+function invalidateConfiguredSources() {
+  loadGeneration += 1;
+  configuredSources = [];
+  authoritativeCatalogue = false;
+  if (button) {
+    button.textContent = "Fuentes";
+    button.setAttribute("aria-expanded", "false");
+  }
+  sourcesSection?.classList.remove("sources-user-open");
 }
 
 let button = null;
@@ -329,15 +363,12 @@ if (sourcesSection && sourcesGrid && footer) {
     if (opening) sourcesSection.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  new MutationObserver(() => queueMicrotask(mergeConfiguredSourcesIntoGrid)).observe(sourcesGrid, {
-    childList: true,
-  });
-
-  new MutationObserver(loadConfiguredSources).observe(document.documentElement, {
+  new MutationObserver(invalidateConfiguredSources).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["data-city"],
   });
+  addEventListener("vivamos:agenda-data-ready", () => { void loadConfiguredSources(); });
 
-  loadConfiguredSources();
+  void loadConfiguredSources();
   updateSourceCount();
 }

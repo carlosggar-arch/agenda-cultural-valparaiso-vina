@@ -113,7 +113,7 @@ async function loadOptionalEnhancements() {
   // module failure, missing source section, cache mismatch or footer timing.
   ensureSourcesFallbackLink();
   try {
-    await import("./sources-toggle.js?v=20260820-sources2");
+    await import("./sources-toggle.js?v=20260822-runtime-snapshot1");
   } catch (error) {
     console.warn("¡Vivamos!: vista integrada de fuentes omitida; se conserva el enlace de catálogo", error);
   }
