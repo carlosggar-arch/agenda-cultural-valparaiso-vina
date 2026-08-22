@@ -1,5 +1,6 @@
 import { normalizeTemporalMetadata } from "./temporal-priority-core.mjs?v=20260821-temporal4";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
+import { normalizeScheduleContractDataset } from "./schedule-contract.mjs?v=20260821-schedule8";
 
 const STATE_KEY = Symbol.for("vivamos.agendaRuntimeState");
 const state = globalThis[STATE_KEY] || (globalThis[STATE_KEY] = { revision: 0, snapshot: null });
@@ -13,7 +14,10 @@ export function publishAgendaRuntimeSnapshot(city, result) {
   const dataset = result?.dataset;
   if (!cityId || !dataset || !Array.isArray(dataset.events)) return state.snapshot;
 
-  const normalizedDataset = normalizeTemporalMetadata(dataset, city, new Date());
+  // Shared temporal ingress: every city and every upstream correction is
+  // normalized to the same schedule semantics before presentation or filters.
+  const scheduledDataset = normalizeScheduleContractDataset(dataset);
+  const normalizedDataset = normalizeTemporalMetadata(scheduledDataset, city, new Date());
 
   // The shared runtime is the presentation boundary. City differences are
   // expressed through adapters here, never by selecting a different renderer.
