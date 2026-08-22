@@ -2,6 +2,7 @@ import { mergeSupplementalPayload } from "./supplemental-events-fetch.js?v=20260
 import { normalizeAgendaPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
 import { applyEventDataCorrections } from "./event-data-corrections.js?v=20260819-pipeline1";
 import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260821-shared-taxonomy1";
+import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260820-venues1";
 import { normalizeAgendaTitles, recoverAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260822-title-authority1";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
 import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260821-shared-taxonomy1";
@@ -307,6 +308,14 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   }
   dataset = applyStage("title-recovery", recoverAgendaTitles, dataset, diagnostics);
   dataset = applyStage("category-normalizer", normalizeAgendaCategories, dataset, diagnostics);
+  // Venue identity is an explicit shared semantic stage. It remains here, at
+  // the same point where category-normalizer historically normalized aliases,
+  // so dedupe behavior is unchanged. The runtime snapshot applies the same
+  // idempotent authority once more after city adapters as the definitive edge.
+  dataset = applyStage("venue-identity-normalizer", (current) => ({
+    ...current,
+    events: normalizeVenueAliases(current.events),
+  }), dataset, diagnostics);
   if (city.id === "valparaiso") {
     dataset = applyStage("known-publication-categories", applyKnownPublicationCategories, dataset, diagnostics);
   } else {
