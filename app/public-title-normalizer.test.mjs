@@ -38,6 +38,12 @@ assert.equal(
 );
 
 assert.equal(
+  normalizePublicEventTitle("EXPOSICIÓN. La Isla: la pieza que faltaba", gijonExhibition),
+  "La Isla: la pieza que faltaba",
+  "period-separated category labels must stay out of the public title",
+);
+
+assert.equal(
   normalizePublicEventTitle("FETEN COMPAÑÍAS", gijonTheatre),
   "FETEN Compañías",
   "known acronyms must survive all-caps cleanup",
