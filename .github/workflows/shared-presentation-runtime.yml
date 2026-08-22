@@ -6,6 +6,8 @@ on:
       - "app/**"
       - "assets/city-registry.mjs"
       - "assets/event-schedule-display.mjs"
+      - "docs/CONTRACT_ARCHITECTURE.md"
+      - "tests/contract-topology.json"
       - ".github/workflows/shared-presentation-runtime.yml"
   workflow_dispatch:
 
@@ -36,6 +38,7 @@ jobs:
 
       - name: Validate shared presentation contracts
         run: |
+          python app/scripts/test_contract_topology.py
           node --check app/schedule-contract.mjs
           node --check app/date-aware-exhibition-hours.mjs
           node --check app/gijon-venue-hours.js
