@@ -316,14 +316,6 @@ jobs:
           grep -F 'sourceDiagnosticText' app/sources-toggle.js
           grep -F 'source_diagnostics' app/sources-toggle.js
 
-      - name: Run stable browser contracts
-        run: |
-          set -euo pipefail
-          # first-render remains intentionally duplicated until D3; temporal priority
-          # keeps its dedicated browser contract here as part of multi-city validation.
-          python app/scripts/test_first_render_browser.py
-          python app/scripts/test_temporal_priority_browser.py
-
       - name: Verify production data/runtime isolation
         run: |
           set -euo pipefail

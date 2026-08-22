@@ -184,6 +184,7 @@ def check_workflow_guard() -> None:
     topology = json.loads(text(TOPOLOGY))
     contracts = {entry["id"]: entry for entry in topology["contracts"]}
     profiles = topology["runner_profiles"]
+    scenarios = topology["browser_scenarios"]
 
     release_contract = contracts["release.generated-shell"]
     assert release_contract["owner"] == "app/scripts/test_release_guard.py"
@@ -196,12 +197,23 @@ def check_workflow_guard() -> None:
     assert "python app/scripts/test_release_guard.py" not in workflow, (
         "generated-shell contract must not be duplicated in multi-city CI"
     )
-    assert "python app/scripts/test_first_render_browser.py" in workflow, (
-        "first-render browser probe remains duplicated only until D3"
+    assert "python app/scripts/test_first_render_browser.py" not in workflow, (
+        "first-render browser contract must not be duplicated in multi-city CI"
     )
-    assert "python app/scripts/test_startup_resilience_browser.py" in required, (
-        "real startup resilience browser probe is not required before merge"
+    assert "python app/scripts/test_temporal_priority_browser.py" not in workflow, (
+        "temporal browser contract must remain with its canonical owner, not multi-city CI"
     )
+    assert "python app/scripts/run_browser_scenarios.py --all" in required, (
+        "required release gate must compose canonical browser scenarios"
+    )
+    assert topology["temporary_overlaps"] == [], "D3 must leave no declared temporary browser overlap"
+    assert scenarios["startup-city"] == [
+        "browser.first-render",
+        "browser.startup-resilience",
+        "browser.city-switch",
+    ]
+    assert "browser.runtime-user-flow" in scenarios["filters-detail-media"]
+    assert "browser.exhibition-visual-parity" in scenarios["exhibitions"]
     assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert "node app/date-filter-architecture.test.mjs" in required, "date-filter single-source contract is not required before merge"
     assert 'PWA v33' not in workflow, "stale PWA v33 assertion remains in workflow"
