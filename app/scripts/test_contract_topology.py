@@ -7,9 +7,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
 RUNNER = ROOT / "app" / "scripts" / "run_contracts.py"
+BROWSER_RUNNER = ROOT / "app" / "scripts" / "run_browser_scenarios.py"
 
 ALLOWED_LAYERS = {"semantic", "architecture", "browser", "release"}
-ALLOWED_FOLLOWUPS = {"D3", "D4"}
+ALLOWED_FOLLOWUPS = {"D4"}
 
 
 def fail(message: str) -> None:
@@ -24,10 +25,12 @@ def require_path(relative: str, *, label: str) -> None:
 
 def main() -> None:
     data = json.loads(TOPOLOGY.read_text(encoding="utf-8"))
-    if data.get("schema_version") != "1.1.0":
-        fail("contract topology schema_version must be 1.1.0")
+    if data.get("schema_version") != "1.2.0":
+        fail("contract topology schema_version must be 1.2.0")
     if not RUNNER.is_file():
         fail("canonical contract runner is missing")
+    if not BROWSER_RUNNER.is_file():
+        fail("canonical browser scenario runner is missing")
 
     declared_layers = data.get("layers")
     if set(declared_layers or []) != ALLOWED_LAYERS or len(declared_layers) != len(ALLOWED_LAYERS):
@@ -65,6 +68,9 @@ def main() -> None:
             if not isinstance(workflow, str) or not workflow.startswith(".github/workflows/"):
                 fail(f"{contract_id}: workflow must live under .github/workflows")
             require_path(workflow, label=f"{contract_id} workflow")
+        runner_args = entry.get("runner_args", [])
+        if not isinstance(runner_args, list) or any(not isinstance(value, str) for value in runner_args):
+            fail(f"{contract_id}: runner_args must be a list of strings")
         domains_by_layer[layer].add(domain)
 
     stage_c_domains = data.get("stage_c_domains")
@@ -95,6 +101,29 @@ def main() -> None:
             if not owner.endswith((".py", ".mjs", ".js")):
                 fail(f"runner profile {profile} contains workflow-only contract: {contract_id}")
 
+    scenarios = data.get("browser_scenarios")
+    if not isinstance(scenarios, dict) or not scenarios:
+        fail("browser_scenarios must be a non-empty object")
+    seen_browser_contracts: set[str] = set()
+    for scenario, scenario_ids in scenarios.items():
+        if not isinstance(scenario, str) or not scenario.strip():
+            fail("browser scenario names must be non-empty")
+        if not isinstance(scenario_ids, list) or not scenario_ids:
+            fail(f"browser scenario {scenario} must contain contracts")
+        if len(scenario_ids) != len(set(scenario_ids)):
+            fail(f"browser scenario {scenario} contains duplicate contracts")
+        for contract_id in scenario_ids:
+            if contract_id not in known_ids:
+                fail(f"browser scenario {scenario} references unknown contract: {contract_id}")
+            entry = contracts_by_id[contract_id]
+            if entry["layer"] != "browser":
+                fail(f"browser scenario {scenario} contains non-browser contract: {contract_id}")
+            if not entry["owner"].endswith(".py"):
+                fail(f"browser scenario {scenario} owner must be Python executable: {contract_id}")
+            if contract_id in seen_browser_contracts:
+                fail(f"browser contract belongs to more than one canonical scenario: {contract_id}")
+            seen_browser_contracts.add(contract_id)
+
     overlaps = data.get("temporary_overlaps")
     if not isinstance(overlaps, list):
         fail("temporary_overlaps must be a list")
@@ -124,6 +153,7 @@ def main() -> None:
         "CONTRACT_TOPOLOGY_OK "
         f"contracts={len(contracts)} "
         f"profiles={len(profiles)} "
+        f"browser_scenarios={len(scenarios)} "
         f"stage_c_domains={len(stage_c_domains)} "
         f"temporary_overlaps={len(overlaps)}"
     )
