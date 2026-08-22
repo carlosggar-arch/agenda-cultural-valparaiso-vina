@@ -188,8 +188,13 @@ export function normalizeEventScheduleContract(event) {
     sessionTimes = unique(explicit);
     if (!sessionTimes.length) sessionTimes = parsed.session_times;
     const timedStart = timePart(schedule.start);
-    const mode = String(schedule.mode || "").toLocaleLowerCase("en");
-    if (!sessionTimes.length && timedStart && !isExhibition(event) && !["multi_day", "ongoing", "permanent"].includes(mode)) sessionTimes = [timedStart];
+    const startDay = datePart(schedule.start);
+    const endDay = datePart(schedule.end || schedule.start);
+    const sameDayTimedBoundary = Boolean(timedStart && startDay && (!endDay || endDay === startDay));
+    // A real structured start time on a one-day event is event-specific evidence.
+    // Do not discard it because a source used a coarse legacy mode such as
+    // "multi_day" or because a guided visit happens to carry an exhibition label.
+    if (!sessionTimes.length && sameDayTimedBoundary) sessionTimes = [timedStart];
   }
   let eventEndTime = validClock(schedule.event_end_time || event.event_end_time) || occurrenceEndTime(structured.occurrences);
   if (!eventEndTime && structured.occurrences.length === 0 && sessionTimes.length === 1) {
