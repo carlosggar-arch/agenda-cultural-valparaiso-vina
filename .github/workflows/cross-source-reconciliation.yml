@@ -4,6 +4,11 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - "app/cross-source-deduplication.mjs"
+      - "app/event-identity-core.mjs"
+      - "app/occurrence-identity-core.mjs"
+      - "app/identity-boundaries.test.mjs"
+      - "app/exhibition-group-core.mjs"
       - "app/scripts/refresh_valpocultura_zero_recovery_resilient.py"
       - "app/scripts/test_valpocultura_resilience.py"
       - "app/scripts/apply_event_derived_source_coverage.py"
@@ -32,6 +37,20 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate identity boundaries
+        run: |
+          set -euo pipefail
+          node --check app/occurrence-identity-core.mjs
+          node --check app/event-identity-core.mjs
+          node --check app/cross-source-deduplication.mjs
+          node --check app/identity-boundaries.test.mjs
+          node app/identity-boundaries.test.mjs
 
       - name: Validate reconciliation rules
         run: |
