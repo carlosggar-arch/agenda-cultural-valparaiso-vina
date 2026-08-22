@@ -5,7 +5,7 @@ const KNOWN_ACRONYMS = new Set([
   "SCD", "SIDA", "UAI", "UNESCO", "UP", "USM", "UTFSM", "UV", "VIH",
 ]);
 const MINOR_WORDS = new Set(["a", "al", "de", "del", "el", "en", "la", "las", "los", "o", "para", "por", "y"]);
-const GENERIC_PREFIX = /^(?:actividad|evento|teatro|obra(?:\s+de\s+teatro)?|concierto|recital|exposici[oó]n(?:\s+temporal)?|exhibici[oó]n|muestra|charla|taller|curso|funci[oó]n|cine|proyecci[oó]n|danza|m[uú]sica|espect[aá]culo|presentaci[oó]n|visita\s+guiada)\s*(?:(?:\/\/|[:|–—-])\s*|(?=["“‘'«‹]))/iu;
+const GENERIC_PREFIX = /^(?:actividad|evento|teatro|obra(?:\s+de\s+teatro)?|concierto|recital|exposici[oó]n(?:\s+temporal)?|exhibici[oó]n|muestra|charla|taller|curso|funci[oó]n|cine|proyecci[oó]n|danza|m[uú]sica|espect[aá]culo|presentaci[oó]n|visita\s+guiada)\s*(?:(?:\/\/|[.:|–—-])\s*|(?=["“‘'«‹]))/iu;
 const PROMOTIONAL_BLOCK = String.raw`(?:no\s+te\s+lo\s+pierdas|no\s+te\s+lo\s+puedes\s+perder|imperdible|[uú]ltimos?\s+cupos?|[uú]ltimas?\s+entradas?|[uú]ltimos?\s+tickets?|[uú]ltimas?\s+localidades?)`;
 const PROMOTIONAL_LEADING_WITH_SEPARATOR = new RegExp(`^\\s*[¡!]*\\s*${PROMOTIONAL_BLOCK}\\s*[!¡.]*\\s*(?:(?:\\/\\/|[:|·/–—-])\\s*)+`, "iu");
 const PROMOTIONAL_LEADING_EXCLAMATION = new RegExp(`^\\s*¡?\\s*${PROMOTIONAL_BLOCK}\\s*!+\\s+`, "iu");
