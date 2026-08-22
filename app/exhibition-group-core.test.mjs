@@ -48,6 +48,23 @@ const riojaGroups = groupStandaloneExhibitions(riojaAliases, { timezone: "Americ
 assert.equal(riojaGroups.length, 1, "registered aliases must converge before exhibition grouping");
 assert.deepEqual(riojaGroups[0].events.map((item) => item.id), ["rioja-canonical", "rioja-alias"]);
 
+const pcvSubspaces = [
+  exhibition("pcv-gallery", "Galería de Artes Visuales — Parque Cultural de Valparaíso", "2026-08-06", "2026-09-24", "exposiciones", "Valparaíso"),
+  exhibition("pcv-reos", "1º nivel del Edificio de la Ex Galería de Reos — Parque Cultural de Valparaíso", "2026-07-10", "2026-08-30", "exposiciones", "Valparaíso"),
+  exhibition("pcv-direct", "Parque Cultural de Valparaíso", "2026-08-01", "2026-08-31", "exposiciones", "Valparaíso"),
+];
+const pcvGroups = groupStandaloneExhibitions(pcvSubspaces, { timezone: "America/Santiago" });
+assert.equal(pcvGroups.length, 1, "explicit PCV subspaces must share the parent exhibition complex");
+assert.deepEqual(new Set(pcvGroups[0].events.map((item) => item.id)), new Set(["pcv-gallery", "pcv-reos", "pcv-direct"]));
+
+const naturalHistory = [
+  exhibition("mhnv-biodiversity", "Museo de Historia Natural de Valparaíso", "2026-08-01", "2026-12-31", "museos", "Valparaíso"),
+  exhibition("mhnv-temporary", "Museo de Historia Natural de Valparaíso", "2026-08-13", "2026-09-20", "exposiciones", "Valparaíso"),
+];
+const mhnvGroups = groupStandaloneExhibitions(naturalHistory, { timezone: "America/Santiago" });
+assert.equal(mhnvGroups.length, 1, "museum and exhibition labels at MHNV must converge into one multi-event card");
+assert.deepEqual(mhnvGroups[0].events.map((item) => item.id), ["mhnv-biodiversity", "mhnv-temporary"]);
+
 const nonOverlapping = [
   exhibition("early", "Museo común", "2026-01-01", "2026-01-31"),
   exhibition("late", "Museo común", "2026-03-01", "2026-03-31"),
