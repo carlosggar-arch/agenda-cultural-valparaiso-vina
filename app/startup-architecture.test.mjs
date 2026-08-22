@@ -58,7 +58,6 @@ for (const shared of [
   assert.match(app, new RegExp(shared.replaceAll(".", "\\.")), `${shared} must be present in the common runtime`);
 }
 assert.doesNotMatch(app, /GIJON_DEFERRED_MODULES|IS_GIJON|gijon-card-images\.js|card-image-fallback\.js/, "app.js must not select presentation modules by city");
-assert.doesNotMatch(app, /static-exhibition-groups\.js/, "retired exhibition renderer must not be loaded");
 assert.match(app, /new MutationObserver\(scheduleTemporalOrder\)/, "shared temporal ordering may use bounded direct-grid observers");
 assert.doesNotMatch(app, /observe\(datedGrid, \{[^}]*subtree:\s*true/, "shared ordering must never observe descendant churn");
 
@@ -68,6 +67,10 @@ assert.match(core, /function markCoreReady\(/, "core startup must explicitly set
 assert.match(core, /dataset\.vivamosReady = "true"/, "core startup must mark the DOM ready");
 assert.match(core, /renderProgramReferences\(/, "program references must be rendered explicitly");
 assert.match(core, /function buildDatedItems\(events\)/, "core may emit initial grouped cards before common reconciliation");
+assert.match(core, /from "\.\/exhibition-group-core\.mjs/, "core grouping must consume the canonical exhibition policy");
+assert.match(core, /groupStandaloneExhibitions\(events, \{ timezone:/, "core initial grouping must use canonical membership");
+assert.match(core, /isLongExhibitionDuration/, "core long-exhibition ordering must use the canonical duration policy");
+assert.doesNotMatch(core, /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/, "core must not duplicate exhibition policy");
 
 const stageOrder = [
   "applyEventDataCorrections",
@@ -120,6 +123,7 @@ assert.doesNotMatch(exhibitionGroups, /\bfetch\s*\(/, "shared exhibition rendere
 assert.match(exhibitionGroups, /new MutationObserver/, "shared exhibition renderer may react to direct grid/city transitions");
 assert.doesNotMatch(exhibitionGroups, /subtree:\s*true|characterData:\s*true/, "shared exhibition renderer must not watch descendant churn");
 assert.match(exhibitionGroupCore, /export const EXHIBITION_GROUP_MIN = 2/, "common grouping core owns exhibition group cardinality");
+assert.match(exhibitionGroupCore, /export const LONG_EXHIBITION_DAYS = 7/, "common grouping core owns long-exhibition duration");
 assert.match(exhibitionGroupCore, /exhibitionGroupingVenueKey/, "common grouping core owns canonical exhibition venue identity");
 assert.match(cityPresentationAdapter, /export function eventForCityPresentation/, "city-specific event adaptation must enter through the public adapter boundary");
 assert.match(cityPresentationAdapter, /export function venueHoursForCity/, "city-specific venue hours must enter through the public adapter boundary");
