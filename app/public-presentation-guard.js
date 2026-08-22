@@ -1,7 +1,6 @@
 import {
   groupedScheduleLabel,
   isNonEventDescription,
-  normalizePublicTitle,
   publicLocationLabel,
 } from "./public-presentation-rules.mjs";
 import { plainPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
@@ -87,37 +86,11 @@ function syncEventIndex() {
   return true;
 }
 
-function eventIdForNode(node) {
-  const grouped = node.closest("[data-grouped-event-id]");
-  if (grouped?.dataset.groupedEventId) return grouped.dataset.groupedEventId;
-  const card = node.closest(".event-card[data-event-id]");
-  if (card?.dataset.eventId) return card.dataset.eventId;
-  const detail = node.closest("[data-event-detail]");
-  if (detail?.dataset.eventDetail) return detail.dataset.eventDetail;
-  return null;
-}
-
-function eventForNode(node) {
-  const id = String(eventIdForNode(node) || "").trim();
-  return id ? eventsById.get(id) || null : null;
-}
-
 function cleanPlainTextNode(node) {
   if (!(node instanceof HTMLElement) || node.children.length) return;
   const current = String(node.textContent || "");
   const cleaned = plainPublicText(current);
   if (cleaned !== current.trim()) node.textContent = cleaned;
-}
-
-function cleanTitleNode(node) {
-  if (!(node instanceof HTMLElement)) return;
-  const event = eventForNode(node);
-  if (!event) return;
-  const current = plainPublicText(node.textContent || "");
-  const normalized = normalizePublicTitle(current, event);
-  if (!normalized) return;
-  node.dataset.originalPublicTitle = normalized;
-  if (node.textContent !== normalized) node.textContent = normalized;
 }
 
 function removePipelineDescription(node) {
@@ -175,7 +148,6 @@ function enhanceGroupedRow(row) {
   const copy = row.querySelector(".grouped-exhibition-copy");
   if (!(copy instanceof HTMLElement)) return;
   const title = copy.querySelector("strong");
-  if (title) cleanTitleNode(title);
   let schedule = copy.querySelector(".grouped-exhibition-schedule");
   if (!schedule) {
     schedule = copy.querySelector("small") || document.createElement("small");
@@ -186,9 +158,6 @@ function enhanceGroupedRow(row) {
     }
   }
 
-  // Point 8 owns canonical schedule presentation. For a classified schedule,
-  // schedule-display.js has already selected the visible date and separated
-  // session times from venue hours. This late guard must not reinterpret it.
   if (!event?.schedule?.schedule_contract_version) {
     const nextSchedule = plainPublicText(groupedScheduleLabel(event, {
       locale: activeCity?.locale || DEFAULT_LOCALE,
@@ -209,20 +178,15 @@ function enhanceGroupedRow(row) {
 
 function stripAnyLateMarkupLeaks() {
   document.querySelectorAll([
-    '.event-card[data-event-id] h3',
-    '.event-card[data-event-id] h4',
     '.event-card[data-event-id] p',
     '.event-card[data-event-id] small',
     '.event-card[data-event-id] .meta',
     '.event-card[data-event-id] .type-badge',
     '.event-card[data-event-id] .event-bottom > span',
-    '.grouped-exhibition-copy strong',
     '.grouped-exhibition-copy small',
     '.grouped-exhibition-price',
-    '.exhibition-venue-heading h4',
     '.exhibition-venue-count',
     '.exhibition-venue-facts p',
-    '.event-detail-title',
     '[data-event-detail] p',
     '[data-event-detail] small',
   ].join(",")).forEach(cleanPlainTextNode);
@@ -230,12 +194,6 @@ function stripAnyLateMarkupLeaks() {
 
 function applyPresentationRules() {
   if (!syncEventIndex()) return;
-  document.querySelectorAll([
-    '.event-card[data-event-id] .event-card-body h4',
-    '.event-card[data-event-id] .card-body h3',
-    '.grouped-exhibition-copy strong',
-    '.event-detail-title',
-  ].join(",")).forEach(cleanTitleNode);
   document.querySelectorAll(".event-card-description").forEach(removePipelineDescription);
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceAvailabilityCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedRow);
