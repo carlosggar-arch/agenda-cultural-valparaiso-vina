@@ -9,6 +9,9 @@ function read(relative) {
 const app = read("./app.js");
 const runtime = read("./agenda-runtime-state.mjs");
 const firstRun = read("./city-first-run.js");
+const temporalCleanup = read("./temporal-priority.js");
+const visibilityOwnerCore = read("./visibility-owner-core.mjs");
+const combinedFilters = read("./combined-filters.js");
 const exhibitionGroups = read("./exhibition-groups.js");
 const exhibitionCore = read("./exhibition-group-core.mjs");
 const dataQuality = read("./event-card-data-quality.mjs");
@@ -24,6 +27,7 @@ const sharedPresentationModules = [
   "./public-presentation-guard.js",
   "./image-quality-guard.js",
 ];
+const snapshotConsumers = sharedPresentationModules.filter((modulePath) => modulePath !== "./temporal-priority.js");
 
 for (const modulePath of sharedPresentationModules) {
   const moduleName = modulePath.replace("./", "");
@@ -52,7 +56,7 @@ assert.match(
 );
 
 const explicitCityConstant = /["'](?:gijon|valparaiso|America\/Santiago|Europe\/Madrid|es-CL|es-ES)["']/i;
-for (const modulePath of sharedPresentationModules) {
+for (const modulePath of snapshotConsumers) {
   const source = read(modulePath);
   assert.match(
     source,
@@ -70,6 +74,15 @@ for (const modulePath of sharedPresentationModules) {
     `${modulePath} must not hardcode concrete cities, city timezones or city locales`,
   );
 }
+
+// C2 deliberately turns temporal-priority.js into a cleanup-only common module.
+// It must remain city-agnostic and data-free while visibility semantics move to
+// the pure visibility core and the sole DOM writer in combined-filters.js.
+assert.match(temporalCleanup, /removeLegacyTemporalUi/, "temporal cleanup must retain removal of retired temporal UI");
+assert.doesNotMatch(temporalCleanup, /getAgendaRuntimeSnapshot|loadAgendaDataset|loadCityRegistry|\.hidden\s*=|temporalSuppressed/, "cleanup-only temporal module must not own data or visibility");
+assert.doesNotMatch(temporalCleanup, explicitCityConstant, "temporal cleanup must remain city-agnostic");
+assert.match(visibilityOwnerCore, /shouldSuppressForTemporalFilter/, "visibility core must retain temporal-confidence semantics");
+assert.match(combinedFilters, /visibility-owner-core\.mjs/, "combined filters must consume the canonical visibility core");
 
 assert.match(
   scheduleDisplay,

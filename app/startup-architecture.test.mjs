@@ -13,8 +13,10 @@ const lifecycle = read("./render-lifecycle.js");
 const startup = read("./startup-stability.js");
 const pwa = read("./pwa.js");
 const combined = read("./combined-filters.js");
+const visibilityOwnerCore = read("./visibility-owner-core.mjs");
 const exhibitionGroups = read("./exhibition-groups.js");
 const exhibitionGroupCore = read("./exhibition-group-core.mjs");
+const exhibitionPresentationGuard = read("./exhibition-presentation-guard.js");
 const cityPresentationAdapter = read("./city-presentation-adapter.mjs");
 const cityFirstRun = read("./city-first-run.js");
 const cardExperience = read("./card-experience.js");
@@ -112,8 +114,18 @@ for (const [name, source] of [
 assert.doesNotMatch(cardExperience, /\bfetch\s*\(/, "rich card rendering must never re-fetch raw data");
 assert.doesNotMatch(presentationGuard, /\bfetch\s*\(/, "presentation guard must never re-fetch raw data");
 assert.doesNotMatch(exhibitionHours, /\bfetch\s*\(/, "exhibition hours must never re-fetch raw data");
-assert.doesNotMatch(temporalPriority, /\bfetch\s*\(|loadCityRegistry/, "temporal presentation must consume the shared runtime rather than loading a city dataset");
-assert.match(temporalPriority, /getAgendaRuntimeSnapshot/, "temporal presentation must consume the shared runtime snapshot");
+
+// C2: temporal-priority is cleanup-only. All event-card/row visibility writes,
+// including confidence-based temporal suppression, belong to combined filters.
+assert.doesNotMatch(temporalPriority, /\bfetch\s*\(|loadCityRegistry|getAgendaRuntimeSnapshot|\.hidden\s*=|temporalSuppressed/, "temporal presentation must not own event visibility or data loading");
+assert.match(temporalPriority, /removeLegacyTemporalUi/, "temporal module must retain bounded legacy UI cleanup");
+assert.match(visibilityOwnerCore, /shouldSuppressForTemporalFilter/, "visibility core must preserve temporal confidence semantics");
+assert.match(combined, /visibility-owner-core\.mjs/, "combined filters must consume canonical visibility decisions");
+assert.match(combined, /card\.hidden\s*=/, "combined filters must own top-level card hidden state");
+assert.match(combined, /rows\[index\]\.hidden\s*=/, "combined filters must own grouped-row hidden state");
+assert.match(combined, /dataset\.temporalSuppressed/, "combined filters must own temporal visual suppression");
+assert.doesNotMatch(exhibitionPresentationGuard, /\.hidden\s*=/, "exhibition presentation guard must not write visibility");
+assert.match(exhibitionPresentationGuard, /vivamos:visibility-reconcile-requested/, "exhibition consolidation must delegate visibility reconciliation");
 
 // Canonical exhibition membership policy lives in exhibition-group-core. Core
 // and presentation consumers must share that policy rather than redeclaring it.
@@ -183,6 +195,7 @@ for (const marker of [
 for (const asset of [
   "./data-pipeline.js",
   "./agenda-order-core.mjs",
+  "./visibility-owner-core.mjs",
   "./agenda-runtime-state.mjs",
   "./render-lifecycle.js",
   "./exhibition-groups.js",

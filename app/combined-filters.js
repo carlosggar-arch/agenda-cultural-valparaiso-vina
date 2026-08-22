@@ -1,5 +1,6 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { directCardVisibilityState, groupedCardVisibilityState } from "./visibility-owner-core.mjs?v=20260822-visibility1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const CITY_CONFIG = CITY_REGISTRY.byId;
@@ -428,6 +429,14 @@ function setHidden(node, hidden) {
   if (node && node.hidden !== hidden) node.hidden = hidden;
 }
 
+function ensureVisibilityStyles() {
+  if (document.querySelector("style[data-combined-visibility-styles]")) return;
+  const style = document.createElement("style");
+  style.dataset.combinedVisibilityStyles = "";
+  style.textContent = '.event-card[data-temporal-suppressed="true"]{display:none!important}';
+  document.head.append(style);
+}
+
 function renderCategoryFilters() {
   if (!dom.categories) return;
   const catalog = categoryCatalog();
@@ -572,27 +581,33 @@ function hasActiveFilters() {
 
 function patchResults(filtered) {
   const ids = new Set(filtered.map((event) => String(event?.id || "")).filter(Boolean));
+  const eventsById = new Map(datasetEvents
+    .map((event) => [String(event?.id || "").trim(), event])
+    .filter(([id]) => id));
+
   for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-    const hidden = !ids.has(card.dataset.eventId || "");
-    if (card.hidden !== hidden) card.hidden = hidden;
+    const id = String(card.dataset.eventId || "");
+    const item = eventsById.get(id);
+    const visibility = directCardVisibilityState(item, ids.has(id), state.when);
+    if (card.hidden !== visibility.hidden) card.hidden = visibility.hidden;
+    if (visibility.temporalSuppressed) card.dataset.temporalSuppressed = "true";
+    else delete card.dataset.temporalSuppressed;
   }
 
   for (const card of document.querySelectorAll(".event-card[data-event-group]")) {
     const groupIds = String(card.dataset.eventGroup || "").split(",").map((id) => id.trim()).filter(Boolean);
     const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
-    let visible = 0;
+    const visibility = groupedCardVisibilityState(groupIds, ids);
     groupIds.forEach((id, index) => {
-      const matches = ids.has(id);
-      if (matches) visible += 1;
-      if (rows[index] && rows[index].hidden !== !matches) rows[index].hidden = !matches;
+      const hidden = visibility.rowHidden[index] ?? true;
+      if (rows[index] && rows[index].hidden !== hidden) rows[index].hidden = hidden;
     });
-    const hidden = visible === 0;
-    if (card.hidden !== hidden) card.hidden = hidden;
-    if (!hidden) {
+    if (card.hidden !== visibility.hidden) card.hidden = visibility.hidden;
+    if (!visibility.hidden) {
       const summary = card.querySelector(".exhibition-group-details > summary");
-      if (summary) summary.textContent = `Ver ${visible} ${visible === 1 ? "exposición" : "exposiciones"}`;
+      if (summary) summary.textContent = `Ver ${visibility.visibleCount} ${visibility.visibleCount === 1 ? "exposición" : "exposiciones"}`;
       const available = card.querySelector("p > strong");
-      if (available) available.textContent = `${visible} ${visible === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
+      if (available) available.textContent = `${visibility.visibleCount} ${visibility.visibleCount === 1 ? "exposición disponible" : "exposiciones disponibles"}`;
     }
   }
 
@@ -799,6 +814,9 @@ window.addEventListener("popstate", () => {
   queueUpdate(false);
 });
 
+window.addEventListener("vivamos:visibility-reconcile-requested", () => queueUpdate(false));
+
+ensureVisibilityStyles();
 readUrl();
 updateControls();
 queueUpdate(false);
