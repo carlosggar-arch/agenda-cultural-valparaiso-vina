@@ -20,6 +20,7 @@ const OPTIONAL_MODULES = [
   "./footer-credit.js?v=20260818-footer3",
   "./community-source.js?v=20260818-feedback3",
   "./participation-footer.js?v=20260819-feedback7",
+  "./support-vivamos.js?v=20260822-preview1",
 ];
 
 function ensureSourcesFallbackLink() {
