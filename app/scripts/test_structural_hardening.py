@@ -25,14 +25,19 @@ for row in registry["venues"]:
         assert re.match(r"^\d{4}-\d{2}-\d{2}$", str(hours.get("verified_at") or "")), f"{row['id']}: permanent hours need verified_at"
 
 exhibition_hours = (APP / "exhibition-hours.js").read_text(encoding="utf-8")
+schedule_display = (APP / "schedule-display.js").read_text(encoding="utf-8")
 venue_hours = (APP / "venue-hours.mjs").read_text(encoding="utf-8")
 gijon_hours = (APP / "gijon-venue-hours.js").read_text(encoding="utf-8")
 assert "MHNV_HOURS" not in exhibition_hours
-assert "venueHoursForDate" in exhibition_hours
+assert "venueHoursForDate" not in exhibition_hours, "retired exhibition-hours shim must not resolve venue hours"
+assert "venueHoursForDate" in schedule_display, "schedule-display must own venue-hours presentation"
+assert "nextVenueOpeningForDate" in schedule_display, "schedule-display must own next-opening presentation"
+assert "exhibitionVisitHoursForDisplay" in schedule_display
 assert "venueRecordForEvent" not in exhibition_hours and "venueRecordForName" not in exhibition_hours
 assert "venueRecordForEvent" in venue_hours
 assert "export function venueHoursForDate" in venue_hours
 assert "style.textContent" not in exhibition_hours and 'createElement("style")' not in exhibition_hours
+assert ".textContent =" not in exhibition_hours and "replaceChildren(" not in exhibition_hours
 assert "GIJON_MUSEUM_DIRECTORY" not in gijon_hours
 assert "const HOURS = new Map" not in gijon_hours
 assert "venue-registry.generated.mjs" in gijon_hours

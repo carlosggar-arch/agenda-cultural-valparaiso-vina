@@ -3,7 +3,7 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-
 import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-point8-v2";
 import { dailyExhibitionHours, nextDailyExhibitionOpening } from "./date-aware-exhibition-hours.mjs?v=20260822-next-opening1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
-import "./exhibition-hours.js?v=20260821-next-hours1";
+import { nextVenueOpeningForDate, venueHoursForDate } from "./venue-hours.mjs?v=20260821-next-hours1";
 
 const DEFAULT_CONFIG = Object.freeze({ locale: "es", timezone: "UTC" });
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
@@ -83,7 +83,7 @@ function compactReferenceDate(dateKey, locale = activeConfig.locale || "es") {
     weekday: "short",
     day: "numeric",
     month: "short",
-  }).format(new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), 12)));
+  }).format(new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), 12))).replace(/\.$/, "");
 }
 
 function visitHoursLabel(daily, nextOpening = null) {
@@ -180,6 +180,119 @@ function replaceSimpleCardLocation(card, value) {
   return true;
 }
 
+function formatOpeningDate(dateKey) {
+  return compactReferenceDate(dateKey, activeConfig.locale || "es");
+}
+
+function closedWithNextOpening(nextOpening, dateField, hoursField) {
+  if (!nextOpening) return "Cerrado";
+  const date = formatOpeningDate(nextOpening[dateField]);
+  const hours = String(nextOpening[hoursField] || "").trim();
+  if (!(date && hours)) return "Cerrado";
+  return `Cerrado · Próxima apertura: ${date} · ${hours}`;
+}
+
+export function exhibitionVisitHoursForDisplay(event, options = {}) {
+  if (!isExhibition(event)) return null;
+  const visibleDate = options.referenceDate || referenceDate();
+  const timezone = options.timezone || activeConfig.timezone;
+  const cityId = options.cityId || activeCityId;
+
+  const scheduleHours = dailyExhibitionHours(event?.schedule, {
+    timezone,
+    referenceDate: visibleDate,
+  });
+  if (scheduleHours?.label) {
+    if (!scheduleHours.closed && !/^cerrado\b/i.test(scheduleHours.label)) return scheduleHours.label;
+    const next = nextDailyExhibitionOpening(event?.schedule, {
+      timezone,
+      referenceDate: visibleDate,
+      maxDays: 7,
+    });
+    return closedWithNextOpening(next, "referenceDateKey", "label");
+  }
+
+  const venueHours = venueHoursForDate(event, cityId, visibleDate);
+  if (!venueHours?.display) return null;
+  if (!/^cerrado\b/i.test(venueHours.display)) return venueHours.display;
+  const next = nextVenueOpeningForDate(event, cityId, visibleDate, { max_days: 7 });
+  return closedWithNextOpening(next, "reference_date", "display");
+}
+
+function patchStandaloneOpeningHours(card, event) {
+  const hours = exhibitionVisitHoursForDisplay(event);
+  const schedule = card.querySelector(":scope > h4 + p");
+  const existing = card.querySelector(":scope > .venue-opening-hours");
+  if (!hours) {
+    existing?.remove();
+    return;
+  }
+  const text = `Horario de visita: ${hours}`;
+  if (!existing) {
+    const node = document.createElement("p");
+    node.className = "venue-opening-hours";
+    node.textContent = text;
+    schedule?.insertAdjacentElement("afterend", node);
+  } else if (existing.textContent !== text) {
+    existing.textContent = text;
+  }
+}
+
+function groupedOpeningHoursNode(card, create = false) {
+  const candidates = [...card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")];
+  let node = candidates[0] || null;
+  if (node) {
+    node.dataset.exhibitionOpeningHours = "";
+    for (const duplicate of candidates.slice(1)) duplicate.remove();
+    return node;
+  }
+  if (!create) return null;
+  const facts = card.querySelector(".exhibition-venue-facts");
+  if (!facts) return null;
+  node = document.createElement("p");
+  node.className = "venue-opening-hours exhibition-venue-hours";
+  node.dataset.exhibitionOpeningHours = "";
+  facts.append(node);
+  return node;
+}
+
+function setGroupedOpeningHours(card, hours) {
+  const node = groupedOpeningHoursNode(card, Boolean(hours));
+  if (!node) return;
+  if (!hours) {
+    node.remove();
+    return;
+  }
+  node.hidden = false;
+  const icon = document.createElement("span");
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = "◷";
+  const copy = document.createElement("span");
+  copy.textContent = `Horario del recinto: ${hours}`;
+  node.replaceChildren(icon, copy);
+}
+
+function patchGroupedOpeningHours(card) {
+  if (!card.classList.contains("exhibition-venue-card")) return;
+  const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
+  if (!ids.length) return;
+  const events = ids.map((id) => eventIndex.get(id)).filter(Boolean);
+  const labels = events.map((event) => exhibitionVisitHoursForDisplay(event));
+  let hours = events.length > 0
+    && labels.length === events.length
+    && labels.every(Boolean)
+    && new Set(labels).size === 1
+    ? labels[0]
+    : null;
+  if (!hours) {
+    for (const event of events) {
+      hours = exhibitionVisitHoursForDisplay(event);
+      if (hours) break;
+    }
+  }
+  setGroupedOpeningHours(card, hours);
+}
+
 function enhanceCard(card) {
   const event = eventIndex.get(String(card.dataset.eventId || ""));
   if (!event) return;
@@ -192,6 +305,7 @@ function enhanceCard(card) {
   const locationFact = facts.find((row) => row.querySelector(".sr-only")?.textContent.trim().startsWith("Lugar:"));
   if (locationFact) replaceFactValue(locationFact, location, "locationDisplay");
   else replaceSimpleCardLocation(card, location);
+  patchStandaloneOpeningHours(card, event);
 }
 
 function enhanceGroupedExhibition(row) {
@@ -227,6 +341,7 @@ function apply() {
   stripMediaControls();
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedExhibition);
+  document.querySelectorAll(".event-card[data-event-group]").forEach(patchGroupedOpeningHours);
   document.querySelectorAll("dialog[data-event-detail]").forEach(enhanceDetail);
 }
 
@@ -244,6 +359,7 @@ for (const eventName of [
 ]) {
   window.addEventListener(eventName, queueApply);
 }
+window.addEventListener("pageshow", queueApply, { passive: true });
 document.addEventListener("click", (event) => {
   const target = event.target instanceof Element ? event.target : null;
   if (!target) return;
