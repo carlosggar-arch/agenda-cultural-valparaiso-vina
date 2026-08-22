@@ -4,7 +4,12 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - "app/agenda-order-core.mjs"
+      - "app/agenda-order-core.test.mjs"
+      - "app/app-core.js"
       - "app/app.js"
+      - "app/cities.json"
+      - "app/exhibition-presentation-guard.js"
       - "app/release-version.js"
       - "app/temporal-priority.js"
       - "app/temporal-priority-core.mjs"
@@ -34,12 +39,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate temporal core and syntax
+      - name: Validate temporal and agenda order contracts
         run: |
           node --check app/temporal-priority-core.mjs
           node --check app/temporal-priority.js
+          node --check app/agenda-order-core.mjs
           node --check app/app.js
+          node --check app/app-core.js
           node --test tests/temporal-priority-core.test.mjs
+          node --test app/agenda-order-core.test.mjs
 
       - name: Validate multi-city architecture
         run: |
