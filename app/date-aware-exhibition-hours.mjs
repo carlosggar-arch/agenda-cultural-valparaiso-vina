@@ -42,12 +42,18 @@ export function exhibitionReferenceDateKey(schedule, options = {}) {
   return startKey || requested;
 }
 
+function canonicalVenueHours(schedule) {
+  const canonical = schedule?.venue_hours;
+  if (canonical && typeof canonical === "object" && !Array.isArray(canonical)) return canonical;
+  const legacy = schedule?.opening_hours;
+  if (legacy && typeof legacy === "object" && !Array.isArray(legacy)) return legacy;
+  return null;
+}
+
 function scheduleRange(schedule) {
-  const weekly = schedule?.opening_hours && typeof schedule.opening_hours === "object"
-    ? schedule.opening_hours
-    : null;
-  const opening = validClock(schedule?.opening_time || weekly?.opening_time);
-  const closing = validClock(schedule?.closing_time || weekly?.closing_time);
+  const weekly = canonicalVenueHours(schedule);
+  const opening = validClock(weekly?.opening_time || schedule?.opening_time);
+  const closing = validClock(weekly?.closing_time || schedule?.closing_time);
   return opening && closing && opening !== closing ? `${opening}–${closing}` : null;
 }
 
@@ -56,9 +62,7 @@ export function dailyExhibitionHours(schedule, options = {}) {
   const referenceDateKey = exhibitionReferenceDateKey(schedule, options);
   if (!referenceDateKey) return null;
 
-  const weekly = schedule.opening_hours && typeof schedule.opening_hours === "object"
-    ? schedule.opening_hours
-    : null;
+  const weekly = canonicalVenueHours(schedule);
   const weekdays = Array.isArray(weekly?.open_weekdays)
     ? weekly.open_weekdays.map(Number).filter((value) => Number.isInteger(value) && value >= 0 && value <= 6)
     : null;
@@ -71,7 +75,10 @@ export function dailyExhibitionHours(schedule, options = {}) {
   }
 
   const label = scheduleRange(schedule);
-  if (label) return { label, closed: false, referenceDateKey, source: weekly ? "opening_hours" : "event" };
+  if (label) {
+    const source = schedule?.venue_hours ? "venue_hours" : weekly ? "opening_hours" : "event";
+    return { label, closed: false, referenceDateKey, source };
+  }
 
   // A free-form weekly/seasonal string can contain hours for several different
   // days. Do not repeat it on a date-specific card because it may describe a
