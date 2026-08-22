@@ -60,6 +60,7 @@ jobs:
           node --check app/artequin-session-correction.test.mjs
           node --check app/event-card-data-quality.mjs
           node --check app/event-card-data-quality.test.mjs
+          node --check app/runtime-data-consumer-authority.test.mjs
           node --check app/startup-stability.js
           node --check app/app-safe-mode.js
           node --check app/program-visibility-policy.js
@@ -98,6 +99,7 @@ jobs:
           python app/scripts/test_priority_zero_monitors.py
           node app/venue-identity.test.mjs
           node app/event-card-data-quality.test.mjs
+          node app/runtime-data-consumer-authority.test.mjs
           python app/scripts/run_contracts.py --profile required-release
           python app/scripts/test_pwa_cache_first_startup.py
           node app/data-pipeline.test.mjs
@@ -127,5 +129,5 @@ jobs:
 
       - name: Note final Stage D gate roles
         run: |
-          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering and installability."
+          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering, installability and runtime data-consumer authority."
           echo "Production network verification runs only after merge on main (or manual rerun against latest main)."
