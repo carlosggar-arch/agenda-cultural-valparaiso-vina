@@ -13,6 +13,10 @@ on:
       - "app/title-normalizer-bootstrap.js"
       - "app/exhibition-group-core.mjs"
       - "app/exhibition-groups.js"
+      - "app/exhibition-presentation-guard.js"
+      - "app/temporal-priority.js"
+      - "app/visibility-owner-core.mjs"
+      - "app/visibility-owner-core.test.mjs"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
       - "app/service-worker.js"
@@ -32,6 +36,10 @@ on:
       - "app/title-normalizer-bootstrap.js"
       - "app/exhibition-group-core.mjs"
       - "app/exhibition-groups.js"
+      - "app/exhibition-presentation-guard.js"
+      - "app/temporal-priority.js"
+      - "app/visibility-owner-core.mjs"
+      - "app/visibility-owner-core.test.mjs"
       - "app/combined-filters-bootstrap.js"
       - "app/combined-filters.js"
       - "app/service-worker.js"
@@ -61,10 +69,16 @@ jobs:
           node --check app/title-normalizer-bootstrap.js
           node --check app/exhibition-group-core.mjs
           node --check app/exhibition-groups.js
+          node --check app/exhibition-presentation-guard.js
+          node --check app/temporal-priority.js
+          node --check app/visibility-owner-core.mjs
+          node --check app/visibility-owner-core.test.mjs
           node --check app/combined-filters-bootstrap.js
           node --check app/combined-filters.js
           node --check app/service-worker.js
           node --check app/release-version.js
+      - name: Verify single visibility owner A-equivalence
+        run: node app/visibility-owner-core.test.mjs
       - name: Verify approved event and runtime contract
         run: node app/scripts/test_approved_event_visibility_contract.mjs
       - name: Verify Gijón exhibition regression contract

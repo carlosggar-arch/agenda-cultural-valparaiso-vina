@@ -55,8 +55,12 @@ function refreshCount(card) {
   const summary = card.querySelector("[data-exhibition-summary]");
   const summaryText = `Ver ${visible} ${visible === 1 ? "exposición" : "exposiciones"}`;
   if (summary && summary.textContent !== summaryText) summary.textContent = summaryText;
-  const shouldHide = visible === 0;
-  if (card.hidden !== shouldHide) card.hidden = shouldHide;
+}
+
+function requestVisibilityReconciliation(reason) {
+  window.dispatchEvent(new CustomEvent("vivamos:visibility-reconcile-requested", {
+    detail: { reason },
+  }));
 }
 
 function consolidateVenueCards(cards, key) {
@@ -77,29 +81,27 @@ function consolidateVenueCards(cards, key) {
   const list = canonical.querySelector(".exhibition-group-list");
   if (!list) return;
 
+  // Preserve the legacy OR-visibility result without writing visibility here:
+  // when duplicate rows exist, retain a visible row element whenever any copy
+  // is visible. Its existing hidden state survives reparenting unchanged.
   const rowById = new Map();
-  const visibleById = new Map();
   for (const card of cards) {
     for (const row of groupedRows(card)) {
       const id = String(row.dataset.groupedEventId || "").trim();
       if (!id) continue;
-      if (!rowById.has(id)) rowById.set(id, row);
-      visibleById.set(id, visibleById.get(id) === true || !row.hidden);
+      const current = rowById.get(id);
+      if (!current || (current.hidden && !row.hidden)) rowById.set(id, row);
     }
   }
 
-  const orderedRows = [];
-  for (const [id, row] of rowById) {
-    row.hidden = visibleById.get(id) !== true;
-    orderedRows.push(row);
-  }
-  list.replaceChildren(...orderedRows);
+  list.replaceChildren(...rowById.values());
   canonical.dataset.eventGroup = [...rowById.keys()].join(",");
   canonical.dataset.venueKey = key;
   for (const card of cards) {
     if (card !== canonical) card.remove();
   }
   refreshCount(canonical);
+  requestVisibilityReconciliation("exhibition-consolidation");
 }
 
 function applyGuard() {
@@ -125,8 +127,8 @@ function applyGuard() {
 function scheduleGuard() {
   if (queued || applying) return;
   queued = true;
-  // Consolidation is presentation work. Agenda ordering has a single owner in
-  // agenda-order-core/app.js and is intentionally not rewritten here.
+  // Consolidation is presentation work. Agenda ordering and visibility are
+  // intentionally not rewritten here.
   if (typeof window.requestAnimationFrame === "function") {
     window.requestAnimationFrame(applyGuard);
   } else {
