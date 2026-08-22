@@ -1,9 +1,9 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
-import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
+import { todaySessionScheduleLabel, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-missing-time1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
-import "./exhibition-hours.js?v=20260821-shared-runtime1";
+import "./exhibition-hours.js?v=20260821-next-hours1";
 
 const DEFAULT_CONFIG = Object.freeze({ locale: "es", timezone: "UTC" });
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
@@ -69,7 +69,7 @@ function formatEventSchedule(schedule) {
 function scheduleForDisplay(event) {
   if (event?.event_type === "registration_period") return registrationStatusForDisplay(event);
   const schedule = event?.schedule;
-  if (!schedule) return "Horario por confirmar";
+  if (!schedule) return isExhibition(event) ? "Horario de visita por confirmar" : "Consultar horario en la fuente";
 
   const eventSchedule = scheduleWithoutVisitHours(schedule);
   const todaySessions = todaySessionScheduleLabel({ ...event, schedule: eventSchedule }, activeConfig);
@@ -86,7 +86,7 @@ function scheduleForDisplay(event) {
     return range;
   }
 
-  return formatEventSchedule(eventSchedule);
+  return withMissingEventTimeFallback(formatEventSchedule(eventSchedule), eventSchedule);
 }
 
 function locationForDisplay(event) {
