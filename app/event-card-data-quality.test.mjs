@@ -8,7 +8,14 @@ import {
   publicEventSourceUrl,
 } from "./event-card-data-quality.mjs";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs";
+import { enrichCitySourceEvidence } from "./city-source-evidence-adapter.mjs";
+import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs";
 
+function prepareGijonSource(event) {
+  const enriched = enrichCitySourceEvidence(event, "gijon");
+  const canonical = normalizeAgendaSourceEvidence({ events: [enriched] }).events[0];
+  return eventForCityPresentation(canonical, "gijon");
+}
 
 test("generic source formatter preserves valid public URLs", () => {
   const source = "https://example.org/event?id=728&tipo=XHTML";
@@ -16,7 +23,7 @@ test("generic source formatter preserves valid public URLs", () => {
 });
 
 
-test("verified direct source is preserved by the city adapter", () => {
+test("verified direct source is preserved by the canonical source boundary", () => {
   const event = {
     source_id: "gijon_opendata_events",
     links: {
@@ -25,12 +32,12 @@ test("verified direct source is preserved by the city adapter", () => {
     },
     public_status: { external_link_quality: "direct_official" },
   };
-  const adapted = eventForCityPresentation(event, "gijon");
+  const adapted = prepareGijonSource(event);
   assert.equal(publicEventSourceUrl(adapted), "https://drupal.gijon.es/es/ficha-rica");
 });
 
 
-test("Gijon Open Data fallback is adapted before the shared renderer sees it", () => {
+test("Gijon Open Data fallback is canonicalized before the shared renderer sees it", () => {
   const event = {
     source_id: "gijon_opendata_events",
     links: {
@@ -40,7 +47,7 @@ test("Gijon Open Data fallback is adapted before the shared renderer sees it", (
     },
     public_status: { external_link_quality: "opendata_fallback" },
   };
-  const adapted = eventForCityPresentation(event, "gijon");
+  const adapted = prepareGijonSource(event);
   assert.equal(
     publicEventSourceUrl(adapted),
     "https://opendata.gijon.es/descargar.php?id=728&tipo=PDF",
@@ -73,25 +80,10 @@ test("visit hours are shown only while the dated exhibition is active", () => {
       start: "2026-07-29",
       end: "2026-08-30",
       opening_hours: {
-        display_text: "Lunes a viernes: 9:00 a 21:00. Sábados: 11:00 a 14:00 y 16:00 a 21:00.",
+        display_text: "Martes a viernes: 09:30–14:00 y 17:00–19:30. Sábados y domingos: 10:00–14:00 y 17:00–19:30.",
       },
     },
   };
-
-  assert.equal(
-    currentVisitHours(event, {
-      now: new Date("2026-08-21T10:00:00Z"),
-      timezone: "Europe/Madrid",
-      locale: "es-ES",
-    }),
-    "09:00–21:00",
-  );
-  assert.equal(
-    currentVisitHours(event, {
-      now: new Date("2026-09-02T10:00:00Z"),
-      timezone: "Europe/Madrid",
-      locale: "es-ES",
-    }),
-    null,
-  );
+  assert.equal(currentVisitHours(event, { date: "2026-08-22", weekday: "sábado" }), "10:00–14:00 y 17:00–19:30");
+  assert.equal(currentVisitHours(event, { date: "2026-08-31", weekday: "lunes" }), null);
 });
