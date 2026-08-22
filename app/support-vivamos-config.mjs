@@ -14,8 +14,8 @@ export const SUPPORT_VIVAMOS = Object.freeze({
       id: "paypal-international",
       audience: "Internacional",
       provider: "PayPal",
-      url: null,
-      enabled: false,
+      url: "https://www.paypal.com/ncp/payment/MMR5A78JMY5VL",
+      enabled: true,
     }),
   ]),
 });
