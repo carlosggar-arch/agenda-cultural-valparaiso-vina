@@ -124,6 +124,7 @@ def check_ui_contract() -> None:
 def check_exhibition_layout_guard() -> None:
     compact_css = (APP / "exhibition-compact.css").read_text(encoding="utf-8")
     grouping_js = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
+    grouping_core = (APP / "exhibition-group-core.mjs").read_text(encoding="utf-8")
     hours_js = (APP / "exhibition-hours.js").read_text(encoding="utf-8")
     app_js = (APP / "app.js").read_text(encoding="utf-8")
 
@@ -139,10 +140,17 @@ def check_exhibition_layout_guard() -> None:
         assert not (APP / retired).exists(), f"retired exhibition runtime returned: {retired}"
         assert retired not in app_js, f"app.js references retired exhibition runtime: {retired}"
 
+    # Exhibition membership has one pure common policy in
+    # exhibition-group-core.mjs. Presentation consumes that policy to reconcile
+    # the initial/legacy cards and must not duplicate thresholds or clustering.
     assert "getAgendaRuntimeSnapshot" in grouping_js
     assert "enhanceCoreGroups" in grouping_js
-    assert "app-core.js is the sole authority for exhibition membership" in grouping_js
-    assert "groupStandaloneExhibitions" not in grouping_js
+    assert "groupStandaloneExhibitions" in grouping_js
+    assert "reconcileCommonMembership" in grouping_js
+    assert "const EXHIBITION_GROUP_MIN" not in grouping_js
+    assert "function clusterVenueExhibitions" not in grouping_js
+    assert "export const EXHIBITION_GROUP_MIN = 2" in grouping_core
+    assert "exhibitionGroupingVenueKey" in grouping_core
     assert "groupStandaloneCards" not in grouping_js
     assert "unifiedExhibitionGroup" in grouping_js
     assert "exhibition-venue-card" in grouping_js
