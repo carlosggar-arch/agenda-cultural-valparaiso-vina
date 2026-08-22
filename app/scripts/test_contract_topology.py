@@ -6,9 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
+RUNNER = ROOT / "app" / "scripts" / "run_contracts.py"
 
 ALLOWED_LAYERS = {"semantic", "architecture", "browser", "release"}
-ALLOWED_FOLLOWUPS = {"D2", "D3", "D4"}
+ALLOWED_FOLLOWUPS = {"D3", "D4"}
 
 
 def fail(message: str) -> None:
@@ -23,8 +24,10 @@ def require_path(relative: str, *, label: str) -> None:
 
 def main() -> None:
     data = json.loads(TOPOLOGY.read_text(encoding="utf-8"))
-    if data.get("schema_version") != "1.0.0":
-        fail("contract topology schema_version must be 1.0.0")
+    if data.get("schema_version") != "1.1.0":
+        fail("contract topology schema_version must be 1.1.0")
+    if not RUNNER.is_file():
+        fail("canonical contract runner is missing")
 
     declared_layers = data.get("layers")
     if set(declared_layers or []) != ALLOWED_LAYERS or len(declared_layers) != len(ALLOWED_LAYERS):
@@ -43,6 +46,7 @@ def main() -> None:
     known_ids = set(ids)
 
     domains_by_layer: dict[str, set[str]] = defaultdict(set)
+    contracts_by_id = {entry["id"]: entry for entry in contracts}
     for entry in contracts:
         contract_id = entry["id"]
         layer = entry.get("layer")
@@ -74,6 +78,23 @@ def main() -> None:
     if missing_stage_c:
         fail(f"Stage C authority domains missing canonical semantic/architecture owners: {missing_stage_c}")
 
+    profiles = data.get("runner_profiles")
+    if not isinstance(profiles, dict) or not profiles:
+        fail("runner_profiles must be a non-empty object")
+    for profile, profile_ids in profiles.items():
+        if not isinstance(profile, str) or not profile.strip():
+            fail("runner profile names must be non-empty")
+        if not isinstance(profile_ids, list) or not profile_ids:
+            fail(f"runner profile {profile} must contain contracts")
+        if len(profile_ids) != len(set(profile_ids)):
+            fail(f"runner profile {profile} contains duplicate contracts")
+        for contract_id in profile_ids:
+            if contract_id not in known_ids:
+                fail(f"runner profile {profile} references unknown contract: {contract_id}")
+            owner = contracts_by_id[contract_id]["owner"]
+            if not owner.endswith((".py", ".mjs", ".js")):
+                fail(f"runner profile {profile} contains workflow-only contract: {contract_id}")
+
     overlaps = data.get("temporary_overlaps")
     if not isinstance(overlaps, list):
         fail("temporary_overlaps must be a list")
@@ -102,6 +123,7 @@ def main() -> None:
     print(
         "CONTRACT_TOPOLOGY_OK "
         f"contracts={len(contracts)} "
+        f"profiles={len(profiles)} "
         f"stage_c_domains={len(stage_c_domains)} "
         f"temporary_overlaps={len(overlaps)}"
     )
