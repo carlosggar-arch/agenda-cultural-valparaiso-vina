@@ -7,6 +7,7 @@ const CATEGORY_IMAGES = Object.freeze({
   exposiciones: "../assets/categoria-exposiciones.jpg",
   museos: "../assets/categoria-exposiciones.jpg",
   "cursos-talleres": "../assets/categoria-talleres.jpg",
+  "cursos-talleres-campus": "../assets/categoria-talleres.jpg",
   deportes: "../assets/categoria-deportes.jpg",
   gastronomia: "../assets/categoria-gastronomia.jpg",
   ferias: "../assets/categoria-gastronomia.jpg",
@@ -52,7 +53,7 @@ function categoryIdForCard(card) {
   if (/cine/.test(label)) return "cine";
   if (/(teatro|artes-escenicas|danza)/.test(label)) return "teatro";
   if (/(exposicion|exposiciones|museo|museos|artes-visuales)/.test(label)) return "exposiciones";
-  if (/(curso|cursos|taller|talleres|formacion)/.test(label)) return "cursos-talleres";
+  if (/(curso|cursos|taller|talleres|formacion)/.test(label)) return "cursos-talleres-campus";
   if (/(deporte|bienestar)/.test(label)) return "deportes";
   if (/(gastronomia|feria|ferias)/.test(label)) return "gastronomia";
   if (/(naturaleza|montana|caminata)/.test(label)) return "naturaleza-montana";
@@ -99,14 +100,18 @@ function installCategoryFallback(card, media) {
 
 function repairCard(card) {
   if (!(card instanceof HTMLElement)) return;
-  const media = card.querySelector(":scope > .event-card-media");
+  const media = card.querySelector(".event-card-media");
   if (!(media instanceof HTMLElement)) return;
   const image = media.querySelector("img");
-  if (media.classList.contains("event-card-media--placeholder")) {
+
+  // Empty/placeholder media are not a valid final state. The base category
+  // image is deterministic and must be available even when a source image is
+  // absent, invalid or a later optional enhancer did not install one.
+  if (media.classList.contains("event-card-media--placeholder") || !(image instanceof HTMLImageElement)) {
     installCategoryFallback(card, media);
     return;
   }
-  if (image instanceof HTMLImageElement && isGenericImage(image.currentSrc || image.src || image.getAttribute("src"))) {
+  if (isGenericImage(image.currentSrc || image.src || image.getAttribute("src"))) {
     installCategoryFallback(card, media);
   }
 }
@@ -126,6 +131,7 @@ function queueScan() {
 for (const eventName of [
   "vivamos:agenda-data-ready",
   "vivamos:agenda-rendered",
+  "vivamos:core-ready",
   "vivamos:cards-enriched",
   "vivamos:exhibition-groups-rendered",
 ]) {
@@ -140,3 +146,4 @@ document.addEventListener("error", (event) => {
 }, true);
 
 queueScan();
+for (const delay of [120, 500, 1200]) setTimeout(queueScan, delay);
