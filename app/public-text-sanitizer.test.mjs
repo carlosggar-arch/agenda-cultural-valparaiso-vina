@@ -33,7 +33,11 @@ assert.equal(
   "Taller de fotografía con DJ invitado y público general.",
   "mixed-case prose must remain untouched",
 );
-assert.equal(normalizePublicDescriptionCase("DJ SET esta noche"), "DJ set esta noche", "known acronyms remain uppercase");
+assert.equal(
+  normalizePublicDescriptionCase("DJ SET esta noche"),
+  "DJ SET esta noche",
+  "short all-caps labels remain untouched when there is too little evidence to recase safely",
+);
 
 const original = {
   events: [{
