@@ -104,17 +104,18 @@ def make_test_page(city: str) -> None:
           const detailText = detail?.textContent || "";
           document.body.dataset.detailOpen = detail?.hasAttribute("open") ? "true" : "false";
           document.body.dataset.detailHasSource = detail && (detailText.includes("Fuente oficial") || detailText.includes("Datos oficiales")) ? "true" : "false";
+          document.body.dataset.detailHasMedia = detail?.querySelector("img, picture, .event-detail-media") ? "true" : "false";
         }, 350);
       }, 500);
     }, 5200);
   </script>'''
 
+    # app.js remains the single owner of card/schedule/image presentation. The
+    # test omits pwa.js only to avoid service-worker registration and loads the
+    # shell-only UI modules explicitly.
     injection = (
         f'<script>localStorage.setItem("agenda-cultural-city", "{city}");</script>\n  ' + app_marker
         + '\n  <script type="module" src="./combined-filters-bootstrap.js"></script>'
-        + '\n  <script type="module" src="./card-experience.js"></script>'
-        + '\n  <script type="module" src="./schedule-display.js"></script>'
-        + '\n  <script type="module" src="./card-image-fallback.js"></script>'
         + '\n  <script type="module" src="./compact-top.js"></script>'
         + '\n  <script type="module" src="./gijon-visual-reference.js"></script>'
         + '\n  <script type="module" src="./sources-toggle.js"></script>'
@@ -176,6 +177,7 @@ def run_city(city: str, base_url: str) -> None:
         ('data-city-title-white-space="nowrap"', "City title wraps"),
         ('data-detail-open="true"', "Event detail did not open"),
         ('data-detail-has-source="true"', "Event detail source missing"),
+        ('data-detail-has-media="true"', "Event detail media missing"),
     ):
         if marker not in dom:
             raise AssertionError(f"{message} for {city}")
@@ -198,7 +200,7 @@ def run_city(city: str, base_url: str) -> None:
         raise AssertionError("Valparaiso category image fallback missing")
     if 'No te lo pierdas' not in dom:
         raise AssertionError(f"Featured badge missing for {city}")
-    print(f"Browser runtime {city}: simplified controls render and filters change visible cards")
+    print(f"Browser runtime {city}: filters, source, media and detail flow are functional")
 
 
 def main() -> None:
