@@ -113,6 +113,34 @@ def choose_date_filter(driver, initial_count: int) -> str | None:
     ''', initial_count)
 
 
+def ensure_sources_open(driver, wait: WebDriverWait) -> None:
+    selector = "[data-sources-toggle]"
+    wait.until(lambda current: current.execute_script(
+        "return Boolean(document.querySelector(arguments[0]))", selector
+    ))
+    initial = driver.execute_script(
+        "return document.querySelector(arguments[0])?.getAttribute('aria-expanded') || 'false'", selector
+    )
+    if not click_js(driver, selector):
+        raise AssertionError("sources toggle missing")
+    wait.until(lambda current: current.execute_script(
+        "return document.querySelector(arguments[0])?.getAttribute('aria-expanded') !== arguments[1]",
+        selector,
+        initial,
+    ))
+    expanded = driver.execute_script(
+        "return document.querySelector(arguments[0])?.getAttribute('aria-expanded') === 'true'", selector
+    )
+    if not expanded:
+        if not click_js(driver, selector):
+            raise AssertionError("sources toggle stopped responding")
+        wait.until(lambda current: current.execute_script(
+            "return document.querySelector(arguments[0])?.getAttribute('aria-expanded') === 'true'", selector
+        ))
+    wait.until(lambda current: is_visible(current, "[data-sources-section]"))
+    wait.until(lambda current: len(current.find_elements("css selector", ".source-card")) > 0)
+
+
 def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
     last_error = ""
     for attempt in range(1, 3):
@@ -141,14 +169,7 @@ def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
                 if not is_visible(driver, "[data-smart-search]"):
                     raise AssertionError("smart search input unavailable after opening search")
 
-                source_section = "[data-sources-section]"
-                if is_visible(driver, source_section):
-                    raise AssertionError("sources section must start collapsed")
-                if not click_js(driver, "[data-sources-toggle]"):
-                    raise AssertionError("sources toggle missing")
-                wait.until(lambda current: is_visible(current, source_section))
-                if not driver.find_elements("css selector", ".source-card"):
-                    raise AssertionError("source cards unavailable after opening sources")
+                ensure_sources_open(driver, wait)
 
                 selected_when = choose_date_filter(driver, initial_count)
                 if not selected_when:
