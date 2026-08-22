@@ -9,9 +9,9 @@ const { coreReady } = await import("./app-core.js?v=20260820-exhibitionorder2");
 // or a presentation adapter, but it must not select a different renderer.
 const OPTIONAL_MODULES = [
   "./temporal-priority.js?v=20260821-shared-runtime1",
-  "./exhibition-groups.js?v=20260821-single-owner1",
+  "./exhibition-groups.js?v=20260822-mapnav1",
   "./registration-reminders.js?v=20260820-registration1",
-  "./schedule-display.js?v=20260821-schedule-next1",
+  "./schedule-display.js?v=20260822-mapnav1",
   "./event-card-data-quality.mjs?v=20260821-quality1",
   "./exhibition-hours.js?v=20260821-next-hours1",
   "./card-experience.js?v=20260821-shared-runtime1",
