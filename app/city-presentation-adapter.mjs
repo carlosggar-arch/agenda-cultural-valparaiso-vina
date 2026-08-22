@@ -1,5 +1,16 @@
 import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js?v=20260820-hours1";
 
+const VERIFIED_GIJON_EVENT_PAGES = Object.freeze({
+  "https://www.gijon.es/nunca-es-tarde-para-pintar": Object.freeze({
+    sourceName: "Ayuntamiento de Gijón/Xixón",
+  }),
+  "https://www.gijon.es/exposicion-mientras-tu-dormias": Object.freeze({
+    sourceName: "Ayuntamiento de Gijón/Xixón",
+    openingTime: "09:00",
+    closingTime: "21:00",
+  }),
+});
+
 function fold(value) {
   return String(value || "")
     .normalize("NFD")
@@ -15,6 +26,21 @@ function safeAbsoluteHttpUrl(value) {
   } catch {
     return null;
   }
+}
+
+function normalizedPublicUrl(value) {
+  const url = safeAbsoluteHttpUrl(value);
+  if (!url) return null;
+  url.hash = "";
+  url.search = "";
+  return url.href.replace(/\/$/, "");
+}
+
+function verifiedGijonEventPage(event) {
+  const pageUrl = normalizedPublicUrl(event?.links?.municipal_page);
+  if (!pageUrl) return null;
+  const spec = VERIFIED_GIJON_EVENT_PAGES[pageUrl];
+  return spec ? { ...spec, url: pageUrl } : null;
 }
 
 function presentationLocationForGijon(event) {
@@ -50,7 +76,8 @@ function presentationLinksForGijon(event) {
   const links = { ...(event?.links || {}) };
   const quality = String(event?.public_status?.external_link_quality || "");
   const isOpenData = String(event?.source_id || "") === "gijon_opendata_events";
-  const corroborating = links.corroborating || links.verified_source || links.secondary_source;
+  const verified = verifiedGijonEventPage(event);
+  const corroborating = verified?.url || links.corroborating || links.verified_source || links.secondary_source;
 
   let preferred = corroborating || links.official || links.source || event?.source_url || null;
   if (!corroborating && isOpenData && quality === "opendata_fallback") {
@@ -60,7 +87,13 @@ function presentationLinksForGijon(event) {
   }
 
   const browserFriendly = browserFriendlyGijonUrl(preferred);
-  if (!browserFriendly) return { links, sourceUrl: event?.source_url || null };
+  if (!browserFriendly) {
+    return {
+      links,
+      sourceUrl: event?.source_url || null,
+      sourceName: event?.source_name || null,
+    };
+  }
   return {
     links: {
       ...links,
@@ -68,6 +101,19 @@ function presentationLinksForGijon(event) {
       presentation_source: browserFriendly,
     },
     sourceUrl: browserFriendly,
+    sourceName: verified?.sourceName || event?.source_name || null,
+  };
+}
+
+function presentationScheduleForGijon(event) {
+  const schedule = scheduleForGijonEvent(event);
+  const verified = verifiedGijonEventPage(event);
+  if (!verified?.openingTime || !verified?.closingTime) return schedule;
+  return {
+    ...(schedule || {}),
+    opening_time: verified.openingTime,
+    closing_time: verified.closingTime,
+    hours_confidence: "official_event_page",
   };
 }
 
@@ -78,9 +124,10 @@ export function eventForCityPresentation(event, cityId) {
   return {
     ...event,
     location: presentationLocationForGijon(event),
-    schedule: scheduleForGijonEvent(event),
+    schedule: presentationScheduleForGijon(event),
     links: source.links,
     source_url: source.sourceUrl,
+    source_name: source.sourceName || event?.source_name,
   };
 }
 

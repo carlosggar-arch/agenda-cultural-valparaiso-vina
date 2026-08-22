@@ -120,6 +120,23 @@ def normalize_event(item: dict) -> dict | None:
     address = clean(item.get("direccion_directorio")) or clean(item.get("field_lo_address")) or None
     tags = [tag.strip() for tag in clean(item.get("etiquetas")).split(",") if tag.strip()]
     is_program = "super evento" in " ".join(tags).casefold()
+    start_clock = real_time(item.get("hora_inicio"))
+    end_clock = real_time(item.get("hora_fin"))
+    schedule = {
+        "mode": "multi_day" if end_date != start_date else "single",
+        "start": timestamp(start_date, start_clock),
+        "end": timestamp(end_date, end_clock) if end_date == start_date else end_date,
+        "timezone": TIMEZONE,
+        "display_text": schedule_display(start_date, end_date, start_clock),
+        "occurrences": [],
+    }
+    # In the municipal feed a valid start/end clock pair on a multi-day item is
+    # the daily visiting interval. Preserve it structurally instead of discarding
+    # the closing time and later substituting generic venue hours.
+    if end_date != start_date and start_clock and end_clock:
+        schedule["opening_time"] = start_clock
+        schedule["closing_time"] = end_clock
+        schedule["hours_confidence"] = "official_event_schedule"
 
     return {
         "id": f"agenda_gijon_{digest}",
@@ -127,14 +144,7 @@ def normalize_event(item: dict) -> dict | None:
         "event_type": "program" if is_program else "event",
         "primary_category": {"id": category_id, "label": category_label},
         "categories": [{"id": category_id, "label": category_label}],
-        "schedule": {
-            "mode": "multi_day" if end_date != start_date else "single",
-            "start": timestamp(start_date, item.get("hora_inicio")),
-            "end": timestamp(end_date, item.get("hora_fin")) if end_date == start_date else end_date,
-            "timezone": TIMEZONE,
-            "display_text": schedule_display(start_date, end_date, item.get("hora_inicio")),
-            "occurrences": [],
-        },
+        "schedule": schedule,
         "location": {
             "venue_id": clean(item.get("localizaciones")) or None,
             "city": "Gijón",

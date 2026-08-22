@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
+import { eventForCityPresentation } from "./city-presentation-adapter.mjs";
 
 function read(relative) {
   return readFileSync(new URL(relative, import.meta.url), "utf8");
@@ -11,6 +12,7 @@ const firstRun = read("./city-first-run.js");
 const exhibitionGroups = read("./exhibition-groups.js");
 const exhibitionCore = read("./exhibition-group-core.mjs");
 const dataQuality = read("./event-card-data-quality.mjs");
+const scheduleDisplay = read("./schedule-display.js");
 const commonBlock = app.match(/const OPTIONAL_MODULES = \[([\s\S]*?)\];/)?.[1] || "";
 const sharedPresentationModules = [
   "./temporal-priority.js",
@@ -68,6 +70,78 @@ for (const modulePath of sharedPresentationModules) {
     `${modulePath} must not hardcode concrete cities, city timezones or city locales`,
   );
 }
+
+assert.match(
+  scheduleDisplay,
+  /Horario de hoy:/,
+  "exhibition cards must label a date-specific visit status instead of appending an ambiguous bare value",
+);
+assert.doesNotMatch(
+  scheduleDisplay,
+  /return daily\.label;/,
+  "a closed venue must never be rendered as an unexplained bare ‘Cerrado’ beside the exhibition dates",
+);
+
+const nuncaEsTarde = eventForCityPresentation({
+  id: "agenda_gijon_a3925dadc26ffa27",
+  source_id: "gijon_opendata_events",
+  source_name: "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+  source_url: "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+  links: {
+    official: "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+    source: "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+    municipal_page: "https://www.gijon.es/nunca-es-tarde-para-pintar",
+  },
+  public_status: { external_link_quality: "opendata_fallback" },
+  schedule: {
+    mode: "multi_day",
+    start: "2026-08-04",
+    end: "2026-08-28",
+    display_text: "2026-08-04 · 00:00",
+    occurrences: [],
+    opening_hours: { display_text: "De lunes a viernes: de 08:00 a 21:30 horas." },
+  },
+  location: {
+    venue_id: "157",
+    venue: "Centro Municipal Integrado El Coto",
+    city: "Gijón",
+  },
+}, "gijon");
+assert.equal(nuncaEsTarde.links.presentation_source, "https://www.gijon.es/nunca-es-tarde-para-pintar");
+assert.equal(nuncaEsTarde.links.official, "https://www.gijon.es/nunca-es-tarde-para-pintar");
+assert.equal(nuncaEsTarde.source_url, "https://www.gijon.es/nunca-es-tarde-para-pintar");
+assert.equal(nuncaEsTarde.source_name, "Ayuntamiento de Gijón/Xixón");
+
+const mientrasDormias = eventForCityPresentation({
+  id: "agenda_gijon_b034ca0ffc281bb1",
+  source_id: "gijon_opendata_events",
+  source_name: "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+  source_url: "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+  links: {
+    official: "https://drupal.gijon.es/es/exposicion-mientras-tu-dormias",
+    source: "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+    municipal_page: "https://www.gijon.es/exposicion-mientras-tu-dormias",
+  },
+  public_status: { external_link_quality: "direct_official" },
+  schedule: {
+    mode: "multi_day",
+    start: "2026-07-30T09:00:00+02:00",
+    end: "2026-08-27",
+    display_text: "2026-07-30 · 09:00",
+    occurrences: [],
+    opening_hours: { display_text: "De lunes a sábado de 08:00 a 21:30 horas." },
+  },
+  location: {
+    venue_id: "156",
+    venue: "Centro Municipal Integrado Ateneo de La Calzada",
+    city: "Gijón",
+  },
+}, "gijon");
+assert.equal(mientrasDormias.links.presentation_source, "https://www.gijon.es/exposicion-mientras-tu-dormias");
+assert.equal(mientrasDormias.source_name, "Ayuntamiento de Gijón/Xixón");
+assert.equal(mientrasDormias.schedule.opening_time, "09:00");
+assert.equal(mientrasDormias.schedule.closing_time, "21:00");
+assert.equal(mientrasDormias.schedule.hours_confidence, "official_event_page");
 
 assert.match(
   exhibitionGroups,
