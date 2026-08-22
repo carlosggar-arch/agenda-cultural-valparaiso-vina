@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs";
 import { enrichCitySourceEvidence } from "./city-source-evidence-adapter.mjs";
 import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs";
+import { googleMapsDestination, googleMapsDirectionsUrl } from "./public-presentation-rules.mjs";
 
 function read(relative) {
   return readFileSync(new URL(relative, import.meta.url), "utf8");
@@ -108,6 +109,70 @@ assert.match(
   scheduleDisplay,
   /Próxima apertura:/,
   "closed exhibition cards must expose the next actionable visiting interval when one exists",
+);
+assert.match(
+  scheduleDisplay,
+  /googleMapsDirectionsUrl/,
+  "the shared location renderer must derive navigation from the common verified-location policy",
+);
+assert.match(
+  scheduleDisplay,
+  /map-location-link/,
+  "verified locations must expose only the discreet map-arrow affordance",
+);
+assert.match(
+  scheduleDisplay,
+  /Abrir ubicación en Google Maps/,
+  "the icon-only map affordance must remain understandable to pointer and assistive-technology users",
+);
+
+const arenaMapEvent = {
+  public_status: { source_official: true },
+  location: {
+    venue: "Centro Municipal Integrado L'Arena",
+    address: "C/Canga Argüelles, 16- 18",
+    city: "Gijón",
+    online: false,
+    latitude: null,
+    longitude: null,
+  },
+};
+assert.equal(
+  googleMapsDestination(arenaMapEvent),
+  "Centro Municipal Integrado L'Arena, C/Canga Argüelles, 16- 18, Gijón",
+  "official venue address must be preserved exactly in the destination query",
+);
+const arenaMapsUrl = new URL(googleMapsDirectionsUrl(arenaMapEvent));
+assert.equal(arenaMapsUrl.hostname, "www.google.com");
+assert.equal(arenaMapsUrl.pathname, "/maps/dir/");
+assert.equal(arenaMapsUrl.searchParams.get("api"), "1");
+assert.equal(
+  arenaMapsUrl.searchParams.get("destination"),
+  "Centro Municipal Integrado L'Arena, C/Canga Argüelles, 16- 18, Gijón",
+);
+assert.equal(
+  googleMapsDirectionsUrl({
+    public_status: { source_official: false },
+    location: { venue: "Recinto dudoso", address: "Calle inventada 1", city: "Gijón", online: false },
+  }),
+  null,
+  "an unverified address must never receive a navigation arrow",
+);
+assert.equal(
+  googleMapsDirectionsUrl({
+    public_status: { source_official: true },
+    location: { venue: "Recinto sin dirección", address: null, city: "Gijón", online: false },
+  }),
+  null,
+  "venue-name-only guesses are forbidden",
+);
+assert.equal(
+  googleMapsDestination({
+    public_status: { source_official: true },
+    location: { latitude: 43.539022, longitude: -5.650375, city: "Gijón", online: false },
+  }),
+  "43.539022,-5.650375",
+  "verified coordinates take precedence over geocoded address text",
 );
 
 const nuncaEsTarde = prepareGijonPresentation({
