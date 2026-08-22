@@ -2,7 +2,7 @@ from datetime import date, timedelta
 
 from apply_content_quality_guard import apply_guard
 from fetch_gijon_xhtml import classify_editorial
-from update_gijon import real_time, schedule_display
+from update_gijon import normalize_event, real_time, schedule_display
 
 
 def make_event(*, title: str, days: int, venue: str, category: str, tags=None, event_type="event") -> dict:
@@ -24,6 +24,38 @@ def make_event(*, title: str, days: int, venue: str, category: str, tags=None, e
 def check(event: dict, expected: str) -> None:
     actual, reason = classify_editorial(event)
     assert actual == expected, f"expected {expected}, got {actual} ({reason}) for {event['title']}"
+
+
+def source_row(*, start_time: str, end_time: str) -> dict:
+    return {
+        "materia": "Cultural",
+        "titulo": "Exposición de prueba",
+        "field_estado_del_evento": "",
+        "fechas": "2026-07-30 2026-08-27",
+        "tipo": "Exposición",
+        "etiquetas": "",
+        "id": "test-hours",
+        "alias": "https://www.gijon.es/exposicion-de-prueba",
+        "hora_inicio": start_time,
+        "hora_fin": end_time,
+        "titulo_directorio": "Centro Municipal Integrado de prueba",
+    }
+
+
+def check_multi_day_source_hours() -> None:
+    event = normalize_event(source_row(start_time="09:00", end_time="21:00"))
+    assert event is not None
+    schedule = event["schedule"]
+    assert schedule["opening_time"] == "09:00"
+    assert schedule["closing_time"] == "21:00"
+    assert schedule["hours_confidence"] == "official_event_schedule"
+    assert schedule["start"].startswith("2026-07-30T09:00:00")
+    assert schedule["end"] == "2026-08-27"
+
+    placeholder = normalize_event(source_row(start_time="00:00", end_time="23:59"))
+    assert placeholder is not None
+    assert "opening_time" not in placeholder["schedule"]
+    assert "closing_time" not in placeholder["schedule"]
 
 
 def check_shared_quality_guard() -> None:
@@ -66,6 +98,7 @@ def main() -> None:
     assert schedule_display("2026-08-20", "2026-08-20", "00:00") == "2026-08-20"
     assert schedule_display("2026-08-20", "2026-08-30", "00:00") == "2026-08-20 – 2026-08-30"
     assert schedule_display("2026-08-20", "2026-08-20", "18:30") == "2026-08-20 · 18:30"
+    check_multi_day_source_hours()
 
     check(
         make_event(
