@@ -1,5 +1,6 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { directCardVisibilityState, groupedCardVisibilityState } from "./visibility-owner-core.mjs?v=20260822-visibility1";
 
 const CITY_REGISTRY = await loadCityRegistry();
@@ -129,24 +130,15 @@ function normalizeText(value) {
     .trim();
 }
 
-function slugify(value) {
-  return normalizeText(value)
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "cultura";
-}
-
 function eventCategories(event) {
   const values = [];
   if (event?.primary_category?.id || event?.primary_category?.label) values.push(event.primary_category);
   for (const category of event?.categories || []) values.push(category);
   const unique = new Map();
-  for (const category of values) {
-    let label = String(category?.label || "").trim();
-    let id = String(category?.id || slugify(label)).trim();
-    if (id === "museos" || slugify(label) === "museos") {
-      id = "exposiciones";
-      label = "Exposiciones";
-    }
+  for (const source of values) {
+    const category = canonicalPublicCategory(source);
+    const label = String(category?.label || "").trim();
+    const id = String(category?.id || "").trim();
     if (label && id && !unique.has(id)) unique.set(id, label);
   }
   return unique;
