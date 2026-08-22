@@ -192,15 +192,18 @@ def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
                 detail = driver.execute_script(r'''
                   const dialog = document.querySelector('dialog[data-event-detail][open]');
                   if (!dialog) return null;
-                  const text = dialog.textContent || '';
+                  const sourceAction = [...dialog.querySelectorAll('a.event-detail-action[href]')]
+                    .find((link) => /fuente|open data/i.test(link.textContent || ''));
                   return {
-                    source: text.includes('Fuente oficial') || text.includes('Datos oficiales'),
+                    source: Boolean(sourceAction),
+                    sourceHref: sourceAction?.href || '',
+                    provenance: Boolean(dialog.querySelector('.event-detail-provenance')),
                     media: Boolean(dialog.querySelector('img, picture, .event-detail-media')),
                     actions: dialog.querySelectorAll('.event-detail-action').length,
                   };
                 ''')
-                if not detail or not detail["source"]:
-                    raise AssertionError("event detail does not expose canonical source evidence")
+                if not detail or not detail["source"] or not str(detail["sourceHref"]).startswith(("http://", "https://")):
+                    raise AssertionError("event detail does not expose canonical safe source evidence action")
                 if not detail["media"]:
                     raise AssertionError("event detail does not expose canonical media")
 
@@ -210,6 +213,7 @@ def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
                     "filtered": filtered_count,
                     "when": selected_when,
                     "detail_actions": int(detail["actions"]),
+                    "source_provenance": bool(detail["provenance"]),
                 }
             except Exception as exc:
                 last_error = f"attempt {attempt}: {type(exc).__name__}: {exc}"
@@ -245,7 +249,8 @@ def main() -> None:
         print(
             "RUNTIME_USER_FLOW_OK "
             f"city={result['city']} initial={result['initial']} filtered={result['filtered']} "
-            f"when={result['when']} detail_actions={result['detail_actions']}"
+            f"when={result['when']} detail_actions={result['detail_actions']} "
+            f"source_provenance={str(result['source_provenance']).lower()}"
         )
 
 
