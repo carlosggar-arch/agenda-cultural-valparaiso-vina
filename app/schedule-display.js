@@ -1,7 +1,7 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260821-point8-v2";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-point8-v2";
 import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-point8-v2";
-import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260822-exhibition-quality1";
+import { dailyExhibitionHours, nextDailyExhibitionOpening } from "./date-aware-exhibition-hours.mjs?v=20260822-next-opening1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import "./exhibition-hours.js?v=20260821-next-hours1";
 
@@ -74,10 +74,24 @@ function formatEventSchedule(schedule, referenceDateKey = null) {
   });
 }
 
-function visitHoursLabel(daily) {
+function compactReferenceDate(dateKey, locale = activeConfig.locale || "es") {
+  const match = String(dateKey || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return String(dateKey || "");
+  const [, year, month, day] = match;
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: "UTC",
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  }).format(new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), 12)));
+}
+
+function visitHoursLabel(daily, nextOpening = null) {
   if (!daily?.label) return null;
-  const label = daily.closed || /^cerrado\b/i.test(daily.label) ? "Cerrado" : daily.label;
-  return `Horario de hoy: ${label}`;
+  const closed = daily.closed || /^cerrado\b/i.test(daily.label);
+  if (!closed) return `Horario de hoy: ${daily.label}`;
+  if (!nextOpening?.label || !nextOpening?.referenceDateKey) return "Horario de hoy: Cerrado";
+  return `Horario de hoy: Cerrado · Próxima apertura: ${compactReferenceDate(nextOpening.referenceDateKey)} · ${nextOpening.label}`;
 }
 
 export function scheduleForEventDisplay(event, options = {}) {
@@ -95,12 +109,14 @@ export function scheduleForEventDisplay(event, options = {}) {
   if (datedSessions) return datedSessions;
 
   if (isExhibition(event)) {
-    const daily = dailyExhibitionHours(schedule, {
+    const hoursOptions = {
       timezone: options.timezone || activeConfig.timezone,
       referenceDate: visibleDate,
-    });
+    };
+    const daily = dailyExhibitionHours(schedule, hoursOptions);
+    const nextOpening = daily?.closed ? nextDailyExhibitionOpening(schedule, hoursOptions) : null;
     const range = formatEventSchedule(eventSchedule, visibleDate);
-    const hours = visitHoursLabel(daily);
+    const hours = visitHoursLabel(daily, nextOpening);
     if (hours) return [range, hours].filter(Boolean).join(" · ");
     return range;
   }
