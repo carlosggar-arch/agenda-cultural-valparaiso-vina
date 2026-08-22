@@ -4,6 +4,9 @@ import test from "node:test";
 
 const cards = await readFile(new URL("../app/card-experience.js", import.meta.url), "utf8");
 const imageGuard = await readFile(new URL("../app/image-quality-guard.js", import.meta.url), "utf8");
+const groups = await readFile(new URL("../app/exhibition-groups.js", import.meta.url), "utf8");
+const detail = await readFile(new URL("../app/event-detail.js", import.meta.url), "utf8");
+const resolver = await readFile(new URL("../app/image-resolver-core.mjs", import.meta.url), "utf8");
 const corrections = await readFile(new URL("../app/event-data-corrections.js", import.meta.url), "utf8");
 const app = await readFile(new URL("../app/app.js", import.meta.url), "utf8");
 const release = await readFile(new URL("../app/release-version.js", import.meta.url), "utf8");
@@ -17,12 +20,25 @@ test("cards and fallback images use the shared final normalized snapshot", () =>
   assert.doesNotMatch(imageGuard, /loadAgendaDataset|new MutationObserver\s*\(/);
 });
 
-test("one common card renderer owns event, venue and category image fallbacks", () => {
-  assert.match(cards, /function relevantImageUrl\(event\)/);
-  assert.match(cards, /function representativeImageUrl\(event\)/);
-  assert.match(cards, /function buildMedia\(event\)/);
-  assert.match(imageGuard, /function installCategoryFallback\(card, media\)/);
+test("one pure resolver owns image selection across cards, groups, detail and guard", () => {
+  for (const source of [cards, imageGuard, groups, detail]) {
+    assert.match(source, /image-resolver-core\.mjs\?v=/);
+  }
+  assert.match(resolver, /export function resolveEventImage\(/);
+  assert.match(resolver, /export function resolveCardImageAfterFailure\(/);
+  assert.match(resolver, /export function categoryFallbackImage\(/);
+  assert.match(resolver, /export function shouldInstallCategoryFallback\(/);
+
+  assert.doesNotMatch(cards, /function venueImageKey\(|function buildVenueImagePools\(|function looksLikeGenericSchedule\(/);
+  assert.doesNotMatch(imageGuard, /GENERIC_PROVIDER_HOSTS|CATEGORY_IMAGES|function isGenericImage\(|function categoryIdForCard\(/);
+  assert.doesNotMatch(groups, /const url = String\(event\?\.image\?\.url/);
+  assert.doesNotMatch(detail, /presentation\?\.imageRelevant === false \? null : safeHttpUrl\(event\?\.image\?\.url\)/);
+});
+
+test("category fallback keeps its existing runtime presentation markers", () => {
   assert.match(imageGuard, /image\.dataset\.imageKind = "category-fallback"/);
+  assert.match(imageGuard, /image\.dataset\.imageQualityFallback = "true"/);
+  assert.match(imageGuard, /media\.dataset\.categoryPhotoApplied = "true"/);
 });
 
 test("retired parallel card image renderers are not loaded", () => {
@@ -55,5 +71,5 @@ test("Palacio Rioja Qi Gong and Jacques Tati corrections stay covered", () => {
 test("PWA release is new enough to replace stale presentation caches", () => {
   const match = release.match(/const RELEASE = (\d+);/);
   assert.ok(match, "release-version.js must expose a numeric release");
-  assert.ok(Number(match[1]) >= 182, "PWA release must include the shared presentation runtime cache boundary");
+  assert.ok(Number(match[1]) >= 196, "PWA release must include the single image resolver boundary");
 });
