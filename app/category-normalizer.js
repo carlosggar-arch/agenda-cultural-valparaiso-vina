@@ -1,5 +1,4 @@
 import { canonicalPublicCategory, resolvePublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
-import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260819-venue1";
 
 function categoryForEvent(event) {
   const hint = String(event?.editorial?.category_recovery_hint || "").trim();
@@ -16,8 +15,5 @@ export function normalizeAgendaCategories(dataset) {
       categories: [category],
     };
   });
-  return {
-    ...dataset,
-    events: normalizeVenueAliases(normalizedEvents),
-  };
+  return { ...dataset, events: normalizedEvents };
 }
