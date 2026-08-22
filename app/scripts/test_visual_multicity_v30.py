@@ -12,6 +12,7 @@ app_js += "\n" + (APP / "data-pipeline.js").read_text(encoding="utf-8")
 index = (APP / "index.html").read_text(encoding="utf-8")
 card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
 image_guard_js = (APP / "image-quality-guard.js").read_text(encoding="utf-8")
+image_resolver_js = (APP / "image-resolver-core.mjs").read_text(encoding="utf-8")
 runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
 render_lifecycle = (APP / "render-lifecycle.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
@@ -54,13 +55,18 @@ assert 'CITY_STORAGE_KEY' in app_js
 assert 'navigator.geolocation.getCurrentPosition' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
 
-# One common card renderer owns event/venue imagery and one common quality guard
-# upgrades unresolved placeholders to category artwork. There is no per-city or
-# parallel fallback renderer.
+# One common card renderer consumes one canonical image resolver and one common
+# quality guard upgrades unresolved placeholders to category artwork. There is no
+# per-city or parallel fallback renderer.
 assert 'getAgendaRuntimeSnapshot' in card_js
-assert 'event?.image?.url' in card_js
+assert 'image-resolver-core.mjs' in card_js
+assert 'resolveEventImage' in card_js
+assert 'event?.image?.url' in image_resolver_js
+assert 'export function resolveEventImage' in image_resolver_js
+assert 'export function buildVenueImagePools' in image_resolver_js
 assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
 assert 'getAgendaRuntimeSnapshot' in image_guard_js
+assert 'image-resolver-core.mjs' in image_guard_js
 assert 'image.dataset.imageKind = "category-fallback"' in image_guard_js
 assert 'new MutationObserver' not in card_js
 assert 'new MutationObserver' not in image_guard_js
