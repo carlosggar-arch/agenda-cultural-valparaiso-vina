@@ -6,8 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
-WORKFLOW = ROOT / ".github/workflows/multi-city-pre-release.yml"
+MULTICITY_WORKFLOW = ROOT / ".github/workflows/multi-city-pre-release.yml"
 REQUIRED_WORKFLOW = ROOT / ".github/workflows/required-release-guard.yml"
+TEMPORAL_WORKFLOW = ROOT / ".github/workflows/temporal-priority-validation.yml"
+PRODUCTION_WORKFLOW = ROOT / ".github/workflows/production-pwa-smoke.yml"
 TOPOLOGY = ROOT / "tests/contract-topology.json"
 
 
@@ -135,7 +137,9 @@ def check_first_render_contract() -> None:
     mobile = text(APP / "mobile-experience.js")
     header_js = text(APP / "header-redesign.js")
     head = index.split("</head>", 1)[0]
-    before_modules = index.split('<script type="module" src="./app.js"></script>', 1)[0]
+    app_module = re.search(r'<script type="module" src="\./app\.js[^"]*"></script>', index)
+    assert app_module, "app shell must load app.js as a module"
+    before_modules = index[:app_module.start()]
 
     assert 'data-mobile-experience-styles' in head, "mobile CSS must load before first paint"
     assert 'document.createElement("link")' not in mobile, "mobile CSS must never be injected after first paint"
@@ -179,34 +183,47 @@ def check_startup_resilience_contract() -> None:
 
 
 def check_workflow_guard() -> None:
-    workflow = text(WORKFLOW)
+    multicity = text(MULTICITY_WORKFLOW)
     required = text(REQUIRED_WORKFLOW)
+    temporal = text(TEMPORAL_WORKFLOW)
+    production = text(PRODUCTION_WORKFLOW)
     topology = json.loads(text(TOPOLOGY))
     contracts = {entry["id"]: entry for entry in topology["contracts"]}
     profiles = topology["runner_profiles"]
     scenarios = topology["browser_scenarios"]
 
+    assert topology["schema_version"] == "1.3.0", "D4 final contract topology is not active"
     release_contract = contracts["release.generated-shell"]
     assert release_contract["owner"] == "app/scripts/test_release_guard.py"
     assert release_contract["workflow"] == ".github/workflows/required-release-guard.yml"
-    assert "release.generated-shell" in profiles["required-release"]
-    assert "architecture.startup" in profiles["required-release"]
+
+    for contract_id in (
+        "release.generated-shell",
+        "architecture.startup",
+        "architecture.public-presentation",
+        "release.local-pwa-smoke",
+        "release.production-smoke-contract",
+    ):
+        assert contract_id in profiles["required-release"], f"required-release profile missing {contract_id}"
+    assert contracts["release.local-pwa-smoke"]["runner_args"] == ["local"]
+    assert profiles["temporal-fast"] == ["semantic.temporal-priority", "semantic.agenda-order"]
+
     assert "python app/scripts/run_contracts.py --profile required-release" in required, (
         "required release contracts must be invoked through the canonical runner"
     )
-    assert "python app/scripts/test_release_guard.py" not in workflow, (
-        "generated-shell contract must not be duplicated in multi-city CI"
-    )
-    assert "python app/scripts/test_first_render_browser.py" not in workflow, (
-        "first-render browser contract must not be duplicated in multi-city CI"
-    )
-    assert "python app/scripts/test_temporal_priority_browser.py" not in workflow, (
-        "temporal browser contract must remain with its canonical owner, not multi-city CI"
-    )
     assert "python app/scripts/run_browser_scenarios.py --all" in required, (
-        "required release gate must compose canonical browser scenarios"
+        "required release gate must compose every canonical browser scenario"
     )
-    assert topology["temporary_overlaps"] == [], "D3 must leave no declared temporary browser overlap"
+    assert "python app/scripts/run_contracts.py --profile temporal-fast" in temporal, (
+        "temporal PR validation must stay on its fast semantic profile"
+    )
+    assert "_browser.py" not in temporal, "temporal workflow must not launch browser tests after D4"
+
+    for entry in contracts.values():
+        if entry["layer"] == "browser":
+            assert entry.get("workflow") == ".github/workflows/required-release-guard.yml", (
+                f"browser owner escaped the single required gate: {entry['id']}"
+            )
     assert scenarios["startup-city"] == [
         "browser.first-render",
         "browser.startup-resilience",
@@ -214,12 +231,29 @@ def check_workflow_guard() -> None:
     ]
     assert "browser.runtime-user-flow" in scenarios["filters-detail-media"]
     assert "browser.exhibition-visual-parity" in scenarios["exhibitions"]
+    assert scenarios["temporal-order"] == ["browser.temporal-priority"]
+    assert topology["temporary_overlaps"] == [], "D4 must leave no temporary overlap"
+
+    for browser_owner in (
+        "test_first_render_browser.py",
+        "test_temporal_priority_browser.py",
+        "run_browser_scenarios.py",
+    ):
+        assert browser_owner not in multicity, f"browser execution leaked into multi-city gate: {browser_owner}"
+
+    production_triggers = production.split("permissions:", 1)[0]
+    assert "pull_request:" not in production_triggers, "production smoke must be post-merge/manual only"
+    assert "push:" in production_triggers and "branches: [main]" in production_triggers
+    assert "git reset --hard origin/main" in production, "production smoke must test latest public main"
+    assert "production_pwa_smoke.py http" in production
+    assert "production_pwa_smoke.py browser" in production
+    assert "production_warm_start_smoke.py" in production
+    assert "production_pwa_smoke.py http" not in required, "network smoke must not run in PR gate"
+    assert "production_pwa_smoke.py browser" not in required, "deployment browser smoke must not run in PR gate"
+
     assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert "node app/date-filter-architecture.test.mjs" in required, "date-filter single-source contract is not required before merge"
-    assert 'PWA v33' not in workflow, "stale PWA v33 assertion remains in workflow"
-    assert 'CACHE_VERSION = \\"v40\\"' not in workflow and 'CACHE_VERSION = "v40"' not in workflow, (
-        "stale cache v40 assertion remains in workflow"
-    )
+    assert "node --check app/sources-toggle.js" in required, "local production shell coverage lost sources module syntax check"
 
 
 def main() -> None:
