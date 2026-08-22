@@ -1,3 +1,5 @@
+import { resolveEventImage } from "./image-resolver-core.mjs?v=20260822-single-image1";
+
 function safeHttpUrl(value) {
   if (!value) return null;
   try {
@@ -169,7 +171,12 @@ function statusNotices(event) {
 }
 
 function buildMedia(event, presentation) {
-  const imageUrl = presentation?.imageRelevant === false ? null : safeHttpUrl(event?.image?.url);
+  const resolved = resolveEventImage(event, {
+    surface: "detail",
+    baseUrl: window.location.href,
+    allowDirect: presentation?.imageRelevant !== false,
+  });
+  const imageUrl = resolved.url;
   if (!imageUrl) return null;
 
   const media = document.createElement("div");

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { resolvePublicCategory } from "../public-category-rules.mjs";
+import { categoryFallbackImage } from "../image-resolver-core.mjs";
 
 const cultureCinema = {
   title: "Ciclo de verano",
@@ -68,7 +69,8 @@ assert.match(exhibitionGroups, /function reconcileCommonMembership\(/);
 assert.doesNotMatch(exhibitionGroups, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/);
 assert.match(exhibitionGroupCore, /export const EXHIBITION_GROUP_MIN = 2/);
 assert.match(exhibitionGroupCore, /exhibitionGroupingVenueKey/);
-assert.match(exhibitionGroups, /FALLBACK_IMAGE[\s\S]*categoria-exposiciones\.jpg/);
+assert.match(exhibitionGroups, /categoryFallbackImage/);
+assert.equal(categoryFallbackImage(null, { categoryHint: "exposiciones" }).url, "../assets/categoria-exposiciones.jpg");
 assert.match(exhibitionGroups, /grouped-exhibition-item/);
 
 const footer = readFileSync(new URL("../footer-credit.js", import.meta.url), "utf8");

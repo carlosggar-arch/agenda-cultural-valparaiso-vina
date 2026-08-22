@@ -5,9 +5,15 @@ import {
   publicCategorySymbol,
   publicEventTypeLabel,
 } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
+import {
+  buildVenueImagePools,
+  looksLikeGenericSchedule,
+  relevantEventImageUrl,
+  resolveCardImageAfterFailure,
+  resolveEventImage,
+} from "./image-resolver-core.mjs?v=20260822-single-image1";
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
-const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
 const DEFAULT_CONFIG = Object.freeze({ timezone: "UTC", locale: "es" });
 
 let indexedCity = null;
@@ -25,15 +31,6 @@ function safeHttpUrl(value) {
   } catch {
     return null;
   }
-}
-
-function fold(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es")
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
 }
 
 function cityId() {
@@ -57,46 +54,8 @@ function contentTypeLabel(event) {
   return publicEventTypeLabel(event?.event_type);
 }
 
-function looksLikeGenericSchedule(event) {
-  if (event?.image?.relevance === "generic_schedule") return true;
-  const title = fold(event?.title);
-  const description = fold(event?.description);
-  if (/\b(agenda|cartelera|programacion|calendario|panoramas?)\b/.test(title)) return true;
-  if (new RegExp(`^(?:destino|panoramas?) .+ (?:${MONTH_PATTERN}) 20\\d{2}$`).test(title)) return true;
-  const mentions = (String(event?.description || "").match(/@[a-z0-9_.]+/gi) || []).length;
-  return /\beste mes (?:tenemos|incluye|trae|hay)\b/.test(description) && mentions >= 2;
-}
-
 function relevantImageUrl(event) {
-  if (looksLikeGenericSchedule(event)) return null;
-  return safeHttpUrl(event?.image?.url);
-}
-
-function venueImageKey(event) {
-  const city = fold(event?.location?.city);
-  let venue = fold(event?.location?.venue);
-  if (!city || !venue || venue === city || /^(?:online|sitio web)\b/.test(venue)) return null;
-  if (venue.endsWith(` ${city}`)) venue = venue.slice(0, -(city.length + 1)).trim();
-  return venue ? `${city}|${venue}` : null;
-}
-
-function buildVenueImagePools(events) {
-  const pools = new Map();
-  for (const event of events || []) {
-    const key = venueImageKey(event);
-    const url = relevantImageUrl(event);
-    if (!key || !url) continue;
-    const pool = pools.get(key) || [];
-    if (!pool.includes(url)) pool.push(url);
-    pools.set(key, pool);
-  }
-  return pools;
-}
-
-function representativeImageUrl(event) {
-  if (looksLikeGenericSchedule(event)) return null;
-  const key = venueImageKey(event);
-  return key ? venueImagePools.get(key)?.[0] || null : null;
+  return relevantEventImageUrl(event, { baseUrl: window.location.href });
 }
 
 function dateKeyForDate(date, config) {
@@ -310,9 +269,12 @@ function installMediaImage(media, event, imageUrl, representative = false) {
     media.replaceChildren();
     media.style.removeProperty("--event-image");
     if (!representative) {
-      const fallback = representativeImageUrl(event);
-      if (fallback && fallback !== imageUrl) {
-        installMediaImage(media, event, fallback, true);
+      const fallback = resolveCardImageAfterFailure(event, imageUrl, {
+        venueImagePools,
+        baseUrl: window.location.href,
+      });
+      if (fallback.url) {
+        installMediaImage(media, event, fallback.url, true);
         return;
       }
     }
@@ -328,11 +290,13 @@ function installMediaImage(media, event, imageUrl, representative = false) {
 function buildMedia(event) {
   const media = document.createElement("div");
   media.className = "event-card-media";
-  const imageUrl = relevantImageUrl(event);
-  const representative = imageUrl ? null : representativeImageUrl(event);
-  if (imageUrl) installMediaImage(media, event, imageUrl, false);
-  else if (representative) installMediaImage(media, event, representative, true);
-  else addPlaceholder(media, event, looksLikeGenericSchedule(event));
+  const resolved = resolveEventImage(event, {
+    surface: "card",
+    venueImagePools,
+    baseUrl: window.location.href,
+  });
+  if (resolved.url) installMediaImage(media, event, resolved.url, resolved.kind === "representative");
+  else addPlaceholder(media, event, resolved.genericSchedule);
   return media;
 }
 
@@ -476,7 +440,7 @@ function syncRuntimeIndex() {
   indexedCity = currentCity;
   indexedRevision = snapshot.revision;
   eventIndex = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
-  venueImagePools = buildVenueImagePools(snapshot.events);
+  venueImagePools = buildVenueImagePools(snapshot.events, { baseUrl: window.location.href });
   featuredIds = chooseFeatured(snapshot.events, snapshot.city || DEFAULT_CONFIG);
   return true;
 }
