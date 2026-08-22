@@ -8,9 +8,12 @@ ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
 RUNNER = ROOT / "app" / "scripts" / "run_contracts.py"
 BROWSER_RUNNER = ROOT / "app" / "scripts" / "run_browser_scenarios.py"
+REQUIRED_WORKFLOW = ROOT / ".github" / "workflows" / "required-release-guard.yml"
+TEMPORAL_WORKFLOW = ROOT / ".github" / "workflows" / "temporal-priority-validation.yml"
+PRODUCTION_WORKFLOW = ROOT / ".github" / "workflows" / "production-pwa-smoke.yml"
 
 ALLOWED_LAYERS = {"semantic", "architecture", "browser", "release"}
-ALLOWED_FOLLOWUPS = {"D4"}
+REQUIRED_BROWSER_WORKFLOW = ".github/workflows/required-release-guard.yml"
 
 
 def fail(message: str) -> None:
@@ -25,12 +28,16 @@ def require_path(relative: str, *, label: str) -> None:
 
 def main() -> None:
     data = json.loads(TOPOLOGY.read_text(encoding="utf-8"))
-    if data.get("schema_version") != "1.2.0":
-        fail("contract topology schema_version must be 1.2.0")
+    if data.get("schema_version") != "1.3.0":
+        fail("contract topology schema_version must be 1.3.0 after D4")
     if not RUNNER.is_file():
         fail("canonical contract runner is missing")
     if not BROWSER_RUNNER.is_file():
         fail("canonical browser scenario runner is missing")
+
+    runner_source = RUNNER.read_text(encoding="utf-8")
+    if 'entry.get("runner_args", [])' not in runner_source:
+        fail("canonical contract runner must honor declarative runner_args")
 
     declared_layers = data.get("layers")
     if set(declared_layers or []) != ALLOWED_LAYERS or len(declared_layers) != len(ALLOWED_LAYERS):
@@ -101,6 +108,18 @@ def main() -> None:
             if not owner.endswith((".py", ".mjs", ".js")):
                 fail(f"runner profile {profile} contains workflow-only contract: {contract_id}")
 
+    if profiles.get("temporal-fast") != ["semantic.temporal-priority", "semantic.agenda-order"]:
+        fail("temporal-fast must contain only the two canonical semantic ordering contracts")
+    for required_id in (
+        "release.generated-shell",
+        "architecture.startup",
+        "architecture.public-presentation",
+        "release.local-pwa-smoke",
+        "release.production-smoke-contract",
+    ):
+        if required_id not in profiles.get("required-release", []):
+            fail(f"required-release profile missing D4 contract: {required_id}")
+
     scenarios = data.get("browser_scenarios")
     if not isinstance(scenarios, dict) or not scenarios:
         fail("browser_scenarios must be a non-empty object")
@@ -120,42 +139,47 @@ def main() -> None:
                 fail(f"browser scenario {scenario} contains non-browser contract: {contract_id}")
             if not entry["owner"].endswith(".py"):
                 fail(f"browser scenario {scenario} owner must be Python executable: {contract_id}")
+            if entry.get("workflow") != REQUIRED_BROWSER_WORKFLOW:
+                fail(f"browser contract must be composed by Required release guard after D4: {contract_id}")
             if contract_id in seen_browser_contracts:
                 fail(f"browser contract belongs to more than one canonical scenario: {contract_id}")
             seen_browser_contracts.add(contract_id)
 
+    all_browser_contracts = {entry["id"] for entry in contracts if entry["layer"] == "browser"}
+    if seen_browser_contracts != all_browser_contracts:
+        missing = sorted(all_browser_contracts - seen_browser_contracts)
+        extra = sorted(seen_browser_contracts - all_browser_contracts)
+        fail(f"every browser contract must belong to exactly one scenario; missing={missing} extra={extra}")
+    if scenarios.get("temporal-order") != ["browser.temporal-priority"]:
+        fail("temporal priority browser owner must be centralized in the temporal-order scenario")
+
     overlaps = data.get("temporary_overlaps")
-    if not isinstance(overlaps, list):
-        fail("temporary_overlaps must be a list")
-    overlap_keys: set[tuple[str, str]] = set()
-    for overlap in overlaps:
-        contract = overlap.get("contract")
-        owner_workflow = overlap.get("owner_workflow")
-        duplicate_workflow = overlap.get("duplicate_workflow")
-        remove_in = overlap.get("remove_in")
-        reason = overlap.get("reason")
-        if not all(isinstance(value, str) and value.strip() for value in (contract, owner_workflow, duplicate_workflow, reason)):
-            fail("temporary overlaps need contract, owner_workflow, duplicate_workflow and reason")
-        if contract not in known_ids:
-            fail(f"temporary overlap references unknown canonical contract: {contract}")
-        if owner_workflow == duplicate_workflow:
-            fail(f"{contract}: overlap must name two different workflows")
-        require_path(owner_workflow, label=f"{contract} owner workflow")
-        require_path(duplicate_workflow, label=f"{contract} duplicate workflow")
-        if remove_in not in ALLOWED_FOLLOWUPS:
-            fail(f"{contract}: remove_in must be one of {sorted(ALLOWED_FOLLOWUPS)}")
-        key = (contract, duplicate_workflow)
-        if key in overlap_keys:
-            fail(f"duplicate overlap declaration: {key}")
-        overlap_keys.add(key)
+    if overlaps != []:
+        fail("D4 final topology must contain no temporary overlaps")
+
+    required = REQUIRED_WORKFLOW.read_text(encoding="utf-8")
+    temporal = TEMPORAL_WORKFLOW.read_text(encoding="utf-8")
+    production = PRODUCTION_WORKFLOW.read_text(encoding="utf-8")
+    if "python app/scripts/run_browser_scenarios.py --all" not in required:
+        fail("Required release guard must be the single browser scenario composer")
+    if "_browser.py" in temporal:
+        fail("fast temporal workflow must not execute browser owners after D4")
+    if "python app/scripts/run_contracts.py --profile temporal-fast" not in temporal:
+        fail("fast temporal workflow must invoke the canonical temporal-fast profile")
+    production_triggers = production.split("permissions:", 1)[0]
+    if "pull_request:" in production_triggers:
+        fail("Production PWA smoke must not run as a PR workflow after D4")
+    if "push:" not in production_triggers or "branches: [main]" not in production_triggers:
+        fail("Production PWA smoke must remain post-merge on main")
 
     print(
         "CONTRACT_TOPOLOGY_OK "
         f"contracts={len(contracts)} "
         f"profiles={len(profiles)} "
         f"browser_scenarios={len(scenarios)} "
+        f"browser_contracts={len(all_browser_contracts)} "
         f"stage_c_domains={len(stage_c_domains)} "
-        f"temporary_overlaps={len(overlaps)}"
+        "temporary_overlaps=0 final_stage_d=true"
     )
 
 
