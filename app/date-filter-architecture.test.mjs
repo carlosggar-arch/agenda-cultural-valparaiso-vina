@@ -70,10 +70,11 @@ assert.match(scheduleDisplay, /getAgendaRuntimeSnapshot/);
 assert.match(scheduleDisplay, /!node\.classList\.contains\("venue-opening-hours"\)/);
 assert.doesNotMatch(scheduleDisplay, /const copy = schedule\?\.nextElementSibling/);
 assert.doesNotMatch(scheduleDisplay, /scheduleForGijonEvent/);
-assert.match(exhibitionHours, /venueHoursForDate/);
-assert.doesNotMatch(exhibitionHours, /gijonVenueHoursForDate/);
-assert.match(exhibitionHours, /Horario del recinto:/);
-assert.match(exhibitionHours, /for \(const event of events\)/);
+assert.match(scheduleDisplay, /venueHoursForDate/);
+assert.match(scheduleDisplay, /nextVenueOpeningForDate/);
+assert.match(scheduleDisplay, /Horario del recinto:/);
+assert.match(scheduleDisplay, /for \(const event of events\)/);
+assert.doesNotMatch(exhibitionHours, /venueHoursForDate|gijonVenueHoursForDate|Horario del recinto:/);
 assert.match(presentationAdapter, /scheduleForGijonEvent/);
 assert.match(runtimeState, /eventForCityPresentation\(event, cityId\)/);
 assert.equal(
