@@ -75,19 +75,23 @@ assert.doesNotMatch(categoryNormalizer, /(?:window|globalThis|target)\.fetch\s*=
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 
-// Group membership has exactly one runtime owner: app-core. The optional
-// exhibition module may enrich an existing data-event-group but can never
-// discover or regroup standalone cards itself.
+// Group membership has one common policy in exhibition-group-core. app-core may
+// emit initial cards, while the shared presentation reconciles those cards and
+// standalone exhibitions through the same pure policy. No threshold/clustering
+// algorithm may be redeclared in the renderer.
 assert.match(appCore, /function buildDatedItems\(/);
 assert.match(appCore, /createExhibitionGroupCard/);
 assert.match(appCore, /dataset\.eventGroup|card\.dataset\.eventGroup|dataset\.eventGroup =|card\.dataset\.eventGroup =/);
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
 assert.match(grouping, /function enhanceCoreGroups\(/);
+assert.match(grouping, /groupStandaloneExhibitions/);
+assert.match(grouping, /function reconcileCommonMembership\(/);
 assert.match(grouping, /unifiedExhibitionGroup/);
-assert.doesNotMatch(grouping, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/);
+assert.doesNotMatch(grouping, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/);
 assert.doesNotMatch(grouping, /\bfetch\s*\(/);
-assert.match(groupingCore, /EXHIBITION_GROUP_MIN = 2/);
+assert.match(groupingCore, /export const EXHIBITION_GROUP_MIN = 2/);
 assert.match(groupingCore, /clusterSimultaneousExhibitions/);
+assert.match(groupingCore, /exhibitionGroupingVenueKey/);
 
 // Combined filters can still import pure category helpers, but must load through
 // a versioned module and use the normalized agenda pipeline.
@@ -108,4 +112,4 @@ assert.doesNotMatch(release, /window\.stop|caches\.delete|pwa_recovered/);
 assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
 assert.doesNotMatch(release, /window\.location\.reload\(\)/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + single-owner exhibition grouping)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + shared exhibition grouping policy)`);
