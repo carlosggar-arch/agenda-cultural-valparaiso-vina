@@ -1,7 +1,7 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260821-point8-v2";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-point8-v2";
 import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-point8-v2";
-import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-point8-v2";
+import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260822-exhibition-quality1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import "./exhibition-hours.js?v=20260821-next-hours1";
 
@@ -74,30 +74,42 @@ function formatEventSchedule(schedule, referenceDateKey = null) {
   });
 }
 
-function scheduleForDisplay(event) {
+function visitHoursLabel(daily) {
+  if (!daily?.label) return null;
+  if (daily.closed || /^cerrado\b/i.test(daily.label)) return daily.label;
+  return `Horario de visita: ${daily.label}`;
+}
+
+export function scheduleForEventDisplay(event, options = {}) {
   if (event?.event_type === "registration_period") return registrationStatusForDisplay(event);
   const schedule = event?.schedule;
   if (!schedule) return isExhibition(event) ? "Horario de visita por confirmar" : "Consultar horario en la fuente";
 
-  const visibleDate = referenceDate();
+  const visibleDate = options.referenceDate || referenceDate();
   const eventSchedule = scheduleWithoutVisitHours(schedule);
   const datedSessions = sessionScheduleLabelForDate({ ...event, schedule: eventSchedule }, {
     ...activeConfig,
+    ...options,
     referenceDate: visibleDate,
   });
   if (datedSessions) return datedSessions;
 
   if (isExhibition(event)) {
     const daily = dailyExhibitionHours(schedule, {
-      timezone: activeConfig.timezone,
+      timezone: options.timezone || activeConfig.timezone,
       referenceDate: visibleDate,
     });
     const range = formatEventSchedule(eventSchedule, visibleDate);
-    if (daily?.label) return [range, daily.label].filter(Boolean).join(" · ");
+    const hours = visitHoursLabel(daily);
+    if (hours) return [range, hours].filter(Boolean).join(" · ");
     return range;
   }
 
   return withMissingEventTimeFallback(formatEventSchedule(eventSchedule, visibleDate), eventSchedule);
+}
+
+function scheduleForDisplay(event) {
+  return scheduleForEventDisplay(event);
 }
 
 function locationForDisplay(event) {
@@ -139,8 +151,6 @@ function replaceSimpleCardLocation(card, value) {
   const schedule = card.querySelector(":scope > h4 + p");
   if (!schedule) return false;
 
-  // Optional enrichers may insert a visit-hours paragraph immediately after the
-  // schedule. Never treat that inserted paragraph as the location.
   const copy = card.querySelector(":scope > p[data-location-display]")
     || [...card.querySelectorAll(":scope > p")].find((node) => (
       node !== schedule

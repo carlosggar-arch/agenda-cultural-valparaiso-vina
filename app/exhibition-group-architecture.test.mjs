@@ -3,36 +3,48 @@ import { readFileSync } from "node:fs";
 
 const core = readFileSync(new URL("./app-core.js", import.meta.url), "utf8");
 const presentation = readFileSync(new URL("./exhibition-groups.js", import.meta.url), "utf8");
+const grouping = readFileSync(new URL("./exhibition-group-core.mjs", import.meta.url), "utf8");
+const venueIdentity = readFileSync(new URL("./venue-identity.mjs", import.meta.url), "utf8");
 
 assert.match(
   core,
   /function buildDatedItems\(events\)/,
-  "app-core must remain the single runtime owner of exhibition group membership",
-);
-assert.match(
-  core,
-  /createExhibitionGroupCard\(/,
-  "app-core must emit the canonical data-event-group cards",
+  "app-core may keep emitting initial groups during the migration",
 );
 assert.match(
   presentation,
-  /function enhanceCoreGroups\(\)/,
-  "exhibition-groups must only enrich groups emitted by app-core",
+  /groupStandaloneExhibitions/,
+  "the final runtime membership pass must consume the shared grouping policy",
 );
 assert.match(
   presentation,
-  /app-core\.js is the sole authority for exhibition membership/,
-  "the ownership boundary must be explicit in the presentation layer",
+  /function reconcileCommonMembership\(\)/,
+  "the renderer must reconcile legacy initial groups against common membership",
+);
+assert.match(
+  grouping,
+  /export const EXHIBITION_GROUP_MIN = 2/,
+  "the common grouping core owns group cardinality",
+);
+assert.match(
+  grouping,
+  /exhibitionGroupingVenueKey/,
+  "the common grouping core must use shared exhibition venue identity",
+);
+assert.match(
+  venueIdentity,
+  /parentComplexLabel/,
+  "subspace-to-complex identity must be structural and shared",
 );
 assert.doesNotMatch(
   presentation,
-  /groupStandaloneExhibitions|groupStandaloneCards|clusterVenueExhibitions|EXHIBITION_GROUP_MIN/,
-  "the presentation layer must not run a second grouping algorithm",
+  /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/,
+  "the presentation layer must not maintain a second threshold or clustering algorithm",
 );
-assert.doesNotMatch(
+assert.match(
   presentation,
-  /dataset\.eventId[\s\S]*?insertBefore|nodeById[\s\S]*?\.remove\(\)/,
-  "standalone cards must never be regrouped by the presentation layer",
+  /safeMerge/,
+  "legacy cards must never be split or lose unrelated exhibitions during reconciliation",
 );
 
-console.log("EXHIBITION_GROUP_SINGLE_AUTHORITY_OK");
+console.log("EXHIBITION_GROUP_SHARED_AUTHORITY_OK");

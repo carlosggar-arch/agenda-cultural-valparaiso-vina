@@ -185,11 +185,18 @@ function enhanceGroupedRow(row) {
       else copy.prepend(schedule);
     }
   }
-  const nextSchedule = plainPublicText(groupedScheduleLabel(event, {
-    locale: activeCity?.locale || DEFAULT_LOCALE,
-    timezone: activeCity?.timezone || DEFAULT_TIMEZONE,
-  }));
-  if (schedule.textContent !== nextSchedule) schedule.textContent = nextSchedule;
+
+  // Point 8 owns canonical schedule presentation. For a classified schedule,
+  // schedule-display.js has already selected the visible date and separated
+  // session times from venue hours. This late guard must not reinterpret it.
+  if (!event?.schedule?.schedule_contract_version) {
+    const nextSchedule = plainPublicText(groupedScheduleLabel(event, {
+      locale: activeCity?.locale || DEFAULT_LOCALE,
+      timezone: activeCity?.timezone || DEFAULT_TIMEZONE,
+    }));
+    if (schedule.textContent !== nextSchedule) schedule.textContent = nextSchedule;
+  }
+
   let location = copy.querySelector(".grouped-exhibition-location");
   if (!location) {
     location = document.createElement("small");
@@ -232,9 +239,6 @@ function applyPresentationRules() {
   document.querySelectorAll(".event-card-description").forEach(removePipelineDescription);
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceAvailabilityCard);
   document.querySelectorAll("[data-grouped-event-id]").forEach(enhanceGroupedRow);
-  // Defense in depth: if a future renderer bypasses the normalized runtime or a
-  // stale cached fragment reaches the DOM, tag-shaped source text is stripped
-  // from simple public text nodes before the user can keep seeing it.
   stripAnyLateMarkupLeaks();
 }
 

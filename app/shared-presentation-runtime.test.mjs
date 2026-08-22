@@ -9,6 +9,8 @@ const app = read("./app.js");
 const runtime = read("./agenda-runtime-state.mjs");
 const firstRun = read("./city-first-run.js");
 const exhibitionGroups = read("./exhibition-groups.js");
+const exhibitionCore = read("./exhibition-group-core.mjs");
+const dataQuality = read("./event-card-data-quality.mjs");
 const commonBlock = app.match(/const OPTIONAL_MODULES = \[([\s\S]*?)\];/)?.[1] || "";
 const sharedPresentationModules = [
   "./temporal-priority.js",
@@ -67,10 +69,35 @@ for (const modulePath of sharedPresentationModules) {
   );
 }
 
+assert.match(
+  exhibitionGroups,
+  /groupStandaloneExhibitions/,
+  "the final exhibition membership pass must consume the shared grouping policy",
+);
+assert.match(
+  exhibitionGroups,
+  /exhibition-group-core\.mjs/,
+  "exhibition membership rules must live in the common grouping module",
+);
 assert.doesNotMatch(
   exhibitionGroups,
-  /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/,
-  "exhibition-groups.js must be presentation-only; app-core owns grouping membership",
+  /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/,
+  "the renderer must not redeclare the grouping threshold or clustering algorithm",
+);
+assert.match(
+  exhibitionCore,
+  /export const EXHIBITION_GROUP_MIN = 2/,
+  "the common grouping core owns the minimum cardinality",
+);
+assert.match(
+  dataQuality,
+  /schedule_contract_version/,
+  "legacy card quality logic must defer to the canonical Point 8 schedule contract",
+);
+assert.doesNotMatch(
+  dataQuality,
+  /schedule\.textContent\s*=\s*`\$\{schedule\.textContent\.trim\(\)\}/,
+  "venue hours must never be concatenated back into the event-time line",
 );
 
 assert.doesNotMatch(

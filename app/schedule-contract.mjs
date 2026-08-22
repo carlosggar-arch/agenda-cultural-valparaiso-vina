@@ -1,9 +1,12 @@
 const CLOCK_PATTERN = /\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/g;
 const CLAUSE_SPLIT_PATTERN = /[·;|\n]+/;
 const RANGE_SEPARATOR_PATTERN = /^\s*[-–—]\s*$/;
-const ROLE_MARKER_PATTERN = /(?<venue>horarios?\s+(?:(?:del?|de\s+la|de\s+los|de\s+las)\s+)?(?:museo|recinto|sala|galer[ií]a|centro|visita)|horario\s+de\s+visita|horas?\s+de\s+visita)|(?<doors>apertura\s+de\s+puertas|puertas|acceso|ingreso)|(?<session>funci[oó]n(?:es)?|sesi[oó]n(?:es)?|pases?|proyecci[oó]n(?:es)?|concierto|recital|obra|espect[aá]culo|show|charla|taller|actividad|evento)/giu;
+const ROLE_MARKER_PATTERN = /(?<venue>horarios?\s+(?:(?:del?|de\s+la|de\s+los|de\s+las)\s+)?(?:museo|recinto|sala|galer[ií]a|centro|visita)|horario\s+de\s+visita|horas?\s+de\s+visita)|(?<doors>apertura\s+de\s+puertas|puertas|acceso|ingreso)|(?<session>funci[oó]n(?:es)?|sesi[oó]n(?:es)?|pases?|proyecci[oó]n(?:es)?|concierto|recital|obra|espect[aá]culo|show|charla|taller|actividad|evento|inauguraci[oó]n)/giu;
 const START_CUE_PATTERN = /(?:a\s+las?|comienza|inicio|desde)\s*$/iu;
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
+const WEEKDAY_PATTERN = /\b(?:lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado(?:s)?|domingo(?:s)?|lun|mar|mi[eé]|jue|vie|s[aá]b|dom)\b/iu;
+const CLOCK_RANGE_PATTERN = /\b([01]?\d|2[0-3])[:.]([0-5]\d)\s*[-–—]\s*([01]?\d|2[0-3])[:.]([0-5]\d)\b/gu;
+const DAY_RANGE_PATTERN = /\b(lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado(?:s)?|domingo(?:s)?|lun|mar|mi[eé]|jue|vie|s[aá]b|dom)\s*(?:a|[-–—])\s*(lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado(?:s)?|domingo(?:s)?|lun|mar|mi[eé]|jue|vie|s[aá]b|dom)\b/iu;
 
 function validClock(value) {
   const match = String(value || "").trim().match(/^([01]?\d|2[0-3])[:.]([0-5]\d)$/);
@@ -23,6 +26,63 @@ function datePart(value) { return String(value || "").match(/^(\d{4}-\d{2}-\d{2}
 function isExhibition(event) {
   const primaryId = String(event?.primary_category?.id || "").trim();
   return EXHIBITION_IDS.has(primaryId) || (event?.categories || []).some((c) => EXHIBITION_IDS.has(String(c?.id || "").trim()));
+}
+
+function foldDay(value) {
+  return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
+}
+function dayIndex(value) {
+  const day = foldDay(value);
+  if (/^(?:lunes|lun)$/.test(day)) return 0;
+  if (/^(?:martes|mar)$/.test(day)) return 1;
+  if (/^(?:miercoles|mie)$/.test(day)) return 2;
+  if (/^(?:jueves|jue)$/.test(day)) return 3;
+  if (/^(?:viernes|vie)$/.test(day)) return 4;
+  if (/^(?:sabado|sabados|sab)$/.test(day)) return 5;
+  if (/^(?:domingo|domingos|dom)$/.test(day)) return 6;
+  return null;
+}
+function openWeekdaysFromDisplay(display) {
+  const range = String(display || "").match(DAY_RANGE_PATTERN);
+  if (range) {
+    const start = dayIndex(range[1]);
+    const end = dayIndex(range[2]);
+    if (start !== null && end !== null) {
+      if (start <= end) return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+      return [...Array.from({ length: 7 - start }, (_, index) => start + index), ...Array.from({ length: end + 1 }, (_, index) => index)];
+    }
+  }
+  const matches = [...String(display || "").matchAll(new RegExp(WEEKDAY_PATTERN.source, "giu"))]
+    .map((match) => dayIndex(match[0])).filter((value) => value !== null);
+  return [...new Set(matches)];
+}
+
+function weekdayExhibitionVenueHours(event, schedule) {
+  if (!isExhibition(event)) return null;
+  const mode = String(schedule?.mode || "").toLocaleLowerCase("en");
+  const startDate = datePart(schedule?.start);
+  const endDate = datePart(schedule?.end);
+  const spansMultipleDays = Boolean(startDate && endDate && startDate !== endDate);
+  if (!(spansMultipleDays || ["multi_day", "ongoing", "permanent"].includes(mode))) return null;
+
+  const display = String(schedule?.display_text || "").replace(/\s+/g, " ").trim();
+  if (!display || !WEEKDAY_PATTERN.test(display)) return null;
+  const ranges = [...display.matchAll(CLOCK_RANGE_PATTERN)].map((match) => {
+    const opening = validClock(`${match[1]}:${match[2]}`);
+    const closing = validClock(`${match[3]}:${match[4]}`);
+    return opening && closing && opening !== closing ? { opening_time: opening, closing_time: closing } : null;
+  }).filter(Boolean);
+  if (!ranges.length) return null;
+
+  const displayText = ranges.map((range) => `${range.opening_time}–${range.closing_time}`).join(" y ");
+  const openWeekdays = openWeekdaysFromDisplay(display);
+  const common = {
+    display_text: displayText,
+    source: "weekday_exhibition_schedule",
+    ...(openWeekdays.length ? { open_weekdays: openWeekdays } : {}),
+  };
+  if (ranges.length === 1) return { ...common, ...ranges[0] };
+  return { ...common, ranges };
 }
 
 function classifyClockRoles(text) {
@@ -105,6 +165,8 @@ function legacyVenueHours(schedule, event, parsed) {
   const freeform = [schedule?.venue_opening_hours, schedule?.visit_hours, event?.location?.opening_hours]
     .map((value) => String(value || "").replace(/\s+/g, " ").trim()).find(Boolean);
   if (freeform) return { display_text: freeform };
+  const weekdayHours = weekdayExhibitionVenueHours(event, schedule);
+  if (weekdayHours) return weekdayHours;
   return parsed?.venue_hours ? { ...parsed.venue_hours } : null;
 }
 function deriveScheduleDisplay(sessionTimes, eventEndTime, structured) {
@@ -120,9 +182,6 @@ export function normalizeEventScheduleContract(event) {
   const structured = occurrenceSessions(schedule);
   let sessionTimes;
   if (structured.occurrences.length) {
-    // Flat session_times is only safe when all dated occurrences share a day.
-    // Multi-date schedules remain exclusively in occurrences so no relation
-    // between a clock and its date can be lost.
     sessionTimes = structured.dateCount > 1 ? [] : structured.sessionTimes;
   } else {
     const explicit = Array.isArray(schedule.session_times) ? schedule.session_times : Array.isArray(event.session_times) ? event.session_times : [];
@@ -166,4 +225,4 @@ export function normalizeScheduleContractDataset(dataset) {
   return changed ? { ...dataset, events } : dataset;
 }
 
-export { classifyClockRoles, naturalTimeList, validClock };
+export { classifyClockRoles, naturalTimeList, validClock, weekdayExhibitionVenueHours, openWeekdaysFromDisplay };

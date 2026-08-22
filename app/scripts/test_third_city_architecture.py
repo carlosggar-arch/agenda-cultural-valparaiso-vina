@@ -84,9 +84,17 @@ for module in common_presentation:
     assert "loadAgendaDataset" not in text, f"{module} must not own a parallel data runtime"
     assert not city_constants.search(text), f"{module} hardcodes city-specific presentation knowledge"
 
+# Exhibition membership has one pure, city-agnostic policy in
+# exhibition-group-core.mjs. The presentation layer consumes that policy to
+# reconcile initial/legacy cards; it must not redeclare thresholds or clustering.
 exhibition_groups = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
-for forbidden in ["groupStandaloneExhibitions", "groupStandaloneCards", "EXHIBITION_GROUP_MIN"]:
-    assert forbidden not in exhibition_groups, f"second exhibition grouping authority reintroduced: {forbidden}"
+exhibition_group_core = (APP / "exhibition-group-core.mjs").read_text(encoding="utf-8")
+assert "groupStandaloneExhibitions" in exhibition_groups, "shared renderer must consume the canonical exhibition grouping policy"
+assert "function reconcileCommonMembership()" in exhibition_groups, "shared renderer must reconcile initial groups through common policy"
+assert "const EXHIBITION_GROUP_MIN" not in exhibition_groups, "renderer must not redeclare exhibition group cardinality"
+assert "function clusterVenueExhibitions" not in exhibition_groups, "renderer must not redeclare exhibition clustering"
+assert "export const EXHIBITION_GROUP_MIN = 2" in exhibition_group_core, "common grouping core must own group cardinality"
+assert "exhibitionGroupingVenueKey" in exhibition_group_core, "common grouping core must own exhibition venue identity"
 assert "function enhanceCoreGroups()" in exhibition_groups
 
 first_run = runtime_files["first_run"]

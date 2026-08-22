@@ -60,9 +60,9 @@ const venueHours = read("venue-hours.mjs");
 const staticCompat = read("static-exhibition-groups.js");
 const generatedManifest = read("service-worker-assets.generated.js");
 
-// Exhibition membership has one owner: app-core. The common exhibition module
-// only upgrades existing data-event-group cards from the normalized snapshot;
-// city-specific schedule/location details stay in the adapter.
+// Exhibition membership has one shared policy in exhibition-group-core. app-core
+// may emit initial groups while the common presentation reconciles legacy cards
+// against that policy; city-specific schedule/location details stay in adapter.
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
 assert.doesNotMatch(appJs, /multievent-layout-fix\.js/);
@@ -72,13 +72,16 @@ assert.match(appCore, /function createExhibitionGroupCard\(/);
 assert.match(appCore, /card\.dataset\.eventGroup/);
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
 assert.match(grouping, /function enhanceCoreGroups\(/);
-assert.doesNotMatch(grouping, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/);
+assert.match(grouping, /groupStandaloneExhibitions/);
+assert.match(grouping, /function reconcileCommonMembership\(/);
+assert.doesNotMatch(grouping, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/);
 assert.match(grouping, /unifiedExhibitionGroup/);
 assert.match(grouping, /exhibition-venue-card/);
 assert.match(grouping, /grouped-exhibition-item/);
 assert.doesNotMatch(grouping, /\bfetch\s*\(/);
-assert.match(groupingCore, /EXHIBITION_GROUP_MIN = 2/);
+assert.match(groupingCore, /export const EXHIBITION_GROUP_MIN = 2/);
 assert.match(groupingCore, /clusterSimultaneousExhibitions/);
+assert.match(groupingCore, /exhibitionGroupingVenueKey/);
 assert.match(cityAdapter, /eventForCityPresentation/);
 assert.match(cityAdapter, /venueHoursForCity/);
 
@@ -160,4 +163,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Single-owner filters + single-owner exhibition grouping + shared presentation layout contract: OK");
+console.log("Single-owner filters + shared exhibition grouping policy + shared presentation layout contract: OK");
