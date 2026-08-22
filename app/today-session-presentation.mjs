@@ -1,4 +1,5 @@
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
+export const MISSING_EVENT_TIME_LABEL = "Consultar horario en la fuente";
 
 const MONTHS = Object.freeze({
   enero: 1,
@@ -135,6 +136,24 @@ function formatDateKey(key, options) {
     day: "numeric",
     month: "short",
   }).format(new Date(Date.UTC(year, month - 1, day, 12)));
+}
+
+export function hasEventSpecificTime(schedule) {
+  if (!schedule || typeof schedule !== "object") return false;
+  const occurrenceValues = (Array.isArray(schedule.occurrences) ? schedule.occurrences : [])
+    .flatMap((occurrence) => [occurrence?.start, occurrence?.end]);
+  const structuredValues = [schedule.start, schedule.end, ...occurrenceValues];
+  if (structuredValues.some((value) => /T(?:[01]\d|2[0-3]):[0-5]\d/.test(String(value || "")))) return true;
+  const display = String(schedule.display_text || "");
+  return /(?:^|[^\d])(?:[01]?\d|2[0-3]):[0-5]\d(?:[^\d]|$)/.test(display);
+}
+
+export function withMissingEventTimeFallback(formattedSchedule, schedule) {
+  const formatted = String(formattedSchedule || "").trim();
+  if (hasEventSpecificTime(schedule)) return formatted;
+  if (!formatted) return MISSING_EVENT_TIME_LABEL;
+  if (formatted.includes(MISSING_EVENT_TIME_LABEL)) return formatted;
+  return `${formatted} · ${MISSING_EVENT_TIME_LABEL}`;
 }
 
 /**
