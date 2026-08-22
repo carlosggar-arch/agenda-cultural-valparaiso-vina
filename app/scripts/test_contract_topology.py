@@ -40,6 +40,7 @@ def main() -> None:
         fail(f"contract ids must be unique: {duplicate_ids}")
     if any(not isinstance(contract_id, str) or not contract_id.strip() for contract_id in ids):
         fail("every contract needs a non-empty id")
+    known_ids = set(ids)
 
     domains_by_layer: dict[str, set[str]] = defaultdict(set)
     for entry in contracts:
@@ -85,6 +86,8 @@ def main() -> None:
         reason = overlap.get("reason")
         if not all(isinstance(value, str) and value.strip() for value in (contract, owner_workflow, duplicate_workflow, reason)):
             fail("temporary overlaps need contract, owner_workflow, duplicate_workflow and reason")
+        if contract not in known_ids:
+            fail(f"temporary overlap references unknown canonical contract: {contract}")
         if owner_workflow == duplicate_workflow:
             fail(f"{contract}: overlap must name two different workflows")
         require_path(owner_workflow, label=f"{contract} owner workflow")
