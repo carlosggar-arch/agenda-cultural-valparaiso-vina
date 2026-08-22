@@ -2,7 +2,7 @@ import { mergeSupplementalPayload } from "./supplemental-events-fetch.js?v=20260
 import { normalizeAgendaPublicText } from "./public-text-sanitizer.mjs?v=20260820-text1";
 import { applyEventDataCorrections } from "./event-data-corrections.js?v=20260819-pipeline1";
 import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260821-shared-taxonomy1";
-import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260820-pipeline2";
+import { normalizeAgendaTitles, recoverAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260822-title-authority1";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
 import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260821-shared-taxonomy1";
 import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
@@ -298,8 +298,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     diagnostics.push({ name: "processed-pipeline-cache", status: "miss" });
   }
 
-  // Structural ingress boundary: no scraped/source HTML is allowed beyond this
-  // point. Every later normalizer starts from plain public text.
   dataset = applyStage("public-text-sanitizer", normalizeAgendaPublicText, dataset, diagnostics);
   dataset = applyStage("source-display-name-normalizer", normalizeSourceDisplayNames, dataset, diagnostics);
   if (city.id === "valparaiso") {
@@ -307,6 +305,7 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   } else {
     diagnostics.push({ name: "event-data-corrections", status: "not-applicable" });
   }
+  dataset = applyStage("title-recovery", recoverAgendaTitles, dataset, diagnostics);
   dataset = applyStage("category-normalizer", normalizeAgendaCategories, dataset, diagnostics);
   if (city.id === "valparaiso") {
     dataset = applyStage("known-publication-categories", applyKnownPublicationCategories, dataset, diagnostics);
@@ -315,8 +314,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   }
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
-  // Common lifecycle classifier: long programmes stay out of daily-event cards,
-  // and enrollment/booking windows become registration reminders for every city.
   dataset = applyStage("formation-lifecycle-classifier", normalizeFormationCycles, dataset, diagnostics);
   if (city.id === "valparaiso") {
     dataset = applyStage("artequin-session-correction", correctArtequinNaturalArtSessions, dataset, diagnostics);
@@ -334,8 +331,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     dataset,
     diagnostics,
   );
-  // Structural egress boundary: corrections and future pipeline stages are not
-  // allowed to reintroduce markup into anything that can become public text.
   dataset = applyStage("public-text-sanitizer-final", normalizeAgendaPublicText, dataset, diagnostics);
 
   let programResult;
@@ -355,8 +350,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     diagnostics,
   };
   publishAgendaRuntimeSnapshot(city, result);
-  if (cacheEligible) {
-    void writeProcessedResult(city, payloadResult.sourceSignature, result);
-  }
+  if (cacheEligible) void writeProcessedResult(city, payloadResult.sourceSignature, result);
   return result;
 }
