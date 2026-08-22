@@ -103,6 +103,31 @@ assert.equal(splitMonday.closed, true);
 assert.equal(hoursForDateFromDisplay("Lun–vie 08:00–21:30.", "2026-08-22"), "Cerrado");
 assert.equal(hoursForDateFromDisplay("Lun–sáb 08:00–21:30.", "2026-08-22"), "08:00–21:30");
 
+// Regression for “L’antigua Xixón mirando al mar” at CMI L'Arena: on Saturday
+// the venue is closed, but the shared resolver must still expose Monday's next
+// actionable visiting interval instead of leaving the card at “Cerrado”.
+const larenaExhibition = {
+  start: "2026-08-04",
+  end: "2026-08-28",
+  opening_hours: {
+    display_text: "Lun–vie 08:00–21:30.",
+  },
+};
+const larenaSaturday = dailyExhibitionHours(larenaExhibition, {
+  timezone: "Europe/Madrid",
+  referenceDate: "2026-08-22",
+});
+assert.equal(larenaSaturday.label, "Cerrado");
+assert.equal(larenaSaturday.closed, true);
+const larenaNextOpening = nextDailyExhibitionOpening(larenaExhibition, {
+  timezone: "Europe/Madrid",
+  referenceDate: "2026-08-22",
+});
+assert.equal(larenaNextOpening.referenceDateKey, "2026-08-24");
+assert.equal(larenaNextOpening.label, "08:00–21:30");
+assert.equal(larenaNextOpening.closed, false);
+assert.equal(larenaNextOpening.daysAhead, 2);
+
 const botanical = "Ene, feb, oct–dic · 10:00–18:00 · marzo 10:00–19:00 · abril y septiembre 10:00–20:00 · mayo–agosto 10:00–21:00. Habitualmente mar–dom; lunes también abre en julio y agosto.";
 assert.equal(hoursForDateFromDisplay(botanical, "2026-08-22"), "10:00–21:00");
 assert.equal(hoursForDateFromDisplay(botanical, "2026-08-24"), "10:00–21:00", "August Monday exception remains open");
