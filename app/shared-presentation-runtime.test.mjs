@@ -81,6 +81,16 @@ assert.doesNotMatch(
   /return daily\.label;/,
   "a closed venue must never be rendered as an unexplained bare ‘Cerrado’ beside the exhibition dates",
 );
+assert.match(
+  scheduleDisplay,
+  /nextDailyExhibitionOpening/,
+  "closed exhibitions must resolve the next valid venue opening through the shared date-aware hours module",
+);
+assert.match(
+  scheduleDisplay,
+  /Próxima apertura:/,
+  "closed exhibition cards must expose the next actionable visiting interval when one exists",
+);
 
 const nuncaEsTarde = eventForCityPresentation({
   id: "agenda_gijon_a3925dadc26ffa27",
