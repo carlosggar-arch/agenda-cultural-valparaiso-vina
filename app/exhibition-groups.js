@@ -2,9 +2,10 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
 import { groupStandaloneExhibitions, publicExhibitionCategoryId } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
 import { exhibitionGroupingVenueLabel } from "./venue-identity.mjs?v=20260822-exhibition-quality1";
+import { categoryFallbackImage, resolveEventImage } from "./image-resolver-core.mjs?v=20260822-single-image1";
 
 const EXHIBITION_ID = "exposiciones";
-const FALLBACK_IMAGE = new URL("../assets/categoria-exposiciones.jpg", import.meta.url).href;
+const FALLBACK_IMAGE = new URL(categoryFallbackImage(null, { categoryHint: EXHIBITION_ID }).url, import.meta.url).href;
 const grid = document.querySelector("[data-dated-grid]");
 
 let indexedCity = null;
@@ -69,8 +70,7 @@ function directCards() {
 }
 
 function eventImage(event) {
-  const url = String(event?.image?.url || "").trim();
-  return /^https?:\/\//i.test(url) ? url : null;
+  return resolveEventImage(event, { surface: "group" }).url;
 }
 
 function imageElement(url, alt = "") {
