@@ -128,6 +128,7 @@
     "./source-evidence-normalizer.mjs",
     "./source-evidence-policy.mjs",
     "./sources-toggle.js",
+    "./stage31-accessibility.css",
     "./stage31-accessibility-seo.js",
     "./startup-stability.js",
     "./supplemental-events-fetch.js",
