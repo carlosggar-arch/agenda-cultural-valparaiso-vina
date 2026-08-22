@@ -1,6 +1,7 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
-import { publicExhibitionCategoryId } from "./exhibition-group-core.mjs?v=20260820-groups1";
+import { groupStandaloneExhibitions, publicExhibitionCategoryId } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
+import { exhibitionGroupingVenueLabel } from "./venue-identity.mjs?v=20260822-exhibition-quality1";
 
 const EXHIBITION_ID = "exposiciones";
 const FALLBACK_IMAGE = new URL("../assets/categoria-exposiciones.jpg", import.meta.url).href;
@@ -53,6 +54,13 @@ function groupIds(card) {
     .split(",")
     .map((id) => id.trim())
     .filter(Boolean);
+}
+
+function cardEventIds(card) {
+  const grouped = groupIds(card);
+  if (grouped.length) return grouped;
+  const id = String(card?.dataset?.eventId || "").trim();
+  return id ? [id] : [];
 }
 
 function directCards() {
@@ -196,12 +204,31 @@ function visibleIdsFromExistingGroup(card, ids) {
     .filter(Boolean));
 }
 
+function visibleIdsFromCards(cards, targetIds) {
+  const target = new Set(targetIds);
+  const visible = new Set();
+  for (const card of cards) {
+    if (card.hidden) continue;
+    const ids = cardEventIds(card).filter((id) => target.has(id));
+    if (!card.dataset.eventGroup) {
+      ids.forEach((id) => visible.add(id));
+      continue;
+    }
+    const rows = [...card.querySelectorAll("[data-grouped-event-id]")];
+    if (!rows.length) ids.forEach((id) => visible.add(id));
+    else rows.filter((row) => !row.hidden).forEach((row) => {
+      const id = String(row.dataset.groupedEventId || "").trim();
+      if (target.has(id)) visible.add(id);
+    });
+  }
+  return visible;
+}
+
 function buildGroupCard(events, visibleIds = null) {
   const config = currentConfig();
   const sorted = sortEvents(events, config);
-  const first = sorted[0];
-  const venue = String(first?.location?.venue || "Espacio cultural").trim() || "Espacio cultural";
-  const city = String(first?.location?.city || "").trim();
+  const venue = exhibitionGroupingVenueLabel(sorted) || String(sorted[0]?.location?.venue || "Espacio cultural").trim() || "Espacio cultural";
+  const city = String(sorted[0]?.location?.city || "").trim();
   const ids = sorted.map((event) => String(event?.id || "").trim()).filter(Boolean);
 
   const card = document.createElement("article");
@@ -253,10 +280,54 @@ function buildGroupCard(events, visibleIds = null) {
   return card;
 }
 
+function reconcileCommonMembership() {
+  const cards = directCards();
+  const cardByEventId = new Map();
+  for (const card of cards) {
+    for (const id of cardEventIds(card)) {
+      const event = eventsById.get(id);
+      if (event && publicExhibitionCategoryId(event) === EXHIBITION_ID) cardByEventId.set(id, card);
+    }
+  }
+  const presentEvents = [...cardByEventId.keys()].map((id) => eventsById.get(id)).filter(Boolean);
+  const groups = groupStandaloneExhibitions(presentEvents, {
+    timezone: currentConfig()?.timezone || "UTC",
+  });
+
+  let changed = 0;
+  for (const group of groups) {
+    const ids = group.events.map((event) => String(event?.id || "").trim()).filter(Boolean);
+    const target = new Set(ids);
+    const sourceCards = [...new Set(ids.map((id) => cardByEventId.get(id)).filter(Boolean))];
+    if (!sourceCards.length) continue;
+
+    // The final shared pass may merge old core groups, but never split a card:
+    // if an existing card contains an exhibition outside this common group,
+    // leave it untouched rather than losing or reassigning an event.
+    const safeMerge = sourceCards.every((card) => cardEventIds(card).every((id) => {
+      const event = eventsById.get(id);
+      return publicExhibitionCategoryId(event) !== EXHIBITION_ID || target.has(id);
+    }));
+    if (!safeMerge) continue;
+
+    if (sourceCards.length === 1) {
+      const existingIds = cardEventIds(sourceCards[0]);
+      if (existingIds.length === ids.length && existingIds.every((id) => target.has(id))) continue;
+    }
+
+    const order = new Map(directCards().map((card, index) => [card, index]));
+    sourceCards.sort((a, b) => (order.get(a) ?? Infinity) - (order.get(b) ?? Infinity));
+    const anchor = sourceCards[0];
+    const replacement = buildGroupCard(group.events, visibleIdsFromCards(sourceCards, ids));
+    anchor.replaceWith(replacement);
+    sourceCards.slice(1).forEach((card) => card.remove());
+    ids.forEach((id) => cardByEventId.set(id, replacement));
+    changed += 1;
+  }
+  return changed;
+}
+
 function enhanceCoreGroups() {
-  // app-core.js is the sole authority for exhibition membership. This module
-  // may enrich an existing data-event-group card, but it must never create,
-  // split, merge or repair groups from standalone event cards.
   for (const card of directCards()) {
     if (!card.dataset.eventGroup || card.dataset.unifiedExhibitionGroup === "true") continue;
     const ids = groupIds(card);
@@ -269,9 +340,9 @@ function enhanceCoreGroups() {
 }
 
 function refreshCombinedFilters() {
-  // combined-filters.js is the single authority for filtered visibility. After
-  // replacing a core group with its richer presentation, request one normal
-  // filter pass instead of maintaining a second visibility state here.
+  // combined-filters.js remains the single authority for filtered visibility.
+  // Membership comes from the common exhibition grouping policy; after a merge
+  // request one normal filter pass rather than duplicating filter semantics.
   const search = document.querySelector("[data-smart-search]");
   if (search) search.dispatchEvent(new Event("input", { bubbles: true }));
 }
@@ -281,10 +352,11 @@ function buildGroups() {
   if (!grid || building || !syncRuntimeIndex()) return;
   building = true;
   try {
+    reconcileCommonMembership();
     enhanceCoreGroups();
     refreshCombinedFilters();
     window.dispatchEvent(new CustomEvent("vivamos:exhibition-groups-rendered", {
-      detail: { city: currentCityId(), renderer: "unified-presentation" },
+      detail: { city: currentCityId(), renderer: "shared-membership-and-presentation" },
     }));
   } finally {
     building = false;
