@@ -39,6 +39,7 @@ jobs:
       - name: Validate shared presentation contracts
         run: |
           python app/scripts/test_contract_topology.py
+          python app/scripts/run_contracts.py --profile shared-presentation
           node --check app/schedule-contract.mjs
           node --check app/date-aware-exhibition-hours.mjs
           node --check app/gijon-venue-hours.js
@@ -47,12 +48,8 @@ jobs:
           node --check app/source-evidence-authority.test.mjs
           node --check app/public-text-sanitizer.mjs
           node --check assets/event-schedule-display.mjs
-          node app/schedule-contract.test.mjs
           node app/scripts/test_schedule_contract_point8.mjs
-          node app/schedule-presentation-authority.test.mjs
-          node app/source-evidence-authority.test.mjs
           node app/public-text-sanitizer.test.mjs
-          node app/shared-presentation-runtime.test.mjs
           node app/exhibition-group-architecture.test.mjs
           node app/event-card-data-quality.test.mjs
           node app/session-occurrence-normalizer.test.mjs
@@ -60,4 +57,3 @@ jobs:
           node app/venue-hours.test.mjs
           node app/today-session-presentation.test.mjs
           node app/startup-architecture.test.mjs
-          python app/scripts/test_third_city_architecture.py
