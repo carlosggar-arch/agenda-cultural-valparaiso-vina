@@ -46,8 +46,6 @@ for (const critical of [
   assert.doesNotMatch(app, new RegExp(`^import\\s+["']\\./${critical.replaceAll(".", "\\.")}`, "m"), `${critical} must not be an eager app.js side-effect import`);
 }
 
-// Every city uses the same presentation runtime. Differences belong to data,
-// configuration or the city presentation adapter, not to renderer selection.
 for (const shared of [
   "temporal-priority.js",
   "exhibition-groups.js",
@@ -115,8 +113,6 @@ assert.doesNotMatch(cardExperience, /\bfetch\s*\(/, "rich card rendering must ne
 assert.doesNotMatch(presentationGuard, /\bfetch\s*\(/, "presentation guard must never re-fetch raw data");
 assert.doesNotMatch(exhibitionHours, /\bfetch\s*\(/, "exhibition hours must never re-fetch raw data");
 
-// C2: temporal-priority is cleanup-only. All event-card/row visibility writes,
-// including confidence-based temporal suppression, belong to combined filters.
 assert.doesNotMatch(temporalPriority, /\bfetch\s*\(|loadCityRegistry|getAgendaRuntimeSnapshot|\.hidden\s*=|temporalSuppressed/, "temporal presentation must not own event visibility or data loading");
 assert.match(temporalPriority, /removeLegacyTemporalUi/, "temporal module must retain bounded legacy UI cleanup");
 assert.match(visibilityOwnerCore, /shouldSuppressForTemporalFilter/, "visibility core must preserve temporal confidence semantics");
@@ -127,8 +123,6 @@ assert.match(combined, /dataset\.temporalSuppressed/, "combined filters must own
 assert.doesNotMatch(exhibitionPresentationGuard, /\.hidden\s*=/, "exhibition presentation guard must not write visibility");
 assert.match(exhibitionPresentationGuard, /vivamos:visibility-reconcile-requested/, "exhibition consolidation must delegate visibility reconciliation");
 
-// Canonical exhibition membership policy lives in exhibition-group-core. Core
-// and presentation consumers must share that policy rather than redeclaring it.
 assert.match(exhibitionGroups, /getAgendaRuntimeSnapshot/, "shared exhibition renderer must consume normalized runtime state");
 assert.match(exhibitionGroups, /function enhanceCoreGroups\(\)/, "shared exhibition renderer must enhance existing grouped cards");
 assert.match(exhibitionGroups, /groupStandaloneExhibitions/, "shared exhibition renderer must consume the canonical grouping policy");
@@ -150,7 +144,10 @@ assert.match(cityFirstRun, /releaseRequiredSelection/, "first-run may release th
 assert.doesNotMatch(cityFirstRun, /loadAgendaDataset|setAgendaCity/, "first-run must not own dataset loading or dynamic city switching");
 
 assert.match(combined, /loadAgendaDataset/, "combined filters must use the same normalized pipeline as the renderer");
-assert.match(combined, /id === "museos"[\s\S]*id = "exposiciones"/, "Museos must collapse into Exposiciones in filter semantics");
+assert.match(combined, /canonicalPublicCategory/, "combined filters must delegate category aliases to the shared taxonomy");
+assert.match(core, /canonicalPublicCategory/, "core presentation must delegate category aliases to the shared taxonomy");
+assert.doesNotMatch(combined, /MUSEUM_CATEGORY_ID|id\s*===\s*["']museos["']|id\s*=\s*["']exposiciones["']/, "combined filters must not maintain category aliases locally");
+assert.doesNotMatch(core, /MUSEUM_CATEGORY_ID|id\s*===\s*["']museos["']|id\s*=\s*["']exposiciones["']/, "core presentation must not maintain category aliases locally");
 assert.match(combined, /\.event-card\[data-event-group\]/, "grouped exhibitions must participate in filtering");
 assert.match(combined, /rows\[index\]\.hidden/, "grouped exhibition children must respect active filters");
 
