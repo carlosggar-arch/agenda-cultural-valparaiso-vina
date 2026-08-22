@@ -12,8 +12,14 @@ function ensureSupportStyles() {
     .vivamos-support-menu[hidden]{display:none!important}
     .vivamos-support-menu a{display:block;padding:.7rem .8rem;border-radius:10px;color:#174f46;text-decoration:none;font-weight:780;white-space:nowrap}
     .vivamos-support-menu a:hover,.vivamos-support-menu a:focus-visible{background:#f7f3e5;outline:none}
-    .vivamos-footer.vivamos-footer--with-support{grid-template-columns:auto minmax(0,1fr) auto auto auto auto}
-    @media (max-width:900px){.vivamos-footer.vivamos-footer--with-support{grid-template-columns:1fr auto}.vivamos-support{grid-column:2}.vivamos-support-menu{right:0;max-width:min(280px,calc(100vw - 2rem))}}
+    .vivamos-footer.vivamos-footer--with-support,
+    .vivamos-footer.vivamos-footer--with-sources.vivamos-footer--with-support{grid-template-columns:auto minmax(0,1fr) auto auto auto auto}
+    @media (max-width:900px){
+      .vivamos-footer.vivamos-footer--with-support,
+      .vivamos-footer.vivamos-footer--with-sources.vivamos-footer--with-support{grid-template-columns:1fr auto}
+      .vivamos-support{grid-column:2}
+      .vivamos-support-menu{right:0;max-width:min(280px,calc(100vw - 2rem))}
+    }
   `;
   document.head.append(style);
 }
