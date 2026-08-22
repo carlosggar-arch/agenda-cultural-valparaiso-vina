@@ -1,9 +1,17 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs";
+import { enrichCitySourceEvidence } from "./city-source-evidence-adapter.mjs";
+import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs";
 
 function read(relative) {
   return readFileSync(new URL(relative, import.meta.url), "utf8");
+}
+
+function prepareGijonPresentation(event) {
+  const enriched = enrichCitySourceEvidence(event, "gijon");
+  const canonical = normalizeAgendaSourceEvidence({ events: [enriched] }).events[0];
+  return eventForCityPresentation(canonical, "gijon");
 }
 
 const app = read("./app.js");
@@ -75,9 +83,6 @@ for (const modulePath of snapshotConsumers) {
   );
 }
 
-// C2 deliberately turns temporal-priority.js into a cleanup-only common module.
-// It must remain city-agnostic and data-free while visibility semantics move to
-// the pure visibility core and the sole DOM writer in combined-filters.js.
 assert.match(temporalCleanup, /removeLegacyTemporalUi/, "temporal cleanup must retain removal of retired temporal UI");
 assert.doesNotMatch(temporalCleanup, /getAgendaRuntimeSnapshot|loadAgendaDataset|loadCityRegistry|\.hidden\s*=|temporalSuppressed/, "cleanup-only temporal module must not own data or visibility");
 assert.doesNotMatch(temporalCleanup, explicitCityConstant, "temporal cleanup must remain city-agnostic");
@@ -105,7 +110,7 @@ assert.match(
   "closed exhibition cards must expose the next actionable visiting interval when one exists",
 );
 
-const nuncaEsTarde = eventForCityPresentation({
+const nuncaEsTarde = prepareGijonPresentation({
   id: "agenda_gijon_a3925dadc26ffa27",
   source_id: "gijon_opendata_events",
   source_name: "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
@@ -129,13 +134,13 @@ const nuncaEsTarde = eventForCityPresentation({
     venue: "Centro Municipal Integrado El Coto",
     city: "Gijón",
   },
-}, "gijon");
+});
 assert.equal(nuncaEsTarde.links.presentation_source, "https://www.gijon.es/nunca-es-tarde-para-pintar");
 assert.equal(nuncaEsTarde.links.official, "https://www.gijon.es/nunca-es-tarde-para-pintar");
 assert.equal(nuncaEsTarde.source_url, "https://www.gijon.es/nunca-es-tarde-para-pintar");
 assert.equal(nuncaEsTarde.source_name, "Ayuntamiento de Gijón/Xixón");
 
-const mientrasDormias = eventForCityPresentation({
+const mientrasDormias = prepareGijonPresentation({
   id: "agenda_gijon_b034ca0ffc281bb1",
   source_id: "gijon_opendata_events",
   source_name: "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
@@ -159,7 +164,7 @@ const mientrasDormias = eventForCityPresentation({
     venue: "Centro Municipal Integrado Ateneo de La Calzada",
     city: "Gijón",
   },
-}, "gijon");
+});
 assert.equal(mientrasDormias.links.presentation_source, "https://www.gijon.es/exposicion-mientras-tu-dormias");
 assert.equal(mientrasDormias.source_name, "Ayuntamiento de Gijón/Xixón");
 assert.equal(mientrasDormias.schedule.opening_time, "09:00");
