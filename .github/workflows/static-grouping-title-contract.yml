@@ -8,9 +8,12 @@ on:
       - "app/app-core.js"
       - "app/city-first-run.js"
       - "app/data-pipeline.js"
+      - "app/category-normalizer.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
+      - "app/title-authority.test.mjs"
       - "app/public-presentation-rules.mjs"
+      - "app/public-presentation-guard.js"
       - "app/exhibition-group-core.mjs"
       - "app/exhibition-groups.js"
       - "app/venue-identity.mjs"
@@ -33,9 +36,12 @@ on:
       - "app/app-core.js"
       - "app/city-first-run.js"
       - "app/data-pipeline.js"
+      - "app/category-normalizer.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
+      - "app/title-authority.test.mjs"
       - "app/public-presentation-rules.mjs"
+      - "app/public-presentation-guard.js"
       - "app/exhibition-group-core.mjs"
       - "app/exhibition-groups.js"
       - "app/venue-identity.mjs"
@@ -68,6 +74,9 @@ jobs:
         run: |
           node --check app/public-title-normalizer.mjs
           node --check app/title-normalizer-bootstrap.js
+          node --check app/title-authority.test.mjs
+          node --check app/category-normalizer.js
+          node --check app/public-presentation-guard.js
           node --check app/exhibition-group-core.mjs
           node --check app/exhibition-groups.js
           node --check app/app-core.js
@@ -76,6 +85,7 @@ jobs:
         run: node app/scripts/test_architecture_contract_hygiene.mjs
       - name: Verify shared grouping, title and layout contracts
         run: |
+          node app/title-authority.test.mjs
           node app/exhibition-group-architecture.test.mjs
           node app/shared-presentation-runtime.test.mjs
           node app/startup-architecture.test.mjs
