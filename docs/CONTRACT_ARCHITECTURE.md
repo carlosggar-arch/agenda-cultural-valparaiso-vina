@@ -47,7 +47,7 @@ Created and validated the ownership map without runtime, dataset, editorial or P
 
 The required release gate became the browser scenario compositor; `Multi-city pre-release` stopped launching browsers. Historical `dump-dom` runtime probing was replaced by deterministic Selenium interaction.
 
-### D4 — Release/production gate closure — CURRENT
+### D4 — Release/production gate closure — CLOSED
 
 D4 closes the final roles without changing product runtime or data:
 
