@@ -118,7 +118,7 @@ for asset in (
     './favorites.js', './mis-planes.html', '../assets/plan-ahead-core.mjs',
     '../assets/plan-ahead.css', '../assets/favorites-core.mjs',
     '../assets/favorites-view.mjs', '../assets/favorites-reminders.mjs',
-    '../assets/favorites.css',
+    '../assets/favorites.css', './schedule-contract.mjs',
 ):
     assert f'"{asset}"' in shell_manifest
 assert "client.navigate(" not in service_worker
@@ -144,8 +144,10 @@ assert 'object-fit: contain !important' in media_layout
 assert '.event-card-media > button' in media_layout
 assert 'export function formatSchedule' in schedule_module
 assert 'schedule?.opening_hours' in schedule_module
-assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours3"' in app_schedule
-assert 'formatSchedule(schedule, activeConfig)' in app_schedule
+assert 'event-schedule-display.mjs?v=20260821-point8-v2' in app_schedule
+assert 'sessionScheduleLabelForDate' in app_schedule
+assert 'referenceDate: referenceDateKey || undefined' in app_schedule
+assert 'delete clean.venue_hours' in app_schedule
 assert 'getAgendaRuntimeSnapshot' in app_schedule
 assert 'scheduleForGijonEvent' not in app_schedule
 assert 'gijonLocationForEvent' not in app_schedule
