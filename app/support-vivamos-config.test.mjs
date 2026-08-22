@@ -7,17 +7,14 @@ test("support remains fully hidden by default", () => {
   assert.deepEqual(getEnabledSupportMethods(), []);
 });
 
-test("configured support destinations are real https links while globally hidden", () => {
+test("PayPal is the only configured support destination while globally hidden", () => {
   assert.deepEqual(
-    SUPPORT_VIVAMOS.methods.map(({ id, enabled, url }) => ({ id, enabled, url })),
+    SUPPORT_VIVAMOS.methods.map(({ id, audience, provider, enabled, url }) => ({ id, audience, provider, enabled, url })),
     [
       {
-        id: "mercadopago-cl",
-        enabled: true,
-        url: "https://link.mercadopago.cl/vivamos",
-      },
-      {
-        id: "paypal-international",
+        id: "paypal",
+        audience: "Todos",
+        provider: "PayPal",
         enabled: true,
         url: "https://www.paypal.com/ncp/payment/MMR5A78JMY5VL",
       },
