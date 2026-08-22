@@ -3,13 +3,13 @@ import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 import { renderProgramReferences } from "./program-visibility-policy.js?v=20260819-pipeline1";
 import { groupStandaloneExhibitions } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
 import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
+import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
 const CITIES = CITY_REGISTRY.byId;
 const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId;
 const EXHIBITION_CATEGORY_ID = "exposiciones";
-const MUSEUM_CATEGORY_ID = "museos";
 
 let resolveCoreReady;
 let coreReadySettled = false;
@@ -281,15 +281,8 @@ function publicPrimaryCategory(event) {
   const cached = primaryCategoryCache.get(event);
   if (cached) return cached;
   const source = event?.primary_category || event?.categories?.[0] || null;
-  let label = String(source?.label || "Actividad cultural").trim() || "Actividad cultural";
-  let id = String(source?.id || slugify(label)).trim();
-  if (id === MUSEUM_CATEGORY_ID || slugify(label) === MUSEUM_CATEGORY_ID) {
-    id = EXHIBITION_CATEGORY_ID;
-    label = "Exposiciones";
-  } else if (id === EXHIBITION_CATEGORY_ID) {
-    label = "Exposiciones";
-  }
-  const category = { id, label };
+  const category = canonicalPublicCategory(source)
+    || { id: slugify(source?.label || "Actividad cultural"), label: String(source?.label || "Actividad cultural").trim() || "Actividad cultural" };
   primaryCategoryCache.set(event, category);
   return category;
 }
