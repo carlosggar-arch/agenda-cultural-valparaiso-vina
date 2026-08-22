@@ -4,8 +4,13 @@ on:
   push:
     branches: [main]
     paths:
+      - "shared/public-category-taxonomy.json"
+      - "app/public-category-taxonomy.generated.mjs"
       - "app/public-category-rules.mjs"
       - "app/category-normalizer.js"
+      - "app/category-authority.test.mjs"
+      - "app/app-core.js"
+      - "app/combined-filters.js"
       - "app/combined-filters-bootstrap.js"
       - "app/index.html"
       - "app/exhibition-groups.js"
@@ -24,8 +29,13 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - "shared/public-category-taxonomy.json"
+      - "app/public-category-taxonomy.generated.mjs"
       - "app/public-category-rules.mjs"
       - "app/category-normalizer.js"
+      - "app/category-authority.test.mjs"
+      - "app/app-core.js"
+      - "app/combined-filters.js"
       - "app/combined-filters-bootstrap.js"
       - "app/index.html"
       - "app/exhibition-groups.js"
@@ -58,6 +68,9 @@ jobs:
         run: |
           node --check app/public-category-rules.mjs
           node --check app/category-normalizer.js
+          node --check app/category-authority.test.mjs
+          node --check app/app-core.js
+          node --check app/combined-filters.js
           node --check app/combined-filters-bootstrap.js
           node --check app/exhibition-groups.js
           node --check app/footer-credit.js
@@ -68,6 +81,7 @@ jobs:
           node --check app/scripts/test_public_feedback_contract.mjs
       - name: Run public contracts
         run: |
+          node app/category-authority.test.mjs
           node app/scripts/test_public_taxonomy_footer.mjs
           node app/scripts/test_gijon_exhibition_filter_contract.mjs
           node app/scripts/test_public_feedback_contract.mjs
