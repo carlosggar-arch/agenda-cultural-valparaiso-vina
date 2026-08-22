@@ -1,4 +1,6 @@
 const footer = document.querySelector("body > footer");
+const SUPPORT_PAYPAL_URL = "https://www.paypal.com/ncp/payment/MMR5A78JMY5VL";
+const SUPPORT_LABEL = "❤️ Apoya ¡Vivamos!";
 
 function restoreFooterContact() {
   if (!footer) return;
@@ -12,9 +14,95 @@ function restoreFooterContact() {
   // after those modules (retry timer, delayed mount or resize), so it must
   // preserve whichever source access is already installed instead of deleting it.
   const sourcesAccess = footer.querySelector("[data-sources-toggle], [data-sources-fallback]");
-  if (sourcesAccess && version && sourcesAccess.nextElementSibling !== version) {
+  const supportAccess = footer.querySelector("[data-vivamos-support]");
+  if (sourcesAccess && supportAccess && sourcesAccess.nextElementSibling !== supportAccess) {
+    footer.insertBefore(sourcesAccess, supportAccess);
+  } else if (sourcesAccess && !supportAccess && version && sourcesAccess.nextElementSibling !== version) {
     footer.insertBefore(sourcesAccess, version);
   }
+}
+
+function ensureSupportStyles() {
+  const STYLE_ID = "vivamos-support-style";
+  if (document.getElementById(STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = STYLE_ID;
+  style.textContent = `
+    .vivamos-support {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .vivamos-support-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.35rem;
+      padding: .5rem .85rem;
+      border: 1px solid rgba(244,209,109,.65);
+      border-radius: 999px;
+      background: transparent;
+      color: #f4d16d;
+      font: inherit;
+      font-weight: 850;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .vivamos-support-toggle:hover,
+    .vivamos-support-toggle:focus-visible {
+      background: rgba(244,209,109,.12);
+      border-color: #f4d16d;
+      outline: 2px solid rgba(255,255,255,.65);
+      outline-offset: 2px;
+    }
+    .vivamos-footer.vivamos-footer--with-support,
+    .vivamos-footer.vivamos-footer--with-sources.vivamos-footer--with-support {
+      grid-template-columns: auto minmax(0,1fr) auto auto auto auto;
+    }
+    @media (max-width: 900px) {
+      .vivamos-footer.vivamos-footer--with-support,
+      .vivamos-footer.vivamos-footer--with-sources.vivamos-footer--with-support {
+        grid-template-columns: 1fr auto;
+      }
+      .vivamos-support { grid-column: 2; }
+    }
+  `;
+  document.head.append(style);
+}
+
+function mountSupport() {
+  if (!footer) return false;
+  ensureSupportStyles();
+
+  let support = footer.querySelector("[data-vivamos-support]");
+  if (!support) {
+    support = document.createElement("div");
+    support.className = "vivamos-support";
+    support.dataset.vivamosSupport = "";
+
+    const link = document.createElement("a");
+    link.href = SUPPORT_PAYPAL_URL;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = "vivamos-support-toggle";
+    link.textContent = SUPPORT_LABEL;
+    link.setAttribute("aria-label", "Apoya ¡Vivamos! con PayPal");
+    support.append(link);
+  }
+
+  const sources = footer.querySelector("[data-sources-toggle], [data-sources-fallback]");
+  const version = footer.querySelector("[data-app-version]");
+  if (sources) {
+    if (sources.nextElementSibling !== support) footer.insertBefore(support, sources.nextSibling);
+  } else if (version) {
+    if (support.nextElementSibling !== version) footer.insertBefore(support, version);
+  } else if (!support.parentElement) {
+    footer.append(support);
+  }
+  footer.classList.add("vivamos-footer--with-support");
+  return true;
 }
 
 function ensureHeaderFeedbackStyles() {
@@ -83,6 +171,7 @@ function ensureHeaderFeedbackStyles() {
 
 function mountHeaderFeedback() {
   restoreFooterContact();
+  mountSupport();
   const actions = document.querySelector(".header-actions");
   const contribute = actions?.querySelector("[data-contribute-source]");
   const sourceCta = document.querySelector("[data-source-proposal-cta]");
@@ -106,6 +195,12 @@ function retryMount(attempt = 0) {
   window.setTimeout(() => retryMount(attempt + 1), 100);
 }
 
+mountSupport();
 retryMount();
+window.setTimeout(mountSupport, 500);
 window.setTimeout(mountHeaderFeedback, 1200);
-window.addEventListener("resize", mountHeaderFeedback, { passive: true });
+window.setTimeout(mountSupport, 1400);
+window.addEventListener("resize", () => {
+  mountHeaderFeedback();
+  mountSupport();
+}, { passive: true });
