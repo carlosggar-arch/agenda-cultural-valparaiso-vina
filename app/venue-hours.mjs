@@ -76,15 +76,41 @@ const TIME_RANGE = /\b([0-2]\d:[0-5]\d)\s*[–-]\s*([0-2]\d:[0-5]\d)(?:\s+y\s+([
 
 function explicitHours(event) {
   const schedule = event?.schedule || {};
+  const canonical = schedule?.venue_hours && typeof schedule.venue_hours === "object"
+    ? schedule.venue_hours
+    : {};
   const opening = schedule?.opening_hours || {};
-  const candidates = [opening.display_text, schedule.venue_opening_hours, schedule.visit_hours, event?.location?.opening_hours];
+  const candidates = [
+    canonical.display_text,
+    canonical.display,
+    opening.display_text,
+    schedule.venue_opening_hours,
+    schedule.visit_hours,
+    event?.location?.opening_hours,
+  ];
   const display = candidates.map((item) => String(item || "").replace(/\s+/g, " ").trim()).find(Boolean);
   if (!display) return null;
   return {
     display,
-    source: String(opening.source_url || schedule.venue_hours_source_url || "").trim() || null,
-    source_name: String(opening.source_name || schedule.venue_hours_source_name || "").trim() || null,
-    verified_at: String(opening.verified_at || schedule.venue_hours_verified_at || "").trim() || null,
+    source: String(
+      canonical.source_url
+      || canonical.source
+      || opening.source_url
+      || schedule.venue_hours_source_url
+      || ""
+    ).trim() || null,
+    source_name: String(
+      canonical.source_name
+      || opening.source_name
+      || schedule.venue_hours_source_name
+      || ""
+    ).trim() || null,
+    verified_at: String(
+      canonical.verified_at
+      || opening.verified_at
+      || schedule.venue_hours_verified_at
+      || ""
+    ).trim() || null,
   };
 }
 
@@ -248,7 +274,9 @@ export function venueHoursForEvents(events, cityId) {
 
 export function venueHoursForDate(event, cityId, referenceDateKey) {
   if (!event || !referenceDateKey) return null;
-  const record = registryHours(event, cityId) || explicitHours(event);
+  // Point 8 event-specific venue_hours is authoritative; registry data is a
+  // compatibility fallback for older datasets without canonical venue hours.
+  const record = explicitHours(event) || registryHours(event, cityId);
   if (!record?.display) return null;
   const display = dateSpecificHours(record.display, referenceDateKey);
   if (!display) return null;

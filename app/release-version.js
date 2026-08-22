@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v183 adds next-opening guidance and explicit missing event-time fallback.
-  const RELEASE = 183;
+  // v184 consolidates canonical event sessions, venue hours and date-aware display.
+  const RELEASE = 184;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

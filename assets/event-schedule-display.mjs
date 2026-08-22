@@ -10,6 +10,18 @@ function validTime(value) {
   return match ? match[0] : null;
 }
 
+function uniqueTimes(values) {
+  return [...new Set((values || []).map(validTime).filter(Boolean))];
+}
+
+function naturalTimeList(values) {
+  const times = uniqueTimes(values);
+  if (!times.length) return null;
+  if (times.length === 1) return times[0];
+  if (times.length === 2) return `${times[0]} y ${times[1]}`;
+  return `${times.slice(0, -1).join(", ")} y ${times.at(-1)}`;
+}
+
 function clockMinutes(value) {
   const clock = validTime(value);
   if (!clock) return null;
@@ -29,7 +41,7 @@ function isAllDayDisplay(value) {
 function dateKey(value, timezone) {
   const text = String(value || "");
   if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-  const date = new Date(text);
+  const date = value instanceof Date ? value : new Date(text);
   if (Number.isNaN(date.getTime())) return null;
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: timezone,
@@ -43,6 +55,16 @@ function dateKey(value, timezone) {
 
 function todayKey(timezone, now = new Date()) {
   return dateKey(now, timezone);
+}
+
+function referenceKey(options) {
+  return dateKey(options.referenceDate || options.now || new Date(), options.timezone);
+}
+
+function mondayZeroWeekday(dateKeyValue) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateKeyValue || ""))) return null;
+  const [year, month, day] = dateKeyValue.split("-").map(Number);
+  return (new Date(Date.UTC(year, month - 1, day, 12)).getUTCDay() + 6) % 7;
 }
 
 function dateObject(value) {
@@ -83,16 +105,16 @@ function timeFromValue(value, timezone) {
 
 function dateRangeLabel(schedule, options) {
   const start = schedule?.start || schedule?.occurrences?.[0]?.start;
-  const end = schedule?.end || schedule?.occurrences?.[0]?.end;
+  const end = schedule?.end || schedule?.occurrences?.at?.(-1)?.end || schedule?.occurrences?.at?.(-1)?.start || start;
   const startKey = dateKey(start, options.timezone);
   const endKey = dateKey(end, options.timezone);
   if (!startKey) return null;
   if (endKey && endKey !== startKey) {
-    const first = formatDate(start, { ...options, time: false });
-    const last = formatDate(end, { ...options, weekday: false, time: false });
+    const first = formatDate(startKey, { ...options, time: false });
+    const last = formatDate(endKey, { ...options, weekday: false, time: false });
     return first && last ? `${first} – ${last}` : first || last;
   }
-  return formatDate(start, { ...options, time: false });
+  return formatDate(startKey, { ...options, time: false });
 }
 
 function occurrenceStartTimes(schedule, options) {
@@ -104,6 +126,33 @@ function occurrenceStartTimes(schedule, options) {
       time: timeFromValue(occurrence?.start, options.timezone),
     }))
     .filter((item) => item.key && item.time);
+}
+
+function canonicalOccurrenceLabel(schedule, options) {
+  const dated = occurrenceStartTimes(schedule, options);
+  if (!dated.length) return null;
+  const requested = referenceKey(options);
+  const availableKeys = [...new Set(dated.map((item) => item.key))];
+  let selected = [];
+  if (requested) selected = dated.filter((item) => item.key === requested);
+  if (!selected.length && availableKeys.length === 1) selected = dated;
+  if (!selected.length && dated.length === 1) selected = dated;
+  if (!selected.length) return null;
+  const times = [...new Set(selected.map((item) => item.time))];
+  if (!times.length) return null;
+  const label = naturalTimeList(times);
+  const date = formatDate(selected[0].key, { ...options, time: false });
+  return [date, label].filter(Boolean).join(" · ");
+}
+
+function canonicalSessionLabel(schedule, options) {
+  const occurrenceLabel = canonicalOccurrenceLabel(schedule, options);
+  if (occurrenceLabel) return occurrenceLabel;
+  const times = uniqueTimes(schedule?.session_times);
+  if (!times.length) return null;
+  const display = String(schedule?.schedule_display || "").trim() || naturalTimeList(times);
+  const range = dateRangeLabel(schedule, options);
+  return [range, display].filter(Boolean).join(" · ");
 }
 
 function hasMultipleStructuredSessions(schedule, options) {
@@ -177,43 +226,52 @@ function pairedRangeDisplayText(schedule, options) {
   return range ? `${range} · ${ranges}` : ranges;
 }
 
-function currentOpeningHours(schedule, options) {
-  const opening = validTime(schedule?.opening_time);
-  const closing = validTime(schedule?.closing_time);
-  if (opening && closing && opening !== closing) {
-    return { opening, closing, closed: false, source: schedule?.hours_confidence || "event", regularLabel: null };
-  }
+function canonicalVenueHours(schedule) {
+  const canonical = schedule?.venue_hours;
+  if (canonical && typeof canonical === "object" && !Array.isArray(canonical)) return canonical;
+  const legacy = schedule?.opening_hours;
+  return legacy && typeof legacy === "object" && !Array.isArray(legacy) ? legacy : null;
+}
 
-  const weekly = schedule?.opening_hours;
-  if (!weekly || typeof weekly !== "object") return null;
-  const weeklyOpening = validTime(weekly.opening_time);
-  const weeklyClosing = validTime(weekly.closing_time);
-  if (!(weeklyOpening && weeklyClosing) || weeklyOpening === weeklyClosing) return null;
+function currentOpeningHours(schedule, options) {
+  const weekly = canonicalVenueHours(schedule);
+  const opening = validTime(schedule?.opening_time || weekly?.opening_time);
+  const closing = validTime(schedule?.closing_time || weekly?.closing_time);
+  if (!(opening && closing) || opening === closing) return null;
 
   const start = schedule?.start || schedule?.occurrences?.[0]?.start;
-  const end = schedule?.end || schedule?.occurrences?.[0]?.end || start;
-  const today = todayKey(options.timezone, options.now);
+  const end = schedule?.end || schedule?.occurrences?.at?.(-1)?.end || schedule?.occurrences?.at?.(-1)?.start || start;
+  const requested = referenceKey(options);
   const startKey = dateKey(start, options.timezone);
   const endKey = dateKey(end, options.timezone);
-  const activeToday = today && startKey && endKey && startKey <= today && today <= endKey;
-  const referenceClosed = weekly.is_open_on_reference_date === false;
+  const activeReference = requested && (!startKey || !endKey || (startKey <= requested && requested <= endKey));
+  let referenceClosed = weekly?.is_open_on_reference_date === false;
+  const weekdays = Array.isArray(weekly?.open_weekdays)
+    ? weekly.open_weekdays.map(Number).filter((value) => Number.isInteger(value) && value >= 0 && value <= 6)
+    : null;
+  if (activeReference && weekdays?.length) {
+    const weekday = mondayZeroWeekday(requested);
+    if (weekday !== null && !weekdays.includes(weekday)) referenceClosed = true;
+  }
 
   return {
-    opening: weeklyOpening,
-    closing: weeklyClosing,
-    closed: activeToday && referenceClosed,
-    source: "opening_hours",
-    regularLabel: String(weekly.display_text || "").trim() || null,
+    opening,
+    closing,
+    closed: Boolean(activeReference && referenceClosed),
+    source: weekly ? "venue_hours" : schedule?.hours_confidence || "event",
+    regularLabel: String(weekly?.display_text || "").trim() || null,
+    requested,
   };
 }
 
 function explicitOpeningHoursLabel(schedule) {
-  const weekly = schedule?.opening_hours;
-  if (!weekly || typeof weekly !== "object") return null;
+  const weekly = canonicalVenueHours(schedule);
+  if (!weekly) return null;
   return String(weekly.display_text || "").trim() || null;
 }
 
 function timedDisplayText(schedule, timezone) {
+  if (schedule?.schedule_contract_version) return null;
   const display = String(schedule?.display_text || "").trim();
   if (!(display && TIME_IN_TEXT.test(display))) return null;
   if (isAllDayDisplay(display)) return null;
@@ -226,21 +284,25 @@ function timedDisplayText(schedule, timezone) {
     && dateOnlyEnd
     && dateKey(start, timezone) === String(end)
     && TRAILING_DATE_RANGE.test(display)
-  ) {
-    return null;
-  }
+  ) return null;
   return display;
 }
 
 export function formatSchedule(schedule, options = {}) {
   if (!schedule || typeof schedule !== "object") return "Horario por confirmar";
   const settings = { ...DEFAULTS, now: new Date(), ...options };
-  const visitHours = currentOpeningHours(schedule, settings);
   const range = dateRangeLabel(schedule, settings);
 
+  // Point 8 contract: event sessions always outrank venue/visit hours.
+  const canonicalSession = canonicalSessionLabel(schedule, settings);
+  if (canonicalSession) return canonicalSession;
+
+  const visitHours = currentOpeningHours(schedule, settings);
   if (visitHours) {
     if (visitHours.closed) {
-      return [range, "Cerrado hoy", visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`]
+      const today = todayKey(settings.timezone, settings.now);
+      const closedLabel = visitHours.requested && visitHours.requested === today ? "Cerrado hoy" : "Cerrado";
+      return [range, closedLabel, visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`]
         .filter(Boolean)
         .join(" · ");
     }
@@ -253,6 +315,14 @@ export function formatSchedule(schedule, options = {}) {
   const explicitOpeningHours = explicitOpeningHoursLabel(schedule);
   if (explicitOpeningHours) {
     return [range || "Horario de visita", explicitOpeningHours].filter(Boolean).join(" · ");
+  }
+
+  // Once the schedule has been classified, do not reinterpret legacy display
+  // text or a timed multi-day boundary as a session. Ambiguous clocks stay raw.
+  if (schedule.schedule_contract_version) {
+    const start = schedule.start || schedule.occurrences?.[0]?.start;
+    if (!start) return "Horario por confirmar";
+    return range || formatDate(dateKey(start, settings.timezone), { ...settings, time: false }) || "Horario por confirmar";
   }
 
   const multipleTimes = occurrenceTimesLabel(schedule, settings);
@@ -281,11 +351,7 @@ export function formatSchedule(schedule, options = {}) {
   if (explicitDisplay) return explicitDisplay;
 
   if (!start) return schedule.display_text || "Horario por confirmar";
-
-  if (startKey && endKey && endKey !== startKey) {
-    return range || schedule.display_text || "Horario por confirmar";
-  }
-
+  if (startKey && endKey && endKey !== startKey) return range || schedule.display_text || "Horario por confirmar";
   if (startTime) {
     const date = formatDate(start, { ...settings, time: false });
     return date ? `${date} · ${startTime}` : startTime;
@@ -302,9 +368,7 @@ export function compactScheduleDayLabel(schedule, options = {}) {
   const startKey = dateKey(start, settings.timezone);
   const endKey = dateKey(end, settings.timezone);
   const today = todayKey(settings.timezone, settings.now);
-  if (startKey && endKey && today && startKey <= today && today <= endKey) {
-    return { text: "Hoy", today: true };
-  }
+  if (startKey && endKey && today && startKey <= today && today <= endKey) return { text: "Hoy", today: true };
   if (!startKey) return null;
   const text = formatDate(startKey, { ...settings, weekday: false, time: false });
   return text ? { text, today: false } : null;
