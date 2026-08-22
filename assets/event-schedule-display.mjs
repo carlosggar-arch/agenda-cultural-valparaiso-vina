@@ -45,6 +45,10 @@ function todayKey(timezone, now = new Date()) {
   return dateKey(now, timezone);
 }
 
+function referenceDateKey(options) {
+  return dateKey(options.referenceDate || options.now || new Date(), options.timezone);
+}
+
 function dateObject(value) {
   const text = String(value || "");
   if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
@@ -109,6 +113,53 @@ function occurrenceStartTimes(schedule, options) {
 function hasMultipleStructuredSessions(schedule, options) {
   const dated = occurrenceStartTimes(schedule, options);
   return new Set(dated.map((item) => `${item.key}|${item.time}`)).size >= 2;
+}
+
+function naturalTimeList(values) {
+  const times = [...new Set((values || []).map(validTime).filter(Boolean))];
+  if (!times.length) return null;
+  if (times.length === 1) return times[0];
+  if (times.length === 2) return `${times[0]} y ${times[1]}`;
+  return `${times.slice(0, -1).join(", ")} y ${times.at(-1)}`;
+}
+
+function canonicalOccurrenceLabel(schedule, options) {
+  const dated = occurrenceStartTimes(schedule, options);
+  if (!dated.length) return null;
+  const keys = [...new Set(dated.map((item) => item.key))];
+  const reference = referenceDateKey(options);
+  let selected = reference ? dated.filter((item) => item.key === reference) : [];
+
+  // A viewed date may select one occurrence. Otherwise only collapse sessions
+  // when every occurrence belongs to one date; never flatten unrelated dates.
+  if (!selected.length && keys.length === 1) selected = dated;
+  if (!selected.length) return null;
+
+  const times = naturalTimeList(selected.map((item) => item.time));
+  if (!times) return null;
+  const key = selected[0].key;
+  const date = formatDate(key, { ...options, time: false });
+  return date ? `${date} · ${times}` : times;
+}
+
+function canonicalSessionLabel(schedule, options) {
+  if (schedule?.schedule_contract_version !== "1.0") return null;
+  const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
+  if (occurrences.length) return canonicalOccurrenceLabel(schedule, options);
+
+  const times = naturalTimeList(schedule?.session_times || []);
+  if (!times) return null;
+  const end = validTime(schedule?.event_end_time);
+  const clocks = end && (schedule.session_times || []).length === 1
+    ? `${validTime(schedule.session_times[0])}–${end}`
+    : times;
+  const range = dateRangeLabel(schedule, options);
+  return [range, clocks].filter(Boolean).join(" · ");
+}
+
+function canonicalVenueHours(schedule) {
+  const hours = schedule?.venue_hours;
+  return hours && typeof hours === "object" && !Array.isArray(hours) ? hours : null;
 }
 
 function occurrenceTimesLabel(schedule, options) {
@@ -178,10 +229,28 @@ function pairedRangeDisplayText(schedule, options) {
 }
 
 function currentOpeningHours(schedule, options) {
-  const opening = validTime(schedule?.opening_time);
-  const closing = validTime(schedule?.closing_time);
+  const canonical = canonicalVenueHours(schedule);
+  const opening = validTime(canonical?.opening_time || schedule?.opening_time);
+  const closing = validTime(canonical?.closing_time || schedule?.closing_time);
   if (opening && closing && opening !== closing) {
-    return { opening, closing, closed: false, source: schedule?.hours_confidence || "event", regularLabel: null };
+    const weekdays = Array.isArray(canonical?.open_weekdays) ? canonical.open_weekdays.map(Number) : null;
+    const reference = referenceDateKey(options);
+    let closed = false;
+    if (reference && weekdays?.length) {
+      const [year, month, day] = reference.split("-").map(Number);
+      const sundayZero = new Date(Date.UTC(year, month - 1, day, 12)).getUTCDay();
+      const mondayZero = (sundayZero + 6) % 7;
+      closed = !weekdays.includes(mondayZero);
+    } else if (canonical?.is_open_on_reference_date === false) {
+      closed = true;
+    }
+    return {
+      opening,
+      closing,
+      closed,
+      source: canonical ? "venue_hours" : schedule?.hours_confidence || "event",
+      regularLabel: String(canonical?.display_text || "").trim() || null,
+    };
   }
 
   const weekly = schedule?.opening_hours;
@@ -192,22 +261,24 @@ function currentOpeningHours(schedule, options) {
 
   const start = schedule?.start || schedule?.occurrences?.[0]?.start;
   const end = schedule?.end || schedule?.occurrences?.[0]?.end || start;
-  const today = todayKey(options.timezone, options.now);
+  const reference = referenceDateKey(options);
   const startKey = dateKey(start, options.timezone);
   const endKey = dateKey(end, options.timezone);
-  const activeToday = today && startKey && endKey && startKey <= today && today <= endKey;
+  const activeReference = reference && startKey && endKey && startKey <= reference && reference <= endKey;
   const referenceClosed = weekly.is_open_on_reference_date === false;
 
   return {
     opening: weeklyOpening,
     closing: weeklyClosing,
-    closed: activeToday && referenceClosed,
+    closed: activeReference && referenceClosed,
     source: "opening_hours",
     regularLabel: String(weekly.display_text || "").trim() || null,
   };
 }
 
 function explicitOpeningHoursLabel(schedule) {
+  const canonical = canonicalVenueHours(schedule);
+  if (canonical) return String(canonical.display_text || "").trim() || null;
   const weekly = schedule?.opening_hours;
   if (!weekly || typeof weekly !== "object") return null;
   return String(weekly.display_text || "").trim() || null;
@@ -235,9 +306,34 @@ function timedDisplayText(schedule, timezone) {
 export function formatSchedule(schedule, options = {}) {
   if (!schedule || typeof schedule !== "object") return "Horario por confirmar";
   const settings = { ...DEFAULTS, now: new Date(), ...options };
-  const visitHours = currentOpeningHours(schedule, settings);
   const range = dateRangeLabel(schedule, settings);
 
+  // Point 8 canonical contract: structured event sessions win. A canonical
+  // schedule never reparses legacy display_text as a list of event times.
+  if (schedule.schedule_contract_version === "1.0") {
+    const canonicalSessions = canonicalSessionLabel(schedule, settings);
+    if (canonicalSessions) return canonicalSessions;
+
+    const visitHours = currentOpeningHours(schedule, settings);
+    if (visitHours) {
+      if (visitHours.closed) {
+        return [range, "Cerrado", visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`]
+          .filter(Boolean)
+          .join(" · ");
+      }
+      return [range || "Horario de visita", visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`]
+        .filter(Boolean)
+        .join(" · ");
+    }
+
+    const explicitOpeningHours = explicitOpeningHoursLabel(schedule);
+    if (explicitOpeningHours) return [range || "Horario de visita", explicitOpeningHours].filter(Boolean).join(" · ");
+    if (range) return range;
+    return "Horario por confirmar";
+  }
+
+  // Legacy compatibility path for datasets not yet normalized by Point 8.
+  const visitHours = currentOpeningHours(schedule, settings);
   if (visitHours) {
     if (visitHours.closed) {
       return [range, "Cerrado hoy", visitHours.regularLabel || `${visitHours.opening}–${visitHours.closing}`]
