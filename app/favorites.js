@@ -1,13 +1,14 @@
 import { FAVORITES_CHANGED_EVENT, FAVORITES_STORAGE_KEY, favoritesForCity } from "../assets/favorites-core.mjs?v=20260817";
 import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButtons } from "../assets/favorites-view.mjs?v=20260817";
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const CONFIG = CITY_REGISTRY.byId;
 
 let loadedCity = null;
+let loadedRevision = 0;
 let eventMap = new Map();
-let loadPromise = null;
 let enhanceQueued = false;
 let refreshQueued = false;
 
@@ -64,32 +65,20 @@ function installAccess() {
   updateAccess();
 }
 
-async function ensureDataset() {
+function syncRuntimeDataset() {
   const city = cityId();
-  if (loadedCity === city && eventMap.size) return;
-  if (loadPromise) return loadPromise;
+  const snapshot = getAgendaRuntimeSnapshot(city);
+  if (!snapshot || !Array.isArray(snapshot.events)) return false;
+  if (loadedCity === city && loadedRevision === snapshot.revision) return true;
 
-  loadPromise = (async () => {
-    try {
-      const response = await fetch(CONFIG[city].dataset, {
-        headers: { Accept: "application/json" },
-        cache: "no-store",
-      });
-      if (!response.ok) return;
-      const payload = await response.json();
-      if (city !== cityId()) return;
-      eventMap = new Map((payload.events || []).map((event) => [String(event.id), event]));
-      loadedCity = city;
-    } catch {
-      if (city === cityId()) {
-        eventMap = new Map();
-        loadedCity = city;
-      }
-    } finally {
-      loadPromise = null;
-    }
-  })();
-  return loadPromise;
+  eventMap = new Map(
+    snapshot.events
+      .map((event) => [String(event?.id || "").trim(), event])
+      .filter(([id]) => id),
+  );
+  loadedCity = city;
+  loadedRevision = Number(snapshot.revision || 0);
+  return true;
 }
 
 function cleanOldButtons(city) {
@@ -144,19 +133,19 @@ function queueEnhance() {
   queueMicrotask(enhance);
 }
 
-async function refresh() {
+function refresh() {
   refreshQueued = false;
   const city = cityId();
-  if (loadedCity !== city) {
-    eventMap = new Map();
-    loadedCity = null;
+  installAccess();
+
+  if (!syncRuntimeDataset()) {
+    cleanOldButtons(city);
+    return;
   }
-  await ensureDataset();
   if (city !== cityId()) {
     queueRefresh();
     return;
   }
-  installAccess();
   cleanOldButtons(city);
   installCardFavorites(city);
   installDetailFavorite(city);
@@ -175,9 +164,11 @@ installAccessStyles();
 new MutationObserver(queueEnhance).observe(document.body, { childList: true, subtree: true });
 new MutationObserver(() => {
   loadedCity = null;
+  loadedRevision = 0;
   eventMap = new Map();
   queueRefresh();
 }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-city"] });
+addEventListener("vivamos:agenda-data-ready", queueRefresh);
 addEventListener(FAVORITES_CHANGED_EVENT, queueRefresh);
 addEventListener("storage", (event) => {
   if (event.key === FAVORITES_STORAGE_KEY) queueRefresh();

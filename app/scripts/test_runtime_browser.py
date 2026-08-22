@@ -141,6 +141,34 @@ def ensure_sources_open(driver, wait: WebDriverWait) -> None:
     wait.until(lambda current: len(current.find_elements("css selector", ".source-card")) > 0)
 
 
+def open_visible_detail_with_relevant_media(driver) -> str | None:
+    """Open a visible event whose card owns a direct relevant image.
+
+    C8b intentionally allows detail surfaces without media when an event has no
+    direct relevant image. Representative/category images are card-only fallback
+    policies. The runtime E2E therefore validates detail media only for an event
+    that the canonical card resolver has already marked as a direct relevant
+    image (`data-event-image="relevant"`).
+    """
+    return driver.execute_script(r'''
+      const visible = (node) => {
+        if (!node || node.hidden || node.closest('[hidden]')) return false;
+        const style = getComputedStyle(node);
+        return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
+      };
+      const cards = [...document.querySelectorAll('.event-card[data-event-id]')].filter(visible);
+      const card = cards.find((candidate) =>
+        candidate.querySelector('img[data-event-image="relevant"]')
+        && candidate.querySelector('[data-open-event]')
+      );
+      const trigger = card?.querySelector('[data-open-event]');
+      if (!card || !trigger) return null;
+      const eventId = card.dataset.eventId || null;
+      trigger.click();
+      return eventId;
+    ''')
+
+
 def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
     last_error = ""
     for attempt in range(1, 3):
@@ -193,19 +221,11 @@ def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
                 elif is_visible(driver, "[data-area-filter-group]"):
                     raise AssertionError("Gijon must not expose Valparaiso/Viña area filters")
 
-                opened = bool(driver.execute_script(r'''
-                  const visible = (node) => {
-                    if (!node || node.hidden || node.closest('[hidden]')) return false;
-                    const style = getComputedStyle(node);
-                    return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
-                  };
-                  const trigger = [...document.querySelectorAll('[data-open-event]')].find(visible);
-                  if (!trigger) return false;
-                  trigger.click();
-                  return true;
-                '''))
-                if not opened:
-                    raise AssertionError("no visible event detail trigger after filtering")
+                selected_event_id = wait.until(
+                    lambda current: open_visible_detail_with_relevant_media(current)
+                )
+                if not selected_event_id:
+                    raise AssertionError("no visible event with canonical direct media after filtering")
 
                 wait.until(lambda current: current.execute_script(
                     "return Boolean(document.querySelector('dialog[data-event-detail][open]'))"
@@ -215,18 +235,23 @@ def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
                   if (!dialog) return null;
                   const sourceAction = [...dialog.querySelectorAll('a.event-detail-action[href]')]
                     .find((link) => /fuente|open data/i.test(link.textContent || ''));
+                  const mediaImage = dialog.querySelector('.event-detail-media img[data-event-image="relevant"]');
                   return {
+                    eventId: dialog.dataset.eventDetail || '',
                     source: Boolean(sourceAction),
                     sourceHref: sourceAction?.href || '',
                     provenance: Boolean(dialog.querySelector('.event-detail-provenance')),
-                    media: Boolean(dialog.querySelector('img, picture, .event-detail-media')),
+                    media: Boolean(mediaImage),
+                    mediaSrc: mediaImage?.src || '',
                     actions: dialog.querySelectorAll('.event-detail-action').length,
                   };
                 ''')
-                if not detail or not detail["source"] or not str(detail["sourceHref"]).startswith(("http://", "https://")):
+                if not detail or detail["eventId"] != selected_event_id:
+                    raise AssertionError("event detail does not correspond to the selected canonical-media event")
+                if not detail["source"] or not str(detail["sourceHref"]).startswith(("http://", "https://")):
                     raise AssertionError("event detail does not expose canonical safe source evidence action")
-                if not detail["media"]:
-                    raise AssertionError("event detail does not expose canonical media")
+                if not detail["media"] or not str(detail["mediaSrc"]).startswith(("http://", "https://")):
+                    raise AssertionError("event detail does not preserve canonical direct media")
 
                 return {
                     "city": city,
