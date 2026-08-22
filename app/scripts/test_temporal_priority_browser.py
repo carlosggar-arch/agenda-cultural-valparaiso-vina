@@ -32,6 +32,8 @@ def check_ui_removed() -> None:
     module = (APP / "temporal-priority.js").read_text(encoding="utf-8")
     core = (APP / "temporal-priority-core.mjs").read_text(encoding="utf-8")
     agenda_order = (APP / "agenda-order-core.mjs").read_text(encoding="utf-8")
+    visibility_core = (APP / "visibility-owner-core.mjs").read_text(encoding="utf-8")
+    combined = (APP / "combined-filters.js").read_text(encoding="utf-8")
     runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
     entry = (APP / "app.js").read_text(encoding="utf-8")
 
@@ -46,11 +48,14 @@ def check_ui_removed() -> None:
     ):
         assert removed_marker not in module, f"removed temporal UI returned: {removed_marker}"
 
-    assert "shouldSuppressForTemporalFilter" in module, "date-confidence filter guard must remain active"
+    assert "shouldSuppressForTemporalFilter" not in module, "temporal presentation must not own visibility"
+    assert "shouldSuppressForTemporalFilter" in visibility_core, "date-confidence filter guard must remain active in the visibility core"
+    assert "visibility-owner-core.mjs" in combined, "combined filters must consume the canonical visibility core"
+    assert "dataset.temporalSuppressed" in combined, "combined filters must own temporal visual suppression"
     assert "removeLegacyTemporalUi" in module, "legacy temporal UI cleanup must remain active"
-    assert "const CITY_REGISTRY = await" not in module, "temporal guard must not block app startup on top-level await"
+    assert "const CITY_REGISTRY = await" not in module, "temporal cleanup must not block app startup on top-level await"
     common_runtime = entry.split("const OPTIONAL_MODULES = [", 1)[1].split("];", 1)[0]
-    assert 'temporal-priority.js?v=' in common_runtime, "app common runtime must load the non-blocking temporal guard"
+    assert 'temporal-priority.js?v=' in common_runtime, "app common runtime must retain non-blocking temporal cleanup"
     assert "GIJON_DEFERRED_MODULES" not in entry, "temporal presentation must not be selected by city"
 
     # Point 4/5 semantics remain in temporal-priority-core. C1 composes that
