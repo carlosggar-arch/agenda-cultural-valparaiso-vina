@@ -4,6 +4,8 @@ const VERIFIED_GIJON_EVENT_PAGES = Object.freeze({
   }),
   "https://www.gijon.es/exposicion-mientras-tu-dormias": Object.freeze({
     sourceName: "Ayuntamiento de Gijón/Xixón",
+    openingTime: "09:00",
+    closingTime: "21:00",
   }),
 });
 
@@ -66,8 +68,8 @@ function preferredGijonEvidence(event) {
   if (!url) return null;
   return {
     url,
-    role: corroborating ? "official" : "source",
-    source_kind: corroborating ? "official" : null,
+    role: corroborating ? "official" : "institutional",
+    source_kind: corroborating ? "official" : "institutional",
     source_id: event?.source_id || null,
     source_name: verified?.sourceName || event?.source_name || event?.organizer || null,
     presentation_preferred: true,
