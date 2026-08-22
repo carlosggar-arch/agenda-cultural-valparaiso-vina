@@ -68,23 +68,13 @@ async function maybeUsePreviouslyGrantedLocation() {
 
 if (!hasExplicitInitialCity()) maybeUsePreviouslyGrantedLocation();
 
+// app-core.js owns city changes and reloads the dataset in place. First-run only
+// releases the modal lock; it must not intercept the normal dynamic city switch.
 cityOptions?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-city-option]");
   if (!button) return;
-  releaseRequiredSelection();
-
   const nextCity = String(button.dataset.cityOption || "");
-  if (!SUPPORTED_CITIES.has(nextCity) || nextCity === startupCity) return;
-
-  // City-specific presentation modules are chosen once during app startup.
-  // Reloading on a real city change prevents Gijon's lightweight runtime from
-  // leaking into Valpo/Viña (missing images/old-looking cards), and vice versa.
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  try { localStorage.setItem(STORAGE_KEY, nextCity); } catch {}
-  const url = new URL(window.location.href);
-  url.searchParams.set("city", nextCity);
-  window.location.assign(url.href);
+  if (SUPPORTED_CITIES.has(nextCity)) releaseRequiredSelection();
 }, { capture: true });
 
 chooserBackdrop?.addEventListener("click", (event) => {

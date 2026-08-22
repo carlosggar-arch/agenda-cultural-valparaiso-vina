@@ -48,7 +48,9 @@ def check_ui_removed() -> None:
     assert "shouldSuppressForTemporalFilter" in module, "date-confidence filter guard must remain active"
     assert "removeLegacyTemporalUi" in module, "legacy temporal UI cleanup must remain active"
     assert "const CITY_REGISTRY = await" not in module, "temporal guard must not block app startup on top-level await"
-    assert 'temporal-priority.js?v=20260819-temporal3' in entry, "app entrypoint must load the non-blocking temporal guard"
+    common_runtime = entry.split("const OPTIONAL_MODULES = [", 1)[1].split("];", 1)[0]
+    assert 'temporal-priority.js?v=' in common_runtime, "app common runtime must load the non-blocking temporal guard"
+    assert "GIJON_DEFERRED_MODULES" not in entry, "temporal presentation must not be selected by city"
 
     # Point 4/5 ownership moved from a special exhibition sorter in app.js to
     # the shared temporal core. Keep the seven-day threshold, but enforce it at

@@ -7,18 +7,16 @@ import {
   openingHoursForWeekday,
   publicEventSourceUrl,
 } from "./event-card-data-quality.mjs";
+import { eventForCityPresentation } from "./city-presentation-adapter.mjs";
 
 
-test("Open Data XHTML fallback becomes browser-readable PDF", () => {
-  const source = "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML";
-  assert.equal(
-    browserFriendlySourceUrl(source),
-    "https://opendata.gijon.es/descargar.php?id=728&tipo=PDF",
-  );
+test("generic source formatter preserves valid public URLs", () => {
+  const source = "https://example.org/event?id=728&tipo=XHTML";
+  assert.equal(browserFriendlySourceUrl(source), source);
 });
 
 
-test("verified direct source is preserved", () => {
+test("verified direct source is preserved by the city adapter", () => {
   const event = {
     source_id: "gijon_opendata_events",
     links: {
@@ -27,11 +25,12 @@ test("verified direct source is preserved", () => {
     },
     public_status: { external_link_quality: "direct_official" },
   };
-  assert.equal(publicEventSourceUrl(event), "https://drupal.gijon.es/es/ficha-rica");
+  const adapted = eventForCityPresentation(event, "gijon");
+  assert.equal(publicEventSourceUrl(adapted), "https://drupal.gijon.es/es/ficha-rica");
 });
 
 
-test("Open Data fallback does not surface an unreliable municipal shell", () => {
+test("Gijon Open Data fallback is adapted before the shared renderer sees it", () => {
   const event = {
     source_id: "gijon_opendata_events",
     links: {
@@ -41,8 +40,9 @@ test("Open Data fallback does not surface an unreliable municipal shell", () => 
     },
     public_status: { external_link_quality: "opendata_fallback" },
   };
+  const adapted = eventForCityPresentation(event, "gijon");
   assert.equal(
-    publicEventSourceUrl(event),
+    publicEventSourceUrl(adapted),
     "https://opendata.gijon.es/descargar.php?id=728&tipo=PDF",
   );
 });
@@ -82,6 +82,7 @@ test("visit hours are shown only while the dated exhibition is active", () => {
     currentVisitHours(event, {
       now: new Date("2026-08-21T10:00:00Z"),
       timezone: "Europe/Madrid",
+      locale: "es-ES",
     }),
     "09:00–21:00",
   );
@@ -89,6 +90,7 @@ test("visit hours are shown only while the dated exhibition is active", () => {
     currentVisitHours(event, {
       now: new Date("2026-09-02T10:00:00Z"),
       timezone: "Europe/Madrid",
+      locale: "es-ES",
     }),
     null,
   );

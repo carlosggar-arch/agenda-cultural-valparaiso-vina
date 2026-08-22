@@ -11,7 +11,7 @@ app_js += "\n" + (APP / "app-core.js").read_text(encoding="utf-8")
 app_js += "\n" + (APP / "data-pipeline.js").read_text(encoding="utf-8")
 index = (APP / "index.html").read_text(encoding="utf-8")
 card_js = (APP / "card-experience.js").read_text(encoding="utf-8")
-fallback_js = (APP / "card-image-fallback.js").read_text(encoding="utf-8")
+image_guard_js = (APP / "image-quality-guard.js").read_text(encoding="utf-8")
 runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
 render_lifecycle = (APP / "render-lifecycle.js").read_text(encoding="utf-8")
 service_worker = (APP / "service-worker.js").read_text(encoding="utf-8")
@@ -54,15 +54,20 @@ assert 'CITY_STORAGE_KEY' in app_js
 assert 'navigator.geolocation.getCurrentPosition' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
 
-# Real event images keep precedence; card placeholders can still become shared category photos.
+# One common card renderer owns event/venue imagery and one common quality guard
+# upgrades unresolved placeholders to category artwork. There is no per-city or
+# parallel fallback renderer.
 assert 'getAgendaRuntimeSnapshot' in card_js
 assert 'event?.image?.url' in card_js
 assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
-assert 'activeCity() !== "valparaiso"' not in fallback_js
-assert 'getAgendaRuntimeSnapshot' in fallback_js
-assert 'image.dataset.imageKind = "category-fallback"' in fallback_js
+assert 'getAgendaRuntimeSnapshot' in image_guard_js
+assert 'image.dataset.imageKind = "category-fallback"' in image_guard_js
 assert 'new MutationObserver' not in card_js
-assert 'new MutationObserver' not in fallback_js
+assert 'new MutationObserver' not in image_guard_js
+assert 'card-image-fallback.js' not in app_js
+assert 'gijon-card-images.js' not in app_js
+assert not (APP / "card-image-fallback.js").exists()
+assert not (APP / "gijon-card-images.js").exists()
 
 # WEB + APP media must remain presentation-only. Generic source illustrations are
 # cropped enough to hide baked-in white carousel strips/arrows; real event photos
@@ -91,4 +96,4 @@ gijon_events = [event for event in gijon.get("events", []) if isinstance(event, 
 assert gijon_events, "Gijon dataset is unexpectedly empty"
 assert any(str((event.get("image") or {}).get("url") or "").startswith(("http://", "https://")) for event in gijon_events)
 
-print("PWA registry-driven multi-city dataset isolation, bounded runtime and WEB/APP media cleanup: OK")
+print("PWA registry-driven multi-city dataset isolation, bounded shared runtime and unified WEB/APP media cleanup: OK")

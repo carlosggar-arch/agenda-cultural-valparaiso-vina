@@ -1,48 +1,29 @@
 import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
-import { gijonLocationForEvent, scheduleForGijonEvent } from "./gijon-venue-hours.js";
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
-import "./exhibition-hours.js?v=20260820-hours5";
+import "./exhibition-hours.js?v=20260821-shared-runtime1";
 
-const FALLBACK_CONFIG = Object.freeze({
-  valparaiso: { id: "valparaiso", locale: "es-CL", timezone: "America/Santiago" },
-  gijon: { id: "gijon", locale: "es-ES", timezone: "Europe/Madrid" },
-});
+const DEFAULT_CONFIG = Object.freeze({ locale: "es", timezone: "UTC" });
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 
 let eventIndex = new Map();
-let activeConfig = FALLBACK_CONFIG.valparaiso;
-let activeCityId = "valparaiso";
+let activeConfig = DEFAULT_CONFIG;
+let activeCityId = "";
 let indexedRevision = 0;
 let applyQueued = false;
 
-function currentCity() {
-  const id = String(document.documentElement.dataset.city || "").trim();
-  return FALLBACK_CONFIG[id] ? id : "valparaiso";
-}
-
 function syncRuntimeIndex() {
-  const city = currentCity();
-  const snapshot = getAgendaRuntimeSnapshot(city);
+  const requestedCity = String(document.documentElement.dataset.city || "").trim();
+  const snapshot = getAgendaRuntimeSnapshot(requestedCity || null);
   if (!snapshot) return false;
-  if (activeCityId === city && indexedRevision === snapshot.revision && eventIndex.size) return true;
-  activeCityId = city;
-  activeConfig = snapshot.city || FALLBACK_CONFIG[city] || FALLBACK_CONFIG.valparaiso;
+  if (activeCityId === snapshot.cityId && indexedRevision === snapshot.revision && eventIndex.size) return true;
+  activeCityId = snapshot.cityId;
+  activeConfig = snapshot.city || DEFAULT_CONFIG;
   indexedRevision = snapshot.revision;
   eventIndex = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
   return true;
-}
-
-function safeHttpUrl(value) {
-  if (!value) return null;
-  try {
-    const url = new URL(String(value), window.location.href);
-    return ["http:", "https:"].includes(url.protocol) ? url.href : null;
-  } catch {
-    return null;
-  }
 }
 
 function stripMediaControls(root = document) {
@@ -87,7 +68,7 @@ function formatEventSchedule(schedule) {
 
 function scheduleForDisplay(event) {
   if (event?.event_type === "registration_period") return registrationStatusForDisplay(event);
-  const schedule = activeCityId === "gijon" ? scheduleForGijonEvent(event) : event?.schedule;
+  const schedule = event?.schedule;
   if (!schedule) return "Horario por confirmar";
 
   const eventSchedule = scheduleWithoutVisitHours(schedule);
@@ -109,14 +90,9 @@ function scheduleForDisplay(event) {
 }
 
 function locationForDisplay(event) {
-  const location = activeCityId === "gijon" ? gijonLocationForEvent(event) : { ...(event?.location || {}) };
+  const location = { ...(event?.location || {}) };
   const venue = String(location?.venue || "").trim();
   const city = String(location?.city || "").trim();
-  const foldedVenue = venue
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es");
-  if (activeCityId === "gijon" && ["gijon/xixon", "gijon", "xixon"].includes(foldedVenue)) return "Lugar por confirmar";
   if (venue && city && venue.toLocaleLowerCase("es") !== city.toLocaleLowerCase("es")) return `${venue} · ${city}`;
   return venue || city || "Lugar por confirmar";
 }
@@ -153,9 +129,7 @@ function replaceSimpleCardLocation(card, value) {
   if (!schedule) return false;
 
   // Optional enrichers may insert a visit-hours paragraph immediately after the
-  // schedule. Never treat that inserted paragraph as the location: doing so
-  // replaced "Horario de visita" with the venue name and left the real location
-  // untouched, which produced the duplicated venue visible in Gijón.
+  // schedule. Never treat that inserted paragraph as the location.
   const copy = card.querySelector(":scope > p[data-location-display]")
     || [...card.querySelectorAll(":scope > p")].find((node) => (
       node !== schedule
@@ -167,19 +141,6 @@ function replaceSimpleCardLocation(card, value) {
   copy.textContent = value;
   copy.dataset.locationDisplay = value;
   return true;
-}
-
-function enhanceSource(card, event) {
-  if (activeCityId !== "gijon" || event?.source_id !== "gijon_opendata_events") return;
-  const official = safeHttpUrl(event?.links?.official || event?.links?.source);
-  if (!official) return;
-  const link = card.querySelector(".event-card-source-link");
-  if (!link) return;
-  const label = "Ayuntamiento de Gijón/Xixón · ficha oficial ↗";
-  if (link.href !== official) link.href = official;
-  if (link.textContent !== label) link.textContent = label;
-  const prefix = card.querySelector(".event-card-source-prefix");
-  if (prefix && prefix.textContent !== "Fuente oficial: ") prefix.textContent = "Fuente oficial: ";
 }
 
 function enhanceCard(card) {
@@ -194,7 +155,6 @@ function enhanceCard(card) {
   const locationFact = facts.find((row) => row.querySelector(".sr-only")?.textContent.trim().startsWith("Lugar:"));
   if (locationFact) replaceFactValue(locationFact, location, "locationDisplay");
   else replaceSimpleCardLocation(card, location);
-  enhanceSource(card, event);
 }
 
 function enhanceGroupedExhibition(row) {
@@ -222,9 +182,6 @@ function enhanceDetail(dialog) {
   if (!event) return;
   replaceDetailFact(dialog, "Fecha y horario", scheduleForDisplay(event));
   replaceDetailFact(dialog, "Lugar", locationForDisplay(event));
-  if (activeCityId === "gijon" && event?.source_id === "gijon_opendata_events") {
-    replaceDetailFact(dialog, "Fuente", "Ayuntamiento de Gijón/Xixón · Agenda de Eventos");
-  }
 }
 
 function apply() {

@@ -1,15 +1,7 @@
-import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { groupedScheduleLabel } from "./public-presentation-rules.mjs?v=20260818-presentation4";
-import { eventForCityPresentation, venueHoursForCity } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
-import {
-  EXHIBITION_GROUP_MIN,
-  groupStandaloneExhibitions,
-  publicExhibitionCategoryId,
-} from "./exhibition-group-core.mjs?v=20260820-groups1";
+import { publicExhibitionCategoryId } from "./exhibition-group-core.mjs?v=20260820-groups1";
 
-const REGISTRY = await loadCityRegistry();
-const CITIES = REGISTRY.byId;
 const EXHIBITION_ID = "exposiciones";
 const FALLBACK_IMAGE = new URL("../assets/categoria-exposiciones.jpg", import.meta.url).href;
 const grid = document.querySelector("[data-dated-grid]");
@@ -35,12 +27,11 @@ function installStyles() {
 }
 
 function currentCityId() {
-  const id = String(document.documentElement.dataset.city || "").trim();
-  return CITIES[id] ? id : null;
+  return String(document.documentElement.dataset.city || "").trim() || null;
 }
 
 function currentConfig() {
-  return CITIES[currentCityId()] || null;
+  return getAgendaRuntimeSnapshot(currentCityId())?.city || null;
 }
 
 function syncRuntimeIndex() {
@@ -52,10 +43,7 @@ function syncRuntimeIndex() {
   indexedCity = cityId;
   indexedRevision = snapshot.revision;
   eventsById = new Map(snapshot.events
-    .map((event) => {
-      const presented = eventForCityPresentation(event, cityId);
-      return [String(presented?.id || "").trim(), presented];
-    })
+    .map((event) => [String(event?.id || "").trim(), event])
     .filter(([id]) => id));
   return eventsById.size > 0;
 }
@@ -176,14 +164,6 @@ function buildRow(event, config) {
   return row;
 }
 
-function commonVenueHours(events, cityId) {
-  const values = new Set(events
-    .map((event) => venueHoursForCity(event, cityId))
-    .map((value) => String(value || "").replace(/\s+/g, " ").trim())
-    .filter(Boolean));
-  return values.size === 1 ? [...values][0] : null;
-}
-
 function sortEvents(events, config) {
   return [...events].sort((a, b) => {
     const aStart = String(a?.schedule?.start || a?.schedule?.occurrences?.[0]?.start || "9999");
@@ -217,7 +197,6 @@ function visibleIdsFromExistingGroup(card, ids) {
 }
 
 function buildGroupCard(events, visibleIds = null) {
-  const cityId = currentCityId();
   const config = currentConfig();
   const sorted = sortEvents(events, config);
   const first = sorted[0];
@@ -251,14 +230,6 @@ function buildGroupCard(events, visibleIds = null) {
 
   const facts = document.createElement("div");
   facts.className = "exhibition-venue-facts";
-  const hours = commonVenueHours(sorted, cityId);
-  if (hours) {
-    const hoursNode = document.createElement("p");
-    hoursNode.className = "venue-opening-hours exhibition-venue-hours";
-    hoursNode.dataset.exhibitionOpeningHours = "";
-    hoursNode.textContent = `Horario del recinto: ${hours}`;
-    facts.append(hoursNode);
-  }
   if (city) {
     const cityNode = document.createElement("p");
     cityNode.className = "exhibition-venue-city";
@@ -282,65 +253,25 @@ function buildGroupCard(events, visibleIds = null) {
   return card;
 }
 
-function firstNode(nodes) {
-  return nodes.reduce((best, node) => {
-    if (!best) return node;
-    const relation = best.compareDocumentPosition(node);
-    return relation & Node.DOCUMENT_POSITION_PRECEDING ? node : best;
-  }, null);
-}
-
-function replaceCoreGroups() {
+function enhanceCoreGroups() {
+  // app-core.js is the sole authority for exhibition membership. This module
+  // may enrich an existing data-event-group card, but it must never create,
+  // split, merge or repair groups from standalone event cards.
   for (const card of directCards()) {
     if (!card.dataset.eventGroup || card.dataset.unifiedExhibitionGroup === "true") continue;
     const ids = groupIds(card);
+    if (!ids.length) continue;
     const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
-    if (events.length < EXHIBITION_GROUP_MIN || events.some((event) => publicExhibitionCategoryId(event) !== EXHIBITION_ID)) continue;
+    if (events.length !== ids.length || events.some((event) => publicExhibitionCategoryId(event) !== EXHIBITION_ID)) continue;
     const replacement = buildGroupCard(events, visibleIdsFromExistingGroup(card, ids));
     card.replaceWith(replacement);
   }
 }
 
-function groupStandaloneCards() {
-  const nodeById = new Map();
-  const events = [];
-  for (const card of directCards()) {
-    const id = String(card.dataset.eventId || "").trim();
-    if (!id) continue;
-    const event = eventsById.get(id);
-    if (!event || publicExhibitionCategoryId(event) !== EXHIBITION_ID) continue;
-    nodeById.set(id, card);
-    events.push(event);
-  }
-
-  const config = currentConfig();
-  // Duration affects temporal priority, not venue identity. This pass only
-  // considers cards that are still standalone (data-event-id); existing
-  // data-event-group cards are never reopened or repartitioned here.
-  const groups = groupStandaloneExhibitions(events, {
-    timezone: config?.timezone || "UTC",
-    minSize: EXHIBITION_GROUP_MIN,
-  });
-
-  for (const group of groups) {
-    const nodes = group.events
-      .map((event) => nodeById.get(String(event?.id || "")))
-      .filter((node) => node?.isConnected && node.parentElement === grid);
-    if (nodes.length < EXHIBITION_GROUP_MIN) continue;
-    const visibleIds = new Set(group.events
-      .map((event) => String(event?.id || ""))
-      .filter((id) => id && nodeById.get(id) && !nodeById.get(id).hidden));
-    const anchor = firstNode(nodes);
-    const replacement = buildGroupCard(group.events, visibleIds);
-    grid.insertBefore(replacement, anchor);
-    nodes.forEach((node) => node.remove());
-  }
-}
-
 function refreshCombinedFilters() {
   // combined-filters.js is the single authority for filtered visibility. After
-  // replacing individual cards with one group card, request one normal filter
-  // pass instead of maintaining a second, competing visibility state here.
+  // replacing a core group with its richer presentation, request one normal
+  // filter pass instead of maintaining a second visibility state here.
   const search = document.querySelector("[data-smart-search]");
   if (search) search.dispatchEvent(new Event("input", { bubbles: true }));
 }
@@ -350,11 +281,10 @@ function buildGroups() {
   if (!grid || building || !syncRuntimeIndex()) return;
   building = true;
   try {
-    replaceCoreGroups();
-    groupStandaloneCards();
+    enhanceCoreGroups();
     refreshCombinedFilters();
     window.dispatchEvent(new CustomEvent("vivamos:exhibition-groups-rendered", {
-      detail: { city: currentCityId(), renderer: "unified" },
+      detail: { city: currentCityId(), renderer: "unified-presentation" },
     }));
   } finally {
     building = false;

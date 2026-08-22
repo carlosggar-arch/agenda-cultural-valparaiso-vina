@@ -146,6 +146,8 @@ assert 'export function formatSchedule' in schedule_module
 assert 'schedule?.opening_hours' in schedule_module
 assert 'from "../assets/event-schedule-display.mjs?v=20260819-hours3"' in app_schedule
 assert 'formatSchedule(schedule, activeConfig)' in app_schedule
-assert 'scheduleForGijonEvent' in app_schedule
+assert 'getAgendaRuntimeSnapshot' in app_schedule
+assert 'scheduleForGijonEvent' not in app_schedule
+assert 'gijonLocationForEvent' not in app_schedule
 
-print("Semantic search plus compact filters, favorites reminders, generated shell and canonical source diagnostics: OK")
+print("Semantic search plus compact filters, favorites reminders, generated shell and city-agnostic schedule presentation: OK")

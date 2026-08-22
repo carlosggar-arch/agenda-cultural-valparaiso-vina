@@ -41,6 +41,7 @@ assert.equal(normalizedRioja[0].location.venue, "Museo Palacio Rioja");
 assert.equal(normalizedRioja[1].location.venue, "Museo Palacio Rioja");
 
 const appJs = read("app.js");
+const appCore = read("app-core.js");
 const pipeline = read("data-pipeline.js");
 const grouping = read("exhibition-groups.js");
 const groupingCore = read("exhibition-group-core.mjs");
@@ -59,15 +60,19 @@ const venueHours = read("venue-hours.mjs");
 const staticCompat = read("static-exhibition-groups.js");
 const generatedManifest = read("service-worker-assets.generated.js");
 
-// Exhibition presentation has one canonical multi-city owner. It consumes the
-// normalized runtime snapshot; city-specific schedule/location details stay in
-// a narrow adapter rather than in separate city renderers.
+// Exhibition membership has one owner: app-core. The common exhibition module
+// only upgrades existing data-event-group cards from the normalized snapshot;
+// city-specific schedule/location details stay in the adapter.
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
 assert.doesNotMatch(appJs, /multievent-layout-fix\.js/);
 assert.doesNotMatch(appJs, /static-exhibition-groups\.js|exhibition-venue-grouping\.js|exhibition-gallery\.js|exhibition-compact-loader\.js|exhibition-compact\.js/);
+assert.match(appCore, /function buildDatedItems\(/);
+assert.match(appCore, /function createExhibitionGroupCard\(/);
+assert.match(appCore, /card\.dataset\.eventGroup/);
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
-assert.match(grouping, /groupStandaloneExhibitions/);
+assert.match(grouping, /function enhanceCoreGroups\(/);
+assert.doesNotMatch(grouping, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/);
 assert.match(grouping, /unifiedExhibitionGroup/);
 assert.match(grouping, /exhibition-venue-card/);
 assert.match(grouping, /grouped-exhibition-item/);
@@ -143,7 +148,7 @@ assert.match(programPolicy, /export function renderProgramReferences/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 167, "PWA release must include the patch-retirement contract");
+assert.ok(Number(releaseMatch[1]) >= 182, "PWA release must include the shared presentation contract");
 
 const gijon = JSON.parse(fs.readFileSync(path.join(app, "data/gijon/agenda_web.json"), "utf8"));
 const venues = new Map();
@@ -155,4 +160,4 @@ for (const event of gijon.events || []) {
 }
 assert.ok([...venues.values()].some((count) => count >= 2), "Gijón must retain venues with multiple exhibitions");
 
-console.log("Single-owner filters + unified exhibition renderer/layout contract: OK");
+console.log("Single-owner filters + single-owner exhibition grouping + shared presentation layout contract: OK");
