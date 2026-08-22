@@ -15,6 +15,8 @@ function venueBase(value) {
   return foldVenue(value).replace(/^(?:museo|museum)\s+/, "").trim();
 }
 
+const CULTURAL_COMPLEX_PATTERN = /\b(?:museo|museum|museu|parque cultural|centro cultural|centro de cultura|palacio|galeria|gallery|fundacion)\b/;
+
 const RECORDS = VENUES.map((record) => ({
   ...record,
   _cities: (record.city_names || []).map(foldVenue).filter(Boolean),
@@ -30,7 +32,22 @@ function cityCompatible(record, city) {
 }
 
 function explicitSubspace(value) {
-  return /\b(?:sala|salon|galeria|gallery|hall|auditorio|auditorium|patio|espacio|room)\b/.test(foldVenue(value));
+  return /\b(?:sala|salon|galeria|gallery|hall|auditorio|auditorium|patio|espacio|room|nivel|edificio)\b/.test(foldVenue(value));
+}
+
+function parentComplexLabel(value) {
+  const raw = String(value || "").replace(/\s+/g, " ").trim();
+  if (!raw) return "";
+  const parts = raw.split(/\s+[—–-]\s+/u).map((part) => part.trim()).filter(Boolean);
+  if (parts.length < 2) return "";
+  const tail = parts.at(-1);
+  return CULTURAL_COMPLEX_PATTERN.test(foldVenue(tail)) ? tail : "";
+}
+
+function directComplexLabel(value) {
+  const raw = String(value || "").replace(/\s+/g, " ").trim();
+  if (!raw || /\s+[—–-]\s+/u.test(raw)) return "";
+  return CULTURAL_COMPLEX_PATTERN.test(foldVenue(raw)) ? raw : "";
 }
 
 export function venueRecordForName(value, city = "", venueId = "") {
@@ -82,6 +99,45 @@ export function canonicalVenueKey(event) {
   if (!venue) return "";
   const city = foldVenue(event?.location?.city || event?.location?.commune);
   return `${venue}|${city}`;
+}
+
+// Exhibition grouping is intentionally broader than physical venue identity.
+// A gallery, floor or room keeps its precise location on the event, but an
+// explicit "subspace — parent cultural venue" label can share a multi-event
+// exhibition card with the parent venue itself.
+export function exhibitionGroupingVenueKey(event) {
+  const record = venueRecordForEvent(event);
+  if (record?.exhibition_group_id) return `exhibition-group:${record.exhibition_group_id}`;
+  if (record?.id) return `venue:${record.id}`;
+  const venue = event?.location?.venue;
+  const complex = parentComplexLabel(venue) || directComplexLabel(venue);
+  const city = foldVenue(event?.location?.city || event?.location?.commune);
+  if (complex) return `complex:${venueBase(complex)}|${city}`;
+  return canonicalVenueKey(event);
+}
+
+export function exhibitionGroupingVenueLabel(events) {
+  const list = (events || []).filter(Boolean);
+  for (const event of list) {
+    const record = venueRecordForEvent(event);
+    if (record?.exhibition_group_name) return record.exhibition_group_name;
+  }
+  const parents = list.map((event) => parentComplexLabel(event?.location?.venue)).filter(Boolean);
+  if (parents.length) {
+    const counts = new Map();
+    for (const parent of parents) {
+      const key = foldVenue(parent);
+      const current = counts.get(key) || { label: parent, count: 0 };
+      current.count += 1;
+      counts.set(key, current);
+    }
+    const best = [...counts.values()].sort((a, b) => b.count - a.count || b.label.length - a.label.length)[0];
+    if (best?.label) return best.label;
+  }
+  const canonical = list.map((event) => venueRecordForEvent(event)?.canonical_name).find(Boolean);
+  if (canonical) return canonical;
+  const direct = list.map((event) => directComplexLabel(event?.location?.venue)).find(Boolean);
+  return direct || preferredVenueLabel(list.map((event) => event?.location?.venue));
 }
 
 export function canonicalVenueKeyForEvents(events, fallbackLocation = {}) {
@@ -141,4 +197,4 @@ export function normalizeVenueAliases(events) {
   });
 }
 
-export { foldVenue, venueBase };
+export { foldVenue, venueBase, parentComplexLabel, directComplexLabel };

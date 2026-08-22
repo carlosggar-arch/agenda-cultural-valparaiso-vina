@@ -1,5 +1,5 @@
 import { canonicalPublicCategoryId, isPublicCategoryInGroup } from "./public-category-rules.mjs";
-import { canonicalVenueKey } from "./venue-identity.mjs?v=20260820-venues1";
+import { exhibitionGroupingVenueKey } from "./venue-identity.mjs?v=20260822-exhibition-quality1";
 
 export const EXHIBITION_GROUP_MIN = 2;
 export const LONG_EXHIBITION_DAYS = 7;
@@ -15,7 +15,7 @@ export function publicExhibitionCategoryId(event) {
 
 export function exhibitionVenueKey(event) {
   if (publicExhibitionCategoryId(event) !== "exposiciones") return null;
-  return canonicalVenueKey(event) || null;
+  return exhibitionGroupingVenueKey(event) || null;
 }
 
 export function dateKey(value, timezone) {
