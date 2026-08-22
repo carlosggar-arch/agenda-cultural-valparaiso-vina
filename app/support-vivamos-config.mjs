@@ -4,15 +4,8 @@ export const SUPPORT_VIVAMOS = Object.freeze({
   placement: "footer-near-sources",
   methods: Object.freeze([
     Object.freeze({
-      id: "mercadopago-cl",
-      audience: "Chile",
-      provider: "Mercado Pago",
-      url: "https://link.mercadopago.cl/vivamos",
-      enabled: true,
-    }),
-    Object.freeze({
-      id: "paypal-international",
-      audience: "Internacional",
+      id: "paypal",
+      audience: "Todos",
       provider: "PayPal",
       url: "https://www.paypal.com/ncp/payment/MMR5A78JMY5VL",
       enabled: true,
