@@ -25,7 +25,18 @@
         { "id": "todos", "label": "Valpo + Viña", "match": [] },
         { "id": "valparaiso", "label": "Valparaíso", "match": ["valparaiso"] },
         { "id": "vina", "label": "Viña del Mar", "match": ["vina del mar", "vina"] }
-      ]
+      ],
+      "presentation_order": {
+        "category_weights": {
+          "exposiciones": 100,
+          "museos": 100
+        },
+        "area_weights": {
+          "vina": 0,
+          "valparaiso": 1
+        },
+        "default_area_weight": 0
+      }
     },
     {
       "id": "gijon",
