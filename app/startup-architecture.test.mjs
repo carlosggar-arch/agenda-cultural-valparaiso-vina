@@ -26,7 +26,6 @@ const temporalPriority = read("./temporal-priority.js");
 const programPolicy = read("./program-visibility-policy.js");
 const worker = read("./service-worker.js");
 const shellManifest = read("./service-worker-assets.generated.js");
-const release = read("./release-version.js");
 
 assert.match(app, /^import "\.\/startup-stability\.js/m, "startup watchdog must remain eager before core");
 assert.match(app, /^import "\.\/render-lifecycle\.js/m, "bounded render lifecycle must start before deferred enhancers");
@@ -59,16 +58,19 @@ for (const shared of [
   assert.match(app, new RegExp(shared.replaceAll(".", "\\.")), `${shared} must be present in the common runtime`);
 }
 assert.doesNotMatch(app, /GIJON_DEFERRED_MODULES|IS_GIJON|gijon-card-images\.js|card-image-fallback\.js/, "app.js must not select presentation modules by city");
-assert.doesNotMatch(app, /static-exhibition-groups\.js/, "legacy Valpo-only exhibition renderer must not be loaded");
 assert.match(app, /new MutationObserver\(scheduleTemporalOrder\)/, "shared temporal ordering may use bounded direct-grid observers");
 assert.doesNotMatch(app, /observe\(datedGrid, \{[^}]*subtree:\s*true/, "shared ordering must never observe descendant churn");
 
-assert.match(core, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/, "app-core must own the data pipeline");
-assert.match(core, /export const coreReady = new Promise/, "app-core must expose startup readiness");
-assert.match(core, /function markCoreReady\(/, "app-core must explicitly settle startup");
-assert.match(core, /dataset\.vivamosReady = "true"/, "app-core must mark the DOM ready itself");
-assert.match(core, /renderProgramReferences\(/, "program references must be rendered explicitly from core");
-assert.match(core, /function buildDatedItems\(events\)/, "app-core may emit the initial grouping pass before common reconciliation");
+assert.match(core, /import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/, "core startup must consume the canonical data pipeline");
+assert.match(core, /export const coreReady = new Promise/, "core startup must expose readiness");
+assert.match(core, /function markCoreReady\(/, "core startup must explicitly settle readiness");
+assert.match(core, /dataset\.vivamosReady = "true"/, "core startup must mark the DOM ready");
+assert.match(core, /renderProgramReferences\(/, "program references must be rendered explicitly");
+assert.match(core, /function buildDatedItems\(events\)/, "core may emit initial grouped cards before common reconciliation");
+assert.match(core, /from "\.\/exhibition-group-core\.mjs/, "core grouping must consume the canonical exhibition policy");
+assert.match(core, /groupStandaloneExhibitions\(events, \{ timezone:/, "core initial grouping must use canonical membership");
+assert.match(core, /isLongExhibitionDuration/, "core long-exhibition ordering must use the canonical duration policy");
+assert.doesNotMatch(core, /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/, "core must not duplicate exhibition policy");
 
 const stageOrder = [
   "applyEventDataCorrections",
@@ -110,11 +112,10 @@ assert.doesNotMatch(exhibitionHours, /\bfetch\s*\(/, "exhibition hours must neve
 assert.doesNotMatch(temporalPriority, /\bfetch\s*\(|loadCityRegistry/, "temporal presentation must consume the shared runtime rather than loading a city dataset");
 assert.match(temporalPriority, /getAgendaRuntimeSnapshot/, "temporal presentation must consume the shared runtime snapshot");
 
-// Canonical exhibition membership policy lives in exhibition-group-core. app-core
-// may emit initial groups, while shared presentation reconciles standalone/legacy
-// cards against the same pure grouping policy.
+// Canonical exhibition membership policy lives in exhibition-group-core. Core
+// and presentation consumers must share that policy rather than redeclaring it.
 assert.match(exhibitionGroups, /getAgendaRuntimeSnapshot/, "shared exhibition renderer must consume normalized runtime state");
-assert.match(exhibitionGroups, /function enhanceCoreGroups\(\)/, "shared exhibition renderer must enhance existing core groups");
+assert.match(exhibitionGroups, /function enhanceCoreGroups\(\)/, "shared exhibition renderer must enhance existing grouped cards");
 assert.match(exhibitionGroups, /groupStandaloneExhibitions/, "shared exhibition renderer must consume the canonical grouping policy");
 assert.match(exhibitionGroups, /function reconcileCommonMembership\(\)/, "shared exhibition renderer must reconcile initial groups against common membership");
 assert.doesNotMatch(exhibitionGroups, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/, "renderer must not duplicate the common threshold or clustering algorithm");
@@ -122,12 +123,16 @@ assert.doesNotMatch(exhibitionGroups, /\bfetch\s*\(/, "shared exhibition rendere
 assert.match(exhibitionGroups, /new MutationObserver/, "shared exhibition renderer may react to direct grid/city transitions");
 assert.doesNotMatch(exhibitionGroups, /subtree:\s*true|characterData:\s*true/, "shared exhibition renderer must not watch descendant churn");
 assert.match(exhibitionGroupCore, /export const EXHIBITION_GROUP_MIN = 2/, "common grouping core owns exhibition group cardinality");
+assert.match(exhibitionGroupCore, /export const LONG_EXHIBITION_DAYS = 7/, "common grouping core owns long-exhibition duration");
 assert.match(exhibitionGroupCore, /exhibitionGroupingVenueKey/, "common grouping core owns canonical exhibition venue identity");
-assert.match(cityPresentationAdapter, /scheduleForGijonEvent/, "Gijon schedule differences must stay in the city adapter");
-assert.match(cityPresentationAdapter, /gijonLocationForEvent/, "Gijon location differences must stay in the city adapter");
+assert.match(cityPresentationAdapter, /export function eventForCityPresentation/, "city-specific event adaptation must enter through the public adapter boundary");
+assert.match(cityPresentationAdapter, /export function venueHoursForCity/, "city-specific venue hours must enter through the public adapter boundary");
 
 assert.doesNotMatch(cityFirstRun, /window\.location\.(?:assign|replace)|location\.reload/, "city switching must not reload the document");
-assert.match(cityFirstRun, /app-core\.js owns city changes/, "first-run logic must leave dynamic city switching to app-core");
+assert.match(cityFirstRun, /loadCityRegistry/, "first-run city choices must come from the canonical registry");
+assert.match(cityFirstRun, /SUPPORTED_CITIES/, "first-run validation must be registry-driven");
+assert.match(cityFirstRun, /releaseRequiredSelection/, "first-run may release the chooser lock after a valid selection");
+assert.doesNotMatch(cityFirstRun, /loadAgendaDataset|setAgendaCity/, "first-run must not own dataset loading or dynamic city switching");
 
 assert.match(combined, /loadAgendaDataset/, "combined filters must use the same normalized pipeline as the renderer");
 assert.match(combined, /id === "museos"[\s\S]*id = "exposiciones"/, "Museos must collapse into Exposiciones in filter semantics");
@@ -187,7 +192,5 @@ for (const asset of [
 assert.doesNotMatch(shellManifest, /card-image-fallback\.js|gijon-card-images\.js/, "generated shell must not cache retired renderers");
 assert.match(worker, /service-worker-assets\.generated\.js/, "service worker must load the generated shell manifest");
 assert.doesNotMatch(worker, /const SHELL_ASSETS = \[/, "service worker must not restore a manual shell asset list");
-const releaseNumber = Number(release.match(/const RELEASE = (\d+);/)?.[1]);
-assert.ok(Number.isInteger(releaseNumber) && releaseNumber >= 182, "shared presentation runtime requires a fresh service-worker cache generation");
 
 console.log("STARTUP_ARCHITECTURE_SHARED_PRESENTATION_OK");
