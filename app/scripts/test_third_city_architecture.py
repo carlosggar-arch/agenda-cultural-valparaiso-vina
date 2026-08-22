@@ -79,11 +79,25 @@ runtime_state = (APP / "agenda-runtime-state.mjs").read_text(encoding="utf-8")
 assert "eventForCityPresentation(event, cityId)" in runtime_state, "city presentation differences must enter through the adapter boundary"
 
 city_constants = re.compile(r"[\"'](?:gijon|valparaiso|America/Santiago|Europe/Madrid|es-CL|es-ES)[\"']", re.IGNORECASE)
-for module in common_presentation:
+snapshot_consumers = [module for module in common_presentation if module != "temporal-priority.js"]
+for module in snapshot_consumers:
     text = (APP / module).read_text(encoding="utf-8")
     assert "getAgendaRuntimeSnapshot" in text, f"{module} does not consume the shared runtime snapshot"
     assert "loadAgendaDataset" not in text, f"{module} must not own a parallel data runtime"
     assert not city_constants.search(text), f"{module} hardcodes city-specific presentation knowledge"
+
+# C2 makes the temporal module cleanup-only; it stays common to every city but
+# no longer needs a dataset snapshot because it cannot make visibility decisions.
+temporal_cleanup = (APP / "temporal-priority.js").read_text(encoding="utf-8")
+visibility_core = (APP / "visibility-owner-core.mjs").read_text(encoding="utf-8")
+combined_filters = (APP / "combined-filters.js").read_text(encoding="utf-8")
+assert "removeLegacyTemporalUi" in temporal_cleanup, "temporal cleanup must retain retired UI removal"
+assert "getAgendaRuntimeSnapshot" not in temporal_cleanup, "cleanup-only temporal module must not consume runtime data"
+assert "loadAgendaDataset" not in temporal_cleanup, "cleanup-only temporal module must not own data loading"
+assert "temporalSuppressed" not in temporal_cleanup, "cleanup-only temporal module must not own visual suppression"
+assert not city_constants.search(temporal_cleanup), "cleanup-only temporal module must remain city-agnostic"
+assert "shouldSuppressForTemporalFilter" in visibility_core, "canonical visibility core must retain temporal confidence semantics"
+assert "visibility-owner-core.mjs" in combined_filters, "combined filters must consume the canonical visibility core"
 
 # Exhibition membership has one pure, city-agnostic policy in
 # exhibition-group-core.mjs. Top-level long-running priority belongs to the
