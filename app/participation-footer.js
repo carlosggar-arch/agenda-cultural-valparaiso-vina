@@ -109,3 +109,7 @@ function retryMount(attempt = 0) {
 retryMount();
 window.setTimeout(mountHeaderFeedback, 1200);
 window.addEventListener("resize", mountHeaderFeedback, { passive: true });
+
+import("./support-vivamos.js?v=20260822-preview1").catch((error) => {
+  console.warn("¡Vivamos!: preview de apoyo omitido", error);
+});
