@@ -119,8 +119,12 @@ export function normalizeEventScheduleContract(event) {
   const parsed = classifyClockRoles([String(event.description || ""), String(schedule.display_text || "")].filter(Boolean).join(" · "));
   const structured = occurrenceSessions(schedule);
   let sessionTimes;
-  if (structured.occurrences.length) sessionTimes = structured.sessionTimes;
-  else {
+  if (structured.occurrences.length) {
+    // Flat session_times is only safe when all dated occurrences share a day.
+    // Multi-date schedules remain exclusively in occurrences so no relation
+    // between a clock and its date can be lost.
+    sessionTimes = structured.dateCount > 1 ? [] : structured.sessionTimes;
+  } else {
     const explicit = Array.isArray(schedule.session_times) ? schedule.session_times : Array.isArray(event.session_times) ? event.session_times : [];
     sessionTimes = unique(explicit);
     if (!sessionTimes.length) sessionTimes = parsed.session_times;
