@@ -112,6 +112,20 @@
       "workflow": ".github/workflows/shared-presentation-runtime.yml"
     },
     {
+      "id": "architecture.multicity-ui",
+      "domain": "multicity",
+      "layer": "architecture",
+      "owner": "app/scripts/test_multi_city_ui.py",
+      "workflow": ".github/workflows/multi-city-pre-release.yml"
+    },
+    {
+      "id": "architecture.contextual-filters",
+      "domain": "visibility",
+      "layer": "architecture",
+      "owner": "app/scripts/test_contextual_filters.py",
+      "workflow": ".github/workflows/multi-city-pre-release.yml"
+    },
+    {
       "id": "architecture.startup",
       "domain": "startup",
       "layer": "architecture",
