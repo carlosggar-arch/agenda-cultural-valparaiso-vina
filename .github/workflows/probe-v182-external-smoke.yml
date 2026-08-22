@@ -46,8 +46,90 @@ jobs:
       - name: Verify external HTTP parity
         run: python app/scripts/production_pwa_smoke.py http
 
-      - name: Cold-load both cities on both public origins
-        run: python app/scripts/production_pwa_smoke.py browser
+      - name: Selenium-load both cities on both public origins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import tempfile
+          import uuid
 
-      - name: Warm-reopen Valpo mobile on both public origins
-        run: python app/scripts/production_warm_start_smoke.py
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          ORIGINS = {
+              "github-pages": "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/",
+              "cloudflare": "https://vivamos.pages.dev/app/",
+          }
+          CITIES = ("valparaiso", "gijon")
+          EXPECTED_RELEASE = 182
+
+          def options(profile: str) -> Options:
+              value = Options()
+              value.page_load_strategy = "eager"
+              for argument in (
+                  "--headless=new",
+                  "--no-sandbox",
+                  "--disable-gpu",
+                  "--disable-dev-shm-usage",
+                  "--disable-extensions",
+                  "--disable-sync",
+                  "--disable-background-networking",
+                  "--disable-component-update",
+                  "--disable-default-apps",
+                  "--disable-features=MediaRouter,OptimizationHints,AutofillServerCommunication",
+                  "--metrics-recording-only",
+                  "--no-first-run",
+                  "--no-default-browser-check",
+                  "--window-size=390,844",
+                  f"--user-data-dir={profile}",
+              ):
+                  value.add_argument(argument)
+              return value
+
+          for origin, base in ORIGINS.items():
+              for city in CITIES:
+                  with tempfile.TemporaryDirectory(prefix=f"vivamos-v182-{origin}-{city}-") as profile:
+                      driver = webdriver.Chrome(options=options(profile))
+                      try:
+                          url = f"{base}?city={city}&seleniumprobe={uuid.uuid4().hex}"
+                          driver.get(url)
+                          WebDriverWait(driver, 25, poll_frequency=0.1).until(
+                              lambda current: bool(current.execute_script(
+                                  """
+                                  return document.documentElement.dataset.vivamosReady === 'true'
+                                    && document.documentElement.dataset.city === arguments[0]
+                                    && Number(globalThis.__VIVAMOS_RELEASE__) === arguments[1]
+                                    && document.querySelectorAll('.event-card').length > 0;
+                                  """,
+                                  city,
+                                  EXPECTED_RELEASE,
+                              ))
+                          )
+                          state = driver.execute_script(
+                              """
+                              return {
+                                ready: document.documentElement.dataset.vivamosReady,
+                                city: document.documentElement.dataset.city,
+                                release: Number(globalThis.__VIVAMOS_RELEASE__),
+                                cards: document.querySelectorAll('.event-card').length,
+                                sources: document.querySelectorAll('[data-sources-toggle], [data-sources-fallback]').length,
+                                footerVersion: document.body.innerText.includes('PWA v182'),
+                                title: document.title,
+                                href: location.href,
+                              };
+                              """
+                          )
+                          if state["sources"] < 1:
+                              raise SystemExit(f"Sources control missing: {origin}/{city} state={state}")
+                          if not state["footerVersion"]:
+                              raise SystemExit(f"Visible v182 footer missing: {origin}/{city} state={state}")
+                          print(
+                              "SELENIUM_PUBLIC_OK "
+                              f"origin={origin} city={city} release=v{state['release']} "
+                              f"cards={state['cards']} sources={state['sources']} title={state['title']!r}"
+                          )
+                      finally:
+                          driver.quit()
+          PY
