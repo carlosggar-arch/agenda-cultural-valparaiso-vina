@@ -1,7 +1,7 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
-import { todaySessionScheduleLabel, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-missing-time1";
-import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
+import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260821-point8-v2";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-point8-v2";
+import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-point8-v2";
+import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-point8-v2";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import "./exhibition-hours.js?v=20260821-next-hours1";
 
@@ -57,13 +57,21 @@ function scheduleWithoutVisitHours(schedule) {
   delete clean.opening_time;
   delete clean.closing_time;
   delete clean.opening_hours;
+  delete clean.venue_hours;
   delete clean.venue_opening_hours;
   delete clean.visit_hours;
   return clean;
 }
 
-function formatEventSchedule(schedule) {
-  return formatSchedule(schedule, activeConfig);
+function referenceDate() {
+  return visibleReferenceDateKey({ timezone: activeConfig.timezone });
+}
+
+function formatEventSchedule(schedule, referenceDateKey = null) {
+  return formatSchedule(schedule, {
+    ...activeConfig,
+    referenceDate: referenceDateKey || undefined,
+  });
 }
 
 function scheduleForDisplay(event) {
@@ -71,22 +79,25 @@ function scheduleForDisplay(event) {
   const schedule = event?.schedule;
   if (!schedule) return isExhibition(event) ? "Horario de visita por confirmar" : "Consultar horario en la fuente";
 
+  const visibleDate = referenceDate();
   const eventSchedule = scheduleWithoutVisitHours(schedule);
-  const todaySessions = todaySessionScheduleLabel({ ...event, schedule: eventSchedule }, activeConfig);
-  if (todaySessions) return todaySessions;
+  const datedSessions = sessionScheduleLabelForDate({ ...event, schedule: eventSchedule }, {
+    ...activeConfig,
+    referenceDate: visibleDate,
+  });
+  if (datedSessions) return datedSessions;
 
   if (isExhibition(event)) {
-    const referenceDate = visibleReferenceDateKey({ timezone: activeConfig.timezone });
     const daily = dailyExhibitionHours(schedule, {
       timezone: activeConfig.timezone,
-      referenceDate,
+      referenceDate: visibleDate,
     });
-    const range = formatEventSchedule(eventSchedule);
+    const range = formatEventSchedule(eventSchedule, visibleDate);
     if (daily?.label) return [range, daily.label].filter(Boolean).join(" · ");
     return range;
   }
 
-  return withMissingEventTimeFallback(formatEventSchedule(eventSchedule), eventSchedule);
+  return withMissingEventTimeFallback(formatEventSchedule(eventSchedule, visibleDate), eventSchedule);
 }
 
 function locationForDisplay(event) {

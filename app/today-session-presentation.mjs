@@ -60,6 +60,11 @@ function localClock(value, timezone) {
   }).format(date);
 }
 
+function validClock(value) {
+  const text = String(value || "").trim();
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(text) ? text : null;
+}
+
 function dateFromParts(year, month, day) {
   const y = Number(year);
   const m = Number(month);
@@ -73,9 +78,10 @@ function dateFromParts(year, month, day) {
 }
 
 function addSession(target, key, time) {
-  if (!key || !/^\d{2}:\d{2}$/.test(String(time || ""))) return;
-  const id = `${key}|${time}`;
-  if (!target.some((item) => item.id === id)) target.push({ id, key, time });
+  const clock = validClock(time);
+  if (!key || !clock) return;
+  const id = `${key}|${clock}`;
+  if (!target.some((item) => item.id === id)) target.push({ id, key, time: clock });
 }
 
 function inferredYear(event, timezone) {
@@ -91,6 +97,24 @@ function structuredSessions(event, options) {
     const time = localClock(occurrence?.start, options.timezone);
     addSession(sessions, key, time);
   }
+  return sessions;
+}
+
+function canonicalFlatSessions(event, options, referenceDate) {
+  const schedule = event?.schedule || {};
+  if ((schedule.occurrences || []).length) return [];
+  const times = Array.isArray(schedule.session_times) ? schedule.session_times.map(validClock).filter(Boolean) : [];
+  if (!times.length) return [];
+
+  // A flat session list can only be attached safely to a date when the event is
+  // itself single-day. Multi-day session dates remain represented by occurrences
+  // (or the legacy dated-list fallback below) rather than being guessed.
+  const startKey = dateKey(schedule.start, options.timezone);
+  const endKey = dateKey(schedule.end || schedule.start, options.timezone);
+  if (!(referenceDate && startKey === referenceDate && (!endKey || endKey === startKey))) return [];
+
+  const sessions = [];
+  for (const time of times) addSession(sessions, referenceDate, time);
   return sessions;
 }
 
@@ -140,6 +164,15 @@ function formatDateKey(key, options) {
 
 export function hasEventSpecificTime(schedule) {
   if (!schedule || typeof schedule !== "object") return false;
+
+  // Once Point 8 has classified the schedule, do not reinterpret legacy
+  // display_text (which may contain only museum/venue hours) as an event time.
+  if (schedule.schedule_contract_version) {
+    if (Array.isArray(schedule.session_times) && schedule.session_times.some(validClock)) return true;
+    return (Array.isArray(schedule.occurrences) ? schedule.occurrences : [])
+      .some((occurrence) => /T(?:[01]\d|2[0-3]):[0-5]\d/.test(String(occurrence?.start || "")));
+  }
+
   const occurrenceValues = (Array.isArray(schedule.occurrences) ? schedule.occurrences : [])
     .flatMap((occurrence) => [occurrence?.start, occurrence?.end]);
   const structuredValues = [schedule.start, schedule.end, ...occurrenceValues];
@@ -157,30 +190,35 @@ export function withMissingEventTimeFallback(formattedSchedule, schedule) {
 }
 
 /**
- * Returns a compact schedule label focused on the current local day when there
- * is reliable evidence that one event has several independent sessions.
- *
- * Evidence can be structured `schedule.occurrences` or an explicit public
- * session list such as "Funciones: Jueves 20 de agosto, 17:10 hrs; Viernes...".
- * A single ordinary event is deliberately ignored so its normal start/end
- * interval continues to be formatted by the shared schedule formatter.
+ * Returns a compact session label for the date currently being viewed. Dated
+ * occurrences are authoritative. Legacy dated lists remain a compatibility
+ * fallback until every source emits occurrences directly.
  */
-export function todaySessionScheduleLabel(event, options = {}) {
+export function sessionScheduleLabelForDate(event, options = {}) {
   if (!event || typeof event !== "object") return null;
   const settings = { ...DEFAULTS, now: new Date(), ...options };
-  const today = dateKey(settings.now, settings.timezone);
-  if (!today) return null;
+  const referenceDate = dateKey(settings.referenceDate || settings.now, settings.timezone);
+  if (!referenceDate) return null;
 
   const sessions = [];
   for (const session of structuredSessions(event, settings)) addSession(sessions, session.key, session.time);
+  for (const session of canonicalFlatSessions(event, settings, referenceDate)) addSession(sessions, session.key, session.time);
   for (const session of listedSessions(event, settings)) addSession(sessions, session.key, session.time);
 
-  // Do not reinterpret a normal single event as a session list.
+  // Do not reinterpret one ordinary single event as a session list; its normal
+  // start/end interval continues through the shared formatter.
   if (sessions.length < 2) return null;
 
-  const todayTimes = [...new Set(sessions.filter((item) => item.key === today).map((item) => item.time))];
-  if (!todayTimes.length) return null;
+  const times = [...new Set(sessions.filter((item) => item.key === referenceDate).map((item) => item.time))];
+  if (!times.length) return null;
 
-  const date = formatDateKey(today, settings);
-  return [date, todayTimes.join(", ")].filter(Boolean).join(" · ");
+  const date = formatDateKey(referenceDate, settings);
+  return [date, times.join(", ")].filter(Boolean).join(" · ");
+}
+
+export function todaySessionScheduleLabel(event, options = {}) {
+  return sessionScheduleLabelForDate(event, {
+    ...options,
+    referenceDate: options.referenceDate || options.now || new Date(),
+  });
 }
