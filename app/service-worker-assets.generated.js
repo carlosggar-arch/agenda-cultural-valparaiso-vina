@@ -94,6 +94,7 @@
     "./illustrations/gijon-header.svg",
     "./illustrations/valparaiso-header.svg",
     "./image-quality-guard.js",
+    "./image-resolver-core.mjs",
     "./index.html",
     "./installed-mosaic.js",
     "./manifest.webmanifest",
