@@ -1,13 +1,14 @@
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import { venueHoursForDate } from "./venue-hours.mjs?v=20260821-datevenue1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
+const DEFAULT_TIMEZONE = "UTC";
 const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
-let indexedTimezone = "America/Santiago";
+let indexedTimezone = DEFAULT_TIMEZONE;
 let eventsById = new Map();
 let patchQueued = false;
 
@@ -22,7 +23,7 @@ function syncRuntimeIndex() {
   if (indexedCity === cityId && indexedRevision === snapshot.revision && eventsById.size) return true;
   indexedCity = cityId;
   indexedRevision = snapshot.revision;
-  indexedTimezone = snapshot.city?.timezone || "America/Santiago";
+  indexedTimezone = snapshot.city?.timezone || DEFAULT_TIMEZONE;
   eventsById = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
   return true;
 }

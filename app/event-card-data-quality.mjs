@@ -1,4 +1,4 @@
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-temporal4";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 
 const DAY_ORDER = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
 const DAY_ALIASES = new Map([
@@ -33,46 +33,16 @@ function safeAbsoluteHttpUrl(value) {
 }
 
 export function browserFriendlySourceUrl(value) {
-  const url = safeAbsoluteHttpUrl(value);
-  if (!url) return null;
-
-  // Source-adapter policy, not an event exception: Gijón Open Data exposes the
-  // same authoritative dataset as XHTML and PDF. XHTML is useful for machines;
-  // PDF is the stable human-readable public fallback.
-  if (url.hostname.toLocaleLowerCase("es") === "opendata.gijon.es" && url.pathname.endsWith("/descargar.php")) {
-    const type = String(url.searchParams.get("tipo") || "").toLocaleUpperCase("es");
-    if (type === "XHTML") url.searchParams.set("tipo", "PDF");
-  }
-  return url.href;
-}
-
-function isMainGijonMunicipalAlias(value) {
-  const url = safeAbsoluteHttpUrl(value);
-  if (!url) return false;
-  const host = url.hostname.toLocaleLowerCase("es");
-  return host === "gijon.es" || host === "www.gijon.es";
+  return safeAbsoluteHttpUrl(value)?.href || null;
 }
 
 export function publicEventSourceUrl(event) {
   const links = event?.links || {};
-  const quality = String(event?.public_status?.external_link_quality || "");
-  const isGijonOpenData = String(event?.source_id || "") === "gijon_opendata_events";
-
-  const explicitCorroborating = links.corroborating || links.verified_source || links.secondary_source;
-  if (explicitCorroborating) return browserFriendlySourceUrl(explicitCorroborating);
-
-  // For an Open Data fallback, never send the visitor back to a known shell
-  // alias. Keep that alias as provenance and surface the stable public rendering.
-  if (isGijonOpenData && quality === "opendata_fallback") {
-    return browserFriendlySourceUrl(links.source || event?.source_url || links.official);
-  }
-
-  const official = links.official;
-  if (isGijonOpenData && isMainGijonMunicipalAlias(official) && quality !== "direct_official") {
-    return browserFriendlySourceUrl(links.source || event?.source_url || official);
-  }
-
-  return browserFriendlySourceUrl(official || links.source || event?.source_url);
+  const explicitCorroborating = links.presentation_source
+    || links.corroborating
+    || links.verified_source
+    || links.secondary_source;
+  return browserFriendlySourceUrl(explicitCorroborating || links.official || links.source || event?.source_url);
 }
 
 function dayIndex(value) {
@@ -139,14 +109,14 @@ function localDateKey(date, timezone) {
   return `${get("year")}-${get("month")}-${get("day")}`;
 }
 
-function localWeekday(date, timezone) {
-  return new Intl.DateTimeFormat("es-ES", {
+function localWeekday(date, timezone, locale = "es") {
+  return new Intl.DateTimeFormat(locale || "es", {
     timeZone: timezone,
     weekday: "long",
   }).format(date);
 }
 
-export function currentVisitHours(event, { now = new Date(), timezone = "UTC" } = {}) {
+export function currentVisitHours(event, { now = new Date(), timezone = "UTC", locale = "es" } = {}) {
   const opening = event?.schedule?.opening_hours;
   if (!opening) return null;
 
@@ -163,7 +133,7 @@ export function currentVisitHours(event, { now = new Date(), timezone = "UTC" } 
   const explicitToday = String(opening.today_display_text || "").trim();
   if (explicitToday) return explicitToday;
 
-  return openingHoursForWeekday(opening.display_text, localWeekday(now, timezone));
+  return openingHoursForWeekday(opening.display_text, localWeekday(now, timezone, locale));
 }
 
 export function enhanceBaseEventCard(card, event, city, now = new Date()) {
@@ -173,6 +143,7 @@ export function enhanceBaseEventCard(card, event, city, now = new Date()) {
   const hours = currentVisitHours(event, {
     now,
     timezone: city?.timezone || "UTC",
+    locale: city?.locale || "es",
   });
   if (hours) {
     const directParagraphs = [...card.children].filter((node) => node.tagName === "P");
@@ -219,13 +190,12 @@ function scheduleApply() {
 }
 
 if (typeof document !== "undefined" && typeof window !== "undefined") {
-  for (const selector of ["[data-dated-grid]", "[data-program-grid]", "[data-flexible-grid]"]) {
-    const grid = document.querySelector(selector);
-    if (grid && typeof MutationObserver !== "undefined") {
-      new MutationObserver(scheduleApply).observe(grid, { childList: true, subtree: false });
-    }
+  for (const eventName of [
+    "vivamos:agenda-data-ready",
+    "vivamos:agenda-rendered",
+    "vivamos:cards-enriched",
+  ]) {
+    window.addEventListener(eventName, scheduleApply);
   }
-  window.addEventListener("vivamos:agenda-data-ready", scheduleApply);
-  window.addEventListener("vivamos:cards-enriched", scheduleApply);
   scheduleApply();
 }

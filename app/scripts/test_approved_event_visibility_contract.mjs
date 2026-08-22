@@ -53,7 +53,7 @@ const titleBootstrap = read("title-normalizer-bootstrap.js");
 const categoryNormalizer = read("category-normalizer.js");
 
 // The startup entry point stays thin and one shared renderer owns grouped
-// exhibitions for every city after coreReady.
+// exhibition presentation for every city after coreReady.
 assert.match(appJs, /^import "\.\/startup-stability\.js/m);
 assert.match(appJs, /await import\("\.\/app-core\.js/);
 assert.match(appJs, /await coreReady;/);
@@ -75,11 +75,16 @@ assert.doesNotMatch(categoryNormalizer, /(?:window|globalThis|target)\.fetch\s*=
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 
-// The grouping contract is common: two or more simultaneous exhibitions in the
-// same venue are rendered by the canonical component from the runtime snapshot.
+// Group membership has exactly one runtime owner: app-core. The optional
+// exhibition module may enrich an existing data-event-group but can never
+// discover or regroup standalone cards itself.
+assert.match(appCore, /function buildDatedItems\(/);
+assert.match(appCore, /createExhibitionGroupCard/);
+assert.match(appCore, /dataset\.eventGroup|card\.dataset\.eventGroup|dataset\.eventGroup =|card\.dataset\.eventGroup =/);
 assert.match(grouping, /getAgendaRuntimeSnapshot/);
-assert.match(grouping, /groupStandaloneExhibitions/);
+assert.match(grouping, /function enhanceCoreGroups\(/);
 assert.match(grouping, /unifiedExhibitionGroup/);
+assert.doesNotMatch(grouping, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/);
 assert.doesNotMatch(grouping, /\bfetch\s*\(/);
 assert.match(groupingCore, /EXHIBITION_GROUP_MIN = 2/);
 assert.match(groupingCore, /clusterSimultaneousExhibitions/);
@@ -98,9 +103,9 @@ assert.match(combined, /data-section-filter="todos"/);
 
 const releaseMatch = release.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 163, "PWA release must include unified exhibition architecture");
+assert.ok(Number(releaseMatch[1]) >= 182, "PWA release must include shared presentation architecture");
 assert.doesNotMatch(release, /window\.stop|caches\.delete|pwa_recovered/);
 assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
 assert.doesNotMatch(release, /window\.location\.reload\(\)/);
 
-console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + unified exhibition renderer)`);
+console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + single-owner exhibition grouping)`);

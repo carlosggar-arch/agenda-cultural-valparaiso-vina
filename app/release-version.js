@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v180 unifies exhibition grouping and date-specific venue hours across cities.
-  const RELEASE = 180;
+  // v182 unifies presentation modules across cities and removes legacy card renderers.
+  const RELEASE = 182;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

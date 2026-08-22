@@ -1,5 +1,5 @@
 import { openEventDetail } from "./event-detail.js";
-import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import {
   canonicalPublicCategoryId,
   publicCategorySymbol,
@@ -8,10 +8,7 @@ import {
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const MONTH_PATTERN = "enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre";
-const FALLBACK_CONFIG = Object.freeze({
-  valparaiso: { timezone: "America/Santiago", locale: "es-CL" },
-  gijon: { timezone: "Europe/Madrid", locale: "es-ES" },
-});
+const DEFAULT_CONFIG = Object.freeze({ timezone: "UTC", locale: "es" });
 
 let indexedCity = null;
 let indexedRevision = 0;
@@ -44,9 +41,7 @@ function cityId() {
 }
 
 function cityConfig() {
-  const id = cityId();
-  const snapshot = getAgendaRuntimeSnapshot(id);
-  return snapshot?.city || FALLBACK_CONFIG[id] || FALLBACK_CONFIG.valparaiso;
+  return getAgendaRuntimeSnapshot(cityId())?.city || DEFAULT_CONFIG;
 }
 
 function primaryCategory(event) {
@@ -482,7 +477,7 @@ function syncRuntimeIndex() {
   indexedRevision = snapshot.revision;
   eventIndex = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
   venueImagePools = buildVenueImagePools(snapshot.events);
-  featuredIds = chooseFeatured(snapshot.events, snapshot.city || cityConfig());
+  featuredIds = chooseFeatured(snapshot.events, snapshot.city || DEFAULT_CONFIG);
   return true;
 }
 

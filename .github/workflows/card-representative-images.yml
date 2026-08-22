@@ -7,10 +7,10 @@ on:
       - "app/app.js"
       - "app/card-experience.js"
       - "app/card-experience.css"
-      - "app/card-image-fallback.js"
       - "app/image-quality-guard.js"
       - "app/event-data-corrections.js"
       - "app/release-version.js"
+      - "app/shared-presentation-runtime.test.mjs"
       - "tests/card-representative-images.test.mjs"
       - "tests/runtime-card-image-fallback.test.mjs"
       - ".github/workflows/card-representative-images.yml"
@@ -20,10 +20,10 @@ on:
       - "app/app.js"
       - "app/card-experience.js"
       - "app/card-experience.css"
-      - "app/card-image-fallback.js"
       - "app/image-quality-guard.js"
       - "app/event-data-corrections.js"
       - "app/release-version.js"
+      - "app/shared-presentation-runtime.test.mjs"
       - "tests/card-representative-images.test.mjs"
       - "tests/runtime-card-image-fallback.test.mjs"
       - ".github/workflows/card-representative-images.yml"
@@ -41,7 +41,8 @@ jobs:
         run: |
           node --check app/app.js
           node --check app/card-experience.js
-          node --check app/card-image-fallback.js
           node --check app/image-quality-guard.js
-      - name: Verify card image policies
-        run: node --test tests/card-representative-images.test.mjs tests/runtime-card-image-fallback.test.mjs
+      - name: Verify unified card image policies
+        run: |
+          node --test tests/card-representative-images.test.mjs tests/runtime-card-image-fallback.test.mjs
+          node app/shared-presentation-runtime.test.mjs
