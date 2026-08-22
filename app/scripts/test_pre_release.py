@@ -60,10 +60,6 @@ def check_service_worker() -> None:
     assert "SHELL_CACHE" in sw
     assert "service-worker-assets.generated.js" in sw
 
-    # City datasets are fetched through the dedicated DATA_CACHE. The generated
-    # shell manifest owns the complete offline application shell and may also
-    # include dataset files discovered from runtime references; it must not be
-    # duplicated as a hand-maintained list inside service-worker.js.
     for asset in (
         "./cities.json",
         "../assets/city-registry.mjs",
@@ -111,7 +107,6 @@ def check_ui_contract() -> None:
     assert 'BEGIN:VALARM' in reminders
     assert 'TRIGGER:${option.trigger}' in reminders
 
-    # The permanent URL remains an internal share/SEO primitive, not a user-facing action.
     assert 'function permanentEventUrl(event)' in event_detail_js
     assert 'addButtonAction(actions, "Compartir"' in event_detail_js
     assert 'Ficha permanente →' not in event_detail_js
@@ -126,10 +121,9 @@ def check_exhibition_layout_guard() -> None:
     grouping_js = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
     grouping_core = (APP / "exhibition-group-core.mjs").read_text(encoding="utf-8")
     hours_js = (APP / "exhibition-hours.js").read_text(encoding="utf-8")
+    schedule_js = (APP / "schedule-display.js").read_text(encoding="utf-8")
     app_js = (APP / "app.js").read_text(encoding="utf-8")
 
-    # Historical exhibition runtimes must stay retired. Rendering has one owner
-    # and grouped-card geometry has one CSS owner for every city.
     for retired in (
         "exhibition-compact.js",
         "exhibition-compact-loader.js",
@@ -140,9 +134,6 @@ def check_exhibition_layout_guard() -> None:
         assert not (APP / retired).exists(), f"retired exhibition runtime returned: {retired}"
         assert retired not in app_js, f"app.js references retired exhibition runtime: {retired}"
 
-    # Exhibition membership has one pure common policy in
-    # exhibition-group-core.mjs. Presentation consumes that policy to reconcile
-    # the initial/legacy cards and must not duplicate thresholds or clustering.
     assert "getAgendaRuntimeSnapshot" in grouping_js
     assert "enhanceCoreGroups" in grouping_js
     assert "groupStandaloneExhibitions" in grouping_js
@@ -157,9 +148,6 @@ def check_exhibition_layout_guard() -> None:
     assert "grouped-exhibition-item" in grouping_js
     assert "fetch(" not in grouping_js
 
-    # Temporary group anchors stay out of layout until the unified renderer has
-    # built the complete card. Up to three rows are fully visible; larger groups
-    # scroll within the card rather than clipping individual subcards.
     assert ".exhibition-group-card[data-event-group]:not(.exhibition-venue-card)" in compact_css
     assert "display: none !important" in compact_css
     assert ".exhibition-group-list" in compact_css
@@ -169,19 +157,24 @@ def check_exhibition_layout_guard() -> None:
     assert "height: auto !important" in compact_css
     assert "max-height: none !important" in compact_css
 
-    # The hours layer may update only completed group cards. It deduplicates the
-    # canonical hours row and must never inject competing presentation styles.
-    group_start = hours_js.index("function patchGroupCard")
-    group_end = hours_js.index("function patchCards", group_start)
-    group_block = hours_js[group_start:group_end]
+    # C3: schedule-display is the only schedule presentation owner. The legacy
+    # exhibition-hours entry remains only as an inert cache-compatibility shim.
+    group_start = schedule_js.index("function patchGroupedOpeningHours")
+    group_end = schedule_js.index("function enhanceCard", group_start)
+    group_block = schedule_js[group_start:group_end]
     assert 'card.classList.contains("exhibition-venue-card")' in group_block
     assert "setGroupedOpeningHours(card, hours)" in group_block
     assert "upsertOpeningParagraph" not in group_block
-    assert 'card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")' in hours_js
-    assert "candidates.slice(1)" in hours_js
-    assert "duplicate.remove()" in hours_js
-    assert 'document.createElement("style")' not in hours_js
-    assert "document.head.append" not in hours_js
+    assert 'card.querySelectorAll("[data-exhibition-opening-hours], .exhibition-venue-hours")' in schedule_js
+    assert "candidates.slice(1)" in schedule_js
+    assert "duplicate.remove()" in schedule_js
+    assert 'document.createElement("style")' not in schedule_js
+    assert "document.head.append" not in schedule_js
+    assert "venueHoursForDate" in schedule_js
+    assert "nextVenueOpeningForDate" in schedule_js
+    assert "venueHoursForDate" not in hours_js
+    assert ".textContent =" not in hours_js
+    assert "replaceChildren(" not in hours_js
 
 
 def validate_dataset(path: Path) -> dict:
@@ -247,9 +240,6 @@ def check_gijon_dataset() -> None:
     for event in events:
         check_gijon_geographic_scope(event)
         assert event.get("event_type") in {"event", "course", "program", "flexible_offer"}
-        # `event_type` is the canonical semantic field. `editorial.classification`
-        # is explanatory metadata produced by some sources, so it may be absent;
-        # when present it must agree with the canonical type.
         editorial = event.get("editorial") or {}
         classification = editorial.get("classification")
         if classification is not None:

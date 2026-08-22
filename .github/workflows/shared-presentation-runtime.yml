@@ -43,6 +43,7 @@ jobs:
           node --check assets/event-schedule-display.mjs
           node app/schedule-contract.test.mjs
           node app/scripts/test_schedule_contract_point8.mjs
+          node app/schedule-presentation-authority.test.mjs
           node app/public-text-sanitizer.test.mjs
           node app/shared-presentation-runtime.test.mjs
           node app/exhibition-group-architecture.test.mjs

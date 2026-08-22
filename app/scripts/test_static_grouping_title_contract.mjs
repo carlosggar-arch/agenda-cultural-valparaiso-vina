@@ -55,12 +55,10 @@ const programPolicy = read("program-visibility-policy.js");
 const filterSafety = read("combined-filters-safety.js");
 const compactCss = read("exhibition-compact.css");
 const exhibitionHours = read("exhibition-hours.js");
+const scheduleDisplay = read("schedule-display.js");
 const venueHours = read("venue-hours.mjs");
 const generatedManifest = read("service-worker-assets.generated.js");
 
-// Exhibition membership is defined by one shared pure policy. Runtime consumers
-// may invoke it at different presentation stages, but no consumer may redeclare
-// the grouping threshold or clustering algorithm.
 assert.match(appJs, /await coreReady;/);
 assert.match(appJs, /exhibition-groups\.js/);
 assert.doesNotMatch(appJs, /multievent-layout-fix\.js/);
@@ -94,22 +92,21 @@ for (const retired of [
   assert.doesNotMatch(generatedManifest, new RegExp(retired.replaceAll(".", "\\.")));
 }
 
-// Visibility recovery may request the canonical filter pass but may not expose
-// cards, rows or sections itself.
 assert.match(filterSafety, /requestCanonicalFilterPass/);
 assert.match(filterSafety, /data-smart-search/);
 assert.doesNotMatch(filterSafety, /static-exhibition-sentinels/);
 assert.doesNotMatch(filterSafety, /\.hidden\s*=/);
 
-// Grouped-card geometry belongs to CSS, not runtime JavaScript patches. Venue
-// identity is resolved by the shared venue-hours layer.
 assert.match(compactCss, /--agenda-group-row-min-height:\s*96px/);
 assert.match(compactCss, /--agenda-group-list-max-height:\s*306px/);
 assert.match(compactCss, /nth-child\(4\)/);
 assert.match(compactCss, /overflow-wrap:\s*anywhere/);
 assert.doesNotMatch(exhibitionHours, /style\.textContent|createElement\(["']style["']\)/);
-assert.match(exhibitionHours, /venueHoursForDate/);
-assert.doesNotMatch(exhibitionHours, /venueRecordForEvent|venueRecordForName/);
+assert.doesNotMatch(exhibitionHours, /venueHoursForDate|Horario del recinto:|\.textContent\s*=/);
+assert.match(scheduleDisplay, /venueHoursForDate/);
+assert.match(scheduleDisplay, /nextVenueOpeningForDate/);
+assert.match(scheduleDisplay, /Horario del recinto:/);
+assert.doesNotMatch(scheduleDisplay, /venueRecordForEvent|venueRecordForName/);
 assert.match(venueHours, /venueRecordForEvent/);
 assert.match(venueHours, /export function venueHoursForDate/);
 
@@ -122,7 +119,6 @@ assert.doesNotMatch(appJs, /^import "\.\/(?:title-normalizer-bootstrap|category-
 assert.doesNotMatch(titleBootstrap, /MutationObserver|IntersectionObserver/);
 assert.doesNotMatch(titleBootstrap, /(?:window|globalThis|target)\.fetch\s*=/);
 
-// The final normalized dataset is the shared runtime source for rich cards.
 assert.match(runtimeState, /getAgendaRuntimeSnapshot/);
 assert.match(cardExperience, /getAgendaRuntimeSnapshot/);
 assert.doesNotMatch(cardExperience, /\bfetch\s*\(/);
@@ -131,8 +127,6 @@ assert.match(presentationGuard, /getAgendaRuntimeSnapshot/);
 assert.doesNotMatch(presentationGuard, /new MutationObserver\s*\(/);
 assert.doesNotMatch(appJs, /card-title-consistency\.js/);
 
-// Optional supplemental datasets are a registry-driven capability, never a
-// city-specific runtime branch. Merge helpers stay pure.
 assert.match(pipeline, /city\?\.supplemental_dataset/);
 assert.match(pipeline, /mergeSupplementalPayload\(base, supplementalResult\.payload\)/);
 assert.match(supplementBridge, /export function mergeEvents/);
