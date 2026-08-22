@@ -34,15 +34,14 @@ def make_test_page() -> None:
     if pwa_marker not in source:
         raise AssertionError("pwa.js script marker not found in app/index.html")
 
-    # app.js remains the single owner of card, schedule and image presentation.
-    # This fixture replaces only pwa.js so it can exercise shell interactions
-    # without registering a service worker or duplicating presentation owners.
+    # app.js remains the single owner of card, schedule and content presentation.
+    # This fixture replaces only pwa.js and loads shell-only helpers that pwa.js
+    # normally owns. Do not import sources/community modules here: app.js already
+    # owns them and a second module URL would instantiate duplicate observers.
     enhancement_stack = '''<script type="module">
       import "./vivamos-brand.js";
       import "./compact-top.js";
       import "./gijon-visual-reference.js";
-      import "./sources-toggle.js";
-      import "./community-source.js";
       import "./header-redesign.js";
       import "./density-polish.js";
       import "./combined-filters-polish.js";
