@@ -45,6 +45,7 @@ app_entry = (APP / "app.js").read_text(encoding="utf-8")
 app_core = (APP / "app-core.js").read_text(encoding="utf-8")
 assert "app-core.js" in app_entry, "app.js must load app-core.js"
 assert "city-registry.mjs" in app_core, "app-core.js does not consume the canonical city registry"
+assert "agenda-order-core.mjs" in app_core, "app-core.js must consume the canonical top-level agenda ordering authority"
 
 runtime_files = {
     "first_run": (APP / "city-first-run.js").read_text(encoding="utf-8"),
@@ -84,13 +85,15 @@ for module in common_presentation:
     assert "loadAgendaDataset" not in text, f"{module} must not own a parallel data runtime"
     assert not city_constants.search(text), f"{module} hardcodes city-specific presentation knowledge"
 
-# Exhibition membership and duration have one pure, city-agnostic policy in
-# exhibition-group-core.mjs. Both initial rendering and presentation consume it.
+# Exhibition membership has one pure, city-agnostic policy in
+# exhibition-group-core.mjs. Top-level long-running priority belongs to the
+# canonical agenda/temporal order and is deliberately not reimplemented here.
 exhibition_groups = (APP / "exhibition-groups.js").read_text(encoding="utf-8")
 exhibition_group_core = (APP / "exhibition-group-core.mjs").read_text(encoding="utf-8")
 assert "exhibition-group-core.mjs" in app_core, "core renderer must consume the canonical exhibition grouping module"
 assert "groupStandaloneExhibitions" in app_core, "core renderer must use canonical exhibition membership"
-assert "isLongExhibitionDuration" in app_core, "core renderer must use canonical exhibition duration"
+assert "compareAgendaOrder" in app_core, "core renderer must use canonical top-level agenda order"
+assert "isLongExhibitionDuration" not in app_core, "core renderer must not maintain a parallel long-exhibition ordering rule"
 assert "const EXHIBITION_GROUP_MIN" not in app_core, "core renderer must not redeclare exhibition cardinality"
 assert "const LONG_EXHIBITION_DAYS" not in app_core, "core renderer must not redeclare long-exhibition duration"
 assert "function clusterVenueExhibitions" not in app_core, "core renderer must not redeclare exhibition clustering"
@@ -100,7 +103,7 @@ assert "function reconcileCommonMembership()" in exhibition_groups, "shared rend
 assert "const EXHIBITION_GROUP_MIN" not in exhibition_groups, "renderer must not redeclare exhibition group cardinality"
 assert "function clusterVenueExhibitions" not in exhibition_groups, "renderer must not redeclare exhibition clustering"
 assert "export const EXHIBITION_GROUP_MIN = 2" in exhibition_group_core, "common grouping core must own group cardinality"
-assert "export const LONG_EXHIBITION_DAYS = 7" in exhibition_group_core, "common grouping core must own long-exhibition duration"
+assert "export const LONG_EXHIBITION_DAYS = 7" in exhibition_group_core, "common grouping core must own reusable long-exhibition duration"
 assert "exhibitionGroupingVenueKey" in exhibition_group_core, "common grouping core must own exhibition venue identity"
 assert "function enhanceCoreGroups()" in exhibition_groups
 
