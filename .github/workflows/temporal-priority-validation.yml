@@ -6,15 +6,11 @@ on:
     paths:
       - "app/agenda-order-core.mjs"
       - "app/agenda-order-core.test.mjs"
-      - "app/app-core.js"
-      - "app/app.js"
-      - "app/cities.json"
-      - "app/exhibition-presentation-guard.js"
-      - "app/release-version.js"
       - "app/temporal-priority.js"
       - "app/temporal-priority-core.mjs"
-      - "app/scripts/test_temporal_priority_browser.py"
+      - "app/scripts/run_contracts.py"
       - "tests/temporal-priority-core.test.mjs"
+      - "tests/contract-topology.json"
       - ".github/workflows/temporal-priority-validation.yml"
   workflow_dispatch:
 
@@ -24,7 +20,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,22 +35,13 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate temporal and agenda order contracts
+      - name: Validate fast temporal contracts
         run: |
+          set -euo pipefail
           node --check app/temporal-priority-core.mjs
           node --check app/temporal-priority.js
           node --check app/agenda-order-core.mjs
-          node --check app/app.js
-          node --check app/app-core.js
-          node --test tests/temporal-priority-core.test.mjs
-          node --test app/agenda-order-core.test.mjs
+          python app/scripts/run_contracts.py --profile temporal-fast
 
-      - name: Validate multi-city architecture
-        run: |
-          python app/scripts/test_visual_multicity_v30.py
-          python app/scripts/test_third_city_architecture.py
-
-      - name: Validate temporal priority in a real browser
-        run: |
-          python app/scripts/test_first_render_browser.py
-          python app/scripts/test_temporal_priority_browser.py
+      - name: Note browser ownership
+        run: echo "Temporal browser behavior is composed once by Required release guard via the canonical temporal-order scenario."
