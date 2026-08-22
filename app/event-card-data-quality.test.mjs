@@ -80,10 +80,25 @@ test("visit hours are shown only while the dated exhibition is active", () => {
       start: "2026-07-29",
       end: "2026-08-30",
       opening_hours: {
-        display_text: "Martes a viernes: 09:30–14:00 y 17:00–19:30. Sábados y domingos: 10:00–14:00 y 17:00–19:30.",
+        display_text: "Lunes a viernes: 9:00 a 21:00. Sábados: 11:00 a 14:00 y 16:00 a 21:00.",
       },
     },
   };
-  assert.equal(currentVisitHours(event, { date: "2026-08-22", weekday: "sábado" }), "10:00–14:00 y 17:00–19:30");
-  assert.equal(currentVisitHours(event, { date: "2026-08-31", weekday: "lunes" }), null);
+
+  assert.equal(
+    currentVisitHours(event, {
+      now: new Date("2026-08-21T10:00:00Z"),
+      timezone: "Europe/Madrid",
+      locale: "es-ES",
+    }),
+    "09:00–21:00",
+  );
+  assert.equal(
+    currentVisitHours(event, {
+      now: new Date("2026-09-02T10:00:00Z"),
+      timezone: "Europe/Madrid",
+      locale: "es-ES",
+    }),
+    null,
+  );
 });
