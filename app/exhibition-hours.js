@@ -1,7 +1,7 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
-import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
+import { dailyExhibitionHours, nextDailyExhibitionOpening } from "./date-aware-exhibition-hours.mjs?v=20260821-next-hours1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
-import { venueHoursForDate } from "./venue-hours.mjs?v=20260821-datevenue1";
+import { nextVenueOpeningForDate, venueHoursForDate } from "./venue-hours.mjs?v=20260821-next-hours1";
 
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
 const DEFAULT_TIMEZONE = "UTC";
@@ -9,6 +9,7 @@ const datedGrid = document.querySelector("[data-dated-grid]");
 let indexedCity = null;
 let indexedRevision = 0;
 let indexedTimezone = DEFAULT_TIMEZONE;
+let indexedLocale = "es";
 let eventsById = new Map();
 let patchQueued = false;
 
@@ -24,6 +25,7 @@ function syncRuntimeIndex() {
   indexedCity = cityId;
   indexedRevision = snapshot.revision;
   indexedTimezone = snapshot.city?.timezone || DEFAULT_TIMEZONE;
+  indexedLocale = snapshot.city?.locale || "es";
   eventsById = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
   return true;
 }
@@ -38,15 +40,52 @@ function referenceDateKey() {
   return visibleReferenceDateKey({ timezone: indexedTimezone });
 }
 
+function formatOpeningDate(dateKey) {
+  const match = String(dateKey || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return dateKey || "";
+  const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]), 12));
+  return new Intl.DateTimeFormat(indexedLocale, {
+    timeZone: "UTC",
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  }).format(date).replace(/\.$/, "");
+}
+
+function closedWithNextOpening(nextOpening, dateField, hoursField) {
+  if (!nextOpening) return "Cerrado";
+  const date = formatOpeningDate(nextOpening[dateField]);
+  const hours = String(nextOpening[hoursField] || "").trim();
+  if (!(date && hours)) return "Cerrado";
+  return `Cerrado · Próxima apertura: ${date} · ${hours}`;
+}
+
 function explicitVenueHours(event) {
   if (!isExhibition(event)) return null;
   const referenceDate = referenceDateKey();
+
+  // Event-specific weekly hours are authoritative. If they say the exhibition
+  // is closed on the selected date, find the next opening from that same
+  // schedule before consulting any generic venue registry.
   const scheduleHours = dailyExhibitionHours(event?.schedule, {
     timezone: indexedTimezone,
     referenceDate,
-  })?.label || null;
-  if (scheduleHours) return scheduleHours;
-  return venueHoursForDate(event, indexedCity, referenceDate)?.display || null;
+  });
+  if (scheduleHours?.label) {
+    if (!scheduleHours.closed && !/^cerrado\b/i.test(scheduleHours.label)) return scheduleHours.label;
+    const next = nextDailyExhibitionOpening(event?.schedule, {
+      timezone: indexedTimezone,
+      referenceDate,
+      maxDays: 7,
+    });
+    return closedWithNextOpening(next, "referenceDateKey", "label");
+  }
+
+  const venueHours = venueHoursForDate(event, indexedCity, referenceDate);
+  if (!venueHours?.display) return null;
+  if (!/^cerrado\b/i.test(venueHours.display)) return venueHours.display;
+  const next = nextVenueOpeningForDate(event, indexedCity, referenceDate, { max_days: 7 });
+  return closedWithNextOpening(next, "reference_date", "display");
 }
 
 function patchStandaloneCard(card) {
@@ -120,16 +159,13 @@ function patchGroupCard(card) {
   const ids = String(card.dataset.eventGroup || "").split(",").map((value) => value.trim()).filter(Boolean);
   if (!ids.length) return;
   const events = ids.map((id) => eventsById.get(id)).filter(Boolean);
-  const referenceDate = referenceDateKey();
-  let hours = null;
-  for (const event of events) {
-    const venueHours = venueHoursForDate(event, indexedCity, referenceDate)?.display || null;
-    if (venueHours) {
-      hours = venueHours;
-      break;
+  let hours = commonExplicitHours(events);
+  if (!hours) {
+    for (const event of events) {
+      hours = explicitVenueHours(event);
+      if (hours) break;
     }
   }
-  if (!hours) hours = commonExplicitHours(events);
   setGroupedOpeningHours(card, hours);
 }
 
