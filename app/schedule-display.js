@@ -76,8 +76,8 @@ function formatEventSchedule(schedule, referenceDateKey = null) {
 
 function visitHoursLabel(daily) {
   if (!daily?.label) return null;
-  if (daily.closed || /^cerrado\b/i.test(daily.label)) return daily.label;
-  return `Horario de visita: ${daily.label}`;
+  const label = daily.closed || /^cerrado\b/i.test(daily.label) ? "Cerrado" : daily.label;
+  return `Horario de hoy: ${label}`;
 }
 
 export function scheduleForEventDisplay(event, options = {}) {
