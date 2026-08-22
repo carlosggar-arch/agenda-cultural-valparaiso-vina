@@ -32,6 +32,23 @@ const normalized = normalizeAgendaTitles(categorized);
 assert.equal(normalized.events[0].title, "Alejandro Sirio. La caligrafía del dibujo");
 assert.deepEqual(normalizeAgendaTitles(normalized), normalized, "final title normalization must be idempotent");
 
+const categoryPrefixed = normalizeAgendaTitles({
+  events: [{
+    id: "category-prefix-title-fixture",
+    title: "EXPOSICIÓN. La Isla: la pieza que faltaba",
+    description: "",
+    location: { venue: "Centro cultural", city: "Gijón" },
+    primary_category: { id: "exposiciones", label: "Exposiciones" },
+    categories: [{ id: "exposiciones", label: "Exposiciones" }],
+  }],
+});
+assert.equal(categoryPrefixed.events[0].title, "La Isla: la pieza que faltaba");
+assert.equal(
+  categoryPrefixed.events[0].original_title,
+  "EXPOSICIÓN. La Isla: la pieza que faltaba",
+  "category-label cleanup must preserve source provenance",
+);
+
 assert.match(titleNormalizer, /recoverExplicitActivityTitle/);
 assert.match(titleNormalizer, /recoverAgendaTitles/);
 assert.doesNotMatch(categoryNormalizer, /QUOTED_ACTIVITY|recoverExplicitActivityTitle|repairVenueTitle/, "category normalizer must not recover semantic titles");
