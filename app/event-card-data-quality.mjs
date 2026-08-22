@@ -70,8 +70,6 @@ function clock(hour, minute) {
 }
 
 function scheduleClauses(displayText) {
-  // Do not split on the decimal dot inside clocks such as 9.30. A sentence dot
-  // only acts as a separator when the next non-space character is a letter.
   return String(displayText || "")
     .split(/;|\.(?=\s*[A-Za-zÁÉÍÓÚÜÑáéíóúüñ])/)
     .map((part) => part.trim())
@@ -117,22 +115,17 @@ function localWeekday(date, timezone, locale = "es") {
 }
 
 export function currentVisitHours(event, { now = new Date(), timezone = "UTC", locale = "es" } = {}) {
-  const opening = event?.schedule?.opening_hours;
+  const opening = event?.schedule?.venue_hours || event?.schedule?.opening_hours;
   if (!opening) return null;
 
   const today = localDateKey(now, timezone);
   const start = dateKey(event?.schedule?.start);
   const end = dateKey(event?.schedule?.end || event?.schedule?.start);
-
-  // Weekly venue hours are useful on the card only while the dated exhibition
-  // is actually running. This prevents today's venue schedule leaking into a
-  // future or already-finished exhibition.
   if (start && today < start) return null;
   if (end && today > end) return null;
 
   const explicitToday = String(opening.today_display_text || "").trim();
   if (explicitToday) return explicitToday;
-
   return openingHoursForWeekday(opening.display_text, localWeekday(now, timezone, locale));
 }
 
@@ -140,18 +133,26 @@ export function enhanceBaseEventCard(card, event, city, now = new Date()) {
   if (!card || !event) return false;
   let changed = false;
 
-  const hours = currentVisitHours(event, {
-    now,
-    timezone: city?.timezone || "UTC",
-    locale: city?.locale || "es",
-  });
-  if (hours) {
-    const directParagraphs = [...card.children].filter((node) => node.tagName === "P");
-    const schedule = directParagraphs[0];
-    if (schedule && !schedule.dataset.visitHoursApplied) {
-      schedule.textContent = `${schedule.textContent.trim()} · hoy ${hours}`;
-      schedule.dataset.visitHoursApplied = "true";
-      changed = true;
+  // Point 8 is the schedule authority. Canonical schedules are rendered by the
+  // shared schedule-display layer; this legacy quality pass must not append
+  // venue hours to the event-time line and recreate mixed clocks.
+  if (!event?.schedule?.schedule_contract_version) {
+    const hours = currentVisitHours(event, {
+      now,
+      timezone: city?.timezone || "UTC",
+      locale: city?.locale || "es",
+    });
+    if (hours) {
+      const directParagraphs = [...card.children].filter((node) => node.tagName === "P");
+      const schedule = directParagraphs[0];
+      if (schedule && !card.querySelector(":scope > .venue-opening-hours")) {
+        const visit = document.createElement("p");
+        visit.className = "venue-opening-hours";
+        visit.dataset.visitHoursApplied = "true";
+        visit.textContent = `Horario de visita: ${hours}`;
+        schedule.insertAdjacentElement("afterend", visit);
+        changed = true;
+      }
     }
   }
 
