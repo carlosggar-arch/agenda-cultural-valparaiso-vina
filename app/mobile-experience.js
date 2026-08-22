@@ -2,22 +2,20 @@ const MOBILE_QUERY = "(max-width: 900px)";
 const standaloneQuery = window.matchMedia?.("(display-mode: standalone)");
 const chooserBackdrop = document.querySelector("[data-chooser-backdrop]");
 
-function ensureMeta(name, content) {
-  let meta = document.head.querySelector(`meta[name="${name}"]`);
-  if (!meta) {
-    meta = document.createElement("meta");
-    meta.name = name;
-    document.head.append(meta);
+function verifyStaticMobileMetadata() {
+  const expected = new Map([
+    ["application-name", "¡Vivamos!"],
+    ["mobile-web-app-capable", "yes"],
+    ["apple-mobile-web-app-capable", "yes"],
+    ["apple-mobile-web-app-title", "¡Vivamos!"],
+    ["apple-mobile-web-app-status-bar-style", "default"],
+  ]);
+  for (const [name, content] of expected) {
+    const meta = document.head.querySelector(`meta[name="${name}"]`);
+    if (!meta || meta.content !== content) {
+      console.error(`¡Vivamos!: static mobile metadata missing or invalid (${name})`);
+    }
   }
-  meta.content = content;
-}
-
-function installMobileMetadata() {
-  ensureMeta("application-name", "¡Vivamos!");
-  ensureMeta("mobile-web-app-capable", "yes");
-  ensureMeta("apple-mobile-web-app-capable", "yes");
-  ensureMeta("apple-mobile-web-app-title", "¡Vivamos!");
-  ensureMeta("apple-mobile-web-app-status-bar-style", "default");
 }
 
 function verifyMobileStyles() {
@@ -78,7 +76,7 @@ function restoreChooserCopyForManualSwitch() {
   if (intro) intro.textContent = "La ciudad que elijas quedará guardada como tu agenda habitual. Podrás cambiarla de nuevo cuando quieras.";
 }
 
-installMobileMetadata();
+verifyStaticMobileMetadata();
 verifyMobileStyles();
 syncClientFlags();
 removeRetiredTabbars();

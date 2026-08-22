@@ -44,6 +44,7 @@ jobs:
             app/scripts/test_exhibition_filter_isolation_browser.py \
             app/scripts/test_structural_event_visibility_browser.py \
             app/scripts/test_pwa_install_browser.py \
+            app/scripts/test_ios_install_intent_browser.py \
             app/scripts/test_multicity_source_registry_coverage.py \
             app/scripts/test_priority_zero_monitors.py \
             app/scripts/production_pwa_smoke.py \
@@ -126,5 +127,5 @@ jobs:
 
       - name: Note final Stage D gate roles
         run: |
-          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering."
+          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering and installability."
           echo "Production network verification runs only after merge on main (or manual rerun against latest main)."
