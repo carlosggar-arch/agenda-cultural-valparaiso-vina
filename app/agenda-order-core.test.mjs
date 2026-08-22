@@ -88,10 +88,16 @@ test("C1 canonical comparator is A-equivalent to the legacy final visible order"
   assert.deepEqual(after, before);
 });
 
-test("exhibition presentation guard no longer owns CSS order", async () => {
+test("top-level renderers share one agenda order authority", async () => {
   const guard = await readFile(new URL("./exhibition-presentation-guard.js", import.meta.url), "utf8");
   const app = await readFile(new URL("./app.js", import.meta.url), "utf8");
+  const core = await readFile(new URL("./app-core.js", import.meta.url), "utf8");
+
   assert.doesNotMatch(guard, /\.style\.order\s*=/);
+  assert.doesNotMatch(guard, /function\s+cityRank\b/);
   assert.match(app, /compareAgendaOrder/);
   assert.doesNotMatch(app, /compareTemporalPriority/);
+  assert.match(core, /compareAgendaOrder/);
+  assert.doesNotMatch(core, /function\s+sortEvents\b/);
+  assert.doesNotMatch(core, /isLongExhibitionDuration/);
 });
