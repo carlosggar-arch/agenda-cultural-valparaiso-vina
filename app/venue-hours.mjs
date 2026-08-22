@@ -131,6 +131,22 @@ function dateParts(dateKey) {
   return { year, month, day, weekday };
 }
 
+function addDateDays(dateKey, days) {
+  const parts = dateParts(dateKey);
+  if (!parts || !Number.isInteger(days)) return null;
+  const date = new Date(Date.UTC(parts.year, parts.month - 1, parts.day + days, 12));
+  return date.toISOString().slice(0, 10);
+}
+
+function eventEndDateKey(event) {
+  const schedule = event?.schedule || {};
+  const occurrences = Array.isArray(schedule.occurrences) ? schedule.occurrences : [];
+  const last = occurrences.at(-1);
+  const value = schedule.end || last?.end || last?.start || schedule.start;
+  const match = String(value || "").match(/^(\d{4}-\d{2}-\d{2})/);
+  return match?.[1] || null;
+}
+
 function monthNumber(token) {
   return MONTHS[fold(token).replace(/[^a-z]/g, "")] || null;
 }
@@ -237,6 +253,21 @@ export function venueHoursForDate(event, cityId, referenceDateKey) {
   const display = dateSpecificHours(record.display, referenceDateKey);
   if (!display) return null;
   return { ...record, display, reference_date: referenceDateKey };
+}
+
+export function nextVenueOpeningForDate(event, cityId, referenceDateKey, options = {}) {
+  if (!event || !referenceDateKey) return null;
+  const maxDays = Math.max(1, Math.min(14, Number(options.max_days) || 7));
+  const endKey = eventEndDateKey(event);
+  for (let daysAhead = 1; daysAhead <= maxDays; daysAhead += 1) {
+    const candidateKey = addDateDays(referenceDateKey, daysAhead);
+    if (!candidateKey) break;
+    if (endKey && candidateKey > endKey) break;
+    const candidate = venueHoursForDate(event, cityId, candidateKey);
+    if (!candidate?.display || /^cerrado\b/i.test(candidate.display)) continue;
+    return { ...candidate, days_ahead: daysAhead };
+  }
+  return null;
 }
 
 export { VALPARAISO_VENUE_HOURS, venueKey };

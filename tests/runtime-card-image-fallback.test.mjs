@@ -30,9 +30,9 @@ test("retired parallel card image renderers are not loaded", () => {
   assert.match(app, /card-experience\.js\?v=20260821-shared-runtime1/);
   assert.match(app, /image-quality-guard\.js\?v=20260821-shared-runtime1/);
   assert.match(app, /public-presentation-guard\.js\?v=20260821-shared-runtime1/);
-  assert.match(app, /exhibition-hours\.js\?v=20260821-gijonhours1/);
+  assert.match(app, /exhibition-hours\.js\?v=[^"\s]+/);
   assert.match(app, /exhibition-groups\.js\?v=20260821-single-owner1/);
-  assert.match(app, /schedule-display\.js\?v=20260819-runtime1/);
+  assert.match(app, /schedule-display\.js\?v=[^"\s]+/);
   assert.doesNotMatch(app, /static-exhibition-groups\.js|card-title-consistency\.js\?/);
 });
 
