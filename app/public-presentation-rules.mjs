@@ -297,3 +297,57 @@ export function groupedScheduleLabel(event, options = {}) {
   const time = formatTime(start, locale, timezone);
   return time ? `${date} · ${time}` : date || cleanSpace(schedule.display_text) || "Horario por confirmar";
 }
+
+function verifiedLocationEvidence(event) {
+  const verification = event?.location?.verification;
+  return event?.public_status?.source_official === true
+    || event?.location?.address_verified === true
+    || event?.location?.coordinates_verified === true
+    || verification?.verified === true
+    || cleanSpace(verification?.status).toLocaleLowerCase("es") === "verified";
+}
+
+function finiteCoordinate(value, min, max) {
+  if (value === null || value === undefined || value === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) && number >= min && number <= max ? number : null;
+}
+
+function usefulStreetAddress(value, city) {
+  const address = cleanSpace(value);
+  if (!address) return null;
+  const normalized = fold(address);
+  if (!normalized || ["por confirmar", "sin direccion", "direccion por confirmar", "lugar por confirmar"].includes(normalized)) return null;
+  if (city && normalized === fold(city)) return null;
+  return address;
+}
+
+export function googleMapsDestination(event) {
+  const location = event?.location || {};
+  if (location.online === true || !verifiedLocationEvidence(event)) return null;
+
+  const latitude = finiteCoordinate(location.latitude, -90, 90);
+  const longitude = finiteCoordinate(location.longitude, -180, 180);
+  if (latitude !== null && longitude !== null && !(latitude === 0 && longitude === 0)) {
+    return `${latitude},${longitude}`;
+  }
+
+  const city = cleanSpace(location.city || location.commune);
+  const address = usefulStreetAddress(location.address, city);
+  if (!(address && city)) return null;
+
+  const parts = [cleanSpace(location.venue), address, city].filter(Boolean);
+  const seen = new Set();
+  return parts.filter((part) => {
+    const key = fold(part);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).join(", ");
+}
+
+export function googleMapsDirectionsUrl(event) {
+  const destination = googleMapsDestination(event);
+  if (!destination) return null;
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+}
