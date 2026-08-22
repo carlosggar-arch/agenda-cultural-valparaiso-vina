@@ -1,5 +1,9 @@
 import assert from "node:assert/strict";
-import { todaySessionScheduleLabel } from "./today-session-presentation.mjs";
+import {
+  hasEventSpecificTime,
+  todaySessionScheduleLabel,
+  withMissingEventTimeFallback,
+} from "./today-session-presentation.mjs";
 
 const valpo = {
   locale: "es-CL",
@@ -59,6 +63,8 @@ const ordinaryTimedEvent = {
   description: "Una única función esta tarde.",
 };
 assert.equal(todaySessionScheduleLabel(ordinaryTimedEvent, valpo), null);
+assert.equal(hasEventSpecificTime(ordinaryTimedEvent.schedule), true);
+assert.equal(withMissingEventTimeFallback("jue, 20 ago · 18:00", ordinaryTimedEvent.schedule), "jue, 20 ago · 18:00");
 
 const noSessionToday = {
   schedule: {
@@ -70,5 +76,30 @@ const noSessionToday = {
   },
 };
 assert.equal(todaySessionScheduleLabel(noSessionToday, valpo), null);
+
+const noTimeRun = {
+  mode: "multi_day",
+  start: "2026-08-21",
+  end: "2026-08-30",
+  display_text: "21–30 ago",
+  occurrences: [],
+};
+assert.equal(hasEventSpecificTime(noTimeRun), false);
+assert.equal(
+  withMissingEventTimeFallback("21–30 ago", noTimeRun),
+  "21–30 ago · Consultar horario en la fuente",
+);
+assert.equal(
+  withMissingEventTimeFallback("", noTimeRun),
+  "Consultar horario en la fuente",
+);
+
+const timeOnlyInDisplay = {
+  start: "2026-08-21",
+  end: "2026-08-30",
+  display_text: "Funciones · 22:00",
+};
+assert.equal(hasEventSpecificTime(timeOnlyInDisplay), true);
+assert.equal(withMissingEventTimeFallback("21–30 ago · 22:00", timeOnlyInDisplay), "21–30 ago · 22:00");
 
 console.log("TODAY_SESSION_PRESENTATION_OK");
