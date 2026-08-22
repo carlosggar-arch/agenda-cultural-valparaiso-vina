@@ -32,14 +32,14 @@ function foldDay(value) {
   return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
 }
 function dayIndex(value) {
-  const day = foldDay(value).replace(/s$/u, "");
+  const day = foldDay(value);
   if (/^(?:lunes|lun)$/.test(day)) return 0;
   if (/^(?:martes|mar)$/.test(day)) return 1;
   if (/^(?:miercoles|mie)$/.test(day)) return 2;
   if (/^(?:jueves|jue)$/.test(day)) return 3;
   if (/^(?:viernes|vie)$/.test(day)) return 4;
-  if (/^(?:sabado|sab)$/.test(day)) return 5;
-  if (/^(?:domingo|dom)$/.test(day)) return 6;
+  if (/^(?:sabado|sabados|sab)$/.test(day)) return 5;
+  if (/^(?:domingo|domingos|dom)$/.test(day)) return 6;
   return null;
 }
 function openWeekdaysFromDisplay(display) {
