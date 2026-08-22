@@ -15,12 +15,13 @@ const structuralContracts = [
   "scripts/test_multi_city_ui.py",
   "scripts/test_static_grouping_title_contract.mjs",
   "scripts/test_approved_event_visibility_contract.mjs",
+  "scripts/test_structural_hardening.py",
   "scripts/test_pre_release.py",
 ];
 
 const forbiddenCouplings = [
   {
-    pattern: /\bRELEASE\b[^\n]*>=\s*\d+|releaseNumber[^\n]*>=\s*\d+/i,
+    pattern: /\bRELEASE\b[^\n]*>=\s*\d+|releaseNumber[^\n]*>=\s*\d+|int\([^\n]*release[^\n]*\)\s*>=\s*\d+/i,
     reason: "architecture contracts must not depend on a numeric release milestone",
   },
   {
