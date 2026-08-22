@@ -13,12 +13,13 @@ A workflow may compose canonical owners, but it should not independently re-enco
 3. **Browser** — observable user scenarios in a real browser. These tests should assert rendered state and interactions, not the source-code spelling used to produce them.
 4. **Release** — generated shell, cache/bundle coherence, protected production boundaries and production smoke.
 
-The machine-readable ownership map is `tests/contract-topology.json`; `app/scripts/test_contract_topology.py` validates it.
+The machine-readable ownership map is `tests/contract-topology.json`; `app/scripts/test_contract_topology.py` validates it. Executable canonical owners are invoked through `app/scripts/run_contracts.py`, by contract ID or by a topology-defined profile.
 
 ## Rules
 
 - Every contract ID has exactly one owner.
 - Stage C authority domains must have a semantic or architecture owner.
+- Workflows execute canonical owners through runner profiles rather than duplicating their command lines.
 - An architecture test may assert a module boundary when the boundary itself is the contract; it should not freeze unrelated implementation details.
 - Browser tests own user-visible behavior. Static tests should not duplicate a browser scenario by matching internal source literals.
 - Release tests own generated/deployment integrity and may compose semantic, architecture and browser owners.
@@ -27,13 +28,15 @@ The machine-readable ownership map is `tests/contract-topology.json`; `app/scrip
 
 ## Stage D sequence
 
-### D1 — Contract topology
+### D1 — Contract topology — CLOSED
 
-Create and validate the ownership map. Record existing overlaps instead of deleting coverage blindly. D1 is non-functional: no runtime, dataset, editorial or PWA behavior changes.
+Created and validated the ownership map without runtime, dataset, editorial or PWA behavior changes.
 
-### D2 — Canonical contract runner
+### D2 — Canonical contract runner — CURRENT
 
-Create a common runner for semantic/architecture contracts and make workflows invoke that runner instead of maintaining parallel command lists. Remove the duplicate `test_release_guard.py`, `test_multi_city_ui.py` and `test_contextual_filters.py` executions recorded by D1 while preserving coverage.
+`run_contracts.py` reads the D1 topology and executes owners by ID/profile. The `shared-presentation`, `required-release` and `multi-city` profiles preserve the existing canonical owners while removing duplicate execution of generated-shell, multi-city UI and contextual-filter contracts. A stray duplicate startup architecture execution in the shared-presentation workflow was also removed.
+
+After D2, the only declared temporary overlap is `browser.first-render`, intentionally retained until D3.
 
 ### D3 — Scenario-oriented E2E
 
@@ -45,6 +48,4 @@ Leave a simple final topology: fast semantic/architecture PR contracts, one requ
 
 ## Current known overlaps
 
-D1 records only overlaps already proven from current workflows. The initial set includes repeated generated-shell release checks, multi-city UI/contextual-filter contracts and first-render browser execution between `Multi-city pre-release validation` and `Required release guard`.
-
-No overlap is removed merely because it appears redundant: D2/D3 must first establish the canonical owner and demonstrate equivalent coverage.
+D2 retires all overlaps scheduled for D2. `browser.first-render` remains the sole temporary overlap and is scheduled for removal in D3. No runtime or production-data behavior is changed by this consolidation.
