@@ -56,9 +56,14 @@ assert.equal(
 );
 
 const appCore = read("app-core.js");
+const agendaOrder = read("agenda-order-core.mjs");
+const exhibitionGroupCore = read("exhibition-group-core.mjs");
 assert.match(appCore, /from "\.\/exhibition-group-core\.mjs/, "app-core must consume the canonical exhibition grouping module");
 assert.match(appCore, /groupStandaloneExhibitions\(/, "app-core initial grouping must use the canonical membership policy");
-assert.match(appCore, /isLongExhibitionDuration\(/, "app-core long-exhibition ordering must use the canonical duration policy");
+assert.match(appCore, /compareAgendaOrder\(/, "app-core top-level ordering must use the canonical agenda order");
+assert.doesNotMatch(appCore, /isLongExhibitionDuration\(/, "app-core must not reintroduce a parallel long-exhibition ordering rule");
+assert.match(agendaOrder, /compareTemporalPriority\(/, "agenda order must delegate temporal semantics to temporal-priority-core");
+assert.match(exhibitionGroupCore, /export const LONG_EXHIBITION_DAYS = 7/, "grouping core must retain its reusable long-exhibition threshold");
 assert.doesNotMatch(
   appCore,
   /const\s+EXHIBITION_GROUP_MIN\s*=|const\s+LONG_EXHIBITION_DAYS\s*=|function\s+clusterVenueExhibitions|function\s+exhibitionRange|function\s+exhibitionVenueKey/,
