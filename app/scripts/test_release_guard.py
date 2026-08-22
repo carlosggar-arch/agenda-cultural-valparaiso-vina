@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 WORKFLOW = ROOT / ".github/workflows/multi-city-pre-release.yml"
 REQUIRED_WORKFLOW = ROOT / ".github/workflows/required-release-guard.yml"
+TOPOLOGY = ROOT / "tests/contract-topology.json"
 
 
 def text(path: Path) -> str:
@@ -89,9 +90,6 @@ def check_asset_coherence() -> None:
     assert shell_contains(shell, header_module), "generated shell must cache the header module declared by pwa.js"
     assert shell_contains(shell, mobile_module), "generated shell must cache the mobile module declared by pwa.js"
 
-    # Content presentation has a single owner: app.js. pwa.js is shell/UI only,
-    # so it must not instantiate a second schedule-display module with a distinct
-    # ESM URL/query string.
     app_schedule = module_url(app_js, "schedule-display.js")
     pwa_schedule = module_url(pwa, "schedule-display.js")
     assert app_schedule, "app.js must declare the shared schedule display module"
@@ -183,10 +181,27 @@ def check_startup_resilience_contract() -> None:
 def check_workflow_guard() -> None:
     workflow = text(WORKFLOW)
     required = text(REQUIRED_WORKFLOW)
-    assert "python app/scripts/test_release_guard.py" in workflow, "release guard is not wired into multi-city CI"
-    assert "python app/scripts/test_first_render_browser.py" in workflow, "first-render browser probe is not wired into multi-city CI"
-    assert "python app/scripts/test_startup_resilience_browser.py" in required, "real startup resilience browser probe is not required before merge"
-    assert "node app/startup-architecture.test.mjs" in required, "startup architecture contract is not required before merge"
+    topology = json.loads(text(TOPOLOGY))
+    contracts = {entry["id"]: entry for entry in topology["contracts"]}
+    profiles = topology["runner_profiles"]
+
+    release_contract = contracts["release.generated-shell"]
+    assert release_contract["owner"] == "app/scripts/test_release_guard.py"
+    assert release_contract["workflow"] == ".github/workflows/required-release-guard.yml"
+    assert "release.generated-shell" in profiles["required-release"]
+    assert "architecture.startup" in profiles["required-release"]
+    assert "python app/scripts/run_contracts.py --profile required-release" in required, (
+        "required release contracts must be invoked through the canonical runner"
+    )
+    assert "python app/scripts/test_release_guard.py" not in workflow, (
+        "generated-shell contract must not be duplicated in multi-city CI"
+    )
+    assert "python app/scripts/test_first_render_browser.py" in workflow, (
+        "first-render browser probe remains duplicated only until D3"
+    )
+    assert "python app/scripts/test_startup_resilience_browser.py" in required, (
+        "real startup resilience browser probe is not required before merge"
+    )
     assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert "node app/date-filter-architecture.test.mjs" in required, "date-filter single-source contract is not required before merge"
     assert 'PWA v33' not in workflow, "stale PWA v33 assertion remains in workflow"
