@@ -30,13 +30,26 @@ function mondayZeroWeekday(dateKey) {
   return (sundayZero + 6) % 7;
 }
 
+function addDateDays(dateKey, days) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateKey || "")) || !Number.isInteger(days)) return null;
+  const [year, month, day] = dateKey.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day + days, 12)).toISOString().slice(0, 10);
+}
+
+function scheduleBoundaryKeys(schedule, timezone) {
+  const start = schedule?.start || schedule?.occurrences?.[0]?.start;
+  const end = schedule?.end || schedule?.occurrences?.at?.(-1)?.end || schedule?.occurrences?.at?.(-1)?.start || start;
+  return {
+    startKey: dateKeyForTimezone(start, timezone),
+    endKey: dateKeyForTimezone(end, timezone),
+  };
+}
+
 export function exhibitionReferenceDateKey(schedule, options = {}) {
   const timezone = options.timezone || "UTC";
   const requested = dateKeyForTimezone(options.referenceDate || options.now || new Date(), timezone);
-  const start = schedule?.start || schedule?.occurrences?.[0]?.start;
-  const end = schedule?.end || schedule?.occurrences?.at?.(-1)?.end || schedule?.occurrences?.at?.(-1)?.start || start;
-  const startKey = dateKeyForTimezone(start, timezone);
-  const endKey = dateKeyForTimezone(end, timezone) || startKey;
+  const { startKey, endKey: rawEndKey } = scheduleBoundaryKeys(schedule, timezone);
+  const endKey = rawEndKey || startKey;
 
   if (requested && (!startKey || !endKey || (startKey <= requested && requested <= endKey))) return requested;
   return startKey || requested;
@@ -76,6 +89,30 @@ export function dailyExhibitionHours(schedule, options = {}) {
   // A free-form weekly/seasonal string can contain hours for several different
   // days. Do not repeat it on a date-specific card because it may describe a
   // different day than the one currently being viewed.
+  return null;
+}
+
+export function nextDailyExhibitionOpening(schedule, options = {}) {
+  if (!schedule || typeof schedule !== "object") return null;
+  const timezone = options.timezone || "UTC";
+  const requested = dateKeyForTimezone(options.referenceDate || options.now || new Date(), timezone);
+  if (!requested) return null;
+  const { startKey, endKey } = scheduleBoundaryKeys(schedule, timezone);
+  const maxDays = Math.max(1, Math.min(14, Number(options.maxDays) || 7));
+
+  for (let daysAhead = 1; daysAhead <= maxDays; daysAhead += 1) {
+    const candidate = addDateDays(requested, daysAhead);
+    if (!candidate) break;
+    if (startKey && candidate < startKey) continue;
+    if (endKey && candidate > endKey) break;
+    const daily = dailyExhibitionHours(schedule, {
+      ...options,
+      timezone,
+      referenceDate: candidate,
+    });
+    if (!daily?.label || daily.closed || /^cerrado\b/i.test(daily.label)) continue;
+    return { ...daily, daysAhead };
+  }
   return null;
 }
 

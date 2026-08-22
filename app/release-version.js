@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v182 unifies presentation modules across cities and removes legacy card renderers.
-  const RELEASE = 182;
+  // v183 adds next-opening guidance and explicit missing event-time fallback.
+  const RELEASE = 183;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
