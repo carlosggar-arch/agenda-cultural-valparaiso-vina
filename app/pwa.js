@@ -87,7 +87,7 @@ function isIosLike() {
 
 function installHelpContent() {
   if (isIosLike()) {
-    return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instalar en iPhone o iPad</h2><p>En iPhone y iPad la instalación se hace desde el menú de compartir del navegador:</p><ol><li>Pulsa <strong>Compartir ↑</strong>.</li><li>Elige <strong>Añadir a pantalla de inicio</strong>.</li><li>Pulsa <strong>Añadir</strong>.</li></ol><p class="privacy-note">Si no ves “Añadir a pantalla de inicio”, abre este enlace en Safari o en otro navegador compatible y vuelve a usar su menú Compartir.</p></section>`;
+    return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instalar en iPhone o iPad</h2><p>En iPhone y iPad la aplicación no se descarga automáticamente. Se añade desde el menú Compartir del navegador:</p><ol><li>Pulsa <strong>Compartir ↑</strong>.</li><li>Elige <strong>Añadir a pantalla de inicio</strong>.</li><li>Pulsa <strong>Añadir</strong>.</li></ol><p class="privacy-note">Si no ves “Añadir a pantalla de inicio”, abre este enlace en Safari o en otro navegador compatible y vuelve a usar su menú Compartir.</p></section>`;
   }
   return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instala la aplicación</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
 }
@@ -165,6 +165,26 @@ function setupInstallExperience() {
   window.addEventListener("appinstalled", hideInstallButtons, { once: true });
 }
 
+function showExplicitIosInstallIntent() {
+  if (!installIntent || !isIosLike() || isRunningStandalone()) return;
+  const reveal = () => {
+    if (isRunningStandalone() || deferredInstallPrompt) return;
+    const chooser = document.querySelector("[data-chooser-backdrop]");
+    if (chooser && !chooser.hidden) {
+      const observer = new MutationObserver(() => {
+        if (!chooser.hidden) return;
+        observer.disconnect();
+        showInstallHelp();
+      });
+      observer.observe(chooser, { attributes: true, attributeFilter: ["hidden"] });
+      return;
+    }
+    showInstallHelp();
+  };
+  if (document.documentElement.dataset.vivamosReady === "true") queueMicrotask(reveal);
+  else window.addEventListener("vivamos:core-ready", () => queueMicrotask(reveal), { once: true });
+}
+
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   try {
@@ -176,4 +196,5 @@ async function registerAgendaServiceWorker() {
 }
 
 setupInstallExperience();
+showExplicitIosInstallIntent();
 registerAgendaServiceWorker();
