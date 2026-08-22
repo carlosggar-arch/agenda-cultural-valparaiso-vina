@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {
   dailyExhibitionHours,
   exhibitionReferenceDateKey,
+  nextDailyExhibitionOpening,
 } from "./date-aware-exhibition-hours.mjs";
 
 const palacioRioja = {
@@ -36,6 +37,25 @@ const monday = dailyExhibitionHours(palacioRioja, {
 assert.equal(monday.referenceDateKey, "2026-08-24");
 assert.equal(monday.label, "Cerrado");
 assert.equal(monday.closed, true);
+
+const nextAfterMonday = nextDailyExhibitionOpening(palacioRioja, {
+  timezone: "America/Santiago",
+  referenceDate: "2026-08-24",
+});
+assert.equal(nextAfterMonday.referenceDateKey, "2026-08-25");
+assert.equal(nextAfterMonday.label, "10:00–17:30");
+assert.equal(nextAfterMonday.closed, false);
+assert.equal(nextAfterMonday.daysAhead, 1);
+
+const endsClosed = {
+  ...palacioRioja,
+  start: "2026-08-24",
+  end: "2026-08-24",
+};
+assert.equal(nextDailyExhibitionOpening(endsClosed, {
+  timezone: "America/Santiago",
+  referenceDate: "2026-08-24",
+}), null);
 
 const future = {
   ...palacioRioja,
