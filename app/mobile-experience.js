@@ -43,7 +43,7 @@ function syncClientFlags() {
 function removeRetiredTabbars(root = document) {
   const nodes = [];
   if (root instanceof Element && (root.matches("[data-mobile-tabbar]") || root.matches(".mobile-tabbar"))) nodes.push(root);
-  for (const node of root.querySelectorAll?.("[data-mobile-tabbar], .mobile-tabbar") || []) nodes.push(root);
+  for (const node of root.querySelectorAll?.("[data-mobile-tabbar], .mobile-tabbar") || []) nodes.push(node);
   for (const node of new Set(nodes)) node.remove();
 }
 
