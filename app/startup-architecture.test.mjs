@@ -68,7 +68,7 @@ assert.match(core, /export const coreReady = new Promise/, "app-core must expose
 assert.match(core, /function markCoreReady\(/, "app-core must explicitly settle startup");
 assert.match(core, /dataset\.vivamosReady = "true"/, "app-core must mark the DOM ready itself");
 assert.match(core, /renderProgramReferences\(/, "program references must be rendered explicitly from core");
-assert.match(core, /function buildDatedItems\(events\)/, "app-core must remain the sole runtime grouping authority");
+assert.match(core, /function buildDatedItems\(events\)/, "app-core may emit the initial grouping pass before common reconciliation");
 
 const stageOrder = [
   "applyEventDataCorrections",
@@ -110,15 +110,19 @@ assert.doesNotMatch(exhibitionHours, /\bfetch\s*\(/, "exhibition hours must neve
 assert.doesNotMatch(temporalPriority, /\bfetch\s*\(|loadCityRegistry/, "temporal presentation must consume the shared runtime rather than loading a city dataset");
 assert.match(temporalPriority, /getAgendaRuntimeSnapshot/, "temporal presentation must consume the shared runtime snapshot");
 
-// Canonical exhibition membership is decided by app-core. The shared exhibition
-// module only enriches that group into the rich visual presentation.
+// Canonical exhibition membership policy lives in exhibition-group-core. app-core
+// may emit initial groups, while shared presentation reconciles standalone/legacy
+// cards against the same pure grouping policy.
 assert.match(exhibitionGroups, /getAgendaRuntimeSnapshot/, "shared exhibition renderer must consume normalized runtime state");
 assert.match(exhibitionGroups, /function enhanceCoreGroups\(\)/, "shared exhibition renderer must enhance existing core groups");
-assert.doesNotMatch(exhibitionGroups, /groupStandaloneExhibitions|groupStandaloneCards|EXHIBITION_GROUP_MIN/, "shared exhibition renderer must not run a second grouping algorithm");
+assert.match(exhibitionGroups, /groupStandaloneExhibitions/, "shared exhibition renderer must consume the canonical grouping policy");
+assert.match(exhibitionGroups, /function reconcileCommonMembership\(\)/, "shared exhibition renderer must reconcile initial groups against common membership");
+assert.doesNotMatch(exhibitionGroups, /const\s+EXHIBITION_GROUP_MIN\s*=|function\s+clusterVenueExhibitions/, "renderer must not duplicate the common threshold or clustering algorithm");
 assert.doesNotMatch(exhibitionGroups, /\bfetch\s*\(/, "shared exhibition renderer must never re-fetch datasets");
 assert.match(exhibitionGroups, /new MutationObserver/, "shared exhibition renderer may react to direct grid/city transitions");
 assert.doesNotMatch(exhibitionGroups, /subtree:\s*true|characterData:\s*true/, "shared exhibition renderer must not watch descendant churn");
-assert.match(exhibitionGroupCore, /EXHIBITION_GROUP_MIN = 2/, "the pure grouping model remains available for deterministic tests and future core extraction");
+assert.match(exhibitionGroupCore, /export const EXHIBITION_GROUP_MIN = 2/, "common grouping core owns exhibition group cardinality");
+assert.match(exhibitionGroupCore, /exhibitionGroupingVenueKey/, "common grouping core owns canonical exhibition venue identity");
 assert.match(cityPresentationAdapter, /scheduleForGijonEvent/, "Gijon schedule differences must stay in the city adapter");
 assert.match(cityPresentationAdapter, /gijonLocationForEvent/, "Gijon location differences must stay in the city adapter");
 
