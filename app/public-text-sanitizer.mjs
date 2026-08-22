@@ -4,6 +4,13 @@ const SCRIPT_STYLE_RX = /<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/giu;
 const COMMENT_RX = /<!--[\s\S]*?-->/g;
 const BREAK_RX = /<(?:br\s*\/?)>/giu;
 const BLOCK_BOUNDARY_RX = /<\/?(?:p|div|section|article|header|footer|main|aside|nav|li|ul|ol|h[1-6]|blockquote|pre|table|thead|tbody|tfoot|tr|td|th|figure|figcaption|details|summary)\b[^>]*>/giu;
+const DESCRIPTION_WORD_RX = /[\p{L}\p{M}]+(?:['’.-][\p{L}\p{M}]+)*/gu;
+const DESCRIPTION_CLAUSE_BREAK = /[|:;.!?¿¡—–]\s*["“”'‘’«»‹›()\[\]{}]*$/u;
+const DESCRIPTION_ACRONYMS = new Set([
+  "AI", "CMI", "DJ", "DJS", "FETEN", "FICX", "FMCE", "IA", "LGBT", "LGBTQ", "MNHN", "ONU", "PUCV",
+  "SCD", "SIDA", "UAI", "UNESCO", "UP", "USM", "UTFSM", "UV", "VIH",
+]);
+const ROMAN_NUMERAL = /^(?=[IVXLCDM]+$)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})$/u;
 
 const NAMED_ENTITIES = Object.freeze({
   amp: "&",
@@ -57,11 +64,100 @@ export function plainPublicText(value) {
   return text.replace(/\s+/g, " ").trim();
 }
 
+function casedLetters(value) {
+  return [...String(value || "")].filter((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
+}
+
+function isAllCapsWord(value) {
+  const letters = casedLetters(value);
+  return letters.length > 0 && letters.every((char) => char === char.toLocaleUpperCase("es"));
+}
+
+function protectedUpperToken(value) {
+  const upper = String(value || "").toLocaleUpperCase("es");
+  return DESCRIPTION_ACRONYMS.has(upper) || ROMAN_NUMERAL.test(upper);
+}
+
+function upperFirst(value) {
+  const chars = [...String(value || "")];
+  const index = chars.findIndex((char) => char.toLocaleLowerCase("es") !== char.toLocaleUpperCase("es"));
+  if (index >= 0) chars[index] = chars[index].toLocaleUpperCase("es");
+  return chars.join("");
+}
+
+function normalizeUpperRun(text, run) {
+  const start = run[0].index;
+  const last = run.at(-1);
+  const end = last.index + last[0].length;
+  const source = text.slice(start, end);
+  let cursor = start;
+  let output = "";
+
+  run.forEach((match, index) => {
+    const between = text.slice(cursor, match.index);
+    output += between;
+    const token = match[0];
+    if (protectedUpperToken(token)) {
+      output += token.toLocaleUpperCase("es");
+    } else {
+      const lower = token.toLocaleLowerCase("es");
+      const capitalize = index === 0 || DESCRIPTION_CLAUSE_BREAK.test(between);
+      output += capitalize ? upperFirst(lower) : lower;
+    }
+    cursor = match.index + token.length;
+  });
+  output += text.slice(cursor, end);
+  return { start, end, source, value: output };
+}
+
+/**
+ * Convert promotional all-caps runs in descriptions to readable sentence case.
+ * Mixed-case prose is untouched. Acronyms and Roman numerals remain uppercase,
+ * and clause separators such as | start a fresh capitalized phrase.
+ */
+export function normalizePublicDescriptionCase(value) {
+  const text = String(value ?? "");
+  const words = [...text.matchAll(DESCRIPTION_WORD_RX)];
+  if (words.length < 2) return text;
+
+  const runs = [];
+  let current = [];
+  const flush = () => {
+    if (current.length >= 2) {
+      const letters = current.reduce((total, match) => total + casedLetters(match[0]).length, 0);
+      const hasEditable = current.some((match) => !protectedUpperToken(match[0]));
+      if (letters >= 7 && hasEditable) runs.push(current);
+    }
+    current = [];
+  };
+
+  for (const match of words) {
+    if (isAllCapsWord(match[0])) current.push(match);
+    else flush();
+  }
+  flush();
+  if (!runs.length) return text;
+
+  let output = text;
+  const replacements = runs.map((run) => normalizeUpperRun(text, run));
+  for (const replacement of replacements.reverse()) {
+    output = `${output.slice(0, replacement.start)}${replacement.value}${output.slice(replacement.end)}`;
+  }
+  return output;
+}
+
 function cleanStringProperty(target, key) {
   if (!target || typeof target[key] !== "string") return target;
   const cleaned = plainPublicText(target[key]);
   if (cleaned === target[key]) return target;
   return { ...target, [key]: cleaned };
+}
+
+function cleanDescriptionProperty(target) {
+  if (!target || typeof target.description !== "string") return target;
+  const cleaned = normalizePublicDescriptionCase(plainPublicText(target.description));
+  if (cleaned === target.description) return target;
+  return { ...target, description: cleaned };
 }
 
 function cleanCategory(category) {
@@ -100,9 +196,10 @@ function cleanLocation(location) {
 function cleanEvent(event) {
   if (!event || typeof event !== "object") return event;
   let next = event;
-  for (const key of ["title", "description", "organizer", "source_name", "registration_requirements", "audience"]) {
+  for (const key of ["title", "organizer", "source_name", "registration_requirements", "audience"]) {
     next = cleanStringProperty(next, key);
   }
+  next = cleanDescriptionProperty(next);
 
   if (event.primary_category) {
     const primary = cleanCategory(event.primary_category);
