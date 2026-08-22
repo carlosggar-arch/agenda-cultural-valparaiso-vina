@@ -77,7 +77,12 @@ function classifyClockRoles(text) {
 
 function occurrenceSessions(schedule) {
   const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
-  return { occurrences, sessionTimes: unique(occurrences.map((item) => timePart(item?.start))) };
+  const dates = occurrences.map((item) => datePart(item?.start)).filter(Boolean);
+  return {
+    occurrences,
+    sessionTimes: unique(occurrences.map((item) => timePart(item?.start))),
+    dateCount: new Set(dates).size,
+  };
 }
 function occurrenceEndTime(occurrences) {
   if (occurrences.length !== 1) return null;
@@ -102,7 +107,8 @@ function legacyVenueHours(schedule, event, parsed) {
   if (freeform) return { display_text: freeform };
   return parsed?.venue_hours ? { ...parsed.venue_hours } : null;
 }
-function deriveScheduleDisplay(sessionTimes, eventEndTime) {
+function deriveScheduleDisplay(sessionTimes, eventEndTime, structured) {
+  if (structured?.occurrences?.length && structured.dateCount > 1) return null;
   if (sessionTimes.length === 1 && eventEndTime) return `${sessionTimes[0]}–${eventEndTime}`;
   return naturalTimeList(sessionTimes);
 }
@@ -138,7 +144,7 @@ export function normalizeEventScheduleContract(event) {
     event_end_time: eventEndTime || null,
     doors_time: doorsTime || null,
     venue_hours: venueHours,
-    schedule_display: deriveScheduleDisplay(sessionTimes, eventEndTime),
+    schedule_display: deriveScheduleDisplay(sessionTimes, eventEndTime, structured),
   };
   if (!normalized.opening_hours && venueHours?.opening_time && venueHours?.closing_time) normalized.opening_hours = { ...venueHours };
   if (JSON.stringify(schedule) === JSON.stringify(normalized)) return event;
