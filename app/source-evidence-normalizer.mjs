@@ -4,9 +4,10 @@ function preferredStructuredEvidence(event) {
   const entries = Array.isArray(event?.source_evidence) ? event.source_evidence : [];
   for (const item of entries) {
     if (item?.presentation_preferred !== true) continue;
-    const url = normalizeSourceUrl(item?.url);
-    if (!url) continue;
-    return { ...item, url };
+    const rawUrl = String(item?.url || "").trim();
+    const canonicalUrl = normalizeSourceUrl(rawUrl);
+    if (!canonicalUrl) continue;
+    return { ...item, url: rawUrl, canonical_url: canonicalUrl };
   }
   return null;
 }
@@ -30,7 +31,7 @@ function applyPreferredStructuredEvidence(event, canonical) {
   const secondary = uniqueUrls([
     canonical?.source_url,
     ...(canonical?.secondary_source_urls || []),
-  ]).filter((url) => url !== preferred.url);
+  ]).filter((url) => url !== preferred.canonical_url);
   const links = {
     ...(canonical?.links || {}),
     source: preferred.url,
