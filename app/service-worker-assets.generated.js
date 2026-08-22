@@ -118,6 +118,7 @@
     "./remove-like.js",
     "./render-lifecycle.js",
     "./runtime-past-event-guard.mjs",
+    "./schedule-contract.mjs",
     "./schedule-display.js",
     "./service-worker-assets.generated.js",
     "./session-occurrence-normalizer.js",
