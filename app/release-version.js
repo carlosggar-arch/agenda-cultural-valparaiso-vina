@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v184 consolidates canonical event sessions, venue hours and date-aware display.
-  const RELEASE = 184;
+  // v185 publishes shared schedule preservation, date-aware venue hours and text normalization.
+  const RELEASE = 185;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
