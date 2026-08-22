@@ -181,8 +181,7 @@ function showExplicitIosInstallIntent() {
     }
     showInstallHelp();
   };
-  if (document.documentElement.dataset.vivamosReady === "true") queueMicrotask(reveal);
-  else window.addEventListener("vivamos:core-ready", () => queueMicrotask(reveal), { once: true });
+  queueMicrotask(reveal);
 }
 
 async function registerAgendaServiceWorker() {
