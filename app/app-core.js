@@ -1,6 +1,7 @@
 import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
 import { renderProgramReferences } from "./program-visibility-policy.js?v=20260819-pipeline1";
+import { groupStandaloneExhibitions, isLongExhibitionDuration } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
@@ -8,8 +9,6 @@ const CITIES = CITY_REGISTRY.byId;
 const DEFAULT_CITY_ID = CITY_REGISTRY.defaultCityId;
 const EXHIBITION_CATEGORY_ID = "exposiciones";
 const MUSEUM_CATEGORY_ID = "museos";
-const EXHIBITION_GROUP_MIN = 3;
-const LONG_EXHIBITION_DAYS = 7;
 
 let resolveCoreReady;
 let coreReadySettled = false;
@@ -91,7 +90,6 @@ let scheduleWindowCache = new WeakMap();
 let dateRangeCache = new WeakMap();
 let workshopCache = new WeakMap();
 let sortKeyCache = new WeakMap();
-let exhibitionRangeCache = new WeakMap();
 let longExhibitionCache = new WeakMap();
 let searchHaystackCache = new WeakMap();
 
@@ -102,7 +100,6 @@ function resetEventCaches() {
   dateRangeCache = new WeakMap();
   workshopCache = new WeakMap();
   sortKeyCache = new WeakMap();
-  exhibitionRangeCache = new WeakMap();
   longExhibitionCache = new WeakMap();
   searchHaystackCache = new WeakMap();
   sortedEvents = [];
@@ -484,60 +481,12 @@ function sortEvents(events) {
   });
 }
 
-function exhibitionVenueKey(event) {
-  if (eventCategoryId(event) !== EXHIBITION_CATEGORY_ID) return null;
-  const venue = String(event?.location?.venue || "").trim();
-  if (!venue) return null;
-  const city = String(event?.location?.city || "").trim();
-  return slugify(`${venue}-${city}`);
-}
-
-function exhibitionRange(event) {
-  if (exhibitionRangeCache.has(event)) return exhibitionRangeCache.get(event);
-  const ranges = eventDateRanges(event);
-  const range = ranges.length ? {
-    start: ranges.reduce((value, item) => value < item.start ? value : item.start, ranges[0].start),
-    end: ranges.reduce((value, item) => value > item.end ? value : item.end, ranges[0].end),
-  } : null;
-  exhibitionRangeCache.set(event, range);
-  return range;
-}
-
 function isLongExhibition(event) {
   if (longExhibitionCache.has(event)) return longExhibitionCache.get(event);
-  let result = false;
-  if (eventCategoryId(event) === EXHIBITION_CATEGORY_ID) {
-    const range = exhibitionRange(event);
-    if (range) {
-      const start = Date.parse(`${range.start}T12:00:00Z`);
-      const end = Date.parse(`${range.end}T12:00:00Z`);
-      result = Number.isFinite(start) && Number.isFinite(end) && (end - start) / 86400000 > LONG_EXHIBITION_DAYS;
-    }
-  }
+  const result = eventCategoryId(event) === EXHIBITION_CATEGORY_ID
+    && isLongExhibitionDuration(event, { timezone: activeCity?.timezone || "UTC" });
   longExhibitionCache.set(event, result);
   return result;
-}
-
-function clusterVenueExhibitions(events) {
-  const sortable = events
-    .map((event) => ({ event, range: exhibitionRange(event) }))
-    .filter((item) => item.range)
-    .sort((a, b) => a.range.start.localeCompare(b.range.start) || a.range.end.localeCompare(b.range.end));
-  const clusters = [];
-  for (const item of sortable) {
-    let placed = false;
-    for (const cluster of clusters) {
-      if (item.range.start <= cluster.commonEnd && item.range.end >= cluster.commonStart) {
-        cluster.items.push(item.event);
-        cluster.commonStart = item.range.start > cluster.commonStart ? item.range.start : cluster.commonStart;
-        cluster.commonEnd = item.range.end < cluster.commonEnd ? item.range.end : cluster.commonEnd;
-        placed = true;
-        break;
-      }
-    }
-    if (!placed) clusters.push({ items: [item.event], commonStart: item.range.start, commonEnd: item.range.end });
-  }
-  return clusters;
 }
 
 function createExhibitionGroupCard(events) {
@@ -572,34 +521,25 @@ function createExhibitionGroupCard(events) {
 }
 
 function buildDatedItems(events) {
-  const exhibitionBuckets = new Map();
-  const standalone = [];
+  const groups = groupStandaloneExhibitions(events, { timezone: activeCity?.timezone || "UTC" });
+  const groupedEvents = new Set();
+  const items = [];
+
+  for (const group of groups) {
+    group.events.forEach((event) => groupedEvents.add(event));
+    items.push({
+      type: "group",
+      events: group.events,
+      order: Math.min(...group.events.map(eventSortKey)),
+    });
+  }
+
   for (const event of events) {
-    const key = exhibitionVenueKey(event);
-    if (!key) {
-      standalone.push({ type: "event", event, order: eventSortKey(event) });
-      continue;
-    }
-    const bucket = exhibitionBuckets.get(key) || [];
-    bucket.push(event);
-    exhibitionBuckets.set(key, bucket);
+    if (!groupedEvents.has(event)) items.push({ type: "event", event, order: eventSortKey(event) });
   }
 
-  for (const bucket of exhibitionBuckets.values()) {
-    const groupedIds = new Set();
-    for (const cluster of clusterVenueExhibitions(bucket)) {
-      if (cluster.items.length >= EXHIBITION_GROUP_MIN) {
-        cluster.items.forEach((event) => groupedIds.add(event));
-        standalone.push({ type: "group", events: cluster.items, order: Math.min(...cluster.items.map(eventSortKey)) });
-      }
-    }
-    for (const event of bucket) {
-      if (!groupedIds.has(event)) standalone.push({ type: "event", event, order: eventSortKey(event) });
-    }
-  }
-
-  standalone.sort((a, b) => a.order - b.order);
-  return standalone;
+  items.sort((a, b) => a.order - b.order);
+  return items;
 }
 
 function renderDatedGroup(grid, section, total, events) {
