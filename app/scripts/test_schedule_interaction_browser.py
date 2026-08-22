@@ -2,30 +2,29 @@ from __future__ import annotations
 
 import http.server
 import os
-import shutil
 import socketserver
-import subprocess
 import tempfile
 import threading
-import time
 from pathlib import Path
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__schedule_interaction_test.html"
-
-
-def chrome_binary() -> str:
-    for candidate in ("google-chrome-stable", "google-chrome", "chromium", "chromium-browser"):
-        path = shutil.which(candidate)
-        if path:
-            return path
-    raise RuntimeError("No Chromium/Chrome binary available on the runner")
+WAIT_SECONDS = 30
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format: str, *args) -> None:  # noqa: A003
         pass
+
+
+class ThreadingServer(socketserver.ThreadingTCPServer):
+    allow_reuse_address = True
+    daemon_threads = True
 
 
 def make_test_page() -> None:
@@ -45,37 +44,33 @@ def make_test_page() -> None:
       import "./header-redesign.js";
       import "./density-polish.js";
       import "./combined-filters-polish.js";
-    </script>
-    <script>
-      setTimeout(() => {
-        const citySwitch = document.querySelector("[data-city-switch]");
-        const chooser = document.querySelector("[data-chooser-backdrop]");
-        const valpoMedia = document.querySelectorAll(".event-card-media").length;
-        document.body.dataset.valpoMediaBeforeSwitch = String(valpoMedia);
-
-        citySwitch?.click();
-        document.body.dataset.cityChooserOpened = chooser && !chooser.hidden ? "true" : "false";
-
-        const gijon = document.querySelector('[data-city-option="gijon"]');
-        gijon?.click();
-
-        setTimeout(() => {
-          document.body.dataset.cityAfterSwitch = document.documentElement.dataset.city || "";
-          document.body.dataset.gijonMediaAfterSwitch = String(
-            document.querySelectorAll(".event-card-media").length,
-          );
-          const searchToggle = document.querySelector("[data-header-search-toggle]");
-          const searchPopover = document.querySelector("[data-header-search-popover]");
-          searchToggle?.click();
-          document.body.dataset.searchResponsive = searchPopover && !searchPopover.hidden ? "true" : "false";
-          document.body.dataset.interactionTestDone = "true";
-        }, 2800);
-      }, 5200);
     </script>'''
 
-    bootstrap = '<script>localStorage.setItem("agenda-cultural-city", "valparaiso");</script>\n  '
-    source = source.replace("<body>", "<body>\n  " + bootstrap, 1)
     TEST_PAGE.write_text(source.replace(pwa_marker, enhancement_stack, 1), encoding="utf-8")
+
+
+def chrome_options(profile: str) -> Options:
+    options = Options()
+    options.page_load_strategy = "eager"
+    for argument in (
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-extensions",
+        "--disable-sync",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--window-size=1280,900",
+        f"--user-data-dir={profile}",
+    ):
+        options.add_argument(argument)
+    return options
+
+
+def js_bool(driver: webdriver.Chrome, expression: str) -> bool:
+    return bool(driver.execute_script(f"return Boolean({expression});"))
 
 
 def main() -> None:
@@ -83,63 +78,81 @@ def main() -> None:
     make_test_page()
     handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
 
-    with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
+    with ThreadingServer(("127.0.0.1", 0), handler) as server:
         port = server.server_address[1]
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
-        time.sleep(0.2)
         try:
             with tempfile.TemporaryDirectory(prefix="agenda-schedule-interaction-", ignore_cleanup_errors=True) as profile:
-                cmd = [
-                    chrome_binary(),
-                    "--headless=new",
-                    "--no-sandbox",
-                    "--disable-gpu",
-                    "--disable-dev-shm-usage",
-                    "--disable-background-networking",
-                    "--disable-extensions",
-                    "--disable-sync",
-                    "--no-first-run",
-                    "--no-default-browser-check",
-                    "--host-resolver-rules=MAP * 127.0.0.1, EXCLUDE 127.0.0.1",
-                    "--virtual-time-budget=11000",
-                    f"--user-data-dir={profile}",
-                    "--dump-dom",
-                    f"http://127.0.0.1:{port}/app/__schedule_interaction_test.html",
-                ]
-                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
-                if result.returncode != 0:
-                    raise AssertionError(
-                        "Chrome did not complete the interaction test; a self-triggering "
-                        f"observer may have frozen the event loop. exit={result.returncode}\n"
-                        f"STDERR:\n{result.stderr[-4000:]}"
+                driver = webdriver.Chrome(options=chrome_options(profile))
+                try:
+                    driver.get(f"http://127.0.0.1:{port}/app/__schedule_interaction_test.html?city=valparaiso")
+                    wait = WebDriverWait(driver, WAIT_SECONDS, poll_frequency=0.05)
+
+                    wait.until(lambda current: js_bool(
+                        current,
+                        "document.documentElement.dataset.vivamosReady === 'true'",
+                    ))
+                    wait.until(lambda current: current.execute_script(
+                        "return document.querySelectorAll('.event-card-media').length;"
+                    ) > 0)
+                    valpo_media = int(driver.execute_script(
+                        "return document.querySelectorAll('.event-card-media').length;"
+                    ))
+
+                    driver.execute_script("document.querySelector('[data-city-switch]')?.click();")
+                    wait.until(lambda current: js_bool(
+                        current,
+                        "document.querySelector('[data-chooser-backdrop]') && !document.querySelector('[data-chooser-backdrop]').hidden",
+                    ))
+
+                    driver.execute_script(
+                        "document.querySelector('[data-city-option=\"gijon\"]')?.click();"
                     )
-                dom = result.stdout
+                    wait.until(lambda current: current.execute_script(
+                        "return document.documentElement.dataset.city || '';"
+                    ) == "gijon")
+                    wait.until(lambda current: js_bool(
+                        current,
+                        "document.documentElement.dataset.vivamosReady === 'true'",
+                    ))
+                    wait.until(lambda current: current.execute_script(
+                        "return document.querySelectorAll('.event-card-media').length;"
+                    ) > 0)
+                    gijon_media = int(driver.execute_script(
+                        "return document.querySelectorAll('.event-card-media').length;"
+                    ))
+
+                    driver.execute_script(
+                        "document.querySelector('[data-header-search-toggle]')?.click();"
+                    )
+                    wait.until(lambda current: js_bool(
+                        current,
+                        "document.querySelector('[data-header-search-popover]') && !document.querySelector('[data-header-search-popover]').hidden",
+                    ))
+
+                    sources_toggle_count = int(driver.execute_script(
+                        "return document.querySelectorAll('[data-sources-toggle]').length;"
+                    ))
+                    if sources_toggle_count > 1:
+                        raise AssertionError(
+                            f"Content ownership regressed: {sources_toggle_count} source toggles were mounted"
+                        )
+                    if valpo_media <= 0:
+                        raise AssertionError("Valparaiso canonical presentation did not render event media")
+                    if gijon_media <= 0:
+                        raise AssertionError("Gijon canonical presentation did not render event media after city switch")
+                finally:
+                    driver.quit()
         finally:
             server.shutdown()
             thread.join(timeout=2)
             TEST_PAGE.unlink(missing_ok=True)
 
-    required = {
-        'data-interaction-test-done="true"': "The browser timer never completed",
-        'data-city-chooser-opened="true"': "Changing city did not open the chooser",
-        'data-city-after-switch="gijon"': "The city did not switch from Valparaiso to Gijon",
-        'data-search-responsive="true"': "Header interaction stopped responding after the switch",
-    }
-    for marker, message in required.items():
-        if marker not in dom:
-            raise AssertionError(f"{message}. DOM tail:\n{dom[-5000:]}")
-
-    import re
-
-    valpo_match = re.search(r'data-valpo-media-before-switch="(\d+)"', dom)
-    gijon_match = re.search(r'data-gijon-media-after-switch="(\d+)"', dom)
-    if not valpo_match or int(valpo_match.group(1)) <= 0:
-        raise AssertionError("Valparaiso canonical presentation did not render event media")
-    if not gijon_match or int(gijon_match.group(1)) <= 0:
-        raise AssertionError("Gijon canonical presentation did not render event media after city switch")
-
-    print("City-switch browser scenario: UI responsive and media preserved across Valparaiso → Gijon")
+    print(
+        "City-switch browser scenario: UI responsive and media preserved across "
+        "Valparaiso → Gijon; single content ownership preserved"
+    )
 
 
 if __name__ == "__main__":
