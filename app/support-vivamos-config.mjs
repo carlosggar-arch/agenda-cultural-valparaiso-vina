@@ -7,8 +7,8 @@ export const SUPPORT_VIVAMOS = Object.freeze({
       id: "mercadopago-cl",
       audience: "Chile",
       provider: "Mercado Pago",
-      url: "https://link.mercadopago.cl/vivamos",
-      enabled: true,
+      url: null,
+      enabled: false,
     }),
     Object.freeze({
       id: "paypal-international",
