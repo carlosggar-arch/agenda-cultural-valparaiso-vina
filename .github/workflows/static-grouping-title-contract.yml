@@ -8,6 +8,8 @@ on:
       - "app/app-core.js"
       - "app/city-first-run.js"
       - "app/data-pipeline.js"
+      - "app/agenda-runtime-state.mjs"
+      - "app/city-presentation-adapter.mjs"
       - "app/category-normalizer.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
@@ -17,6 +19,7 @@ on:
       - "app/exhibition-group-core.mjs"
       - "app/exhibition-groups.js"
       - "app/venue-identity.mjs"
+      - "app/venue-authority.test.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
       - "app/exhibition-group-architecture.test.mjs"
@@ -36,6 +39,8 @@ on:
       - "app/app-core.js"
       - "app/city-first-run.js"
       - "app/data-pipeline.js"
+      - "app/agenda-runtime-state.mjs"
+      - "app/city-presentation-adapter.mjs"
       - "app/category-normalizer.js"
       - "app/public-title-normalizer.mjs"
       - "app/title-normalizer-bootstrap.js"
@@ -45,6 +50,7 @@ on:
       - "app/exhibition-group-core.mjs"
       - "app/exhibition-groups.js"
       - "app/venue-identity.mjs"
+      - "app/venue-authority.test.mjs"
       - "app/exhibition-compact.css"
       - "app/data/gijon/agenda_web.json"
       - "app/exhibition-group-architecture.test.mjs"
@@ -77,6 +83,9 @@ jobs:
           node --check app/title-authority.test.mjs
           node --check app/category-normalizer.js
           node --check app/public-presentation-guard.js
+          node --check app/venue-identity.mjs
+          node --check app/venue-authority.test.mjs
+          node --check app/agenda-runtime-state.mjs
           node --check app/exhibition-group-core.mjs
           node --check app/exhibition-groups.js
           node --check app/app-core.js
@@ -86,6 +95,7 @@ jobs:
       - name: Verify shared grouping, title and layout contracts
         run: |
           node app/title-authority.test.mjs
+          node app/venue-authority.test.mjs
           node app/exhibition-group-architecture.test.mjs
           node app/shared-presentation-runtime.test.mjs
           node app/startup-architecture.test.mjs
