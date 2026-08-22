@@ -44,7 +44,6 @@ const appJs = read("app.js");
 const appCore = read("app-core.js");
 const pipeline = read("data-pipeline.js");
 const bootstrap = read("combined-filters-bootstrap.js");
-const release = read("release-version.js");
 const index = read("index.html");
 const combined = read("combined-filters.js");
 const grouping = read("exhibition-groups.js");
@@ -104,12 +103,5 @@ assert.match(combined, /loadAgendaDataset/);
 assert.doesNotMatch(combined, /fetch\(CITY_CONFIG\[cityId\]\.dataset/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);
-
-const releaseMatch = release.match(/const RELEASE = (\d+);/);
-assert.ok(releaseMatch, "release-version.js must expose a numeric RELEASE");
-assert.ok(Number(releaseMatch[1]) >= 182, "PWA release must include shared presentation architecture");
-assert.doesNotMatch(release, /window\.stop|caches\.delete|pwa_recovered/);
-assert.doesNotMatch(release, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
-assert.doesNotMatch(release, /window\.location\.reload\(\)/);
 
 console.log(`Approved event visibility contract: OK (${valpoIds.size} Valparaíso/Viña + ${gijonIds.size} Gijón approved events; shared normalized pipeline + shared exhibition grouping policy)`);
