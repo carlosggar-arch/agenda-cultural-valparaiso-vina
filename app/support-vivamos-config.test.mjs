@@ -7,6 +7,25 @@ test("support remains fully hidden by default", () => {
   assert.deepEqual(getEnabledSupportMethods(), []);
 });
 
+test("configured support destinations are real https links while globally hidden", () => {
+  assert.deepEqual(
+    SUPPORT_VIVAMOS.methods.map(({ id, enabled, url }) => ({ id, enabled, url })),
+    [
+      {
+        id: "mercadopago-cl",
+        enabled: true,
+        url: "https://link.mercadopago.cl/vivamos",
+      },
+      {
+        id: "paypal-international",
+        enabled: true,
+        url: "https://www.paypal.com/ncp/payment/MMR5A78JMY5VL",
+      },
+    ],
+  );
+  assert.deepEqual(getEnabledSupportMethods(), []);
+});
+
 test("support methods require both enablement and https destination", () => {
   const config = {
     enabled: true,
