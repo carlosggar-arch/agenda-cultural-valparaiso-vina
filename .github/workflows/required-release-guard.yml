@@ -31,9 +31,12 @@ jobs:
           set -euo pipefail
           python -m py_compile \
             app/scripts/run_contracts.py \
+            app/scripts/run_browser_scenarios.py \
             app/scripts/test_release_guard.py \
             app/scripts/test_first_render_browser.py \
             app/scripts/test_startup_resilience_browser.py \
+            app/scripts/test_schedule_interaction_browser.py \
+            app/scripts/test_runtime_browser.py \
             app/scripts/test_pwa_cache_first_startup.py \
             app/scripts/test_date_filter_browser.py \
             app/scripts/test_exhibition_visual_parity.py \
@@ -79,7 +82,7 @@ jobs:
           node --check app/header-redesign.js
           node --check app/mobile-experience.js
 
-      - name: Run required release guard
+      - name: Run required release and architecture contracts
         run: |
           set -euo pipefail
           python app/scripts/generate_runtime_contracts.py --check
@@ -99,13 +102,12 @@ jobs:
           node app/registration-reminders-architecture.test.mjs
           node app/date-filter-architecture.test.mjs
           node app/public-title-normalizer.test.mjs
-          python app/scripts/test_first_render_browser.py
-          python app/scripts/test_startup_resilience_browser.py
-          python app/scripts/test_date_filter_browser.py
-          python app/scripts/test_exhibition_visual_parity.py --output-dir /tmp/exhibition-visual-parity
-          python app/scripts/test_exhibition_filter_isolation_browser.py
-          python app/scripts/test_structural_event_visibility_browser.py
           python app/scripts/test_multicity_source_registry_coverage.py
+
+      - name: Run canonical browser scenarios
+        run: |
+          set -euo pipefail
+          python app/scripts/run_browser_scenarios.py --all
 
       - name: Upload exhibition visual parity
         if: always()
@@ -118,5 +120,5 @@ jobs:
 
       - name: Note production browser coverage
         run: |
-          echo "This required check exercises the generated release bundle, PWA shell/cache startup, canonical venue registry/aliases, persistent multi-date recovery, registration-reminder classification/architecture, grouped-exhibition filter isolation, structural approved-event visibility, normal startup for Valparaiso and Gijon, watchdog safe mode, date filtering and exhibition visual parity."
-          echo "Canonical owned contracts are invoked through app/scripts/run_contracts.py; the post-merge production PWA smoke verifies the deployed runtime."
+          echo "This required check composes canonical product contracts plus browser scenarios for startup/city switching, filters/detail/media, and exhibitions."
+          echo "Cache-first service-worker startup remains a release contract; the post-merge production PWA smoke verifies the deployed runtime."
