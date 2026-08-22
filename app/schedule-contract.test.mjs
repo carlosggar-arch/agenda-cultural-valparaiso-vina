@@ -12,6 +12,23 @@ const occ=normalizeEventScheduleContract({event_type:"event",session_times:["10:
 const multiDate=normalizeEventScheduleContract({event_type:"event",schedule:{mode:"multi_session",occurrences:[{start:"2026-08-21T19:00:00-04:00",end:null},{start:"2026-08-22T20:00:00-04:00",end:null}]}}); assert.deepEqual(multiDate.schedule.session_times,[]); assert.equal(multiDate.schedule.schedule_display,null);
 const exhibition=normalizeEventScheduleContract({event_type:"event",primary_category:{id:"exposiciones"},schedule:{mode:"multi_day",start:"2026-08-01T10:00:00-04:00",end:"2026-08-31T17:30:00-04:00",opening_hours:{opening_time:"10:00",closing_time:"17:30",open_weekdays:[1,2,3,4,5,6],display_text:"Martes a domingo · 10:00–17:30"}}}); assert.deepEqual(exhibition.schedule.session_times,[]); assert.equal(exhibition.schedule.venue_hours.opening_time,"10:00");
 
+// A legacy source mode must not erase a real one-day structured event time.
+const caleta=normalizeEventScheduleContract({event_type:"event",primary_category:{id:"cursos-talleres"},schedule:{mode:"multi_day",start:"2026-08-22T12:00:00-04:00",end:"2026-08-22T13:30:00-04:00",display_text:"22-08-2026 · 12:00–13:30",occurrences:[],start_confidence:"official_structured_schedule",end_confidence:"official_structured_schedule"}});
+assert.deepEqual(caleta.schedule.session_times,["12:00"]);
+assert.equal(caleta.schedule.event_end_time,"13:30");
+assert.equal(caleta.schedule.schedule_display,"12:00–13:30");
+
+// Museum/exhibition labels describe the subject, not the semantic role of a
+// one-day guided visit or bus departure. Structured times remain event times.
+const arqueobus=normalizeEventScheduleContract({event_type:"event",primary_category:{id:"museos"},schedule:{mode:"dated",start:"2026-08-22T16:30:00+02:00",end:"2026-08-22T19:30:00+02:00",display_text:"2026-08-22 · 16:30–19:30",occurrences:[]}});
+assert.deepEqual(arqueobus.schedule.session_times,["16:30"]);
+assert.equal(arqueobus.schedule.event_end_time,"19:30");
+assert.equal(arqueobus.schedule.schedule_display,"16:30–19:30");
+
+const convivium=normalizeEventScheduleContract({event_type:"event",primary_category:{id:"exposiciones"},schedule:{mode:"dated",start:"2026-08-22T18:00:00+02:00",end:null,display_text:"2026-08-22 · 18:00",occurrences:[]}});
+assert.deepEqual(convivium.schedule.session_times,["18:00"]);
+assert.equal(convivium.schedule.schedule_display,"18:00");
+
 const recurring=normalizeEventScheduleContract({event_type:"event",primary_category:{id:"exposiciones"},schedule:{mode:"multi_day",start:"2026-08-06",end:"2026-09-24",display_text:"Martes a domingo · 10:00–17:30"}});
 assert.deepEqual(recurring.schedule.session_times,[]);
 assert.equal(recurring.schedule.schedule_display,null);
@@ -28,9 +45,9 @@ assert.deepEqual(split.schedule.venue_hours.ranges,[
 assert.equal(split.schedule.venue_hours.display_text,"10:00–13:30 y 15:30–18:30");
 
 const bareBoundary=normalizeEventScheduleContract({event_type:"event",primary_category:{id:"exposiciones"},schedule:{mode:"multi_day",start:"2026-08-28T16:00:00-04:00",end:"2026-08-30",venue_hours:{opening_time:"10:00",closing_time:"17:30",display_text:"10:00–17:30"}}});
-assert.deepEqual(bareBoundary.schedule.session_times,[],"a timed exhibition boundary is not a session without semantic evidence");
+assert.deepEqual(bareBoundary.schedule.session_times,[],"a timed exhibition boundary spanning several dates is not a session without semantic evidence");
 assert.equal(bareBoundary.schedule.schedule_display,null);
 
-const first=normalizeScheduleContractDataset({events:[mixed,two,doors,interval,ambiguous,occ,multiDate,exhibition,recurring,split,bareBoundary]}); assert.deepEqual(normalizeScheduleContractDataset(first),first);
+const first=normalizeScheduleContractDataset({events:[mixed,two,doors,interval,ambiguous,occ,multiDate,exhibition,caleta,arqueobus,convivium,recurring,split,bareBoundary]}); assert.deepEqual(normalizeScheduleContractDataset(first),first);
 const parsed=classifyClockRoles("Horario del museo 10:00–17:30 · función 19:00"); assert.deepEqual(parsed.raw_times,["10:00","17:30","19:00"]); assert.deepEqual(parsed.session_times,["19:00"]);
 console.log("SCHEDULE_CONTRACT_POINT8_OK");
