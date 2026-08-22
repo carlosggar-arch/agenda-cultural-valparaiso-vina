@@ -13,18 +13,19 @@ A workflow may compose canonical owners, but it should not independently re-enco
 3. **Browser** — observable user scenarios in a real browser. These tests assert rendered state and interactions, not the source-code spelling used to produce them.
 4. **Release** — generated shell, cache/bundle coherence, protected production boundaries and production smoke.
 
-The machine-readable ownership map is `tests/contract-topology.json`; `app/scripts/test_contract_topology.py` validates it. Executable semantic/architecture owners are invoked through `app/scripts/run_contracts.py`; browser owners are composed by `app/scripts/run_browser_scenarios.py`.
+The machine-readable ownership map is `tests/contract-topology.json`; `app/scripts/test_contract_topology.py` validates it. Executable semantic/architecture/release owners are invoked through `app/scripts/run_contracts.py`, including declarative `runner_args`; browser owners are composed by `app/scripts/run_browser_scenarios.py`.
 
-## Rules
+## Final rules
 
 - Every contract ID has exactly one owner.
-- Stage C authority domains must have a semantic or architecture owner.
-- Workflows execute canonical owners through runner profiles rather than duplicating their command lines.
-- A browser contract belongs to at most one canonical browser scenario.
-- An architecture test may assert a module boundary when the boundary itself is the contract; it should not freeze unrelated implementation details.
-- Browser tests own user-visible behavior. Static tests should not duplicate a browser scenario by matching internal source literals.
-- Release tests own generated/deployment integrity and may compose semantic, architecture and browser owners.
-- Moving a canonical implementation should normally require updating one owner contract, not multiple unrelated workflow literals.
+- Stage C authority domains have semantic or architecture owners.
+- Workflows execute canonical owners through runner profiles rather than duplicating their commands.
+- Every browser contract belongs to exactly one canonical browser scenario.
+- Every browser contract is composed by `Required release guard`; fast PR workflows do not launch browsers.
+- Architecture tests assert ownership boundaries rather than historical implementation spelling.
+- Browser tests assert user-visible state and interactions rather than source literals.
+- Local release/shell behavior is checked before merge; network/deployment behavior is checked after merge against public `main`.
+- `temporary_overlaps` is empty; Stage D has no accepted validation overlap debt.
 
 ## Stage D sequence
 
@@ -36,22 +37,35 @@ Created and validated the ownership map without runtime, dataset, editorial or P
 
 `run_contracts.py` reads the topology and executes owners by ID/profile. The `shared-presentation`, `required-release` and `multi-city` profiles preserve canonical owners while removing duplicate generated-shell, multi-city UI, contextual-filter and startup-architecture executions.
 
-### D3 — Scenario-oriented E2E — CURRENT
+### D3 — Scenario-oriented E2E — CLOSED
 
-`run_browser_scenarios.py` composes browser contracts into observable user flows:
+`run_browser_scenarios.py` consolidated real-browser validation into observable user flows:
 
 - `startup-city`: first paint, startup resilience/safe mode and Valparaíso → Gijón city switch.
-- `filters-detail-media`: filters/date/visibility plus opening an event detail with canonical source and media.
+- `filters-detail-media`: filters/date/visibility plus event detail, canonical source evidence and media.
 - `exhibitions`: visual parity plus grouped-exhibition filter isolation.
 
-The required release gate owns those scenario launches. `Multi-city pre-release` no longer launches browser tests. The service-worker cache-first startup contract remains a release/static invariant rather than being mislabeled as browser E2E.
+The required release gate became the browser scenario compositor; `Multi-city pre-release` stopped launching browsers. Historical `dump-dom` runtime probing was replaced by deterministic Selenium interaction.
 
-There are no remaining declared temporary overlaps after D3.
+### D4 — Release/production gate closure — CLOSED
 
-### D4 — Release/production gate closure
+D4 closes the final roles without changing product runtime or data:
 
-Leave a simple final topology: fast semantic/architecture PR contracts, one required release/E2E gate, and post-merge production smoke. Replace stale implementation-history checks or version-specific notes with stable product/release invariants and move any remaining browser owner to the single required E2E gate.
+- `temporal-fast` contains only `semantic.temporal-priority` and `semantic.agenda-order`.
+- `browser.temporal-priority` moves into the canonical `temporal-order` browser scenario under `Required release guard`.
+- the generic contract runner honors declarative `runner_args`, so the local PWA smoke is a normal canonical release contract rather than a YAML special case.
+- local public-presentation, PWA-shell and production-smoke contracts are composed before merge by `Required release guard`.
+- `Production PWA smoke` has no PR trigger; push-to-`main` (or manual rerun) aligns to latest public `main` and then verifies GitHub Pages/Cloudflare byte parity, cold loads and warm reopen.
+- stale version-history assertions were removed in favor of stable release/gate invariants.
+
+## Final gate topology
+
+**Fast PR contracts** → semantic and architecture checks such as shared presentation, taxonomy, grouping and `temporal-fast`.
+
+**Required release guard** → local release integrity + all canonical browser scenarios (`startup-city`, `filters-detail-media`, `exhibitions`, `temporal-order`).
+
+**Post-merge production smoke** → actual public deployments on GitHub Pages and Cloudflare, including byte parity, both-city cold load and Valparaíso mobile warm reopen.
 
 ## Current known overlaps
 
-None declared. D4 validates the final gate roles and ensures browser execution is centralized without weakening production smoke or fast semantic/architecture coverage.
+None. The topology declares no temporary overlap and D4's structural tests reject any browser owner outside the single required E2E composer.
