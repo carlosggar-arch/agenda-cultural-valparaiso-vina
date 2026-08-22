@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v192 consolidates semantic title recovery before public presentation.
-  const RELEASE = 192;
+  // v193 finalizes venue identity after shared pipeline and city adapters.
+  const RELEASE = 193;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

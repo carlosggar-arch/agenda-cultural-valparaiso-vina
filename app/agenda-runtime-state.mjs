@@ -1,5 +1,6 @@
 import { normalizeTemporalMetadata } from "./temporal-priority-core.mjs?v=20260821-temporal4";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
+import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260820-venues1";
 import { normalizeEventScheduleContract } from "./schedule-contract.mjs?v=20260821-point8-v2";
 
 const STATE_KEY = Symbol.for("vivamos.agendaRuntimeState");
@@ -16,12 +17,13 @@ export function publishAgendaRuntimeSnapshot(city, result) {
 
   const normalizedDataset = normalizeTemporalMetadata(dataset, city, new Date());
 
-  // The shared runtime is the presentation boundary. City differences are
-  // expressed through adapters here, never by selecting a different renderer.
-  // Point 8 is finalized after every upstream/city correction so every city
-  // reaches cards and filters through the same canonical schedule contract.
-  const presentationEvents = normalizedDataset.events
-    .map((event) => eventForCityPresentation(event, cityId))
+  // The shared runtime is the presentation boundary. City adapters may provide
+  // corrected raw location facts, but venue-identity is the definitive semantic
+  // edge: no adapter/dedupe output can reach cards with a divergent venue alias.
+  const adaptedEvents = normalizedDataset.events
+    .map((event) => eventForCityPresentation(event, cityId));
+  const venueFinalizedEvents = normalizeVenueAliases(adaptedEvents);
+  const presentationEvents = venueFinalizedEvents
     .map((event) => normalizeEventScheduleContract(event));
   const presentationDataset = { ...normalizedDataset, events: presentationEvents };
 
