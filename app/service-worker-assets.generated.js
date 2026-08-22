@@ -50,6 +50,7 @@
     "./city-first-run.js",
     "./city-header.css",
     "./city-presentation-adapter.mjs",
+    "./city-source-evidence-adapter.mjs",
     "./combined-filters-bootstrap.js",
     "./combined-filters-polish.js",
     "./combined-filters-safety.js",

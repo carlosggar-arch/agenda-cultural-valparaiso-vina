@@ -8,7 +8,8 @@ import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?
 import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260821-shared-taxonomy1";
 import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
-import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs?v=20260821-sources1";
+import { enrichCitySourceEvidence } from "./city-source-evidence-adapter.mjs?v=20260822-source-authority1";
+import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs?v=20260822-source-authority1";
 import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260820-pastguard2";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260820-programs4";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
@@ -308,10 +309,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   }
   dataset = applyStage("title-recovery", recoverAgendaTitles, dataset, diagnostics);
   dataset = applyStage("category-normalizer", normalizeAgendaCategories, dataset, diagnostics);
-  // Venue identity is an explicit shared semantic stage. It remains here, at
-  // the same point where category-normalizer historically normalized aliases,
-  // so dedupe behavior is unchanged. The runtime snapshot applies the same
-  // idempotent authority once more after city adapters as the definitive edge.
   dataset = applyStage("venue-identity-normalizer", (current) => ({
     ...current,
     events: normalizeVenueAliases(current.events),
@@ -330,6 +327,12 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     diagnostics.push({ name: "artequin-session-correction", status: "not-applicable" });
   }
   dataset = applyStage("cross-source-deduplication", deduplicateCrossSourceDataset, dataset, diagnostics);
+  // City-specific corroborations become structured evidence here. They do not
+  // write public source fields; the next stage is the only canonical chooser.
+  dataset = applyStage("city-source-evidence-adapter", (current) => ({
+    ...current,
+    events: current.events.map((event) => enrichCitySourceEvidence(event, city.id)),
+  }), dataset, diagnostics);
   dataset = applyStage("source-evidence-normalizer", normalizeAgendaSourceEvidence, dataset, diagnostics);
   dataset = applyStage(
     "past-event-guard",
