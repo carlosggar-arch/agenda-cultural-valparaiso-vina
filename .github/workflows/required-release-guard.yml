@@ -12,7 +12,7 @@ jobs:
   release-guard:
     name: release-guard
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
 
     steps:
       - name: Checkout
@@ -37,6 +37,7 @@ jobs:
             app/scripts/test_startup_resilience_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
             app/scripts/test_runtime_browser.py \
+            app/scripts/test_temporal_priority_browser.py \
             app/scripts/test_pwa_cache_first_startup.py \
             app/scripts/test_date_filter_browser.py \
             app/scripts/test_exhibition_visual_parity.py \
@@ -45,6 +46,9 @@ jobs:
             app/scripts/test_pwa_install_browser.py \
             app/scripts/test_multicity_source_registry_coverage.py \
             app/scripts/test_priority_zero_monitors.py \
+            app/scripts/production_pwa_smoke.py \
+            app/scripts/production_warm_start_smoke.py \
+            app/scripts/test_production_pwa_smoke_contract.py \
             app/scripts/generate_runtime_contracts.py \
             app/scripts/release_bundle.py \
             app/scripts/test_structural_hardening.py
@@ -75,6 +79,8 @@ jobs:
           node --check app/venue-identity.test.mjs
           node --check app/gijon-venue-hours.js
           node --check app/exhibition-hours.js
+          node --check app/sources-toggle.js
+          node --check app/scripts/test_public_presentation.mjs
           node --check app/pwa.js
           node --check app/service-worker.js
           node --check app/service-worker-assets.generated.js
@@ -118,7 +124,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Note production browser coverage
+      - name: Note final Stage D gate roles
         run: |
-          echo "This required check composes canonical product contracts plus browser scenarios for startup/city switching, filters/detail/media, and exhibitions."
-          echo "Cache-first service-worker startup remains a release contract; the post-merge production PWA smoke verifies the deployed runtime."
+          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering."
+          echo "Production network verification runs only after merge on main (or manual rerun against latest main)."

@@ -27,7 +27,10 @@ def run_contract(contract_id: str, contracts: dict[str, dict]) -> None:
         raise KeyError(f"Unknown contract: {contract_id}")
     entry = contracts[contract_id]
     owner = entry["owner"]
-    command = command_for_owner(owner)
+    runner_args = entry.get("runner_args", [])
+    if not isinstance(runner_args, list) or any(not isinstance(value, str) for value in runner_args):
+        raise ValueError(f"Contract runner_args must be a list of strings: {contract_id}")
+    command = [*command_for_owner(owner), *runner_args]
     print(f"CONTRACT_START {contract_id} owner={owner}", flush=True)
     subprocess.run(command, cwd=ROOT, check=True)
     print(f"CONTRACT_OK {contract_id}", flush=True)
@@ -52,7 +55,8 @@ def main() -> None:
         for contract_id, entry in sorted(contracts.items()):
             owner = entry.get("owner", "")
             executable = owner.endswith((".py", ".mjs", ".js"))
-            print(f"  {contract_id}: {owner}{'' if executable else ' [workflow-only]'}")
+            args_suffix = "" if not entry.get("runner_args") else f" args={entry['runner_args']}"
+            print(f"  {contract_id}: {owner}{args_suffix}{'' if executable else ' [workflow-only]'}")
         return
 
     selected: list[str] = []

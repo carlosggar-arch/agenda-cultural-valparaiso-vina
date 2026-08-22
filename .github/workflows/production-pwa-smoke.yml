@@ -1,25 +1,6 @@
 name: Production PWA smoke
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "app/*.js"
-      - "app/*.mjs"
-      - "app/*.css"
-      - "app/*.html"
-      - "app/*.webmanifest"
-      - "app/cities.json"
-      - "app/data/source-registry.json"
-      - "app/data/gijon/agenda_web.json"
-      - "agenda_web.json"
-      - "fuentes_publicas.json"
-      - "manifest.webmanifest"
-      - "app/scripts/test_public_presentation.mjs"
-      - "app/scripts/production_pwa_smoke.py"
-      - "app/scripts/production_warm_start_smoke.py"
-      - "app/scripts/test_production_pwa_smoke_contract.py"
-      - ".github/workflows/production-pwa-smoke.yml"
   push:
     branches: [main]
     paths:
@@ -47,44 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  pr-contract:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Validate local PWA shell contract
-        run: |
-          set -euo pipefail
-          python -m py_compile \
-            app/scripts/production_pwa_smoke.py \
-            app/scripts/production_warm_start_smoke.py \
-            app/scripts/test_production_pwa_smoke_contract.py
-          node --check app/pwa.js
-          node --check app/sources-toggle.js
-          node --check app/service-worker.js
-          node --check app/release-version.js
-          node --check app/header-redesign.js
-          node --check app/mobile-experience.js
-          node app/scripts/test_public_presentation.mjs
-          python app/scripts/production_pwa_smoke.py local
-          python app/scripts/test_production_pwa_smoke_contract.py
-
   production-smoke:
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 18
 
@@ -127,7 +71,6 @@ jobs:
           fi
 
       - name: Align smoke candidate with latest public main
-        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail

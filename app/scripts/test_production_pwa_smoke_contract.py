@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = (ROOT / ".github/workflows/production-pwa-smoke.yml").read_text(encoding="utf-8")
+REQUIRED = (ROOT / ".github/workflows/required-release-guard.yml").read_text(encoding="utf-8")
+TOPOLOGY = json.loads((ROOT / "tests/contract-topology.json").read_text(encoding="utf-8"))
 SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8")
 WARM_SMOKE = (ROOT / "app/scripts/production_warm_start_smoke.py").read_text(encoding="utf-8")
 APP = (ROOT / "app/app.js").read_text(encoding="utf-8")
@@ -21,6 +24,9 @@ def block(start_marker: str, end_marker: str | None = None) -> str:
 
 def main() -> None:
     triggers = WORKFLOW.split("permissions:", 1)[0]
+    assert "pull_request:" not in triggers, "Production smoke must be post-merge/manual only after D4"
+    assert "push:" in triggers and "branches: [main]" in triggers
+    assert "workflow_dispatch:" in triggers, "Production smoke must remain manually rerunnable against main"
     assert '      - "app/**"' not in triggers, "Production smoke must not wake for every app file"
     for marker in (
         '      - "app/*.js"',
@@ -38,27 +44,19 @@ def main() -> None:
     ):
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
 
-    assert "pr-contract:" in WORKFLOW
+    assert "pr-contract:" not in WORKFLOW, "Local PR smoke must be owned by Required release guard after D4"
     assert "production-smoke:" in WORKFLOW
-    pr = block("  pr-contract:\n", "  production-smoke:\n")
     production = block("  production-smoke:\n")
 
-    assert "if: github.event_name == 'pull_request'" in pr
-    assert "python app/scripts/production_pwa_smoke.py local" in pr
-    assert "python app/scripts/test_production_pwa_smoke_contract.py" in pr
-    assert "app/scripts/production_warm_start_smoke.py" in pr
-    assert "node --check app/sources-toggle.js" in pr
-    assert "production_pwa_smoke.py http" not in pr
-    assert "production_pwa_smoke.py browser" not in pr
-
-    assert "if: github.event_name != 'pull_request'" in production
     assert "Install browser timing dependency" in production
     assert "selenium==4.35.0" in production
     assert "Require release bump for runtime pushes" in production
+    assert "if: github.event_name == 'push'" in production
     assert "Align smoke candidate with latest public main" in production
     assert "git reset --hard origin/main" in production
     assert "app/release-version.js" in production
     assert "js|mjs|css|html|webmanifest" in production
+    assert "python app/scripts/production_pwa_smoke.py local" in production
     assert "python app/scripts/production_pwa_smoke.py http" in production
     assert "python app/scripts/production_pwa_smoke.py browser" in production
     assert "python app/scripts/production_warm_start_smoke.py" in production
@@ -66,6 +64,21 @@ def main() -> None:
     assert "timeout-minutes: 18" in production
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
+
+    contracts = {entry["id"]: entry for entry in TOPOLOGY["contracts"]}
+    required_profile = TOPOLOGY["runner_profiles"]["required-release"]
+    local_smoke = contracts["release.local-pwa-smoke"]
+    assert local_smoke["owner"] == "app/scripts/production_pwa_smoke.py"
+    assert local_smoke["runner_args"] == ["local"]
+    assert local_smoke["workflow"] == ".github/workflows/required-release-guard.yml"
+    assert "release.local-pwa-smoke" in required_profile
+    assert "release.production-smoke-contract" in required_profile
+    assert "architecture.public-presentation" in required_profile
+    assert "python app/scripts/run_contracts.py --profile required-release" in REQUIRED
+    assert "production_pwa_smoke.py http" not in REQUIRED
+    assert "production_pwa_smoke.py browser" not in REQUIRED
+    assert "production_warm_start_smoke.py" in REQUIRED, "Required gate must at least compile the warm-smoke owner"
+    assert "node --check app/sources-toggle.js" in REQUIRED
 
     for stale in ("20260817-brandicon1", "20260817-topcontrols4", "hero-v4-mobile-direct-actions"):
         assert stale not in SMOKE, f"Hard-coded presentation revision returned to production smoke: {stale}"
