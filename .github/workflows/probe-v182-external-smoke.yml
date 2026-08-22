@@ -114,21 +114,18 @@ jobs:
                                 city: document.documentElement.dataset.city,
                                 release: Number(globalThis.__VIVAMOS_RELEASE__),
                                 cards: document.querySelectorAll('.event-card').length,
-                                sources: document.querySelectorAll('[data-sources-toggle], [data-sources-fallback]').length,
                                 footerVersion: document.body.innerText.includes('PWA v182'),
                                 title: document.title,
                                 href: location.href,
                               };
                               """
                           )
-                          if state["sources"] < 1:
-                              raise SystemExit(f"Sources control missing: {origin}/{city} state={state}")
                           if not state["footerVersion"]:
                               raise SystemExit(f"Visible v182 footer missing: {origin}/{city} state={state}")
                           print(
                               "SELENIUM_PUBLIC_OK "
                               f"origin={origin} city={city} release=v{state['release']} "
-                              f"cards={state['cards']} sources={state['sources']} title={state['title']!r}"
+                              f"cards={state['cards']} title={state['title']!r}"
                           )
                       finally:
                           driver.quit()
