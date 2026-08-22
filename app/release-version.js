@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v191 consolidates public category aliases under the shared taxonomy.
-  const RELEASE = 191;
+  // v192 consolidates semantic title recovery before public presentation.
+  const RELEASE = 192;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
