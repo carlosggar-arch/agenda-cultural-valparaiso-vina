@@ -4,6 +4,7 @@ import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./tod
 import { dailyExhibitionHours, nextDailyExhibitionOpening } from "./date-aware-exhibition-hours.mjs?v=20260822-next-opening1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import { nextVenueOpeningForDate, venueHoursForDate } from "./venue-hours.mjs?v=20260821-next-hours1";
+import { googleMapsDirectionsUrl } from "./public-presentation-rules.mjs?v=20260822-mapnav1";
 
 const DEFAULT_CONFIG = Object.freeze({ locale: "es", timezone: "UTC" });
 const EXHIBITION_IDS = new Set(["exposiciones", "museos"]);
@@ -154,6 +155,52 @@ function replaceFactValue(row, value, marker = "scheduleDisplay") {
   copy.dataset[marker] = value;
 }
 
+function mapLinkForEvent(event) {
+  const href = googleMapsDirectionsUrl(event);
+  if (!href) return null;
+  const venue = String(event?.location?.venue || "").trim();
+  const link = document.createElement("a");
+  link.className = "map-location-link";
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.title = "Abrir ubicación en Google Maps";
+  link.setAttribute("aria-label", venue ? `Abrir ${venue} en Google Maps` : "Abrir ubicación en Google Maps");
+  link.textContent = "↗";
+  link.style.cssText = "margin-left:.28em;font-size:.82em;font-weight:500;opacity:.64;text-decoration:none;vertical-align:.05em";
+  link.addEventListener("click", (click) => click.stopPropagation());
+  return link;
+}
+
+function replaceLocationCopy(copy, value, event, preserveScreenReader = false) {
+  if (!copy) return false;
+  const href = googleMapsDirectionsUrl(event) || "";
+  const existingLink = copy.querySelector(".map-location-link");
+  if (
+    copy.dataset.locationDisplay === value
+    && (copy.dataset.mapHref || "") === href
+    && Boolean(existingLink) === Boolean(href)
+  ) return true;
+
+  const sr = preserveScreenReader ? copy.querySelector(".sr-only") : null;
+  copy.replaceChildren();
+  if (sr) copy.append(sr);
+  copy.append(document.createTextNode(value));
+  const link = mapLinkForEvent(event);
+  if (link) {
+    copy.append(document.createTextNode(" "));
+    copy.append(link);
+  }
+  copy.dataset.locationDisplay = value;
+  copy.dataset.mapHref = href;
+  return true;
+}
+
+function replaceLocationFactValue(row, value, event) {
+  const copy = row?.querySelector(":scope > span:last-child");
+  return replaceLocationCopy(copy, value, event, true);
+}
+
 function replaceSimpleCardSchedule(card, value) {
   const copy = card.querySelector(":scope > h4 + p");
   if (!copy) return false;
@@ -163,7 +210,7 @@ function replaceSimpleCardSchedule(card, value) {
   return true;
 }
 
-function replaceSimpleCardLocation(card, value) {
+function replaceSimpleCardLocation(card, value, event) {
   const schedule = card.querySelector(":scope > h4 + p");
   if (!schedule) return false;
 
@@ -174,10 +221,7 @@ function replaceSimpleCardLocation(card, value) {
       && !node.hasAttribute("data-exhibition-opening-hours")
     ));
   if (!copy) return false;
-  if (copy.textContent.trim() === value && copy.dataset.locationDisplay === value) return true;
-  copy.textContent = value;
-  copy.dataset.locationDisplay = value;
-  return true;
+  return replaceLocationCopy(copy, value, event, false);
 }
 
 function formatOpeningDate(dateKey) {
@@ -303,8 +347,8 @@ function enhanceCard(card) {
   if (scheduleFact) replaceFactValue(scheduleFact, schedule, "scheduleDisplay");
   else replaceSimpleCardSchedule(card, schedule);
   const locationFact = facts.find((row) => row.querySelector(".sr-only")?.textContent.trim().startsWith("Lugar:"));
-  if (locationFact) replaceFactValue(locationFact, location, "locationDisplay");
-  else replaceSimpleCardLocation(card, location);
+  if (locationFact) replaceLocationFactValue(locationFact, location, event);
+  else replaceSimpleCardLocation(card, location, event);
   patchStandaloneOpeningHours(card, event);
 }
 
@@ -313,9 +357,12 @@ function enhanceGroupedExhibition(row) {
   const copy = row.querySelector(".grouped-exhibition-copy > small");
   if (!event || !copy) return;
   const value = scheduleForDisplay(event);
-  if (copy.textContent.trim() === value && copy.dataset.scheduleDisplay === value) return;
-  copy.textContent = value;
-  copy.dataset.scheduleDisplay = value;
+  if (!(copy.textContent.trim() === value && copy.dataset.scheduleDisplay === value)) {
+    copy.textContent = value;
+    copy.dataset.scheduleDisplay = value;
+  }
+  const location = row.querySelector(".grouped-exhibition-location");
+  if (location) replaceLocationCopy(location, locationForDisplay(event), event, false);
 }
 
 function replaceDetailFact(dialog, label, value) {
@@ -327,12 +374,19 @@ function replaceDetailFact(dialog, label, value) {
   copy.dataset.enhancedDisplay = value;
 }
 
+function replaceDetailLocation(dialog, event) {
+  const fact = [...dialog.querySelectorAll(".event-detail-fact")].find((row) => row.querySelector("strong")?.textContent.trim() === "Lugar");
+  const copy = fact?.querySelector("span:last-child");
+  if (!copy) return;
+  replaceLocationCopy(copy, locationForDisplay(event), event, false);
+}
+
 function enhanceDetail(dialog) {
   const id = String(dialog.dataset.eventDetail || "");
   const event = eventIndex.get(id);
   if (!event) return;
   replaceDetailFact(dialog, "Fecha y horario", scheduleForDisplay(event));
-  replaceDetailFact(dialog, "Lugar", locationForDisplay(event));
+  replaceDetailLocation(dialog, event);
 }
 
 function apply() {
