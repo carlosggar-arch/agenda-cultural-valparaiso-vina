@@ -1,7 +1,6 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260819-hours3";
+import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260821-schedule8";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
-import { todaySessionScheduleLabel } from "./today-session-presentation.mjs?v=20260820-today1";
-import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-date-hours1";
+import { dailyExhibitionHours } from "./date-aware-exhibition-hours.mjs?v=20260821-schedule8";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import "./exhibition-hours.js?v=20260821-shared-runtime1";
 
@@ -59,11 +58,12 @@ function scheduleWithoutVisitHours(schedule) {
   delete clean.opening_hours;
   delete clean.venue_opening_hours;
   delete clean.visit_hours;
+  delete clean.venue_hours;
   return clean;
 }
 
-function formatEventSchedule(schedule) {
-  return formatSchedule(schedule, activeConfig);
+function formatEventSchedule(schedule, referenceDate) {
+  return formatSchedule(schedule, { ...activeConfig, referenceDate });
 }
 
 function scheduleForDisplay(event) {
@@ -71,22 +71,19 @@ function scheduleForDisplay(event) {
   const schedule = event?.schedule;
   if (!schedule) return "Horario por confirmar";
 
+  const referenceDate = visibleReferenceDateKey({ timezone: activeConfig.timezone });
   const eventSchedule = scheduleWithoutVisitHours(schedule);
-  const todaySessions = todaySessionScheduleLabel({ ...event, schedule: eventSchedule }, activeConfig);
-  if (todaySessions) return todaySessions;
+  const eventDisplay = formatEventSchedule(eventSchedule, referenceDate);
 
   if (isExhibition(event)) {
-    const referenceDate = visibleReferenceDateKey({ timezone: activeConfig.timezone });
     const daily = dailyExhibitionHours(schedule, {
       timezone: activeConfig.timezone,
       referenceDate,
     });
-    const range = formatEventSchedule(eventSchedule);
-    if (daily?.label) return [range, daily.label].filter(Boolean).join(" · ");
-    return range;
+    if (daily?.label) return [eventDisplay, daily.label].filter(Boolean).join(" · ");
   }
 
-  return formatEventSchedule(eventSchedule);
+  return eventDisplay;
 }
 
 function locationForDisplay(event) {
