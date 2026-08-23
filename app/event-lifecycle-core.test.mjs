@@ -7,7 +7,7 @@ import {
   cityWallClock,
   eventLifecycle,
   filterVisibleDataset,
-} from "./event-lifecycle-core.mjs";
+} from "./runtime-past-event-guard.mjs";
 
 const valpo = { id: "valparaiso", timezone: "America/Santiago" };
 const gijon = { id: "gijon", timezone: "Europe/Madrid" };
@@ -26,6 +26,10 @@ function event(start, { id = "e1", end = null, occurrences = [] } = {}) {
   };
 }
 
+function lifecycle(sample, city, now) {
+  return eventLifecycle(sample, { now, timeZone: city.timezone });
+}
+
 test("22:30 in Chile stays on Aug 22 after UTC crossed midnight", () => {
   const wall = cityWallClock(new Date("2026-08-23T02:30:00Z"), valpo.timezone);
   assert.equal(wall.day, "2026-08-22");
@@ -36,9 +40,9 @@ test("22:30 in Chile stays on Aug 22 after UTC crossed midnight", () => {
 test("timed event is upcoming, started, then ended using one 4h policy", () => {
   const sample = event("2026-08-22T17:00:00-04:00");
   assert.equal(POINT_EVENT_VISIBILITY_HOURS, 4);
-  assert.equal(eventLifecycle(sample, valpo, new Date("2026-08-22T20:59:00Z")).state, LIFECYCLE_STATES.UPCOMING);
-  assert.equal(eventLifecycle(sample, valpo, new Date("2026-08-22T22:00:00Z")).state, LIFECYCLE_STATES.STARTED);
-  assert.equal(eventLifecycle(sample, valpo, new Date("2026-08-23T01:01:00Z")).state, LIFECYCLE_STATES.ENDED);
+  assert.equal(lifecycle(sample, valpo, new Date("2026-08-22T20:59:00Z")).state, LIFECYCLE_STATES.UPCOMING);
+  assert.equal(lifecycle(sample, valpo, new Date("2026-08-22T22:00:00Z")).state, LIFECYCLE_STATES.STARTED);
+  assert.equal(lifecycle(sample, valpo, new Date("2026-08-23T01:01:00Z")).state, LIFECYCLE_STATES.ENDED);
 });
 
 test("later occurrence keeps a multi-function event visible", () => {
@@ -48,7 +52,7 @@ test("later occurrence keeps a multi-function event visible", () => {
       { start: "2026-08-22T21:00:00-04:00", end: null },
     ],
   });
-  const state = eventLifecycle(sample, valpo, new Date("2026-08-23T00:30:00Z"));
+  const state = lifecycle(sample, valpo, new Date("2026-08-23T00:30:00Z"));
   assert.equal(state.state, LIFECYCLE_STATES.UPCOMING);
   assert.equal(state.visible, true);
 });
@@ -68,11 +72,11 @@ test("runtime removes an ended event but keeps a future one", () => {
 test("date-only event remains visible through its local final day", () => {
   const sample = event("2026-08-22", { end: "2026-08-22" });
   assert.equal(
-    eventLifecycle(sample, valpo, new Date("2026-08-23T02:30:00Z")).state,
+    lifecycle(sample, valpo, new Date("2026-08-23T02:30:00Z")).state,
     LIFECYCLE_STATES.ONGOING,
   );
   assert.equal(
-    eventLifecycle(sample, valpo, new Date("2026-08-23T04:30:00Z")).state,
+    lifecycle(sample, valpo, new Date("2026-08-23T04:30:00Z")).state,
     LIFECYCLE_STATES.ENDED,
   );
 });
@@ -96,6 +100,6 @@ test("same lifecycle works with Europe/Madrid", () => {
       occurrences: [],
     },
   };
-  assert.equal(eventLifecycle(sample, gijon, new Date("2026-08-23T17:00:00Z")).state, LIFECYCLE_STATES.UPCOMING);
-  assert.equal(eventLifecycle(sample, gijon, new Date("2026-08-23T19:00:00Z")).state, LIFECYCLE_STATES.STARTED);
+  assert.equal(lifecycle(sample, gijon, new Date("2026-08-23T17:00:00Z")).state, LIFECYCLE_STATES.UPCOMING);
+  assert.equal(lifecycle(sample, gijon, new Date("2026-08-23T19:00:00Z")).state, LIFECYCLE_STATES.STARTED);
 });
