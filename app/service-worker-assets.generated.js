@@ -131,6 +131,7 @@
     "./runtime-past-event-guard.mjs",
     "./schedule-contract.mjs",
     "./schedule-display.js",
+    "./semantic-search.mjs",
     "./service-worker-assets.generated.js",
     "./session-occurrence-normalizer.js",
     "./share-qr.css",
