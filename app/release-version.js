@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v202 strengthens the Google Maps arrow and covers grouped/multi-exhibition cards on every verified location surface.
-  const RELEASE = 202;
+  // v203 gives the Google Maps arrow a subtle clickable pill and corrects vertical alignment on location rows.
+  const RELEASE = 203;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
