@@ -62,7 +62,10 @@ assert.match(appCore, /from "\.\/exhibition-group-core\.mjs/, "app-core must con
 assert.match(appCore, /groupStandaloneExhibitions\(/, "app-core initial grouping must use the canonical membership policy");
 assert.match(appCore, /compareAgendaOrder\(/, "app-core top-level ordering must use the canonical agenda order");
 assert.doesNotMatch(appCore, /isLongExhibitionDuration\(/, "app-core must not reintroduce a parallel long-exhibition ordering rule");
-assert.match(agendaOrder, /compareTemporalPriority\(/, "agenda order must delegate temporal semantics to temporal-priority-core");
+assert.match(agendaOrder, /from "\.\/temporal-priority-core\.mjs/, "agenda order must consume the shared temporal core");
+assert.match(agendaOrder, /TEMPORAL_BUCKETS/, "agenda order must use the shared temporal bucket hierarchy");
+assert.match(agendaOrder, /classifyTemporalEvent\(/, "agenda order must use the shared temporal classifier");
+assert.doesNotMatch(agendaOrder, /const\s+TEMPORAL_BUCKETS\s*=/, "agenda order must not redefine temporal buckets locally");
 assert.match(exhibitionGroupCore, /export const LONG_EXHIBITION_DAYS = 7/, "grouping core must retain its reusable long-exhibition threshold");
 assert.doesNotMatch(
   appCore,
