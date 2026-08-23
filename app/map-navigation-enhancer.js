@@ -17,12 +17,15 @@ function installStyles() {
       display:inline-flex !important;
       align-items:center !important;
       justify-content:center !important;
-      flex:0 0 auto;
+      position:relative;
+      flex:0 0 25px !important;
       box-sizing:border-box;
-      width:25px;
-      height:25px;
-      min-width:25px;
-      min-height:25px;
+      width:25px !important;
+      height:25px !important;
+      min-width:25px !important;
+      min-height:25px !important;
+      max-width:25px !important;
+      max-height:25px !important;
       margin-left:.24rem !important;
       padding:0;
       border:1px solid color-mix(in srgb,var(--brand,#174f46) 22%,transparent);
@@ -35,6 +38,15 @@ function installStyles() {
       vertical-align:middle !important;
       transform:none !important;
       transition:background .14s ease,border-color .14s ease,opacity .14s ease;
+    }
+    .map-location-link::before {
+      content:"";
+      position:absolute;
+      width:44px;
+      height:44px;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
     }
     .map-location-link-icon {
       display:block;
