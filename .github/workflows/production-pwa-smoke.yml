@@ -16,6 +16,7 @@ on:
       - "fuentes_publicas.json"
       - "manifest.webmanifest"
       - "app/scripts/production_pwa_smoke.py"
+      - "app/scripts/production_browser_selenium_smoke.py"
       - "app/scripts/production_warm_start_smoke.py"
       - "app/scripts/test_web_pwa_visibility_parity.py"
       - ".github/workflows/production-pwa-smoke.yml"
@@ -84,6 +85,7 @@ jobs:
           set -euo pipefail
           python -m py_compile \
             app/scripts/production_pwa_smoke.py \
+            app/scripts/production_browser_selenium_smoke.py \
             app/scripts/production_warm_start_smoke.py \
             app/scripts/test_web_pwa_visibility_parity.py
           python app/scripts/production_pwa_smoke.py local
@@ -92,7 +94,7 @@ jobs:
         run: python app/scripts/production_pwa_smoke.py http
 
       - name: Cold-load both cities on GitHub Pages and Cloudflare
-        run: python app/scripts/production_pwa_smoke.py browser
+        run: python app/scripts/production_browser_selenium_smoke.py
 
       - name: Warm-reopen Valpo mobile on GitHub Pages and Cloudflare
         run: python app/scripts/production_warm_start_smoke.py
