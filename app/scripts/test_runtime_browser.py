@@ -18,7 +18,7 @@ APP = ROOT / "app"
 TEST_PAGE = APP / "__runtime_test.html"
 CALETA_TITLE = "caleta de historias"
 CALETA_SOURCE_IMAGE = "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-18-092245.png"
-CALETA_TEST_NOW = "2026-08-22T14:00:00-04:00"
+CALETA_TEST_NOW = "2026-08-22T12:15:00-04:00"
 
 
 def chrome_binary() -> str:
