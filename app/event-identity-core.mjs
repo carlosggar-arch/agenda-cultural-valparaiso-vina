@@ -45,6 +45,42 @@ function sourceIdentity(event) {
   return label ? `label:${label}` : "";
 }
 
+function normalizedSourceRecordUrl(value) {
+  if (!value) return "";
+  try {
+    const url = new URL(String(value));
+    const path = url.pathname.replace(/\/+$/, "") || "/";
+    return `${url.hostname.toLocaleLowerCase("en")}${path}`;
+  } catch {
+    return foldEventIdentity(value);
+  }
+}
+
+function sourceRecordIdentity(event) {
+  for (const candidate of [event?.source_url, event?.links?.source, event?.links?.official]) {
+    const identity = normalizedSourceRecordUrl(candidate);
+    if (identity) return identity;
+  }
+  return "";
+}
+
+function distinctSourceRecords(a, b) {
+  const left = sourceRecordIdentity(a);
+  const right = sourceRecordIdentity(b);
+  return Boolean(left && right && left !== right);
+}
+
+function titleEchoedInOtherDescription(a, b) {
+  const titleA = foldEventIdentity(a?.title);
+  const titleB = foldEventIdentity(b?.title);
+  const descriptionA = foldEventIdentity(a?.description);
+  const descriptionB = foldEventIdentity(b?.description);
+  return Boolean(
+    (titleA.length >= 12 && descriptionB.includes(titleA))
+    || (titleB.length >= 12 && descriptionA.includes(titleB))
+  );
+}
+
 function urlHost(value) {
   if (!value) return "";
   try { return new URL(String(value)).hostname.toLocaleLowerCase("en"); } catch { return ""; }
@@ -176,6 +212,7 @@ function scheduleConflictDuplicate(a, b) {
 }
 
 function duplicateRule(a, b) {
+  if (sourceIdentity(a) === sourceIdentity(b) && distinctSourceRecords(a, b)) return "same_provider_distinct_record_duplicate";
   if (sameLocalOccurrenceStart(a, b) && titlesLikelySame(a?.title, b?.title)) return "same_time_similar_venue_similar_title";
   if (scheduleConflictDuplicate(a, b)) return "same_date_similar_venue_recurring_title_authoritative_source";
   return "cross_source_probable_duplicate";
@@ -245,10 +282,22 @@ export function areProbableDuplicateEvents(a, b) {
 
   const sourceA = sourceIdentity(a);
   const sourceB = sourceIdentity(b);
-  if (!sourceA || !sourceB || sourceA === sourceB) return false;
+  if (!sourceA || !sourceB) return false;
+  const sameProviderDistinct = sourceA === sourceB && distinctSourceRecords(a, b);
+  // A provider can publish the same activity twice through different records
+  // (for example its official event page plus its Instagram post). Treat those
+  // as independent evidence records eligible for reconciliation; exact repeats
+  // of the very same source record remain outside this semantic rule.
+  if (sourceA === sourceB && !sameProviderDistinct) return false;
   if (!venuesLikelySame(a, b)) return false;
 
-  if (sameLocalOccurrenceStart(a, b) && titlesLikelySame(a?.title, b?.title)) return true;
+  if (sameLocalOccurrenceStart(a, b)) {
+    if (titlesLikelySame(a?.title, b?.title)) return true;
+    // Same-provider publication titles are often editorially different (venue
+    // listing vs social headline). A full title echoed in the other record's
+    // description is stronger identity evidence than fuzzy title similarity.
+    if (sameProviderDistinct && titleEchoedInOtherDescription(a, b)) return true;
+  }
   return scheduleConflictDuplicate(a, b);
 }
 
@@ -300,6 +349,7 @@ export function mergeDuplicateEvents(a, b) {
       ...(secondary.editorial || {}),
       ...(primary.editorial || {}),
       cross_source_deduplicated: true,
+      same_provider_reconciled: sourceIdentity(primary) === sourceIdentity(secondary) || undefined,
       deduplication_rule: rule,
       schedule_conflict_resolved: scheduleConflictResolved || undefined,
       merged_duplicate_ids: mergedIds,

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canonicalPublicCategory } from "./public-category-rules.mjs";
+import { canonicalPublicCategory, resolvePublicCategory } from "./public-category-rules.mjs";
 
 const taxonomy = JSON.parse(readFileSync(new URL("../shared/public-category-taxonomy.json", import.meta.url), "utf8"));
 const core = readFileSync(new URL("./app-core.js", import.meta.url), "utf8");
@@ -23,6 +23,23 @@ assert.deepEqual(canonicalPublicCategory({ id: "museos", label: "Museos" }), {
   id: "exposiciones",
   label: "Exposiciones",
 });
+
+const readingClub = {
+  title: "Club de Lectura para la Niñez | Caleta de Historias",
+  primary_category: { id: "otros", label: "Otros panoramas" },
+  categories: [{ id: "otros", label: "Otros panoramas" }],
+};
+assert.deepEqual(resolvePublicCategory(readingClub), {
+  id: "cursos-talleres-campus",
+  label: "Cursos, talleres y experiencias",
+}, "strong activity semantics must override the generic fallback category");
+
+const literaryPresentation = {
+  title: "Presentación del libro Decadencia",
+  primary_category: { id: "otros", label: "Otros panoramas" },
+  categories: [{ id: "otros", label: "Otros panoramas" }],
+};
+assert.equal(resolvePublicCategory(literaryPresentation).id, "otros", "specific literary events may remain in the fallback group when no stronger category applies");
 
 for (const [name, source] of [["app-core", core], ["combined-filters", combined]]) {
   assert.match(source, /canonicalPublicCategory/, `${name} must consume the shared category authority`);

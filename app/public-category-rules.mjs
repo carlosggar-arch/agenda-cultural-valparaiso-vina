@@ -112,12 +112,17 @@ function inferCultureCategory(event) {
 export function resolvePublicCategory(event) {
   const source = sourceCategory(event);
   const canonical = canonicalPublicCategory(source);
+  const explicit = explicitTitleCategory(event);
+  const fallbackId = PUBLIC_CATEGORY_TAXONOMY.fallback_category;
 
   if (canonical && canonical.id !== source.id) return canonical;
   if (isSummerProgram(event)) return category("cursos-talleres-campus");
+  // "Otros" is a fallback, not semantic authority. A strong title-level signal
+  // must be allowed to recover a more specific shared category after merges.
+  if (canonical?.id === fallbackId && explicit && explicit.id !== fallbackId) return explicit;
   if (canonical && PUBLIC_CATEGORIES[canonical.id]) return canonical;
   if (source.id === "cultura" || foldPublicCategoryText(source.label) === "cultura") return inferCultureCategory(event);
-  if (!source.id && !source.label) return explicitTitleCategory(event) || category(PUBLIC_CATEGORY_TAXONOMY.fallback_category);
+  if (!source.id && !source.label) return explicit || category(fallbackId);
 
   // Source-specific categories remain visible only when they are explicitly
   // registered by the shared architecture contract. They are not redefined

@@ -37,6 +37,38 @@ function foldSlug(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+function escapeXml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
+function wrapGeneratedTitle(value, maxChars = 34, maxLines = 3) {
+  const words = String(value || "Actividad cultural").replace(/\s+/g, " ").trim().split(" ");
+  const lines = [];
+  let line = "";
+  for (const word of words) {
+    const candidate = line ? `${line} ${word}` : word;
+    if (candidate.length <= maxChars || !line) {
+      line = candidate;
+      continue;
+    }
+    lines.push(line);
+    line = word;
+    if (lines.length === maxLines - 1) break;
+  }
+  if (line && lines.length < maxLines) lines.push(line);
+  const source = String(value || "").replace(/\s+/g, " ").trim();
+  const joined = lines.join(" ");
+  if (source.length > joined.length && lines.length) {
+    lines[lines.length - 1] = `${lines[lines.length - 1].replace(/[.…]+$/u, "")}…`;
+  }
+  return lines;
+}
+
 export function safeHttpImageUrl(value, { baseUrl = null } = {}) {
   if (!value) return null;
   try {
@@ -121,6 +153,31 @@ export function categoryFallbackImage(event, hints = {}) {
   };
 }
 
+export function generatedEventFallbackImage(event, hints = {}) {
+  const category = categoryFallbackKey(event, hints);
+  const categoryLabel = String(
+    event?.primary_category?.label
+      || event?.categories?.[0]?.label
+      || hints?.labelHint
+      || "Actividad cultural",
+  ).trim();
+  const title = String(event?.title || "Actividad cultural").replace(/\s+/g, " ").trim();
+  const venue = String(event?.location?.venue || event?.location?.city || "").replace(/\s+/g, " ").trim();
+  const lines = wrapGeneratedTitle(title);
+  const titleSvg = lines.map((line, index) => (
+    `<text x="64" y="${176 + index * 47}" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#0b4b43">${escapeXml(line)}</text>`
+  )).join("");
+  const venueSvg = venue
+    ? `<text x="64" y="362" font-family="Arial,sans-serif" font-size="20" fill="#5d6f6a">${escapeXml(venue.slice(0, 52))}</text>`
+    : "";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img" aria-label="Imagen generada para ${escapeXml(title)}"><rect width="720" height="420" fill="#f7f4ec"/><rect x="0" y="0" width="720" height="12" fill="#ef8d3d"/><circle cx="642" cy="70" r="34" fill="#e5f0ec"/><text x="642" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="31" fill="#0b4b43">✦</text><text x="64" y="92" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="1.6" fill="#9a552f">${escapeXml(categoryLabel.toUpperCase().slice(0, 46))}</text>${titleSvg}${venueSvg}<text x="64" y="397" font-family="Arial,sans-serif" font-size="14" fill="#7b8985">Imagen editorial generada · ${escapeXml(category)}</text></svg>`;
+  return {
+    url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`,
+    kind: "generated-fallback",
+    category,
+  };
+}
+
 export function isGenericProviderImage(value, { baseUrl = null } = {}) {
   if (!value) return false;
   try {
@@ -155,9 +212,9 @@ export function resolveEventImage(event, {
 
   if (surface === "detail") {
     const direct = safeHttpImageUrl(event?.image?.url, { baseUrl });
-    return direct
-      ? { url: direct, kind: "relevant", genericSchedule: false }
-      : { url: null, kind: "none", genericSchedule: false };
+    if (direct) return { url: direct, kind: "relevant", genericSchedule: false };
+    const generated = generatedEventFallbackImage(event);
+    return { ...generated, genericSchedule: looksLikeGenericSchedule(event) };
   }
 
   const genericSchedule = looksLikeGenericSchedule(event);
@@ -166,7 +223,7 @@ export function resolveEventImage(event, {
 
   const representative = representativeVenueImageUrl(event, venueImagePools);
   if (representative) return { url: representative, kind: "representative", genericSchedule };
-  return { url: null, kind: "none", genericSchedule };
+  return { ...generatedEventFallbackImage(event), genericSchedule };
 }
 
 export function resolveCardImageAfterFailure(event, failedUrl, {

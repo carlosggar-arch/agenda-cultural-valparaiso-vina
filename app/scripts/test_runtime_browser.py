@@ -16,6 +16,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 TEST_PAGE = APP / "__runtime_test.html"
+CALETA_TITLE = "caleta de historias"
+CALETA_SOURCE_IMAGE = "https://valpocultura.cl/wp-content/uploads/2026/08/Screenshot-2026-08-18-092245.png"
+CALETA_TEST_NOW = "2026-08-22T12:15:00-04:00"
 
 
 def chrome_binary() -> str:
@@ -169,6 +172,156 @@ def open_visible_detail_with_relevant_media(driver) -> str | None:
     ''')
 
 
+def freeze_browser_clock(driver, iso_value: str) -> None:
+    """Freeze Date before app modules execute so historical real-event cards remain testable."""
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": f'''
+      (() => {{
+        const RealDate = Date;
+        const fixed = RealDate.parse({iso_value!r});
+        class FixedDate extends RealDate {{
+          constructor(...args) {{ super(...(args.length ? args : [fixed])); }}
+          static now() {{ return fixed; }}
+        }}
+        FixedDate.parse = RealDate.parse;
+        FixedDate.UTC = RealDate.UTC;
+        Object.setPrototypeOf(FixedDate, RealDate);
+        globalThis.Date = FixedDate;
+      }})();
+    '''})
+
+
+def run_caleta_real_card(base_url: str) -> dict[str, str | bool]:
+    """Exercise the real Caleta de Historias record through the real Valparaíso shell.
+
+    The source event is historical by the time this regression runs, so the test
+    freezes the browser to 22 Aug 2026. This is not a fixture: the record comes
+    from the repository's real agenda_web.json and passes through the full runtime
+    pipeline, deduplication, category normalization and card renderer.
+    """
+    last_error = ""
+    for attempt in range(1, 3):
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-caleta-{attempt}-", ignore_cleanup_errors=True) as profile:
+            driver = None
+            try:
+                driver = new_driver(profile)
+                freeze_browser_clock(driver, CALETA_TEST_NOW)
+                wait = WebDriverWait(driver, 30, poll_frequency=0.1)
+                driver.get(f"{base_url}/app/{TEST_PAGE.name}?city=valparaiso&when=todos")
+                wait.until(lambda current: current.execute_script(
+                    "return document.documentElement.dataset.city === 'valparaiso'"
+                ))
+                wait.until(lambda current: current.execute_script(r'''
+                  return [...document.querySelectorAll('.event-card[data-event-id]')]
+                    .some((card) => (card.querySelector('h4')?.textContent || '').toLocaleLowerCase('es').includes(arguments[0]));
+                ''', CALETA_TITLE))
+                # Give the common image-quality guard one bounded opportunity to
+                # replace a failed remote image with the generated event image.
+                time.sleep(0.35)
+
+                card = driver.execute_script(r'''
+                  const card = [...document.querySelectorAll('.event-card[data-event-id]')]
+                    .find((candidate) => (candidate.querySelector('h4')?.textContent || '')
+                      .toLocaleLowerCase('es').includes(arguments[0]));
+                  if (!card) return null;
+                  const media = card.querySelector('.event-card-media img');
+                  const typeBadges = [...card.querySelectorAll('.type-badge')].map((node) => node.textContent.trim());
+                  const actions = [...card.querySelectorAll('.card-action')].map((node) => node.textContent.trim());
+                  const facts = [...card.querySelectorAll('.card-fact')].map((node) => node.textContent.replace(/\s+/g, ' ').trim());
+                  return {
+                    id: card.dataset.eventId || '',
+                    title: card.querySelector('h4')?.textContent?.trim() || '',
+                    category: card.querySelector('.meta')?.textContent?.trim() || '',
+                    typeBadges,
+                    actions,
+                    facts,
+                    text: card.textContent.replace(/\s+/g, ' ').trim(),
+                    registrationCard: card.classList.contains('event-card--registration') || Boolean(card.closest('[data-registration-section]')),
+                    registrationStatus: Boolean(card.querySelector('[data-registration-status]')),
+                    imagePresent: Boolean(media),
+                    imageKind: media?.dataset?.eventImage || media?.dataset?.imageKind || '',
+                    imageSrc: media?.getAttribute('src') || '',
+                  };
+                ''', CALETA_TITLE)
+                if not card:
+                    raise AssertionError("real Caleta de Historias card was not rendered")
+                if card["category"] != "Cursos, talleres y experiencias":
+                    raise AssertionError(f"Caleta category is still wrong: {card['category']!r}")
+                if card["registrationCard"] or card["registrationStatus"]:
+                    raise AssertionError("Caleta was still moved into the registration-reminder presentation")
+                if any(label.casefold() == "inscripción" for label in card["typeBadges"]):
+                    raise AssertionError("Caleta still exposes an Inscripción type badge")
+                if any(action.casefold().startswith("inscrib") for action in card["actions"]):
+                    raise AssertionError("Caleta still exposes an Inscribirme action")
+                if "12:00" not in card["text"] or "13:30" not in card["text"]:
+                    raise AssertionError(f"Caleta real schedule was not preserved on the card: {card['text']!r}")
+                if not card["imagePresent"]:
+                    raise AssertionError("Caleta card has no image after the common image policy settles")
+
+                canonical = driver.execute_async_script(r'''
+                  const done = arguments[arguments.length - 1];
+                  Promise.all([
+                    import('./agenda-runtime-state.mjs'),
+                    import('./image-resolver-core.mjs'),
+                  ]).then(([runtime, images]) => {
+                    const snapshot = runtime.getAgendaRuntimeSnapshot('valparaiso');
+                    const event = snapshot?.events?.find((candidate) =>
+                      String(candidate?.title || '').toLocaleLowerCase('es').includes(arguments[0])
+                    );
+                    if (!event) return done({error: 'runtime-event-missing'});
+                    const pools = images.buildVenueImagePools(snapshot.events, {baseUrl: location.href});
+                    const resolved = images.resolveEventImage(event, {
+                      surface: 'card',
+                      venueImagePools: pools,
+                      baseUrl: location.href,
+                    });
+                    done({
+                      id: event.id || '',
+                      eventType: event.event_type || '',
+                      categoryId: event.primary_category?.id || '',
+                      categoryLabel: event.primary_category?.label || '',
+                      registrationOpen: event.public_status?.registration_open === true,
+                      registrationRequirements: String(event.registration_requirements || ''),
+                      registrationLink: String(event.links?.registration || ''),
+                      sourceImage: String(event.image?.url || ''),
+                      resolvedKind: resolved.kind || '',
+                      resolvedUrl: resolved.url || '',
+                    });
+                  }).catch((error) => done({error: String(error?.stack || error)}));
+                ''', CALETA_TITLE)
+                if canonical.get("error"):
+                    raise AssertionError(f"cannot inspect canonical Caleta runtime event: {canonical['error']}")
+                if canonical["eventType"] != "event":
+                    raise AssertionError(f"Caleta runtime event_type must remain event, got {canonical['eventType']!r}")
+                if canonical["categoryId"] != "cursos-talleres-campus":
+                    raise AssertionError(f"Caleta canonical category id is wrong: {canonical['categoryId']!r}")
+                if canonical["registrationOpen"] or canonical["registrationRequirements"] or canonical["registrationLink"]:
+                    raise AssertionError("Caleta canonical runtime data still claims registration is required")
+                if canonical["sourceImage"] != CALETA_SOURCE_IMAGE:
+                    raise AssertionError(f"Caleta extracted source image was not preserved: {canonical['sourceImage']!r}")
+                if canonical["resolvedKind"] != "relevant" or canonical["resolvedUrl"] != CALETA_SOURCE_IMAGE:
+                    raise AssertionError(
+                        "Caleta canonical resolver did not prefer the extracted event image "
+                        f"(kind={canonical['resolvedKind']!r}, url={canonical['resolvedUrl']!r})"
+                    )
+
+                return {
+                    "id": str(card["id"]),
+                    "category": str(card["category"]),
+                    "image_kind": str(card["imageKind"]),
+                    "canonical_image": str(canonical["resolvedKind"]),
+                    "registration": False,
+                }
+            except Exception as exc:
+                last_error = f"attempt {attempt}: {type(exc).__name__}: {exc}"
+            finally:
+                if driver is not None:
+                    try:
+                        driver.quit()
+                    except Exception:
+                        pass
+    raise AssertionError(f"real Caleta de Historias card regression failed: {last_error}")
+
+
 def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
     last_error = ""
     for attempt in range(1, 3):
@@ -285,6 +438,7 @@ def main() -> None:
             try:
                 base_url = f"http://127.0.0.1:{port}"
                 results = [run_city(city, base_url) for city in ("valparaiso", "gijon")]
+                caleta = run_caleta_real_card(base_url)
             finally:
                 server.shutdown()
                 thread.join(timeout=2)
@@ -298,6 +452,11 @@ def main() -> None:
             f"when={result['when']} detail_actions={result['detail_actions']} "
             f"source_provenance={str(result['source_provenance']).lower()}"
         )
+    print(
+        "CALETA_REAL_CARD_OK "
+        f"id={caleta['id']} category={caleta['category']!r} registration=false "
+        f"card_image_kind={caleta['image_kind'] or 'unknown'} canonical_image={caleta['canonical_image']}"
+    )
 
 
 if __name__ == "__main__":

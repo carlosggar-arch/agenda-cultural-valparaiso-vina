@@ -27,6 +27,7 @@ test("one pure resolver owns image selection across cards, groups, detail and gu
   assert.match(resolver, /export function resolveEventImage\(/);
   assert.match(resolver, /export function resolveCardImageAfterFailure\(/);
   assert.match(resolver, /export function categoryFallbackImage\(/);
+  assert.match(resolver, /export function generatedEventFallbackImage\(/);
   assert.match(resolver, /export function shouldInstallCategoryFallback\(/);
 
   assert.doesNotMatch(cards, /function venueImageKey\(|function buildVenueImagePools\(|function looksLikeGenericSchedule\(/);
@@ -35,10 +36,11 @@ test("one pure resolver owns image selection across cards, groups, detail and gu
   assert.doesNotMatch(detail, /presentation\?\.imageRelevant === false \? null : safeHttpUrl\(event\?\.image\?\.url\)/);
 });
 
-test("category fallback keeps its existing runtime presentation markers", () => {
-  assert.match(imageGuard, /image\.dataset\.imageKind = "category-fallback"/);
+test("generated event fallback keeps explicit runtime presentation markers", () => {
+  assert.match(imageGuard, /image\.dataset\.imageKind = "generated-fallback"/);
   assert.match(imageGuard, /image\.dataset\.imageQualityFallback = "true"/);
-  assert.match(imageGuard, /media\.dataset\.categoryPhotoApplied = "true"/);
+  assert.match(imageGuard, /media\.dataset\.generatedEventImage = "true"/);
+  assert.match(imageGuard, /generatedEventFallbackImage/);
 });
 
 test("retired parallel card image renderers are not loaded", () => {

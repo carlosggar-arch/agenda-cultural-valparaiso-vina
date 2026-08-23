@@ -56,18 +56,21 @@ assert 'navigator.geolocation.getCurrentPosition' in app_js
 assert 'function suggestCityFromCoordinates' in app_js
 
 # One common card renderer consumes one canonical image resolver and one common
-# quality guard upgrades unresolved placeholders to category artwork. There is no
-# per-city or parallel fallback renderer.
+# quality guard. Unresolved cards receive an event-specific generated editorial
+# image rather than a blank/category-only placeholder. There is no per-city or
+# parallel fallback renderer.
 assert 'getAgendaRuntimeSnapshot' in card_js
 assert 'image-resolver-core.mjs' in card_js
 assert 'resolveEventImage' in card_js
 assert 'event?.image?.url' in image_resolver_js
 assert 'export function resolveEventImage' in image_resolver_js
 assert 'export function buildVenueImagePools' in image_resolver_js
+assert 'export function generatedEventFallbackImage' in image_resolver_js
 assert 'image.dataset.eventImage = representative ? "representative" : "relevant"' in card_js
 assert 'getAgendaRuntimeSnapshot' in image_guard_js
 assert 'image-resolver-core.mjs' in image_guard_js
-assert 'image.dataset.imageKind = "category-fallback"' in image_guard_js
+assert 'image.dataset.imageKind = "generated-fallback"' in image_guard_js
+assert 'media.dataset.generatedEventImage = "true"' in image_guard_js
 assert 'new MutationObserver' not in card_js
 assert 'new MutationObserver' not in image_guard_js
 assert 'card-image-fallback.js' not in app_js

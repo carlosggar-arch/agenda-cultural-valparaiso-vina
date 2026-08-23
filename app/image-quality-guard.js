@@ -1,6 +1,6 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import {
-  categoryFallbackImage,
+  generatedEventFallbackImage,
   shouldInstallCategoryFallback,
 } from "./image-resolver-core.mjs?v=20260822-single-image1";
 
@@ -18,11 +18,11 @@ function syncRuntimeIndex() {
     .filter(([id]) => id));
 }
 
-function installCategoryFallback(card, media) {
+function installGeneratedFallback(card, media) {
   if (!(card instanceof HTMLElement) || !(media instanceof HTMLElement)) return;
   const event = eventIndex.get(String(card?.dataset?.eventId || "").trim());
   const labelHint = String(card.querySelector(".meta")?.textContent || card.querySelector(".event-card-placeholder-label")?.textContent || "").trim();
-  const fallback = categoryFallbackImage(event, {
+  const fallback = generatedEventFallbackImage(event, {
     categoryHint: card?.dataset?.category,
     labelHint,
   });
@@ -30,21 +30,21 @@ function installCategoryFallback(card, media) {
   const existing = media.querySelector("img");
   if (existing?.dataset?.imageQualityFallback === "true" && existing.getAttribute("src") === src) return;
 
-  const label = String(card.querySelector(".meta")?.textContent || fallback.category).trim();
+  const title = String(event?.title || card.querySelector("h4")?.textContent || "Actividad cultural").trim();
   const image = document.createElement("img");
   image.className = "event-card-photo";
   image.src = src;
-  image.alt = `Imagen representativa de la categoría ${label}`;
+  image.alt = `Imagen editorial generada para ${title}`;
   image.loading = "lazy";
   image.decoding = "async";
-  image.dataset.imageKind = "category-fallback";
+  image.dataset.imageKind = "generated-fallback";
   image.dataset.imageQualityFallback = "true";
 
   media.replaceChildren(image);
   media.classList.remove("event-card-media--placeholder", "has-relevant-image", "has-representative-image");
   media.classList.add("event-card-media--runtime-fallback");
   media.style.setProperty("--event-image", `url("${src}")`);
-  media.dataset.categoryPhotoApplied = "true";
+  media.dataset.generatedEventImage = "true";
   delete media.dataset.representativeImage;
 }
 
@@ -58,7 +58,7 @@ function repairCard(card) {
     hasImage: image instanceof HTMLImageElement,
     currentUrl: image instanceof HTMLImageElement ? (image.currentSrc || image.src || image.getAttribute("src")) : null,
   }, { baseUrl: window.location.href });
-  if (replace) installCategoryFallback(card, media);
+  if (replace) installGeneratedFallback(card, media);
 }
 
 function scan() {
