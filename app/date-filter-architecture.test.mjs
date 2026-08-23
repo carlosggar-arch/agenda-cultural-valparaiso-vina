@@ -95,6 +95,10 @@ for (const token of [
 assert.doesNotMatch(browserTest, /for selected in \(\"2026-08-20\", \"2026-08-25\"\)/);
 
 assert.match(pwa, /registration\.update\(\)\.catch\(\(\) => \{\}\)/);
+assert.match(pwa, /navigator\.serviceWorker\.addEventListener\("controllerchange"/);
+assert.match(pwa, /document\.addEventListener\("visibilitychange"/);
+assert.match(pwa, /window\.addEventListener\("focus"/);
+assert.match(pwa, /window\.location\.reload\(\)/);
 assert.match(worker, /await self\.skipWaiting\(\)/);
 assert.match(worker, /await self\.clients\.claim\(\)/);
 assert.match(worker, /fetch\(request, \{ cache: "no-store" \}\)/);
