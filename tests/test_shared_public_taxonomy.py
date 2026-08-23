@@ -22,12 +22,21 @@ class SharedPublicTaxonomyArchitectureTests(unittest.TestCase):
     def test_canonical_structure_is_self_consistent(self):
         categories = self.taxonomy["categories"]
         self.assertTrue(categories)
-        self.assertIn(self.taxonomy["fallback_category"], categories)
+        fallback = self.taxonomy["fallback_category"]
+        self.assertIn(fallback, categories)
+        self.assertFalse(categories[fallback].get("thematic"), "fallback must not be thematic")
+        self.assertEqual(categories[fallback].get("classification_state"), "unclassified")
 
         for category_id, config in categories.items():
             self.assertRegex(category_id, r"^[a-z0-9-]+$")
             self.assertTrue(str(config.get("label") or "").strip())
             self.assertTrue(str(config.get("symbol") or "").strip())
+            self.assertIn("thematic", config)
+
+        category_order = self.taxonomy["category_order"]
+        self.assertEqual(len(category_order), len(categories))
+        self.assertEqual(set(category_order), set(categories))
+        self.assertEqual(category_order[-1], fallback)
 
         for alias, target in self.taxonomy["aliases"].items():
             self.assertNotIn(alias, categories, f"alias must not duplicate canonical id: {alias}")
@@ -40,12 +49,17 @@ class SharedPublicTaxonomyArchitectureTests(unittest.TestCase):
             self.assertTrue(members, f"empty shared category group: {group}")
             for category_id in members:
                 self.assertIn(category_id, categories)
+                self.assertTrue(categories[category_id].get("thematic"))
 
-        for rule_set in ("explicit_title", "culture_evidence"):
+        for rule_set in ("title_evidence", "description_evidence"):
             for rule in self.taxonomy["rules"][rule_set]:
                 self.assertIn(rule["category"], categories)
+                self.assertTrue(categories[rule["category"]].get("thematic"))
+                self.assertGreater(int(rule["weight"]), 0)
                 re.compile(rule["pattern"])
 
+        self.assertGreater(int(self.taxonomy["rules"]["source_category_weight"]), 0)
+        self.assertGreater(int(self.taxonomy["rules"]["minimum_score"]), 0)
         re.compile(self.taxonomy["rules"]["summer_program_title_pattern"])
         re.compile(self.taxonomy["rules"]["summer_registration_title_pattern"])
 

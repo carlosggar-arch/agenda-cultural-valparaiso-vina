@@ -15,7 +15,7 @@ const cultureTheatre = {
   primary_category: { id: "cultura", label: "Cultura" },
   tags: ["Artes escénicas", "Teatro", "Danza"],
 };
-assert.deepEqual(resolvePublicCategory(cultureTheatre), { id: "teatro", label: "Teatro" });
+assert.deepEqual(resolvePublicCategory(cultureTheatre), { id: "teatro", label: "Teatro y danza" });
 
 const cultureExhibition = {
   title: "Programa del museo",
@@ -32,7 +32,10 @@ const museumBookPresentation = {
   source_name: "Museo Palacio Rioja",
   tags: ["Museo Palacio Rioja", "Visita Viña"],
 };
-assert.deepEqual(resolvePublicCategory(museumBookPresentation), { id: "otros", label: "Otros panoramas" });
+assert.deepEqual(resolvePublicCategory(museumBookPresentation), {
+  id: "literatura-charlas-encuentros",
+  label: "Literatura, charlas y encuentros",
+});
 
 const museumGuidedExhibition = {
   title: "Visita guiada exposición // “A veces un mar dulce”",
@@ -46,7 +49,7 @@ const genericCulture = {
   primary_category: { id: "cultura", label: "Cultura" },
   description: "Programación cultural mensual del centro.",
 };
-assert.deepEqual(resolvePublicCategory(genericCulture), { id: "otros", label: "Otros panoramas" });
+assert.deepEqual(resolvePublicCategory(genericCulture), { id: "unclassified", label: "Otros panoramas" });
 
 const museum = {
   title: "Muestra temporal",
