@@ -74,6 +74,8 @@ jobs:
           node --check app/combined-filters.js
           node --check app/combined-filters-safety.js
           node --check app/date-filter-architecture.test.mjs
+          node --check app/public-selection-core.mjs
+          node --check app/public-selection-parity.test.mjs
           node --check app/public-title-normalizer.test.mjs
           node --check app/exhibition-groups.js
           node --check app/exhibition-group-core.mjs
@@ -118,10 +120,11 @@ jobs:
           node app/registration-reminder-classifier.test.mjs
           node app/registration-reminders-architecture.test.mjs
           node app/date-filter-architecture.test.mjs
+          node app/public-selection-parity.test.mjs
           node app/public-title-normalizer.test.mjs
           python app/scripts/test_multicity_source_registry_coverage.py
 
-      - name: Require exact WEB PWA event-ID parity
+      - name: Require exact online cached-PWA event-ID parity
         run: |
           set -euo pipefail
           python app/scripts/test_web_pwa_visibility_parity.py --local
@@ -142,5 +145,5 @@ jobs:
 
       - name: Note final Stage D gate roles
         run: |
-          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering, installability, runtime data-consumer authority and exact WEB/PWA visible-ID parity."
+          echo "Required release guard composes canonical WEB/APP selection parity, runtime authority contracts, browser scenarios and exact online/cached-PWA visible-ID parity."
           echo "Production network verification runs only after merge on main (or manual rerun against latest main)."
