@@ -91,6 +91,7 @@ function exactLocationSuffixCandidates(event) {
 
   add(venue);
   add(city);
+  if (venue && city) add(`${venue}, ${city}`);
 
   if (venue && city) {
     const cityRx = flexibleLiteral(city);

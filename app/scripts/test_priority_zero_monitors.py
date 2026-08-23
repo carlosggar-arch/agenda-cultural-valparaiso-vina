@@ -186,6 +186,26 @@ def test_visitavina_occurrences_and_rioja_detail() -> None:
     assert event["price"]["is_free"] is True
     assert event["editorial"]["covered_source_ids"] == ["museo_palacio_rioja"]
 
+    previous = {
+        **event,
+        "image": {
+            "url": "https://scontent.example/palacio-rioja-event.jpg",
+            "alt": event["title"],
+            "source": "official_instagram",
+            "relevance": "event_specific",
+        },
+    }
+    refreshed_without_image = {**event, "image": {"url": None, "alt": None}}
+    preserved = recoveries.preserve_previous_event_image(refreshed_without_image, [previous])
+    assert preserved["image"] == previous["image"]
+    assert preserved["editorial"]["image_preservation"] == "previous_verified_same_event"
+
+    refreshed_with_new_image = {
+        **event,
+        "image": {"url": "https://visitavina.example/new.jpg", "alt": event["title"]},
+    }
+    assert recoveries.preserve_previous_event_image(refreshed_with_new_image, [previous])["image"] == refreshed_with_new_image["image"]
+
 
 def main() -> None:
     test_ipa_past_and_future()

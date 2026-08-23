@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v213 reloads an open installed App when a newer runtime takes control.
-  const RELEASE = 213;
+  // v214 publishes representative-image quality and source-image preservation.
+  const RELEASE = 214;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
