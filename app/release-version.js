@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v210 enforces the exact 25 px Maps control through the accessibility cascade.
-  const RELEASE = 210;
+  // v211 adds semantic smart-search terms and the corresponding release guards.
+  const RELEASE = 211;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
