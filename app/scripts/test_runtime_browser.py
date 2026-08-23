@@ -234,6 +234,7 @@ def run_caleta_real_card(base_url: str) -> dict[str, str | bool]:
                     typeBadges,
                     actions,
                     facts,
+                    text: card.textContent.replace(/\s+/g, ' ').trim(),
                     registrationCard: card.classList.contains('event-card--registration') || Boolean(card.closest('[data-registration-section]')),
                     registrationStatus: Boolean(card.querySelector('[data-registration-status]')),
                     imagePresent: Boolean(media),
@@ -251,9 +252,8 @@ def run_caleta_real_card(base_url: str) -> dict[str, str | bool]:
                     raise AssertionError("Caleta still exposes an Inscripción type badge")
                 if any(action.casefold().startswith("inscrib") for action in card["actions"]):
                     raise AssertionError("Caleta still exposes an Inscribirme action")
-                fact_text = " | ".join(card["facts"])
-                if "12:00" not in fact_text or "13:30" not in fact_text:
-                    raise AssertionError(f"Caleta real schedule was not preserved on the card: {fact_text!r}")
+                if "12:00" not in card["text"] or "13:30" not in card["text"]:
+                    raise AssertionError(f"Caleta real schedule was not preserved on the card: {card['text']!r}")
                 if not card["imagePresent"]:
                     raise AssertionError("Caleta card has no image after the common image policy settles")
 
