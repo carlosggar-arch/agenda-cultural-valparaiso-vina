@@ -216,7 +216,7 @@ def run_caleta_real_card(base_url: str) -> dict[str, str | bool]:
                 ''', CALETA_TITLE))
                 # Give the common image-quality guard one bounded opportunity to
                 # replace a failed remote image with the generated event image.
-                time.sleep(0.35)
+                time.sleep(0.75)
 
                 card = driver.execute_script(r'''
                   const card = [...document.querySelectorAll('.event-card[data-event-id]')]
