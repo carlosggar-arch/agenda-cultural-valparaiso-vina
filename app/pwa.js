@@ -87,7 +87,7 @@ function isIosLike() {
 
 function installHelpContent() {
   if (isIosLike()) {
-    return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instalar en iPhone o iPad</h2><p>En iPhone y iPad la aplicación no se descarga automáticamente. Se añade desde el menú Compartir del navegador:</p><ol><li>Pulsa <strong>Compartir ↑</strong>.</li><li>Elige <strong>Añadir a pantalla de inicio</strong>.</li><li>Pulsa <strong>Añadir</strong>.</li></ol><p class="privacy-note">Si no ves “Añadir a pantalla de inicio”, abre este enlace en Safari o en otro navegador compatible y vuelve a usar su menú Compartir.</p></section>`;
+    return `<section class="chooser install-help install-help-ios" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Añádela a tu iPhone</h2><p class="install-help-lead">Solo necesitas hacerlo una vez. Después se abrirá desde su propio icono, como cualquier aplicación.</p><ol class="install-help-steps"><li><span class="install-step-icon" aria-hidden="true">↥</span><span><small>Paso 1</small>Pulsa <strong>Compartir</strong> en el navegador.</span></li><li><span class="install-step-icon" aria-hidden="true">＋</span><span><small>Paso 2</small>Elige <strong>Añadir a pantalla de inicio</strong>.</span></li><li><span class="install-step-icon install-step-toggle" aria-hidden="true">●</span><span><small>Paso 3</small>Activa <strong>Abrir como app</strong>, si aparece.</span></li><li><span class="install-step-icon" aria-hidden="true">✓</span><span><small>Paso 4</small>Pulsa <strong>Añadir</strong>.</span></li></ol><p class="install-help-result"><span aria-hidden="true">⌂</span> Encontrarás <strong>¡Vivamos!</strong> en tu pantalla de inicio.</p><p class="privacy-note">Si no aparece esa opción, abre el enlace en Safari y vuelve a pulsar Compartir.</p></section>`;
   }
   return `<section class="chooser" role="dialog" aria-modal="true" aria-labelledby="install-help-title"><button class="chooser-close" type="button" aria-label="Cerrar" data-install-help-close>×</button><p class="eyebrow">Instalar ¡Vivamos!</p><h2 id="install-help-title">Instala la aplicación</h2><p>Abre el menú del navegador (<strong>⋮</strong> o <strong>Compartir</strong>) y elige <strong>Instalar aplicación</strong> o <strong>Añadir a pantalla de inicio</strong>.</p><p class="privacy-note">Después se abrirá como una app independiente y conservará tu ciudad preferida.</p></section>`;
 }
@@ -108,7 +108,11 @@ function installHelpElement() {
   return backdrop;
 }
 
-function showInstallHelp() { installHelpElement().hidden = false; }
+function showInstallHelp() {
+  const backdrop = installHelpElement();
+  backdrop.hidden = false;
+  backdrop.querySelector("[data-install-help-close]")?.focus?.({ preventScroll: true });
+}
 
 async function requestInstall() {
   if (!deferredInstallPrompt) { showInstallHelp(); return; }
