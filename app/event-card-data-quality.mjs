@@ -1,4 +1,5 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
+import { contentKindPresentation } from "./content-kind-presentation.mjs?v=20260823-contentkind1";
 
 const DAY_ORDER = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
 const DAY_ALIASES = new Map([
@@ -129,9 +130,40 @@ export function currentVisitHours(event, { now = new Date(), timezone = "UTC", l
   return openingHoursForWeekday(opening.display_text, localWeekday(now, timezone, locale));
 }
 
+export function applyContentKindBadge(card, event, city) {
+  if (!card || !event) return false;
+  const meta = card.querySelector(".card-meta-row");
+  if (!meta) return false;
+
+  const presentation = contentKindPresentation(event, city);
+  card.dataset.contentKind = presentation.kind;
+  let badge = meta.querySelector(".content-kind-badge");
+  let changed = false;
+  if (!badge) {
+    badge = document.createElement("span");
+    badge.className = "type-badge content-kind-badge";
+    meta.append(badge);
+    changed = true;
+  }
+  if (badge.textContent !== presentation.label) {
+    badge.textContent = presentation.label;
+    changed = true;
+  }
+  if (badge.dataset.contentKind !== presentation.kind) {
+    badge.dataset.contentKind = presentation.kind;
+    changed = true;
+  }
+  if (badge.title !== presentation.detail) {
+    badge.title = presentation.detail;
+    changed = true;
+  }
+  badge.setAttribute("aria-label", `${presentation.label}: ${presentation.detail}`);
+  return changed;
+}
+
 export function enhanceBaseEventCard(card, event, city, now = new Date()) {
   if (!card || !event) return false;
-  let changed = false;
+  let changed = applyContentKindBadge(card, event, city);
 
   // Point 8 is the schedule authority. Canonical schedules are rendered by the
   // shared schedule-display layer; this legacy quality pass must not append
@@ -166,6 +198,20 @@ export function enhanceBaseEventCard(card, event, city, now = new Date()) {
   return changed;
 }
 
+function representativeEventForCard(card, byId) {
+  const directId = String(card?.dataset?.eventId || "").trim();
+  if (directId) return byId.get(directId) || null;
+  const groupedIds = String(card?.dataset?.eventGroup || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  for (const id of groupedIds) {
+    const event = byId.get(id);
+    if (event) return event;
+  }
+  return null;
+}
+
 function applyCardDataQualityPolicy() {
   const cityId = String(document.documentElement.dataset.city || "").trim();
   const snapshot = getAgendaRuntimeSnapshot(cityId);
@@ -173,9 +219,13 @@ function applyCardDataQualityPolicy() {
   const byId = new Map(snapshot.events.map((event) => [String(event?.id || ""), event]).filter(([id]) => id));
   let changed = 0;
   const now = new Date();
-  for (const card of document.querySelectorAll(".event-card[data-event-id]")) {
-    const event = byId.get(String(card.dataset.eventId || ""));
-    if (event && enhanceBaseEventCard(card, event, snapshot.city, now)) changed += 1;
+  for (const card of document.querySelectorAll(".event-card[data-event-id], .event-card[data-event-group]")) {
+    const event = representativeEventForCard(card, byId);
+    if (!event) continue;
+    const cardChanged = card.dataset.eventId
+      ? enhanceBaseEventCard(card, event, snapshot.city, now)
+      : applyContentKindBadge(card, event, snapshot.city);
+    if (cardChanged) changed += 1;
   }
   return changed;
 }

@@ -8,8 +8,8 @@ A workflow may compose canonical owners, but it should not independently re-enco
 
 ## Contract layers
 
-1. **Semantic** — pure business behavior: temporal classification/order, visibility decisions, schedules, category mapping, title normalization, venue identity, source evidence, identity/dedupe and image selection.
-2. **Architecture** — ownership boundaries and integration invariants: which module is authoritative, shared runtime rules, third-city extensibility, startup composition.
+1. **Semantic** — pure business behavior: temporal classification/order, editorial tie-breaks, content-kind presentation, visibility decisions, schedules, category mapping, title normalization, venue identity, source evidence, identity/dedupe and image selection.
+2. **Architecture** — ownership boundaries and integration invariants: which module is authoritative, shared runtime rules, third-city extensibility, startup composition and read-only editorial quality auditing.
 3. **Browser** — observable user scenarios in a real browser. These tests assert rendered state and interactions, not the source-code spelling used to produce them.
 4. **Release** — generated shell, cache/bundle coherence, protected production boundaries and production smoke.
 
@@ -26,6 +26,17 @@ The machine-readable ownership map is `tests/contract-topology.json`; `app/scrip
 - Browser tests assert user-visible state and interactions rather than source literals.
 - Local release/shell behavior is checked before merge; network/deployment behavior is checked after merge against public `main`.
 - `temporary_overlaps` is empty; Stage D has no accepted validation overlap debt.
+
+## Shared editorial structure
+
+The agenda uses the same editorial architecture for every city registered in `app/cities.json`:
+
+- `temporal-priority-core.mjs` remains the authority for temporal bucket and `content_kind`; no city may override urgency semantics.
+- `editorial-priority-core.mjs` provides a small, factual and explainable tie-break based on source quality, information completeness, one-day specificity and explicit singular-event flags. It is evaluated only after temporal semantics are tied.
+- `content-kind-presentation.mjs` translates the canonical `content_kind` into one shared public meaning such as **Fecha concreta**, **En curso**, **Recurrente** or **Disponible**. Renderers and cities do not maintain parallel labels.
+- `audit_editorial_quality.py` audits every registered public dataset for structural/editorial anomalies and produces a read-only report. The audit never publishes or mutates public data; public writer ownership remains outside this repository workflow.
+
+These contracts are deliberately registry-driven. Adding another city through `app/cities.json` automatically brings its public dataset under the same editorial audit and the same runtime semantics without adding city-specific ranking, badge or audit code.
 
 ## Stage D sequence
 
