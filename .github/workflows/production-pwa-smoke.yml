@@ -17,6 +17,7 @@ on:
       - "manifest.webmanifest"
       - "app/scripts/production_pwa_smoke.py"
       - "app/scripts/production_warm_start_smoke.py"
+      - "app/scripts/test_web_pwa_visibility_parity.py"
       - ".github/workflows/production-pwa-smoke.yml"
   workflow_dispatch:
 
@@ -30,7 +31,7 @@ concurrency:
 jobs:
   production-smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 25
 
     steps:
       - name: Checkout published candidate
@@ -83,7 +84,8 @@ jobs:
           set -euo pipefail
           python -m py_compile \
             app/scripts/production_pwa_smoke.py \
-            app/scripts/production_warm_start_smoke.py
+            app/scripts/production_warm_start_smoke.py \
+            app/scripts/test_web_pwa_visibility_parity.py
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for both deployments and verify byte parity
@@ -94,3 +96,6 @@ jobs:
 
       - name: Warm-reopen Valpo mobile on GitHub Pages and Cloudflare
         run: python app/scripts/production_warm_start_smoke.py
+
+      - name: Require exact live WEB versus cached PWA event IDs
+        run: python app/scripts/test_web_pwa_visibility_parity.py --production
