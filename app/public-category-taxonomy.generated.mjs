@@ -242,7 +242,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       {
         "category": "cursos-talleres-campus",
         "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno)\\b",
-        "weight": 140
+        "weight": 165
       },
       {
         "category": "exposiciones",
