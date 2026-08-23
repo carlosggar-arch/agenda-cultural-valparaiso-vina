@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,6 +35,8 @@ jobs:
             app/scripts/run_contracts.py \
             app/scripts/run_browser_scenarios.py \
             app/scripts/test_release_guard.py \
+            app/scripts/test_release_delta.py \
+            app/scripts/test_ui_computed_contracts_browser.py \
             app/scripts/test_first_render_browser.py \
             app/scripts/test_startup_resilience_browser.py \
             app/scripts/test_schedule_interaction_browser.py \
@@ -96,6 +100,7 @@ jobs:
         run: |
           set -euo pipefail
           python app/scripts/generate_runtime_contracts.py --check
+          python app/scripts/test_release_delta.py
           python app/scripts/release_bundle.py --check
           python app/scripts/test_structural_hardening.py
           python app/scripts/test_priority_zero_monitors.py
@@ -131,5 +136,5 @@ jobs:
 
       - name: Note final Stage D gate roles
         run: |
-          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering, installability and runtime data-consumer authority."
+          echo "Required release guard enforces release deltas, generated artifacts, computed UI contracts and is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering, installability and runtime data-consumer authority."
           echo "Production network verification runs only after merge on main (or manual rerun against latest main)."
