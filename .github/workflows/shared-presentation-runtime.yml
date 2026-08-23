@@ -50,6 +50,8 @@ jobs:
           node --check app/public-text-sanitizer.mjs
           node --check app/runtime-past-event-guard.mjs
           node --check app/event-lifecycle-core.test.mjs
+          node --check app/public-selection-core.mjs
+          node --check app/public-selection-parity.test.mjs
           node --check app/content-kind-presentation.mjs
           node --check assets/event-schedule-display.mjs
           node app/scripts/test_schedule_contract_point8.mjs
@@ -62,5 +64,6 @@ jobs:
           node app/venue-hours.test.mjs
           node app/today-session-presentation.test.mjs
           node app/event-lifecycle-core.test.mjs
+          node app/public-selection-parity.test.mjs
           node app/map-navigation-enhancer.test.mjs
           node app/venue-identity-map.test.mjs

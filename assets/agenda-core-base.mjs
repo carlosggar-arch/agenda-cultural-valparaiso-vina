@@ -1,3 +1,5 @@
+import { eventMatchesCanonicalSection } from "../app/public-selection-core.mjs?v=20260823-selection1";
+
 export const DATASET_PATH = "./agenda_web.json";
 export const CHANGES_DATASET_PATH = "./agenda_changes.json";
 export const SUPPORTED_SCHEMA_MAJOR = 1;
@@ -597,25 +599,12 @@ function isDatedInBounds(event, bounds) {
 
 export function eventMatchesSection(event, sectionId, now = new Date()) {
   const section = normalizeAgendaSection(sectionId);
-  const localNow = localParts(now);
-  if (!localNow) return false;
-  if (section === "hoy" || section === "manana" || section === "fin-de-semana") {
-    return isDatedInBounds(event, periodBounds(section, now));
-  }
-  if (section === "siete-dias") {
-    return isDatedInBounds(event, { from: localNow.date, to: addUtcDays(localNow.date, 6) });
-  }
-  if (section === "proximos") return isDatedInBounds(event, { from: localNow.date });
-  if (section === "inscripcion-anticipada") {
-    return Boolean(event.links?.registration) && isDatedInBounds(event, { from: localNow.date });
-  }
-  if (section === "cursos-talleres") {
-    return ["course", "workshop", "flexible_offer"].includes(event.event_type);
-  }
+  if (section === "inscripcion-anticipada" && !event.links?.registration) return false;
   if (section === "naturaleza-deportes") return hasCategory(event, "naturaleza-deportes");
-  if (section === "gratis") return event.price?.is_free === true;
-  if (section === "programas") return event.event_type === "program";
-  return false;
+  return eventMatchesCanonicalSection(event, section === "inscripcion-anticipada" ? "proximos" : section, {
+    timezone: DISPLAY_TIME_ZONE,
+    locale: "es-CL",
+  }, now);
 }
 
 export function eventsForSection(events, sectionId, now = new Date()) {

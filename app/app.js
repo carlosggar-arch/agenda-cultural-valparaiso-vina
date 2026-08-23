@@ -3,7 +3,7 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 
 // The core is intentionally a dynamic import: the watchdog above must execute
 // even if the core module graph fails to load or evaluate.
-const { coreReady } = await import("./app-core.js?v=20260823-lifecycle1");
+const { coreReady } = await import("./app-core.js?v=20260823-selection1");
 
 // Presentation is one shared runtime. A city may contribute data, configuration
 // or a presentation adapter, but it must not select a different renderer.

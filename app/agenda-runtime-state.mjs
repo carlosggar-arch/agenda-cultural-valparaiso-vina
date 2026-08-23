@@ -15,7 +15,8 @@ export function publishAgendaRuntimeSnapshot(city, result) {
   const dataset = result?.dataset;
   if (!cityId || !dataset || !Array.isArray(dataset.events)) return state.snapshot;
 
-  const normalizedDataset = normalizeTemporalMetadata(dataset, city, new Date());
+  const referenceNow = result?.referenceNow instanceof Date ? result.referenceNow : new Date(result?.referenceNow || Date.now());
+  const normalizedDataset = normalizeTemporalMetadata(dataset, city, referenceNow);
 
   // The shared runtime is the presentation boundary. City adapters may provide
   // corrected raw location facts, but venue-identity is the definitive semantic

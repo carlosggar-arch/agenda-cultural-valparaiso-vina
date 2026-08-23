@@ -143,7 +143,10 @@ assert.match(cityFirstRun, /SUPPORTED_CITIES/, "first-run validation must be reg
 assert.match(cityFirstRun, /releaseRequiredSelection/, "first-run may release the chooser lock after a valid selection");
 assert.doesNotMatch(cityFirstRun, /loadAgendaDataset|setAgendaCity/, "first-run must not own dataset loading or dynamic city switching");
 
-assert.match(combined, /loadAgendaDataset/, "combined filters must use the same normalized pipeline as the renderer");
+assert.match(combined, /getAgendaRuntimeSnapshot/, "combined filters must consume the renderer's canonical snapshot");
+assert.doesNotMatch(combined, /loadAgendaDataset/, "combined filters must not execute the data pipeline a second time");
+assert.match(core, /eventMatchesCanonicalSection/, "app core sections must use the canonical selector");
+assert.match(combined, /eventMatchesCanonicalSection/, "combined filters must use the canonical selector");
 assert.match(combined, /canonicalPublicCategory/, "combined filters must delegate category aliases to the shared taxonomy");
 assert.match(core, /canonicalPublicCategory/, "core presentation must delegate category aliases to the shared taxonomy");
 assert.doesNotMatch(combined, /MUSEUM_CATEGORY_ID|id\s*===\s*["']museos["']|id\s*=\s*["']exposiciones["']/, "combined filters must not maintain category aliases locally");

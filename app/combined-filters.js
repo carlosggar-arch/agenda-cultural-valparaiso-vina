@@ -1,7 +1,8 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260823-selection1";
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { directCardVisibilityState, groupedCardVisibilityState } from "./visibility-owner-core.mjs?v=20260822-visibility1";
+import { eventMatchesCanonicalSection } from "./public-selection-core.mjs?v=20260823-selection1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const CITY_CONFIG = CITY_REGISTRY.byId;
@@ -144,101 +145,12 @@ function eventCategories(event) {
   return unique;
 }
 
-function dateKeyForDate(date, config) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: config.timezone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
-  const get = (type) => parts.find((part) => part.type === type)?.value;
-  return `${get("year")}-${get("month")}-${get("day")}`;
-}
-
-function dateKeyForValue(value, config) {
-  const text = String(value || "");
-  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-  const date = new Date(text);
-  return Number.isNaN(date.getTime()) ? null : dateKeyForDate(date, config);
-}
-
-function addDays(dateKey, days) {
-  const date = new Date(`${dateKey}T12:00:00Z`);
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString().slice(0, 10);
-}
-
-function weekdayForKey(dateKey) {
-  return new Date(`${dateKey}T12:00:00Z`).getUTCDay();
-}
-
-function weekendBounds(todayKey) {
-  const weekday = weekdayForKey(todayKey);
-  const daysToFriday = weekday === 5 ? 0 : weekday === 6 ? -1 : weekday === 0 ? -2 : 5 - weekday;
-  const friday = addDays(todayKey, daysToFriday);
-  return { start: friday, end: addDays(friday, 2) };
-}
-
-function scheduleWindows(event) {
-  if (["program", "flexible_offer"].includes(event?.event_type)) return [];
-  const occurrences = event?.schedule?.occurrences;
-  if (Array.isArray(occurrences) && occurrences.length) {
-    return occurrences.map((occurrence) => ({
-      start: occurrence?.start,
-      end: occurrence?.end || occurrence?.start,
-    }));
-  }
-  if (event?.schedule?.start) {
-    return [{ start: event.schedule.start, end: event.schedule.end || event.schedule.start }];
-  }
-  return [];
-}
-
-function eventDateRanges(event) {
-  const config = currentConfig();
-  return scheduleWindows(event)
-    .map((window) => ({
-      start: dateKeyForValue(window.start, config),
-      end: dateKeyForValue(window.end, config),
-    }))
-    .filter((range) => range.start && range.end);
-}
-
-function rangesOverlap(range, start, end) {
-  return range.start <= end && range.end >= start;
-}
-
-function selectedDateWindow(when = state.when) {
-  if (when === "todos") return null;
-  const today = dateKeyForDate(new Date(), currentConfig());
-  if (when === "hoy") return { start: today, end: today };
-  if (when === "manana") {
-    const tomorrow = addDays(today, 1);
-    return { start: tomorrow, end: tomorrow };
-  }
-  if (when === "fin-de-semana") return weekendBounds(today);
-  if (when === "7-dias") return { start: today, end: addDays(today, 6) };
-  if (when === "terminan-pronto") return { start: today, end: addDays(today, 3), endingSoon: true };
-  if (when === "personalizado") {
-    const start = state.from || state.to;
-    const end = state.to || state.from;
-    if (!start || !end) return null;
-    return start <= end ? { start, end } : { start: end, end: start };
-  }
-  return null;
-}
-
 function eventMatchesWhen(event, when = state.when) {
-  if (when === "todos") return true;
-  const window = selectedDateWindow(when);
-  if (!window) return false;
-  const ranges = eventDateRanges(event);
-  if (!ranges.length) return false;
-  if (window.endingSoon) {
-    const today = window.start;
-    return ranges.some((range) => range.start <= today && range.end > today && range.end <= window.end);
-  }
-  return ranges.some((range) => rangesOverlap(range, window.start, window.end));
+  return eventMatchesCanonicalSection(event, when, currentConfig(), new Date(), {
+    from: state.from,
+    to: state.to,
+    endingSoonDays: 3,
+  });
 }
 
 function currentAreas() {
@@ -390,8 +302,8 @@ async function loadDataset() {
   categoryRenderSignature = "";
   areaRenderSignature = "";
   try {
-    const result = await loadAgendaDataset(CITY_CONFIG[cityId]);
-    const events = result?.dataset?.events;
+    const result = getAgendaRuntimeSnapshot(cityId);
+    const events = result?.events;
     if (Array.isArray(events)) datasetEvents = events;
   } catch (error) {
     datasetEvents = [];

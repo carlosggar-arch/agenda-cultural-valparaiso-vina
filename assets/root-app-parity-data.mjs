@@ -1,4 +1,4 @@
-import { loadAgendaDataset } from "../app/data-pipeline.js?v=20260820-root-consumer1";
+import { loadAgendaDataset } from "../app/data-pipeline.js?v=20260823-selection1";
 
 const ROOT_CITY = Object.freeze({
   id: "valparaiso",
@@ -14,7 +14,10 @@ const ROOT_CITY = Object.freeze({
  * Consume la lógica de publicación de APP sin modificar ningún archivo de APP.
  */
 export async function loadRootPublicAgenda({ fetchImpl = globalThis.fetch, now = new Date() } = {}) {
-  return loadAgendaDataset(ROOT_CITY, { fetchImpl, now });
+  // The root WEB must consume the canonical result, but it must not create a
+  // second persistent processed cache with a different scope/version.
+  const canonicalFetch = (input, init) => fetchImpl(input, init);
+  return loadAgendaDataset(ROOT_CITY, { fetchImpl: canonicalFetch, now });
 }
 
 export async function loadRootPublicDataset(options = {}) {

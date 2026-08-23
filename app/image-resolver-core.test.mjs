@@ -126,12 +126,14 @@ test("card direct and same-venue representative resolution remains stable where 
 
 test("failed direct card image still prefers the exact legacy same-venue URL", () => {
   const expected = legacyRepresentative(own, oldPools);
-  assert.equal(resolveCardImageAfterFailure(own, legacyRelevant(own), { venueImagePools: pools, baseUrl: BASE }).url,
-    expected === legacyRelevant(own) ? null : expected);
+  const ownFallback = resolveCardImageAfterFailure(own, legacyRelevant(own), { venueImagePools: pools, baseUrl: BASE });
+  assert.equal(ownFallback.url,
+    expected === legacyRelevant(own) ? generatedEventFallbackImage(own).url : expected);
   const failing = { ...own, id: "failing", image: { url: "https://img.example/failing.jpg" } };
   const expectedFallback = legacyRepresentative(failing, oldPools);
-  assert.equal(resolveCardImageAfterFailure(failing, legacyRelevant(failing), { venueImagePools: oldPools, baseUrl: BASE }).url,
-    expectedFallback === legacyRelevant(failing) ? null : expectedFallback);
+  const resolvedFallback = resolveCardImageAfterFailure(failing, legacyRelevant(failing), { venueImagePools: oldPools, baseUrl: BASE });
+  assert.equal(resolvedFallback.url,
+    expectedFallback === legacyRelevant(failing) ? generatedEventFallbackImage(failing).url : expectedFallback);
 });
 
 test("every ordinary card gets a deterministic generated image when no source or venue image exists", () => {
