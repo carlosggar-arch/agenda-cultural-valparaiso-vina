@@ -4,6 +4,7 @@ import { renderProgramReferences } from "./program-visibility-policy.js?v=202608
 import { groupStandaloneExhibitions } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
 import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
+import { formatSchedule as formatSharedSchedule } from "../assets/event-schedule-display.mjs";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
@@ -238,27 +239,12 @@ function formatSchedule(event, city) {
     return `${formatDateOnly(start, city)} – ${formatDateOnly(end, city)}`;
   }
 
-  const formatValue = (value, withWeekday = true) => {
-    if (/^\d{4}-\d{2}-\d{2}$/.test(String(value))) return formatDateOnly(value, city, withWeekday);
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return String(value);
-    return formatterFor(city.locale, {
-      timeZone: city.timezone,
-      weekday: withWeekday ? "short" : undefined,
-      day: "numeric",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    }).format(date);
-  };
-
-  try {
-    if (endDate && endDate !== startDate) return `${formatValue(start)} – ${formatValue(end, false)}`;
-    return formatValue(start);
-  } catch {
-    return event?.schedule?.display_text || String(start);
-  }
+  return formatSharedSchedule(event?.schedule, {
+    locale: city?.locale || "es-CL",
+    timezone: city?.timezone || "America/Santiago",
+    now: new Date(),
+    referenceDate: currentTimeContext().today,
+  });
 }
 
 function rawEventCategories(event) {

@@ -36,7 +36,10 @@ export function foldPublicCategoryText(value) {
 }
 
 function sourceCategory(event) {
-  const source = event?.primary_category || event?.categories?.[0] || null;
+  const source = event?.semantics?.source_category
+    || event?.primary_category
+    || event?.categories?.[0]
+    || null;
   const label = String(source?.label || "").trim();
   const id = String(source?.id || foldPublicCategoryText(label).replace(/\s+/g, "-"))
     .trim()
@@ -121,6 +124,22 @@ function confidenceForScore(score) {
   return score >= Number(RULES.minimum_score || 1) ? "low" : "unclassified";
 }
 
+function rankedCandidates(scores, evidence) {
+  return [...scores.entries()]
+    .filter(([, score]) => score > 0)
+    .sort((a, b) => (
+      b[1] - a[1]
+      || (CATEGORY_ORDER.get(a[0]) ?? Number.MAX_SAFE_INTEGER)
+        - (CATEGORY_ORDER.get(b[0]) ?? Number.MAX_SAFE_INTEGER)
+    ))
+    .map(([categoryId, score]) => ({
+      category: category(categoryId),
+      score,
+      confidence: confidenceForScore(score),
+      evidence: evidence.filter((item) => item.category === categoryId),
+    }));
+}
+
 export function classifyPublicCategory(event) {
   const scores = new Map();
   const evidence = [];
@@ -171,31 +190,28 @@ export function classifyPublicCategory(event) {
     "description",
   );
 
-  const ranked = [...scores.entries()]
-    .filter(([, score]) => score >= Number(RULES.minimum_score || 1))
-    .sort((a, b) => (
-      b[1] - a[1]
-      || (CATEGORY_ORDER.get(a[0]) ?? Number.MAX_SAFE_INTEGER)
-        - (CATEGORY_ORDER.get(b[0]) ?? Number.MAX_SAFE_INTEGER)
-    ));
+  const candidates = rankedCandidates(scores, evidence);
+  const minimumScore = Number(RULES.minimum_score || 1);
+  const winner = candidates.find((candidate) => candidate.score >= minimumScore) || null;
 
-  if (!ranked.length) {
+  if (!winner) {
     return {
       category: category(FALLBACK_ID),
       confidence: "unclassified",
-      score: 0,
+      score: candidates[0]?.score || 0,
       evidence,
       source_category: source,
+      candidates,
     };
   }
 
-  const [categoryId, score] = ranked[0];
   return {
-    category: category(categoryId),
-    confidence: confidenceForScore(score),
-    score,
+    category: winner.category,
+    confidence: winner.confidence,
+    score: winner.score,
     evidence,
     source_category: source,
+    candidates,
   };
 }
 

@@ -74,6 +74,8 @@
     "./event-data-corrections.js",
     "./event-detail.js",
     "./event-identity-core.mjs",
+    "./event-semantics.generated.mjs",
+    "./event-semantics.mjs",
     "./exhibition-compact.css",
     "./exhibition-gallery.css",
     "./exhibition-group-core.mjs",
