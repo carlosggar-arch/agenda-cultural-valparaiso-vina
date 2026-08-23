@@ -1,10 +1,64 @@
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import { googleMapsDirectionsUrl } from "./public-presentation-rules.mjs?v=20260822-mapnav1";
 
+const STYLE_ID = "vivamos-map-navigation-styles";
 let eventIndex = new Map();
 let activeCityId = "";
 let indexedRevision = 0;
 let applyQueued = false;
+
+function installStyles() {
+  if (document.getElementById(STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = STYLE_ID;
+  style.textContent = `
+    .map-location-link {
+      display:inline-flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      flex:0 0 auto;
+      width:1.25rem;
+      height:1.25rem;
+      margin-left:.28rem !important;
+      padding:0;
+      border:1px solid color-mix(in srgb,var(--brand,#174f46) 24%,transparent);
+      border-radius:999px;
+      background:color-mix(in srgb,var(--brand,#174f46) 9%,#fff);
+      color:var(--brand,#174f46) !important;
+      font-size:.78rem !important;
+      font-weight:900 !important;
+      line-height:1 !important;
+      opacity:1 !important;
+      text-decoration:none !important;
+      vertical-align:middle !important;
+      transform:none !important;
+      transition:background .14s ease,border-color .14s ease,transform .14s ease;
+    }
+    .map-location-link:hover,
+    .map-location-link:focus-visible {
+      background:color-mix(in srgb,var(--brand,#174f46) 16%,#fff);
+      border-color:color-mix(in srgb,var(--brand,#174f46) 42%,transparent);
+      text-decoration:none !important;
+    }
+    .map-location-link:focus-visible {
+      outline:2px solid color-mix(in srgb,var(--brand,#174f46) 34%,transparent);
+      outline-offset:2px;
+    }
+    .card-fact--map-location {
+      align-items:center !important;
+    }
+    .card-fact--map-location > .card-fact-icon {
+      margin-top:0 !important;
+      align-self:center;
+    }
+    .card-fact--map-location > span:last-child,
+    .grouped-exhibition-location,
+    .event-detail-fact--map-location > span:last-child {
+      line-height:1.35;
+    }
+  `;
+  document.head.append(style);
+}
 
 function syncRuntimeIndex() {
   const requestedCity = String(document.documentElement.dataset.city || "").trim();
@@ -28,21 +82,18 @@ function sameVenue(a, b) {
   return Boolean(first && first === key(b));
 }
 
+function markLocationContainer(container) {
+  if (!(container instanceof Element)) return;
+  const fact = container.closest(".card-fact");
+  if (fact) fact.classList.add("card-fact--map-location");
+  const detailFact = container.closest(".event-detail-fact");
+  if (detailFact) detailFact.classList.add("event-detail-fact--map-location");
+}
+
 function styleMapLink(link) {
   if (!(link instanceof HTMLAnchorElement)) return;
   link.classList.add("map-location-link");
-  link.style.cssText = [
-    "display:inline-flex",
-    "align-items:center",
-    "justify-content:center",
-    "margin-left:.2em",
-    "font-size:1.04em",
-    "font-weight:800",
-    "line-height:1",
-    "opacity:.9",
-    "text-decoration:none",
-    "vertical-align:.02em",
-  ].join(";");
+  link.removeAttribute("style");
 }
 
 function makeMapLink(event, { grouped = false } = {}) {
@@ -64,6 +115,7 @@ function makeMapLink(event, { grouped = false } = {}) {
 
 function ensureMapLink(container, event, options = {}) {
   if (!(container instanceof Element)) return false;
+  markLocationContainer(container);
   const href = googleMapsDirectionsUrl(event) || "";
   const existing = container.querySelector(":scope > .map-location-link");
   if (!href) {
@@ -149,6 +201,7 @@ function enhanceDetail(dialog) {
 
 function apply() {
   applyQueued = false;
+  installStyles();
   if (!syncRuntimeIndex()) return;
   document.querySelectorAll(".map-location-link").forEach(styleMapLink);
   document.querySelectorAll(".event-card[data-event-id]").forEach(enhanceCard);
@@ -162,6 +215,7 @@ function queueApply() {
   queueMicrotask(apply);
 }
 
+installStyles();
 for (const eventName of [
   "vivamos:agenda-data-ready",
   "vivamos:agenda-rendered",
