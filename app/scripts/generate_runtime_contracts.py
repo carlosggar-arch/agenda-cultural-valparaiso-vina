@@ -11,6 +11,8 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 MANIFEST_PATH = APP / "service-worker-assets.generated.js"
 VENUE_BRIDGE_PATH = APP / "venue-registry.generated.mjs"
+RELEASE_PATH = APP / "release-version.js"
+INDEX_PATH = APP / "index.html"
 
 ENTRYPOINTS = (
     APP / "index.html",
@@ -21,6 +23,8 @@ ENTRYPOINTS = (
     APP / "proponer-fuente.html",
 )
 TEXT_SUFFIXES = {".js", ".mjs", ".css", ".html", ".webmanifest", ".json"}
+RELEASE_RE = re.compile(r"const\\s+RELEASE\\s*=\\s*(\\d+)\\s*;")
+RELEASE_ASSETS = ("./app.js", "./map-navigation-enhancer.js")
 CACHEABLE_SUFFIXES = TEXT_SUFFIXES | {".svg", ".png", ".jpg", ".jpeg", ".webp", ".ico"}
 REFERENCE_RE = re.compile(r"[\"']((?:\.\.?/)[^\"'?#]+(?:\?[^\"']*)?)[\"']")
 
@@ -119,7 +123,36 @@ def validate_local_assets(assets: set[str]) -> list[str]:
     return sorted(missing)
 
 
+def canonical_release() -> int:
+    match = RELEASE_RE.search(RELEASE_PATH.read_text(encoding="utf-8"))
+    if not match:
+        raise ValueError("canonical PWA release not found")
+    return int(match.group(1))
+
+
+def synchronize_release_asset_versions(text: str, release: int) -> str:
+    for asset in RELEASE_ASSETS:
+        pattern = re.compile(rf'({re.escape(asset)})(?:\\?v=\\d+)?')
+        if len(pattern.findall(text)) != 1:
+            raise ValueError(f"release asset must appear exactly once in index: {asset}")
+        text = pattern.sub(rf"\\1?v={release}", text)
+    return text
+
+
+def release_asset_version_errors() -> list[str]:
+    release = canonical_release()
+    index = INDEX_PATH.read_text(encoding="utf-8")
+    expected = synchronize_release_asset_versions(index, release)
+    if index == expected:
+        return []
+    return [f"index release asset keys are stale; run --write for release {release}"]
+
+
 def write_contracts() -> None:
+    INDEX_PATH.write_text(
+        synchronize_release_asset_versions(INDEX_PATH.read_text(encoding="utf-8"), canonical_release()),
+        encoding="utf-8",
+    )
     VENUE_BRIDGE_PATH.write_text(VENUE_BRIDGE, encoding="utf-8")
     # Generated runtime assets are derived only from the current entrypoint graph.
     # Never union with the previous manifest: doing so makes deleted/retired
@@ -129,7 +162,7 @@ def write_contracts() -> None:
 
 
 def check_contracts() -> None:
-    errors: list[str] = []
+    errors: list[str] = release_asset_version_errors()
     if VENUE_BRIDGE_PATH.read_text(encoding="utf-8") != VENUE_BRIDGE:
         errors.append("venue-registry.generated.mjs is stale")
     committed = existing_assets()
