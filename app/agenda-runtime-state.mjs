@@ -1,5 +1,5 @@
 import { normalizeTemporalMetadata } from "./temporal-priority-core.mjs?v=20260821-temporal4";
-import { filterVisibleDataset } from "./event-lifecycle-core.mjs?v=20260822-lifecycle1";
+import { filterVisibleDataset } from "./runtime-past-event-guard.mjs?v=20260822-lifecycle1";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
 import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260820-venues1";
 import { normalizeEventScheduleContract } from "./schedule-contract.mjs?v=20260821-point8-v2";
@@ -16,7 +16,7 @@ export function publishAgendaRuntimeSnapshot(city, result, now = new Date()) {
   const dataset = result?.dataset;
   if (!cityId || !dataset || !Array.isArray(dataset.events)) return state.snapshot;
 
-  // One shared runtime boundary owns temporal visibility.  This protects users
+  // One shared runtime boundary owns temporal visibility. This protects users
   // between backend publications: a function that has ended locally disappears
   // even if the last fetched JSON is a few hours old.
   const visibleDataset = filterVisibleDataset(dataset, city, now);
@@ -32,10 +32,6 @@ export function publishAgendaRuntimeSnapshot(city, result, now = new Date()) {
     .map((event) => normalizeEventScheduleContract(event));
   const presentationDataset = { ...normalizedDataset, events: presentationEvents };
 
-  // loadAgendaDataset callers (including app-core and filters) must see the same
-  // adapted event objects as every optional presentation module. This prevents a
-  // raw city-specific value from flashing first and being repaired by a second
-  // renderer later in the frame.
   result.dataset = presentationDataset;
 
   state.snapshot = {
