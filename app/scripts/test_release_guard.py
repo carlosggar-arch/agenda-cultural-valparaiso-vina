@@ -53,6 +53,10 @@ def check_single_release_source() -> None:
     assert not re.search(r'const CACHE_VERSION = "v\d+"', sw), "hard-coded cache version returned"
     assert not re.search(r'service-worker\.js\?v=\d+', pwa), "hard-coded service-worker query version returned"
     assert not re.search(r'data-app-version>PWA v\d+<', index), "HTML footer must not carry a second release number"
+    release_keyed = re.findall(r'src="(\\./[^"?]+\\.js)\\?v=(\\d{1,5})"', index)
+    assert release_keyed, "index must expose at least one release-keyed JavaScript entrypoint"
+    stale = [f"{asset}?v={version}" for asset, version in release_keyed if int(version) != release]
+    assert not stale, f"all release-keyed entrypoints must use canonical v{release}: {stale}"
     assert release >= 1
 
 
@@ -192,7 +196,7 @@ def check_workflow_guard() -> None:
     profiles = topology["runner_profiles"]
     scenarios = topology["browser_scenarios"]
 
-    assert topology["schema_version"] == "1.3.0", "D4 final contract topology is not active"
+    assert topology["schema_version"] == "1.4.0", "D4 final contract topology is not active"
     release_contract = contracts["release.generated-shell"]
     assert release_contract["owner"] == "app/scripts/test_release_guard.py"
     assert release_contract["workflow"] == ".github/workflows/required-release-guard.yml"
@@ -232,6 +236,9 @@ def check_workflow_guard() -> None:
     assert "browser.runtime-user-flow" in scenarios["filters-detail-media"]
     assert "browser.exhibition-visual-parity" in scenarios["exhibitions"]
     assert scenarios["temporal-order"] == ["browser.temporal-priority"]
+    assert scenarios["computed-presentation"] == ["browser.computed-ui-contracts"]
+    computed = contracts["browser.computed-ui-contracts"]
+    assert computed["owner"] == "app/scripts/test_ui_computed_contracts_browser.py"
     assert topology["temporary_overlaps"] == [], "D4 must leave no temporary overlap"
 
     for browser_command in (
@@ -251,6 +258,8 @@ def check_workflow_guard() -> None:
     assert "production_pwa_smoke.py http" not in required, "network smoke must not run in PR gate"
     assert "production_pwa_smoke.py browser" not in required, "deployment browser smoke must not run in PR gate"
 
+    assert "python app/scripts/test_release_delta.py" in required, "runtime changes must require a canonical release bump"
+    assert "fetch-depth: 0" in required, "release delta guard requires complete base history"
     assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert "node app/date-filter-architecture.test.mjs" in required, "date-filter single-source contract is not required before merge"
     assert "node --check app/sources-toggle.js" in required, "local production shell coverage lost sources module syntax check"
