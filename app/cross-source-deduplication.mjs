@@ -10,6 +10,7 @@ import {
   sameLocalOccurrenceDate,
   sameLocalOccurrenceStart,
 } from "./occurrence-identity-core.mjs";
+import { normalizeAgendaCategories } from "./category-normalizer.js";
 
 export function deduplicateCrossSourceEvents(events) {
   if (!Array.isArray(events) || events.length < 2) return events;
@@ -36,8 +37,18 @@ function recalculateCounts(events, original = {}) {
 export function deduplicateCrossSourceDataset(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
   const events = deduplicateCrossSourceEvents(dataset.events);
-  if (events.length === dataset.events.length && events.every((event, index) => event === dataset.events[index])) return dataset;
-  return { ...dataset, events, counts: recalculateCounts(events, dataset.counts) };
+  const changed = events.length !== dataset.events.length || events.some((event, index) => event !== dataset.events[index]);
+  if (!changed) return dataset;
+
+  // A merge can select a different primary source and therefore reintroduce a
+  // weak source category (typically the fallback "otros"). Re-run the shared
+  // category authority after reconciliation so the merged public record is
+  // classified from all of its final evidence, not from merge order.
+  return normalizeAgendaCategories({
+    ...dataset,
+    events,
+    counts: recalculateCounts(events, dataset.counts),
+  });
 }
 
 // Compatibility exports for existing callers/tests. Ownership now lives in the
