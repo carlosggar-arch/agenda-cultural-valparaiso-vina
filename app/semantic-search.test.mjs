@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import { semanticSearchTerms } from "./semantic-search.mjs";
 
 const event = {
@@ -37,5 +38,19 @@ assert.equal(terms.includes("Cine"), false, "weak non-promoted domain candidate 
 assert.equal(event.semantics.primary_domain, "cursos-talleres-campus");
 assert.deepEqual(event.semantics.secondary_domains, ["teatro"]);
 assert.equal(event.title, "Taller de teatro físico");
+
+const combinedFiltersSource = fs.readFileSync(new URL("./combined-filters.js", import.meta.url), "utf8");
+assert.match(
+  combinedFiltersSource,
+  /import\s*\{\s*semanticSearchTerms\s*\}\s*from\s*["']\.\/semantic-search\.mjs["']/,
+  "canonical smart search must import semanticSearchTerms",
+);
+assert.match(
+  combinedFiltersSource,
+  /function\s+eventSearchText\([^)]*\)[\s\S]*\.\.\.semanticSearchTerms\(event\)/,
+  "canonical smart search haystack must include semanticSearchTerms(event)",
+);
+const categoryMatcher = combinedFiltersSource.match(/function\s+eventMatchesCategories\([^)]*\)\s*\{([\s\S]*?)\n\}/)?.[1] || "";
+assert.equal(categoryMatcher.includes("semanticSearchTerms"), false, "semantic dimensions must not become thematic category filters");
 
 console.log("SEMANTIC_SEARCH_ISOLATION_OK");
