@@ -253,10 +253,12 @@ def check_workflow_guard() -> None:
     assert "push:" in production_triggers and "branches: [main]" in production_triggers
     assert "git reset --hard origin/main" in production, "production smoke must test latest public main"
     assert "production_pwa_smoke.py http" in production
-    assert "production_pwa_smoke.py browser" in production
+    assert "production_browser_selenium_smoke.py" in production
+    assert "production_pwa_smoke.py browser" not in production
     assert "production_warm_start_smoke.py" in production
     assert "production_pwa_smoke.py http" not in required, "network smoke must not run in PR gate"
-    assert "production_pwa_smoke.py browser" not in required, "deployment browser smoke must not run in PR gate"
+    assert "production_browser_selenium_smoke.py" not in required, "deployment browser smoke must not run in PR gate"
+    assert "production_pwa_smoke.py browser" not in required, "legacy deployment browser smoke must not run in PR gate"
 
     assert "python app/scripts/test_release_delta.py" in required, "runtime changes must require a canonical release bump"
     assert "fetch-depth: 0" in required, "release delta guard requires complete base history"
