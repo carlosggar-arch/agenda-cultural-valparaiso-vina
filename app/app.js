@@ -142,7 +142,10 @@ await coreReady;
 runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });
 
 const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=20260821-temporal4");
-const { compareAgendaOrder } = await import("./agenda-order-core.mjs?v=20260822-order1");
+const {
+  compareAgendaOrder,
+  diversifySortedAgendaEvents,
+} = await import("./agenda-order-core.mjs?v=20260823-diversity1");
 const { classifyTemporalEvent } = await import("./temporal-priority-core.mjs?v=20260821-temporal4");
 let temporalOrderQueued = false;
 
@@ -180,6 +183,34 @@ function annotateCard(card, item, city, now) {
   else delete card.dataset.temporalBucket;
 }
 
+function diversifyVisibleEntries(indexed, city, now) {
+  const visibleWithItems = indexed.filter(({ card, item }) => !card.hidden && item);
+  if (visibleWithItems.length < 2) return indexed;
+
+  const diversifiedEvents = diversifySortedAgendaEvents(
+    visibleWithItems.map(({ item }) => item),
+    city,
+    now,
+  );
+  const queues = new Map();
+  for (const entry of visibleWithItems) {
+    const queue = queues.get(entry.item) || [];
+    queue.push(entry);
+    queues.set(entry.item, queue);
+  }
+
+  const diversifiedEntries = [];
+  for (const item of diversifiedEvents) {
+    const queue = queues.get(item);
+    const entry = queue?.shift();
+    if (entry) diversifiedEntries.push(entry);
+  }
+
+  const visibleWithoutItem = indexed.filter(({ card, item }) => !card.hidden && !item);
+  const hidden = indexed.filter(({ card }) => card.hidden);
+  return [...diversifiedEntries, ...visibleWithoutItem, ...hidden];
+}
+
 function orderGrid(grid, eventsById, city, now) {
   if (!grid) return;
   const cards = [...grid.children].filter((node) => node.classList?.contains("event-card"));
@@ -203,9 +234,10 @@ function orderGrid(grid, eventsById, city, now) {
     return left.index - right.index;
   });
 
-  if (indexed.every((item, index) => item.card === cards[index])) return;
+  const ordered = diversifyVisibleEntries(indexed, city, now);
+  if (ordered.every((item, index) => item.card === cards[index])) return;
   const fragment = document.createDocumentFragment();
-  for (const item of indexed) fragment.append(item.card);
+  for (const item of ordered) fragment.append(item.card);
   grid.append(fragment);
 }
 
