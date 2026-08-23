@@ -6,54 +6,87 @@ from selenium.webdriver.support.ui import WebDriverWait
 import test_runtime_browser as runtime
 
 DETAIL_MEDIA_TIMEOUT_SECONDS = 8
-BASE_OPEN_VISIBLE_DETAIL = runtime.open_visible_detail_with_relevant_media
 
 
-def detail_media_ready(driver, event_id: str) -> bool:
-    return bool(
-        driver.execute_script(
-            r'''
-            const dialog = document.querySelector('dialog[data-event-detail][open]');
-            if (!dialog || dialog.dataset.eventDetail !== arguments[0]) return false;
-            const image = dialog.querySelector('.event-detail-media img[data-event-image="relevant"]');
-            return Boolean(image && /^(https?:)\/\//i.test(image.src || ''));
-            ''',
-            event_id,
-        )
-    )
+def loaded_relevant_media(image) -> bool:
+    return bool(image and image.get("complete") and int(image.get("naturalWidth") or 0) > 0)
 
 
-def open_visible_detail_after_media_runtime_is_ready(driver) -> str | None:
-    """Open one canonical-media event and return only after detail media settles.
+def open_visible_detail_with_loaded_relevant_media(driver) -> str | None:
+    """Open a visible event only after its canonical direct card image has loaded.
 
-    The base runtime scenario deliberately exercises the real async presentation
-    pipeline. On fast runners the dialog shell can open one task before the
-    detail-media enhancer commits the canonical direct image. Treating shell-open
-    as detail-ready produced false failures. This owner keeps the assertion strict
-    and changes only readiness: the event id is returned after the same direct
-    relevant media is observable on the open dialog.
+    The base scenario previously treated the presence of
+    `img[data-event-image="relevant"]` as proof that direct media was usable. A
+    remote image can exist in the DOM briefly and then fail, at which point the
+    shared image-quality policy removes or replaces it. Selecting during that
+    interval made the detail-media assertion race the image error handler.
+
+    This owner tightens the precondition: the selected card must have a direct
+    relevant image with `complete && naturalWidth > 0`. The detail must then
+    expose a loaded direct relevant image for the same event before control
+    returns to the original strict assertions.
     """
-    open_event_id = driver.execute_script(
-        "return document.querySelector('dialog[data-event-detail][open]')?.dataset?.eventDetail || null;"
+    opened = driver.execute_script(
+        r'''
+        const visible = (node) => {
+          if (!node || node.hidden || node.closest('[hidden]')) return false;
+          const style = getComputedStyle(node);
+          return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
+        };
+        const cards = [...document.querySelectorAll('.event-card[data-event-id]')].filter(visible);
+        const card = cards.find((candidate) => {
+          const image = candidate.querySelector('img[data-event-image="relevant"]');
+          const trigger = candidate.querySelector('[data-open-event]');
+          return Boolean(image && trigger && image.complete && image.naturalWidth > 0);
+        });
+        if (!card) return null;
+        const trigger = card.querySelector('[data-open-event]');
+        const eventId = card.dataset.eventId || null;
+        trigger.click();
+        return eventId;
+        '''
     )
-    event_id = str(open_event_id or BASE_OPEN_VISIBLE_DETAIL(driver) or "").strip()
+    event_id = str(opened or "").strip()
     if not event_id:
         return None
 
     try:
         WebDriverWait(driver, DETAIL_MEDIA_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-            lambda current: detail_media_ready(current, event_id)
+            lambda current: bool(
+                current.execute_script(
+                    r'''
+                    const dialog = document.querySelector('dialog[data-event-detail][open]');
+                    if (!dialog || dialog.dataset.eventDetail !== arguments[0]) return false;
+                    const image = dialog.querySelector('.event-detail-media img[data-event-image="relevant"]');
+                    return Boolean(image && /^(https?:)\/\//i.test(image.src || '') && image.complete && image.naturalWidth > 0);
+                    ''',
+                    event_id,
+                )
+            )
         )
     except TimeoutException as exc:
+        diagnostics = driver.execute_script(
+            r'''
+            const dialog = document.querySelector('dialog[data-event-detail][open]');
+            const image = dialog?.querySelector('.event-detail-media img[data-event-image="relevant"]');
+            return {
+              eventId: dialog?.dataset?.eventDetail || null,
+              hasMedia: Boolean(image),
+              src: image?.src || null,
+              complete: Boolean(image?.complete),
+              naturalWidth: Number(image?.naturalWidth || 0),
+            };
+            '''
+        )
         raise AssertionError(
-            f"canonical direct detail media did not settle for event {event_id} within "
-            f"{DETAIL_MEDIA_TIMEOUT_SECONDS}s"
+            f"loaded canonical direct detail media did not settle for event {event_id} within "
+            f"{DETAIL_MEDIA_TIMEOUT_SECONDS}s; diagnostics={diagnostics}"
         ) from exc
     return event_id
 
 
 def main() -> None:
-    runtime.open_visible_detail_with_relevant_media = open_visible_detail_after_media_runtime_is_ready
+    runtime.open_visible_detail_with_relevant_media = open_visible_detail_with_loaded_relevant_media
     runtime.main()
 
 
