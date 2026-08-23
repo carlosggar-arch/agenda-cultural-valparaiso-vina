@@ -13,9 +13,9 @@ MANIFEST_PATH = APP / "service-worker-assets.generated.js"
 VENUE_BRIDGE_PATH = APP / "venue-registry.generated.mjs"
 RELEASE_PATH = APP / "release-version.js"
 INDEX_PATH = APP / "index.html"
-RELEASE_RE = re.compile(r"const\\s+RELEASE\\s*=\\s*(\\d+)\\s*;")
+RELEASE_RE = re.compile(r"const\s+RELEASE\s*=\s*(\d+)\s*;")
 RELEASE_KEYED_ENTRYPOINT_RE = re.compile(
-    r'(?P<prefix>src="(?P<path>\\./[^"?]+\\.js))\\?v=(?P<version>\\d{1,5})(?P<suffix>")'
+    r'(?P<prefix>src="(?P<path>\./[^"?]+\.js))\?v=(?P<version>\d{1,5})(?P<suffix>")'
 )
 
 ENTRYPOINTS = (
