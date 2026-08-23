@@ -108,6 +108,7 @@ def main() -> None:
         'options.page_load_strategy = "eager"',
         "dataset.vivamosReady",
         "document.querySelectorAll('.event-card').length > 0",
+        "[data-sources-toggle], [data-sources-fallback]",
         "PRODUCTION_COLD_LOAD_OK",
         "PRODUCTION_CITY_ROUNDTRIP_OK",
         "transport=selenium",
