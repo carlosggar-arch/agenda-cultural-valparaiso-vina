@@ -10,7 +10,7 @@ import { correctArtequinNaturalArtSessions } from "./artequin-session-correction
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
 import { enrichCitySourceEvidence } from "./city-source-evidence-adapter.mjs?v=20260822-source-authority1";
 import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs?v=20260822-source-authority1";
-import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260823-pastguard3";
+import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260823-pastguard4";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260820-programs4";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
 

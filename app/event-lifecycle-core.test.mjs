@@ -3,7 +3,6 @@ import test from "node:test";
 
 import {
   LIFECYCLE_STATES,
-  POINT_EVENT_VISIBILITY_HOURS,
   cityWallClock,
   eventLifecycle,
   filterVisibleDataset,
@@ -37,15 +36,15 @@ test("22:30 in Chile stays on Aug 22 after UTC crossed midnight", () => {
   assert.equal(wall.minute, 30);
 });
 
-test("timed event is upcoming, started, then ended using one 4h policy", () => {
+test("timed event remains visible through its entire local calendar day", () => {
   const sample = event("2026-08-22T17:00:00-04:00");
-  assert.equal(POINT_EVENT_VISIBILITY_HOURS, 4);
   assert.equal(lifecycle(sample, valpo, new Date("2026-08-22T20:59:00Z")).state, LIFECYCLE_STATES.UPCOMING);
   assert.equal(lifecycle(sample, valpo, new Date("2026-08-22T22:00:00Z")).state, LIFECYCLE_STATES.STARTED);
-  assert.equal(lifecycle(sample, valpo, new Date("2026-08-23T01:01:00Z")).state, LIFECYCLE_STATES.ENDED);
+  assert.equal(lifecycle(sample, valpo, new Date("2026-08-23T03:59:59Z")).state, LIFECYCLE_STATES.STARTED);
+  assert.equal(lifecycle(sample, valpo, new Date("2026-08-23T04:00:00Z")).state, LIFECYCLE_STATES.ENDED);
 });
 
-test("later occurrence keeps a multi-function event visible", () => {
+test("earlier and later occurrences from today keep a multi-function event visible", () => {
   const sample = event("2026-08-22T15:00:00-04:00", {
     occurrences: [
       { start: "2026-08-22T15:00:00-04:00", end: null },
@@ -53,11 +52,11 @@ test("later occurrence keeps a multi-function event visible", () => {
     ],
   });
   const state = lifecycle(sample, valpo, new Date("2026-08-23T00:30:00Z"));
-  assert.equal(state.state, LIFECYCLE_STATES.UPCOMING);
+  assert.equal(state.state, LIFECYCLE_STATES.STARTED);
   assert.equal(state.visible, true);
 });
 
-test("runtime removes an ended event but keeps a future one", () => {
+test("runtime keeps earlier and later events from the current local day", () => {
   const dataset = {
     timezone: "America/Santiago",
     events: [
@@ -66,7 +65,7 @@ test("runtime removes an ended event but keeps a future one", () => {
     ],
   };
   const filtered = filterVisibleDataset(dataset, valpo, new Date("2026-08-23T00:30:00Z"));
-  assert.deepEqual(filtered.events.map((item) => item.id), ["future"]);
+  assert.deepEqual(filtered.events.map((item) => item.id), ["ended", "future"]);
 });
 
 test("date-only event remains visible through its local final day", () => {
@@ -98,16 +97,17 @@ test("timed start with a later date-only end remains visible through the final l
   );
 });
 
-test("timed start with a same-day date-only end keeps point-event visibility policy", () => {
+test("timed start with a same-day date-only end remains visible through that local day", () => {
   const sample = event("2026-08-23T10:00:00-04:00", { end: "2026-08-23" });
   assert.equal(
     lifecycle(sample, valpo, new Date("2026-08-23T17:59:00Z")).state,
     LIFECYCLE_STATES.STARTED,
   );
   assert.equal(
-    lifecycle(sample, valpo, new Date("2026-08-23T18:01:00Z")).state,
-    LIFECYCLE_STATES.ENDED,
+    lifecycle(sample, valpo, new Date("2026-08-24T03:59:59Z")).state,
+    LIFECYCLE_STATES.STARTED,
   );
+  assert.equal(lifecycle(sample, valpo, new Date("2026-08-24T04:00:00Z")).state, LIFECYCLE_STATES.ENDED);
 });
 
 test("IANA timezone handles Chile DST transition", () => {
@@ -131,4 +131,6 @@ test("same lifecycle works with Europe/Madrid", () => {
   };
   assert.equal(lifecycle(sample, gijon, new Date("2026-08-23T17:00:00Z")).state, LIFECYCLE_STATES.UPCOMING);
   assert.equal(lifecycle(sample, gijon, new Date("2026-08-23T19:00:00Z")).state, LIFECYCLE_STATES.STARTED);
+  assert.equal(lifecycle(sample, gijon, new Date("2026-08-23T21:59:59Z")).state, LIFECYCLE_STATES.STARTED);
+  assert.equal(lifecycle(sample, gijon, new Date("2026-08-23T22:00:00Z")).state, LIFECYCLE_STATES.ENDED);
 });
