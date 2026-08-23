@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("./map-navigation-enhancer.js", import.meta.url), "utf8");
+const indexSource = readFileSync(new URL("./index.html", import.meta.url), "utf8");
+const releaseSource = readFileSync(new URL("./release-version.js", import.meta.url), "utf8");
 
 assert.match(source, /vivamos-map-navigation-styles/, "map navigation must own one shared style contract");
 assert.match(source, /box-sizing:border-box/, "the visible Maps control must include its border inside the requested dimensions");
@@ -18,5 +20,10 @@ assert.match(source, /margin-top:0 !important/, "location icon must not retain t
 assert.match(source, /link\.removeAttribute\("style"\)/, "legacy inline map styles must not override the shared pill contract");
 assert.match(source, /link\.replaceChildren\(makeMapIcon\(\)\)/, "legacy text arrows must be upgraded to the shared 18 px icon");
 assert.match(source, /focus-visible/, "map arrow must retain a visible keyboard focus state");
+
+const release = releaseSource.match(/const\\s+RELEASE\\s*=\\s*(\\d+)/)?.[1];
+const mapAssetVersion = indexSource.match(/map-navigation-enhancer\\.js\\?v=(\\d+)/)?.[1];
+assert.ok(release, "shared PWA release must be declared");
+assert.equal(mapAssetVersion, release, "Maps module cache key must match the current PWA release");
 
 console.log("MAP_NAVIGATION_ENHANCER_CONTRACT_OK");
