@@ -68,6 +68,8 @@ jobs:
           node --check app/combined-filters.js
           node --check app/combined-filters-safety.js
           node --check app/date-filter-architecture.test.mjs
+          node --check app/public-selection-core.mjs
+          node --check app/public-selection-parity.test.mjs
           node --check app/public-title-normalizer.test.mjs
           node --check app/exhibition-groups.js
           node --check app/exhibition-group-core.mjs
@@ -109,6 +111,7 @@ jobs:
           node app/registration-reminder-classifier.test.mjs
           node app/registration-reminders-architecture.test.mjs
           node app/date-filter-architecture.test.mjs
+          node app/public-selection-parity.test.mjs
           node app/public-title-normalizer.test.mjs
           python app/scripts/test_multicity_source_registry_coverage.py
 
