@@ -16,6 +16,8 @@ function prepareGijonPresentation(event) {
 }
 
 const app = read("./app.js");
+const index = read("./index.html");
+const releaseSource = read("./release-version.js");
 const runtime = read("./agenda-runtime-state.mjs");
 const firstRun = read("./city-first-run.js");
 const temporalCleanup = read("./temporal-priority.js");
@@ -51,6 +53,14 @@ assert.doesNotMatch(
   app,
   /GIJON_DEFERRED_MODULES|IS_GIJON|gijon-card-images|card-image-fallback/,
   "app.js must not select a renderer or image layer by city",
+);
+
+const releaseMatch = releaseSource.match(/const RELEASE = (\d+);/);
+assert.ok(releaseMatch, "release-version.js must expose the canonical numeric release");
+assert.match(
+  index,
+  new RegExp(`<script type="module" src="\\./app\\.js\\?v=${releaseMatch[1]}"></script>`),
+  "the outer app.js module URL must use the canonical release number so a new presentation release cannot remain hidden behind a stale browser/CDN cache key",
 );
 
 assert.match(
