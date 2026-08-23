@@ -72,29 +72,67 @@ def event_has_map(event: dict) -> bool:
     return bool(city and useful_address(location))
 
 
-def registry_index() -> dict[tuple[str, str], dict]:
-    payload = json.loads(REGISTRY.read_text(encoding="utf-8"))
-    index: dict[tuple[str, str], dict] = {}
-    for record in payload.get("venues", []):
-        cities = [fold(city) for city in record.get("city_names", [])] or [""]
-        aliases = [record.get("canonical_name"), *(record.get("aliases") or [])]
-        for city in cities:
-            for alias in aliases:
-                key = (city, fold(alias))
-                if key[1]:
-                    index[key] = record
-    return index
+def registry_payload() -> list[dict]:
+    return json.loads(REGISTRY.read_text(encoding="utf-8")).get("venues", [])
+
+
+def city_compatible(record: dict, city: str) -> bool:
+    folded = fold(city)
+    candidates = [fold(value) for value in record.get("city_names", []) if fold(value)]
+    if not folded or not candidates:
+        return True
+    return any(candidate == folded or candidate in folded or folded in candidate for candidate in candidates)
+
+
+def without_exact_city_suffix(venue: str, city: str) -> str:
+    value = fold(venue)
+    city_folded = fold(city)
+    if not value or not city_folded or value == city_folded:
+        return value
+    suffix = f" {city_folded}"
+    return value[:-len(suffix)].strip() if value.endswith(suffix) else value
+
+
+def registry_record_for(venue: str, city: str, records: list[dict]) -> dict | None:
+    value = fold(venue)
+    trimmed = without_exact_city_suffix(venue, city)
+    for record in records:
+        if not city_compatible(record, city):
+            continue
+        aliases = {fold(record.get("canonical_name")), *(fold(alias) for alias in record.get("aliases", []))}
+        aliases.discard("")
+        if value in aliases or (trimmed != value and trimmed in aliases):
+            return record
+    return None
+
+
+def registry_has_verified_location(record: dict | None) -> bool:
+    if not record:
+        return False
+    address = str(record.get("address") or "").strip()
+    coords = record.get("coordinates") or {}
+    lat = finite(coords.get("latitude"), -90, 90)
+    lon = finite(coords.get("longitude"), -180, 180)
+    has_coords = lat is not None and lon is not None and not (lat == 0 and lon == 0)
+    return bool(
+        (address or has_coords)
+        and str(record.get("location_source_url") or "").strip()
+        and str(record.get("location_verified_at") or "").strip()
+    )
 
 
 def main() -> None:
-    registry = registry_index()
+    records = registry_payload()
     groups: dict[tuple[str, str], dict] = defaultdict(lambda: {
         "count": 0,
         "mapped": 0,
+        "raw_mapped": 0,
+        "registry_mapped": 0,
         "addresses": set(),
         "coordinates": set(),
         "official": 0,
         "ids": [],
+        "record": None,
     })
 
     for city_id, path in DATASETS.items():
@@ -108,7 +146,13 @@ def main() -> None:
             key = (city, venue)
             row = groups[key]
             row["count"] += 1
-            row["mapped"] += int(event_has_map(event))
+            raw_mapped = event_has_map(event)
+            record = registry_record_for(venue, city, records)
+            registry_mapped = registry_has_verified_location(record)
+            row["raw_mapped"] += int(raw_mapped)
+            row["registry_mapped"] += int(not raw_mapped and registry_mapped)
+            row["mapped"] += int(raw_mapped or registry_mapped)
+            row["record"] = record or row["record"]
             row["official"] += int((event.get("public_status") or {}).get("source_official") is True)
             address = useful_address(location)
             if address:
@@ -123,14 +167,9 @@ def main() -> None:
     print("MAP_LOCATION_AUDIT_BEGIN")
     missing = []
     for (city, venue), row in sorted(groups.items(), key=lambda item: (fold(item[0][0]), fold(item[0][1]))):
-        city_fold = fold(city)
-        record = registry.get((city_fold, fold(venue)))
-        if not record:
-            matches = [value for (reg_city, alias), value in registry.items() if alias == fold(venue) and (not reg_city or reg_city in city_fold or city_fold in reg_city)]
-            record = matches[0] if matches else None
+        record = row["record"]
         registry_address = str((record or {}).get("address") or "").strip()
         registry_coords = (record or {}).get("coordinates") or {}
-        registry_has_location = bool(registry_address or (registry_coords.get("latitude") is not None and registry_coords.get("longitude") is not None))
         status = "OK" if row["mapped"] == row["count"] else "PARTIAL" if row["mapped"] else "MISSING"
         if status != "OK":
             missing.append((city, venue))
@@ -139,13 +178,16 @@ def main() -> None:
             "city": city,
             "venue": venue,
             "events": row["count"],
-            "events_with_map": row["mapped"],
+            "events_with_map_after_enrichment": row["mapped"],
+            "raw_event_maps": row["raw_mapped"],
+            "registry_added_maps": row["registry_mapped"],
             "official_events": row["official"],
             "event_addresses": sorted(row["addresses"]),
             "event_coordinates": sorted(row["coordinates"]),
             "registry_id": (record or {}).get("id"),
             "registry_address": registry_address or None,
-            "registry_has_location": registry_has_location,
+            "registry_coordinates": registry_coords or None,
+            "registry_location_source": (record or {}).get("location_source_url"),
             "sample_event_ids": row["ids"],
         }, ensure_ascii=False))
     print(f"MAP_LOCATION_AUDIT_SUMMARY venues={len(groups)} missing_or_partial={len(missing)}")
