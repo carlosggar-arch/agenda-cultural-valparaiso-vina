@@ -53,6 +53,8 @@ jobs:
             app/scripts/test_priority_zero_monitors.py \
             app/scripts/production_*_smoke.py \
             app/scripts/production_warm_start_smoke.py \
+            app/scripts/production_release_attestation.py \
+            app/scripts/test_production_release_attestation.py \
             app/scripts/test_production_pwa_smoke_contract.py \
             app/scripts/test_web_pwa_visibility_parity.py \
             app/scripts/generate_runtime_contracts.py \
@@ -109,6 +111,7 @@ jobs:
           python app/scripts/release_bundle.py --check
           python app/scripts/test_semantic_quality_history.py
           python app/scripts/semantic_quality_history.py --no-write
+          python app/scripts/test_production_release_attestation.py
           python app/scripts/test_structural_hardening.py
           python app/scripts/test_priority_zero_monitors.py
           node app/venue-identity.test.mjs
@@ -147,5 +150,5 @@ jobs:
 
       - name: Note final Stage D gate roles
         run: |
-          echo "Required release guard enforces release deltas, generated artifacts, semantic history dry-runs, computed UI contracts, canonical browser scenarios and local live/cached PWA exact-ID parity."
-          echo "Production network verification runs only after merge on main (or manual rerun against latest main)."
+          echo "Required release guard enforces release deltas, generated artifacts, semantic history dry-runs, production attestation contracts, computed UI contracts, canonical browser scenarios and local live/cached PWA exact-ID parity."
+          echo "Production network verification and PRODUCTION_RELEASE_VERIFIED attestation run only after merge on main (or manual rerun against latest main)."
