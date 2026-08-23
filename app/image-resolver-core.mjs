@@ -235,5 +235,5 @@ export function resolveCardImageAfterFailure(event, failedUrl, {
   if (representative && representative !== failedUrl) {
     return { url: representative, kind: "representative", genericSchedule: false };
   }
-  return { url: null, kind: "none", genericSchedule: false };
+  return { ...generatedEventFallbackImage(event), genericSchedule: false };
 }
