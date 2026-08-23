@@ -45,6 +45,31 @@ function sourceIdentity(event) {
   return label ? `label:${label}` : "";
 }
 
+function normalizedSourceRecordUrl(value) {
+  if (!value) return "";
+  try {
+    const url = new URL(String(value));
+    const path = url.pathname.replace(/\/+$/, "") || "/";
+    return `${url.hostname.toLocaleLowerCase("en")}${path}`;
+  } catch {
+    return foldEventIdentity(value);
+  }
+}
+
+function sourceRecordIdentity(event) {
+  for (const candidate of [event?.source_url, event?.links?.source, event?.links?.official]) {
+    const identity = normalizedSourceRecordUrl(candidate);
+    if (identity) return identity;
+  }
+  return "";
+}
+
+function distinctSourceRecords(a, b) {
+  const left = sourceRecordIdentity(a);
+  const right = sourceRecordIdentity(b);
+  return Boolean(left && right && left !== right);
+}
+
 function urlHost(value) {
   if (!value) return "";
   try { return new URL(String(value)).hostname.toLocaleLowerCase("en"); } catch { return ""; }
@@ -176,6 +201,7 @@ function scheduleConflictDuplicate(a, b) {
 }
 
 function duplicateRule(a, b) {
+  if (sourceIdentity(a) === sourceIdentity(b) && distinctSourceRecords(a, b)) return "same_provider_distinct_record_duplicate";
   if (sameLocalOccurrenceStart(a, b) && titlesLikelySame(a?.title, b?.title)) return "same_time_similar_venue_similar_title";
   if (scheduleConflictDuplicate(a, b)) return "same_date_similar_venue_recurring_title_authoritative_source";
   return "cross_source_probable_duplicate";
@@ -245,7 +271,12 @@ export function areProbableDuplicateEvents(a, b) {
 
   const sourceA = sourceIdentity(a);
   const sourceB = sourceIdentity(b);
-  if (!sourceA || !sourceB || sourceA === sourceB) return false;
+  if (!sourceA || !sourceB) return false;
+  // A provider can publish the same activity twice through different records
+  // (for example its official event page plus its Instagram post). Treat those
+  // as independent evidence records eligible for reconciliation; exact repeats
+  // of the very same source record remain outside this semantic rule.
+  if (sourceA === sourceB && !distinctSourceRecords(a, b)) return false;
   if (!venuesLikelySame(a, b)) return false;
 
   if (sameLocalOccurrenceStart(a, b) && titlesLikelySame(a?.title, b?.title)) return true;
@@ -300,6 +331,7 @@ export function mergeDuplicateEvents(a, b) {
       ...(secondary.editorial || {}),
       ...(primary.editorial || {}),
       cross_source_deduplicated: true,
+      same_provider_reconciled: sourceIdentity(primary) === sourceIdentity(secondary) || undefined,
       deduplication_rule: rule,
       schedule_conflict_resolved: scheduleConflictResolved || undefined,
       merged_duplicate_ids: mergedIds,
