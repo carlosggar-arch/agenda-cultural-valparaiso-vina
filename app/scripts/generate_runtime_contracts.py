@@ -11,6 +11,12 @@ ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
 MANIFEST_PATH = APP / "service-worker-assets.generated.js"
 VENUE_BRIDGE_PATH = APP / "venue-registry.generated.mjs"
+RELEASE_PATH = APP / "release-version.js"
+INDEX_PATH = APP / "index.html"
+RELEASE_RE = re.compile(r"const\\s+RELEASE\\s*=\\s*(\\d+)\\s*;")
+RELEASE_KEYED_ENTRYPOINT_RE = re.compile(
+    r'(?P<prefix>src="(?P<path>\\./[^"?]+\\.js))\\?v=(?P<version>\\d{1,5})(?P<suffix>")'
+)
 
 ENTRYPOINTS = (
     APP / "index.html",
@@ -119,7 +125,41 @@ def validate_local_assets(assets: set[str]) -> list[str]:
     return sorted(missing)
 
 
+def canonical_release() -> str:
+    match = RELEASE_RE.search(RELEASE_PATH.read_text(encoding="utf-8"))
+    if not match:
+        raise ValueError("release-version.js must define a numeric RELEASE")
+    return match.group(1)
+
+
+def release_keyed_entrypoints(source: str) -> list[tuple[str, str]]:
+    return [(match.group("path"), match.group("version")) for match in RELEASE_KEYED_ENTRYPOINT_RE.finditer(source)]
+
+
+def synchronize_release_entrypoints() -> None:
+    release = canonical_release()
+    source = INDEX_PATH.read_text(encoding="utf-8")
+    rewritten = RELEASE_KEYED_ENTRYPOINT_RE.sub(
+        lambda match: f'{match.group("prefix")}?v={release}{match.group("suffix")}',
+        source,
+    )
+    INDEX_PATH.write_text(rewritten, encoding="utf-8")
+
+
+def release_entrypoint_errors() -> list[str]:
+    release = canonical_release()
+    rows = release_keyed_entrypoints(INDEX_PATH.read_text(encoding="utf-8"))
+    errors: list[str] = []
+    if not rows:
+        errors.append("index.html has no release-keyed JavaScript entrypoints")
+    stale = [f"{path}?v={version}" for path, version in rows if version != release]
+    if stale:
+        errors.append(f"release-keyed entrypoints must use v{release}: " + ", ".join(stale))
+    return errors
+
+
 def write_contracts() -> None:
+    synchronize_release_entrypoints()
     VENUE_BRIDGE_PATH.write_text(VENUE_BRIDGE, encoding="utf-8")
     # Generated runtime assets are derived only from the current entrypoint graph.
     # Never union with the previous manifest: doing so makes deleted/retired
@@ -129,7 +169,7 @@ def write_contracts() -> None:
 
 
 def check_contracts() -> None:
-    errors: list[str] = []
+    errors: list[str] = release_entrypoint_errors()
     if VENUE_BRIDGE_PATH.read_text(encoding="utf-8") != VENUE_BRIDGE:
         errors.append("venue-registry.generated.mjs is stale")
     committed = existing_assets()
@@ -152,7 +192,7 @@ def check_contracts() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate/check the canonical venue bridge and PWA shell asset manifest.")
+    parser = argparse.ArgumentParser(description="Generate/check canonical release keys, venue bridge and PWA shell asset manifest.")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--write", action="store_true")
     group.add_argument("--check", action="store_true")
