@@ -206,7 +206,7 @@ def migrate_visual_test() -> None:
 
 
 def migrate_workflow() -> None:
-    path = ROOT / ".github" / "workflows" / "gijon-v1-stability.yml"
+    path = ROOT / ".github" / "workflows" / "pr-fast.yml"
     text = path.read_text(encoding="utf-8")
     if '      - "assets/city-registry.mjs"\n' not in text:
         text = text.replace('      - "assets/favorites-core.mjs"\n', '      - "assets/city-registry.mjs"\n      - "assets/favorites-core.mjs"\n')

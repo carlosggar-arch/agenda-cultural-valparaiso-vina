@@ -6,10 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "app"
-MULTICITY_WORKFLOW = ROOT / ".github/workflows/multi-city-pre-release.yml"
-REQUIRED_WORKFLOW = ROOT / ".github/workflows/required-release-guard.yml"
-TEMPORAL_WORKFLOW = ROOT / ".github/workflows/temporal-priority-validation.yml"
-PRODUCTION_WORKFLOW = ROOT / ".github/workflows/production-pwa-smoke.yml"
+MULTICITY_WORKFLOW = ROOT / ".github/workflows/pr-fast.yml"
+REQUIRED_WORKFLOW = ROOT / ".github/workflows/pr-release.yml"
+TEMPORAL_WORKFLOW = ROOT / ".github/workflows/pr-fast.yml"
+PRODUCTION_WORKFLOW = ROOT / ".github/workflows/publish.yml"
 TOPOLOGY = ROOT / "tests/contract-topology.json"
 
 
@@ -199,7 +199,7 @@ def check_workflow_guard() -> None:
     assert topology["schema_version"] == "1.4.0", "D4 final contract topology is not active"
     release_contract = contracts["release.generated-shell"]
     assert release_contract["owner"] == "app/scripts/test_release_guard.py"
-    assert release_contract["workflow"] == ".github/workflows/required-release-guard.yml"
+    assert release_contract["workflow"] == ".github/workflows/pr-release.yml"
 
     for contract_id in (
         "release.generated-shell",
@@ -218,14 +218,14 @@ def check_workflow_guard() -> None:
     assert "python app/scripts/run_browser_scenarios.py --all" in required, (
         "required release gate must compose every canonical browser scenario"
     )
-    assert "python app/scripts/run_contracts.py --profile temporal-fast" in temporal, (
-        "temporal PR validation must stay on its fast semantic profile"
+    assert "python app/scripts/run_contracts.py --profile pr-fast-all" in temporal, (
+        "PR validation must use the complete non-overlapping fast profile"
     )
     assert "_browser.py" not in temporal, "temporal workflow must not launch browser tests after D4"
 
     for entry in contracts.values():
         if entry["layer"] == "browser":
-            assert entry.get("workflow") == ".github/workflows/required-release-guard.yml", (
+            assert entry.get("workflow") == ".github/workflows/pr-release.yml", (
                 f"browser owner escaped the single required gate: {entry['id']}"
             )
     assert scenarios["startup-city"] == [

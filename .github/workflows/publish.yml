@@ -1,4 +1,4 @@
-name: Production PWA smoke
+name: Publish and production verification
 
 on:
   push:
@@ -20,18 +20,66 @@ on:
       - "app/scripts/production_warm_start_smoke.py"
       - "app/scripts/test_web_pwa_visibility_parity.py"
       - "app/scripts/production_release_attestation.py"
-      - ".github/workflows/production-pwa-smoke.yml"
+      - ".github/workflows/publish.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: production-pwa-smoke-${{ github.event_name }}-${{ github.ref }}
+  group: publish-production
   cancel-in-progress: true
 
 jobs:
+  sync-cloudflare:
+    name: sync-cloudflare
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout deployment branch
+        uses: actions/checkout@v4
+        with:
+          ref: cloudflare-preview
+          fetch-depth: 0
+      - name: Merge approved main without rewriting deployment history
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git merge --no-edit origin/main
+
+      - name: Guard Cloudflare-only divergence
+        run: |
+          set -euo pipefail
+          unexpected="$(git diff --name-only origin/main HEAD | grep -v '^cloudflare-build\.sh$' || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "cloudflare-preview diverged from main outside cloudflare-build.sh:"
+            echo "$unexpected"
+            exit 1
+          fi
+
+      - name: Validate Cloudflare build snapshot
+        run: |
+          set -euo pipefail
+          bash cloudflare-build.sh
+          test -f _cloudflare_site/app/index.html
+          test -f _cloudflare_site/app/release-version.js
+          test -f _cloudflare_site/app/service-worker.js
+          test -f _cloudflare_site/app/event-detail.js
+          test -f _cloudflare_site/app/data/gijon/agenda_web.json
+          cmp app/release-version.js _cloudflare_site/app/release-version.js
+          python scripts/verify_canonical_main_writer.py
+
+      - name: Push synchronized deployment branch
+        run: |
+          set -euo pipefail
+          git push origin HEAD:cloudflare-preview
+
   production-smoke:
+    needs: sync-cloudflare
     runs-on: ubuntu-latest
     timeout-minutes: 28
 

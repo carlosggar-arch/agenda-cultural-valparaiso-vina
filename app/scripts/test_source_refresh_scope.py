@@ -24,7 +24,7 @@ def test_source_test_change_runs_fast_tests_without_network() -> None:
 
 
 def test_workflow_change_is_conservative() -> None:
-    assert classify([".github/workflows/event-pages.yml"]) == {"tests_needed": True, "live_needed": True, "refresh_needed": True}
+    assert classify([".github/workflows/publish.yml"]) == {"tests_needed": True, "live_needed": True, "refresh_needed": True}
 
 
 def test_windows_separators_are_normalized() -> None:

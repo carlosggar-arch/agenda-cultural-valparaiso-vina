@@ -1,0 +1,45 @@
+name: Changed source validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/scripts/refresh_*.py"
+      - "app/scripts/test_*source*.py"
+      - "app/scripts/test_balmaceda*.py"
+      - "app/scripts/test_visitavina*.py"
+      - "app/scripts/apply_*coverage.py"
+      - "app/data/high_value_sources.json"
+      - "app/data/source-registry.json"
+      - "fuentes_publicas.json"
+      - ".github/workflows/source-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changed-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate only affected source adapters
+        run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
+      - name: Upload diagnostics only after failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: changed-source-diagnostics
+          path: source-diagnostics/
+          if-no-files-found: ignore
+          retention-days: 3
