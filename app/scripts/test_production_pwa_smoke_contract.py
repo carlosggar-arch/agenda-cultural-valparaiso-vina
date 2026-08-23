@@ -9,6 +9,7 @@ REQUIRED = (ROOT / ".github/workflows/required-release-guard.yml").read_text(enc
 TOPOLOGY = json.loads((ROOT / "tests/contract-topology.json").read_text(encoding="utf-8"))
 SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8")
 WARM_SMOKE = (ROOT / "app/scripts/production_warm_start_smoke.py").read_text(encoding="utf-8")
+PWA_PARITY = (ROOT / "app/scripts/test_web_pwa_visibility_parity.py").read_text(encoding="utf-8")
 APP = (ROOT / "app/app.js").read_text(encoding="utf-8")
 PWA = (ROOT / "app/pwa.js").read_text(encoding="utf-8")
 SOURCES = (ROOT / "app/sources-toggle.js").read_text(encoding="utf-8")
@@ -40,6 +41,7 @@ def main() -> None:
         '      - "app/data/source-registry.json"',
         '      - "app/scripts/production_pwa_smoke.py"',
         '      - "app/scripts/production_warm_start_smoke.py"',
+        '      - "app/scripts/test_web_pwa_visibility_parity.py"',
         '      - ".github/workflows/production-pwa-smoke.yml"',
     ):
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
@@ -60,8 +62,10 @@ def main() -> None:
     assert "python app/scripts/production_pwa_smoke.py http" in production
     assert "python app/scripts/production_pwa_smoke.py browser" in production
     assert "python app/scripts/production_warm_start_smoke.py" in production
+    assert "python app/scripts/test_web_pwa_visibility_parity.py --production" in production
     assert "Warm-reopen Valpo mobile on GitHub Pages and Cloudflare" in production
-    assert "timeout-minutes: 18" in production
+    assert "Require exact live WEB versus cached PWA event IDs" in production
+    assert "timeout-minutes: 25" in production
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
 
@@ -78,6 +82,7 @@ def main() -> None:
     assert "production_pwa_smoke.py http" not in REQUIRED
     assert "production_pwa_smoke.py browser" not in REQUIRED
     assert "production_warm_start_smoke.py" in REQUIRED, "Required gate must at least compile the warm-smoke owner"
+    assert "test_web_pwa_visibility_parity.py --local" in REQUIRED, "Required gate must prove local live/cached exact-ID parity"
     assert "node --check app/sources-toggle.js" in REQUIRED
 
     for stale in ("20260817-brandicon1", "20260817-topcontrols4", "hero-v4-mobile-direct-actions"):
@@ -119,6 +124,18 @@ def main() -> None:
     ):
         assert marker in WARM_SMOKE, f"Warm production smoke contract missing: {marker}"
     assert "profile_dom" not in WARM_SMOKE, "Warm timing must measure core-ready, not dump-dom completion"
+
+    for marker in (
+        'STATES = ("hoy", "7-dias", "todos")',
+        'data-combined-when',
+        "WEB_PWA_VISIBILITY_PARITY_OK",
+        "WEB_PWA_VISIBILITY_MISMATCH",
+        "Network.emulateNetworkConditions",
+        "wait_service_worker",
+        '"github-pages"',
+        '"cloudflare"',
+    ):
+        assert marker in PWA_PARITY, f"Exact WEB/PWA parity smoke missing: {marker}"
 
     for marker in ("sources-toggle.js", "community-source.js", "participation-footer.js"):
         assert marker in APP, f"app.js lost content module ownership: {marker}"
