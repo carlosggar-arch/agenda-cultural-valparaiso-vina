@@ -50,11 +50,13 @@ jobs:
           node --check app/public-text-sanitizer.mjs
           node --check app/runtime-past-event-guard.mjs
           node --check app/event-lifecycle-core.test.mjs
+          node --check app/content-kind-presentation.mjs
           node --check assets/event-schedule-display.mjs
           node app/scripts/test_schedule_contract_point8.mjs
           node app/public-text-sanitizer.test.mjs
           node app/exhibition-group-architecture.test.mjs
           node app/event-card-data-quality.test.mjs
+          node app/content-kind-presentation.test.mjs
           node app/session-occurrence-normalizer.test.mjs
           node app/date-aware-exhibition-hours.test.mjs
           node app/venue-hours.test.mjs
