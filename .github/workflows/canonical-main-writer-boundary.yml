@@ -1,0 +1,39 @@
+name: Canonical main writer boundary
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/**"
+      - "scripts/verify_canonical_main_writer.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/**"
+      - "scripts/verify_canonical_main_writer.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: canonical-main-writer-boundary-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enforce canonical main external-writer contract
+        run: python scripts/verify_canonical_main_writer.py
+      - name: Confirm deployment mirror remains downstream only
+        run: |
+          set -euo pipefail
+          grep -q 'git push origin HEAD:cloudflare-preview' .github/workflows/sync-cloudflare-preview.yml
+          ! grep -q 'git push origin HEAD:main' .github/workflows/sync-cloudflare-preview.yml
+          echo "PUBLIC_MAIN_EXTERNAL_WRITER_BOUNDARY_OK"
