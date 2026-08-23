@@ -34,8 +34,9 @@ match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release)
 assert match and int(match.group(1)) >= 177
 
 # Post-render presentation work must yield to the browser. Point 4/5 semantics
-# remain in temporal-priority-core; C1 composes them through agenda-order-core
-# without moving sort work back into the hot filter-render path.
+# remain in temporal-priority-core; the shared agenda-order authority composes
+# them before optional local presentation tie-breaks, without moving sort work
+# back into the hot filter-render path.
 assert "function runWhenMainThreadIsIdle(callback)" in app_js
 assert "requestIdleCallback" in app_js
 assert "runWhenMainThreadIsIdle(() => { void loadOptionalEnhancements(); });" in app_js
@@ -43,7 +44,8 @@ assert "requestAnimationFrame(applyTemporalOrderPolicy)" in app_js
 assert "queueMicrotask(applyTemporalOrderPolicy)" not in app_js
 assert "const DATE_FORMATTERS = new Map();" in temporal_core
 assert "dateFormatterForCity" in temporal_core
-assert "compareTemporalPriority" in agenda_order
+assert "compareAgendaSemanticPriority" in agenda_order
+assert "classifyTemporalEvent" in agenda_order
 assert "compareAgendaOrder" in app_js
 assert "requestAnimationFrame(applyGuard)" in exhibition_guard
 assert "queueMicrotask(applyGuard)" not in exhibition_guard
@@ -64,8 +66,8 @@ assert "publishAgendaRuntimeSnapshot(city, result);\n      return result;" in da
 # v177 moves repeated render work out of the hot path. These are structural
 # guards rather than fragile timing thresholds: CI should fail if later edits
 # start sorting the whole dataset, rebuilding source/category DOM, or creating
-# date formatters on every filter render again. C1 changes only the canonical
-# comparator name, not this performance contract.
+# date formatters on every filter render again. The shared agenda comparator
+# remains the only visible ordering authority.
 for marker in (
     "const formatterCache = new Map();",
     "let searchHaystackCache = new WeakMap();",
