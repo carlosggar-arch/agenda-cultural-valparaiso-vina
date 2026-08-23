@@ -39,28 +39,31 @@ function formationLike(event) {
   return eventCategories(event).some((category) => isPublicCategoryInGroup(category, "training"));
 }
 
+// Lifecycle classification must only consume public, event-level evidence.
+// Discovery tags such as "cupos" or "inscripciones" are deliberately excluded:
+// they are useful for search, but are too weak to turn an activity into an
+// administrative registration reminder.
 function registrationText(event) {
   return fold([
     event?.title,
     event?.description,
     event?.registration_requirements,
     event?.public_status?.advisory_text,
-    ...(event?.tags || []),
   ].filter(Boolean).join(" "));
 }
 
 function explicitRegistrationProcess(event) {
   const text = registrationText(event);
-  return /\b(?:proceso de inscripcion|periodo de inscripcion|plazos? de inscripcion|inscripciones?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza)\b/.test(text);
+  return /\b(?:proceso de inscripcion|periodo de inscripcion|plazos? de inscripcion|inscripciones? abiertas?|inscripciones? cerradas?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza)\b/.test(text);
 }
 
 function explicitRegistrationSignal(event) {
   if (String(event?.links?.registration || "").trim()) return true;
   if (String(event?.registration_requirements || "").trim()) return true;
-  if (event?.public_status?.registration_open === true) return true;
+  if (event?.public_status?.registration_open === true || event?.public_status?.registration_closed === true) return true;
   if (event?.public_status?.sold_out === true && formationLike(event)) return true;
   const text = registrationText(event);
-  return /\b(?:inscripciones? abiertas?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza|plazas? agotadas?|plazas? disponibles?)\b/.test(text);
+  return /\b(?:inscripciones? abiertas?|inscripciones? cerradas?|inscripcion hasta|matricula|preinscripcion|reserva de plaza|solicitud de plaza|plazas? agotadas?|plazas? disponibles?)\b/.test(text);
 }
 
 function longFormationOfferingSignal(event) {
