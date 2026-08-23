@@ -25,6 +25,16 @@
 }
 html[data-mobile-client="true"] .mobile-install-cta{display:block}
 
+.install-help-lead{max-width:36rem}
+.install-help-steps{display:grid;gap:.65rem;margin:1rem 0;padding:0;list-style:none;counter-reset:none}
+.install-help-steps li{display:grid;grid-template-columns:2.75rem 1fr;align-items:center;gap:.75rem;padding:.72rem .78rem;border:1px solid #d9e5e1;border-radius:1rem;background:#f7faf9;line-height:1.3}
+.install-help-steps li>span:last-child{display:grid;gap:.1rem}
+.install-help-steps small{color:#55736c;font-size:.7rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.install-step-icon{display:grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:.82rem;background:var(--header-control,#174f46);color:#fff;font-size:1.35rem;font-weight:900}
+.install-step-toggle{justify-items:end;padding-right:.42rem;background:#36a967;border:6px solid #d9f1e3;border-radius:999px;font-size:.72rem}
+.install-help-result{padding:.78rem .9rem;border-radius:.9rem;background:#e8f3ef;color:#123f37;font-weight:700}
+.install-help-result>span{display:inline-grid;place-items:center;width:1.55rem;height:1.55rem;margin-right:.25rem;border-radius:.42rem;background:#fff;color:var(--header-control,#174f46)}
+
 /* header-redesign.css owns geometry. This layer only guarantees visibility. */
 html[data-mobile-client="true"] .header-bottom,
 html[data-mobile-client="true"] .header-actions{
@@ -91,6 +101,13 @@ html[data-mobile-client="true"] .header-search-toggle{display:grid!important}
   .chooser h2{font-size:1.72rem!important;line-height:1.08;margin-right:2.8rem!important}
   .chooser>p:not(.eyebrow){margin:.45rem 0 .8rem!important}
   .chooser-close{width:44px!important;height:44px!important;right:.85rem!important;top:.8rem!important}
+  .install-help-ios{padding-bottom:calc(1.35rem + env(safe-area-inset-bottom,0px))!important}
+  .install-help-ios h2{margin-bottom:.35rem!important}
+  .install-help-lead{font-size:.92rem}
+  .install-help-steps{gap:.5rem;margin:.8rem 0}
+  .install-help-steps li{grid-template-columns:2.45rem 1fr;gap:.65rem;padding:.58rem .65rem}
+  .install-step-icon{width:2.45rem;height:2.45rem;border-radius:.72rem;font-size:1.15rem}
+  .install-step-toggle{border-width:5px;font-size:.65rem}
   .city-options{gap:.68rem!important;margin:1rem 0!important}
   .city-options button{min-height:78px!important;grid-template-columns:54px 1fr auto!important;padding:.82rem .85rem!important;border-width:1px!important;border-left-width:5px!important;border-radius:1.05rem!important}
   .city-options button strong{font-size:.98rem;line-height:1.16}
