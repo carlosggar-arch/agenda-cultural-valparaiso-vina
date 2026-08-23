@@ -29,11 +29,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Enforce canonical main external-writer contract
+      - name: Enforce canonical main external-writer and downstream-mirror contract
         run: python scripts/verify_canonical_main_writer.py
-      - name: Confirm deployment mirror remains downstream only
-        run: |
-          set -euo pipefail
-          grep -q 'git push origin HEAD:cloudflare-preview' .github/workflows/sync-cloudflare-preview.yml
-          ! grep -q 'git push origin HEAD:main' .github/workflows/sync-cloudflare-preview.yml
-          echo "PUBLIC_MAIN_EXTERNAL_WRITER_BOUNDARY_OK"
