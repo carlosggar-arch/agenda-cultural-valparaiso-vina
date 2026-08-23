@@ -1,0 +1,60 @@
+name: Verify complete production sequence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-production-sequence-complete.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify-production-sequence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout verification branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Align verification with exact public main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+          actual="$(git rev-parse HEAD)"
+          echo "PRODUCTION_VERIFY_HEAD=$actual"
+          test "$actual" = "3fed53ff332e6f46fab6cdae8a5f0de87dafd633"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check selenium==4.35.0
+
+      - name: Validate local production contracts
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            app/scripts/production_pwa_smoke.py \
+            app/scripts/production_browser_selenium_smoke.py \
+            app/scripts/production_warm_start_smoke.py \
+            app/scripts/test_web_pwa_visibility_parity.py
+          python app/scripts/production_pwa_smoke.py local
+
+      - name: 1 GitHub Pages + Cloudflare byte parity
+        run: python app/scripts/production_pwa_smoke.py http
+
+      - name: 2 Cold-load both cities on both origins
+        run: python app/scripts/production_browser_selenium_smoke.py
+
+      - name: 3 Warm-reopen Valpo PWA on both origins
+        run: python app/scripts/production_warm_start_smoke.py
+
+      - name: 4 Exact live WEB versus cached PWA event-ID parity
+        run: python app/scripts/test_web_pwa_visibility_parity.py --production
