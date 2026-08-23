@@ -25,6 +25,15 @@ TITLE_WORD_LIMIT = 18
 REPEATED_IMAGE_THRESHOLD = 3
 CATEGORY_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 SEVERITY_ORDER = {"info": 0, "warning": 1, "error": 2}
+GENERIC_IMAGE_PATH_RE = re.compile(
+    r"(?:/default/default_600x450\.jpg|/assets/smartweb/images/imgredes\.jpg)$",
+    re.I,
+)
+SERIES_STOPWORDS = {
+    "a", "al", "de", "del", "el", "en", "la", "las", "los", "para", "por", "un", "una", "y",
+    "lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo",
+    "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+}
 
 
 def issue(city_id: str, event: dict, code: str, severity: str, message: str, **details) -> dict:
@@ -53,6 +62,16 @@ def normalized_image_url(event: dict) -> str:
         return f"{parsed.scheme.casefold()}://{parsed.netloc.casefold()}{parsed.path}".rstrip("/")
     except Exception:
         return value.casefold()
+
+
+def is_known_generic_image_url(value: str) -> bool:
+    if not value:
+        return False
+    try:
+        path = urlparse(value).path
+    except Exception:
+        path = value
+    return bool(GENERIC_IMAGE_PATH_RE.search(path))
 
 
 def category_values(event: dict) -> tuple[str, str, list[str]]:
@@ -156,15 +175,16 @@ def audit_event(city_id: str, event: dict) -> list[dict]:
 
     status = event.get("public_status") or {}
     url = source_url(event)
+    canonical_source_id = clean_space(event.get("source_id"))
     if not url:
         issues.append(issue(city_id, event, "missing_source", "error", "El evento no tiene una fuente pública consultable."))
-    elif status.get("source_official") is not True and is_social_url(url):
+    elif status.get("source_official") is not True and is_social_url(url) and not canonical_source_id:
         issues.append(issue(
             city_id,
             event,
             "social_only_unverified_source",
             "warning",
-            "La única fuente visible es social y no está marcada como oficial.",
+            "La única fuente visible es social y no tiene procedencia canónica u oficial verificada.",
             source_url=url,
         ))
 
@@ -201,6 +221,35 @@ def duplicate_issues(city_id: str, events: list[dict]) -> list[dict]:
     return findings
 
 
+def meaningful_title_tokens(event: dict) -> set[str]:
+    return {
+        token
+        for token in fold(event.get("title")).split()
+        if token not in SERIES_STOPWORDS and not token.isdigit() and len(token) > 1
+    }
+
+
+def repeated_image_is_expected(members: list[dict], image_key: str) -> bool:
+    if is_known_generic_image_url(image_key):
+        return True
+
+    source_ids = {clean_space(member.get("source_id")) for member in members}
+    source_ids.discard("")
+    venues = {fold((member.get("location") or {}).get("venue")) for member in members}
+    venues.discard("")
+    if len(source_ids) == 1 and len(venues) == 1:
+        return True
+
+    if len(source_ids) == 1:
+        token_sets = [meaningful_title_tokens(member) for member in members]
+        token_sets = [tokens for tokens in token_sets if tokens]
+        if len(token_sets) == len(members):
+            shared = set.intersection(*token_sets)
+            if len(shared) >= 3:
+                return True
+    return False
+
+
 def repeated_image_issues(city_id: str, events: list[dict]) -> list[dict]:
     groups: dict[str, list[dict]] = defaultdict(list)
     for event in events:
@@ -213,6 +262,8 @@ def repeated_image_issues(city_id: str, events: list[dict]) -> list[dict]:
         distinct_titles = {fold(member.get("title")) for member in members if fold(member.get("title"))}
         if len(members) < REPEATED_IMAGE_THRESHOLD or len(distinct_titles) < 2:
             continue
+        if repeated_image_is_expected(members, key):
+            continue
         ids = [clean_space(member.get("id")) for member in members]
         for member in members:
             findings.append(issue(
@@ -220,7 +271,7 @@ def repeated_image_issues(city_id: str, events: list[dict]) -> list[dict]:
                 member,
                 "repeated_image",
                 "info",
-                "La misma imagen se usa en varias actividades distintas.",
+                "La misma imagen se usa en varias actividades no relacionadas.",
                 image_url=key,
                 shared_by_event_ids=ids,
             ))
