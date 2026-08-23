@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
-CLOUDFLARE_SYNC = WORKFLOWS / "sync-cloudflare-preview.yml"
+CLOUDFLARE_SYNC = WORKFLOWS / "publish.yml"
 
 
 def _pushes_branch(text: str, branch: str) -> bool:
@@ -32,19 +32,19 @@ def verify() -> None:
 
     if main_writers:
         raise SystemExit("PUBLIC_REPO_INTERNAL_MAIN_WRITERS=" + ",".join(main_writers))
-    if cloudflare_writers != ["sync-cloudflare-preview.yml"]:
+    if cloudflare_writers != ["publish.yml"]:
         raise SystemExit(
             "PUBLIC_REPO_CLOUDFLARE_WRITERS_INVALID=" + ",".join(cloudflare_writers)
         )
 
     sync = CLOUDFLARE_SYNC.read_text(encoding="utf-8")
     required = (
-        "branches:\n      - main",
+        "branches: [main]",
         "ref: cloudflare-preview",
         "git fetch origin main",
-        "git merge --no-edit origin/main",
+        "git merge --ff-only origin/main",
         "git push origin HEAD:cloudflare-preview",
-        "Guard Cloudflare-only divergence",
+        "Fast-forward deployment branch from approved main",
     )
     missing = [marker for marker in required if marker not in sync]
     if missing:
@@ -62,7 +62,7 @@ def verify() -> None:
     # workflow may deploy them, but no internal workflow may commit them to main.
     print(
         "CANONICAL_MAIN_EXTERNAL_WRITER_OK "
-        "main_internal_writers=0 cloudflare_mirror_writer=sync-cloudflare-preview.yml"
+        "main_internal_writers=0 cloudflare_mirror_writer=publish.yml"
     )
 
 
