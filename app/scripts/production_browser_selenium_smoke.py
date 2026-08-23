@@ -55,7 +55,8 @@ def runtime_ready(driver: webdriver.Chrome, city: str, expected_release: int) ->
             return document.documentElement.dataset.vivamosReady === 'true'
               && document.documentElement.dataset.city === arguments[0]
               && Number(globalThis.__VIVAMOS_RELEASE__) === arguments[1]
-              && document.querySelectorAll('.event-card').length > 0;
+              && document.querySelectorAll('.event-card').length > 0
+              && Boolean(document.querySelector('[data-sources-toggle], [data-sources-fallback]'));
             """,
             city,
             expected_release,
