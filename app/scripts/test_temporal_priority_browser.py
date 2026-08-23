@@ -58,16 +58,18 @@ def check_ui_removed() -> None:
     assert 'temporal-priority.js?v=' in common_runtime, "app common runtime must retain non-blocking temporal cleanup"
     assert "GIJON_DEFERRED_MODULES" not in entry, "temporal presentation must not be selected by city"
 
-    # Point 4/5 semantics remain in temporal-priority-core. C1 composes that
-    # semantic comparator through agenda-order-core so top-level renderers have
-    # one visible-order authority instead of importing it independently.
+    # Point 4/5 semantics remain in temporal-priority-core. The canonical
+    # agenda-order authority composes those shared temporal primitives before
+    # optional local presentation tie-breaks, so top-level renderers never own
+    # an independent temporal comparator.
     assert "export const LONG_RUNNING_DAYS = 7" in core, "long-running threshold must remain seven days in the shared core"
     assert '"this_weekend"' in core and '"always_available"' in core, "shared core must expose the six-bucket hierarchy"
     assert "classifyContentKind" in core, "content_kind classification must be owned by the shared temporal core"
     assert 'Symbol.for("vivamos.agendaRuntimeState")' in runtime_state, "runtime snapshot must remain shared across versioned module identities"
     assert "compareAgendaOrder" in entry, "rendered cards must consume the canonical agenda order"
     assert "compareTemporalPriority" not in entry, "app entrypoint must not bypass the canonical agenda-order authority"
-    assert "compareTemporalPriority" in agenda_order, "canonical agenda order must delegate temporal semantics to temporal-priority-core"
+    assert "compareAgendaSemanticPriority" in agenda_order, "canonical agenda order must expose shared temporal-first semantics"
+    assert "classifyTemporalEvent" in agenda_order, "canonical agenda order must consume temporal classification from temporal-priority-core"
     assert "classifyTemporalEvent" in entry, "rendered cards must expose content kind and temporal bucket metadata"
     assert "orderingCardEventIds" in entry, "group ordering must resolve the events represented by each card"
     assert "visibleOnly: !card.hidden" in entry, "filtered grouped cards must be ordered from their currently visible events"
