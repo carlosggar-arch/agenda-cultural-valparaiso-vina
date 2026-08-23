@@ -99,12 +99,31 @@ function lifecycleForWindow(window, { now, timeZone }) {
     const start = parsedInstant(startText);
     if (!start) return { state: LIFECYCLE_STATES.UNDATED, visible: true };
     const endText = String(window.end || "").trim();
-    const dateOnlySameDay = isDateOnly(endText) && endText === startDay;
-    const end = endText && !dateOnlySameDay ? parsedInstant(endText) : null;
 
     if (now.getTime() < start.getTime()) {
-      return { state: LIFECYCLE_STATES.UPCOMING, visible: true, start, end };
+      return { state: LIFECYCLE_STATES.UPCOMING, visible: true, start };
     }
+
+    if (isDateOnly(endText) && endText > startDay) {
+      if (wall.day <= endText) {
+        return {
+          state: LIFECYCLE_STATES.ONGOING,
+          visible: true,
+          start,
+          startDay,
+          endDay: endText,
+        };
+      }
+      return {
+        state: LIFECYCLE_STATES.ENDED,
+        visible: false,
+        start,
+        startDay,
+        endDay: endText,
+      };
+    }
+
+    const end = endText ? parsedInstant(endText) : null;
     const visibilityUntil = pointVisibilityUntil(start, end);
     if (now.getTime() <= visibilityUntil.getTime()) {
       return {
