@@ -8,12 +8,12 @@ ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
 RUNNER = ROOT / "app" / "scripts" / "run_contracts.py"
 BROWSER_RUNNER = ROOT / "app" / "scripts" / "run_browser_scenarios.py"
-REQUIRED_WORKFLOW = ROOT / ".github" / "workflows" / "required-release-guard.yml"
-TEMPORAL_WORKFLOW = ROOT / ".github" / "workflows" / "temporal-priority-validation.yml"
-PRODUCTION_WORKFLOW = ROOT / ".github" / "workflows" / "production-pwa-smoke.yml"
+REQUIRED_WORKFLOW = ROOT / ".github" / "workflows" / "pr-release.yml"
+TEMPORAL_WORKFLOW = ROOT / ".github" / "workflows" / "pr-fast.yml"
+PRODUCTION_WORKFLOW = ROOT / ".github" / "workflows" / "publish.yml"
 
 ALLOWED_LAYERS = {"semantic", "architecture", "browser", "release"}
-REQUIRED_BROWSER_WORKFLOW = ".github/workflows/required-release-guard.yml"
+REQUIRED_BROWSER_WORKFLOW = ".github/workflows/pr-release.yml"
 
 
 def fail(message: str) -> None:
@@ -119,6 +119,16 @@ def main() -> None:
     ):
         if required_id not in profiles.get("required-release", []):
             fail(f"required-release profile missing D4 contract: {required_id}")
+    fast_ids = set(profiles.get("pr-fast-all", []))
+    required_ids = set(profiles.get("required-release", []))
+    expected_executable = {
+        entry["id"] for entry in contracts
+        if entry["layer"] != "browser" and entry["owner"].endswith((".py", ".mjs", ".js"))
+    }
+    if fast_ids & required_ids:
+        fail(f"PR fast and release profiles overlap: {sorted(fast_ids & required_ids)}")
+    if fast_ids | required_ids != expected_executable:
+        fail("PR profiles must cover every executable non-browser contract exactly once")
 
     scenarios = data.get("browser_scenarios")
     if not isinstance(scenarios, dict) or not scenarios:
@@ -166,8 +176,8 @@ def main() -> None:
         fail("Required release guard must be the single browser scenario composer")
     if "_browser.py" in temporal:
         fail("fast temporal workflow must not execute browser owners after D4")
-    if "python app/scripts/run_contracts.py --profile temporal-fast" not in temporal:
-        fail("fast temporal workflow must invoke the canonical temporal-fast profile")
+    if "python app/scripts/run_contracts.py --profile pr-fast-all" not in temporal:
+        fail("fast PR workflow must invoke the complete non-overlapping fast profile")
     production_triggers = production.split("permissions:", 1)[0]
     if "pull_request:" in production_triggers:
         fail("Production PWA smoke must not run as a PR workflow after D4")

@@ -1,15 +1,20 @@
-name: Required release guard
+name: PR release gate
 
 on:
   pull_request:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: pr-release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   release-guard:
+    # Stable branch-protection context; the workflow owner is now PR release gate.
     name: release-guard
     runs-on: ubuntu-latest
     timeout-minutes: 24
@@ -25,10 +30,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Classify release impact
+        id: impact
+        run: python app/scripts/ci_change_impact.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}" --github-output "$GITHUB_OUTPUT"
+
       - name: Install browser test dependency
+        if: steps.impact.outputs.release == 'true'
         run: python -m pip install --disable-pip-version-check selenium==4.35.0
 
       - name: Compile guarded shell
+        if: steps.impact.outputs.release == 'true'
         run: |
           set -euo pipefail
           python -m py_compile \
@@ -106,6 +117,7 @@ jobs:
           node --check app/mobile-experience.js
 
       - name: Run required release and architecture contracts
+        if: steps.impact.outputs.release == 'true'
         run: |
           set -euo pipefail
           python app/scripts/generate_runtime_contracts.py --check
@@ -135,23 +147,29 @@ jobs:
           python app/scripts/test_multicity_source_registry_coverage.py
 
       - name: Run canonical browser scenarios
+        if: steps.impact.outputs.release == 'true'
         run: |
           set -euo pipefail
           python app/scripts/run_browser_scenarios.py --all
 
       - name: Require local WEB versus cached PWA exact-ID parity
+        if: steps.impact.outputs.release == 'true'
         run: python app/scripts/test_web_pwa_visibility_parity.py --local
 
       - name: Upload exhibition visual parity
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: exhibition-visual-parity
           path: /tmp/exhibition-visual-parity/*.png
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 3
 
       - name: Note final Stage D gate roles
+        if: steps.impact.outputs.release == 'true'
         run: |
           echo "Required release guard enforces release deltas, generated artifacts, semantic history dry-runs, production attestation contracts, computed UI contracts, canonical browser scenarios and local live/cached PWA exact-ID parity."
           echo "Production network verification and PRODUCTION_RELEASE_VERIFIED attestation run only after merge on main (or manual rerun against latest main)."
+      - name: No release surface affected
+        if: steps.impact.outputs.release != 'true'
+        run: echo "Release browser gate skipped by deterministic path classification."

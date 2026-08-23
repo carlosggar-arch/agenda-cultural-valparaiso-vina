@@ -1,0 +1,51 @@
+name: PR fast contracts
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-fast-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast-contracts:
+    name: fast-contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Classify change impact
+        id: impact
+        run: python app/scripts/ci_change_impact.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}" --github-output "$GITHUB_OUTPUT"
+      - name: Validate CI topology and writer boundary
+        run: |
+          python app/scripts/test_ci_economy.py
+          python scripts/verify_canonical_main_writer.py
+          python app/scripts/test_contract_topology.py
+      - name: Run canonical fast contracts
+        if: steps.impact.outputs.product == 'true'
+        run: |
+          python app/scripts/run_contracts.py --profile pr-fast-all
+          node --test tests/root-combined-filters.test.mjs tests/root-public-presentation-rules.test.mjs tests/event-data-corrections.test.mjs
+          python scripts/generate_public_category_module.py --check
+          python scripts/generate_event_semantics_module.py --check
+      - name: Validate generated pages when affected
+        if: steps.impact.outputs.generated == 'true'
+        run: |
+          python scripts/generate_event_pages.py --check
+          python scripts/stage31_site_generator.py --check
+      - name: Document-only change
+        if: steps.impact.outputs.product != 'true'
+        run: echo "No product contract can be affected; structural CI checks passed."

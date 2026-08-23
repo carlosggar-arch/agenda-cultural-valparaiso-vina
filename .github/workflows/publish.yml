@@ -1,4 +1,4 @@
-name: Production PWA smoke
+name: Publish and production verification
 
 on:
   push:
@@ -20,18 +20,40 @@ on:
       - "app/scripts/production_warm_start_smoke.py"
       - "app/scripts/test_web_pwa_visibility_parity.py"
       - "app/scripts/production_release_attestation.py"
-      - ".github/workflows/production-pwa-smoke.yml"
+      - ".github/workflows/publish.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: production-pwa-smoke-${{ github.event_name }}-${{ github.ref }}
+  group: publish-production
   cancel-in-progress: true
 
 jobs:
+  sync-cloudflare:
+    name: sync-cloudflare
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout deployment branch
+        uses: actions/checkout@v4
+        with:
+          ref: cloudflare-preview
+          fetch-depth: 0
+      - name: Fast-forward deployment branch from approved main
+        run: |
+          set -euo pipefail
+          git fetch origin main cloudflare-preview
+          git checkout cloudflare-preview
+          git merge --ff-only origin/main
+          python scripts/verify_canonical_main_writer.py
+          git push origin HEAD:cloudflare-preview
+
   production-smoke:
+    needs: sync-cloudflare
     runs-on: ubuntu-latest
     timeout-minutes: 28
 

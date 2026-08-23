@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-WORKFLOW = (ROOT / ".github/workflows/production-pwa-smoke.yml").read_text(encoding="utf-8")
-REQUIRED = (ROOT / ".github/workflows/required-release-guard.yml").read_text(encoding="utf-8")
+WORKFLOW = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
+REQUIRED = (ROOT / ".github/workflows/pr-release.yml").read_text(encoding="utf-8")
 TOPOLOGY = json.loads((ROOT / "tests/contract-topology.json").read_text(encoding="utf-8"))
 SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8")
 BROWSER_SMOKE = (ROOT / "app/scripts/production_browser_selenium_smoke.py").read_text(encoding="utf-8")
@@ -46,7 +46,7 @@ def main() -> None:
         '      - "app/scripts/production_warm_start_smoke.py"',
         '      - "app/scripts/test_web_pwa_visibility_parity.py"',
         '      - "app/scripts/production_release_attestation.py"',
-        '      - ".github/workflows/production-pwa-smoke.yml"',
+        '      - ".github/workflows/publish.yml"',
     ):
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
 
@@ -87,7 +87,7 @@ def main() -> None:
     local_smoke = contracts["release.local-pwa-smoke"]
     assert local_smoke["owner"] == "app/scripts/production_pwa_smoke.py"
     assert local_smoke["runner_args"] == ["local"]
-    assert local_smoke["workflow"] == ".github/workflows/required-release-guard.yml"
+    assert local_smoke["workflow"] == ".github/workflows/pr-release.yml"
     assert "release.local-pwa-smoke" in required_profile
     assert "release.production-smoke-contract" in required_profile
     assert "architecture.public-presentation" in required_profile

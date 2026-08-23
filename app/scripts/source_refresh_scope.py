@@ -4,7 +4,7 @@ import argparse
 import sys
 
 SOURCE_RUNTIME_PATHS = {
-    ".github/workflows/event-pages.yml",
+    ".github/workflows/publish.yml",
     "app/data/high_value_sources.json",
     "app/data/source-registry.json",
     "app/scripts/fetch_high_value_sources.py",

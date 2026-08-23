@@ -39,21 +39,21 @@
       "domain": "editorial-priority",
       "layer": "semantic",
       "owner": "app/editorial-priority-core.test.mjs",
-      "workflow": ".github/workflows/temporal-priority-validation.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "semantic.content-kind-presentation",
       "domain": "content-kind-presentation",
       "layer": "semantic",
       "owner": "app/content-kind-presentation.test.mjs",
-      "workflow": ".github/workflows/shared-presentation-runtime.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.editorial-quality-audit",
       "domain": "editorial-quality",
       "layer": "architecture",
       "owner": "app/scripts/test_editorial_quality_audit.py",
-      "workflow": ".github/workflows/content-quality-guard.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "semantic.visibility-owner",
@@ -72,7 +72,7 @@
       "domain": "schedule",
       "layer": "architecture",
       "owner": "app/schedule-presentation-authority.test.mjs",
-      "workflow": ".github/workflows/shared-presentation-runtime.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "semantic.public-category-authority",
@@ -85,28 +85,28 @@
       "domain": "title",
       "layer": "architecture",
       "owner": "app/title-authority.test.mjs",
-      "workflow": ".github/workflows/static-grouping-title-contract.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.venue-authority",
       "domain": "venue",
       "layer": "architecture",
       "owner": "app/venue-authority.test.mjs",
-      "workflow": ".github/workflows/static-grouping-title-contract.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.source-evidence-authority",
       "domain": "source-evidence",
       "layer": "architecture",
       "owner": "app/source-evidence-authority.test.mjs",
-      "workflow": ".github/workflows/shared-presentation-runtime.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.identity-boundaries",
       "domain": "identity-occurrence-dedupe",
       "layer": "architecture",
       "owner": "app/identity-boundaries.test.mjs",
-      "workflow": ".github/workflows/static-grouping-title-contract.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "semantic.cross-source-deduplication",
@@ -119,98 +119,98 @@
       "domain": "image",
       "layer": "semantic",
       "owner": "app/image-resolver-core.test.mjs",
-      "workflow": ".github/workflows/card-representative-images.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.shared-presentation-runtime",
       "domain": "shared-runtime",
       "layer": "architecture",
       "owner": "app/shared-presentation-runtime.test.mjs",
-      "workflow": ".github/workflows/shared-presentation-runtime.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.third-city",
       "domain": "multicity",
       "layer": "architecture",
       "owner": "app/scripts/test_third_city_architecture.py",
-      "workflow": ".github/workflows/shared-presentation-runtime.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.multicity-ui",
       "domain": "multicity",
       "layer": "architecture",
       "owner": "app/scripts/test_multi_city_ui.py",
-      "workflow": ".github/workflows/multi-city-pre-release.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.contextual-filters",
       "domain": "visibility",
       "layer": "architecture",
       "owner": "app/scripts/test_contextual_filters.py",
-      "workflow": ".github/workflows/multi-city-pre-release.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.startup",
       "domain": "startup",
       "layer": "architecture",
       "owner": "app/startup-architecture.test.mjs",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "architecture.runtime-data-consumer-authority",
       "domain": "runtime-performance",
       "layer": "architecture",
       "owner": "app/runtime-data-consumer-authority.test.mjs",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.first-render",
       "domain": "startup",
       "layer": "browser",
       "owner": "app/scripts/test_first_render_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.startup-resilience",
       "domain": "startup",
       "layer": "browser",
       "owner": "app/scripts/test_startup_resilience_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.city-switch",
       "domain": "multicity",
       "layer": "browser",
       "owner": "app/scripts/test_schedule_interaction_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.runtime-user-flow",
       "domain": "user-flow",
       "layer": "browser",
       "owner": "app/scripts/test_runtime_user_flow_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.temporal-priority",
       "domain": "temporal-order",
       "layer": "browser",
       "owner": "app/scripts/test_temporal_priority_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.date-filter",
       "domain": "visibility",
       "layer": "browser",
       "owner": "app/scripts/test_date_filter_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.exhibition-visual-parity",
       "domain": "grouping-presentation",
       "layer": "browser",
       "owner": "app/scripts/test_exhibition_visual_parity.py",
-      "workflow": ".github/workflows/required-release-guard.yml",
+      "workflow": ".github/workflows/pr-release.yml",
       "runner_args": [
         "--output-dir",
         "/tmp/exhibition-visual-parity"
@@ -221,56 +221,56 @@
       "domain": "grouping-presentation",
       "layer": "browser",
       "owner": "app/scripts/test_exhibition_filter_isolation_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.structural-event-visibility",
       "domain": "visibility",
       "layer": "browser",
       "owner": "app/scripts/test_structural_event_visibility_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.computed-ui-contracts",
       "domain": "computed-presentation",
       "layer": "browser",
       "owner": "app/scripts/test_ui_computed_contracts_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "browser.ios-install-intent",
       "domain": "installability",
       "layer": "browser",
       "owner": "app/scripts/test_ios_install_intent_browser.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "release.generated-shell",
       "domain": "release",
       "layer": "release",
       "owner": "app/scripts/test_release_guard.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "release.pre-release",
       "domain": "release",
       "layer": "release",
       "owner": "app/scripts/test_pre_release.py",
-      "workflow": ".github/workflows/multi-city-pre-release.yml"
+      "workflow": ".github/workflows/pr-fast.yml"
     },
     {
       "id": "architecture.public-presentation",
       "domain": "shared-runtime",
       "layer": "architecture",
       "owner": "app/scripts/test_public_presentation.mjs",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "release.local-pwa-smoke",
       "domain": "release",
       "layer": "release",
       "owner": "app/scripts/production_pwa_smoke.py",
-      "workflow": ".github/workflows/required-release-guard.yml",
+      "workflow": ".github/workflows/pr-release.yml",
       "runner_args": [
         "local"
       ]
@@ -280,14 +280,14 @@
       "domain": "release",
       "layer": "release",
       "owner": "app/scripts/test_production_pwa_smoke_contract.py",
-      "workflow": ".github/workflows/required-release-guard.yml"
+      "workflow": ".github/workflows/pr-release.yml"
     },
     {
       "id": "release.production-smoke",
       "domain": "production",
       "layer": "release",
-      "owner": ".github/workflows/production-pwa-smoke.yml",
-      "workflow": ".github/workflows/production-pwa-smoke.yml"
+      "owner": ".github/workflows/publish.yml",
+      "workflow": ".github/workflows/publish.yml"
     }
   ],
   "runner_profiles": {
@@ -314,6 +314,28 @@
     "temporal-fast": [
       "semantic.temporal-priority",
       "semantic.agenda-order"
+    ],
+    "pr-fast-all": [
+      "semantic.temporal-priority",
+      "semantic.agenda-order",
+      "semantic.editorial-priority",
+      "semantic.content-kind-presentation",
+      "architecture.editorial-quality-audit",
+      "semantic.visibility-owner",
+      "semantic.schedule-contract",
+      "architecture.schedule-presentation-authority",
+      "semantic.public-category-authority",
+      "architecture.title-authority",
+      "architecture.venue-authority",
+      "architecture.source-evidence-authority",
+      "architecture.identity-boundaries",
+      "semantic.cross-source-deduplication",
+      "semantic.image-resolver",
+      "architecture.shared-presentation-runtime",
+      "architecture.third-city",
+      "architecture.multicity-ui",
+      "architecture.contextual-filters",
+      "release.pre-release"
     ]
   },
   "browser_scenarios": {
