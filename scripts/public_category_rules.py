@@ -9,20 +9,26 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 TAXONOMY_PATH = ROOT / "shared" / "public-category-taxonomy.json"
 TAXONOMY = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
-CATEGORIES: dict[str, dict[str, str]] = TAXONOMY["categories"]
+CATEGORIES: dict[str, dict[str, Any]] = TAXONOMY["categories"]
 ALIASES: dict[str, str] = TAXONOMY["aliases"]
 LABEL_ALIASES: dict[str, str] = TAXONOMY["label_aliases"]
 GROUPS: dict[str, list[str]] = TAXONOMY["groups"]
 RULES = TAXONOMY["rules"]
 FALLBACK_ID = TAXONOMY["fallback_category"]
+CATEGORY_ORDER = {
+    category_id: index
+    for index, category_id in enumerate(TAXONOMY.get("category_order", CATEGORIES.keys()))
+}
 SUMMER_PROGRAM_EVENT_TYPES = set(RULES["summer_program_event_types"])
 SUMMER_PROGRAM_RE = re.compile(RULES["summer_program_title_pattern"])
 SUMMER_REGISTRATION_RE = re.compile(RULES["summer_registration_title_pattern"])
-EXPLICIT_TITLE_RULES = [
-    (rule["category"], re.compile(rule["pattern"])) for rule in RULES["explicit_title"]
+TITLE_EVIDENCE_RULES = [
+    (rule["category"], int(rule["weight"]), re.compile(rule["pattern"]))
+    for rule in RULES["title_evidence"]
 ]
-CULTURE_EVIDENCE_RULES = [
-    (rule["category"], re.compile(rule["pattern"])) for rule in RULES["culture_evidence"]
+DESCRIPTION_EVIDENCE_RULES = [
+    (rule["category"], int(rule["weight"]), re.compile(rule["pattern"]))
+    for rule in RULES["description_evidence"]
 ]
 
 
@@ -70,15 +76,8 @@ def category(category_id: str) -> dict[str, str]:
     return {"id": resolved_id, "label": CATEGORIES[resolved_id]["label"]}
 
 
-def evidence_text(event: dict[str, Any]) -> str:
-    values = [
-        event.get("title"),
-        event.get("description"),
-        event.get("organizer"),
-        event.get("source_name"),
-        *(event.get("tags") or []),
-    ]
-    return fold(" ".join(str(value) for value in values if value))
+def is_thematic_category(category_id: str | None) -> bool:
+    return bool(category_id and CATEGORIES.get(category_id, {}).get("thematic") is True)
 
 
 def is_summer_program(event: dict[str, Any]) -> bool:
@@ -88,52 +87,133 @@ def is_summer_program(event: dict[str, Any]) -> bool:
     return bool(SUMMER_PROGRAM_RE.search(title) or SUMMER_REGISTRATION_RE.search(title))
 
 
-def category_from_rules(text: str, rules: list[tuple[str, re.Pattern[str]]]) -> dict[str, str] | None:
-    for category_id, pattern in rules:
+def description_evidence_text(event: dict[str, Any]) -> str:
+    values = [event.get("description"), *(event.get("tags") or [])]
+    return fold(" ".join(str(value) for value in values if value))
+
+
+def _add_evidence(
+    scores: dict[str, int],
+    evidence: list[dict[str, Any]],
+    category_id: str,
+    weight: int,
+    kind: str,
+    value: Any,
+) -> None:
+    if not is_thematic_category(category_id) or not weight:
+        return
+    scores[category_id] = scores.get(category_id, 0) + weight
+    evidence.append(
+        {"category": category_id, "weight": weight, "kind": kind, "value": value}
+    )
+
+
+def _add_rule_evidence(
+    scores: dict[str, int],
+    evidence: list[dict[str, Any]],
+    text: str,
+    rules: list[tuple[str, int, re.Pattern[str]]],
+    kind: str,
+) -> None:
+    if not text:
+        return
+    for category_id, weight, pattern in rules:
         if pattern.search(text):
-            return category(category_id)
-    return None
+            _add_evidence(scores, evidence, category_id, weight, kind, pattern.pattern)
 
 
-def explicit_title_category(event: dict[str, Any]) -> dict[str, str] | None:
-    title = fold(event.get("title"))
-    if not title:
-        return None
-    if SUMMER_PROGRAM_RE.search(title) or is_summer_program(event):
-        return category("cursos-talleres-campus")
-    return category_from_rules(title, EXPLICIT_TITLE_RULES)
+def _confidence_for_score(score: int) -> str:
+    if score >= 120:
+        return "high"
+    if score >= 70:
+        return "medium"
+    if score >= int(RULES.get("minimum_score", 1)):
+        return "low"
+    return "unclassified"
 
 
-def infer_culture_category(event: dict[str, Any]) -> dict[str, str]:
-    explicit = explicit_title_category(event)
-    if explicit:
-        return explicit
-    return category_from_rules(evidence_text(event), CULTURE_EVIDENCE_RULES) or category(FALLBACK_ID)
+def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
+    scores: dict[str, int] = {}
+    evidence: list[dict[str, Any]] = []
+    source = source_category(event)
+    canonical_source = canonical_public_category(source)
+    recovery_hint = canonical_public_category(
+        (event.get("editorial") or {}).get("category_recovery_hint")
+    )
+
+    if is_summer_program(event):
+        _add_evidence(
+            scores,
+            evidence,
+            "cursos-talleres-campus",
+            180,
+            "event_type",
+            "summer_program",
+        )
+
+    if canonical_source and is_thematic_category(canonical_source.get("id")):
+        _add_evidence(
+            scores,
+            evidence,
+            canonical_source["id"],
+            int(RULES.get("source_category_weight", 0)),
+            "source_category",
+            source.get("id") or source.get("label"),
+        )
+
+    # Recovery hints are evidence, never a bypass around shared semantic authority.
+    if recovery_hint and is_thematic_category(recovery_hint.get("id")):
+        _add_evidence(
+            scores,
+            evidence,
+            recovery_hint["id"],
+            int(RULES.get("recovery_hint_weight", RULES.get("source_category_weight", 0))),
+            "recovery_hint",
+            (event.get("editorial") or {}).get("category_recovery_hint"),
+        )
+
+    _add_rule_evidence(
+        scores,
+        evidence,
+        fold(event.get("title")),
+        TITLE_EVIDENCE_RULES,
+        "title",
+    )
+    _add_rule_evidence(
+        scores,
+        evidence,
+        description_evidence_text(event),
+        DESCRIPTION_EVIDENCE_RULES,
+        "description",
+    )
+
+    minimum_score = int(RULES.get("minimum_score", 1))
+    ranked = sorted(
+        ((category_id, score) for category_id, score in scores.items() if score >= minimum_score),
+        key=lambda item: (-item[1], CATEGORY_ORDER.get(item[0], 10_000)),
+    )
+
+    if not ranked:
+        return {
+            "category": category(FALLBACK_ID),
+            "confidence": "unclassified",
+            "score": 0,
+            "evidence": evidence,
+            "source_category": source,
+        }
+
+    category_id, score = ranked[0]
+    return {
+        "category": category(category_id),
+        "confidence": _confidence_for_score(score),
+        "score": score,
+        "evidence": evidence,
+        "source_category": source,
+    }
 
 
 def resolve_public_category(event: dict[str, Any]) -> dict[str, str]:
-    source = source_category(event)
-    canonical = canonical_public_category(source)
-    explicit = explicit_title_category(event)
-
-    if canonical and canonical.get("id") != source.get("id"):
-        return dict(canonical)
-    if is_summer_program(event):
-        return category("cursos-talleres-campus")
-    # The fallback is not semantic authority: strong title evidence can recover
-    # a more specific category after source reconciliation or deduplication.
-    if canonical and canonical.get("id") == FALLBACK_ID and explicit and explicit.get("id") != FALLBACK_ID:
-        return dict(explicit)
-    if canonical and canonical.get("id") in CATEGORIES:
-        return dict(canonical)
-    if source.get("id") == "cultura" or fold(source.get("label")) == "cultura":
-        return dict(infer_culture_category(event))
-    if not source.get("id") and not source.get("label"):
-        return dict(explicit or category(FALLBACK_ID))
-
-    # Source-specific categories are preserved only when the shared architecture
-    # contract registers them. No city renderer may redefine them locally.
-    return {"id": source["id"], "label": source.get("label") or source["id"]}
+    return dict(classify_public_category(event)["category"])
 
 
 def public_category_text(event: dict[str, Any]) -> str:
