@@ -28,9 +28,9 @@ function fixture() {
 }
 
 const corrected = applyEventDataCorrections(fixture());
-assert.equal(corrected.events.length, 16);
-assert.equal(corrected.counts.total, 16);
-assert.equal(corrected.counts.events, 16);
+assert.equal(corrected.events.length, 18);
+assert.equal(corrected.counts.total, 18);
+assert.equal(corrected.counts.events, 18);
 
 const bienalDates = corrected.events
   .filter((event) => /bienal/i.test(event.title))
@@ -41,7 +41,7 @@ assert.match(corrected.events.find((event) => event.id === "agenda_pcdv_bienal_2
 assert.match(corrected.events.find((event) => event.id === "agenda_pcdv_bienal_20260821").title, /Estado #3/);
 
 const rioja = corrected.events.filter((event) => event.source_id === "museo_palacio_rioja");
-assert.equal(rioja.length, 13);
+assert.equal(rioja.length, 15);
 assert.ok(rioja.some((event) => event.id === "agenda_rioja_20260819_mitio" && event.schedule.start === "2026-08-19T16:00:00-04:00"));
 assert.ok(rioja.some((event) => event.id === "agenda_rioja_20260820_visita_mar_dulce" && event.price.is_free === true));
 assert.ok(rioja.some((event) => event.id === "agenda_rioja_20260825_angel"));
@@ -49,6 +49,6 @@ assert.ok(rioja.some((event) => event.id === "agenda_rioja_20260826_playtime"));
 assert.ok(rioja.some((event) => event.id === "agenda_rioja_20260829_moncho"));
 
 const repeated = applyEventDataCorrections(corrected);
-assert.equal(repeated.events.length, 16, "correction must be idempotent");
+assert.equal(repeated.events.length, 18, "correction must be idempotent");
 
 console.log("event-data-corrections: ok");
