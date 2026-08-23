@@ -28,8 +28,8 @@ def require_path(relative: str, *, label: str) -> None:
 
 def main() -> None:
     data = json.loads(TOPOLOGY.read_text(encoding="utf-8"))
-    if data.get("schema_version") != "1.3.0":
-        fail("contract topology schema_version must be 1.3.0 after D4")
+    if data.get("schema_version") != "1.4.0":
+        fail("contract topology schema_version must be 1.4.0 for the general change guard")
     if not RUNNER.is_file():
         fail("canonical contract runner is missing")
     if not BROWSER_RUNNER.is_file():
@@ -150,6 +150,8 @@ def main() -> None:
         missing = sorted(all_browser_contracts - seen_browser_contracts)
         extra = sorted(seen_browser_contracts - all_browser_contracts)
         fail(f"every browser contract must belong to exactly one scenario; missing={missing} extra={extra}")
+    if scenarios.get("computed-presentation") != ["browser.computed-ui-contracts"]:
+        fail("computed UI contracts must be a canonical required browser scenario")
     if scenarios.get("temporal-order") != ["browser.temporal-priority"]:
         fail("temporal priority browser owner must be centralized in the temporal-order scenario")
 
