@@ -51,6 +51,17 @@ assert.equal(acuario.location.latitude, 43.542138);
 assert.equal(acuario.location.longitude, -5.67691);
 assert.match(googleMapsDirectionsUrl(acuario) || "", /destination=43\.542138%2C-5\.67691/);
 
+const pucvCasaCentral = normalized({
+  id: "pucv-leadership-workshop",
+  public_status: { source_official: true },
+  source_url: "https://www.pucv.cl/",
+  location: { venue: "Casa Central", city: "Valparaíso", online: false },
+});
+assert.equal(pucvCasaCentral.location.venue, "Casa Central PUCV");
+assert.equal(pucvCasaCentral.location.address, "Av. Brasil 2950, Valparaíso");
+assert.equal(pucvCasaCentral.location.address_verified, true);
+assert.ok(googleMapsDirectionsUrl(pucvCasaCentral));
+
 const genericCity = normalized({
   id: "generic-city",
   public_status: { source_official: true },
