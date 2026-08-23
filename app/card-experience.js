@@ -274,7 +274,7 @@ function installMediaImage(media, event, imageUrl, representative = false) {
         baseUrl: window.location.href,
       });
       if (fallback.url) {
-        installMediaImage(media, event, fallback.url, true);
+        installMediaImage(media, event, fallback.url, fallback.kind === "representative");
         return;
       }
     }
