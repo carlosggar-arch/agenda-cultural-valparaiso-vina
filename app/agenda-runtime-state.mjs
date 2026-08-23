@@ -1,4 +1,5 @@
 import { normalizeTemporalMetadata } from "./temporal-priority-core.mjs?v=20260821-temporal4";
+import { filterVisibleDataset } from "./event-lifecycle-core.mjs?v=20260822-lifecycle1";
 import { eventForCityPresentation } from "./city-presentation-adapter.mjs?v=20260820-cityui1";
 import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260820-venues1";
 import { normalizeEventScheduleContract } from "./schedule-contract.mjs?v=20260821-point8-v2";
@@ -10,12 +11,16 @@ function safeCityId(city) {
   return String(city?.id || "").trim();
 }
 
-export function publishAgendaRuntimeSnapshot(city, result) {
+export function publishAgendaRuntimeSnapshot(city, result, now = new Date()) {
   const cityId = safeCityId(city);
   const dataset = result?.dataset;
   if (!cityId || !dataset || !Array.isArray(dataset.events)) return state.snapshot;
 
-  const normalizedDataset = normalizeTemporalMetadata(dataset, city, new Date());
+  // One shared runtime boundary owns temporal visibility.  This protects users
+  // between backend publications: a function that has ended locally disappears
+  // even if the last fetched JSON is a few hours old.
+  const visibleDataset = filterVisibleDataset(dataset, city, now);
+  const normalizedDataset = normalizeTemporalMetadata(visibleDataset, city, now);
 
   // The shared runtime is the presentation boundary. City adapters may provide
   // corrected raw location facts, but venue-identity is the definitive semantic
