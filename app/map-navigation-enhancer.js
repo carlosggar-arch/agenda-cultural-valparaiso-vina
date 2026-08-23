@@ -2,6 +2,7 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-
 import { googleMapsDirectionsUrl } from "./public-presentation-rules.mjs?v=20260822-mapnav1";
 
 const STYLE_ID = "vivamos-map-navigation-styles";
+const SVG_NS = "http://www.w3.org/2000/svg";
 let eventIndex = new Map();
 let activeCityId = "";
 let indexedRevision = 0;
@@ -17,22 +18,30 @@ function installStyles() {
       align-items:center !important;
       justify-content:center !important;
       flex:0 0 auto;
-      width:1.08rem;
-      height:.94rem;
+      box-sizing:border-box;
+      width:25px;
+      height:25px;
+      min-width:25px;
+      min-height:25px;
       margin-left:.24rem !important;
       padding:0;
       border:1px solid color-mix(in srgb,var(--brand,#174f46) 22%,transparent);
-      border-radius:.34rem;
+      border-radius:4px;
       background:color-mix(in srgb,var(--brand,#174f46) 8%,#fff);
       color:var(--brand,#174f46) !important;
-      font-size:.66rem !important;
-      font-weight:900 !important;
       line-height:1 !important;
       opacity:.92 !important;
       text-decoration:none !important;
       vertical-align:middle !important;
       transform:none !important;
       transition:background .14s ease,border-color .14s ease,opacity .14s ease;
+    }
+    .map-location-link-icon {
+      display:block;
+      width:18px;
+      height:18px;
+      flex:0 0 18px;
+      pointer-events:none;
     }
     .map-location-link:hover,
     .map-location-link:focus-visible {
@@ -91,10 +100,32 @@ function markLocationContainer(container) {
   if (detailFact) detailFact.classList.add("event-detail-fact--map-location");
 }
 
+function makeMapIcon() {
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.classList.add("map-location-link-icon");
+  svg.setAttribute("viewBox", "0 0 18 18");
+  svg.setAttribute("width", "18");
+  svg.setAttribute("height", "18");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+
+  const path = document.createElementNS(SVG_NS, "path");
+  path.setAttribute("d", "M4 14L14 4M7 4h7v7");
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "currentColor");
+  path.setAttribute("stroke-width", "2.2");
+  path.setAttribute("stroke-linecap", "round");
+  path.setAttribute("stroke-linejoin", "round");
+  svg.append(path);
+  return svg;
+}
+
 function styleMapLink(link) {
   if (!(link instanceof HTMLAnchorElement)) return;
   link.classList.add("map-location-link");
   link.removeAttribute("style");
+  const icon = link.querySelector(":scope > .map-location-link-icon");
+  if (!icon) link.replaceChildren(makeMapIcon());
 }
 
 function makeMapLink(event, { grouped = false } = {}) {
@@ -107,7 +138,7 @@ function makeMapLink(event, { grouped = false } = {}) {
   link.rel = "noopener noreferrer";
   link.title = "Abrir ubicación en Google Maps";
   link.setAttribute("aria-label", venue ? `Abrir ${venue} en Google Maps` : "Abrir ubicación en Google Maps");
-  link.textContent = "↗";
+  link.append(makeMapIcon());
   if (grouped) link.dataset.groupedVenueMap = "";
   styleMapLink(link);
   link.addEventListener("click", (click) => click.stopPropagation());
