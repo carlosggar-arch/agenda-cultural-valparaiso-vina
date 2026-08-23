@@ -147,6 +147,76 @@ test("direct venue source resolves a recurring schedule conflict even when upstr
   assert.equal(result.events[0].price.display_text, "Actividad gratuita; se paga entrada al parque");
 });
 
+test("same provider website and social records reconcile to the stronger event evidence", () => {
+  const web = event({
+    id: "caleta-web",
+    title: "Club de lectura para la niñez | Caleta de Historias",
+    sourceId: "valpocultura",
+    sourceName: "Valpo Cultura",
+    official: true,
+    start: "2026-08-22T12:00:00-04:00",
+    venue: "Biblioteca Municipal de Playa Ancha",
+    city: "Valparaíso",
+    price: { is_free: null, display_text: null },
+  });
+  web.source_url = "https://valpocultura.cl/evento/biblioteca-de-playa-ancha-caleta-de-historias/";
+  web.links = {
+    official: web.source_url,
+    source: web.source_url,
+    registration: null,
+  };
+  web.schedule = {
+    mode: "multi_day",
+    start: "2026-08-22T12:00:00-04:00",
+    end: "2026-08-22T13:30:00-04:00",
+    display_text: "22-08-2026 · 12:00–13:30",
+    occurrences: [],
+  };
+  web.public_status = {
+    source_official: true,
+    information_completeness: "complete",
+    price_confirmed: true,
+    registration_open: null,
+  };
+  web.image = { url: "https://valpocultura.cl/wp-content/uploads/2026/08/caleta.png" };
+
+  const social = event({
+    id: "caleta-social",
+    title: "CLUB DE LECTURA PARA LA NIÑEZ | CALETA DE HISTORIAS",
+    sourceId: "valpocultura",
+    sourceName: "Valpo Cultura",
+    start: "2026-08-22T12:00:00-04:00",
+    venue: "Biblioteca Municipal de Playa Ancha",
+    city: "Valparaíso",
+    price: { is_free: null, display_text: null },
+  });
+  social.source_url = "https://www.instagram.com/p/caleta-social/";
+  social.links = { official: social.source_url, source: social.source_url, registration: null };
+  social.schedule = {
+    mode: "multi_day",
+    start: "2026-08-22T12:00:00-04:00",
+    end: "2026-11-22",
+    display_text: "2026-08-22 · 12:00",
+    occurrences: [],
+  };
+  social.public_status = {
+    source_official: true,
+    information_completeness: "partial",
+    price_confirmed: null,
+    registration_open: null,
+  };
+  social.tags = ["cupos", "inscripciones"];
+
+  assert.equal(areProbableDuplicateEvents(web, social), true, "distinct records from one provider must still reconcile");
+  const result = deduplicateCrossSourceDataset({ counts: { total: 2, events: 2 }, events: [social, web] });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].id, "caleta-web", "the complete official event page must win over the social scrape");
+  assert.equal(result.events[0].schedule.end, "2026-08-22T13:30:00-04:00", "authoritative event duration must survive reconciliation");
+  assert.equal(result.events[0].image.url, web.image.url, "specific website event image must survive reconciliation");
+  assert.equal(result.events[0].editorial.same_provider_reconciled, true);
+  assert.equal(result.events[0].editorial.deduplication_rule, "same_provider_distinct_record_duplicate");
+});
+
 test("nearby sessions with only a generic title token stay separate without recurrence wording", () => {
   const adults = event({
     id: "yoga-adults",
@@ -197,7 +267,7 @@ test("similar titles at different venues stay separate", () => {
   assert.equal(areProbableDuplicateEvents(portal, elsewhere), false);
 });
 
-test("same source is not collapsed by the cross-source rule", () => {
+test("exact repeat of the same source record is not collapsed by the reconciliation rule", () => {
   const repeated = { ...portal, id: "portal-repeat" };
   assert.equal(areProbableDuplicateEvents(portal, repeated), false);
 });
