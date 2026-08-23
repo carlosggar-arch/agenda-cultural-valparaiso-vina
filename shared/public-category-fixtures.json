@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "cases": [
     {
       "name": "gijon_summer_registration",
@@ -99,7 +99,7 @@
         "event_type": "event",
         "primary_category": {"id": "deporte-bienestar", "label": "Deporte / bienestar"}
       },
-      "expected": {"id": "naturaleza-deportes", "label": "Naturaleza y deportes"}
+      "expected": {"id": "deportes-actividad-fisica", "label": "Deportes y actividad física"}
     },
     {
       "name": "specific_nature_activity",
@@ -108,7 +108,7 @@
         "event_type": "event",
         "primary_category": {"id": "naturaleza-deportes", "label": "Naturaleza y deportes"}
       },
-      "expected": {"id": "naturaleza-deportes", "label": "Naturaleza y deportes"}
+      "expected": {"id": "naturaleza-aire-libre", "label": "Naturaleza y aire libre"}
     },
     {
       "name": "culture_infers_concert",
@@ -120,13 +120,22 @@
       "expected": {"id": "musica", "label": "Música"}
     },
     {
-      "name": "unknown_registered_passthrough",
+      "name": "legacy_other_recovers_literature",
+      "event": {
+        "title": "Presentación del libro Decadencia",
+        "event_type": "event",
+        "primary_category": {"id": "otros", "label": "Otros panoramas"}
+      },
+      "expected": {"id": "literatura-charlas-encuentros", "label": "Literatura, charlas y encuentros"}
+    },
+    {
+      "name": "unknown_source_becomes_unclassified",
       "event": {
         "title": "Ruta patrimonial",
         "event_type": "event",
         "primary_category": {"id": "patrimonio", "label": "Patrimonio"}
       },
-      "expected": {"id": "patrimonio", "label": "Patrimonio"}
+      "expected": {"id": "unclassified", "label": "Otros panoramas"}
     }
   ]
 }

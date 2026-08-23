@@ -8,11 +8,16 @@ import {
 } from "./public-category-taxonomy.generated.mjs";
 
 const RULES = PUBLIC_CATEGORY_TAXONOMY.rules;
-const EXPLICIT_TITLE_RULES = RULES.explicit_title.map((rule) => ({
+const FALLBACK_ID = PUBLIC_CATEGORY_TAXONOMY.fallback_category;
+const CATEGORY_ORDER = new Map(
+  (PUBLIC_CATEGORY_TAXONOMY.category_order || Object.keys(PUBLIC_CATEGORIES))
+    .map((id, index) => [id, index]),
+);
+const TITLE_EVIDENCE_RULES = RULES.title_evidence.map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
 }));
-const CULTURE_EVIDENCE_RULES = RULES.culture_evidence.map((rule) => ({
+const DESCRIPTION_EVIDENCE_RULES = RULES.description_evidence.map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
 }));
@@ -33,14 +38,18 @@ export function foldPublicCategoryText(value) {
 function sourceCategory(event) {
   const source = event?.primary_category || event?.categories?.[0] || null;
   const label = String(source?.label || "").trim();
-  const id = String(source?.id || foldPublicCategoryText(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
+  const id = String(source?.id || foldPublicCategoryText(label).replace(/\s+/g, "-"))
+    .trim()
+    .toLocaleLowerCase("es");
   return { id, label };
 }
 
 export function canonicalPublicCategory(category) {
   const raw = typeof category === "string" ? { id: category, label: "" } : (category || {});
   const label = String(raw?.label || "").trim();
-  const id = String(raw?.id || foldPublicCategoryText(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
+  const id = String(raw?.id || foldPublicCategoryText(label).replace(/\s+/g, "-"))
+    .trim()
+    .toLocaleLowerCase("es");
   const labelKey = foldPublicCategoryText(label);
   const canonicalId = PUBLIC_CATEGORY_ALIASES[id]
     || PUBLIC_CATEGORY_LABEL_ALIASES[labelKey]
@@ -60,7 +69,9 @@ export function isPublicCategoryInGroup(category, groupName) {
 
 export function publicCategorySymbol(category) {
   const id = canonicalPublicCategoryId(category);
-  return id && PUBLIC_CATEGORIES[id]?.symbol ? PUBLIC_CATEGORIES[id].symbol : PUBLIC_CATEGORIES[PUBLIC_CATEGORY_TAXONOMY.fallback_category].symbol;
+  return id && PUBLIC_CATEGORIES[id]?.symbol
+    ? PUBLIC_CATEGORIES[id].symbol
+    : PUBLIC_CATEGORIES[FALLBACK_ID].symbol;
 }
 
 export function publicEventTypeLabel(eventType) {
@@ -68,18 +79,12 @@ export function publicEventTypeLabel(eventType) {
 }
 
 function category(id) {
-  const config = PUBLIC_CATEGORIES[id] || PUBLIC_CATEGORIES[PUBLIC_CATEGORY_TAXONOMY.fallback_category];
-  return { id: PUBLIC_CATEGORIES[id] ? id : PUBLIC_CATEGORY_TAXONOMY.fallback_category, label: config.label };
+  const resolvedId = PUBLIC_CATEGORIES[id] ? id : FALLBACK_ID;
+  return { id: resolvedId, label: PUBLIC_CATEGORIES[resolvedId].label };
 }
 
-function evidenceText(event) {
-  return foldPublicCategoryText([
-    event?.title,
-    event?.description,
-    event?.organizer,
-    event?.source_name,
-    ...(event?.tags || []),
-  ].filter(Boolean).join(" "));
+function isThematicCategory(id) {
+  return Boolean(id && PUBLIC_CATEGORIES[id]?.thematic === true);
 }
 
 function isSummerProgram(event) {
@@ -88,44 +93,112 @@ function isSummerProgram(event) {
   return SUMMER_PROGRAM_RE.test(title) || SUMMER_REGISTRATION_RE.test(title);
 }
 
-function categoryFromRules(text, rules) {
+function descriptionEvidenceText(event) {
+  return foldPublicCategoryText([
+    event?.description,
+    ...(event?.tags || []),
+  ].filter(Boolean).join(" "));
+}
+
+function addEvidence(scores, evidence, categoryId, weight, kind, value) {
+  if (!isThematicCategory(categoryId) || !weight) return;
+  scores.set(categoryId, (scores.get(categoryId) || 0) + weight);
+  evidence.push({ category: categoryId, weight, kind, value });
+}
+
+function addRuleEvidence(scores, evidence, text, rules, kind) {
+  if (!text) return;
   for (const rule of rules) {
-    if (rule.regex.test(text)) return category(rule.category);
+    if (rule.regex.test(text)) {
+      addEvidence(scores, evidence, rule.category, Number(rule.weight || 0), kind, rule.pattern);
+    }
   }
-  return null;
 }
 
-function explicitTitleCategory(event) {
-  const title = foldPublicCategoryText(event?.title);
-  if (!title) return null;
-  if (SUMMER_PROGRAM_RE.test(title) || isSummerProgram(event)) return category("cursos-talleres-campus");
-  return categoryFromRules(title, EXPLICIT_TITLE_RULES);
+function confidenceForScore(score) {
+  if (score >= 120) return "high";
+  if (score >= 70) return "medium";
+  return score >= Number(RULES.minimum_score || 1) ? "low" : "unclassified";
 }
 
-function inferCultureCategory(event) {
-  const explicit = explicitTitleCategory(event);
-  if (explicit) return explicit;
-  return categoryFromRules(evidenceText(event), CULTURE_EVIDENCE_RULES)
-    || category(PUBLIC_CATEGORY_TAXONOMY.fallback_category);
+export function classifyPublicCategory(event) {
+  const scores = new Map();
+  const evidence = [];
+  const source = sourceCategory(event);
+  const canonicalSource = canonicalPublicCategory(source);
+  const recoveryHint = canonicalPublicCategory(event?.editorial?.category_recovery_hint || null);
+
+  if (isSummerProgram(event)) {
+    addEvidence(scores, evidence, "cursos-talleres-campus", 180, "event_type", "summer_program");
+  }
+
+  if (canonicalSource && isThematicCategory(canonicalSource.id)) {
+    addEvidence(
+      scores,
+      evidence,
+      canonicalSource.id,
+      Number(RULES.source_category_weight || 0),
+      "source_category",
+      source.id || source.label,
+    );
+  }
+
+  // Editorial recovery hints are evidence, never an authority bypass. They are
+  // deliberately weaker than a strong title signal.
+  if (recoveryHint && isThematicCategory(recoveryHint.id)) {
+    addEvidence(
+      scores,
+      evidence,
+      recoveryHint.id,
+      Number(RULES.recovery_hint_weight || RULES.source_category_weight || 0),
+      "recovery_hint",
+      String(event?.editorial?.category_recovery_hint || ""),
+    );
+  }
+
+  addRuleEvidence(
+    scores,
+    evidence,
+    foldPublicCategoryText(event?.title),
+    TITLE_EVIDENCE_RULES,
+    "title",
+  );
+  addRuleEvidence(
+    scores,
+    evidence,
+    descriptionEvidenceText(event),
+    DESCRIPTION_EVIDENCE_RULES,
+    "description",
+  );
+
+  const ranked = [...scores.entries()]
+    .filter(([, score]) => score >= Number(RULES.minimum_score || 1))
+    .sort((a, b) => (
+      b[1] - a[1]
+      || (CATEGORY_ORDER.get(a[0]) ?? Number.MAX_SAFE_INTEGER)
+        - (CATEGORY_ORDER.get(b[0]) ?? Number.MAX_SAFE_INTEGER)
+    ));
+
+  if (!ranked.length) {
+    return {
+      category: category(FALLBACK_ID),
+      confidence: "unclassified",
+      score: 0,
+      evidence,
+      source_category: source,
+    };
+  }
+
+  const [categoryId, score] = ranked[0];
+  return {
+    category: category(categoryId),
+    confidence: confidenceForScore(score),
+    score,
+    evidence,
+    source_category: source,
+  };
 }
 
 export function resolvePublicCategory(event) {
-  const source = sourceCategory(event);
-  const canonical = canonicalPublicCategory(source);
-  const explicit = explicitTitleCategory(event);
-  const fallbackId = PUBLIC_CATEGORY_TAXONOMY.fallback_category;
-
-  if (canonical && canonical.id !== source.id) return canonical;
-  if (isSummerProgram(event)) return category("cursos-talleres-campus");
-  // "Otros" is a fallback, not semantic authority. A strong title-level signal
-  // must be allowed to recover a more specific shared category after merges.
-  if (canonical?.id === fallbackId && explicit && explicit.id !== fallbackId) return explicit;
-  if (canonical && PUBLIC_CATEGORIES[canonical.id]) return canonical;
-  if (source.id === "cultura" || foldPublicCategoryText(source.label) === "cultura") return inferCultureCategory(event);
-  if (!source.id && !source.label) return explicit || category(fallbackId);
-
-  // Source-specific categories remain visible only when they are explicitly
-  // registered by the shared architecture contract. They are not redefined
-  // inside a city adapter.
-  return source;
+  return classifyPublicCategory(event).category;
 }

@@ -3,60 +3,99 @@
 
 export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
   "aliases": {
-    "actividad-panorama": "otros",
+    "actividad-panorama": "unclassified",
     "artes-visuales-museo": "exposiciones",
+    "charlas": "literatura-charlas-encuentros",
     "cursos": "cursos-talleres-campus",
     "cursos-talleres": "cursos-talleres-campus",
     "cursos-talleres-experiencias": "cursos-talleres-campus",
     "cursos-talleres-y-experiencias": "cursos-talleres-campus",
-    "deporte-bienestar": "naturaleza-deportes",
-    "deportes": "naturaleza-deportes",
-    "ferias": "ferias-gastronomia",
+    "deporte-bienestar": "deportes-actividad-fisica",
+    "deportes": "deportes-actividad-fisica",
+    "ferias": "ferias-vida-local",
+    "ferias-gastronomia": "ferias-vida-local",
     "formacion": "cursos-talleres-campus",
     "formacion-taller": "cursos-talleres-campus",
-    "gastronomia": "ferias-gastronomia",
-    "gastronomia-ferias": "ferias-gastronomia",
+    "gastronomia": "ferias-vida-local",
+    "gastronomia-ferias": "ferias-vida-local",
+    "literatura": "literatura-charlas-encuentros",
     "museos": "exposiciones",
-    "naturaleza-montana": "naturaleza-deportes",
+    "naturaleza": "naturaleza-aire-libre",
+    "naturaleza-deportes": "unclassified",
+    "naturaleza-montana": "naturaleza-aire-libre",
+    "otros": "unclassified",
+    "sin-clasificar": "unclassified",
     "talleres": "cursos-talleres-campus",
     "talleres-cursos": "cursos-talleres-campus",
-    "teatro-artes-escenicas": "teatro"
+    "teatro-artes-escenicas": "teatro",
+    "teatro-danza": "teatro"
   },
   "categories": {
     "cine": {
       "label": "Cine",
-      "symbol": "▣"
+      "symbol": "▣",
+      "thematic": true
     },
     "cursos-talleres-campus": {
       "label": "Cursos, talleres y experiencias",
-      "symbol": "✦"
+      "symbol": "✦",
+      "thematic": true
+    },
+    "deportes-actividad-fisica": {
+      "label": "Deportes y actividad física",
+      "symbol": "●",
+      "thematic": true
     },
     "exposiciones": {
       "label": "Exposiciones",
-      "symbol": "◇"
+      "symbol": "◇",
+      "thematic": true
     },
-    "ferias-gastronomia": {
-      "label": "Ferias y gastronomía",
-      "symbol": "◆"
+    "ferias-vida-local": {
+      "label": "Ferias y vida local",
+      "symbol": "◆",
+      "thematic": true
+    },
+    "literatura-charlas-encuentros": {
+      "label": "Literatura, charlas y encuentros",
+      "symbol": "◇",
+      "thematic": true
     },
     "musica": {
       "label": "Música",
-      "symbol": "♪"
+      "symbol": "♪",
+      "thematic": true
     },
-    "naturaleza-deportes": {
-      "label": "Naturaleza y deportes",
-      "symbol": "⌁"
-    },
-    "otros": {
-      "label": "Otros panoramas",
-      "symbol": "✦"
+    "naturaleza-aire-libre": {
+      "label": "Naturaleza y aire libre",
+      "symbol": "⌁",
+      "thematic": true
     },
     "teatro": {
-      "label": "Teatro",
-      "symbol": "◒"
+      "label": "Teatro y danza",
+      "symbol": "◒",
+      "thematic": true
+    },
+    "unclassified": {
+      "classification_state": "unclassified",
+      "label": "Otros panoramas",
+      "symbol": "✦",
+      "thematic": false
     }
   },
-  "description": "Fuente única de verdad para categorías públicas compartidas por todas las ciudades.",
+  "category_order": [
+    "musica",
+    "teatro",
+    "cine",
+    "exposiciones",
+    "cursos-talleres-campus",
+    "deportes-actividad-fisica",
+    "literatura-charlas-encuentros",
+    "naturaleza-aire-libre",
+    "ferias-vida-local",
+    "unclassified"
+  ],
+  "description": "Taxonomía temática compartida por todas las ciudades. La categoría pública se decide por evidencia semántica; las categorías de origen son sólo evidencia y el fallback interno es unclassified.",
   "event_type_labels": {
     "course": "Curso",
     "flexible_offer": "Actividad disponible",
@@ -64,7 +103,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "registration_period": "Inscripción",
     "workshop": "Taller"
   },
-  "fallback_category": "otros",
+  "fallback_category": "unclassified",
   "groups": {
     "exhibition": [
       "exposiciones"
@@ -74,25 +113,35 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ]
   },
   "label_aliases": {
-    "actividad panorama": "otros",
+    "actividad panorama": "unclassified",
     "artes visuales museo": "exposiciones",
     "cursos talleres y campus": "cursos-talleres-campus",
     "cursos talleres y experiencias": "cursos-talleres-campus",
     "cursos y talleres": "cursos-talleres-campus",
-    "deporte bienestar": "naturaleza-deportes",
-    "deportes": "naturaleza-deportes",
-    "ferias": "ferias-gastronomia",
-    "ferias y gastronomia": "ferias-gastronomia",
+    "deporte bienestar": "deportes-actividad-fisica",
+    "deportes": "deportes-actividad-fisica",
+    "deportes y actividad fisica": "deportes-actividad-fisica",
+    "ferias": "ferias-vida-local",
+    "ferias y gastronomia": "ferias-vida-local",
+    "ferias y vida local": "ferias-vida-local",
     "formacion": "cursos-talleres-campus",
     "formacion taller": "cursos-talleres-campus",
-    "gastronomia": "ferias-gastronomia",
-    "gastronomia ferias": "ferias-gastronomia",
+    "gastronomia": "ferias-vida-local",
+    "gastronomia ferias": "ferias-vida-local",
+    "literatura": "literatura-charlas-encuentros",
+    "literatura charlas y encuentros": "literatura-charlas-encuentros",
     "museos": "exposiciones",
-    "naturaleza montana": "naturaleza-deportes",
-    "naturaleza y deportes": "naturaleza-deportes",
+    "naturaleza montana": "naturaleza-aire-libre",
+    "naturaleza y aire libre": "naturaleza-aire-libre",
+    "naturaleza y deportes": "unclassified",
+    "otros": "unclassified",
+    "otros panoramas": "unclassified",
+    "sin clasificar": "unclassified",
     "talleres y cursos": "cursos-talleres-campus",
-    "teatro artes escenicas": "teatro"
+    "teatro artes escenicas": "teatro",
+    "teatro y danza": "teatro"
   },
+  "public_fallback_label": "Otros panoramas",
   "registered_source_ids": [
     "actividad-panorama",
     "artes-visuales-museo",
@@ -105,89 +154,149 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "cursos-talleres-y-experiencias",
     "deporte-bienestar",
     "deportes",
+    "deportes-actividad-fisica",
     "exposiciones",
     "ferias",
     "ferias-gastronomia",
+    "ferias-vida-local",
     "formacion",
     "formacion-taller",
     "gastronomia",
     "gastronomia-ferias",
+    "literatura",
+    "literatura-charlas-encuentros",
     "museos",
     "musica",
+    "naturaleza",
+    "naturaleza-aire-libre",
     "naturaleza-deportes",
     "naturaleza-montana",
     "otros",
     "patrimonio",
+    "sin-clasificar",
     "talleres",
     "talleres-cursos",
     "teatro",
-    "teatro-artes-escenicas"
+    "teatro-artes-escenicas",
+    "teatro-danza",
+    "unclassified"
   ],
   "rules": {
-    "culture_evidence": [
+    "description_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|clase magistral|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano|escuela de invierno|club de lectura|clubes de lectura|mediacion lectora|lectura guiada|actividad de lectura)\\b"
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion)\\b",
+        "weight": 35
       },
       {
         "category": "exposiciones",
-        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b"
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b",
+        "weight": 35
       },
       {
         "category": "cine",
-        "pattern": "\\b(?:cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\\b"
+        "pattern": "\\b(?:cine|pelicula|film|audiovisual|documental|cortometraje|largometraje|proyeccion)\\b",
+        "weight": 35
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\\b"
+        "pattern": "\\b(?:musica|musical|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj)\\b",
+        "weight": 30
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\\b"
+        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion)\\b",
+        "weight": 35
       },
       {
-        "category": "ferias-gastronomia",
-        "pattern": "\\b(?:feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\\b"
+        "category": "deportes-actividad-fisica",
+        "pattern": "\\b(?:deporte|deportes|deportivo|deportiva|ciclismo|running|futbol|baloncesto|voleibol|natacion|kayak|yoga|pilates|actividad fisica)\\b",
+        "weight": 35
       },
       {
-        "category": "naturaleza-deportes",
-        "pattern": "\\b(?:naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\\b"
+        "category": "literatura-charlas-encuentros",
+        "pattern": "\\b(?:libro|literatura|literario|lectura|poesia|conversatorio|charla|coloquio|conferencia|mesa redonda)\\b",
+        "weight": 35
+      },
+      {
+        "category": "naturaleza-aire-libre",
+        "pattern": "\\b(?:naturaleza|senderismo|trekking|excursion|caminata|aire libre|observacion de aves|avistamiento)\\b",
+        "weight": 35
+      },
+      {
+        "category": "ferias-vida-local",
+        "pattern": "\\b(?:feria|mercado|mercadillo|gastronomia|cocina|comida|degustacion|barrial|vecinal|costumbrista)\\b",
+        "weight": 35
       }
     ],
-    "explicit_title": [
-      {
-        "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno|club de lectura|mediacion lectora|lectura guiada|actividad de lectura)\\b"
-      },
-      {
-        "category": "exposiciones",
-        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\\b"
-      },
-      {
-        "category": "cine",
-        "pattern": "\\b(?:cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\\b"
-      },
-      {
-        "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|musica)\\b"
-      },
-      {
-        "category": "teatro",
-        "pattern": "\\b(?:teatro|danza|ballet|circo|performance|funcion|espectaculo)\\b"
-      },
-      {
-        "category": "otros",
-        "pattern": "\\b(?:presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\\b"
-      }
-    ],
+    "minimum_score": 35,
+    "recovery_hint_weight": 95,
+    "source_category_weight": 90,
     "summer_program_event_types": [
       "program",
       "registration_period"
     ],
     "summer_program_title_pattern": "\\b(?:campus|campamento|escuela de verano|escuela de invierno)\\b",
-    "summer_registration_title_pattern": "\\bverano\\b.*\\binscripciones?\\b|\\binscripciones?\\b.*\\bverano\\b"
+    "summer_registration_title_pattern": "\\bverano\\b.*\\binscripciones?\\b|\\binscripciones?\\b.*\\bverano\\b",
+    "title_evidence": [
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno)\\b",
+        "weight": 165
+      },
+      {
+        "category": "exposiciones",
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\\b",
+        "weight": 140
+      },
+      {
+        "category": "cine",
+        "pattern": "\\b(?:cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\\b",
+        "weight": 140
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica)\\b",
+        "weight": 140
+      },
+      {
+        "category": "teatro",
+        "pattern": "\\b(?:obra teatral|obra de teatro|teatro|danza|ballet|circo|performance|funcion teatral|espectaculo escenico)\\b",
+        "weight": 140
+      },
+      {
+        "category": "deportes-actividad-fisica",
+        "pattern": "\\b(?:torneo|campeonato|competencia|carrera|running|ciclismo|futbol|baloncesto|basket|voleibol|natacion|kayak|yoga|pilates|deporte|deportivo|deportiva)\\b",
+        "weight": 140
+      },
+      {
+        "category": "literatura-charlas-encuentros",
+        "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro|club de lectura|poesia|recital poetico|encuentro literario|conversatorio|charla|coloquio|mesa redonda|conferencia)\\b",
+        "weight": 140
+      },
+      {
+        "category": "naturaleza-aire-libre",
+        "pattern": "\\b(?:senderismo|trekking|excursion|caminata|ruta guiada|salida a terreno|observacion de aves|avistamiento|naturaleza|aire libre)\\b",
+        "weight": 140
+      },
+      {
+        "category": "ferias-vida-local",
+        "pattern": "\\b(?:feria|mercado|mercadillo|festival barrial|fiesta costumbrista|encuentro vecinal|gastronomia|degustacion)\\b",
+        "weight": 140
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bmusica\\b",
+        "weight": 75
+      },
+      {
+        "category": "teatro",
+        "pattern": "\\b(?:obra|escenicas|escenico|espectaculo)\\b",
+        "weight": 75
+      }
+    ]
   },
-  "schema_version": "1.0.0"
+  "schema_version": "2.0.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);
