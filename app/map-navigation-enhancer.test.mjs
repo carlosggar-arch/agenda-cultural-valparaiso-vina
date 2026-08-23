@@ -21,8 +21,8 @@ assert.match(source, /link\.removeAttribute\("style"\)/, "legacy inline map styl
 assert.match(source, /link\.replaceChildren\(makeMapIcon\(\)\)/, "legacy text arrows must be upgraded to the shared 18 px icon");
 assert.match(source, /focus-visible/, "map arrow must retain a visible keyboard focus state");
 
-const release = releaseSource.match(/const\\s+RELEASE\\s*=\\s*(\\d+)/)?.[1];
-const mapAssetVersion = indexSource.match(/map-navigation-enhancer\\.js\\?v=(\\d+)/)?.[1];
+const release = releaseSource.match(/const\s+RELEASE\s*=\s*(\d+)/)?.[1];
+const mapAssetVersion = indexSource.match(/map-navigation-enhancer\.js\?v=(\d+)/)?.[1];
 assert.ok(release, "shared PWA release must be declared");
 assert.equal(mapAssetVersion, release, "Maps module cache key must match the current PWA release");
 
