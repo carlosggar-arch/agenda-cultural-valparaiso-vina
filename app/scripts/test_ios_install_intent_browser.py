@@ -103,9 +103,15 @@ def run_intent_case(base: str) -> None:
                 return Boolean(chooser && !chooser.hidden);
                 """
             )
-            assert heading == "Instalar en iPhone o iPad"
-            assert "no se descarga automáticamente" in copy
+            assert heading == "Añádela a tu iPhone"
+            assert "Solo necesitas hacerlo una vez" in copy
+            assert "Compartir" in copy
             assert "Añadir a pantalla de inicio" in copy
+            assert "Abrir como app" in copy
+            assert copy.index("Compartir") < copy.index("Añadir a pantalla de inicio")
+            assert copy.index("Añadir a pantalla de inicio") < copy.index("Abrir como app")
+            assert len(driver.find_elements("css selector", ".install-help-steps li")) == 4
+            assert driver.switch_to.active_element.get_attribute("data-install-help-close") == ""
             assert chooser_visible is False, "install-intent help must not overlap the city chooser"
         finally:
             driver.quit()
