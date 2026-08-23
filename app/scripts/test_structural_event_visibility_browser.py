@@ -3,21 +3,21 @@ from __future__ import annotations
 import http.server
 import json
 import os
-import re
 import shutil
 import socketserver
-import subprocess
 import tempfile
 import threading
 import time
 from datetime import date, timedelta
 from pathlib import Path
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 ROOT = Path(__file__).resolve().parents[2]
-APP = ROOT / "app"
 DATASET = ROOT / "agenda_web.json"
-TEST_PAGE = APP / "__structural_visibility_test.html"
 
 THEATRE_ID = "agenda_111111111111111111111111"
 PCDV_IDS = ("agenda_222222222222222222222222", "agenda_333333333333333333333333")
@@ -27,6 +27,9 @@ ESTADIO_IDS = (
     "agenda_666666666666666666666666",
 )
 EXPECTED_IDS = (THEATRE_ID, *PCDV_IDS, *ESTADIO_IDS)
+READY_TIMEOUT_SECONDS = 20
+STABILITY_SAMPLES = 3
+STABILITY_INTERVAL_SECONDS = 0.2
 
 
 def chrome_binary() -> str:
@@ -35,6 +38,27 @@ def chrome_binary() -> str:
         if path:
             return path
     raise RuntimeError("No Chromium/Chrome binary available on the runner")
+
+
+def chrome_options(profile: str) -> Options:
+    options = Options()
+    options.binary_location = chrome_binary()
+    options.page_load_strategy = "eager"
+    for argument in (
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-extensions",
+        "--disable-sync",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--window-size=1280,1000",
+        f"--user-data-dir={profile}",
+    ):
+        options.add_argument(argument)
+    return options
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -129,88 +153,72 @@ def fixture_payload(original: dict) -> dict:
     }
 
 
-def make_test_page() -> None:
-    source = (APP / "index.html").read_text(encoding="utf-8")
-    expected_js = json.dumps(list(EXPECTED_IDS))
-    pcdv_js = json.dumps(list(PCDV_IDS))
-    estadio_js = json.dumps(list(ESTADIO_IDS))
-    diagnostic = f'''
-  <script>
-    (() => {{
-      const expected = {expected_js};
-      const pcdv = {pcdv_js};
-      const estadio = {estadio_js};
-      const visible = (node) => {{
-        if (!node || node.hidden || node.closest('[hidden]')) return false;
-        const style = getComputedStyle(node);
-        return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
-      }};
-      const represented = (id) => {{
-        const direct = [...document.querySelectorAll('[data-event-id]')]
-          .some((node) => node.dataset.eventId === id && visible(node));
-        const row = [...document.querySelectorAll('[data-grouped-event-id]')]
-          .some((node) => node.dataset.groupedEventId === id && visible(node));
-        return direct || row;
-      }};
-      const probe = () => {{
+def visibility_snapshot(driver: webdriver.Chrome) -> dict[str, object]:
+    return driver.execute_script(
+        """
+        const expected = arguments[0];
+        const pcdv = arguments[1];
+        const estadio = arguments[2];
+        const theatre = arguments[3];
+        const visible = (node) => {
+          if (!node || node.hidden || node.closest('[hidden]')) return false;
+          const style = getComputedStyle(node);
+          return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
+        };
+        const represented = (id) => {
+          const direct = [...document.querySelectorAll('[data-event-id]')]
+            .some((node) => node.dataset.eventId === id && visible(node));
+          const row = [...document.querySelectorAll('[data-grouped-event-id]')]
+            .some((node) => node.dataset.groupedEventId === id && visible(node));
+          return direct || row;
+        };
         const missing = expected.filter((id) => !represented(id));
         const group = [...document.querySelectorAll('[data-unified-exhibition-group="true"]')]
           .find((node) => pcdv.every((id) => String(node.dataset.eventGroup || '').split(',').includes(id)) && visible(node));
-        const teatroVisible = represented({json.dumps(THEATRE_ID)});
-        const estadioVisible = estadio.filter(represented).length;
-        const pcdvVisible = pcdv.filter(represented).length;
-        document.body.dataset.structuralVisibilityExpected = String(expected.length);
-        document.body.dataset.structuralVisibilityVisible = String(expected.length - missing.length);
-        document.body.dataset.structuralVisibilityMissing = missing.join(',');
-        document.body.dataset.structuralVisibilityPcdv = String(pcdvVisible);
-        document.body.dataset.structuralVisibilityPcdvGroup = group ? 'true' : 'false';
-        document.body.dataset.structuralVisibilityTheatre = teatroVisible ? 'true' : 'false';
-        document.body.dataset.structuralVisibilityEstadio = String(estadioVisible);
-      }};
-      for (const name of ['vivamos:agenda-rendered', 'vivamos:exhibition-groups-rendered', 'vivamos:core-ready']) {{
-        window.addEventListener(name, () => setTimeout(probe, 120));
-      }}
-      setTimeout(probe, 3500);
-    }})();
-  </script>'''
-    source = source.replace("</body>", diagnostic + "\n</body>", 1)
-    TEST_PAGE.write_text(source, encoding="utf-8")
-
-
-def dump_dom(url: str) -> str:
-    with tempfile.TemporaryDirectory(prefix="vivamos-visibility-", ignore_cleanup_errors=True) as profile:
-        cmd = [
-            chrome_binary(),
-            "--headless=new",
-            "--no-sandbox",
-            "--disable-gpu",
-            "--disable-dev-shm-usage",
-            "--disable-background-networking",
-            "--disable-extensions",
-            "--disable-sync",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--window-size=1280,1000",
-            "--virtual-time-budget=9000",
-            f"--user-data-dir={profile}",
-            "--dump-dom",
-            url,
-        ]
-        result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=35)
-        if result.returncode != 0 or not result.stdout:
-            raise AssertionError(f"Chrome structural visibility probe failed: {result.stderr[-1600:]}")
-        return result.stdout
-
-
-def diagnostic_values(dom: str) -> dict[str, str]:
-    names = (
-        "expected", "visible", "missing", "pcdv", "pcdv-group", "theatre", "estadio",
+        return {
+          ready: document.documentElement.dataset.vivamosReady === 'true',
+          expected: expected.length,
+          visible: expected.length - missing.length,
+          missing,
+          pcdv: pcdv.filter(represented).length,
+          pcdvGroup: Boolean(group),
+          theatre: represented(theatre),
+          estadio: estadio.filter(represented).length,
+        };
+        """,
+        list(EXPECTED_IDS),
+        list(PCDV_IDS),
+        list(ESTADIO_IDS),
+        THEATRE_ID,
     )
-    values: dict[str, str] = {}
-    for name in names:
-        match = re.search(rf'data-structural-visibility-{re.escape(name)}="([^"]*)"', dom)
-        values[name] = match.group(1) if match else "(absent)"
-    return values
+
+
+def fully_visible(snapshot: dict[str, object]) -> bool:
+    return bool(
+        snapshot.get("ready")
+        and snapshot.get("visible") == len(EXPECTED_IDS)
+        and not snapshot.get("missing")
+        and snapshot.get("pcdv") == len(PCDV_IDS)
+        and snapshot.get("theatre") is True
+        and snapshot.get("estadio") == len(ESTADIO_IDS)
+    )
+
+
+def wait_for_stable_visibility(driver: webdriver.Chrome) -> dict[str, object]:
+    latest: dict[str, object] = {}
+
+    def ready(current: webdriver.Chrome) -> bool:
+        nonlocal latest
+        latest = visibility_snapshot(current)
+        return fully_visible(latest)
+
+    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(ready)
+    for _ in range(STABILITY_SAMPLES):
+        time.sleep(STABILITY_INTERVAL_SECONDS)
+        latest = visibility_snapshot(driver)
+        if not fully_visible(latest):
+            raise AssertionError(f"Structural visibility became unstable after readiness: {latest}")
+    return latest
 
 
 def main() -> None:
@@ -219,7 +227,6 @@ def main() -> None:
     os.chdir(ROOT)
     try:
         DATASET.write_text(json.dumps(fixture_payload(original), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        make_test_page()
         handler = lambda *args, **kwargs: QuietHandler(*args, directory=str(ROOT), **kwargs)
         with socketserver.TCPServer(("127.0.0.1", 0), handler) as server:
             port = server.server_address[1]
@@ -227,31 +234,27 @@ def main() -> None:
             thread.start()
             time.sleep(0.2)
             try:
-                dom = dump_dom(f"http://127.0.0.1:{port}/app/__structural_visibility_test.html?city=valparaiso")
+                with tempfile.TemporaryDirectory(prefix="vivamos-visibility-", ignore_cleanup_errors=True) as profile:
+                    driver = webdriver.Chrome(options=chrome_options(profile))
+                    try:
+                        driver.get(f"http://127.0.0.1:{port}/app/index.html?city=valparaiso&structural-visibility=1")
+                        diagnostics = wait_for_stable_visibility(driver)
+                    finally:
+                        driver.quit()
             finally:
                 server.shutdown()
                 thread.join(timeout=2)
 
-        diagnostics = diagnostic_values(dom)
         print("STRUCTURAL_VISIBILITY_DIAGNOSTICS " + json.dumps(diagnostics, ensure_ascii=False, sort_keys=True))
-        expected_markers = {
-            'data-structural-visibility-expected="6"': "fixture count was not evaluated",
-            'data-structural-visibility-visible="6"': "one or more approved fixture events disappeared from the rendered agenda",
-            'data-structural-visibility-missing=""': "approved fixture IDs are missing from the visible DOM",
-            'data-structural-visibility-pcdv="2"': "one or more Parque Cultural exhibitions were lost or hidden",
-            'data-structural-visibility-theatre="true"': "theatre event was lost or hidden",
-            'data-structural-visibility-estadio="3"': "one or more Estadio Español events were lost or hidden",
-        }
-        for marker, message in expected_markers.items():
-            if marker not in dom:
-                raise AssertionError(message + f"; diagnostics={diagnostics}; expected marker {marker}")
+        if not fully_visible(diagnostics):
+            raise AssertionError(f"one or more approved fixture events disappeared from the rendered agenda: {diagnostics}")
         print(
             "Structural event visibility browser contract: OK "
-            f"(theatre + Parque Cultural + Estadio Español; grouping={diagnostics['pcdv-group']})"
+            f"(theatre + Parque Cultural + Estadio Español; grouping={diagnostics['pcdvGroup']}; "
+            f"stable_samples={STABILITY_SAMPLES})"
         )
     finally:
         DATASET.write_text(original_text, encoding="utf-8")
-        TEST_PAGE.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

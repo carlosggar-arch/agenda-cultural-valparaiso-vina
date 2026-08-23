@@ -11,6 +11,7 @@ SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8
 BROWSER_SMOKE = (ROOT / "app/scripts/production_browser_selenium_smoke.py").read_text(encoding="utf-8")
 WARM_SMOKE = (ROOT / "app/scripts/production_warm_start_smoke.py").read_text(encoding="utf-8")
 PWA_PARITY = (ROOT / "app/scripts/test_web_pwa_visibility_parity.py").read_text(encoding="utf-8")
+ATTESTATION = (ROOT / "app/scripts/production_release_attestation.py").read_text(encoding="utf-8")
 APP = (ROOT / "app/app.js").read_text(encoding="utf-8")
 PWA = (ROOT / "app/pwa.js").read_text(encoding="utf-8")
 SOURCES = (ROOT / "app/sources-toggle.js").read_text(encoding="utf-8")
@@ -44,6 +45,7 @@ def main() -> None:
         '      - "app/scripts/production_browser_selenium_smoke.py"',
         '      - "app/scripts/production_warm_start_smoke.py"',
         '      - "app/scripts/test_web_pwa_visibility_parity.py"',
+        '      - "app/scripts/production_release_attestation.py"',
         '      - ".github/workflows/production-pwa-smoke.yml"',
     ):
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
@@ -65,10 +67,18 @@ def main() -> None:
     assert "python app/scripts/production_browser_selenium_smoke.py" in production
     assert "python app/scripts/production_pwa_smoke.py browser" not in production
     assert "python app/scripts/production_warm_start_smoke.py" in production
-    assert "python app/scripts/test_web_pwa_visibility_parity.py --production" in production
+    assert "python app/scripts/test_web_pwa_visibility_parity.py" in production
+    assert "--production" in production and "--json-output" in production
+    assert "Create auditable production release attestation" in production
+    assert "python app/scripts/production_release_attestation.py" in production
+    assert "production-release-attestation.json" in production
+    assert "production-release-verification-${{ github.run_id }}" in production
+    assert "grep -q '^PRODUCTION_RELEASE_VERIFIED '" in production
+    assert "actions/upload-artifact@v4" in production
+    assert "retention-days: 30" in production
     assert "Warm-reopen Valpo mobile on GitHub Pages and Cloudflare" in production
     assert "Require exact live WEB versus cached PWA event IDs" in production
-    assert "timeout-minutes: 25" in production
+    assert "timeout-minutes: 28" in production
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
 
@@ -85,6 +95,8 @@ def main() -> None:
     assert "production_pwa_smoke.py http" not in REQUIRED
     assert "production_pwa_smoke.py browser" not in REQUIRED
     assert "production_warm_start_smoke.py" in REQUIRED, "Required gate must at least compile the warm-smoke owner"
+    assert "production_release_attestation.py" in REQUIRED, "Required gate must compile the attestation owner"
+    assert "test_production_release_attestation.py" in REQUIRED, "Required gate must execute the attestation unit contract"
     assert "test_web_pwa_visibility_parity.py --local" in REQUIRED, "Required gate must prove local live/cached exact-ID parity"
     assert "node --check app/sources-toggle.js" in REQUIRED
 
@@ -146,12 +158,30 @@ def main() -> None:
         'data-combined-when',
         "WEB_PWA_VISIBILITY_PARITY_OK",
         "WEB_PWA_VISIBILITY_MISMATCH",
+        "WEB_PWA_VISIBILITY_REPORT_OK",
+        "--json-output",
+        '"ids": exact_ids',
         "Network.emulateNetworkConditions",
         "wait_service_worker",
         '"github-pages"',
         '"cloudflare"',
     ):
         assert marker in PWA_PARITY, f"Exact WEB/PWA parity smoke missing: {marker}"
+
+    for marker in (
+        "CRITICAL_ASSETS",
+        "remote_hash_attestation",
+        "hashlib.sha256(fetch_bytes(base, remote))",
+        "validate_http_log",
+        "validate_browser_log",
+        "parse_warm_metrics",
+        "validate_parity_report",
+        "Cross-origin exact-ID mismatch",
+        "PRODUCTION_RELEASE_VERIFIED",
+        '"network_reverified": verify_network',
+        '"release_id": bundle.get("release_id")',
+    ):
+        assert marker in ATTESTATION, f"Production release attestation missing: {marker}"
 
     for marker in ("sources-toggle.js", "community-source.js", "participation-footer.js"):
         assert marker in APP, f"app.js lost content module ownership: {marker}"
