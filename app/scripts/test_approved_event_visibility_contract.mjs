@@ -61,8 +61,8 @@ assert.match(appJs, /footer-credit\.js/);
 assert.doesNotMatch(appJs, /^import "\.\/(?:category-normalizer|title-normalizer-bootstrap|session-occurrence-normalizer|program-visibility-policy)\.js/m);
 assert.doesNotMatch(appJs, /exhibition-venue-grouping|exhibition-gallery\.js|exhibition-compact-loader|presentation-normalizer\.js/);
 
-// Approved-event normalization is deterministic and uses the same canonical
-// data pipeline as the combined filters.
+// Approved-event normalization is deterministic. App core executes the single
+// canonical pipeline and combined filters consume its published snapshot.
 assert.match(appCore, /loadAgendaDataset/);
 assert.match(pipeline, /applyEventDataCorrections/);
 assert.match(pipeline, /normalizeAgendaCategories/);
@@ -94,13 +94,14 @@ assert.match(groupingCore, /clusterSimultaneousExhibitions/);
 assert.match(groupingCore, /exhibitionGroupingVenueKey/);
 
 // Combined filters can still import pure category helpers, but must load through
-// a versioned module and use the normalized agenda pipeline.
+// a versioned module and use the normalized runtime snapshot.
 assert.match(bootstrap, /^import "\.\/category-normalizer\.js/m);
 assert.match(bootstrap, /await import\("\.\/combined-filters\.js\?v=[^"]+"\)/);
 assert.doesNotMatch(bootstrap, /approved-event-integrity|MutationObserver|repair\(/);
 assert.match(index, /src="\.\/combined-filters-bootstrap\.js"/);
 assert.doesNotMatch(index, /src="\.\/combined-filters\.js"/);
-assert.match(combined, /loadAgendaDataset/);
+assert.match(combined, /getAgendaRuntimeSnapshot/);
+assert.doesNotMatch(combined, /loadAgendaDataset/);
 assert.doesNotMatch(combined, /fetch\(CITY_CONFIG\[cityId\]\.dataset/);
 assert.match(combined, /forceBaseAppFilters\(\)/);
 assert.match(combined, /data-section-filter="todos"/);

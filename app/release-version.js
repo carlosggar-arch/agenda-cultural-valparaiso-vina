@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v207 invalidates the shell cache for the mixed date-range lifecycle fix.
-  const RELEASE = 207;
+  // v208 makes WEB and APP consume one canonical dataset and selection authority.
+  const RELEASE = 208;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

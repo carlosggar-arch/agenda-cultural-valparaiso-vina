@@ -360,6 +360,7 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     secondaryPrograms: programResult.secondaryPrograms || [],
     hiddenPrograms: programResult.hiddenPrograms || [],
     diagnostics,
+    referenceNow: now,
   };
   publishAgendaRuntimeSnapshot(city, result);
   if (cacheEligible) void writeProcessedResult(city, payloadResult.sourceSignature, result);

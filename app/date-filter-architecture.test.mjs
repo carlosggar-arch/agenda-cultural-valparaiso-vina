@@ -18,26 +18,21 @@ const scheduleDisplay = read("./schedule-display.js");
 const exhibitionHours = read("./exhibition-hours.js");
 const runtimeState = read("./agenda-runtime-state.mjs");
 const presentationAdapter = read("./city-presentation-adapter.mjs");
+const canonicalSelection = read("./public-selection-core.mjs");
 
-assert.match(combined, /^import \{ loadAgendaDataset \} from "\.\/data-pipeline\.js/m);
-assert.match(combined, /const result = await loadAgendaDataset\(CITY_CONFIG\[cityId\]\)/);
+assert.match(combined, /^import \{ getAgendaRuntimeSnapshot \} from "\.\/agenda-runtime-state\.mjs/m);
+assert.match(combined, /const result = getAgendaRuntimeSnapshot\(cityId\)/);
+assert.doesNotMatch(combined, /loadAgendaDataset/);
 assert.doesNotMatch(
   combined,
   /fetch\s*\(\s*CITY_CONFIG\[cityId\]\.dataset/,
   "combined filters must never reload the raw city dataset independently",
 );
 
-assert.match(combined, /const occurrences = event\?\.schedule\?\.occurrences;/);
-assert.match(combined, /if \(Array\.isArray\(occurrences\) && occurrences\.length\)/);
-assert.match(combined, /return occurrences\.map\(\(occurrence\) => \(\{/);
-assert.match(combined, /const ranges = eventDateRanges\(event\);/);
-
-for (const source of [core, combined]) {
-  assert.match(source, /const daysToFriday = weekday === 5 \? 0 : weekday === 6 \? -1 : weekday === 0 \? -2 : 5 - weekday;/);
-  assert.match(source, /const friday = addDays\(todayKey, daysToFriday\);/);
-  assert.match(source, /return \{ start: friday, end: addDays\(friday, 2\) \};/);
-  assert.doesNotMatch(source, /daysToSaturday/);
-}
+assert.match(core, /eventMatchesCanonicalSection/);
+assert.match(combined, /eventMatchesCanonicalSection/);
+assert.match(canonicalSelection, /eventDateRanges/);
+assert.match(canonicalSelection, /weekendBounds/);
 
 const fakeRoot = {
   querySelector(selector) {

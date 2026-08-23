@@ -1,6 +1,6 @@
-import * as base from "./agenda-core-base.mjs";
+import * as base from "./agenda-core-base.mjs?v=20260823-selection1";
 
-export * from "./agenda-core-base.mjs";
+export * from "./agenda-core-base.mjs?v=20260823-selection1";
 
 const ROOT_TIME_ZONE = base.DISPLAY_TIME_ZONE || "America/Santiago";
 

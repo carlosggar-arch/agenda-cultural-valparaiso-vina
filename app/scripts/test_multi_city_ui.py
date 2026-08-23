@@ -104,7 +104,9 @@ assert "characterData: true" not in render_lifecycle
 
 # Filtering remains registry/data driven and participates in the same normalized
 # pipeline instead of fetching a separate presentation dataset.
-assert "loadAgendaDataset" in combined
+assert "getAgendaRuntimeSnapshot" in combined
+assert "loadAgendaDataset" not in combined
+assert "eventMatchesCanonicalSection" in combined
 assert "function eventMatchesWhen" in combined
 assert "function eventMatchesArea" in combined
 assert "function eventMatchesCategories" in combined
