@@ -4,6 +4,7 @@ import {
   classifyTemporalEvent,
   eventDateRanges,
 } from "./temporal-priority-core.mjs?v=20260821-temporal4";
+import { compareEditorialPriority } from "./editorial-priority-core.mjs?v=20260823-editorial1";
 
 export const AGENDA_DIVERSITY_POLICY = Object.freeze({
   windowSize: 8,
@@ -156,10 +157,11 @@ function diversifyBand(events, policy) {
 }
 
 /**
- * Optional per-city presentation rank used only after the shared temporal
- * semantics are tied. Categories are deliberately neutral here: selecting
- * "Todas" must not make one cultural category intrinsically more important
- * than another. A city may only use local area preferences as a final tie-break.
+ * Optional per-city presentation rank used only after the shared temporal and
+ * editorial semantics are tied. Categories are deliberately neutral here:
+ * selecting "Todas" must not make one cultural category intrinsically more
+ * important than another. A city may only use local area preferences as a
+ * final tie-break.
  */
 export function agendaPresentationRank(event, city) {
   const policy = city?.presentation_order;
@@ -174,7 +176,8 @@ export function agendaPresentationRank(event, city) {
 }
 
 /**
- * Shared multi-city semantic order, excluding local presentation and title.
+ * Shared multi-city semantic order, excluding editorial relevance, local
+ * presentation and title.
  *
  * Global order:
  *   temporal bucket -> content kind -> shorter span -> nearest ending date
@@ -208,13 +211,18 @@ export function compareAgendaSemanticPriority(a, b, city, now = new Date()) {
 /**
  * Single authority for visible agenda ordering in every city.
  *
- * Time and event semantics always come first. City-specific presentation is
- * only an optional tie-break, followed by the localized title. This prevents
- * an area or category preference from outranking an event that is more urgent.
+ * Time and event semantics always come first. A transparent factual editorial
+ * score is allowed to break only a semantic tie. City-specific presentation is
+ * then an optional local tie-break, followed by the localized title. This keeps
+ * cultural judgment out of temporal urgency while still preferring better
+ * documented or explicitly singular events when everything temporal is equal.
  */
 export function compareAgendaOrder(a, b, city, now = new Date()) {
   const semanticDiff = compareAgendaSemanticPriority(a, b, city, now);
   if (semanticDiff) return semanticDiff;
+
+  const editorialDiff = compareEditorialPriority(a, b, city);
+  if (editorialDiff) return editorialDiff;
 
   const presentationDiff = agendaPresentationRank(a, city) - agendaPresentationRank(b, city);
   if (presentationDiff) return presentationDiff;
