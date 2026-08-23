@@ -53,7 +53,7 @@ def check_single_release_source() -> None:
     assert not re.search(r'const CACHE_VERSION = "v\d+"', sw), "hard-coded cache version returned"
     assert not re.search(r'service-worker\.js\?v=\d+', pwa), "hard-coded service-worker query version returned"
     assert not re.search(r'data-app-version>PWA v\d+<', index), "HTML footer must not carry a second release number"
-    release_keyed = re.findall(r'src="(\\./[^"?]+\\.js)\\?v=(\\d{1,5})"', index)
+    release_keyed = re.findall(r'src="(\./[^"?]+\.js)\?v=(\d{1,5})"', index)
     assert release_keyed, "index must expose at least one release-keyed JavaScript entrypoint"
     stale = [f"{asset}?v={version}" for asset, version in release_keyed if int(version) != release]
     assert not stale, f"all release-keyed entrypoints must use canonical v{release}: {stale}"
