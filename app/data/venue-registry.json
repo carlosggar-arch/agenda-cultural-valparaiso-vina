@@ -1,10 +1,11 @@
 {
-  "schema_version": "1.0.0",
-  "updated_at": "2026-08-20",
+  "schema_version": "1.1.0",
+  "updated_at": "2026-08-23",
   "policy": {
     "canonical_data_source": "app/data/venue-registry.json",
     "runtime_module": "app/venue-registry.generated.mjs",
     "require_official_source_for_permanent_hours": true,
+    "require_verified_source_for_navigation": true,
     "preserve_original_venue_alias": true
   },
   "venues": [
@@ -13,6 +14,10 @@
       "city_names": ["Valparaíso"],
       "canonical_name": "Museo de Historia Natural de Valparaíso",
       "aliases": ["Museo de Historia Natural de Valparaíso", "MHNV"],
+      "address": "Condell 1546, Valparaíso",
+      "location_source_name": "Museo de Historia Natural de Valparaíso — Planifica tu visita",
+      "location_source_url": "https://www.mhnv.gob.cl/planifica-tu-visita",
+      "location_verified_at": "2026-08-23",
       "opening_hours": {
         "display": "Mar–vie 10:00–18:00 · sáb 11:00–16:00 · dom/lun/festivos cerrado",
         "source_name": "Museo de Historia Natural de Valparaíso — Planifica tu visita",
@@ -24,13 +29,21 @@
       "id": "museo_palacio_rioja",
       "city_names": ["Viña del Mar"],
       "canonical_name": "Museo Palacio Rioja",
-      "aliases": ["Museo Palacio Rioja", "Palacio Rioja"]
+      "aliases": ["Museo Palacio Rioja", "Palacio Rioja"],
+      "address": "Calle Quillota 214, Viña del Mar",
+      "location_source_name": "Municipalidad de Viña del Mar — Visita Viña",
+      "location_source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
+      "location_verified_at": "2026-08-23"
     },
     {
       "id": "museo_baburizza",
       "city_names": ["Valparaíso"],
       "canonical_name": "Museo Baburizza",
-      "aliases": ["Museo Baburizza", "Palacio Baburizza"]
+      "aliases": ["Museo Baburizza", "Palacio Baburizza"],
+      "address": "Paseo Yugoslavo 176, Valparaíso",
+      "location_source_name": "Municipalidad de Valparaíso — Valpocultura",
+      "location_source_url": "https://valpocultura.cl/espacios-culturales/",
+      "location_verified_at": "2026-08-23"
     },
     {
       "id": "museu_pueblu_asturies",
@@ -147,6 +160,10 @@
       "venue_ids": ["3224"],
       "canonical_name": "Centro de Cultura Antiguo Instituto",
       "aliases": ["Centro de Cultura Antiguo Instituto", "Antiguo Instituto"],
+      "address": "C/Jovellanos, 21, Gijón",
+      "location_source_name": "Open Data Ayuntamiento de Gijón/Xixón",
+      "location_source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "location_verified_at": "2026-08-23",
       "opening_hours": {
         "display": "Lun–vie 09:00–21:00 · sáb 11:00–14:00 y 16:00–21:00 · dom y festivos 11:00–14:00.",
         "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Directorio de centros",
@@ -237,6 +254,508 @@
         "source_url": "https://www.turismoasturias.es/es/descubre/cultura/museos-y-espacios-culturales/otros-espacios/palacio-de-revillagigedo",
         "verified_at": "2026-08-17"
       }
+    },
+    {
+      "id": "bioparc_acuario_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "BIOPARC Acuario de Gijón",
+      "aliases": ["BIOPARC Acuario de Gijón"],
+      "address": "Playa de Poniente S/N, 33212 Gijón, Asturias",
+      "coordinates": {"latitude": 43.542138, "longitude": -5.67691},
+      "location_source_name": "BIOPARC Acuario de Gijón — Cómo llegar",
+      "location_source_url": "https://acuariogijon.es/prepara-tu-visita/informacion-de-interes/como-llegar/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "auditorio_bioparc_acuario_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Auditorio del BIOPARC Acuario de Gijón",
+      "aliases": ["Auditorio del BIOPARC Acuario de Gijón"],
+      "address": "Playa de Poniente S/N, 33212 Gijón, Asturias",
+      "coordinates": {"latitude": 43.542138, "longitude": -5.67691},
+      "location_source_name": "BIOPARC Acuario de Gijón — Cómo llegar",
+      "location_source_url": "https://acuariogijon.es/prepara-tu-visita/informacion-de-interes/como-llegar/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "espacio_joven_escuela_comercio_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Espacio Joven. Escuela de Comercio de Gijón.",
+      "aliases": ["Espacio Joven. Escuela de Comercio de Gijón.", "Espacio Joven de la Escuela de Comercio"],
+      "address": "C/Francisco Tomás y Valiente, 1, 33201 Gijón",
+      "location_source_name": "Ayuntamiento de Gijón/Xixón — Oficina de Juventud",
+      "location_source_url": "https://drupal.gijon.es/sites/default/files/2025-05/LQMfaltaba-D%C3%ADpA5-2025_OK_pags.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "laboral_ciudad_cultura",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Laboral Ciudad de la Cultura",
+      "aliases": ["Laboral Ciudad de la Cultura"],
+      "address": "Calle Luis Moya Blanco, 261, 33203 Gijón/Xixón, Asturias",
+      "location_source_name": "Laboral Ciudad de la Cultura — Contacto",
+      "location_source_url": "https://www.laboralciudaddelacultura.com/es/contacto",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_laboral_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Teatro de la Laboral",
+      "aliases": ["Teatro de la Laboral"],
+      "address": "Calle Luis Moya Blanco, 261, 33203 Gijón/Xixón, Asturias",
+      "location_source_name": "Laboral Ciudad de la Cultura — Contacto",
+      "location_source_url": "https://www.laboralciudaddelacultura.com/es/contacto",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "iglesia_laboral_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Iglesia de la Laboral",
+      "aliases": ["Iglesia de la Laboral"],
+      "address": "Calle Luis Moya Blanco, 261, 33203 Gijón/Xixón, Asturias",
+      "location_source_name": "Laboral Ciudad de la Cultura — Contacto",
+      "location_source_url": "https://www.laboralciudaddelacultura.com/es/contacto",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "palacio_congresos_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Palacio de Congresos de Gijón",
+      "aliases": ["Palacio de Congresos de Gijón"],
+      "address": "Paseo Doctor Fleming, 481, 33203 Gijón",
+      "location_source_name": "Cámara de Comercio de Gijón — Contacto",
+      "location_source_url": "https://recintoferialasturias.camaragijon.es/es/contacto/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "recinto_ferial_luis_adaro",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Recinto Ferial de Asturias Luis Adaro",
+      "aliases": ["Recinto Ferial de Asturias Luis Adaro"],
+      "address": "Paseo Doctor Fleming, 481, 33203 Gijón",
+      "location_source_name": "Cámara de Comercio de Gijón — Contacto",
+      "location_source_url": "https://recintoferialasturias.camaragijon.es/es/contacto/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_albeniz_gijon",
+      "city_names": ["Gijón", "Gijón/Xixón"],
+      "canonical_name": "Teatro Albéniz",
+      "aliases": ["Teatro Albéniz"],
+      "address": "Calle San Bernardo 62, 33201 Gijón, Asturias",
+      "location_source_name": "Festival Internacional de Cine de Gijón/Xixón — Sedes",
+      "location_source_url": "https://drupal.gijon.es/sites/default/files/2020-06/2019_pdm_57.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "parque_cultural_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Parque Cultural de Valparaíso",
+      "aliases": ["Parque Cultural de Valparaíso", "Parque Cultural de Valparaíso - Ex Cárcel", "Parque Cultural de Valparaíso – Ex Cárcel"],
+      "address": "Cumming 590, Cerro Cárcel, Valparaíso",
+      "location_source_name": "Parque Cultural Valparaíso — Ubicación",
+      "location_source_url": "https://parquecultural.cl/ubicacion/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_aula_magna_usm",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Teatro Aula Magna USM",
+      "aliases": ["Teatro Aula Magna USM", "Teatro Aula Magna de la Universidad Santa María, Valparaíso", "Teatro Aula Magna, Campus Casa Central USM, Av. España 1680"],
+      "address": "Avenida España 1680, Valparaíso",
+      "location_source_name": "Universidad Técnica Federico Santa María — Teatro Aula Magna",
+      "location_source_url": "https://extension.usm.cl/recinto/teatro-aula-magna/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_mauri_scd",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Teatro Mauri SCD",
+      "aliases": ["Teatro Mauri SCD", "Teatro Mauri SCD, Valparaíso", "Teatro Mauri SCD, Av. Alemania 6985, Cerro Bellavista"],
+      "address": "Av. Alemania 6985, Cerro Bellavista, Valparaíso",
+      "location_source_name": "Salas SCD — Teatro Mauri",
+      "location_source_url": "https://salasscd.cl/sitio/teatro-mauri/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "balmaceda_arte_joven_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Balmaceda Arte Joven - Valparaíso",
+      "aliases": ["Balmaceda Arte Joven - Valparaíso", "Balmaceda Arte Joven - Valparaíso, Valparaíso", "Balmaceda Arte Joven Valparaíso"],
+      "address": "Santa Isabel 739, Cerro Alegre, Valparaíso",
+      "location_source_name": "Balmaceda Arte Joven — sede Valparaíso",
+      "location_source_url": "https://www.baj.cl/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "centex_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "CENTEX",
+      "aliases": ["CENTEX", "Centro de Extensión del Ministerio de las Culturas"],
+      "address": "Sotomayor 233, Valparaíso",
+      "location_source_name": "Ministerio de las Culturas — CENTEX",
+      "location_source_url": "https://centex.cultura.gob.cl/wp-content/uploads/2018/05/libro-digital-edificio-ministerio.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "duoc_extension_cousino_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Centro de Extensión Duoc UC — Edificio Cousiño",
+      "aliases": ["Centro de Extensión Duoc UC — Edificio Cousiño", "Centro de Extensión Duoc UC Edificio Cousiño", "Centro de Extensión Duoc UC Valparaíso"],
+      "address": "Avenida Errázuriz 1020, Valparaíso",
+      "location_source_name": "Duoc UC Extensión — Centro de Extensión Cousiño",
+      "location_source_url": "https://extension.duoc.cl/duoc-en-la-sociedad/talleres/taller-de-huertas-urbanas-duoc-uc-centro-de-extension-cousino/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "insomnia_teatro_condell",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "INSOMNIA Teatro Condell",
+      "aliases": ["INSOMNIA Teatro Condell", "Cine Insomnia Teatro Condell", "Cine Insomnia"],
+      "address": "Condell 1585, Valparaíso",
+      "location_source_name": "INSOMNIA Teatro Condell — Quiénes somos",
+      "location_source_url": "https://www.insomniacine.cl/quienes-somos/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "club_segundo_piso_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Club Segundo Piso",
+      "aliases": ["Club Segundo Piso", "Club Segundo Piso, Valparaíso", "Av Brasil 1395", "Av. Brasil 1395"],
+      "address": "Av. Brasil 1395, Valparaíso",
+      "location_source_name": "PortalTickets — Club Segundo Piso",
+      "location_source_url": "https://www.portaldisc.com/cartelera/clubsegundopiso",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "cassot_bar_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Cassot Bar",
+      "aliases": ["Cassot Bar", "Cassot Bar, Valparaíso"],
+      "address": "Av. Ecuador 110, Valparaíso",
+      "location_source_name": "Cassot Bar — sitio oficial",
+      "location_source_url": "https://cassot.cl/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "espacio_la_compania_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Espacio La Compañía",
+      "aliases": ["Espacio La Compañía", "Espacio la Compañía, Valparaíso"],
+      "address": "Eusebio Lillo 409, Valparaíso",
+      "location_source_name": "Ministerio de las Culturas — Directorio de Espacios Culturales",
+      "location_source_url": "https://ciudadania.cultura.gob.cl/wp-content/uploads/2025/12/Directorio_Espacios-Culturales-2025_RC.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "galeria_municipal_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Galería Municipal de Arte de Valparaíso",
+      "aliases": ["Galería Municipal de Arte de Valparaíso", "Galería Municipal de Arte"],
+      "address": "Condell 1550, Valparaíso",
+      "location_source_name": "Municipalidad de Valparaíso — Valpocultura",
+      "location_source_url": "https://valpocultura.cl/espacios-culturales/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "biblioteca_playa_ancha",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Biblioteca Municipal Playa Ancha",
+      "aliases": ["Biblioteca Municipal Playa Ancha", "Biblioteca Municipal de Playa Ancha", "Biblioteca de Playa Ancha"],
+      "address": "Av. Playa Ancha 205, Valparaíso",
+      "location_source_name": "Municipalidad de Valparaíso — Valpocultura",
+      "location_source_url": "https://valpocultura.cl/espacios-culturales/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_ipa_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Teatro IPA",
+      "aliases": ["Teatro IPA", "Teatro IPA, Valparaíso", "Sala Teatro IPA", "Centro Cultural IPA"],
+      "address": "Condell 1349, Valparaíso",
+      "location_source_name": "Valparaíso Región Creativa — Centro Cultural IPA",
+      "location_source_url": "https://www.valparaisocreativo.cl/centro-cultural-ipa-anuncia-convocatoria-abierta-para-2026-y-avanza-firme-a-los-100-anos-de-vida/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "campus_curauma_pucv",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Campus Curauma PUCV",
+      "aliases": ["Campus Curauma PUCV", "Campus Curauma", "Campus Curauma. Avenida Universidad 330, Placilla, Valparaíso.", "Campus Curauma. Avenida Universidad 330, Curauma, Valparaíso"],
+      "address": "Avenida Universidad 330, Curauma, Valparaíso",
+      "location_source_name": "Pontificia Universidad Católica de Valparaíso — Campus Curauma",
+      "location_source_url": "https://www.pucv.cl/uuaa/contacto-2",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "casa_polanco_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Casa Polanco",
+      "aliases": ["Casa Polanco", "Casa Polanco, Valparaíso", "Centro Cultural Casa Polanco"],
+      "address": "Cicarelli 41, Cerro Polanco, Valparaíso",
+      "location_source_name": "PortalTickets — Casa Polanco",
+      "location_source_url": "https://portaldisc.com/evento/elartedelvolantin",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_la_peste_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Centro de Investigación Teatro La Peste",
+      "aliases": ["Centro de Investigación Teatro La Peste", "Teatro La Peste"],
+      "address": "Escala Camila 62, Valparaíso",
+      "location_source_name": "Valparaíso Región Creativa — Teatro La Peste",
+      "location_source_url": "https://www.valparaisocreativo.cl/centro-de-formacion-teatro-la-peste-realizara-taller-de-practica-escenica/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "club_aleman_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Club Alemán de Valparaíso",
+      "aliases": ["Club Alemán de Valparaíso", "CLUB ALEMÁN de Valparaíso", "CLUB ALEMÁN de Valparaíso, Valparaíso"],
+      "address": "Salvador Donoso 1337, Valparaíso",
+      "location_source_name": "DAV Valparaíso — sede en Club Alemán",
+      "location_source_url": "https://www.dav-valparaiso.cl/dav/sede/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "destino_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Destino Valparaíso",
+      "aliases": ["Destino Valparaíso", "Destino Valparaíso, Valparaíso", "Aula Destino Valparaíso"],
+      "address": "Concepción 499, Cerro Concepción, Valparaíso",
+      "location_source_name": "Pontificia Universidad Católica de Valparaíso — Destino Valparaíso",
+      "location_source_url": "https://www.pucv.cl/pucv/lanzamiento-campana-hazte-socio-del-refugio-de-cristo",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "emporio_echaurren_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Emporio Echaurren",
+      "aliases": ["Emporio Echaurren", "Emporio Echaurren, Valparaíso"],
+      "address": "Clave 243, Valparaíso",
+      "location_source_name": "Emporio Echaurren — reservas y dirección",
+      "location_source_url": "https://emporioechaurren.setmore.com/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "espacio_barcelona_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Espacio Barcelona",
+      "aliases": ["Espacio Barcelona", "Espacio Barcelona, Valparaíso", "Sala Barcelona"],
+      "address": "Gral. Cruz 363, Valparaíso",
+      "location_source_name": "PortalTickets — Espacio Barcelona",
+      "location_source_url": "https://www.portaldisc.com/evento/aniversariowareba",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "la_colombina_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "La Colombina",
+      "aliases": ["La Colombina", "La Colombina, Valparaíso", "La Colombina Café Bistró Bar"],
+      "address": "Pasaje Apolo 91, Cerro Alegre, Valparaíso",
+      "location_source_name": "La Colombina — Cómo llegar",
+      "location_source_url": "https://restoranlacolombina.cl/como-llegar/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "lemutt_bar_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Lemutt Bar",
+      "aliases": ["Lemutt Bar", "Lemutt Bar, Valparaíso"],
+      "address": "Gálvez 233, Valparaíso",
+      "location_source_name": "PortalTickets — Lemutt Bar",
+      "location_source_url": "https://www.portaldisc.com/evento/viernescebollalemutt",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "los_alquinta_del_puerto_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Los Alquinta del Puerto",
+      "aliases": ["Los Alquinta del Puerto", "Los Alquinta del Puerto, Valparaíso"],
+      "address": "General Cruz 369, Valparaíso",
+      "location_source_name": "PortalTickets — Los Alquinta del Puerto",
+      "location_source_url": "https://www.portaldisc.com/evento/jamsessionsviernes",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "patio_socrates_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Patio Sócrates",
+      "aliases": ["Patio Sócrates", "Patio Sócrates, Valparaíso", "Centro Cultural Patio Sócrates"],
+      "address": "Calle Sócrates esquina Villagrán, Valparaíso",
+      "location_source_name": "PortalTickets — Patio Sócrates",
+      "location_source_url": "https://portaldisc.com/tickets/R05",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "plaza_sotomayor_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Plaza Sotomayor",
+      "aliases": ["Plaza Sotomayor"],
+      "address": "Plaza Sotomayor, Valparaíso",
+      "location_source_name": "Chile Travel — Plaza Sotomayor",
+      "location_source_url": "https://chile.travel/atractivos/plaza-sotomayor/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "poseidon_bar_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Poseidón Bar",
+      "aliases": ["Poseidón Bar", "Poseidón Bar, Valparaíso", "Poseidon Bar"],
+      "address": "Plaza Aníbal Pinto 339, Valparaíso",
+      "location_source_name": "PortalTickets — Poseidón Bar",
+      "location_source_url": "https://www.portaldisc.com/evento/previaaniversarioposeidon",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "trotamundos_valparaiso",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Trotamundos Valparaíso",
+      "aliases": ["Trotamundos Valparaíso", "Trotamundos Valparaíso, Valparaíso", "Trotamundos Valpo", "Trotamundos Valpo."],
+      "address": "Blanco 1253, Valparaíso",
+      "location_source_name": "Municipalidad de Valparaíso — Valpocultura",
+      "location_source_url": "https://valpocultura.cl/evento/trotamundos-valparaiso-sonora-de-llegar/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "casa_central_pucv",
+      "city_names": ["Valparaíso"],
+      "canonical_name": "Casa Central PUCV",
+      "aliases": ["Casa Central PUCV", "Casa Central"],
+      "address": "Av. Brasil 2950, Valparaíso",
+      "location_source_name": "Pontificia Universidad Católica de Valparaíso — Agenda",
+      "location_source_url": "https://www.pucv.cl/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "teatro_municipal_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Teatro Municipal de Viña del Mar",
+      "aliases": ["Teatro Municipal de Viña del Mar"],
+      "address": "Plaza Vergara S/N, Viña del Mar",
+      "location_source_name": "Municipalidad de Viña del Mar — Visita Viña",
+      "location_source_url": "https://visitavina.munivina.cl/actividad/teatro-musical-jesucristo-superestrella/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "museo_artequin_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Museo Artequin Viña del Mar",
+      "aliases": ["Museo Artequin Viña del Mar", "Artequin Viña", "Artequin Viña del Mar"],
+      "address": "Alcalde Prieto Nieto 500, Parque Quinta Vergara, sector Potrerillos, Viña del Mar",
+      "location_source_name": "Museo Artequin Viña del Mar — sitio oficial",
+      "location_source_url": "https://artequinvina.cl/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "palacio_vergara_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Palacio Vergara",
+      "aliases": ["Palacio Vergara", "Museo Palacio Vergara"],
+      "address": "Errázuriz 596, interior Parque Quinta Vergara, Viña del Mar",
+      "location_source_name": "Municipalidad de Viña del Mar — Museo Palacio Vergara",
+      "location_source_url": "https://www.munivina.cl/wp-content/uploads/2024/08/DA-11260-21082024.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "jardin_botanico_nacional_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Jardín Botánico Nacional de Viña del Mar",
+      "aliases": ["Jardín Botánico Nacional de Viña del Mar", "Jardín Botánico"],
+      "address": "Camino El Olivar 305, Sector El Salto, Viña del Mar",
+      "location_source_name": "Jardín Botánico Nacional de Viña del Mar — Contacto",
+      "location_source_url": "https://jbn.cl/contacto/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "duoc_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Duoc UC — Viña del Mar",
+      "aliases": ["Duoc UC — Viña del Mar", "Duoc UC - Viña del Mar", "Duoc UC Viña del Mar"],
+      "address": "Álvarez 2366, Chorrillos, Viña del Mar",
+      "location_source_name": "Duoc UC — Directorio de sedes",
+      "location_source_url": "https://www.duoc.cl/wp-content/uploads/2022/09/doc_duoc_uc.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "espacio_cultural_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Espacio Cultural Viña del Mar",
+      "aliases": ["Espacio Cultural Viña del Mar"],
+      "address": "Arlegui 683, Viña del Mar",
+      "location_source_name": "Municipalidad de Viña del Mar — Cartelera cultural",
+      "location_source_url": "https://www.munivina.cl/wp-content/uploads/2026/06/Cartelera-Invierno.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "quinta_vergara_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Quinta Vergara",
+      "aliases": ["Quinta Vergara", "Explanada Quinta Vergara"],
+      "address": "Errázuriz 596, Viña del Mar",
+      "location_source_name": "Municipalidad de Viña del Mar — directorio de lugares",
+      "location_source_url": "https://www.munivina.cl/uploads/2014/07/20140707221412-pagina20110512152805enero201401.pdf",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "bar_vienes_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Bar Vienés",
+      "aliases": ["Bar Vienés", "Bar Vienés, Viña del Mar"],
+      "address": "Viana 5, Viña del Mar",
+      "location_source_name": "Directorio local corroborado",
+      "location_source_url": "https://www.ubereats.com/cl/store/bar-vienes/B-K_BD0FR5WNNJsJ6d__9A",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "cafe_journal_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Cafe Journal",
+      "aliases": ["Cafe Journal", "Café Journal", "Cafe Journal, Viña del Mar", "Café Journal Viña del Mar"],
+      "address": "Agua Santa 4, Viña del Mar",
+      "location_source_name": "Café Journal — ubicación corroborada",
+      "location_source_url": "https://maps.apple.com/place?place-id=I5CC5EB52BAD2DA6A",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "el_pasaje_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "El Pasaje",
+      "aliases": ["El Pasaje", "El Pasaje, Viña del Mar", "El Pasaje Café"],
+      "address": "9 Norte 907, Viña del Mar",
+      "location_source_name": "El Pasaje — ubicación corroborada",
+      "location_source_url": "https://www.tripadvisor.cl/Restaurant_Review-g295425-d33325925-Reviews-El_Pasaje_Cafe-Vina_del_Mar_Valparaiso_Region.html",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "red_studio_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "RED Studio",
+      "aliases": ["RED Studio", "Red Studio", "RedStudio Salsa y Bachata Viña del Mar"],
+      "address": "4 Oriente 1072, Viña del Mar",
+      "location_source_name": "Red Studio — plataforma oficial de reservas",
+      "location_source_url": "https://boxmagic.cl/sport_page/RedStudio40",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "instituto_le_chat_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Instituto Le Chat",
+      "aliases": ["Instituto Le Chat", "Le Chat"],
+      "address": "General Baquedano 325, Recreo, Viña del Mar",
+      "location_source_name": "Instituto Le Chat — Contacto",
+      "location_source_url": "https://lechat.cl/contacto/",
+      "location_verified_at": "2026-08-23"
+    },
+    {
+      "id": "ipanema_club_vina",
+      "city_names": ["Viña del Mar"],
+      "canonical_name": "Ipanema Club",
+      "aliases": ["Ipanema Club", "Ipanema Club, Viña del Mar"],
+      "address": "Calle 2 Norte 195, Viña del Mar",
+      "location_source_name": "PortalTickets — Ipanema Club",
+      "location_source_url": "https://www.portaldisc.com/evento/nochesdebohemiaipanemaclub",
+      "location_verified_at": "2026-08-23"
     }
   ],
   "event_location_overrides": [

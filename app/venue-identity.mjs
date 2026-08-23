@@ -31,6 +31,14 @@ function cityCompatible(record, city) {
   return record._cities.some((candidate) => candidate === folded || candidate.includes(folded) || folded.includes(candidate));
 }
 
+function foldedWithoutExactCitySuffix(value, city) {
+  const folded = foldVenue(value);
+  const cityFolded = foldVenue(city);
+  if (!folded || !cityFolded || folded === cityFolded) return folded;
+  const suffix = ` ${cityFolded}`;
+  return folded.endsWith(suffix) ? folded.slice(0, -suffix.length).trim() : folded;
+}
+
 function explicitSubspace(value) {
   return /\b(?:sala|salon|galeria|gallery|hall|auditorio|auditorium|patio|espacio|room|nivel|edificio)\b/.test(foldVenue(value));
 }
@@ -63,6 +71,16 @@ export function venueRecordForName(value, city = "", venueId = "") {
 
   for (const record of candidates) {
     if (record._aliases.includes(folded)) return record;
+  }
+
+  // Ticketing/aggregator sources frequently append the city after the venue,
+  // e.g. “Teatro Mauri SCD, Valparaíso”. Treat that exact city suffix as
+  // presentation noise, but never strip arbitrary trailing text.
+  const withoutCity = foldedWithoutExactCitySuffix(value, city);
+  if (withoutCity && withoutCity !== folded) {
+    for (const record of candidates) {
+      if (record._aliases.includes(withoutCity)) return record;
+    }
   }
 
   // Containment is intentionally restricted to explicit rooms/subspaces.
@@ -160,6 +178,92 @@ export function preferredVenueLabel(values) {
   return labels[0] || "";
 }
 
+function finiteCoordinate(value, min, max) {
+  if (value === null || value === undefined || value === "") return null;
+  const number = Number(value);
+  return Number.isFinite(number) && number >= min && number <= max ? number : null;
+}
+
+function canonicalLocationForRecord(record) {
+  if (!record) return null;
+  const address = String(record.address || "").replace(/\s+/g, " ").trim();
+  const coordinates = record.coordinates || {};
+  const latitude = finiteCoordinate(coordinates.latitude, -90, 90);
+  const longitude = finiteCoordinate(coordinates.longitude, -180, 180);
+  const hasCoordinates = latitude !== null && longitude !== null && !(latitude === 0 && longitude === 0);
+  if (!address && !hasCoordinates) return null;
+  return {
+    address: address || null,
+    latitude: hasCoordinates ? latitude : null,
+    longitude: hasCoordinates ? longitude : null,
+  };
+}
+
+function structuredVerification(value) {
+  return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+
+function enrichCanonicalVenueLocation(event, record) {
+  const canonical = canonicalLocationForRecord(record);
+  if (!canonical) return event;
+
+  const current = event?.location || {};
+  const nextLocation = { ...current };
+  const nextEditorial = { ...(event?.editorial || {}) };
+  let changed = false;
+
+  const existingAddress = String(current.address || "").replace(/\s+/g, " ").trim();
+  if (canonical.address && current.address_verified !== true) {
+    if (existingAddress && existingAddress !== canonical.address && !nextEditorial.location_address_original) {
+      nextEditorial.location_address_original = existingAddress;
+    }
+    nextLocation.address = canonical.address;
+    nextLocation.address_verified = true;
+    changed = true;
+  } else if (canonical.address && existingAddress === canonical.address && current.address_verified !== true) {
+    nextLocation.address_verified = true;
+    changed = true;
+  }
+
+  const existingLatitude = finiteCoordinate(current.latitude, -90, 90);
+  const existingLongitude = finiteCoordinate(current.longitude, -180, 180);
+  const hasVerifiedCoordinates = current.coordinates_verified === true
+    && existingLatitude !== null
+    && existingLongitude !== null;
+  if (canonical.latitude !== null && canonical.longitude !== null && !hasVerifiedCoordinates) {
+    if (existingLatitude !== null && existingLongitude !== null && !nextEditorial.location_coordinates_original) {
+      nextEditorial.location_coordinates_original = {
+        latitude: existingLatitude,
+        longitude: existingLongitude,
+      };
+    }
+    nextLocation.latitude = canonical.latitude;
+    nextLocation.longitude = canonical.longitude;
+    nextLocation.coordinates_verified = true;
+    changed = true;
+  }
+
+  if (!changed && current.address_verified === true && (canonical.latitude === null || hasVerifiedCoordinates)) return event;
+
+  nextLocation.verification = {
+    ...structuredVerification(current.verification),
+    status: "verified",
+    verified: true,
+    method: "canonical_venue_registry",
+    source_name: record.location_source_name || null,
+    source_url: record.location_source_url || null,
+    verified_at: record.location_verified_at || null,
+  };
+  nextEditorial.canonical_venue_id = record.id || nextEditorial.canonical_venue_id || null;
+  nextEditorial.canonical_venue_location = true;
+
+  return {
+    ...event,
+    location: nextLocation,
+    editorial: nextEditorial,
+  };
+}
+
 export function normalizeVenueAliases(events) {
   const labelsByKey = new Map();
   for (const event of events || []) {
@@ -180,20 +284,30 @@ export function normalizeVenueAliases(events) {
   );
 
   return (events || []).map((event) => {
+    const record = venueRecordForEvent(event);
     const key = canonicalVenueKey(event);
     const preferred = preferredByKey.get(key);
     const current = String(event?.location?.venue || "").trim();
-    if (!preferred || !current || preferred === current) return event;
-    return {
-      ...event,
-      location: { ...(event.location || {}), venue: preferred },
-      editorial: {
-        ...(event.editorial || {}),
-        venue_alias_original: event?.editorial?.venue_alias_original || current,
-        venue_alias_normalized: true,
-        canonical_venue_id: venueRecordForEvent(event)?.id || event?.editorial?.canonical_venue_id || null,
-      },
-    };
+    let normalized = event;
+
+    if (preferred && current && preferred !== current) {
+      normalized = {
+        ...event,
+        location: { ...(event.location || {}), venue: preferred },
+        editorial: {
+          ...(event.editorial || {}),
+          venue_alias_original: event?.editorial?.venue_alias_original || current,
+          venue_alias_normalized: true,
+          canonical_venue_id: record?.id || event?.editorial?.canonical_venue_id || null,
+        },
+      };
+    }
+
+    // A verified physical location belongs to the venue, not to the source that
+    // happened to publish an individual event. Enrich every matched event here
+    // so official, ticketing and secondary-source cards share one safe Maps
+    // destination without weakening the global no-guess navigation policy.
+    return enrichCanonicalVenueLocation(normalized, record || venueRecordForEvent(normalized));
   });
 }
 
