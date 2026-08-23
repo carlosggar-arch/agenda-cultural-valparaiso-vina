@@ -127,7 +127,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "culture_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|clase magistral|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano|escuela de invierno)\\b"
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|clase magistral|formacion|seminario|laboratorio|workshop|capacitacion|campus|campamento|escuela de verano|escuela de invierno|club de lectura|clubes de lectura|mediacion lectora|lectura guiada|actividad de lectura)\\b"
       },
       {
         "category": "exposiciones",
@@ -157,7 +157,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "explicit_title": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno)\\b"
+        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno|club de lectura|mediacion lectora|lectura guiada|actividad de lectura)\\b"
       },
       {
         "category": "exposiciones",

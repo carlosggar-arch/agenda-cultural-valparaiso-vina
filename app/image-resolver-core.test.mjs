@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   buildVenueImagePools,
   categoryFallbackImage,
+  generatedEventFallbackImage,
   isGenericProviderImage,
   looksLikeGenericSchedule,
   relevantEventImageUrl,
@@ -94,6 +95,12 @@ const noImage = {
   location: { city: "Gijón", venue: "Teatro Jovellanos" },
   primary_category: { id: "teatro", label: "Teatro" },
 };
+const noImageNoVenuePool = {
+  id: "missing-unique",
+  title: "Club de lectura infantil",
+  location: { city: "Valparaíso", venue: "Biblioteca de Playa Ancha" },
+  primary_category: { id: "cursos-talleres-campus", label: "Cursos, talleres y experiencias" },
+};
 const genericSchedule = {
   id: "agenda",
   title: "Agenda cultural agosto 2026",
@@ -107,8 +114,8 @@ const events = [own, sibling, noImage, genericSchedule];
 const pools = buildVenueImagePools(events, { baseUrl: BASE });
 const oldPools = legacyPools(events);
 
-test("card direct and same-venue representative resolution is A-equivalent", () => {
-  for (const event of events) {
+test("card direct and same-venue representative resolution remains stable where a real image exists", () => {
+  for (const event of [own, sibling, noImage]) {
     assert.equal(looksLikeGenericSchedule(event), legacyGenericSchedule(event));
     assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), legacyRelevant(event));
     assert.equal(venueImageKey(event), legacyVenueKey(event));
@@ -117,7 +124,7 @@ test("card direct and same-venue representative resolution is A-equivalent", () 
   }
 });
 
-test("failed direct card image falls back to the exact legacy same-venue URL", () => {
+test("failed direct card image still prefers the exact legacy same-venue URL", () => {
   const expected = legacyRepresentative(own, oldPools);
   assert.equal(resolveCardImageAfterFailure(own, legacyRelevant(own), { venueImagePools: pools, baseUrl: BASE }).url,
     expected === legacyRelevant(own) ? null : expected);
@@ -127,8 +134,19 @@ test("failed direct card image falls back to the exact legacy same-venue URL", (
     expectedFallback === legacyRelevant(failing) ? null : expectedFallback);
 });
 
-test("generic schedule never borrows a venue image on cards", () => {
-  assert.equal(resolveEventImage(genericSchedule, { surface: "card", venueImagePools: pools, baseUrl: BASE }).url, null);
+test("every ordinary card gets a deterministic generated image when no source or venue image exists", () => {
+  const resolved = resolveEventImage(noImageNoVenuePool, { surface: "card", venueImagePools: pools, baseUrl: BASE });
+  assert.equal(resolved.kind, "generated-fallback");
+  assert.match(resolved.url, /^data:image\/svg\+xml;charset=UTF-8,/);
+  assert.equal(resolved.url, generatedEventFallbackImage(noImageNoVenuePool).url);
+});
+
+test("generic schedule suppresses unrelated source art but still gets a generated editorial image", () => {
+  assert.equal(relevantEventImageUrl(genericSchedule, { baseUrl: BASE }), null);
+  const resolved = resolveEventImage(genericSchedule, { surface: "card", venueImagePools: pools, baseUrl: BASE });
+  assert.equal(resolved.kind, "generated-fallback");
+  assert.equal(resolved.genericSchedule, true);
+  assert.match(resolved.url, /^data:image\/svg\+xml;charset=UTF-8,/);
 });
 
 test("group surface preserves raw event image policy and exact URL string", () => {
@@ -140,6 +158,8 @@ test("group surface preserves raw event image policy and exact URL string", () =
 
 test("detail surface preserves safe direct-image policy and explicit suppression", () => {
   assert.equal(resolveEventImage(own, { surface: "detail", baseUrl: BASE }).url, legacySafe(own.image.url));
+  const generatedDetail = resolveEventImage(noImageNoVenuePool, { surface: "detail", baseUrl: BASE });
+  assert.equal(generatedDetail.kind, "generated-fallback");
   assert.equal(resolveEventImage(own, { surface: "detail", baseUrl: BASE, allowDirect: false }).url, null);
 });
 
@@ -151,7 +171,7 @@ test("category fallback preserves current category and label mapping", () => {
   assert.equal(categoryFallbackImage(null, { labelHint: "Sin clasificar" }).url, "../assets/categoria-cultura.jpg");
 });
 
-test("quality guard generic-provider replacement is A-equivalent", () => {
+test("quality guard generic-provider replacement remains explicit", () => {
   const generic = "https://passline.com/assets/img/placeholder.png";
   const specific = "https://passline.com/uploads/evento-real.jpg";
   assert.equal(isGenericProviderImage(generic, { baseUrl: BASE }), true);

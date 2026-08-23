@@ -106,4 +106,24 @@ const soldOutExhibition = formationEvent({
 });
 assert.equal(isRegistrationReminder(soldOutExhibition), false, "sold-out status alone must never reclassify unrelated cultural events");
 
+const readingClubWithDiscoveryTags = formationEvent({
+  id: "caleta-like-reading-club",
+  title: "Club de Lectura para la Niñez | Caleta de Historias",
+  description: "Experiencia de lectura, juego, imaginación y creación para niñas y niños.",
+  primary_category: { id: "cursos-talleres-campus", label: "Cursos, talleres y experiencias" },
+  categories: [{ id: "cursos-talleres-campus", label: "Cursos, talleres y experiencias" }],
+  schedule: {
+    mode: "multi_day",
+    start: "2026-08-22T12:00:00-04:00",
+    end: "2026-11-22",
+    occurrences: [],
+  },
+  public_status: { sold_out: false, registration_open: null, registration_closed: null },
+  links: {},
+  registration_requirements: null,
+  tags: ["cupos", "inscripciones"],
+});
+assert.equal(isRegistrationReminder(readingClubWithDiscoveryTags), false, "discovery tags alone must never convert a real activity into an inscription reminder");
+assert.equal(normalizeFormationCycles({ events: [readingClubWithDiscoveryTags] }).events[0].event_type, "event");
+
 console.log("REGISTRATION_REMINDER_CLASSIFIER_OK");
