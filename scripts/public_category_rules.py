@@ -114,17 +114,22 @@ def infer_culture_category(event: dict[str, Any]) -> dict[str, str]:
 def resolve_public_category(event: dict[str, Any]) -> dict[str, str]:
     source = source_category(event)
     canonical = canonical_public_category(source)
+    explicit = explicit_title_category(event)
 
     if canonical and canonical.get("id") != source.get("id"):
         return dict(canonical)
     if is_summer_program(event):
         return category("cursos-talleres-campus")
+    # The fallback is not semantic authority: strong title evidence can recover
+    # a more specific category after source reconciliation or deduplication.
+    if canonical and canonical.get("id") == FALLBACK_ID and explicit and explicit.get("id") != FALLBACK_ID:
+        return dict(explicit)
     if canonical and canonical.get("id") in CATEGORIES:
         return dict(canonical)
     if source.get("id") == "cultura" or fold(source.get("label")) == "cultura":
         return dict(infer_culture_category(event))
     if not source.get("id") and not source.get("label"):
-        return dict(explicit_title_category(event) or category(FALLBACK_ID))
+        return dict(explicit or category(FALLBACK_ID))
 
     # Source-specific categories are preserved only when the shared architecture
     # contract registers them. No city renderer may redefine them locally.
