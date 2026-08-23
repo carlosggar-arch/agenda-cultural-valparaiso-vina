@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "cases": [
+    {
+      "name": "workshop keeps theatre as secondary domain",
+      "event": {
+        "title": "Taller de teatro físico",
+        "primary_category": {"id": "otros", "label": "Otros panoramas"},
+        "content_kind": "dated_event"
+      },
+      "expected": {
+        "category": "cursos-talleres-campus",
+        "primary_domain": "cursos-talleres-campus",
+        "secondary_domains": ["teatro"],
+        "format": "taller",
+        "audience": "unspecified",
+        "lifecycle": "dated_event"
+      }
+    },
+    {
+      "name": "family concert separates audience from domain",
+      "event": {
+        "title": "Concierto familiar de jazz",
+        "primary_category": {"id": "otros", "label": "Otros panoramas"}
+      },
+      "expected": {
+        "category": "musica",
+        "primary_domain": "musica",
+        "secondary_domains": [],
+        "format": "concierto",
+        "audience": "familiar",
+        "lifecycle": "unspecified"
+      }
+    },
+    {
+      "name": "children book presentation has literature domain and presentation format",
+      "event": {
+        "title": "Presentación del libro La isla secreta",
+        "description": "Actividad infantil con mediación de lectura.",
+        "primary_category": {"id": "otros", "label": "Otros panoramas"},
+        "lifecycle": {"state": "dated_event"}
+      },
+      "expected": {
+        "category": "literatura-charlas-encuentros",
+        "primary_domain": "literatura-charlas-encuentros",
+        "secondary_domains": [],
+        "format": "presentacion-libro",
+        "audience": "infantil",
+        "lifecycle": "dated_event"
+      }
+    },
+    {
+      "name": "ambiguous event stays explicitly unclassified",
+      "event": {
+        "title": "Encuentro de agosto",
+        "description": "Actividad abierta a la comunidad.",
+        "primary_category": {"id": "otros", "label": "Otros panoramas"}
+      },
+      "expected": {
+        "category": "unclassified",
+        "primary_domain": null,
+        "secondary_domains": [],
+        "format": "unspecified",
+        "audience": "unspecified",
+        "lifecycle": "unspecified"
+      }
+    },
+    {
+      "name": "source-only conflict is not promoted to secondary domain",
+      "event": {
+        "title": "Concierto sinfónico de invierno",
+        "primary_category": {"id": "teatro", "label": "Teatro"}
+      },
+      "expected": {
+        "category": "musica",
+        "primary_domain": "musica",
+        "secondary_domains": [],
+        "format": "concierto",
+        "audience": "unspecified",
+        "lifecycle": "unspecified"
+      }
+    },
+    {
+      "name": "youth tournament separates sports domain and competition format",
+      "event": {
+        "title": "Torneo juvenil de ciclismo",
+        "primary_category": {"id": "otros", "label": "Otros panoramas"},
+        "lifecycle": {"state": "dated_event"}
+      },
+      "expected": {
+        "category": "deportes-actividad-fisica",
+        "primary_domain": "deportes-actividad-fisica",
+        "secondary_domains": [],
+        "format": "competicion",
+        "audience": "juvenil",
+        "lifecycle": "dated_event"
+      }
+    }
+  ]
+}

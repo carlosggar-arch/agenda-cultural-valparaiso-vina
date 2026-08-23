@@ -41,7 +41,12 @@ def fold(value: Any) -> str:
 
 
 def source_category(event: dict[str, Any]) -> dict[str, str]:
-    source = event.get("primary_category") or (event.get("categories") or [None])[0] or {}
+    source = (
+        (event.get("semantics") or {}).get("source_category")
+        or event.get("primary_category")
+        or (event.get("categories") or [None])[0]
+        or {}
+    )
     label = str(source.get("label") or "").strip()
     category_id = str(source.get("id") or re.sub(r"\s+", "-", fold(label))).strip().casefold()
     return {"id": category_id, "label": label}
@@ -132,6 +137,26 @@ def _confidence_for_score(score: int) -> str:
     return "unclassified"
 
 
+def _ranked_candidates(
+    scores: dict[str, int], evidence: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    ranked = sorted(
+        ((category_id, score) for category_id, score in scores.items() if score > 0),
+        key=lambda item: (-item[1], CATEGORY_ORDER.get(item[0], 10_000)),
+    )
+    return [
+        {
+            "category": category(category_id),
+            "score": score,
+            "confidence": _confidence_for_score(score),
+            "evidence": [
+                item for item in evidence if item.get("category") == category_id
+            ],
+        }
+        for category_id, score in ranked
+    ]
+
+
 def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
     scores: dict[str, int] = {}
     evidence: list[dict[str, Any]] = []
@@ -187,28 +212,30 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
         "description",
     )
 
+    candidates = _ranked_candidates(scores, evidence)
     minimum_score = int(RULES.get("minimum_score", 1))
-    ranked = sorted(
-        ((category_id, score) for category_id, score in scores.items() if score >= minimum_score),
-        key=lambda item: (-item[1], CATEGORY_ORDER.get(item[0], 10_000)),
+    winner = next(
+        (candidate for candidate in candidates if candidate["score"] >= minimum_score),
+        None,
     )
 
-    if not ranked:
+    if not winner:
         return {
             "category": category(FALLBACK_ID),
             "confidence": "unclassified",
-            "score": 0,
+            "score": candidates[0]["score"] if candidates else 0,
             "evidence": evidence,
             "source_category": source,
+            "candidates": candidates,
         }
 
-    category_id, score = ranked[0]
     return {
-        "category": category(category_id),
-        "confidence": _confidence_for_score(score),
-        "score": score,
+        "category": winner["category"],
+        "confidence": winner["confidence"],
+        "score": winner["score"],
         "evidence": evidence,
         "source_category": source,
+        "candidates": candidates,
     }
 
 
