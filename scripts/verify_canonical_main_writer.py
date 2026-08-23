@@ -42,9 +42,10 @@ def verify() -> None:
         "branches: [main]",
         "ref: cloudflare-preview",
         "git fetch origin main",
-        "git merge --ff-only origin/main",
+        "git merge --no-edit origin/main",
         "git push origin HEAD:cloudflare-preview",
-        "Fast-forward deployment branch from approved main",
+        "Guard Cloudflare-only divergence",
+        "grep -v '^cloudflare-build\\.sh$'",
     )
     missing = [marker for marker in required if marker not in sync]
     if missing:
