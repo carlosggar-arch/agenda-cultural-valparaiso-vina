@@ -264,6 +264,7 @@ def check_workflow_guard() -> None:
     assert "fetch-depth: 0" in required, "release delta guard requires complete base history"
     assert "node app/data-pipeline.test.mjs" in required, "resilient data pipeline contract is not required before merge"
     assert "node app/date-filter-architecture.test.mjs" in required, "date-filter single-source contract is not required before merge"
+    assert "node app/pwa-release-handoff.test.mjs" in required, "PWA release handoff regression is not required before merge"
     assert "node --check app/sources-toggle.js" in required, "local production shell coverage lost sources module syntax check"
 
 

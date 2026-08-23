@@ -11,6 +11,8 @@
 // by app.js so query-string aliases cannot instantiate duplicate card observers
 // or duplicate dataset consumers in the same page. In particular, sources,
 // community-source and participation-footer are app.js-owned content modules.
+import { createReleaseHandoff } from "./pwa-release-handoff.mjs?v=20260823-handoff1";
+
 const OPTIONAL_UI_MODULES = [
   "./vivamos-brand.js",
   "./compact-top.js",
@@ -190,9 +192,23 @@ function showExplicitIosInstallIntent() {
 
 async function registerAgendaServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
+  const releaseHandoff = createReleaseHandoff(Boolean(navigator.serviceWorker.controller));
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (releaseHandoff.controllerChanged()) window.location.reload();
+  });
   try {
     const registration = await navigator.serviceWorker.register(`./service-worker.js?v=${APP_RELEASE}`, { scope: "./", updateViaCache: "none" });
-    registration.update().catch(() => {});
+    let updatePending = null;
+    const refreshRelease = () => {
+      if (updatePending) return updatePending;
+      updatePending = registration.update().catch(() => {}).finally(() => { updatePending = null; });
+      return updatePending;
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) void refreshRelease();
+    });
+    window.addEventListener("focus", () => { void refreshRelease(); });
+    void refreshRelease();
   } catch (error) {
     console.warn("¡Vivamos!: service worker unavailable", error);
   }
