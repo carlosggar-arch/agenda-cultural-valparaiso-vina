@@ -8,6 +8,7 @@ WORKFLOW = (ROOT / ".github/workflows/production-pwa-smoke.yml").read_text(encod
 REQUIRED = (ROOT / ".github/workflows/required-release-guard.yml").read_text(encoding="utf-8")
 TOPOLOGY = json.loads((ROOT / "tests/contract-topology.json").read_text(encoding="utf-8"))
 SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8")
+BROWSER_SMOKE = (ROOT / "app/scripts/production_browser_selenium_smoke.py").read_text(encoding="utf-8")
 WARM_SMOKE = (ROOT / "app/scripts/production_warm_start_smoke.py").read_text(encoding="utf-8")
 PWA_PARITY = (ROOT / "app/scripts/test_web_pwa_visibility_parity.py").read_text(encoding="utf-8")
 APP = (ROOT / "app/app.js").read_text(encoding="utf-8")
@@ -40,6 +41,7 @@ def main() -> None:
         '      - "fuentes_publicas.json"',
         '      - "app/data/source-registry.json"',
         '      - "app/scripts/production_pwa_smoke.py"',
+        '      - "app/scripts/production_browser_selenium_smoke.py"',
         '      - "app/scripts/production_warm_start_smoke.py"',
         '      - "app/scripts/test_web_pwa_visibility_parity.py"',
         '      - ".github/workflows/production-pwa-smoke.yml"',
@@ -60,7 +62,8 @@ def main() -> None:
     assert "js|mjs|css|html|webmanifest" in production
     assert "python app/scripts/production_pwa_smoke.py local" in production
     assert "python app/scripts/production_pwa_smoke.py http" in production
-    assert "python app/scripts/production_pwa_smoke.py browser" in production
+    assert "python app/scripts/production_browser_selenium_smoke.py" in production
+    assert "python app/scripts/production_pwa_smoke.py browser" not in production
     assert "python app/scripts/production_warm_start_smoke.py" in production
     assert "python app/scripts/test_web_pwa_visibility_parity.py --production" in production
     assert "Warm-reopen Valpo mobile on GitHub Pages and Cloudflare" in production
@@ -94,12 +97,24 @@ def main() -> None:
     assert "hashlib.sha256" in SMOKE
     assert "attempts: int = 36" in SMOKE
     assert "interval: int = 10" in SMOKE
-    assert '("valparaiso", "Valparaíso / Viña del Mar", 390, 844)' in SMOKE
-    assert '("gijon", "Gijón / Xixón", 1280, 900)' in SMOKE
     assert "data-sources-toggle" in SMOKE
     assert 'data-filter-value="manana"' in SMOKE
-    assert "--disable-background-networking" in SMOKE
-    assert "after retry" in SMOKE
+
+    for marker in (
+        '("valparaiso", "Valparaíso / Viña del Mar", 390, 844)',
+        '("gijon", "Gijón / Xixón", 1280, 900)',
+        "webdriver.Chrome",
+        "WebDriverWait",
+        'options.page_load_strategy = "eager"',
+        "dataset.vivamosReady",
+        "document.querySelectorAll('.event-card').length > 0",
+        "PRODUCTION_COLD_LOAD_OK",
+        "PRODUCTION_CITY_ROUNDTRIP_OK",
+        "transport=selenium",
+        "after retry",
+    ):
+        assert marker in BROWSER_SMOKE, f"Selenium cold-browser smoke contract missing: {marker}"
+    assert "--dump-dom" not in BROWSER_SMOKE, "Cold-browser production smoke must not regress to direct Chrome dump-dom"
 
     for marker in (
         'MOBILE_CITY = "valparaiso"',
