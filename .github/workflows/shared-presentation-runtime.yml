@@ -40,6 +40,7 @@ jobs:
         run: |
           python app/scripts/test_contract_topology.py
           python app/scripts/run_contracts.py --profile shared-presentation
+          python app/scripts/audit_map_locations.py
           node --check app/schedule-contract.mjs
           node --check app/date-aware-exhibition-hours.mjs
           node --check app/gijon-venue-hours.js
