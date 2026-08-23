@@ -128,27 +128,47 @@ test("failed direct card image still prefers the exact legacy same-venue URL", (
   const expected = legacyRepresentative(own, oldPools);
   const ownFallback = resolveCardImageAfterFailure(own, legacyRelevant(own), { venueImagePools: pools, baseUrl: BASE });
   assert.equal(ownFallback.url,
-    expected === legacyRelevant(own) ? generatedEventFallbackImage(own).url : expected);
+    expected === legacyRelevant(own) ? categoryFallbackImage(own).url : expected);
   const failing = { ...own, id: "failing", image: { url: "https://img.example/failing.jpg" } };
   const expectedFallback = legacyRepresentative(failing, oldPools);
   const resolvedFallback = resolveCardImageAfterFailure(failing, legacyRelevant(failing), { venueImagePools: oldPools, baseUrl: BASE });
   assert.equal(resolvedFallback.url,
-    expectedFallback === legacyRelevant(failing) ? generatedEventFallbackImage(failing).url : expectedFallback);
+    expectedFallback === legacyRelevant(failing) ? categoryFallbackImage(failing).url : expectedFallback);
 });
 
-test("every ordinary card gets a deterministic generated image when no source or venue image exists", () => {
+test("every ordinary card gets a graphical category image when no source or venue image exists", () => {
   const resolved = resolveEventImage(noImageNoVenuePool, { surface: "card", venueImagePools: pools, baseUrl: BASE });
-  assert.equal(resolved.kind, "generated-fallback");
-  assert.match(resolved.url, /^data:image\/svg\+xml;charset=UTF-8,/);
-  assert.equal(resolved.url, generatedEventFallbackImage(noImageNoVenuePool).url);
+  assert.deepEqual(resolved, { ...categoryFallbackImage(noImageNoVenuePool), genericSchedule: false });
 });
 
-test("generic schedule suppresses unrelated source art but still gets a generated editorial image", () => {
+test("generic schedule suppresses unrelated source art and gets a graphical category image", () => {
   assert.equal(relevantEventImageUrl(genericSchedule, { baseUrl: BASE }), null);
   const resolved = resolveEventImage(genericSchedule, { surface: "card", venueImagePools: pools, baseUrl: BASE });
-  assert.equal(resolved.kind, "generated-fallback");
+  assert.equal(resolved.kind, "category-fallback");
   assert.equal(resolved.genericSchedule, true);
-  assert.match(resolved.url, /^data:image\/svg\+xml;charset=UTF-8,/);
+});
+
+test("text-heavy editorial covers are rejected as representative event imagery", () => {
+  const event = {
+    title: "Nebulosa Carina",
+    primary_category: { id: "exposiciones", label: "Exposiciones" },
+    location: { city: "Valparaíso", venue: "Museo Baburizza" },
+    image: { url: "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-nebulosacarina-portada-1.jpg" },
+  };
+  assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), null);
+  assert.deepEqual(resolveEventImage(event, { baseUrl: BASE }), {
+    ...categoryFallbackImage(event),
+    genericSchedule: false,
+  });
+});
+
+test("explicit quality metadata rejects typographic art from every source", () => {
+  const event = {
+    title: "Actividad",
+    primary_category: { id: "teatro", label: "Teatro y danza" },
+    image: { url: "https://images.example/poster.jpg", visual_quality: "text_heavy" },
+  };
+  assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), null);
 });
 
 test("group surface preserves raw event image policy and exact URL string", () => {
@@ -161,7 +181,7 @@ test("group surface preserves raw event image policy and exact URL string", () =
 test("detail surface preserves safe direct-image policy and explicit suppression", () => {
   assert.equal(resolveEventImage(own, { surface: "detail", baseUrl: BASE }).url, legacySafe(own.image.url));
   const generatedDetail = resolveEventImage(noImageNoVenuePool, { surface: "detail", baseUrl: BASE });
-  assert.equal(generatedDetail.kind, "generated-fallback");
+  assert.equal(generatedDetail.kind, "category-fallback");
   assert.equal(resolveEventImage(own, { surface: "detail", baseUrl: BASE, allowDirect: false }).url, null);
 });
 

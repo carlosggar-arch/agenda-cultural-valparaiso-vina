@@ -15,6 +15,7 @@ detail_clock = legacy.detail_clock
 rioja_venue = legacy.rioja_venue
 visitavina_occurrences = legacy.visitavina_occurrences
 make_rioja_event = legacy.make_rioja_event
+preserve_previous_event_image = legacy.preserve_previous_event_image
 parque_visible_multidates = legacy.parque_visible_multidates
 parque_event_url = legacy.parque_event_url
 

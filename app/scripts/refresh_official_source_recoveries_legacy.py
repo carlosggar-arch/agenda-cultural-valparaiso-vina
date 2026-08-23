@@ -239,6 +239,21 @@ def _same_event(a: dict, b: dict) -> bool:
     return overlap >= 0.72
 
 
+def preserve_previous_event_image(event: dict, previous: list[dict]) -> dict:
+    """Keep a previously verified event image when a source refresh omits it."""
+    current_url = str((event.get("image") or {}).get("url") or "").strip()
+    if current_url:
+        return event
+    match = next((item for item in previous if _same_event(item, event)), None)
+    previous_url = str(((match or {}).get("image") or {}).get("url") or "").strip()
+    if not previous_url:
+        return event
+    recovered = copy.deepcopy(event)
+    recovered["image"] = copy.deepcopy(match["image"])
+    recovered.setdefault("editorial", {})["image_preservation"] = "previous_verified_same_event"
+    return recovered
+
+
 def recover_rioja(dataset: dict, today: date) -> dict:
     events = list(dataset.get("events") or [])
     previous = [e for e in events if e.get("source_id") == RIOJA_SOURCE_ID and str((e.get("schedule") or {}).get("start") or "")[:10] >= today.isoformat()]
@@ -266,6 +281,7 @@ def recover_rioja(dataset: dict, today: date) -> dict:
         checked += 1; parser = parse(detail_markup); venue = rioja_venue(parser)
         if not venue: continue
         event = make_rioja_event(day, url, parser, venue)
+        event = preserve_previous_event_image(event, previous)
         title_key = norm(event["title"])
         if any(token in title_key for token in ("exposicion temporal", "exhibicion temporal", "muestra temporal")):
             if any(norm(existing.get("title")) == title_key for existing in base):
