@@ -1,8 +1,7 @@
-import { canonicalPublicCategory, resolvePublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
+import { resolvePublicCategory } from "./public-category-rules.mjs?v=20260823-taxonomy-v2";
 
 function categoryForEvent(event) {
-  const hint = String(event?.editorial?.category_recovery_hint || "").trim();
-  return hint ? canonicalPublicCategory(hint) : resolvePublicCategory(event);
+  return resolvePublicCategory(event);
 }
 
 export function normalizeAgendaCategories(dataset) {
