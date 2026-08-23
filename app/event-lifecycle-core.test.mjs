@@ -81,6 +81,35 @@ test("date-only event remains visible through its local final day", () => {
   );
 });
 
+test("timed start with a later date-only end remains visible through the final local day", () => {
+  const sample = event("2026-08-20T11:00:00-04:00", {
+    id: "Cráneos, esenciales para la vida",
+    end: "2026-12-31",
+  });
+
+  const duringRange = lifecycle(sample, valpo, new Date("2026-08-23T14:30:00Z"));
+  assert.equal(duringRange.state, LIFECYCLE_STATES.ONGOING);
+  assert.equal(duringRange.visible, true);
+  assert.equal(duringRange.endDay, "2026-12-31");
+
+  assert.equal(
+    lifecycle(sample, valpo, new Date("2027-01-01T04:30:00Z")).state,
+    LIFECYCLE_STATES.ENDED,
+  );
+});
+
+test("timed start with a same-day date-only end keeps point-event visibility policy", () => {
+  const sample = event("2026-08-23T10:00:00-04:00", { end: "2026-08-23" });
+  assert.equal(
+    lifecycle(sample, valpo, new Date("2026-08-23T17:59:00Z")).state,
+    LIFECYCLE_STATES.STARTED,
+  );
+  assert.equal(
+    lifecycle(sample, valpo, new Date("2026-08-23T18:01:00Z")).state,
+    LIFECYCLE_STATES.ENDED,
+  );
+});
+
 test("IANA timezone handles Chile DST transition", () => {
   const before = cityWallClock(new Date("2026-09-06T03:30:00Z"), valpo.timezone);
   const after = cityWallClock(new Date("2026-09-06T04:30:00Z"), valpo.timezone);
