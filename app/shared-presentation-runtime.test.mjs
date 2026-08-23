@@ -57,11 +57,15 @@ assert.doesNotMatch(
 
 const releaseMatch = releaseSource.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose the canonical numeric release");
-assert.match(
-  index,
-  new RegExp(`<script type="module" src="\\./app\\.js\\?v=${releaseMatch[1]}"></script>`),
-  "the outer app.js module URL must use the canonical release number so a new presentation release cannot remain hidden behind a stale browser/CDN cache key",
-);
+const releaseKeyedEntrypoints = [...index.matchAll(/src="(\.\/[^"?]+\.js)\?v=(\d{1,5})"/g)];
+assert.ok(releaseKeyedEntrypoints.length, "index must expose release-keyed JavaScript entrypoints");
+for (const [, asset, version] of releaseKeyedEntrypoints) {
+  assert.equal(
+    version,
+    releaseMatch[1],
+    `${asset} must use the canonical release number so no runtime change remains behind stale browser/CDN cache`,
+  );
+}
 
 assert.match(
   runtime,
