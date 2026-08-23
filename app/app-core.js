@@ -1,5 +1,5 @@
 import { CITY_STORAGE_KEY, loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
-import { loadAgendaDataset } from "./data-pipeline.js?v=20260819-pipeline1";
+import { loadAgendaDataset } from "./data-pipeline.js?v=20260823-pipeline2";
 import { renderProgramReferences } from "./program-visibility-policy.js?v=20260819-pipeline1";
 import { groupStandaloneExhibitions } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
 import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
