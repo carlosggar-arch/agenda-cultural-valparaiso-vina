@@ -261,6 +261,7 @@ jobs:
           node app/scripts/test_schedule_display.mjs
           node app/session-occurrence-normalizer.test.mjs
           node app/program-visibility-policy.test.mjs
+          node app/public-selection-parity.test.mjs
           python app/scripts/test_normalize_schedule_display.py
           node --test tests/public-sources-regression.test.mjs
           node --test tests/root-combined-filters.test.mjs
@@ -344,14 +345,25 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin main
           BASE="$(git merge-base origin/main HEAD)"
-          PROTECTED=(agenda.js agenda-core.mjs agenda_web.json assets/agenda.js assets/agenda-core.mjs)
+          PROTECTED=(agenda.js agenda-core.mjs agenda_web.json)
           if ! git diff --quiet "$BASE" HEAD -- "${PROTECTED[@]}"; then
             echo "A protected production data/runtime file changed unexpectedly:"
             git diff --name-only "$BASE" HEAD -- "${PROTECTED[@]}"
             exit 1
           fi
+          SHARED_RUNTIME=(assets/agenda.js assets/agenda-core.mjs)
+          if ! git diff --quiet "$BASE" HEAD -- "${SHARED_RUNTIME[@]}"; then
+            REQUIRED_PARITY=(app/public-selection-core.mjs app/public-selection-parity.test.mjs index.html)
+            for required_path in "${REQUIRED_PARITY[@]}"; do
+              if git diff --quiet "$BASE" HEAD -- "$required_path"; then
+                echo "Shared web/app runtime changed without required parity contract: $required_path"
+                exit 1
+              fi
+            done
+            echo "Shared web/app runtime change is covered by the canonical exact-ID parity contract."
+          fi
           CHANGED="$(git diff --name-only "$BASE" HEAD)"
-          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|shared/|index\.html$|manifest\.webmanifest$|fuentes_publicas\.json$|docs/SOURCE_ONBOARDING\.md$|docs/CONTRACT_ARCHITECTURE\.md$|assets/fuentes\.js$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/root-public-presentation-rules\.mjs$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/generate_public_category_module\.py$|scripts/public_category_rules\.py$|scripts/event_semantics\.py$|scripts/generate_event_semantics_module\.py$|scripts/semantic_quality_audit\.py$|scripts/stage31_site_generator\.py$|tests/test_public_category_rules\.py$|tests/test_shared_public_taxonomy\.py$|tests/test_event_semantics\.py$|tests/test_semantic_quality_audit\.py$|tests/test_stage31\.py$|tests/test_stage32_analytics\.py$|tests/public-sources-regression\.test\.mjs$|tests/root-combined-filters\.test\.mjs$|tests/root-public-presentation-rules\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|tests/contract-topology\.json$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/public-sources-regression\.yml$|\.github/workflows/public-taxonomy-footer-contract\.yml$|\.github/workflows/production-pwa-smoke\.yml$|\.github/workflows/compose-valpo-dataset\.yml$|\.github/workflows/content-quality-guard\.yml$|\.github/workflows/cross-source-reconciliation\.yml$|\.github/workflows/shared-presentation-runtime\.yml$|\.github/workflows/static-grouping-title-contract\.yml$|\.github/workflows/approved-event-visibility-contract\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
+          UNEXPECTED="$(printf '%s\n' "$CHANGED" | grep -Ev '^(app/|shared/|index\.html$|manifest\.webmanifest$|fuentes_publicas\.json$|docs/SOURCE_ONBOARDING\.md$|docs/CONTRACT_ARCHITECTURE\.md$|assets/agenda\.js$|assets/agenda-core\.mjs$|assets/fuentes\.js$|assets/web-event-enhancements\.js$|assets/event-media-layout\.css$|assets/event-schedule-display\.mjs$|assets/root-combined-filter-core\.mjs$|assets/root-combined-filters\.js$|assets/root-combined-filters\.css$|assets/root-public-presentation-rules\.mjs$|assets/event-page\.css$|assets/event-page\.js$|assets/event-permalink\.css$|assets/accessibility\.css$|assets/city-page\.css$|assets/plan-ahead-core\.mjs$|assets/plan-ahead-web\.js$|assets/plan-ahead\.css$|assets/favorites-core\.mjs$|assets/favorites-view\.mjs$|assets/favorites-reminders\.mjs$|assets/favorites-web\.js$|assets/favorites-event-page\.js$|assets/favorites\.css$|scripts/generate_event_pages\.py$|scripts/generate_public_category_module\.py$|scripts/public_category_rules\.py$|scripts/event_semantics\.py$|scripts/generate_event_semantics_module\.py$|scripts/semantic_quality_audit\.py$|scripts/stage31_site_generator\.py$|tests/test_public_category_rules\.py$|tests/test_shared_public_taxonomy\.py$|tests/test_event_semantics\.py$|tests/test_semantic_quality_audit\.py$|tests/test_stage31\.py$|tests/test_stage32_analytics\.py$|tests/public-sources-regression\.test\.mjs$|tests/root-combined-filters\.test\.mjs$|tests/root-public-presentation-rules\.test\.mjs$|tests/plan-ahead-core\.test\.mjs$|tests/favorites-core\.test\.mjs$|tests/favorites-reminders\.test\.mjs$|tests/community-feedback-ui\.test\.mjs$|tests/temporal-priority-core\.test\.mjs$|tests/runtime-card-image-fallback\.test\.mjs$|tests/card-representative-images\.test\.mjs$|tests/contract-topology\.json$|\.github/workflows/root-combined-filters\.yml$|\.github/workflows/event-pages\.yml$|\.github/workflows/temporal-priority-validation\.yml$|\.github/workflows/required-release-guard\.yml$|\.github/workflows/card-representative-images\.yml$|\.github/workflows/public-sources-regression\.yml$|\.github/workflows/public-taxonomy-footer-contract\.yml$|\.github/workflows/production-pwa-smoke\.yml$|\.github/workflows/compose-valpo-dataset\.yml$|\.github/workflows/content-quality-guard\.yml$|\.github/workflows/cross-source-reconciliation\.yml$|\.github/workflows/shared-presentation-runtime\.yml$|\.github/workflows/static-grouping-title-contract\.yml$|\.github/workflows/approved-event-visibility-contract\.yml$|\.github/workflows/multi-city-pre-release\.yml$)' || true)"
           if [ -n "$UNEXPECTED" ]; then
             echo "Unexpected paths in web/app PR:"
             printf '%s\n' "$UNEXPECTED"
