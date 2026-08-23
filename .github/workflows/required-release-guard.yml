@@ -80,6 +80,7 @@ jobs:
           node --check app/semantic-search.mjs
           node --check app/semantic-search.test.mjs
           node --check app/date-filter-architecture.test.mjs
+          node --check app/pwa-release-handoff.test.mjs
           node --check app/public-selection-core.mjs
           node --check app/public-selection-parity.test.mjs
           node --check app/public-title-normalizer.test.mjs
@@ -128,6 +129,7 @@ jobs:
           node app/registration-reminder-classifier.test.mjs
           node app/registration-reminders-architecture.test.mjs
           node app/date-filter-architecture.test.mjs
+          node app/pwa-release-handoff.test.mjs
           node app/public-selection-parity.test.mjs
           node app/public-title-normalizer.test.mjs
           python app/scripts/test_multicity_source_registry_coverage.py

@@ -123,6 +123,7 @@
     "./public-text-sanitizer.mjs",
     "./public-title-normalizer.mjs",
     "./pwa-header-64px.css",
+    "./pwa-release-handoff.mjs",
     "./pwa.js",
     "./registration-reminders.js",
     "./release-version.js",
