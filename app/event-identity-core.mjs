@@ -70,6 +70,17 @@ function distinctSourceRecords(a, b) {
   return Boolean(left && right && left !== right);
 }
 
+function titleEchoedInOtherDescription(a, b) {
+  const titleA = foldEventIdentity(a?.title);
+  const titleB = foldEventIdentity(b?.title);
+  const descriptionA = foldEventIdentity(a?.description);
+  const descriptionB = foldEventIdentity(b?.description);
+  return Boolean(
+    (titleA.length >= 12 && descriptionB.includes(titleA))
+    || (titleB.length >= 12 && descriptionA.includes(titleB))
+  );
+}
+
 function urlHost(value) {
   if (!value) return "";
   try { return new URL(String(value)).hostname.toLocaleLowerCase("en"); } catch { return ""; }
@@ -272,14 +283,21 @@ export function areProbableDuplicateEvents(a, b) {
   const sourceA = sourceIdentity(a);
   const sourceB = sourceIdentity(b);
   if (!sourceA || !sourceB) return false;
+  const sameProviderDistinct = sourceA === sourceB && distinctSourceRecords(a, b);
   // A provider can publish the same activity twice through different records
   // (for example its official event page plus its Instagram post). Treat those
   // as independent evidence records eligible for reconciliation; exact repeats
   // of the very same source record remain outside this semantic rule.
-  if (sourceA === sourceB && !distinctSourceRecords(a, b)) return false;
+  if (sourceA === sourceB && !sameProviderDistinct) return false;
   if (!venuesLikelySame(a, b)) return false;
 
-  if (sameLocalOccurrenceStart(a, b) && titlesLikelySame(a?.title, b?.title)) return true;
+  if (sameLocalOccurrenceStart(a, b)) {
+    if (titlesLikelySame(a?.title, b?.title)) return true;
+    // Same-provider publication titles are often editorially different (venue
+    // listing vs social headline). A full title echoed in the other record's
+    // description is stronger identity evidence than fuzzy title similarity.
+    if (sameProviderDistinct && titleEchoedInOtherDescription(a, b)) return true;
+  }
   return scheduleConflictDuplicate(a, b);
 }
 
