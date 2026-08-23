@@ -185,7 +185,14 @@ def set_offline(driver: webdriver.Chrome, offline: bool) -> None:
     )
 
 
-def compare_snapshots(origin: str, city: str, instant: str, online: dict[str, tuple[str, ...]], pwa: dict[str, tuple[str, ...]]) -> None:
+def compare_snapshots(
+    origin: str,
+    city: str,
+    instant: str,
+    online: dict[str, tuple[str, ...]],
+    pwa: dict[str, tuple[str, ...]],
+) -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
     for state in STATES:
         web_ids = set(online[state])
         pwa_ids = set(pwa[state])
@@ -197,13 +204,26 @@ def compare_snapshots(origin: str, city: str, instant: str, online: dict[str, tu
                 f"origin={origin} city={city} state={state} at={instant} "
                 f"web={len(web_ids)} pwa={len(pwa_ids)} missing={missing} extra={extra}"
             )
+        exact_ids = sorted(web_ids)
+        rows.append(
+            {
+                "origin": origin,
+                "city": city,
+                "state": state,
+                "at": instant,
+                "count": len(exact_ids),
+                "ids": exact_ids,
+            }
+        )
         print(
             "WEB_PWA_VISIBILITY_PARITY_OK "
-            f"origin={origin} city={city} state={state} at={instant} ids={len(web_ids)}"
+            f"origin={origin} city={city} state={state} at={instant} ids={len(exact_ids)}"
         )
+    return rows
 
 
-def exercise_origin(name: str, base: str, instant: str) -> None:
+def exercise_origin(name: str, base: str, instant: str) -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
     for city in city_ids():
         with tempfile.TemporaryDirectory(prefix=f"vivamos-parity-{name}-{city}-") as profile:
             driver = webdriver.Chrome(options=chrome_options(profile))
@@ -219,13 +239,14 @@ def exercise_origin(name: str, base: str, instant: str) -> None:
                 driver.get(f"{base}?city={city}&parity=pwa")
                 wait_ready(driver, city)
                 pwa = capture_states(driver)
-                compare_snapshots(name, city, instant, online, pwa)
+                rows.extend(compare_snapshots(name, city, instant, online, pwa))
             finally:
                 try:
                     set_offline(driver, False)
                 except Exception:
                     pass
                 driver.quit()
+    return rows
 
 
 def normalized_instant(value: str | None) -> str:
@@ -238,22 +259,41 @@ def normalized_instant(value: str | None) -> str:
     return parsed.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
+def write_report(path: str, mode: str, instant: str, rows: list[dict[str, object]]) -> None:
+    output = Path(path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "schema_version": "1.0.0",
+        "mode": mode,
+        "at": instant,
+        "rows": rows,
+    }
+    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"WEB_PWA_VISIBILITY_REPORT_OK path={output} rows={len(rows)}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Require exact visible event-ID parity between live web and cached PWA.")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--production", action="store_true")
     mode.add_argument("--local", action="store_true")
     parser.add_argument("--at", default=None, help="Offset-aware ISO instant; defaults to current UTC minute.")
+    parser.add_argument("--json-output", default=None, help="Optional JSON evidence output with the exact visible IDs.")
     args = parser.parse_args()
     instant = normalized_instant(args.at)
+    rows: list[dict[str, object]] = []
 
     if args.production:
+        report_mode = "production"
         for name, base in PRODUCTION_ORIGINS.items():
-            exercise_origin(name, base, instant)
+            rows.extend(exercise_origin(name, base, instant))
     else:
+        report_mode = "local"
         with local_origin() as base:
-            exercise_origin("local", base, instant)
+            rows.extend(exercise_origin("local", base, instant))
 
+    if args.json_output:
+        write_report(args.json_output, report_mode, instant, rows)
     print(f"WEB_PWA_VISIBILITY_PARITY_COMPLETE at={instant}")
     return 0
 
