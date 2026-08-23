@@ -47,6 +47,8 @@ jobs:
           node --check app/source-evidence-normalizer.mjs
           node --check app/source-evidence-authority.test.mjs
           node --check app/public-text-sanitizer.mjs
+          node --check app/runtime-past-event-guard.mjs
+          node --check app/event-lifecycle-core.test.mjs
           node --check assets/event-schedule-display.mjs
           node app/scripts/test_schedule_contract_point8.mjs
           node app/public-text-sanitizer.test.mjs
@@ -56,3 +58,4 @@ jobs:
           node app/date-aware-exhibition-hours.test.mjs
           node app/venue-hours.test.mjs
           node app/today-session-presentation.test.mjs
+          node app/event-lifecycle-core.test.mjs
