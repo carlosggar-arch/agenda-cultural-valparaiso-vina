@@ -119,6 +119,7 @@
     "./public-category-taxonomy.generated.mjs",
     "./public-presentation-guard.js",
     "./public-presentation-rules.mjs",
+    "./public-selection-core.mjs",
     "./public-text-sanitizer.mjs",
     "./public-title-normalizer.mjs",
     "./pwa-header-64px.css",
