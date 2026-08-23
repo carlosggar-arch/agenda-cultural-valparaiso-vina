@@ -9,11 +9,19 @@ function event(id, start, end = start, event_type = "event") {
   return { id, event_type, schedule: { start, end, occurrences: [] } };
 }
 
-test("hides single-day events from yesterday", () => {
+test("hides single-day events only after their local calendar day ends", () => {
   assert.equal(eventIsCurrentOrFuture(event("past", "2026-08-19T20:00:00-04:00"), {
     now,
     timeZone: "America/Santiago",
   }), false);
+});
+
+test("keeps every event from today visible regardless of its start time", () => {
+  const lateToday = new Date("2026-08-21T03:59:59Z");
+  assert.equal(eventIsCurrentOrFuture(event("morning", "2026-08-20T10:00:00-04:00"), {
+    now: lateToday,
+    timeZone: "America/Santiago",
+  }), true);
 });
 
 test("keeps ongoing multi-day events that started earlier", () => {

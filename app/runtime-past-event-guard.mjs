@@ -1,5 +1,3 @@
-export const POINT_EVENT_VISIBILITY_HOURS = 4;
-
 export const LIFECYCLE_STATES = Object.freeze({
   UPCOMING: "upcoming",
   LIVE: "live",
@@ -68,11 +66,6 @@ function parsedInstant(value) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-function pointVisibilityUntil(start, explicitEnd = null) {
-  if (explicitEnd instanceof Date && explicitEnd.getTime() > start.getTime()) return explicitEnd;
-  return new Date(start.getTime() + POINT_EVENT_VISIBILITY_HOURS * 60 * 60 * 1000);
-}
-
 function datedWindows(event) {
   if (["program", "flexible_offer", "recurring_offer", "permanent_offer"].includes(event?.event_type)) return [];
   const occurrences = event?.schedule?.occurrences;
@@ -99,47 +92,27 @@ function lifecycleForWindow(window, { now, timeZone }) {
     const start = parsedInstant(startText);
     if (!start) return { state: LIFECYCLE_STATES.UNDATED, visible: true };
     const endText = String(window.end || "").trim();
+    const endDay = dateKeyForValue(endText, timeZone) || startDay;
 
     if (now.getTime() < start.getTime()) {
       return { state: LIFECYCLE_STATES.UPCOMING, visible: true, start };
     }
 
-    if (isDateOnly(endText) && endText > startDay) {
-      if (wall.day <= endText) {
-        return {
-          state: LIFECYCLE_STATES.ONGOING,
-          visible: true,
-          start,
-          startDay,
-          endDay: endText,
-        };
-      }
-      return {
-        state: LIFECYCLE_STATES.ENDED,
-        visible: false,
-        start,
-        startDay,
-        endDay: endText,
-      };
+    if (wall.day > endDay) {
+      return { state: LIFECYCLE_STATES.ENDED, visible: false, start, startDay, endDay };
     }
 
-    const end = endText ? parsedInstant(endText) : null;
-    const visibilityUntil = pointVisibilityUntil(start, end);
-    if (now.getTime() <= visibilityUntil.getTime()) {
-      return {
-        state: end ? LIFECYCLE_STATES.LIVE : LIFECYCLE_STATES.STARTED,
-        visible: true,
-        start,
-        end,
-        visibilityUntil,
-      };
+    const end = endText && !isDateOnly(endText) ? parsedInstant(endText) : null;
+    if (end && now.getTime() <= end.getTime()) {
+      return { state: LIFECYCLE_STATES.LIVE, visible: true, start, end, startDay, endDay };
     }
     return {
-      state: LIFECYCLE_STATES.ENDED,
-      visible: false,
+      state: endDay > startDay ? LIFECYCLE_STATES.ONGOING : LIFECYCLE_STATES.STARTED,
+      visible: true,
       start,
       end,
-      visibilityUntil,
+      startDay,
+      endDay,
     };
   }
 
