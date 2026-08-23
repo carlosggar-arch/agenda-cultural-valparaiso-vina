@@ -190,7 +190,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "exposiciones",
-        "pattern": "\\b(?:exposicion|muestra|museo|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b",
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b",
         "weight": 35
       },
       {
