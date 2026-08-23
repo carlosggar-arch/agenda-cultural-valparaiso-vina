@@ -1,4 +1,5 @@
 import { isPublicCategoryInGroup } from "./public-category-rules.mjs";
+import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260823-semantic-v1";
 
 function fold(value) {
   return String(value || "")
@@ -91,6 +92,10 @@ function asRegistrationReminder(event) {
   return {
     ...event,
     event_type: "registration_period",
+    lifecycle: {
+      ...(event?.lifecycle && typeof event.lifecycle === "object" ? event.lifecycle : {}),
+      state: "registration_period",
+    },
     editorial: {
       ...(event?.editorial || {}),
       classification: "registration_period",
@@ -122,6 +127,10 @@ function asProgram(event) {
   return {
     ...event,
     event_type: "program",
+    lifecycle: {
+      ...(event?.lifecycle && typeof event.lifecycle === "object" ? event.lifecycle : {}),
+      state: "program",
+    },
     schedule,
     editorial: {
       ...(event?.editorial || {}),
@@ -144,5 +153,8 @@ export function normalizeFormationCycles(dataset) {
     changed = true;
     return asProgram(event);
   });
-  return changed ? { ...dataset, events } : dataset;
+  if (!changed) return dataset;
+  // Re-run the shared semantic authority after lifecycle mutation so category,
+  // domain trace, format and audience all describe the same final event record.
+  return normalizeAgendaCategories({ ...dataset, events });
 }
