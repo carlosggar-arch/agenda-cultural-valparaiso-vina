@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v209 refreshes the Maps module so installed Apps receive the 25 px control.
-  const RELEASE = 209;
+  // v210 enforces the exact 25 px Maps control through the accessibility cascade.
+  const RELEASE = 210;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
