@@ -5,7 +5,7 @@ import { groupStandaloneExhibitions } from "./exhibition-group-core.mjs?v=202608
 import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { formatSchedule as formatSharedSchedule } from "../assets/event-schedule-display.mjs";
-import { eventMatchesCanonicalSection } from "./public-selection-core.mjs?v=20260823-selection1";
+import { semanticSearchTerms } from "./semantic-search.mjs?v=20260823-semantic-search1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
@@ -414,7 +414,19 @@ function isWorkshop(event) {
 }
 
 function eventMatchesSection(event, sectionId) {
-  return eventMatchesCanonicalSection(event, sectionId, activeCity, new Date());
+  if (sectionId === "todos") return true;
+  if (sectionId === "gratis") return event?.price?.is_free === true;
+  if (sectionId === "talleres-cursos") return isWorkshop(event);
+
+  const { today, weekend, soon } = currentTimeContext();
+  const ranges = eventDateRanges(event);
+  if (!ranges.length) return false;
+
+  if (sectionId === "hoy") return ranges.some((range) => rangesOverlap(range, today, today));
+  if (sectionId === "fin-de-semana") return ranges.some((range) => rangesOverlap(range, weekend.start, weekend.end));
+  if (sectionId === "terminan-pronto") return ranges.some((range) => range.start <= today && range.end > today && range.end <= soon);
+  if (sectionId === "proximos") return ranges.some((range) => range.end >= today);
+  return true;
 }
 
 function eventMatchesCategory(event, categoryId) {
@@ -679,6 +691,7 @@ function eventSearchHaystack(event) {
     event?.title,
     ...rawEventCategories(event).values(),
     eventCategory(event),
+    ...semanticSearchTerms(event),
     event?.location?.venue,
     event?.location?.city,
     event?.description,

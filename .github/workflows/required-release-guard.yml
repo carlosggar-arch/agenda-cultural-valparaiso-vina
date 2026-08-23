@@ -12,7 +12,7 @@ jobs:
   release-guard:
     name: release-guard
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -39,6 +39,10 @@ jobs:
             app/scripts/test_runtime_browser.py \
             app/scripts/test_temporal_priority_browser.py \
             app/scripts/test_pwa_cache_first_startup.py \
+            app/scripts/test_web_pwa_visibility_parity.py \
+            app/scripts/test_runtime_authority_audit.py \
+            app/scripts/semantic_quality_history.py \
+            app/scripts/test_semantic_quality_history.py \
             app/scripts/test_date_filter_browser.py \
             app/scripts/test_exhibition_visual_parity.py \
             app/scripts/test_exhibition_filter_isolation_browser.py \
@@ -55,6 +59,8 @@ jobs:
             app/scripts/test_structural_hardening.py
           node --check app/app.js
           node --check app/app-core.js
+          node --check app/semantic-search.mjs
+          node --check app/semantic-search.test.mjs
           node --check app/data-pipeline.js
           node --check app/artequin-session-correction.js
           node --check app/artequin-session-correction.test.mjs
@@ -68,8 +74,6 @@ jobs:
           node --check app/combined-filters.js
           node --check app/combined-filters-safety.js
           node --check app/date-filter-architecture.test.mjs
-          node --check app/public-selection-core.mjs
-          node --check app/public-selection-parity.test.mjs
           node --check app/public-title-normalizer.test.mjs
           node --check app/exhibition-groups.js
           node --check app/exhibition-group-core.mjs
@@ -98,7 +102,10 @@ jobs:
           python app/scripts/generate_runtime_contracts.py --check
           python app/scripts/release_bundle.py --check
           python app/scripts/test_structural_hardening.py
+          python app/scripts/test_runtime_authority_audit.py
+          python app/scripts/test_semantic_quality_history.py
           python app/scripts/test_priority_zero_monitors.py
+          node app/semantic-search.test.mjs
           node app/venue-identity.test.mjs
           node app/event-card-data-quality.test.mjs
           python app/scripts/run_contracts.py --profile required-release
@@ -111,9 +118,13 @@ jobs:
           node app/registration-reminder-classifier.test.mjs
           node app/registration-reminders-architecture.test.mjs
           node app/date-filter-architecture.test.mjs
-          node app/public-selection-parity.test.mjs
           node app/public-title-normalizer.test.mjs
           python app/scripts/test_multicity_source_registry_coverage.py
+
+      - name: Require exact WEB PWA event-ID parity
+        run: |
+          set -euo pipefail
+          python app/scripts/test_web_pwa_visibility_parity.py --local
 
       - name: Run canonical browser scenarios
         run: |
@@ -131,5 +142,5 @@ jobs:
 
       - name: Note final Stage D gate roles
         run: |
-          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering, installability and runtime data-consumer authority."
+          echo "Required release guard is the single PR composer for canonical release contracts and browser scenarios, including temporal ordering, installability, runtime data-consumer authority and exact WEB/PWA visible-ID parity."
           echo "Production network verification runs only after merge on main (or manual rerun against latest main)."

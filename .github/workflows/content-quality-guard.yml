@@ -6,25 +6,41 @@ on:
     paths:
       - "agenda_web.json"
       - "app/data/**/agenda_web.json"
+      - "app/data/quality/semantic-*.json"
       - "app/cities.json"
+      - "shared/event-semantics.json"
+      - "scripts/event_semantics.py"
+      - "scripts/public_category_rules.py"
+      - "scripts/semantic_quality_audit.py"
       - "app/scripts/apply_content_quality_guard.py"
       - "app/scripts/audit_editorial_quality.py"
+      - "app/scripts/semantic_quality_history.py"
       - "app/scripts/test_content_quality_guard.py"
       - "app/scripts/test_editorial_quality_audit.py"
+      - "app/scripts/test_semantic_quality_history.py"
+      - "tests/test_semantic_quality_audit.py"
       - ".github/workflows/content-quality-guard.yml"
   pull_request:
     branches: [main]
     paths:
       - "agenda_web.json"
       - "app/data/**/agenda_web.json"
+      - "app/data/quality/semantic-*.json"
       - "app/cities.json"
+      - "shared/event-semantics.json"
+      - "scripts/event_semantics.py"
+      - "scripts/public_category_rules.py"
+      - "scripts/semantic_quality_audit.py"
       - "app/scripts/apply_content_quality_guard.py"
       - "app/scripts/audit_editorial_quality.py"
+      - "app/scripts/semantic_quality_history.py"
       - "app/scripts/test_content_quality_guard.py"
       - "app/scripts/test_editorial_quality_audit.py"
+      - "app/scripts/test_semantic_quality_history.py"
+      - "tests/test_semantic_quality_audit.py"
       - ".github/workflows/content-quality-guard.yml"
   schedule:
-    - cron: "17 7 * * 1"
+    - cron: "17 7 * * *"
   workflow_dispatch:
 
 permissions:
@@ -37,12 +53,12 @@ concurrency:
 jobs:
   validate-public-content:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout current revision
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -53,18 +69,56 @@ jobs:
         run: |
           set -euo pipefail
           python -m py_compile \
+            scripts/event_semantics.py \
+            scripts/public_category_rules.py \
+            scripts/semantic_quality_audit.py \
             app/scripts/apply_content_quality_guard.py \
             app/scripts/audit_editorial_quality.py \
+            app/scripts/semantic_quality_history.py \
             app/scripts/test_content_quality_guard.py \
-            app/scripts/test_editorial_quality_audit.py
+            app/scripts/test_editorial_quality_audit.py \
+            app/scripts/test_semantic_quality_history.py \
+            tests/test_semantic_quality_audit.py
           python app/scripts/test_content_quality_guard.py
           python app/scripts/test_editorial_quality_audit.py
+          python app/scripts/test_semantic_quality_history.py
+          python tests/test_semantic_quality_audit.py
           python app/scripts/apply_content_quality_guard.py --all-cities --no-write
           python app/scripts/audit_editorial_quality.py \
             --all-cities \
             --output /tmp/editorial-quality-audit.json \
             --fail-on none
           echo "PUBLIC_CONTENT_QUALITY_MULTI_CITY_READ_ONLY_OK"
+
+      - name: Build daily semantic editorial inbox
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/semantic-editorial-inbox
+          BASE_REF="${PR_BASE_SHA:-$PUSH_BASE_SHA}"
+          if [ -z "$BASE_REF" ] || [ "$BASE_REF" = "0000000000000000000000000000000000000000" ]; then
+            BASE_REF="$(git rev-parse HEAD^ 2>/dev/null || true)"
+          fi
+          if [ -n "$BASE_REF" ]; then
+            python scripts/semantic_quality_audit.py \
+              --compare-ref "$BASE_REF" \
+              --json-output /tmp/semantic-editorial-inbox/report.json \
+              --markdown-output /tmp/semantic-editorial-inbox/inbox.md
+          else
+            python scripts/semantic_quality_audit.py \
+              --json-output /tmp/semantic-editorial-inbox/report.json \
+              --markdown-output /tmp/semantic-editorial-inbox/inbox.md
+          fi
+          python app/scripts/semantic_quality_history.py \
+            --no-write \
+            --source-ref "${GITHUB_SHA}" \
+            --markdown-output /tmp/semantic-editorial-inbox/trend.md
+          cat /tmp/semantic-editorial-inbox/inbox.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n' >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/semantic-editorial-inbox/trend.md >> "$GITHUB_STEP_SUMMARY"
+          echo "SEMANTIC_EDITORIAL_INBOX_READ_ONLY_OK"
 
       - name: Upload editorial quality audit
         if: always()
@@ -74,6 +128,15 @@ jobs:
           path: /tmp/editorial-quality-audit.json
           if-no-files-found: warn
           retention-days: 14
+
+      - name: Upload semantic editorial inbox
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-editorial-inbox
+          path: /tmp/semantic-editorial-inbox/
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Confirm writer ownership
         run: |
