@@ -3,6 +3,7 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260823-
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { directCardVisibilityState, groupedCardVisibilityState } from "./visibility-owner-core.mjs?v=20260822-visibility1";
 import { eventMatchesCanonicalSection } from "./public-selection-core.mjs?v=20260823-selection1";
+import { semanticSearchTerms } from "./semantic-search.mjs";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const CITY_CONFIG = CITY_REGISTRY.byId;
@@ -235,6 +236,7 @@ function eventSearchText(event) {
   return normalizeText([
     event?.title,
     ...eventCategories(event).values(),
+    ...semanticSearchTerms(event),
     event?.location?.venue,
     event?.location?.address,
     event?.location?.city,
