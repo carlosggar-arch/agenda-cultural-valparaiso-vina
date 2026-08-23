@@ -98,6 +98,7 @@
     "./index.html",
     "./installed-mosaic.js",
     "./manifest.webmanifest",
+    "./map-navigation-enhancer.js",
     "./mis-planes.html",
     "./mobile-action-strip-six.js",
     "./mobile-experience.css",
