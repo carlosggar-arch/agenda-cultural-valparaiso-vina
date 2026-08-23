@@ -191,7 +191,7 @@ def dump_dom(url: str) -> str:
             "--no-first-run",
             "--no-default-browser-check",
             "--window-size=1280,1000",
-            "--virtual-time-budget=5500",
+            "--virtual-time-budget=9000",
             f"--user-data-dir={profile}",
             "--dump-dom",
             url,
