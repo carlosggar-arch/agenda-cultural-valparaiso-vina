@@ -5,6 +5,7 @@ import { normalizeAgendaTitles, recoverAgendaTitles } from "./title-normalizer-b
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 const categoryNormalizer = read("./category-normalizer.js");
+const categoryRules = read("./public-category-rules.mjs");
 const titleNormalizer = read("./title-normalizer-bootstrap.js");
 const presentationGuard = read("./public-presentation-guard.js");
 const pipeline = read("./data-pipeline.js");
@@ -52,7 +53,9 @@ assert.equal(
 assert.match(titleNormalizer, /recoverExplicitActivityTitle/);
 assert.match(titleNormalizer, /recoverAgendaTitles/);
 assert.doesNotMatch(categoryNormalizer, /QUOTED_ACTIVITY|recoverExplicitActivityTitle|repairVenueTitle/, "category normalizer must not recover semantic titles");
-assert.match(categoryNormalizer, /category_recovery_hint/, "category normalizer may consume a title-owned semantic hint");
+assert.doesNotMatch(categoryNormalizer, /category_recovery_hint/, "category normalizer must not bypass the shared semantic classifier");
+assert.match(categoryRules, /category_recovery_hint/, "shared category authority may consume a title-owned semantic hint as weighted evidence");
+assert.match(categoryRules, /recovery_hint_weight/, "title-owned semantic hints must remain weighted evidence rather than direct authority");
 
 const recoveryIndex = pipeline.indexOf('applyStage("title-recovery"');
 const categoryIndex = pipeline.indexOf('applyStage("category-normalizer"');
