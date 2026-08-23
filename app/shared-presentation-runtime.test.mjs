@@ -57,11 +57,13 @@ assert.doesNotMatch(
 
 const releaseMatch = releaseSource.match(/const RELEASE = (\d+);/);
 assert.ok(releaseMatch, "release-version.js must expose the canonical numeric release");
-assert.match(
-  index,
-  new RegExp(`<script type="module" src="\\./app\\.js\\?v=${releaseMatch[1]}"></script>`),
-  "the outer app.js module URL must use the canonical release number so a new presentation release cannot remain hidden behind a stale browser/CDN cache key",
-);
+for (const asset of ["app.js", "map-navigation-enhancer.js"]) {
+  assert.match(
+    index,
+    new RegExp(`<script type="module" src="\\./${asset.replaceAll(".", "\\.")}\\?v=${releaseMatch[1]}"></script>`),
+    `${asset} must use the canonical release number so a new presentation release cannot remain hidden behind a stale browser/CDN cache key`,
+  );
+}
 
 assert.match(
   runtime,
