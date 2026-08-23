@@ -17,31 +17,32 @@ function installStyles() {
       align-items:center !important;
       justify-content:center !important;
       flex:0 0 auto;
-      width:1.25rem;
-      height:1.25rem;
-      margin-left:.28rem !important;
+      width:1.08rem;
+      height:.94rem;
+      margin-left:.24rem !important;
       padding:0;
-      border:1px solid color-mix(in srgb,var(--brand,#174f46) 24%,transparent);
-      border-radius:999px;
-      background:color-mix(in srgb,var(--brand,#174f46) 9%,#fff);
+      border:1px solid color-mix(in srgb,var(--brand,#174f46) 22%,transparent);
+      border-radius:.34rem;
+      background:color-mix(in srgb,var(--brand,#174f46) 8%,#fff);
       color:var(--brand,#174f46) !important;
-      font-size:.78rem !important;
+      font-size:.66rem !important;
       font-weight:900 !important;
       line-height:1 !important;
-      opacity:1 !important;
+      opacity:.92 !important;
       text-decoration:none !important;
       vertical-align:middle !important;
       transform:none !important;
-      transition:background .14s ease,border-color .14s ease,transform .14s ease;
+      transition:background .14s ease,border-color .14s ease,opacity .14s ease;
     }
     .map-location-link:hover,
     .map-location-link:focus-visible {
-      background:color-mix(in srgb,var(--brand,#174f46) 16%,#fff);
-      border-color:color-mix(in srgb,var(--brand,#174f46) 42%,transparent);
+      background:color-mix(in srgb,var(--brand,#174f46) 14%,#fff);
+      border-color:color-mix(in srgb,var(--brand,#174f46) 38%,transparent);
+      opacity:1 !important;
       text-decoration:none !important;
     }
     .map-location-link:focus-visible {
-      outline:2px solid color-mix(in srgb,var(--brand,#174f46) 34%,transparent);
+      outline:2px solid color-mix(in srgb,var(--brand,#174f46) 32%,transparent);
       outline-offset:2px;
     }
     .card-fact--map-location {
