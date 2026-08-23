@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import test_runtime_browser as runtime
 
 DETAIL_MEDIA_TIMEOUT_SECONDS = 8
+BASE_OPEN_VISIBLE_DETAIL = runtime.open_visible_detail_with_relevant_media
 
 
 def detail_media_ready(driver, event_id: str) -> bool:
@@ -35,7 +36,7 @@ def open_visible_detail_after_media_runtime_is_ready(driver) -> str | None:
     open_event_id = driver.execute_script(
         "return document.querySelector('dialog[data-event-detail][open]')?.dataset?.eventDetail || null;"
     )
-    event_id = str(open_event_id or runtime.open_visible_detail_with_relevant_media(driver) or "").strip()
+    event_id = str(open_event_id or BASE_OPEN_VISIBLE_DETAIL(driver) or "").strip()
     if not event_id:
         return None
 
