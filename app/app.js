@@ -3,7 +3,7 @@ import "./render-lifecycle.js?v=20260819-lifecycle1";
 
 // The core is intentionally a dynamic import: the watchdog above must execute
 // even if the core module graph fails to load or evaluate.
-const { coreReady } = await import("./app-core.js?v=20260820-exhibitionorder2");
+const { coreReady } = await import("./app-core.js?v=20260823-editorial1");
 
 // Presentation is one shared runtime. A city may contribute data, configuration
 // or a presentation adapter, but it must not select a different renderer.
@@ -12,7 +12,7 @@ const OPTIONAL_MODULES = [
   "./exhibition-groups.js?v=20260822-mapnav1",
   "./registration-reminders.js?v=20260820-registration1",
   "./schedule-display.js?v=20260822-mapnav1",
-  "./event-card-data-quality.mjs?v=20260821-quality1",
+  "./event-card-data-quality.mjs?v=20260823-contentkind1",
   "./exhibition-hours.js?v=20260821-next-hours1",
   "./card-experience.js?v=20260821-shared-runtime1",
   "./public-presentation-guard.js?v=20260821-shared-runtime1",
@@ -145,7 +145,7 @@ const { getAgendaRuntimeSnapshot } = await import("./agenda-runtime-state.mjs?v=
 const {
   compareAgendaOrder,
   diversifySortedAgendaEvents,
-} = await import("./agenda-order-core.mjs?v=20260823-diversity1");
+} = await import("./agenda-order-core.mjs?v=20260823-editorial1");
 const { classifyTemporalEvent } = await import("./temporal-priority-core.mjs?v=20260821-temporal4");
 let temporalOrderQueued = false;
 
