@@ -21,10 +21,23 @@ def _pushes_branch(text: str, branch: str) -> bool:
 
 
 def _destructive_pushes_branch(text: str, branch: str) -> bool:
-    git_push = r"git(?:\s+-C\s+\S+)?\s+push"
-    force = rf"{git_push}\s+[^\n]*(?:--force(?:-with-lease)?|\s-f\b)[^\n]*(?:{re.escape(branch)}|refs/heads/{re.escape(branch)})"
-    delete_refspec = rf"{git_push}\s+[^\n]*(?::(?:refs/heads/)?{re.escape(branch)}\b|--delete\s+\S+\s+{re.escape(branch)}\b)"
-    return bool(re.search(force, text) or re.search(delete_refspec, text))
+    """Detect only force/delete pushes to branch; normal HEAD:branch is safe."""
+    git_push = re.compile(r"git(?:\s+-C\s+\S+)?\s+push\b")
+    target = re.escape(branch)
+    for line in text.splitlines():
+        if not git_push.search(line):
+            continue
+        if branch not in line and f"refs/heads/{branch}" not in line:
+            continue
+        if re.search(r"(?:^|\s)(?:--force(?:-with-lease)?|-f)(?:\s|$)", line):
+            return True
+        if re.search(rf"--delete\s+\S+\s+(?:refs/heads/)?{target}(?:\s|$)", line):
+            return True
+        # A deletion refspec has no source ref: `:branch`. Requiring whitespace
+        # before the colon prevents false positives on normal `HEAD:branch`.
+        if re.search(rf"(?:^|\s):(?:refs/heads/)?{target}(?:\s|$)", line):
+            return True
+    return False
 
 
 def verify() -> None:
