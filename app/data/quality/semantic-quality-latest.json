@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "5aafd25ebc96aa21c3cfed6f0fbcb3db497af77402e1503be3249b3ec4753337",
-  "generated_at": "2026-08-24T15:52:21Z",
+  "fingerprint": "0e1135abb1a5bc014568aebbeb7d4959554e4534e19de3352ae77e34ccc04270",
+  "generated_at": "2026-08-24T16:02:34Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -163,18 +163,18 @@
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
         "cursos-talleres-campus": 0.066667,
-        "musica": 0.1,
-        "teatro": 0.133333,
-        "unclassified": 0.7
+        "musica": 0.3,
+        "teatro": 0.5,
+        "unclassified": 0.133333
       },
       "city_id": "gijon",
-      "dominant_category": "unclassified",
-      "dominant_share": 0.7,
+      "dominant_category": "teatro",
+      "dominant_share": 0.5,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "total": 30,
-      "unclassified": 21,
-      "unclassified_rate": 0.7
+      "unclassified": 4,
+      "unclassified_rate": 0.133333
     },
     "gijon::museo evaristo valle": {
       "category_distribution": {
@@ -641,14 +641,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "b37e7c1487354c94418e46002f4ea81546a04f9d",
+  "source_ref": "933b1bb3b55be1f5c9275559cc8da76090200bbd",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 45,
     "total_events": 385,
-    "unclassified_count": 38,
-    "unclassified_rate": 0.098701
+    "unclassified_count": 21,
+    "unclassified_rate": 0.054545
   },
   "unclassified_queue": [
     {
@@ -674,162 +674,12 @@
     {
       "candidates": [],
       "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_5ae5056634dd9513",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Abraham Cupeiro. Loira"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Albert Pla. No quiero hablar de mí, pero yo"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_b79b3095a37b8bf5",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "CantaJuego. Yo quiero ser..."
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_5ddeb1c3542bb49d",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "David Cepo en directo"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Depedro"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_b653534dd88bea31",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Diana Navarro. Ya no estoy sola"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
       "event_id": "gijon_laboral_ciudad_cultura_82d1c65a43fbe094",
       "evidence": [],
       "score": 0,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "title": "El Arrebato. El viaje inesperado"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_229d3806419a20b4",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "El Pollo Pepe. La gran aventura"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_024e6e919d498307",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Eliades Ochoa"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Eva Soriano. Disfrutona"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_08a81b2e867f7ee0",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Festival Rincones y Recovecos 2026"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_bc9165c4f44d113c",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Hovik. Grito"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_1e99895681062f60",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Joaquín Pajarón. Filososidra"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_bd4207817a3f138b",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Jorge Blass. Flipar"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_607958255bbc9352",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Juan Dávila. El Palacio del Pecado"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Karim. Solo para adultos"
     },
     {
       "candidates": [],
@@ -850,26 +700,6 @@
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "title": "Melody. El bosque encantado"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_a06331fc6e92663c",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Miguel Miguel. ¡Acojonado!"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_2de8189d9a1fbee4",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "No me toques el cuento"
     },
     {
       "candidates": [],
