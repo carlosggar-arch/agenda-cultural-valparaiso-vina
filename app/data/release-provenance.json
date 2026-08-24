@@ -1,0 +1,18 @@
+{
+  "base_sha": "e53ce75556e1c3d53d1d1d586d1f34a5aad6efd1",
+  "generated_artifacts": [
+    "app/data/release-bundle.json",
+    "app/data/release-provenance.json",
+    "app/release-version.js",
+    "app/service-worker-assets.generated.js",
+    "app/venue-registry.generated.mjs"
+  ],
+  "generated_fragments": [
+    "app/index.html::module-release-query-keys"
+  ],
+  "generator": "app/scripts/release_finalizer.py",
+  "release": 226,
+  "schema_version": "1.0.0",
+  "source_pr": 446,
+  "source_sha": "c0b6c4b56dd59c567d14cb292443e8ffc2cd7cc8"
+}

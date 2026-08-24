@@ -12,6 +12,8 @@ on:
       - "app/cities.json"
       - "app/data/source-registry.json"
       - "app/data/gijon/agenda_web.json"
+      - "app/data/production-series-contracts.json"
+      - "app/data/release-provenance.json"
       - "app/assets/event-images/**"
       - "admin-staging/**"
       - "assets/*.js"
@@ -27,6 +29,10 @@ on:
       - "app/scripts/production_release_attestation.py"
       - "app/scripts/production_certification_history.py"
       - "app/scripts/production_admin_staging_smoke.py"
+      - "app/scripts/production_release_chain.py"
+      - "app/scripts/production_series_contract.py"
+      - "app/scripts/release_finalizer.py"
+      - "app/scripts/release_bundle.py"
       - ".github/workflows/publish.yml"
   workflow_dispatch:
     # Explicit recovery path when an automated merge does not emit a push run.
@@ -34,9 +40,11 @@ on:
 permissions:
   contents: read
 
+# Never cancel an already-started publication. Main releases are serialized so
+# every accepted release gets its own complete deployment and attestation.
 concurrency:
   group: publish-production
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   sync-cloudflare:
@@ -51,6 +59,7 @@ jobs:
         with:
           ref: cloudflare-preview
           fetch-depth: 0
+
       - name: Merge approved main without rewriting deployment history
         run: |
           set -euo pipefail
@@ -69,7 +78,7 @@ jobs:
             exit 1
           fi
 
-      - name: Validate Cloudflare build snapshot
+      - name: Validate Cloudflare build snapshot and release lineage
         run: |
           set -euo pipefail
           bash cloudflare-build.sh
@@ -80,6 +89,7 @@ jobs:
           test -f _cloudflare_site/app/data/gijon/agenda_web.json
           cmp app/release-version.js _cloudflare_site/app/release-version.js
           python scripts/verify_canonical_main_writer.py
+          python app/scripts/release_finalizer.py --check-published --finalizer-ref HEAD
 
       - name: Push synchronized deployment branch
         run: |
@@ -175,6 +185,7 @@ jobs:
             echo "- Cloudflare byte parity: OK"
             echo "- Changed dataset freshness/identity: OK"
             echo "- Shared temporal/data-pipeline contracts: OK"
+            echo "- Canonical release lineage: OK"
             echo "- Publication is not final yet: visual verification is pending."
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -221,7 +232,7 @@ jobs:
           if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
             echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2
             printf '%s\n' "$runtime_changed" >&2
-            echo "Bump the shared release before relying on a production smoke; otherwise the deployment cannot be distinguished from the previous runtime." >&2
+            echo "A canonical finalizer release is required before production verification." >&2
             exit 1
           fi
 
@@ -229,10 +240,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git fetch origin main
+          git fetch origin main cloudflare-preview
           git reset --hard origin/main
           echo "PRODUCTION_SMOKE_HEAD=$(git rev-parse HEAD)"
+          echo "PRODUCTION_CLOUDFLARE_HEAD=$(git rev-parse origin/cloudflare-preview)"
           mkdir -p /tmp/production-release-verification
+          python app/scripts/release_finalizer.py --check-published --finalizer-ref HEAD \
+            | tee /tmp/production-release-verification/release-lineage.log
 
       - name: Validate local shell before network smoke
         run: |
@@ -244,7 +258,10 @@ jobs:
             app/scripts/test_web_pwa_visibility_parity.py \
             app/scripts/production_release_attestation.py \
             app/scripts/production_certification_history.py \
-            app/scripts/production_admin_staging_smoke.py
+            app/scripts/production_admin_staging_smoke.py \
+            app/scripts/production_release_chain.py \
+            app/scripts/production_series_contract.py \
+            app/scripts/release_finalizer.py
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for both deployments and verify byte parity
@@ -267,6 +284,14 @@ jobs:
           set -euo pipefail
           python app/scripts/production_browser_selenium_smoke.py \
             | tee /tmp/production-release-verification/browser.log
+
+      - name: Verify structural event-series semantics on both origins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/production_series_contract.py \
+            | tee /tmp/production-release-verification/series.log
+          grep -q '^PRODUCTION_SERIES_CONTRACTS_VERIFIED ' /tmp/production-release-verification/series.log
 
       - name: Warm-reopen Valpo mobile on GitHub Pages and Cloudflare
         shell: bash
@@ -299,6 +324,25 @@ jobs:
           grep -q '^PRODUCTION_RELEASE_VERIFIED ' /tmp/production-release-verification/attestation.log
           grep -q '^PRODUCTION_ADMIN_STAGING_VERIFIED ' /tmp/production-release-verification/admin-staging.log
           cat /tmp/production-release-verification/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Certify exact source-to-production chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin cloudflare-preview
+          python app/scripts/production_release_chain.py \
+            --cloudflare-ref origin/cloudflare-preview \
+            --attestation /tmp/production-release-verification/production-release-attestation.json \
+            --output /tmp/production-release-verification/production-release-chain.json \
+            | tee /tmp/production-release-verification/release-chain.log
+          grep -q '^PRODUCTION_RELEASE_CHAIN_CERTIFIED ' /tmp/production-release-verification/release-chain.log
+          {
+            echo ""
+            echo "### Exact release chain"
+            echo '```'
+            tail -n 1 /tmp/production-release-verification/release-chain.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout permanent production certification history
         uses: actions/checkout@v7
@@ -334,3 +378,32 @@ jobs:
           path: /tmp/production-release-verification/
           if-no-files-found: error
           retention-days: 30
+
+  refresh-open-release-prs:
+    name: refresh-open-release-prs
+    needs: production-smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Refresh open same-repository PR candidates onto published main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls?state=open&base=main&per_page=100" \
+            --jq '.[] | select(.draft == false and .head.repo.full_name == .base.repo.full_name) | [.number, .head.sha] | @tsv' \
+            | while IFS=$'\t' read -r number head_sha; do
+                [[ -n "$number" && -n "$head_sha" ]] || continue
+                echo "Refreshing PR #$number from head=$head_sha against newly published main"
+                if gh api --method PUT "repos/${GITHUB_REPOSITORY}/pulls/${number}/update-branch" -f expected_head_sha="$head_sha" >/tmp/update-branch.json 2>/tmp/update-branch.err; then
+                  cat /tmp/update-branch.json
+                else
+                  echo "::notice title=PR refresh deferred::PR #$number could not be updated automatically (conflict, protected branch or concurrent head change). Fresh-main gate remains authoritative."
+                  cat /tmp/update-branch.err || true
+                fi
+              done
+          echo "OPEN_RELEASE_PRS_REFRESHED_OR_SAFELY_DEFERRED"

@@ -14,16 +14,27 @@ permissions:
 
 jobs:
   release-guard:
-    # Stable branch-protection context; the workflow owner is now PR release gate.
     name: release-guard
     runs-on: ubuntu-latest
     timeout-minutes: 24
+    concurrency:
+      group: release-integration-queue
+      cancel-in-progress: false
+    env:
+      FINALIZER_REF: ${{ github.event.pull_request.head.sha || github.sha }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Fetch current integration base
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          echo "RELEASE_QUEUE_BASE=$(git rev-parse origin/main)"
+          echo "RELEASE_QUEUE_CANDIDATE=$FINALIZER_REF"
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -32,9 +43,21 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ci.txt
 
-      - name: Classify release impact
+      - name: Classify release impact against current main
         id: impact
-        run: python app/scripts/ci_change_impact.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}" --github-output "$GITHUB_OUTPUT"
+        run: python app/scripts/ci_change_impact.py --base "$(git rev-parse origin/main)" --head "$FINALIZER_REF" --github-output "$GITHUB_OUTPUT"
+
+      - name: Compile canonical release finalizer
+        run: |
+          set -euo pipefail
+          python -m py_compile app/scripts/release_finalizer.py app/scripts/release_bundle.py app/scripts/test_release_finalizer.py app/scripts/production_release_chain.py app/scripts/production_series_contract.py
+          python app/scripts/test_release_finalizer.py
+
+      - name: Require fresh canonical finalization
+        if: steps.impact.outputs.release == 'true'
+        run: |
+          set -euo pipefail
+          python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref "$FINALIZER_REF"
 
       - name: Install browser test dependency
         if: steps.impact.outputs.release == 'true'
@@ -68,11 +91,15 @@ jobs:
             app/scripts/production_*_smoke.py \
             app/scripts/production_warm_start_smoke.py \
             app/scripts/production_release_attestation.py \
+            app/scripts/production_release_chain.py \
+            app/scripts/production_series_contract.py \
             app/scripts/test_production_release_attestation.py \
             app/scripts/test_production_pwa_smoke_contract.py \
             app/scripts/test_web_pwa_visibility_parity.py \
             app/scripts/generate_runtime_contracts.py \
             app/scripts/release_bundle.py \
+            app/scripts/release_finalizer.py \
+            app/scripts/test_release_finalizer.py \
             app/scripts/semantic_quality_history.py \
             app/scripts/test_semantic_quality_history.py \
             app/scripts/test_structural_hardening.py
@@ -131,6 +158,7 @@ jobs:
           python app/scripts/generate_runtime_contracts.py --check
           python app/scripts/test_release_delta.py
           python app/scripts/release_bundle.py --check
+          python app/scripts/test_release_finalizer.py
           python app/scripts/test_semantic_quality_history.py
           python app/scripts/semantic_quality_history.py --no-write
           python app/scripts/test_production_release_attestation.py
@@ -157,9 +185,7 @@ jobs:
 
       - name: Run canonical browser scenarios
         if: steps.impact.outputs.release == 'true'
-        run: |
-          set -euo pipefail
-          python app/scripts/run_browser_scenarios.py --all
+        run: python app/scripts/run_browser_scenarios.py --all
 
       - name: Require local WEB versus cached PWA ordered presentation parity
         if: steps.impact.outputs.release == 'true'
@@ -174,11 +200,12 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
-      - name: Note final Stage D gate roles
+      - name: Note structural release gate roles
         if: steps.impact.outputs.release == 'true'
         run: |
-          echo "Required release guard enforces release deltas, generated artifacts, semantic history dry-runs, production attestation contracts, computed UI contracts, canonical browser scenarios and local live/cached PWA ordered ID/category/section/temporal parity."
-          echo "Production network verification and PRODUCTION_RELEASE_VERIFIED attestation run only after merge on main (or manual rerun against latest main)."
+          echo "The global release-integration queue serializes candidates."
+          echo "A candidate is mergeable only when latest main is an ancestor, the canonical finalizer owns generated outputs, release == current-main+1, and all release/browser/parity contracts are green."
+          echo "Production network, series semantics and exact source-to-production chain certification run after merge."
       - name: No release surface affected
         if: steps.impact.outputs.release != 'true'
-        run: echo "Release browser gate skipped by deterministic path classification."
+        run: echo "Release browser gate skipped by deterministic path classification; canonical finalizer unit contracts still ran."
