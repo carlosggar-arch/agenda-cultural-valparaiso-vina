@@ -513,8 +513,6 @@ async function start() {
       const event = events.get(id);
       if (event) enhanceCard(card, event);
     });
-    const total = document.querySelector("[data-total]");
-    setTextIfChanged(total, sourceEvents.length - rejectedIds.size);
     const requested = new URL(window.location.href).searchParams.get("evento");
     if (rejectedIds.has(String(requested || ""))) {
       document.querySelector("[data-detail-dialog]")?.close?.();
