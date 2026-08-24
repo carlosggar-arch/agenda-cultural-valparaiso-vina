@@ -127,6 +127,8 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
         if (!card) return null;
         const image = card.querySelector('img[data-event-image="relevant"]');
         if (!image || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return null;
+        const rect = image.getBoundingClientRect();
+        if (rect.width < 1 || rect.height < 1) return null;
         const currentSrc = image.currentSrc || image.src || '';
         if (!currentSrc.endsWith('/app/assets/event-images/valparaiso/' + arguments[1])) return null;
         if (card.querySelector('.placeholder, .event-card-media--placeholder, [data-generated-event-image="true"]')) return null;
@@ -134,6 +136,8 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
           currentSrc,
           naturalWidth: image.naturalWidth,
           naturalHeight: image.naturalHeight,
+          layoutWidth: rect.width,
+          layoutHeight: rect.height,
           eventImageId: image.dataset.eventImageId,
         };
         """,
@@ -143,14 +147,13 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
 
 
 def prepare_image_evidence(driver: webdriver.Chrome, event_id: str) -> bool:
-    """Trigger one lazy image without mutating scroll state on every poll."""
+    """Trigger one lazy image without mutating the page scroll state."""
     return bool(driver.execute_script(
         """
         const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
         const image = card?.querySelector('img[data-event-image="relevant"]');
         if (!card || !image) return false;
         image.loading = 'eager';
-        card.scrollIntoView({block: 'center'});
         return true;
         """,
         event_id,
@@ -195,6 +198,7 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
                         print(
                             f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} "
                             f"event={event_id} file={filename} natural={evidence['naturalWidth']}x{evidence['naturalHeight']} "
+                            f"layout={evidence['layoutWidth']:.0f}x{evidence['layoutHeight']:.0f} "
                             f"title={title!r}"
                         )
                     break
