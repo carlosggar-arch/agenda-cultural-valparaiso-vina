@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   buildVenueImagePools,
@@ -194,6 +195,13 @@ test("group surface preserves raw event image policy and exact URL string", () =
     resolveEventImage(cached, { surface: "card", baseUrl: ROOT_BASE }).url,
     new URL("./app/assets/event-images/gijon/event.webp", ROOT_BASE).href,
   );
+});
+
+test("root WEB consumes the shared multicity image URL resolver", () => {
+  const webSource = readFileSync(new URL("../assets/agenda.js", import.meta.url), "utf8");
+  assert.match(webSource, /import \{ safeHttpImageUrl \} from "\.\.\/app\/image-resolver-core\.mjs/);
+  assert.match(webSource, /safeHttpImageUrl\(event\.image\?\.url, \{ baseUrl: location\.href \}\)/);
+  assert.doesNotMatch(webSource, /safeHttpUrl\(event\.image\?\.url\)/);
 });
 
 test("detail surface preserves safe direct-image policy and explicit suppression", () => {
