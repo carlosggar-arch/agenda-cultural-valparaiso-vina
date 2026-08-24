@@ -79,6 +79,56 @@ def latest_payload(report: dict[str, Any], source_ref: str | None, generated_at:
     }
 
 
+def persistence_is_current(
+    report: dict[str, Any],
+    existing_latest: dict[str, Any] | None,
+    existing_history: dict[str, Any] | None,
+    source_ref: str | None,
+) -> bool:
+    """Return True only when the persisted state already represents this exact producer state.
+
+    Idempotence is deliberately strict: both the semantic fingerprint and the
+    canonical producer revision must match in latest and in the final compact
+    snapshot. A new source_ref is therefore still recorded even when the
+    semantic payload itself did not change.
+    """
+    if not existing_latest or not existing_history:
+        return False
+    fingerprint = report_fingerprint(report)
+    if existing_latest.get("history_schema_version") != SCHEMA_VERSION:
+        return False
+    if existing_latest.get("source_ref") != source_ref or existing_latest.get("fingerprint") != fingerprint:
+        return False
+    if canonical_payload(existing_latest) != canonical_payload(report):
+        return False
+    if existing_history.get("schema_version") != SCHEMA_VERSION:
+        return False
+    snapshots = existing_history.get("snapshots") or []
+    if not snapshots:
+        return False
+    current = snapshots[-1]
+    if current.get("source_ref") != source_ref or current.get("fingerprint") != fingerprint:
+        return False
+    return canonical_payload(current) == canonical_payload(report)
+
+
+def build_persistence_state(
+    report: dict[str, Any],
+    existing_latest: dict[str, Any] | None,
+    existing_history: dict[str, Any] | None,
+    source_ref: str | None,
+    generated_at: str,
+    max_snapshots: int = MAX_SNAPSHOTS,
+) -> tuple[dict[str, Any], dict[str, Any], bool]:
+    if persistence_is_current(report, existing_latest, existing_history, source_ref):
+        return dict(existing_latest or {}), dict(existing_history or {}), False
+
+    history = update_history(report, existing_history, source_ref, generated_at, max_snapshots)
+    latest = latest_payload(report, source_ref, generated_at)
+    changed = latest != (existing_latest or {}) or history != (existing_history or {})
+    return latest, history, changed
+
+
 def load_json(path: Path) -> dict[str, Any] | None:
     if not path.is_file():
         return None
@@ -164,11 +214,18 @@ def main() -> int:
     latest_path = resolve_path(args.latest_path)
     history_path = resolve_path(args.history_path)
     report = build_report()
-    existing = load_json(history_path)
-    history = update_history(report, existing, args.source_ref, generated_at, args.max_snapshots)
-    latest = latest_payload(report, args.source_ref, generated_at)
+    existing_latest = load_json(latest_path)
+    existing_history = load_json(history_path)
+    latest, history, changed = build_persistence_state(
+        report,
+        existing_latest,
+        existing_history,
+        args.source_ref,
+        generated_at,
+        args.max_snapshots,
+    )
 
-    if not args.no_write:
+    if not args.no_write and changed:
         write_json(latest_path, latest)
         write_json(history_path, history)
     if args.markdown_output:
@@ -179,8 +236,10 @@ def main() -> int:
     print(
         "SEMANTIC_QUALITY_HISTORY_OK "
         f"snapshots={len(history['snapshots'])} sources={len(report.get('source_metrics', {}))} "
-        f"write={str(not args.no_write).lower()}"
+        f"write={str(not args.no_write and changed).lower()} changed={str(changed).lower()}"
     )
+    if not changed:
+        print(f"SEMANTIC_HISTORY_ALREADY_CURRENT source_ref={args.source_ref or 'none'} fingerprint={report_fingerprint(report)}")
     return 0
 
 
