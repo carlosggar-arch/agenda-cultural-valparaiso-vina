@@ -11,9 +11,12 @@ CERTIFICATION_STATE_BRANCH = "state/production-certifications"
 
 
 def _pushes_branch(text: str, branch: str) -> bool:
+    # Accept the canonical `git push ...` form and scoped working-directory
+    # commands such as `git -C <path> push ...`; both are branch writers.
+    git_push = r"git(?:\s+-C\s+\S+)?\s+push"
     patterns = (
-        rf"git\s+push\s+[^\n]*HEAD:{re.escape(branch)}\b",
-        rf"git\s+push\s+[^\n]*refs/heads/{re.escape(branch)}\b",
+        rf"{git_push}\s+[^\n]*HEAD:{re.escape(branch)}\b",
+        rf"{git_push}\s+[^\n]*refs/heads/{re.escape(branch)}\b",
     )
     return any(re.search(pattern, text) for pattern in patterns)
 
