@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v224 publishes structural event-series session expansion on the shared multi-city pipeline.
-  const RELEASE = 224;
+  // v225 expands shared multicity semantic categories for experiences, musicals and tribute concerts.
+  const RELEASE = 225;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
