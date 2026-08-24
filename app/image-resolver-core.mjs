@@ -18,7 +18,6 @@ export const CATEGORY_IMAGE_PATHS = Object.freeze({
 const GENERIC_PROVIDER_HOSTS = /(^|\.)(passline\.com|eventrid\.cl|ticketplus\.(cl|com)|ticketmaster\.cl|puntoticket\.com|ticketpro\.(cl|com|net)|tickets\.cl|ticketera\.cl|ticketfacil\.cl|portaltickets\.cl|goignis\.cl)$/i;
 const GENERIC_PROVIDER_PATH = /(?:^|\/)(?:assets?\/(?:img|images?)\/)?(?:icon|logo|favicon|placeholder|default|no[-_]?image|sin[-_]?imagen)(?:[-_.\/]|$)/i;
 const GENERIC_AVATAR_HOSTS = /(^|\.)gravatar\.com$/i;
-const TEXT_HEAVY_EDITORIAL_IMAGE = /\/evento-[^/?#]+-portada(?:[-_.]|$)/i;
 
 function foldWords(value) {
   return String(value || "")
@@ -98,8 +97,7 @@ export function looksLikeGenericSchedule(event) {
 export function relevantEventImageUrl(event, { baseUrl = null } = {}) {
   if (looksLikeGenericSchedule(event)) return null;
   if (event?.image?.visual_quality === "text_heavy") return null;
-  const url = safeHttpImageUrl(event?.image?.url, { baseUrl });
-  return url && !TEXT_HEAVY_EDITORIAL_IMAGE.test(new URL(url).pathname) ? url : null;
+  return safeHttpImageUrl(event?.image?.url, { baseUrl });
 }
 
 export function venueImageKey(event) {
