@@ -199,8 +199,10 @@ test("group surface preserves raw event image policy and exact URL string", () =
 
 test("root WEB consumes the shared multicity image URL resolver", () => {
   const webSource = readFileSync(new URL("../assets/agenda.js", import.meta.url), "utf8");
-  assert.match(webSource, /import \{ safeHttpImageUrl \} from "\.\.\/app\/image-resolver-core\.mjs/);
-  assert.match(webSource, /safeHttpImageUrl\(event\.image\?\.url, \{ baseUrl: location\.href \}\)/);
+  assert.match(webSource, /import \{ relevantEventImageUrl \} from "\.\.\/app\/image-resolver-core\.mjs/);
+  assert.match(webSource, /import \{ createEventImageElement \} from "\.\.\/app\/event-image-renderer\.mjs/);
+  assert.match(webSource, /relevantEventImageUrl\(event, \{ baseUrl: location\.href \}\)/);
+  assert.match(webSource, /createEventImageElement\(event, \{ url: imageUrl \}\)/);
   assert.doesNotMatch(webSource, /safeHttpUrl\(event\.image\?\.url\)/);
 });
 

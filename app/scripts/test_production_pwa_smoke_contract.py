@@ -37,6 +37,9 @@ def main() -> None:
         '      - "app/*.css"',
         '      - "app/*.html"',
         '      - "app/*.webmanifest"',
+        '      - "assets/*.js"',
+        '      - "assets/*.mjs"',
+        '      - "index.html"',
         '      - "agenda_web.json"',
         '      - "app/data/gijon/agenda_web.json"',
         '      - "fuentes_publicas.json"',
@@ -82,6 +85,9 @@ def main() -> None:
     assert "timeout-minutes: 28" in production
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
+    assert "DEPLOYED_BYTE_VERIFIED" in WORKFLOW
+    assert "visual=pending" in WORKFLOW
+    assert "PUBLICATION_FAST_CLOSE_VERIFIED" not in WORKFLOW
 
     contracts = {entry["id"]: entry for entry in TOPOLOGY["contracts"]}
     required_profile = TOPOLOGY["runner_profiles"]["required-release"]
@@ -124,6 +130,11 @@ def main() -> None:
         "[data-sources-toggle], [data-sources-fallback]",
         "PRODUCTION_COLD_LOAD_OK",
         "PRODUCTION_CITY_ROUNDTRIP_OK",
+        "PRODUCTION_OFFICIAL_IMAGE_OK",
+        "OFFICIAL_IMAGE_CASES",
+        "image.naturalWidth",
+        '("app",',
+        '("web",',
         "transport=selenium",
         "after retry",
     ):
@@ -182,6 +193,10 @@ def main() -> None:
         "PRODUCTION_RELEASE_VERIFIED",
         '"network_reverified": verify_network',
         '"release_id": bundle.get("release_id")',
+        '"publication_state": "published_and_visually_verified"',
+        "official_image_attestation",
+        "OFFICIAL_IMAGE_EVENT_IDS",
+        "PRODUCTION_OFFICIAL_IMAGE_OK",
     ):
         assert marker in ATTESTATION, f"Production release attestation missing: {marker}"
 

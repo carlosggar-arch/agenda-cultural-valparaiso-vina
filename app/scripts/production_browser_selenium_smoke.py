@@ -22,6 +22,18 @@ CASES = (
     ("valparaiso", "Valparaíso / Viña del Mar", 390, 844),
     ("gijon", "Gijón / Xixón", 1280, 900),
 )
+OFFICIAL_IMAGE_CASES = (
+    (
+        "agenda_baburizza_82ca6a27bc5861af85cb",
+        "337b0bd2beab3baea0f823a0.webp",
+        "Las cumbias que escuchamos allá arriba",
+    ),
+    (
+        "agenda_baburizza_a37f94515515258cdea3",
+        "c930852eb3dbf80f30976722.webp",
+        "Nebulosa Carina",
+    ),
+)
 
 
 def chrome_options(profile: str, width: int, height: int) -> Options:
@@ -108,6 +120,66 @@ def cold_dom(
     )
 
 
+def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> dict[str, object] | None:
+    return driver.execute_script(
+        """
+        const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
+        if (!card) return null;
+        card.scrollIntoView({block: 'center'});
+        const image = card.querySelector('img[data-event-image="relevant"]');
+        if (!image || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return null;
+        const currentSrc = image.currentSrc || image.src || '';
+        if (!currentSrc.endsWith('/app/assets/event-images/valparaiso/' + arguments[1])) return null;
+        if (card.querySelector('.placeholder, .event-card-media--placeholder, [data-generated-event-image="true"]')) return null;
+        return {
+          currentSrc,
+          naturalWidth: image.naturalWidth,
+          naturalHeight: image.naturalHeight,
+          eventImageId: image.dataset.eventImageId,
+        };
+        """,
+        event_id,
+        filename,
+    )
+
+
+def verify_official_images(origin: str, base: str, expected_release: int) -> None:
+    root_base = base[:-4] if base.endswith("app/") else base
+    with tempfile.TemporaryDirectory(prefix=f"vivamos-images-{origin}-") as profile:
+        driver = webdriver.Chrome(options=chrome_options(profile, 1280, 900))
+        try:
+            surfaces = (
+                ("app", f"{base}?city=valparaiso&when=todos&smoke={uuid.uuid4().hex}"),
+                ("web", f"{root_base}?periodo=todos&smoke={uuid.uuid4().hex}"),
+            )
+            for surface, url in surfaces:
+                driver.get(url)
+                if surface == "app":
+                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current: runtime_ready(current, "valparaiso", expected_release)
+                    )
+                else:
+                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current: current.execute_script(
+                            "return Number(globalThis.__VIVAMOS_RELEASE__) === arguments[0] && document.querySelectorAll('.event-card').length > 0",
+                            expected_release,
+                        )
+                    )
+                for event_id, filename, title in OFFICIAL_IMAGE_CASES:
+                    evidence = WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current, event_id=event_id, filename=filename: image_evidence(current, event_id, filename)
+                    )
+                    if evidence.get("eventImageId") != event_id:
+                        raise SystemExit(f"Canonical image renderer lost event identity for {surface}/{event_id}")
+                    print(
+                        f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} "
+                        f"event={event_id} file={filename} natural={evidence['naturalWidth']}x{evidence['naturalHeight']} "
+                        f"title={title!r}"
+                    )
+        finally:
+            driver.quit()
+
+
 def main() -> None:
     expected_release = release_number()
     expected = expected_shell()
@@ -129,6 +201,7 @@ def main() -> None:
                 f"PRODUCTION_COLD_LOAD_OK origin={origin} city={city} "
                 f"viewport={width}x{height} transport=selenium"
             )
+        verify_official_images(origin, base, expected_release)
 
     base = ORIGINS[PRIMARY_ORIGIN]
     with tempfile.TemporaryDirectory(prefix="vivamos-roundtrip-") as profile:

@@ -21,10 +21,14 @@ ORIGINS = {
 PRIMARY_ORIGIN = "github-pages"
 
 CRITICAL_ASSETS = (
+    ("index.html", "../index.html"),
+    ("assets/agenda.js", "../assets/agenda.js"),
+    ("assets/root-agenda-bootstrap.mjs", "../assets/root-agenda-bootstrap.mjs"),
     ("app/index.html", ""),
     ("app/app.js", "app.js"),
     ("app/pwa.js", "pwa.js"),
     ("app/release-version.js", "release-version.js"),
+    ("app/event-image-renderer.mjs", "event-image-renderer.mjs"),
     ("app/service-worker-assets.generated.js", "service-worker-assets.generated.js"),
     ("app/data/venue-registry.json", "data/venue-registry.json"),
     ("app/data/release-bundle.json", "data/release-bundle.json"),
