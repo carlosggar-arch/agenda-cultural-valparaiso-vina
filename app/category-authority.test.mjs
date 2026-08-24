@@ -12,7 +12,7 @@ const taxonomy = JSON.parse(
 const core = readFileSync(new URL("./app-core.js", import.meta.url), "utf8");
 const combined = readFileSync(new URL("./combined-filters.js", import.meta.url), "utf8");
 
-assert.equal(taxonomy.schema_version, "2.2.0");
+assert.equal(taxonomy.schema_version, "2.3.0");
 assert.equal(taxonomy.fallback_category, "unclassified");
 assert.equal(taxonomy.categories.unclassified.thematic, false);
 assert.equal(taxonomy.categories.unclassified.label, "Otros panoramas");
@@ -22,9 +22,10 @@ const expectedLabels = {
   teatro: "Teatro y danza",
   cine: "Cine",
   exposiciones: "Exposiciones",
+  "charlas-conferencias": "Charlas y conferencias",
+  literatura: "Literatura",
   "cursos-talleres-campus": "Cursos, talleres y experiencias",
   "deportes-actividad-fisica": "Deportes y actividad física",
-  "literatura-charlas-encuentros": "Literatura, charlas y encuentros",
   "naturaleza-aire-libre": "Naturaleza y aire libre",
   "ferias-vida-local": "Ferias y vida local",
   unclassified: "Otros panoramas",
@@ -38,6 +39,8 @@ const expectedAliases = {
   "artes-visuales-museo": "exposiciones",
   "cursos-talleres": "cursos-talleres-campus",
   deportes: "deportes-actividad-fisica",
+  charlas: "charlas-conferencias",
+  "literatura-charlas-encuentros": "unclassified",
   "naturaleza-montana": "naturaleza-aire-libre",
   gastronomia: "ferias-vida-local",
   "teatro-artes-escenicas": "teatro",
@@ -73,12 +76,12 @@ const cases = [
   [
     "literature now has a semantic home",
     { title: "Presentación del libro Decadencia", primary_category: { id: "otros", label: "Otros panoramas" } },
-    "literatura-charlas-encuentros",
+    "literatura",
   ],
   [
     "reading club is literature, not training",
     { title: "Club de Lectura para la Niñez | Caleta de Historias", primary_category: { id: "otros", label: "Otros panoramas" } },
-    "literatura-charlas-encuentros",
+    "literatura",
   ],
   [
     "nature outing",
