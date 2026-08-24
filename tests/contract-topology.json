@@ -115,6 +115,13 @@
       "owner": "app/cross-source-deduplication.test.mjs"
     },
     {
+      "id": "semantic.event-series-normalization",
+      "domain": "identity-occurrence-dedupe",
+      "layer": "semantic",
+      "owner": "app/event-series-normalizer.test.mjs",
+      "workflow": ".github/workflows/pr-fast.yml"
+    },
+    {
       "id": "semantic.image-resolver",
       "domain": "image",
       "layer": "semantic",
@@ -330,6 +337,7 @@
       "architecture.source-evidence-authority",
       "architecture.identity-boundaries",
       "semantic.cross-source-deduplication",
+      "semantic.event-series-normalization",
       "semantic.image-resolver",
       "architecture.shared-presentation-runtime",
       "architecture.third-city",
