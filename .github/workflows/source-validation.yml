@@ -11,9 +11,12 @@ on:
       - "app/scripts/apply_*coverage.py"
       - "app/scripts/audit_source_health.py"
       - "app/scripts/test_source_health_audit.py"
+      - "app/scripts/test_classification_uncertainty_audit.py"
       - "app/scripts/run_changed_source_tests.py"
       - "app/scripts/cache_official_images.py"
       - "app/scripts/test_cache_official_images.py"
+      - "scripts/semantic_quality_audit.py"
+      - "scripts/classification_uncertainty_audit.py"
       - "requirements-image-cache.txt"
       - "app/data/high_value_sources.json"
       - "app/data/source-registry.json"
@@ -46,11 +49,20 @@ jobs:
         run: python -m pip install --disable-pip-version-check -r requirements-image-cache.txt
       - name: Validate only affected source adapters
         run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
+      - name: Validate classification quality diagnostic
+        run: |
+          python -m py_compile scripts/semantic_quality_audit.py scripts/classification_uncertainty_audit.py app/scripts/test_classification_uncertainty_audit.py
+          python app/scripts/test_classification_uncertainty_audit.py
+          python scripts/semantic_quality_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/semantic-quality-pr.json
+          python scripts/classification_uncertainty_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/classification-uncertainty-pr.json
       - name: Upload diagnostics only after failure
         if: failure()
         uses: actions/upload-artifact@v6
         with:
           name: changed-source-diagnostics
-          path: source-diagnostics/
+          path: |
+            source-diagnostics/
+            /tmp/semantic-quality-pr.json
+            /tmp/classification-uncertainty-pr.json
           if-no-files-found: ignore
           retention-days: 3
