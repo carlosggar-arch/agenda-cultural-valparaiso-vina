@@ -41,6 +41,11 @@ export function publishAgendaRuntimeSnapshot(city, result) {
     events: presentationEvents,
     secondaryPrograms: Array.isArray(result?.secondaryPrograms) ? result.secondaryPrograms : [],
     hiddenPrograms: Array.isArray(result?.hiddenPrograms) ? result.hiddenPrograms : [],
+    visibilityDecisions: Array.isArray(result?.visibilityDecisions) ? result.visibilityDecisions : [],
+    visibilityById: new Map((result?.visibilityDecisions || [])
+      .map((decision) => [String(decision?.id || ""), decision])
+      .filter(([id]) => id)),
+    referenceNow,
     diagnostics: Array.isArray(result?.diagnostics) ? result.diagnostics : [],
     revision: ++state.revision,
   };
@@ -61,6 +66,11 @@ export function getAgendaRuntimeSnapshot(cityId = null) {
   if (!state.snapshot) return null;
   if (cityId && state.snapshot.cityId !== String(cityId)) return null;
   return state.snapshot;
+}
+
+export function getAgendaVisibilityDecision(eventId, cityId = null) {
+  const snapshot = getAgendaRuntimeSnapshot(cityId);
+  return snapshot?.visibilityById?.get(String(eventId || "")) || null;
 }
 
 export function clearAgendaRuntimeSnapshot() {

@@ -77,8 +77,14 @@ jobs:
             app/scripts/test_semantic_quality_history.py \
             app/scripts/test_structural_hardening.py
           node --check app/app.js
+          node --check assets/agenda.js
           node --check app/app-core.js
           node --check app/data-pipeline.js
+          node --check app/time-independent-cache.test.mjs
+          node --check app/local-day-boundary.mjs
+          node --check app/local-day-boundary.test.mjs
+          node --check app/event-correction-rules.mjs
+          node --check app/event-correction-rules.test.mjs
           node --check app/artequin-session-correction.js
           node --check app/artequin-session-correction.test.mjs
           node --check app/event-card-data-quality.mjs
@@ -136,6 +142,7 @@ jobs:
           python app/scripts/run_contracts.py --profile required-release
           python app/scripts/test_pwa_cache_first_startup.py
           node app/data-pipeline.test.mjs
+          node --test app/time-independent-cache.test.mjs app/local-day-boundary.test.mjs app/event-correction-rules.test.mjs app/runtime-past-event-guard.test.mjs
           node app/artequin-session-correction.test.mjs
           node app/session-occurrence-normalizer.test.mjs
           node app/program-visibility-policy.test.mjs
@@ -154,7 +161,7 @@ jobs:
           set -euo pipefail
           python app/scripts/run_browser_scenarios.py --all
 
-      - name: Require local WEB versus cached PWA exact-ID parity
+      - name: Require local WEB versus cached PWA ordered presentation parity
         if: steps.impact.outputs.release == 'true'
         run: python app/scripts/test_web_pwa_visibility_parity.py --local
 
@@ -170,7 +177,7 @@ jobs:
       - name: Note final Stage D gate roles
         if: steps.impact.outputs.release == 'true'
         run: |
-          echo "Required release guard enforces release deltas, generated artifacts, semantic history dry-runs, production attestation contracts, computed UI contracts, canonical browser scenarios and local live/cached PWA exact-ID parity."
+          echo "Required release guard enforces release deltas, generated artifacts, semantic history dry-runs, production attestation contracts, computed UI contracts, canonical browser scenarios and local live/cached PWA ordered ID/category/section/temporal parity."
           echo "Production network verification and PRODUCTION_RELEASE_VERIFIED attestation run only after merge on main (or manual rerun against latest main)."
       - name: No release surface affected
         if: steps.impact.outputs.release != 'true'

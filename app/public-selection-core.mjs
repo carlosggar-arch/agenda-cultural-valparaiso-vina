@@ -5,6 +5,8 @@ import {
   weekendBounds,
 } from "./temporal-priority-core.mjs?v=20260821-temporal4";
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
+import { compareAgendaOrder, diversifySortedAgendaEvents } from "./agenda-order-core.mjs?v=20260823-editorial1";
+import { eventLifecycle } from "./runtime-past-event-guard.mjs?v=20260823-pastguard5";
 
 const ALL_SECTIONS = new Set(["todos", "all"]);
 const TODAY_SECTIONS = new Set(["hoy", "today"]);
@@ -64,4 +66,22 @@ export function eventMatchesCanonicalSection(event, sectionId, city, now = new D
 export function canonicalEventIds(events, sectionId, city, now = new Date(), custom = {}) {
   return (events || []).filter((event) => eventMatchesCanonicalSection(event, sectionId, city, now, custom))
     .map((event) => String(event?.id || "")).filter(Boolean).sort();
+}
+
+export function canonicalSelectionSnapshot(events, sectionId, city, now = new Date(), custom = {}) {
+  const selected = (events || [])
+    .filter((event) => eventMatchesCanonicalSection(event, sectionId, city, now, custom))
+    .sort((left, right) => compareAgendaOrder(left, right, city, now));
+  const ordered = diversifySortedAgendaEvents(selected, city, now);
+  return ordered.map((event, index) => {
+    const lifecycle = eventLifecycle(event, { now, timeZone: city?.timezone || event?.schedule?.timezone || "UTC" });
+    return Object.freeze({
+      position: index,
+      id: String(event?.id || ""),
+      sectionId: String(sectionId || ""),
+      categoryId: canonicalCategoryId(event),
+      lifecycleState: lifecycle.state,
+      visible: lifecycle.visible !== false,
+    });
+  }).filter((record) => record.id);
 }

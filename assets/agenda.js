@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 109552)
-Total output lines: 620
-
 import {
   collectCategories,
   collectCities,
@@ -21,10 +18,15 @@ import {
   scheduleLabel,
 } from "./agenda-core.mjs?v=20260823-selection1";
 import { selectFeatured } from "./featured.mjs";
+import { getAgendaRuntimeSnapshot } from "../app/agenda-runtime-state.mjs?v=20260823-reference1";
 
 const DATASET_PATH = "./agenda_web.json";
 const CHANGES_PATH = "./agenda_changes.json";
 const SECTIONS = publicNavigationSections();
+
+function selectionReferenceNow() {
+  return getAgendaRuntimeSnapshot("valparaiso")?.referenceNow || new Date();
+}
 
 const dom = {
   status: document.querySelector("[data-status]"),
@@ -243,7 +245,7 @@ function isWorkshop(event) {
 }
 
 function upcomingEvents() {
-  return eventsForSection(state.dataset.events, "proximos", new Date());
+  return eventsForSection(state.dataset.events, "proximos", selectionReferenceNow());
 }
 
 function featuredEvents() {
@@ -264,7 +266,7 @@ function featuredEvents() {
 function sectionEvents(sectionId) {
   if (sectionId === "destacados") return featuredEvents();
   if (sectionId === "talleres-cursos") return state.dataset.events.filter(isWorkshop);
-  return eventsForSection(state.dataset.events, sectionId, new Date());
+  return eventsForSection(state.dataset.events, sectionId, selectionReferenceNow());
 }
 
 function currentFilters() {
@@ -280,7 +282,7 @@ function currentFilters() {
 
 function filteredSectionEvents() {
   const filters = currentFilters();
-  let events = filterEvents(sectionEvents(state.section), filters, new Date());
+  let events = filterEvents(sectionEvents(state.section), filters, selectionReferenceNow());
   if (dom.workshops.checked) events = events.filter(isWorkshop);
   return events;
 }

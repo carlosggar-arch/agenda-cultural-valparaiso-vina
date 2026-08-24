@@ -214,6 +214,13 @@ def run_caleta_real_card(base_url: str) -> dict[str, str | bool]:
                   return [...document.querySelectorAll('.event-card[data-event-id]')]
                     .some((card) => (card.querySelector('h4')?.textContent || '').toLocaleLowerCase('es').includes(arguments[0]));
                 ''', CALETA_TITLE))
+                wait.until(lambda current: current.execute_script(r'''
+                  const card = [...document.querySelectorAll('.event-card[data-event-id]')]
+                    .find((candidate) => (candidate.querySelector('h4')?.textContent || '')
+                      .toLocaleLowerCase('es').includes(arguments[0]));
+                  const text = card?.textContent || '';
+                  return text.includes('12:00') && text.includes('13:30');
+                ''', CALETA_TITLE))
                 # Give the common image-quality guard one bounded opportunity to
                 # replace a failed remote image with the generated event image.
                 time.sleep(0.75)
