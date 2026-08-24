@@ -54,7 +54,10 @@ jobs:
           python -m py_compile scripts/semantic_quality_audit.py scripts/classification_uncertainty_audit.py app/scripts/test_classification_uncertainty_audit.py
           python app/scripts/test_classification_uncertainty_audit.py
           python scripts/semantic_quality_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/semantic-quality-pr.json
-          python scripts/classification_uncertainty_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/classification-uncertainty-pr.json
+          python scripts/classification_uncertainty_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/classification-uncertainty-pr.json --markdown-output /tmp/classification-uncertainty-pr.md
+          echo '---CLASSIFICATION_REVIEW_QUEUE_BEGIN---'
+          cat /tmp/classification-uncertainty-pr.md
+          echo '---CLASSIFICATION_REVIEW_QUEUE_END---'
       - name: Upload diagnostics only after failure
         if: failure()
         uses: actions/upload-artifact@v6
