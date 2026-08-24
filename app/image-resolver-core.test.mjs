@@ -148,18 +148,26 @@ test("generic schedule suppresses unrelated source art and gets a graphical cate
   assert.equal(resolved.genericSchedule, true);
 });
 
-test("text-heavy editorial covers are rejected as representative event imagery", () => {
+test("descriptive filenames never override verified event-image quality", () => {
   const event = {
     title: "Nebulosa Carina",
     primary_category: { id: "exposiciones", label: "Exposiciones" },
     location: { city: "Valparaíso", venue: "Museo Baburizza" },
     image: { url: "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-nebulosacarina-portada-1.jpg" },
   };
-  assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), null);
-  assert.deepEqual(resolveEventImage(event, { baseUrl: BASE }), {
-    ...categoryFallbackImage(event),
-    genericSchedule: false,
-  });
+  assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), event.image.url);
+  assert.equal(resolveEventImage(event, { baseUrl: BASE }).url, event.image.url);
+});
+
+test("official photographic covers remain eligible when filename contains portada", () => {
+  const event = {
+    title: "Las cumbias que escuchamos allá arriba",
+    primary_category: { id: "exposiciones", label: "Exposiciones" },
+    location: { city: "Valparaíso", venue: "Museo Baburizza" },
+    image: { url: "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-lascumbias-portada-1.jpg" },
+  };
+  assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), event.image.url);
+  assert.equal(resolveEventImage(event, { baseUrl: BASE }).kind, "relevant");
 });
 
 test("explicit quality metadata rejects typographic art from every source", () => {
