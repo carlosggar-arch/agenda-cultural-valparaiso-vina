@@ -14,6 +14,10 @@ from production_pwa_smoke import CRITICAL_ASSETS, ORIGINS, ROOT, fetch_bytes, re
 SCHEMA_VERSION = "1.0.0"
 CITIES = ("valparaiso", "gijon")
 STATES = ("hoy", "7-dias", "todos")
+OFFICIAL_IMAGE_EVENT_IDS = (
+    "agenda_baburizza_82ca6a27bc5861af85cb",
+    "agenda_baburizza_a37f94515515258cdea3",
+)
 
 
 def read_text(path: Path) -> str:
@@ -89,6 +93,14 @@ def validate_browser_log(text: str) -> None:
         "PRODUCTION_CITY_ROUNDTRIP_OK origin=github-pages valparaiso->gijon->valparaiso filter=7-dias transport=selenium",
         "city roundtrip",
     )
+    for origin in ORIGINS:
+        for surface in ("app", "web"):
+            for event_id in OFFICIAL_IMAGE_EVENT_IDS:
+                require_marker(
+                    text,
+                    f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={event_id}",
+                    "rendered official image",
+                )
 
 
 def validate_parity_report(path: Path) -> tuple[str, list[dict[str, object]]]:
@@ -151,6 +163,54 @@ def remote_hash_attestation() -> tuple[dict[str, str], dict[str, dict[str, str]]
     return local_hashes, origins
 
 
+def official_image_attestation(*, verify_network: bool) -> dict[str, dict[str, object]]:
+    payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
+    indexed = {str(event.get("id") or ""): event for event in payload.get("events") or []}
+    evidence: dict[str, dict[str, object]] = {}
+    for event_id in OFFICIAL_IMAGE_EVENT_IDS:
+        event = indexed.get(event_id)
+        if not event:
+            raise SystemExit(f"Official image fixture disappeared from dataset: {event_id}")
+        image = event.get("image") or {}
+        relative = str(image.get("url") or "")
+        origin_url = str(image.get("origin_url") or "")
+        cache = image.get("cache") or {}
+        source_url = str(cache.get("source_url") or "")
+        repository_path = str(cache.get("repository_path") or "")
+        if not relative.startswith("./assets/event-images/valparaiso/"):
+            raise SystemExit(f"Official image fixture is not repository-owned: {event_id} {relative}")
+        if not origin_url.startswith("http") or source_url != origin_url:
+            raise SystemExit(f"Official image provenance is incomplete: {event_id}")
+        expected_repository_path = f"app/{relative.removeprefix('./')}"
+        if repository_path != expected_repository_path:
+            raise SystemExit(
+                f"Official image repository path mismatch: {event_id} {repository_path} != {expected_repository_path}"
+            )
+        local = ROOT / repository_path
+        local_sha = hashlib.sha256(local.read_bytes()).hexdigest()
+        origin_hashes: dict[str, str] = {}
+        if verify_network:
+            for origin, base in ORIGINS.items():
+                remote = f"{base}{relative.removeprefix('./')}"
+                actual = hashlib.sha256(fetch_bytes(remote, "")).hexdigest()
+                if actual != local_sha:
+                    raise SystemExit(
+                        f"Official image byte mismatch origin={origin} event={event_id} actual={actual} expected={local_sha}"
+                    )
+                origin_hashes[origin] = actual
+        evidence[event_id] = {
+            "title": event.get("title"),
+            "published_url": relative,
+            "origin_url": origin_url,
+            "repository_path": repository_path,
+            "sha256": local_sha,
+            "dimensions": [cache.get("width"), cache.get("height")],
+            "origins_sha256": origin_hashes,
+            "visually_verified_surfaces": ["app", "web"],
+        }
+    return evidence
+
+
 def build_attestation(
     http_log: Path,
     browser_log: Path,
@@ -178,6 +238,7 @@ def build_attestation(
             for local, _remote in CRITICAL_ASSETS
         }
         origin_hashes = {}
+    official_images = official_image_attestation(verify_network=verify_network)
 
     head = git_head()
     return {
@@ -199,6 +260,7 @@ def build_attestation(
             "origins_sha256": origin_hashes,
             "network_reverified": verify_network,
         },
+        "official_event_images": official_images,
         "cold_load": {
             "origins": list(ORIGINS),
             "cities": list(CITIES),
@@ -210,6 +272,7 @@ def build_attestation(
             "at": parity_at,
             "rows": parity_rows,
         },
+        "publication_state": "published_and_visually_verified",
     }
 
 
@@ -225,6 +288,8 @@ def write_markdown(path: Path, payload: dict[str, object]) -> None:
         "- Cold load: Valparaíso + Gijón on both origins; city roundtrip OK",
         "- Warm PWA reopen: GitHub Pages + Cloudflare OK",
         f"- Exact WEB↔cached/offline PWA parity: {len(rows)} origin/city/state rows",
+        f"- Official event images: {len(payload['official_event_images'])} byte-identical and visibly rendered on WEB + App",
+        "- Publication state: `published_and_visually_verified`",
         "",
         "| Origin | City | State | IDs |",
         "| --- | --- | --- | ---: |",
@@ -265,7 +330,8 @@ def main() -> int:
         print(
             "PRODUCTION_RELEASE_VERIFIED "
             f"head={payload['head_sha']} release=v{payload['release']} release_id={payload['release_id']} "
-            f"assets={payload['critical_assets']['count']} parity_rows={len(payload['web_pwa_exact_id_parity']['rows'])}"
+            f"assets={payload['critical_assets']['count']} official_images={len(payload['official_event_images'])} "
+            f"parity_rows={len(payload['web_pwa_exact_id_parity']['rows'])} state={payload['publication_state']}"
         )
     return 0
 

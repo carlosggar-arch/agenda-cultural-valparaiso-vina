@@ -12,6 +12,7 @@ import {
   resolveCardImageAfterFailure,
   resolveEventImage,
 } from "./image-resolver-core.mjs?v=20260824-owned-images2";
+import { createEventImageElement } from "./event-image-renderer.mjs";
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const DEFAULT_CONFIG = Object.freeze({ timezone: "UTC", locale: "es" });
@@ -255,17 +256,10 @@ function installMediaImage(media, event, imageUrl, representative = false) {
   media.classList.add(representative ? "has-representative-image" : "has-relevant-image");
   media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
   if (representative) media.dataset.representativeImage = "same-venue";
-  const image = document.createElement("img");
-  image.className = "event-card-photo";
-  image.dataset.eventImage = representative ? "representative" : "relevant";
-  image.src = imageUrl;
-  const venue = String(event?.location?.venue || "el recinto").trim();
-  image.alt = representative
-    ? `Imagen representativa de ${venue}`
-    : String(event?.image?.alt || event?.title || "Imagen de la actividad");
-  image.loading = "lazy";
-  image.decoding = "async";
-  image.addEventListener("error", () => {
+  const image = createEventImageElement(event, {
+    url: imageUrl,
+    kind: representative ? "representative" : "relevant",
+    onError: () => {
     media.replaceChildren();
     media.style.removeProperty("--event-image");
     if (!representative) {
@@ -279,7 +273,8 @@ function installMediaImage(media, event, imageUrl, representative = false) {
       }
     }
     addPlaceholder(media, event, looksLikeGenericSchedule(event));
-  }, { once: true });
+    },
+  });
   media.append(image);
   if (representative) {
     const note = addTextElement(media, "span", "event-card-image-note", "Imagen del recinto");
