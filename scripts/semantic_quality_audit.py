@@ -53,7 +53,10 @@ def load_city_events(ref: str | None = None) -> list[dict[str, Any]]:
         except FileNotFoundError:
             continue
         for event in payload.get("events", []):
-            if isinstance(event, dict):
+            if not isinstance(event, dict):
+                continue
+            semantics = build_event_semantics(event)
+            if semantics.get("diagnostic_eligible", True):
                 loaded.append({"city_id": city_id, "event": event})
     return loaded
 
