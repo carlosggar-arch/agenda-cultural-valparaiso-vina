@@ -218,8 +218,8 @@ def check_workflow_guard() -> None:
     assert "python app/scripts/run_browser_scenarios.py --all" in required, (
         "required release gate must compose every canonical browser scenario"
     )
-    assert "python app/scripts/run_contracts.py --profile pr-fast-all" in temporal, (
-        "PR validation must use the complete non-overlapping fast profile"
+    assert "python app/scripts/run_impacted_contracts.py --base" in temporal, (
+        "PR validation must use the canonical change-impact contract selector"
     )
     assert "_browser.py" not in temporal, "temporal workflow must not launch browser tests after D4"
 
