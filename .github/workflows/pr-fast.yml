@@ -72,3 +72,5 @@ jobs:
       - name: Document-only change
         if: steps.impact.outputs.product != 'true'
         run: echo "No product contract can be affected; structural CI checks passed."
+
+# Temporary refresh after PR #455; this branch is diagnostic-only and will never be merged.
