@@ -71,8 +71,21 @@ test('admin staging must reach byte-identical production on both origins before 
   assert.match(adminSmoke, /PRODUCCIÓN CANÓNICA/);
   assert.match(adminSmoke, /PREVIEW DE PR · NO PRODUCCIÓN/);
   assert.match(adminSmoke, /state\/production-certifications\/data\/index\.json/);
-  const adminStep = publish.indexOf('Verify admin staging production/preview separation');
+
+  // Admin verification is now intentionally inside a parallel probe group.
+  // The contract is causal rather than tied to the old sequential step name:
+  // invoke admin smoke -> wait for the group -> require its success marker ->
+  // build the attestation -> persist the immutable certificate.
+  const parallelStep = publish.indexOf('Run independent production probes in parallel');
+  const adminInvocation = publish.indexOf('python app/scripts/production_admin_staging_smoke.py', parallelStep);
+  const semanticWait = publish.indexOf('wait_probe semantics "$semantic_pid"', adminInvocation);
+  const adminEvidenceGate = publish.indexOf("grep -q '^PRODUCTION_ADMIN_STAGING_VERIFIED '", semanticWait);
   const attestationStep = publish.indexOf('Create auditable production release attestation');
   const historyStep = publish.indexOf('Persist immutable production certification');
-  assert.ok(adminStep >= 0 && attestationStep > adminStep && historyStep > attestationStep);
+
+  assert.ok(parallelStep >= 0);
+  assert.ok(adminInvocation > parallelStep);
+  assert.ok(semanticWait > adminInvocation);
+  assert.ok(attestationStep > semanticWait);
+  assert.ok(adminEvidenceGate > attestationStep && historyStep > adminEvidenceGate);
 });
