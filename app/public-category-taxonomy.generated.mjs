@@ -185,7 +185,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "description_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa|visita guiada|visita comentada)\\b",
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa)\\b",
         "weight": 35
       },
       {
@@ -200,12 +200,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj|tributo|banda tributo|homenaje musical)\\b",
+        "pattern": "\\b(?:musica|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj|tributo|banda tributo|homenaje musical|album|disco|gira|tour|banda|cantante|vocalista|guitarra|piano|violin|saxofon|bateria|blues|flamenco|reggae|beatbox)\\b",
         "weight": 30
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion|musical|comedia musical|teatro musical)\\b",
+        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion|musical|comedia musical|teatro musical|monologo|stand up|humor|comedia|magia|ilusionismo|mago|maga|ilusionista)\\b",
         "weight": 40
       },
       {
@@ -231,15 +231,33 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ],
     "minimum_score": 35,
     "recovery_hint_weight": 95,
+    "semantic_noise_fields": [
+      "venue",
+      "venue_name",
+      "location",
+      "address",
+      "city",
+      "organizer",
+      "source_name"
+    ],
+    "semantic_noise_phrases": [
+      "mas informacion",
+      "comprar entradas",
+      "venta de entradas",
+      "volver a la agenda",
+      "compartir este evento",
+      "compartir en redes"
+    ],
     "source_category_weight": 90,
-    "source_evidence": [
+    "source_evidence": [],
+    "source_title_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:actividades? y talleres?|talleres? y actividades?|programa educativo|actividades educativas?)\\b",
+        "pattern": ".+",
+        "reason": "verified_activities_workshops_source",
+        "source_id": "bioparc_acuario_gijon",
         "weight": 65
-      }
-    ],
-    "source_title_evidence": [
+      },
       {
         "category": "musica",
         "pattern": "^homenaje dire straits$",
@@ -269,12 +287,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:encuentro educativo|actividad educativa|experiencia educativa|visita guiada|visita comentada|recorrido guiado|recorrido comentado|recorrido mediado)\\b",
+        "pattern": "\\b(?:encuentro educativo|actividad educativa|experiencia educativa)\\b",
         "weight": 125
       },
       {
         "category": "exposiciones",
-        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\\b",
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras)\\b",
         "weight": 140
       },
       {
@@ -289,12 +307,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica)\\b",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamenco|reggae|beatbox)\\b",
         "weight": 140
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|cantautor|cantautora)\\b",
+        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|cantautor|cantautora|album|disco|gira|tour|banda|cantante|vocalista|guitarra|piano|violin|saxofon|bateria)\\b",
         "weight": 105
       },
       {
@@ -306,6 +324,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "category": "teatro",
         "pattern": "\\b(?:obra teatral|obra de teatro|teatro|danza|ballet|circo|performance|funcion teatral|espectaculo escenico)\\b",
         "weight": 140
+      },
+      {
+        "category": "teatro",
+        "pattern": "\\b(?:monologo|stand up|humor|comedia|magia|ilusionismo|mago|maga|ilusionista)\\b",
+        "weight": 135
       },
       {
         "category": "deportes-actividad-fisica",
@@ -339,7 +362,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ]
   },
-  "schema_version": "2.1.0"
+  "schema_version": "2.2.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);

@@ -38,13 +38,14 @@ def main() -> int:
     assert close["margin"] == 25.0
     assert close["uncertain"] is True
 
-    # Generic source context can legitimately classify an event while leaving
-    # only low confidence; the diagnostic must expose that rather than changing it.
+    # BIOPARC's verified activities/workshops context is explicit source-id
+    # evidence, never generic source-name text, and may remain low-confidence.
     low = uncertainty_signals(
         build_event_semantics(
             item(
                 "Actividad de agosto",
                 "BIOPARC Acuario de Gijón — Actividades y talleres",
+                source_id="bioparc_acuario_gijon",
             )["event"]
         )
     )
@@ -55,7 +56,11 @@ def main() -> int:
         [
             item("Concierto de jazz"),
             item("Taller de concierto"),
-            item("Actividad de agosto", "BIOPARC Acuario de Gijón — Actividades y talleres"),
+            item(
+                "Actividad de agosto",
+                "BIOPARC Acuario de Gijón — Actividades y talleres",
+                source_id="bioparc_acuario_gijon",
+            ),
             item("Encuentro de agosto"),
         ]
     )
@@ -65,6 +70,38 @@ def main() -> int:
     assert snapshot["summary"]["narrow_margin_count"] == 1
     assert snapshot["summary"]["uncertain_count"] == 2
     assert len(snapshot["review_queue"]) == 2
+
+    # Venue and boilerplate copied into a description are operational noise,
+    # not semantic evidence for the event's public category.
+    noise = build_event_semantics(
+        item(
+            "Encuentro de agosto",
+            description="Teatro Municipal Comprar entradas",
+            venue="Teatro Municipal",
+        )["event"]
+    )
+    assert noise["classification_state"] == "unclassified"
+
+    # A guided visit describes format. It must not become training merely from
+    # the words "visita guiada" when no thematic evidence says so.
+    guided = build_event_semantics(item("Visita guiada al edificio histórico")["event"])
+    assert guided["classification_state"] == "unclassified"
+    assert guided["format"] == "visita-guiada"
+
+    # Common but previously sparse music/stage wording should be useful domain
+    # evidence without creating source-specific event patches.
+    music = build_event_semantics(item("Nueva gira de la banda Aurora")["event"])
+    assert music["primary_domain"] == "musica"
+    stage = build_event_semantics(item("Noche de monólogo y magia")["event"])
+    assert stage["primary_domain"] == "teatro"
+
+    # Programs/catalogues are not individual events for classification-quality
+    # diagnostics, while remaining valid semantic records for other consumers.
+    program = build_event_semantics(
+        item("Programación mensual de agosto", event_type="program")["event"]
+    )
+    assert program["event_kind"] == "program"
+    assert program["diagnostic_eligible"] is False
 
     # The concrete regressions that motivated the category repair must now be
     # strong, unambiguous decisions and therefore stay out of the review queue.
@@ -86,6 +123,7 @@ def main() -> int:
         {
             "id": "tiburones",
             "title": "Encuentro Educativo Tiburones",
+            "source_id": "bioparc_acuario_gijon",
             "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
             "primary_category": {"id": "otros", "label": "Otros panoramas"},
         },

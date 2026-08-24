@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "event_kind": {
+    "fallback": "event",
+    "program_event_types": [
+      "program",
+      "catalog",
+      "listing",
+      "schedule",
+      "registration_period"
+    ],
+    "program_title_patterns": [
+      "\\b(?:programacion|cartelera|agenda)\\b",
+      "\\bprograma\\b.*\\b(?:mensual|semanal|completo|completa)\\b"
+    ],
+    "event_title_patterns": [
+      "\\b(?:exposicion|exposiciones|muestra|muestras|festival|festivales)\\b"
+    ]
+  },
+  "diagnostic": {
+    "excluded_event_types": [
+      "fixture",
+      "synthetic",
+      "catalog",
+      "educational_reference"
+    ],
+    "excluded_event_kinds": [
+      "program"
+    ],
+    "excluded_flags": [
+      "is_fixture",
+      "is_synthetic",
+      "is_catalog_entry",
+      "diagnostic_exclude"
+    ]
+  }
+}

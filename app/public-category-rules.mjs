@@ -21,10 +21,6 @@ const DESCRIPTION_EVIDENCE_RULES = RULES.description_evidence.map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
 }));
-const SOURCE_EVIDENCE_RULES = (RULES.source_evidence || []).map((rule) => ({
-  ...rule,
-  regex: new RegExp(rule.pattern, "u"),
-}));
 const SOURCE_TITLE_EVIDENCE_RULES = (RULES.source_title_evidence || []).map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
@@ -32,6 +28,8 @@ const SOURCE_TITLE_EVIDENCE_RULES = (RULES.source_title_evidence || []).map((rul
 const SUMMER_PROGRAM_RE = new RegExp(RULES.summer_program_title_pattern, "u");
 const SUMMER_REGISTRATION_RE = new RegExp(RULES.summer_registration_title_pattern, "u");
 const SUMMER_PROGRAM_EVENT_TYPES = new Set(RULES.summer_program_event_types);
+const SEMANTIC_NOISE_FIELDS = RULES.semantic_noise_fields || [];
+const SEMANTIC_NOISE_PHRASES = RULES.semantic_noise_phrases || [];
 
 export function foldPublicCategoryText(value) {
   return String(value || "")
@@ -104,23 +102,48 @@ function isSummerProgram(event) {
   return SUMMER_PROGRAM_RE.test(title) || SUMMER_REGISTRATION_RE.test(title);
 }
 
-function descriptionEvidenceText(event) {
-  return foldPublicCategoryText([
-    event?.description,
-    ...(event?.tags || []),
-  ].filter(Boolean).join(" "));
+function scalarNoiseValues(value) {
+  if (typeof value === "string") return [value];
+  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+  return ["name", "label", "title", "address", "city", "venue"]
+    .map((key) => value[key])
+    .filter(Boolean)
+    .map(String);
 }
 
-function sourceEvidenceText(event) {
-  const source = event?.source && typeof event.source === "object" ? event.source : {};
-  return foldPublicCategoryText([
-    event?.source_id,
-    event?.source_name,
-    event?.organizer,
-    event?.source_url,
-    source?.name,
-    source?.url,
-  ].filter(Boolean).join(" "));
+function semanticNoiseValues(event) {
+  const values = [];
+  for (const field of SEMANTIC_NOISE_FIELDS) {
+    values.push(...scalarNoiseValues(event?.[field]));
+  }
+  values.push(...scalarNoiseValues(event?.source?.name));
+  return [...new Set(values
+    .map(foldPublicCategoryText)
+    .filter((value) => value.length >= 4))]
+    .sort((a, b) => b.length - a.length);
+}
+
+function escapedRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function stripSemanticNoise(text, event) {
+  let cleaned = foldPublicCategoryText(text);
+  for (const phrase of SEMANTIC_NOISE_PHRASES) {
+    const token = foldPublicCategoryText(phrase);
+    if (token) cleaned = cleaned.replace(new RegExp(`\\b${escapedRegex(token)}\\b`, "gu"), " ");
+  }
+  for (const token of semanticNoiseValues(event)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${escapedRegex(token)}\\b`, "gu"), " ");
+  }
+  return cleaned.replace(/\s+/g, " ").trim();
+}
+
+function descriptionEvidenceText(event) {
+  return stripSemanticNoise([
+    event?.description,
+    ...(event?.tags || []),
+  ].filter(Boolean).join(" "), event);
 }
 
 function addEvidence(scores, evidence, categoryId, weight, kind, value) {
@@ -200,9 +223,6 @@ export function classifyPublicCategory(event) {
     );
   }
 
-  // Recovery hints and source identity are evidence, never authority bypasses.
-  // Strong event-specific title evidence can override a generic source such as
-  // "Actividades y talleres" (for example, a concert hosted by BIOPARC).
   if (recoveryHint && isThematicCategory(recoveryHint.id)) {
     addEvidence(
       scores,
@@ -214,13 +234,8 @@ export function classifyPublicCategory(event) {
     );
   }
 
-  addRuleEvidence(
-    scores,
-    evidence,
-    sourceEvidenceText(event),
-    SOURCE_EVIDENCE_RULES,
-    "source",
-  );
+  // Generic venue/organizer/source-name text is intentionally excluded.
+  // Verified sparse-title exceptions remain declarative in source_title_evidence.
   addSourceTitleEvidence(scores, evidence, event);
   addRuleEvidence(
     scores,
