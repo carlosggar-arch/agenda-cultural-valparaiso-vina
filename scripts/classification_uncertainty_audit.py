@@ -2,14 +2,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from scripts.event_semantics import build_event_semantics
 from scripts.semantic_quality_audit import _source_identity, load_city_events
-
-ROOT = Path(__file__).resolve().parents[1]
 
 # Diagnostic-only thresholds. They never change the public category; they only
 # identify events and sources that deserve editorial review.
