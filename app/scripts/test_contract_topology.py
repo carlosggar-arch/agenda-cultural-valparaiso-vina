@@ -176,8 +176,8 @@ def main() -> None:
         fail("Required release guard must be the single browser scenario composer")
     if "_browser.py" in temporal:
         fail("fast temporal workflow must not execute browser owners after D4")
-    if "python app/scripts/run_contracts.py --profile pr-fast-all" not in temporal:
-        fail("fast PR workflow must invoke the complete non-overlapping fast profile")
+    if "python app/scripts/run_impacted_contracts.py" not in temporal:
+        fail("fast PR workflow must invoke the total-coverage domain selector")
     production_triggers = production.split("permissions:", 1)[0]
     if "pull_request:" in production_triggers:
         fail("Production PWA smoke must not run as a PR workflow after D4")

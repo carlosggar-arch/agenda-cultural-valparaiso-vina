@@ -9,10 +9,14 @@ on:
       - "app/scripts/test_balmaceda*.py"
       - "app/scripts/test_visitavina*.py"
       - "app/scripts/apply_*coverage.py"
+      - "app/scripts/audit_source_health.py"
+      - "app/scripts/test_source_health_audit.py"
+      - "app/scripts/run_changed_source_tests.py"
       - "app/data/high_value_sources.json"
       - "app/data/source-registry.json"
       - "fuentes_publicas.json"
       - ".github/workflows/source-validation.yml"
+      - ".github/workflows/scheduled-audit.yml"
   workflow_dispatch:
 
 permissions:
@@ -27,17 +31,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Validate only affected source adapters
         run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
       - name: Upload diagnostics only after failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: changed-source-diagnostics
           path: source-diagnostics/

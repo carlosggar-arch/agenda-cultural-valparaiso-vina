@@ -6,6 +6,7 @@ import sys
 
 
 SOURCE_SUITES = {
+    "audit": ["app/scripts/test_source_health_audit.py", "app/scripts/test_balmaceda_transport.py"],
     "balmaceda": [
         "app/scripts/test_balmaceda_valpo.py",
         "app/scripts/test_balmaceda_transport.py",

@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Checkout deployment branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: cloudflare-preview
           fetch-depth: 0
@@ -85,17 +85,19 @@ jobs:
 
     steps:
       - name: Checkout published candidate
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
 
       - name: Install browser timing dependency
-        run: python -m pip install --disable-pip-version-check selenium==4.35.0
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
 
       - name: Require release bump for runtime pushes
         if: github.event_name == 'push'
@@ -187,7 +189,7 @@ jobs:
           cat /tmp/production-release-verification/summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload production release attestation
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: production-release-verification-${{ github.run_id }}
           path: /tmp/production-release-verification/
