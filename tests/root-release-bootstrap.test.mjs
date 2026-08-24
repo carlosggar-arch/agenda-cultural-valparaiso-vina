@@ -20,3 +20,10 @@ test("WEB and App consume the canonical event-image renderer", async () => {
     assert.match(source, /createEventImageElement/);
   }
 });
+
+test("WEB result count has one mutation owner", async () => {
+  const parity = await readFile(new URL("../assets/root-app-parity-runtime.mjs", import.meta.url), "utf8");
+  const enhancements = await readFile(new URL("../assets/web-event-enhancements.js", import.meta.url), "utf8");
+  assert.match(parity, /total\.textContent = match\[1\]/);
+  assert.doesNotMatch(enhancements, /setTextIfChanged\(total,/);
+});
