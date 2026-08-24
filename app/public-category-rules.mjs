@@ -21,6 +21,14 @@ const DESCRIPTION_EVIDENCE_RULES = RULES.description_evidence.map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
 }));
+const SOURCE_EVIDENCE_RULES = (RULES.source_evidence || []).map((rule) => ({
+  ...rule,
+  regex: new RegExp(rule.pattern, "u"),
+}));
+const SOURCE_TITLE_EVIDENCE_RULES = (RULES.source_title_evidence || []).map((rule) => ({
+  ...rule,
+  regex: new RegExp(rule.pattern, "u"),
+}));
 const SUMMER_PROGRAM_RE = new RegExp(RULES.summer_program_title_pattern, "u");
 const SUMMER_REGISTRATION_RE = new RegExp(RULES.summer_registration_title_pattern, "u");
 const SUMMER_PROGRAM_EVENT_TYPES = new Set(RULES.summer_program_event_types);
@@ -103,6 +111,18 @@ function descriptionEvidenceText(event) {
   ].filter(Boolean).join(" "));
 }
 
+function sourceEvidenceText(event) {
+  const source = event?.source && typeof event.source === "object" ? event.source : {};
+  return foldPublicCategoryText([
+    event?.source_id,
+    event?.source_name,
+    event?.organizer,
+    event?.source_url,
+    source?.name,
+    source?.url,
+  ].filter(Boolean).join(" "));
+}
+
 function addEvidence(scores, evidence, categoryId, weight, kind, value) {
   if (!isThematicCategory(categoryId) || !weight) return;
   scores.set(categoryId, (scores.get(categoryId) || 0) + weight);
@@ -115,6 +135,24 @@ function addRuleEvidence(scores, evidence, text, rules, kind) {
     if (rule.regex.test(text)) {
       addEvidence(scores, evidence, rule.category, Number(rule.weight || 0), kind, rule.pattern);
     }
+  }
+}
+
+function addSourceTitleEvidence(scores, evidence, event) {
+  const title = foldPublicCategoryText(event?.title);
+  const sourceId = String(event?.source_id || "").trim();
+  if (!title || !sourceId) return;
+  for (const rule of SOURCE_TITLE_EVIDENCE_RULES) {
+    if (String(rule.source_id || "") !== sourceId) continue;
+    if (!rule.regex.test(title)) continue;
+    addEvidence(
+      scores,
+      evidence,
+      rule.category,
+      Number(rule.weight || 0),
+      "source_title",
+      rule.reason || rule.pattern,
+    );
   }
 }
 
@@ -162,8 +200,9 @@ export function classifyPublicCategory(event) {
     );
   }
 
-  // Editorial recovery hints are evidence, never an authority bypass. They are
-  // deliberately weaker than a strong title signal.
+  // Recovery hints and source identity are evidence, never authority bypasses.
+  // Strong event-specific title evidence can override a generic source such as
+  // "Actividades y talleres" (for example, a concert hosted by BIOPARC).
   if (recoveryHint && isThematicCategory(recoveryHint.id)) {
     addEvidence(
       scores,
@@ -175,6 +214,14 @@ export function classifyPublicCategory(event) {
     );
   }
 
+  addRuleEvidence(
+    scores,
+    evidence,
+    sourceEvidenceText(event),
+    SOURCE_EVIDENCE_RULES,
+    "source",
+  );
+  addSourceTitleEvidence(scores, evidence, event);
   addRuleEvidence(
     scores,
     evidence,
