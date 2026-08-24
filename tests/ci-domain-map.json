@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "relevant_prefixes": ["app/", "assets/", "scripts/", "shared/", "tests/"],
+  "relevant_files": ["index.html", "manifest.webmanifest", "agenda_web.json", "fuentes_publicas.json"],
+  "critical_web_app_patterns": [
+    "app/service-worker*",
+    "app/data-pipeline*",
+    "app/public-selection*",
+    "app/visibility-owner*",
+    "assets/agenda*",
+    "agenda_web.json",
+    "app/data/*/agenda_web.json"
+  ],
+  "domains": [
+    {
+      "name": "ci",
+      "patterns": [".github/**", "app/scripts/ci_*", "app/scripts/run_impacted_contracts.py", "app/scripts/test_ci_domain_selection.py", "app/scripts/test_ci_economy.py", "tests/ci-domain-map.json", "tests/contract-topology.json"],
+      "contracts": []
+    },
+    {
+      "name": "sources",
+      "patterns": ["app/scripts/*source*", "app/scripts/refresh_*", "app/scripts/apply_*coverage.py", "app/scripts/audit_*", "app/data/source-registry.json", "app/data/high_value_sources.json", "fuentes_publicas.json"],
+      "contracts": ["architecture.source-evidence-authority", "architecture.identity-boundaries", "semantic.cross-source-deduplication", "architecture.editorial-quality-audit"]
+    },
+    {
+      "name": "temporal",
+      "patterns": ["app/*temporal*", "app/*agenda-order*", "app/*editorial-priority*", "app/*content-kind*", "app/*schedule*", "tests/*temporal*"],
+      "contracts": ["semantic.temporal-priority", "semantic.agenda-order", "semantic.editorial-priority", "semantic.content-kind-presentation", "semantic.schedule-contract", "architecture.schedule-presentation-authority"]
+    },
+    {
+      "name": "images",
+      "patterns": ["app/*image*", "app/exhibition-card-structure*", "tests/*image*", "tests/event-data-corrections.test.mjs"],
+      "contracts": ["semantic.image-resolver", "architecture.shared-presentation-runtime", "architecture.title-authority", "architecture.venue-authority"]
+    },
+    {
+      "name": "presentation",
+      "patterns": ["app/*.css", "assets/*.css", "app/*presentation*", "app/*category*", "app/*title*", "app/*venue*", "app/*filter*", "assets/*filter*", "tests/*filter*", "index.html", "manifest.webmanifest"],
+      "contracts": ["semantic.public-category-authority", "architecture.title-authority", "architecture.venue-authority", "architecture.shared-presentation-runtime", "architecture.multicity-ui", "architecture.contextual-filters", "release.pre-release"]
+    },
+    {
+      "name": "shared",
+      "patterns": ["app/**", "assets/**", "scripts/**", "shared/**", "tests/**", "agenda_web.json"],
+      "profile": "pr-fast-all"
+    }
+  ]
+}

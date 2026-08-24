@@ -19,11 +19,11 @@ jobs:
     timeout-minutes: 12
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Classify change impact
@@ -32,12 +32,13 @@ jobs:
       - name: Validate CI topology and writer boundary
         run: |
           python app/scripts/test_ci_economy.py
+          python app/scripts/test_ci_domain_selection.py
           python scripts/verify_canonical_main_writer.py
           python app/scripts/test_contract_topology.py
       - name: Run canonical fast contracts
         if: steps.impact.outputs.product == 'true'
         run: |
-          python app/scripts/run_contracts.py --profile pr-fast-all
+          python app/scripts/run_impacted_contracts.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
           node --test tests/root-combined-filters.test.mjs tests/root-public-presentation-rules.test.mjs tests/event-data-corrections.test.mjs
           python scripts/generate_public_category_module.py --check
           python scripts/generate_event_semantics_module.py --check

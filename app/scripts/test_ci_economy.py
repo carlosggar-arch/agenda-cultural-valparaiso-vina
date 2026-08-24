@@ -24,13 +24,24 @@ def main() -> None:
     publish = texts["publish.yml"]
     assert "pull_request:" not in trigger_block(publish)
     assert "push:" in trigger_block(publish) and "branches: [main]" in trigger_block(publish)
-    assert sum("selenium==" in text for name, text in texts.items() if name.startswith("pr-")) == 1
+    assert sum("-r requirements-ci.txt" in text for name, text in texts.items() if name.startswith("pr-")) == 1
+    assert (ROOT / "requirements-ci.txt").read_text(encoding="utf-8").strip() == "selenium==4.35.0"
     assert texts["scheduled-audit.yml"].count("- cron:") == 1
+    assert "pull_request:" not in trigger_block(texts["scheduled-audit.yml"])
     assert "if: failure()" in texts["source-validation.yml"]
+    assert "test_source_health_audit.py" in texts["source-validation.yml"]
+    assert '".github/workflows/scheduled-audit.yml"' in texts["source-validation.yml"]
     assert "if: failure()" in texts["pr-release.yml"]
-    assert "--profile pr-fast-all" in texts["pr-fast.yml"]
+    assert "run_impacted_contracts.py" in texts["pr-fast.yml"]
+    assert "run_contracts.py --profile pr-fast-all" not in texts["pr-fast.yml"]
     assert "--profile multi-city" not in texts["pr-release.yml"]
     assert "name: release-guard" in texts["pr-release.yml"], "branch-protection context must remain stable"
+    assert "  sync-cloudflare:" in publish and "  production-smoke:" in publish
+    assert "    needs: sync-cloudflare" in publish
+    for name, workflow in texts.items():
+        assert "actions/checkout@v4" not in workflow, f"{name} still uses the Node 20 checkout action"
+        assert "actions/setup-python@v5" not in workflow, f"{name} still uses the Node 20 setup-python action"
+        assert "actions/upload-artifact@v4" not in workflow, f"{name} still uses the Node 20 upload action"
     budget = json.loads((ROOT / ".github/actions-budget.json").read_text(encoding="utf-8"))
     assert budget["workflow_count"] == len(paths)
     assert budget["runs_per_pr_update_max"] <= 3
