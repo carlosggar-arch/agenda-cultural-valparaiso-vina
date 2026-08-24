@@ -12,6 +12,9 @@ on:
       - "app/scripts/audit_source_health.py"
       - "app/scripts/test_source_health_audit.py"
       - "app/scripts/run_changed_source_tests.py"
+      - "app/scripts/cache_official_images.py"
+      - "app/scripts/test_cache_official_images.py"
+      - "requirements-image-cache.txt"
       - "app/data/high_value_sources.json"
       - "app/data/source-registry.json"
       - "fuentes_publicas.json"
@@ -37,6 +40,10 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-image-cache.txt
+      - name: Install image-cache dependency
+        run: python -m pip install --disable-pip-version-check -r requirements-image-cache.txt
       - name: Validate only affected source adapters
         run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
       - name: Upload diagnostics only after failure

@@ -184,6 +184,11 @@ test("group surface preserves raw event image policy and exact URL string", () =
   assert.equal(resolveEventImage(raw, { surface: "group" }).url, "https://img.example/a%20b.jpg");
   assert.equal(resolveEventImage(noImage, { surface: "group" }).url, null);
   assert.equal(resolveEventImage(genericSchedule, { surface: "group" }).url, genericSchedule.image.url);
+  const cached = { ...own, image: { url: "./assets/event-images/gijon/event.webp" } };
+  assert.equal(
+    resolveEventImage(cached, { surface: "group", baseUrl: BASE }).url,
+    new URL("./assets/event-images/gijon/event.webp", BASE).href,
+  );
 });
 
 test("detail surface preserves safe direct-image policy and explicit suppression", () => {

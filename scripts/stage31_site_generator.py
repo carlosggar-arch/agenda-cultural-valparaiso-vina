@@ -84,7 +84,7 @@ def structured_document(city_id: str, event: dict[str, Any], event_url: str) -> 
     event_type = _event_type(event)
     title = str(event.get("title") or "Actividad cultural").strip()
     description = base.clean_text(event.get("description"))[:3000]
-    image = base.safe_http_url((event.get("image") or {}).get("url"))
+    image = base.public_image_url((event.get("image") or {}).get("url"))
     start = base.schedule_start(event)
     location = event.get("location") or {}
     organizer = str(event.get("organizer") or "").strip()
@@ -209,7 +209,7 @@ def enhance_event_page(
     event_url = base.page_url(city_id, event)
     title = str(event.get("title") or "Actividad cultural").strip()
     meta = base.description_meta(event, city["label"])
-    image = base.safe_http_url((event.get("image") or {}).get("url"))
+    image = base.public_image_url((event.get("image") or {}).get("url"))
 
     structured = _json_ld(structured_page_document(city_id, event, event_url))
     page = re.sub(
@@ -287,7 +287,7 @@ def render_city_landing(city_id: str, city: dict[str, Any], payload: dict[str, A
             f'<p class="city-event-meta">{html.escape(venue)}</p>'
             '</article>'
         )
-    image = next((base.safe_http_url((event.get("image") or {}).get("url")) for event in events if base.safe_http_url((event.get("image") or {}).get("url"))), None)
+    image = next((base.public_image_url((event.get("image") or {}).get("url")) for event in events if base.public_image_url((event.get("image") or {}).get("url"))), None)
     ld: dict[str, Any] = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",

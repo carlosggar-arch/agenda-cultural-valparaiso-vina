@@ -31,6 +31,7 @@ SOURCE_RUNTIME_PATHS = {
     "app/scripts/parser_drift_guard.py",
     "app/scripts/audit_source_coherence.py",
     "app/scripts/audit_and_recover_images.py",
+    "app/scripts/cache_official_images.py",
     "app/scripts/source_refresh_scope.py",
 }
 
@@ -56,6 +57,7 @@ SOURCE_TEST_PATHS = {
     "app/scripts/test_content_quality_guard.py",
     "app/scripts/test_source_coverage_overrides.py",
     "app/scripts/test_maintenance_automation.py",
+    "app/scripts/test_cache_official_images.py",
     "app/scripts/test_source_refresh_scope.py",
 }
 
