@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "0e1135abb1a5bc014568aebbeb7d4959554e4534e19de3352ae77e34ccc04270",
-  "generated_at": "2026-08-24T16:02:34Z",
+  "fingerprint": "5fd7c442fe33203351934cb04ff600fb33d6b568723577799e9e3ed37c4f669d",
+  "generated_at": "2026-08-24T17:10:32Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -163,18 +163,18 @@
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
         "cursos-talleres-campus": 0.066667,
-        "musica": 0.3,
-        "teatro": 0.5,
-        "unclassified": 0.133333
+        "musica": 0.366667,
+        "teatro": 0.466667,
+        "unclassified": 0.1
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.5,
+      "dominant_share": 0.466667,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "total": 30,
-      "unclassified": 4,
-      "unclassified_rate": 0.133333
+      "unclassified": 3,
+      "unclassified_rate": 0.1
     },
     "gijon::museo evaristo valle": {
       "category_distribution": {
@@ -641,14 +641,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "933b1bb3b55be1f5c9275559cc8da76090200bbd",
+  "source_ref": "a736be00b50dbacc153bce3e040f5acb38fe21a3",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 45,
     "total_events": 385,
-    "unclassified_count": 21,
-    "unclassified_rate": 0.054545
+    "unclassified_count": 20,
+    "unclassified_rate": 0.051948
   },
   "unclassified_queue": [
     {
@@ -680,16 +680,6 @@
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "title": "El Arrebato. El viaje inesperado"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_578b1f20a401effb",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "María José Llergo. El Juego"
     },
     {
       "candidates": [],
