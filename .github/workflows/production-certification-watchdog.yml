@@ -1,0 +1,152 @@
+name: Production certification watchdog
+
+on:
+  workflow_run:
+    workflows: ["Publish and production verification"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: production-certification-watchdog-${{ github.event.workflow_run.id || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  certification-watchdog:
+    name: certification-watchdog
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Checkout current verifier
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Checkout permanent certification history
+        uses: actions/checkout@v7
+        with:
+          ref: state/production-certifications
+          path: .production-certification-state
+          fetch-depth: 1
+
+      - name: Resolve source publication run
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_RUN_ID: ${{ github.event.workflow_run.id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            run_id="$(gh run list --workflow publish.yml --branch main --status completed --limit 1 --json databaseId --jq '.[0].databaseId')"
+          else
+            run_id="$EVENT_RUN_ID"
+          fi
+          if [[ -z "$run_id" || "$run_id" == "null" ]]; then
+            echo "::error title=PRODUCTION_UNCERTIFIED::No completed production publication run could be resolved."
+            exit 2
+          fi
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "CERTIFICATION_WATCHDOG_SOURCE_RUN=$run_id"
+
+      - name: Inspect synchronized deployment outcome
+        id: jobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          jobs_json="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/jobs?per_page=100")"
+          sync_result="$(jq -r '[.jobs[] | select(.name == "sync-cloudflare") | .conclusion][0] // "missing"' <<<"$jobs_json")"
+          smoke_result="$(jq -r '[.jobs[] | select(.name == "production-smoke") | .conclusion][0] // "missing"' <<<"$jobs_json")"
+          echo "sync_result=$sync_result" >> "$GITHUB_OUTPUT"
+          echo "smoke_result=$smoke_result" >> "$GITHUB_OUTPUT"
+          echo "CERTIFICATION_WATCHDOG_JOBS run=$SOURCE_RUN_ID sync=$sync_result smoke=$smoke_result"
+
+          if [[ "$sync_result" != "success" ]]; then
+            echo "CERTIFICATION_WATCHDOG_SKIPPED run=$SOURCE_RUN_ID reason=deployment-not-synchronized sync=$sync_result"
+            exit 0
+          fi
+          if [[ "$smoke_result" != "success" ]]; then
+            message="PRODUCTION_UNCERTIFIED run=$SOURCE_RUN_ID reason=production-smoke-$smoke_result sync=success"
+            echo "$message"
+            echo "::error title=PRODUCTION_UNCERTIFIED::$message"
+            {
+              echo "## PRODUCTION_UNCERTIFIED"
+              echo ""
+              echo "- Publication run: \`$SOURCE_RUN_ID\`"
+              echo "- Cloudflare synchronization: \`success\`"
+              echo "- Production smoke: \`$smoke_result\`"
+              echo "- Production must not be described as certified until a complete verification succeeds."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 2
+          fi
+
+      - name: Download source production attestation
+        if: steps.jobs.outputs.sync_result == 'success' && steps.jobs.outputs.smoke_result == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/source-production-attestation
+          mkdir -p /tmp/source-production-attestation
+          gh run download "$SOURCE_RUN_ID" \
+            -n "production-release-verification-${SOURCE_RUN_ID}" \
+            -D /tmp/source-production-attestation
+          attestation="$(find /tmp/source-production-attestation -type f -name production-release-attestation.json -print -quit)"
+          if [[ -z "$attestation" ]]; then
+            message="PRODUCTION_UNCERTIFIED run=$SOURCE_RUN_ID reason=attestation-artifact-missing"
+            echo "$message"
+            echo "::error title=PRODUCTION_UNCERTIFIED::$message"
+            exit 2
+          fi
+          cp "$attestation" /tmp/production-release-attestation.json
+
+      - name: Require durable chained certification
+        if: steps.jobs.outputs.sync_result == 'success' && steps.jobs.outputs.smoke_result == 'success'
+        env:
+          SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_head="$(jq -r '.head_sha' /tmp/production-release-attestation.json)"
+          expected_release="$(jq -r '.release' /tmp/production-release-attestation.json)"
+          set +e
+          python app/scripts/production_certification_watchdog.py \
+            --state-root .production-certification-state \
+            --expected-head "$expected_head" \
+            --expected-release "$expected_release" \
+            | tee /tmp/production-certification-watchdog.log
+          status="${PIPESTATUS[0]}"
+          set -e
+          if [[ "$status" -ne 0 ]]; then
+            message="$(tail -n 1 /tmp/production-certification-watchdog.log)"
+            echo "::error title=PRODUCTION_UNCERTIFIED::$message"
+            {
+              echo "## PRODUCTION_UNCERTIFIED"
+              echo ""
+              echo "- Publication run: \`$SOURCE_RUN_ID\`"
+              echo "- Expected head: \`$expected_head\`"
+              echo "- Expected release: \`v$expected_release\`"
+              echo "- Durable certification history is missing or cryptographically invalid."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit "$status"
+          fi
+          {
+            echo "## Production certification watchdog"
+            echo ""
+            echo "- Publication run: \`$SOURCE_RUN_ID\`"
+            echo "- Head: \`$expected_head\`"
+            echo "- Release: \`v$expected_release\`"
+            echo "- Durable certification: OK"
+            echo "- SHA-256 history chain: OK"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "PRODUCTION_CERTIFICATION_WATCHDOG_COMPLETE run=$SOURCE_RUN_ID head=$expected_head release=v$expected_release"
