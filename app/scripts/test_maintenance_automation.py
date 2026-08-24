@@ -228,6 +228,28 @@ def test_image_recovery_uses_matched_event_page_only():
     assert report["recovered_event_specific_images"] == 1
 
 
+def test_image_recovery_normalizes_quoted_relative_official_metadata_multicity():
+    item = event(title="Un buen cuento maléfico", image=None)
+    item["links"]["official"] = "https://www.teatromuseo.cl/obra/un-buen-cuento-malefico_821"
+    markup = '''<html><head>
+      <meta property="og:image" content="'/images/cartelera/full/cuento.png'">
+      </head><body><script type="application/ld+json">{
+        "@context":"https://schema.org", "@type":"Event",
+        "name":"Un buen cuento maléfico", "startDate":"2099-08-20T20:00:00-04:00"
+      }</script></body></html>'''
+    original_fetch = images.fetch
+    try:
+        images.fetch = lambda url: (True, 200, markup, None)
+        updated, report = images.build({"events": [item]}, date(2099, 8, 18), max_fetch=1)
+    finally:
+        images.fetch = original_fetch
+    assert updated["events"][0]["image"]["url"] == "https://www.teatromuseo.cl/images/cartelera/full/cuento.png"
+    assert report["recovered_event_specific_images"] == 1
+    assert tools.normalize_official_image_url("//cdn.example.org/event.jpg", "https://agenda.example.org/e/1") == "https://cdn.example.org/event.jpg"
+    assert tools.normalize_official_image_url("'/media/event.jpg'", "https://agenda.gijon.es/evento/1") == "https://agenda.gijon.es/media/event.jpg"
+    assert tools.normalize_official_image_url("javascript:alert(1)", "https://agenda.example.org/e/1") is None
+
+
 def main():
     test_event_match_and_detail_url()
     test_revalidation_applies_only_confident_structured_changes()
@@ -240,6 +262,7 @@ def main():
     test_source_coherence_uses_registry_aliases_and_exceptions()
     test_source_coherence_requires_source_id_and_registry_contract()
     test_image_recovery_uses_matched_event_page_only()
+    test_image_recovery_normalizes_quoted_relative_official_metadata_multicity()
     print("MAINTENANCE_AUTOMATION_TESTS_OK")
 
 
