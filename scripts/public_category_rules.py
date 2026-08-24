@@ -30,6 +30,18 @@ DESCRIPTION_EVIDENCE_RULES = [
     (rule["category"], int(rule["weight"]), re.compile(rule["pattern"]))
     for rule in RULES["description_evidence"]
 ]
+SOURCE_EVIDENCE_RULES = [
+    (rule["category"], int(rule["weight"]), re.compile(rule["pattern"]))
+    for rule in RULES.get("source_evidence", [])
+]
+SOURCE_TITLE_EVIDENCE_RULES = [
+    {
+        **rule,
+        "weight": int(rule["weight"]),
+        "regex": re.compile(rule["pattern"]),
+    }
+    for rule in RULES.get("source_title_evidence", [])
+]
 
 
 def fold(value: Any) -> str:
@@ -97,6 +109,19 @@ def description_evidence_text(event: dict[str, Any]) -> str:
     return fold(" ".join(str(value) for value in values if value))
 
 
+def source_evidence_text(event: dict[str, Any]) -> str:
+    source = event.get("source") if isinstance(event.get("source"), dict) else {}
+    values = [
+        event.get("source_id"),
+        event.get("source_name"),
+        event.get("organizer"),
+        event.get("source_url"),
+        source.get("name"),
+        source.get("url"),
+    ]
+    return fold(" ".join(str(value) for value in values if value))
+
+
 def _add_evidence(
     scores: dict[str, int],
     evidence: list[dict[str, Any]],
@@ -125,6 +150,29 @@ def _add_rule_evidence(
     for category_id, weight, pattern in rules:
         if pattern.search(text):
             _add_evidence(scores, evidence, category_id, weight, kind, pattern.pattern)
+
+
+def _add_source_title_evidence(
+    scores: dict[str, int],
+    evidence: list[dict[str, Any]],
+    event: dict[str, Any],
+) -> None:
+    title = fold(event.get("title"))
+    source_id = str(event.get("source_id") or "").strip()
+    if not title or not source_id:
+        return
+    for rule in SOURCE_TITLE_EVIDENCE_RULES:
+        if str(rule.get("source_id") or "") != source_id:
+            continue
+        if rule["regex"].search(title):
+            _add_evidence(
+                scores,
+                evidence,
+                str(rule["category"]),
+                int(rule["weight"]),
+                "source_title",
+                rule.get("reason") or rule["pattern"],
+            )
 
 
 def _confidence_for_score(score: int) -> str:
@@ -186,7 +234,9 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
             source.get("id") or source.get("label"),
         )
 
-    # Recovery hints are evidence, never a bypass around shared semantic authority.
+    # Recovery hints and source identity are evidence, never bypasses around
+    # the shared semantic authority. Strong event-specific title evidence can
+    # therefore override a generic source such as "Actividades y talleres".
     if recovery_hint and is_thematic_category(recovery_hint.get("id")):
         _add_evidence(
             scores,
@@ -197,6 +247,14 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
             (event.get("editorial") or {}).get("category_recovery_hint"),
         )
 
+    _add_rule_evidence(
+        scores,
+        evidence,
+        source_evidence_text(event),
+        SOURCE_EVIDENCE_RULES,
+        "source",
+    )
+    _add_source_title_evidence(scores, evidence, event)
     _add_rule_evidence(
         scores,
         evidence,
