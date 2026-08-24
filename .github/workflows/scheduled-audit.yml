@@ -25,6 +25,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # Keep the previous public state available as a cheap semantic baseline.
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -38,9 +41,13 @@ jobs:
             app/scripts/audit_source_health.py \
             app/scripts/test_source_health_audit.py \
             app/scripts/refresh_balmaceda_valpo_resilient.py \
-            app/scripts/test_balmaceda_transport.py
+            app/scripts/test_balmaceda_transport.py \
+            scripts/semantic_quality_audit.py \
+            scripts/classification_uncertainty_audit.py \
+            app/scripts/test_classification_uncertainty_audit.py
           python app/scripts/test_source_health_audit.py
           python app/scripts/test_balmaceda_transport.py
+          python app/scripts/test_classification_uncertainty_audit.py
 
       - name: Measure weekly Actions budget
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -81,6 +88,19 @@ jobs:
             --mode "${{ steps.audit_mode.outputs.mode }}" \
             --output source-health-audit.json
 
+      - name: Build automatic classification quality diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/semantic_quality_audit.py \
+            --compare-ref HEAD^ \
+            --json-output classification-semantic-quality.json \
+            --markdown-output classification-semantic-quality.md
+          python scripts/classification_uncertainty_audit.py \
+            --compare-ref HEAD^ \
+            --json-output classification-uncertainty.json \
+            --markdown-output classification-uncertainty.md
+
       - name: Write audit summary
         shell: bash
         run: |
@@ -103,6 +123,23 @@ jobs:
               for value in report['warnings']:
                   print(f"- {value}")
           PY
+          printf '\n' >> "$GITHUB_STEP_SUMMARY"
+          cat classification-semantic-quality.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n' >> "$GITHUB_STEP_SUMMARY"
+          cat classification-uncertainty.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload classification quality evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: classification-quality-${{ steps.audit_mode.outputs.mode }}-${{ github.run_id }}
+          path: |
+            classification-semantic-quality.json
+            classification-semantic-quality.md
+            classification-uncertainty.json
+            classification-uncertainty.md
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Upload audit evidence
         if: failure()

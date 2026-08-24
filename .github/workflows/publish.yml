@@ -26,6 +26,7 @@ on:
       - "app/scripts/test_web_pwa_visibility_parity.py"
       - "app/scripts/production_release_attestation.py"
       - "app/scripts/production_certification_history.py"
+      - "app/scripts/production_admin_staging_smoke.py"
       - ".github/workflows/publish.yml"
   workflow_dispatch:
     # Explicit recovery path when an automated merge does not emit a push run.
@@ -242,7 +243,8 @@ jobs:
             app/scripts/production_warm_start_smoke.py \
             app/scripts/test_web_pwa_visibility_parity.py \
             app/scripts/production_release_attestation.py \
-            app/scripts/production_certification_history.py
+            app/scripts/production_certification_history.py \
+            app/scripts/production_admin_staging_smoke.py
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for both deployments and verify byte parity
@@ -251,6 +253,13 @@ jobs:
           set -euo pipefail
           python app/scripts/production_pwa_smoke.py http \
             | tee /tmp/production-release-verification/http.log
+
+      - name: Verify admin staging production/preview separation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/production_admin_staging_smoke.py \
+            | tee /tmp/production-release-verification/admin-staging.log
 
       - name: Cold-load both cities on GitHub Pages and Cloudflare
         shell: bash
@@ -288,6 +297,7 @@ jobs:
             --markdown-output /tmp/production-release-verification/summary.md \
             | tee /tmp/production-release-verification/attestation.log
           grep -q '^PRODUCTION_RELEASE_VERIFIED ' /tmp/production-release-verification/attestation.log
+          grep -q '^PRODUCTION_ADMIN_STAGING_VERIFIED ' /tmp/production-release-verification/admin-staging.log
           cat /tmp/production-release-verification/summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout permanent production certification history
