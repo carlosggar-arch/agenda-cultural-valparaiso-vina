@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "81b8f8dfdd94f455bfd5205b112b84375501ae67e830d4c146853649fbbfcd8c",
-  "generated_at": "2026-08-24T02:17:46Z",
+  "fingerprint": "28e8e237c4fb8e1e5eb7fe2acbb5abdb9280d49da5b27a0005fea9591a85b725",
+  "generated_at": "2026-08-24T07:25:17Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -89,7 +89,7 @@
       "dominant_share": 1.0,
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "total": 5,
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -176,18 +176,18 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "cine": 0.041667,
-        "cursos-talleres-campus": 0.020833,
-        "exposiciones": 0.6875,
-        "musica": 0.1875,
-        "teatro": 0.0625
+        "cine": 0.043478,
+        "cursos-talleres-campus": 0.021739,
+        "exposiciones": 0.695652,
+        "musica": 0.173913,
+        "teatro": 0.065217
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.6875,
+      "dominant_share": 0.695652,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 48,
+      "total": 46,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -206,15 +206,15 @@
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
-        "musica": 0.1,
-        "teatro": 0.9
+        "musica": 0.102564,
+        "teatro": 0.897436
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.9,
+      "dominant_share": 0.897436,
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "total": 40,
+      "total": 39,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -628,14 +628,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "128e9e959a490b349855cc2c8cb345c05ea2906e",
+  "source_ref": "53402a43a6bca73e01975210b6c6655606ddc195",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 44,
-    "total_events": 392,
+    "total_events": 390,
     "unclassified_count": 27,
-    "unclassified_rate": 0.068878
+    "unclassified_rate": 0.069231
   },
   "unclassified_queue": [
     {
@@ -661,7 +661,7 @@
     {
       "candidates": [],
       "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_b7f8e1a66550b14e",
+      "event_id": "gijon_bioparc_acuario_gijon_ea720829d9fa140f",
       "evidence": [],
       "score": 0,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
@@ -681,7 +681,7 @@
     {
       "candidates": [],
       "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_2d5623b910b4ac9d",
+      "event_id": "gijon_bioparc_acuario_gijon_a8cb0d151e5deb17",
       "evidence": [],
       "score": 0,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
