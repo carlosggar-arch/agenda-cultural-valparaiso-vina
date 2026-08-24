@@ -7,7 +7,7 @@ import unicodedata
 from difflib import SequenceMatcher
 from html.parser import HTMLParser
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
 SOCIAL_HOSTS = {
@@ -161,7 +161,33 @@ def page_meta(markup: str) -> dict[str, str]:
     return parser.meta
 
 
-def image_url_from_candidate(candidate: dict | None, markup: str = "") -> str | None:
+def normalize_official_image_url(value: object, base_url: str | None = None) -> str | None:
+    """Normalize source image metadata without guessing from its filename."""
+    url = html.unescape(str(value or "")).strip()
+    while len(url) >= 2 and url[0] == url[-1] and url[0] in {"'", '"'}:
+        url = url[1:-1].strip()
+    if not url:
+        return None
+    if base_url:
+        try:
+            base = urlparse(str(base_url).strip())
+        except ValueError:
+            base = None
+        if base and base.scheme in {"http", "https"} and base.netloc:
+            url = urljoin(str(base_url).strip(), url)
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        return None
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return None
+    low = url.casefold()
+    if any(token in low for token in BAD_IMAGE_TOKENS):
+        return None
+    return url
+
+
+def image_url_from_candidate(candidate: dict | None, markup: str = "", base_url: str | None = None) -> str | None:
     image = (candidate or {}).get("image")
     if isinstance(image, list):
         image = image[0] if image else None
@@ -169,19 +195,7 @@ def image_url_from_candidate(candidate: dict | None, markup: str = "") -> str | 
         image = image.get("url") or image.get("contentUrl")
     if not image and markup:
         image = page_meta(markup).get("og:image")
-    url = str(image or "").strip()
-    if not url:
-        return None
-    try:
-        parsed = urlparse(url)
-    except ValueError:
-        return None
-    if parsed.scheme not in {"http", "https"}:
-        return None
-    low = url.casefold()
-    if any(token in low for token in BAD_IMAGE_TOKENS):
-        return None
-    return url
+    return normalize_official_image_url(image, base_url)
 
 
 def location_from_candidate(candidate: dict) -> tuple[str | None, str | None]:
