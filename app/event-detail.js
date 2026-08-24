@@ -1,4 +1,4 @@
-import { resolveEventImage } from "./image-resolver-core.mjs?v=20260822-single-image1";
+import { resolveEventImage } from "./image-resolver-core.mjs?v=20260824-official-images1";
 
 function safeHttpUrl(value) {
   if (!value) return null;
