@@ -5,7 +5,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
   "aliases": {
     "actividad-panorama": "unclassified",
     "artes-visuales-museo": "exposiciones",
-    "charlas": "literatura-charlas-encuentros",
+    "charlas": "charlas-conferencias",
+    "charlas-conferencias": "charlas-conferencias",
     "cursos": "cursos-talleres-campus",
     "cursos-talleres": "cursos-talleres-campus",
     "cursos-talleres-experiencias": "cursos-talleres-campus",
@@ -18,7 +19,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "formacion-taller": "cursos-talleres-campus",
     "gastronomia": "ferias-vida-local",
     "gastronomia-ferias": "ferias-vida-local",
-    "literatura": "literatura-charlas-encuentros",
+    "literatura": "literatura",
+    "literatura-charlas-encuentros": "unclassified",
     "museos": "exposiciones",
     "naturaleza": "naturaleza-aire-libre",
     "naturaleza-deportes": "unclassified",
@@ -31,6 +33,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "teatro-danza": "teatro"
   },
   "categories": {
+    "charlas-conferencias": {
+      "label": "Charlas y conferencias",
+      "symbol": "◇",
+      "thematic": true
+    },
     "cine": {
       "label": "Cine",
       "symbol": "▣",
@@ -56,8 +63,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       "symbol": "◆",
       "thematic": true
     },
-    "literatura-charlas-encuentros": {
-      "label": "Literatura, charlas y encuentros",
+    "literatura": {
+      "label": "Literatura",
       "symbol": "◇",
       "thematic": true
     },
@@ -88,14 +95,15 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "teatro",
     "cine",
     "exposiciones",
+    "charlas-conferencias",
+    "literatura",
     "cursos-talleres-campus",
     "deportes-actividad-fisica",
-    "literatura-charlas-encuentros",
     "naturaleza-aire-libre",
     "ferias-vida-local",
     "unclassified"
   ],
-  "description": "Taxonomía temática compartida por todas las ciudades. La categoría pública se decide por evidencia semántica; las categorías de origen son sólo evidencia y el fallback interno es unclassified.",
+  "description": "Taxonomía temática compartida por todas las ciudades. La categoría pública se decide por evidencia semántica del formato real del evento; las categorías de origen son sólo evidencia, los recintos son neutrales y el fallback interno es unclassified.",
   "event_type_labels": {
     "course": "Curso",
     "flexible_offer": "Actividad disponible",
@@ -108,6 +116,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "exhibition": [
       "exposiciones"
     ],
+    "literature": [
+      "literatura"
+    ],
+    "talk": [
+      "charlas-conferencias"
+    ],
     "training": [
       "cursos-talleres-campus"
     ]
@@ -115,6 +129,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
   "label_aliases": {
     "actividad panorama": "unclassified",
     "artes visuales museo": "exposiciones",
+    "charla": "charlas-conferencias",
+    "charlas": "charlas-conferencias",
+    "charlas y conferencias": "charlas-conferencias",
+    "coloquio": "charlas-conferencias",
+    "conferencia": "charlas-conferencias",
     "cursos talleres y campus": "cursos-talleres-campus",
     "cursos talleres y experiencias": "cursos-talleres-campus",
     "cursos y talleres": "cursos-talleres-campus",
@@ -128,8 +147,9 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "formacion taller": "cursos-talleres-campus",
     "gastronomia": "ferias-vida-local",
     "gastronomia ferias": "ferias-vida-local",
-    "literatura": "literatura-charlas-encuentros",
-    "literatura charlas y encuentros": "literatura-charlas-encuentros",
+    "literatura": "literatura",
+    "literatura charlas y encuentros": "unclassified",
+    "mesa redonda": "charlas-conferencias",
     "museos": "exposiciones",
     "naturaleza montana": "naturaleza-aire-libre",
     "naturaleza y aire libre": "naturaleza-aire-libre",
@@ -145,6 +165,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
   "registered_source_ids": [
     "actividad-panorama",
     "artes-visuales-museo",
+    "charlas",
+    "charlas-conferencias",
     "cine",
     "cultura",
     "cursos",
@@ -214,8 +236,13 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "weight": 35
       },
       {
-        "category": "literatura-charlas-encuentros",
-        "pattern": "\\b(?:libro|literatura|literario|lectura|poesia|conversatorio|charla|coloquio|conferencia|mesa redonda)\\b",
+        "category": "charlas-conferencias",
+        "pattern": "\\b(?:conversatorio|charla|coloquio|conferencia|mesa redonda|ponencia|debate|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
+        "weight": 40
+      },
+      {
+        "category": "literatura",
+        "pattern": "\\b(?:libro|literatura|literario|lectura|poesia|recital poetico|encuentro literario)\\b",
         "weight": 35
       },
       {
@@ -336,8 +363,13 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "weight": 140
       },
       {
-        "category": "literatura-charlas-encuentros",
-        "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro|club de lectura|poesia|recital poetico|encuentro literario|conversatorio|charla|coloquio|mesa redonda|conferencia)\\b",
+        "category": "charlas-conferencias",
+        "pattern": "\\b(?:conversatorio|charla|coloquio|mesa redonda|conferencia|ponencia|debate|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
+        "weight": 145
+      },
+      {
+        "category": "literatura",
+        "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro|club de lectura|poesia|recital poetico|encuentro literario)\\b",
         "weight": 140
       },
       {
@@ -362,7 +394,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ]
   },
-  "schema_version": "2.2.0"
+  "schema_version": "2.3.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);
