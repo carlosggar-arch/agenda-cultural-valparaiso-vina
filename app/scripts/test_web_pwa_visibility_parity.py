@@ -95,6 +95,23 @@ def freeze_clock(driver: webdriver.Chrome, instant: str) -> None:
     driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": script})
 
 
+def install_presentation_probe(driver: webdriver.Chrome) -> None:
+    # Core readiness is intentionally earlier than optional presentation
+    # enhancers. Observe the canonical exhibition-render completion event from
+    # document creation so online and cached-PWA snapshots are captured at the
+    # same stable presentation boundary rather than at different startup speeds.
+    script = r"""
+    (() => {
+      window.addEventListener('vivamos:exhibition-groups-rendered', (event) => {
+        document.documentElement.dataset.vivamosExhibitionGroupsReady = String(
+          event?.detail?.city || document.documentElement.dataset.city || ''
+        );
+      });
+    })();
+    """
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": script})
+
+
 def wait_ready(driver: webdriver.Chrome, city: str) -> None:
     WebDriverWait(driver, READY_TIMEOUT, poll_frequency=0.05).until(
         lambda current: current.execute_script(
@@ -105,6 +122,29 @@ def wait_ready(driver: webdriver.Chrome, city: str) -> None:
             """,
             city,
         )
+    )
+
+
+def wait_stable_presentation(driver: webdriver.Chrome, city: str) -> None:
+    WebDriverWait(driver, READY_TIMEOUT, poll_frequency=0.05).until(
+        lambda current: current.execute_script(
+            """
+            return document.documentElement.dataset.vivamosExhibitionGroupsReady === arguments[0]
+              && document.documentElement.dataset.city === arguments[0]
+              && document.querySelectorAll('.event-card').length > 0;
+            """,
+            city,
+        )
+    )
+
+
+def settle_render_frames(driver: webdriver.Chrome) -> None:
+    driver.set_script_timeout(5)
+    driver.execute_async_script(
+        """
+        const done = arguments[arguments.length - 1];
+        requestAnimationFrame(() => requestAnimationFrame(() => done(true)));
+        """
     )
 
 
@@ -131,8 +171,20 @@ def set_state(driver: webdriver.Chrome, state: str) -> None:
         raise AssertionError(f"Missing canonical combined date filter: {state}")
     driver.execute_script("arguments[0].click()", buttons[0])
     WebDriverWait(driver, 8, poll_frequency=0.05).until(
-        lambda current: current.find_element(By.CSS_SELECTOR, selector).get_attribute("aria-pressed") == "true"
+        lambda current: current.execute_script(
+            """
+            const button = document.querySelector(arguments[0]);
+            const applied = new URL(location.href).searchParams.get('when') || 'todos';
+            return button?.getAttribute('aria-pressed') === 'true' && applied === arguments[1];
+            """,
+            selector,
+            state,
+        )
     )
+    # writeUrl() runs only after the canonical combined-filter pass has patched
+    # card/row visibility. Two frames then let the temporal-order observer
+    # consume that completed presentation before the snapshot is read.
+    settle_render_frames(driver)
 
 
 def visible_records(driver: webdriver.Chrome, state: str) -> tuple[tuple[str, str, str, str], ...]:
@@ -263,16 +315,19 @@ def exercise_origin(name: str, base: str, instant: str) -> list[dict[str, object
         with tempfile.TemporaryDirectory(prefix=f"vivamos-parity-{name}-{city}-") as profile:
             driver = webdriver.Chrome(options=chrome_options(profile))
             try:
+                install_presentation_probe(driver)
                 freeze_clock(driver, instant)
                 set_offline(driver, False)
                 driver.get(f"{base}?city={city}&parity=online")
                 wait_ready(driver, city)
+                wait_stable_presentation(driver, city)
                 online = capture_states(driver)
                 wait_service_worker(driver)
                 driver.get("about:blank")
                 set_offline(driver, True)
                 driver.get(f"{base}?city={city}&parity=pwa")
                 wait_ready(driver, city)
+                wait_stable_presentation(driver, city)
                 pwa = capture_states(driver)
                 rows.extend(compare_snapshots(name, city, instant, online, pwa))
             finally:
@@ -308,7 +363,7 @@ def write_report(path: str, mode: str, instant: str, rows: list[dict[str, object
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Require exact visible event-ID parity between live web and cached PWA.")
+    parser = argparse.ArgumentParser(description="Require exact visible event-ID parity between stable live web and stable cached PWA presentation.")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--production", action="store_true")
     mode.add_argument("--local", action="store_true")
