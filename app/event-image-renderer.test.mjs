@@ -8,9 +8,13 @@ class FakeImage {
   constructor() {
     this.dataset = {};
     this.listeners = [];
+    this.hidden = false;
   }
   addEventListener(type, handler, options) {
     this.listeners.push({ type, handler, options });
+  }
+  dispatch(type) {
+    for (const listener of this.listeners.filter((item) => item.type === type)) listener.handler();
   }
 }
 
@@ -43,3 +47,22 @@ for (const city of ["valparaiso", "gijon"]) {
     }
   });
 }
+
+test("failed image is hidden before the owning surface installs its fallback", () => {
+  let fallbackCalls = 0;
+  const event = {
+    id: "gijon-teatro-albeniz-fixture",
+    title: "Santero y los Muchachos",
+    image: { url: "https://www.teatroalbenizgijon.com/wp-content/uploads/2026/04/post-santero.png" },
+  };
+  const image = createEventImageElement(event, {
+    url: event.image.url,
+    documentRef,
+    onError: () => { fallbackCalls += 1; },
+  });
+  assert.equal(image.hidden, false);
+  image.dispatch("error");
+  assert.equal(image.hidden, true);
+  assert.equal(image.dataset.eventImageFailed, "true");
+  assert.equal(fallbackCalls, 1);
+});
