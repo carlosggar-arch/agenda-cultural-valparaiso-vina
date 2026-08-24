@@ -54,40 +54,67 @@ def main() -> None:
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
 
     assert "pr-contract:" not in WORKFLOW, "Local PR smoke must be owned by Required release guard after D4"
+    assert "sync-cloudflare:" in WORKFLOW
     assert "production-smoke:" in WORKFLOW
-    production = block("  production-smoke:\n")
+    sync = block("  sync-cloudflare:\n", "  production-smoke:\n")
+    production = block("  production-smoke:\n", "  refresh-open-release-prs:\n")
 
+    # Publication is pinned to one immutable candidate. Release-delta enforcement
+    # happens before deployment; production verification never jumps to a newer main.
+    assert "CANDIDATE_SHA: ${{ github.sha }}" in WORKFLOW
+    assert "Merge exact approved candidate without rewriting deployment history" in sync
+    assert 'git merge --no-edit "$CANDIDATE_SHA"' in sync
+    assert "Require release bump for runtime pushes" in sync
+    assert "if: github.event_name == 'push'" in sync
+    assert "app/release-version.js" in sync
+    assert "js|mjs|css|html|webmanifest" in sync
+    assert "Validate Cloudflare build snapshot and exact release lineage" in sync
+    assert 'release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA"' in sync
+    assert "git reset --hard origin/main" not in WORKFLOW
+
+    # The only bounded propagation wait is shared by both production origins.
+    assert "Wait once for both production origins in parallel" in sync
+    assert "deployment_readiness.py" in sync
+    assert "--timeout-seconds 90" in sync
+    assert "DEPLOYMENT_READY" in sync
+    assert "DEPLOYED_BYTE_VERIFIED" in WORKFLOW
+    assert "visual=pending" in WORKFLOW
+    assert "PUBLICATION_FAST_CLOSE_VERIFIED" not in WORKFLOW
+
+    # Deep certification runs against the exact published SHA and parallelizes
+    # independent browser/offline/semantic probes after byte readiness.
+    assert "Checkout immutable published candidate" in production
+    assert "ref: ${{ github.sha }}" in production
     assert "Install browser timing dependency" in production
     assert "-r requirements-ci.txt" in production
     assert "cache-dependency-path: requirements-ci.txt" in production
-    assert "Require release bump for runtime pushes" in production
-    assert "if: github.event_name == 'push'" in production
-    assert "Align smoke candidate with latest public main" in production
-    assert "git reset --hard origin/main" in production
-    assert "app/release-version.js" in production
-    assert "js|mjs|css|html|webmanifest" in production
+    assert "Assert immutable candidate and local contracts" in production
+    assert 'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"' in production
     assert "python app/scripts/production_pwa_smoke.py local" in production
-    assert "python app/scripts/production_pwa_smoke.py http" in production
+    assert "Re-assert deployed bytes without waiting" in production
+    assert "--assert-ready" in production
+    assert "--wait" not in production
+    assert "Run independent production probes in parallel" in production
+    assert "PRODUCTION_PROBES_PARALLEL_OK groups=4" in production
     assert "python app/scripts/production_browser_selenium_smoke.py" in production
     assert "python app/scripts/production_pwa_smoke.py browser" not in production
+    assert "python app/scripts/production_pwa_smoke.py http" not in production
     assert "python app/scripts/production_warm_start_smoke.py" in production
     assert "python app/scripts/test_web_pwa_visibility_parity.py" in production
     assert "--production" in production and "--json-output" in production
     assert "Create auditable production release attestation" in production
     assert "python app/scripts/production_release_attestation.py" in production
     assert "production-release-attestation.json" in production
-    assert "production-release-verification-${{ github.run_id }}" in production
     assert "grep -q '^PRODUCTION_RELEASE_VERIFIED '" in production
+    assert "Certify exact source-to-production chain" in production
+    assert "production_release_chain.py" in production
+    assert "Persist immutable production certification" in production
+    assert "state/production-certifications" in production
+    assert "production-release-verification-${{ github.run_id }}" in production
     assert "actions/upload-artifact@v6" in production
     assert "retention-days: 30" in production
-    assert "Warm-reopen Valpo mobile on GitHub Pages and Cloudflare" in production
-    assert "Require exact live WEB versus cached PWA event IDs" in production
-    assert "timeout-minutes: 28" in production
-    assert "verify byte parity" in production
-    assert "GitHub Pages and Cloudflare" in production
-    assert "DEPLOYED_BYTE_VERIFIED" in WORKFLOW
-    assert "visual=pending" in WORKFLOW
-    assert "PUBLICATION_FAST_CLOSE_VERIFIED" not in WORKFLOW
+    assert "timeout-minutes: 7" in production
+    assert "timeout-minutes: 28" not in production
 
     contracts = {entry["id"]: entry for entry in TOPOLOGY["contracts"]}
     required_profile = TOPOLOGY["runner_profiles"]["required-release"]
@@ -218,7 +245,7 @@ def main() -> None:
     for marker in ("canonical_source_id", "eventCountsBySourceId", "runtimeById"):
         assert marker in SOURCES, f"Canonical source mapping missing: {marker}"
 
-    print("PRODUCTION_PWA_SMOKE_CONTRACT_OK")
+    print("PRODUCTION_PWA_SMOKE_CONTRACT_OK candidate_sha=immutable readiness=single_wait probes=parallel")
 
 
 if __name__ == "__main__":

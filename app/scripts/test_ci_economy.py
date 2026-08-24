@@ -57,11 +57,21 @@ def main() -> None:
     assert "if: failure()" in source_validation
     assert "test_source_health_audit.py" in source_validation
     assert '".github/workflows/scheduled-audit.yml"' in source_validation
-    assert "if: failure()" in texts["pr-release.yml"]
+
+    pr_release = texts["pr-release.yml"]
+    assert "if: failure()" in pr_release
+    assert "Preflight release workflow contracts before browser setup" in pr_release
+    assert pr_release.index("Preflight release workflow contracts before browser setup") < pr_release.index("Install browser test dependency"), (
+        "cheap release workflow contracts must fail before Selenium setup"
+    )
+    required_step = pr_release.split("- name: Run required release and architecture contracts", 1)[1]
+    assert "python app/scripts/test_release_finalizer.py" not in required_step, (
+        "release finalizer unit test must not run twice in the same release gate"
+    )
     assert "run_impacted_contracts.py" in texts["pr-fast.yml"]
     assert "run_contracts.py --profile pr-fast-all" not in texts["pr-fast.yml"]
-    assert "--profile multi-city" not in texts["pr-release.yml"]
-    assert "name: release-guard" in texts["pr-release.yml"], "branch-protection context must remain stable"
+    assert "--profile multi-city" not in pr_release
+    assert "name: release-guard" in pr_release, "branch-protection context must remain stable"
     assert "  sync-cloudflare:" in publish and "  production-smoke:" in publish
     assert "    needs: sync-cloudflare" in publish
     for name, workflow in texts.items():
@@ -74,7 +84,7 @@ def main() -> None:
     assert budget["browser_suites_per_pr"] == 1
     assert budget["automatic_publish_runs_per_merge"] == 1
     assert budget["automatic_certification_watchdog_runs_per_publish"] == 1
-    print("CI_ECONOMY_OK workflows=6 pr_runs_max=3 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped")
+    print("CI_ECONOMY_OK workflows=6 pr_runs_max=3 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped release_preflight=before_browser_setup")
 
 
 if __name__ == "__main__":
