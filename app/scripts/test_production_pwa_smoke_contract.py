@@ -135,6 +135,7 @@ def main() -> None:
         "image.naturalWidth",
         '("app",',
         '("web",',
+        "q=Museo%20Baburizza",
         "vivamos-images-{origin}-{surface}-{attempt}",
         "driver.set_page_load_timeout(45)",
         "for attempt in range(1, 3)",
