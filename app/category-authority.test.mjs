@@ -12,7 +12,7 @@ const taxonomy = JSON.parse(
 const core = readFileSync(new URL("./app-core.js", import.meta.url), "utf8");
 const combined = readFileSync(new URL("./combined-filters.js", import.meta.url), "utf8");
 
-assert.equal(taxonomy.schema_version, "2.0.0");
+assert.equal(taxonomy.schema_version, "2.1.0");
 assert.equal(taxonomy.fallback_category, "unclassified");
 assert.equal(taxonomy.categories.unclassified.thematic, false);
 assert.equal(taxonomy.categories.unclassified.label, "Otros panoramas");
@@ -57,67 +57,95 @@ for (const [alias, canonical] of Object.entries(expectedAliases)) {
 const cases = [
   [
     "music fallback recovery",
-    {
-      title: "Concierto de cámara al atardecer",
-      primary_category: { id: "otros", label: "Otros panoramas" },
-    },
+    { title: "Concierto de cámara al atardecer", primary_category: { id: "otros", label: "Otros panoramas" } },
     "musica",
   ],
   [
     "theatre fallback recovery",
-    {
-      title: "Obra de teatro La memoria del agua",
-      primary_category: { id: "otros", label: "Otros panoramas" },
-    },
+    { title: "Obra de teatro La memoria del agua", primary_category: { id: "otros", label: "Otros panoramas" } },
     "teatro",
   ],
   [
     "sports fallback recovery",
-    {
-      title: "Torneo abierto de tenis",
-      primary_category: { id: "otros", label: "Otros panoramas" },
-    },
+    { title: "Torneo abierto de tenis", primary_category: { id: "otros", label: "Otros panoramas" } },
     "deportes-actividad-fisica",
   ],
   [
     "literature now has a semantic home",
-    {
-      title: "Presentación del libro Decadencia",
-      primary_category: { id: "otros", label: "Otros panoramas" },
-    },
+    { title: "Presentación del libro Decadencia", primary_category: { id: "otros", label: "Otros panoramas" } },
     "literatura-charlas-encuentros",
   ],
   [
     "reading club is literature, not training",
-    {
-      title: "Club de Lectura para la Niñez | Caleta de Historias",
-      primary_category: { id: "otros", label: "Otros panoramas" },
-    },
+    { title: "Club de Lectura para la Niñez | Caleta de Historias", primary_category: { id: "otros", label: "Otros panoramas" } },
     "literatura-charlas-encuentros",
   ],
   [
     "nature outing",
-    {
-      title: "Salida de senderismo por la costa",
-      primary_category: { id: "naturaleza-deportes", label: "Naturaleza y deportes" },
-    },
+    { title: "Salida de senderismo por la costa", primary_category: { id: "naturaleza-deportes", label: "Naturaleza y deportes" } },
     "naturaleza-aire-libre",
   ],
   [
     "local fair",
-    {
-      title: "Feria de productores y oficios del barrio",
-      primary_category: { id: "otros", label: "Otros panoramas" },
-    },
+    { title: "Feria de productores y oficios del barrio", primary_category: { id: "otros", label: "Otros panoramas" } },
     "ferias-vida-local",
   ],
   [
-    "ambiguous remains unclassified",
+    "bioparc educational encounter becomes experience",
     {
-      title: "Encuentro de agosto",
-      description: "Actividad abierta a la comunidad.",
-      primary_category: { id: "otros", label: "Otros panoramas" },
+      title: "Encuentro Educativo Tiburones",
+      source_id: "bioparc_acuario_gijon",
+      source_name: "BIOPARC Acuario de Gijón — Actividades y talleres",
+      primary_category: { id: "actividad-panorama", label: "Actividad / panorama" },
     },
+    "cursos-talleres-campus",
+  ],
+  [
+    "bioparc generic activity uses source evidence",
+    {
+      title: "Alimentación del Gran Oceanario",
+      source_id: "bioparc_acuario_gijon",
+      source_name: "BIOPARC Acuario de Gijón — Actividades y talleres",
+      primary_category: { id: "actividad-panorama", label: "Actividad / panorama" },
+    },
+    "cursos-talleres-campus",
+  ],
+  [
+    "bioparc concert remains music",
+    {
+      title: "Concierto piano a la luz de las velas",
+      source_id: "bioparc_acuario_gijon",
+      source_name: "BIOPARC Acuario de Gijón — Actividades y talleres",
+      primary_category: { id: "actividad-panorama", label: "Actividad / panorama" },
+    },
+    "musica",
+  ],
+  [
+    "camera Dire Straits tribute is music",
+    {
+      title: "HOMENAJE DIRE STRAITS",
+      source_id: "camara_recinto_ferial_gijon",
+      primary_category: { id: "actividad-panorama", label: "Actividad / panorama" },
+    },
+    "musica",
+  ],
+  [
+    "camera Gran Showman is stage musical",
+    {
+      title: "EL GRAN SHOWMAN",
+      source_id: "camara_recinto_ferial_gijon",
+      primary_category: { id: "actividad-panorama", label: "Actividad / panorama" },
+    },
+    "teatro",
+  ],
+  [
+    "generic musical is theatre",
+    { title: "La Bella y la Bestia, el musical", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } },
+    "teatro",
+  ],
+  [
+    "ambiguous remains unclassified",
+    { title: "Encuentro de agosto", description: "Actividad abierta a la comunidad.", primary_category: { id: "otros", label: "Otros panoramas" } },
     "unclassified",
   ],
 ];
@@ -145,7 +173,7 @@ assert.equal(
   "teatro",
 );
 
-// Venue/source-name words are deliberately excluded from semantic text evidence.
+// Generic venue/source-name words still do not create a category by themselves.
 assert.equal(
   resolvePublicCategory({
     title: "Encuentro de agosto",

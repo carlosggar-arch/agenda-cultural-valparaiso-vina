@@ -1,141 +1,26 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "2.1.0",
   "cases": [
-    {
-      "name": "gijon_summer_registration",
-      "event": {
-        "title": "Gijón Verano: inscripciones",
-        "event_type": "program",
-        "primary_category": {"id": "cultura", "label": "Cultura"}
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "gijon_laboral_campus",
-      "event": {
-        "title": "Campus de Verano de la Laboral 2026",
-        "event_type": "event",
-        "primary_category": {"id": "formacion-taller", "label": "Formación / taller"}
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "vina_training_alias",
-      "event": {
-        "title": "Taller de Liderazgo Prosocial para Agentes de Cambio",
-        "event_type": "event",
-        "primary_category": {"id": "cursos-talleres", "label": "Cursos y talleres"}
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "new_core_label_alias",
-      "event": {
-        "title": "Curso de mediación cultural",
-        "event_type": "event",
-        "primary_category": {"label": "Cursos, talleres y experiencias"}
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "culture_taller_theatre_prefers_training",
-      "event": {
-        "title": "Taller de teatro físico",
-        "event_type": "event",
-        "primary_category": {"id": "cultura", "label": "Cultura"}
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "culture_course_cooking_prefers_training",
-      "event": {
-        "title": "Curso de cocina italiana",
-        "event_type": "event",
-        "primary_category": {"id": "cultura", "label": "Cultura"}
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "music_school_concert_stays_music",
-      "event": {
-        "title": "Escuela de Música presenta concierto de jazz",
-        "event_type": "event",
-        "primary_category": {"id": "cultura", "label": "Cultura"}
-      },
-      "expected": {"id": "musica", "label": "Música"}
-    },
-    {
-      "name": "culture_infers_training",
-      "event": {
-        "title": "II Ciclo de Formación Cultural",
-        "event_type": "event",
-        "primary_category": {"id": "cultura", "label": "Cultura"},
-        "tags": ["formación", "taller"]
-      },
-      "expected": {"id": "cursos-talleres-campus", "label": "Cursos, talleres y experiencias"}
-    },
-    {
-      "name": "museum_alias",
-      "event": {
-        "title": "Visita al museo",
-        "event_type": "event",
-        "primary_category": {"id": "museos", "label": "Museos"}
-      },
-      "expected": {"id": "exposiciones", "label": "Exposiciones"}
-    },
-    {
-      "name": "gijon_visual_arts_alias",
-      "event": {
-        "title": "Descubriendo los jardines del museo",
-        "event_type": "event",
-        "primary_category": {"id": "artes-visuales-museo", "label": "Artes visuales / museo"}
-      },
-      "expected": {"id": "exposiciones", "label": "Exposiciones"}
-    },
-    {
-      "name": "gijon_sport_alias",
-      "event": {
-        "title": "Concurso Hípico de Gijón",
-        "event_type": "event",
-        "primary_category": {"id": "deporte-bienestar", "label": "Deporte / bienestar"}
-      },
-      "expected": {"id": "deportes-actividad-fisica", "label": "Deportes y actividad física"}
-    },
-    {
-      "name": "specific_nature_activity",
-      "event": {
-        "title": "Salida de senderismo de verano",
-        "event_type": "event",
-        "primary_category": {"id": "naturaleza-deportes", "label": "Naturaleza y deportes"}
-      },
-      "expected": {"id": "naturaleza-aire-libre", "label": "Naturaleza y aire libre"}
-    },
-    {
-      "name": "culture_infers_concert",
-      "event": {
-        "title": "Concierto de jóvenes pianistas",
-        "event_type": "event",
-        "primary_category": {"id": "cultura", "label": "Cultura"}
-      },
-      "expected": {"id": "musica", "label": "Música"}
-    },
-    {
-      "name": "legacy_other_recovers_literature",
-      "event": {
-        "title": "Presentación del libro Decadencia",
-        "event_type": "event",
-        "primary_category": {"id": "otros", "label": "Otros panoramas"}
-      },
-      "expected": {"id": "literatura-charlas-encuentros", "label": "Literatura, charlas y encuentros"}
-    },
-    {
-      "name": "unknown_source_becomes_unclassified",
-      "event": {
-        "title": "Ruta patrimonial",
-        "event_type": "event",
-        "primary_category": {"id": "patrimonio", "label": "Patrimonio"}
-      },
-      "expected": {"id": "unclassified", "label": "Otros panoramas"}
-    }
+    {"name":"gijon_summer_registration","event":{"title":"Gijón Verano: inscripciones","event_type":"program","primary_category":{"id":"cultura","label":"Cultura"}},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"gijon_laboral_campus","event":{"title":"Campus de Verano de la Laboral 2026","event_type":"event","primary_category":{"id":"formacion-taller","label":"Formación / taller"}},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"vina_training_alias","event":{"title":"Taller de Liderazgo Prosocial para Agentes de Cambio","event_type":"event","primary_category":{"id":"cursos-talleres","label":"Cursos y talleres"}},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"new_core_label_alias","event":{"title":"Curso de mediación cultural","event_type":"event","primary_category":{"label":"Cursos, talleres y experiencias"}},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"culture_taller_theatre_prefers_training","event":{"title":"Taller de teatro físico","event_type":"event","primary_category":{"id":"cultura","label":"Cultura"}},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"culture_course_cooking_prefers_training","event":{"title":"Curso de cocina italiana","event_type":"event","primary_category":{"id":"cultura","label":"Cultura"}},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"music_school_concert_stays_music","event":{"title":"Escuela de Música presenta concierto de jazz","event_type":"event","primary_category":{"id":"cultura","label":"Cultura"}},"expected":{"id":"musica","label":"Música"}},
+    {"name":"culture_infers_training","event":{"title":"II Ciclo de Formación Cultural","event_type":"event","primary_category":{"id":"cultura","label":"Cultura"},"tags":["formación","taller"]},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"museum_alias","event":{"title":"Visita al museo","event_type":"event","primary_category":{"id":"museos","label":"Museos"}},"expected":{"id":"exposiciones","label":"Exposiciones"}},
+    {"name":"gijon_visual_arts_alias","event":{"title":"Descubriendo los jardines del museo","event_type":"event","primary_category":{"id":"artes-visuales-museo","label":"Artes visuales / museo"}},"expected":{"id":"exposiciones","label":"Exposiciones"}},
+    {"name":"gijon_sport_alias","event":{"title":"Concurso Hípico de Gijón","event_type":"event","primary_category":{"id":"deporte-bienestar","label":"Deporte / bienestar"}},"expected":{"id":"deportes-actividad-fisica","label":"Deportes y actividad física"}},
+    {"name":"specific_nature_activity","event":{"title":"Salida de senderismo de verano","event_type":"event","primary_category":{"id":"naturaleza-deportes","label":"Naturaleza y deportes"}},"expected":{"id":"naturaleza-aire-libre","label":"Naturaleza y aire libre"}},
+    {"name":"culture_infers_concert","event":{"title":"Concierto de jóvenes pianistas","event_type":"event","primary_category":{"id":"cultura","label":"Cultura"}},"expected":{"id":"musica","label":"Música"}},
+    {"name":"legacy_other_recovers_literature","event":{"title":"Presentación del libro Decadencia","event_type":"event","primary_category":{"id":"otros","label":"Otros panoramas"}},"expected":{"id":"literatura-charlas-encuentros","label":"Literatura, charlas y encuentros"}},
+    {"name":"gijon_bioparc_educational_encounter","event":{"title":"Encuentro Educativo Tiburones","event_type":"event","primary_category":{"id":"actividad-panorama","label":"Actividad / panorama"},"source_id":"bioparc_acuario_gijon","source_name":"BIOPARC Acuario de Gijón — Actividades y talleres","organizer":"BIOPARC Acuario de Gijón — Actividades y talleres"},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"gijon_bioparc_generic_experience","event":{"title":"Alimentación del Gran Oceanario","event_type":"event","primary_category":{"id":"actividad-panorama","label":"Actividad / panorama"},"source_id":"bioparc_acuario_gijon","source_name":"BIOPARC Acuario de Gijón — Actividades y talleres"},"expected":{"id":"cursos-talleres-campus","label":"Cursos, talleres y experiencias"}},
+    {"name":"gijon_bioparc_concert_stays_music","event":{"title":"Concierto piano a la luz de las velas","event_type":"event","primary_category":{"id":"actividad-panorama","label":"Actividad / panorama"},"source_id":"bioparc_acuario_gijon","source_name":"BIOPARC Acuario de Gijón — Actividades y talleres"},"expected":{"id":"musica","label":"Música"}},
+    {"name":"gijon_camara_dire_straits","event":{"title":"HOMENAJE DIRE STRAITS","event_type":"event","primary_category":{"id":"actividad-panorama","label":"Actividad / panorama"},"source_id":"camara_recinto_ferial_gijon"},"expected":{"id":"musica","label":"Música"}},
+    {"name":"gijon_camara_gran_showman","event":{"title":"EL GRAN SHOWMAN","event_type":"event","primary_category":{"id":"actividad-panorama","label":"Actividad / panorama"},"source_id":"camara_recinto_ferial_gijon"},"expected":{"id":"teatro","label":"Teatro y danza"}},
+    {"name":"generic_stage_musical","event":{"title":"La Bella y la Bestia, el musical","event_type":"event","primary_category":{"id":"actividad-panorama","label":"Actividad / panorama"}},"expected":{"id":"teatro","label":"Teatro y danza"}},
+    {"name":"unknown_source_becomes_unclassified","event":{"title":"Ruta patrimonial","event_type":"event","primary_category":{"id":"patrimonio","label":"Patrimonio"}},"expected":{"id":"unclassified","label":"Otros panoramas"}}
   ]
 }
