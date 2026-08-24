@@ -9,11 +9,19 @@
   <style>
     :root { color-scheme: light dark; font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
     body { margin: 0; background: Canvas; color: CanvasText; }
-    main { width: min(860px, calc(100% - 32px)); margin: 48px auto; }
-    header { margin-bottom: 24px; }
+    main { width: min(900px, calc(100% - 32px)); margin: 42px auto; }
+    header { margin-bottom: 22px; }
     h1 { margin: 0 0 8px; font-size: clamp(1.7rem,4vw,2.4rem); }
+    h2 { margin: 0; font-size: 1.08rem; }
     .muted { opacity: .72; }
+    .stack { display: grid; gap: 18px; }
     .card { border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 16px; padding: 22px; background: color-mix(in srgb, Canvas 96%, CanvasText 4%); box-shadow: 0 8px 30px color-mix(in srgb, CanvasText 8%, transparent); }
+    .environment { border-width: 2px; }
+    .environment.production { border-color: #187642; background: color-mix(in srgb, #2fbf71 8%, Canvas); }
+    .environment.preview { border-color: #b7791f; background: color-mix(in srgb, #e9a23b 9%, Canvas); }
+    .environment-label { display: inline-block; margin-bottom: 8px; font-weight: 850; letter-spacing: .055em; }
+    .production .environment-label { color: #187642; }
+    .preview .environment-label { color: #9a6700; }
     .topline { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .badge { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 999px; font-weight: 750; letter-spacing: .02em; border: 1px solid currentColor; }
     .badge.complete { color: #187642; background: color-mix(in srgb, #2fbf71 14%, transparent); }
@@ -26,48 +34,85 @@
     a { color: LinkText; }
     button { font: inherit; padding: 9px 13px; border-radius: 10px; border: 1px solid color-mix(in srgb, CanvasText 24%, transparent); background: ButtonFace; color: ButtonText; cursor: pointer; }
     .error { border-color: #b42318; }
+    .history { margin: 18px 0 0; padding-left: 22px; }
+    .history li { margin: 7px 0; }
     .footer { margin-top: 18px; font-size: .92rem; }
-    @media (max-width: 620px) { dl { grid-template-columns: 1fr; gap: 4px; } dd { margin-bottom: 10px; } main { margin-top: 28px; } }
+    @media (max-width: 620px) { dl { grid-template-columns: 1fr; gap: 4px; } dd { margin-bottom: 10px; } main { margin-top: 26px; } }
   </style>
 </head>
 <body>
 <main>
   <header>
     <h1>Estado de publicación</h1>
-    <div class="muted">Vista operativa de solo lectura · estado terminal canónico</div>
+    <div class="muted">Vista operativa de solo lectura · producción y evidencia histórica</div>
   </header>
 
-  <section id="status-card" class="card" aria-live="polite" aria-busy="true">
-    <div class="topline">
-      <span id="state" class="badge loading">Cargando…</span>
-      <button id="refresh" type="button">Actualizar</button>
-    </div>
-    <p id="summary" class="muted">Consultando el último estado terminal persistido.</p>
-    <dl id="details" hidden>
-      <dt>Generado</dt><dd id="generated"></dd>
-      <dt>Motivo</dt><dd id="reason"></dd>
-      <dt>Ámbito</dt><dd id="scope"></dd>
-      <dt>Publicación</dt><dd id="public-write"></dd>
-      <dt>Public SHA</dt><dd id="public-sha"></dd>
-      <dt>Source ref</dt><dd id="source-ref"></dd>
-      <dt>Publisher run</dt><dd id="publisher-run"></dd>
-      <dt>Finalizer run</dt><dd id="finalizer-run"></dd>
-      <dt>Fast-close</dt><dd id="fast-close"></dd>
-      <dt>Terminal ID</dt><dd id="terminal-id"></dd>
-    </dl>
-  </section>
-  <p class="footer muted">Se actualiza automáticamente cada 60 segundos. Un fallo de carga no se interpreta como fallo de publicación.</p>
+  <div class="stack">
+    <section class="card environment production" data-environment="production" aria-label="Producción canónica">
+      <div class="environment-label">PRODUCCIÓN CANÓNICA</div>
+      <h2>Esta es la única superficie que certifica lo publicado</h2>
+      <p class="muted">El estado terminal y las certificaciones históricas de abajo corresponden exclusivamente a producción.</p>
+    </section>
+
+    <section id="status-card" class="card" aria-live="polite" aria-busy="true">
+      <div class="topline">
+        <span id="state" class="badge loading">Cargando estado terminal…</span>
+        <button id="refresh" type="button">Actualizar</button>
+      </div>
+      <p id="summary" class="muted">Consultando el último estado terminal persistido.</p>
+      <dl id="details" hidden>
+        <dt>Generado</dt><dd id="generated"></dd>
+        <dt>Motivo</dt><dd id="reason"></dd>
+        <dt>Ámbito</dt><dd id="scope"></dd>
+        <dt>Publicación</dt><dd id="public-write"></dd>
+        <dt>Public SHA</dt><dd id="public-sha"></dd>
+        <dt>Source ref</dt><dd id="source-ref"></dd>
+        <dt>Publisher run</dt><dd id="publisher-run"></dd>
+        <dt>Finalizer run</dt><dd id="finalizer-run"></dd>
+        <dt>Fast-close</dt><dd id="fast-close"></dd>
+        <dt>Terminal ID</dt><dd id="terminal-id"></dd>
+      </dl>
+    </section>
+
+    <section id="certification-card" class="card" aria-live="polite" aria-busy="true">
+      <div class="topline">
+        <span id="cert-state" class="badge loading">Cargando certificaciones…</span>
+        <strong>Historial permanente por release</strong>
+      </div>
+      <p id="cert-summary" class="muted">Consultando certificaciones completas de producción.</p>
+      <dl id="cert-details" hidden>
+        <dt>Release</dt><dd id="cert-release"></dd>
+        <dt>Certificada</dt><dd id="cert-time"></dd>
+        <dt>SHA certificado</dt><dd id="cert-sha"></dd>
+        <dt>Release ID</dt><dd id="cert-release-id"></dd>
+        <dt>Production smoke</dt><dd id="cert-run"></dd>
+        <dt>Evidencia inmutable</dt><dd id="cert-evidence"></dd>
+      </dl>
+      <ol id="history-list" class="history" hidden></ol>
+    </section>
+
+    <aside class="card environment preview" data-environment="preview" aria-label="Preview de pull request">
+      <div class="environment-label">PREVIEW DE PR · NO PRODUCCIÓN</div>
+      <h2>Un preview nunca certifica ni invalida la producción</h2>
+      <p class="muted">Los comentarios automáticos de Cloudflare en una PR —incluido un “Build failed”— corresponden al candidato de esa PR. No se usan para declarar publicada o fallida la versión de producción. Solo los dos bloques de PRODUCCIÓN CANÓNICA de arriba tienen autoridad de cierre.</p>
+    </aside>
+  </div>
+
+  <p class="footer muted">Se actualiza automáticamente cada 60 segundos. Un fallo de carga no se interpreta como fallo de publicación ni como fallo de certificación.</p>
 </main>
 
 <script>
 (() => {
   'use strict';
   const STATE_URL = 'https://raw.githubusercontent.com/carlosggar-arch/agenda-cultural-core/refs/heads/state/publication-terminal/data/publication_terminal_state.json';
+  const HISTORY_URL = 'https://raw.githubusercontent.com/carlosggar-arch/agenda-cultural-valparaiso-vina/refs/heads/state/production-certifications/data/index.json';
   const CORE = 'https://github.com/carlosggar-arch/agenda-cultural-core';
   const PUBLIC = 'https://github.com/carlosggar-arch/agenda-cultural-valparaiso-vina';
   const $ = (id) => document.getElementById(id);
   const card = $('status-card');
   const details = $('details');
+  const certCard = $('certification-card');
+  const certDetails = $('cert-details');
 
   function link(href, label) {
     if (!href) return document.createTextNode(label || '—');
@@ -90,7 +135,7 @@
     return 'Publicación canónica multiciudad';
   }
 
-  function render(payload) {
+  function renderTerminal(payload) {
     if (payload.contract !== 'canonical-publication-terminal-state' || payload.terminal !== true) {
       throw new Error('El documento recibido no cumple el contrato terminal canónico.');
     }
@@ -102,8 +147,8 @@
     $('state').textContent = payload.state;
     $('state').className = `badge ${failed ? 'failed' : 'complete'}`;
     $('summary').textContent = failed
-      ? 'La última publicación terminó con un fallo terminal. Revisa el motivo y el run del finalizer.'
-      : 'La última publicación terminó correctamente.';
+      ? 'La última publicación de producción terminó con un fallo terminal. Revisa el motivo y el run del finalizer.'
+      : 'La última publicación de producción terminó correctamente.';
     card.classList.toggle('error', failed);
 
     const source = payload.source || {};
@@ -128,7 +173,7 @@
     details.hidden = false;
   }
 
-  function renderError(error) {
+  function renderTerminalError(error) {
     $('state').textContent = 'ESTADO NO DISPONIBLE';
     $('state').className = 'badge failed';
     $('summary').textContent = `No se pudo leer el estado terminal: ${error.message}`;
@@ -136,19 +181,74 @@
     details.hidden = true;
   }
 
+  function renderHistory(payload) {
+    if (payload.contract !== 'vivamos-production-certification-history' || payload.environment !== 'production') {
+      throw new Error('El historial recibido no es un historial canónico de producción.');
+    }
+    const latest = payload.latest || null;
+    const rows = Array.isArray(payload.certifications) ? payload.certifications : [];
+    if (!latest) {
+      $('cert-state').textContent = 'SIN CERTIFICACIONES';
+      $('cert-state').className = 'badge loading';
+      $('cert-summary').textContent = 'Todavía no hay una certificación completa archivada.';
+      certDetails.hidden = true;
+      $('history-list').hidden = true;
+      return;
+    }
+    if (latest.publication_state !== 'published_and_visually_verified') {
+      throw new Error('La última entrada no representa una producción visualmente verificada.');
+    }
+
+    $('cert-state').textContent = 'PRODUCCIÓN CERTIFICADA';
+    $('cert-state').className = 'badge complete';
+    $('cert-summary').textContent = `Última certificación permanente: v${latest.release}.`;
+    setNode('cert-release', `v${latest.release}`);
+    setNode('cert-time', latest.verified_at ? new Date(latest.verified_at).toLocaleString() : '—');
+    setNode('cert-sha', latest.head_sha ? link(`${PUBLIC}/commit/${latest.head_sha}`, latest.head_sha) : '—');
+    setNode('cert-release-id', latest.release_id || '—');
+    setNode('cert-run', latest.workflow_run_id ? link(`${PUBLIC}/actions/runs/${latest.workflow_run_id}`, latest.workflow_run_id) : '—');
+    setNode('cert-evidence', latest.path ? link(`${PUBLIC}/blob/state/production-certifications/${latest.path}`, latest.path) : '—');
+    certDetails.hidden = false;
+
+    const list = $('history-list');
+    list.replaceChildren();
+    for (const row of rows.slice(0, 10)) {
+      const item = document.createElement('li');
+      const when = row.verified_at ? new Date(row.verified_at).toLocaleString() : 'fecha desconocida';
+      const anchor = link(`${PUBLIC}/blob/state/production-certifications/${row.path}`, `v${row.release} · ${String(row.head_sha || '').slice(0, 12)}`);
+      item.append(anchor, document.createTextNode(` · ${when}`));
+      list.append(item);
+    }
+    list.hidden = rows.length === 0;
+  }
+
+  function renderHistoryError(error) {
+    $('cert-state').textContent = 'HISTORIAL NO DISPONIBLE';
+    $('cert-state').className = 'badge loading';
+    $('cert-summary').textContent = `No se pudo leer el historial permanente: ${error.message}`;
+    certCard.classList.remove('error');
+    certDetails.hidden = true;
+    $('history-list').hidden = true;
+  }
+
+  async function readJson(url) {
+    const response = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  }
+
   async function load() {
     card.setAttribute('aria-busy', 'true');
+    certCard.setAttribute('aria-busy', 'true');
     $('refresh').disabled = true;
-    try {
-      const response = await fetch(`${STATE_URL}?t=${Date.now()}`, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      render(await response.json());
-    } catch (error) {
-      renderError(error instanceof Error ? error : new Error('Error desconocido'));
-    } finally {
-      card.setAttribute('aria-busy', 'false');
-      $('refresh').disabled = false;
-    }
+    const [terminal, history] = await Promise.allSettled([readJson(STATE_URL), readJson(HISTORY_URL)]);
+    if (terminal.status === 'fulfilled') renderTerminal(terminal.value);
+    else renderTerminalError(terminal.reason instanceof Error ? terminal.reason : new Error('Error desconocido'));
+    if (history.status === 'fulfilled') renderHistory(history.value);
+    else renderHistoryError(history.reason instanceof Error ? history.reason : new Error('Error desconocido'));
+    card.setAttribute('aria-busy', 'false');
+    certCard.setAttribute('aria-busy', 'false');
+    $('refresh').disabled = false;
   }
 
   $('refresh').addEventListener('click', load);
