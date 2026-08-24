@@ -38,6 +38,15 @@ The agenda uses the same editorial architecture for every city registered in `ap
 
 These contracts are deliberately registry-driven. Adding another city through `app/cities.json` automatically brings its public dataset under the same editorial audit and the same runtime semantics without adding city-specific ranking, badge or audit code.
 
+## Time-independent normalization and runtime visibility
+
+- `data-pipeline.js` caches only the normalized, deduplicated, categorized and program-classified dataset. No time-dependent visibility decision is persisted.
+- `runtime-past-event-guard.mjs` materializes visibility from that normalized dataset for the current city, local date and shared `referenceNow` after every cache read.
+- Events remain visible throughout their complete local calendar day. `local-day-boundary.mjs` reloads the active city at its next timezone-aware midnight and also reconciles a suspended tab when it regains focus.
+- Every evaluated event receives a stable visibility decision (`visible`, lifecycle state, reason, reference day and occurrence counts). `agenda-runtime-state.mjs` exposes those decisions for diagnostics, including events excluded from presentation.
+- `public-selection-parity.test.mjs` is registry-driven and checks exact ordered fingerprints—identifier, category, section and lifecycle—at multiple boundary instants. The production browser parity report applies the same ordered presentation contract to online and cached/offline PWA states for every registered city.
+- One-off factual corrections enter through declarative, authority-labelled rules. Existing structured recovery tables remain their canonical owners; no second correction layer is introduced for them.
+
 ## Stage D sequence
 
 ### D1 — Contract topology — CLOSED

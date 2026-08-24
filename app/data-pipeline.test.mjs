@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { loadAgendaDataset, normalizeSourceDisplayNames } from "./data-pipeline.js";
+import { loadAgendaDataset, materializeRuntimeResult, normalizeSourceDisplayNames } from "./data-pipeline.js";
 
 const TEST_NOW = new Date("2026-08-19T12:00:00-04:00");
 
@@ -185,3 +185,21 @@ const supplemental = {
 }
 
 console.log("DATA_PIPELINE_OK");
+
+{
+  const normalized = {
+    dataset: {
+      timezone: "America/Santiago",
+      events: [baseEvent],
+    },
+    secondaryPrograms: [],
+    hiddenPrograms: [],
+  };
+  const first = materializeRuntimeResult(normalized, { id: "valparaiso", timezone: "America/Santiago" }, new Date("2026-08-20T23:59:00-04:00"), []);
+  const nextDay = materializeRuntimeResult(normalized, { id: "valparaiso", timezone: "America/Santiago" }, new Date("2026-08-21T00:01:00-04:00"), []);
+  assert.equal(first.dataset.events.length, 1, "normalized cache must materialize the event through its local day");
+  assert.equal(nextDay.dataset.events.length, 0, "the same normalized cache must be re-evaluated after local midnight");
+  assert.equal(normalized.dataset.events.length, 1, "visibility materialization must not mutate the cached normalized dataset");
+  assert.equal(nextDay.visibilityDecisions[0].reason, "local_final_day_ended");
+  assert.equal(nextDay.visibilityDecisions[0].referenceDay, "2026-08-21");
+}

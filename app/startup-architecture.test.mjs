@@ -68,7 +68,8 @@ assert.match(core, /export const coreReady = new Promise/, "core startup must ex
 assert.match(core, /function markCoreReady\(/, "core startup must explicitly settle readiness");
 assert.match(core, /dataset\.vivamosReady = "true"/, "core startup must mark the DOM ready");
 assert.match(core, /renderProgramReferences\(/, "program references must be rendered explicitly");
-assert.match(core, /function buildDatedItems\(events, now = new Date\(\)\)/, "core may emit canonically ordered initial grouped cards before common reconciliation");
+assert.match(core, /function buildDatedItems\(events, now = selectionReferenceNow\(\)\)/, "core must emit initial grouped cards with the shared pipeline reference time");
+assert.match(core, /activeReferenceNow = result\.referenceNow/, "core must receive its reference time from the canonical pipeline result");
 assert.match(core, /from "\.\/exhibition-group-core\.mjs/, "core grouping must consume the canonical exhibition policy");
 assert.match(core, /groupStandaloneExhibitions\(events, \{ timezone:/, "core initial grouping must use canonical membership");
 assert.match(core, /compareAgendaOrder/, "core top-level ordering must use the canonical agenda-order authority");

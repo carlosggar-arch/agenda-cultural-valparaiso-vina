@@ -160,6 +160,40 @@ export function eventIsCurrentOrFuture(event, {
   return eventLifecycle(event, { now, timeZone }).visible;
 }
 
+function visibilityReason(lifecycle) {
+  if (!lifecycle) return "invalid_reference_time";
+  if (lifecycle.state === LIFECYCLE_STATES.ALWAYS_AVAILABLE) return "always_available_content";
+  if (lifecycle.state === LIFECYCLE_STATES.UNDATED) return "undated_content";
+  if (lifecycle.state === LIFECYCLE_STATES.UPCOMING) return "future_schedule";
+  if (lifecycle.state === LIFECYCLE_STATES.ENDED) return "local_final_day_ended";
+  if (lifecycle.state === LIFECYCLE_STATES.LIVE) return "active_now";
+  return "active_local_day";
+}
+
+export function eventVisibilityDecision(event, {
+  now = new Date(),
+  timeZone = event?.schedule?.timezone || "UTC",
+} = {}) {
+  const lifecycle = eventLifecycle(event, { now, timeZone });
+  const occurrences = Array.isArray(event?.schedule?.occurrences) ? event.schedule.occurrences : [];
+  const visibleOccurrences = occurrences.filter((occurrence) => lifecycleForWindow(
+    { start: occurrence?.start, end: occurrence?.end || null },
+    { now: lifecycle.instant || (now instanceof Date ? now : new Date(now)), timeZone },
+  ).visible);
+  return Object.freeze({
+    id: String(event?.id || ""),
+    visible: lifecycle.visible !== false,
+    state: lifecycle.state,
+    reason: visibilityReason(lifecycle),
+    referenceDay: cityWallClock(now, timeZone)?.day || null,
+    startDay: lifecycle.startDay || dateKeyForValue(event?.schedule?.start, timeZone),
+    endDay: lifecycle.endDay || dateKeyForValue(event?.schedule?.end || event?.schedule?.start, timeZone),
+    occurrenceCount: occurrences.length,
+    visibleOccurrenceCount: visibleOccurrences.length,
+    timeZone,
+  });
+}
+
 function pruneExpiredOccurrences(event, { now, timeZone }) {
   if (["program", "flexible_offer", "recurring_offer", "permanent_offer"].includes(event?.event_type)) return event;
   const schedule = event?.schedule;
@@ -203,6 +237,18 @@ export function removeExpiredDatedEvents(dataset, {
   return events.length === dataset.events.length && events.every((event, index) => event === dataset.events[index])
     ? dataset
     : { ...dataset, events };
+}
+
+export function materializeVisibleDataset(dataset, {
+  now = new Date(),
+  timeZone = dataset?.timezone || "UTC",
+} = {}) {
+  if (!dataset || !Array.isArray(dataset.events)) return { dataset, decisions: [] };
+  const decisions = dataset.events.map((event) => eventVisibilityDecision(event, { now, timeZone }));
+  return {
+    dataset: removeExpiredDatedEvents(dataset, { now, timeZone }),
+    decisions,
+  };
 }
 
 export function filterVisibleDataset(dataset, city = null, now = new Date()) {

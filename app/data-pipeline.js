@@ -10,11 +10,11 @@ import { correctArtequinNaturalArtSessions } from "./artequin-session-correction
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
 import { enrichCitySourceEvidence } from "./city-source-evidence-adapter.mjs?v=20260822-source-authority1";
 import { normalizeAgendaSourceEvidence } from "./source-evidence-normalizer.mjs?v=20260822-source-authority1";
-import { removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs?v=20260823-pastguard4";
+import { materializeVisibleDataset } from "./runtime-past-event-guard.mjs?v=20260823-pastguard5";
 import { applyProgramVisibilityPolicy } from "./program-visibility-policy.js?v=20260820-programs4";
 import { publishAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260819-runtime1";
+import { applyDeclarativeEventCorrectionRules } from "./event-correction-rules.mjs?v=20260823-rules1";
 
-const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
 const SOURCE_DISPLAY_NAMES = Object.freeze({
   culturasvina: "Visita Viña — Municipalidad de Viña del Mar",
 });
@@ -63,21 +63,6 @@ function applyStage(name, transform, dataset, diagnostics) {
   }
 }
 
-function localDateKey(now, timeZone) {
-  try {
-    const parts = new Intl.DateTimeFormat("en-CA", {
-      timeZone: timeZone || "UTC",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    }).formatToParts(now);
-    const get = (type) => parts.find((part) => part.type === type)?.value;
-    return `${get("year")}-${get("month")}-${get("day")}`;
-  } catch {
-    return now.toISOString().slice(0, 10);
-  }
-}
-
 function payloadSignature(payload, status = "ok") {
   const events = Array.isArray(payload?.events) ? payload.events : [];
   const middle = events.length ? events[Math.floor(events.length / 2)] : null;
@@ -94,11 +79,10 @@ function payloadSignature(payload, status = "ok") {
   };
 }
 
-function buildSourceSignature(city, base, supplementalResult, now) {
+function buildSourceSignature(city, base, supplementalResult) {
   const supplemental = supplementalResult?.status === "ok" ? supplementalResult.payload : null;
   return JSON.stringify({
     city: String(city?.id || ""),
-    day: localDateKey(now, city?.timezone || base?.timezone || "UTC"),
     base: payloadSignature(base, "ok"),
     supplemental: supplemental
       ? payloadSignature(supplemental, "ok")
@@ -229,7 +213,7 @@ async function writeProcessedResult(city, signature, result) {
   }
 }
 
-async function loadPayloads(city, fetchImpl, diagnostics, now) {
+async function loadPayloads(city, fetchImpl, diagnostics) {
   const supplementalUrl = String(city?.supplemental_dataset || "").trim();
   const basePromise = fetchJson(city.dataset, fetchImpl);
   const supplementalPromise = supplementalUrl
@@ -260,24 +244,30 @@ async function loadPayloads(city, fetchImpl, diagnostics, now) {
 
   return {
     dataset,
-    sourceSignature: buildSourceSignature(city, base, supplementalResult, now),
+    sourceSignature: buildSourceSignature(city, base, supplementalResult),
   };
 }
 
-function applyKnownPublicationCategories(dataset) {
-  if (!dataset || !Array.isArray(dataset.events)) return dataset;
-  let changed = false;
-  const events = dataset.events.map((event) => {
-    if (String(event?.id || "") !== LOS_FANTASMAS_EVENT_ID) return event;
-    const categories = Array.isArray(event.categories) ? event.categories : [];
-    if (categories.some((category) => category?.id === "teatro")) return event;
-    changed = true;
-    return {
-      ...event,
-      categories: [...categories, { id: "teatro", label: "Teatro" }],
-    };
+export function materializeRuntimeResult(normalizedResult, city, now = new Date(), diagnostics = []) {
+  const visibility = materializeVisibleDataset(normalizedResult.dataset, {
+    now,
+    timeZone: city?.timezone || normalizedResult.dataset?.timezone || "UTC",
   });
-  return changed ? { ...dataset, events } : dataset;
+  diagnostics.push({
+    name: "runtime-visibility-materializer",
+    status: "ok",
+    visible: visibility.dataset?.events?.length || 0,
+    evaluated: visibility.decisions.length,
+  });
+  return {
+    dataset: visibility.dataset,
+    normalizedDataset: normalizedResult.dataset,
+    secondaryPrograms: normalizedResult.secondaryPrograms || [],
+    hiddenPrograms: normalizedResult.hiddenPrograms || [],
+    visibilityDecisions: visibility.decisions,
+    diagnostics,
+    referenceNow: now,
+  };
 }
 
 export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, now = new Date() } = {}) {
@@ -285,7 +275,7 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
   if (typeof fetchImpl !== "function") throw new Error("fetch no disponible");
 
   const diagnostics = [];
-  const payloadResult = await loadPayloads(city, fetchImpl, diagnostics, now);
+  const payloadResult = await loadPayloads(city, fetchImpl, diagnostics);
   let dataset = payloadResult.dataset;
   const cacheEligible = fetchImpl === globalThis.fetch && globalThis.caches?.open;
 
@@ -293,7 +283,7 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     const cached = await readProcessedResult(city, payloadResult.sourceSignature);
     if (cached) {
       diagnostics.push({ name: "processed-pipeline-cache", status: "hit" });
-      const result = { ...cached, diagnostics };
+      const result = materializeRuntimeResult(cached, city, now, diagnostics);
       publishAgendaRuntimeSnapshot(city, result);
       return result;
     }
@@ -313,11 +303,9 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     ...current,
     events: normalizeVenueAliases(current.events),
   }), dataset, diagnostics);
-  if (city.id === "valparaiso") {
-    dataset = applyStage("known-publication-categories", applyKnownPublicationCategories, dataset, diagnostics);
-  } else {
-    diagnostics.push({ name: "known-publication-categories", status: "not-applicable" });
-  }
+  dataset = applyStage("declarative-event-correction-rules", (current) => (
+    applyDeclarativeEventCorrectionRules(current, { cityId: city.id })
+  ), dataset, diagnostics);
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
   dataset = applyStage("formation-lifecycle-classifier", normalizeFormationCycles, dataset, diagnostics);
@@ -334,15 +322,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     events: current.events.map((event) => enrichCitySourceEvidence(event, city.id)),
   }), dataset, diagnostics);
   dataset = applyStage("source-evidence-normalizer", normalizeAgendaSourceEvidence, dataset, diagnostics);
-  dataset = applyStage(
-    "past-event-guard",
-    (current) => removeExpiredDatedEvents(current, {
-      now,
-      timeZone: city.timezone || current?.timezone || "UTC",
-    }),
-    dataset,
-    diagnostics,
-  );
   dataset = applyStage("public-text-sanitizer-final", normalizeAgendaPublicText, dataset, diagnostics);
 
   let programResult;
@@ -355,14 +334,13 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     programResult = { dataset, secondaryPrograms: [], hiddenPrograms: [] };
   }
 
-  const result = {
+  const normalizedResult = {
     dataset: programResult.dataset,
     secondaryPrograms: programResult.secondaryPrograms || [],
     hiddenPrograms: programResult.hiddenPrograms || [],
-    diagnostics,
-    referenceNow: now,
   };
+  if (cacheEligible) void writeProcessedResult(city, payloadResult.sourceSignature, normalizedResult);
+  const result = materializeRuntimeResult(normalizedResult, city, now, diagnostics);
   publishAgendaRuntimeSnapshot(city, result);
-  if (cacheEligible) void writeProcessedResult(city, payloadResult.sourceSignature, result);
   return result;
 }

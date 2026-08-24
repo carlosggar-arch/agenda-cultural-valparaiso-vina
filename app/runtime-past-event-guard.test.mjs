@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { eventIsCurrentOrFuture, removeExpiredDatedEvents } from "./runtime-past-event-guard.mjs";
+import {
+  eventIsCurrentOrFuture,
+  eventVisibilityDecision,
+  materializeVisibleDataset,
+  removeExpiredDatedEvents,
+} from "./runtime-past-event-guard.mjs";
 
 const now = new Date("2026-08-20T08:30:00-04:00");
 
@@ -78,4 +83,23 @@ test("removes past occurrences while keeping the next session of a recurring eve
     { start: "2026-08-22T19:00:00-04:00", end: "2026-08-22T20:00:00-04:00" },
   ]);
   assert.equal(result.events[0].schedule.display_text, null);
+});
+
+test("exposes a stable reason for every visible and hidden lifecycle decision", () => {
+  const dataset = {
+    timezone: "America/Santiago",
+    events: [
+      event("past", "2026-08-19T20:00:00-04:00"),
+      event("today", "2026-08-20T08:00:00-04:00"),
+      event("future", "2026-08-22T10:00:00-04:00"),
+    ],
+  };
+  const materialized = materializeVisibleDataset(dataset, { now, timeZone: dataset.timezone });
+  assert.deepEqual(materialized.dataset.events.map((item) => item.id), ["today", "future"]);
+  assert.deepEqual(Object.fromEntries(materialized.decisions.map((decision) => [decision.id, decision.reason])), {
+    past: "local_final_day_ended",
+    today: "active_local_day",
+    future: "future_schedule",
+  });
+  assert.equal(eventVisibilityDecision(dataset.events[0], { now, timeZone: dataset.timezone }).visible, false);
 });

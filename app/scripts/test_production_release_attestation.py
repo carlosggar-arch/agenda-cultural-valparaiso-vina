@@ -26,6 +26,10 @@ def fixture_rows() -> list[dict[str, object]]:
                         "at": "2026-08-23T22:46:00Z",
                         "count": len(ids),
                         "ids": ids,
+                        "presentation": [
+                            {"id": event_id, "category": "musica", "temporal": "today", "section": state}
+                            for event_id in ids
+                        ],
                     }
                 )
     return rows
@@ -114,6 +118,20 @@ def main() -> None:
         expect_failure(
             lambda: build_attestation(http_log, browser_log, warm_log, parity, verify_network=False),
             "cross-origin exact-ID mismatch must fail attestation",
+        )
+
+        parity.write_text(
+            json.dumps({"schema_version": "1.0.0", "mode": "production", "at": "2026-08-23T22:46:00Z", "rows": fixture_rows()}),
+            encoding="utf-8",
+        )
+        broken_presentation = json.loads(parity.read_text(encoding="utf-8"))
+        for row in broken_presentation["rows"]:
+            if row["origin"] == "cloudflare" and row["city"] == "valparaiso" and row["state"] == "hoy":
+                row["presentation"][0]["category"] = "teatro"
+        parity.write_text(json.dumps(broken_presentation), encoding="utf-8")
+        expect_failure(
+            lambda: build_attestation(http_log, browser_log, warm_log, parity, verify_network=False),
+            "cross-origin category mismatch must fail attestation",
         )
 
         parity.write_text(

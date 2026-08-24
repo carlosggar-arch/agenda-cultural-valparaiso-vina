@@ -6,6 +6,7 @@ import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { formatSchedule as formatSharedSchedule } from "../assets/event-schedule-display.mjs";
 import { eventMatchesCanonicalSection } from "./public-selection-core.mjs?v=20260823-selection1";
+import { localDayKey, millisecondsUntilNextLocalDay } from "./local-day-boundary.mjs?v=20260823-day1";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const STORAGE_KEY = CITY_STORAGE_KEY;
@@ -15,6 +16,16 @@ const EXHIBITION_CATEGORY_ID = "exposiciones";
 
 let resolveCoreReady;
 let coreReadySettled = false;
+let dayBoundaryTimer = null;
+let materializedDay = null;
+let activeReferenceNow = new Date();
+let dayRefreshPending = false;
+
+function selectionReferenceNow() {
+  return activeReferenceNow instanceof Date && !Number.isNaN(activeReferenceNow.getTime())
+    ? activeReferenceNow
+    : new Date();
+}
 export const coreReady = new Promise((resolve) => { resolveCoreReady = resolve; });
 
 function markCoreReady(detail = {}) {
@@ -23,6 +34,25 @@ function markCoreReady(detail = {}) {
   document.documentElement.dataset.vivamosReady = "true";
   window.dispatchEvent(new CustomEvent("vivamos:core-ready", { detail }));
   resolveCoreReady(detail);
+}
+
+function scheduleLocalDayRefresh(city) {
+  if (dayBoundaryTimer !== null) window.clearTimeout(dayBoundaryTimer);
+  materializedDay = localDayKey(new Date(), city.timezone || "UTC");
+  dayBoundaryTimer = window.setTimeout(() => {
+    dayBoundaryTimer = null;
+    if (activeCity?.id === city.id) void refreshActiveCityForDay(city.id);
+  }, millisecondsUntilNextLocalDay(new Date(), city.timezone || "UTC"));
+}
+
+async function refreshActiveCityForDay(cityId) {
+  if (dayRefreshPending || activeCity?.id !== cityId) return;
+  dayRefreshPending = true;
+  try {
+    await loadCity(cityId);
+  } finally {
+    dayRefreshPending = false;
+  }
 }
 
 const SECTION_META = Object.freeze({
@@ -243,7 +273,7 @@ function formatSchedule(event, city) {
   return formatSharedSchedule(event?.schedule, {
     locale: city?.locale || "es-CL",
     timezone: city?.timezone || "America/Santiago",
-    now: new Date(),
+    now: selectionReferenceNow(),
     referenceDate: currentTimeContext().today,
   });
 }
@@ -359,7 +389,7 @@ function weekendBounds(todayKey) {
 
 function currentTimeContext() {
   if (timeContext) return timeContext;
-  const today = dateKeyForDate(new Date(), activeCity);
+  const today = dateKeyForDate(selectionReferenceNow(), activeCity);
   timeContext = { today, weekend: weekendBounds(today), soon: addDays(today, 3) };
   return timeContext;
 }
@@ -414,7 +444,7 @@ function isWorkshop(event) {
 }
 
 function eventMatchesSection(event, sectionId) {
-  return eventMatchesCanonicalSection(event, sectionId, activeCity, new Date());
+  return eventMatchesCanonicalSection(event, sectionId, activeCity, selectionReferenceNow());
 }
 
 function eventMatchesCategory(event, categoryId) {
@@ -445,7 +475,7 @@ function sortGroupedExhibitionEvents(events) {
   });
 }
 
-function sortAgendaEvents(events, now = new Date()) {
+function sortAgendaEvents(events, now = selectionReferenceNow()) {
   return [...events].sort((a, b) => compareAgendaOrder(a, b, activeCity, now));
 }
 
@@ -484,7 +514,7 @@ function representativeEventForOrder(events, now) {
   return sortAgendaEvents(events, now)[0] || null;
 }
 
-function buildDatedItems(events, now = new Date()) {
+function buildDatedItems(events, now = selectionReferenceNow()) {
   const groups = groupStandaloneExhibitions(events, { timezone: activeCity?.timezone || "UTC" });
   const groupedEvents = new Set();
   const items = [];
@@ -778,6 +808,7 @@ async function loadCity(id) {
     const dataset = result.dataset;
     if (!dataset || !Array.isArray(dataset.events)) throw new Error("Dataset inválido");
     resetEventCaches();
+    activeReferenceNow = result.referenceNow instanceof Date ? result.referenceNow : new Date(result.referenceNow || Date.now());
     allEvents = dataset.events;
     secondaryPrograms = result.secondaryPrograms || [];
     prepareStaticMetadata();
@@ -789,6 +820,7 @@ async function loadCity(id) {
     dom.status.hidden = true;
     renderCategories();
     renderEvents();
+    scheduleLocalDayRefresh(city);
     markCoreReady({ city: id, mode: "full", diagnostics: result.diagnostics || [] });
     scheduleSourcesRender();
   } catch (error) {
@@ -877,6 +909,11 @@ dom.categoryFilters.addEventListener("click", (event) => {
 });
 dom.chooserBackdrop.addEventListener("click", (event) => { if (event.target === dom.chooserBackdrop && activeCity) hideChooser(); });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && activeCity) hideChooser(); });
+window.addEventListener("focus", () => {
+  if (!activeCity) return;
+  const currentDay = localDayKey(new Date(), activeCity.timezone || "UTC");
+  if (materializedDay && currentDay !== materializedDay) void refreshActiveCityForDay(activeCity.id);
+});
 
 renderCityOptions();
 const requestedCity = new URLSearchParams(window.location.search).get("city");

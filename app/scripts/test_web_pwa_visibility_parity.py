@@ -135,7 +135,7 @@ def set_state(driver: webdriver.Chrome, state: str) -> None:
     )
 
 
-def visible_ids(driver: webdriver.Chrome) -> tuple[str, ...]:
+def visible_records(driver: webdriver.Chrome, state: str) -> tuple[tuple[str, str, str, str], ...]:
     values = driver.execute_script(
         """
         const output = [];
@@ -143,31 +143,59 @@ def visible_ids(driver: webdriver.Chrome) -> tuple[str, ...]:
         for (const card of document.querySelectorAll('.event-card')) {
           if (!visible(card)) continue;
           const grouped = String(card.dataset.eventGroup || '').split(',').map((x) => x.trim()).filter(Boolean);
+          const append = (id, owner = card) => output.push({
+            id,
+            category: String(owner.dataset.category || card.dataset.category || ''),
+            temporal: String(owner.dataset.temporalBucket || card.dataset.temporalBucket || ''),
+            section: arguments[0],
+          });
           if (grouped.length) {
             const rows = [...card.querySelectorAll('[data-grouped-event-id]')];
             if (rows.length) {
-              for (const row of rows) if (visible(row) && row.dataset.groupedEventId) output.push(row.dataset.groupedEventId);
+              for (const row of rows) if (visible(row) && row.dataset.groupedEventId) append(row.dataset.groupedEventId, row);
             } else {
-              output.push(...grouped);
+              for (const id of grouped) append(id);
             }
           } else if (card.dataset.eventId) {
-            output.push(card.dataset.eventId);
+            append(card.dataset.eventId);
           }
         }
-        return [...new Set(output)].sort();
-        """
+        return output.filter((record, index) => output.findIndex((candidate) => candidate.id === record.id) === index);
+        """,
+        state,
     )
-    return tuple(str(value) for value in values or [])
+    return tuple(
+        (
+            str(value.get("id") or ""),
+            str(value.get("category") or ""),
+            str(value.get("temporal") or ""),
+            str(value.get("section") or ""),
+        )
+        for value in values or []
+    )
 
 
-def capture_states(driver: webdriver.Chrome) -> dict[str, tuple[str, ...]]:
-    captured: dict[str, tuple[str, ...]] = {}
+def wait_presentation_metadata(driver: webdriver.Chrome) -> None:
+    WebDriverWait(driver, 8, poll_frequency=0.05).until(
+        lambda current: current.execute_script(
+            """
+            const visible = (node) => node && !node.hidden && getComputedStyle(node).display !== 'none';
+            const cards = [...document.querySelectorAll('.event-card')].filter(visible);
+            return cards.length > 0 && cards.every((card) => card.dataset.category && card.dataset.temporalBucket);
+            """
+        )
+    )
+
+
+def capture_states(driver: webdriver.Chrome) -> dict[str, tuple[tuple[str, str, str, str], ...]]:
+    captured: dict[str, tuple[tuple[str, str, str, str], ...]] = {}
     for state in STATES:
         set_state(driver, state)
-        ids = visible_ids(driver)
-        if state == "todos" and not ids:
+        wait_presentation_metadata(driver)
+        records = visible_records(driver, state)
+        if state == "todos" and not records:
             raise AssertionError("Canonical 'todos' state rendered zero visible event IDs")
-        captured[state] = ids
+        captured[state] = records
     return captured
 
 
@@ -189,22 +217,25 @@ def compare_snapshots(
     origin: str,
     city: str,
     instant: str,
-    online: dict[str, tuple[str, ...]],
-    pwa: dict[str, tuple[str, ...]],
+    online: dict[str, tuple[tuple[str, str, str, str], ...]],
+    pwa: dict[str, tuple[tuple[str, str, str, str], ...]],
 ) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     for state in STATES:
-        web_ids = set(online[state])
-        pwa_ids = set(pwa[state])
-        if web_ids != pwa_ids:
+        web_records = online[state]
+        pwa_records = pwa[state]
+        web_ids = {record[0] for record in web_records}
+        pwa_ids = {record[0] for record in pwa_records}
+        if web_records != pwa_records:
             missing = sorted(web_ids - pwa_ids)
             extra = sorted(pwa_ids - web_ids)
             raise AssertionError(
-                "WEB_PWA_VISIBILITY_MISMATCH "
+                "WEB_PWA_PRESENTATION_MISMATCH "
                 f"origin={origin} city={city} state={state} at={instant} "
-                f"web={len(web_ids)} pwa={len(pwa_ids)} missing={missing} extra={extra}"
+                f"web={len(web_records)} pwa={len(pwa_records)} missing={missing} extra={extra} "
+                f"web_records={web_records} pwa_records={pwa_records}"
             )
-        exact_ids = sorted(web_ids)
+        exact_ids = [record[0] for record in web_records]
         rows.append(
             {
                 "origin": origin,
@@ -213,11 +244,15 @@ def compare_snapshots(
                 "at": instant,
                 "count": len(exact_ids),
                 "ids": exact_ids,
+                "presentation": [
+                    {"id": record[0], "category": record[1], "temporal": record[2], "section": record[3]}
+                    for record in web_records
+                ],
             }
         )
         print(
-            "WEB_PWA_VISIBILITY_PARITY_OK "
-            f"origin={origin} city={city} state={state} at={instant} ids={len(exact_ids)}"
+            "WEB_PWA_PRESENTATION_PARITY_OK "
+            f"origin={origin} city={city} state={state} at={instant} records={len(exact_ids)}"
         )
     return rows
 
