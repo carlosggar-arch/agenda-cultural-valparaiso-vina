@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const html = fs.readFileSync(new URL('../admin-staging/index.html', import.meta.url), 'utf8');
 const publish = fs.readFileSync(new URL('../.github/workflows/publish.yml', import.meta.url), 'utf8');
+const adminSmoke = fs.readFileSync(new URL('../app/scripts/production_admin_staging_smoke.py', import.meta.url), 'utf8');
 
 test('admin staging reads the durable canonical terminal state and permanent production history', () => {
   assert.match(html, /state\/publication-terminal\/data\/publication_terminal_state\.json/);
@@ -57,6 +58,21 @@ test('admin staging and permanent certifications use the canonical production wo
   assert.match(publish, /ref: state\/production-certifications/);
   assert.match(publish, /git -C \.production-certification-state push origin HEAD:state\/production-certifications/);
   assert.match(publish, /production_certification_history\.py/);
+  assert.match(publish, /production_admin_staging_smoke\.py/);
+  assert.match(publish, /PRODUCTION_ADMIN_STAGING_VERIFIED/);
   assert.doesNotMatch(publish, /git\s+push\s+[^\n]*HEAD:main\b/);
   assert.doesNotMatch(publish, /admin-staging.*workflow_dispatch/);
+});
+
+test('admin staging must reach byte-identical production on both origins before a certificate is persisted', () => {
+  assert.match(adminSmoke, /from production_pwa_smoke import ORIGINS, ROOT, fetch_bytes/);
+  assert.match(adminSmoke, /PRODUCTION_ADMIN_STAGING_PARITY_OK/);
+  assert.match(adminSmoke, /PRODUCTION_ADMIN_STAGING_VERIFIED/);
+  assert.match(adminSmoke, /PRODUCCIÓN CANÓNICA/);
+  assert.match(adminSmoke, /PREVIEW DE PR · NO PRODUCCIÓN/);
+  assert.match(adminSmoke, /state\/production-certifications\/data\/index\.json/);
+  const adminStep = publish.indexOf('Verify admin staging production/preview separation');
+  const attestationStep = publish.indexOf('Create auditable production release attestation');
+  const historyStep = publish.indexOf('Persist immutable production certification');
+  assert.ok(adminStep >= 0 && attestationStep > adminStep && historyStep > attestationStep);
 });
