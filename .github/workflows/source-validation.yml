@@ -47,8 +47,6 @@ jobs:
           cache-dependency-path: requirements-image-cache.txt
       - name: Install image-cache dependency
         run: python -m pip install --disable-pip-version-check -r requirements-image-cache.txt
-      - name: Validate only affected source adapters
-        run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
       - name: Validate classification quality diagnostic
         run: |
           python -m py_compile scripts/semantic_quality_audit.py scripts/classification_uncertainty_audit.py app/scripts/test_classification_uncertainty_audit.py
@@ -58,6 +56,8 @@ jobs:
           echo '---CLASSIFICATION_REVIEW_QUEUE_BEGIN---'
           cat /tmp/classification-uncertainty-pr.md
           echo '---CLASSIFICATION_REVIEW_QUEUE_END---'
+      - name: Validate only affected source adapters
+        run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
       - name: Upload diagnostics only after failure
         if: failure()
         uses: actions/upload-artifact@v6
