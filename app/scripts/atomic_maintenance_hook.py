@@ -10,12 +10,14 @@ QUALITY = ROOT / "app/data/quality"
 REVALIDATION_FETCH_BUDGET = 20
 SCHEDULE_AUTHORITY_FETCH_BUDGET = 20
 IMAGE_FETCH_BUDGET = 10
+IMAGE_CACHE_FETCH_BUDGET = 10
 MAINTENANCE_OUTPUTS = (
     "app/data/quality/parser-drift-state.json",
     "app/data/quality/parser-drift.json",
     "app/data/quality/upcoming-revalidation.json",
     "app/data/quality/schedule-authority.json",
     "app/data/quality/image-audit.json",
+    "app/data/quality/image-cache.json",
     "app/data/quality/source-coherence.json",
     "app/data/quality/maintenance-health.json",
 )
@@ -35,7 +37,13 @@ def load(name: str) -> dict:
 def stage_outputs() -> None:
     # The hook never commits or pushes. It only stages its persisted state so
     # the sole atomic publication commit includes the maintenance diagnostics.
-    subprocess.run(["git", "add", *MAINTENANCE_OUTPUTS], cwd=ROOT, check=True)
+    candidates = [
+        *MAINTENANCE_OUTPUTS,
+        "agenda_web.json", "app/data/gijon/agenda_web.json",
+        "app/assets/event-images",
+    ]
+    existing = [value for value in candidates if (ROOT / value).exists()]
+    subprocess.run(["git", "add", *existing], cwd=ROOT, check=True)
 
 
 def main() -> None:
@@ -64,6 +72,10 @@ def main() -> None:
         "app/scripts/audit_and_recover_images.py",
         "--max-fetch", str(IMAGE_FETCH_BUDGET),
     )
+    run(
+        "app/scripts/cache_official_images.py",
+        "--max-fetch", str(IMAGE_CACHE_FETCH_BUDGET),
+    )
 
     # Any safe event mutation must be followed by the normal editorial and
     # diagnostic stack so the publication remains internally synchronized.
@@ -91,6 +103,7 @@ def main() -> None:
     schedule_authority = load("schedule-authority.json")
     drift = load("parser-drift.json")
     image = load("image-audit.json")
+    image_cache = load("image-cache.json")
     coherence = load("source-coherence.json")
     health = load("maintenance-health.json")
     print(
@@ -99,12 +112,14 @@ def main() -> None:
         f"schedule_authority={schedule_authority.get('updated_events', 0)}",
         f"drift_restored={drift.get('restored_events', 0)}",
         f"images_recovered={image.get('recovered_event_specific_images', 0)}",
+        f"images_cached={image_cache.get('stored', 0)}",
         f"image_pct={image.get('event_specific_image_pct_after')}",
         f"coherence={coherence.get('status')}",
         f"health={health.get('status')}",
         f"revalidation_budget={REVALIDATION_FETCH_BUDGET}",
         f"schedule_authority_budget={SCHEDULE_AUTHORITY_FETCH_BUDGET}",
         f"image_budget={IMAGE_FETCH_BUDGET}",
+        f"image_cache_budget={IMAGE_CACHE_FETCH_BUDGET}",
     )
 
 

@@ -72,6 +72,18 @@ def safe_http_url(value: Any) -> str | None:
     return text if re.match(r"^https?://", text, re.I) else None
 
 
+def public_image_url(value: Any) -> str | None:
+    """Return an absolute public URL for remote or repository-owned event art."""
+    remote = safe_http_url(value)
+    if remote:
+        return remote
+    text = str(value or "").strip()
+    prefix = "./assets/event-images/"
+    if text.startswith(prefix):
+        return f"{SITE_BASE}/app/{text[2:]}"
+    return None
+
+
 def is_gijon_open_data_url(value: Any) -> bool:
     candidate = safe_http_url(value)
     if not candidate:
@@ -465,7 +477,7 @@ def structured_event(city_id: str, event: dict[str, Any], event_url: str) -> dic
         data["startDate"] = start
     if (event.get("schedule") or {}).get("end"):
         data["endDate"] = event["schedule"]["end"]
-    image = safe_http_url((event.get("image") or {}).get("url"))
+    image = public_image_url((event.get("image") or {}).get("url"))
     if image:
         data["image"] = [image]
     if location.get("online") is True:
@@ -553,7 +565,7 @@ def render_page(
     official = safe_http_url(links.get("official"))
     gijon_open_data = city_id == "gijon" and is_gijon_open_data(event)
     public_source_url, public_source_label, public_source_last_resort = public_source(event)
-    image = safe_http_url((event.get("image") or {}).get("url"))
+    image = public_image_url((event.get("image") or {}).get("url"))
     notices = status_notices(event, changes)
     status = event.get("public_status") or {}
     verified = human_temporal(status.get("last_verified_at") or event.get("last_verified_at"))

@@ -26,6 +26,9 @@ def main() -> None:
     assert "push:" in trigger_block(publish) and "branches: [main]" in trigger_block(publish)
     assert sum("-r requirements-ci.txt" in text for name, text in texts.items() if name.startswith("pr-")) == 1
     assert (ROOT / "requirements-ci.txt").read_text(encoding="utf-8").strip() == "selenium==4.35.0"
+    assert (ROOT / "requirements-image-cache.txt").read_text(encoding="utf-8").strip() == "Pillow==12.3.0"
+    assert "-r requirements-image-cache.txt" in texts["source-validation.yml"]
+    assert sum("-r requirements-image-cache.txt" in text for text in texts.values()) == 1
     assert texts["scheduled-audit.yml"].count("- cron:") == 1
     assert "pull_request:" not in trigger_block(texts["scheduled-audit.yml"])
     assert "if: failure()" in texts["source-validation.yml"]

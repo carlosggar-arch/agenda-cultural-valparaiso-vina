@@ -1,7 +1,7 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v217 preserves normalized official images and separates cached normalization
-  // from timezone-aware runtime visibility.
-  const RELEASE = 217;
+  // v218 serves optimized, provenance-preserving official images from the
+  // publication itself for every registered city.
+  const RELEASE = 218;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();

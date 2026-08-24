@@ -205,7 +205,7 @@ export function resolveEventImage(event, {
   if (!allowDirect) return { url: null, kind: "none", genericSchedule: looksLikeGenericSchedule(event) };
 
   if (surface === "group") {
-    const direct = rawHttpImageUrl(event?.image?.url);
+    const direct = safeHttpImageUrl(event?.image?.url, { baseUrl });
     return direct
       ? { url: direct, kind: "relevant", genericSchedule: false }
       : { url: null, kind: "none", genericSchedule: false };
