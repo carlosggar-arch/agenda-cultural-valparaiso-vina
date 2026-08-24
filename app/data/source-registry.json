@@ -1,8 +1,24 @@
 {
   "schema_version": "1.0.0",
-  "description": "Contrato único entre catálogo público, inventario operativo, datasets publicados y políticas de verificación. Las fuentes se incorporan al pipeline sin añadir lógica específica al frontend.",
+  "contract_version": "1.1.0",
+  "description": "Contrato único entre catálogo público, inventario operativo, datasets publicados y políticas de verificación. Todas las ciudades comparten identidad canónica, roles y canales; los adaptadores específicos solo resuelven extracción y particularidades locales.",
   "public_catalog": "fuentes_publicas.json",
   "coverage_catalog": "app/data/quality/source-coverage.json",
+  "operational_registry": {
+    "repository": "carlosggar-arch/agenda-cultural-core",
+    "contract_module": "app/utils/unified_source_registry.py",
+    "registries": [
+      "data/sources/cultural_sources.json",
+      "data/sources/cultural_sources_supplemental.json",
+      "data/sources/nature_sources.json",
+      "data/sources/sports_sources.json",
+      "data/sources/public_source_expansion.json",
+      "config/sources_gijon.json",
+      "config/sources_gijon_supplemental.json"
+    ],
+    "channel_overrides": "data/sources/source_channel_overrides.json",
+    "prepublication_policy_owner": "core"
+  },
   "datasets": [
     {"id": "valparaiso-vina", "path": "agenda_web.json", "coverage_city_id": "valparaiso-vina"},
     {"id": "gijon", "path": "app/data/gijon/agenda_web.json", "coverage_city_id": "gijon"}
@@ -10,11 +26,41 @@
   "requirements": {
     "event_source_id_required": true,
     "event_source_must_be_registered": true,
-    "new_public_source_requires_operational_mapping": true
+    "new_public_source_requires_operational_mapping": true,
+    "all_operational_sources_use_shared_channel_contract": true,
+    "secondary_channels_do_not_create_new_canonical_sources": true,
+    "discovery_only_cannot_be_final_public_provenance_when_primary_exists": true,
+    "source_migration_must_preserve_event_ids_and_cardinality": true,
+    "verification_policy_requires_published_source_mapping": true
+  },
+  "roles": {
+    "primary": "Fuente operativa principal apta para originar o confirmar eventos.",
+    "canonical": "Identidad canónica de una organización cuando varios registros heredados convergen.",
+    "secondary_channel": "Canal adicional de la misma fuente canónica; nunca crea una organización duplicada.",
+    "discovery_only": "Sirve para detectar candidatos; requiere resolver una fuente primaria antes de publicar cuando exista.",
+    "enrichment_only": "Aporta contexto, horarios, contacto u otros metadatos, pero no origina por sí sola una ficha pública.",
+    "corroborating": "Confirma datos de una fuente primaria o de un candidato descubierto."
+  },
+  "channel_contract": {
+    "required_fields": ["id", "kind", "role", "url", "enabled"],
+    "supported_kinds": ["web", "agenda", "instagram", "ticketing", "contact", "feed", "api"],
+    "legacy_fields_supported_during_migration": [
+      "url", "website", "website_url", "agenda_url", "instagram", "ticket_url", "contact_url",
+      "feed_url", "api_url", "events_url", "calendar_url", "calendar_fallback_url",
+      "exhibitions_url", "activities_url", "visit_url", "secondary_events_url", "secondary_probe_url"
+    ]
+  },
+  "canonical_source_aliases": {
+    "artequinvina_instagram": "artequinvina",
+    "visita_vina_activities": "culturasvina"
   },
   "name_aliases": {
     "Itaú Maratón de Viña — sitio oficial": "maraton_vina_official",
     "Barrio Poniente Viña": "culturasvina"
+  },
+  "new_source_set_2026_08_23": {
+    "valparaiso_vina": ["enjoy_vina", "culturaviva_vina", "duoc_extension_vina", "deportes_vina", "valpo_deportes", "yacht_club_chile"],
+    "gijon": ["bola8_rock_club", "gijon_life", "planomato_gijon", "pdm_gijon", "surf_asturias"]
   },
   "public_catalog_exceptions": {
     "Biblioteca Santiago Severin": "Fuente pública incorporada antes del contrato; pendiente de monitor operativo propio.",
