@@ -19,13 +19,12 @@ cat > "$OUT/_headers" <<'EOF'
   X-Robots-Tag: noindex, nofollow
 EOF
 
-# Make the short Cloudflare URL open the new ¡Vivamos! Valparaíso / Viña del Mar app.
-cat > "$OUT/_redirects" <<'EOF'
-/ /app/?city=valparaiso 302
-EOF
+# Preserve both canonical publication surfaces: WEB at / and App at /app/.
+# A root-to-App redirect would make WEB verification inspect the wrong shell.
 
-# Fail the build if the essential web/PWA entry points are missing.
+# Fail the build if the essential WEB/PWA entry points are missing.
 test -f "$OUT/index.html"
+test -f "$OUT/assets/root-agenda-bootstrap.mjs"
 test -f "$OUT/app/index.html"
 test -f "$OUT/app/manifest.webmanifest"
 test -f "$OUT/app/service-worker.js"
@@ -35,4 +34,4 @@ test -f "$OUT/app/image-quality-guard.js"
 test -f "$OUT/app/formation-cycle-classifier.js"
 test -f "$OUT/app/artequin-session-correction.js"
 
-echo "CLOUDFLARE_PREVIEW_BUILD_OK"
+echo "CLOUDFLARE_PREVIEW_BUILD_OK surfaces=web,app"
