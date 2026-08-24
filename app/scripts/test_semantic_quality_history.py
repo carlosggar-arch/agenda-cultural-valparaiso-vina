@@ -1,6 +1,12 @@
 from __future__ import annotations
 
-from semantic_quality_history import render_trend_markdown, report_fingerprint, update_history
+from semantic_quality_history import (
+    build_persistence_state,
+    latest_payload,
+    render_trend_markdown,
+    report_fingerprint,
+    update_history,
+)
 
 
 def report(rate: float, dominant: str = "musica") -> dict:
@@ -42,8 +48,34 @@ def main() -> int:
     assert len(same["snapshots"]) == 1
     assert same["snapshots"][-1]["source_ref"] == "sha-b"
 
+    latest = latest_payload(first, "sha-b", "2026-08-23T11:00:00Z")
+    repeated_latest, repeated_history, repeated_changed = build_persistence_state(
+        first,
+        latest,
+        same,
+        "sha-b",
+        "2026-08-23T12:00:00Z",
+    )
+    assert repeated_changed is False
+    assert repeated_latest == latest
+    assert repeated_history == same
+    assert repeated_latest["generated_at"] == "2026-08-23T11:00:00Z"
+    assert repeated_history["snapshots"][-1]["generated_at"] == "2026-08-23T11:00:00Z"
+
+    new_ref_latest, new_ref_history, new_ref_changed = build_persistence_state(
+        first,
+        repeated_latest,
+        repeated_history,
+        "sha-c",
+        "2026-08-23T12:30:00Z",
+    )
+    assert new_ref_changed is True
+    assert new_ref_latest["source_ref"] == "sha-c"
+    assert new_ref_history["snapshots"][-1]["source_ref"] == "sha-c"
+    assert len(new_ref_history["snapshots"]) == 1
+
     changed_report = report(0.4, "teatro")
-    changed = update_history(changed_report, same, "sha-c", "2026-08-23T12:00:00Z")
+    changed = update_history(changed_report, new_ref_history, "sha-d", "2026-08-23T13:00:00Z")
     assert len(changed["snapshots"]) == 2
     assert changed["snapshots"][-1]["fingerprint"] == report_fingerprint(changed_report)
     markdown = render_trend_markdown(changed)

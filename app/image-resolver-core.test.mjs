@@ -14,6 +14,7 @@ import {
 } from "./image-resolver-core.mjs";
 
 const BASE = "https://vivamos.pages.dev/app/";
+const ROOT_BASE = "https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/";
 
 function legacyFoldWords(value) {
   return String(value || "")
@@ -188,6 +189,10 @@ test("group surface preserves raw event image policy and exact URL string", () =
   assert.equal(
     resolveEventImage(cached, { surface: "group", baseUrl: BASE }).url,
     new URL("./assets/event-images/gijon/event.webp", BASE).href,
+  );
+  assert.equal(
+    resolveEventImage(cached, { surface: "card", baseUrl: ROOT_BASE }).url,
+    new URL("./app/assets/event-images/gijon/event.webp", ROOT_BASE).href,
   );
 });
 

@@ -72,7 +72,15 @@ function wrapGeneratedTitle(value, maxChars = 34, maxLines = 3) {
 export function safeHttpImageUrl(value, { baseUrl = null } = {}) {
   if (!value) return null;
   try {
-    const url = baseUrl ? new URL(String(value), baseUrl) : new URL(String(value));
+    const text = String(value);
+    let url;
+    if (baseUrl && text.startsWith("./assets/event-images/")) {
+      const base = new URL(baseUrl);
+      const isAppSurface = /\/app(?:\/|$)/.test(base.pathname);
+      url = new URL(isAppSurface ? text : `./app/${text.slice(2)}`, base);
+    } else {
+      url = baseUrl ? new URL(text, baseUrl) : new URL(text);
+    }
     return ["http:", "https:"].includes(url.protocol) ? url.href : null;
   } catch {
     return null;
