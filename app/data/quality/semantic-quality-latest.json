@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "28e8e237c4fb8e1e5eb7fe2acbb5abdb9280d49da5b27a0005fea9591a85b725",
-  "generated_at": "2026-08-24T09:41:09Z",
+  "fingerprint": "3e6af898025f59df16383283612a0c6f8df3bc14595cfed9edd5864201571dc5",
+  "generated_at": "2026-08-24T10:22:06Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -10,22 +10,23 @@
   "source_metrics": {
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
-        "musica": 0.285714,
-        "unclassified": 0.714286
+        "cursos-talleres-campus": 0.714286,
+        "musica": 0.285714
       },
       "city_id": "gijon",
-      "dominant_category": "unclassified",
+      "dominant_category": "cursos-talleres-campus",
       "dominant_share": 0.714286,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
       "total": 7,
-      "unclassified": 5,
-      "unclassified_rate": 0.714286
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "gijon::camara de comercio de gijon recinto ferial y palacio de congresos": {
       "category_distribution": {
         "ferias-vida-local": 0.6,
-        "unclassified": 0.4
+        "musica": 0.2,
+        "teatro": 0.2
       },
       "city_id": "gijon",
       "dominant_category": "ferias-vida-local",
@@ -33,8 +34,8 @@
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
       "total": 5,
-      "unclassified": 2,
-      "unclassified_rate": 0.4
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
@@ -206,12 +207,12 @@
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
-        "musica": 0.102564,
-        "teatro": 0.897436
+        "musica": 0.128205,
+        "teatro": 0.871795
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.897436,
+      "dominant_share": 0.871795,
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
       "total": 39,
@@ -262,11 +263,12 @@
     },
     "valparaiso::cine arte vina del mar": {
       "category_distribution": {
-        "cine": 1.0
+        "cine": 0.941176,
+        "teatro": 0.058824
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 1.0,
+      "dominant_share": 0.941176,
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
       "total": 17,
@@ -628,66 +630,16 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "0381487fa2eecd9936b7cbd48e91601d68b7fe9a",
+  "source_ref": "9b181df0357be1ec1541560c3419c54d143ca944",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 44,
     "total_events": 390,
-    "unclassified_count": 27,
-    "unclassified_rate": 0.069231
+    "unclassified_count": 20,
+    "unclassified_rate": 0.051282
   },
   "unclassified_queue": [
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_31137fb76bc5234f",
-      "evidence": [],
-      "score": 0,
-      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
-      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "title": "Alimentación del Gran Oceanario"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_a2c4e53374c64ce4",
-      "evidence": [],
-      "score": 0,
-      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
-      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "title": "Encuentro Educativo Tiburones"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_ea720829d9fa140f",
-      "evidence": [],
-      "score": 0,
-      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
-      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "title": "Encuentro Educativo en Oceanario"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_47545e360133ea0e",
-      "evidence": [],
-      "score": 0,
-      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
-      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "title": "Visita especial tiburones: desmontando mitos"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_bioparc_acuario_gijon_a8cb0d151e5deb17",
-      "evidence": [],
-      "score": 0,
-      "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
-      "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "title": "Visita guiada Zonas Técnicas – especial verano"
-    },
     {
       "candidates": [],
       "city_id": "gijon",
@@ -707,26 +659,6 @@
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
       "title": "Xornaes Culturales Asturies en Guerra - 90 años: La Batalla por Gijón"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_camara_recinto_ferial_gijon_f998a19e7c34490c",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
-      "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "title": "EL GRAN SHOWMAN"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_camara_recinto_ferial_gijon_a68bdf785ac4055a",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
-      "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "title": "HOMENAJE DIRE STRAITS"
     },
     {
       "candidates": [],
