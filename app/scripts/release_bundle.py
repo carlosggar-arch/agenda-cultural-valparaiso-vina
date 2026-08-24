@@ -21,6 +21,8 @@ COMPONENTS = {
     "venue_registry": ROOT / "app/data/venue-registry.json",
     "service_worker_manifest": ROOT / "app/service-worker-assets.generated.js",
     "release_version": RELEASE_PATH,
+    "release_provenance": ROOT / "app/data/release-provenance.json",
+    "index_shell": ROOT / "app/index.html",
 }
 
 
@@ -42,17 +44,10 @@ def build_release_bundle() -> dict:
     if missing:
         raise FileNotFoundError("Missing release components: " + ", ".join(missing))
     components = {
-        name: {
-            "path": str(path.relative_to(ROOT)).replace("\\", "/"),
-            "sha": git_blob_sha(path),
-        }
+        name: {"path": str(path.relative_to(ROOT)).replace("\\", "/"), "sha": git_blob_sha(path)}
         for name, path in COMPONENTS.items()
     }
-    digest_input = json.dumps(
-        {name: row["sha"] for name, row in components.items()},
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
+    digest_input = json.dumps({name: row["sha"] for name, row in components.items()}, sort_keys=True, separators=(",", ":")).encode("utf-8")
     fingerprint = hashlib.sha256(digest_input).hexdigest()
     release = release_number()
     return {
