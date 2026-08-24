@@ -36,6 +36,7 @@ jobs:
           python scripts/verify_canonical_main_writer.py
           python app/scripts/test_contract_topology.py
           python app/scripts/test_fast_production_close_contract.py
+          node --test tests/admin-staging-terminal-panel.test.mjs
       - name: Run canonical fast contracts
         if: steps.impact.outputs.product == 'true'
         run: |
