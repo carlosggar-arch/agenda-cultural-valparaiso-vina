@@ -19,6 +19,7 @@ import {
 } from "./agenda-core.mjs?v=20260823-selection1";
 import { selectFeatured } from "./featured.mjs";
 import { getAgendaRuntimeSnapshot } from "../app/agenda-runtime-state.mjs?v=20260823-reference1";
+import { safeHttpImageUrl } from "../app/image-resolver-core.mjs?v=20260824-owned-images2";
 
 const DATASET_PATH = "./agenda_web.json";
 const CHANGES_PATH = "./agenda_changes.json";
@@ -171,7 +172,7 @@ function createCategoryArtwork(event) {
 function createMedia(event) {
   const media = element("div", "card-media");
   media.dataset.category = categoryId(event);
-  const imageUrl = safeHttpUrl(event.image?.url);
+  const imageUrl = safeHttpImageUrl(event.image?.url, { baseUrl: location.href });
   if (imageUrl) {
     const image = document.createElement("img");
     image.src = imageUrl;
