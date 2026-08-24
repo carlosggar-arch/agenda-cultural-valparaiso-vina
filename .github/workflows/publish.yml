@@ -25,6 +25,7 @@ on:
       - "app/scripts/production_warm_start_smoke.py"
       - "app/scripts/test_web_pwa_visibility_parity.py"
       - "app/scripts/production_release_attestation.py"
+      - "app/scripts/production_certification_history.py"
       - ".github/workflows/publish.yml"
   workflow_dispatch:
     # Explicit recovery path when an automated merge does not emit a push run.
@@ -178,6 +179,8 @@ jobs:
 
   production-smoke:
     needs: sync-cloudflare
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 28
 
@@ -238,7 +241,8 @@ jobs:
             app/scripts/production_browser_selenium_smoke.py \
             app/scripts/production_warm_start_smoke.py \
             app/scripts/test_web_pwa_visibility_parity.py \
-            app/scripts/production_release_attestation.py
+            app/scripts/production_release_attestation.py \
+            app/scripts/production_certification_history.py
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait for both deployments and verify byte parity
@@ -285,6 +289,33 @@ jobs:
             | tee /tmp/production-release-verification/attestation.log
           grep -q '^PRODUCTION_RELEASE_VERIFIED ' /tmp/production-release-verification/attestation.log
           cat /tmp/production-release-verification/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Checkout permanent production certification history
+        uses: actions/checkout@v7
+        with:
+          ref: state/production-certifications
+          path: .production-certification-state
+          fetch-depth: 1
+
+      - name: Persist immutable production certification
+        shell: bash
+        run: |
+          set -euo pipefail
+          attestation=/tmp/production-release-verification/production-release-attestation.json
+          python app/scripts/production_certification_history.py \
+            --attestation "$attestation" \
+            --state-root .production-certification-state
+          release="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["release"])' "$attestation")"
+          head_sha="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["head_sha"])' "$attestation")"
+          git -C .production-certification-state config user.name "vivamos-production-certification[bot]"
+          git -C .production-certification-state config user.email "vivamos-production-certification[bot]@users.noreply.github.com"
+          git -C .production-certification-state add data/index.json data/releases
+          if ! git -C .production-certification-state diff --cached --quiet; then
+            git -C .production-certification-state commit -m "Record production certification v${release} ${head_sha:0:12}"
+            git -C .production-certification-state push origin HEAD:state/production-certifications
+          else
+            echo "PRODUCTION_CERTIFICATION_HISTORY_UNCHANGED release=v${release} head=${head_sha}"
+          fi
 
       - name: Upload production release attestation
         uses: actions/upload-artifact@v6
