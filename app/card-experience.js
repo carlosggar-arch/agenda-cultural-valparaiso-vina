@@ -11,7 +11,7 @@ import {
   relevantEventImageUrl,
   resolveCardImageAfterFailure,
   resolveEventImage,
-} from "./image-resolver-core.mjs?v=20260822-single-image1";
+} from "./image-resolver-core.mjs?v=20260824-official-images1";
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const DEFAULT_CONFIG = Object.freeze({ timezone: "UTC", locale: "es" });
