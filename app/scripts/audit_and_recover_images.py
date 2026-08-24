@@ -101,7 +101,7 @@ def build(dataset: dict, today: date, max_fetch: int = 40) -> tuple[dict, dict]:
             no_match += 1
             rows.append({"id": item.get("id"), "state": "no_confident_event_match", "url": url, "match_score": round(score, 3), "representative_available": representative})
             continue
-        image_url = image_url_from_candidate(candidate, markup)
+        image_url = image_url_from_candidate(candidate, markup, base_url=url)
         if not image_url:
             rows.append({"id": item.get("id"), "state": "matched_but_no_event_image", "url": url, "match_score": round(score, 3), "representative_available": representative})
             continue
