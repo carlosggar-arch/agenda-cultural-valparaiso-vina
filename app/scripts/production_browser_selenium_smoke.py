@@ -161,7 +161,7 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
     root_base = base[:-4] if base.endswith("app/") else base
     surfaces = (
         ("app", f"{base}?city=valparaiso&when=todos"),
-        ("web", f"{root_base}?periodo=todos"),
+        ("web", f"{root_base}?periodo=todos&q=Museo%20Baburizza"),
     )
     for surface, base_url in surfaces:
         last_error = ""
