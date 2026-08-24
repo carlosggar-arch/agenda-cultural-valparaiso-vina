@@ -1,49 +1,19 @@
 {
   "schema_version": "1.0.0",
-  "release": 222,
-  "release_id": "v222-cec96857e34a",
-  "fingerprint": "cec96857e34aa369fec836177f7f92c50d850c6b5c38be19b6519387b79c7566",
+  "release": 223,
+  "release_id": "v223-f20af009371c",
+  "fingerprint": "f20af009371cffd297bdc3abc98ee76c03d65fc9da11473c45d9139ae549acef",
   "hash_algorithm": "git_blob_sha1",
   "components": {
-    "dataset_valparaiso": {
-      "path": "agenda_web.json",
-      "sha": "0c94d925386d18b80ff29b42a468a4e75c9a589a"
-    },
-    "dataset_gijon": {
-      "path": "app/data/gijon/agenda_web.json",
-      "sha": "bec6c768b2c81d2c3c5f77d69022fe01a08ccfac"
-    },
-    "source_catalog": {
-      "path": "fuentes_publicas.json",
-      "sha": "57255f8cdf8feb4ad27817305ff5f9aa6b721c92"
-    },
-    "source_registry": {
-      "path": "app/data/source-registry.json",
-      "sha": "077ea3981a48d6e578ca73d2dc04cf9516b4aa2c"
-    },
-    "diagnostic_source_coverage": {
-      "path": "app/data/quality/source-coverage.json",
-      "sha": "aaed51075988c8b3c59428cb6a045998c1810059"
-    },
-    "diagnostic_event_quality": {
-      "path": "app/data/quality/event-quality.json",
-      "sha": "646827a88039a3d04f1844c9294e9f79bc3d0b34"
-    },
-    "diagnostic_release_readiness": {
-      "path": "app/data/quality/release-readiness.json",
-      "sha": "15a0d521aca4712cec4766d273a5a8b3c3a566dd"
-    },
-    "venue_registry": {
-      "path": "app/data/venue-registry.json",
-      "sha": "7a5633c6ab123306feadbdc0d1386b788ac11420"
-    },
-    "service_worker_manifest": {
-      "path": "app/service-worker-assets.generated.js",
-      "sha": "c6b222ed701d72a9d6dfc4b5a117de9436648e41"
-    },
-    "release_version": {
-      "path": "app/release-version.js",
-      "sha": "e10f672d09de54b313708696fbd3924e528f8eac"
-    }
+    "dataset_valparaiso": {"path": "agenda_web.json", "sha": "0c94d925386d18b80ff29b42a468a4e75c9a589a"},
+    "dataset_gijon": {"path": "app/data/gijon/agenda_web.json", "sha": "bec6c768b2c81d2c3c5f77d69022fe01a08ccfac"},
+    "source_catalog": {"path": "fuentes_publicas.json", "sha": "57255f8cdf8feb4ad27817305ff5f9aa6b721c92"},
+    "source_registry": {"path": "app/data/source-registry.json", "sha": "077ea3981a48d6e578ca73d2dc04cf9516b4aa2c"},
+    "diagnostic_source_coverage": {"path": "app/data/quality/source-coverage.json", "sha": "aaed51075988c8b3c59428cb6a045998c1810059"},
+    "diagnostic_event_quality": {"path": "app/data/quality/event-quality.json", "sha": "646827a88039a3d04f1844c9294e9f79bc3d0b34"},
+    "diagnostic_release_readiness": {"path": "app/data/quality/release-readiness.json", "sha": "15a0d521aca4712cec4766d273a5a8b3c3a566dd"},
+    "venue_registry": {"path": "app/data/venue-registry.json", "sha": "7a5633c6ab123306feadbdc0d1386b788ac11420"},
+    "service_worker_manifest": {"path": "app/service-worker-assets.generated.js", "sha": "c6b222ed701d72a9d6dfc4b5a117de9436648e41"},
+    "release_version": {"path": "app/release-version.js", "sha": "d3aece19c6233d967805337d8db0f5cd0bd1e145"}
   }
 }
