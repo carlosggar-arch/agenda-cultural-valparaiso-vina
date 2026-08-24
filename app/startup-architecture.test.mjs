@@ -111,6 +111,8 @@ for (const [name, source] of [
   assert.doesNotMatch(source, /loadAgendaDataset/, `${name} must not rerun the data pipeline`);
 }
 assert.doesNotMatch(cardExperience, /\bfetch\s*\(/, "rich card rendering must never re-fetch raw data");
+assert.match(cardExperience, /formatSchedule as formatSharedSchedule/, "rich cards must use the canonical schedule formatter");
+assert.match(cardExperience, /return formatSharedSchedule\(event\?\.schedule/, "rich cards must not replace canonical session ranges with a local formatter");
 assert.doesNotMatch(presentationGuard, /\bfetch\s*\(/, "presentation guard must never re-fetch raw data");
 assert.doesNotMatch(exhibitionHours, /\bfetch\s*\(/, "exhibition hours must never re-fetch raw data");
 

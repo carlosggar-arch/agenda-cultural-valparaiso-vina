@@ -19,8 +19,8 @@
     },
     {
       "name": "sources",
-      "patterns": ["app/*series*", "app/scripts/*source*", "app/scripts/refresh_*", "app/scripts/apply_*coverage.py", "app/scripts/audit_*", "app/data/source-registry.json", "app/data/high_value_sources.json", "fuentes_publicas.json"],
-      "contracts": ["architecture.source-evidence-authority", "architecture.identity-boundaries", "semantic.cross-source-deduplication", "semantic.event-series-normalization", "architecture.editorial-quality-audit"]
+      "patterns": ["app/scripts/*source*", "app/scripts/refresh_*", "app/scripts/apply_*coverage.py", "app/scripts/audit_*", "app/data/source-registry.json", "app/data/high_value_sources.json", "fuentes_publicas.json"],
+      "contracts": ["architecture.source-evidence-authority", "architecture.identity-boundaries", "semantic.cross-source-deduplication", "architecture.editorial-quality-audit"]
     },
     {
       "name": "temporal",

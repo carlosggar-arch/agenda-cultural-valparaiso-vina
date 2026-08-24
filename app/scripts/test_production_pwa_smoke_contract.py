@@ -37,6 +37,9 @@ def main() -> None:
         '      - "app/*.css"',
         '      - "app/*.html"',
         '      - "app/*.webmanifest"',
+        '      - "assets/*.js"',
+        '      - "assets/*.mjs"',
+        '      - "index.html"',
         '      - "agenda_web.json"',
         '      - "app/data/gijon/agenda_web.json"',
         '      - "fuentes_publicas.json"',
@@ -82,6 +85,9 @@ def main() -> None:
     assert "timeout-minutes: 28" in production
     assert "verify byte parity" in production
     assert "GitHub Pages and Cloudflare" in production
+    assert "DEPLOYED_BYTE_VERIFIED" in WORKFLOW
+    assert "visual=pending" in WORKFLOW
+    assert "PUBLICATION_FAST_CLOSE_VERIFIED" not in WORKFLOW
 
     contracts = {entry["id"]: entry for entry in TOPOLOGY["contracts"]}
     required_profile = TOPOLOGY["runner_profiles"]["required-release"]
@@ -124,10 +130,24 @@ def main() -> None:
         "[data-sources-toggle], [data-sources-fallback]",
         "PRODUCTION_COLD_LOAD_OK",
         "PRODUCTION_CITY_ROUNDTRIP_OK",
+        "PRODUCTION_OFFICIAL_IMAGE_OK",
+        "OFFICIAL_IMAGE_CASES",
+        "image.naturalWidth",
+        '("app",',
+        '("web",',
+        "q=Museo%20Baburizza",
+        "vivamos-images-{origin}-{surface}-{attempt}",
+        "driver.set_page_load_timeout(45)",
+        "for attempt in range(1, 3)",
         "transport=selenium",
         "after retry",
     ):
         assert marker in BROWSER_SMOKE, f"Selenium cold-browser smoke contract missing: {marker}"
+    evidence_poll = BROWSER_SMOKE.split("def image_evidence", 1)[1].split("def prepare_image_evidence", 1)[0]
+    assert "scrollIntoView" not in evidence_poll, "Image readiness polling must not trigger repeated scroll/render churn"
+    assert "scrollIntoView" not in BROWSER_SMOKE, "Official-image verification must not mutate WEB scroll state"
+    assert "image.loading = 'eager'" in BROWSER_SMOKE
+    assert "rect.width < 1 || rect.height < 1" in BROWSER_SMOKE
     assert "--dump-dom" not in BROWSER_SMOKE, "Cold-browser production smoke must not regress to direct Chrome dump-dom"
 
     for marker in (
@@ -182,6 +202,10 @@ def main() -> None:
         "PRODUCTION_RELEASE_VERIFIED",
         '"network_reverified": verify_network',
         '"release_id": bundle.get("release_id")',
+        '"publication_state": "published_and_visually_verified"',
+        "official_image_attestation",
+        "OFFICIAL_IMAGE_EVENT_IDS",
+        "PRODUCTION_OFFICIAL_IMAGE_OK",
     ):
         assert marker in ATTESTATION, f"Production release attestation missing: {marker}"
 

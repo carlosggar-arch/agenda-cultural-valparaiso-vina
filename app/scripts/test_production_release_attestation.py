@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 
 from production_pwa_smoke import CRITICAL_ASSETS, ORIGINS, release_number
-from production_release_attestation import CITIES, STATES, build_attestation, write_markdown
+from production_release_attestation import CITIES, OFFICIAL_IMAGE_EVENT_IDS, STATES, build_attestation, write_markdown
 
 
 def write(path: Path, text: str) -> None:
@@ -74,6 +74,12 @@ def main() -> None:
                     "PRODUCTION_COLD_LOAD_OK origin=cloudflare city=gijon viewport=1280x900 transport=selenium",
                     "PRODUCTION_CITY_ROUNDTRIP_OK origin=github-pages valparaiso->gijon->valparaiso filter=7-dias transport=selenium",
                 ]
+                + [
+                    f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={event_id} file=fixture.webp natural=1600x1067"
+                    for origin in ORIGINS
+                    for surface in ("app", "web")
+                    for event_id in OFFICIAL_IMAGE_EVENT_IDS
+                ]
             )
             + "\n",
         )
@@ -105,6 +111,8 @@ def main() -> None:
         assert payload["release"] == release
         assert payload["critical_assets"]["count"] == len(CRITICAL_ASSETS)
         assert payload["critical_assets"]["network_reverified"] is False
+        assert payload["publication_state"] == "published_and_visually_verified"
+        assert set(payload["official_event_images"]) == set(OFFICIAL_IMAGE_EVENT_IDS)
         assert len(payload["web_pwa_exact_id_parity"]["rows"]) == len(ORIGINS) * len(CITIES) * len(STATES)
         write_markdown(markdown, payload)
         assert "Production release verification" in markdown.read_text(encoding="utf-8")

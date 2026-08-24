@@ -13,6 +13,9 @@ on:
       - "app/data/source-registry.json"
       - "app/data/gijon/agenda_web.json"
       - "app/assets/event-images/**"
+      - "assets/*.js"
+      - "assets/*.mjs"
+      - "index.html"
       - "agenda_web.json"
       - "fuentes_publicas.json"
       - "manifest.webmanifest"
@@ -23,6 +26,7 @@ on:
       - "app/scripts/production_release_attestation.py"
       - ".github/workflows/publish.yml"
   workflow_dispatch:
+    # Explicit recovery path when an automated merge does not emit a push run.
 
 permissions:
   contents: read
@@ -154,21 +158,21 @@ jobs:
           grep -q '^PRODUCTION_ORIGIN_PARITY_OK origin=github-pages ' /tmp/production-fast-close/http.log
           grep -q '^PRODUCTION_ORIGIN_PARITY_OK origin=cloudflare ' /tmp/production-fast-close/http.log
 
-      - name: Mark fast production closure
+      - name: Mark byte deployment, pending visual verification
         shell: bash
         run: |
           set -euo pipefail
           head="$(git rev-parse origin/main)"
-          echo "PUBLICATION_FAST_CLOSE_VERIFIED head=$head origins=github-pages,cloudflare temporal=deterministic datasets=validated"
+          echo "DEPLOYED_BYTE_VERIFIED head=$head origins=github-pages,cloudflare visual=pending"
           {
-            echo "## Fast production closure"
+            echo "## Deployment byte verification"
             echo ""
             echo "- Public main: \`$head\`"
             echo "- GitHub Pages byte parity: OK"
             echo "- Cloudflare byte parity: OK"
             echo "- Changed dataset freshness/identity: OK"
             echo "- Shared temporal/data-pipeline contracts: OK"
-            echo "- Exhaustive Selenium/warm/offline PWA smoke continues as the deeper post-close defense."
+            echo "- Publication is not final yet: visual verification is pending."
           } >> "$GITHUB_STEP_SUMMARY"
 
   production-smoke:
@@ -207,7 +211,7 @@ jobs:
           fi
 
           git diff --name-only "$before" "${{ github.sha }}" | tee changed-pwa-files.txt
-          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
+          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|assets/[^/]+\.(js|mjs|css)|index\.html|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
           release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
           if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
             echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2

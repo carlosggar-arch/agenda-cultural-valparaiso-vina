@@ -5,7 +5,6 @@ import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260821-s
 import { normalizeVenueAliases } from "./venue-identity.mjs?v=20260820-venues1";
 import { normalizeAgendaTitles, recoverAgendaTitles } from "./title-normalizer-bootstrap.js?v=20260822-title-authority1";
 import { normalizeSessionOccurrences } from "./session-occurrence-normalizer.js?v=20260819-pipeline1";
-import { normalizeEventSeries } from "./event-series-normalizer.mjs?v=20260823-series1";
 import { normalizeFormationCycles } from "./formation-cycle-classifier.js?v=20260821-shared-taxonomy1";
 import { correctArtequinNaturalArtSessions } from "./artequin-session-correction.js?v=20260820-artequin1";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs?v=20260819-dedupe1";
@@ -308,9 +307,6 @@ export async function loadAgendaDataset(city, { fetchImpl = globalThis.fetch, no
     applyDeclarativeEventCorrectionRules(current, { cityId: city.id })
   ), dataset, diagnostics);
   dataset = applyStage("title-normalizer", normalizeAgendaTitles, dataset, diagnostics);
-  dataset = applyStage("event-series-normalizer", (current) => (
-    normalizeEventSeries(current, { cityId: city.id })
-  ), dataset, diagnostics);
   dataset = applyStage("session-occurrence-normalizer", normalizeSessionOccurrences, dataset, diagnostics);
   dataset = applyStage("formation-lifecycle-classifier", normalizeFormationCycles, dataset, diagnostics);
   if (city.id === "valparaiso") {

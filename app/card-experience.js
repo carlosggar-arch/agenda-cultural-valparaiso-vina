@@ -12,6 +12,8 @@ import {
   resolveCardImageAfterFailure,
   resolveEventImage,
 } from "./image-resolver-core.mjs?v=20260824-owned-images2";
+import { createEventImageElement } from "./event-image-renderer.mjs";
+import { formatSchedule as formatSharedSchedule } from "../assets/event-schedule-display.mjs";
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const DEFAULT_CONFIG = Object.freeze({ timezone: "UTC", locale: "es" });
@@ -121,26 +123,11 @@ function formatDateValue(value, config, { weekday = true, time = true } = {}) {
 }
 
 function scheduleLabel(event, config) {
-  const opening = String(event?.schedule?.opening_time || "");
-  const closing = String(event?.schedule?.closing_time || "");
-  const start = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
-  const end = event?.schedule?.end;
-  if (opening && closing && /^\d{2}:\d{2}$/.test(opening) && /^\d{2}:\d{2}$/.test(closing)) {
-    const startDate = start ? formatDateValue(start, config, { time: false }) : null;
-    const endKey = end ? dateKeyForValue(end, config) : null;
-    const startKey = start ? dateKeyForValue(start, config) : null;
-    if (startDate && endKey && startKey && endKey !== startKey) {
-      return `${startDate} – ${formatDateValue(end, config, { weekday: false, time: false })} · ${opening}–${closing}`;
-    }
-    return `${startDate || "Horario de visita"} · ${opening}–${closing}`;
-  }
-  if (!start) return event?.schedule?.display_text || "Horario por confirmar";
-  const startKey = dateKeyForValue(start, config);
-  const endKey = end ? dateKeyForValue(end, config) : null;
-  if (end && startKey && endKey && endKey !== startKey) {
-    return `${formatDateValue(start, config)} – ${formatDateValue(end, config, { weekday: false })}`;
-  }
-  return formatDateValue(start, config) || event?.schedule?.display_text || "Horario por confirmar";
+  return formatSharedSchedule(event?.schedule, {
+    locale: config.locale,
+    timezone: config.timezone,
+    now: new Date(),
+  });
 }
 
 function compactDayLabel(event, config) {
@@ -255,17 +242,10 @@ function installMediaImage(media, event, imageUrl, representative = false) {
   media.classList.add(representative ? "has-representative-image" : "has-relevant-image");
   media.style.setProperty("--event-image", `url("${imageUrl.replaceAll('"', "%22")}")`);
   if (representative) media.dataset.representativeImage = "same-venue";
-  const image = document.createElement("img");
-  image.className = "event-card-photo";
-  image.dataset.eventImage = representative ? "representative" : "relevant";
-  image.src = imageUrl;
-  const venue = String(event?.location?.venue || "el recinto").trim();
-  image.alt = representative
-    ? `Imagen representativa de ${venue}`
-    : String(event?.image?.alt || event?.title || "Imagen de la actividad");
-  image.loading = "lazy";
-  image.decoding = "async";
-  image.addEventListener("error", () => {
+  const image = createEventImageElement(event, {
+    url: imageUrl,
+    kind: representative ? "representative" : "relevant",
+    onError: () => {
     media.replaceChildren();
     media.style.removeProperty("--event-image");
     if (!representative) {
@@ -279,7 +259,8 @@ function installMediaImage(media, event, imageUrl, representative = false) {
       }
     }
     addPlaceholder(media, event, looksLikeGenericSchedule(event));
-  }, { once: true });
+    },
+  });
   media.append(image);
   if (representative) {
     const note = addTextElement(media, "span", "event-card-image-note", "Imagen del recinto");
