@@ -2,7 +2,7 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-
 import {
   generatedEventFallbackImage,
   shouldInstallCategoryFallback,
-} from "./image-resolver-core.mjs?v=20260824-official-images1";
+} from "./image-resolver-core.mjs?v=20260824-owned-images1";
 
 let scanQueued = false;
 let indexedRevision = 0;

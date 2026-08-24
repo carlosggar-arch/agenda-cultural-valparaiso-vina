@@ -17,10 +17,12 @@ def test_registry_change_is_conservative() -> None:
 
 def test_source_runtime_change_runs_tests_live_and_refresh() -> None:
     assert classify(["app/scripts/refresh_balmaceda_valpo_bounded.py"]) == {"tests_needed": True, "live_needed": True, "refresh_needed": True}
+    assert classify(["app/scripts/cache_official_images.py"]) == {"tests_needed": True, "live_needed": True, "refresh_needed": True}
 
 
 def test_source_test_change_runs_fast_tests_without_network() -> None:
     assert classify(["app/scripts/test_balmaceda_valpo.py"]) == {"tests_needed": True, "live_needed": False, "refresh_needed": False}
+    assert classify(["app/scripts/test_cache_official_images.py"]) == {"tests_needed": True, "live_needed": False, "refresh_needed": False}
 
 
 def test_workflow_change_is_conservative() -> None:
