@@ -26,6 +26,7 @@ on:
       - "app/scripts/test_web_pwa_visibility_parity.py"
       - "app/scripts/production_release_attestation.py"
       - "app/scripts/production_certification_history.py"
+      - "app/scripts/production_certification_watchdog.py"
       - "app/scripts/production_admin_staging_smoke.py"
       - ".github/workflows/publish.yml"
   workflow_dispatch:
@@ -244,6 +245,7 @@ jobs:
             app/scripts/test_web_pwa_visibility_parity.py \
             app/scripts/production_release_attestation.py \
             app/scripts/production_certification_history.py \
+            app/scripts/production_certification_watchdog.py \
             app/scripts/production_admin_staging_smoke.py
           python app/scripts/production_pwa_smoke.py local
 
@@ -334,3 +336,62 @@ jobs:
           path: /tmp/production-release-verification/
           if-no-files-found: error
           retention-days: 30
+
+  certification-watchdog:
+    name: certification-watchdog
+    needs: [sync-cloudflare, production-smoke]
+    if: ${{ always() && needs.sync-cloudflare.result == 'success' }}
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout certification verifier
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Checkout permanent certification state
+        uses: actions/checkout@v7
+        with:
+          ref: state/production-certifications
+          path: .production-certification-state
+          fetch-depth: 1
+
+      - name: Require durable certification for deployed head
+        shell: bash
+        run: |
+          set -euo pipefail
+          release="$(python - <<'PY'
+          import re
+          from pathlib import Path
+          text = Path('app/release-version.js').read_text(encoding='utf-8')
+          match = re.search(r'const RELEASE = (\d+);', text)
+          if not match:
+              raise SystemExit('release-version.js has no numeric RELEASE')
+          print(match.group(1))
+          PY
+          )"
+          set +e
+          python app/scripts/production_certification_watchdog.py \
+            --state-root .production-certification-state \
+            --expected-head "${{ github.sha }}" \
+            --expected-release "$release" \
+            | tee /tmp/production-certification-watchdog.log
+          status="${PIPESTATUS[0]}"
+          set -e
+          if [[ "$status" -ne 0 ]]; then
+            message="$(tail -n 1 /tmp/production-certification-watchdog.log)"
+            echo "::error title=PRODUCTION_UNCERTIFIED::$message"
+            {
+              echo "## PRODUCTION_UNCERTIFIED"
+              echo ""
+              echo "- Head: \`${{ github.sha }}\`"
+              echo "- Release: \`v${release}\`"
+              echo "- Production bytes were synchronized, but no valid durable certification exists for this head/release."
+              echo "- Production must not be described as certified until this gate is green."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit "$status"
+          fi
+          echo "PRODUCTION_CERTIFICATION_WATCHDOG_COMPLETE head=${{ github.sha }} release=v${release}"
