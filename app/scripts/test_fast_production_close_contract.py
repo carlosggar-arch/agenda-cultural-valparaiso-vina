@@ -13,8 +13,10 @@ def main() -> None:
     assert "Fast-close changed dataset freshness and identity" in sync
     assert "Fast-close deterministic runtime contracts" in sync
     assert "Fast-close GitHub Pages and Cloudflare byte parity" in sync
-    assert "PUBLICATION_FAST_CLOSE_VERIFIED" in sync
-    assert sync.index("Push synchronized deployment branch") < sync.index("PUBLICATION_FAST_CLOSE_VERIFIED")
+    assert "DEPLOYED_BYTE_VERIFIED" in sync
+    assert "visual=pending" in sync
+    assert "PUBLICATION_FAST_CLOSE_VERIFIED" not in sync
+    assert sync.index("Push synchronized deployment branch") < sync.index("DEPLOYED_BYTE_VERIFIED")
 
     strict = sync.split("              if require_fresh:\n", 1)[1].split("\n              print(", 1)[0]
     assert "FAST_CLOSE_METADATA_MISSING" in strict
