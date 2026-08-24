@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from production_browser_selenium_smoke import READY_TIMEOUT_SECONDS, chrome_options, runtime_ready
 from production_pwa_smoke import ORIGINS, ROOT, release_number
+from production_title_identity import IDENTITY_CONTRACT, evaluate_title_contract
 
 CONTRACT_PATH = ROOT / "app/data/production-series-contracts.json"
 
@@ -40,13 +41,24 @@ def verify_contract(origin: str, base: str, contract: dict[str, object], expecte
             titles = rendered_titles(driver)
         finally:
             driver.quit()
-    title_set = set(titles)
-    missing = [title for title in contract.get("expected_titles") or [] if title not in title_set]
-    missing_preserved = [title for title in contract.get("preserved_titles") or [] if title not in title_set]
-    forbidden = [title for title in contract.get("forbidden_exact_titles") or [] if title in title_set]
-    if missing or missing_preserved or forbidden:
-        raise SystemExit(f"PRODUCTION_SERIES_CONTRACT_FAILED origin={origin} contract={contract_id} missing={missing} preserved_missing={missing_preserved} forbidden={forbidden}")
-    print(f"PRODUCTION_SERIES_CONTRACT_OK origin={origin} contract={contract_id} city={city} section={section} expected={len(contract.get('expected_titles') or [])} preserved={len(contract.get('preserved_titles') or [])}")
+
+    result = evaluate_title_contract(
+        titles,
+        expected_titles=contract.get("expected_titles") or [],
+        preserved_titles=contract.get("preserved_titles") or [],
+        forbidden_titles=contract.get("forbidden_exact_titles") or [],
+    )
+    failures = {key: values for key, values in result.items() if values}
+    if failures:
+        raise SystemExit(
+            f"PRODUCTION_SERIES_CONTRACT_FAILED origin={origin} contract={contract_id} "
+            f"title_identity={IDENTITY_CONTRACT} failures={failures}"
+        )
+    print(
+        f"PRODUCTION_SERIES_CONTRACT_OK origin={origin} contract={contract_id} city={city} section={section} "
+        f"expected={len(contract.get('expected_titles') or [])} preserved={len(contract.get('preserved_titles') or [])} "
+        f"title_identity={IDENTITY_CONTRACT} cardinality=one-to-one"
+    )
 
 
 def main() -> None:
@@ -56,7 +68,7 @@ def main() -> None:
     for origin, base in ORIGINS.items():
         for contract in contracts:
             verify_contract(origin, base, contract, expected_release)
-    print(f"PRODUCTION_SERIES_CONTRACTS_VERIFIED contracts={len(contracts)} origins={len(ORIGINS)}")
+    print(f"PRODUCTION_SERIES_CONTRACTS_VERIFIED contracts={len(contracts)} origins={len(ORIGINS)} title_identity={IDENTITY_CONTRACT}")
 
 
 if __name__ == "__main__":
