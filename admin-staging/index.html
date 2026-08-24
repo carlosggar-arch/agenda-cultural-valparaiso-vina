@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#082b59">
+  <title>Estado de publicación · ¡Vivamos!</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    body { margin: 0; background: Canvas; color: CanvasText; }
+    main { width: min(860px, calc(100% - 32px)); margin: 48px auto; }
+    header { margin-bottom: 24px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.7rem,4vw,2.4rem); }
+    .muted { opacity: .72; }
+    .card { border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 16px; padding: 22px; background: color-mix(in srgb, Canvas 96%, CanvasText 4%); box-shadow: 0 8px 30px color-mix(in srgb, CanvasText 8%, transparent); }
+    .topline { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 999px; font-weight: 750; letter-spacing: .02em; border: 1px solid currentColor; }
+    .badge.complete { color: #187642; background: color-mix(in srgb, #2fbf71 14%, transparent); }
+    .badge.failed { color: #b42318; background: color-mix(in srgb, #e5484d 12%, transparent); }
+    .badge.loading { color: #5d6673; }
+    dl { display: grid; grid-template-columns: minmax(150px, 220px) 1fr; gap: 11px 18px; margin: 22px 0 0; }
+    dt { font-weight: 650; }
+    dd { margin: 0; overflow-wrap: anywhere; }
+    code { font-size: .9em; }
+    a { color: LinkText; }
+    button { font: inherit; padding: 9px 13px; border-radius: 10px; border: 1px solid color-mix(in srgb, CanvasText 24%, transparent); background: ButtonFace; color: ButtonText; cursor: pointer; }
+    .error { border-color: #b42318; }
+    .footer { margin-top: 18px; font-size: .92rem; }
+    @media (max-width: 620px) { dl { grid-template-columns: 1fr; gap: 4px; } dd { margin-bottom: 10px; } main { margin-top: 28px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Estado de publicación</h1>
+    <div class="muted">Vista operativa de solo lectura · estado terminal canónico</div>
+  </header>
+
+  <section id="status-card" class="card" aria-live="polite" aria-busy="true">
+    <div class="topline">
+      <span id="state" class="badge loading">Cargando…</span>
+      <button id="refresh" type="button">Actualizar</button>
+    </div>
+    <p id="summary" class="muted">Consultando el último estado terminal persistido.</p>
+    <dl id="details" hidden>
+      <dt>Generado</dt><dd id="generated"></dd>
+      <dt>Motivo</dt><dd id="reason"></dd>
+      <dt>Ámbito</dt><dd id="scope"></dd>
+      <dt>Publicación</dt><dd id="public-write"></dd>
+      <dt>Public SHA</dt><dd id="public-sha"></dd>
+      <dt>Source ref</dt><dd id="source-ref"></dd>
+      <dt>Publisher run</dt><dd id="publisher-run"></dd>
+      <dt>Finalizer run</dt><dd id="finalizer-run"></dd>
+      <dt>Fast-close</dt><dd id="fast-close"></dd>
+      <dt>Terminal ID</dt><dd id="terminal-id"></dd>
+    </dl>
+  </section>
+  <p class="footer muted">Se actualiza automáticamente cada 60 segundos. Un fallo de carga no se interpreta como fallo de publicación.</p>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const STATE_URL = 'https://raw.githubusercontent.com/carlosggar-arch/agenda-cultural-core/refs/heads/state/publication-terminal/data/publication_terminal_state.json';
+  const CORE = 'https://github.com/carlosggar-arch/agenda-cultural-core';
+  const PUBLIC = 'https://github.com/carlosggar-arch/agenda-cultural-valparaiso-vina';
+  const $ = (id) => document.getElementById(id);
+  const card = $('status-card');
+  const details = $('details');
+
+  function link(href, label) {
+    if (!href) return document.createTextNode(label || '—');
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = label;
+    return a;
+  }
+
+  function setNode(id, node) {
+    const el = $(id);
+    el.replaceChildren(node instanceof Node ? node : document.createTextNode(String(node ?? '—')));
+  }
+
+  function scopeFor(payload) {
+    if (payload.reason === 'verification_only') return 'Verificación canónica · sin adquisición de ciudades';
+    if (payload.reason === 'idempotent_no_write') return 'Publicación canónica · sin cambios públicos';
+    return 'Publicación canónica multiciudad';
+  }
+
+  function render(payload) {
+    if (payload.contract !== 'canonical-publication-terminal-state' || payload.terminal !== true) {
+      throw new Error('El documento recibido no cumple el contrato terminal canónico.');
+    }
+    if (!['PUBLICATION_COMPLETE', 'PUBLICATION_FAILED'].includes(payload.state)) {
+      throw new Error('Estado terminal desconocido.');
+    }
+
+    const failed = payload.state === 'PUBLICATION_FAILED';
+    $('state').textContent = payload.state;
+    $('state').className = `badge ${failed ? 'failed' : 'complete'}`;
+    $('summary').textContent = failed
+      ? 'La última publicación terminó con un fallo terminal. Revisa el motivo y el run del finalizer.'
+      : 'La última publicación terminó correctamente.';
+    card.classList.toggle('error', failed);
+
+    const source = payload.source || {};
+    const finalizer = payload.finalizer || {};
+    const publicInfo = payload.public || {};
+    const fast = payload.fast_close || {};
+    const sourceRef = source.source_ref || '';
+    const publicSha = publicInfo.sha || '';
+    const publisherRun = source.publisher_run_id;
+    const finalizerRun = finalizer.run_id;
+
+    setNode('generated', payload.generated_at ? new Date(payload.generated_at).toLocaleString() : '—');
+    setNode('reason', payload.reason || '—');
+    setNode('scope', scopeFor(payload));
+    setNode('public-write', publicInfo.write === true ? 'Sí' : publicInfo.write === false ? 'No' : 'Desconocido');
+    setNode('public-sha', publicSha ? link(`${PUBLIC}/commit/${publicSha}`, publicSha) : '—');
+    setNode('source-ref', sourceRef ? link(`${CORE}/commit/${sourceRef}`, sourceRef) : '—');
+    setNode('publisher-run', publisherRun ? link(`${CORE}/actions/runs/${publisherRun}`, publisherRun) : '—');
+    setNode('finalizer-run', finalizerRun ? link(`${CORE}/actions/runs/${finalizerRun}`, finalizerRun) : '—');
+    setNode('fast-close', `${fast.status || 'unknown'}${fast.run_id ? ` · run ${fast.run_id}` : ''}`);
+    setNode('terminal-id', payload.terminal_id || '—');
+    details.hidden = false;
+  }
+
+  function renderError(error) {
+    $('state').textContent = 'ESTADO NO DISPONIBLE';
+    $('state').className = 'badge failed';
+    $('summary').textContent = `No se pudo leer el estado terminal: ${error.message}`;
+    card.classList.add('error');
+    details.hidden = true;
+  }
+
+  async function load() {
+    card.setAttribute('aria-busy', 'true');
+    $('refresh').disabled = true;
+    try {
+      const response = await fetch(`${STATE_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      render(await response.json());
+    } catch (error) {
+      renderError(error instanceof Error ? error : new Error('Error desconocido'));
+    } finally {
+      card.setAttribute('aria-busy', 'false');
+      $('refresh').disabled = false;
+    }
+  }
+
+  $('refresh').addEventListener('click', load);
+  load();
+  setInterval(load, 60000);
+})();
+</script>
+</body>
+</html>
