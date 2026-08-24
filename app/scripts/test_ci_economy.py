@@ -5,7 +5,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = ROOT / ".github/workflows"
-EXPECTED = {"pr-fast.yml", "pr-release.yml", "source-validation.yml", "publish.yml", "scheduled-audit.yml"}
+EXPECTED = {
+    "pr-fast.yml",
+    "pr-release.yml",
+    "source-validation.yml",
+    "publish.yml",
+    "scheduled-audit.yml",
+    "production-certification-watchdog.yml",
+}
 
 
 def trigger_block(text: str) -> str:
@@ -24,6 +31,16 @@ def main() -> None:
     publish = texts["publish.yml"]
     assert "pull_request:" not in trigger_block(publish)
     assert "push:" in trigger_block(publish) and "branches: [main]" in trigger_block(publish)
+    watchdog = texts["production-certification-watchdog.yml"]
+    watchdog_triggers = trigger_block(watchdog)
+    assert "workflow_run:" in watchdog_triggers
+    assert 'workflows: ["Publish and production verification"]' in watchdog_triggers
+    assert "types: [completed]" in watchdog_triggers
+    assert "pull_request:" not in watchdog_triggers and "push:" not in watchdog_triggers
+    assert "actions: read" in watchdog and "contents: read" in watchdog
+    assert "contents: write" not in watchdog
+    assert "PRODUCTION_UNCERTIFIED" in watchdog
+    assert "production_certification_watchdog.py" in watchdog
     assert sum("-r requirements-ci.txt" in text for name, text in texts.items() if name.startswith("pr-")) == 1
     assert (ROOT / "requirements-ci.txt").read_text(encoding="utf-8").strip() == "selenium==4.35.0"
     assert (ROOT / "requirements-image-cache.txt").read_text(encoding="utf-8").strip() == "Pillow==12.3.0"
@@ -50,7 +67,8 @@ def main() -> None:
     assert budget["runs_per_pr_update_max"] <= 3
     assert budget["browser_suites_per_pr"] == 1
     assert budget["automatic_publish_runs_per_merge"] == 1
-    print("CI_ECONOMY_OK workflows=5 pr_runs_max=3 browser_suites=1 publish_runs=1")
+    assert budget["automatic_certification_watchdog_runs_per_publish"] == 1
+    print("CI_ECONOMY_OK workflows=6 pr_runs_max=3 browser_suites=1 publish_runs=1 certification_watchdog_runs=1")
 
 
 if __name__ == "__main__":

@@ -37,6 +37,7 @@ jobs:
           python app/scripts/test_contract_topology.py
           python app/scripts/test_fast_production_close_contract.py
           python app/scripts/test_production_certification_history.py
+          python app/scripts/test_production_certification_watchdog.py
           node --test tests/admin-staging-terminal-panel.test.mjs
       - name: Run canonical fast contracts
         if: steps.impact.outputs.product == 'true'
