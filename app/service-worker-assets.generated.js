@@ -77,6 +77,7 @@
     "./event-identity-core.mjs",
     "./event-semantics.generated.mjs",
     "./event-semantics.mjs",
+    "./event-series-normalizer.mjs",
     "./exhibition-compact.css",
     "./exhibition-gallery.css",
     "./exhibition-group-core.mjs",
