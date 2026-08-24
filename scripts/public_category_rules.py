@@ -35,13 +35,11 @@ SOURCE_EVIDENCE_RULES = [
     for rule in RULES.get("source_evidence", [])
 ]
 SOURCE_TITLE_EVIDENCE_RULES = [
-    {
-        **rule,
-        "weight": int(rule["weight"]),
-        "regex": re.compile(rule["pattern"]),
-    }
+    {**rule, "weight": int(rule["weight"]), "regex": re.compile(rule["pattern"])}
     for rule in RULES.get("source_title_evidence", [])
 ]
+SEMANTIC_NOISE_FIELDS = tuple(RULES.get("semantic_noise_fields", []))
+SEMANTIC_NOISE_PHRASES = tuple(RULES.get("semantic_noise_phrases", []))
 
 
 def fold(value: Any) -> str:
@@ -104,22 +102,50 @@ def is_summer_program(event: dict[str, Any]) -> bool:
     return bool(SUMMER_PROGRAM_RE.search(title) or SUMMER_REGISTRATION_RE.search(title))
 
 
+def _scalar_noise_values(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        return [
+            str(value.get(key) or "")
+            for key in ("name", "label", "title", "address", "city", "venue")
+            if value.get(key)
+        ]
+    return []
+
+
+def _semantic_noise_values(event: dict[str, Any]) -> list[str]:
+    values: list[str] = []
+    for field in SEMANTIC_NOISE_FIELDS:
+        values.extend(_scalar_noise_values(event.get(field)))
+    source = event.get("source") if isinstance(event.get("source"), dict) else {}
+    values.extend(_scalar_noise_values(source.get("name")))
+    return [fold(value) for value in values if len(fold(value)) >= 4]
+
+
+def _strip_semantic_noise(text: str, event: dict[str, Any]) -> str:
+    cleaned = fold(text)
+    for phrase in SEMANTIC_NOISE_PHRASES:
+        token = fold(phrase)
+        if token:
+            cleaned = re.sub(rf"(?<!\w){re.escape(token)}(?!\w)", " ", cleaned)
+    for token in sorted(set(_semantic_noise_values(event)), key=len, reverse=True):
+        cleaned = re.sub(rf"(?<!\w){re.escape(token)}(?!\w)", " ", cleaned)
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
 def description_evidence_text(event: dict[str, Any]) -> str:
     values = [event.get("description"), *(event.get("tags") or [])]
-    return fold(" ".join(str(value) for value in values if value))
+    return _strip_semantic_noise(
+        " ".join(str(value) for value in values if value),
+        event,
+    )
 
 
 def source_evidence_text(event: dict[str, Any]) -> str:
-    source = event.get("source") if isinstance(event.get("source"), dict) else {}
-    values = [
-        event.get("source_id"),
-        event.get("source_name"),
-        event.get("organizer"),
-        event.get("source_url"),
-        source.get("name"),
-        source.get("url"),
-    ]
-    return fold(" ".join(str(value) for value in values if value))
+    # Kept as a compatibility helper. Generic source/organizer text is no longer
+    # semantic category evidence; source-specific evidence must be declarative.
+    return ""
 
 
 def _add_evidence(
@@ -197,9 +223,7 @@ def _ranked_candidates(
             "category": category(category_id),
             "score": score,
             "confidence": _confidence_for_score(score),
-            "evidence": [
-                item for item in evidence if item.get("category") == category_id
-            ],
+            "evidence": [item for item in evidence if item.get("category") == category_id],
         }
         for category_id, score in ranked
     ]
@@ -216,12 +240,7 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
 
     if is_summer_program(event):
         _add_evidence(
-            scores,
-            evidence,
-            "cursos-talleres-campus",
-            180,
-            "event_type",
-            "summer_program",
+            scores, evidence, "cursos-talleres-campus", 180, "event_type", "summer_program"
         )
 
     if canonical_source and is_thematic_category(canonical_source.get("id")):
@@ -234,9 +253,6 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
             source.get("id") or source.get("label"),
         )
 
-    # Recovery hints and source identity are evidence, never bypasses around
-    # the shared semantic authority. Strong event-specific title evidence can
-    # therefore override a generic source such as "Actividades y talleres".
     if recovery_hint and is_thematic_category(recovery_hint.get("id")):
         _add_evidence(
             scores,
@@ -247,27 +263,14 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
             (event.get("editorial") or {}).get("category_recovery_hint"),
         )
 
-    _add_rule_evidence(
-        scores,
-        evidence,
-        source_evidence_text(event),
-        SOURCE_EVIDENCE_RULES,
-        "source",
-    )
+    # Generic venue/organizer/source-name text is intentionally excluded.
+    # Verified sparse-title exceptions remain declarative in source_title_evidence.
     _add_source_title_evidence(scores, evidence, event)
     _add_rule_evidence(
-        scores,
-        evidence,
-        fold(event.get("title")),
-        TITLE_EVIDENCE_RULES,
-        "title",
+        scores, evidence, fold(event.get("title")), TITLE_EVIDENCE_RULES, "title"
     )
     _add_rule_evidence(
-        scores,
-        evidence,
-        description_evidence_text(event),
-        DESCRIPTION_EVIDENCE_RULES,
-        "description",
+        scores, evidence, description_evidence_text(event), DESCRIPTION_EVIDENCE_RULES, "description"
     )
 
     candidates = _ranked_candidates(scores, evidence)
