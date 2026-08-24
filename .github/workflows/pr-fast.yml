@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: pr-fast-${{ github.event.pull_request.number || github.ref }}
@@ -40,6 +41,22 @@ jobs:
           python app/scripts/test_production_certification_watchdog.py
           python app/scripts/test_production_title_identity.py
           node --test tests/admin-staging-terminal-panel.test.mjs
+      - name: Diagnose latest production publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_MAIN: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          runs="$(gh run list --workflow publish.yml --branch main --limit 10 --json databaseId,status,conclusion,headSha,createdAt,updatedAt,event,url)"
+          echo "PRODUCTION_DIAG_RUNS=$runs"
+          run_id="$(jq -r --arg sha "$TARGET_MAIN" '[.[] | select(.headSha == $sha)][0].databaseId // empty' <<<"$runs")"
+          if [[ -z "$run_id" ]]; then
+            run_id="$(jq -r '.[0].databaseId // empty' <<<"$runs")"
+          fi
+          echo "PRODUCTION_DIAG_SELECTED run=$run_id target_main=$TARGET_MAIN"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/jobs?per_page=100" \
+            --jq '.jobs[] | ["PRODUCTION_DIAG_JOB", .id, .name, .status, (.conclusion // "null")] | @tsv'
       - name: Run canonical fast contracts
         if: steps.impact.outputs.product == 'true'
         run: |
