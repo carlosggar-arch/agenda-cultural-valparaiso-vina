@@ -145,39 +145,55 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
 
 def verify_official_images(origin: str, base: str, expected_release: int) -> None:
     root_base = base[:-4] if base.endswith("app/") else base
-    with tempfile.TemporaryDirectory(prefix=f"vivamos-images-{origin}-") as profile:
-        driver = webdriver.Chrome(options=chrome_options(profile, 1280, 900))
-        try:
-            surfaces = (
-                ("app", f"{base}?city=valparaiso&when=todos&smoke={uuid.uuid4().hex}"),
-                ("web", f"{root_base}?periodo=todos&smoke={uuid.uuid4().hex}"),
-            )
-            for surface, url in surfaces:
-                driver.get(url)
-                if surface == "app":
-                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-                        lambda current: runtime_ready(current, "valparaiso", expected_release)
-                    )
-                else:
-                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-                        lambda current: current.execute_script(
-                            "return Number(globalThis.__VIVAMOS_RELEASE__) === arguments[0] && document.querySelectorAll('.event-card').length > 0",
-                            expected_release,
+    surfaces = (
+        ("app", f"{base}?city=valparaiso&when=todos"),
+        ("web", f"{root_base}?periodo=todos"),
+    )
+    for surface, base_url in surfaces:
+        last_error = ""
+        for attempt in range(1, 3):
+            with tempfile.TemporaryDirectory(prefix=f"vivamos-images-{origin}-{surface}-{attempt}-") as profile:
+                driver = webdriver.Chrome(options=chrome_options(profile, 1280, 900))
+                driver.set_page_load_timeout(45)
+                url = f"{base_url}&smoke={uuid.uuid4().hex}"
+                try:
+                    driver.get(url)
+                    if surface == "app":
+                        WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                            lambda current: runtime_ready(current, "valparaiso", expected_release)
                         )
-                    )
-                for event_id, filename, title in OFFICIAL_IMAGE_CASES:
-                    evidence = WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-                        lambda current, event_id=event_id, filename=filename: image_evidence(current, event_id, filename)
-                    )
-                    if evidence.get("eventImageId") != event_id:
-                        raise SystemExit(f"Canonical image renderer lost event identity for {surface}/{event_id}")
-                    print(
-                        f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} "
-                        f"event={event_id} file={filename} natural={evidence['naturalWidth']}x{evidence['naturalHeight']} "
-                        f"title={title!r}"
-                    )
-        finally:
-            driver.quit()
+                    else:
+                        WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                            lambda current: current.execute_script(
+                                "return Number(globalThis.__VIVAMOS_RELEASE__) === arguments[0] && document.querySelectorAll('.event-card').length > 0",
+                                expected_release,
+                            )
+                        )
+                    for event_id, filename, title in OFFICIAL_IMAGE_CASES:
+                        evidence = WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                            lambda current, event_id=event_id, filename=filename: image_evidence(current, event_id, filename)
+                        )
+                        if evidence.get("eventImageId") != event_id:
+                            raise SystemExit(f"Canonical image renderer lost event identity for {surface}/{event_id}")
+                        print(
+                            f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} "
+                            f"event={event_id} file={filename} natural={evidence['naturalWidth']}x{evidence['naturalHeight']} "
+                            f"title={title!r}"
+                        )
+                    break
+                except Exception as exc:
+                    last_error = f"attempt {attempt}: {type(exc).__name__}: {exc}"
+                finally:
+                    try:
+                        driver.quit()
+                    except Exception:
+                        pass
+            if attempt < 2:
+                time.sleep(2)
+        else:
+            raise SystemExit(
+                f"Official image verification failed for {origin}/{surface} after retry: {last_error}"
+            )
 
 
 def main() -> None:

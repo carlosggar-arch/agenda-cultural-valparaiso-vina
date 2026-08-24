@@ -135,6 +135,9 @@ def main() -> None:
         "image.naturalWidth",
         '("app",',
         '("web",',
+        "vivamos-images-{origin}-{surface}-{attempt}",
+        "driver.set_page_load_timeout(45)",
+        "for attempt in range(1, 3)",
         "transport=selenium",
         "after retry",
     ):
