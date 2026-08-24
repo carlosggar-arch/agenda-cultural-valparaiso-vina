@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 CLOUDFLARE_SYNC = WORKFLOWS / "publish.yml"
+CERTIFICATION_STATE_BRANCH = "state/production-certifications"
 
 
 def _pushes_branch(text: str, branch: str) -> bool:
@@ -23,18 +24,25 @@ def verify() -> None:
 
     main_writers: list[str] = []
     cloudflare_writers: list[str] = []
+    certification_writers: list[str] = []
     for path in sorted(WORKFLOWS.glob("*.yml")):
         text = path.read_text(encoding="utf-8")
         if _pushes_branch(text, "main"):
             main_writers.append(path.name)
         if _pushes_branch(text, "cloudflare-preview"):
             cloudflare_writers.append(path.name)
+        if _pushes_branch(text, CERTIFICATION_STATE_BRANCH):
+            certification_writers.append(path.name)
 
     if main_writers:
         raise SystemExit("PUBLIC_REPO_INTERNAL_MAIN_WRITERS=" + ",".join(main_writers))
     if cloudflare_writers != ["publish.yml"]:
         raise SystemExit(
             "PUBLIC_REPO_CLOUDFLARE_WRITERS_INVALID=" + ",".join(cloudflare_writers)
+        )
+    if certification_writers != ["publish.yml"]:
+        raise SystemExit(
+            "PRODUCTION_CERTIFICATION_WRITERS_INVALID=" + ",".join(certification_writers)
         )
 
     sync = CLOUDFLARE_SYNC.read_text(encoding="utf-8")
@@ -46,10 +54,13 @@ def verify() -> None:
         "git push origin HEAD:cloudflare-preview",
         "Guard Cloudflare-only divergence",
         "grep -v '^cloudflare-build\\.sh$'",
+        f"ref: {CERTIFICATION_STATE_BRANCH}",
+        f"git -C .production-certification-state push origin HEAD:{CERTIFICATION_STATE_BRANCH}",
+        "production_certification_history.py",
     )
     missing = [marker for marker in required if marker not in sync]
     if missing:
-        raise SystemExit("CLOUDFLARE_MIRROR_CONTRACT_MISSING=" + repr(missing))
+        raise SystemExit("PUBLICATION_WRITER_CONTRACT_MISSING=" + repr(missing))
 
     for forbidden in (
         "git push origin HEAD:main",
@@ -58,12 +69,14 @@ def verify() -> None:
         if forbidden in sync:
             raise SystemExit("CLOUDFLARE_SYNC_WRITES_CANONICAL_MAIN")
 
-    # Canonical datasets are intentionally writable only by the external core
-    # finalizer. Workflows in this repository may validate them and the mirror
-    # workflow may deploy them, but no internal workflow may commit them to main.
+    # Canonical datasets remain writable only by the external core finalizer.
+    # This repository owns two explicitly separate stateful deployment outputs:
+    # the Cloudflare mirror and the immutable production-certification history.
+    # Both are owned by publish.yml; neither is allowed to mutate public main.
     print(
-        "CANONICAL_MAIN_EXTERNAL_WRITER_OK "
-        "main_internal_writers=0 cloudflare_mirror_writer=publish.yml"
+        "CANONICAL_PUBLICATION_WRITERS_OK "
+        "main_internal_writers=0 cloudflare_mirror_writer=publish.yml "
+        "production_certification_writer=publish.yml"
     )
 
 
