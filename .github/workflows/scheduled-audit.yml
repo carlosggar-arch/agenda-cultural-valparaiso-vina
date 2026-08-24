@@ -1,14 +1,6 @@
 name: Scheduled adaptive source audit
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "app/scripts/audit_source_health.py"
-      - "app/scripts/test_source_health_audit.py"
-      - "app/scripts/refresh_balmaceda_valpo_resilient.py"
-      - "app/scripts/test_balmaceda_transport.py"
-      - ".github/workflows/scheduled-audit.yml"
   workflow_dispatch:
     inputs:
       mode:
@@ -32,10 +24,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -114,7 +106,7 @@ jobs:
 
       - name: Upload audit evidence
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: source-health-audit-${{ steps.audit_mode.outputs.mode }}
           path: |

@@ -55,7 +55,8 @@ def main() -> None:
     production = block("  production-smoke:\n")
 
     assert "Install browser timing dependency" in production
-    assert "selenium==4.35.0" in production
+    assert "-r requirements-ci.txt" in production
+    assert "cache-dependency-path: requirements-ci.txt" in production
     assert "Require release bump for runtime pushes" in production
     assert "if: github.event_name == 'push'" in production
     assert "Align smoke candidate with latest public main" in production
@@ -74,7 +75,7 @@ def main() -> None:
     assert "production-release-attestation.json" in production
     assert "production-release-verification-${{ github.run_id }}" in production
     assert "grep -q '^PRODUCTION_RELEASE_VERIFIED '" in production
-    assert "actions/upload-artifact@v4" in production
+    assert "actions/upload-artifact@v6" in production
     assert "retention-days: 30" in production
     assert "Warm-reopen Valpo mobile on GitHub Pages and Cloudflare" in production
     assert "Require exact live WEB versus cached PWA event IDs" in production
