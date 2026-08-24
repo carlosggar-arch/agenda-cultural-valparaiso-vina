@@ -49,5 +49,5 @@ test("PWA keeps Los Fantasmas as Cine and adds Teatro for discoverability", asyn
   assert.ok(published);
   assert.equal(published.primary_category.id, "cine");
   assert.deepEqual(published.categories.map((category) => category.id), ["cine", "teatro"]);
-  assert.equal(result.diagnostics.find((stage) => stage.name === "known-publication-categories")?.status, "ok");
+  assert.equal(result.diagnostics.find((stage) => stage.name === "declarative-event-correction-rules")?.status, "ok");
 });

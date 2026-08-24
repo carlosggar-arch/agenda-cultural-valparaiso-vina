@@ -52,14 +52,17 @@ assert "queueMicrotask(applyGuard)" not in exhibition_guard
 
 # Once raw payloads are already in the service-worker cache, repeat openings
 # must not redo every sanitizer/normalizer/deduplication pass. The processed
-# result is keyed by release, source generation and local day so data changes or
-# the midnight expiry boundary invalidate it automatically.
+# result is keyed only by release and source generation. Time-dependent
+# visibility is materialized after every cache read, so cached normalization can
+# never freeze a previous day's visible set.
 assert 'const PROCESSED_CACHE_PREFIX = "vivamos-processed-pipeline-";' in data_pipeline
-assert "function buildSourceSignature(city, base, supplementalResult, now)" in data_pipeline
+assert "function buildSourceSignature(city, base, supplementalResult)" in data_pipeline
 assert "generated_at" in data_pipeline
-assert "localDateKey(now" in data_pipeline
+assert "localDateKey(now" not in data_pipeline
 assert "async function readProcessedResult(city, signature)" in data_pipeline
 assert "async function writeProcessedResult(city, signature, result)" in data_pipeline
+assert "materializeRuntimeResult(cached, city, now, diagnostics)" in data_pipeline
+assert "visibilityDecisions" in data_pipeline
 assert 'diagnostics.push({ name: "processed-pipeline-cache", status: "hit" });' in data_pipeline
 assert "publishAgendaRuntimeSnapshot(city, result);\n      return result;" in data_pipeline
 

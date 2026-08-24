@@ -105,6 +105,14 @@ def validate_parity_report(path: Path) -> tuple[str, list[dict[str, object]]]:
         ids = row.get("ids") or []
         if int(row.get("count") or -1) != len(ids) or len(ids) != len(set(ids)):
             raise SystemExit(f"Invalid exact-ID evidence row: {key}")
+        presentation = row.get("presentation") or []
+        if len(presentation) != len(ids) or [item.get("id") for item in presentation] != ids:
+            raise SystemExit(f"Invalid ordered presentation evidence row: {key}")
+        if any(
+            item.get("section") != key[2] or not item.get("category") or not item.get("temporal")
+            for item in presentation
+        ):
+            raise SystemExit(f"Incomplete category/section/temporal evidence row: {key}")
         indexed[key] = row
     if set(indexed) != expected:
         missing = sorted(expected - set(indexed))
@@ -116,6 +124,10 @@ def validate_parity_report(path: Path) -> tuple[str, list[dict[str, object]]]:
             cf = indexed[("cloudflare", city, state)]["ids"]
             if gh != cf:
                 raise SystemExit(f"Cross-origin exact-ID mismatch after WEB/PWA parity: city={city} state={state}")
+            gh_presentation = indexed[("github-pages", city, state)]["presentation"]
+            cf_presentation = indexed[("cloudflare", city, state)]["presentation"]
+            if gh_presentation != cf_presentation:
+                raise SystemExit(f"Cross-origin presentation mismatch after WEB/PWA parity: city={city} state={state}")
     return str(payload.get("at") or ""), [indexed[key] for key in sorted(indexed)]
 
 

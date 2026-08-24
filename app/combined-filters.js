@@ -147,7 +147,8 @@ function eventCategories(event) {
 }
 
 function eventMatchesWhen(event, when = state.when) {
-  return eventMatchesCanonicalSection(event, when, currentConfig(), new Date(), {
+  const referenceNow = getAgendaRuntimeSnapshot(currentCityId())?.referenceNow || new Date();
+  return eventMatchesCanonicalSection(event, when, currentConfig(), referenceNow, {
     from: state.from,
     to: state.to,
     endingSoonDays: 3,
