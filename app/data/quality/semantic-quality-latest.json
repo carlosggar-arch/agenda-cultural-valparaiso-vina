@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "3e6af898025f59df16383283612a0c6f8df3bc14595cfed9edd5864201571dc5",
-  "generated_at": "2026-08-24T10:48:00Z",
+  "fingerprint": "5aafd25ebc96aa21c3cfed6f0fbcb3db497af77402e1503be3249b3ec4753337",
+  "generated_at": "2026-08-24T15:27:35Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -19,6 +19,19 @@
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
       "total": 7,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "gijon::bola 8 rock club": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Bola 8 Rock Club",
+      "source_url": "https://tickety.es/event/exuvia-alto-volto",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -39,21 +52,21 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "cine": 0.347826,
-        "exposiciones": 0.173913,
-        "literatura-charlas-encuentros": 0.304348,
-        "musica": 0.043478,
-        "teatro": 0.043478,
-        "unclassified": 0.086957
+        "cine": 0.291667,
+        "exposiciones": 0.166667,
+        "literatura-charlas-encuentros": 0.291667,
+        "musica": 0.041667,
+        "teatro": 0.125,
+        "unclassified": 0.083333
       },
       "city_id": "gijon",
       "dominant_category": "cine",
-      "dominant_share": 0.347826,
+      "dominant_share": 0.291667,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 23,
+      "total": 24,
       "unclassified": 2,
-      "unclassified_rate": 0.086957
+      "unclassified_rate": 0.083333
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -150,17 +163,18 @@
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
         "cursos-talleres-campus": 0.066667,
-        "teatro": 0.9,
-        "unclassified": 0.033333
+        "musica": 0.1,
+        "teatro": 0.133333,
+        "unclassified": 0.7
       },
       "city_id": "gijon",
-      "dominant_category": "teatro",
-      "dominant_share": 0.9,
+      "dominant_category": "unclassified",
+      "dominant_share": 0.7,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "total": 30,
-      "unclassified": 1,
-      "unclassified_rate": 0.033333
+      "unclassified": 21,
+      "unclassified_rate": 0.7
     },
     "gijon::museo evaristo valle": {
       "category_distribution": {
@@ -177,27 +191,26 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "cine": 0.043478,
-        "cursos-talleres-campus": 0.021739,
-        "exposiciones": 0.695652,
-        "musica": 0.173913,
-        "teatro": 0.065217
+        "cine": 0.025,
+        "exposiciones": 0.75,
+        "musica": 0.2,
+        "teatro": 0.025
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.695652,
+      "dominant_share": 0.75,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 46,
+      "total": 40,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::teatro albeniz gijon": {
       "category_distribution": {
-        "teatro": 1.0
+        "musica": 1.0
       },
       "city_id": "gijon",
-      "dominant_category": "teatro",
+      "dominant_category": "musica",
       "dominant_share": 1.0,
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
@@ -207,15 +220,15 @@
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
-        "musica": 0.128205,
-        "teatro": 0.871795
+        "musica": 0.125,
+        "teatro": 0.875
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.871795,
+      "dominant_share": 0.875,
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "total": 39,
+      "total": 40,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -449,13 +462,12 @@
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
         "literatura-charlas-encuentros": 0.036364,
-        "musica": 0.690909,
-        "teatro": 0.018182,
+        "musica": 0.709091,
         "unclassified": 0.254545
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.690909,
+      "dominant_share": 0.709091,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/colombina21agosto",
       "total": 55,
@@ -583,22 +595,21 @@
     },
     "valparaiso::valpo cultura": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.25,
-        "exposiciones": 0.083333,
-        "ferias-vida-local": 0.083333,
-        "literatura-charlas-encuentros": 0.083333,
-        "musica": 0.25,
-        "teatro": 0.083333,
-        "unclassified": 0.166667
+        "cursos-talleres-campus": 0.333333,
+        "exposiciones": 0.111111,
+        "ferias-vida-local": 0.111111,
+        "literatura-charlas-encuentros": 0.111111,
+        "musica": 0.222222,
+        "teatro": 0.111111
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.25,
+      "dominant_share": 0.333333,
       "source_name": "Valpo Cultura",
       "source_url": "https://www.instagram.com/p/Db_i3_HMOCO/",
-      "total": 12,
-      "unclassified": 2,
-      "unclassified_rate": 0.166667
+      "total": 9,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "valparaiso::visita vina estadio espanol": {
       "category_distribution": {
@@ -630,14 +641,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "799d6f4b98317bb10dafde440b5f1567c37f5555",
+  "source_ref": "8f2bdd16a33a51d80ddbca66ac62c28e8da48de8",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 44,
-    "total_events": 390,
-    "unclassified_count": 20,
-    "unclassified_rate": 0.051282
+    "source_count": 45,
+    "total_events": 385,
+    "unclassified_count": 38,
+    "unclassified_rate": 0.098701
   },
   "unclassified_queue": [
     {
@@ -663,12 +674,212 @@
     {
       "candidates": [],
       "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_5ae5056634dd9513",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Abraham Cupeiro. Loira"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_4ec1d6d29b9f7752",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Albert Pla. No quiero hablar de mí, pero yo"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_b79b3095a37b8bf5",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "CantaJuego. Yo quiero ser..."
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_5ddeb1c3542bb49d",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "David Cepo en directo"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_09f8c0f320985e02",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Depedro"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_b653534dd88bea31",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Diana Navarro. Ya no estoy sola"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_82d1c65a43fbe094",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "El Arrebato. El viaje inesperado"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_229d3806419a20b4",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "El Pollo Pepe. La gran aventura"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_024e6e919d498307",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Eliades Ochoa"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_08e11a234e0b6024",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Eva Soriano. Disfrutona"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
       "event_id": "gijon_laboral_ciudad_cultura_08a81b2e867f7ee0",
       "evidence": [],
       "score": 0,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "title": "Festival Rincones y Recovecos 2026"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_bc9165c4f44d113c",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Hovik. Grito"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_1e99895681062f60",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Joaquín Pajarón. Filososidra"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_bd4207817a3f138b",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Jorge Blass. Flipar"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_607958255bbc9352",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Juan Dávila. El Palacio del Pecado"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_ecf39bf6542d5e24",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Karim. Solo para adultos"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_578b1f20a401effb",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "María José Llergo. El Juego"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Melody. El bosque encantado"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_a06331fc6e92663c",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Miguel Miguel. ¡Acojonado!"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_2de8189d9a1fbee4",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "No me toques el cuento"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_de01acfd79cb6455",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Ángel Martín. Somos monos"
     },
     {
       "candidates": [],
@@ -811,34 +1022,27 @@
       "title": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS"
     },
     {
-      "candidates": [],
+      "candidates": [
+        {
+          "category": "musica",
+          "confidence": "unclassified",
+          "score": 30
+        }
+      ],
       "city_id": "valparaiso",
       "event_id": "agenda_portaltickets_valparaiso_986ddf8bb7bfa380",
-      "evidence": [],
-      "score": 0,
+      "evidence": [
+        {
+          "category": "musica",
+          "kind": "description",
+          "value": "\\b(?:musica|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj|tributo|banda tributo|homenaje musical|album|disco|gira|tour|banda|cantante|vocalista|guitarra|piano|violin|saxofon|bateria|blues|flamenco|reggae|beatbox)\\b",
+          "weight": 30
+        }
+      ],
+      "score": 30,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/tatabarahonaylsdenteatromauriscd",
       "title": "TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_valpocultura_recovery_971bd421084a1a0b",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/centex-cartelera-agosto/",
-      "title": "Centex – Cartelera Agosto"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_valpocultura_recovery_21df649558ca1873",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/valparaiso-profundo-programacion-agosto/",
-      "title": "Valparaíso Profundo – Programación Agosto"
     }
   ]
 }
