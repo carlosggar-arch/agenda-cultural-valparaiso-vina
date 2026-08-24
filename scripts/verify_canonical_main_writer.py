@@ -73,12 +73,15 @@ def verify() -> None:
     sync = CLOUDFLARE_SYNC.read_text(encoding="utf-8")
     required_sync = (
         "branches: [main]",
+        "CANDIDATE_SHA: ${{ github.sha }}",
         "ref: cloudflare-preview",
         "git fetch origin main",
-        "git merge --no-edit origin/main",
+        'git merge --no-edit "$CANDIDATE_SHA"',
         "git push origin HEAD:cloudflare-preview",
-        "Guard Cloudflare-only divergence",
+        "Guard Cloudflare-only divergence from exact candidate",
         "grep -v '^cloudflare-build\\.sh$'",
+        'ref: ${{ github.sha }}',
+        'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"',
         f"ref: {CERTIFICATION_STATE_BRANCH}",
         f"git -C .production-certification-state push origin HEAD:{CERTIFICATION_STATE_BRANCH}",
         "production_certification_history.py",
@@ -86,6 +89,13 @@ def verify() -> None:
     missing = [marker for marker in required_sync if marker not in sync]
     if missing:
         raise SystemExit("PUBLICATION_WRITER_CONTRACT_MISSING=" + repr(missing))
+
+    for stale_dynamic_candidate in (
+        "git merge --no-edit origin/main",
+        "git reset --hard origin/main",
+    ):
+        if stale_dynamic_candidate in sync:
+            raise SystemExit("PUBLICATION_MUTABLE_CANDIDATE_FORBIDDEN=" + stale_dynamic_candidate)
 
     watchdog = CERTIFICATION_WATCHDOG.read_text(encoding="utf-8")
     required_watchdog = (
@@ -120,8 +130,8 @@ def verify() -> None:
     print(
         "CANONICAL_PUBLICATION_WRITERS_OK "
         "main_internal_writers=0 cloudflare_mirror_writer=publish.yml "
-        "production_certification_writer=publish.yml destructive_state_writers=0 "
-        "certification_watchdog=read-only"
+        "candidate_sha=immutable production_certification_writer=publish.yml "
+        "destructive_state_writers=0 certification_watchdog=read-only"
     )
 
 

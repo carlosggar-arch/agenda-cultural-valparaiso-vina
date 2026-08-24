@@ -22,6 +22,7 @@ on:
       - "agenda_web.json"
       - "fuentes_publicas.json"
       - "manifest.webmanifest"
+      - "app/scripts/deployment_readiness.py"
       - "app/scripts/production_pwa_smoke.py"
       - "app/scripts/production_browser_selenium_smoke.py"
       - "app/scripts/production_warm_start_smoke.py"
@@ -40,8 +41,13 @@ on:
 permissions:
   contents: read
 
+env:
+  CANDIDATE_SHA: ${{ github.sha }}
+
 # Never cancel an already-started publication. Main releases are serialized so
 # every accepted release gets its own complete deployment and attestation.
+# Each run is immutable: it certifies the SHA that triggered the run, never a
+# later origin/main that happened to arrive while verification was running.
 concurrency:
   group: publish-production
   cancel-in-progress: false
@@ -52,7 +58,7 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 3
     steps:
       - name: Checkout deployment branch
         uses: actions/checkout@v7
@@ -60,25 +66,50 @@ jobs:
           ref: cloudflare-preview
           fetch-depth: 0
 
-      - name: Merge approved main without rewriting deployment history
+      - name: Merge exact approved candidate without rewriting deployment history
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin main
-          git merge --no-edit origin/main
+          git cat-file -e "${CANDIDATE_SHA}^{commit}"
+          git merge --no-edit "$CANDIDATE_SHA"
 
-      - name: Guard Cloudflare-only divergence
+      - name: Guard Cloudflare-only divergence from exact candidate
         run: |
           set -euo pipefail
-          unexpected="$(git diff --name-only origin/main HEAD | grep -v '^cloudflare-build\.sh$' || true)"
+          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD | grep -v '^cloudflare-build\.sh$' || true)"
           if [[ -n "$unexpected" ]]; then
-            echo "cloudflare-preview diverged from main outside cloudflare-build.sh:"
+            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA outside cloudflare-build.sh:"
             echo "$unexpected"
             exit 1
           fi
 
-      - name: Validate Cloudflare build snapshot and release lineage
+      - name: Require release bump for runtime pushes
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          before="${{ github.event.before }}"
+          if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-parse "${CANDIDATE_SHA}^" 2>/dev/null || true)"
+          fi
+          if [[ -z "$before" ]]; then
+            echo "No comparison base available; continuing conservatively."
+            exit 0
+          fi
+
+          git diff --name-only "$before" "$CANDIDATE_SHA" | tee changed-pwa-files.txt
+          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|assets/[^/]+\.(js|mjs|css)|index\.html|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
+          release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
+          if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
+            echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2
+            printf '%s\n' "$runtime_changed" >&2
+            echo "A canonical finalizer release is required before production verification." >&2
+            exit 1
+          fi
+
+      - name: Validate Cloudflare build snapshot and exact release lineage
         run: |
           set -euo pipefail
           bash cloudflare-build.sh
@@ -89,7 +120,7 @@ jobs:
           test -f _cloudflare_site/app/data/gijon/agenda_web.json
           cmp app/release-version.js _cloudflare_site/app/release-version.js
           python scripts/verify_canonical_main_writer.py
-          python app/scripts/release_finalizer.py --check-published --finalizer-ref HEAD
+          python app/scripts/release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA"
 
       - name: Push synchronized deployment branch
         run: |
@@ -100,7 +131,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          changed="$(git diff --name-only origin/main^ origin/main || true)"
+          before="${{ github.event.before }}"
+          if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-parse "${CANDIDATE_SHA}^" 2>/dev/null || true)"
+          fi
+          changed="$(git diff --name-only "$before" "$CANDIDATE_SHA" || true)"
           printf '%s\n' "$changed" | tee /tmp/fast-close-changed.txt
           export REQUIRE_VALPO=false
           export REQUIRE_GIJON=false
@@ -161,13 +196,19 @@ jobs:
           node app/data-pipeline.test.mjs
           python app/scripts/production_pwa_smoke.py local
 
-      - name: Fast-close GitHub Pages and Cloudflare byte parity
+      - name: Wait once for both production origins in parallel
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p /tmp/production-fast-close
-          python app/scripts/production_pwa_smoke.py http \
+          python app/scripts/deployment_readiness.py \
+            --wait \
+            --candidate-sha "$CANDIDATE_SHA" \
+            --timeout-seconds 90 \
+            --poll-seconds 2 \
+            --output /tmp/production-fast-close/deployment-readiness.json \
             | tee /tmp/production-fast-close/http.log
+          grep -q '^DEPLOYMENT_READY ' /tmp/production-fast-close/http.log
           grep -q '^PRODUCTION_ORIGIN_PARITY_OK origin=github-pages ' /tmp/production-fast-close/http.log
           grep -q '^PRODUCTION_ORIGIN_PARITY_OK origin=cloudflare ' /tmp/production-fast-close/http.log
 
@@ -175,14 +216,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          head="$(git rev-parse origin/main)"
+          head="$CANDIDATE_SHA"
           echo "DEPLOYED_BYTE_VERIFIED head=$head origins=github-pages,cloudflare visual=pending"
           {
             echo "## Deployment byte verification"
             echo ""
-            echo "- Public main: \`$head\`"
-            echo "- GitHub Pages byte parity: OK"
-            echo "- Cloudflare byte parity: OK"
+            echo "- Candidate SHA: \`$head\`"
+            echo "- GitHub Pages + Cloudflare reached byte parity within the bounded readiness gate."
             echo "- Changed dataset freshness/identity: OK"
             echo "- Shared temporal/data-pipeline contracts: OK"
             echo "- Canonical release lineage: OK"
@@ -194,12 +234,13 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    timeout-minutes: 28
+    timeout-minutes: 7
 
     steps:
-      - name: Checkout published candidate
+      - name: Checkout immutable published candidate
         uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
 
       - name: Set up Python
@@ -212,46 +253,19 @@ jobs:
       - name: Install browser timing dependency
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
 
-      - name: Require release bump for runtime pushes
-        if: github.event_name == 'push'
+      - name: Assert immutable candidate and local contracts
         shell: bash
         run: |
           set -euo pipefail
-          before="${{ github.event.before }}"
-          if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
-            before="$(git rev-parse HEAD^ 2>/dev/null || true)"
-          fi
-          if [[ -z "$before" ]]; then
-            echo "No comparison base available; continuing conservatively with production smoke."
-            exit 0
-          fi
-
-          git diff --name-only "$before" "${{ github.sha }}" | tee changed-pwa-files.txt
-          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|assets/[^/]+\.(js|mjs|css)|index\.html|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
-          release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
-          if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
-            echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2
-            printf '%s\n' "$runtime_changed" >&2
-            echo "A canonical finalizer release is required before production verification." >&2
-            exit 1
-          fi
-
-      - name: Align smoke candidate with latest public main
-        shell: bash
-        run: |
-          set -euo pipefail
-          git fetch origin main cloudflare-preview
-          git reset --hard origin/main
-          echo "PRODUCTION_SMOKE_HEAD=$(git rev-parse HEAD)"
-          echo "PRODUCTION_CLOUDFLARE_HEAD=$(git rev-parse origin/cloudflare-preview)"
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+          git fetch origin cloudflare-preview
           mkdir -p /tmp/production-release-verification
-          python app/scripts/release_finalizer.py --check-published --finalizer-ref HEAD \
+          echo "PRODUCTION_SMOKE_HEAD=$CANDIDATE_SHA"
+          echo "PRODUCTION_CLOUDFLARE_HEAD=$(git rev-parse origin/cloudflare-preview)"
+          python app/scripts/release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA" \
             | tee /tmp/production-release-verification/release-lineage.log
-
-      - name: Validate local shell before network smoke
-        run: |
-          set -euo pipefail
           python -m py_compile \
+            app/scripts/deployment_readiness.py \
             app/scripts/production_pwa_smoke.py \
             app/scripts/production_browser_selenium_smoke.py \
             app/scripts/production_warm_start_smoke.py \
@@ -264,50 +278,69 @@ jobs:
             app/scripts/release_finalizer.py
           python app/scripts/production_pwa_smoke.py local
 
-      - name: Wait for both deployments and verify byte parity
+      - name: Re-assert deployed bytes without waiting
         shell: bash
         run: |
           set -euo pipefail
-          python app/scripts/production_pwa_smoke.py http \
+          python app/scripts/deployment_readiness.py \
+            --assert-ready \
+            --candidate-sha "$CANDIDATE_SHA" \
+            --output /tmp/production-release-verification/deployment-readiness.json \
             | tee /tmp/production-release-verification/http.log
+          grep -q '^DEPLOYMENT_READY_ASSERTED ' /tmp/production-release-verification/http.log
 
-      - name: Verify admin staging production/preview separation
+      - name: Run independent production probes in parallel
         shell: bash
         run: |
           set -euo pipefail
-          python app/scripts/production_admin_staging_smoke.py \
-            | tee /tmp/production-release-verification/admin-staging.log
+          evidence=/tmp/production-release-verification
 
-      - name: Cold-load both cities on GitHub Pages and Cloudflare
-        shell: bash
-        run: |
-          set -euo pipefail
-          python app/scripts/production_browser_selenium_smoke.py \
-            | tee /tmp/production-release-verification/browser.log
+          (
+            set -euo pipefail
+            python app/scripts/production_admin_staging_smoke.py >"$evidence/admin-staging.log" 2>&1
+            python app/scripts/production_series_contract.py >"$evidence/series.log" 2>&1
+            grep -q '^PRODUCTION_SERIES_CONTRACTS_VERIFIED ' "$evidence/series.log"
+          ) &
+          semantic_pid=$!
 
-      - name: Verify structural event-series semantics on both origins
-        shell: bash
-        run: |
-          set -euo pipefail
-          python app/scripts/production_series_contract.py \
-            | tee /tmp/production-release-verification/series.log
-          grep -q '^PRODUCTION_SERIES_CONTRACTS_VERIFIED ' /tmp/production-release-verification/series.log
+          python app/scripts/production_browser_selenium_smoke.py >"$evidence/browser.log" 2>&1 &
+          browser_pid=$!
 
-      - name: Warm-reopen Valpo mobile on GitHub Pages and Cloudflare
-        shell: bash
-        run: |
-          set -euo pipefail
-          python app/scripts/production_warm_start_smoke.py \
-            | tee /tmp/production-release-verification/warm.log
+          python app/scripts/production_warm_start_smoke.py >"$evidence/warm.log" 2>&1 &
+          warm_pid=$!
 
-      - name: Require exact live WEB versus cached PWA event IDs
-        shell: bash
-        run: |
-          set -euo pipefail
           python app/scripts/test_web_pwa_visibility_parity.py \
             --production \
-            --json-output /tmp/production-release-verification/web-pwa-parity.json \
-            | tee /tmp/production-release-verification/parity.log
+            --json-output "$evidence/web-pwa-parity.json" \
+            >"$evidence/parity.log" 2>&1 &
+          parity_pid=$!
+
+          failed=0
+          wait_probe() {
+            local label="$1"
+            local pid="$2"
+            if wait "$pid"; then
+              echo "PRODUCTION_PROBE_OK probe=$label"
+            else
+              echo "::error title=Production probe failed::$label"
+              failed=1
+            fi
+          }
+
+          wait_probe semantics "$semantic_pid"
+          wait_probe browser "$browser_pid"
+          wait_probe warm-pwa "$warm_pid"
+          wait_probe web-pwa-parity "$parity_pid"
+
+          for log in admin-staging.log series.log browser.log warm.log parity.log; do
+            echo "===== $log ====="
+            cat "$evidence/$log" 2>/dev/null || true
+          done
+
+          if [[ "$failed" -ne 0 ]]; then
+            exit 1
+          fi
+          echo "PRODUCTION_PROBES_PARALLEL_OK groups=4"
 
       - name: Create auditable production release attestation
         shell: bash
@@ -329,6 +362,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
           git fetch origin cloudflare-preview
           python app/scripts/production_release_chain.py \
             --cloudflare-ref origin/cloudflare-preview \
@@ -361,6 +395,10 @@ jobs:
             --state-root .production-certification-state
           release="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["release"])' "$attestation")"
           head_sha="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["head_sha"])' "$attestation")"
+          if [[ "$head_sha" != "$CANDIDATE_SHA" ]]; then
+            echo "Certification attempted for mutable head: expected=$CANDIDATE_SHA actual=$head_sha" >&2
+            exit 1
+          fi
           git -C .production-certification-state config user.name "vivamos-production-certification[bot]"
           git -C .production-certification-state config user.email "vivamos-production-certification[bot]@users.noreply.github.com"
           git -C .production-certification-state add data/index.json data/releases
