@@ -26,6 +26,7 @@ on:
       - "app/scripts/production_release_attestation.py"
       - ".github/workflows/publish.yml"
   workflow_dispatch:
+    # Explicit recovery path when an automated merge does not emit a push run.
 
 permissions:
   contents: read
