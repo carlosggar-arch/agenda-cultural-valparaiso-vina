@@ -44,18 +44,34 @@ def main() -> None:
     assert sum("-r requirements-ci.txt" in text for name, text in texts.items() if name.startswith("pr-")) == 1
     assert (ROOT / "requirements-ci.txt").read_text(encoding="utf-8").strip() == "selenium==4.35.0"
     assert (ROOT / "requirements-image-cache.txt").read_text(encoding="utf-8").strip() == "Pillow==12.3.0"
-    assert "-r requirements-image-cache.txt" in texts["source-validation.yml"]
+    source_validation = texts["source-validation.yml"]
+    assert "-r requirements-image-cache.txt" in source_validation
     assert sum("-r requirements-image-cache.txt" in text for text in texts.values()) == 1
+    assert "Classify image-cache dependency impact" in source_validation
+    assert "IMAGE_CACHE_DEPENDENCY_SKIPPED" in source_validation
+    assert "if: steps.image_cache.outputs.needed == 'true'" in source_validation, (
+        "Pillow must only be installed for image-cache changes"
+    )
     assert texts["scheduled-audit.yml"].count("- cron:") == 1
     assert "pull_request:" not in trigger_block(texts["scheduled-audit.yml"])
-    assert "if: failure()" in texts["source-validation.yml"]
-    assert "test_source_health_audit.py" in texts["source-validation.yml"]
-    assert '".github/workflows/scheduled-audit.yml"' in texts["source-validation.yml"]
-    assert "if: failure()" in texts["pr-release.yml"]
+    assert "if: failure()" in source_validation
+    assert "test_source_health_audit.py" in source_validation
+    assert '".github/workflows/scheduled-audit.yml"' in source_validation
+
+    pr_release = texts["pr-release.yml"]
+    assert "if: failure()" in pr_release
+    assert "Preflight release workflow contracts before browser setup" in pr_release
+    assert pr_release.index("Preflight release workflow contracts before browser setup") < pr_release.index("Install browser test dependency"), (
+        "cheap release workflow contracts must fail before Selenium setup"
+    )
+    required_step = pr_release.split("- name: Run required release and architecture contracts", 1)[1]
+    assert "python app/scripts/test_release_finalizer.py" not in required_step, (
+        "release finalizer unit test must not run twice in the same release gate"
+    )
     assert "run_impacted_contracts.py" in texts["pr-fast.yml"]
     assert "run_contracts.py --profile pr-fast-all" not in texts["pr-fast.yml"]
-    assert "--profile multi-city" not in texts["pr-release.yml"]
-    assert "name: release-guard" in texts["pr-release.yml"], "branch-protection context must remain stable"
+    assert "--profile multi-city" not in pr_release
+    assert "name: release-guard" in pr_release, "branch-protection context must remain stable"
     assert "  sync-cloudflare:" in publish and "  production-smoke:" in publish
     assert "    needs: sync-cloudflare" in publish
     for name, workflow in texts.items():
@@ -68,7 +84,7 @@ def main() -> None:
     assert budget["browser_suites_per_pr"] == 1
     assert budget["automatic_publish_runs_per_merge"] == 1
     assert budget["automatic_certification_watchdog_runs_per_publish"] == 1
-    print("CI_ECONOMY_OK workflows=6 pr_runs_max=3 browser_suites=1 publish_runs=1 certification_watchdog_runs=1")
+    print("CI_ECONOMY_OK workflows=6 pr_runs_max=3 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped release_preflight=before_browser_setup")
 
 
 if __name__ == "__main__":

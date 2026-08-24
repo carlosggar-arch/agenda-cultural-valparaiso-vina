@@ -59,6 +59,13 @@ jobs:
           set -euo pipefail
           python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref "$FINALIZER_REF"
 
+      - name: Preflight release workflow contracts before browser setup
+        if: steps.impact.outputs.release == 'true'
+        run: |
+          set -euo pipefail
+          python app/scripts/test_release_guard.py
+          python app/scripts/test_production_pwa_smoke_contract.py
+
       - name: Install browser test dependency
         if: steps.impact.outputs.release == 'true'
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
@@ -158,7 +165,6 @@ jobs:
           python app/scripts/generate_runtime_contracts.py --check
           python app/scripts/test_release_delta.py
           python app/scripts/release_bundle.py --check
-          python app/scripts/test_release_finalizer.py
           python app/scripts/test_semantic_quality_history.py
           python app/scripts/semantic_quality_history.py --no-write
           python app/scripts/test_production_release_attestation.py
@@ -204,6 +210,7 @@ jobs:
         if: steps.impact.outputs.release == 'true'
         run: |
           echo "The global release-integration queue serializes candidates."
+          echo "Cheap workflow-contract preflights run before browser dependency setup, so stale architecture fails early."
           echo "A candidate is mergeable only when latest main is an ancestor, the canonical finalizer owns generated outputs, release == current-main+1, and all release/browser/parity contracts are green."
           echo "Production network, series semantics and exact source-to-production chain certification run after merge."
       - name: No release surface affected

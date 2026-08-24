@@ -251,8 +251,16 @@ def check_workflow_guard() -> None:
     production_triggers = production.split("permissions:", 1)[0]
     assert "pull_request:" not in production_triggers, "production smoke must be post-merge/manual only"
     assert "push:" in production_triggers and "branches: [main]" in production_triggers
-    assert "git reset --hard origin/main" in production, "production smoke must test latest public main"
-    assert "production_pwa_smoke.py http" in production
+    assert "git reset --hard origin/main" not in production, "production verification must stay pinned to its immutable candidate"
+    assert "CANDIDATE_SHA: ${{ github.sha }}" in production, "production workflow must bind the triggering candidate SHA"
+    assert "ref: ${{ github.sha }}" in production, "production smoke must checkout the immutable triggering candidate"
+    assert 'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"' in production, "production smoke must reject a mutated checkout"
+    assert 'release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA"' in production, (
+        "production smoke must verify the exact published release lineage"
+    )
+    assert "production_pwa_smoke.py local" in production
+    assert "deployment_readiness.py" in production and "--assert-ready" in production
+    assert "production_pwa_smoke.py http" not in production, "legacy sequential HTTP smoke must stay removed"
     assert "production_browser_selenium_smoke.py" in production
     assert "production_pwa_smoke.py browser" not in production
     assert "production_warm_start_smoke.py" in production

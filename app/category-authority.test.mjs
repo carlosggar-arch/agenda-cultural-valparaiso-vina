@@ -12,7 +12,7 @@ const taxonomy = JSON.parse(
 const core = readFileSync(new URL("./app-core.js", import.meta.url), "utf8");
 const combined = readFileSync(new URL("./combined-filters.js", import.meta.url), "utf8");
 
-assert.equal(taxonomy.schema_version, "2.1.0");
+assert.equal(taxonomy.schema_version, "2.2.0");
 assert.equal(taxonomy.fallback_category, "unclassified");
 assert.equal(taxonomy.categories.unclassified.thematic, false);
 assert.equal(taxonomy.categories.unclassified.label, "Otros panoramas");
