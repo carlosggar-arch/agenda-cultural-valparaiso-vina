@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v220 publishes the unified multi-city source registry contract.
-  const RELEASE = 220;
+  // v221 publishes structural event-series session expansion.
+  const RELEASE = 221;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
