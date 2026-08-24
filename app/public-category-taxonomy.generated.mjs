@@ -185,7 +185,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "description_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion)\\b",
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa|visita guiada|visita comentada)\\b",
         "weight": 35
       },
       {
@@ -200,13 +200,13 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|musical|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj)\\b",
+        "pattern": "\\b(?:musica|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj|tributo|banda tributo|homenaje musical)\\b",
         "weight": 30
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion)\\b",
-        "weight": 35
+        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion|musical|comedia musical|teatro musical)\\b",
+        "weight": 40
       },
       {
         "category": "deportes-actividad-fisica",
@@ -232,6 +232,29 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "minimum_score": 35,
     "recovery_hint_weight": 95,
     "source_category_weight": 90,
+    "source_evidence": [
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:actividades? y talleres?|talleres? y actividades?|programa educativo|actividades educativas?)\\b",
+        "weight": 65
+      }
+    ],
+    "source_title_evidence": [
+      {
+        "category": "musica",
+        "pattern": "^homenaje dire straits$",
+        "reason": "verified_concert_tribute",
+        "source_id": "camara_recinto_ferial_gijon",
+        "weight": 180
+      },
+      {
+        "category": "teatro",
+        "pattern": "^el gran showman$",
+        "reason": "verified_stage_musical",
+        "source_id": "camara_recinto_ferial_gijon",
+        "weight": 180
+      }
+    ],
     "summer_program_event_types": [
       "program",
       "registration_period"
@@ -245,6 +268,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "weight": 165
       },
       {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\b(?:encuentro educativo|actividad educativa|experiencia educativa|visita guiada|visita comentada|recorrido guiado|recorrido comentado|recorrido mediado)\\b",
+        "weight": 125
+      },
+      {
         "category": "exposiciones",
         "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\\b",
         "weight": 140
@@ -256,8 +284,23 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
+        "pattern": "\\b(?:concierto homenaje|concierto tributo|homenaje musical|tributo musical|banda tributo|tribute band)\\b",
+        "weight": 150
+      },
+      {
+        "category": "musica",
         "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica)\\b",
         "weight": 140
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|cantautor|cantautora)\\b",
+        "weight": 105
+      },
+      {
+        "category": "teatro",
+        "pattern": "\\b(?:musical|comedia musical|teatro musical)\\b",
+        "weight": 150
       },
       {
         "category": "teatro",
@@ -296,7 +339,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ]
   },
-  "schema_version": "2.0.0"
+  "schema_version": "2.1.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);
