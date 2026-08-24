@@ -142,6 +142,9 @@ def main() -> None:
         "after retry",
     ):
         assert marker in BROWSER_SMOKE, f"Selenium cold-browser smoke contract missing: {marker}"
+    evidence_poll = BROWSER_SMOKE.split("def image_evidence", 1)[1].split("def prepare_image_evidence", 1)[0]
+    assert "scrollIntoView" not in evidence_poll, "Image readiness polling must not trigger repeated scroll/render churn"
+    assert "image.loading = 'eager'" in BROWSER_SMOKE
     assert "--dump-dom" not in BROWSER_SMOKE, "Cold-browser production smoke must not regress to direct Chrome dump-dom"
 
     for marker in (

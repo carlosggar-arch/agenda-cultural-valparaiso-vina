@@ -125,7 +125,6 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
         """
         const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
         if (!card) return null;
-        card.scrollIntoView({block: 'center'});
         const image = card.querySelector('img[data-event-image="relevant"]');
         if (!image || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return null;
         const currentSrc = image.currentSrc || image.src || '';
@@ -141,6 +140,21 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
         event_id,
         filename,
     )
+
+
+def prepare_image_evidence(driver: webdriver.Chrome, event_id: str) -> bool:
+    """Trigger one lazy image without mutating scroll state on every poll."""
+    return bool(driver.execute_script(
+        """
+        const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
+        const image = card?.querySelector('img[data-event-image="relevant"]');
+        if (!card || !image) return false;
+        image.loading = 'eager';
+        card.scrollIntoView({block: 'center'});
+        return true;
+        """,
+        event_id,
+    ))
 
 
 def verify_official_images(origin: str, base: str, expected_release: int) -> None:
@@ -170,6 +184,9 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
                             )
                         )
                     for event_id, filename, title in OFFICIAL_IMAGE_CASES:
+                        WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.1).until(
+                            lambda current, event_id=event_id: prepare_image_evidence(current, event_id)
+                        )
                         evidence = WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
                             lambda current, event_id=event_id, filename=filename: image_evidence(current, event_id, filename)
                         )
