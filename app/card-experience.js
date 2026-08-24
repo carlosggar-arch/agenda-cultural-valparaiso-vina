@@ -13,6 +13,7 @@ import {
   resolveEventImage,
 } from "./image-resolver-core.mjs?v=20260824-owned-images2";
 import { createEventImageElement } from "./event-image-renderer.mjs";
+import { formatSchedule as formatSharedSchedule } from "../assets/event-schedule-display.mjs";
 
 const MEDIA_STYLESHEET = "../assets/event-media-layout.css?v=20260816";
 const DEFAULT_CONFIG = Object.freeze({ timezone: "UTC", locale: "es" });
@@ -122,26 +123,11 @@ function formatDateValue(value, config, { weekday = true, time = true } = {}) {
 }
 
 function scheduleLabel(event, config) {
-  const opening = String(event?.schedule?.opening_time || "");
-  const closing = String(event?.schedule?.closing_time || "");
-  const start = event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start;
-  const end = event?.schedule?.end;
-  if (opening && closing && /^\d{2}:\d{2}$/.test(opening) && /^\d{2}:\d{2}$/.test(closing)) {
-    const startDate = start ? formatDateValue(start, config, { time: false }) : null;
-    const endKey = end ? dateKeyForValue(end, config) : null;
-    const startKey = start ? dateKeyForValue(start, config) : null;
-    if (startDate && endKey && startKey && endKey !== startKey) {
-      return `${startDate} – ${formatDateValue(end, config, { weekday: false, time: false })} · ${opening}–${closing}`;
-    }
-    return `${startDate || "Horario de visita"} · ${opening}–${closing}`;
-  }
-  if (!start) return event?.schedule?.display_text || "Horario por confirmar";
-  const startKey = dateKeyForValue(start, config);
-  const endKey = end ? dateKeyForValue(end, config) : null;
-  if (end && startKey && endKey && endKey !== startKey) {
-    return `${formatDateValue(start, config)} – ${formatDateValue(end, config, { weekday: false })}`;
-  }
-  return formatDateValue(start, config) || event?.schedule?.display_text || "Horario por confirmar";
+  return formatSharedSchedule(event?.schedule, {
+    locale: config.locale,
+    timezone: config.timezone,
+    now: new Date(),
+  });
 }
 
 function compactDayLabel(event, config) {
