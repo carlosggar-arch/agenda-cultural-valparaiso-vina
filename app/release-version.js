@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v225 expands shared multicity semantic categories for experiences, musicals and tribute concerts.
-  const RELEASE = 225;
+  // v226 generated canonically from source c0b6c4b56dd5.
+  const RELEASE = 226;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
