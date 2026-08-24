@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import test from 'node:test';
 
 const html = fs.readFileSync(new URL('../admin-staging/index.html', import.meta.url), 'utf8');
+const publish = fs.readFileSync(new URL('../.github/workflows/publish.yml', import.meta.url), 'utf8');
 
 test('admin staging reads only the durable canonical terminal state', () => {
   assert.match(html, /state\/publication-terminal\/data\/publication_terminal_state\.json/);
@@ -24,4 +25,10 @@ test('panel exposes operational evidence without write capability', () => {
 test('load failures are not misreported as publication failures', () => {
   assert.match(html, /ESTADO NO DISPONIBLE/);
   assert.match(html, /Un fallo de carga no se interpreta como fallo de publicación/);
+});
+
+test('admin staging changes use the canonical production deployment workflow', () => {
+  assert.match(publish, /- "admin-staging\/\*\*"/);
+  assert.match(publish, /name: sync-cloudflare/);
+  assert.doesNotMatch(publish, /admin-staging.*workflow_dispatch/);
 });
