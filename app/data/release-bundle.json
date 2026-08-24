@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0",
-  "release": 225,
-  "release_id": "v225-eb04f96b9da6",
-  "fingerprint": "eb04f96b9da6d9be5250055c661587915009e6d836eedc3c09d8d8099daa5dd6",
+  "release": 226,
+  "release_id": "v226-1bd9ad998e53",
+  "fingerprint": "1bd9ad998e53b452cfc991ea17474e45b60c98c09fa75c619c8654c20eb51409",
   "hash_algorithm": "git_blob_sha1",
   "components": {
     "dataset_valparaiso": {
@@ -43,7 +43,15 @@
     },
     "release_version": {
       "path": "app/release-version.js",
-      "sha": "61d38cecaa7e07e5e33af94b60e0a04a6f040fd0"
+      "sha": "8b690caef4e9820118cd524813583064cab2eadb"
+    },
+    "release_provenance": {
+      "path": "app/data/release-provenance.json",
+      "sha": "fb60cea8e9f9f734d8ab97efff1e7aadecb45a0b"
+    },
+    "index_shell": {
+      "path": "app/index.html",
+      "sha": "d3971c148bc2ef704db122f560eaf068f1108a4a"
     }
   }
 }
