@@ -66,4 +66,14 @@ replace(
     'expectCategory("music tag does not steal explicit stage musical", event("Obra Teatro Musical - Nemesio Pelao: ¿Qué es lo que te ha pasao?", "teatro", { tags: ["Música"] }), "teatro");\n',
 )
 
+# Keep the permanent regeneration command executable as documented (`python
+# scripts/materialize_public_categories.py ...`) by adding the repository root
+# to sys.path before importing the shared classifier.
+materializer = ROOT / "scripts/materialize_public_categories.py"
+replace(
+    materializer,
+    'import argparse\nimport json\nfrom pathlib import Path\n\nfrom scripts.public_category_rules import classify_public_category\n\nROOT = Path(__file__).resolve().parents[1]\n',
+    'import argparse\nimport json\nimport sys\nfrom pathlib import Path\n\nROOT = Path(__file__).resolve().parents[1]\nif str(ROOT) not in sys.path:\n    sys.path.insert(0, str(ROOT))\n\nfrom scripts.public_category_rules import classify_public_category\n',
+)
+
 print("CATEGORY_REGRESSION_FIXTURES_AND_AUDIT_ALIGNED")
