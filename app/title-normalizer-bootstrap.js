@@ -6,8 +6,8 @@ const QUOTED_ACTIVITY = [
   /"([^"\n]{3,140})"/g,
   /«([^»]{3,140})»/g,
 ];
-const ACTIVITY_TERMS = /\b(?:exposici[oó]n|muestra|obra|concierto|recital|festival|taller|charla|conversatorio|funci[oó]n|espect[aá]culo|presentaci[oó]n|encuentro|visita guiada|seminario|curso)\b/iu;
-const EXHIBITION_TERMS = /\b(?:exposici[oó]n|muestra)\b/iu;
+const ACTIVITY_TERMS = /\b(?:instalaci[oó]n|exposici[oó]n|muestra|obra|concierto|recital|festival|taller|charla|conversatorio|funci[oó]n|espect[aá]culo|presentaci[oó]n|encuentro|visita guiada|seminario|curso)\b/iu;
+const EXHIBITION_TERMS = /\b(?:instalaci[oó]n|exposici[oó]n|muestra)\b/iu;
 const FOLLOWING_TITLE_VERBS = /^\s*(?:lleg[oóa]|llega|se presenta|se exhibe|se inaugura|se realizar[aá]|se realiza|se presentar[aá]|se podr[aá] ver|abre|estar[aá]|vuelve)\b/iu;
 
 function fold(value) {
@@ -21,6 +21,25 @@ function fold(value) {
 
 function cleanCandidate(value) {
   return String(value || "").replace(/\s+/g, " ").trim().replace(/[ .,:;–—-]+$/u, "").trim();
+}
+
+function titleLooksLikeCaptionFragment(event) {
+  const raw = String(event?.title || "").trim();
+  if (!raw) return false;
+  if (raw.length >= 72 && /[,;:]|\b(?:cuyo|cuya|se descubre|visitando|hoy|agenda)\b/iu.test(raw)) return true;
+  if (/^(?:\d{1,2}[:.]\d{2}\s*h?|\d{1,2}\s+y\s+las\s+\d{1,2}[:.]\d{2})\b/iu.test(raw)) return true;
+  return false;
+}
+
+function semanticPrefixBeforeQuote(description, start) {
+  const before = String(description || "").slice(Math.max(0, start - 70), start);
+  const match = before.match(/([\p{L}][\p{L}\p{N} .+&/-]{2,42})\s*:\s*$/u);
+  if (!match) return "";
+  const prefix = cleanCandidate(match[1]);
+  const words = fold(prefix).split(/\s+/).filter(Boolean);
+  if (!words.length || words.length > 6) return "";
+  if (/^(?:hoy|agenda|fuente|descripci[oó]n|informaci[oó]n)$/iu.test(prefix)) return "";
+  return prefix;
 }
 
 function titleIsVenue(event) {
@@ -37,7 +56,7 @@ function titleIsVenue(event) {
 }
 
 export function recoverExplicitActivityTitle(event) {
-  if (!titleIsVenue(event)) return null;
+  if (!(titleIsVenue(event) || titleLooksLikeCaptionFragment(event))) return null;
   const description = String(event?.description || "").trim();
   if (!description) return null;
   const venue = fold(event?.location?.venue);
@@ -61,11 +80,20 @@ export function recoverExplicitActivityTitle(event) {
       const around = description.slice(Math.max(0, start - 120), end + 160);
       let score = 0;
       if (FOLLOWING_TITLE_VERBS.test(after)) score += 4;
-      if (ACTIVITY_TERMS.test(around)) score += 2;
-      if (/(?:exposici[oó]n|muestra|obra|concierto|recital|festival|taller|charla)\s*(?:titulada?|llamada?)?\s*$/iu.test(before)) score += 4;
+      const hasActivityEvidence = ACTIVITY_TERMS.test(around);
+      if (hasActivityEvidence) score += 2;
+      if (/(?:instalaci[oó]n|exposici[oó]n|muestra|obra|concierto|recital|festival|taller|charla)\s*(?:titulada?|llamada?)?\s*$/iu.test(before)) score += 4;
       if (start <= 12) score += 1;
       if (words.length <= 10) score += 1;
-      if (score >= 5) candidates.push({ candidate, score, start });
+      const prefix = semanticPrefixBeforeQuote(description, start);
+      // A malformed caption fragment plus an explicit labelled quoted work and
+      // nearby activity-format evidence is strong enough to recover the work
+      // title. This stays generic: no source, city, venue or event name is
+      // special-cased.
+      if (titleLooksLikeCaptionFragment(event) && prefix && hasActivityEvidence) score += 4;
+      if (score >= 5) {
+        candidates.push({ candidate: prefix ? `${prefix}: ${candidate}` : candidate, score: prefix ? score + 1 : score, start });
+      }
     }
   }
 

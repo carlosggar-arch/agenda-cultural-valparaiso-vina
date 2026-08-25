@@ -14,7 +14,7 @@ const TITLE_STOPWORDS = new Set([
   "teatro", "obra", "funcion", "presentacion", "evento", "actividad", "espectaculo", "concierto", "show",
   ...RECURRENCE_TITLE_TOKENS,
 ]);
-const VENUE_STOPWORDS = new Set(["de", "del", "la", "el", "los", "las", "y", "e", "ex"]);
+const VENUE_STOPWORDS = new Set(["de", "del", "la", "el", "los", "las", "y", "e", "ex", "centro", "cultura", "primera", "planta"]);
 
 export function foldEventIdentity(value) {
   return String(value || "")
@@ -174,6 +174,9 @@ function addressesLikelySame(a, b) {
 }
 
 export function venuesLikelySame(a, b) {
+  const venueIdA = foldEventIdentity(a?.location?.venue_id);
+  const venueIdB = foldEventIdentity(b?.location?.venue_id);
+  if (venueIdA && venueIdB && venueIdA === venueIdB) return true;
   const cityA = cityKey(a);
   const cityB = cityKey(b);
   if (cityA && cityB && cityA !== cityB) return false;
@@ -204,6 +207,37 @@ function hasAuthoritativeSource(event) {
   return hasOfficialSource(event) || hasDirectVenueSource(event);
 }
 
+function scheduleDay(value) {
+  const match = String(value || "").match(/^(\d{4}-\d{2}-\d{2})/u);
+  return match?.[1] || "";
+}
+
+function dayDistance(left, right) {
+  if (!(left && right)) return Number.POSITIVE_INFINITY;
+  const a = Date.parse(`${left}T00:00:00Z`);
+  const b = Date.parse(`${right}T00:00:00Z`);
+  if (!(Number.isFinite(a) && Number.isFinite(b))) return Number.POSITIVE_INFINITY;
+  return Math.abs(a - b) / 86400000;
+}
+
+function authoritativeMultiDayRangeDuplicate(a, b) {
+  if (!(hasAuthoritativeSource(a) || hasAuthoritativeSource(b))) return false;
+  if (!titlesLikelySame(a?.title, b?.title)) return false;
+  const startA = scheduleDay(a?.schedule?.start);
+  const startB = scheduleDay(b?.schedule?.start);
+  const endA = scheduleDay(a?.schedule?.end);
+  const endB = scheduleDay(b?.schedule?.end);
+  if (!(startA && startB && endA && endB)) return false;
+  // Long-running activities are sometimes published with the opening day in
+  // one source and the first public-visit day in another. Reconcile only when
+  // the closing boundary agrees exactly and the opening boundary differs by
+  // at most one calendar day; venue and title identity are checked by the
+  // caller before this rule can run.
+  if (endA !== endB) return false;
+  if (startA === endA || startB === endB) return false;
+  return dayDistance(startA, startB) <= 1;
+}
+
 function scheduleConflictDuplicate(a, b) {
   if (!(hasAuthoritativeSource(a) || hasAuthoritativeSource(b))) return false;
   if (!sameLocalOccurrenceDate(a, b)) return false;
@@ -214,6 +248,7 @@ function scheduleConflictDuplicate(a, b) {
 function duplicateRule(a, b) {
   if (sourceIdentity(a) === sourceIdentity(b) && distinctSourceRecords(a, b)) return "same_provider_distinct_record_duplicate";
   if (sameLocalOccurrenceStart(a, b) && titlesLikelySame(a?.title, b?.title)) return "same_time_similar_venue_similar_title";
+  if (authoritativeMultiDayRangeDuplicate(a, b)) return "same_multiday_range_similar_venue_similar_title_authoritative_source";
   if (scheduleConflictDuplicate(a, b)) return "same_date_similar_venue_recurring_title_authoritative_source";
   return "cross_source_probable_duplicate";
 }
@@ -341,6 +376,7 @@ export function areProbableDuplicateEvents(a, b) {
     // description is stronger identity evidence than fuzzy title similarity.
     if (sameProviderDistinct && titleEchoedInOtherDescription(a, b)) return true;
   }
+  if (authoritativeMultiDayRangeDuplicate(a, b)) return true;
   return scheduleConflictDuplicate(a, b);
 }
 

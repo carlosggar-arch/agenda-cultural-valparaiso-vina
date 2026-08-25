@@ -35,6 +35,21 @@ OFFICIAL_IMAGE_CASES = (
     ),
 )
 
+VALPO_SEMANTIC_CASES = (
+    ("agenda_9007884dd819ed9a575ebda9", "teatro", "Matriarcas: Poesía, Papel y Tinta"),
+    ("agenda_cb11de3205743209b185176a", "literatura", "La Flor de Nieve y los secretos del desierto"),
+    ("agenda_visitavina_rioja_8c01d0d993729991bf", "literatura", "Presentación libro // “Consomé Punk”"),
+)
+VALPO_FORBIDDEN_TEXT = (
+    "AGOSTO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
+    "Un Año de Cultura y Reencuentro en el Teatro Municipal de Viña del Mar",
+    "Más de 50 mil personas visitaron museos",
+)
+
+GIJON_SEMANTIC_TITLE_TOKEN = "CÁPSULA RADIO"
+GIJON_SEMANTIC_WORK_TOKEN = "tercera luz"
+GIJON_FORBIDDEN_TITLE_FRAGMENT = "00 y las 07:30h"
+
 
 def chrome_options(profile: str, width: int, height: int) -> Options:
     options = Options()
@@ -67,6 +82,7 @@ def runtime_ready(driver: webdriver.Chrome, city: str, expected_release: int) ->
             return document.documentElement.dataset.vivamosReady === 'true'
               && document.documentElement.dataset.city === arguments[0]
               && Number(globalThis.__VIVAMOS_RELEASE__) === arguments[1]
+              && document.documentElement.dataset.vivamosSafeMode !== 'active'
               && document.querySelectorAll('.event-card').length > 0
               && Boolean(document.querySelector('[data-sources-toggle], [data-sources-fallback]'));
             """,
@@ -217,6 +233,147 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
             )
 
 
+def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> None:
+    root_base = base[:-4] if base.endswith("app/") else base
+    surfaces = (
+        ("app", f"{base}?city=valparaiso&when=todos"),
+        ("web", f"{root_base}?city=valparaiso&periodo=todos"),
+    )
+    for surface, base_url in surfaces:
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-semantic-{origin}-{surface}-") as profile:
+            driver = webdriver.Chrome(options=chrome_options(profile, 1280, 1000))
+            driver.set_page_load_timeout(45)
+            try:
+                url = f"{base_url}&semantic={uuid.uuid4().hex}"
+                driver.get(url)
+                if surface == "app":
+                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current: runtime_ready(current, "valparaiso", expected_release)
+                    )
+                else:
+                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current: current.execute_script(
+                            "return Number(globalThis.__VIVAMOS_RELEASE__) === arguments[0] "
+                            "&& document.querySelectorAll('.event-card').length > 0",
+                            expected_release,
+                        )
+                    )
+                evidence = driver.execute_script(
+                    """
+                    const cases = arguments[0];
+                    const forbidden = arguments[1].map(x => x.toLocaleLowerCase('es'));
+                    const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
+                    const actual = cases.map(([id]) => {
+                      const card = document.querySelector(`[data-event-id="${id}"]`);
+                      if (!card) return {id, missing: true};
+                      const category = card.dataset.category
+                        || card.querySelector('[data-category]')?.dataset.category
+                        || '';
+                      const heading = card.querySelector('h3,h4');
+                      return {id, missing: false, category, title: compact(heading?.innerText), text: compact(card.innerText)};
+                    });
+                    const forbiddenHits = [...document.querySelectorAll('.event-card')].map(card => compact(card.innerText))
+                      .filter(text => forbidden.some(value => text.toLocaleLowerCase('es').includes(value)));
+                    return {actual, forbiddenHits, safeMode: document.documentElement.dataset.vivamosSafeMode || ''};
+                    """,
+                    VALPO_SEMANTIC_CASES,
+                    VALPO_FORBIDDEN_TEXT,
+                )
+                if evidence.get("safeMode") == "active":
+                    raise SystemExit(f"Production semantic verification entered safe mode for {origin}/{surface}")
+                for expected, actual in zip(VALPO_SEMANTIC_CASES, evidence.get("actual") or []):
+                    event_id, category_id, title = expected
+                    if actual.get("missing"):
+                        raise SystemExit(f"Required semantic event missing in {origin}/{surface}: {event_id}")
+                    if actual.get("category") != category_id:
+                        raise SystemExit(
+                            f"Wrong category in {origin}/{surface}: {event_id} "
+                            f"expected={category_id} actual={actual.get('category')}"
+                        )
+                    if actual.get("title") != title:
+                        raise SystemExit(
+                            f"Wrong title in {origin}/{surface}: {event_id} "
+                            f"expected={title!r} actual={actual.get('title')!r}"
+                        )
+                if evidence.get("forbiddenHits"):
+                    raise SystemExit(
+                        f"Non-event content visible in {origin}/{surface}: {evidence.get('forbiddenHits')}"
+                    )
+                print(
+                    f"PRODUCTION_VALPO_SEMANTICS_OK origin={origin} surface={surface} "
+                    f"required={len(VALPO_SEMANTIC_CASES)} forbidden=0 safe_mode=off"
+                )
+            finally:
+                driver.quit()
+
+
+def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> None:
+    root_base = base[:-4] if base.endswith("app/") else base
+    surfaces = (
+        ("app", f"{base}?city=gijon&when=todos"),
+        ("web", f"{root_base}?city=gijon&periodo=todos"),
+    )
+    for surface, base_url in surfaces:
+        with tempfile.TemporaryDirectory(prefix=f"vivamos-gijon-semantic-{origin}-{surface}-") as profile:
+            driver = webdriver.Chrome(options=chrome_options(profile, 1280, 1000))
+            driver.set_page_load_timeout(45)
+            try:
+                driver.get(f"{base_url}&semantic={uuid.uuid4().hex}")
+                if surface == "app":
+                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current: runtime_ready(current, "gijon", expected_release)
+                    )
+                else:
+                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                        lambda current: current.execute_script(
+                            "return Number(globalThis.__VIVAMOS_RELEASE__) === arguments[0] "
+                            "&& document.querySelectorAll('.event-card').length > 0",
+                            expected_release,
+                        )
+                    )
+                evidence = driver.execute_script(
+                    """
+                    const titleToken = arguments[0].toLocaleLowerCase('es');
+                    const workToken = arguments[1].toLocaleLowerCase('es');
+                    const forbidden = arguments[2].toLocaleLowerCase('es');
+                    const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
+                    const cards = [...document.querySelectorAll('.event-card')].map(card => {
+                      const heading = compact(card.querySelector('h3,h4')?.innerText);
+                      const category = card.dataset.category || card.querySelector('[data-category]')?.dataset.category || '';
+                      return {heading, category, text: compact(card.innerText)};
+                    });
+                    const matches = cards.filter(item => {
+                      const value = item.text.toLocaleLowerCase('es');
+                      return value.includes(titleToken) && value.includes(workToken);
+                    });
+                    const forbiddenHits = cards.filter(item => item.heading.toLocaleLowerCase('es').includes(forbidden));
+                    return {matches, forbiddenHits, safeMode: document.documentElement.dataset.vivamosSafeMode || ''};
+                    """,
+                    GIJON_SEMANTIC_TITLE_TOKEN,
+                    GIJON_SEMANTIC_WORK_TOKEN,
+                    GIJON_FORBIDDEN_TITLE_FRAGMENT,
+                )
+                if evidence.get("safeMode") == "active":
+                    raise SystemExit(f"Gijón semantic verification entered safe mode for {origin}/{surface}")
+                matches = evidence.get("matches") or []
+                if len(matches) != 1:
+                    raise SystemExit(f"Gijón Cápsula Radio must render exactly once in {origin}/{surface}: {matches}")
+                if matches[0].get("category") != "exposiciones":
+                    raise SystemExit(
+                        f"Wrong Gijón Cápsula Radio category in {origin}/{surface}: {matches[0].get('category')}"
+                    )
+                if evidence.get("forbiddenHits"):
+                    raise SystemExit(
+                        f"Malformed Gijón caption title visible in {origin}/{surface}: {evidence.get('forbiddenHits')}"
+                    )
+                print(
+                    f"PRODUCTION_GIJON_SEMANTICS_OK origin={origin} surface={surface} "
+                    "capsula_radio=1 category=exposiciones malformed=0 safe_mode=off"
+                )
+            finally:
+                driver.quit()
+
+
 def main() -> None:
     expected_release = release_number()
     expected = expected_shell()
@@ -239,6 +396,8 @@ def main() -> None:
                 f"viewport={width}x{height} transport=selenium"
             )
         verify_official_images(origin, base, expected_release)
+        verify_valpo_semantics(origin, base, expected_release)
+        verify_gijon_semantics(origin, base, expected_release)
 
     base = ORIGINS[PRIMARY_ORIGIN]
     with tempfile.TemporaryDirectory(prefix="vivamos-roundtrip-") as profile:

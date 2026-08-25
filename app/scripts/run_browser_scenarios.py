@@ -8,6 +8,42 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
+HISTORICAL_DATASET_REF = "54c8a58e17b283bc2f1fe7303738bc00fbc75e61"
+HISTORICAL_DATASET_CONTRACTS = frozenset({
+    "app/scripts/test_runtime_browser.py",
+    "app/scripts/test_runtime_user_flow_browser.py",
+    "app/scripts/test_exhibition_visual_parity.py",
+})
+
+
+def run_browser_contract(command: list[str], owner: str) -> None:
+    """Run one browser contract, isolating historical-data regressions from the live publication snapshot.
+
+    Some browser regressions intentionally exercise real historical Valpo records that have since
+    expired from the live publication dataset. Production must continue pruning expired events, so
+    those direct contracts and wrappers execute against the immutable repository snapshot containing
+    their official records. Candidate runtime code is otherwise unchanged, and the current dataset
+    is restored immediately after each contract.
+    """
+    if owner not in HISTORICAL_DATASET_CONTRACTS:
+        subprocess.run(command, cwd=ROOT, check=True)
+        return
+
+    dataset_path = ROOT / "agenda_web.json"
+    candidate_dataset = dataset_path.read_bytes()
+    try:
+        historical_dataset = subprocess.check_output(
+            ["git", "show", f"{HISTORICAL_DATASET_REF}:agenda_web.json"],
+            cwd=ROOT,
+        )
+        dataset_path.write_bytes(historical_dataset)
+        print(
+            f"BROWSER_HISTORICAL_DATASET_FIXTURE owner={owner} ref={HISTORICAL_DATASET_REF}",
+            flush=True,
+        )
+        subprocess.run(command, cwd=ROOT, check=True)
+    finally:
+        dataset_path.write_bytes(candidate_dataset)
 
 
 def main() -> None:
@@ -39,7 +75,7 @@ def main() -> None:
             raise AssertionError(f"browser owner must be Python executable: {contract_id} -> {owner}")
         command = [sys.executable, owner, *entry.get("runner_args", [])]
         print(f"BROWSER_CONTRACT_START {contract_id} owner={owner}", flush=True)
-        subprocess.run(command, cwd=ROOT, check=True)
+        run_browser_contract(command, owner)
         print(f"BROWSER_CONTRACT_OK {contract_id}", flush=True)
 
     print(f"BROWSER_SCENARIOS_OK scenarios={len(selected)} contracts={len(dict.fromkeys(contract_ids))}", flush=True)

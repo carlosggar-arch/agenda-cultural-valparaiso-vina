@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { normalizeAgendaTitles } from "./title-normalizer-bootstrap.js";
+import { normalizeAgendaTitles, recoverAgendaTitles } from "./title-normalizer-bootstrap.js";
 
 const dataset = {
   city: "gijon",
@@ -38,5 +38,20 @@ assert.equal(Object.hasOwn(once.events[2], "original_title"), false, "unchanged 
 
 const twice = normalizeAgendaTitles(once);
 assert.deepEqual(twice, once, "dataset title normalization must be idempotent");
+
+const gijonRecovered = recoverAgendaTitles({
+  city: "gijon",
+  events: [{
+    id: "agenda-gijon-caption-fragment",
+    title: "00 y las 07:30h, La Sala emite el relato sonoro, cuyo desenlace se descubre visitando la instalación",
+    description: "Cápsula Radio: “La tercera luz”, de Alberto Conejero. Instalación de ficción sonora. Proyecto de Coma14 + Société Mouffette.",
+    source_id: "agenda_gijon",
+    source_name: "Agenda Gijón",
+    location: { venue: "Primera planta del Antiguo Instituto Jovellanos", city: "Gijón" },
+  }],
+});
+assert.equal(gijonRecovered.events[0].title, "Cápsula Radio: La tercera luz");
+assert.equal(gijonRecovered.events[0].editorial.title_original.startsWith("00 y las 07:30h"), true);
+assert.equal(gijonRecovered.events[0].editorial.category_recovery_hint, "exposiciones");
 
 console.log("TITLE_NORMALIZER_BOOTSTRAP_POINT7_OK");
