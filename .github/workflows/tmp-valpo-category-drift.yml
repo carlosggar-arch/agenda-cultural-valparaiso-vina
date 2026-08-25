@@ -14,12 +14,20 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: fix/valpo-visible-category-authority-20260825
+          ref: main
           fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Apply shared semantic hardening
+      - name: Rebuild second change on current main
+        run: |
+          git fetch origin fix/valpo-visible-category-authority-20260825
+          git checkout -B fix/valpo-visible-category-authority-v2-20260825 origin/main
+          mapfile -t COMMITS < <(git rev-list --reverse origin/main..origin/fix/valpo-visible-category-authority-20260825)
+          echo "SECOND_CHANGE_COMMITS=${#COMMITS[@]}"
+          test "${#COMMITS[@]}" -gt 0
+          git cherry-pick "${COMMITS[@]}"
+      - name: Harden shared semantic authority
         run: |
           python - <<'PY'
           import json
@@ -185,20 +193,91 @@ jobs:
           p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
           PY
           python app/scripts/generate_public_category_module.py
-      - name: Run category and source regressions
+      - name: Run deterministic regressions
         run: |
-          python -m py_compile scripts/public_category_rules.py app/scripts/test_public_category_regressions.py
+          python -m py_compile scripts/public_category_rules.py app/scripts/test_public_category_regressions.py app/scripts/refresh_portaltickets_editorial.py
           python app/scripts/generate_public_category_module.py --check
           python app/scripts/test_public_category_regressions.py
           node app/public-category-regressions.test.mjs
           python app/scripts/test_portaltickets_editorial.py
           node app/formation-cycle-classifier.test.mjs
           python app/scripts/test_classification_uncertainty_audit.py
-      - name: Commit structural classifier fix
+          python app/scripts/run_changed_source_tests.py --base-ref origin/main
+      - name: Validate against live PortalTickets
         run: |
+          cp agenda_web.json /tmp/agenda-before.json
+          python app/scripts/refresh_portaltickets_editorial.py
+          python scripts/materialize_public_categories.py agenda_web.json
+          python - <<'PY'
+          import json
+          import re
+          import unicodedata
+          from pathlib import Path
+
+          def fold(value):
+              text = unicodedata.normalize('NFD', str(value or ''))
+              text = ''.join(c for c in text if unicodedata.category(c) != 'Mn').casefold()
+              return re.sub(r'[^a-z0-9]+', ' ', text).strip()
+
+          events = json.loads(Path('agenda_web.json').read_text(encoding='utf-8'))['events']
+          portal = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
+          print('PORTALTICKETS_LIVE_COUNT', len(portal))
+          if len(portal) < 20:
+              raise SystemExit(f'unexpectedly low live PortalTickets count: {len(portal)}')
+
+          expected_music = {
+              'LUCY BRICEÑO',
+              'LOS CRACK DEL PUERTO',
+              'VIERNES CEBOLLA',
+              'SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS',
+              'PREVIA ANIVERSARIO',
+              'FIESTA ANIVERSARIO POSEIDON',
+              'AILINASHAKTI',
+              'LOS CUATRO CUARTOS 64 AÑOS DE NEOFOLCLOR, LA TRADICIÓN NOS UNE, CHILE NOS INSPIRA',
+              'JOSE ALFREDO FUENTES 60 GOLD',
+              'ESTOY BIEN EN TEATRO MAURI SCD VALPARAISO - GIRA NACIONAL 2026-2027, SEGUNDO LP',
+              'QUILAPAYUN',
+              'FERNANDO UBIERGO: 50 AÑOS NO ES NADA EN VALPARAÍSO',
+              'TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS',
+              'MARIO REYES LEYENDA GIPSY',
+          }
+          found = 0
+          bad = []
+          for event in portal:
+              title = str(event.get('title') or '')
+              category = (event.get('primary_category') or {}).get('id')
+              if title in expected_music:
+                  found += 1
+                  print('LIVE_TARGET', title, category)
+                  if category != 'musica':
+                      bad.append((title, category))
+          if found < 8:
+              raise SystemExit(f'too few live regression targets present: {found}')
+          if bad:
+              raise SystemExit('live music targets misclassified: ' + repr(bad))
+
+          music_signal = re.compile(r'\b(?:concierto|musica|musical|cantautor|cantautora|banda|cancion|rock|punk|metal|jazz|bolero|vals|vinilo|flamen(?:c)?o|gipsy kings)\b')
+          suspicious = []
+          for event in portal:
+              category = (event.get('primary_category') or {}).get('id')
+              if category != 'teatro':
+                  continue
+              text = fold(' '.join([str(event.get('title') or ''), str(event.get('description') or '')]))
+              if music_signal.search(text):
+                  suspicious.append((event.get('title'), event.get('description')))
+          if suspicious:
+              raise SystemExit('PortalTickets music evidence still leaking to teatro: ' + repr(suspicious[:20]))
+          print('PORTALTICKETS_LIVE_CATEGORY_AUTHORITY_OK targets=', found)
+          PY
+          python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/test_public_category_regressions.py
+          node app/public-category-regressions.test.mjs
+      - name: Restore dataset and commit implementation
+        run: |
+          git checkout -- agenda_web.json app/data/quality/portaltickets-editorial.json || true
           git config user.name "carlosggar-arch"
           git config user.email "carlosggar@gmail.com"
-          git add scripts/public_category_rules.py app/public-category-rules.mjs shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs
+          git add app/category-normalizer.js app/formation-cycle-classifier.js app/formation-cycle-classifier.test.mjs app/scripts/atomic_maintenance_hook.py app/scripts/refresh_portaltickets_editorial.py app/scripts/run_changed_source_tests.py app/scripts/test_portaltickets_editorial.py scripts/public_category_rules.py app/public-category-rules.mjs shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs
           git diff --cached --check
-          git commit -m "Harden shared category evidence against venue contamination"
-          git push origin HEAD:fix/valpo-visible-category-authority-20260825
+          git commit -m "Harden shared category authority against venue contamination"
+          git push --force-with-lease origin HEAD:fix/valpo-visible-category-authority-v2-20260825
