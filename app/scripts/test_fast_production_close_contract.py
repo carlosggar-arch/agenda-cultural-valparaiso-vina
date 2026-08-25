@@ -3,6 +3,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
+DATASET_VALIDATOR = (ROOT / "app/scripts/fast_close_dataset_validation.py").read_text(encoding="utf-8")
 
 
 def main() -> None:
@@ -14,6 +15,7 @@ def main() -> None:
     assert "Fast-close deterministic runtime contracts" in sync
     assert "Wait once for both production origins in parallel" in sync
     assert "deployment_readiness.py" in sync
+    assert "fast_close_dataset_validation.py --base-ref" in sync
     assert "--wait" in sync
     assert "--timeout-seconds 90" in sync
     assert "--poll-seconds 2" in sync
@@ -24,18 +26,24 @@ def main() -> None:
     assert sync.index("Push synchronized deployment branch") < sync.index("DEPLOYMENT_READY")
     assert sync.index("DEPLOYMENT_READY") < sync.index("DEPLOYED_BYTE_VERIFIED")
 
-    strict = sync.split("              if require_fresh:\n", 1)[1].split("\n              print(", 1)[0]
-    assert "FAST_CLOSE_METADATA_MISSING" in strict
-    assert "FAST_CLOSE_PUBLICATION_DATE_MISMATCH" in strict
-    assert "FAST_CLOSE_DATASET_STALE" in strict
-    assert "generated_at" in strict
-    assert "ZoneInfo" in sync
-
-    before_strict = sync.split("              if require_fresh:\n", 1)[0]
-    assert "FAST_CLOSE_IDS_INVALID" in before_strict
-    assert "FAST_CLOSE_COUNT_MISMATCH" in before_strict
-    assert "FAST_CLOSE_PUBLICATION_DATE_MISMATCH" not in before_strict
-    assert "FAST_CLOSE_DATASET_STALE" not in before_strict
+    # Dataset identity and metadata coherence remain strict, but the six-hour
+    # freshness window is now scoped to actual source regeneration: a semantic
+    # rewrite with the same generated_at must not impersonate a fresh ingest.
+    for marker in (
+        "FAST_CLOSE_IDS_INVALID",
+        "FAST_CLOSE_COUNT_MISMATCH",
+        "FAST_CLOSE_METADATA_MISSING",
+        "FAST_CLOSE_PUBLICATION_DATE_MISMATCH",
+        "FAST_CLOSE_DATASET_STALE",
+        "generated_at",
+        "ZoneInfo",
+        "previous_generated_at",
+    ):
+        assert marker in DATASET_VALIDATOR
+    assert "current_generated_at != previous_generated_at" in DATASET_VALIDATOR
+    assert "if require_fresh:" in DATASET_VALIDATOR
+    assert "age_hours > 6" in DATASET_VALIDATOR
+    assert "generation_changed=" in DATASET_VALIDATOR
 
     # Deployment propagation has one bounded retry loop shared by both origins.
     # The old per-origin sequential HTTP waiter must never return here.

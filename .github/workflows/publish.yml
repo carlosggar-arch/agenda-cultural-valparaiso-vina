@@ -23,6 +23,7 @@ on:
       - "fuentes_publicas.json"
       - "manifest.webmanifest"
       - "app/scripts/deployment_readiness.py"
+      - "app/scripts/fast_close_dataset_validation.py"
       - "app/scripts/production_pwa_smoke.py"
       - "app/scripts/production_browser_selenium_smoke.py"
       - "app/scripts/production_warm_start_smoke.py"
@@ -135,59 +136,7 @@ jobs:
           if [[ -z "$before" || "$before" == "0000000000000000000000000000000000000000" ]]; then
             before="$(git rev-parse "${CANDIDATE_SHA}^" 2>/dev/null || true)"
           fi
-          changed="$(git diff --name-only "$before" "$CANDIDATE_SHA" || true)"
-          printf '%s\n' "$changed" | tee /tmp/fast-close-changed.txt
-          export REQUIRE_VALPO=false
-          export REQUIRE_GIJON=false
-          if grep -Fxq 'agenda_web.json' /tmp/fast-close-changed.txt; then REQUIRE_VALPO=true; fi
-          if grep -Fxq 'app/data/gijon/agenda_web.json' /tmp/fast-close-changed.txt; then REQUIRE_GIJON=true; fi
-          python - <<'PY'
-          import json
-          import os
-          from datetime import datetime, timezone
-          from pathlib import Path
-          from zoneinfo import ZoneInfo
-
-          specs = (
-              ("valparaiso", Path("agenda_web.json"), os.environ.get("REQUIRE_VALPO") == "true"),
-              ("gijon", Path("app/data/gijon/agenda_web.json"), os.environ.get("REQUIRE_GIJON") == "true"),
-          )
-          now_utc = datetime.now(timezone.utc)
-          for city, path, require_fresh in specs:
-              payload = json.loads(path.read_text(encoding="utf-8"))
-              events = payload.get("events") or []
-              ids = [str(event.get("id") or "").strip() for event in events if isinstance(event, dict)]
-              if len(ids) != len(events) or any(not value for value in ids) or len(ids) != len(set(ids)):
-                  raise SystemExit(f"FAST_CLOSE_IDS_INVALID city={city}")
-              counts = payload.get("counts") or {}
-              if counts.get("total") is not None and int(counts.get("total")) != len(events):
-                  raise SystemExit(f"FAST_CLOSE_COUNT_MISMATCH city={city} declared={counts.get('total')} actual={len(events)}")
-
-              publication_date = str(payload.get("publication_date") or "")[:10]
-              age_label = "not-required"
-              if require_fresh:
-                  generated_raw = str(payload.get("generated_at") or "").strip()
-                  timezone_name = str(payload.get("timezone") or "").strip()
-                  if not generated_raw or not publication_date or not timezone_name:
-                      raise SystemExit(f"FAST_CLOSE_METADATA_MISSING city={city}")
-                  generated = datetime.fromisoformat(generated_raw.replace("Z", "+00:00"))
-                  if generated.tzinfo is None:
-                      generated = generated.replace(tzinfo=ZoneInfo(timezone_name))
-                  generated_local = generated.astimezone(ZoneInfo(timezone_name))
-                  if publication_date != generated_local.date().isoformat():
-                      raise SystemExit(
-                          f"FAST_CLOSE_PUBLICATION_DATE_MISMATCH city={city} publication_date={publication_date} generated_local={generated_local.date()}"
-                      )
-                  age_hours = (now_utc - generated.astimezone(timezone.utc)).total_seconds() / 3600
-                  if age_hours < -0.25 or age_hours > 6:
-                      raise SystemExit(f"FAST_CLOSE_DATASET_STALE city={city} age_hours={age_hours:.2f}")
-                  age_label = f"{age_hours:.2f}"
-
-              print(
-                  f"FAST_CLOSE_DATASET_OK city={city} events={len(events)} publication_date={publication_date or 'n/a'} "
-                  f"age_hours={age_label} freshness_required={str(require_fresh).lower()}"
-              )
-          PY
+          python app/scripts/fast_close_dataset_validation.py --base-ref "$before"
 
       - name: Fast-close deterministic runtime contracts
         run: |
@@ -266,6 +215,7 @@ jobs:
             | tee /tmp/production-release-verification/release-lineage.log
           python -m py_compile \
             app/scripts/deployment_readiness.py \
+            app/scripts/fast_close_dataset_validation.py \
             app/scripts/production_pwa_smoke.py \
             app/scripts/production_browser_selenium_smoke.py \
             app/scripts/production_warm_start_smoke.py \
