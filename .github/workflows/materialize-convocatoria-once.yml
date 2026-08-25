@@ -74,7 +74,7 @@ jobs:
           )
           PY
 
-      - name: Commit only the generated dataset change and remove this one-shot workflow
+      - name: Commit generated dataset and self-remove one-shot workflow
         shell: bash
         run: |
           set -euo pipefail
@@ -82,7 +82,10 @@ jobs:
           git config user.email "vivamos-materialization[bot]@users.noreply.github.com"
           git rm .github/workflows/materialize-convocatoria-once.yml
           git add agenda_web.json
-          changed="$(git diff --cached --name-only)"
-          test "$changed" = "agenda_web.json"
+          mapfile -t changed < <(git diff --cached --name-only)
+          if [[ "${#changed[@]}" -ne 2 || "${changed[0]}" != ".github/workflows/materialize-convocatoria-once.yml" || "${changed[1]}" != "agenda_web.json" ]]; then
+            printf 'Unexpected staged files:\n%s\n' "${changed[*]}" >&2
+            exit 1
+          fi
           git commit -m "Materialize convocatoria content-quality guard in Valpo dataset"
           git push origin HEAD:ops/materialize-convocatoria-guard-20260825
