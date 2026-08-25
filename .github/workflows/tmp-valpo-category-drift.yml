@@ -13,43 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: fix/valpo-visible-category-authority-20260825
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Inspect structured metadata on sparse PortalTickets events
+      - name: Enumerate current PortalTickets category gaps
         run: |
           python - <<'PY'
-          import json, re
-          from html import unescape
-          from urllib.request import Request, urlopen
-
-          urls = [
-              'https://www.portaldisc.com/evento/aniversariowareba',
-              'https://www.portaldisc.com/evento/llenode97',
-              'https://www.portaldisc.com/evento/sofiaalvezvinadelmar',
-              'https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso',
-          ]
-          for url in urls:
-              req = Request(url, headers={'User-Agent':'Mozilla/5.0', 'Accept-Language':'es-CL,es;q=0.9'})
-              with urlopen(req, timeout=20) as response:
-                  markup = response.read().decode(response.headers.get_content_charset() or 'utf-8', errors='replace')
-              print('\nURL', url)
-              print('HAS_MUSICEVENT', bool(re.search(r'MusicEvent', markup, re.I)))
-              for match in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', markup, re.I|re.S):
-                  text = unescape(match).strip()
-                  try:
-                      obj = json.loads(text)
-                      print('JSONLD', json.dumps(obj, ensure_ascii=False)[:4000])
-                  except Exception:
-                      print('JSONLD_RAW', re.sub(r'\s+',' ',text)[:2000])
-              for pattern in [r'<meta[^>]+(?:property|name)=["\']([^"\']+)["\'][^>]+content=["\']([^"\']*)["\']', r'<meta[^>]+content=["\']([^"\']*)["\'][^>]+(?:property|name)=["\']([^"\']+)["\']']:
-                  for a,b in re.findall(pattern, markup, re.I):
-                      pair = (a,b)
-                      if any(k in (' '.join(pair)).lower() for k in ['type','category','genre','music','description','title']):
-                          print('META', pair)
-              for keyword in ['categoria', 'category', 'genero', 'genre', 'music', 'musica']:
-                  positions = [m.start() for m in re.finditer(keyword, markup, re.I)]
-                  if positions:
-                      p = positions[0]
-                      print('KW', keyword, re.sub(r'\s+',' ',markup[max(0,p-180):p+420])[:600])
+          import json
+          from pathlib import Path
+          data=json.loads(Path('agenda_web.json').read_text())
+          pts=[e for e in data['events'] if e.get('source_id')=='portaltickets_valparaiso']
+          print('PORTALTICKETS_COUNT', len(pts))
+          for e in pts:
+              c=(e.get('primary_category') or {}).get('id')
+              if c in {'unclassified','cultura'}:
+                  print('GAP', json.dumps({
+                      'id':e.get('id'),'title':e.get('title'),'category':e.get('primary_category'),
+                      'tags':e.get('tags'),'description':e.get('description'),'url':(e.get('links') or {}).get('tickets')
+                  }, ensure_ascii=False))
           PY
