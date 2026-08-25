@@ -84,8 +84,6 @@ def main() -> int:
 
     # A guided visit has two compatible semantic dimensions: it is a public
     # experience in the shared category taxonomy and a guided-visit format.
-    # Keeping both assertions prevents the diagnostic from reviving the older
-    # false dichotomy between thematic category and event format.
     guided = build_event_semantics(item("Visita guiada al edificio histórico")["event"])
     assert guided["classification_state"] == "classified"
     assert guided["primary_domain"] == "cursos-talleres-campus"
@@ -106,8 +104,66 @@ def main() -> int:
     assert program["event_kind"] == "program"
     assert program["diagnostic_eligible"] is False
 
-    anomalies = detect_uncertainty_anomalies(snapshot)
-    assert not anomalies["critical"]
+    # The concrete regressions that motivated the category repair must now be
+    # strong, unambiguous decisions and therefore stay out of the review queue.
+    known_cases = [
+        {
+            "id": "dire",
+            "title": "Homenaje Dire Straits",
+            "source_id": "camara_recinto_ferial_gijon",
+            "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
+            "primary_category": {"id": "otros", "label": "Otros panoramas"},
+        },
+        {
+            "id": "showman",
+            "title": "El Gran Showman",
+            "source_id": "camara_recinto_ferial_gijon",
+            "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
+            "primary_category": {"id": "otros", "label": "Otros panoramas"},
+        },
+        {
+            "id": "tiburones",
+            "title": "Encuentro Educativo Tiburones",
+            "source_id": "bioparc_acuario_gijon",
+            "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+            "primary_category": {"id": "otros", "label": "Otros panoramas"},
+        },
+    ]
+    known_snapshot = build_uncertainty_snapshot(
+        [{"city_id": "gijon", "event": event} for event in known_cases]
+    )
+    assert known_snapshot["summary"]["uncertain_count"] == 0
+
+    baseline = {
+        "source_metrics": {
+            "gijon::fuente": {
+                "city_id": "gijon",
+                "source_name": "Fuente",
+                "classified_events": 8,
+                "uncertain_rate": 0.0,
+            }
+        }
+    }
+    current = {
+        "source_metrics": {
+            "gijon::fuente": {
+                "city_id": "gijon",
+                "source_name": "Fuente",
+                "classified_events": 8,
+                "uncertain_rate": 0.5,
+            }
+        }
+    }
+    risks = detect_uncertainty_anomalies(current, baseline)
+    assert len(risks) == 1
+    assert risks[0]["type"] == "uncertainty_rate_spike"
+    assert risks[0]["severity"] == "critical"
+
+    # Absolute risk still works when no historical baseline exists, so the
+    # weekly read-only audit can identify systematically ambiguous sources.
+    risks_without_baseline = detect_uncertainty_anomalies(current)
+    assert len(risks_without_baseline) == 1
+    assert risks_without_baseline[0]["type"] == "high_uncertainty_rate"
 
     print("CLASSIFICATION_UNCERTAINTY_AUDIT_TESTS_OK")
     return 0
