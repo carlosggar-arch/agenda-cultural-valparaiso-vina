@@ -180,7 +180,7 @@ jobs:
         run: |
           python -m py_compile app/scripts/refresh_portaltickets_editorial.py app/scripts/run_changed_source_tests.py app/scripts/atomic_maintenance_hook.py app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_portaltickets_editorial.py
-          python scripts/test_public_category_regressions.py
+          python app/scripts/test_public_category_regressions.py
           node app/public-category-regressions.test.mjs
           node app/formation-cycle-classifier.test.mjs
           python app/scripts/test_source_refresh_scope.py
