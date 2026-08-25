@@ -24,6 +24,19 @@ replace_once(
     '  addRuleEvidence(\n    scores,\n    evidence,\n    stripSemanticNoise(event?.title, event),\n    TITLE_EVIDENCE_RULES,\n    "title",\n  );\n',
 )
 
+# Keep long source-derived semantic evidence separate from the shortened public
+# description. Materialization can then reproduce the same category later.
+replace_once(
+    "scripts/public_category_rules.py",
+    'def description_evidence_text(event: dict[str, Any]) -> str:\n    values = [event.get("description"), *(event.get("tags") or [])]\n',
+    'def description_evidence_text(event: dict[str, Any]) -> str:\n    semantics = event.get("semantics") if isinstance(event.get("semantics"), dict) else {}\n    values = [semantics.get("category_evidence_text"), event.get("description"), *(event.get("tags") or [])]\n',
+)
+replace_once(
+    "app/public-category-rules.mjs",
+    'function descriptionEvidenceText(event) {\n  return stripSemanticNoise([\n    event?.description,\n    ...(event?.tags || []),\n',
+    'function descriptionEvidenceText(event) {\n  return stripSemanticNoise([\n    event?.semantics?.category_evidence_text,\n    event?.description,\n    ...(event?.tags || []),\n',
+)
+
 # PortalTickets has no trustworthy thematic source category. Keep any title-only
 # preliminary category for immediate parser diagnostics, but explicitly preserve
 # the actual source category as neutral. This prevents a derived result from
@@ -37,6 +50,11 @@ replace_once(
     "app/scripts/refresh_portaltickets_editorial.py",
     '        "tags": [category_label, "PortalTickets"], "audience": None, "registration_requirements": None,\n',
     '        "tags": ["PortalTickets"], "audience": None, "registration_requirements": None,\n',
+)
+replace_once(
+    "app/scripts/refresh_portaltickets_editorial.py",
+    '    semantic_text = str(detail.get("semantic_text") or description or "").strip()\n    classification_event = dict(event)\n',
+    '    semantic_text = str(detail.get("semantic_text") or description or "").strip()\n    semantics = event.setdefault("semantics", {})\n    if semantic_text:\n        semantics["category_evidence_text"] = semantic_text\n    else:\n        semantics.pop("category_evidence_text", None)\n    classification_event = dict(event)\n',
 )
 replace_once(
     "app/scripts/refresh_portaltickets_editorial.py",
@@ -61,7 +79,7 @@ replace_once(
 portal_test = Path("app/scripts/test_portaltickets_editorial.py")
 text = portal_test.read_text(encoding="utf-8")
 anchor = '''def test_shared_source_classifier_does_not_treat_bare_musical_as_music() -> None:\n    category_id, _ = __import__("refresh_portaltickets_editorial").category_for("High School Musical Sing Along (2006)")\n    assert category_id == "cine"\n'''
-addition = '''def test_preliminary_category_is_not_reused_as_source_authority() -> None:\n    year = future_year()\n    listing = f\'\'\'<div><h3>QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO</h3>\n    <p>Sábado 10 de octubre {year}, 20:00</p><p>Teatro Mauri SCD, Valparaíso</p>\n    <a href="/evento/quilapayun">TICKETS AQUÍ</a></div>\'\'\'\n    events, _ = parse_markup(listing)\n    event = events[0]\n    assert event["semantics"]["source_category"] == {"id": "cultura", "label": "Cultura"}\n    assert event["tags"] == ["PortalTickets"]\n    detail = parse_detail_markup(\'\'\'<h4>Descripción</h4>\n    <p>Quilapayún vuelve con un concierto que recorre su trayectoria y sus canciones más emblemáticas.</p>\n    <p>La agrupación celebra seis décadas de música chilena y folclore latinoamericano.</p>\n    <h4>POLÍTICAS DE REEMBOLSO</h4>\'\'\')\n    enriched = apply_detail(event, detail, verified_at="2026-08-25T10:00:00-04:00")\n    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}\n    assert enriched["tags"] == ["PortalTickets"]\n\n\n'''
+addition = '''def test_preliminary_category_is_not_reused_as_source_authority() -> None:\n    year = future_year()\n    listing = f\'\'\'<div><h3>QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO</h3>\n    <p>Sábado 10 de octubre {year}, 20:00</p><p>Teatro Mauri SCD, Valparaíso</p>\n    <a href="/evento/quilapayun">TICKETS AQUÍ</a></div>\'\'\'\n    events, _ = parse_markup(listing)\n    event = events[0]\n    assert event["semantics"]["source_category"] == {"id": "cultura", "label": "Cultura"}\n    assert event["tags"] == ["PortalTickets"]\n    detail = parse_detail_markup(\'\'\'<h4>Descripción</h4>\n    <p>Quilapayún vuelve con un concierto que recorre su trayectoria y sus canciones más emblemáticas.</p>\n    <p>La agrupación celebra seis décadas de música chilena y folclore latinoamericano.</p>\n    <h4>POLÍTICAS DE REEMBOLSO</h4>\'\'\')\n    enriched = apply_detail(event, detail, verified_at="2026-08-25T10:00:00-04:00")\n    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}\n    assert enriched["tags"] == ["PortalTickets"]\n    assert "música chilena" in enriched["semantics"]["category_evidence_text"]\n\n\n'''
 if anchor not in text:
     raise SystemExit("PortalTickets source-authority test anchor not found")
 text = text.replace(anchor, anchor + addition, 1)
