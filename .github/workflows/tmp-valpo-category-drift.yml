@@ -19,183 +19,158 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Harden shared semantic authority
+      - name: Apply shared semantic hardening patch
+        run: |
+          cat > /tmp/shared.patch <<'PATCH'
+          diff --git a/scripts/public_category_rules.py b/scripts/public_category_rules.py
+          --- a/scripts/public_category_rules.py
+          +++ b/scripts/public_category_rules.py
+          @@
+           def _scalar_noise_values(value: Any) -> list[str]:
+               if isinstance(value, str):
+                   return [value]
+          -    if isinstance(value, dict):
+          -        return [
+          -            str(value.get(key) or "")
+          -            for key in ("name", "label", "title", "address", "city", "venue")
+          -            if value.get(key)
+          -        ]
+          -    return []
+          +    if not isinstance(value, dict):
+          +        return []
+          +    values = [
+          +        str(value.get(key) or "")
+          +        for key in ("name", "label", "title", "address", "city", "venue")
+          +        if value.get(key)
+          +    ]
+          +    venue = fold(value.get("venue"))
+          +    city = fold(value.get("city"))
+          +    if venue and city and venue.endswith(f" {city}"):
+          +        short_venue = venue[: -(len(city) + 1)].strip()
+          +        if len(short_venue) >= 4:
+          +            values.append(short_venue)
+          +    return values
+          diff --git a/app/public-category-rules.mjs b/app/public-category-rules.mjs
+          --- a/app/public-category-rules.mjs
+          +++ b/app/public-category-rules.mjs
+          @@
+           function scalarNoiseValues(value) {
+             if (typeof value === "string") return [value];
+             if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+          -  return ["name", "label", "title", "address", "city", "venue"]
+          +  const values = ["name", "label", "title", "address", "city", "venue"]
+               .map((key) => value[key])
+               .filter(Boolean)
+               .map(String);
+          +  const venue = foldPublicCategoryText(value.venue);
+          +  const city = foldPublicCategoryText(value.city);
+          +  if (venue && city && venue.endsWith(` ${city}`)) {
+          +    const shortVenue = venue.slice(0, -(city.length + 1)).trim();
+          +    if (shortVenue.length >= 4) values.push(shortVenue);
+          +  }
+          +  return values;
+           }
+          diff --git a/app/scripts/test_public_category_regressions.py b/app/scripts/test_public_category_regressions.py
+          --- a/app/scripts/test_public_category_regressions.py
+          +++ b/app/scripts/test_public_category_regressions.py
+          @@
+          -def event(title, primary, *, tags=None, description="", venue=""):
+          +def event(title, primary, *, tags=None, description="", venue="", city="Gijón"):
+               return {
+                   "title": title,
+                   "primary_category": {"id": primary, "label": primary},
+                   "categories": [{"id": primary, "label": primary}],
+                   "tags": tags or [],
+                   "description": description,
+          -        "location": {"venue": venue, "city": "Gijón"},
+          +        "location": {"venue": venue, "city": city},
+               }
+          @@
+               assert_case("music tag does not steal explicit stage musical", event("Obra Teatro Musical - Nemesio Pelao: ¿Qué es lo que te ha pasao?", "teatro", tags=["Música"]), "teatro")
+               assert_case("venue does not define format", event("Concierto de cuarteto", "cultura", venue="Teatro Jovellanos"), "musica")
+          +    assert_case(
+          +        "venue alias is semantic noise",
+          +        event(
+          +            "Lucy Briceño",
+          +            "cultura",
+          +            description="Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.",
+          +            venue="Teatro Mauri SCD, Valparaíso",
+          +            city="Valparaíso",
+          +        ),
+          +        "musica",
+          +    )
+          +    assert_case(
+          +        "boleros valses and vinyl are music",
+          +        event("Viernes Cebolla", "cultura", description="Una noche de boleros y valses, seguida de baile en vinilo."),
+          +        "musica",
+          +    )
+          +    assert_case(
+          +        "flamenco typo and Gipsy Kings remain music",
+          +        event("Mario Reyes Leyenda Gipsy", "cultura", description="Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno."),
+          +        "musica",
+          +    )
+               audit_current_theatre_conflicts()
+          diff --git a/app/public-category-regressions.test.mjs b/app/public-category-regressions.test.mjs
+          --- a/app/public-category-regressions.test.mjs
+          +++ b/app/public-category-regressions.test.mjs
+          @@
+          -function event(title, primary, { tags = [], description = "", venue = "" } = {}) {
+          +function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {
+             return {
+               title,
+               primary_category: { id: primary, label: primary },
+               categories: [{ id: primary, label: primary }],
+               tags,
+               description,
+          -    location: { venue, city: "Gijón" },
+          +    location: { venue, city },
+             };
+           }
+          @@
+           expectCategory("music tag does not steal explicit stage musical", event("Obra Teatro Musical - Nemesio Pelao: ¿Qué es lo que te ha pasao?", "teatro", { tags: ["Música"] }), "teatro");
+           expectCategory("venue neutral", event("Concierto de cuarteto", "cultura", { venue: "Teatro Jovellanos" }), "musica");
+          +expectCategory("venue alias is semantic noise", event(
+          +  "Lucy Briceño",
+          +  "cultura",
+          +  { description: "Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.", venue: "Teatro Mauri SCD, Valparaíso", city: "Valparaíso" },
+          +), "musica");
+          +expectCategory("boleros valses and vinyl", event(
+          +  "Viernes Cebolla",
+          +  "cultura",
+          +  { description: "Una noche de boleros y valses, seguida de baile en vinilo." },
+          +), "musica");
+          +expectCategory("flamenco typo and Gipsy Kings", event(
+          +  "Mario Reyes Leyenda Gipsy",
+          +  "cultura",
+          +  { description: "Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno." },
+          +), "musica");
+           console.log("PUBLIC_CATEGORY_JS_REGRESSIONS_OK");
+          PATCH
+          git apply /tmp/shared.patch
+      - name: Extend shared music vocabulary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-
-          # Python: derive a venue alias without a trailing city so venue names
-          # cannot become semantic evidence when descriptions omit the city.
-          p = Path('scripts/public_category_rules.py')
-          text = p.read_text(encoding='utf-8')
-          old = '''def _scalar_noise_values(value: Any) -> list[str]:
-    if isinstance(value, str):
-        return [value]
-    if isinstance(value, dict):
-        return [
-            str(value.get(key) or "")
-            for key in ("name", "label", "title", "address", "city", "venue")
-            if value.get(key)
-        ]
-    return []
-'''
-          new = '''def _scalar_noise_values(value: Any) -> list[str]:
-    if isinstance(value, str):
-        return [value]
-    if not isinstance(value, dict):
-        return []
-    values = [
-        str(value.get(key) or "")
-        for key in ("name", "label", "title", "address", "city", "venue")
-        if value.get(key)
-    ]
-    venue = fold(value.get("venue"))
-    city = fold(value.get("city"))
-    if venue and city and venue.endswith(f" {city}"):
-        short_venue = venue[: -(len(city) + 1)].strip()
-        if len(short_venue) >= 4:
-            values.append(short_venue)
-    return values
-'''
-          if old not in text:
-              raise SystemExit('python noise anchor not found')
-          p.write_text(text.replace(old, new, 1), encoding='utf-8')
-
-          # JS parity for WEB/APP runtime.
-          p = Path('app/public-category-rules.mjs')
-          text = p.read_text(encoding='utf-8')
-          old = '''function scalarNoiseValues(value) {
-  if (typeof value === "string") return [value];
-  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
-  return ["name", "label", "title", "address", "city", "venue"]
-    .map((key) => value[key])
-    .filter(Boolean)
-    .map(String);
-}
-'''
-          new = '''function scalarNoiseValues(value) {
-  if (typeof value === "string") return [value];
-  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
-  const values = ["name", "label", "title", "address", "city", "venue"]
-    .map((key) => value[key])
-    .filter(Boolean)
-    .map(String);
-  const venue = foldPublicCategoryText(value.venue);
-  const city = foldPublicCategoryText(value.city);
-  if (venue && city && venue.endsWith(` ${city}`)) {
-    const shortVenue = venue.slice(0, -(city.length + 1)).trim();
-    if (shortVenue.length >= 4) values.push(shortVenue);
-  }
-  return values;
-}
-'''
-          if old not in text:
-              raise SystemExit('js noise anchor not found')
-          p.write_text(text.replace(old, new, 1), encoding='utf-8')
-
-          # Shared taxonomy: add only structurally musical vocabulary found in
-          # public event copy; do not infer from artist names or site metadata.
-          p = Path('shared/public-category-taxonomy.json')
-          data = json.loads(p.read_text(encoding='utf-8'))
+          path = Path('shared/public-category-taxonomy.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
           for rule in data['rules']['description_evidence']:
               if rule['category'] != 'musica':
                   continue
-              pattern = rule['pattern']
-              if 'organetto' in pattern:
-                  rule['pattern'] = pattern.replace(
-                      'organetto)',
-                      'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)',
-                  )
-              elif 'flamenco' in pattern:
-                  rule['pattern'] = pattern.replace('flamenco', 'flamen(?:c)?os?')
+              if 'organetto' in rule['pattern']:
+                  rule['pattern'] = rule['pattern'].replace('organetto)', 'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)')
+              if 'flamenco' in rule['pattern']:
+                  rule['pattern'] = rule['pattern'].replace('flamenco', 'flamen(?:c)?os?')
           for rule in data['rules']['title_evidence']:
               if rule['category'] != 'musica':
                   continue
-              pattern = rule['pattern']
-              if 'organetto' in pattern:
-                  rule['pattern'] = pattern.replace(
-                      'organetto)',
-                      'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)',
-                  )
+              if 'organetto' in rule['pattern']:
+                  rule['pattern'] = rule['pattern'].replace('organetto)', 'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)')
               if 'flamenco' in rule['pattern']:
                   rule['pattern'] = rule['pattern'].replace('flamenco', 'flamen(?:c)?os?')
-          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          # Python regressions.
-          p = Path('app/scripts/test_public_category_regressions.py')
-          text = p.read_text(encoding='utf-8')
-          text = text.replace(
-              'def event(title, primary, *, tags=None, description="", venue=""):',
-              'def event(title, primary, *, tags=None, description="", venue="", city="Gijón"):',
-              1,
-          ).replace(
-              '"location": {"venue": venue, "city": "Gijón"},',
-              '"location": {"venue": venue, "city": city},',
-              1,
-          )
-          anchor = '    assert_case("venue does not define format", event("Concierto de cuarteto", "cultura", venue="Teatro Jovellanos"), "musica")\n'
-          extra = '''    assert_case(
-        "venue alias is semantic noise",
-        event(
-            "Lucy Briceño",
-            "cultura",
-            description="Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.",
-            venue="Teatro Mauri SCD, Valparaíso",
-            city="Valparaíso",
-        ),
-        "musica",
-    )
-    assert_case(
-        "boleros valses and vinyl are music",
-        event("Viernes Cebolla", "cultura", description="Una noche de boleros y valses, seguida de baile en vinilo."),
-        "musica",
-    )
-    assert_case(
-        "flamenco typo and Gipsy Kings remain music",
-        event("Mario Reyes Leyenda Gipsy", "cultura", description="Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno."),
-        "musica",
-    )
-'''
-          if anchor not in text:
-              raise SystemExit('python regression anchor not found')
-          p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
-
-          # JS regressions with identical semantics.
-          p = Path('app/public-category-regressions.test.mjs')
-          text = p.read_text(encoding='utf-8')
-          text = text.replace(
-              'function event(title, primary, { tags = [], description = "", venue = "" } = {}) {',
-              'function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {',
-              1,
-          ).replace(
-              'location: { venue, city: "Gijón" },',
-              'location: { venue, city },',
-              1,
-          )
-          anchor = 'expectCategory("venue neutral", event("Concierto de cuarteto", "cultura", { venue: "Teatro Jovellanos" }), "musica");\n'
-          extra = '''expectCategory("venue alias is semantic noise", event(
-  "Lucy Briceño",
-  "cultura",
-  { description: "Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.", venue: "Teatro Mauri SCD, Valparaíso", city: "Valparaíso" },
-), "musica");
-expectCategory("boleros valses and vinyl", event(
-  "Viernes Cebolla",
-  "cultura",
-  { description: "Una noche de boleros y valses, seguida de baile en vinilo." },
-), "musica");
-expectCategory("flamenco typo and Gipsy Kings", event(
-  "Mario Reyes Leyenda Gipsy",
-  "cultura",
-  { description: "Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno." },
-), "musica");
-'''
-          if anchor not in text:
-              raise SystemExit('js regression anchor not found')
-          p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
+          path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
           PY
-      - name: Regenerate shared taxonomy module
-        run: python app/scripts/generate_public_category_module.py
+          python app/scripts/generate_public_category_module.py
       - name: Run category and source regressions
         run: |
           python -m py_compile scripts/public_category_rules.py app/scripts/test_public_category_regressions.py
