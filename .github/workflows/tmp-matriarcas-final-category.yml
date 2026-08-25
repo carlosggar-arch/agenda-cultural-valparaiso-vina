@@ -1,4 +1,4 @@
-name: TEMP diagnose Matriarcas final category
+name: TEMP implement dedup category consensus fix
 
 on:
   push:
@@ -6,89 +6,99 @@ on:
       - diag/matriarcas-final-category-20260825
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  diagnose:
+  implement:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: fix/dedup-category-consensus-20260825
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
       - uses: actions/setup-node@v5
         with:
           node-version: '24'
-      - name: Trace Matriarcas through the exact runtime pipeline
+      - name: Apply structural consensus evidence fix
         run: |
+          set -euo pipefail
+          git fetch origin main diag/matriarcas-final-category-20260825 fix/dedup-category-consensus-20260825
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+          git show origin/diag/matriarcas-final-category-20260825:scripts/_tmp_fix_dedup_category_consensus.py > /tmp/fix_dedup_category_consensus.py
+          python /tmp/fix_dedup_category_consensus.py
+          python scripts/generate_public_category_module.py
+          python scripts/generate_public_category_module.py --check
+      - name: Run permanent category and dedup regressions
+        run: |
+          set -euo pipefail
+          python app/scripts/test_public_category_regressions.py
+          node app/public-category-regressions.test.mjs
+          python app/scripts/test_classification_uncertainty_audit.py
+          python app/scripts/run_changed_source_tests.py --base origin/main
+      - name: Verify exact current Valpo runtime and Matriarcas
+        run: |
+          set -euo pipefail
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          import { mergeSupplementalPayload } from './app/supplemental-events-fetch.js';
-          import { normalizeAgendaPublicText } from './app/public-text-sanitizer.mjs';
-          import { applyEventDataCorrections } from './app/event-data-corrections.js';
-          import { normalizeAgendaCategories } from './app/category-normalizer.js';
-          import { normalizeVenueAliases } from './app/venue-identity.mjs';
-          import { normalizeAgendaTitles, recoverAgendaTitles } from './app/title-normalizer-bootstrap.js';
-          import { normalizeSessionOccurrences } from './app/session-occurrence-normalizer.js';
-          import { normalizeEventSeries } from './app/event-series-normalizer.mjs';
-          import { normalizeFormationCycles } from './app/formation-cycle-classifier.js';
-          import { correctArtequinNaturalArtSessions } from './app/artequin-session-correction.js';
-          import { deduplicateCrossSourceDataset } from './app/cross-source-deduplication.mjs';
-          import { enrichCitySourceEvidence } from './app/city-source-evidence-adapter.mjs';
-          import { normalizeAgendaSourceEvidence } from './app/source-evidence-normalizer.mjs';
-          import { applyDeclarativeEventCorrectionRules } from './app/event-correction-rules.mjs';
           import { loadAgendaDataset } from './app/data-pipeline.js';
-
-          const match = (e) => String(e?.title || '').toLocaleLowerCase('es').includes('matriarcas');
-          const report = (label, dataset) => {
-            const rows = (dataset?.events || []).filter(match).map((e) => ({
-              id: e.id,
-              title: e.title,
-              source_id: e.source_id,
-              primary_category: e.primary_category,
-              source_category: e.semantics?.source_category || null,
-              score: e.semantics?.score ?? null,
-              confidence: e.semantics?.confidence ?? null,
-              merged_duplicate_ids: e.editorial?.merged_duplicate_ids || null,
-              merged_source_names: e.editorial?.merged_source_names || null,
-            }));
-            console.log(`TRACE_${label}=${JSON.stringify(rows)}`);
-          };
-
-          const base = JSON.parse(fs.readFileSync('./agenda_web.json', 'utf8'));
-          const supplement = JSON.parse(fs.readFileSync('./app/data/valparaiso/supplemental-events.json', 'utf8'));
-          let d = mergeSupplementalPayload(base, supplement); report('00_MERGED_INPUT', d);
-          d = normalizeAgendaPublicText(d); report('01_PUBLIC_TEXT', d);
-          d = applyEventDataCorrections(d); report('02_EVENT_CORRECTIONS', d);
-          d = recoverAgendaTitles(d); report('03_TITLE_RECOVERY', d);
-          d = normalizeAgendaCategories(d); report('04_CATEGORY_NORMALIZER', d);
-          d = { ...d, events: normalizeVenueAliases(d.events) }; report('05_VENUE', d);
-          d = applyDeclarativeEventCorrectionRules(d, { cityId: 'valparaiso' }); report('06_DECLARATIVE', d);
-          d = normalizeAgendaTitles(d); report('07_TITLE_NORMALIZER', d);
-          d = normalizeEventSeries(d, { cityId: 'valparaiso' }); report('08_SERIES', d);
-          d = normalizeSessionOccurrences(d); report('09_SESSIONS', d);
-          d = normalizeFormationCycles(d); report('10_FORMATION', d);
-          d = correctArtequinNaturalArtSessions(d); report('11_ARTEQUIN', d);
-          d = deduplicateCrossSourceDataset(d); report('12_DEDUP', d);
-          d = { ...d, events: d.events.map((e) => enrichCitySourceEvidence(e, 'valparaiso')) }; report('13_CITY_EVIDENCE', d);
-          d = normalizeAgendaSourceEvidence(d); report('14_SOURCE_EVIDENCE', d);
-          d = normalizeAgendaPublicText(d); report('15_FINAL_TEXT', d);
-
           const cities = JSON.parse(fs.readFileSync('./app/cities.json', 'utf8'));
           const city = cities.cities.find((x) => x.id === 'valparaiso');
-          for (const origin of [
-            'https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/',
-            'https://vivamos.pages.dev/app/',
-          ]) {
-            const fetchImpl = async (url, options = {}) => fetch(new URL(String(url), origin), options);
-            const result = await loadAgendaDataset(city, { fetchImpl, now: new Date('2026-08-25T20:24:00Z') });
-            const rows = result.dataset.events.filter(match).map((e) => ({
-              id: e.id,
-              title: e.title,
-              source_id: e.source_id,
-              primary_category: e.primary_category,
-              source_category: e.semantics?.source_category || null,
-              score: e.semantics?.score ?? null,
-              merged_duplicate_ids: e.editorial?.merged_duplicate_ids || null,
-            }));
-            console.log(`PRODUCTION_FINAL origin=${origin} rows=${JSON.stringify(rows)}`);
-            if (!rows.length) throw new Error(`Matriarcas not visible at ${origin}`);
+          const payloads = new Map();
+          payloads.set(String(city.dataset), JSON.parse(fs.readFileSync('./agenda_web.json', 'utf8')));
+          if (city.supplemental_dataset) {
+            const path = String(city.supplemental_dataset).replace(/^\.\//, 'app/');
+            payloads.set(String(city.supplemental_dataset), JSON.parse(fs.readFileSync(path, 'utf8')));
           }
+          const fetchImpl = async (url) => ({
+            ok: payloads.has(String(url)),
+            status: payloads.has(String(url)) ? 200 : 404,
+            json: async () => structuredClone(payloads.get(String(url))),
+          });
+          const result = await loadAgendaDataset(city, { fetchImpl, now: new Date('2026-08-25T20:24:00Z') });
+          const matches = result.dataset.events.filter((e) => String(e?.title || '').toLocaleLowerCase('es').includes('matriarcas'));
+          console.log('MATRIARCAS_FINAL=' + JSON.stringify(matches.map((e) => ({
+            id: e.id,
+            title: e.title,
+            category: e.primary_category,
+            score: e.semantics?.score,
+            evidence: e.semantics?.evidence,
+            merged_category_evidence: e.editorial?.merged_category_evidence,
+          }))));
+          if (matches.length !== 1) throw new Error(`Expected exactly one visible Matriarcas, got ${matches.length}`);
+          if (matches[0]?.primary_category?.id !== 'teatro') throw new Error(`Matriarcas final category is ${matches[0]?.primary_category?.id}`);
+
+          const consensusViolations = [];
+          for (const e of result.normalizedDataset.events || []) {
+            const rows = Array.isArray(e?.editorial?.merged_category_evidence) ? e.editorial.merged_category_evidence : [];
+            if (rows.length < 2) continue;
+            const ids = [...new Set(rows.map((row) => String(row?.category_id || '')).filter(Boolean))];
+            const strong = rows.some((row) => ['high', 'medium'].includes(String(row?.confidence || '')) || Number(row?.score || 0) >= 70);
+            if (ids.length === 1 && strong && ids[0] !== 'unclassified' && e?.primary_category?.id !== ids[0]) {
+              consensusViolations.push({ id: e.id, title: e.title, expected: ids[0], actual: e?.primary_category?.id });
+            }
+          }
+          console.log('MERGED_CATEGORY_CONSENSUS_VIOLATIONS=' + JSON.stringify(consensusViolations));
+          if (consensusViolations.length) process.exit(1);
+          console.log(`MATRIARCAS_RUNTIME_TEATRO_OK visible=${result.dataset.events.length}`);
           NODE
+      - name: Commit clean permanent implementation
+        run: |
+          set -euo pipefail
+          git config user.name "carlosggar-arch"
+          git config user.email "carlosggar@gmail.com"
+          git diff --check
+          git status --short
+          git add \
+            shared/public-category-taxonomy.json \
+            app/public-category-taxonomy.generated.mjs \
+            app/event-identity-core.mjs \
+            app/public-category-rules.mjs \
+            scripts/public_category_rules.py \
+            app/public-category-regressions.test.mjs \
+            app/scripts/test_public_category_regressions.py
+          test -n "$(git diff --cached --name-only)"
+          git commit -m "Preserve category consensus across source deduplication"
+          git push origin HEAD:fix/dedup-category-consensus-20260825
