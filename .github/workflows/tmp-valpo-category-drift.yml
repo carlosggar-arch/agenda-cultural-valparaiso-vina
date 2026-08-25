@@ -13,48 +13,57 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-node@v6
         with:
-          python-version: '3.12'
-      - name: Compare repository and deployed datasets
+          node-version: '24'
+      - name: Trace Matriarcas through pipeline stages
         shell: bash
         run: |
-          python - <<'PY'
-          import hashlib, json, time, urllib.request
-          from pathlib import Path
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { normalizeAgendaPublicText } from './app/public-text-sanitizer.mjs';
+          import { applyEventDataCorrections } from './app/event-data-corrections.js';
+          import { normalizeAgendaCategories } from './app/category-normalizer.js';
+          import { normalizeVenueAliases } from './app/venue-identity.mjs';
+          import { normalizeAgendaTitles, recoverAgendaTitles } from './app/title-normalizer-bootstrap.js';
+          import { normalizeSessionOccurrences } from './app/session-occurrence-normalizer.js';
+          import { normalizeEventSeries } from './app/event-series-normalizer.mjs';
+          import { normalizeFormationCycles } from './app/formation-cycle-classifier.js';
+          import { correctArtequinNaturalArtSessions } from './app/artequin-session-correction.js';
+          import { deduplicateCrossSourceDataset } from './app/cross-source-deduplication.mjs';
+          import { enrichCitySourceEvidence } from './app/city-source-evidence-adapter.mjs';
+          import { normalizeAgendaSourceEvidence } from './app/source-evidence-normalizer.mjs';
+          import { applyDeclarativeEventCorrectionRules } from './app/event-correction-rules.mjs';
+          import { normalizeSourceDisplayNames } from './app/data-pipeline.js';
 
-          event_id = 'agenda_9007884dd819ed9a575ebda9'
-          local_bytes = Path('agenda_web.json').read_bytes()
-          local = json.loads(local_bytes)
-          local_event = next(e for e in local['events'] if e.get('id') == event_id)
-          print('LOCAL_DATASET', {
-              'sha256': hashlib.sha256(local_bytes).hexdigest(),
-              'generated_at': local.get('generated_at'),
-              'publication_date': local.get('publication_date'),
-              'event_title': local_event.get('title'),
-              'event_category': local_event.get('primary_category'),
-          })
-
-          urls = {
-              'github-pages': 'https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/agenda_web.json',
-              'cloudflare': 'https://vivamos.pages.dev/agenda_web.json',
+          const id = 'agenda_9007884dd819ed9a575ebda9';
+          let dataset = JSON.parse(fs.readFileSync('agenda_web.json', 'utf8'));
+          function show(stage) {
+            const e = dataset.events.find(e => e.id === id);
+            console.log('PIPELINE_STAGE', stage, JSON.stringify({
+              title:e?.title,
+              original_title:e?.original_title,
+              primary_category:e?.primary_category,
+              categories:e?.categories,
+              editorial:e?.editorial,
+            }));
           }
-          for name, base in urls.items():
-              url = f'{base}?categorydiag={time.time_ns()}'
-              req = urllib.request.Request(url, headers={'Cache-Control':'no-cache','Pragma':'no-cache'})
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  raw = response.read()
-                  headers = dict(response.headers.items())
-              data = json.loads(raw)
-              event = next(e for e in data['events'] if e.get('id') == event_id)
-              print('DEPLOYED_DATASET', name, {
-                  'sha256': hashlib.sha256(raw).hexdigest(),
-                  'generated_at': data.get('generated_at'),
-                  'publication_date': data.get('publication_date'),
-                  'event_title': event.get('title'),
-                  'event_category': event.get('primary_category'),
-                  'cache_control': headers.get('Cache-Control'),
-                  'etag': headers.get('ETag'),
-                  'age': headers.get('Age'),
-              })
-          PY
+          function stage(name, fn) { dataset = fn(dataset); show(name); }
+          show('raw');
+          stage('public-text-sanitizer', normalizeAgendaPublicText);
+          stage('source-display-name-normalizer', normalizeSourceDisplayNames);
+          stage('event-data-corrections', applyEventDataCorrections);
+          stage('title-recovery', recoverAgendaTitles);
+          stage('category-normalizer', normalizeAgendaCategories);
+          stage('venue-identity-normalizer', current => ({...current, events: normalizeVenueAliases(current.events)}));
+          stage('declarative-event-correction-rules', current => applyDeclarativeEventCorrectionRules(current, {cityId:'valparaiso'}));
+          stage('title-normalizer', normalizeAgendaTitles);
+          stage('event-series-normalizer', current => normalizeEventSeries(current, {cityId:'valparaiso'}));
+          stage('session-occurrence-normalizer', normalizeSessionOccurrences);
+          stage('formation-lifecycle-classifier', normalizeFormationCycles);
+          stage('artequin-session-correction', correctArtequinNaturalArtSessions);
+          stage('cross-source-deduplication', deduplicateCrossSourceDataset);
+          stage('city-source-evidence-adapter', current => ({...current, events: current.events.map(event => enrichCitySourceEvidence(event, 'valparaiso'))}));
+          stage('source-evidence-normalizer', normalizeAgendaSourceEvidence);
+          stage('public-text-sanitizer-final', normalizeAgendaPublicText);
+          NODE
