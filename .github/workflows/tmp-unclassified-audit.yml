@@ -22,32 +22,38 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '24'
-      - name: Audit before and after PortalTickets enrichment
+      - name: Audit exact runtime visible fallback
         run: |
-          cp agenda_web.json /tmp/agenda-before.json
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          import { classifyPublicCategory } from './app/public-category-rules.mjs';
-          const data=JSON.parse(fs.readFileSync('agenda_web.json','utf8'));
-          const rows=data.events.map(e=>({e,c:classifyPublicCategory(e)})).filter(x=>x.c.category.id==='unclassified');
-          console.log(`UNCLASSIFIED_BEFORE=${rows.length}`);
-          for (const {e,c} of rows) console.log('BEFORE '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',end:e.schedule?.end||'',source_id:e.source_id||'',description:e.description||'',tags:e.tags||[],editorial:e.editorial||null,score:c.score,candidates:c.candidates}));
+          import { loadAgendaDataset } from './app/data-pipeline.js';
+          const cities=JSON.parse(fs.readFileSync('./app/cities.json','utf8'));
+          const city=cities.cities.find(x=>x.id==='valparaiso');
+          const payloads=new Map();
+          payloads.set(String(city.dataset), JSON.parse(fs.readFileSync('./agenda_web.json','utf8')));
+          if (city.supplemental_dataset) {
+            const p=String(city.supplemental_dataset).replace(/^\.\//,'app/');
+            if (fs.existsSync(p)) payloads.set(String(city.supplemental_dataset), JSON.parse(fs.readFileSync(p,'utf8')));
+          }
+          const fetchImpl=async (url)=>({ok:payloads.has(String(url)),status:payloads.has(String(url))?200:404,json:async()=>structuredClone(payloads.get(String(url)))});
+          const result=await loadAgendaDataset(city,{fetchImpl,now:new Date('2026-08-25T12:58:00-04:00')});
+          const fallback=result.dataset.events.filter(e=>e.primary_category?.id==='unclassified');
+          console.log(`VISIBLE_TOTAL=${result.dataset.events.length}`);
+          console.log(`VISIBLE_FALLBACK=${fallback.length}`);
+          for (const e of fallback) console.log('VISIBLE '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',source_id:e.source_id||'',event_type:e.event_type||'',primary:e.primary_category,editorial:e.editorial||null}));
+          const counts={}; for(const e of result.dataset.events){const l=e.primary_category?.label||'NONE';counts[l]=(counts[l]||0)+1;} console.log('VISIBLE_COUNTS='+JSON.stringify(counts));
+          console.log('HIDDEN_PROGRAMS='+JSON.stringify((result.hiddenPrograms||[]).map(e=>({id:e.id,title:e.title,primary:e.primary_category}))));
           NODE
+      - name: Audit enriched remainder
+        run: |
           python app/scripts/refresh_portaltickets_editorial.py
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import { classifyPublicCategory } from './app/public-category-rules.mjs';
-          const before=JSON.parse(fs.readFileSync('/tmp/agenda-before.json','utf8'));
-          const after=JSON.parse(fs.readFileSync('agenda_web.json','utf8'));
-          const bm=new Map(before.events.map(e=>[e.id,e]));
-          const rows=after.events.map(e=>({e,c:classifyPublicCategory(e)}));
-          const unclassified=rows.filter(x=>x.c.category.id==='unclassified');
-          console.log(`UNCLASSIFIED_AFTER=${unclassified.length}`);
-          for (const {e,c} of rows) {
-            const b=bm.get(e.id); if (!b) continue;
-            const bc=classifyPublicCategory(b);
-            if (bc.category.id==='unclassified' || c.category.id==='unclassified') {
-              console.log('AFTER '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',end:e.schedule?.end||'',source_id:e.source_id||'',before_category:bc.category,after_category:c.category,description:e.description||'',tags:e.tags||[],editorial:e.editorial||null,score:c.score,evidence:c.evidence,candidates:c.candidates}));
-            }
-          }
+          import { eventIsCurrentOrFuture } from './app/runtime-past-event-guard.mjs';
+          const data=JSON.parse(fs.readFileSync('agenda_web.json','utf8'));
+          const now=new Date('2026-08-25T12:58:00-04:00');
+          const rows=data.events.map(e=>({e,c:classifyPublicCategory(e)})).filter(x=>x.c.category.id==='unclassified');
+          console.log(`UNCLASSIFIED_AFTER=${rows.length}`);
+          for(const {e,c} of rows) console.log('REMAINDER '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',source_id:e.source_id||'',visible:eventIsCurrentOrFuture(e,{now,timeZone:data.timezone}),description:e.description||'',semantic:e.semantics?.category_evidence_text||'',tags:e.tags||[],editorial:e.editorial||null,score:c.score,candidates:c.candidates}));
           NODE
