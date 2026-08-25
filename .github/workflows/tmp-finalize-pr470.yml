@@ -1,0 +1,50 @@
+name: TEMP finalize PR 470
+
+on:
+  push:
+    branches:
+      - diag/review-current-theatre-category-20260825
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: fix/production-dataset-freshness-scope-20260825
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Fetch current main
+        run: git fetch --no-tags origin main
+      - name: Prepare canonical release
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_sha="$(git rev-parse HEAD)"
+          python app/scripts/release_finalizer.py \
+            --prepare \
+            --base-ref origin/main \
+            --source-sha "$source_sha" \
+            --source-pr 470
+      - name: Commit canonical generated outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            app/release-version.js \
+            app/index.html \
+            app/service-worker-assets.generated.js \
+            app/venue-registry.generated.mjs \
+            app/data/release-bundle.json \
+            app/data/release-provenance.json
+          git diff --cached --name-only
+          git commit -m 'chore: finalize release for PR 470 [release-finalized]'
+          git push origin HEAD:fix/production-dataset-freshness-scope-20260825
