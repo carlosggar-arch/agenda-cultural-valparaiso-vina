@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "493065066da767056d4f1075a5a01d672f3287b3381e8ad76d68ffbca5749f8a",
-  "generated_at": "2026-08-25T10:08:04Z",
+  "fingerprint": "5c0a515590e169c4a957dbe8eeb9b3eae4dadb58764ea2c388d1dd6749e3acb8",
+  "generated_at": "2026-08-25T14:09:27Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -222,12 +222,12 @@
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
-        "musica": 0.125,
-        "teatro": 0.875
+        "musica": 0.45,
+        "teatro": 0.55
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.875,
+      "dominant_share": 0.55,
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
       "total": 40,
@@ -278,12 +278,11 @@
     },
     "valparaiso::cine arte vina del mar": {
       "category_distribution": {
-        "cine": 0.941176,
-        "teatro": 0.058824
+        "cine": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.941176,
+      "dominant_share": 1.0,
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
       "total": 17,
@@ -352,12 +351,11 @@
     },
     "valparaiso::insomnia teatro condell": {
       "category_distribution": {
-        "cine": 0.75,
-        "cursos-talleres-campus": 0.25
+        "cine": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.75,
+      "dominant_share": 1.0,
       "source_name": "INSOMNIA Teatro Condell",
       "source_url": "https://www.passline.com/eventos/la-odisea-546120",
       "total": 8,
@@ -644,7 +642,7 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "0fb085b413384fc84490efb5de31ec4d22921485",
+  "source_ref": "d8326fbb308dbc7960ae923bd3bb4dbb3e460489",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
