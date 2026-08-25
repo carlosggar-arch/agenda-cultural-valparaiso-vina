@@ -23,177 +23,16 @@ jobs:
         run: |
           git config user.name "carlosggar-arch"
           git config user.email "carlosggar@gmail.com"
-          git fetch origin fix/valpo-visible-category-authority-20260825
+          git fetch origin fix/valpo-visible-category-authority-20260825 diag/valpo-visible-category-drift-20260825
           git checkout -B fix/valpo-visible-category-authority-v2-20260825 origin/main
           mapfile -t COMMITS < <(git rev-list --reverse origin/main..origin/fix/valpo-visible-category-authority-20260825)
           echo "SECOND_CHANGE_COMMITS=${#COMMITS[@]}"
           test "${#COMMITS[@]}" -gt 0
           git cherry-pick "${COMMITS[@]}"
-      - name: Harden shared semantic authority
+          git show origin/diag/valpo-visible-category-drift-20260825:scripts/_tmp_second_category_fix.py > /tmp/second_category_fix.py
+      - name: Apply shared semantic hardening
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          def replace_exact(path, old_lines, new_lines):
-              p = Path(path)
-              text = p.read_text(encoding='utf-8')
-              old = '\n'.join(old_lines) + '\n'
-              new = '\n'.join(new_lines) + '\n'
-              if old not in text:
-                  raise SystemExit(f'anchor not found: {path}')
-              p.write_text(text.replace(old, new, 1), encoding='utf-8')
-
-          replace_exact('scripts/public_category_rules.py', [
-              'def _scalar_noise_values(value: Any) -> list[str]:',
-              '    if isinstance(value, str):',
-              '        return [value]',
-              '    if isinstance(value, dict):',
-              '        return [',
-              '            str(value.get(key) or "")',
-              '            for key in ("name", "label", "title", "address", "city", "venue")',
-              '            if value.get(key)',
-              '        ]',
-              '    return []',
-          ], [
-              'def _scalar_noise_values(value: Any) -> list[str]:',
-              '    if isinstance(value, str):',
-              '        return [value]',
-              '    if not isinstance(value, dict):',
-              '        return []',
-              '    values = [',
-              '        str(value.get(key) or "")',
-              '        for key in ("name", "label", "title", "address", "city", "venue")',
-              '        if value.get(key)',
-              '    ]',
-              '    venue = fold(value.get("venue"))',
-              '    city = fold(value.get("city"))',
-              '    if venue and city and venue.endswith(f" {city}"):',
-              '        short_venue = venue[: -(len(city) + 1)].strip()',
-              '        if len(short_venue) >= 4:',
-              '            values.append(short_venue)',
-              '    return values',
-          ])
-
-          replace_exact('app/public-category-rules.mjs', [
-              'function scalarNoiseValues(value) {',
-              '  if (typeof value === "string") return [value];',
-              '  if (!value || typeof value !== "object" || Array.isArray(value)) return [];',
-              '  return ["name", "label", "title", "address", "city", "venue"]',
-              '    .map((key) => value[key])',
-              '    .filter(Boolean)',
-              '    .map(String);',
-              '}',
-          ], [
-              'function scalarNoiseValues(value) {',
-              '  if (typeof value === "string") return [value];',
-              '  if (!value || typeof value !== "object" || Array.isArray(value)) return [];',
-              '  const values = ["name", "label", "title", "address", "city", "venue"]',
-              '    .map((key) => value[key])',
-              '    .filter(Boolean)',
-              '    .map(String);',
-              '  const venue = foldPublicCategoryText(value.venue);',
-              '  const city = foldPublicCategoryText(value.city);',
-              '  if (venue && city && venue.endsWith(` ${city}`)) {',
-              '    const shortVenue = venue.slice(0, -(city.length + 1)).trim();',
-              '    if (shortVenue.length >= 4) values.push(shortVenue);',
-              '  }',
-              '  return values;',
-              '}',
-          ])
-
-          p = Path('shared/public-category-taxonomy.json')
-          data = json.loads(p.read_text(encoding='utf-8'))
-          for rule in data['rules']['description_evidence']:
-              if rule['category'] != 'musica':
-                  continue
-              if 'organetto' in rule['pattern']:
-                  rule['pattern'] = rule['pattern'].replace('organetto)', 'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)')
-              if 'flamenco' in rule['pattern']:
-                  rule['pattern'] = rule['pattern'].replace('flamenco', 'flamen(?:c)?os?')
-          for rule in data['rules']['title_evidence']:
-              if rule['category'] != 'musica':
-                  continue
-              if 'organetto' in rule['pattern']:
-                  rule['pattern'] = rule['pattern'].replace('organetto)', 'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)')
-              if 'flamenco' in rule['pattern']:
-                  rule['pattern'] = rule['pattern'].replace('flamenco', 'flamen(?:c)?os?')
-          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          p = Path('app/scripts/test_public_category_regressions.py')
-          text = p.read_text(encoding='utf-8')
-          text = text.replace(
-              'def event(title, primary, *, tags=None, description="", venue=""):',
-              'def event(title, primary, *, tags=None, description="", venue="", city="Gijón"):',
-              1,
-          ).replace(
-              '        "location": {"venue": venue, "city": "Gijón"},',
-              '        "location": {"venue": venue, "city": city},',
-              1,
-          )
-          anchor = '    assert_case("venue does not define format", event("Concierto de cuarteto", "cultura", venue="Teatro Jovellanos"), "musica")\n'
-          extra = '\n'.join([
-              '    assert_case(',
-              '        "venue alias is semantic noise",',
-              '        event(',
-              '            "Lucy Briceño",',
-              '            "cultura",',
-              '            description="Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.",',
-              '            venue="Teatro Mauri SCD, Valparaíso",',
-              '            city="Valparaíso",',
-              '        ),',
-              '        "musica",',
-              '    )',
-              '    assert_case(',
-              '        "boleros valses and vinyl are music",',
-              '        event("Viernes Cebolla", "cultura", description="Una noche de boleros y valses, seguida de baile en vinilo."),',
-              '        "musica",',
-              '    )',
-              '    assert_case(',
-              '        "flamenco typo and Gipsy Kings remain music",',
-              '        event("Mario Reyes Leyenda Gipsy", "cultura", description="Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno."),',
-              '        "musica",',
-              '    )',
-              '',
-          ])
-          if anchor not in text:
-              raise SystemExit('python regression anchor not found')
-          p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
-
-          p = Path('app/public-category-regressions.test.mjs')
-          text = p.read_text(encoding='utf-8')
-          text = text.replace(
-              'function event(title, primary, { tags = [], description = "", venue = "" } = {}) {',
-              'function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {',
-              1,
-          ).replace(
-              '    location: { venue, city: "Gijón" },',
-              '    location: { venue, city },',
-              1,
-          )
-          anchor = 'expectCategory("venue neutral", event("Concierto de cuarteto", "cultura", { venue: "Teatro Jovellanos" }), "musica");\n'
-          extra = '\n'.join([
-              'expectCategory("venue alias is semantic noise", event(',
-              '  "Lucy Briceño",',
-              '  "cultura",',
-              '  { description: "Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.", venue: "Teatro Mauri SCD, Valparaíso", city: "Valparaíso" },',
-              '), "musica");',
-              'expectCategory("boleros valses and vinyl", event(',
-              '  "Viernes Cebolla",',
-              '  "cultura",',
-              '  { description: "Una noche de boleros y valses, seguida de baile en vinilo." },',
-              '), "musica");',
-              'expectCategory("flamenco typo and Gipsy Kings", event(',
-              '  "Mario Reyes Leyenda Gipsy",',
-              '  "cultura",',
-              '  { description: "Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno." },',
-              '), "musica");',
-              '',
-          ])
-          if anchor not in text:
-              raise SystemExit('js regression anchor not found')
-          p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
-          PY
+          python /tmp/second_category_fix.py
           python scripts/generate_public_category_module.py
       - name: Run deterministic regressions
         run: |
@@ -204,82 +43,19 @@ jobs:
           python app/scripts/test_portaltickets_editorial.py
           node app/formation-cycle-classifier.test.mjs
           python app/scripts/test_classification_uncertainty_audit.py
-          python app/scripts/run_changed_source_tests.py --base-ref origin/main
+          python app/scripts/run_changed_source_tests.py --base origin/main
       - name: Validate against live PortalTickets
         run: |
           cp agenda_web.json /tmp/agenda-before.json
           python app/scripts/refresh_portaltickets_editorial.py
           python scripts/materialize_public_categories.py agenda_web.json
-          python - <<'PY'
-          import json
-          import re
-          import unicodedata
-          from pathlib import Path
-
-          def fold(value):
-              text = unicodedata.normalize('NFD', str(value or ''))
-              text = ''.join(c for c in text if unicodedata.category(c) != 'Mn').casefold()
-              return re.sub(r'[^a-z0-9]+', ' ', text).strip()
-
-          events = json.loads(Path('agenda_web.json').read_text(encoding='utf-8'))['events']
-          portal = [e for e in events if e.get('source_id') == 'portaltickets_valparaiso']
-          print('PORTALTICKETS_LIVE_COUNT', len(portal))
-          if len(portal) < 20:
-              raise SystemExit(f'unexpectedly low live PortalTickets count: {len(portal)}')
-
-          expected_music = {
-              'LUCY BRICEÑO',
-              'LOS CRACK DEL PUERTO',
-              'VIERNES CEBOLLA',
-              'SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS',
-              'PREVIA ANIVERSARIO',
-              'FIESTA ANIVERSARIO POSEIDON',
-              'AILINASHAKTI',
-              'LOS CUATRO CUARTOS 64 AÑOS DE NEOFOLCLOR, LA TRADICIÓN NOS UNE, CHILE NOS INSPIRA',
-              'JOSE ALFREDO FUENTES 60 GOLD',
-              'ESTOY BIEN EN TEATRO MAURI SCD VALPARAISO - GIRA NACIONAL 2026-2027, SEGUNDO LP',
-              'QUILAPAYUN',
-              'FERNANDO UBIERGO: 50 AÑOS NO ES NADA EN VALPARAÍSO',
-              'TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS',
-              'MARIO REYES LEYENDA GIPSY',
-          }
-          found = 0
-          bad = []
-          for event in portal:
-              title = str(event.get('title') or '')
-              category = (event.get('primary_category') or {}).get('id')
-              if title in expected_music:
-                  found += 1
-                  print('LIVE_TARGET', title, category)
-                  if category != 'musica':
-                      bad.append((title, category))
-          if found < 8:
-              raise SystemExit(f'too few live regression targets present: {found}')
-          if bad:
-              raise SystemExit('live music targets misclassified: ' + repr(bad))
-
-          music_signal = re.compile(r'\b(?:concierto|musica|musical|cantautor|cantautora|banda|cancion|rock|punk|metal|jazz|bolero|vals|vinilo|flamen(?:c)?o|gipsy kings)\b')
-          explicit_stage = re.compile(r'\b(?:obra teatral|obra de teatro|teatro musical|comedia musical|ballet|danza|performance|funcion teatral|monologo|stand up|magia|ilusionismo)\b')
-          suspicious = []
-          for event in portal:
-              category = (event.get('primary_category') or {}).get('id')
-              if category != 'teatro':
-                  continue
-              text = fold(' '.join([str(event.get('title') or ''), str(event.get('description') or '')]))
-              if music_signal.search(text) and not explicit_stage.search(text):
-                  suspicious.append((event.get('title'), event.get('description')))
-          if suspicious:
-              raise SystemExit('PortalTickets music evidence still leaking to teatro: ' + repr(suspicious[:20]))
-          print('PORTALTICKETS_LIVE_CATEGORY_AUTHORITY_OK targets=', found)
-          PY
+          python /tmp/second_category_fix.py --validate-live
           python app/scripts/test_portaltickets_editorial.py
           python app/scripts/test_public_category_regressions.py
           node app/public-category-regressions.test.mjs
-      - name: Restore dataset and commit implementation
+      - name: Restore live data and push implementation branch
         run: |
           git checkout -- agenda_web.json app/data/quality/portaltickets-editorial.json || true
-          git config user.name "carlosggar-arch"
-          git config user.email "carlosggar@gmail.com"
           git add app/category-normalizer.js app/formation-cycle-classifier.js app/formation-cycle-classifier.test.mjs app/scripts/atomic_maintenance_hook.py app/scripts/refresh_portaltickets_editorial.py app/scripts/run_changed_source_tests.py app/scripts/test_portaltickets_editorial.py scripts/public_category_rules.py app/public-category-rules.mjs shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs
           git diff --cached --check
           git commit -m "Harden shared category authority against venue contamination"
