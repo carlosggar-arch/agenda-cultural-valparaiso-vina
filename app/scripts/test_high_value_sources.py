@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fetch_high_value_sources import extract_barjola, extract_laboral, is_delegated_source, merge
-from validate_high_value_refresh import validate_dataset
+from validate_high_value_refresh import DATASETS, selected_datasets, validate_dataset
 
 
 def source(source_id: str, dataset: str, city: str, timezone: str, currency: str, category_id: str, category_label: str) -> dict:
@@ -97,12 +97,24 @@ def test_public_validator_does_not_manage_core_gijon_events() -> None:
     assert dataset["counts"]["total"] == 1
 
 
+def test_valpo_validation_target_does_not_include_gijon() -> None:
+    targets = selected_datasets()
+    assert targets == [("valparaiso", DATASETS["valparaiso"])]
+    assert ("gijon", DATASETS["gijon"]) not in targets
+
+
+def test_multicity_validation_requires_explicit_opt_in() -> None:
+    assert selected_datasets("valparaiso", all_cities=True) == list(DATASETS.items())
+
+
 def main() -> None:
     test_laboral_requires_source_context_and_explicit_session()
     test_barjola_date_ranges()
     test_merge_is_idempotent()
     test_gijon_high_value_sources_are_delegated_to_core()
     test_public_validator_does_not_manage_core_gijon_events()
+    test_valpo_validation_target_does_not_include_gijon()
+    test_multicity_validation_requires_explicit_opt_in()
     print("HIGH_VALUE_SOURCE_TESTS_OK")
 
 
