@@ -208,7 +208,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "description_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa)\\b",
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa|visita guiada|visita comentada|visita especial)\\b",
         "weight": 35
       },
       {
@@ -283,7 +283,50 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ],
     "source_category_weight": 90,
     "source_evidence": [],
-    "source_title_evidence": [],
+    "source_title_evidence": [
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": ".+",
+        "reason": "official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override",
+        "source_id": "bioparc_acuario_gijon",
+        "weight": 65
+      },
+      {
+        "category": "musica",
+        "pattern": "^homenaje dire straits$",
+        "reason": "verified_sparse_official_event_music",
+        "source_id": "camara_recinto_ferial_gijon",
+        "weight": 180
+      },
+      {
+        "category": "teatro",
+        "pattern": "^el gran showman$",
+        "reason": "verified_sparse_official_event_stage_musical",
+        "source_id": "camara_recinto_ferial_gijon",
+        "weight": 180
+      },
+      {
+        "category": "musica",
+        "pattern": "^el arrebato el viaje inesperado$",
+        "reason": "verified_sparse_official_event_music",
+        "source_id": "laboral_ciudad_cultura",
+        "weight": 180
+      },
+      {
+        "category": "teatro",
+        "pattern": "^angel martin somos monos$",
+        "reason": "verified_sparse_official_event_comedy_monologue",
+        "source_id": "laboral_ciudad_cultura",
+        "weight": 180
+      },
+      {
+        "category": "musica",
+        "pattern": "^melody el bosque encantado$",
+        "reason": "verified_sparse_official_event_music",
+        "source_id": "laboral_ciudad_cultura",
+        "weight": 180
+      }
+    ],
     "summer_program_event_types": [
       "program",
       "registration_period"
@@ -293,7 +336,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "title_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno)\\b",
+        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno|visita guiada|visita comentada|visita especial)\\b",
         "weight": 165
       },
       {
@@ -378,7 +421,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ]
   },
-  "schema_version": "2.4.0"
+  "schema_version": "2.5.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);

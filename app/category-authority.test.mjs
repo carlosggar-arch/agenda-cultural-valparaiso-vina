@@ -12,7 +12,7 @@ const taxonomy = JSON.parse(
 const core = readFileSync(new URL("./app-core.js", import.meta.url), "utf8");
 const combined = readFileSync(new URL("./combined-filters.js", import.meta.url), "utf8");
 
-assert.equal(taxonomy.schema_version, "2.4.0");
+assert.equal(taxonomy.schema_version, "2.5.0");
 assert.equal(taxonomy.fallback_category, "unclassified");
 assert.equal(taxonomy.categories.unclassified.thematic, false);
 assert.equal(taxonomy.categories.unclassified.label, "Otros panoramas");
@@ -61,11 +61,15 @@ const cases = [
   ["reading club is literature, not training", { title: "Club de Lectura para la Niñez | Caleta de Historias", primary_category: { id: "otros", label: "Otros panoramas" } }, "literatura"],
   ["nature outing", { title: "Salida de senderismo por la costa", primary_category: { id: "naturaleza-deportes", label: "Naturaleza y deportes" } }, "naturaleza-aire-libre"],
   ["local fair", { title: "Feria de productores y oficios del barrio", primary_category: { id: "otros", label: "Otros panoramas" } }, "ferias-vida-local"],
+  ["generic guided visit is an experience", { title: "Visita guiada a zonas técnicas", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "cursos-talleres-campus"],
   ["bioparc educational encounter becomes experience", { title: "Encuentro Educativo Tiburones", source_id: "bioparc_acuario_gijon", source_name: "BIOPARC Acuario de Gijón — Actividades y talleres", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "cursos-talleres-campus"],
-  ["sparse source title stays unclassified", { title: "Alimentación del Gran Oceanario", source_id: "bioparc_acuario_gijon", source_name: "BIOPARC Acuario de Gijón — Actividades y talleres", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "unclassified"],
+  ["bioparc sparse activity uses declared source contract", { title: "Alimentación del Gran Oceanario", source_id: "bioparc_acuario_gijon", source_name: "BIOPARC Acuario de Gijón — Actividades y talleres", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "cursos-talleres-campus"],
   ["bioparc concert remains music", { title: "Concierto piano a la luz de las velas", source_id: "bioparc_acuario_gijon", source_name: "BIOPARC Acuario de Gijón — Actividades y talleres", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "musica"],
-  ["camera Dire Straits tribute is music by semantics", { title: "HOMENAJE DIRE STRAITS", description: "Concierto homenaje interpretado por una banda en directo.", source_id: "camara_recinto_ferial_gijon", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "musica"],
-  ["camera Gran Showman is stage musical by semantics", { title: "EL GRAN SHOWMAN", description: "Espectáculo escénico de teatro musical.", source_id: "camara_recinto_ferial_gijon", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "teatro"],
+  ["camera Dire Straits sparse official record is music", { title: "HOMENAJE DIRE STRAITS", source_id: "camara_recinto_ferial_gijon", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "musica"],
+  ["camera Gran Showman sparse official record is stage musical", { title: "EL GRAN SHOWMAN", source_id: "camara_recinto_ferial_gijon", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "teatro"],
+  ["laboral El Arrebato sparse official record is music", { title: "El Arrebato. El viaje inesperado", source_id: "laboral_ciudad_cultura", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "musica"],
+  ["laboral Angel Martin sparse official record is stage comedy", { title: "Ángel Martín. Somos monos", source_id: "laboral_ciudad_cultura", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "teatro"],
+  ["laboral Melody sparse official record is music", { title: "Melody. El bosque encantado", source_id: "laboral_ciudad_cultura", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "musica"],
   ["generic musical is theatre", { title: "La Bella y la Bestia, el musical", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "teatro"],
   ["ambiguous remains unclassified", { title: "Encuentro de agosto", description: "Actividad abierta a la comunidad.", primary_category: { id: "otros", label: "Otros panoramas" } }, "unclassified"],
   ["genre-rich description recovers music", { title: "Noche especial", description: "Bandas de punk y hardcore presentan canciones de sus nuevos discos.", primary_category: { id: "actividad-panorama", label: "Actividad / panorama" } }, "musica"],
