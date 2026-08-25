@@ -1,13 +1,26 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "5c0a515590e169c4a957dbe8eeb9b3eae4dadb58764ea2c388d1dd6749e3acb8",
-  "generated_at": "2026-08-25T14:11:34Z",
+  "fingerprint": "489d84857f71d2095ef384d7c56195b154355ca185bfe52187e391259a8fd831",
+  "generated_at": "2026-08-25T14:33:54Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
   "source_anomalies": [],
   "source_metrics": {
+    "gijon::agenda gijon": {
+      "category_distribution": {
+        "teatro": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "teatro",
+      "dominant_share": 1.0,
+      "source_name": "Agenda Gijón",
+      "source_url": "https://agendagijon.com/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
         "cursos-talleres-campus": 0.714286,
@@ -204,6 +217,19 @@
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
       "total": 40,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "gijon::sala acapulco conciertos": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Sala Acapulco — Conciertos",
+      "source_url": "https://www.instagram.com/sala_acapulco_conciertos/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -642,14 +668,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "19f5807ba9a3c13f9771739213e123edfc6c08d2",
+  "source_ref": "c214d7805493292d642c9c3eb34302633b139e0e",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 45,
-    "total_events": 384,
+    "source_count": 47,
+    "total_events": 388,
     "unclassified_count": 14,
-    "unclassified_rate": 0.036458
+    "unclassified_rate": 0.036082
   },
   "unclassified_queue": [
     {
