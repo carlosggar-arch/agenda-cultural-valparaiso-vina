@@ -24,25 +24,72 @@ jobs:
           import { classifyPublicCategory } from './app/public-category-rules.mjs';
 
           const data = JSON.parse(fs.readFileSync('agenda_web.json', 'utf8'));
-          const musicCue = /\b(concierto|orquesta|sinf[oó]nica|filarm[oó]nica|banda|m[uú]sica|musical|jazz|gospel|cuarteto|tr[ií]o|d[uú]o|cantata|recital|cumbia|rock|salsa|bachata|coro|choir|ensemble)\b/iu;
           let drift = 0;
-          let musicSuspects = 0;
           for (const event of data.events || []) {
             const classified = classifyPublicCategory(event);
             const stored = event?.primary_category?.id || '';
             const runtime = classified?.category?.id || '';
             if (stored !== runtime) {
               drift += 1;
-              console.log('CATEGORY_DRIFT', JSON.stringify({id:event.id,title:event.title,stored,runtime,source_category:classified.source_category,candidates:classified.candidates,evidence:classified.evidence}));
-            }
-            const blob = `${event.title || ''} ${event.description || ''}`;
-            if (musicCue.test(blob) && runtime !== 'musica') {
-              musicSuspects += 1;
-              console.log('MUSIC_SUSPECT', JSON.stringify({id:event.id,title:event.title,stored,runtime,candidates:classified.candidates,evidence:classified.evidence}));
+              console.log('CATEGORY_DRIFT', JSON.stringify({id:event.id,title:event.title,stored,runtime,candidates:classified.candidates,evidence:classified.evidence}));
             }
             if (String(event.title || '').includes('Matriarcas')) {
               console.log('MATRIARCAS_RUNTIME', JSON.stringify({id:event.id,title:event.title,stored,runtime,candidates:classified.candidates,evidence:classified.evidence}));
             }
           }
-          console.log(`CATEGORY_DRIFT_SUMMARY total=${data.events.length} drift=${drift} music_suspects=${musicSuspects}`);
+          console.log(`CATEGORY_DRIFT_SUMMARY total=${data.events.length} drift=${drift}`);
           NODE
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install browser dependency
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Verify clean-browser production presentation
+        shell: bash
+        run: |
+          PYTHONPATH=app/scripts python - <<'PY'
+          import tempfile
+          from selenium import webdriver
+          from selenium.webdriver.support.ui import WebDriverWait
+          from production_browser_selenium_smoke import chrome_options, load_dom, runtime_ready
+          from production_pwa_smoke import ORIGINS, release_number
+
+          release = release_number()
+          event_id = 'agenda_9007884dd819ed9a575ebda9'
+          for origin, base in ORIGINS.items():
+              with tempfile.TemporaryDirectory(prefix=f'valpo-category-{origin}-') as profile:
+                  driver = webdriver.Chrome(options=chrome_options(profile, 1280, 900))
+                  try:
+                      load_dom(driver, base, 'valparaiso', 1280, 900, release, extra='categorydiag=1')
+                      driver.execute_script("document.querySelector('[data-section-filter=\"todos\"]')?.click()")
+                      WebDriverWait(driver, 10, poll_frequency=0.05).until(
+                          lambda d: d.find_elements('css selector', f'[data-event-id="{event_id}"]')
+                      )
+                      result = driver.execute_script("""
+                        const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
+                        const cards = [...document.querySelectorAll('.event-card')];
+                        const others = cards
+                          .filter(c => c.dataset.category === 'unclassified')
+                          .map(c => ({
+                            id: c.dataset.eventId || '',
+                            title: c.querySelector('h4')?.textContent?.trim() || '',
+                            meta: c.querySelector('.meta')?.textContent?.trim() || '',
+                            text: c.textContent || '',
+                          }));
+                        const music = /\b(concierto|orquesta|sinf[oó]nica|filarm[oó]nica|banda|m[uú]sica|jazz|gospel|cuarteto|tr[ií]o|d[uú]o|cantata|recital|cumbia|rock|coro|ensemble)\b/iu;
+                        return {
+                          release: globalThis.__VIVAMOS_RELEASE__,
+                          matriarcas: card ? {
+                            id: card.dataset.eventId,
+                            category: card.dataset.category,
+                            meta: card.querySelector('.meta')?.textContent?.trim() || '',
+                            title: card.querySelector('h4')?.textContent?.trim() || '',
+                          } : null,
+                          otherMusic: others.filter(item => music.test(item.text)).map(({id,title,meta}) => ({id,title,meta})),
+                          othersCount: others.length,
+                        };
+                      """, event_id)
+                      print('PRODUCTION_CATEGORY_PRESENTATION', origin, result)
+                  finally:
+                      driver.quit()
+          PY
