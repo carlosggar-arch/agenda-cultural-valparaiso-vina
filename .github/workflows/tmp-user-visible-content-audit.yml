@@ -1,4 +1,4 @@
-name: TEMP implement semantic content integrity
+name: TEMP finalize PR 479
 
 on:
   push:
@@ -9,9 +9,9 @@ permissions:
   contents: write
 
 jobs:
-  implement:
+  finalize:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v7
         with:
@@ -20,136 +20,21 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-          cache: pip
-          cache-dependency-path: requirements-ci.txt
-      - uses: actions/setup-node@v5
-        with:
-          node-version: '24'
-      - name: Apply permanent structural patch
-        run: |
-          set -euo pipefail
-          git fetch origin main diag/user-visible-category-content-20260825 fix/valpo-semantic-content-integrity-20260825
-          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
-          git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_patch_semantic_content_integrity.py > /tmp/patch.py
-          git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_patch_semantic_content_integrity_v2.py > /tmp/patch-v2.py
-          python /tmp/patch.py
-          python /tmp/patch-v2.py
-          python scripts/generate_public_category_module.py
-          python scripts/generate_public_category_module.py --check
-          python -m py_compile app/scripts/apply_title_quality_guard.py app/scripts/apply_content_quality_guard.py app/scripts/production_browser_selenium_smoke.py
-      - name: Run permanent unit regressions
-        run: |
-          set -euo pipefail
-          python app/scripts/test_title_quality_guard.py
-          python app/scripts/test_content_quality_guard.py
-          python app/scripts/test_public_category_regressions.py
-          node app/public-category-regressions.test.mjs
-      - name: Apply guards to the current Valpo snapshot
-        run: |
-          set -euo pipefail
-          python app/scripts/apply_title_quality_guard.py
-          python app/scripts/apply_content_quality_guard.py
-          python scripts/materialize_public_categories.py agenda_web.json
-          python - <<'PY'
-          import json
-          from datetime import datetime
-          from pathlib import Path
-          from zoneinfo import ZoneInfo
-          path=Path('agenda_web.json')
-          data=json.loads(path.read_text(encoding='utf-8'))
-          now=datetime.now(ZoneInfo('America/Santiago'))
-          data['generated_at']=now.isoformat(timespec='seconds')
-          data['publication_date']=now.date().isoformat()
-          path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          print('VALPO_SEMANTIC_REGENERATION',data['generated_at'],data['publication_date'])
-          PY
-          python app/scripts/refresh_quality_diagnostics.py
-      - name: Verify the exact reported cases through the runtime pipeline
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          data=json.loads(Path('agenda_web.json').read_text(encoding='utf-8'))
-          by_id={e.get('id'):e for e in data.get('events',[])}
-          expected={
-            'agenda_9007884dd819ed9a575ebda9':('teatro','Teatro "Matriarcas: Poesía, Papel y Tinta"'),
-            'agenda_cb11de3205743209b185176a':('literatura','La Flor de Nieve y los secretos del desierto'),
-            'agenda_visitavina_rioja_8c01d0d993729991bf':('literatura','Presentación libro // “Consomé Punk”'),
-          }
-          for eid,(category,title) in expected.items():
-            e=by_id.get(eid)
-            assert e, eid
-            assert (e.get('primary_category') or {}).get('id')==category,(eid,e.get('primary_category'))
-            assert e.get('title')==title,(eid,e.get('title'))
-            print('RAW_SEMANTIC_OK',eid,category,title)
-          for forbidden in ('agenda_847eddd1d97066721e6d98ab','agenda_31fa4e83e77420f8d918d78c'):
-            assert forbidden not in by_id,forbidden
-            print('RAW_NON_EVENT_REMOVED',forbidden)
-          for e in data.get('events',[]):
-            text=(str(e.get('title') or '')+' '+str(e.get('description') or '')).casefold()
-            assert 'más de 50 mil personas visitaron museos' not in text
-          PY
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          import { loadAgendaDataset } from './app/data-pipeline.js';
-          const cities=JSON.parse(fs.readFileSync('./app/cities.json','utf8'));
-          const city=cities.cities.find(x=>x.id==='valparaiso');
-          const payloads=new Map();
-          payloads.set(String(city.dataset),JSON.parse(fs.readFileSync('./agenda_web.json','utf8')));
-          if(city.supplemental_dataset){
-            const p=String(city.supplemental_dataset).replace(/^\.\//,'app/');
-            if(fs.existsSync(p)) payloads.set(String(city.supplemental_dataset),JSON.parse(fs.readFileSync(p,'utf8')));
-          }
-          const fetchImpl=async url=>({ok:payloads.has(String(url)),status:payloads.has(String(url))?200:404,json:async()=>structuredClone(payloads.get(String(url)))});
-          const out=await loadAgendaDataset(city,{fetchImpl,now:new Date()});
-          const byId=new Map(out.dataset.events.map(e=>[e.id,e]));
-          const expected=[
-            ['agenda_9007884dd819ed9a575ebda9','teatro','Matriarcas: Poesía, Papel y Tinta'],
-            ['agenda_cb11de3205743209b185176a','literatura','La Flor de Nieve y los secretos del desierto'],
-            ['agenda_visitavina_rioja_8c01d0d993729991bf','literatura','Presentación libro // “Consomé Punk”'],
-          ];
-          for(const [id,cat,title] of expected){
-            const e=byId.get(id); if(!e) throw new Error('missing '+id);
-            if(e.primary_category?.id!==cat) throw new Error(`${id} category=${e.primary_category?.id}`);
-            if(e.title!==title) throw new Error(`${id} title=${e.title}`);
-            console.log('RUNTIME_SEMANTIC_OK',id,cat,title);
-          }
-          for(const id of ['agenda_847eddd1d97066721e6d98ab','agenda_31fa4e83e77420f8d918d78c']){
-            if(byId.has(id)) throw new Error('non-event survived '+id);
-            console.log('RUNTIME_NON_EVENT_REMOVED',id);
-          }
-          for(const e of out.dataset.events){
-            const text=`${e.title||''} ${e.description||''}`.toLowerCase();
-            if(text.includes('más de 50 mil personas visitaron museos')) throw new Error('visitation-news survived');
-          }
-          NODE
-      - name: Run changed-source validation
-        run: |
-          set -euo pipefail
-          python app/scripts/run_changed_source_tests.py --base origin/main
-      - name: Commit only permanent source and regenerated data
+      - name: Prepare canonical release finalizer
+        env:
+          EXPECTED_SOURCE: ba5a58008afb39da72c6c7a446714a9f620530d7
         run: |
           set -euo pipefail
           git config user.name "carlosggar-arch"
           git config user.email "carlosggar@gmail.com"
+          git fetch --no-tags origin main fix/valpo-semantic-content-integrity-20260825
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          test "$(git rev-parse origin/main)" = "54c8a58e17b283bc2f1fe7303738bc00fbc75e61"
+          python app/scripts/release_finalizer.py --prepare --base-ref origin/main --source-sha "$EXPECTED_SOURCE" --source-pr 479
           git diff --check
           git status --short
-          git add \
-            shared/public-category-taxonomy.json \
-            app/public-category-taxonomy.generated.mjs \
-            app/scripts/apply_title_quality_guard.py \
-            app/scripts/test_title_quality_guard.py \
-            app/scripts/apply_content_quality_guard.py \
-            app/scripts/test_content_quality_guard.py \
-            app/scripts/production_browser_selenium_smoke.py \
-            agenda_web.json \
-            app/data/quality/title-quality.json \
-            app/data/quality/content-quality.json \
-            app/data/quality
+          git add app/release-version.js app/service-worker-assets.generated.js app/venue-registry.generated.mjs app/data/release-bundle.json app/data/release-provenance.json app/index.html
           test -n "$(git diff --cached --name-only)"
-          if git diff --cached --name-only | grep -qE '^app/(release-version\.js|service-worker-assets\.generated\.js|venue-registry\.generated\.mjs|data/release-bundle\.json|data/release-provenance\.json|index\.html)$'; then
-            echo 'GENERATED_RELEASE_LEAK'; exit 1
-          fi
-          git commit -m "Guard Valpo semantic categories and non-event content"
+          git commit -m "[release-finalized] finalize PR #479"
+          python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref HEAD
           git push origin HEAD:fix/valpo-semantic-content-integrity-20260825
