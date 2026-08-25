@@ -6,52 +6,210 @@ on:
       - diag/valpo-visible-category-drift-20260825
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  validate-live:
+  implement:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
           ref: fix/valpo-visible-category-authority-20260825
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Refresh PortalTickets and materialize shared categories
+      - name: Harden shared semantic authority
         run: |
-          cp agenda_web.json /tmp/agenda-before.json
-          python app/scripts/refresh_portaltickets_editorial.py
-          python scripts/materialize_public_categories.py agenda_web.json
           python - <<'PY'
           import json
           from pathlib import Path
-          before={e['id']:e for e in json.loads(Path('/tmp/agenda-before.json').read_text())['events']}
-          after=json.loads(Path('agenda_web.json').read_text())['events']
-          portal=[e for e in after if e.get('source_id')=='portaltickets_valparaiso']
-          print('PORTAL_COUNT',len(portal))
-          for e in portal:
-              old=before.get(e['id'])
-              oldcat=(old.get('primary_category') or {}).get('id') if old else None
-              newcat=(e.get('primary_category') or {}).get('id')
-              if oldcat != newcat or newcat == 'unclassified':
-                  print('CATEGORY',json.dumps({
-                    'id':e.get('id'),'title':e.get('title'),'old':oldcat,'new':newcat,
-                    'label':(e.get('primary_category') or {}).get('label'),
-                    'description':e.get('description'),'tags':e.get('tags'),
-                    'confidence':(e.get('editorial') or {}).get('category_confidence'),
-                    'url':(e.get('links') or {}).get('tickets')
-                  },ensure_ascii=False))
-          targets=['PREVIA ANIVERSARIO','FIESTA ANIVERSARIO POSEIDON','SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS','MARIO REYES LEYENDA GIPSY','2 AÑOS DE WAREBA','SOFÍA ALVEZ EN EL PASAJE']
-          for title in targets:
-              found=[e for e in portal if e.get('title')==title]
-              if found:
-                  e=found[0]
-                  print('TARGET',json.dumps({'title':title,'category':e.get('primary_category'),'description':e.get('description'),'tags':e.get('tags'),'confidence':(e.get('editorial') or {}).get('category_confidence')},ensure_ascii=False))
+
+          # Python: derive a venue alias without a trailing city so venue names
+          # cannot become semantic evidence when descriptions omit the city.
+          p = Path('scripts/public_category_rules.py')
+          text = p.read_text(encoding='utf-8')
+          old = '''def _scalar_noise_values(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        return [
+            str(value.get(key) or "")
+            for key in ("name", "label", "title", "address", "city", "venue")
+            if value.get(key)
+        ]
+    return []
+'''
+          new = '''def _scalar_noise_values(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if not isinstance(value, dict):
+        return []
+    values = [
+        str(value.get(key) or "")
+        for key in ("name", "label", "title", "address", "city", "venue")
+        if value.get(key)
+    ]
+    venue = fold(value.get("venue"))
+    city = fold(value.get("city"))
+    if venue and city and venue.endswith(f" {city}"):
+        short_venue = venue[: -(len(city) + 1)].strip()
+        if len(short_venue) >= 4:
+            values.append(short_venue)
+    return values
+'''
+          if old not in text:
+              raise SystemExit('python noise anchor not found')
+          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # JS parity for WEB/APP runtime.
+          p = Path('app/public-category-rules.mjs')
+          text = p.read_text(encoding='utf-8')
+          old = '''function scalarNoiseValues(value) {
+  if (typeof value === "string") return [value];
+  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+  return ["name", "label", "title", "address", "city", "venue"]
+    .map((key) => value[key])
+    .filter(Boolean)
+    .map(String);
+}
+'''
+          new = '''function scalarNoiseValues(value) {
+  if (typeof value === "string") return [value];
+  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+  const values = ["name", "label", "title", "address", "city", "venue"]
+    .map((key) => value[key])
+    .filter(Boolean)
+    .map(String);
+  const venue = foldPublicCategoryText(value.venue);
+  const city = foldPublicCategoryText(value.city);
+  if (venue && city && venue.endsWith(` ${city}`)) {
+    const shortVenue = venue.slice(0, -(city.length + 1)).trim();
+    if (shortVenue.length >= 4) values.push(shortVenue);
+  }
+  return values;
+}
+'''
+          if old not in text:
+              raise SystemExit('js noise anchor not found')
+          p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # Shared taxonomy: add only structurally musical vocabulary found in
+          # public event copy; do not infer from artist names or site metadata.
+          p = Path('shared/public-category-taxonomy.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          for rule in data['rules']['description_evidence']:
+              if rule['category'] != 'musica':
+                  continue
+              pattern = rule['pattern']
+              if 'organetto' in pattern:
+                  rule['pattern'] = pattern.replace(
+                      'organetto)',
+                      'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)',
+                  )
+              elif 'flamenco' in pattern:
+                  rule['pattern'] = pattern.replace('flamenco', 'flamen(?:c)?os?')
+          for rule in data['rules']['title_evidence']:
+              if rule['category'] != 'musica':
+                  continue
+              pattern = rule['pattern']
+              if 'organetto' in pattern:
+                  rule['pattern'] = pattern.replace(
+                      'organetto)',
+                      'organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)',
+                  )
+              if 'flamenco' in rule['pattern']:
+                  rule['pattern'] = rule['pattern'].replace('flamenco', 'flamen(?:c)?os?')
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          # Python regressions.
+          p = Path('app/scripts/test_public_category_regressions.py')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace(
+              'def event(title, primary, *, tags=None, description="", venue=""):',
+              'def event(title, primary, *, tags=None, description="", venue="", city="Gijón"):',
+              1,
+          ).replace(
+              '"location": {"venue": venue, "city": "Gijón"},',
+              '"location": {"venue": venue, "city": city},',
+              1,
+          )
+          anchor = '    assert_case("venue does not define format", event("Concierto de cuarteto", "cultura", venue="Teatro Jovellanos"), "musica")\n'
+          extra = '''    assert_case(
+        "venue alias is semantic noise",
+        event(
+            "Lucy Briceño",
+            "cultura",
+            description="Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.",
+            venue="Teatro Mauri SCD, Valparaíso",
+            city="Valparaíso",
+        ),
+        "musica",
+    )
+    assert_case(
+        "boleros valses and vinyl are music",
+        event("Viernes Cebolla", "cultura", description="Una noche de boleros y valses, seguida de baile en vinilo."),
+        "musica",
+    )
+    assert_case(
+        "flamenco typo and Gipsy Kings remain music",
+        event("Mario Reyes Leyenda Gipsy", "cultura", description="Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno."),
+        "musica",
+    )
+'''
+          if anchor not in text:
+              raise SystemExit('python regression anchor not found')
+          p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
+
+          # JS regressions with identical semantics.
+          p = Path('app/public-category-regressions.test.mjs')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace(
+              'function event(title, primary, { tags = [], description = "", venue = "" } = {}) {',
+              'function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {',
+              1,
+          ).replace(
+              'location: { venue, city: "Gijón" },',
+              'location: { venue, city },',
+              1,
+          )
+          anchor = 'expectCategory("venue neutral", event("Concierto de cuarteto", "cultura", { venue: "Teatro Jovellanos" }), "musica");\n'
+          extra = '''expectCategory("venue alias is semantic noise", event(
+  "Lucy Briceño",
+  "cultura",
+  { description: "Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.", venue: "Teatro Mauri SCD, Valparaíso", city: "Valparaíso" },
+), "musica");
+expectCategory("boleros valses and vinyl", event(
+  "Viernes Cebolla",
+  "cultura",
+  { description: "Una noche de boleros y valses, seguida de baile en vinilo." },
+), "musica");
+expectCategory("flamenco typo and Gipsy Kings", event(
+  "Mario Reyes Leyenda Gipsy",
+  "cultura",
+  { description: "Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno." },
+), "musica");
+'''
+          if anchor not in text:
+              raise SystemExit('js regression anchor not found')
+          p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
           PY
-      - name: Run source regression after live refresh
+      - name: Regenerate shared taxonomy module
+        run: python app/scripts/generate_public_category_module.py
+      - name: Run category and source regressions
         run: |
-          python app/scripts/test_portaltickets_editorial.py
+          python -m py_compile scripts/public_category_rules.py app/scripts/test_public_category_regressions.py
+          python app/scripts/generate_public_category_module.py --check
           python app/scripts/test_public_category_regressions.py
           node app/public-category-regressions.test.mjs
+          python app/scripts/test_portaltickets_editorial.py
           node app/formation-cycle-classifier.test.mjs
+          python app/scripts/test_classification_uncertainty_audit.py
+      - name: Commit structural classifier fix
+        run: |
+          git config user.name "carlosggar-arch"
+          git config user.email "carlosggar@gmail.com"
+          git add scripts/public_category_rules.py app/public-category-rules.mjs shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs
+          git diff --cached --check
+          git commit -m "Harden shared category evidence against venue contamination"
+          git push origin HEAD:fix/valpo-visible-category-authority-20260825
