@@ -188,6 +188,8 @@ def fold(value: object) -> str:
 
 
 def validate_live() -> None:
+    from scripts.public_category_rules import classify_public_category
+
     events = json.loads(Path("agenda_web.json").read_text(encoding="utf-8"))["events"]
     portal = [event for event in events if event.get("source_id") == "portaltickets_valparaiso"]
     print("PORTALTICKETS_LIVE_COUNT", len(portal))
@@ -223,6 +225,26 @@ def validate_live() -> None:
     if found < 8:
         raise SystemExit(f"too few live regression targets present: {found}")
     if bad:
+        bad_titles = {title for title, _ in bad}
+        for event in portal:
+            if event.get("title") not in bad_titles:
+                continue
+            result = classify_public_category(event)
+            print(
+                "LIVE_BAD_DETAIL",
+                json.dumps(
+                    {
+                        "title": event.get("title"),
+                        "venue": (event.get("location") or {}).get("venue"),
+                        "source_category": (event.get("semantics") or {}).get("source_category"),
+                        "tags": event.get("tags"),
+                        "description": event.get("description"),
+                        "category_evidence_text": (event.get("semantics") or {}).get("category_evidence_text"),
+                        "result": result,
+                    },
+                    ensure_ascii=False,
+                ),
+            )
         raise SystemExit("live music targets misclassified: " + repr(bad))
 
     music_signal = re.compile(
