@@ -69,12 +69,14 @@ jobs:
       - name: Validate only affected source adapters
         run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
       - name: Validate classification quality diagnostic
+        if: always()
         run: |
           python -m py_compile scripts/semantic_quality_audit.py scripts/classification_uncertainty_audit.py app/scripts/test_classification_uncertainty_audit.py
           python app/scripts/test_classification_uncertainty_audit.py
           python scripts/semantic_quality_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/semantic-quality-pr.json
           python scripts/classification_uncertainty_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/classification-uncertainty-pr.json
       - name: TEMP audit every current Teatro y danza event
+        if: always()
         shell: bash
         run: |
           python - <<'PY'
