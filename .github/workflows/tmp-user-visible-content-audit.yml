@@ -29,8 +29,10 @@ jobs:
           git fetch origin main diag/user-visible-category-content-20260825 fix/valpo-semantic-content-integrity-20260825
           test "$(git rev-parse HEAD)" = "53f88c41bad8526c1405bbea89caaae9e093f321"
           git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_gijon_capsula_structural_fix.py > /tmp/gijon_fix.py
+          git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_gijon_recovery_score_fix.py > /tmp/gijon_score.py
           git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_gijon_production_semantic_guard.py > /tmp/gijon_smoke.py
           python /tmp/gijon_fix.py
+          python /tmp/gijon_score.py
           python /tmp/gijon_smoke.py
       - name: Run permanent regressions and exact Gijon runtime proof
         run: |
