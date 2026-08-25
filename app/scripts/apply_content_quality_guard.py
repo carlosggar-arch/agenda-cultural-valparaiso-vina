@@ -50,6 +50,24 @@ RETROSPECTIVE_OR_NEWS_TEXT = re.compile(
     r"durante estas vacaciones|durante las vacaciones)\b"
 )
 
+# Calls for submissions/applications are opportunities, not attendance events.
+# A strong call-to-submit signal in the title may carry a parsed deadline in
+# schedule.start; therefore this semantic check intentionally runs before the
+# generic concrete-schedule early return below.
+SUBMISSION_CALL_TITLE = re.compile(
+    r"^(?:(?:nueva|abierta)\s+)?convocatoria\b|"
+    r"^(?:envia|envianos|manda|comparte|postula|postulate|presenta|inscribe)\s+(?:tu|tus|un|una)\b"
+)
+SUBMISSION_CALL_LEAD = re.compile(
+    r"^(?:(?:nueva|abierta)\s+)?convocatoria\b|"
+    r"^(?:abrimos|lanzamos)\s+(?:una\s+)?convocatoria\b"
+)
+SUBMISSION_DEADLINE_TEXT = re.compile(
+    r"\b(?:hasta el|fecha limite|plazo (?:de )?(?:envio|postulacion|recepcion)|"
+    r"cierre (?:de la |de )?(?:convocatoria|postulaciones|recepcion)|"
+    r"postulaciones? (?:abiertas? )?hasta|recepcion (?:de \w+ ){0,3}hasta)\b"
+)
+
 ACTIVITY_NOUN = r"(?:muestra|exposici[oó]n|exhibici[oó]n|concierto|recital|obra|taller|charla|conversatorio|festival|funci[oó]n|encuentro|seminario|curso)"
 RECOVERY_PATTERNS = (
     re.compile(
@@ -116,8 +134,28 @@ def has_concrete_schedule(event: dict) -> bool:
     return False
 
 
+def is_deadline_only_submission_call(event: dict) -> bool:
+    title = fold(event.get("title"))
+    description = fold(event.get("description"))
+    combined = f"{title} {description}".strip()
+    if not SUBMISSION_DEADLINE_TEXT.search(combined):
+        return False
+    # Title-level intent is authoritative even when a scraper promoted the
+    # deadline itself into schedule.start. Description-only intent is accepted
+    # only when there is no independent attendance schedule, which protects
+    # real workshops/performances that merely have an application deadline.
+    if SUBMISSION_CALL_TITLE.search(title):
+        return True
+    description_lead = description[:240]
+    return bool(SUBMISSION_CALL_LEAD.search(description_lead) and not has_concrete_schedule(event))
+
+
 def non_event_context_reason(event: dict) -> str | None:
-    if str(event.get("event_type") or "event") != "event" or has_concrete_schedule(event):
+    if str(event.get("event_type") or "event") != "event":
+        return None
+    if is_deadline_only_submission_call(event):
+        return "call_for_submissions_deadline_not_event"
+    if has_concrete_schedule(event):
         return None
     title = fold(event.get("title"))
     description = fold(event.get("description"))
