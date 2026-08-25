@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
-      - name: Enumerate category drift caused by formation lifecycle pass
+      - name: Audit Other panoramas after the same semantic stages
         shell: bash
         run: |
           node --input-type=module <<'NODE'
@@ -31,8 +31,10 @@ jobs:
           import { normalizeFormationCycles } from './app/formation-cycle-classifier.js';
           import { applyDeclarativeEventCorrectionRules } from './app/event-correction-rules.mjs';
           import { normalizeSourceDisplayNames } from './app/data-pipeline.js';
+          import { classifyPublicCategory } from './app/public-category-rules.mjs';
 
           let dataset = JSON.parse(fs.readFileSync('agenda_web.json', 'utf8'));
+          const rawById = new Map(dataset.events.map(e => [e.id, e]));
           dataset = normalizeAgendaPublicText(dataset);
           dataset = normalizeSourceDisplayNames(dataset);
           dataset = applyEventDataCorrections(dataset);
@@ -43,18 +45,24 @@ jobs:
           dataset = normalizeAgendaTitles(dataset);
           dataset = normalizeEventSeries(dataset, {cityId:'valparaiso'});
           dataset = normalizeSessionOccurrences(dataset);
-
-          const before = new Map(dataset.events.map(e => [e.id, {title:e.title, original_title:e.original_title, category:e.primary_category?.id, type:e.event_type}]));
-          const afterDataset = normalizeFormationCycles(dataset);
-          let count = 0;
-          for (const event of afterDataset.events) {
-            const prev = before.get(event.id);
-            if (!prev) continue;
-            const after = event.primary_category?.id;
-            if (prev.category !== after) {
-              count += 1;
-              console.log('FORMATION_CATEGORY_DRIFT', JSON.stringify({id:event.id,title:event.title,original_title:event.original_title,before:prev.category,after,before_type:prev.type,after_type:event.event_type,source:event.source_name,tags:event.tags}));
-            }
+          dataset = normalizeFormationCycles(dataset);
+          const others = dataset.events.filter(e => e.primary_category?.id === 'unclassified');
+          console.log(`OTHER_PANORAMAS_TOTAL count=${others.length}`);
+          for (const event of others) {
+            const raw = rawById.get(event.id) || {};
+            const classified = classifyPublicCategory(event);
+            console.log('OTHER_PANORAMA', JSON.stringify({
+              id:event.id,
+              title:event.title,
+              original_title:event.original_title,
+              raw_title:raw.title,
+              source:event.source_name,
+              source_id:event.source_id,
+              tags:event.tags,
+              description:String(event.description || '').slice(0,500),
+              raw_category:raw.primary_category,
+              candidates:classified.candidates,
+              evidence:classified.evidence,
+            }));
           }
-          console.log(`FORMATION_CATEGORY_DRIFT_SUMMARY count=${count}`);
           NODE
