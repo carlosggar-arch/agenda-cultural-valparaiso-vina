@@ -15,22 +15,30 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Inspect raw related entity markup
+      - name: Inspect PortalTickets hidden category fields
         run: |
           python - <<'PY'
           import re
           from urllib.request import Request,urlopen
           cases=[
-            ('wareba','https://www.portaldisc.com/evento/aniversariowareba','CUANDO EL PROBLEMA NO EXISTE'),
-            ('sofia','https://www.portaldisc.com/evento/sofiaalvezvinadelmar','SOFÍA ALVEZ'),
-            ('matriarcas','https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso','COMPAÑIA EL TIEMPO'),
-            ('mujer','https://www.portaldisc.com/evento/trip28-08','PAULA GONZÁLEZ'),
+            ('wareba','https://www.portaldisc.com/evento/aniversariowareba'),
+            ('sofia','https://www.portaldisc.com/evento/sofiaalvezvinadelmar'),
+            ('matriarcas','https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso'),
+            ('mujer','https://www.portaldisc.com/evento/trip28-08'),
+            ('gipsy','https://www.portaldisc.com/evento/gipsyvalparaiso'),
           ]
-          for label,url,needle in cases:
+          pats=[r'categor\w*',r'g[eé]ner\w*',r'tipo[_-]?evento',r'event[_-]?type',r'event[_-]?category',r'id[_-]?categor\w*',r'id[_-]?gener\w*']
+          for label,url in cases:
             req=Request(url,headers={'User-Agent':'Mozilla/5.0','Accept-Language':'es-CL,es;q=0.9'})
             with urlopen(req,timeout=20) as r: html=r.read().decode(r.headers.get_content_charset() or 'utf-8','replace')
-            p=html.casefold().find(needle.casefold())
-            print('\nCASE',label,'POS',p)
-            frag=html[max(0,p-600):p+900] if p>=0 else ''
-            print(re.sub(r'\s+',' ',frag))
+            print('\nCASE',label,'LEN',len(html))
+            seen=[]
+            for pat in pats:
+              for m in re.finditer(pat,html,re.I):
+                p=m.start(); frag=re.sub(r'\s+',' ',html[max(0,p-180):p+400])
+                if frag not in seen:
+                  seen.append(frag); print('HIT',frag[:580])
+                if len(seen)>=20: break
+              if len(seen)>=20: break
+            print('HITS',len(seen))
           PY
