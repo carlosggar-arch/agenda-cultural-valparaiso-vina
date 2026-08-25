@@ -50,7 +50,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs scripts/public_category_rules.py app/public-category-rules.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs scripts/materialize_public_categories.py .github/workflows/source-validation.yml agenda_web.json app/data/gijon/agenda_web.json
+          git add shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs scripts/public_category_rules.py app/public-category-rules.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs scripts/materialize_public_categories.py agenda_web.json app/data/gijon/agenda_web.json
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
             exit 0
