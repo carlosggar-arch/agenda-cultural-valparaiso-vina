@@ -1,5 +1,5 @@
 import { isPublicCategoryInGroup } from "./public-category-rules.mjs";
-import { normalizeAgendaCategories } from "./category-normalizer.js?v=20260823-semantic-v1";
+import { normalizeEventCategory } from "./category-normalizer.js?v=20260823-semantic-v1";
 
 function fold(value) {
   return String(value || "")
@@ -147,14 +147,16 @@ export function normalizeFormationCycles(dataset) {
   const events = dataset.events.map((event) => {
     if (isRegistrationReminder(event)) {
       changed = true;
-      return asRegistrationReminder(event);
+      return normalizeEventCategory(asRegistrationReminder(event));
     }
     if (!isLongFormationCycle(event)) return event;
     changed = true;
-    return asProgram(event);
+    return normalizeEventCategory(asProgram(event));
   });
   if (!changed) return dataset;
-  // Re-run the shared semantic authority after lifecycle mutation so category,
-  // domain trace, format and audience all describe the same final event record.
-  return normalizeAgendaCategories({ ...dataset, events });
+  // Lifecycle mutation owns only the records it actually transforms. Re-running
+  // the semantic authority over the whole catalogue here would make unrelated
+  // events depend on presentation-only title cleanup performed earlier in the
+  // pipeline (for example stripping a leading category prefix).
+  return { ...dataset, events };
 }
