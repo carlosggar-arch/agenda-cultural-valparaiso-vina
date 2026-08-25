@@ -203,6 +203,51 @@ def test_quarantines_visitation_statistics_news_without_concrete_event() -> None
     assert changes["quarantined"][0]["reason"] == "institutional_news_or_retrospective_without_event_schedule"
 
 
+def test_quarantines_deadline_only_submission_call_even_if_deadline_was_parsed_as_schedule() -> None:
+    call = event(
+        id="photo-call-valpo",
+        title="Envía tu foto hasta el: 24/08",
+        location={"venue_id": "mhnv", "venue": "Museo de Historia Natural de Valparaíso", "city": "Valparaíso"},
+        schedule={"mode": "single", "start": "2026-08-24T23:59:00-04:00", "end": None, "occurrences": []},
+        description="¡Nueva convocatoria! ¿Tienes fotografías guardadas de 1980 a 2026? Envía tu foto hasta el 24/08.",
+    )
+    dataset = {"events": [call], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"] == [{
+        "id": "photo-call-valpo",
+        "title": "Envía tu foto hasta el: 24/08",
+        "reason": "call_for_submissions_deadline_not_event",
+    }]
+
+
+def test_quarantines_description_led_submission_call_without_attendance_schedule() -> None:
+    call = event(
+        id="story-call-gijon",
+        title="Premio de relato 2026",
+        location={"venue_id": None, "venue": "Centro Cultural Municipal", "city": "Gijón"},
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Fecha por confirmar"},
+        description="Nueva convocatoria para autores. Postulaciones abiertas hasta el 30/09. Presenta tu relato en línea.",
+    )
+    dataset = {"events": [call], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "call_for_submissions_deadline_not_event"
+
+
+def test_keeps_real_scheduled_activity_with_application_deadline() -> None:
+    real = event(
+        id="scheduled-workshop",
+        title="Taller de fotografía documental",
+        schedule={"mode": "single", "start": "2026-08-30T18:00:00-04:00", "end": "2026-08-30T20:00:00-04:00", "occurrences": []},
+        description="Nueva convocatoria para participar. Inscripciones hasta el 24/08. El taller se realizará el 30/08 a las 18:00.",
+    )
+    dataset = {"events": [real], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert [item["id"] for item in dataset["events"]] == ["scheduled-workshop"]
+    assert changes["quarantined"] == []
+
+
 def test_does_not_quarantine_real_scheduled_anniversary_event() -> None:
     real = event(
         id="real-anniversary",
@@ -236,6 +281,9 @@ def main() -> None:
     test_quarantines_monthly_program_overview_without_concrete_event()
     test_quarantines_anniversary_news_without_concrete_event()
     test_quarantines_visitation_statistics_news_without_concrete_event()
+    test_quarantines_deadline_only_submission_call_even_if_deadline_was_parsed_as_schedule()
+    test_quarantines_description_led_submission_call_without_attendance_schedule()
+    test_keeps_real_scheduled_activity_with_application_deadline()
     test_does_not_quarantine_real_scheduled_anniversary_event()
     test_registry_exposes_both_current_city_datasets()
     print("CONTENT_QUALITY_GUARD_TESTS_OK")
