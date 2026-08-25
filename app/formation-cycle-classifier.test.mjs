@@ -55,4 +55,40 @@ const exhibition = {
 };
 assert.equal(isLongFormationCycle(exhibition), false, "long exhibitions must not be reclassified as formation programs");
 
+// Regression: title cleanup happens before formation lifecycle normalization.
+// Once the presentation prefix has been removed, unrelated records must retain
+// the category already resolved from their canonical source title/evidence.
+const matriarcasAfterTitleCleanup = {
+  id: "agenda_9007884dd819ed9a575ebda9",
+  title: "Matriarcas: Poesía, Papel y Tinta",
+  original_title: 'Teatro "Matriarcas: Poesía, Papel y Tinta"',
+  event_type: "event",
+  primary_category: { id: "teatro", label: "Teatro y danza" },
+  categories: [{ id: "teatro", label: "Teatro y danza" }],
+  schedule: { mode: "single", start: "2026-08-29T19:00:00-04:00", end: "2026-08-29T19:00:00-04:00", occurrences: [] },
+  description: "Una propuesta escénica construida desde poesía, papel y tinta.",
+  tags: ["Teatro"],
+};
+
+const workshopAfterTitleCleanup = {
+  id: "agenda_mhnv_fb_colores_primavera",
+  title: "Colores de Primavera",
+  original_title: "Taller “Colores de Primavera”",
+  event_type: "event",
+  primary_category: { id: "cursos-talleres-campus", label: "Cursos, talleres y campus" },
+  categories: [{ id: "cursos-talleres-campus", label: "Cursos, talleres y campus" }],
+  schedule: { mode: "single", start: "2026-09-05T11:00:00-04:00", end: "2026-09-05T11:00:00-04:00", occurrences: [] },
+  description: "Actividad práctica familiar.",
+  tags: ["Taller"],
+};
+
+const mixed = normalizeFormationCycles({
+  events: [formationCycle, matriarcasAfterTitleCleanup, workshopAfterTitleCleanup],
+});
+assert.equal(mixed.events[0].event_type, "program", "formation event still receives lifecycle normalization");
+assert.equal(mixed.events[1], matriarcasAfterTitleCleanup, "unrelated theatre event must not be re-normalized by the formation pass");
+assert.equal(mixed.events[1].primary_category.id, "teatro", "Matriarcas must remain Teatro after title cleanup");
+assert.equal(mixed.events[2], workshopAfterTitleCleanup, "unrelated workshop must not be re-normalized by the formation pass");
+assert.equal(mixed.events[2].primary_category.id, "cursos-talleres-campus", "workshop category must remain stable after title cleanup");
+
 console.log("FORMATION_CYCLE_CLASSIFIER_OK");
