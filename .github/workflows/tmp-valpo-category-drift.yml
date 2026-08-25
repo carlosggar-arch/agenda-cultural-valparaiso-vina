@@ -30,9 +30,11 @@ jobs:
           test "${#COMMITS[@]}" -gt 0
           git cherry-pick "${COMMITS[@]}"
           git show origin/diag/valpo-visible-category-drift-20260825:scripts/_tmp_second_category_fix.py > /tmp/second_category_fix.py
+          git show origin/diag/valpo-visible-category-drift-20260825:scripts/_tmp_second_category_fix_v2.py > /tmp/second_category_fix_v2.py
       - name: Apply shared semantic hardening
         run: |
           python /tmp/second_category_fix.py
+          python /tmp/second_category_fix_v2.py
           python scripts/generate_public_category_module.py
       - name: Run deterministic regressions
         run: |
