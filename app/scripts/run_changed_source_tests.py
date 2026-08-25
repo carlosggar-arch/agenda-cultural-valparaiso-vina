@@ -13,6 +13,7 @@ SOURCE_SUITES = {
         "app/scripts/test_balmaceda_coverage.py",
     ],
     "museo_maritimo": ["app/scripts/test_museo_maritimo.py"],
+    "portaltickets": ["app/scripts/test_portaltickets_editorial.py"],
     "visitavina_fonck": ["app/scripts/test_visitavina_fonck.py", "app/scripts/test_fonck_coverage.py"],
     "visitavina_estadio": [
         "app/scripts/test_visitavina_estadio_espanol.py",

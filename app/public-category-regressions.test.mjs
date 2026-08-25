@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import { resolvePublicCategory } from "./public-category-rules.mjs";
 
-function event(title, primary, { tags = [], description = "", venue = "" } = {}) {
+function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {
   return {
     title,
     primary_category: { id: primary, label: primary },
     categories: [{ id: primary, label: primary }],
     tags,
     description,
-    location: { venue, city: "Gijón" },
+    location: { venue, city },
   };
 }
 
@@ -34,4 +34,34 @@ expectCategory("A CUATRO MANOS", event("A CUATRO MANOS", "teatro", { tags: ["Tea
 expectCategory("stage musical", event("Comedia musical familiar", "cultura"), "teatro");
 expectCategory("music tag does not steal explicit stage musical", event("Obra Teatro Musical - Nemesio Pelao: ¿Qué es lo que te ha pasao?", "teatro", { tags: ["Música"] }), "teatro");
 expectCategory("venue neutral", event("Concierto de cuarteto", "cultura", { venue: "Teatro Jovellanos" }), "musica");
+expectCategory("venue alias is semantic noise", event(
+  "Lucy Briceño",
+  "cultura",
+  { description: "Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.", venue: "Teatro Mauri SCD, Valparaíso", city: "Valparaíso" },
+), "musica");
+expectCategory("boleros valses and vinyl", event(
+  "Viernes Cebolla",
+  "cultura",
+  { description: "Una noche de boleros y valses, seguida de baile en vinilo." },
+), "musica");
+expectCategory("flamenco typo and Gipsy Kings", event(
+  "Mario Reyes Leyenda Gipsy",
+  "cultura",
+  { description: "Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno." },
+), "musica");
+expectCategory("venue phrase in title is semantic noise", event(
+  "ESTOY BIEN EN TEATRO MAURI SCD VALPARAISO - GIRA NACIONAL",
+  "cultura",
+  { description: "Banda de punk rock presenta su nuevo disco y sus canciones en gira nacional.", venue: "Teatro Mauri SCD, Valparaíso", city: "Valparaíso" },
+), "musica");
+expectCategory("explicit concert beats incidental theatre venue wording", event(
+  "Encuentro musical",
+  "cultura",
+  { description: "Este concierto se presenta en el primer teatro de la red y recorre canciones emblemáticas." },
+), "musica");
+expectCategory("figurative magic does not create theatre", event(
+  "Viaje sonoro",
+  "cultura",
+  { description: "Un concierto de música chilena que recupera la magia de sus canciones." },
+), "musica");
 console.log("PUBLIC_CATEGORY_JS_REGRESSIONS_OK");
