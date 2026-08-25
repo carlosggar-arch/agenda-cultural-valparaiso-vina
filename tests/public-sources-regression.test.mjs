@@ -96,6 +96,36 @@ test("Visita Viña has a clear public display name without changing its stable s
   assert.equal(source.canonical_source_id, "culturasvina");
 });
 
+test("new Valpo cultural sources are first-class canonical public sources", () => {
+  const byCanonicalId = new Map(catalogue.sources.map((source) => [source.canonical_source_id, source]));
+
+  const destino = byCanonicalId.get("destino_valparaiso");
+  assert.ok(destino, "Destino Valparaíso must be published in the source catalogue");
+  assert.equal(destino.website_url, "https://destinovalpo.cl/cartelera/");
+  assert.deepEqual(destino.cities, ["Valparaíso"]);
+  assert.deepEqual(destino.categories, ["Cultura", "Música", "Teatro", "Exposiciones"]);
+
+  const puerto = byCanonicalId.get("puerto_escena");
+  assert.ok(puerto, "Puerto Escena must be published in the source catalogue");
+  assert.equal(puerto.website_url, "https://puertoescena.cl/cartelera");
+  assert.deepEqual(puerto.cities, ["Valparaíso", "Viña del Mar"]);
+
+  const internado = byCanonicalId.get("el_internado_valpo");
+  assert.ok(internado, "El Internado Valpo must be published in the source catalogue");
+  assert.equal(internado.website_url, "https://www.instagram.com/elinternadovalpo/");
+  assert.deepEqual(internado.cities, ["Valparaíso"]);
+});
+
+test("Museo Palacio Rioja remains one canonical source with broader public programming", () => {
+  const rioja = catalogue.sources.filter((source) => source.canonical_source_id === "museo_palacio_rioja");
+  assert.equal(rioja.length, 1, "Museo Palacio Rioja must not be duplicated by its municipal recovery channel");
+  assert.equal(rioja[0].website_url, "https://www.instagram.com/museopalaciorioja/");
+  assert.deepEqual(rioja[0].cities, ["Viña del Mar"]);
+  for (const category of ["Exposiciones", "Cine", "Música", "Talleres y cursos", "Cultura"]) {
+    assert.ok(rioja[0].categories.includes(category), `Museo Palacio Rioja must include ${category}`);
+  }
+});
+
 test("public sources catalogue has stable unique public records", () => {
   const ids = catalogue.sources.map((source) => source.id);
   assert.equal(new Set(ids).size, ids.length, "duplicate public source ids detected");
