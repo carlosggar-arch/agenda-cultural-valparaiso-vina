@@ -12,14 +12,14 @@ if str(ROOT) not in sys.path:
 from scripts.public_category_rules import classify_public_category, fold
 
 
-def event(title, primary, *, tags=None, description="", venue=""):
+def event(title, primary, *, tags=None, description="", venue="", city="Gijón"):
     return {
         "title": title,
         "primary_category": {"id": primary, "label": primary},
         "categories": [{"id": primary, "label": primary}],
         "tags": tags or [],
         "description": description,
-        "location": {"venue": venue, "city": "Gijón"},
+        "location": {"venue": venue, "city": city},
     }
 
 
@@ -86,6 +86,48 @@ def main():
     assert_case("stage musical remains theatre", event("Comedia musical familiar", "cultura"), "teatro")
     assert_case("music tag does not steal explicit stage musical", event("Obra Teatro Musical - Nemesio Pelao: ¿Qué es lo que te ha pasao?", "teatro", tags=["Música"]), "teatro")
     assert_case("venue does not define format", event("Concierto de cuarteto", "cultura", venue="Teatro Jovellanos"), "musica")
+    assert_case(
+        "venue alias is semantic noise",
+        event(
+            "Lucy Briceño",
+            "cultura",
+            description="Lucy Briceño celebra su trayectoria con un concierto especial en el Teatro Mauri SCD.",
+            venue="Teatro Mauri SCD, Valparaíso",
+            city="Valparaíso",
+        ),
+        "musica",
+    )
+    assert_case(
+        "boleros valses and vinyl are music",
+        event("Viernes Cebolla", "cultura", description="Una noche de boleros y valses, seguida de baile en vinilo."),
+        "musica",
+    )
+    assert_case(
+        "flamenco typo and Gipsy Kings remain music",
+        event("Mario Reyes Leyenda Gipsy", "cultura", description="Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno."),
+        "musica",
+    )
+    assert_case(
+        "venue phrase in title is semantic noise",
+        event(
+            "ESTOY BIEN EN TEATRO MAURI SCD VALPARAISO - GIRA NACIONAL",
+            "cultura",
+            description="Banda de punk rock presenta su nuevo disco y sus canciones en gira nacional.",
+            venue="Teatro Mauri SCD, Valparaíso",
+            city="Valparaíso",
+        ),
+        "musica",
+    )
+    assert_case(
+        "explicit concert beats incidental theatre venue wording",
+        event("Encuentro musical", "cultura", description="Este concierto se presenta en el primer teatro de la red y recorre canciones emblemáticas."),
+        "musica",
+    )
+    assert_case(
+        "figurative magic does not create theatre",
+        event("Viaje sonoro", "cultura", description="Un concierto de música chilena que recupera la magia de sus canciones."),
+        "musica",
+    )
     audit_current_theatre_conflicts()
     print("PUBLIC_CATEGORY_REGRESSIONS_OK")
 

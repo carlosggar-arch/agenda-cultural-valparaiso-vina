@@ -107,13 +107,20 @@ def is_summer_program(event: dict[str, Any]) -> bool:
 def _scalar_noise_values(value: Any) -> list[str]:
     if isinstance(value, str):
         return [value]
-    if isinstance(value, dict):
-        return [
-            str(value.get(key) or "")
-            for key in ("name", "label", "title", "address", "city", "venue")
-            if value.get(key)
-        ]
-    return []
+    if not isinstance(value, dict):
+        return []
+    values = [
+        str(value.get(key) or "")
+        for key in ("name", "label", "title", "address", "city", "venue")
+        if value.get(key)
+    ]
+    venue = fold(value.get("venue"))
+    city = fold(value.get("city"))
+    if venue and city and venue.endswith(f" {city}"):
+        short_venue = venue[: -(len(city) + 1)].strip()
+        if len(short_venue) >= 4:
+            values.append(short_venue)
+    return values
 
 
 def _semantic_noise_values(event: dict[str, Any]) -> list[str]:
@@ -137,7 +144,8 @@ def _strip_semantic_noise(text: str, event: dict[str, Any]) -> str:
 
 
 def description_evidence_text(event: dict[str, Any]) -> str:
-    values = [event.get("description"), *(event.get("tags") or [])]
+    semantics = event.get("semantics") if isinstance(event.get("semantics"), dict) else {}
+    values = [semantics.get("category_evidence_text"), event.get("description"), *(event.get("tags") or [])]
     return _strip_semantic_noise(
         " ".join(str(value) for value in values if value),
         event,
@@ -289,7 +297,7 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
     _add_tag_category_evidence(scores, evidence, event)
     _add_source_title_evidence(scores, evidence, event)
     _add_rule_evidence(
-        scores, evidence, fold(event.get("title")), TITLE_EVIDENCE_RULES, "title"
+        scores, evidence, _strip_semantic_noise(str(event.get("title") or ""), event), TITLE_EVIDENCE_RULES, "title"
     )
     _add_rule_evidence(
         scores, evidence, description_evidence_text(event), DESCRIPTION_EVIDENCE_RULES, "description"

@@ -217,6 +217,7 @@ def make_event(title: str, start: date, clock: str, venue: str, city: str, ticke
         "event_type": "event",
         "primary_category": {"id": category_id, "label": category_label},
         "categories": [{"id": category_id, "label": category_label}],
+        "semantics": {"source_category": {"id": "cultura", "label": "Cultura"}},
         "schedule": {
             "mode": "single", "start": start_iso, "end": start_iso, "timezone": TIMEZONE,
             "display_text": f"{start.isoformat()} · {clock}", "occurrences": [],
@@ -237,7 +238,7 @@ def make_event(title: str, start: date, clock: str, venue: str, city: str, ticke
             "advisory_text": "Confirma disponibilidad y condiciones en la ficha de venta.",
         },
         "description": None,
-        "tags": [category_label, "PortalTickets"], "audience": None, "registration_requirements": None,
+        "tags": ["PortalTickets"], "audience": None, "registration_requirements": None,
         "image": {"url": None, "alt": None},
         "editorial": {"classification": "event", "reason": "secondary_ticketing_source:portaltickets_valparaiso", "duration_days": 0},
     }
@@ -498,6 +499,11 @@ def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
     event["last_verified_at"] = verified_at
 
     semantic_text = str(detail.get("semantic_text") or description or "").strip()
+    semantics = event.setdefault("semantics", {})
+    if semantic_text:
+        semantics["category_evidence_text"] = semantic_text
+    else:
+        semantics.pop("category_evidence_text", None)
     classification_event = dict(event)
     classification_event["description"] = semantic_text or None
     classification = classify_public_category(classification_event)
@@ -505,8 +511,10 @@ def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
     if category.get("id") != "unclassified":
         event["primary_category"] = category
         event["categories"] = [category]
-        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "cine", "otros panoramas"}]
-        event["tags"] = [category["label"], *tags]
+        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "teatro y danza", "cine", "otros panoramas"}]
+        if not any(norm(tag) == "portaltickets" for tag in tags):
+            tags.append("PortalTickets")
+        event["tags"] = tags
 
     editorial = event.setdefault("editorial", {})
     editorial["category_classifier"] = "shared_public_category"
