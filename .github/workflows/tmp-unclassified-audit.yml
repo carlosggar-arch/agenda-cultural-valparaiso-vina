@@ -1,0 +1,42 @@
+name: TEMP audit visible unclassified Valpo
+
+on:
+  push:
+    branches:
+      - diag/valpo-visible-category-drift-20260825
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Audit runtime public categories
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { classifyPublicCategory } from './app/public-category-rules.mjs';
+          const data = JSON.parse(fs.readFileSync('agenda_web.json','utf8'));
+          const rows = data.events.map(e => ({e, c: classifyPublicCategory(e)}));
+          const unclassified = rows.filter(x => x.c.category.id === 'unclassified');
+          console.log(`DATASET_EVENTS=${rows.length}`);
+          console.log(`UNCLASSIFIED_ALL=${unclassified.length}`);
+          for (const {e,c} of unclassified) {
+            const sched=e.schedule||{};
+            console.log(JSON.stringify({id:e.id,title:e.title,city:e.location?.city||e.city||'',start:sched.start||'',end:sched.end||'',occurrences:sched.occurrences||[],source_id:e.source_id||'',source_name:e.source_name||'',stored_primary:e.primary_category||null,tags:e.tags||[],score:c.score,candidates:c.candidates}));
+          }
+          const counts = {};
+          for (const {c} of rows) counts[c.category.label]=(counts[c.category.label]||0)+1;
+          console.log('CATEGORY_COUNTS_ALL='+JSON.stringify(counts));
+          NODE
+      - name: Locate canonical visibility helpers
+        run: |
+          grep -RniE "visible.*event|event.*visible|lifecycle.*filter|current.*event" app --include='*.js' --include='*.mjs' --include='*.py' | head -200 || true
