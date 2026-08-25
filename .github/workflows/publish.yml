@@ -24,6 +24,7 @@ on:
       - "manifest.webmanifest"
       - "app/scripts/deployment_readiness.py"
       - "app/scripts/fast_close_dataset_validation.py"
+      - "app/scripts/runtime_release_guard.py"
       - "app/scripts/production_pwa_smoke.py"
       - "app/scripts/production_browser_selenium_smoke.py"
       - "app/scripts/production_warm_start_smoke.py"
@@ -100,15 +101,9 @@ jobs:
             exit 0
           fi
 
-          git diff --name-only "$before" "$CANDIDATE_SHA" | tee changed-pwa-files.txt
-          runtime_changed="$(grep -E '^(app/[^/]+\.(js|mjs|css|html|webmanifest)|assets/[^/]+\.(js|mjs|css)|index\.html|app/cities\.json|manifest\.webmanifest)$' changed-pwa-files.txt || true)"
-          release_changed="$(grep -Fx 'app/release-version.js' changed-pwa-files.txt || true)"
-          if [[ -n "$runtime_changed" && -z "$release_changed" ]]; then
-            echo "Production-visible PWA runtime changed without bumping app/release-version.js:" >&2
-            printf '%s\n' "$runtime_changed" >&2
-            echo "A canonical finalizer release is required before production verification." >&2
-            exit 1
-          fi
+          python app/scripts/runtime_release_guard.py \
+            --base-ref "$before" \
+            --head-ref "$CANDIDATE_SHA"
 
       - name: Validate Cloudflare build snapshot and exact release lineage
         run: |
@@ -216,6 +211,7 @@ jobs:
           python -m py_compile \
             app/scripts/deployment_readiness.py \
             app/scripts/fast_close_dataset_validation.py \
+            app/scripts/runtime_release_guard.py \
             app/scripts/production_pwa_smoke.py \
             app/scripts/production_browser_selenium_smoke.py \
             app/scripts/production_warm_start_smoke.py \
