@@ -18,19 +18,29 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Enumerate current PortalTickets category gaps
+      - name: Compare PortalTickets related-tag links
+        env:
+          PYTHONPATH: app/scripts
         run: |
           python - <<'PY'
-          import json
-          from pathlib import Path
-          data=json.loads(Path('agenda_web.json').read_text())
-          pts=[e for e in data['events'] if e.get('source_id')=='portaltickets_valparaiso']
-          print('PORTALTICKETS_COUNT', len(pts))
-          for e in pts:
-              c=(e.get('primary_category') or {}).get('id')
-              if c in {'unclassified','cultura'}:
-                  print('GAP', json.dumps({
-                      'id':e.get('id'),'title':e.get('title'),'category':e.get('primary_category'),
-                      'tags':e.get('tags'),'description':e.get('description'),'url':(e.get('links') or {}).get('tickets')
-                  }, ensure_ascii=False))
+          from refresh_portaltickets_editorial import fetch_url, PortalTokenParser, norm
+          urls=[
+            'https://www.portaldisc.com/evento/aniversariowareba',
+            'https://www.portaldisc.com/evento/sofiaalvezvinadelmar',
+            'https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso',
+            'https://www.portaldisc.com/evento/trip28-08',
+          ]
+          for url in urls:
+            ok,status,markup,error=fetch_url(url)
+            print('\nURL',url,ok,status,error)
+            if not ok: continue
+            p=PortalTokenParser(); p.feed(markup); p.close()
+            toks=p.tokens
+            start=next((i for i,t in enumerate(toks) if norm(t.get('text'))=='artistas y tags relacionados'),None)
+            if start is None:
+              print('NO_SECTION'); continue
+            for t in toks[start:start+25]:
+              text=str(t.get('text') or '').strip()
+              if norm(text)=='produce': break
+              print('REL',repr(text),'HREF',repr(t.get('href')))
           PY
