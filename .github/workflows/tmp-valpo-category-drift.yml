@@ -21,6 +21,8 @@ jobs:
           python-version: '3.12'
       - name: Rebuild second change on current main
         run: |
+          git config user.name "carlosggar-arch"
+          git config user.email "carlosggar@gmail.com"
           git fetch origin fix/valpo-visible-category-authority-20260825
           git checkout -B fix/valpo-visible-category-authority-v2-20260825 origin/main
           mapfile -t COMMITS < <(git rev-list --reverse origin/main..origin/fix/valpo-visible-category-authority-20260825)
