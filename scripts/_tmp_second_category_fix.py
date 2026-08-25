@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 import unicodedata
 from pathlib import Path
 
@@ -188,6 +189,7 @@ def fold(value: object) -> str:
 
 
 def validate_live() -> None:
+    sys.path.insert(0, str(Path.cwd()))
     from scripts.public_category_rules import classify_public_category
 
     events = json.loads(Path("agenda_web.json").read_text(encoding="utf-8"))["events"]
