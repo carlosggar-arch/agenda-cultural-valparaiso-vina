@@ -9,7 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
 HISTORICAL_DATASET_REF = "54c8a58e17b283bc2f1fe7303738bc00fbc75e61"
-HISTORICAL_DATASET_CONTRACTS = frozenset({"app/scripts/test_runtime_browser.py"})
+HISTORICAL_DATASET_CONTRACTS = frozenset({
+    "app/scripts/test_runtime_browser.py",
+    "app/scripts/test_runtime_user_flow_browser.py",
+})
 
 
 def run_browser_contract(command: list[str], owner: str) -> None:
@@ -17,9 +20,9 @@ def run_browser_contract(command: list[str], owner: str) -> None:
 
     The runtime browser suite contains a Caleta de Historias regression whose source event
     legitimately expired after 22 Aug 2026. Production datasets must continue pruning expired
-    events, so that regression is executed against the immutable repository snapshot that still
-    contains the real official record. The candidate runtime code is otherwise unchanged, and
-    the current dataset is restored immediately after the contract.
+    events, so the direct runtime contract and wrappers that delegate to it execute against the
+    immutable repository snapshot that still contains the real official record. Candidate runtime
+    code is otherwise unchanged, and the current dataset is restored immediately after the contract.
     """
     if owner not in HISTORICAL_DATASET_CONTRACTS:
         subprocess.run(command, cwd=ROOT, check=True)
