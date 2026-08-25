@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { resolvePublicCategory } from "./public-category-rules.mjs";
+import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs";
 
 function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {
   return {
@@ -96,4 +97,66 @@ expectCategory("verified sparse PortalTickets fandom party", {
   ...event("Oshikatsu Party Oshifonda", "cultura", { city: "Valparaíso" }),
   source_id: "portaltickets_valparaiso",
 }, "ferias-vida-local");
+const matriarcasLiteratureDescription = "Matriarcas es una obra sobre Gabriela Mistral, Alfonsina Storni y Juana de Ibarbourou, literatura latinoamericana, poesía, poetas y una histórica conferencia literaria.";
+const matriarcasPcdv = {
+  ...event("Matriarcas: Poesía, Papel y Tinta", "teatro", {
+    description: matriarcasLiteratureDescription,
+    venue: "Parque Cultural de Valparaíso",
+    city: "Valparaíso",
+  }),
+  id: "pcdv-matriarcas",
+  source_id: "pcdv",
+  source_name: "Parque Cultural de Valparaíso",
+  source_url: "https://parquecultural.cl/matriarcas",
+  schedule: { start: "2026-08-28T19:00:00-04:00", end: "2026-08-28T19:00:00-04:00" },
+  public_status: { source_official: true, information_completeness: "complete" },
+  semantics: {
+    primary_domain: "teatro",
+    confidence: "high",
+    score: 230,
+    source_category: { id: "teatro", label: "Teatro y danza" },
+  },
+};
+const matriarcasPortal = {
+  ...event("Matriarcas", "teatro", {
+    description: matriarcasLiteratureDescription,
+    venue: "Parque Cultural de Valparaíso",
+    city: "Valparaíso",
+  }),
+  id: "portal-matriarcas",
+  source_id: "portaltickets_valparaiso",
+  source_name: "PortalTickets — Región de Valparaíso",
+  source_url: "https://www.portaltickets.cl/evento/matriarcas",
+  schedule: { start: "2026-08-28T19:00:00-04:00", end: "2026-08-28T19:00:00-04:00" },
+  public_status: { source_official: false, information_completeness: "complete" },
+  semantics: {
+    primary_domain: "teatro",
+    confidence: "low",
+    score: 40,
+    source_category: { id: "cultura", label: "Cultura" },
+  },
+};
+const matriarcasDeduped = deduplicateCrossSourceDataset({
+  events: [matriarcasPcdv, matriarcasPortal],
+  counts: { total: 2, events: 2, courses: 0, flexible_offers: 0, programs: 0 },
+});
+assert.equal(matriarcasDeduped.events.length, 1, "Matriarcas duplicates must reconcile");
+assert.equal(matriarcasDeduped.events[0].primary_category?.id, "teatro", "dedup must preserve agreed Teatro classification");
+assert.equal(matriarcasDeduped.events[0].editorial?.merged_category_evidence?.length, 2, "dedup must retain both pre-merge category observations");
+
+expectCategory("merged category consensus beats prose-topic drift", {
+  ...event("Matriarcas: Poesía, Papel y Tinta", "teatro", {
+    description: matriarcasLiteratureDescription,
+    venue: "Parque Cultural de Valparaíso",
+    city: "Valparaíso",
+  }),
+  semantics: { source_category: { id: "teatro", label: "Teatro y danza" } },
+  editorial: {
+    merged_category_evidence: [
+      { category_id: "teatro", confidence: "high", score: 230, event_id: "a", source_id: "pcdv" },
+      { category_id: "teatro", confidence: "low", score: 40, event_id: "b", source_id: "portaltickets_valparaiso" },
+    ],
+  },
+}, "teatro");
+
 console.log("PUBLIC_CATEGORY_JS_REGRESSIONS_OK");

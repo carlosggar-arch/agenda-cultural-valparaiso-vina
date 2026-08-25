@@ -155,6 +155,31 @@ def main():
     oshikatsu = event("Oshikatsu Party Oshifonda", "cultura", city="Valparaíso")
     oshikatsu["source_id"] = "portaltickets_valparaiso"
     assert_case("verified sparse PortalTickets fandom party", oshikatsu, "ferias-vida-local")
+    merged_matriarcas = event(
+        "Matriarcas: Poesía, Papel y Tinta",
+        "teatro",
+        description=(
+            "Matriarcas es una obra sobre Gabriela Mistral, Alfonsina Storni y "
+            "Juana de Ibarbourou, literatura latinoamericana, poesía, poetas y "
+            "una histórica conferencia literaria."
+        ),
+        venue="Parque Cultural de Valparaíso",
+        city="Valparaíso",
+    )
+    merged_matriarcas["semantics"] = {
+        "source_category": {"id": "teatro", "label": "Teatro y danza"}
+    }
+    merged_matriarcas["editorial"] = {
+        "merged_category_evidence": [
+            {"category_id": "teatro", "confidence": "high", "score": 230, "event_id": "a", "source_id": "pcdv"},
+            {"category_id": "teatro", "confidence": "low", "score": 40, "event_id": "b", "source_id": "portaltickets_valparaiso"},
+        ]
+    }
+    assert_case(
+        "merged category consensus beats prose-topic drift",
+        merged_matriarcas,
+        "teatro",
+    )
     audit_current_theatre_conflicts()
     print("PUBLIC_CATEGORY_REGRESSIONS_OK")
 

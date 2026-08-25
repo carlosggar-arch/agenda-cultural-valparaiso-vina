@@ -32,6 +32,7 @@ const SEMANTIC_NOISE_FIELDS = RULES.semantic_noise_fields || [];
 const SEMANTIC_NOISE_PHRASES = RULES.semantic_noise_phrases || [];
 const TAG_CATEGORY_WEIGHT = Number(RULES.tag_category_weight || 0);
 const TAG_CATEGORY_ALIASES = RULES.tag_category_aliases || {};
+const MERGED_CATEGORY_CONSENSUS_WEIGHT = Number(RULES.merged_category_consensus_weight || 0);
 
 export function foldPublicCategoryText(value) {
   return String(value || "")
@@ -202,6 +203,40 @@ function addTagCategoryEvidence(scores, evidence, event) {
   }
 }
 
+function addMergedCategoryConsensusEvidence(scores, evidence, event) {
+  if (!MERGED_CATEGORY_CONSENSUS_WEIGHT) return;
+  const rawItems = event?.editorial?.merged_category_evidence;
+  if (!Array.isArray(rawItems) || rawItems.length < 2) return;
+
+  const items = rawItems
+    .map((item) => ({
+      category: canonicalPublicCategory(String(item?.category_id || "")),
+      confidence: String(item?.confidence || "unspecified"),
+      score: Number(item?.score || 0),
+    }))
+    .filter((item) => item.category && isThematicCategory(item.category.id));
+  if (items.length < 2) return;
+
+  const categoryIds = new Set(items.map((item) => item.category.id));
+  if (categoryIds.size !== 1) return;
+  const hasStrongObservation = items.some((item) => (
+    item.confidence === "high"
+    || item.confidence === "medium"
+    || item.score >= 70
+  ));
+  if (!hasStrongObservation) return;
+
+  const [categoryId] = categoryIds;
+  addEvidence(
+    scores,
+    evidence,
+    categoryId,
+    MERGED_CATEGORY_CONSENSUS_WEIGHT,
+    "merged_category_consensus",
+    `${categoryId}:${items.length}`,
+  );
+}
+
 function confidenceForScore(score) {
   if (score >= 120) return "high";
   if (score >= 70) return "medium";
@@ -256,6 +291,11 @@ export function classifyPublicCategory(event) {
       String(event?.editorial?.category_recovery_hint || ""),
     );
   }
+
+  // Cross-source reconciliation is allowed to combine descriptions, but that
+  // must not erase a category on which the independently normalized duplicate
+  // records already agreed. Treat that agreement as structured semantic evidence.
+  addMergedCategoryConsensusEvidence(scores, evidence, event);
 
   // Generic venue/organizer/source-name text is intentionally excluded.
   // Verified sparse-title exceptions remain declarative in source_title_evidence.
