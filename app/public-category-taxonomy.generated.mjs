@@ -267,6 +267,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "weight": 35
       }
     ],
+    "merged_category_consensus_weight": 180,
     "minimum_score": 35,
     "recovery_hint_weight": 95,
     "semantic_noise_fields": [
