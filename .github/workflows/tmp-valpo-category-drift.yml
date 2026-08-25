@@ -16,28 +16,29 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Inspect current PortalTickets detail semantics
+      - name: Inspect related tag hrefs and embedded metadata
         shell: bash
         run: |
           PYTHONPATH=app/scripts python - <<'PY'
-          import json
-          from pathlib import Path
+          import json, re
           from refresh_portaltickets_editorial import fetch_url, PortalTokenParser, norm
 
-          data = json.loads(Path('agenda_web.json').read_text())
-          targets = [e for e in data['events'] if e.get('source_id') == 'portaltickets_valparaiso' and (e.get('primary_category') or {}).get('id') in {'unclassified','cultura'}]
-          for event in targets:
-              url = (event.get('links') or {}).get('tickets') or event.get('source_url')
-              ok, status, markup, error = fetch_url(url)
-              print('PT_TARGET', json.dumps({'id':event.get('id'),'title':event.get('title'),'url':url,'ok':ok,'status':status,'error':error}, ensure_ascii=False))
-              if not ok:
-                  continue
-              parser = PortalTokenParser(); parser.feed(markup); parser.close()
-              texts = [str(t.get('text') or '').strip() for t in parser.tokens if str(t.get('text') or '').strip()]
-              idx = next((i for i,t in enumerate(texts) if norm(t) == 'artistas y tags relacionados'), None)
-              if idx is None:
-                  print('PT_TAGS', json.dumps({'id':event.get('id'),'found':False}, ensure_ascii=False))
-                  continue
-              excerpt = texts[idx:idx+18]
-              print('PT_TAGS', json.dumps({'id':event.get('id'),'found':True,'excerpt':excerpt}, ensure_ascii=False))
+          urls = {
+            'wareba':'https://www.portaldisc.com/evento/aniversariowareba',
+            'sofia':'https://www.portaldisc.com/evento/sofiaalvezvinadelmar',
+            'seba':'https://www.portaldisc.com/evento/llenode97',
+            'mario':'https://www.portaldisc.com/evento/gipsyvalparaiso',
+          }
+          for name,url in urls.items():
+              ok,status,markup,error=fetch_url(url)
+              print('DETAIL',name,ok,status,error)
+              if not ok: continue
+              p=PortalTokenParser(); p.feed(markup); p.close()
+              idx=next((i for i,t in enumerate(p.tokens) if norm(t.get('text'))=='artistas y tags relacionados'),None)
+              rows=[] if idx is None else p.tokens[idx:idx+12]
+              print('RELATED_TOKENS',name,json.dumps(rows,ensure_ascii=False))
+              meta=[]
+              for pat in (r'(?is)<meta[^>]+(?:property|name)=["\']([^"\']+)["\'][^>]+content=["\']([^"\']+)["\']', r'(?is)"(?:category|genre|eventStatus|eventAttendanceMode)"\s*:\s*"([^"]+)"'):
+                  meta.extend(re.findall(pat,markup)[:30])
+              print('META',name,json.dumps(meta,ensure_ascii=False)[:6000])
           PY
