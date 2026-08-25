@@ -12,11 +12,18 @@ on:
       - "app/scripts/audit_source_health.py"
       - "app/scripts/test_source_health_audit.py"
       - "app/scripts/test_classification_uncertainty_audit.py"
+      - "app/scripts/test_public_category_regressions.py"
       - "app/scripts/run_changed_source_tests.py"
       - "app/scripts/cache_official_images.py"
       - "app/scripts/test_cache_official_images.py"
       - "scripts/semantic_quality_audit.py"
       - "scripts/classification_uncertainty_audit.py"
+      - "scripts/public_category_rules.py"
+      - "scripts/materialize_public_categories.py"
+      - "shared/public-category-taxonomy.json"
+      - "app/public-category-rules.mjs"
+      - "app/public-category-taxonomy.generated.mjs"
+      - "app/public-category-regressions.test.mjs"
       - "requirements-image-cache.txt"
       - "app/data/high_value_sources.json"
       - "app/data/source-registry.json"
@@ -70,8 +77,11 @@ jobs:
         run: python app/scripts/run_changed_source_tests.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
       - name: Validate classification quality diagnostic
         run: |
-          python -m py_compile scripts/semantic_quality_audit.py scripts/classification_uncertainty_audit.py app/scripts/test_classification_uncertainty_audit.py
+          python -m py_compile scripts/semantic_quality_audit.py scripts/classification_uncertainty_audit.py app/scripts/test_classification_uncertainty_audit.py app/scripts/test_public_category_regressions.py
           python app/scripts/test_classification_uncertainty_audit.py
+          python scripts/generate_public_category_module.py --check
+          python app/scripts/test_public_category_regressions.py
+          node app/public-category-regressions.test.mjs
           python scripts/semantic_quality_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/semantic-quality-pr.json
           python scripts/classification_uncertainty_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/classification-uncertainty-pr.json
       - name: Upload diagnostics only after failure
