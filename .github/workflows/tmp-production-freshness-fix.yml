@@ -29,7 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/materialize_public_categories.py agenda_web.json
-          python app/scripts/fast_close_dataset_validation.py --base-ref main
+          python app/scripts/fast_close_dataset_validation.py --base-ref origin/main
       - name: Commit normalized Valparaiso metadata only
         run: |
           set -euo pipefail
