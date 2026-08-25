@@ -5,6 +5,7 @@ import hashlib
 import html
 import json
 import re
+import sys
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime
@@ -17,6 +18,11 @@ from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.public_category_rules import classify_public_category
+
 DATASET = ROOT / "agenda_web.json"
 QUALITY = ROOT / "app/data/quality/portaltickets-editorial.json"
 SOURCE_ID = "portaltickets_valparaiso"
@@ -187,26 +193,23 @@ def individual_ticket_url(token: dict[str, str | None]) -> str | None:
 
 
 def category_for(title: str) -> tuple[str, str]:
-    value = f" {norm(title)} "
-    if any(term in value for term in (" pelicula ", " documental ", " cortometraje ", " largometraje ")):
-        return "cine", "Cine"
-    if any(term in value for term in (
-        " obra de teatro ", " obra teatral ", " stand up ", " monologo ", " comedia teatral ", " dramaturgia ",
-    )):
-        return "teatro", "Teatro"
-    if any(term in value for term in (
-        " concierto ", " orquesta ", " ensamble ", " trio ", " banda ", " tributo ", " gira ", " tour ", " tocata ",
-        " dj ", " vinilo ", " sonora ", " sinfonico ", " lanzamiento disco ", " quinteto ", " cuarteto ",
-        " canciones ", " musica ", " musical ", " cantante ", " cantautor ",
-    )):
-        return "musica", "Música"
-    return "cultura", "Cultura"
+    """Use the shared public taxonomy for the source preliminary category."""
+    probe = {
+        "title": title, "description": None, "event_type": "event",
+        "primary_category": {"id": "cultura", "label": "Cultura"},
+        "categories": [{"id": "cultura", "label": "Cultura"}],
+        "tags": [], "source_id": SOURCE_ID,
+    }
+    resolved = classify_public_category(probe)["category"]
+    if resolved.get("id") == "unclassified":
+        return "cultura", "Cultura"
+    return str(resolved["id"]), str(resolved["label"])
 
 
 def make_event(title: str, start: date, clock: str, venue: str, city: str, ticket_url: str) -> dict:
     verified = datetime.now(ZoneInfo(TIMEZONE)).isoformat(timespec="seconds")
     digest = hashlib.sha1(f"{SOURCE_ID}|{start}|{clock}|{title}|{city}".encode()).hexdigest()[:16]
-    category_id, category_label = category_for(title)
+    category_id, category_label = category_for(clean_public_title(title, venue, city))
     start_iso = datetime.fromisoformat(f"{start.isoformat()}T{clock}:00").replace(tzinfo=ZoneInfo(TIMEZONE)).isoformat(timespec="seconds")
     return {
         "id": f"agenda_{SOURCE_ID}_{digest}",
@@ -356,10 +359,11 @@ def _format_clp(value: int) -> str:
     return "$" + f"{value:,}".replace(",", ".")
 
 
-def _description_from_tokens(texts: list[str]) -> str | None:
+def _description_chunks(texts: list[str]) -> list[str]:
+    """Keep the full meaningful description region for semantic classification."""
     description_index = next((i for i, text in enumerate(texts) if norm(text) == "descripcion"), None)
     if description_index is None:
-        return None
+        return []
     selected: list[str] = []
     for text in texts[description_index + 1:]:
         cleaned = re.sub(r"\s+", " ", text).strip()
@@ -379,18 +383,33 @@ def _description_from_tokens(texts: list[str]) -> str | None:
         if len(cleaned) < 25:
             continue
         selected.append(cleaned)
+        if len(" ".join(selected)) >= 1600 or len(selected) >= 12:
+            break
+    return selected
+
+def _description_from_tokens(texts: list[str]) -> str | None:
+    chunks = _description_chunks(texts)
+    if not chunks:
+        return None
+    selected: list[str] = []
+    for chunk in chunks:
+        selected.append(chunk)
         if len(" ".join(selected)) >= 420 or len(selected) >= 2:
             break
-    if not selected:
+    return " ".join(selected)[:520].rstrip(" ,;:")
+
+def _semantic_text_from_tokens(texts: list[str]) -> str | None:
+    chunks = _description_chunks(texts)
+    if not chunks:
         return None
-    value = " ".join(selected)
-    return value[:520].rstrip(" ,;:")
+    return " ".join(chunks)[:1600].rstrip(" ,;:")
 
 
 def parse_detail_markup(markup: str) -> dict:
     parser = PortalTokenParser(); parser.feed(markup); parser.close()
     texts = [str(token.get("text") or "").strip() for token in parser.tokens if str(token.get("text") or "").strip()]
     description = _description_from_tokens(texts)
+    semantic_text = _semantic_text_from_tokens(texts)
     tiers: list[dict] = []
     amounts: list[int] = []
     for index, text in enumerate(texts):
@@ -428,6 +447,7 @@ def parse_detail_markup(markup: str) -> dict:
 
     return {
         "description": description,
+        "semantic_text": semantic_text,
         "sold_out": sold_out if (tiers or explicit_sold) else None,
         "registration_open": False if sold_out else (True if tiers and any_available else None),
         "price_stage": "Últimos tickets" if last_tickets else ("Disponibilidad parcial" if partial else None),
@@ -477,15 +497,20 @@ def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
     status["advisory_text"] = None
     event["last_verified_at"] = verified_at
 
-    combined = f"{event.get('title') or ''} {description or ''}"
-    category_id, category_label = category_for(combined)
-    if category_id != "cultura" or (event.get("primary_category") or {}).get("id") == "cultura":
-        event["primary_category"] = {"id": category_id, "label": category_label}
-        event["categories"] = [{"id": category_id, "label": category_label}]
-        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "cine"}]
-        event["tags"] = [category_label, *tags]
+    semantic_text = str(detail.get("semantic_text") or description or "").strip()
+    classification_event = dict(event)
+    classification_event["description"] = semantic_text or None
+    classification = classify_public_category(classification_event)
+    category = dict(classification["category"])
+    if category.get("id") != "unclassified":
+        event["primary_category"] = category
+        event["categories"] = [category]
+        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "cine", "otros panoramas"}]
+        event["tags"] = [category["label"], *tags]
 
     editorial = event.setdefault("editorial", {})
+    editorial["category_classifier"] = "shared_public_category"
+    editorial["category_confidence"] = classification.get("confidence")
     editorial["detail_enriched"] = True
     editorial["detail_verified_at"] = verified_at
     if detail.get("partial_availability"):

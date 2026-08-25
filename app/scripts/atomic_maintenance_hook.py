@@ -81,6 +81,9 @@ def main() -> None:
     # diagnostic stack so the publication remains internally synchronized.
     run("app/scripts/apply_title_quality_guard.py")
     run("app/scripts/apply_content_quality_guard.py")
+
+    # Re-materialize the shared category authority after any source/editorial mutation.
+    run("scripts/materialize_public_categories.py")
     run("app/scripts/refresh_quality_diagnostics.py")
     run("app/scripts/apply_source_coverage_overrides.py")
     run("app/scripts/apply_balmaceda_coverage.py")
