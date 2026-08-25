@@ -56,6 +56,13 @@
       "workflow": ".github/workflows/pr-fast.yml"
     },
     {
+      "id": "architecture.content-quality-guard",
+      "domain": "editorial-quality",
+      "layer": "architecture",
+      "owner": "app/scripts/test_content_quality_guard.py",
+      "workflow": ".github/workflows/pr-fast.yml"
+    },
+    {
       "id": "semantic.visibility-owner",
       "domain": "visibility",
       "layer": "semantic",
@@ -328,6 +335,7 @@
       "semantic.editorial-priority",
       "semantic.content-kind-presentation",
       "architecture.editorial-quality-audit",
+      "architecture.content-quality-guard",
       "semantic.visibility-owner",
       "semantic.schedule-contract",
       "architecture.schedule-presentation-authority",
