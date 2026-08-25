@@ -87,10 +87,9 @@ def apply() -> None:
 
     taxonomy_path = Path("shared/public-category-taxonomy.json")
     taxonomy = json.loads(taxonomy_path.read_text(encoding="utf-8"))
-    for family in ("description_evidence", "title_evidence"):
-        for rule in taxonomy["rules"][family]:
-            if rule["category"] != "musica":
-                continue
+    description_rules = taxonomy["rules"]["description_evidence"]
+    for rule in description_rules:
+        if rule["category"] == "musica":
             if "organetto" in rule["pattern"]:
                 rule["pattern"] = rule["pattern"].replace(
                     "organetto)",
@@ -98,6 +97,41 @@ def apply() -> None:
                 )
             if "flamenco" in rule["pattern"]:
                 rule["pattern"] = rule["pattern"].replace("flamenco", "flamen(?:c)?os?")
+        elif rule["category"] == "teatro" and "funcion teatral" in rule["pattern"]:
+            rule["pattern"] = rule["pattern"].replace(
+                "(?:teatro|teatral|",
+                "(?:obra de teatro|pieza teatral|teatral|",
+                1,
+            ).replace(
+                "|magia|ilusionismo|",
+                "|show de magia|espectaculo de magia|ilusionismo|",
+                1,
+            )
+        elif rule["category"] == "exposiciones" and "|galeria|" in rule["pattern"]:
+            rule["pattern"] = rule["pattern"].replace("|galeria|", "|galeria de arte|", 1)
+
+    strong_music = {
+        "category": "musica",
+        "pattern": r"\b(?:conciertos?|recital(?:es)?|tocatas?|festival de musica|concierto homenaje|concierto tributo|homenaje musical|tributo musical|banda tributo|tribute band)\b",
+        "weight": 80,
+    }
+    if not any(rule.get("pattern") == strong_music["pattern"] for rule in description_rules):
+        music_index = next(
+            index for index, rule in enumerate(description_rules)
+            if rule.get("category") == "musica"
+        )
+        description_rules.insert(music_index, strong_music)
+
+    for rule in taxonomy["rules"]["title_evidence"]:
+        if rule["category"] != "musica":
+            continue
+        if "organetto" in rule["pattern"]:
+            rule["pattern"] = rule["pattern"].replace(
+                "organetto)",
+                "organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)",
+            )
+        if "flamenco" in rule["pattern"]:
+            rule["pattern"] = rule["pattern"].replace("flamenco", "flamen(?:c)?os?")
     taxonomy_path.write_text(
         json.dumps(taxonomy, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -138,6 +172,16 @@ def apply() -> None:
             '        event("Mario Reyes Leyenda Gipsy", "cultura", description="Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno."),',
             '        "musica",',
             "    )",
+            "    assert_case(",
+            '        "explicit concert beats incidental theatre venue wording",',
+            '        event("Encuentro musical", "cultura", description="Este concierto se presenta en el primer teatro de la red y recorre canciones emblemáticas."),',
+            '        "musica",',
+            "    )",
+            "    assert_case(",
+            '        "figurative magic does not create theatre",',
+            '        event("Viaje sonoro", "cultura", description="Un concierto de música chilena que recupera la magia de sus canciones."),',
+            '        "musica",',
+            "    )",
             "",
         ]
     )
@@ -173,6 +217,16 @@ def apply() -> None:
             '  "Mario Reyes Leyenda Gipsy",',
             '  "cultura",',
             '  { description: "Noche con Mario Reyes leyenda Gipsy Kings, tablao y baile flameno." },',
+            '), "musica");',
+            'expectCategory("explicit concert beats incidental theatre venue wording", event(',
+            '  "Encuentro musical",',
+            '  "cultura",',
+            '  { description: "Este concierto se presenta en el primer teatro de la red y recorre canciones emblemáticas." },',
+            '), "musica");',
+            'expectCategory("figurative magic does not create theatre", event(',
+            '  "Viaje sonoro",',
+            '  "cultura",',
+            '  { description: "Un concierto de música chilena que recupera la magia de sus canciones." },',
             '), "musica");',
             "",
         ]
