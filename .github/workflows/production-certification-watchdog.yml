@@ -146,11 +146,11 @@ jobs:
           fi
 
           git fetch origin "$expected_head"
-          bundle="$(git show "$expected_head:app/data/release-bundle.json")"
+          bundle="$(git show "${expected_head}:app/data/release-bundle.json")"
           valpo_hash="$(jq -r '.components.dataset_valparaiso.sha' <<<"$bundle")"
           gijon_hash="$(jq -r '.components.dataset_gijon.sha' <<<"$bundle")"
-          valpo_date="$(git show "$expected_head:agenda_web.json" | jq -r '.publication_date')"
-          gijon_date="$(git show "$expected_head:app/data/gijon/agenda_web.json" | jq -r '.publication_date')"
+          valpo_date="$(git show "${expected_head}:agenda_web.json" | jq -r '.publication_date')"
+          gijon_date="$(git show "${expected_head}:app/data/gijon/agenda_web.json" | jq -r '.publication_date')"
           if [[ -z "$valpo_hash" || "$valpo_hash" == "null" || -z "$gijon_hash" || "$gijon_hash" == "null" ]]; then
             echo "PRODUCTION_UNCERTIFIED run=$SOURCE_RUN_ID reason=dataset-fingerprint-missing" >&2
             exit 2
