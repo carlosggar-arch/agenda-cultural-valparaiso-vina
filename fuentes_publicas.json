@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-24T16:14:06-04:00",
+  "generated_at": "2026-08-25T03:13:56-04:00",
   "sources": [
     {
       "id": "fuente_2572d9324bbe6ce5",
@@ -63,6 +63,23 @@
       ],
       "public_status": "integrada",
       "canonical_source_id": "panoramas_valparaiso"
+    },
+    {
+      "id": "fuente_3cb63788e8f88ee6",
+      "name": "Puerto Escena",
+      "website_url": "https://puertoescena.cl/cartelera",
+      "cities": [
+        "Valparaíso",
+        "Viña del Mar"
+      ],
+      "source_type": "Cartelera cultural",
+      "categories": [
+        "Teatro",
+        "Cultura"
+      ],
+      "public_status": "integrada",
+      "last_verified_at": "2026-08-24",
+      "canonical_source_id": "puerto_escena"
     },
     {
       "id": "fuente_6bb13d0ed8104865",
@@ -143,6 +160,42 @@
       "public_status": "integrada",
       "last_verified_at": "2026-08-17",
       "canonical_source_id": "del_barrio_valpo"
+    },
+    {
+      "id": "fuente_2d763146e4bfcd47",
+      "name": "Destino Valparaíso",
+      "website_url": "https://destinovalpo.cl/cartelera/",
+      "cities": [
+        "Valparaíso"
+      ],
+      "source_type": "Centro cultural",
+      "categories": [
+        "Cultura",
+        "Música",
+        "Teatro",
+        "Exposiciones"
+      ],
+      "public_status": "integrada",
+      "last_verified_at": "2026-08-24",
+      "canonical_source_id": "destino_valparaiso"
+    },
+    {
+      "id": "fuente_6b2999f0e8715236",
+      "name": "El Internado Valpo",
+      "website_url": "https://www.instagram.com/elinternadovalpo/",
+      "cities": [
+        "Valparaíso"
+      ],
+      "source_type": "Centro cultural",
+      "categories": [
+        "Música",
+        "Teatro",
+        "Exposiciones",
+        "Cultura"
+      ],
+      "public_status": "integrada",
+      "last_verified_at": "2026-08-24",
+      "canonical_source_id": "el_internado_valpo"
     },
     {
       "id": "fuente_2adf194ec1ae0f47",
@@ -481,7 +534,11 @@
       ],
       "source_type": "Museo",
       "categories": [
-        "Exposiciones"
+        "Exposiciones",
+        "Cine",
+        "Música",
+        "Talleres y cursos",
+        "Cultura"
       ],
       "public_status": "integrada",
       "canonical_source_id": "museo_palacio_rioja"
