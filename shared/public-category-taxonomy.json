@@ -76,10 +76,7 @@
     "source_title_evidence": [
       {"source_id": "bioparc_acuario_gijon", "category": "cursos-talleres-campus", "weight": 65, "pattern": ".+", "reason": "official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override"},
       {"source_id": "camara_recinto_ferial_gijon", "category": "musica", "weight": 180, "pattern": "^homenaje dire straits$", "reason": "verified_sparse_official_event_music"},
-      {"source_id": "camara_recinto_ferial_gijon", "category": "teatro", "weight": 180, "pattern": "^el gran showman$", "reason": "verified_sparse_official_event_stage_musical"},
-      {"source_id": "laboral_ciudad_cultura", "category": "musica", "weight": 180, "pattern": "^el arrebato el viaje inesperado$", "reason": "verified_sparse_official_event_music"},
-      {"source_id": "laboral_ciudad_cultura", "category": "teatro", "weight": 180, "pattern": "^angel martin somos monos$", "reason": "verified_sparse_official_event_comedy_monologue"},
-      {"source_id": "laboral_ciudad_cultura", "category": "musica", "weight": 180, "pattern": "^melody el bosque encantado$", "reason": "verified_sparse_official_event_music"}
+      {"source_id": "camara_recinto_ferial_gijon", "category": "teatro", "weight": 180, "pattern": "^el gran showman$", "reason": "verified_sparse_official_event_stage_musical"}
     ],
     "summer_program_event_types": ["program", "registration_period"],
     "summer_program_title_pattern": "\\b(?:campus|campamento|escuela de verano|escuela de invierno)\\b",
