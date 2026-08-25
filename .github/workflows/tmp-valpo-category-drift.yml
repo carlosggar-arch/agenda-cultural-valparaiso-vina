@@ -12,18 +12,15 @@ jobs:
   diagnose:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: fix/valpo-visible-category-authority-20260825
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Compare PortalTickets related-tag links
-        env:
-          PYTHONPATH: app/scripts
+      - name: Compare PortalTickets meta keywords
         run: |
           python - <<'PY'
-          from refresh_portaltickets_editorial import fetch_url, PortalTokenParser, norm
+          import re
+          from html import unescape
+          from urllib.request import Request,urlopen
           urls=[
             'https://www.portaldisc.com/evento/aniversariowareba',
             'https://www.portaldisc.com/evento/sofiaalvezvinadelmar',
@@ -31,16 +28,8 @@ jobs:
             'https://www.portaldisc.com/evento/trip28-08',
           ]
           for url in urls:
-            ok,status,markup,error=fetch_url(url)
-            print('\nURL',url,ok,status,error)
-            if not ok: continue
-            p=PortalTokenParser(); p.feed(markup); p.close()
-            toks=p.tokens
-            start=next((i for i,t in enumerate(toks) if norm(t.get('text'))=='artistas y tags relacionados'),None)
-            if start is None:
-              print('NO_SECTION'); continue
-            for t in toks[start:start+25]:
-              text=str(t.get('text') or '').strip()
-              if norm(text)=='produce': break
-              print('REL',repr(text),'HREF',repr(t.get('href')))
+            req=Request(url,headers={'User-Agent':'Mozilla/5.0','Accept-Language':'es-CL,es;q=0.9'})
+            with urlopen(req,timeout=20) as r: html=r.read().decode(r.headers.get_content_charset() or 'utf-8','replace')
+            m=re.search(r'<meta\s+name=["\']keywords["\']\s+content=["\']([^"\']*)',html,re.I)
+            print('KEYWORDS',url,unescape(m.group(1)) if m else None)
           PY
