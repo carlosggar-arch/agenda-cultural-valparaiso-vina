@@ -12,17 +12,18 @@ HISTORICAL_DATASET_REF = "54c8a58e17b283bc2f1fe7303738bc00fbc75e61"
 HISTORICAL_DATASET_CONTRACTS = frozenset({
     "app/scripts/test_runtime_browser.py",
     "app/scripts/test_runtime_user_flow_browser.py",
+    "app/scripts/test_exhibition_visual_parity.py",
 })
 
 
 def run_browser_contract(command: list[str], owner: str) -> None:
     """Run one browser contract, isolating historical-data regressions from the live publication snapshot.
 
-    The runtime browser suite contains a Caleta de Historias regression whose source event
-    legitimately expired after 22 Aug 2026. Production datasets must continue pruning expired
-    events, so the direct runtime contract and wrappers that delegate to it execute against the
-    immutable repository snapshot that still contains the real official record. Candidate runtime
-    code is otherwise unchanged, and the current dataset is restored immediately after the contract.
+    Some browser regressions intentionally exercise real historical Valpo records that have since
+    expired from the live publication dataset. Production must continue pruning expired events, so
+    those direct contracts and wrappers execute against the immutable repository snapshot containing
+    their official records. Candidate runtime code is otherwise unchanged, and the current dataset
+    is restored immediately after each contract.
     """
     if owner not in HISTORICAL_DATASET_CONTRACTS:
         subprocess.run(command, cwd=ROOT, check=True)
