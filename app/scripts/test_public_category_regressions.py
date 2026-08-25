@@ -128,6 +128,33 @@ def main():
         event("Viaje sonoro", "cultura", description="Un concierto de música chilena que recupera la magia de sus canciones."),
         "musica",
     )
+    assert_case(
+        "description genre alone reaches classification threshold",
+        event("Noche especial", "cultura", description="Una noche para bailar con clásicos del rock chileno."),
+        "musica",
+    )
+    for sparse_title in (
+        "Carolina de la Muela en El Pasaje",
+        "Aniversario Calathea Club",
+        "CHAISENROOM | NO BRANDING NO NATION",
+        "Sofía Alvez en El Pasaje",
+        "Seba & El Monstruo, lanzamiento: Lleno de 97",
+    ):
+        value = event(sparse_title, "cultura", city="Valparaíso")
+        value["source_id"] = "portaltickets_valparaiso"
+        assert_case(f"verified sparse PortalTickets music: {sparse_title}", value, "musica")
+    for sparse_title in (
+        "Esstelar Bday",
+        "Special Anniversary Show Placebo 30 Años",
+        "Previa Aniversario",
+        "La Fiesta de Ritoque Fm",
+    ):
+        value = event(sparse_title, "cultura", city="Valparaíso")
+        value["source_id"] = "portaltickets_valparaiso"
+        assert_case(f"verified sparse PortalTickets music event: {sparse_title}", value, "musica")
+    oshikatsu = event("Oshikatsu Party Oshifonda", "cultura", city="Valparaíso")
+    oshikatsu["source_id"] = "portaltickets_valparaiso"
+    assert_case("verified sparse PortalTickets fandom party", oshikatsu, "ferias-vida-local")
     audit_current_theatre_conflicts()
     print("PUBLIC_CATEGORY_REGRESSIONS_OK")
 
