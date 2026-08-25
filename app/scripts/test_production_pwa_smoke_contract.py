@@ -15,6 +15,7 @@ ATTESTATION = (ROOT / "app/scripts/production_release_attestation.py").read_text
 APP = (ROOT / "app/app.js").read_text(encoding="utf-8")
 PWA = (ROOT / "app/pwa.js").read_text(encoding="utf-8")
 SOURCES = (ROOT / "app/sources-toggle.js").read_text(encoding="utf-8")
+RUNTIME_RELEASE_GUARD = (ROOT / "app/scripts/runtime_release_guard.py").read_text(encoding="utf-8")
 
 
 def block(start_marker: str, end_marker: str | None = None) -> str:
@@ -49,6 +50,7 @@ def main() -> None:
         '      - "app/scripts/production_warm_start_smoke.py"',
         '      - "app/scripts/test_web_pwa_visibility_parity.py"',
         '      - "app/scripts/production_release_attestation.py"',
+        '      - "app/scripts/runtime_release_guard.py"',
         '      - ".github/workflows/publish.yml"',
     ):
         assert marker in triggers, f"Production smoke trigger missing: {marker}"
@@ -67,7 +69,14 @@ def main() -> None:
     assert "Require release bump for runtime pushes" in sync
     assert "if: github.event_name == 'push'" in sync
     assert "app/release-version.js" in sync
-    assert "js|mjs|css|html|webmanifest" in sync
+    assert "python app/scripts/runtime_release_guard.py" in sync
+    assert '--base-ref "$before"' in sync
+    assert '--head-ref "$CANDIDATE_SHA"' in sync
+    # Runtime extension ownership now lives in the dedicated guard rather than
+    # being duplicated inline in the workflow. Keep that delegated contract
+    # explicit so the preflight fails if either side drifts again.
+    for marker in ("js|mjs|css|html|webmanifest", "RELEASE_VERSION", "RUNTIME_PATH", "RELEASE_RUNTIME_GUARD_BLOCKED"):
+        assert marker in RUNTIME_RELEASE_GUARD, f"Runtime release guard contract missing: {marker}"
     assert "Validate Cloudflare build snapshot and exact release lineage" in sync
     assert 'release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA"' in sync
     assert "git reset --hard origin/main" not in WORKFLOW
