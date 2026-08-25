@@ -6,187 +6,40 @@ on:
       - diag/valpo-visible-category-drift-20260825
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  implement:
+  diagnose:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
           ref: fix/valpo-visible-category-authority-20260825
-          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - name: Apply structural PortalTickets classifier patch
+      - name: Diagnose shared classifier probes
         run: |
           python - <<'PY'
-          from pathlib import Path
-
-          p = Path('app/scripts/refresh_portaltickets_editorial.py')
-          text = p.read_text(encoding='utf-8')
-          text = text.replace('import re\nimport unicodedata\n', 'import re\nimport sys\nimport unicodedata\n', 1)
-          old = 'ROOT = Path(__file__).resolve().parents[2]\nDATASET = ROOT / "agenda_web.json"\n'
-          new = 'ROOT = Path(__file__).resolve().parents[2]\nif str(ROOT) not in sys.path:\n    sys.path.insert(0, str(ROOT))\n\nfrom scripts.public_category_rules import classify_public_category\n\nDATASET = ROOT / "agenda_web.json"\n'
-          if old not in text: raise SystemExit('ROOT anchor not found')
-          text = text.replace(old, new, 1)
-
-          start = text.index('def category_for(title: str) -> tuple[str, str]:\n')
-          end = text.index('\n\ndef make_event(', start)
-          replacement = (
-              'def category_for(title: str) -> tuple[str, str]:\n'
-              '    """Use the shared public taxonomy for the source preliminary category."""\n'
-              '    probe = {\n'
-              '        "title": title, "description": None, "event_type": "event",\n'
-              '        "primary_category": {"id": "cultura", "label": "Cultura"},\n'
-              '        "categories": [{"id": "cultura", "label": "Cultura"}],\n'
-              '        "tags": [], "source_id": SOURCE_ID,\n'
-              '    }\n'
-              '    resolved = classify_public_category(probe)["category"]\n'
-              '    if resolved.get("id") == "unclassified":\n'
-              '        return "cultura", "Cultura"\n'
-              '    return str(resolved["id"]), str(resolved["label"])\n'
-          )
-          text = text[:start] + replacement + text[end:]
-
-          start = text.index('def _description_from_tokens(texts: list[str]) -> str | None:\n')
-          end = text.index('\n\ndef parse_detail_markup(', start)
-          replacement = (
-              'def _description_chunks(texts: list[str]) -> list[str]:\n'
-              '    """Keep the full meaningful description region for semantic classification."""\n'
-              '    description_index = next((i for i, text in enumerate(texts) if norm(text) == "descripcion"), None)\n'
-              '    if description_index is None:\n'
-              '        return []\n'
-              '    selected: list[str] = []\n'
-              '    for text in texts[description_index + 1:]:\n'
-              '        cleaned = re.sub(r"\\s+", " ", text).strip()\n'
-              '        cleaned = DESCRIPTION_TEMPLATE_PREFIX.sub("", cleaned).strip()\n'
-              '        cleaned = re.sub(r"\\s*-{4,}\\s*$", "", cleaned).strip()\n'
-              '        normalized = norm(cleaned)\n'
-              '        if not cleaned:\n'
-              '            continue\n'
-              '        if normalized in DESCRIPTION_HEADINGS:\n'
-              '            if selected:\n'
-              '                break\n'
-              '            continue\n'
-              '        if any(normalized.startswith(prefix) for prefix in DESCRIPTION_BOILERPLATE):\n'
-              '            if selected:\n'
-              '                break\n'
-              '            continue\n'
-              '        if len(cleaned) < 25:\n'
-              '            continue\n'
-              '        selected.append(cleaned)\n'
-              '        if len(" ".join(selected)) >= 1600 or len(selected) >= 12:\n'
-              '            break\n'
-              '    return selected\n\n'
-              'def _description_from_tokens(texts: list[str]) -> str | None:\n'
-              '    chunks = _description_chunks(texts)\n'
-              '    if not chunks:\n'
-              '        return None\n'
-              '    selected: list[str] = []\n'
-              '    for chunk in chunks:\n'
-              '        selected.append(chunk)\n'
-              '        if len(" ".join(selected)) >= 420 or len(selected) >= 2:\n'
-              '            break\n'
-              '    return " ".join(selected)[:520].rstrip(" ,;:")\n\n'
-              'def _semantic_text_from_tokens(texts: list[str]) -> str | None:\n'
-              '    chunks = _description_chunks(texts)\n'
-              '    if not chunks:\n'
-              '        return None\n'
-              '    return " ".join(chunks)[:1600].rstrip(" ,;:")\n'
-          )
-          text = text[:start] + replacement + text[end:]
-
-          old = '    description = _description_from_tokens(texts)\n    tiers: list[dict] = []\n'
-          new = '    description = _description_from_tokens(texts)\n    semantic_text = _semantic_text_from_tokens(texts)\n    tiers: list[dict] = []\n'
-          if old not in text: raise SystemExit('parse detail anchor not found')
-          text = text.replace(old, new, 1)
-          old = '    return {\n        "description": description,\n        "sold_out": sold_out if (tiers or explicit_sold) else None,\n'
-          new = '    return {\n        "description": description,\n        "semantic_text": semantic_text,\n        "sold_out": sold_out if (tiers or explicit_sold) else None,\n'
-          if old not in text: raise SystemExit('detail return anchor not found')
-          text = text.replace(old, new, 1)
-
-          old = '    combined = f"{event.get(\'title\') or \'\'} {description or \'\'}"\n    category_id, category_label = category_for(combined)\n    if category_id != "cultura" or (event.get("primary_category") or {}).get("id") == "cultura":\n        event["primary_category"] = {"id": category_id, "label": category_label}\n        event["categories"] = [{"id": category_id, "label": category_label}]\n        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "cine"}]\n        event["tags"] = [category_label, *tags]\n\n    editorial = event.setdefault("editorial", {})\n'
-          new = '    semantic_text = str(detail.get("semantic_text") or description or "").strip()\n    classification_event = dict(event)\n    classification_event["description"] = semantic_text or None\n    classification = classify_public_category(classification_event)\n    category = dict(classification["category"])\n    if category.get("id") != "unclassified":\n        event["primary_category"] = category\n        event["categories"] = [category]\n        tags = [tag for tag in (event.get("tags") or []) if norm(tag) not in {"cultura", "musica", "teatro", "cine", "otros panoramas"}]\n        event["tags"] = [category["label"], *tags]\n\n    editorial = event.setdefault("editorial", {})\n    editorial["category_classifier"] = "shared_public_category"\n    editorial["category_confidence"] = classification.get("confidence")\n'
-          if old not in text: raise SystemExit('apply detail anchor not found')
-          text = text.replace(old, new, 1)
-          p.write_text(text, encoding='utf-8')
-
-          p = Path('app/scripts/test_portaltickets_editorial.py')
-          text = p.read_text(encoding='utf-8')
-          anchor = '\ndef test_detail_parser_marks_fully_sold_event_and_apply_detail_surfaces_it() -> None:\n'
-          if anchor not in text: raise SystemExit('test anchor not found')
-          lines = [
-              '', '',
-              'def test_late_music_evidence_drives_shared_category_without_polluting_public_copy() -> None:',
-              '    year = future_year()',
-              '    listing = f\'\'\'<div><h3>PREVIA ANIVERSARIO</h3>',
-              '    <p>Viernes 11 de septiembre {year}, 17:30</p><p>Poseidón Valparaíso, Valparaíso</p>',
-              '    <a href="/evento/previa">TICKETS AQUÍ</a></div>\'\'\'',
-              '    events, _ = parse_markup(listing)',
-              '    detail_markup = \'\'\'<h4>Descripción</h4>',
-              '    <p>Comienza la previa de nuestro segundo aniversario en Valparaíso.</p>',
-              '    <p>Una jornada para encontrarnos, brindar y celebrar juntos.</p>',
-              '    <p>La noche continúa con música en vivo y dos bandas invitadas.</p>',
-              '    <p>Rock &amp; Roll y más sonidos para comenzar la celebración.</p>',
-              '    <h4>POLÍTICAS DE REEMBOLSO</h4>\'\'\'',
-              '    detail = parse_detail_markup(detail_markup)',
-              '    assert "música en vivo" not in (detail["description"] or "")',
-              '    assert "música en vivo" in (detail["semantic_text"] or "")',
-              '    enriched = apply_detail(events[0], detail, verified_at="2026-08-25T10:00:00-04:00")',
-              '    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}',
-              '    assert enriched["editorial"]["category_classifier"] == "shared_public_category"',
-              '', '',
-              'def test_shared_source_classifier_does_not_treat_bare_musical_as_music() -> None:',
-              '    category_id, _ = __import__("refresh_portaltickets_editorial").category_for("High School Musical Sing Along (2006)")',
-              '    assert category_id == "cine"',
+          import json
+          from scripts.public_category_rules import classify_public_category, description_evidence_text
+          probes = [
+            {
+              'title':'PAULA RIVAS', 'description':'Paula Rivas presenta un concierto especial en Valparaíso.',
+              'event_type':'event','primary_category':{'id':'cultura','label':'Cultura'},
+              'categories':[{'id':'cultura','label':'Cultura'}], 'tags':['Cultura','PortalTickets'],
+              'source_id':'portaltickets_valparaiso', 'source_name':'PortalTickets — Región de Valparaíso',
+              'location':{'city':'Valparaíso','venue':'Teatro Mauri SCD, Valparaíso'}
+            },
+            {
+              'title':'PREVIA ANIVERSARIO', 'description':'Comienza la previa de nuestro segundo aniversario en Valparaíso. Una jornada para encontrarnos, brindar y celebrar juntos. La noche continúa con música en vivo y dos bandas invitadas. Rock & Roll y más sonidos para comenzar la celebración.',
+              'event_type':'event','primary_category':{'id':'cultura','label':'Cultura'},
+              'categories':[{'id':'cultura','label':'Cultura'}], 'tags':['Cultura','PortalTickets'],
+              'source_id':'portaltickets_valparaiso','source_name':'PortalTickets — Región de Valparaíso',
+              'location':{'city':'Valparaíso','venue':'Poseidón Valparaíso, Valparaíso'}
+            }
           ]
-          text = text.replace(anchor, '\n'.join(lines) + anchor, 1)
-          main_anchor = '    test_description_template_prefix_is_removed_without_losing_real_copy()\n'
-          if main_anchor not in text: raise SystemExit('main anchor not found')
-          text = text.replace(main_anchor, main_anchor + '    test_late_music_evidence_drives_shared_category_without_polluting_public_copy()\n    test_shared_source_classifier_does_not_treat_bare_musical_as_music()\n', 1)
-          p.write_text(text, encoding='utf-8')
-
-          p = Path('app/scripts/run_changed_source_tests.py')
-          text = p.read_text(encoding='utf-8')
-          anchor = '    "museo_maritimo": ["app/scripts/test_museo_maritimo.py"],\n'
-          if anchor not in text: raise SystemExit('source suite anchor not found')
-          text = text.replace(anchor, anchor + '    "portaltickets": ["app/scripts/test_portaltickets_editorial.py"],\n', 1)
-          p.write_text(text, encoding='utf-8')
-
-          p = Path('app/scripts/atomic_maintenance_hook.py')
-          text = p.read_text(encoding='utf-8')
-          anchor = '    run("app/scripts/apply_content_quality_guard.py")\n    run("app/scripts/refresh_quality_diagnostics.py")\n'
-          replacement = '    run("app/scripts/apply_content_quality_guard.py")\n\n    # Re-materialize the shared category authority after any source/editorial mutation.\n    run("scripts/materialize_public_categories.py")\n    run("app/scripts/refresh_quality_diagnostics.py")\n'
-          if anchor not in text: raise SystemExit('maintenance anchor not found')
-          text = text.replace(anchor, replacement, 1)
-          p.write_text(text, encoding='utf-8')
+          for p in probes:
+            print('TEXT', description_evidence_text(p))
+            print('RESULT', json.dumps(classify_public_category(p), ensure_ascii=False))
           PY
-      - name: Run deterministic regressions
-        run: |
-          python -m py_compile app/scripts/refresh_portaltickets_editorial.py app/scripts/run_changed_source_tests.py app/scripts/atomic_maintenance_hook.py app/scripts/test_portaltickets_editorial.py
-          python app/scripts/test_portaltickets_editorial.py
-          python scripts/test_public_category_regressions.py
-          node app/public-category-regressions.test.mjs
-          node app/formation-cycle-classifier.test.mjs
-          python app/scripts/test_source_refresh_scope.py
-          python app/scripts/test_maintenance_automation.py
-      - name: Verify Changed Source routing
-        run: |
-          python - <<'PY'
-          import sys
-          sys.path.insert(0, 'app/scripts')
-          import run_changed_source_tests as r
-          tests = r.select(['app/scripts/refresh_portaltickets_editorial.py'])
-          assert tests == ['app/scripts/test_portaltickets_editorial.py'], tests
-          print('PORTALTICKETS_CHANGED_SOURCE_ROUTING_OK', tests)
-          PY
-      - name: Commit implementation to fix branch
-        run: |
-          git config user.name "carlosggar-arch"
-          git config user.email "carlosggar@gmail.com"
-          git add app/scripts/refresh_portaltickets_editorial.py app/scripts/test_portaltickets_editorial.py app/scripts/run_changed_source_tests.py app/scripts/atomic_maintenance_hook.py
-          git diff --cached --check
-          git commit -m "Fix PortalTickets semantic category authority"
-          git push origin HEAD:fix/valpo-visible-category-authority-20260825
