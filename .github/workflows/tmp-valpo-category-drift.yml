@@ -1,0 +1,48 @@
+name: TEMP Valpo category drift
+
+on:
+  push:
+    branches:
+      - diag/valpo-visible-category-drift-20260825
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Compare materialized and runtime categories
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { classifyPublicCategory } from './app/public-category-rules.mjs';
+
+          const data = JSON.parse(fs.readFileSync('agenda_web.json', 'utf8'));
+          const musicCue = /\b(concierto|orquesta|sinf[oó]nica|filarm[oó]nica|banda|m[uú]sica|musical|jazz|gospel|cuarteto|tr[ií]o|d[uú]o|cantata|recital|cumbia|rock|salsa|bachata|coro|choir|ensemble)\b/iu;
+          let drift = 0;
+          let musicSuspects = 0;
+          for (const event of data.events || []) {
+            const classified = classifyPublicCategory(event);
+            const stored = event?.primary_category?.id || '';
+            const runtime = classified?.category?.id || '';
+            if (stored !== runtime) {
+              drift += 1;
+              console.log('CATEGORY_DRIFT', JSON.stringify({id:event.id,title:event.title,stored,runtime,source_category:classified.source_category,candidates:classified.candidates,evidence:classified.evidence}));
+            }
+            const blob = `${event.title || ''} ${event.description || ''}`;
+            if (musicCue.test(blob) && runtime !== 'musica') {
+              musicSuspects += 1;
+              console.log('MUSIC_SUSPECT', JSON.stringify({id:event.id,title:event.title,stored,runtime,candidates:classified.candidates,evidence:classified.evidence}));
+            }
+            if (String(event.title || '').includes('Matriarcas')) {
+              console.log('MATRIARCAS_RUNTIME', JSON.stringify({id:event.id,title:event.title,stored,runtime,candidates:classified.candidates,evidence:classified.evidence}));
+            }
+          }
+          console.log(`CATEGORY_DRIFT_SUMMARY total=${data.events.length} drift=${drift} music_suspects=${musicSuspects}`);
+          NODE
