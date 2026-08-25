@@ -304,27 +304,6 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "reason": "verified_sparse_official_event_stage_musical",
         "source_id": "camara_recinto_ferial_gijon",
         "weight": 180
-      },
-      {
-        "category": "musica",
-        "pattern": "^el arrebato el viaje inesperado$",
-        "reason": "verified_sparse_official_event_music",
-        "source_id": "laboral_ciudad_cultura",
-        "weight": 180
-      },
-      {
-        "category": "teatro",
-        "pattern": "^angel martin somos monos$",
-        "reason": "verified_sparse_official_event_comedy_monologue",
-        "source_id": "laboral_ciudad_cultura",
-        "weight": 180
-      },
-      {
-        "category": "musica",
-        "pattern": "^melody el bosque encantado$",
-        "reason": "verified_sparse_official_event_music",
-        "source_id": "laboral_ciudad_cultura",
-        "weight": 180
       }
     ],
     "summer_program_event_types": [
