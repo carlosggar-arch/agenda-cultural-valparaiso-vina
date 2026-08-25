@@ -64,7 +64,32 @@ jobs:
           anchor = '\ndef test_detail_parser_marks_fully_sold_event_and_apply_detail_surfaces_it() -> None:\n'
           if anchor not in text:
               raise SystemExit('test insertion anchor not found')
-          test = r'''\n\ndef test_late_music_evidence_drives_shared_category_without_polluting_public_copy() -> None:\n    year = future_year()\n    listing = f'''<div><h3>PREVIA ANIVERSARIO</h3>\n    <p>Viernes 11 de septiembre {year}, 17:30</p><p>Poseidón Valparaíso, Valparaíso</p>\n    <a href="/evento/previa">TICKETS AQUÍ</a></div>'''\n    events, _ = parse_markup(listing)\n    detail_markup = '''<h4>Descripción</h4>\n    <p>Comienza la previa de nuestro segundo aniversario en Valparaíso.</p>\n    <p>Una jornada para encontrarnos, brindar y celebrar juntos.</p>\n    <p>La noche continúa con música en vivo y dos bandas invitadas.</p>\n    <p>Rock &amp; Roll y más sonidos para comenzar la celebración.</p>\n    <h4>POLÍTICAS DE REEMBOLSO</h4>'''\n    detail = parse_detail_markup(detail_markup)\n    assert "música en vivo" not in (detail["description"] or "")\n    assert "música en vivo" in (detail["semantic_text"] or "")\n    enriched = apply_detail(events[0], detail, verified_at="2026-08-25T10:00:00-04:00")\n    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}\n    assert enriched["editorial"]["category_classifier"] == "shared_public_category"\n\n\ndef test_shared_source_classifier_does_not_treat_bare_musical_as_music() -> None:\n    category_id, _ = __import__('refresh_portaltickets_editorial').category_for("High School Musical Sing Along (2006)")\n    assert category_id == "cine"\n'''
+          test = r"""
+
+def test_late_music_evidence_drives_shared_category_without_polluting_public_copy() -> None:
+    year = future_year()
+    listing = f'''<div><h3>PREVIA ANIVERSARIO</h3>
+    <p>Viernes 11 de septiembre {year}, 17:30</p><p>Poseidón Valparaíso, Valparaíso</p>
+    <a href="/evento/previa">TICKETS AQUÍ</a></div>'''
+    events, _ = parse_markup(listing)
+    detail_markup = '''<h4>Descripción</h4>
+    <p>Comienza la previa de nuestro segundo aniversario en Valparaíso.</p>
+    <p>Una jornada para encontrarnos, brindar y celebrar juntos.</p>
+    <p>La noche continúa con música en vivo y dos bandas invitadas.</p>
+    <p>Rock &amp; Roll y más sonidos para comenzar la celebración.</p>
+    <h4>POLÍTICAS DE REEMBOLSO</h4>'''
+    detail = parse_detail_markup(detail_markup)
+    assert "música en vivo" not in (detail["description"] or "")
+    assert "música en vivo" in (detail["semantic_text"] or "")
+    enriched = apply_detail(events[0], detail, verified_at="2026-08-25T10:00:00-04:00")
+    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}
+    assert enriched["editorial"]["category_classifier"] == "shared_public_category"
+
+
+def test_shared_source_classifier_does_not_treat_bare_musical_as_music() -> None:
+    category_id, _ = __import__('refresh_portaltickets_editorial').category_for("High School Musical Sing Along (2006)")
+    assert category_id == "cine"
+"""
           text = text.replace(anchor, test + anchor, 1)
           main_anchor = '    test_description_template_prefix_is_removed_without_losing_real_copy()\n'
           if main_anchor not in text:
