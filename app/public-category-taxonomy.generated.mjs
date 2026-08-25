@@ -218,12 +218,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "cine",
-        "pattern": "\\b(?:cine|pelicula|film|audiovisual|documental|cortometraje|largometraje|proyeccion)\\b",
+        "pattern": "\\b(?:cine|pelicula|film|audiovisual|documental|cortometraje|largometraje|proyeccion|sing along)\\b",
         "weight": 35
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas)\\b",
+        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto)\\b",
         "weight": 35
       },
       {
@@ -233,7 +233,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion|musical|comedia musical|teatro musical|monologo|stand up|humor|comedia|magia|ilusionismo|mago|maga|ilusionista)\\b",
+        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion teatral|comedia musical|teatro musical|obra musical|espectaculo musical|monologo|stand up|humor|comedia|magia|ilusionismo|mago|maga|ilusionista)\\b",
         "weight": 40
       },
       {
@@ -312,6 +312,25 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ],
     "summer_program_title_pattern": "\\b(?:campus|campamento|escuela de verano|escuela de invierno)\\b",
     "summer_registration_title_pattern": "\\bverano\\b.*\\binscripciones?\\b|\\binscripciones?\\b.*\\bverano\\b",
+    "tag_category_aliases": {
+      "artes escenicas": "teatro",
+      "audiovisual": "cine",
+      "charla": "charlas-conferencias",
+      "cine": "cine",
+      "clasica": "musica",
+      "concierto": "musica",
+      "conciertos": "musica",
+      "conferencia": "charlas-conferencias",
+      "danza": "teatro",
+      "exposicion": "exposiciones",
+      "exposiciones": "exposiciones",
+      "literatura": "literatura",
+      "musica": "musica",
+      "musica clasica": "musica",
+      "taller": "cursos-talleres-campus",
+      "talleres": "cursos-talleres-campus"
+    },
+    "tag_category_weight": 145,
     "title_evidence": [
       {
         "category": "cursos-talleres-campus",
@@ -330,7 +349,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "cine",
-        "pattern": "\\b(?:cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\\b",
+        "pattern": "\\b(?:cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion|sing along)\\b",
         "weight": 140
       },
       {
@@ -340,7 +359,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamenco|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house)\\b",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamenco|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto)\\b",
         "weight": 140
       },
       {
@@ -350,7 +369,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:musical|comedia musical|teatro musical)\\b",
+        "pattern": "\\b(?:comedia musical|teatro musical|obra musical|espectaculo musical|(?:el|la|un|una) musical)\\b",
         "weight": 150
       },
       {

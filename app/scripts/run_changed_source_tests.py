@@ -44,6 +44,9 @@ def main() -> None:
     args = parser.parse_args()
     tests = select(changed(args.base, args.head))
     if not tests:
+        if args.base:
+            print("CHANGED_SOURCE_TESTS_OK count=0 reason=no_affected_source_suite")
+            return
         tests = SOURCE_SUITES["registry"]
     for test in tests:
         print(f"SOURCE_TEST_START {test}", flush=True)

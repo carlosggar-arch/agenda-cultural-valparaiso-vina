@@ -82,10 +82,11 @@ def main() -> int:
     )
     assert noise["classification_state"] == "unclassified"
 
-    # A guided visit describes format. It must not become training merely from
-    # the words "visita guiada" when no thematic evidence says so.
+    # A guided visit has two compatible semantic dimensions: it is a public
+    # experience in the shared category taxonomy and a guided-visit format.
     guided = build_event_semantics(item("Visita guiada al edificio histórico")["event"])
-    assert guided["classification_state"] == "unclassified"
+    assert guided["classification_state"] == "classified"
+    assert guided["primary_domain"] == "cursos-talleres-campus"
     assert guided["format"] == "visita-guiada"
 
     # Common but previously sparse music/stage wording should be useful domain
