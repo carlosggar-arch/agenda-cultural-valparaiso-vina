@@ -265,6 +265,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "category": "ferias-vida-local",
         "pattern": "\\b(?:feria|mercado|mercadillo|gastronomia|cocina|comida|degustacion|barrial|vecinal|costumbrista)\\b",
         "weight": 35
+      },
+      {
+        "category": "literatura",
+        "pattern": "\\\\b(?:novela|novelas|obra literaria|narrativa literaria)\\\\b",
+        "weight": 120
       }
     ],
     "merged_category_consensus_weight": 180,
@@ -409,6 +414,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "tag_category_weight": 145,
     "title_evidence": [
       {
+        "category": "literatura",
+        "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro)\\b",
+        "weight": 260
+      },
+      {
         "category": "cursos-talleres-campus",
         "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno|visita guiada|visita comentada|visita especial)\\b",
         "weight": 165
@@ -495,7 +505,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ]
   },
-  "schema_version": "2.5.0"
+  "schema_version": "2.6.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);

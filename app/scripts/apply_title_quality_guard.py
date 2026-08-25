@@ -30,6 +30,17 @@ FOLLOWING_TITLE_VERBS = re.compile(
 )
 
 EXHIBITION_TERMS = re.compile(r"\b(?:exposici[oó]n|muestra)\b", re.I)
+LITERATURE_TERMS = re.compile(r"\b(?:libro|novela|literari[oa]|poes[ií]a)\b", re.I)
+LEADING_LITERARY_WORK = re.compile(
+    r"^\s*[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9]{0,6}(.{3,140}?)\s+"
+    r"(?:presentamos\s+(?:una|la)\s+novela|presentamos\s+(?:el|un)\s+libro|"
+    r"(?:esta|la)\s+novela\s+(?:hist[oó]rica\s+)?(?:ambientada|narra|cuenta))\b",
+    re.I,
+)
+FRAGMENT_TITLE = re.compile(
+    r"^(?:(?:la|el)\s+(?:historia|relato|obra)\s+(?:se\s+)?(?:desarrolla|divide|estructura)|.{2,120}:\s*$)",
+    re.I,
+)
 
 
 def norm(value: object) -> str:
@@ -100,7 +111,36 @@ def _candidate_score(description: str, match: re.Match[str], event: dict) -> int
     return score
 
 
+def suspicious_fragment_title(event: dict) -> bool:
+    title = clean_candidate(str(event.get("title") or ""))
+    if not title:
+        return False
+    return bool(FRAGMENT_TITLE.search(title))
+
+
+def recover_leading_literary_work(event: dict) -> tuple[str | None, str | None]:
+    if not suspicious_fragment_title(event):
+        return None, None
+    description = str(event.get("description") or "").strip()
+    if not description:
+        return None, None
+    match = LEADING_LITERARY_WORK.search(description)
+    if not match:
+        return None, None
+    candidate = clean_candidate(match.group(1))
+    candidate_norm = norm(candidate)
+    if not candidate_norm or candidate_norm == norm(event.get("title")):
+        return None, None
+    words = candidate_norm.split()
+    if not (2 <= len(words) <= 18):
+        return None, None
+    return candidate, "leading_literary_work_in_description"
+
+
 def recover_explicit_title(event: dict) -> tuple[str | None, str | None]:
+    literary_title, literary_reason = recover_leading_literary_work(event)
+    if literary_title and literary_reason:
+        return literary_title, literary_reason
     if not suspicious_venue_title(event):
         return None, None
     description = str(event.get("description") or "").strip()
@@ -123,6 +163,8 @@ def recover_explicit_title(event: dict) -> tuple[str | None, str | None]:
 def infer_category(event: dict, recovered_title: str) -> tuple[str, str] | None:
     description = str(event.get("description") or "")
     evidence = f"{recovered_title} {description[:500]}"
+    if LITERATURE_TERMS.search(evidence):
+        return "literatura", "Literatura"
     if EXHIBITION_TERMS.search(evidence):
         return "exposiciones", "Exposiciones"
     return None

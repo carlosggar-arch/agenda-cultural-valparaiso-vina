@@ -164,6 +164,58 @@ def test_prunes_past_occurrences_and_keeps_future_session() -> None:
     assert changes["past_occurrences_pruned"] == [{"id": "recurring", "count": 1}]
 
 
+def test_quarantines_monthly_program_overview_without_concrete_event() -> None:
+    overview = event(
+        id="monthly-overview",
+        title="AGOSTO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Horario por confirmar"},
+        description="Les invitamos a ser parte de toda nuestra programación. Revisa la programación en este carrusel.",
+    )
+    dataset = {"events": [overview], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "monthly_program_overview_without_event_schedule"
+
+
+def test_quarantines_anniversary_news_without_concrete_event() -> None:
+    news = event(
+        id="anniversary-news",
+        title="Un Año de Cultura y Reencuentro en el Teatro Municipal de Viña del Mar",
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Horario por confirmar"},
+        description="Hoy celebramos que hace un año el emblemático teatro reabrió sus puertas.",
+    )
+    dataset = {"events": [news], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "institutional_news_or_retrospective_without_event_schedule"
+
+
+def test_quarantines_visitation_statistics_news_without_concrete_event() -> None:
+    news = event(
+        id="visitation-news",
+        title="Más de 50 mil personas visitaron museos en estas vacaciones de invierno",
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Fecha por confirmar"},
+        description="Más de 50 mil personas visitaron museos durante estas vacaciones de invierno.",
+    )
+    dataset = {"events": [news], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "institutional_news_or_retrospective_without_event_schedule"
+
+
+def test_does_not_quarantine_real_scheduled_anniversary_event() -> None:
+    real = event(
+        id="real-anniversary",
+        title="Concierto de aniversario",
+        schedule={"mode": "single", "start": "2026-08-28T19:00:00-04:00", "end": None, "occurrences": []},
+        description="Celebramos un año con un concierto en vivo.",
+    )
+    dataset = {"events": [real], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert [item["id"] for item in dataset["events"]] == ["real-anniversary"]
+    assert changes["quarantined"] == []
+
+
 def test_registry_exposes_both_current_city_datasets() -> None:
     configured = dict(configured_datasets())
     assert "valparaiso" in configured
@@ -181,6 +233,10 @@ def main() -> None:
     test_quarantines_calendar_navigation_copy()
     test_removes_expired_event_against_publication_date()
     test_prunes_past_occurrences_and_keeps_future_session()
+    test_quarantines_monthly_program_overview_without_concrete_event()
+    test_quarantines_anniversary_news_without_concrete_event()
+    test_quarantines_visitation_statistics_news_without_concrete_event()
+    test_does_not_quarantine_real_scheduled_anniversary_event()
     test_registry_exposes_both_current_city_datasets()
     print("CONTENT_QUALITY_GUARD_TESTS_OK")
 

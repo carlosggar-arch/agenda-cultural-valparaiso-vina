@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   areProbableDuplicateEvents,
   deduplicateCrossSourceDataset,
+  venuesLikelySame,
 } from "./cross-source-deduplication.mjs";
 
 function event({
@@ -270,4 +271,49 @@ test("similar titles at different venues stay separate", () => {
 test("exact repeat of the same source record is not collapsed by the reconciliation rule", () => {
   const repeated = { ...portal, id: "portal-repeat" };
   assert.equal(areProbableDuplicateEvents(portal, repeated), false);
+});
+
+
+test("Gijon recovered social caption reconciles with official installation record", () => {
+  const social = event({
+    id: "gijon-social-capsula",
+    title: "Cápsula Radio: La tercera luz",
+    sourceId: "agenda_gijon",
+    sourceName: "Agenda Gijón",
+    start: "2026-08-03T06:00:00+02:00",
+    venue: "Primera planta del Antiguo Instituto Jovellanos",
+    city: "Gijón",
+  });
+  social.schedule.end = "2026-08-30";
+  social.primary_category = { id: "teatro", label: "Teatro y danza" };
+  social.categories = [{ id: "teatro", label: "Teatro y danza" }];
+  social.description = "Cápsula Radio: La tercera luz. Instalación de ficción sonora, radiocápsula y teatro de objetos.";
+  social.public_status.source_official = false;
+  social.source_url = "https://www.instagram.com/p/agenda-gijon-capsula/";
+  social.links = { source: social.source_url };
+
+  const official = event({
+    id: "gijon-official-capsula",
+    title: 'Instalación. Ficción sonora. CÁPSULA RADIO: "La tercera Luz"',
+    sourceId: "gijon_opendata_events",
+    sourceName: "Ayuntamiento de Gijón — Agenda",
+    official: true,
+    start: "2026-08-04",
+    venue: "Centro de Cultura Antiguo Instituto",
+    city: "Gijón",
+  });
+  official.schedule.end = "2026-08-30";
+  official.primary_category = { id: "exposiciones", label: "Exposiciones" };
+  official.categories = [{ id: "exposiciones", label: "Exposiciones" }];
+  official.semantics = { source_category: { id: "exposiciones", label: "Exposiciones" }, primary_domain: "exposiciones", confidence: "high", score: 120 };
+  official.source_url = "https://www.gijon.es/es/eventos/instalacion-ficcion-sonora-capsula-radio-la-tercera-luz";
+  official.links = { official: official.source_url, source: official.source_url };
+
+  assert.equal(venuesLikelySame(social, official), true, "building-floor wording must not split one venue");
+  assert.equal(areProbableDuplicateEvents(social, official), true, "recovered work identity plus venue/date must reconcile");
+  const result = deduplicateCrossSourceDataset({ counts: { total: 2, events: 2 }, events: [social, official] });
+  assert.equal(result.events.length, 1);
+  assert.equal(result.events[0].id, "gijon-official-capsula", "official municipal record must be canonical");
+  assert.equal(result.events[0].primary_category.id, "exposiciones");
+  assert.match(result.events[0].title, /CÁPSULA RADIO/i);
 });
