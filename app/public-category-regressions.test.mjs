@@ -64,4 +64,36 @@ expectCategory("figurative magic does not create theatre", event(
   "cultura",
   { description: "Un concierto de música chilena que recupera la magia de sus canciones." },
 ), "musica");
+expectCategory("description genre reaches threshold", event(
+  "Noche especial",
+  "cultura",
+  { description: "Una noche para bailar con clásicos del rock chileno." },
+), "musica");
+for (const sparseTitle of [
+  "Carolina de la Muela en El Pasaje",
+  "Aniversario Calathea Club",
+  "CHAISENROOM | NO BRANDING NO NATION",
+  "Sofía Alvez en El Pasaje",
+  "Seba & El Monstruo, lanzamiento: Lleno de 97",
+]) {
+  expectCategory(`verified sparse PortalTickets music: ${sparseTitle}`, {
+    ...event(sparseTitle, "cultura", { city: "Valparaíso" }),
+    source_id: "portaltickets_valparaiso",
+  }, "musica");
+}
+for (const sparseTitle of [
+  "Esstelar Bday",
+  "Special Anniversary Show Placebo 30 Años",
+  "Previa Aniversario",
+  "La Fiesta de Ritoque Fm",
+]) {
+  expectCategory(`verified sparse PortalTickets music event: ${sparseTitle}`, {
+    ...event(sparseTitle, "cultura", { city: "Valparaíso" }),
+    source_id: "portaltickets_valparaiso",
+  }, "musica");
+}
+expectCategory("verified sparse PortalTickets fandom party", {
+  ...event("Oshikatsu Party Oshifonda", "cultura", { city: "Valparaíso" }),
+  source_id: "portaltickets_valparaiso",
+}, "ferias-vida-local");
 console.log("PUBLIC_CATEGORY_JS_REGRESSIONS_OK");
