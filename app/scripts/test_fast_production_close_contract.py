@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from runtime_release_guard import classify_release_change, root_index_runtime_changed
+
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
@@ -16,6 +18,9 @@ def main() -> None:
     assert "Wait once for both production origins in parallel" in sync
     assert "deployment_readiness.py" in sync
     assert "fast_close_dataset_validation.py --base-ref" in sync
+    assert "python app/scripts/runtime_release_guard.py" in sync
+    assert '--base-ref "$before"' in sync
+    assert '--head-ref "$CANDIDATE_SHA"' in sync
     assert "--wait" in sync
     assert "--timeout-seconds 90" in sync
     assert "--poll-seconds 2" in sync
@@ -45,6 +50,49 @@ def main() -> None:
     assert "age_hours > 6" in DATASET_VALIDATOR
     assert "generation_changed=" in DATASET_VALIDATOR
 
+    # The root landing is partly runtime shell and partly dataset-owned SEO.
+    # Only the explicitly marked Stage 3.1 JSON-LD payload may vary without a
+    # PWA release bump; any surrounding shell change must remain protected.
+    before_index = (
+        '<html><head><script id="stage31-root-jsonld" type="application/ld+json">'
+        '{"count":205}</script></head><body class="shell">Agenda</body></html>'
+    )
+    data_only_index = (
+        '<html><head><script id="stage31-root-jsonld" type="application/ld+json">'
+        '{"count":198}</script></head><body class="shell">Agenda</body></html>'
+    )
+    runtime_index = (
+        '<html><head><script id="stage31-root-jsonld" type="application/ld+json">'
+        '{"count":198}</script></head><body class="shell changed">Agenda</body></html>'
+    )
+    assert root_index_runtime_changed(before_index, data_only_index) is False
+    assert root_index_runtime_changed(before_index, runtime_index) is True
+
+    generated_only = classify_release_change(
+        ["agenda_web.json", "index.html"],
+        before_index=before_index,
+        after_index=data_only_index,
+    )
+    assert generated_only.runtime_changed == ()
+    assert generated_only.generated_only == ("index.html",)
+    assert generated_only.violation is False
+
+    shell_change = classify_release_change(
+        ["index.html"],
+        before_index=before_index,
+        after_index=runtime_index,
+    )
+    assert shell_change.runtime_changed == ("index.html",)
+    assert shell_change.violation is True
+
+    js_without_release = classify_release_change(["app/app.js"])
+    assert js_without_release.runtime_changed == ("app/app.js",)
+    assert js_without_release.violation is True
+
+    js_with_release = classify_release_change(["app/app.js", "app/release-version.js"])
+    assert js_with_release.release_changed is True
+    assert js_with_release.violation is False
+
     # Deployment propagation has one bounded retry loop shared by both origins.
     # The old per-origin sequential HTTP waiter must never return here.
     assert "python app/scripts/production_pwa_smoke.py http" not in WORKFLOW
@@ -70,7 +118,7 @@ def main() -> None:
     assert "PRODUCTION_PROBES_PARALLEL_OK groups=4" in production
     assert "PRODUCTION_RELEASE_VERIFIED" in production
 
-    print("FAST_PRODUCTION_CLOSE_CONTRACT_OK readiness=parallel wait_budget=90s candidate_sha=immutable")
+    print("FAST_PRODUCTION_CLOSE_CONTRACT_OK readiness=parallel wait_budget=90s candidate_sha=immutable release_guard=generated-data-aware")
 
 
 if __name__ == "__main__":
