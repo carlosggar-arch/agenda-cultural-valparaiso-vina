@@ -369,7 +369,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:comedia musical|teatro musical|obra musical|espectaculo musical)\\b",
+        "pattern": "\\b(?:comedia musical|teatro musical|obra musical|espectaculo musical|(?:el|la|un|una) musical)\\b",
         "weight": 150
       },
       {
