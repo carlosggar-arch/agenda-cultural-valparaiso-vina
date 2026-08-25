@@ -1,0 +1,94 @@
+name: TEMP diagnose Matriarcas final category
+
+on:
+  push:
+    branches:
+      - diag/matriarcas-final-category-20260825
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Trace Matriarcas through the exact runtime pipeline
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { mergeSupplementalPayload } from './app/supplemental-events-fetch.js';
+          import { normalizeAgendaPublicText } from './app/public-text-sanitizer.mjs';
+          import { applyEventDataCorrections } from './app/event-data-corrections.js';
+          import { normalizeAgendaCategories } from './app/category-normalizer.js';
+          import { normalizeVenueAliases } from './app/venue-identity.mjs';
+          import { normalizeAgendaTitles, recoverAgendaTitles } from './app/title-normalizer-bootstrap.js';
+          import { normalizeSessionOccurrences } from './app/session-occurrence-normalizer.js';
+          import { normalizeEventSeries } from './app/event-series-normalizer.mjs';
+          import { normalizeFormationCycles } from './app/formation-cycle-classifier.js';
+          import { correctArtequinNaturalArtSessions } from './app/artequin-session-correction.js';
+          import { deduplicateCrossSourceDataset } from './app/cross-source-deduplication.mjs';
+          import { enrichCitySourceEvidence } from './app/city-source-evidence-adapter.mjs';
+          import { normalizeAgendaSourceEvidence } from './app/source-evidence-normalizer.mjs';
+          import { applyDeclarativeEventCorrectionRules } from './app/event-correction-rules.mjs';
+          import { loadAgendaDataset } from './app/data-pipeline.js';
+
+          const match = (e) => String(e?.title || '').toLocaleLowerCase('es').includes('matriarcas');
+          const report = (label, dataset) => {
+            const rows = (dataset?.events || []).filter(match).map((e) => ({
+              id: e.id,
+              title: e.title,
+              source_id: e.source_id,
+              primary_category: e.primary_category,
+              source_category: e.semantics?.source_category || null,
+              score: e.semantics?.score ?? null,
+              confidence: e.semantics?.confidence ?? null,
+              merged_duplicate_ids: e.editorial?.merged_duplicate_ids || null,
+              merged_source_names: e.editorial?.merged_source_names || null,
+            }));
+            console.log(`TRACE_${label}=${JSON.stringify(rows)}`);
+          };
+
+          const base = JSON.parse(fs.readFileSync('./agenda_web.json', 'utf8'));
+          const supplement = JSON.parse(fs.readFileSync('./app/data/valparaiso/supplemental-events.json', 'utf8'));
+          let d = mergeSupplementalPayload(base, supplement); report('00_MERGED_INPUT', d);
+          d = normalizeAgendaPublicText(d); report('01_PUBLIC_TEXT', d);
+          d = applyEventDataCorrections(d); report('02_EVENT_CORRECTIONS', d);
+          d = recoverAgendaTitles(d); report('03_TITLE_RECOVERY', d);
+          d = normalizeAgendaCategories(d); report('04_CATEGORY_NORMALIZER', d);
+          d = { ...d, events: normalizeVenueAliases(d.events) }; report('05_VENUE', d);
+          d = applyDeclarativeEventCorrectionRules(d, { cityId: 'valparaiso' }); report('06_DECLARATIVE', d);
+          d = normalizeAgendaTitles(d); report('07_TITLE_NORMALIZER', d);
+          d = normalizeEventSeries(d, { cityId: 'valparaiso' }); report('08_SERIES', d);
+          d = normalizeSessionOccurrences(d); report('09_SESSIONS', d);
+          d = normalizeFormationCycles(d); report('10_FORMATION', d);
+          d = correctArtequinNaturalArtSessions(d); report('11_ARTEQUIN', d);
+          d = deduplicateCrossSourceDataset(d); report('12_DEDUP', d);
+          d = { ...d, events: d.events.map((e) => enrichCitySourceEvidence(e, 'valparaiso')) }; report('13_CITY_EVIDENCE', d);
+          d = normalizeAgendaSourceEvidence(d); report('14_SOURCE_EVIDENCE', d);
+          d = normalizeAgendaPublicText(d); report('15_FINAL_TEXT', d);
+
+          const cities = JSON.parse(fs.readFileSync('./app/cities.json', 'utf8'));
+          const city = cities.cities.find((x) => x.id === 'valparaiso');
+          for (const origin of [
+            'https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/app/',
+            'https://vivamos.pages.dev/app/',
+          ]) {
+            const fetchImpl = async (url, options = {}) => fetch(new URL(String(url), origin), options);
+            const result = await loadAgendaDataset(city, { fetchImpl, now: new Date('2026-08-25T20:24:00Z') });
+            const rows = result.dataset.events.filter(match).map((e) => ({
+              id: e.id,
+              title: e.title,
+              source_id: e.source_id,
+              primary_category: e.primary_category,
+              source_category: e.semantics?.source_category || null,
+              score: e.semantics?.score ?? null,
+              merged_duplicate_ids: e.editorial?.merged_duplicate_ids || null,
+            }));
+            console.log(`PRODUCTION_FINAL origin=${origin} rows=${JSON.stringify(rows)}`);
+            if (!rows.length) throw new Error(`Matriarcas not visible at ${origin}`);
+          }
+          NODE
