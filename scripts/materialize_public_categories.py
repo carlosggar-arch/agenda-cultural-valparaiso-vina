@@ -3,18 +3,45 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.public_category_rules import classify_public_category
+
 DEFAULT_DATASETS = (ROOT / "agenda_web.json", ROOT / "app/data/gijon/agenda_web.json")
+
+
+def normalize_publication_metadata(payload: dict) -> bool:
+    """Keep publication_date derived from generated_at in the dataset timezone.
+
+    Semantic/materialization passes must not pretend that a dataset was freshly
+    ingested, so generated_at is preserved. They may, however, repair stale or
+    inconsistent publication_date metadata deterministically from that timestamp.
+    """
+
+    generated_raw = str(payload.get("generated_at") or "").strip()
+    timezone_name = str(payload.get("timezone") or "").strip()
+    if not generated_raw or not timezone_name:
+        return False
+
+    generated = datetime.fromisoformat(generated_raw.replace("Z", "+00:00"))
+    if generated.tzinfo is None:
+        generated = generated.replace(tzinfo=ZoneInfo(timezone_name))
+    expected = generated.astimezone(ZoneInfo(timezone_name)).date().isoformat()
+    if payload.get("publication_date") == expected:
+        return False
+    payload["publication_date"] = expected
+    return True
 
 
 def materialize(path: Path) -> tuple[int, int]:
     payload = json.loads(path.read_text(encoding="utf-8"))
+    normalize_publication_metadata(payload)
     changed = 0
     events = payload.get("events") or []
     for event in events:
