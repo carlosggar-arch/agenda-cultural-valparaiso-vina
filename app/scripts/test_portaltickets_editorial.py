@@ -108,6 +108,58 @@ def test_description_template_prefix_is_removed_without_losing_real_copy() -> No
     assert detail["description"] == "Macrobia y Piel vivirán un evento único este 3 de octubre en Viña del Mar."
 
 
+
+def test_late_music_evidence_drives_shared_category_without_polluting_public_copy() -> None:
+    year = future_year()
+    listing = f'''<div><h3>PREVIA ANIVERSARIO</h3>
+    <p>Viernes 11 de septiembre {year}, 17:30</p><p>Poseidón Valparaíso, Valparaíso</p>
+    <a href="/evento/previa">TICKETS AQUÍ</a></div>'''
+    events, _ = parse_markup(listing)
+    detail_markup = '''<h4>Descripción</h4>
+    <p>Comienza la previa de nuestro segundo aniversario en Valparaíso.</p>
+    <p>Una jornada para encontrarnos, brindar y celebrar juntos.</p>
+    <p>La noche continúa con música en vivo y dos bandas invitadas.</p>
+    <p>Rock &amp; Roll y más sonidos para comenzar la celebración.</p>
+    <h4>POLÍTICAS DE REEMBOLSO</h4>'''
+    detail = parse_detail_markup(detail_markup)
+    assert "música en vivo" not in (detail["description"] or "")
+    assert "música en vivo" in (detail["semantic_text"] or "")
+    enriched = apply_detail(events[0], detail, verified_at="2026-08-25T10:00:00-04:00")
+    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}
+    assert enriched["editorial"]["category_classifier"] == "shared_public_category"
+
+
+def test_venue_name_is_not_preliminary_theatre_evidence() -> None:
+    year = future_year()
+    listing = f'''<div><h3>PAULA RIVAS EN TEATRO MAURI SCD, VALPARAISO</h3>
+    <p>Sábado 26 de septiembre {year}, 20:00</p><p>Teatro Mauri SCD, Valparaíso</p>
+    <a href="/evento/paularivas">TICKETS AQUÍ</a></div>'''
+    events, _ = parse_markup(listing)
+    assert events[0]["primary_category"] == {"id": "cultura", "label": "Cultura"}
+
+
+def test_shared_source_classifier_does_not_treat_bare_musical_as_music() -> None:
+    category_id, _ = __import__("refresh_portaltickets_editorial").category_for("High School Musical Sing Along (2006)")
+    assert category_id == "cine"
+def test_preliminary_category_is_not_reused_as_source_authority() -> None:
+    year = future_year()
+    listing = f'''<div><h3>QUILAPAYUN EN TEATRO MAURI SCD VALPARAÍSO</h3>
+    <p>Sábado 10 de octubre {year}, 20:00</p><p>Teatro Mauri SCD, Valparaíso</p>
+    <a href="/evento/quilapayun">TICKETS AQUÍ</a></div>'''
+    events, _ = parse_markup(listing)
+    event = events[0]
+    assert event["semantics"]["source_category"] == {"id": "cultura", "label": "Cultura"}
+    assert event["tags"] == ["PortalTickets"]
+    detail = parse_detail_markup('''<h4>Descripción</h4>
+    <p>Quilapayún vuelve con un concierto que recorre su trayectoria y sus canciones más emblemáticas.</p>
+    <p>La agrupación celebra seis décadas de música chilena y folclore latinoamericano.</p>
+    <h4>POLÍTICAS DE REEMBOLSO</h4>''')
+    enriched = apply_detail(event, detail, verified_at="2026-08-25T10:00:00-04:00")
+    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}
+    assert enriched["tags"] == ["PortalTickets"]
+    assert "música chilena" in enriched["semantics"]["category_evidence_text"]
+
+
 def test_detail_parser_marks_fully_sold_event_and_apply_detail_surfaces_it() -> None:
     year = future_year()
     listing = f'''<div><h3>PAULA RIVAS EN TEATRO MAURI SCD, VALPARAISO</h3>
@@ -185,6 +237,10 @@ def main() -> None:
     test_redundant_venue_suffix_is_removed_but_real_title_is_preserved()
     test_detail_parser_keeps_useful_description_and_detects_partial_availability()
     test_description_template_prefix_is_removed_without_losing_real_copy()
+    test_late_music_evidence_drives_shared_category_without_polluting_public_copy()
+    test_venue_name_is_not_preliminary_theatre_evidence()
+    test_shared_source_classifier_does_not_treat_bare_musical_as_music()
+    test_preliminary_category_is_not_reused_as_source_authority()
     test_detail_parser_marks_fully_sold_event_and_apply_detail_surfaces_it()
     test_refresh_removes_legacy_and_is_idempotent()
     test_fetch_failure_preserves_corrected_but_removes_legacy()

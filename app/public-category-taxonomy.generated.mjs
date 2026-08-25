@@ -213,7 +213,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "exposiciones",
-        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b",
+        "pattern": "\\b(?:exposicion|exposiciones|muestra|muestras|museo|galeria de arte|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\\b",
         "weight": 35
       },
       {
@@ -223,17 +223,22 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto)\\b",
+        "pattern": "\\b(?:conciertos?|recital(?:es)?|tocatas?|festival de musica|concierto homenaje|concierto tributo|homenaje musical|tributo musical|banda tributo|tribute band)\\b",
+        "weight": 80
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)\\b",
         "weight": 35
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamenco|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
+        "pattern": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamen(?:c)?os?|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
         "weight": 25
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:teatro|teatral|danza|ballet|circo|escenicas|performance|funcion teatral|comedia musical|teatro musical|obra musical|espectaculo musical|monologo|stand up|humor|comedia|magia|ilusionismo|mago|maga|ilusionista)\\b",
+        "pattern": "\\b(?:obra de teatro|pieza teatral|teatral|danza|ballet|circo|escenicas|performance|funcion teatral|comedia musical|teatro musical|obra musical|espectaculo musical|monologo|stand up|humor|comedia|show de magia|espectaculo de magia|ilusionismo|mago|maga|ilusionista)\\b",
         "weight": 40
       },
       {
@@ -359,7 +364,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamenco|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto)\\b",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamen(?:c)?os?|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)\\b",
         "weight": 140
       },
       {

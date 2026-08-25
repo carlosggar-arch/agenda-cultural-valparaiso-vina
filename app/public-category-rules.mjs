@@ -107,10 +107,17 @@ function isSummerProgram(event) {
 function scalarNoiseValues(value) {
   if (typeof value === "string") return [value];
   if (!value || typeof value !== "object" || Array.isArray(value)) return [];
-  return ["name", "label", "title", "address", "city", "venue"]
+  const values = ["name", "label", "title", "address", "city", "venue"]
     .map((key) => value[key])
     .filter(Boolean)
     .map(String);
+  const venue = foldPublicCategoryText(value.venue);
+  const city = foldPublicCategoryText(value.city);
+  if (venue && city && venue.endsWith(` ${city}`)) {
+    const shortVenue = venue.slice(0, -(city.length + 1)).trim();
+    if (shortVenue.length >= 4) values.push(shortVenue);
+  }
+  return values;
 }
 
 function semanticNoiseValues(event) {
@@ -143,6 +150,7 @@ function stripSemanticNoise(text, event) {
 
 function descriptionEvidenceText(event) {
   return stripSemanticNoise([
+    event?.semantics?.category_evidence_text,
     event?.description,
     ...(event?.tags || []),
   ].filter(Boolean).join(" "), event);
@@ -256,7 +264,7 @@ export function classifyPublicCategory(event) {
   addRuleEvidence(
     scores,
     evidence,
-    foldPublicCategoryText(event?.title),
+    stripSemanticNoise(event?.title, event),
     TITLE_EVIDENCE_RULES,
     "title",
   );
