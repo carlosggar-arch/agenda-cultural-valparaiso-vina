@@ -18,8 +18,9 @@ def main() -> None:
     assert "Wait once for both production origins in parallel" in sync
     assert "deployment_readiness.py" in sync
     assert "fast_close_dataset_validation.py --base-ref" in sync
-    assert "runtime_release_guard.py --base-ref" in sync
-    assert "--head-ref \"$CANDIDATE_SHA\"" in sync
+    assert "python app/scripts/runtime_release_guard.py" in sync
+    assert '--base-ref "$before"' in sync
+    assert '--head-ref "$CANDIDATE_SHA"' in sync
     assert "--wait" in sync
     assert "--timeout-seconds 90" in sync
     assert "--poll-seconds 2" in sync
