@@ -273,6 +273,49 @@ function editorialList(event, field, fallback) {
   return Array.isArray(values) && values.length ? values : fallback ? [fallback] : [];
 }
 
+function categoryEvidenceRecord(event) {
+  const categoryId = String(
+    event?.semantics?.primary_domain
+      || event?.primary_category?.id
+      || event?.categories?.[0]?.id
+      || "",
+  ).trim();
+  if (!categoryId || categoryId === "unclassified") return null;
+  const score = Number(event?.semantics?.score || 0);
+  return {
+    category_id: categoryId,
+    confidence: String(event?.semantics?.confidence || "unspecified"),
+    score: Number.isFinite(score) ? score : 0,
+    event_id: String(event?.id || ""),
+    source_id: String(event?.source_id || ""),
+  };
+}
+
+function categoryEvidenceRecords(event) {
+  const existing = event?.editorial?.merged_category_evidence;
+  if (Array.isArray(existing) && existing.length) {
+    return existing.filter((item) => item && typeof item === "object");
+  }
+  const record = categoryEvidenceRecord(event);
+  return record ? [record] : [];
+}
+
+function mergeCategoryEvidence(primary, secondary) {
+  const found = new Map();
+  for (const item of [...categoryEvidenceRecords(primary), ...categoryEvidenceRecords(secondary)]) {
+    const key = [item?.event_id, item?.source_id, item?.category_id].map((value) => String(value || "")).join("|");
+    if (!item?.category_id || found.has(key)) continue;
+    found.set(key, {
+      category_id: String(item.category_id),
+      confidence: String(item.confidence || "unspecified"),
+      score: Number.isFinite(Number(item.score)) ? Number(item.score) : 0,
+      event_id: String(item.event_id || ""),
+      source_id: String(item.source_id || ""),
+    });
+  }
+  return [...found.values()];
+}
+
 export function areProbableDuplicateEvents(a, b) {
   if (!(a && b)) return false;
   const typeA = a.event_type || "event";
@@ -327,6 +370,7 @@ export function mergeDuplicateEvents(a, b) {
   mergedLocation.venue_id = primary?.location?.venue_id ?? null;
   const rule = duplicateRule(primary, secondary);
   const scheduleConflictResolved = sameLocalOccurrenceDate(primary, secondary) && !sameLocalOccurrenceStart(primary, secondary);
+  const mergedCategoryEvidence = mergeCategoryEvidence(primary, secondary);
 
   return {
     ...secondary,
@@ -355,6 +399,7 @@ export function mergeDuplicateEvents(a, b) {
       merged_duplicate_ids: mergedIds,
       merged_source_names: mergedSourceNames,
       merged_source_urls: mergedSourceUrls,
+      merged_category_evidence: mergedCategoryEvidence,
     },
   };
 }

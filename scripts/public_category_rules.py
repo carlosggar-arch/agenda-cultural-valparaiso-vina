@@ -42,6 +42,7 @@ SEMANTIC_NOISE_FIELDS = tuple(RULES.get("semantic_noise_fields", []))
 SEMANTIC_NOISE_PHRASES = tuple(RULES.get("semantic_noise_phrases", []))
 TAG_CATEGORY_WEIGHT = int(RULES.get("tag_category_weight", 0))
 TAG_CATEGORY_ALIASES = dict(RULES.get("tag_category_aliases", {}))
+MERGED_CATEGORY_CONSENSUS_WEIGHT = int(RULES.get("merged_category_consensus_weight", 0))
 
 
 def fold(value: Any) -> str:
@@ -230,6 +231,54 @@ def _add_tag_category_evidence(
         )
 
 
+def _add_merged_category_consensus_evidence(
+    scores: dict[str, int],
+    evidence: list[dict[str, Any]],
+    event: dict[str, Any],
+) -> None:
+    if not MERGED_CATEGORY_CONSENSUS_WEIGHT:
+        return
+    editorial = event.get("editorial") if isinstance(event.get("editorial"), dict) else {}
+    raw_items = editorial.get("merged_category_evidence")
+    if not isinstance(raw_items, list) or len(raw_items) < 2:
+        return
+
+    items: list[tuple[str, str, int]] = []
+    for item in raw_items:
+        if not isinstance(item, dict):
+            continue
+        resolved = canonical_public_category(str(item.get("category_id") or ""))
+        category_id = resolved.get("id") if resolved else None
+        if not is_thematic_category(category_id):
+            continue
+        try:
+            score = int(item.get("score") or 0)
+        except (TypeError, ValueError):
+            score = 0
+        items.append((str(category_id), str(item.get("confidence") or "unspecified"), score))
+    if len(items) < 2:
+        return
+
+    category_ids = {item[0] for item in items}
+    if len(category_ids) != 1:
+        return
+    has_strong_observation = any(
+        confidence in {"high", "medium"} or score >= 70
+        for _, confidence, score in items
+    )
+    if not has_strong_observation:
+        return
+    category_id = next(iter(category_ids))
+    _add_evidence(
+        scores,
+        evidence,
+        category_id,
+        MERGED_CATEGORY_CONSENSUS_WEIGHT,
+        "merged_category_consensus",
+        f"{category_id}:{len(items)}",
+    )
+
+
 def _confidence_for_score(score: int) -> str:
     if score >= 120:
         return "high"
@@ -291,6 +340,10 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
             "recovery_hint",
             (event.get("editorial") or {}).get("category_recovery_hint"),
         )
+
+    # A cross-source merge must preserve independently normalized category
+    # agreement as structured evidence instead of letting merged prose erase it.
+    _add_merged_category_consensus_evidence(scores, evidence, event)
 
     # Generic venue/organizer/source-name text is intentionally excluded.
     # Verified sparse-title exceptions remain declarative in source_title_evidence.
