@@ -13,56 +13,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-python@v6
         with:
-          node-version: '24'
-      - name: Audit Other panoramas after the same semantic stages
+          python-version: '3.12'
+      - name: Inspect current PortalTickets detail semantics
         shell: bash
         run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          import { normalizeAgendaPublicText } from './app/public-text-sanitizer.mjs';
-          import { applyEventDataCorrections } from './app/event-data-corrections.js';
-          import { normalizeAgendaCategories } from './app/category-normalizer.js';
-          import { normalizeVenueAliases } from './app/venue-identity.mjs';
-          import { normalizeAgendaTitles, recoverAgendaTitles } from './app/title-normalizer-bootstrap.js';
-          import { normalizeSessionOccurrences } from './app/session-occurrence-normalizer.js';
-          import { normalizeEventSeries } from './app/event-series-normalizer.mjs';
-          import { normalizeFormationCycles } from './app/formation-cycle-classifier.js';
-          import { applyDeclarativeEventCorrectionRules } from './app/event-correction-rules.mjs';
-          import { normalizeSourceDisplayNames } from './app/data-pipeline.js';
-          import { classifyPublicCategory } from './app/public-category-rules.mjs';
+          PYTHONPATH=app/scripts python - <<'PY'
+          import json
+          from pathlib import Path
+          from refresh_portaltickets_editorial import fetch_url, PortalTokenParser, norm
 
-          let dataset = JSON.parse(fs.readFileSync('agenda_web.json', 'utf8'));
-          const rawById = new Map(dataset.events.map(e => [e.id, e]));
-          dataset = normalizeAgendaPublicText(dataset);
-          dataset = normalizeSourceDisplayNames(dataset);
-          dataset = applyEventDataCorrections(dataset);
-          dataset = recoverAgendaTitles(dataset);
-          dataset = normalizeAgendaCategories(dataset);
-          dataset = {...dataset, events: normalizeVenueAliases(dataset.events)};
-          dataset = applyDeclarativeEventCorrectionRules(dataset, {cityId:'valparaiso'});
-          dataset = normalizeAgendaTitles(dataset);
-          dataset = normalizeEventSeries(dataset, {cityId:'valparaiso'});
-          dataset = normalizeSessionOccurrences(dataset);
-          dataset = normalizeFormationCycles(dataset);
-          const others = dataset.events.filter(e => e.primary_category?.id === 'unclassified');
-          console.log(`OTHER_PANORAMAS_TOTAL count=${others.length}`);
-          for (const event of others) {
-            const raw = rawById.get(event.id) || {};
-            const classified = classifyPublicCategory(event);
-            console.log('OTHER_PANORAMA', JSON.stringify({
-              id:event.id,
-              title:event.title,
-              original_title:event.original_title,
-              raw_title:raw.title,
-              source:event.source_name,
-              source_id:event.source_id,
-              tags:event.tags,
-              description:String(event.description || '').slice(0,500),
-              raw_category:raw.primary_category,
-              candidates:classified.candidates,
-              evidence:classified.evidence,
-            }));
-          }
-          NODE
+          data = json.loads(Path('agenda_web.json').read_text())
+          targets = [e for e in data['events'] if e.get('source_id') == 'portaltickets_valparaiso' and (e.get('primary_category') or {}).get('id') in {'unclassified','cultura'}]
+          for event in targets:
+              url = (event.get('links') or {}).get('tickets') or event.get('source_url')
+              ok, status, markup, error = fetch_url(url)
+              print('PT_TARGET', json.dumps({'id':event.get('id'),'title':event.get('title'),'url':url,'ok':ok,'status':status,'error':error}, ensure_ascii=False))
+              if not ok:
+                  continue
+              parser = PortalTokenParser(); parser.feed(markup); parser.close()
+              texts = [str(t.get('text') or '').strip() for t in parser.tokens if str(t.get('text') or '').strip()]
+              idx = next((i for i,t in enumerate(texts) if norm(t) == 'artistas y tags relacionados'), None)
+              if idx is None:
+                  print('PT_TAGS', json.dumps({'id':event.get('id'),'found':False}, ensure_ascii=False))
+                  continue
+              excerpt = texts[idx:idx+18]
+              print('PT_TAGS', json.dumps({'id':event.get('id'),'found':True,'excerpt':excerpt}, ensure_ascii=False))
+          PY
