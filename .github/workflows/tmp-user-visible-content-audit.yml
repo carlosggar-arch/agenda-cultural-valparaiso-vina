@@ -1,0 +1,110 @@
+name: TEMP audit user-visible content regressions
+
+on:
+  push:
+    branches:
+      - diag/user-visible-category-content-20260825
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: 54c8a58e17b283bc2f1fe7303738bc00fbc75e61
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+      - name: Inspect selected local records and runtime pipeline
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('agenda_web.json').read_text(encoding='utf-8'))
+          needles=('matriarcas','la historia se desarrolla en tres partes','consomé punk','agosto en centro de investigación teatro la peste','un año de cultura y reencuentro')
+          for e in data.get('events',[]):
+            title=str(e.get('title') or '')
+            if any(n in title.casefold() for n in needles):
+              print('RAW_SELECTED '+json.dumps({
+                'id':e.get('id'),'title':title,'event_type':e.get('event_type'),
+                'category':(e.get('primary_category') or {}).get('id'),
+                'schedule':e.get('schedule'),'source_id':e.get('source_id'),
+                'description':str(e.get('description') or '')[:700],
+                'tags':e.get('tags'),'editorial':e.get('editorial'),'semantics':e.get('semantics'),
+              },ensure_ascii=False))
+          PY
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { loadAgendaDataset } from './app/data-pipeline.js';
+          const cities=JSON.parse(fs.readFileSync('./app/cities.json','utf8'));
+          const city=cities.cities.find(x=>x.id==='valparaiso');
+          const payloads=new Map();
+          payloads.set(String(city.dataset), JSON.parse(fs.readFileSync('./agenda_web.json','utf8')));
+          if(city.supplemental_dataset){
+            const p=String(city.supplemental_dataset).replace(/^\.\//,'app/');
+            if(fs.existsSync(p)) payloads.set(String(city.supplemental_dataset),JSON.parse(fs.readFileSync(p,'utf8')));
+          }
+          const fetchImpl=async url=>({ok:payloads.has(String(url)),status:payloads.has(String(url))?200:404,json:async()=>structuredClone(payloads.get(String(url)))});
+          const out=await loadAgendaDataset(city,{fetchImpl,now:new Date('2026-08-25T21:05:00Z')});
+          const needles=['matriarcas','la historia se desarrolla en tres partes','consomé punk','agosto','un año de cultura y reencuentro'];
+          for(const e of out.dataset.events){
+            const t=String(e.title||'').toLowerCase();
+            if(needles.some(n=>t.includes(n))) console.log('RUNTIME_SELECTED '+JSON.stringify({id:e.id,title:e.title,event_type:e.event_type,category:e.primary_category?.id,label:e.primary_category?.label,source_id:e.source_id,merged:e.editorial?.merged_category_evidence||null}));
+          }
+          NODE
+      - name: Install browser dependency
+        run: pip install -r requirements-ci.txt
+      - name: Inspect APP and WEB surfaces on both live origins
+        run: |
+          python - <<'PY'
+          import json,tempfile,uuid
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          origins={
+            'cloudflare':'https://vivamos.pages.dev/',
+            'github-pages':'https://carlosggar-arch.github.io/agenda-cultural-valparaiso-vina/',
+          }
+          surfaces={
+            'app': lambda root: root+'app/?city=valparaiso&when=todos',
+            'web': lambda root: root+'?city=valparaiso&periodo=todos',
+          }
+          needles=['matriarcas','la historia se desarrolla en tres partes','consomé punk','agosto','un año de cultura y reencuentro']
+          def opts(profile):
+            o=Options();o.page_load_strategy='eager'
+            for a in ('--headless=new','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--disable-extensions','--disable-sync','--disable-background-networking','--no-first-run','--no-default-browser-check','--window-size=1400,1100',f'--user-data-dir={profile}'):
+              o.add_argument(a)
+            return o
+          for oname,root in origins.items():
+            for sname,builder in surfaces.items():
+              with tempfile.TemporaryDirectory(prefix=f'vis-{oname}-{sname}-') as profile:
+                d=webdriver.Chrome(options=opts(profile))
+                try:
+                  url=builder(root)+f'&verify={uuid.uuid4().hex}'
+                  d.get(url)
+                  WebDriverWait(d,35,poll_frequency=.1).until(lambda x:x.execute_script("return document.querySelectorAll('.event-card').length>0"))
+                  release=d.execute_script('return Number(globalThis.__VIVAMOS_RELEASE__ || 0)')
+                  cards=d.execute_script(r'''
+                    const needles=arguments[0];
+                    const compact=s=>String(s||'').replace(/\s+/g,' ').trim();
+                    return [...document.querySelectorAll('.event-card')].map(card=>({
+                      id:card.dataset.eventId||null,
+                      category:card.dataset.category||null,
+                      text:compact(card.innerText),
+                      html:card.outerHTML.slice(0,2200),
+                    })).filter(x=>needles.some(n=>x.text.toLowerCase().includes(n)));
+                  ''',needles)
+                  print('LIVE_SURFACE '+json.dumps({'origin':oname,'surface':sname,'release':release,'url':url,'cards':cards},ensure_ascii=False))
+                finally:
+                  d.quit()
+          PY
