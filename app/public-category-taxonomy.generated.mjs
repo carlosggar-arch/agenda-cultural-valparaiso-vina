@@ -9,6 +9,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "charlas-conferencias": "charlas-conferencias",
     "cursos": "cursos-talleres-campus",
     "cursos-talleres": "cursos-talleres-campus",
+    "cursos-talleres-campus": "cursos-talleres-campus",
     "cursos-talleres-experiencias": "cursos-talleres-campus",
     "cursos-talleres-y-experiencias": "cursos-talleres-campus",
     "deporte-bienestar": "deportes-actividad-fisica",
@@ -222,8 +223,13 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj|tributo|banda tributo|homenaje musical|album|disco|gira|tour|banda|cantante|vocalista|guitarra|piano|violin|saxofon|bateria|blues|flamenco|reggae|beatbox)\\b",
-        "weight": 30
+        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas)\\b",
+        "weight": 35
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamenco|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
+        "weight": 25
       },
       {
         "category": "teatro",
@@ -277,29 +283,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ],
     "source_category_weight": 90,
     "source_evidence": [],
-    "source_title_evidence": [
-      {
-        "category": "cursos-talleres-campus",
-        "pattern": ".+",
-        "reason": "verified_activities_workshops_source",
-        "source_id": "bioparc_acuario_gijon",
-        "weight": 65
-      },
-      {
-        "category": "musica",
-        "pattern": "^homenaje dire straits$",
-        "reason": "verified_concert_tribute",
-        "source_id": "camara_recinto_ferial_gijon",
-        "weight": 180
-      },
-      {
-        "category": "teatro",
-        "pattern": "^el gran showman$",
-        "reason": "verified_stage_musical",
-        "source_id": "camara_recinto_ferial_gijon",
-        "weight": 180
-      }
-    ],
+    "source_title_evidence": [],
     "summer_program_event_types": [
       "program",
       "registration_period"
@@ -334,12 +318,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamenco|reggae|beatbox)\\b",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamenco|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house)\\b",
         "weight": 140
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|cantautor|cantautora|album|disco|gira|tour|banda|cantante|vocalista|guitarra|piano|violin|saxofon|bateria)\\b",
+        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|crossover|cantautor|cantautora|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?)\\b",
         "weight": 105
       },
       {
@@ -394,7 +378,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       }
     ]
   },
-  "schema_version": "2.3.0"
+  "schema_version": "2.4.0"
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);

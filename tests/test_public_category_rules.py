@@ -50,6 +50,21 @@ class SharedPublicCategoryRulesTests(unittest.TestCase):
                 }
                 self.assertEqual(base.category_text(event), "Cursos, talleres y experiencias")
 
+    def test_semantic_classification_is_city_and_source_neutral(self):
+        semantic_payload = {
+            "title": "Noche especial",
+            "event_type": "event",
+            "primary_category": {"id": "actividad-panorama", "label": "Actividad / panorama"},
+            "description": "Bandas de punk y hardcore presentan canciones de sus nuevos discos.",
+        }
+        variants = (
+            {**semantic_payload, "city": "Valparaíso", "source_id": "source_a", "source_name": "Fuente A"},
+            {**semantic_payload, "city": "Gijón", "source_id": "source_b", "source_name": "Fuente B"},
+        )
+        resolved = [resolve_public_category(event) for event in variants]
+        self.assertEqual(resolved[0], {"id": "musica", "label": "Música"})
+        self.assertEqual(resolved[1], resolved[0])
+
     def test_static_gijon_landing_uses_canonical_shared_labels(self):
         events = [
             {
