@@ -26,7 +26,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Apply structural classifier changes
-        run: python scripts/_tmp_apply_structural_category_fix.py
+        run: |
+          python scripts/_tmp_apply_structural_category_fix.py
+          python scripts/_tmp_adjust_category_regression_fixture.py
       - name: Regenerate shared browser taxonomy
         run: python scripts/generate_public_category_module.py
       - name: Verify category regressions before materialization
