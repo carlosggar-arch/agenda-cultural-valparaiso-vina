@@ -8,6 +8,10 @@ from production_certification_history import CertificationHistoryError, persist_
 from production_certification_watchdog import check_certification
 
 
+ROOT = Path(__file__).resolve().parents[2]
+WORKFLOW = ROOT / ".github" / "workflows" / "production-certification-watchdog.yml"
+
+
 def write_attestation(path: Path, *, release: int, head: str) -> None:
     path.write_text(
         json.dumps(
@@ -26,6 +30,18 @@ def write_attestation(path: Path, *, release: int, head: str) -> None:
         + "\n",
         encoding="utf-8",
     )
+
+
+def assert_workflow_is_fail_closed() -> None:
+    text = WORKFLOW.read_text(encoding="utf-8")
+    assert "CERTIFICATION_WATCHDOG_SKIPPED" not in text
+    assert "reason=deployment-not-synchronized" in text
+    assert "exit 2" in text
+    assert "PRODUCTION_DEPLOYMENT_STATE=DEPLOYED" in text
+    assert "PRODUCTION_CERTIFICATION_STATE=DATA_CERTIFIED" in text
+    assert "attestation-head-mismatch" in text
+    assert "dataset-fingerprint-missing" in text
+    assert "WEB↔PWA + GitHub Pages↔Cloudflare" in text
 
 
 def main() -> None:
@@ -56,6 +72,7 @@ def main() -> None:
         else:
             raise AssertionError("wrong release certification must fail closed")
 
+    assert_workflow_is_fail_closed()
     print("PRODUCTION_CERTIFICATION_WATCHDOG_TESTS_OK")
 
 
