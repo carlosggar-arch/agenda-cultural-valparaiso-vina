@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "5fd7c442fe33203351934cb04ff600fb33d6b568723577799e9e3ed37c4f669d",
-  "generated_at": "2026-08-24T20:14:07Z",
+  "fingerprint": "cd56411680061e6b14d4eceae27f11881f107d7b9cf15a08a0bc3ae6f896ec84",
+  "generated_at": "2026-08-25T07:13:57Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -52,21 +52,22 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "cine": 0.291667,
-        "exposiciones": 0.166667,
-        "literatura-charlas-encuentros": 0.291667,
-        "musica": 0.041667,
-        "teatro": 0.125,
-        "unclassified": 0.083333
+        "charlas-conferencias": 0.173913,
+        "cine": 0.26087,
+        "exposiciones": 0.173913,
+        "literatura": 0.173913,
+        "musica": 0.043478,
+        "teatro": 0.130435,
+        "unclassified": 0.043478
       },
       "city_id": "gijon",
       "dominant_category": "cine",
-      "dominant_share": 0.291667,
+      "dominant_share": 0.26087,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 24,
-      "unclassified": 2,
-      "unclassified_rate": 0.083333
+      "total": 23,
+      "unclassified": 1,
+      "unclassified_rate": 0.043478
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -163,18 +164,17 @@
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
         "cursos-talleres-campus": 0.066667,
-        "musica": 0.366667,
-        "teatro": 0.466667,
-        "unclassified": 0.1
+        "musica": 0.433333,
+        "teatro": 0.5
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.466667,
+      "dominant_share": 0.5,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
       "total": 30,
-      "unclassified": 3,
-      "unclassified_rate": 0.1
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "gijon::museo evaristo valle": {
       "category_distribution": {
@@ -192,13 +192,14 @@
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
         "cine": 0.025,
-        "exposiciones": 0.75,
-        "musica": 0.2,
+        "cursos-talleres-campus": 0.225,
+        "exposiciones": 0.55,
+        "musica": 0.175,
         "teatro": 0.025
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.75,
+      "dominant_share": 0.55,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
       "total": 40,
@@ -405,9 +406,9 @@
     },
     "valparaiso::museo de historia natural de valparaiso": {
       "category_distribution": {
+        "charlas-conferencias": 0.090909,
         "cursos-talleres-campus": 0.090909,
-        "exposiciones": 0.818182,
-        "literatura-charlas-encuentros": 0.090909
+        "exposiciones": 0.818182
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
@@ -461,18 +462,19 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "literatura-charlas-encuentros": 0.036364,
-        "musica": 0.709091,
-        "unclassified": 0.254545
+        "charlas-conferencias": 0.018182,
+        "literatura": 0.018182,
+        "musica": 0.745455,
+        "unclassified": 0.218182
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.709091,
+      "dominant_share": 0.745455,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/colombina21agosto",
       "total": 55,
-      "unclassified": 14,
-      "unclassified_rate": 0.254545
+      "unclassified": 12,
+      "unclassified_rate": 0.218182
     },
     "valparaiso::prokart spa": {
       "category_distribution": {
@@ -502,10 +504,10 @@
     },
     "valparaiso::red studio": {
       "category_distribution": {
-        "cursos-talleres-campus": 1.0
+        "musica": 1.0
       },
       "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
+      "dominant_category": "musica",
       "dominant_share": 1.0,
       "source_name": "RED Studio",
       "source_url": "https://www.redstudio.cl/",
@@ -598,7 +600,7 @@
         "cursos-talleres-campus": 0.333333,
         "exposiciones": 0.111111,
         "ferias-vida-local": 0.111111,
-        "literatura-charlas-encuentros": 0.111111,
+        "literatura": 0.111111,
         "musica": 0.222222,
         "teatro": 0.111111
       },
@@ -628,8 +630,8 @@
       "category_distribution": {
         "cine": 0.2,
         "cursos-talleres-campus": 0.5,
-        "literatura-charlas-encuentros": 0.2,
-        "musica": 0.1
+        "literatura": 0.1,
+        "musica": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
@@ -641,14 +643,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "386beb37802a0aa7421e489fc9d92d71a9ce0989",
+  "source_ref": "96c7d6813521064535192e3f7f8f92b107fd448f",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 45,
-    "total_events": 385,
-    "unclassified_count": 20,
-    "unclassified_rate": 0.051948
+    "total_events": 384,
+    "unclassified_count": 14,
+    "unclassified_rate": 0.036458
   },
   "unclassified_queue": [
     {
@@ -660,46 +662,6 @@
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
       "title": "Encuentro Internacional de Fotoperiodismo de Asturias"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "agenda_gijon_c9a0b2bf86f96469",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Centro de Cultura Antiguo Instituto",
-      "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "title": "Xornaes Culturales Asturies en Guerra - 90 años: La Batalla por Gijón"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_82d1c65a43fbe094",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "El Arrebato. El viaje inesperado"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Melody. El bosque encantado"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "gijon_laboral_ciudad_cultura_de01acfd79cb6455",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Laboral Ciudad de la Cultura — Agenda",
-      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "title": "Ángel Martín. Somos monos"
     },
     {
       "candidates": [],
@@ -762,11 +724,24 @@
       "title": "ESSTELAR BDAY"
     },
     {
-      "candidates": [],
+      "candidates": [
+        {
+          "category": "musica",
+          "confidence": "unclassified",
+          "score": 25
+        }
+      ],
       "city_id": "valparaiso",
       "event_id": "agenda_portaltickets_valparaiso_1668d4bdb26cbc8b",
-      "evidence": [],
-      "score": 0,
+      "evidence": [
+        {
+          "category": "musica",
+          "kind": "description",
+          "value": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamenco|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
+          "weight": 25
+        }
+      ],
+      "score": 25,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/aniversarioposeidondia2",
       "title": "FIESTA ANIVERSARIO POSEIDON"
@@ -804,16 +779,6 @@
     {
       "candidates": [],
       "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_7aaa2887d35eea20",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/ratosdeporaoenvalparaiso",
-      "title": "RATOS DE PORAO 45 AÑOS EN TROTAMUNDOS"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
       "event_id": "agenda_portaltickets_valparaiso_3a78c3dc2a4ed24e",
       "evidence": [],
       "score": 0,
@@ -840,29 +805,6 @@
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
       "title": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS"
-    },
-    {
-      "candidates": [
-        {
-          "category": "musica",
-          "confidence": "unclassified",
-          "score": 30
-        }
-      ],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_986ddf8bb7bfa380",
-      "evidence": [
-        {
-          "category": "musica",
-          "kind": "description",
-          "value": "\\b(?:musica|concierto|recital|jazz|coro|orquesta|cantautor|cantautora|dj|tributo|banda tributo|homenaje musical|album|disco|gira|tour|banda|cantante|vocalista|guitarra|piano|violin|saxofon|bateria|blues|flamenco|reggae|beatbox)\\b",
-          "weight": 30
-        }
-      ],
-      "score": 30,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/tatabarahonaylsdenteatromauriscd",
-      "title": "TATA BARAHONA & LSD - FOTOGRAFÍAS 15 AÑOS"
     }
   ]
 }
