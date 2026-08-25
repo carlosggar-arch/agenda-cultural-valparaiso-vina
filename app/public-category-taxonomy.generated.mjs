@@ -234,7 +234,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       {
         "category": "musica",
         "pattern": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamen(?:c)?os?|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
-        "weight": 25
+        "weight": 35
       },
       {
         "category": "teatro",
@@ -309,6 +309,76 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "reason": "verified_sparse_official_event_stage_musical",
         "source_id": "camara_recinto_ferial_gijon",
         "weight": 180
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bcarolina de la muela\\b",
+        "reason": "verified_sparse_music_artist_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bcalathea club\\b",
+        "reason": "verified_sparse_electronic_music_series_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bchaisen ?room\\b",
+        "reason": "verified_sparse_music_series_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bsofia alvez\\b",
+        "reason": "verified_sparse_music_artist_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bseba(?: y)? el monstruo\\b",
+        "reason": "verified_sparse_music_artist_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\besstelar bday\\b",
+        "reason": "verified_sparse_music_event_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bspecial anniversary show placebo 30 anos\\b",
+        "reason": "verified_sparse_music_event_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bprevia aniversario\\b",
+        "reason": "verified_sparse_music_event_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "musica",
+        "pattern": "\\bla fiesta de ritoque fm\\b",
+        "reason": "verified_sparse_music_event_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
+      },
+      {
+        "category": "ferias-vida-local",
+        "pattern": "\\boshikatsu party oshifonda\\b",
+        "reason": "verified_sparse_fandom_party_portaltickets",
+        "source_id": "portaltickets_valparaiso",
+        "weight": 120
       }
     ],
     "summer_program_event_types": [

@@ -1,8 +1,17 @@
 from __future__ import annotations
 
 import copy
+import json
+import sys
+from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.public_category_rules import classify_public_category
 
 from refresh_portaltickets_editorial import (
     SOURCE_ID,
@@ -229,6 +238,22 @@ def test_validator_rejects_legacy_crossed_record() -> None:
     assert {"address_used_as_title", "secondary_source_marked_official", "legacy_editorial_reason", "missing_individual_ticket"} <= errors
 
 
+def test_published_future_portaltickets_events_have_no_fallback_category() -> None:
+    payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
+    reference_day = str(payload.get("generated_at") or payload.get("publication_date") or "")[:10]
+    pending = []
+    for item in payload.get("events") or []:
+        if str(item.get("source_id") or "") != SOURCE_ID:
+            continue
+        start_day = str((item.get("schedule") or {}).get("start") or "")[:10]
+        if reference_day and start_day and start_day < reference_day:
+            continue
+        resolved = classify_public_category(item)
+        if resolved["category"]["id"] == "unclassified":
+            pending.append((item.get("id"), item.get("title"), resolved.get("score")))
+    assert not pending, pending
+
+
 def main() -> None:
     test_card_binding_geography_and_ticket_url()
     test_shifted_mobile_copy_is_rejected()
@@ -245,6 +270,7 @@ def main() -> None:
     test_refresh_removes_legacy_and_is_idempotent()
     test_fetch_failure_preserves_corrected_but_removes_legacy()
     test_validator_rejects_legacy_crossed_record()
+    test_published_future_portaltickets_events_have_no_fallback_category()
     print("PORTALTICKETS_EDITORIAL_TESTS_OK")
 
 

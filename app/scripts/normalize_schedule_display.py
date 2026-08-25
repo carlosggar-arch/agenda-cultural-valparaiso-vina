@@ -173,8 +173,16 @@ def normalize_dataset(dataset: dict) -> tuple[dict, list[dict]]:
     return output, rows
 
 
-def dataset_targets(primary: Path) -> list[Path]:
+def dataset_targets(primary: Path, *, include_sibling_cities: bool = False) -> list[Path]:
+    """Return only explicitly selected datasets.
+
+    A single-city publication must never mutate a sibling city merely because
+    the selected file happens to be the repository-root dataset. Multi-city
+    normalization is therefore opt-in and explicit.
+    """
     targets = [primary]
+    if not include_sibling_cities:
+        return targets
     try:
         is_public_root = primary.resolve() == DATASET_PATH.resolve()
     except OSError:
@@ -196,12 +204,17 @@ def dataset_label(dataset_path: Path) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Normalize schedule presentation noise without fetching sources.")
     parser.add_argument("--dataset", type=Path, default=DATASET_PATH)
+    parser.add_argument(
+        "--all-datasets",
+        action="store_true",
+        help="Explicitly include configured sibling-city datasets; never implied by --dataset.",
+    )
     parser.add_argument("--check", action="store_true", help="Fail if normalization would change any selected dataset.")
     args = parser.parse_args()
 
     changed_any = False
     summaries: list[dict] = []
-    for dataset_path in dataset_targets(args.dataset):
+    for dataset_path in dataset_targets(args.dataset, include_sibling_cities=args.all_datasets):
         dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
         normalized, rows = normalize_dataset(dataset)
         summaries.append({"dataset": dataset_label(dataset_path), "normalized_events": len(rows), "rows": rows})

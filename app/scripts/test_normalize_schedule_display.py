@@ -137,6 +137,19 @@ def test_relative_dataset_path_has_stable_repo_label() -> None:
     assert normalizer.dataset_label(Path("agenda_web.json")) == "agenda_web.json"
 
 
+def test_valpo_target_does_not_implicitly_include_gijon() -> None:
+    targets = normalizer.dataset_targets(normalizer.DATASET_PATH)
+    assert targets == [normalizer.DATASET_PATH]
+    assert normalizer.GIJON_DATASET_PATH not in targets
+
+
+def test_multicity_targeting_requires_explicit_opt_in() -> None:
+    targets = normalizer.dataset_targets(normalizer.DATASET_PATH, include_sibling_cities=True)
+    assert targets[0] == normalizer.DATASET_PATH
+    if normalizer.GIJON_DATASET_PATH.exists():
+        assert targets == [normalizer.DATASET_PATH, normalizer.GIJON_DATASET_PATH]
+
+
 def main() -> None:
     test_gallery_flattened_hours_become_ranges()
     test_artequin_flattened_hours_become_ranges()
@@ -149,6 +162,8 @@ def main() -> None:
     test_opening_hours_separate_from_event_range()
     test_real_multiple_session_times_are_not_paired_without_timed_start()
     test_relative_dataset_path_has_stable_repo_label()
+    test_valpo_target_does_not_implicitly_include_gijon()
+    test_multicity_targeting_requires_explicit_opt_in()
     print("SCHEDULE_PRESENTATION_NORMALIZER_TESTS_OK")
 
 
