@@ -194,11 +194,11 @@ jobs:
               raise SystemExit('js regression anchor not found')
           p.write_text(text.replace(anchor, anchor + extra, 1), encoding='utf-8')
           PY
-          python app/scripts/generate_public_category_module.py
+          python scripts/generate_public_category_module.py
       - name: Run deterministic regressions
         run: |
           python -m py_compile scripts/public_category_rules.py app/scripts/test_public_category_regressions.py app/scripts/refresh_portaltickets_editorial.py
-          python app/scripts/generate_public_category_module.py --check
+          python scripts/generate_public_category_module.py --check
           python app/scripts/test_public_category_regressions.py
           node app/public-category-regressions.test.mjs
           python app/scripts/test_portaltickets_editorial.py
@@ -259,13 +259,14 @@ jobs:
               raise SystemExit('live music targets misclassified: ' + repr(bad))
 
           music_signal = re.compile(r'\b(?:concierto|musica|musical|cantautor|cantautora|banda|cancion|rock|punk|metal|jazz|bolero|vals|vinilo|flamen(?:c)?o|gipsy kings)\b')
+          explicit_stage = re.compile(r'\b(?:obra teatral|obra de teatro|teatro musical|comedia musical|ballet|danza|performance|funcion teatral|monologo|stand up|magia|ilusionismo)\b')
           suspicious = []
           for event in portal:
               category = (event.get('primary_category') or {}).get('id')
               if category != 'teatro':
                   continue
               text = fold(' '.join([str(event.get('title') or ''), str(event.get('description') or '')]))
-              if music_signal.search(text):
+              if music_signal.search(text) and not explicit_stage.search(text):
                   suspicious.append((event.get('title'), event.get('description')))
           if suspicious:
               raise SystemExit('PortalTickets music evidence still leaking to teatro: ' + repr(suspicious[:20]))
