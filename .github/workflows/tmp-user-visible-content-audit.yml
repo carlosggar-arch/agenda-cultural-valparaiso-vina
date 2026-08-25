@@ -31,7 +31,9 @@ jobs:
           git fetch origin main diag/user-visible-category-content-20260825 fix/valpo-semantic-content-integrity-20260825
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
           git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_patch_semantic_content_integrity.py > /tmp/patch.py
+          git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_patch_semantic_content_integrity_v2.py > /tmp/patch-v2.py
           python /tmp/patch.py
+          python /tmp/patch-v2.py
           python scripts/generate_public_category_module.py
           python scripts/generate_public_category_module.py --check
           python -m py_compile app/scripts/apply_title_quality_guard.py app/scripts/apply_content_quality_guard.py app/scripts/production_browser_selenium_smoke.py
