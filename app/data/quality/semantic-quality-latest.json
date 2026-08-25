@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "489d84857f71d2095ef384d7c56195b154355ca185bfe52187e391259a8fd831",
-  "generated_at": "2026-08-25T14:33:54Z",
+  "fingerprint": "eadc01a667add7a60852891b7bebe96e32c0da86d97307926434e77597c0c267",
+  "generated_at": "2026-08-25T19:02:45Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -310,7 +310,7 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-muerte-de-robin-hood-cine-arte-vina-del-mar-545620",
+      "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-546164",
       "total": 17,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -383,7 +383,7 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "INSOMNIA Teatro Condell",
-      "source_url": "https://www.passline.com/eventos/la-odisea-546120",
+      "source_url": "https://www.passline.com/eventos/crash-extranos-placeres",
       "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -487,19 +487,18 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "charlas-conferencias": 0.018182,
-        "literatura": 0.018182,
-        "musica": 0.745455,
-        "unclassified": 0.218182
+        "ferias-vida-local": 0.020833,
+        "musica": 0.958333,
+        "teatro": 0.020833
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.745455,
+      "dominant_share": 0.958333,
       "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/colombina21agosto",
-      "total": 55,
-      "unclassified": 12,
-      "unclassified_rate": 0.218182
+      "source_url": "https://www.portaldisc.com/evento/despuesdelalluviahaysol",
+      "total": 48,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "valparaiso::prokart spa": {
       "category_distribution": {
@@ -668,14 +667,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "c214d7805493292d642c9c3eb34302633b139e0e",
+  "source_ref": "2b9c005e73d97538a064f042f44488f92a215530",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 47,
-    "total_events": 388,
-    "unclassified_count": 14,
-    "unclassified_rate": 0.036082
+    "total_events": 381,
+    "unclassified_count": 2,
+    "unclassified_rate": 0.005249
   },
   "unclassified_queue": [
     {
@@ -697,139 +696,6 @@
       "source_name": "Jardín Botánico Nacional de Viña del Mar",
       "source_url": "https://jbn.cl/calendario-actividades/",
       "title": "Invierno Mágico"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_5d2ca949ef9690c8",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/aniversariowareba",
-      "title": "2 AÑOS DE WAREBA"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_81b6c9487d65dc6f",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/aniversariocalatheaclub",
-      "title": "ANIVERSARIO CALATHEA CLUB"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_93118679c16ca8a1",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/chaiseroom18sept2026",
-      "title": "CHAISENROOM | NO BRANDING NO NATION EN EMPORIO ECHAURREN"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_90eff08d1d101fcd",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/carnedeperro",
-      "title": "DESTRUYE LO QUE TE DESTRUYE"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_544a90cadec9dd9f",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso",
-      "title": "ESSTELAR BDAY"
-    },
-    {
-      "candidates": [
-        {
-          "category": "musica",
-          "confidence": "unclassified",
-          "score": 25
-        }
-      ],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_1668d4bdb26cbc8b",
-      "evidence": [
-        {
-          "category": "musica",
-          "kind": "description",
-          "value": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamenco|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
-          "weight": 25
-        }
-      ],
-      "score": 25,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/aniversarioposeidondia2",
-      "title": "FIESTA ANIVERSARIO POSEIDON"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_f81afd5b09e2e1bd",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/gipsyvalparaiso",
-      "title": "MARIO REYES LEYENDA GIPSY"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_fc29f6b102899a72",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/oshifonda2026",
-      "title": "OSHIKATSU PARTY OSHIFONDA EN LOS ALQUINTA DEL PUERTO"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_413e7e702939a436",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/previaaniversarioposeidon",
-      "title": "PREVIA ANIVERSARIO"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_3a78c3dc2a4ed24e",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/llenode97",
-      "title": "SEBA & EL MONSTRUO, LANZAMIENTO: LLENO DE 97"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_1dfa82233037ecf1",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/sofiaalvezvinadelmar",
-      "title": "SOFÍA ALVEZ EN EL PASAJE"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_portaltickets_valparaiso_63840931958ea8c6",
-      "evidence": [],
-      "score": 0,
-      "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
-      "title": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS"
     }
   ]
 }
