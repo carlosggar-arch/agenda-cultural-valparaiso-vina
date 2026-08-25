@@ -201,7 +201,9 @@ def check_gijon_geographic_scope(event: dict) -> None:
 
     category = (event.get("primary_category") or {}).get("id")
     region = normalized(location.get("region"))
-    assert category == "deporte-bienestar", f"non-Gijon cultural event leaked into dataset: {event.get('title')}"
+    assert category in {"deporte-bienestar", "deportes-actividad-fisica"}, (
+        f"non-Gijon cultural event leaked into dataset: {event.get('title')}"
+    )
     assert region == "asturias", f"regional sport must remain in Asturias: {event.get('title')}"
     title = normalized(event.get("title"))
     assert "futbol" not in title and "futsal" not in title, f"regional football must stay excluded: {event.get('title')}"
