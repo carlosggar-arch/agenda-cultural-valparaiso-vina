@@ -1,4 +1,4 @@
-name: TEMP align PR 478 runtime release guard contract
+name: TEMP validate PR 478 source2 contract alignment
 
 on:
   push:
@@ -14,15 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: fix/dedup-category-consensus-20260825
+          ref: scratch/pr478-source2-20260825
           fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
       - name: Apply permanent contract alignment and validate
         run: |
           set -euo pipefail
-          git fetch origin main diag/matriarcas-final-category-20260825 fix/dedup-category-consensus-20260825
+          git fetch origin main diag/matriarcas-final-category-20260825 scratch/pr478-source2-20260825
           test "$(git rev-parse HEAD)" = "1dd9fc7bb3788d181a5116e55fd16343216682ed"
           test "$(git rev-parse origin/main)" = "0d9a19016f0a8b697ae6c0f721bf971338fe81dc"
           git show origin/diag/matriarcas-final-category-20260825:scripts/_tmp_align_runtime_release_guard_contract.py > /tmp/align_runtime_guard.py
@@ -33,7 +36,7 @@ jobs:
           python app/scripts/test_classification_uncertainty_audit.py
           python app/scripts/run_changed_source_tests.py --base origin/main
           git diff --check
-      - name: Commit clean source update
+      - name: Commit source2
         run: |
           set -euo pipefail
           git config user.name "carlosggar-arch"
@@ -41,4 +44,4 @@ jobs:
           git add app/scripts/test_production_pwa_smoke_contract.py
           test -n "$(git diff --cached --name-only)"
           git commit -m "Align production smoke contract with runtime release guard"
-          git push origin HEAD:fix/dedup-category-consensus-20260825
+          git push origin HEAD:scratch/pr478-source2-20260825
