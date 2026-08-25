@@ -28,7 +28,9 @@ jobs:
           git fetch origin main diag/valpo-visible-category-drift-20260825 fix/valpo-zero-visible-fallback-20260825
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
           git show origin/diag/valpo-visible-category-drift-20260825:scripts/_tmp_zero_visible_fallback.py > /tmp/zero_visible_fallback.py
+          git show origin/diag/valpo-visible-category-drift-20260825:scripts/_tmp_fix_zero_patterns.py > /tmp/fix_zero_patterns.py
           python /tmp/zero_visible_fallback.py
+          python /tmp/fix_zero_patterns.py
           python scripts/generate_public_category_module.py
           python scripts/generate_public_category_module.py --check
           python app/scripts/test_public_category_regressions.py
