@@ -1,4 +1,4 @@
-name: TEMP audit visible unclassified Valpo
+name: TEMP implement zero visible Valpo fallback
 
 on:
   push:
@@ -6,15 +6,15 @@ on:
       - diag/valpo-visible-category-drift-20260825
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  audit:
+  implement:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: main
+          ref: fix/valpo-zero-visible-fallback-20260825
           fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
@@ -22,8 +22,44 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '24'
-      - name: Audit exact runtime visible fallback
+      - name: Apply permanent shared classification hardening
         run: |
+          set -euo pipefail
+          git fetch origin main diag/valpo-visible-category-drift-20260825 fix/valpo-zero-visible-fallback-20260825
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+          git show origin/diag/valpo-visible-category-drift-20260825:scripts/_tmp_zero_visible_fallback.py > /tmp/zero_visible_fallback.py
+          python /tmp/zero_visible_fallback.py
+          python scripts/generate_public_category_module.py
+          python scripts/generate_public_category_module.py --check
+          python app/scripts/test_public_category_regressions.py
+          node app/public-category-regressions.test.mjs
+      - name: Regenerate current PortalTickets source and public categories
+        run: |
+          set -euo pipefail
+          python app/scripts/refresh_portaltickets_editorial.py
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          path=Path('agenda_web.json')
+          payload=json.loads(path.read_text(encoding='utf-8'))
+          now=datetime.now(ZoneInfo('America/Santiago'))
+          payload['generated_at']=now.isoformat(timespec='seconds')
+          payload['publication_date']=now.date().isoformat()
+          path.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('VALPO_TRUE_REGENERATION', payload['generated_at'], payload['publication_date'])
+          PY
+          python scripts/materialize_public_categories.py agenda_web.json
+          python app/scripts/refresh_quality_diagnostics.py
+      - name: Require zero visible fallback and run permanent regressions
+        run: |
+          set -euo pipefail
+          python app/scripts/test_portaltickets_editorial.py
+          python app/scripts/test_public_category_regressions.py
+          node app/public-category-regressions.test.mjs
+          python app/scripts/test_classification_uncertainty_audit.py
+          python app/scripts/run_changed_source_tests.py --base origin/main
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import { loadAgendaDataset } from './app/data-pipeline.js';
@@ -36,24 +72,26 @@ jobs:
             if (fs.existsSync(p)) payloads.set(String(city.supplemental_dataset), JSON.parse(fs.readFileSync(p,'utf8')));
           }
           const fetchImpl=async (url)=>({ok:payloads.has(String(url)),status:payloads.has(String(url))?200:404,json:async()=>structuredClone(payloads.get(String(url)))});
-          const result=await loadAgendaDataset(city,{fetchImpl,now:new Date('2026-08-25T12:58:00-04:00')});
+          const result=await loadAgendaDataset(city,{fetchImpl,now:new Date()});
           const fallback=result.dataset.events.filter(e=>e.primary_category?.id==='unclassified');
+          const counts={}; for(const e of result.dataset.events){const l=e.primary_category?.label||'NONE';counts[l]=(counts[l]||0)+1;}
           console.log(`VISIBLE_TOTAL=${result.dataset.events.length}`);
           console.log(`VISIBLE_FALLBACK=${fallback.length}`);
-          for (const e of fallback) console.log('VISIBLE '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',source_id:e.source_id||'',event_type:e.event_type||'',primary:e.primary_category,editorial:e.editorial||null}));
-          const counts={}; for(const e of result.dataset.events){const l=e.primary_category?.label||'NONE';counts[l]=(counts[l]||0)+1;} console.log('VISIBLE_COUNTS='+JSON.stringify(counts));
-          console.log('HIDDEN_PROGRAMS='+JSON.stringify((result.hiddenPrograms||[]).map(e=>({id:e.id,title:e.title,primary:e.primary_category}))));
+          console.log('VISIBLE_COUNTS='+JSON.stringify(counts));
+          for(const e of fallback) console.log('FALLBACK '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',source_id:e.source_id||''}));
+          if(fallback.length!==0) process.exit(1);
           NODE
-      - name: Audit enriched remainder
+      - name: Commit clean permanent implementation
         run: |
-          python app/scripts/refresh_portaltickets_editorial.py
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          import { classifyPublicCategory } from './app/public-category-rules.mjs';
-          import { eventIsCurrentOrFuture } from './app/runtime-past-event-guard.mjs';
-          const data=JSON.parse(fs.readFileSync('agenda_web.json','utf8'));
-          const now=new Date('2026-08-25T12:58:00-04:00');
-          const rows=data.events.map(e=>({e,c:classifyPublicCategory(e)})).filter(x=>x.c.category.id==='unclassified');
-          console.log(`UNCLASSIFIED_AFTER=${rows.length}`);
-          for(const {e,c} of rows) console.log('REMAINDER '+JSON.stringify({id:e.id,title:e.title,start:e.schedule?.start||'',source_id:e.source_id||'',visible:eventIsCurrentOrFuture(e,{now,timeZone:data.timezone}),description:e.description||'',semantic:e.semantics?.category_evidence_text||'',tags:e.tags||[],editorial:e.editorial||null,score:c.score,candidates:c.candidates}));
-          NODE
+          set -euo pipefail
+          git config user.name "carlosggar-arch"
+          git config user.email "carlosggar@gmail.com"
+          git diff --check
+          git status --short
+          git add shared/public-category-taxonomy.json app/public-category-taxonomy.generated.mjs app/scripts/test_public_category_regressions.py app/public-category-regressions.test.mjs app/scripts/test_portaltickets_editorial.py agenda_web.json app/data/quality
+          test -n "$(git diff --cached --name-only)"
+          if git diff --cached --name-only | grep -qE '^app/(release-version\.js|service-worker-assets\.generated\.js|venue-registry\.generated\.mjs|data/release-bundle\.json|data/release-provenance\.json|index\.html)$'; then
+            echo 'GENERATED_RELEASE_LEAK'; exit 1
+          fi
+          git commit -m "Publish refreshed Valpo categories with zero visible fallback"
+          git push origin HEAD:fix/valpo-zero-visible-fallback-20260825
