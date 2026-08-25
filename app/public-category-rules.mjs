@@ -30,6 +30,8 @@ const SUMMER_REGISTRATION_RE = new RegExp(RULES.summer_registration_title_patter
 const SUMMER_PROGRAM_EVENT_TYPES = new Set(RULES.summer_program_event_types);
 const SEMANTIC_NOISE_FIELDS = RULES.semantic_noise_fields || [];
 const SEMANTIC_NOISE_PHRASES = RULES.semantic_noise_phrases || [];
+const TAG_CATEGORY_WEIGHT = Number(RULES.tag_category_weight || 0);
+const TAG_CATEGORY_ALIASES = RULES.tag_category_aliases || {};
 
 export function foldPublicCategoryText(value) {
   return String(value || "")
@@ -179,6 +181,19 @@ function addSourceTitleEvidence(scores, evidence, event) {
   }
 }
 
+function addTagCategoryEvidence(scores, evidence, event) {
+  if (!TAG_CATEGORY_WEIGHT) return;
+  const seen = new Set();
+  for (const rawTag of event?.tags || []) {
+    const tag = foldPublicCategoryText(rawTag);
+    const categoryId = TAG_CATEGORY_ALIASES[tag];
+    const key = `${categoryId || ""}|${tag}`;
+    if (!categoryId || seen.has(key)) continue;
+    seen.add(key);
+    addEvidence(scores, evidence, categoryId, TAG_CATEGORY_WEIGHT, "source_tag", rawTag);
+  }
+}
+
 function confidenceForScore(score) {
   if (score >= 120) return "high";
   if (score >= 70) return "medium";
@@ -236,6 +251,7 @@ export function classifyPublicCategory(event) {
 
   // Generic venue/organizer/source-name text is intentionally excluded.
   // Verified sparse-title exceptions remain declarative in source_title_evidence.
+  addTagCategoryEvidence(scores, evidence, event);
   addSourceTitleEvidence(scores, evidence, event);
   addRuleEvidence(
     scores,

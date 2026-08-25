@@ -40,6 +40,8 @@ SOURCE_TITLE_EVIDENCE_RULES = [
 ]
 SEMANTIC_NOISE_FIELDS = tuple(RULES.get("semantic_noise_fields", []))
 SEMANTIC_NOISE_PHRASES = tuple(RULES.get("semantic_noise_phrases", []))
+TAG_CATEGORY_WEIGHT = int(RULES.get("tag_category_weight", 0))
+TAG_CATEGORY_ALIASES = dict(RULES.get("tag_category_aliases", {}))
 
 
 def fold(value: Any) -> str:
@@ -201,6 +203,25 @@ def _add_source_title_evidence(
             )
 
 
+def _add_tag_category_evidence(
+    scores: dict[str, int],
+    evidence: list[dict[str, Any]],
+    event: dict[str, Any],
+) -> None:
+    if not TAG_CATEGORY_WEIGHT:
+        return
+    seen: set[tuple[str, str]] = set()
+    for raw_tag in event.get("tags") or []:
+        tag = fold(raw_tag)
+        category_id = TAG_CATEGORY_ALIASES.get(tag)
+        if not category_id or (category_id, tag) in seen:
+            continue
+        seen.add((category_id, tag))
+        _add_evidence(
+            scores, evidence, category_id, TAG_CATEGORY_WEIGHT, "source_tag", raw_tag
+        )
+
+
 def _confidence_for_score(score: int) -> str:
     if score >= 120:
         return "high"
@@ -265,6 +286,7 @@ def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
 
     # Generic venue/organizer/source-name text is intentionally excluded.
     # Verified sparse-title exceptions remain declarative in source_title_evidence.
+    _add_tag_category_evidence(scores, evidence, event)
     _add_source_title_evidence(scores, evidence, event)
     _add_rule_evidence(
         scores, evidence, fold(event.get("title")), TITLE_EVIDENCE_RULES, "title"
