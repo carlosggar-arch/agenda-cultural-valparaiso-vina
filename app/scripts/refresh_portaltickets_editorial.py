@@ -73,6 +73,10 @@ DESCRIPTION_TEMPLATE_PREFIX = re.compile(
     r"^\s*agrega\s+aqu[ií]\s+la\s+descripci[oó]n\s+del\s+evento\s*[:.-]*\s*",
     re.I,
 )
+# A typed producer signal is stronger than an arbitrary related-artist list.
+# PortalTickets uses "ARTISTAS Y TAGS RELACIONADOS" for music, theatre and
+# other formats, so that section alone must never decide the public category.
+RECORD_LABEL_PRODUCER = re.compile(r"\b(?:records?|recordings?|discos?|music)\b", re.I)
 
 
 class PortalTokenParser(HTMLParser):
@@ -388,6 +392,7 @@ def _description_chunks(texts: list[str]) -> list[str]:
             break
     return selected
 
+
 def _description_from_tokens(texts: list[str]) -> str | None:
     chunks = _description_chunks(texts)
     if not chunks:
@@ -399,6 +404,7 @@ def _description_from_tokens(texts: list[str]) -> str | None:
             break
     return " ".join(selected)[:520].rstrip(" ,;:")
 
+
 def _semantic_text_from_tokens(texts: list[str]) -> str | None:
     chunks = _description_chunks(texts)
     if not chunks:
@@ -406,11 +412,53 @@ def _semantic_text_from_tokens(texts: list[str]) -> str | None:
     return " ".join(chunks)[:1600].rstrip(" ,;:")
 
 
+def _section_values(texts: list[str], heading: str, *, max_values: int = 8) -> list[str]:
+    section_index = next((i for i, text in enumerate(texts) if norm(text) == heading), None)
+    if section_index is None:
+        return []
+    values: list[str] = []
+    for text in texts[section_index + 1:]:
+        cleaned = re.sub(r"\s+", " ", text).strip()
+        normalized = norm(cleaned)
+        if not cleaned:
+            continue
+        if normalized in DESCRIPTION_HEADINGS:
+            break
+        if normalized in {"mas", "ver mas"} or cleaned in {"(+)", "+"}:
+            continue
+        values.append(re.sub(r"\s*\(\+\)\s*$", "", cleaned).strip())
+        if len(values) >= max_values:
+            break
+    return [value for value in values if value]
+
+
+def _producer_from_tokens(texts: list[str]) -> str | None:
+    values = _section_values(texts, "produce", max_values=1)
+    return values[0] if values else None
+
+
+def _structured_category_signals(producer: str | None) -> list[dict[str, str]]:
+    signals: list[dict[str, str]] = []
+    if producer and RECORD_LABEL_PRODUCER.search(producer):
+        signals.append({
+            "kind": "producer_record_label",
+            "category": "musica",
+            "value": producer,
+            "evidence_text": "sello discografico musica",
+        })
+    return signals
+
+
 def parse_detail_markup(markup: str) -> dict:
     parser = PortalTokenParser(); parser.feed(markup); parser.close()
     texts = [str(token.get("text") or "").strip() for token in parser.tokens if str(token.get("text") or "").strip()]
     description = _description_from_tokens(texts)
-    semantic_text = _semantic_text_from_tokens(texts)
+    description_semantic_text = _semantic_text_from_tokens(texts)
+    producer = _producer_from_tokens(texts)
+    category_signals = _structured_category_signals(producer)
+    semantic_parts = [description_semantic_text] if description_semantic_text else []
+    semantic_parts.extend(signal["evidence_text"] for signal in category_signals)
+    semantic_text = " ".join(semantic_parts)[:1800].rstrip(" ,;:") or None
     tiers: list[dict] = []
     amounts: list[int] = []
     for index, text in enumerate(texts):
@@ -449,6 +497,8 @@ def parse_detail_markup(markup: str) -> dict:
     return {
         "description": description,
         "semantic_text": semantic_text,
+        "producer": producer,
+        "category_signals": category_signals,
         "sold_out": sold_out if (tiers or explicit_sold) else None,
         "registration_open": False if sold_out else (True if tiers and any_available else None),
         "price_stage": "Últimos tickets" if last_tickets else ("Disponibilidad parcial" if partial else None),
@@ -504,6 +554,17 @@ def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
         semantics["category_evidence_text"] = semantic_text
     else:
         semantics.pop("category_evidence_text", None)
+    producer = str(detail.get("producer") or "").strip()
+    if producer:
+        semantics["producer"] = producer
+    else:
+        semantics.pop("producer", None)
+    category_signals = list(detail.get("category_signals") or [])
+    if category_signals:
+        semantics["category_evidence_sources"] = category_signals
+    else:
+        semantics.pop("category_evidence_sources", None)
+
     classification_event = dict(event)
     classification_event["description"] = semantic_text or None
     classification = classify_public_category(classification_event)
@@ -521,6 +582,10 @@ def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
     editorial["category_confidence"] = classification.get("confidence")
     editorial["detail_enriched"] = True
     editorial["detail_verified_at"] = verified_at
+    if category_signals:
+        editorial["structured_category_signals"] = [signal.get("kind") for signal in category_signals]
+    else:
+        editorial.pop("structured_category_signals", None)
     if detail.get("partial_availability"):
         editorial["partial_ticket_availability"] = True
     if detail.get("last_tickets"):
