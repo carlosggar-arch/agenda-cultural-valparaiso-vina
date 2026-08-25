@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
-      - name: Trace Matriarcas through pipeline stages
+      - name: Enumerate category drift caused by formation lifecycle pass
         shell: bash
         run: |
           node --input-type=module <<'NODE'
@@ -29,41 +29,32 @@ jobs:
           import { normalizeSessionOccurrences } from './app/session-occurrence-normalizer.js';
           import { normalizeEventSeries } from './app/event-series-normalizer.mjs';
           import { normalizeFormationCycles } from './app/formation-cycle-classifier.js';
-          import { correctArtequinNaturalArtSessions } from './app/artequin-session-correction.js';
-          import { deduplicateCrossSourceDataset } from './app/cross-source-deduplication.mjs';
-          import { enrichCitySourceEvidence } from './app/city-source-evidence-adapter.mjs';
-          import { normalizeAgendaSourceEvidence } from './app/source-evidence-normalizer.mjs';
           import { applyDeclarativeEventCorrectionRules } from './app/event-correction-rules.mjs';
           import { normalizeSourceDisplayNames } from './app/data-pipeline.js';
 
-          const id = 'agenda_9007884dd819ed9a575ebda9';
           let dataset = JSON.parse(fs.readFileSync('agenda_web.json', 'utf8'));
-          function show(stage) {
-            const e = dataset.events.find(e => e.id === id);
-            console.log('PIPELINE_STAGE', stage, JSON.stringify({
-              title:e?.title,
-              original_title:e?.original_title,
-              primary_category:e?.primary_category,
-              categories:e?.categories,
-              editorial:e?.editorial,
-            }));
+          dataset = normalizeAgendaPublicText(dataset);
+          dataset = normalizeSourceDisplayNames(dataset);
+          dataset = applyEventDataCorrections(dataset);
+          dataset = recoverAgendaTitles(dataset);
+          dataset = normalizeAgendaCategories(dataset);
+          dataset = {...dataset, events: normalizeVenueAliases(dataset.events)};
+          dataset = applyDeclarativeEventCorrectionRules(dataset, {cityId:'valparaiso'});
+          dataset = normalizeAgendaTitles(dataset);
+          dataset = normalizeEventSeries(dataset, {cityId:'valparaiso'});
+          dataset = normalizeSessionOccurrences(dataset);
+
+          const before = new Map(dataset.events.map(e => [e.id, {title:e.title, original_title:e.original_title, category:e.primary_category?.id, type:e.event_type}]));
+          const afterDataset = normalizeFormationCycles(dataset);
+          let count = 0;
+          for (const event of afterDataset.events) {
+            const prev = before.get(event.id);
+            if (!prev) continue;
+            const after = event.primary_category?.id;
+            if (prev.category !== after) {
+              count += 1;
+              console.log('FORMATION_CATEGORY_DRIFT', JSON.stringify({id:event.id,title:event.title,original_title:event.original_title,before:prev.category,after,before_type:prev.type,after_type:event.event_type,source:event.source_name,tags:event.tags}));
+            }
           }
-          function stage(name, fn) { dataset = fn(dataset); show(name); }
-          show('raw');
-          stage('public-text-sanitizer', normalizeAgendaPublicText);
-          stage('source-display-name-normalizer', normalizeSourceDisplayNames);
-          stage('event-data-corrections', applyEventDataCorrections);
-          stage('title-recovery', recoverAgendaTitles);
-          stage('category-normalizer', normalizeAgendaCategories);
-          stage('venue-identity-normalizer', current => ({...current, events: normalizeVenueAliases(current.events)}));
-          stage('declarative-event-correction-rules', current => applyDeclarativeEventCorrectionRules(current, {cityId:'valparaiso'}));
-          stage('title-normalizer', normalizeAgendaTitles);
-          stage('event-series-normalizer', current => normalizeEventSeries(current, {cityId:'valparaiso'}));
-          stage('session-occurrence-normalizer', normalizeSessionOccurrences);
-          stage('formation-lifecycle-classifier', normalizeFormationCycles);
-          stage('artequin-session-correction', correctArtequinNaturalArtSessions);
-          stage('cross-source-deduplication', deduplicateCrossSourceDataset);
-          stage('city-source-evidence-adapter', current => ({...current, events: current.events.map(event => enrichCitySourceEvidence(event, 'valparaiso'))}));
-          stage('source-evidence-normalizer', normalizeAgendaSourceEvidence);
-          stage('public-text-sanitizer-final', normalizeAgendaPublicText);
+          console.log(`FORMATION_CATEGORY_DRIFT_SUMMARY count=${count}`);
           NODE
