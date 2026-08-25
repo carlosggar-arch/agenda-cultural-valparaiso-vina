@@ -62,11 +62,39 @@ def test_ignores_unrelated_quoted_phrase() -> None:
     assert recover_explicit_title(event) == (None, None)
 
 
+def test_recovers_leading_literary_work_from_fragment_title() -> None:
+    sample = {
+        "id": "novel-fragment",
+        "title": "La historia se desarrolla en tres partes:",
+        "event_type": "event",
+        "primary_category": {"id": "exposiciones", "label": "Exposiciones"},
+        "categories": [{"id": "exposiciones", "label": "Exposiciones"}],
+        "location": {"venue": "Museo de Historia Natural de Valparaíso", "city": "Valparaíso"},
+        "source_name": "Museo de Historia Natural de Valparaíso",
+        "organizer": "Museo de Historia Natural de Valparaíso",
+        "description": (
+            "📚 La Flor de Nieve y los secretos del desierto Presentamos una novela histórica "
+            "ambientada en el Chile del siglo XX, de Rosemarie Schoop Olivares."
+        ),
+    }
+    title, reason = recover_explicit_title(sample)
+    assert title == "La Flor de Nieve y los secretos del desierto"
+    assert reason == "leading_literary_work_in_description"
+    dataset = {"events": [sample]}
+    changes = apply_guard(dataset)
+    assert len(changes) == 1
+    fixed = dataset["events"][0]
+    assert fixed["title"] == "La Flor de Nieve y los secretos del desierto"
+    assert fixed["primary_category"] == {"id": "literatura", "label": "Literatura"}
+    assert fixed["categories"] == [{"id": "literatura", "label": "Literatura"}]
+
+
 def main() -> None:
     test_recovers_explicit_activity_name_and_category()
     test_does_not_rewrite_legitimate_title_containing_venue()
     test_does_not_guess_without_explicit_title_evidence()
     test_ignores_unrelated_quoted_phrase()
+    test_recovers_leading_literary_work_from_fragment_title()
     print("TITLE_QUALITY_GUARD_TESTS_OK")
 
 

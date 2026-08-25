@@ -37,6 +37,19 @@ NON_EVENT_TITLE_PATTERNS = (
     re.compile(r"^seleccionar fecha\b"),
 )
 
+MONTH_NAMES = r"(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)"
+MONTHLY_PROGRAM_TITLE = re.compile(rf"^(?:agenda\s+|programacion\s+|cartelera\s+)?{MONTH_NAMES}(?:\s+en\s+.+)?$")
+PROGRAM_OVERVIEW_TEXT = re.compile(
+    r"\b(?:toda nuestra programacion|revisa (?:toda )?la programacion|programacion (?:de|del) mes|"
+    r"actividades (?:de|del) mes|programacion en este carrusel)\b"
+)
+RETROSPECTIVE_OR_NEWS_TEXT = re.compile(
+    r"\b(?:hace un ano|celebramos que hace un ano|reabrio sus puertas|"
+    r"mas de \d+(?: mil)? personas visitaron|personas visitaron museos|"
+    r"balance de visitas|cifras de visitantes|record de visitantes|"
+    r"durante estas vacaciones|durante las vacaciones)\b"
+)
+
 ACTIVITY_NOUN = r"(?:muestra|exposici[oó]n|exhibici[oó]n|concierto|recital|obra|taller|charla|conversatorio|festival|funci[oó]n|encuentro|seminario|curso)"
 RECOVERY_PATTERNS = (
     re.compile(
@@ -91,6 +104,29 @@ def is_generic_title(value: object) -> bool:
 def is_non_event_title(value: object) -> bool:
     title = fold(clean_html_text(value))
     return bool(title and any(pattern.search(title) for pattern in NON_EVENT_TITLE_PATTERNS))
+
+
+def has_concrete_schedule(event: dict) -> bool:
+    schedule = event.get("schedule") or {}
+    if clean_space(schedule.get("start")) or clean_space(schedule.get("end")):
+        return True
+    occurrences = schedule.get("occurrences")
+    if isinstance(occurrences, list):
+        return any(clean_space((item or {}).get("start") or (item or {}).get("end")) for item in occurrences)
+    return False
+
+
+def non_event_context_reason(event: dict) -> str | None:
+    if str(event.get("event_type") or "event") != "event" or has_concrete_schedule(event):
+        return None
+    title = fold(event.get("title"))
+    description = fold(event.get("description"))
+    combined = f"{title} {description}".strip()
+    if MONTHLY_PROGRAM_TITLE.search(title) and PROGRAM_OVERVIEW_TEXT.search(combined):
+        return "monthly_program_overview_without_event_schedule"
+    if RETROSPECTIVE_OR_NEWS_TEXT.search(combined):
+        return "institutional_news_or_retrospective_without_event_schedule"
+    return None
 
 
 def _clean_recovered_title(value: str) -> str:
@@ -301,6 +337,15 @@ def apply_guard(dataset: dict) -> dict:
                 "id": event_id,
                 "title": event.get("title"),
                 "reason": "calendar_navigation_or_empty_state",
+            })
+            continue
+
+        context_reason = non_event_context_reason(event)
+        if context_reason:
+            changes["quarantined"].append({
+                "id": event_id,
+                "title": event.get("title"),
+                "reason": context_reason,
             })
             continue
 
