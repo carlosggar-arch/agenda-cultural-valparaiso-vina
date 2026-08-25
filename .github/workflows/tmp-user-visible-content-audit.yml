@@ -22,7 +22,7 @@ jobs:
           python-version: '3.12'
       - name: Prepare canonical release finalizer
         env:
-          EXPECTED_SOURCE: ba5a58008afb39da72c6c7a446714a9f620530d7
+          EXPECTED_SOURCE: 2a2e846577c2bc9ee905007a681dbcf245f4a71f
         run: |
           set -euo pipefail
           git config user.name "carlosggar-arch"
