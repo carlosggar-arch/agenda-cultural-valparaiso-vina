@@ -74,6 +74,47 @@ jobs:
           python app/scripts/test_classification_uncertainty_audit.py
           python scripts/semantic_quality_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/semantic-quality-pr.json
           python scripts/classification_uncertainty_audit.py --compare-ref "${{ github.event.pull_request.base.sha }}" --json-output /tmp/classification-uncertainty-pr.json
+      - name: TEMP audit every current Teatro y danza event
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from scripts.event_semantics import build_event_semantics
+          from scripts.semantic_quality_audit import load_city_events
+
+          rows = []
+          for item in load_city_events():
+              city_id = str(item.get("city_id") or "")
+              event = item.get("event") or {}
+              semantics = build_event_semantics(event)
+              if ((semantics.get("category") or {}).get("id")) != "teatro":
+                  continue
+              rows.append({
+                  "city": city_id,
+                  "id": event.get("id"),
+                  "title": event.get("title"),
+                  "source_id": event.get("source_id"),
+                  "source_name": event.get("source_name"),
+                  "raw_primary_category": event.get("primary_category"),
+                  "description": str(event.get("description") or "")[:700],
+                  "confidence": semantics.get("confidence"),
+                  "score": semantics.get("score"),
+                  "candidates": [
+                      {
+                          "category": (candidate.get("category") or {}).get("id"),
+                          "score": candidate.get("score"),
+                          "confidence": candidate.get("confidence"),
+                      }
+                      for candidate in (semantics.get("domain_candidates") or [])[:4]
+                  ],
+                  "evidence": semantics.get("evidence") or [],
+              })
+          rows.sort(key=lambda row: (row["city"], str(row["source_name"] or ""), str(row["title"] or "")))
+          print("---THEATRE_CATEGORY_AUDIT_BEGIN---")
+          print(json.dumps(rows, ensure_ascii=False, indent=2))
+          print(f"THEATRE_CATEGORY_AUDIT_COUNT={len(rows)}")
+          print("---THEATRE_CATEGORY_AUDIT_END---")
+          PY
       - name: Upload diagnostics only after failure
         if: failure()
         uses: actions/upload-artifact@v6
