@@ -9,9 +9,9 @@ permissions:
   contents: write
 
 jobs:
-  diagnose:
+  implement:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v7
         with:
@@ -23,25 +23,47 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '24'
-      - name: Apply candidate fix and inspect identity
+      - name: Apply structural Gijon fix
         run: |
           set -euo pipefail
-          git fetch origin diag/user-visible-category-content-20260825
+          git fetch origin main diag/user-visible-category-content-20260825 fix/valpo-semantic-content-integrity-20260825
           test "$(git rev-parse HEAD)" = "53f88c41bad8526c1405bbea89caaae9e093f321"
-          git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_gijon_capsula_structural_fix.py > /tmp/a.py
-          git show origin/diag/user-visible-category-content-20260825:scripts/_tmp_gijon_recovery_score_fix.py > /tmp/b.py
-          python /tmp/a.py
-          python /tmp/b.py
+          for helper in _tmp_gijon_capsula_structural_fix.py _tmp_gijon_recovery_score_fix.py _tmp_gijon_range_identity_fix.py _tmp_gijon_production_semantic_guard.py; do
+            git show "origin/diag/user-visible-category-content-20260825:scripts/$helper" > "/tmp/$helper"
+            python "/tmp/$helper"
+          done
+      - name: Run permanent regressions and exact Gijon runtime proof
+        run: |
+          set -euo pipefail
+          node app/title-normalizer-bootstrap.test.mjs
+          node --test app/cross-source-deduplication.test.mjs
+          python -m py_compile app/scripts/production_browser_selenium_smoke.py
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import { loadAgendaDataset } from './app/data-pipeline.js';
-          import { areProbableDuplicateEvents, venuesLikelySame, titlesLikelySame } from './app/event-identity-core.mjs';
-          import { sameLocalOccurrenceStart, sameLocalOccurrenceDate, minimumOccurrenceStartDifferenceMinutes } from './app/occurrence-identity-core.mjs';
-          const city = JSON.parse(fs.readFileSync('./app/cities.json','utf8')).cities.find(x=>x.id==='gijon');
-          const payload = JSON.parse(fs.readFileSync('./app/data/gijon/agenda_web.json','utf8'));
+          const city=JSON.parse(fs.readFileSync('./app/cities.json','utf8')).cities.find(x=>x.id==='gijon');
+          const payload=JSON.parse(fs.readFileSync('./app/data/gijon/agenda_web.json','utf8'));
           const fetchImpl=async url=>({ok:String(url)===String(city.dataset),status:200,json:async()=>structuredClone(payload)});
           const result=await loadAgendaDataset(city,{fetchImpl,now:new Date('2026-08-25T17:30:00-04:00')});
-          const matches=result.dataset.events.filter(e=>`${e.title||''} ${e.description||''}`.toLowerCase().includes('tercera luz'));
-          console.log('MATCHES='+JSON.stringify(matches.map(e=>({id:e.id,title:e.title,source:e.source_id,venue:e.location?.venue,venue_id:e.location?.venue_id,start:e.schedule?.start,end:e.schedule?.end,dates:e.schedule?.dates,event_type:e.event_type,official:e.public_status?.source_official})),null,2));
-          if(matches.length===2){const[a,b]=matches; console.log('IDENTITY='+JSON.stringify({venues:venuesLikelySame(a,b),titles:titlesLikelySame(a.title,b.title),sameStart:sameLocalOccurrenceStart(a,b),sameDate:sameLocalOccurrenceDate(a,b),minutes:minimumOccurrenceStartDifferenceMinutes(a,b),probable:areProbableDuplicateEvents(a,b)}));}
+          const events=result.dataset.events;
+          const malformed=events.filter(e=>String(e.title||'').toLowerCase().includes('00 y las 07:30h'));
+          const matches=events.filter(e=>{const t=`${e.title||''} ${e.description||''}`.toLowerCase();return t.includes('cápsula radio')&&t.includes('tercera luz');});
+          console.log('GIJON_CAPSULA_RUNTIME='+JSON.stringify(matches.map(e=>({id:e.id,title:e.title,category:e.primary_category?.id,source:e.source_id,merged:e.editorial?.merged_duplicate_ids||[],rule:e.editorial?.deduplication_rule||''}))));
+          console.log(`GIJON_MALFORMED_VISIBLE=${malformed.length}`);
+          if(malformed.length!==0) process.exit(1);
+          if(matches.length!==1) process.exit(2);
+          if(matches[0].primary_category?.id!=='exposiciones') process.exit(3);
+          if(matches[0].source_id!=='centro_cultura_antiguo_instituto') process.exit(4);
+          if(!(matches[0].editorial?.merged_duplicate_ids||[]).includes('gijon_agenda_gijon_dedeefbd7ca85d0d')) process.exit(5);
           NODE
+          python app/scripts/run_changed_source_tests.py --base origin/main
+      - name: Commit source changes only
+        run: |
+          set -euo pipefail
+          git config user.name "carlosggar-arch"
+          git config user.email "carlosggar@gmail.com"
+          git diff --check
+          git add app/title-normalizer-bootstrap.js app/event-identity-core.mjs app/title-normalizer-bootstrap.test.mjs app/cross-source-deduplication.test.mjs app/scripts/production_browser_selenium_smoke.py
+          test -n "$(git diff --cached --name-only)"
+          git commit -m "Reconcile malformed Gijon social events with official records"
+          git push origin HEAD:fix/valpo-semantic-content-integrity-20260825
