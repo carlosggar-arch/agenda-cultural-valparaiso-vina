@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import unicodedata
@@ -135,9 +136,32 @@ def validate_dataset(name: str, dataset: dict) -> dict:
     return {"dataset": name, "managed_before": len(managed), "managed_kept": len(kept), "dropped": dropped}
 
 
+def selected_datasets(city_name: str = "valparaiso", *, all_cities: bool = False) -> list[tuple[str, Path]]:
+    """Return only explicitly selected publication datasets.
+
+    A city-specific finalization must not rewrite sibling-city files merely to
+    validate them. Multi-city validation is available only through an explicit
+    opt-in so untouched-city byte invariants remain enforceable.
+    """
+    if all_cities:
+        return list(DATASETS.items())
+    if city_name not in DATASETS:
+        raise ValueError(f"Unknown dataset city: {city_name}")
+    return [(city_name, DATASETS[city_name])]
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Validate managed high-value supplemental sources without acquiring data.")
+    parser.add_argument("--city", choices=sorted(DATASETS), default="valparaiso")
+    parser.add_argument(
+        "--all-cities",
+        action="store_true",
+        help="Explicitly validate and rewrite every configured city dataset.",
+    )
+    args = parser.parse_args()
+
     reports = []
-    for name, path in DATASETS.items():
+    for name, path in selected_datasets(args.city, all_cities=args.all_cities):
         dataset = json.loads(path.read_text(encoding="utf-8"))
         reports.append(validate_dataset(name, dataset))
         path.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
