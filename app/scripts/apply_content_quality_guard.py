@@ -68,6 +68,22 @@ SUBMISSION_DEADLINE_TEXT = re.compile(
     r"postulaciones? (?:abiertas? )?hasta|recepcion (?:de \w+ ){0,3}hasta)\b"
 )
 
+
+# Administrative application support is useful information, but it is not an
+# attendance event. Keep this deliberately narrower than the generic
+# submission-call rule: require an applicant-directed administrative action
+# plus an explicit support resource, and never suppress a scheduled activity.
+ADMIN_APPLICATION_ACTION = re.compile(
+    r"\b(?:quieres|vas a|necesitas|puedes|debes)\s+(?:postular|solicitar)\b|"
+    r"\b(?:solicita|solicitar|solicitudes?|postula|postulate)\b|"
+    r"\b(?:se encuentra|esta)\s+abierta\s+la\s+convocatoria\b"
+)
+ADMIN_APPLICATION_SUPPORT = re.compile(
+    r"\bcartas?\s+de\s+apoyo\b|"
+    r"\brespaldo\s+(?:municipal|institucional)\b|"
+    r"\bapoyo\s+(?:municipal|institucional)\s+(?:para|a)\s+(?:(?:tu|su|la)\s+)?postulacion\b"
+)
+
 ACTIVITY_NOUN = r"(?:muestra|exposici[oó]n|exhibici[oó]n|concierto|recital|obra|taller|charla|conversatorio|festival|funci[oó]n|encuentro|seminario|curso)"
 RECOVERY_PATTERNS = (
     re.compile(
@@ -150,11 +166,25 @@ def is_deadline_only_submission_call(event: dict) -> bool:
     return bool(SUBMISSION_CALL_LEAD.search(description_lead) and not has_concrete_schedule(event))
 
 
+
+def is_administrative_application_support(event: dict) -> bool:
+    if has_concrete_schedule(event):
+        return False
+    title = fold(event.get("title"))
+    description = fold(event.get("description"))
+    combined = f"{title} {description}".strip()
+    return bool(
+        ADMIN_APPLICATION_ACTION.search(combined)
+        and ADMIN_APPLICATION_SUPPORT.search(combined)
+    )
+
 def non_event_context_reason(event: dict) -> str | None:
     if str(event.get("event_type") or "event") != "event":
         return None
     if is_deadline_only_submission_call(event):
         return "call_for_submissions_deadline_not_event"
+    if is_administrative_application_support(event):
+        return "administrative_application_support_not_event"
     if has_concrete_schedule(event):
         return None
     title = fold(event.get("title"))
