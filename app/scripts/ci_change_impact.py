@@ -5,11 +5,11 @@ import subprocess
 from pathlib import Path
 
 
-PRODUCT_PREFIXES = ("app/", "assets/", "scripts/", "shared/", "tests/")
-PRODUCT_FILES = {"index.html", "manifest.webmanifest", "agenda_web.json", "fuentes_publicas.json"}
-GENERATED_PREFIXES = ("shared/", "scripts/generate_", "scripts/stage31_", "assets/event-")
-GENERATED_FILES = {"agenda_web.json", "app/data/gijon/agenda_web.json"}
-RELEASE_PREFIXES = ("assets/", "shared/")
+PRODUCT_PREFIXES = ("app/", "assets/", "scripts/", "shared/", "tests/", "evento/")
+PRODUCT_FILES = {"index.html", "manifest.webmanifest", "agenda_web.json", "fuentes_publicas.json", "sitemap.xml"}
+GENERATED_PREFIXES = ("shared/", "scripts/generate_", "scripts/stage31_", "assets/event-", "evento/")
+GENERATED_FILES = {"agenda_web.json", "app/data/gijon/agenda_web.json", "sitemap.xml"}
+RELEASE_PREFIXES = ("assets/", "shared/", "evento/")
 
 
 def changed_files(base: str, head: str) -> list[str]:
