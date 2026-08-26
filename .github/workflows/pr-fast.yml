@@ -6,49 +6,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: pr-fast-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  finalize-pr489-once:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 489 && github.head_ref == 'fix/permanent-pages-current-main-v243' }}
-    name: canonical-finalizer-once
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout exact PR branch
-        uses: actions/checkout@v7
-        with:
-          ref: fix/permanent-pages-current-main-v243
-          fetch-depth: 0
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-      - name: Restore permanent gate and finalize canonical release
-        run: |
-          set -euo pipefail
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git fetch --no-tags origin main
-          test "$(git rev-parse origin/main)" = "ac5c48a32d2edd8f8d880b03c4a26397a9dc4619"
-          git show 14cd7c3666cb3585de524e6e8ab73890bc4047de:.github/workflows/pr-fast.yml > .github/workflows/pr-fast.yml
-          git add .github/workflows/pr-fast.yml
-          git commit -m "Restore permanent Stage 3.1 PR gate"
-
-          python scripts/stage31_site_generator.py
-          git diff --exit-code -- evento sitemap.xml
-
-          SOURCE_SHA="$(git rev-parse HEAD)"
-          python app/scripts/release_finalizer.py --prepare --base-ref origin/main --source-sha "$SOURCE_SHA" --source-pr 489
-          git add app/release-version.js app/service-worker-assets.generated.js app/venue-registry.generated.mjs app/data/release-bundle.json app/data/release-provenance.json app/index.html
-          git diff --cached --quiet && { echo 'Canonical finalizer produced no release changes'; exit 1; }
-          git commit -m "[release-finalized] Finalize PR 489 canonical release"
-          python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref HEAD
-          git push origin HEAD:fix/permanent-pages-current-main-v243
-
   fast-contracts:
     name: fast-contracts
     runs-on: ubuntu-latest
