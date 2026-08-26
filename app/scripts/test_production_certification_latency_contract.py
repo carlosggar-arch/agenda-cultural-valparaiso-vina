@@ -28,7 +28,22 @@ def main() -> None:
     smoke = job_block(publish, "production-smoke", "refresh-open-release-prs")
 
     assert "CANDIDATE_SHA: ${{ github.sha }}" in publish, "production runs must be pinned to their triggering SHA"
-    assert 'git merge --no-edit "$CANDIDATE_SHA"' in sync, "deployment branch must merge the exact candidate"
+    assert "git fetch origin cloudflare-preview main" in sync, "handoff must pin both deployment history and candidate source"
+    assert 'git cat-file -e "${CANDIDATE_SHA}^{commit}"' in sync, "candidate commit must exist before handoff"
+    assert 'git cat-file -e "origin/cloudflare-preview^{commit}"' in sync, "deployment parent must exist before handoff"
+    assert 'git checkout --detach "$CANDIDATE_SHA"' in sync, "handoff must start from the exact immutable candidate"
+    assert 'git merge --no-edit -s ours origin/cloudflare-preview' in sync, "deployment history must be attached without changing candidate bytes"
+    assert 'unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"' in sync, "handoff must prove exact candidate tree parity"
+    assert "git push origin HEAD:cloudflare-preview" in sync, "deployment branch must advance by normal push"
+    assert 'git merge --no-edit "$CANDIDATE_SHA"' not in sync, "conflict-prone mirror-first handoff must not return"
+    for destructive in (
+        "--force origin HEAD:cloudflare-preview",
+        "--force-with-lease origin HEAD:cloudflare-preview",
+        "--delete origin cloudflare-preview",
+        "origin :cloudflare-preview",
+    ):
+        assert destructive not in sync, f"deployment history must never be rewritten: {destructive}"
+
     assert "git reset --hard origin/main" not in publish, "production verification must never jump to a newer main"
     assert "git merge --no-edit origin/main" not in publish, "publication must not silently adopt a later main"
     assert "ref: ${{ github.sha }}" in smoke, "production smoke checkout must be immutable"
@@ -64,7 +79,8 @@ def main() -> None:
 
     print(
         "PRODUCTION_CERTIFICATION_LATENCY_CONTRACT_OK "
-        "candidate_sha=immutable wait_budget=90s sync_timeout=3m smoke_timeout=7m parallel_probe_groups=4"
+        "candidate_sha=immutable handoff=exact-tree-fast-forward wait_budget=90s "
+        "sync_timeout=3m smoke_timeout=7m parallel_probe_groups=4"
     )
 
 

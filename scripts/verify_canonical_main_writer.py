@@ -69,6 +69,7 @@ def verify() -> None:
     main_writers: list[str] = []
     cloudflare_writers: list[str] = []
     certification_writers: list[str] = []
+    destructive_cloudflare_writers: list[str] = []
     destructive_certification_writers: list[str] = []
     for path in sorted(WORKFLOWS.glob("*.yml")):
         text = path.read_text(encoding="utf-8")
@@ -76,6 +77,8 @@ def verify() -> None:
             main_writers.append(path.name)
         if _pushes_branch(text, "cloudflare-preview"):
             cloudflare_writers.append(path.name)
+        if _destructive_pushes_branch(text, "cloudflare-preview"):
+            destructive_cloudflare_writers.append(path.name)
         if _pushes_branch(text, CERTIFICATION_STATE_BRANCH):
             certification_writers.append(path.name)
         if _destructive_pushes_branch(text, CERTIFICATION_STATE_BRANCH):
@@ -85,6 +88,8 @@ def verify() -> None:
         raise SystemExit("PUBLIC_REPO_INTERNAL_MAIN_WRITERS=" + ",".join(main_writers))
     if cloudflare_writers != ["publish.yml"]:
         raise SystemExit("PUBLIC_REPO_CLOUDFLARE_WRITERS_INVALID=" + ",".join(cloudflare_writers))
+    if destructive_cloudflare_writers:
+        raise SystemExit("PUBLIC_REPO_CLOUDFLARE_DESTRUCTIVE_WRITERS=" + ",".join(destructive_cloudflare_writers))
     if certification_writers != ["publish.yml"]:
         raise SystemExit("PRODUCTION_CERTIFICATION_WRITERS_INVALID=" + ",".join(certification_writers))
     if destructive_certification_writers:
@@ -96,8 +101,9 @@ def verify() -> None:
         '- "cloudflare-build.sh"',
         "CANDIDATE_SHA: ${{ github.sha }}",
         "ref: cloudflare-preview",
-        "git fetch origin main",
-        'git merge --no-edit "$CANDIDATE_SHA"',
+        "git fetch origin cloudflare-preview main",
+        'git checkout --detach "$CANDIDATE_SHA"',
+        'git merge --no-edit -s ours origin/cloudflare-preview',
         "git push origin HEAD:cloudflare-preview",
         "Require exact deployment-branch parity with candidate",
         'unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"',
@@ -114,9 +120,10 @@ def verify() -> None:
     for stale_dynamic_candidate in (
         "git merge --no-edit origin/main",
         "git reset --hard origin/main",
+        'git merge --no-edit "$CANDIDATE_SHA"',
     ):
         if stale_dynamic_candidate in sync:
-            raise SystemExit("PUBLICATION_MUTABLE_CANDIDATE_FORBIDDEN=" + stale_dynamic_candidate)
+            raise SystemExit("PUBLICATION_MUTABLE_OR_CONFLICT_PRONE_HANDOFF_FORBIDDEN=" + stale_dynamic_candidate)
 
     watchdog = CERTIFICATION_WATCHDOG.read_text(encoding="utf-8")
     required_watchdog = (
@@ -140,6 +147,10 @@ def verify() -> None:
     for forbidden in (
         "git push origin HEAD:main",
         "git push origin main",
+        "--force origin HEAD:cloudflare-preview",
+        "--force-with-lease origin HEAD:cloudflare-preview",
+        "--delete origin cloudflare-preview",
+        "origin :cloudflare-preview",
         f"--force origin HEAD:{CERTIFICATION_STATE_BRANCH}",
         f"--force-with-lease origin HEAD:{CERTIFICATION_STATE_BRANCH}",
         f"--delete origin {CERTIFICATION_STATE_BRANCH}",
@@ -151,7 +162,8 @@ def verify() -> None:
     print(
         "CANONICAL_PUBLICATION_WRITERS_OK "
         "main_internal_writers=0 cloudflare_mirror_writer=publish.yml "
-        "candidate_sha=immutable production_certification_writer=publish.yml "
+        "candidate_sha=immutable cloudflare_handoff=exact-tree-fast-forward "
+        "destructive_cloudflare_writers=0 production_certification_writer=publish.yml "
         "destructive_state_writers=0 certification_watchdog=read-only"
     )
 
