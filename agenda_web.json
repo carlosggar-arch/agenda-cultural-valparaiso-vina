@@ -204,6 +204,107 @@
       }
     },
     {
+      "id": "agenda_8c2b6ba0de30c34fe3529930",
+      "title": "A veces un mar dulce",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "multi_day",
+        "start": "2026-07-17",
+        "end": "2026-08-30",
+        "timezone": "America/Santiago",
+        "display_text": "2026-07-17 – 2026-08-30",
+        "occurrences": [],
+        "opening_time": "10:00",
+        "closing_time": "17:30",
+        "opening_hours": {
+          "display_text": "Martes a domingo · 10:00–17:30",
+          "opening_time": "10:00",
+          "closing_time": "17:30"
+        },
+        "start_confidence": "official_revalidation",
+        "end_confidence": "official_revalidation",
+        "hours_confidence": "official_event_page"
+      },
+      "location": {
+        "venue_id": "museo-palacio-rioja",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Palacio Rioja",
+        "address": "Quillota 214, Viña del Mar",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
+      },
+      "organizer": "Museo Palacio Rioja",
+      "source_name": "Museo Palacio Rioja",
+      "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "🌊 “A veces un mar dulce” llegó al Museo Palacio Rioja. Esta exposición reúne las obras de Rocío Mercado, Rosario Sotomayor, Krishna Escovedo y Kokó Acevedo, quienes, desde la pintura, la escultura, el dibujo, la fotografía y la performance, proponen una reflex...",
+      "tags": [
+        "mercado"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-mad1-1.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk1NzkxMTQ3NzkwMDc1NTA3MzE4NDAxMjkxMDA1MDk0MTkx.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=zIyE8-c6w_kQ7kNvwGRZL8g&_nc_oc=Adp9-v1yXt9vSIXKR9m1udVJSVVBaXmzB5JTRSw4SK76XN83-Co36iBo5-dxkdG5zG5iqgnjsgwQEvvwSwwW8ma2&_nc_zt=23&_nc_ht=scontent-mad1-1.cdninstagram.com&_nc_gid=1CVGrQOFsAZ8c7uZuazb5A&_nc_ss=7ca8c&oh=00_AQE9qZhJyt1dVwulFjd5zUKpo271a18af0pjakXcyiFXYA&oe=6A8E0973",
+        "alt": "A veces un mar dulce"
+      },
+      "source_id": "museo_palacio_rioja",
+      "editorial": {
+        "verified_publication_patches": [
+          "rioja_mar_dulce_2026_multiday"
+        ],
+        "duplicate_sources": [
+          {
+            "id": "agenda_rioja_exhibition_mar_dulce_2026",
+            "title": "Exposición temporal // A veces un mar dulce",
+            "source_name": "Museo Palacio Rioja",
+            "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
+          }
+        ],
+        "duplicates_consolidated": 1
+      }
+    },
+    {
       "id": "agenda_rioja_exhibition_mar_dulce_2026",
       "title": "Exposición temporal // A veces un mar dulce",
       "event_type": "event",
@@ -271,7 +372,7 @@
         "cancelled": false,
         "price_confirmed": true,
         "information_completeness": "complete",
-        "advisory_text": "Exposición confirmada en la cartelera oficial municipal Visita Viña.",
+        "advisory_text": "Exposición confirmada en la cartelera oficial municipal Visita Viña. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
         "last_verified_at": "2026-08-26T13:13:00-04:00",
         "registration_open": null
       },
@@ -848,6 +949,9 @@
         "last_automatic_revalidation_at": "2026-08-21T05:34:10-04:00",
         "automatic_revalidation_fields": [
           "display_text"
+        ],
+        "verified_publication_patches": [
+          "baburizza_nebulosa_carina_owned_image_2026"
         ]
       }
     },
@@ -1063,6 +1167,9 @@
           "display_text",
           "end",
           "start"
+        ],
+        "verified_publication_patches": [
+          "baburizza_cumbias_owned_image_2026"
         ]
       }
     },
@@ -1981,7 +2088,7 @@
     },
     {
       "id": "agenda_f09024745eeb42469b7255f7",
-      "title": "GRUPO ULTRA",
+      "title": "Grupo ultra",
       "event_type": "event",
       "primary_category": {
         "id": "musica",
@@ -2050,7 +2157,8 @@
         "url": "https://instagram.fzmm2-1.fna.fbcdn.net/v/t51.82787-15/784981092_18173593249448491_2292009934576168809_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzk3MTA4OTk3NDcwMjg5NjMwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zIJ4kjm3OS8Q7kNvwH4tS7L&_nc_oc=Adpq3WTF_xFKgWol66LLSlzvuMiLaJCD8ZZifeKzUDQriuc2wGzTg9iTknrVMBgzpCk&_nc_zt=23&_nc_ht=instagram.fzmm2-1.fna&_nc_gid=zX3hhJFkb9Chya4LYigDZg&_nc_ss=7ca8c&oh=00_AQG7lxal_CljnEbuIV5lVpjX_x9aluEjLx4JdfHXxH3oAA&oe=6A94BF45",
         "alt": "GRUPO ULTRA"
       },
-      "source_id": "ipanema_club_vina"
+      "source_id": "ipanema_club_vina",
+      "original_title": "GRUPO ULTRA"
     },
     {
       "id": "agenda_48a03d2b88d23ce510b007ee",
@@ -2135,7 +2243,7 @@
     },
     {
       "id": "agenda_36deecb3403db89ca87905c6",
-      "title": "PROGRAMACIÓN INSOMNIA",
+      "title": "Programación insomnia",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -2204,7 +2312,8 @@
         "url": "https://scontent-fra3-1.cdninstagram.com/v/t39.30808-6/784717820_1496631829173599_4290426092617704249_n.jpg?stp=c0.0.1638.2047a_dst-jpg_e35_s1638x2047_tt6&_nc_cat=108&ig_cache_key=Mzk3MDI1NzA1ODg0Nzc4MTc0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTYzOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=sAnuA9ie4x4Q7kNvwH-Xaeh&_nc_oc=AdoBVZivDAR4mD8NOp_P2DCHE7Zdo7DW_OFzUl6GWXsDm0PjDsT5FRErP7YfjEmCW4A&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=BgFooVeIbfKqK52R9LLduw&_nc_ss=7ca8c&oh=00_AQGw3i_EiIZXDhNZvhInQV6kkKPiK3bg5R4fn7YCH00EFg&oe=6A924F90",
         "alt": "PROGRAMACIÓN INSOMNIA"
       },
-      "source_id": "insomniacine"
+      "source_id": "insomniacine",
+      "original_title": "PROGRAMACIÓN INSOMNIA"
     },
     {
       "id": "agenda_6467e133788da5112c653367",
@@ -2393,8 +2502,8 @@
         "registration": null,
         "source": "https://www.instagram.com/p/DcRIocOxXrs/"
       },
-      "organizer": "Culturas Viña",
-      "source_name": "Culturas Viña",
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "source_url": "https://www.instagram.com/p/DcRIocOxXrs/",
       "last_verified_at": null,
       "public_status": {
@@ -2419,7 +2528,12 @@
         "url": "https://instagram.fcjs2-1.fna.fbcdn.net/v/t51.82787-15/777825381_18623315866054140_4824825075039802598_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzk2Nzk5MDcxMDE1Mzg3MDA2MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=h3rQWTazHkoQ7kNvwFeYEWy&_nc_oc=AdqkAg6VgzfwfRBrMF5lnrs-PSMg_PS6bp9zPOPHu0noJir_b40dcuXNj5ZH2wS9jJVp4JpW6XIiYJewkxkbL6WH&_nc_zt=23&_nc_ht=instagram.fcjs2-1.fna&_nc_gid=Yayqsj-SF0iP2KhU4354Aw&_nc_ss=72689&oh=00_AQGvR2ZtfS3Rlu8u-j2gjPE5TY3EIv2dGJCHWx53og6-tw&oe=6A8E0D1B",
         "alt": "¡La cueca se vive en Viña del Mar!"
       },
-      "source_id": "culturasvina"
+      "source_id": "culturasvina",
+      "editorial": {
+        "verified_publication_patches": [
+          "culturasvina_public_display_name"
+        ]
+      }
     },
     {
       "id": "agenda_rioja_20260826_qigong",
@@ -2686,7 +2800,7 @@
     },
     {
       "id": "agenda_af4aee6a3067d5b1536e6fdb",
-      "title": "BUTACAS DEL REENCUENTRO",
+      "title": "Butacas del reencuentro",
       "event_type": "event",
       "primary_category": {
         "id": "cine",
@@ -2756,7 +2870,8 @@
         "url": "https://instagram.fplu19-1.fna.fbcdn.net/v/t39.30808-6/780065848_1494878926015556_1147269243640775634_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzk2ODc5NjIzMzE3MTY4NDY5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nRmCJScJ6NgQ7kNvwHwc_Aj&_nc_oc=AdraywhydHu2vSsWPpYrJ10MxOcyZeXKKvmjJDsFyEmnezQ6M1ozrybjYmg_8opSk54&_nc_zt=23&_nc_ht=instagram.fplu19-1.fna&_nc_gid=XdLiPKg2olZ0NqnccfO2iw&_nc_ss=72a8c&oh=00_AQHycmhLMfceX_9jYjCjzJvtajJnQ3Ba6ld1L6H-xuz1_A&oe=6A922DCD",
         "alt": "BUTACAS DEL REENCUENTRO"
       },
-      "source_id": "insomniacine"
+      "source_id": "insomniacine",
+      "original_title": "BUTACAS DEL REENCUENTRO"
     },
     {
       "id": "agenda_cinema_d049c21c51679f81dea0",
@@ -3488,7 +3603,7 @@
     },
     {
       "id": "agenda_b0372774c259f7a1a51f7e4f",
-      "title": "ESPECIAL BLOQUE DEPRESIVO",
+      "title": "Especial bloque depresivo",
       "event_type": "event",
       "primary_category": {
         "id": "ferias-gastronomia",
@@ -3557,7 +3672,8 @@
         "url": "https://scontent-gig4-1.cdninstagram.com/v/t51.82787-15/786755506_18173673226448491_727852630673601976_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzk3MTY0NTkwMTIxODUyOTIxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kiZVS321E_0Q7kNvwHT1A68&_nc_oc=AdovesihUwwiC9tdyCLHNyzkRuXTEI95B8d1Skmfo1BrjIWDUeeMhG8JVbOrSuYoaWc&_nc_zt=23&_nc_ht=scontent-gig4-1.cdninstagram.com&_nc_gid=Td3UAllLyttYMxMvabIEoQ&_nc_ss=72a8c&oh=00_AQEQqfsJSGEQ3k0HXrukhmDnvyq2RzTsPxwsn2P_KnK2fA&oe=6A94C900",
         "alt": "ESPECIAL BLOQUE DEPRESIVO"
       },
-      "source_id": "ipanema_club_vina"
+      "source_id": "ipanema_club_vina",
+      "original_title": "ESPECIAL BLOQUE DEPRESIVO"
     },
     {
       "id": "agenda_2fa2643b3425170dbfb55ceb",
@@ -3604,8 +3720,8 @@
         "registration": null,
         "source": "https://www.instagram.com/p/DcOxaJgpODR/"
       },
-      "organizer": "Culturas Viña",
-      "source_name": "Culturas Viña",
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "source_url": "https://www.instagram.com/p/DcOxaJgpODR/",
       "last_verified_at": null,
       "public_status": {
@@ -3631,7 +3747,12 @@
         "url": "https://instagram.fbcn2-1.fna.fbcdn.net/v/t51.82787-15/780068082_18003457034985382_2534498025798634928_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ig_cache_key=Mzk2NzMyNTYyMjk1Njc3NzY4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bh538N3oAJQQ7kNvwFsx86o&_nc_oc=AdobPWS_tTxg46rZUGNDDtSjh4eXjOh1badyCY0sQi3zF5BZLO5BBvHbnxk23sX0hTY&_nc_zt=23&_nc_ht=instagram.fbcn2-1.fna&_nc_gid=5Jir2Aoi-h7EOJ6cPd65EA&_nc_ss=72689&oh=00_AQFeIpLFjWxN5uzzQSKQQjeg5umsyleEyuzU17zBs_wjlA&oe=6A923431",
         "alt": "Te Mana"
       },
-      "source_id": "culturasvina"
+      "source_id": "culturasvina",
+      "editorial": {
+        "verified_publication_patches": [
+          "culturasvina_public_display_name"
+        ]
+      }
     },
     {
       "id": "agenda_42f66716a74b423331c9f0b9",
@@ -4856,6 +4977,84 @@
       "id": "agenda_72260006eccc32a0e35a87d2"
     },
     {
+      "id": "agenda_018e5c1de61907f82a30486f",
+      "title": "¿Cómo construir la historia de mi barrio?",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-27T18:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-27 · 18:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Auditorio Teatro Municipal de Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DccHP0Sj0Mw/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DccHP0Sj0Mw/"
+      },
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_url": "https://www.instagram.com/p/DccHP0Sj0Mw/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "¿Te gustaría conocer y preservar la historia de tu barrio? 🏘️ Te invitamos a “¿Cómo construir la historia de mi barrio?”, una nueva jornada del Ciclo de Formación Cultural 2026, donde aprenderemos herramientas para investigar, recuperar testimonios y resguarda...",
+      "tags": [
+        "formación"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-muc2-1.cdninstagram.com/v/t51.82787-15/783406624_18403822672094191_7890897538173015792_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk3MTA4MDU4MTIwNjE2Mzg2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTAxMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BaG9xXKy98sQ7kNvwFsHm8I&_nc_oc=Adpsnh6WeFJ0NHTdzgGmhBumkTaF5TBP4QdTrknEYoOxkpfQmGvzRrEqnAkZZEp21bw&_nc_zt=23&_nc_ht=scontent-muc2-1.cdninstagram.com&_nc_gid=QwWmy7cggX2yA6mCCAVV5w&_nc_ss=72a8c&oh=00_AQFTrkfPGewHKM1kH3m2-RixMyObFtW0NRBH0zR3wxsy-A&oe=6A949D3C",
+        "alt": "¿Cómo construir la historia de mi barrio?"
+      },
+      "source_id": "culturasvina",
+      "editorial": {
+        "verified_publication_patches": [
+          "culturasvina_public_display_name"
+        ]
+      }
+    },
+    {
       "id": "agenda_rioja_20260827_decadencia",
       "title": "Presentación libro // “Decadencia”",
       "event_type": "event",
@@ -4977,79 +5176,6 @@
         "venue_hours_enriched": true
       },
       "last_verified_at": "2026-08-26T13:13:00-04:00"
-    },
-    {
-      "id": "agenda_018e5c1de61907f82a30486f",
-      "title": "¿Cómo construir la historia de mi barrio?",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-27T18:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-27 · 18:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Auditorio Teatro Municipal de Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DccHP0Sj0Mw/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DccHP0Sj0Mw/"
-      },
-      "organizer": "Culturas Viña",
-      "source_name": "Culturas Viña",
-      "source_url": "https://www.instagram.com/p/DccHP0Sj0Mw/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "¿Te gustaría conocer y preservar la historia de tu barrio? 🏘️ Te invitamos a “¿Cómo construir la historia de mi barrio?”, una nueva jornada del Ciclo de Formación Cultural 2026, donde aprenderemos herramientas para investigar, recuperar testimonios y resguarda...",
-      "tags": [
-        "formación"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-muc2-1.cdninstagram.com/v/t51.82787-15/783406624_18403822672094191_7890897538173015792_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk3MTA4MDU4MTIwNjE2Mzg2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTAxMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BaG9xXKy98sQ7kNvwFsHm8I&_nc_oc=Adpsnh6WeFJ0NHTdzgGmhBumkTaF5TBP4QdTrknEYoOxkpfQmGvzRrEqnAkZZEp21bw&_nc_zt=23&_nc_ht=scontent-muc2-1.cdninstagram.com&_nc_gid=QwWmy7cggX2yA6mCCAVV5w&_nc_ss=72a8c&oh=00_AQFTrkfPGewHKM1kH3m2-RixMyObFtW0NRBH0zR3wxsy-A&oe=6A949D3C",
-        "alt": "¿Cómo construir la historia de mi barrio?"
-      },
-      "source_id": "culturasvina"
     },
     {
       "id": "agenda_4468a12624ab19c0ea7f6d80",
@@ -5862,7 +5988,7 @@
         "information_completeness": "complete",
         "advisory_text": null
       },
-      "description": "📚📙✨Cuentacuentos en el Fonck: “La leyenda de Make Make, el Dios creador” 📅 28 de agosto de 2026. 🕓 16:00 horas. 📍 Museo Fonck, ubicado en 4 Norte 784, Viña del Mar. 💲Gratis. 👧🧒 Actividad dirigida a niñas y niños de 4 a 12 años, quienes deberán asistir acompaña...",
+      "description": "📚📙✨Cuentacuentos en el Fonck: “La leyenda de Make Make, el Dios creador” 📅 28 de agosto de 2026. 🕓 16:00 horas. 📍 Museo Fonck, ubicado en 4 Norte 784, Viña del Mar. 💲Gratis. 👧🧒 Actividad dirigida a niñas y niños de 4 a 12 años, quienes deberán asistir acompaña",
       "tags": [
         "museo"
       ],
@@ -7363,79 +7489,6 @@
       "source_id": "el_pasaje_cafe_vina"
     },
     {
-      "id": "agenda_574432f86945f20bd8bd50c2",
-      "title": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-28T20:30:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 20:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 8000,
-        "max_amount": 12000,
-        "display_text": "$8.000 · $10.000 · $12.000"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Db_z0Cdj8if/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Db_z0Cdj8if/"
-      },
-      "organizer": "Casa de la Cultura de Valparaíso",
-      "source_name": "Casa de la Cultura de Valparaíso",
-      "source_url": "https://www.instagram.com/p/Db_z0Cdj8if/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "🎶La cantora, guitarrista y compositora argentina LUCIANA JURY regresa a Chile para compartir dos noches de música en Santiago y Valparaíso*. Luciana Jury, una de las intérpretes trasandinas más singulares de la actualidad, llega a nuestro país para presentar c...",
-      "tags": [
-        "música"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-fco2-1.cdninstagram.com/v/t39.30808-6/766315802_1079686997738798_2806050586403132579_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzk2MzExNDA3MzUzNzYyODMxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ngXkIX-8Gn0Q7kNvwE7Ch_X&_nc_oc=AdpsI4pYzVKZjSiBhjhonplCv1Zp9mRkC_oviS_Yk_YtZ-j60sogA-rQKFVCh6_VXc4&_nc_zt=23&_nc_ht=scontent-fco2-1.cdninstagram.com&_nc_gid=ZR_vbYi1Ng__X75Io4NMng&_nc_ss=7ca8c&oh=00_AQFUaOhAY7WFRvkKUOIaOU-frzhgx66nhNqaXZIUF85RVQ&oe=6A8E0D31",
-        "alt": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)"
-      },
-      "source_id": "casa_cultura_valparaiso"
-    },
-    {
       "id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
       "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
       "event_type": "event",
@@ -7532,6 +7585,79 @@
           "valpocultura_luciana_jury_2026_schedule"
         ]
       }
+    },
+    {
+      "id": "agenda_574432f86945f20bd8bd50c2",
+      "title": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-28T20:30:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-28 · 20:30",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 8000,
+        "max_amount": 12000,
+        "display_text": "$8.000 · $10.000 · $12.000"
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Db_z0Cdj8if/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/Db_z0Cdj8if/"
+      },
+      "organizer": "Casa de la Cultura de Valparaíso",
+      "source_name": "Casa de la Cultura de Valparaíso",
+      "source_url": "https://www.instagram.com/p/Db_z0Cdj8if/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "🎶La cantora, guitarrista y compositora argentina LUCIANA JURY regresa a Chile para compartir dos noches de música en Santiago y Valparaíso*. Luciana Jury, una de las intérpretes trasandinas más singulares de la actualidad, llega a nuestro país para presentar c...",
+      "tags": [
+        "música"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-fco2-1.cdninstagram.com/v/t39.30808-6/766315802_1079686997738798_2806050586403132579_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzk2MzExNDA3MzUzNzYyODMxOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODAwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=ngXkIX-8Gn0Q7kNvwE7Ch_X&_nc_oc=AdpsI4pYzVKZjSiBhjhonplCv1Zp9mRkC_oviS_Yk_YtZ-j60sogA-rQKFVCh6_VXc4&_nc_zt=23&_nc_ht=scontent-fco2-1.cdninstagram.com&_nc_gid=ZR_vbYi1Ng__X75Io4NMng&_nc_ss=7ca8c&oh=00_AQFUaOhAY7WFRvkKUOIaOU-frzhgx66nhNqaXZIUF85RVQ&oe=6A8E0D31",
+        "alt": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)"
+      },
+      "source_id": "casa_cultura_valparaiso"
     },
     {
       "id": "agenda_portaltickets_valparaiso_544a90cadec9dd9f",
@@ -7817,7 +7943,7 @@
     },
     {
       "id": "agenda_f0ee533bbc0557eb892953af",
-      "title": "ATENCIÓN VALPARAÍSO!!",
+      "title": "Atención valparaíso!!",
       "event_type": "event",
       "primary_category": {
         "id": "teatro",
@@ -7887,7 +8013,8 @@
         "url": "https://scontent-mxp1-1.cdninstagram.com/v/t51.82787-15/784428407_17905948035536883_6664983972696933783_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MDgyMzM2Njc4MDU0MDg5MjE3OTA1OTQ4MDI5NTM2ODgz.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjQ4MC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=u2Z5dAEMs0UQ7kNvwH2JTtQ&_nc_oc=AdpUOQnv5xTWf21-yp-iYq02qCroLM4K3_T80ndLA5nhoU_nFtnhyp1tp8P7EtGq-FE&_nc_zt=23&_nc_ht=scontent-mxp1-1.cdninstagram.com&_nc_gid=wwEc3gFWqD_uL20OUPK8zw&_nc_ss=7ca8c&oh=00_AQG4JU823irsWVlp29eLbG1lc_CvjmXHuMeWsJnxex4VtA&oe=6A9257ED",
         "alt": "ATENCIÓN VALPARAÍSO!!"
       },
-      "source_id": "trotamundosvalpo"
+      "source_id": "trotamundosvalpo",
+      "original_title": "ATENCIÓN VALPARAÍSO!!"
     },
     {
       "id": "agenda_d1b5bea9dc9bcbfdc33dcffc",
@@ -8158,8 +8285,8 @@
         "registration": null,
         "source": "https://www.instagram.com/p/DcMg2ypPyyA/"
       },
-      "organizer": "Culturas Viña",
-      "source_name": "Culturas Viña",
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "source_url": "https://www.instagram.com/p/DcMg2ypPyyA/",
       "last_verified_at": null,
       "public_status": {
@@ -8182,7 +8309,12 @@
         "url": "https://scontent-atl3-3.cdninstagram.com/v/t51.82787-15/777298000_18402957229094191_4555300098898952215_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzk2NjY4OTg3NDUyNTc2MDY0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XqRZbBB1uaEQ7kNvwEENmhg&_nc_oc=Adosp70Z_erXnjajLEvwSQOWErg32uVaDVJjxldOQ6Nr2Is1tk2A-uXS-15l6p07iO4&_nc_zt=23&_nc_ht=scontent-atl3-3.cdninstagram.com&_nc_gid=shVZbqSRI9pe5r8T9rvZCg&_nc_ss=72a8c&oh=00_AQEy03vj1-K4FwL8uI0U1djoDX_gIEwFSZhBUE0o1PGEwA&oe=6A923A88",
         "alt": "Tercer Encuentro de Bibliotecas Comunitarias de Viña del Mar"
       },
-      "source_id": "culturasvina"
+      "source_id": "culturasvina",
+      "editorial": {
+        "verified_publication_patches": [
+          "culturasvina_public_display_name"
+        ]
+      }
     },
     {
       "id": "agenda_d710e9788b9a18d19945d9ba",
@@ -8998,6 +9130,89 @@
       "source_id": "cultura_usm"
     },
     {
+      "id": "agenda_7d6db81df72c46da7e8e3849",
+      "title": "Concierto “Camino al Último Vals”",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": "2026-08-29T19:00:00-04:00",
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "2026-08-29 · 19:00",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": "teatro-municipal-vina-del-mar",
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Teatro Municipal de Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/"
+      },
+      "organizer": "Teatro Municipal de Viña del Mar",
+      "source_name": "Teatro Municipal de Viña del Mar",
+      "source_url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Inicio Eventos - Teatro Municipal Viña del Mar Concierto Concierto “Camino al Último Vals” Concierto La Orquesta Sinfónica Nacional Juvenil, dirigida por Paolo Bortolameolli, ofrece un concierto en el marco de la programación de FOJI.",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://teatrovina.cl/wp-content/uploads/2026/07/CAMINO-AL-VALS.jpg",
+        "alt": "Concierto “Camino al Último Vals”"
+      },
+      "source_id": "teatro_municipal_vina",
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
+            "host": "teatrovina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "agenda_rioja_20260829_moncho",
       "title": "Concierto jazz // Moncho Pérez",
       "event_type": "event",
@@ -9252,89 +9467,6 @@
           {
             "url": "https://visitavina.munivina.cl/actividad/concierto-jazz-moncho-perez/?occurrence=2026-08-29",
             "host": "visitavina.munivina.cl",
-            "method": "official_page_jsonld_or_metadata",
-            "fields": [
-              "price"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "id": "agenda_7d6db81df72c46da7e8e3849",
-      "title": "Concierto “Camino al Último Vals”",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-29T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-29 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "teatro-municipal-vina-del-mar",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Teatro Municipal de Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/"
-      },
-      "organizer": "Teatro Municipal de Viña del Mar",
-      "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Inicio Eventos - Teatro Municipal Viña del Mar Concierto Concierto “Camino al Último Vals” Concierto La Orquesta Sinfónica Nacional Juvenil, dirigida por Paolo Bortolameolli, ofrece un concierto en el marco de la programación de FOJI.",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://teatrovina.cl/wp-content/uploads/2026/07/CAMINO-AL-VALS.jpg",
-        "alt": "Concierto “Camino al Último Vals”"
-      },
-      "source_id": "teatro_municipal_vina",
-      "provenance": {
-        "official_metadata": [
-          {
-            "url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
-            "host": "teatrovina.cl",
             "method": "official_page_jsonld_or_metadata",
             "fields": [
               "price"
@@ -10004,79 +10136,6 @@
         "detail_verified_at": "2026-08-25T13:21:31-04:00"
       },
       "original_title": "ANIVERSARIO CALATHEA CLUB"
-    },
-    {
-      "id": "agenda_8c2b6ba0de30c34fe3529930",
-      "title": "A veces un mar dulce",
-      "event_type": "event",
-      "primary_category": {
-        "id": "ferias-gastronomia",
-        "label": "Ferias y gastronomía"
-      },
-      "categories": [
-        {
-          "id": "ferias-gastronomia",
-          "label": "Ferias y gastronomía"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-30T10:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-30 · 10:00–17:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DbtU4Tst0CB/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DbtU4Tst0CB/"
-      },
-      "organizer": "Museo Palacio Rioja",
-      "source_name": "Museo Palacio Rioja",
-      "source_url": "https://www.instagram.com/p/DbtU4Tst0CB/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "🌊 “A veces un mar dulce” llegó al Museo Palacio Rioja. Esta exposición reúne las obras de Rocío Mercado, Rosario Sotomayor, Krishna Escovedo y Kokó Acevedo, quienes, desde la pintura, la escultura, el dibujo, la fotografía y la performance, proponen una reflex...",
-      "tags": [
-        "mercado"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-mad1-1.cdninstagram.com/v/t51.82787-15/765715777_18401291008094191_505497066325843557_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk1NzkxMTQ3NzkwMDc1NTA3MzE4NDAxMjkxMDA1MDk0MTkx.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=zIyE8-c6w_kQ7kNvwGRZL8g&_nc_oc=Adp9-v1yXt9vSIXKR9m1udVJSVVBaXmzB5JTRSw4SK76XN83-Co36iBo5-dxkdG5zG5iqgnjsgwQEvvwSwwW8ma2&_nc_zt=23&_nc_ht=scontent-mad1-1.cdninstagram.com&_nc_gid=1CVGrQOFsAZ8c7uZuazb5A&_nc_ss=7ca8c&oh=00_AQE9qZhJyt1dVwulFjd5zUKpo271a18af0pjakXcyiFXYA&oe=6A8E0973",
-        "alt": "A veces un mar dulce"
-      },
-      "source_id": "museo_palacio_rioja"
     },
     {
       "id": "agenda_f07e34251996daac965cce64",
@@ -11813,7 +11872,7 @@
     },
     {
       "id": "agenda_5c73be2934bf553e6bf2a663",
-      "title": "BRASIL EN IPANEMA CLUB",
+      "title": "Brasil en ipanema club",
       "event_type": "event",
       "primary_category": {
         "id": "otros",
@@ -11882,7 +11941,8 @@
         "url": "https://instagram.ffab1-1.fna.fbcdn.net/v/t51.82787-15/776718713_18090074819381029_7578709139934197438_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk2OTAwNTQzMzcxNTg4MzE5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Iszp3TpwglUQ7kNvwHStlkb&_nc_oc=Adps6gObljTTqr8peZBOLSUnbuToFWI3jGGpBoADeDSQFylB6lkn-cag_fF4s_KxObCh2meaHCtg3q1_ME2yuT9l&_nc_zt=23&_nc_ht=instagram.ffab1-1.fna&_nc_gid=oGe4ZyNuzIC4gbMozWuMeg&_nc_ss=7ca8c&oh=00_AQEsgjx_GLLc-Vg0-GiqBJh6G37wRZhxppjykqlfe83nRw&oe=6A922F08",
         "alt": "BRASIL EN IPANEMA CLUB"
       },
-      "source_id": "ipanema_club_vina"
+      "source_id": "ipanema_club_vina",
+      "original_title": "BRASIL EN IPANEMA CLUB"
     },
     {
       "title": "Jazz en el Masita — Subterra Ensamble",
@@ -16402,17 +16462,17 @@
       "original_title": "EL MULU: DERRAMAR EL TIEMPO TOUR EN EL PASAJE"
     },
     {
-      "id": "agenda_b4e33a3e573b09d76186da6c",
-      "title": "#cerroalegre",
+      "id": "agenda_7f585fc5ec16debcb9825f9a",
+      "title": "¡Abrimos convocatoria!",
       "event_type": "event",
       "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
       },
       "categories": [
         {
-          "id": "otros",
-          "label": "Otros panoramas"
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
         }
       ],
       "schedule": {
@@ -16427,7 +16487,7 @@
         "venue_id": null,
         "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": null,
+        "venue": "Centro de Investigación Teatro La Peste",
         "address": null,
         "online": false,
         "latitude": null,
@@ -16441,17 +16501,17 @@
         "display_text": null
       },
       "links": {
-        "official": "https://www.instagram.com/p/Dbv4MlaltpJ/",
+        "official": "https://www.instagram.com/p/DboGkYIEX57/",
         "tickets": null,
         "registration": null,
-        "source": "https://www.instagram.com/p/Dbv4MlaltpJ/"
+        "source": "https://www.instagram.com/p/DboGkYIEX57/"
       },
-      "organizer": null,
-      "source_name": "El Internado Valpo",
-      "source_url": "https://www.instagram.com/p/Dbv4MlaltpJ/",
+      "organizer": "Teatro La Peste",
+      "source_name": "Teatro La Peste",
+      "source_url": "https://www.instagram.com/p/DboGkYIEX57/",
       "last_verified_at": null,
       "public_status": {
-        "source_official": false,
+        "source_official": true,
         "last_verified_at": null,
         "registration_open": null,
         "registration_closed": null,
@@ -16462,91 +16522,18 @@
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
-      "description": "Agosto lo vivimos en @elinternadovalpo en una nueva programación para las noches de viernes y sábado. Les esperamos.",
+      "description": "✨ ¡Abrimos convocatoria! ✨ ¿Tienes un taller, seminario o laboratorio y estás buscando un espacio para realizarlo? 👀🎭 Desde el Centro de Investigación Teatro La Peste queremos abrir nuestras puertas a nuevas propuestas formativas que enriquezcan el intercambio...",
       "tags": [
-        "programación"
+        "laboratorio",
+        "seminario"
       ],
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "https://instagram.fmel14-1.fna.fbcdn.net/v/t51.82787-15/769051353_18085835663668632_1979053011884156481_n.webp?_nc_cat=105&ig_cache_key=Mzk1ODYyNTIxNjE3OTE4NTQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=StRrdcGELCEQ7kNvwGKPs7O&_nc_oc=Adp-2jaNF2gawW3n64ahGr1eYNlXwpUTC6FGKFITUWWkgzvrwjQ2-eZR_hQTzDJukWs&_nc_zt=23&_nc_ht=instagram.fmel14-1.fna&_nc_gid=WDzgohcG1JO_XGEFGB5g6g&_nc_ss=72289&oh=00_AQGv_J7vbK90wdxv7t9lVIC5_yeqfNW3DFIdHkpLjIEnQg&oe=6A934DD8",
-        "alt": "#cerroalegre"
+        "url": "https://instagram.fbne5-1.fna.fbcdn.net/v/t51.82787-15/764693566_17958448311179033_4325435667802768727_n.webp?_nc_cat=107&ig_cache_key=Mzk1NjQzOTc1NTE4OTExNDMzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uShabboqNAYQ7kNvwG8Snsn&_nc_oc=Adp7m6ZhEETl7uXlbhcnBwr-2mInpCerpm-K5QTcxem7HalNfJulfRSX7Wl9d6mGrCg&_nc_zt=23&_nc_ht=instagram.fbne5-1.fna&_nc_gid=Cs2HYcRK2JnQh_qIsTH46A&_nc_ss=72a8c&oh=00_AQEc2dO8wIUW7zzPlwOwP137yyf9RLO9BuqRURRkgNMFEQ&oe=6A923F12",
+        "alt": "¡Abrimos convocatoria!"
       },
-      "source_id": "el_internado_valpo"
-    },
-    {
-      "id": "agenda_3b4a6e30f55e0bafcd95e2a2",
-      "title": "#Valparaiso #MusicaEnVivo #BandasEmergentes #CasaPrisma #AnticuarioMiramar",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario por confirmar",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Casa Prisma Valpo",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcXRVxVjtD-/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcXRVxVjtD-/"
-      },
-      "organizer": "Casa Prisma Valpo",
-      "source_name": "Casa Prisma Valpo",
-      "source_url": "https://www.instagram.com/p/DcXRVxVjtD-/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "@audentes.oficial fue la encargada de romper el hielo este sábado, dando el vamos a la jornada de Casa Prisma.",
-      "tags": [
-        "banda",
-        "musica"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fssa7-1.fna.fbcdn.net/v/t51.82787-15/778274276_17909852847533644_5114443122711668219_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk2OTcxNzI1NjcwNjU4MjcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTcwMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SUbWJSLoCb8Q7kNvwHc6jtL&_nc_oc=Adq8tl3umgnBwSV_O8Q-PfS8gjwWcOi_Iw3IrJ7tguYp4Cczkq8z8RTnka_TrDGove4&_nc_zt=23&_nc_ht=instagram.fssa7-1.fna&_nc_gid=iix4OjmqJngB35ahJMRnkQ&_nc_ss=7ca8c&oh=00_AQFQN0D3562ZSvV5RkjqR_TvPaNOg7tp4iBUqnXNepZL7w&oe=6A9235D2",
-        "alt": "#Valparaiso #MusicaEnVivo #BandasEmergentes #CasaPrisma #AnticuarioMiramar"
-      },
-      "source_id": "casa_prisma_valpo"
+      "source_id": "teatro_la_peste"
     },
     {
       "id": "agenda_845254a972315cb23d7be859",
@@ -16620,6 +16607,79 @@
         "alt": "Activando la creación en Calle Larga"
       },
       "source_id": "balmaceda_arte_joven_valpo"
+    },
+    {
+      "id": "agenda_b4e33a3e573b09d76186da6c",
+      "title": "#cerroalegre",
+      "event_type": "event",
+      "primary_category": {
+        "id": "otros",
+        "label": "Otros panoramas"
+      },
+      "categories": [
+        {
+          "id": "otros",
+          "label": "Otros panoramas"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario por confirmar",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": null,
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/Dbv4MlaltpJ/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/Dbv4MlaltpJ/"
+      },
+      "organizer": null,
+      "source_name": "El Internado Valpo",
+      "source_url": "https://www.instagram.com/p/Dbv4MlaltpJ/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "Agosto lo vivimos en @elinternadovalpo en una nueva programación para las noches de viernes y sábado. Les esperamos.",
+      "tags": [
+        "programación"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://instagram.fmel14-1.fna.fbcdn.net/v/t51.82787-15/769051353_18085835663668632_1979053011884156481_n.webp?_nc_cat=105&ig_cache_key=Mzk1ODYyNTIxNjE3OTE4NTQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=StRrdcGELCEQ7kNvwGKPs7O&_nc_oc=Adp-2jaNF2gawW3n64ahGr1eYNlXwpUTC6FGKFITUWWkgzvrwjQ2-eZR_hQTzDJukWs&_nc_zt=23&_nc_ht=instagram.fmel14-1.fna&_nc_gid=WDzgohcG1JO_XGEFGB5g6g&_nc_ss=72289&oh=00_AQGv_J7vbK90wdxv7t9lVIC5_yeqfNW3DFIdHkpLjIEnQg&oe=6A934DD8",
+        "alt": "#cerroalegre"
+      },
+      "source_id": "el_internado_valpo"
     },
     {
       "id": "agenda_26321680e3b911fbfacdc89b",
@@ -16787,7 +16847,49 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "Horario por confirmar",
-        "occurrences": []
+        "occurrences": [],
+        "venue_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "18:00",
+          "display_text": "Martes a domingo · 10:00–18:00",
+          "reference_date": "2026-08-26",
+          "is_open_on_reference_date": true,
+          "source_url": "https://www.museobaburizza.cl/visita/",
+          "source_name": "Museo Baburizza",
+          "verified_at": "2026-08-16",
+          "hours_confidence": "official_venue_schedule"
+        },
+        "opening_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "18:00",
+          "display_text": "Martes a domingo · 10:00–18:00",
+          "reference_date": "2026-08-26",
+          "is_open_on_reference_date": true,
+          "source_url": "https://www.museobaburizza.cl/visita/",
+          "source_name": "Museo Baburizza",
+          "verified_at": "2026-08-16"
+        },
+        "opening_time": "10:00",
+        "closing_time": "18:00",
+        "hours_confidence": "official_venue_schedule"
       },
       "location": {
         "venue_id": null,
@@ -16838,7 +16940,10 @@
         "url": "https://instagram.fhmo1-1.fna.fbcdn.net/v/t39.30808-6/783452784_1505123544982258_6685473557530529843_n.jpg?stp=c0.1.1440.958a_dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=Mzk2ODYyNjI4OTA3NDM0NTU5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Qul3PFHYSNEQ7kNvwFyp4Ex&_nc_oc=AdqenLnclakZSe4eMUVpjSPR4uYmX7-oZBA5S5rajAhNDwbLW0YlNdghW-uI6mUpozT8XiABR72VGoL3Iu9Q2a2W&_nc_zt=23&_nc_ht=instagram.fhmo1-1.fna&_nc_gid=YvJPEp3KZs9_jijj_fPGsg&_nc_ss=72a8c&oh=00_AQGN_kdL0KtgMenClRtrcB-w9tNUXCX9tSzmsQ8h3yiGQg&oe=6A924020",
         "alt": "en la Municipalidad de Valparaíso"
       },
-      "source_id": "museobaburizza"
+      "source_id": "museobaburizza",
+      "editorial": {
+        "venue_hours_enriched": true
+      }
     },
     {
       "id": "agenda_0147c4e2308997faaeab6c15",
@@ -17164,7 +17269,49 @@
         "end": null,
         "timezone": "America/Santiago",
         "display_text": "Horario por confirmar",
-        "occurrences": []
+        "occurrences": [],
+        "venue_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "18:00",
+          "display_text": "Martes a domingo · 10:00–18:00",
+          "reference_date": "2026-08-26",
+          "is_open_on_reference_date": true,
+          "source_url": "https://www.museobaburizza.cl/visita/",
+          "source_name": "Museo Baburizza",
+          "verified_at": "2026-08-16",
+          "hours_confidence": "official_venue_schedule"
+        },
+        "opening_hours": {
+          "mode": "weekly",
+          "open_weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "opening_time": "10:00",
+          "closing_time": "18:00",
+          "display_text": "Martes a domingo · 10:00–18:00",
+          "reference_date": "2026-08-26",
+          "is_open_on_reference_date": true,
+          "source_url": "https://www.museobaburizza.cl/visita/",
+          "source_name": "Museo Baburizza",
+          "verified_at": "2026-08-16"
+        },
+        "opening_time": "10:00",
+        "closing_time": "18:00",
+        "hours_confidence": "official_venue_schedule"
       },
       "location": {
         "venue_id": null,
@@ -17218,7 +17365,10 @@
         "url": "https://scontent-icn2-1.cdninstagram.com/v/t39.30808-6/779958399_1505127868315159_8112243357514454043_n.jpg?stp=c0.0.1440.957a_dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=Mzk2OTM1NTEwMjg1NDYwNjI3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=llaqu5AsQKkQ7kNvwE2ZrYD&_nc_oc=AdqIZe2dIAwI42MZZCQp5ErdlAOoAcMZ7tkaAY2hJ9uonE-claOmjkCJjTHcTdwxUAZBZfo6-bhlSb4scTYDSlEK&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=IPu2LdqHvWzAnUJWvZ69Gw&_nc_ss=7c689&oh=00_AQF-GUv47ISFy2d2k8ZLwxjSURqgoSuHnsK7svd9ydBs1g&oe=6A923824",
         "alt": "OPTIKO: Jardín de Aforismos"
       },
-      "source_id": "museobaburizza"
+      "source_id": "museobaburizza",
+      "editorial": {
+        "venue_hours_enriched": true
+      }
     },
     {
       "id": "agenda_a19a85dc4460ad8d5486fa27",
@@ -17435,7 +17585,7 @@
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
-      "description": "📗📙📖 ✨CICLO DE ENTREVISTAS BIBLIOFONCK EN MOVIMIENTO✨ 🤩Este mes presentamos en nuestro canal de YouTube una nueva entrevista, en esta oportunidad junto a Soledad Valdivia Ávila, arquitecta de la Universidad de Valparaíso y doctora en Patrimonio Arquitectónico p...",
+      "description": "📗📙📖 ✨CICLO DE ENTREVISTAS BIBLIOFONCK EN MOVIMIENTO✨ 🤩Este mes presentamos en nuestro canal de YouTube una nueva entrevista, en esta oportunidad junto a Soledad Valdivia Ávila, arquitecta de la Universidad de Valparaíso y doctora en Patrimonio Arquitectónico p",
       "tags": [
         "museo"
       ],
@@ -17448,81 +17598,8 @@
       "source_id": "museo_fonck"
     },
     {
-      "id": "agenda_b7d0cc717a5ce74d023ac0c7",
-      "title": "TALLER NIÑECES| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario por confirmar",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Centro de Investigación Teatro La Peste – Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DYdDz0jgV45/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DYdDz0jgV45/"
-      },
-      "organizer": "Teatro La Peste",
-      "source_name": "Teatro La Peste",
-      "source_url": "https://www.instagram.com/p/DYdDz0jgV45/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "🐀 TALLER NIÑECES| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE PEQUEÑO GRAN TEATRO ¡EXPLORANDO Y DIVIRTIÉNDONOS!. 👤 Por: Emilia Pacheco COORDENADAS: 📆 JUNIO/JULIO Todos los sábados. 🕐 De 10:30 a 12:00 hrs. 📍 Centro de Investigación Teatro La Peste – Val...",
-      "tags": [
-        "taller"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-mxp2-1.cdninstagram.com/v/t51.82787-15/702162343_18436439800188775_8999245655424121554_n.webp?_nc_cat=104&ig_cache_key=Mzg5OTI4OTEyNzg0OTU2ODYwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=TlD6ee4Rq1wQ7kNvwFBoJnl&_nc_oc=AdpfdG1f4xDYcjN31YHtRCoYLA2agFITrmnGVOztWZ39YwVD_57otz_TrvVsvKfW7qY&_nc_zt=23&_nc_ht=scontent-mxp2-1.cdninstagram.com&_nc_gid=H2PVn32YHV4Ek0fG0RGelw&_nc_ss=72a8c&oh=00_AQGA94LbKEgBtmu8h7eDYOKycNvpNc3K02XNqOBCw8ooPQ&oe=6A925188",
-        "alt": "TALLER NIÑECES| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE"
-      },
-      "source_id": "teatro_la_peste"
-    },
-    {
       "id": "agenda_dab6cf88b1cc208c40b92553",
-      "title": "TALLER| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
+      "title": "Taller| invierno en centro de investigación teatro la peste",
       "event_type": "event",
       "primary_category": {
         "id": "cursos-talleres",
@@ -17591,7 +17668,82 @@
         "url": "https://scontent-dfw6-1.cdninstagram.com/v/t51.82787-15/706813699_18437799079188775_1260460632165623783_n.webp?_nc_cat=102&ig_cache_key=MzkwNTIyODc0NTAwNTM2MTAyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=qBkQimmM6HMQ7kNvwGzR9Ap&_nc_oc=AdoFf5W0r2QV5XambUP0Y9ilXLwCXT0SDPv44cRg-heT6a-LZd8dqbJydfLa_zUWrxw&_nc_zt=23&_nc_ht=scontent-dfw6-1.cdninstagram.com&_nc_gid=-fSVoyu7jDZT586FqAZenA&_nc_ss=7ca8c&oh=00_AQFg2NUxzALxOOS7m4Z3x8JyIZfN9IVvME9WQbaO7VUZoQ&oe=6A92573D",
         "alt": "TALLER| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE"
       },
-      "source_id": "teatro_la_peste"
+      "source_id": "teatro_la_peste",
+      "original_title": "TALLER| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE"
+    },
+    {
+      "id": "agenda_b7d0cc717a5ce74d023ac0c7",
+      "title": "Taller niñeces| invierno en centro de investigación teatro la peste",
+      "event_type": "event",
+      "primary_category": {
+        "id": "cursos-talleres",
+        "label": "Cursos y talleres"
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario por confirmar",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Centro de Investigación Teatro La Peste – Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DYdDz0jgV45/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DYdDz0jgV45/"
+      },
+      "organizer": "Teatro La Peste",
+      "source_name": "Teatro La Peste",
+      "source_url": "https://www.instagram.com/p/DYdDz0jgV45/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": true,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "🐀 TALLER NIÑECES| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE PEQUEÑO GRAN TEATRO ¡EXPLORANDO Y DIVIRTIÉNDONOS!. 👤 Por: Emilia Pacheco COORDENADAS: 📆 JUNIO/JULIO Todos los sábados. 🕐 De 10:30 a 12:00 hrs. 📍 Centro de Investigación Teatro La Peste – Val...",
+      "tags": [
+        "taller"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://scontent-mxp2-1.cdninstagram.com/v/t51.82787-15/702162343_18436439800188775_8999245655424121554_n.webp?_nc_cat=104&ig_cache_key=Mzg5OTI4OTEyNzg0OTU2ODYwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=TlD6ee4Rq1wQ7kNvwFBoJnl&_nc_oc=AdpfdG1f4xDYcjN31YHtRCoYLA2agFITrmnGVOztWZ39YwVD_57otz_TrvVsvKfW7qY&_nc_zt=23&_nc_ht=scontent-mxp2-1.cdninstagram.com&_nc_gid=H2PVn32YHV4Ek0fG0RGelw&_nc_ss=72a8c&oh=00_AQGA94LbKEgBtmu8h7eDYOKycNvpNc3K02XNqOBCw8ooPQ&oe=6A925188",
+        "alt": "TALLER NIÑECES| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE"
+      },
+      "source_id": "teatro_la_peste",
+      "original_title": "TALLER NIÑECES| INVIERNO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE"
     },
     {
       "id": "agenda_f3d745e92ed09693adf9653f",
@@ -17671,8 +17823,82 @@
       "source_id": "balmaceda_arte_joven_valpo"
     },
     {
+      "id": "agenda_3b4a6e30f55e0bafcd95e2a2",
+      "title": "#Valparaiso #MusicaEnVivo #BandasEmergentes #CasaPrisma #AnticuarioMiramar",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario por confirmar",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Casa Prisma Valpo",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcXRVxVjtD-/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcXRVxVjtD-/"
+      },
+      "organizer": "Casa Prisma Valpo",
+      "source_name": "Casa Prisma Valpo",
+      "source_url": "https://www.instagram.com/p/DcXRVxVjtD-/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "@audentes.oficial fue la encargada de romper el hielo este sábado, dando el vamos a la jornada de Casa Prisma.",
+      "tags": [
+        "banda",
+        "musica"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://instagram.fssa7-1.fna.fbcdn.net/v/t51.82787-15/778274276_17909852847533644_5114443122711668219_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk2OTcxNzI1NjcwNjU4MjcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTcwMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SUbWJSLoCb8Q7kNvwHc6jtL&_nc_oc=Adq8tl3umgnBwSV_O8Q-PfS8gjwWcOi_Iw3IrJ7tguYp4Cczkq8z8RTnka_TrDGove4&_nc_zt=23&_nc_ht=instagram.fssa7-1.fna&_nc_gid=iix4OjmqJngB35ahJMRnkQ&_nc_ss=7ca8c&oh=00_AQFQN0D3562ZSvV5RkjqR_TvPaNOg7tp4iBUqnXNepZL7w&oe=6A9235D2",
+        "alt": "#Valparaiso #MusicaEnVivo #BandasEmergentes #CasaPrisma #AnticuarioMiramar"
+      },
+      "source_id": "casa_prisma_valpo"
+    },
+    {
       "id": "agenda_b4c244c9f6384bedf2f04c0d",
-      "title": "XI FESTIVAL INTERNACIONAL DE JAZZ DE VALPARAÍSO 2026",
+      "title": "XI festival internacional de jazz de valparaíso 2026",
       "event_type": "event",
       "primary_category": {
         "id": "musica",
@@ -17743,81 +17969,8 @@
         "url": "https://scontent-waw2-1.cdninstagram.com/v/t51.82787-15/780226918_18443087821193806_5636486556979274762_n.webp?_nc_cat=108&ig_cache_key=Mzk3MTY2MzM2MTQ3NDU4MzM5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0S_l9Ch7SZMQ7kNvwGpwLBn&_nc_oc=AdqeUB12BGIxgIBulDNPLHWJ70Dx5mydHjmFObPmC72YWxGLA0BtUNTe9qoT6xQwmlM&_nc_zt=23&_nc_ht=scontent-waw2-1.cdninstagram.com&_nc_gid=gfo46pJF3fd_rTURSFA26w&_nc_ss=72289&oh=00_AQEDJO5vT12UtdDacvSIpmljrInaSjGzMOAbXHjDCQ5CTA&oe=6A949C3E",
         "alt": "XI FESTIVAL INTERNACIONAL DE JAZZ DE VALPARAÍSO 2026"
       },
-      "source_id": "estrella_negra_jazz"
-    },
-    {
-      "id": "agenda_7f585fc5ec16debcb9825f9a",
-      "title": "¡Abrimos convocatoria!",
-      "event_type": "event",
-      "primary_category": {
-        "id": "cursos-talleres",
-        "label": "Cursos y talleres"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario por confirmar",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Centro de Investigación Teatro La Peste",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DboGkYIEX57/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DboGkYIEX57/"
-      },
-      "organizer": "Teatro La Peste",
-      "source_name": "Teatro La Peste",
-      "source_url": "https://www.instagram.com/p/DboGkYIEX57/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "✨ ¡Abrimos convocatoria! ✨ ¿Tienes un taller, seminario o laboratorio y estás buscando un espacio para realizarlo? 👀🎭 Desde el Centro de Investigación Teatro La Peste queremos abrir nuestras puertas a nuevas propuestas formativas que enriquezcan el intercambio...",
-      "tags": [
-        "laboratorio",
-        "seminario"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fbne5-1.fna.fbcdn.net/v/t51.82787-15/764693566_17958448311179033_4325435667802768727_n.webp?_nc_cat=107&ig_cache_key=Mzk1NjQzOTc1NTE4OTExNDMzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=uShabboqNAYQ7kNvwG8Snsn&_nc_oc=Adp7m6ZhEETl7uXlbhcnBwr-2mInpCerpm-K5QTcxem7HalNfJulfRSX7Wl9d6mGrCg&_nc_zt=23&_nc_ht=instagram.fbne5-1.fna&_nc_gid=Cs2HYcRK2JnQh_qIsTH46A&_nc_ss=72a8c&oh=00_AQEc2dO8wIUW7zzPlwOwP137yyf9RLO9BuqRURRkgNMFEQ&oe=6A923F12",
-        "alt": "¡Abrimos convocatoria!"
-      },
-      "source_id": "teatro_la_peste"
+      "source_id": "estrella_negra_jazz",
+      "original_title": "XI FESTIVAL INTERNACIONAL DE JAZZ DE VALPARAÍSO 2026"
     },
     {
       "id": "agenda_27d20b59be94c4342a9a8ca0",
@@ -18042,7 +18195,7 @@
     },
     {
       "id": "agenda_91e916f69649b0552d224318",
-      "title": "ARQUEOLOGÍA EN EL FONCK",
+      "title": "Arqueología en el fonck",
       "event_type": "event",
       "primary_category": {
         "id": "ferias-gastronomia",
@@ -18101,7 +18254,7 @@
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
-      "description": "⚱️ARQUEOLOGÍA EN EL FONCK Alfarería en la cultura Chimú 🤩Entre los siglos XI y XV se desarrolló una de las sociedades más imponentes de la costa norte del actual Perú: la Cultura Chimú. 😮 Reconocida por su arquitectura monumental y por el desarrollo de una car...",
+      "description": "⚱️ARQUEOLOGÍA EN EL FONCK Alfarería en la cultura Chimú 🤩Entre los siglos XI y XV se desarrolló una de las sociedades más imponentes de la costa norte del actual Perú: la Cultura Chimú. 😮 Reconocida por su arquitectura monumental y por el desarrollo de una car",
       "tags": [
         "artesanal"
       ],
@@ -18111,7 +18264,82 @@
         "url": "https://instagram.fhnd2-2.fna.fbcdn.net/v/t39.30808-6/776627909_1112580361290193_6370739690330283013_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3MTEzMzMzMDEyMDM2MzA3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zISr4hylcAgQ7kNvwFMcQXG&_nc_oc=AdrL7-uAEFJj4UGQoY8puuu27Kot3DrK5boEGkp4ILSq4RToGVYZbagZwz1RfOdzvcXxqp_scZmAxhWk97Hc_Cpt&_nc_zt=23&_nc_ht=instagram.fhnd2-2.fna&_nc_gid=c7IW_G7MKnHQiCPkCwqPcA&_nc_ss=7c689&oh=00_AQGJMtRM5xDIpOIJX2IVyNXh63HG6dhcZezW9jZhkum4cw&oe=6A94AA0D",
         "alt": "ARQUEOLOGÍA EN EL FONCK"
       },
-      "source_id": "museo_fonck"
+      "source_id": "museo_fonck",
+      "original_title": "ARQUEOLOGÍA EN EL FONCK"
+    },
+    {
+      "id": "agenda_ad65be5cf49e9e53a721250b",
+      "title": "¡Bailamos y cantamos durante dos días junto a Macha y El Bloque Depresivo!",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "schedule": {
+        "mode": "dated",
+        "start": null,
+        "end": null,
+        "timezone": "America/Santiago",
+        "display_text": "Horario por confirmar",
+        "occurrences": []
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Teatro Municipal de Viña del Mar",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": null,
+        "currency": null,
+        "min_amount": null,
+        "max_amount": null,
+        "display_text": null
+      },
+      "links": {
+        "official": "https://www.instagram.com/p/DcfBse-Nmt_/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://www.instagram.com/p/DcfBse-Nmt_/"
+      },
+      "organizer": "Teatro Municipal de Viña del Mar",
+      "source_name": "Teatro Municipal de Viña del Mar",
+      "source_url": "https://www.instagram.com/p/DcfBse-Nmt_/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": null,
+        "information_completeness": "partial",
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
+      },
+      "description": "🎶 ¡Bailamos y cantamos durante dos días junto a Macha y El Bloque Depresivo! Las entradas se agotaron en minutos, demostrando una vez más el cariño y la energía que existe por la música en nuestra región. ❤️‍🔥 Vivimos dos jornadas con una energía incomparable,...",
+      "tags": [
+        "banda",
+        "música"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://instagram.fsyd11-2.fna.fbcdn.net/v/t51.82787-15/785362576_18004324868985382_7266454648477227695_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3MTkwMDg1MTMyMzU2Mjg3OTE4MDA0MzI0ODY1OTg1Mzgy.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=B11WbI0V0yEQ7kNvwHaNEi6&_nc_oc=AdpPNMZuWk1vuUVA9soaiLKGba28Poit3u-CW4br5T00M6Nq_Mrtv--b4t7D5b4al9s&_nc_zt=23&_nc_ht=instagram.fsyd11-2.fna&_nc_gid=_S3sP4jMXTwXTKPygW2gVA&_nc_ss=72a8c&oh=00_AQG_4q_CG3UYxMeqh8D0EBdgUiUxT17QAtAz4-rLoBCrxQ&oe=6A94AFC1",
+        "alt": "¡Bailamos y cantamos durante dos días junto a Macha y El Bloque Depresivo!"
+      },
+      "source_id": "teatro_municipal_vina"
     },
     {
       "id": "agenda_32f5b4c0d34e5e20676aa4e3",
@@ -18190,7 +18418,7 @@
     },
     {
       "id": "agenda_be1d77a2aad9f7da3c90bc4b",
-      "title": "UNA CONVOCATORIA QUE MOVILIZÓ A LA ESCENA LÍRICA",
+      "title": "Una convocatoria que movilizó a la escena lírica",
       "event_type": "event",
       "primary_category": {
         "id": "musica",
@@ -18259,7 +18487,8 @@
         "url": "https://instagram.fgba1-1.fna.fbcdn.net/v/t51.82787-15/778625765_18179852836414181_6997300489377271195_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzk2NzQ5NzA5ODI5NDQ0MTIyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nOFN3ZxhNnkQ7kNvwGYFsMY&_nc_oc=AdqQxxGAI-VWa5EuMDSydAe63HhwjVds_DjYVIOsdAhehyVNXDW0PhrERfYAP5cHHWk&_nc_zt=23&_nc_ht=instagram.fgba1-1.fna&_nc_gid=IalP2MoCypJKCHxSrgqLLA&_nc_ss=72a8c&oh=00_AQE04-icbFtTWQIMKIn1N7_ccWgTYKZGwbanpVE7vl69Aw&oe=6A922D3A",
         "alt": "UNA CONVOCATORIA QUE MOVILIZÓ A LA ESCENA LÍRICA"
       },
-      "source_id": "teatro_municipal_vina"
+      "source_id": "teatro_municipal_vina",
+      "original_title": "UNA CONVOCATORIA QUE MOVILIZÓ A LA ESCENA LÍRICA"
     },
     {
       "id": "agenda_cd51a46245a37ec15288c9e0",
@@ -18408,80 +18637,6 @@
         "alt": "Una velada que reunió música, talento y una gran convocatoria. Ryutaro Suzuki llegó al Teatro Municipal de Viña del Mar con Amor y Pasión, cautivando al público con obras de Chopin y Liszt ante un teatro lleno."
       },
       "source_id": "cultura_pucv"
-    },
-    {
-      "id": "agenda_ad65be5cf49e9e53a721250b",
-      "title": "¡Bailamos y cantamos durante dos días junto a Macha y El Bloque Depresivo!",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario por confirmar",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Teatro Municipal de Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcfBse-Nmt_/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcfBse-Nmt_/"
-      },
-      "organizer": "Teatro Municipal de Viña del Mar",
-      "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://www.instagram.com/p/DcfBse-Nmt_/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "🎶 ¡Bailamos y cantamos durante dos días junto a Macha y El Bloque Depresivo! Las entradas se agotaron en minutos, demostrando una vez más el cariño y la energía que existe por la música en nuestra región. ❤️‍🔥 Vivimos dos jornadas con una energía incomparable,...",
-      "tags": [
-        "banda",
-        "música"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fsyd11-2.fna.fbcdn.net/v/t51.82787-15/785362576_18004324868985382_7266454648477227695_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk3MTkwMDg1MTMyMzU2Mjg3OTE4MDA0MzI0ODY1OTg1Mzgy.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=B11WbI0V0yEQ7kNvwHaNEi6&_nc_oc=AdpPNMZuWk1vuUVA9soaiLKGba28Poit3u-CW4br5T00M6Nq_Mrtv--b4t7D5b4al9s&_nc_zt=23&_nc_ht=instagram.fsyd11-2.fna&_nc_gid=_S3sP4jMXTwXTKPygW2gVA&_nc_ss=72a8c&oh=00_AQG_4q_CG3UYxMeqh8D0EBdgUiUxT17QAtAz4-rLoBCrxQ&oe=6A94AFC1",
-        "alt": "¡Bailamos y cantamos durante dos días junto a Macha y El Bloque Depresivo!"
-      },
-      "source_id": "teatro_municipal_vina"
     },
     {
       "id": "agenda_ca19a232a35a166ac29363ad",
@@ -18774,71 +18929,9 @@
   ],
   "publication_corrections": {
     "checked_at": "2026-08-26",
-    "active_corrections": 13,
-    "applied_count": 6,
+    "active_corrections": 15,
+    "applied_count": 14,
     "applied": [
-      {
-        "correction_id": "artequin_el_arte_es_natural_2026_sessions",
-        "event_id": "agenda_650e95f9b205b8665b0bce6d",
-        "title": "Ciclo taller EL ARTE ES NATURAL",
-        "action": "patch_verified_fields",
-        "patched_fields": [
-          "schedule.display_text",
-          "schedule.end",
-          "schedule.end_confidence",
-          "schedule.mode",
-          "schedule.occurrences",
-          "schedule.recurrence",
-          "schedule.start",
-          "schedule.start_confidence"
-        ],
-        "previous_title": "Ciclo taller EL ARTE ES NATURAL",
-        "official_url": "https://visitavina.munivina.cl/actividades/",
-        "reason": "Las cuatro sesiones oficiales dejan de depender de artequin-session-correction.js y pasan a la autoridad declarativa de publicación."
-      },
-      {
-        "correction_id": "culturasvina_public_display_name",
-        "event_id": "agenda_09e3ddbc6965e9eeb3f72343",
-        "title": "Muestra 2026 de la Corporación Quinta Bonsái",
-        "action": "patch_verified_fields",
-        "patched_fields": [
-          "organizer",
-          "source_name"
-        ],
-        "previous_title": "Muestra 2026 de la Corporación Quinta Bonsái",
-        "official_url": "https://visitavina.munivina.cl/actividades/",
-        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
-      },
-      {
-        "correction_id": "valpocultura_luciana_jury_2026_schedule",
-        "event_id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
-        "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-        "action": "patch_verified_fields",
-        "patched_fields": [
-          "schedule.display_text",
-          "schedule.start",
-          "schedule.start_confidence"
-        ],
-        "previous_title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
-        "official_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
-        "reason": "La pieza oficial del evento Luciana Jury en Chile indica 28/8 a las 20:30 hrs. Se conserva esa hora explícita sin inventar una hora de término cuando la fuente no la especifica."
-      },
-      {
-        "correction_id": "cultura_usm_gala_lirica_2026_schedule",
-        "event_id": "agenda_738a464c120c73aecfe90622",
-        "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
-        "action": "patch_verified_fields",
-        "patched_fields": [
-          "schedule.display_text",
-          "schedule.end",
-          "schedule.end_confidence",
-          "schedule.start",
-          "schedule.start_confidence"
-        ],
-        "previous_title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
-        "official_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
-        "reason": "La ficha oficial de Cultura USM identifica una sola función el 29 de agosto de 2026, con Hora inicio 19:00 y Hora término 20:30. El término es el fin de la misma función y no una segunda sesión."
-      },
       {
         "correction_id": "culturasvina_public_display_name",
         "event_id": "agenda_50164437b46a6452e4842a37",
@@ -18888,6 +18981,228 @@
         "previous_title": "Muestra temporal // Mis objetos, mi patrimonio",
         "official_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2/",
         "reason": "La muestra se conserva como evento de larga duración con horario de visita oficial, sin lógica específica en el runtime público."
+      },
+      {
+        "correction_id": "rioja_mar_dulce_2026_multiday",
+        "event_id": "agenda_rioja_exhibition_mar_dulce_2026",
+        "title": "Exposición temporal // A veces un mar dulce",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "categories",
+          "event_type",
+          "links.official",
+          "links.source",
+          "location.address",
+          "location.city",
+          "location.commune",
+          "location.venue",
+          "location.venue_id",
+          "price.currency",
+          "price.display_text",
+          "price.is_free",
+          "price.max_amount",
+          "price.min_amount",
+          "primary_category.id",
+          "primary_category.label",
+          "public_status.cancelled",
+          "public_status.source_official",
+          "schedule.closing_time",
+          "schedule.display_text",
+          "schedule.end",
+          "schedule.end_confidence",
+          "schedule.hours_confidence",
+          "schedule.mode",
+          "schedule.occurrences",
+          "schedule.opening_hours",
+          "schedule.opening_time",
+          "schedule.recurrence",
+          "schedule.start",
+          "schedule.start_confidence",
+          "source_url"
+        ],
+        "previous_title": "Exposición temporal // A veces un mar dulce",
+        "official_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+        "reason": "La exposición se conserva como evento de larga duración con horario de visita oficial, sin lógica específica en el runtime público."
+      },
+      {
+        "correction_id": "baburizza_nebulosa_carina_owned_image_2026",
+        "event_id": "agenda_baburizza_a37f94515515258cdea3",
+        "title": "Nebulosa Carina",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "image.url"
+        ],
+        "previous_title": "Nebulosa Carina",
+        "official_url": "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-nebulosacarina-portada-1.jpg",
+        "reason": "El dataset público anterior a la rematerialización dc8d899e conservaba esta imagen oficial local, materializada desde JSON-LD del Museo Baburizza. El archivo WebP sigue presente en el repositorio público; solo image.url se degradó a null. Se restaura por event_id estable sin redescarga ni sustitución de una imagen nueva."
+      },
+      {
+        "correction_id": "artequin_el_arte_es_natural_2026_sessions",
+        "event_id": "agenda_650e95f9b205b8665b0bce6d",
+        "title": "Ciclo taller EL ARTE ES NATURAL",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "schedule.display_text",
+          "schedule.end",
+          "schedule.end_confidence",
+          "schedule.mode",
+          "schedule.occurrences",
+          "schedule.recurrence",
+          "schedule.start",
+          "schedule.start_confidence"
+        ],
+        "previous_title": "Ciclo taller EL ARTE ES NATURAL",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "Las cuatro sesiones oficiales dejan de depender de artequin-session-correction.js y pasan a la autoridad declarativa de publicación."
+      },
+      {
+        "correction_id": "baburizza_cumbias_owned_image_2026",
+        "event_id": "agenda_baburizza_82ca6a27bc5861af85cb",
+        "title": "“Las cumbias que escuchamos allá arriba”",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "image.url"
+        ],
+        "previous_title": "“Las cumbias que escuchamos allá arriba”",
+        "official_url": "https://www.museobaburizza.cl/wp-content/uploads/2026/07/evento-lascumbias-portada-1.jpg",
+        "reason": "El dataset público anterior a la rematerialización dc8d899e conservaba esta imagen oficial local, materializada desde JSON-LD del Museo Baburizza. El archivo WebP sigue presente en el repositorio público; solo image.url se degradó a null. Se restaura por event_id estable sin redescarga ni sustitución de una imagen nueva."
+      },
+      {
+        "correction_id": "culturasvina_public_display_name",
+        "event_id": "agenda_736146bf3ae28424cc8b6da6",
+        "title": "¡La cueca se vive en Viña del Mar!",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "organizer",
+          "source_name"
+        ],
+        "previous_title": "¡La cueca se vive en Viña del Mar!",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
+      },
+      {
+        "correction_id": "culturasvina_public_display_name",
+        "event_id": "agenda_2fa2643b3425170dbfb55ceb",
+        "title": "Te Mana",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "organizer",
+          "source_name"
+        ],
+        "previous_title": "Te Mana",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
+      },
+      {
+        "correction_id": "culturasvina_public_display_name",
+        "event_id": "agenda_018e5c1de61907f82a30486f",
+        "title": "¿Cómo construir la historia de mi barrio?",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "organizer",
+          "source_name"
+        ],
+        "previous_title": "¿Cómo construir la historia de mi barrio?",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
+      },
+      {
+        "correction_id": "culturasvina_public_display_name",
+        "event_id": "agenda_09e3ddbc6965e9eeb3f72343",
+        "title": "Muestra 2026 de la Corporación Quinta Bonsái",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "organizer",
+          "source_name"
+        ],
+        "previous_title": "Muestra 2026 de la Corporación Quinta Bonsái",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
+      },
+      {
+        "correction_id": "valpocultura_luciana_jury_2026_schedule",
+        "event_id": "agenda_valpocultura_recovery_4a9f34768c8a891a",
+        "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "schedule.display_text",
+          "schedule.start",
+          "schedule.start_confidence"
+        ],
+        "previous_title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "official_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+        "reason": "La pieza oficial del evento Luciana Jury en Chile indica 28/8 a las 20:30 hrs. Se conserva esa hora explícita sin inventar una hora de término cuando la fuente no la especifica."
+      },
+      {
+        "correction_id": "culturasvina_public_display_name",
+        "event_id": "agenda_72a7926be460ab979bf2cab9",
+        "title": "Tercer Encuentro de Bibliotecas Comunitarias de Viña del Mar",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "organizer",
+          "source_name"
+        ],
+        "previous_title": "Tercer Encuentro de Bibliotecas Comunitarias de Viña del Mar",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
+      },
+      {
+        "correction_id": "cultura_usm_gala_lirica_2026_schedule",
+        "event_id": "agenda_738a464c120c73aecfe90622",
+        "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "schedule.display_text",
+          "schedule.end",
+          "schedule.end_confidence",
+          "schedule.start",
+          "schedule.start_confidence"
+        ],
+        "previous_title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+        "official_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+        "reason": "La ficha oficial de Cultura USM identifica una sola función el 29 de agosto de 2026, con Hora inicio 19:00 y Hora término 20:30. El término es el fin de la misma función y no una segunda sesión."
+      },
+      {
+        "correction_id": "rioja_mar_dulce_2026_multiday",
+        "event_id": "agenda_8c2b6ba0de30c34fe3529930",
+        "title": "A veces un mar dulce",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "categories",
+          "event_type",
+          "links.official",
+          "links.source",
+          "location.address",
+          "location.city",
+          "location.commune",
+          "location.venue",
+          "location.venue_id",
+          "price.currency",
+          "price.display_text",
+          "price.is_free",
+          "price.max_amount",
+          "price.min_amount",
+          "primary_category.id",
+          "primary_category.label",
+          "public_status.cancelled",
+          "public_status.source_official",
+          "schedule.closing_time",
+          "schedule.display_text",
+          "schedule.end",
+          "schedule.end_confidence",
+          "schedule.hours_confidence",
+          "schedule.mode",
+          "schedule.occurrences",
+          "schedule.opening_hours",
+          "schedule.opening_time",
+          "schedule.recurrence",
+          "schedule.start",
+          "schedule.start_confidence",
+          "source_url"
+        ],
+        "previous_title": "A veces un mar dulce",
+        "official_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+        "reason": "La exposición se conserva como evento de larga duración con horario de visita oficial, sin lógica específica en el runtime público."
       }
     ]
   },
@@ -19283,92 +19598,19 @@
     }
   },
   "publication_guard": {
-    "titles_recovered": 2,
+    "titles_recovered": 0,
     "target_city_blocks_recovered": 0,
-    "visit_hours_enriched": 15,
-    "venue_hours_enriched": 14,
-    "removed_title_quality": 5,
+    "visit_hours_enriched": 2,
+    "venue_hours_enriched": 2,
+    "removed_title_quality": 12,
     "removed_location_mismatch": 0,
     "removed_deadline_only_call": 0,
     "removed_retrospective_post": 0
   },
   "verified_public_events": {
-    "applied_at": "2026-08-26T13:13:00-04:00",
-    "added_count": 9,
-    "added": [
-      {
-        "id": "agenda_3f40b4f5d84d3e10f662d895",
-        "title": "Jazz en el Masita — Subterra Ensamble",
-        "start": "2026-09-05T20:00:00-04:00",
-        "end": null,
-        "source_id": "masita_rica",
-        "official_url": "https://www.instagram.com/p/DcZR2tAiikc/"
-      },
-      {
-        "id": "agenda_rioja_exhibition_mar_dulce_2026",
-        "title": "Exposición temporal // A veces un mar dulce",
-        "start": "2026-07-17",
-        "end": "2026-08-30",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
-      },
-      {
-        "id": "agenda_rioja_20260826_qigong",
-        "title": "Taller // Qi Gong",
-        "start": "2026-08-26T10:00:00-04:00",
-        "end": null,
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      },
-      {
-        "id": "agenda_rioja_20260826_playtime",
-        "title": "Ciclo de Cine de Autor // Jacques Tati, “Playtime”",
-        "start": "2026-08-26T16:00:00-04:00",
-        "end": "2026-08-26T18:00:00-04:00",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      },
-      {
-        "id": "agenda_rioja_20260827_museo_manos",
-        "title": "Taller // El Museo en tus manos",
-        "start": "2026-08-27T16:00:00-04:00",
-        "end": "2026-08-27T17:00:00-04:00",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      },
-      {
-        "id": "agenda_rioja_20260827_decadencia",
-        "title": "Presentación libro // “Decadencia”",
-        "start": "2026-08-27T18:00:00-04:00",
-        "end": "2026-08-27T20:00:00-04:00",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      },
-      {
-        "id": "agenda_rioja_20260828_consome",
-        "title": "Presentación libro // “Consomé Punk”",
-        "start": "2026-08-28T18:00:00-04:00",
-        "end": "2026-08-28T20:00:00-04:00",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      },
-      {
-        "id": "agenda_rioja_20260829_hilos",
-        "title": "Taller // Expresión textil: Moviendo Hilos",
-        "start": "2026-08-29T15:00:00-04:00",
-        "end": "2026-08-29T16:30:00-04:00",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      },
-      {
-        "id": "agenda_rioja_20260829_moncho",
-        "title": "Concierto jazz // Moncho Pérez",
-        "start": "2026-08-29T19:00:00-04:00",
-        "end": "2026-08-29T21:00:00-04:00",
-        "source_id": "museo_palacio_rioja",
-        "official_url": "https://visitavina.munivina.cl/actividades/"
-      }
-    ],
+    "applied_at": "2026-08-26T14:10:21-04:00",
+    "added_count": 0,
+    "added": [],
     "skipped": [
       {
         "title": "Noche Temática Argentina en Estadio Español",
@@ -19391,12 +19633,48 @@
         "reason": "already_present"
       },
       {
+        "title": "Jazz en el Masita — Subterra Ensamble",
+        "reason": "already_present"
+      },
+      {
+        "title": "Exposición temporal // A veces un mar dulce",
+        "reason": "already_present"
+      },
+      {
         "title": "Muestra temporal // Mis objetos, mi patrimonio",
         "reason": "already_present"
       },
       {
         "title": "Travesías Cinematográfica FICVIÑA // “El ángel exterminador”",
         "reason": "expired"
+      },
+      {
+        "title": "Taller // Qi Gong",
+        "reason": "already_present"
+      },
+      {
+        "title": "Ciclo de Cine de Autor // Jacques Tati, “Playtime”",
+        "reason": "already_present"
+      },
+      {
+        "title": "Taller // El Museo en tus manos",
+        "reason": "already_present"
+      },
+      {
+        "title": "Presentación libro // “Decadencia”",
+        "reason": "already_present"
+      },
+      {
+        "title": "Presentación libro // “Consomé Punk”",
+        "reason": "already_present"
+      },
+      {
+        "title": "Taller // Expresión textil: Moviendo Hilos",
+        "reason": "already_present"
+      },
+      {
+        "title": "Concierto jazz // Moncho Pérez",
+        "reason": "already_present"
       }
     ]
   }

@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "b1e7a1d40a20d6d9062036f330227b6c802431220b080bbb982839cf303cdeae",
-  "generated_at": "2026-08-26T17:13:55Z",
+  "fingerprint": "30ea344d893befec0e0e8351591eec93c6e9ed733f279ca89e33a052a42b2f66",
+  "generated_at": "2026-08-26T18:12:26Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -398,21 +398,6 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "valparaiso::culturas vina": {
-      "category_distribution": {
-        "cursos-talleres-campus": 0.5,
-        "literatura": 0.25,
-        "musica": 0.25
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.5,
-      "source_name": "Culturas Viña",
-      "source_url": "https://www.instagram.com/p/DcRIocOxXrs/",
-      "total": 4,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
     "valparaiso::del barrio valpo": {
       "category_distribution": {
         "teatro": 1.0
@@ -649,8 +634,7 @@
       "category_distribution": {
         "cine": 0.1,
         "cursos-talleres-campus": 0.4,
-        "exposiciones": 0.1,
-        "ferias-vida-local": 0.1,
+        "exposiciones": 0.2,
         "literatura": 0.2,
         "musica": 0.1
       },
@@ -766,7 +750,7 @@
       "dominant_category": "cursos-talleres-campus",
       "dominant_share": 1.0,
       "source_name": "Teatro La Peste",
-      "source_url": "https://www.instagram.com/p/DYdDz0jgV45/",
+      "source_url": "https://www.instagram.com/p/DboGkYIEX57/",
       "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -871,14 +855,17 @@
     },
     "valparaiso::visita vina municipalidad de vina del mar": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "cursos-talleres-campus": 0.333333,
+        "exposiciones": 0.333333,
+        "literatura": 0.166667,
+        "musica": 0.166667
       },
       "city_id": "valparaiso",
-      "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_category": "cursos-talleres-campus",
+      "dominant_share": 0.333333,
       "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2/",
-      "total": 2,
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -899,11 +886,11 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "8c2c5cd8944da7425fbd503890ef5271202aaef7",
+  "source_ref": "21726431de7c409ac0641deaeca7c5f947991f8e",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 64,
+    "source_count": 63,
     "total_events": 403,
     "unclassified_count": 7,
     "unclassified_rate": 0.01737
@@ -977,7 +964,7 @@
       "score": 0,
       "source_name": "Ipanema Club Viña",
       "source_url": "https://www.instagram.com/p/DcUvWnMOvy2/",
-      "title": "BRASIL EN IPANEMA CLUB"
+      "title": "Brasil en ipanema club"
     }
   ]
 }

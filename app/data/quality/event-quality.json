@@ -1,40 +1,40 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-26T17:13:54+00:00",
+  "generated_at": "2026-08-26T18:12:25+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-25",
       "generated_at": "2026-08-25T17:23:27-04:00",
       "summary": {
-        "total_events": 220,
-        "average_quality_score": 87.0,
+        "total_events": 219,
+        "average_quality_score": 86.9,
         "quality_class": "correct",
         "sources_catalogued": 48,
         "sources_producing": 44,
         "sources_zero": 2,
         "review_priority_zero_sources": 2,
         "zero_sources_covered_elsewhere": 2,
-        "top3_source_share_pct": 35.0,
+        "top3_source_share_pct": 35.2,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
-        "date_pct": 85.5,
-        "time_pct": 76.8,
+        "date_pct": 85.4,
+        "time_pct": 76.7,
         "venue_pct": 95.9,
-        "image_pct": 65.5,
+        "image_pct": 65.8,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 52.7,
-        "price_known_pct": 75.0
+        "official_source_pct": 52.5,
+        "price_known_pct": 74.9
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
           "count": 104,
-          "share_pct": 47.3,
+          "share_pct": 47.5,
           "underrepresented": false
         },
         {
@@ -48,21 +48,21 @@
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 21,
-          "share_pct": 9.5,
+          "share_pct": 9.6,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 21,
-          "share_pct": 9.5,
+          "share_pct": 9.6,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 17,
-          "share_pct": 7.7,
+          "share_pct": 7.8,
           "underrepresented": false
         },
         {
@@ -75,8 +75,8 @@
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
-          "count": 10,
-          "share_pct": 4.5,
+          "count": 9,
+          "share_pct": 4.1,
           "underrepresented": true
         },
         {
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 134,
-          "share_pct": 60.9
+          "share_pct": 61.2
         },
         {
           "area": "Viña del Mar",
-          "count": 86,
-          "share_pct": 39.1
+          "count": 85,
+          "share_pct": 38.8
         }
       ],
       "coverage_gaps": {
@@ -125,7 +125,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 65.5,
+        "relevant_image_pct": 65.8,
         "removed_events": {}
       },
       "sources": [
@@ -238,8 +238,8 @@
         {
           "id": "museo_palacio_rioja",
           "name": "Museo Palacio Rioja",
-          "count": 10,
-          "quality_score": 89.5,
+          "count": 9,
+          "quality_score": 89.4,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -248,20 +248,19 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 90.0,
+            "time_pct": 88.9,
             "venue_pct": 100.0,
-            "image_pct": 20.0,
+            "image_pct": 22.2,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 90.0
+            "price_known_pct": 88.9
           },
           "categories": {
             "exposiciones": 1,
             "cursos-talleres": 4,
             "cine": 1,
             "otros": 2,
-            "musica": 1,
-            "ferias-gastronomia": 1
+            "musica": 1
           },
           "verified_inactive": false
         },
