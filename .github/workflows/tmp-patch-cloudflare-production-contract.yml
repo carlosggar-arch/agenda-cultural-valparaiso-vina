@@ -1,0 +1,71 @@
+name: Temporary patch Cloudflare production contract
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-production-build-contract-20260826
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v7
+        with:
+          ref: fix/cloudflare-production-build-contract-20260826
+          fetch-depth: 0
+      - name: Patch publisher deterministically
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/workflows/publish.yml')
+          text = path.read_text(encoding='utf-8')
+
+          old_path = '      - ".github/workflows/publish.yml"\n'
+          new_path = old_path + '      - "cloudflare-build.sh"\n'
+          if text.count(old_path) != 1:
+              raise SystemExit(f'publish trigger marker count={text.count(old_path)}')
+          text = text.replace(old_path, new_path, 1)
+
+          old_guard = '''      - name: Guard Cloudflare-only divergence from exact candidate
+        run: |
+          set -euo pipefail
+          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD | grep -v '^cloudflare-build\\.sh$' || true)"
+          if [[ -n "$unexpected" ]]; then
+            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA outside cloudflare-build.sh:"
+            echo "$unexpected"
+            exit 1
+          fi
+'''
+          new_guard = '''      - name: Require exact deployment-branch parity with candidate
+        run: |
+          set -euo pipefail
+          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"
+          if [[ -n "$unexpected" ]]; then
+            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA:"
+            echo "$unexpected"
+            exit 1
+          fi
+'''
+          if text.count(old_guard) != 1:
+              raise SystemExit(f'publisher guard marker count={text.count(old_guard)}')
+          text = text.replace(old_guard, new_guard, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Validate canonical build and writer contract
+        run: |
+          bash cloudflare-build.sh
+          test -f _cloudflare_site/fuentes_publicas.json
+          python scripts/verify_canonical_main_writer.py
+      - name: Remove one-shot workflow and commit
+        run: |
+          rm .github/workflows/tmp-patch-cloudflare-production-contract.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/publish.yml .github/workflows/tmp-patch-cloudflare-production-contract.yml
+          git commit -m "Align Cloudflare production build with canonical main"
+          git push origin HEAD:fix/cloudflare-production-build-contract-20260826
