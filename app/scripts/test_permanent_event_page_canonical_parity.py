@@ -11,7 +11,9 @@ SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
-import generate_event_pages as generator  # noqa: E402
+import stage31_site_generator as stage31  # noqa: E402
+
+base = stage31.base
 
 
 def read_exact(path: Path) -> str:
@@ -20,49 +22,68 @@ def read_exact(path: Path) -> str:
 
 
 def current_artifacts() -> Iterator[tuple[Path, str, str]]:
-    """Yield artifacts for current canonical events only.
+    """Yield final Stage 3.1 artifacts for current canonical events only.
 
     Historical permanent routes are intentionally outside this iteration: the
     contract requires every event in the current public datasets to have an
     exact canonical page, but it does not delete or reject older immutable
     routes that are no longer present in the live agenda.
     """
-    event_urls: list[str] = []
+    event_entries: list[tuple[str, str | None]] = []
+    city_lastmod: dict[str, str | None] = {}
+    city_payloads: dict[str, dict] = {}
+    city_events: dict[str, list[dict]] = {}
 
-    for city_id, city in generator.CITY_CONFIG.items():
+    for city_id, city in base.CITY_CONFIG.items():
         dataset_path: Path = city["dataset"]
         payload = json.loads(dataset_path.read_text(encoding="utf-8"))
         events = payload.get("events") or []
         if not isinstance(events, list):
             raise SystemExit(f"Invalid events array: {dataset_path}")
 
-        stamp = generator.generated_at(payload)
-        changes = generator.load_recent_changes(city.get("changes"), stamp)
-        excluded = generator.CITY_EXCLUDED_IDS.get(city_id, set())
+        stamp = base.generated_at(payload)
+        lastmod = stage31._lastmod(payload)
+        changes = base.load_recent_changes(city.get("changes"), stamp)
+        excluded = base.CITY_EXCLUDED_IDS.get(city_id, set())
+        current = [
+            event
+            for event in events
+            if isinstance(event, dict) and str(event.get("id") or "") not in excluded
+        ]
+        city_lastmod[city_id] = lastmod
+        city_payloads[city_id] = payload
+        city_events[city_id] = current
 
-        for event in events:
-            if not isinstance(event, dict):
-                continue
+        for event in current:
             event_id = str(event.get("id") or "")
-            if event_id in excluded:
-                continue
-
-            slug = generator.event_slug(event_id)
+            slug = base.event_slug(event_id)
             relative = Path("evento") / city_id / slug
-            event_url = generator.page_url(city_id, event)
-            page, ics = generator.render_page(
+            event_url = base.page_url(city_id, event)
+            page, ics = stage31.enhance_event_page(
                 city_id,
                 city,
                 event,
                 changes.get(event_id, []),
                 stamp,
             )
-            event_urls.append(event_url)
+            event_entries.append((event_url, lastmod))
             yield ROOT / relative / "index.html", page, f"{city_id}/{event_id}/index.html"
             if ics is not None:
                 yield ROOT / relative / "evento.ics", ics, f"{city_id}/{event_id}/evento.ics"
 
-    yield generator.SITEMAP, generator.render_sitemap(event_urls), "sitemap.xml"
+    root_landing = stage31.render_root_landing(
+        city_payloads["valparaiso"], city_events["valparaiso"]
+    )
+    gijon_landing = stage31.render_city_landing(
+        "gijon",
+        base.CITY_CONFIG["gijon"],
+        city_payloads["gijon"],
+        city_events["gijon"],
+    )
+    sitemap = stage31.render_sitemap(event_entries, city_lastmod)
+    yield ROOT / "index.html", root_landing, "index.html"
+    yield ROOT / "gijon" / "index.html", gijon_landing, "gijon/index.html"
+    yield stage31.SITEMAP, sitemap, "sitemap.xml"
 
 
 def short_diff(actual: str, expected: str, label: str) -> str:
@@ -98,8 +119,9 @@ def main() -> None:
         extra = len(mismatches) - 12
         suffix = f"\n\n... and {extra} more mismatches" if extra > 0 else ""
         raise SystemExit(
-            "Permanent event pages are not canonical. Regenerate with "
-            "`python scripts/generate_event_pages.py` and commit the resulting "
+            "Permanent event pages are not canonical after the final Stage 3.1 writer. "
+            "Regenerate with `python scripts/generate_event_pages.py` followed by "
+            "`python scripts/stage31_site_generator.py` and commit the resulting "
             f"current-event artifacts.\n\n{preview}{suffix}"
         )
 
