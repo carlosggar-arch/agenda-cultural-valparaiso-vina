@@ -1,4 +1,4 @@
-name: Temporary patch Cloudflare production contract
+name: Temporary materialize Cloudflare publisher patch
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  patch:
+  materialize:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout exact branch
@@ -17,7 +17,7 @@ jobs:
         with:
           ref: fix/cloudflare-production-build-contract-20260826
           fetch-depth: 0
-      - name: Patch publisher deterministically
+      - name: Materialize patched publisher deterministically
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -37,18 +37,19 @@ jobs:
               if text.count(old) != 1:
                   raise SystemExit(f'publisher marker count={text.count(old)} marker={old!r}')
               text = text.replace(old, new, 1)
-          path.write_text(text, encoding='utf-8')
+          Path('tmp-publish-patched.yml.txt').write_text(text, encoding='utf-8')
           PY
-      - name: Validate canonical build and writer contract
+      - name: Validate patched publisher in place
         run: |
+          cp tmp-publish-patched.yml.txt .github/workflows/publish.yml
           bash cloudflare-build.sh
           test -f _cloudflare_site/fuentes_publicas.json
           python scripts/verify_canonical_main_writer.py
-      - name: Remove one-shot workflow and commit
+      - name: Publish only the non-workflow materialization
         run: |
-          rm .github/workflows/tmp-patch-cloudflare-production-contract.yml
+          git checkout -- .github/workflows/publish.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/publish.yml .github/workflows/tmp-patch-cloudflare-production-contract.yml
-          git commit -m "Align Cloudflare production build with canonical main"
+          git add tmp-publish-patched.yml.txt
+          git commit -m "Materialize validated Cloudflare publisher patch"
           git push origin HEAD:fix/cloudflare-production-build-contract-20260826
