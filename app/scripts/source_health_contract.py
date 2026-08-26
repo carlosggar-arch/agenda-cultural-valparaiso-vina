@@ -11,6 +11,8 @@ DEFAULT_SLA_HOURS = {
     "feed": 48.0,
 }
 
+CANONICAL_RECEIPT_SCHEMA_VERSION = "1.0.0"
+
 
 def parse_time(value: object) -> datetime | None:
     text = str(value or "").strip()
@@ -33,37 +35,136 @@ def expected_sla_hours(source_type: object, role: object = None) -> float:
     return DEFAULT_SLA_HOURS.get(kind, 72.0)
 
 
-def acquisition_snapshot(diag: dict | None, now: datetime, *, source_type: object = None, role: object = None) -> dict:
-    diag = diag or {}
-    last_attempt = (
-        diag.get("last_attempt_at")
-        or diag.get("last_fetch_at")
-        or diag.get("refreshed_at")
+def _first(diag: dict, *keys: str):
+    for key in keys:
+        value = diag.get(key)
+        if value is not None and value != "":
+            return value
+    return None
+
+
+def _count(diag: dict, *keys: str) -> int:
+    value = _first(diag, *keys)
+    if value is None:
+        return 0
+    try:
+        return max(0, int(value))
+    except (TypeError, ValueError):
+        return 0
+
+
+def canonical_acquisition_receipt(diag: dict | None) -> dict:
+    """Normalize source-specific/legacy diagnostics without changing publication policy.
+
+    `refreshed_at` is accepted as legacy acquisition evidence only when the row is
+    not preservation-only, or when an explicit `fetch_ok: true` proves that a real
+    fetch succeeded. This prevents preservation of old public events from making a
+    source look freshly acquired.
+    """
+    diag = diag if isinstance(diag, dict) else {}
+    preserved_existing = bool(diag.get("preserved_existing"))
+    fetch_ok = diag.get("fetch_ok")
+
+    last_attempt = _first(diag, "last_attempt_at", "last_fetch_at", "refreshed_at")
+    last_success = _first(diag, "last_success_at", "last_successful_fetch_at")
+    if last_success is None and (not preserved_existing or fetch_ok is True):
+        last_success = _first(diag, "refreshed_at")
+
+    raw_items = _count(diag, "raw_items", "reviewed_titles")
+    candidates = _count(
+        diag,
+        "candidate_events",
+        "sessions_detected",
+        "events_detected",
     )
-    last_success = (
-        diag.get("last_success_at")
-        or diag.get("last_successful_fetch_at")
-        or diag.get("refreshed_at")
+    accepted = _count(
+        diag,
+        "accepted_events",
+        "sessions_published",
+        "events_published",
     )
-    parsed_success = parse_time(last_success)
+    published = _count(
+        diag,
+        "published_events",
+        "sessions_published",
+        "events_published",
+    )
+
+    evidence_keys = {
+        "last_attempt_at",
+        "last_fetch_at",
+        "refreshed_at",
+        "last_success_at",
+        "last_successful_fetch_at",
+        "fetch_ok",
+        "state",
+        "raw_items",
+        "reviewed_titles",
+        "candidate_events",
+        "sessions_detected",
+        "events_detected",
+        "accepted_events",
+        "sessions_published",
+        "events_published",
+        "published_events",
+        "content_changed",
+        "rejection_reasons",
+    }
+    receipt_present = any(key in diag for key in evidence_keys)
+
+    return {
+        "receipt_schema_version": CANONICAL_RECEIPT_SCHEMA_VERSION,
+        "receipt_present": receipt_present,
+        "last_attempt_at": last_attempt,
+        "last_success_at": last_success,
+        "fetch_ok": fetch_ok,
+        "state": str(diag.get("state") or "").strip(),
+        "raw_items": raw_items,
+        "candidate_events": candidates,
+        "accepted_events": accepted,
+        "published_events": published,
+        "content_changed": diag.get("content_changed") is True,
+        "rejection_reasons": diag.get("rejection_reasons") or [],
+        "preserved_existing": preserved_existing,
+    }
+
+
+def acquisition_snapshot(
+    diag: dict | None,
+    now: datetime,
+    *,
+    source_type: object = None,
+    role: object = None,
+) -> dict:
+    receipt = canonical_acquisition_receipt(diag)
+    parsed_success = parse_time(receipt["last_success_at"])
     age_hours = None
     if parsed_success is not None:
-        age_hours = round((now.astimezone(timezone.utc) - parsed_success).total_seconds() / 3600.0, 1)
+        age_hours = round(
+            (now.astimezone(timezone.utc) - parsed_success).total_seconds() / 3600.0,
+            1,
+        )
 
-    raw_items = int(diag.get("raw_items") or diag.get("reviewed_titles") or 0)
-    candidates = int(diag.get("candidate_events") or diag.get("sessions_detected") or 0)
-    accepted = int(diag.get("accepted_events") or diag.get("sessions_published") or 0)
-    published = int(diag.get("published_events") or diag.get("sessions_published") or 0)
-    sla_hours = float(diag.get("expected_sla_hours") or expected_sla_hours(source_type, role))
+    candidates = receipt["candidate_events"]
+    accepted = receipt["accepted_events"]
+    published = receipt["published_events"]
+    sla_hours = float(
+        (diag or {}).get("expected_sla_hours")
+        or expected_sla_hours(source_type, role)
+    )
 
-    fetch_ok = diag.get("fetch_ok")
-    state = str(diag.get("state") or "").strip().casefold()
-    fetch_failed = fetch_ok is False or "fetch_error" in state or "transport" in state
-    changed = diag.get("content_changed") is True
+    state = receipt["state"].casefold()
+    fetch_failed = receipt["fetch_ok"] is False or "fetch_error" in state or "transport" in state
+    changed = receipt["content_changed"]
     stale = age_hours is not None and age_hours > sla_hours
     accepted_not_published = accepted > published
     content_changed_not_processed = changed and candidates == 0
     candidates_rejected = candidates > 0 and accepted == 0
+
+    # Publication policy is intentionally asymmetric:
+    # - acquisition/observability problems degrade one source and remain warnings;
+    # - deterministic accepted -> published loss is fail-closed.
+    publication_blocking = accepted_not_published
 
     if accepted_not_published:
         health = "accepted_not_published"
@@ -82,7 +183,7 @@ def acquisition_snapshot(diag: dict | None, now: datetime, *, source_type: objec
         severity = "warning"
     elif parsed_success is None:
         health = "freshness_unknown"
-        severity = "info"
+        severity = "warning"
     else:
         health = "healthy"
         severity = "ok"
@@ -90,14 +191,8 @@ def acquisition_snapshot(diag: dict | None, now: datetime, *, source_type: objec
     return {
         "health": health,
         "severity": severity,
+        "publication_blocking": publication_blocking,
         "expected_sla_hours": sla_hours,
-        "last_attempt_at": last_attempt,
-        "last_success_at": last_success,
         "age_hours": age_hours,
-        "raw_items": raw_items,
-        "candidate_events": candidates,
-        "accepted_events": accepted,
-        "published_events": published,
-        "content_changed": changed,
-        "rejection_reasons": diag.get("rejection_reasons") or [],
+        **receipt,
     }
