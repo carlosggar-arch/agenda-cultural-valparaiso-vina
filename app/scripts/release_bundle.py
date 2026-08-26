@@ -7,6 +7,8 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+# This verifier is an audited publication trigger for recovery runs that need
+# a full production re-certification without changing public runtime bytes.
 BUNDLE_PATH = ROOT / "app/data/release-bundle.json"
 RELEASE_PATH = ROOT / "app/release-version.js"
 
