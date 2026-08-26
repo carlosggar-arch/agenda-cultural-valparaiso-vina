@@ -8,7 +8,11 @@ from pathlib import Path
 PRODUCT_PREFIXES = ("app/", "assets/", "scripts/", "shared/", "tests/")
 PRODUCT_FILES = {"index.html", "manifest.webmanifest", "agenda_web.json", "fuentes_publicas.json"}
 GENERATED_PREFIXES = ("shared/", "scripts/generate_", "scripts/stage31_", "assets/event-")
-GENERATED_FILES = {"agenda_web.json", "app/data/gijon/agenda_web.json"}
+GENERATED_FILES = {
+    "agenda_web.json",
+    "app/data/gijon/agenda_web.json",
+    "app/scripts/test_permanent_event_page_canonical_parity.py",
+}
 RELEASE_PREFIXES = ("assets/", "shared/")
 
 
