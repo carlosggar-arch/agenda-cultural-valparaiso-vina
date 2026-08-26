@@ -53,6 +53,7 @@ jobs:
         run: |
           python scripts/generate_event_pages.py --check
           python scripts/stage31_site_generator.py --check
+          python app/scripts/test_permanent_event_page_canonical_parity.py
       - name: Document-only change
         if: steps.impact.outputs.product != 'true'
         run: echo "No product contract can be affected; structural CI checks passed."
