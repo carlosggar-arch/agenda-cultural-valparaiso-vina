@@ -82,8 +82,15 @@ def build_city(city_id: str, dataset: dict, coverage_city: dict, now: datetime) 
         })
 
     status_counts = Counter(row["health"] for row in rows)
-    critical = [row["id"] for row in rows if row["severity"] == "critical"]
+    blocking = [row["id"] for row in rows if row["publication_blocking"]]
     warnings = [row["id"] for row in rows if row["severity"] == "warning"]
+    missing_receipts = [
+        row["id"]
+        for row in rows
+        if not row["receipt_present"]
+        and not row["verified_inactive"]
+        and not row["covered_by_other_sources"]
+    ]
     return {
         "city_id": city_id,
         "summary": {
@@ -95,11 +102,14 @@ def build_city(city_id: str, dataset: dict, coverage_city: dict, now: datetime) 
             "candidates_rejected": status_counts["candidates_rejected"],
             "accepted_not_published": status_counts["accepted_not_published"],
             "freshness_unknown": status_counts["freshness_unknown"],
+            "receipt_missing": len(missing_receipts),
             "warning_sources": len(warnings),
-            "critical_sources": len(critical),
+            "critical_sources": len(blocking),
         },
-        "critical_source_ids": critical,
+        "publication_blocking_source_ids": blocking,
+        "critical_source_ids": blocking,
         "warning_source_ids": warnings,
+        "missing_receipt_source_ids": missing_receipts,
         "sources": rows,
     }
 
@@ -113,12 +123,19 @@ def build(now: datetime | None = None) -> dict:
         cities[city_id] = build_city(city_id, load(path), coverage_cities.get(city_id) or {}, now)
     critical = sum(city["summary"]["critical_sources"] for city in cities.values())
     warnings = sum(city["summary"]["warning_sources"] for city in cities.values())
+    missing_receipts = sum(city["summary"]["receipt_missing"] for city in cities.values())
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "generated_at": now.isoformat(timespec="seconds"),
         "status": "critical" if critical else ("attention" if warnings else "healthy"),
+        "publication_policy": {
+            "source_failures_are_local": True,
+            "warnings_block_publication": False,
+            "deterministic_accepted_to_published_loss_blocks": True,
+        },
         "critical_sources": critical,
         "warning_sources": warnings,
+        "missing_receipts": missing_receipts,
         "cities": cities,
     }
 
