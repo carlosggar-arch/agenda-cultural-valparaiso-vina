@@ -37,6 +37,7 @@ on:
       - "app/scripts/release_finalizer.py"
       - "app/scripts/release_bundle.py"
       - ".github/workflows/publish.yml"
+      - "cloudflare-build.sh"
   workflow_dispatch:
     # Explicit recovery path when an automated merge does not emit a push run.
 
@@ -77,12 +78,12 @@ jobs:
           git cat-file -e "${CANDIDATE_SHA}^{commit}"
           git merge --no-edit "$CANDIDATE_SHA"
 
-      - name: Guard Cloudflare-only divergence from exact candidate
+      - name: Require exact deployment-branch parity with candidate
         run: |
           set -euo pipefail
-          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD | grep -v '^cloudflare-build\.sh$' || true)"
+          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"
           if [[ -n "$unexpected" ]]; then
-            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA outside cloudflare-build.sh:"
+            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA:"
             echo "$unexpected"
             exit 1
           fi
