@@ -1,0 +1,41 @@
+name: Temporary regenerate permanent pages
+
+on:
+  push:
+    branches:
+      - fix/permanent-pages-canonical-sync-v242
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Regenerate permanent pages from canonical datasets
+        run: |
+          set -euo pipefail
+          python scripts/generate_event_pages.py
+          git status --short -- evento sitemap.xml
+      - name: Commit regenerated artifacts
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- evento sitemap.xml && [[ -z "$(git ls-files --others --exclude-standard evento sitemap.xml)" ]]; then
+            echo 'Permanent pages already synchronized.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- evento sitemap.xml
+          git commit -m 'Regenerate permanent event pages from canonical datasets'
+          git push origin HEAD:fix/permanent-pages-canonical-sync-v242
