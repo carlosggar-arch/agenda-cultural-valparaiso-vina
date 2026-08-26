@@ -6,6 +6,7 @@ from runtime_release_guard import classify_release_change, root_index_runtime_ch
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
 DATASET_VALIDATOR = (ROOT / "app/scripts/fast_close_dataset_validation.py").read_text(encoding="utf-8")
+PR_FAST = (ROOT / ".github/workflows/pr-fast.yml").read_text(encoding="utf-8")
 
 
 def main() -> None:
@@ -49,6 +50,18 @@ def main() -> None:
     assert "if require_fresh:" in DATASET_VALIDATOR
     assert "age_hours > 6" in DATASET_VALIDATOR
     assert "generation_changed=" in DATASET_VALIDATOR
+
+    # Permanent routes are part of the deployed bytes. Stage 3.1 is the final
+    # page writer (it reuses generate_event_pages as a renderer), so both PR CI
+    # and production fast-close must reproduce that final layer and require a
+    # clean diff rather than validating an intermediate template.
+    assert '"scripts/stage31_site_generator.py"' in DATASET_VALIDATOR
+    assert "FAST_CLOSE_PERMANENT_PAGES_OK writer=stage31" in DATASET_VALIDATOR
+    assert "FAST_CLOSE_PERMANENT_PAGES_STALE" in DATASET_VALIDATOR
+    assert "python scripts/stage31_site_generator.py" in PR_FAST
+    assert "git diff --exit-code -- evento sitemap.xml" in PR_FAST
+    generated_step = PR_FAST.split("- name: Validate final generated pages when affected", 1)[1]
+    assert "python scripts/generate_event_pages.py" not in generated_step
 
     # The root landing is partly runtime shell and partly dataset-owned SEO.
     # Only the explicitly marked Stage 3.1 JSON-LD payload may vary without a
@@ -118,7 +131,7 @@ def main() -> None:
     assert "PRODUCTION_PROBES_PARALLEL_OK groups=4" in production
     assert "PRODUCTION_RELEASE_VERIFIED" in production
 
-    print("FAST_PRODUCTION_CLOSE_CONTRACT_OK readiness=parallel wait_budget=90s candidate_sha=immutable release_guard=generated-data-aware")
+    print("FAST_PRODUCTION_CLOSE_CONTRACT_OK readiness=parallel wait_budget=90s candidate_sha=immutable release_guard=generated-data-aware permanent_pages=stage31")
 
 
 if __name__ == "__main__":
