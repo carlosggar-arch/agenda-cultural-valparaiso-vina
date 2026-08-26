@@ -1,0 +1,62 @@
+name: Temporary canonical permanent-page regeneration v243 r2
+
+on:
+  push:
+    branches:
+      - fix/permanent-event-page-canonical-parity-v243-r2
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v7
+        with:
+          ref: fix/permanent-event-page-canonical-parity-v243-r2
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Verify immutable main base
+        run: |
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "83be26683b0ec8547d158452b5b9a330073bdf31"
+      - name: Regenerate through both canonical writers
+        run: |
+          python scripts/generate_event_pages.py
+          python scripts/stage31_site_generator.py
+          python app/scripts/test_permanent_event_page_canonical_parity.py
+      - name: Remove ephemeral writer and guard changed paths
+        run: |
+          rm .github/workflows/tmp-regenerate-permanent-pages-v243-r2.yml
+          python - <<'PY'
+          import subprocess
+          paths = [p for p in subprocess.check_output(["git", "diff", "--name-only"], text=True).splitlines() if p]
+          allowed = {
+              ".github/workflows/tmp-regenerate-permanent-pages-v243-r2.yml",
+              "index.html",
+              "gijon/index.html",
+              "sitemap.xml",
+          }
+          bad = [p for p in paths if p not in allowed and not p.startswith("evento/")]
+          if bad:
+              raise SystemExit("UNEXPECTED_GENERATED_PATHS=" + ",".join(bad))
+          print(f"CANONICAL_PERMANENT_PAGE_REGEN_DIFF files={len(paths)}")
+          for path in paths:
+              print(path)
+          PY
+      - name: Commit canonical generated artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A .github/workflows/tmp-regenerate-permanent-pages-v243-r2.yml index.html gijon/index.html sitemap.xml evento
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+            exit 0
+          fi
+          git commit -m "Regenerate permanent event pages canonically on latest v242 base"
+          git push origin HEAD:fix/permanent-event-page-canonical-parity-v243-r2
