@@ -1,6 +1,6 @@
 (() => {
   // Single source of truth for the public PWA release and service-worker cache.
-  // v242 generated canonically from source f4376192aabe.
-  const RELEASE = 242;
+  // v243 generated canonically from source c588e259262a.
+  const RELEASE = 243;
   globalThis.__VIVAMOS_RELEASE__ = RELEASE;
 })();
