@@ -21,39 +21,22 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-
           path = Path('.github/workflows/publish.yml')
           text = path.read_text(encoding='utf-8')
-
           old_path = '      - ".github/workflows/publish.yml"\n'
           new_path = old_path + '      - "cloudflare-build.sh"\n'
           if text.count(old_path) != 1:
               raise SystemExit(f'publish trigger marker count={text.count(old_path)}')
           text = text.replace(old_path, new_path, 1)
-
-          old_guard = '''      - name: Guard Cloudflare-only divergence from exact candidate
-        run: |
-          set -euo pipefail
-          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD | grep -v '^cloudflare-build\\.sh$' || true)"
-          if [[ -n "$unexpected" ]]; then
-            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA outside cloudflare-build.sh:"
-            echo "$unexpected"
-            exit 1
-          fi
-'''
-          new_guard = '''      - name: Require exact deployment-branch parity with candidate
-        run: |
-          set -euo pipefail
-          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"
-          if [[ -n "$unexpected" ]]; then
-            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA:"
-            echo "$unexpected"
-            exit 1
-          fi
-'''
-          if text.count(old_guard) != 1:
-              raise SystemExit(f'publisher guard marker count={text.count(old_guard)}')
-          text = text.replace(old_guard, new_guard, 1)
+          replacements = (
+              ('      - name: Guard Cloudflare-only divergence from exact candidate', '      - name: Require exact deployment-branch parity with candidate'),
+              ('          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD | grep -v \'^cloudflare-build\\.sh$\' || true)"', '          unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"'),
+              ('            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA outside cloudflare-build.sh:"', '            echo "cloudflare-preview diverged from candidate $CANDIDATE_SHA:"'),
+          )
+          for old, new in replacements:
+              if text.count(old) != 1:
+                  raise SystemExit(f'publisher marker count={text.count(old)} marker={old!r}')
+              text = text.replace(old, new, 1)
           path.write_text(text, encoding='utf-8')
           PY
       - name: Validate canonical build and writer contract
