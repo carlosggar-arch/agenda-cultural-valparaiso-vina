@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -102,9 +103,23 @@ def validate_payload(
     }
 
 
+def validate_permanent_page_sync() -> None:
+    """Require final Stage 3.1 pages and sitemap to reproduce from canonical datasets."""
+    subprocess.run([sys.executable, "scripts/stage31_site_generator.py"], cwd=ROOT, check=True)
+    status = subprocess.check_output(
+        ["git", "status", "--porcelain", "--", "evento", "sitemap.xml"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+    if status:
+        print(status)
+        raise SystemExit("FAST_CLOSE_PERMANENT_PAGES_STALE: regenerate final permanent pages from canonical datasets")
+    print("FAST_CLOSE_PERMANENT_PAGES_OK writer=stage31")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Validate production dataset identity and require freshness only for actual regenerations."
+        description="Validate production dataset identity, freshness, and permanent-page canonical parity."
     )
     parser.add_argument("--base-ref", default="")
     args = parser.parse_args()
@@ -131,6 +146,8 @@ def main() -> int:
             f"changed={str(path_changed).lower()} generation_changed={str(require_fresh).lower()} "
             f"freshness_required={str(require_fresh).lower()}"
         )
+
+    validate_permanent_page_sync()
     return 0
 
 
