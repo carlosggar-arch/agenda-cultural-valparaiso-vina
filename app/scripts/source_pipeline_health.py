@@ -136,7 +136,7 @@ def main() -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
     print(text, end="")
-    if args.fail_on-critical and report["status"] == "critical":
+    if args.fail_on_critical and report["status"] == "critical":
         raise SystemExit(2)
 
 
