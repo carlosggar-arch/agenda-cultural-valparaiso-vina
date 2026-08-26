@@ -12,8 +12,8 @@ on:
           - daily
           - weekly
   schedule:
-    # One deep, read-only audit per week. Changed extractors are validated in PRs.
-    - cron: "35 11 * * 0"
+    # Lightweight source-health audit every day; deep live probes remain weekly.
+    - cron: "35 11 * * *"
 
 permissions:
   contents: read
@@ -40,12 +40,16 @@ jobs:
           python -m py_compile \
             app/scripts/audit_source_health.py \
             app/scripts/test_source_health_audit.py \
+            app/scripts/source_health_contract.py \
+            app/scripts/source_pipeline_health.py \
+            app/scripts/test_source_pipeline_health.py \
             app/scripts/refresh_balmaceda_valpo_resilient.py \
             app/scripts/test_balmaceda_transport.py \
             scripts/semantic_quality_audit.py \
             scripts/classification_uncertainty_audit.py \
             app/scripts/test_classification_uncertainty_audit.py
           python app/scripts/test_source_health_audit.py
+          python app/scripts/test_source_pipeline_health.py
           python app/scripts/test_balmaceda_transport.py
           python app/scripts/test_classification_uncertainty_audit.py
 
@@ -62,7 +66,10 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             mode="${{ inputs.mode }}"
           elif [[ "${{ github.event_name }}" == "schedule" ]]; then
-            mode="weekly"
+            # Sunday retains the deep probes; all other scheduled days stay cheap.
+            if [[ "$(date -u +%u)" == "7" ]]; then
+              mode="weekly"
+            fi
           fi
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
           echo "Audit mode: $mode"
@@ -79,6 +86,13 @@ jobs:
           python app/scripts/refresh_valpocultura_zero_recovery.py --no-write > audit-live-valpocultura.json
           echo $? > audit-live-valpocultura.exit
           set -e
+
+      - name: Build per-source acquisition and publication funnel
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/source_pipeline_health.py \
+            --output source-pipeline-health.json
 
       - name: Build persisted diagnostic audit
         shell: bash
@@ -108,6 +122,7 @@ jobs:
           import json
           from pathlib import Path
           report = json.loads(Path('source-health-audit.json').read_text(encoding='utf-8'))
+          pipeline = json.loads(Path('source-pipeline-health.json').read_text(encoding='utf-8'))
           s = report.get('summary') or {}
           print(f"## Source health audit — {report.get('status')}\n")
           print(f"Mode: **{report.get('mode')}**  ")
@@ -122,6 +137,23 @@ jobs:
               print('### Warnings')
               for value in report['warnings']:
                   print(f"- {value}")
+          print(f"\n## Per-source acquisition/publication funnel — {pipeline.get('status')}\n")
+          for city_id, city in (pipeline.get('cities') or {}).items():
+              summary = city.get('summary') or {}
+              print(
+                  f"### {city_id}\n"
+                  f"Healthy: **{summary.get('healthy', 0)}** · Stale: **{summary.get('stale', 0)}** · "
+                  f"Fetch failed: **{summary.get('fetch_failed', 0)}** · Changed/no candidates: **{summary.get('content_changed_not_processed', 0)}** · "
+                  f"Rejected: **{summary.get('candidates_rejected', 0)}** · Accepted/not published: **{summary.get('accepted_not_published', 0)}** · "
+                  f"Freshness unknown: **{summary.get('freshness_unknown', 0)}**"
+              )
+              for row in city.get('sources') or []:
+                  if row.get('health') in {'stale','fetch_failed','content_changed_not_processed','candidates_rejected','accepted_not_published'}:
+                      print(
+                          f"- `{row.get('id')}`: **{row.get('health')}** · current={row.get('published_current_count')} · "
+                          f"age={row.get('age_hours')}h/SLA={row.get('expected_sla_hours')}h · "
+                          f"raw/candidate/accepted/published={row.get('raw_items')}/{row.get('candidate_events')}/{row.get('accepted_events')}/{row.get('published_events')}"
+                      )
           PY
           printf '\n' >> "$GITHUB_STEP_SUMMARY"
           cat classification-semantic-quality.md >> "$GITHUB_STEP_SUMMARY"
@@ -142,12 +174,13 @@ jobs:
           retention-days: 14
 
       - name: Upload audit evidence
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: source-health-audit-${{ steps.audit_mode.outputs.mode }}
           path: |
             source-health-audit.json
+            source-pipeline-health.json
             audit-live-*.json
             audit-live-*.exit
             actions-budget-report.json
@@ -161,7 +194,14 @@ jobs:
           import json
           from pathlib import Path
           report = json.loads(Path('source-health-audit.json').read_text(encoding='utf-8'))
+          pipeline = json.loads(Path('source-pipeline-health.json').read_text(encoding='utf-8'))
+          blockers = []
           if report.get('status') == 'critical':
-              raise SystemExit('SOURCE_HEALTH_AUDIT_CRITICAL: ' + ', '.join(report.get('critical') or []))
-          print('SOURCE_HEALTH_AUDIT_OK_OR_ATTENTION', report.get('status'))
+              blockers.extend(report.get('critical') or [])
+          for city_id, city in (pipeline.get('cities') or {}).items():
+              for source_id in city.get('critical_source_ids') or []:
+                  blockers.append(f"accepted_not_published:{city_id}:{source_id}")
+          if blockers:
+              raise SystemExit('SOURCE_HEALTH_AUDIT_CRITICAL: ' + ', '.join(blockers))
+          print('SOURCE_HEALTH_AUDIT_OK_OR_ATTENTION', report.get('status'), pipeline.get('status'))
           PY
