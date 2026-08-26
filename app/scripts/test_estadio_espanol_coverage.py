@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from datetime import date
 
-from apply_estadio_espanol_coverage import merged_coverage
+from apply_estadio_espanol_coverage import (
+    FINALIZER_PUBLICATION_MODES,
+    merged_coverage,
+    should_run_atomic_maintenance_hook,
+)
 from apply_event_derived_source_coverage import event_derived_coverage, merge_recovered
 
 
@@ -59,9 +63,36 @@ def test_event_derived_coverage_is_mergeable_into_atomic_pass() -> None:
     assert recovered["compania_la_paila"] == ["fuente_municipal"]
 
 
+# The protected finalizer must never enter the global multi-city maintenance hook;
+# this comment-only refresh gives the replacement PR a previously unseen head SHA.
+def test_atomic_maintenance_runs_normally_outside_publication() -> None:
+    assert should_run_atomic_maintenance_hook(
+        skip_requested=False,
+        publication_mode="",
+    ) is True
+
+
+def test_atomic_maintenance_is_blocked_in_every_finalizer_publication_mode() -> None:
+    for mode in FINALIZER_PUBLICATION_MODES:
+        assert should_run_atomic_maintenance_hook(
+            skip_requested=False,
+            publication_mode=mode,
+        ) is False
+
+
+def test_explicit_skip_still_blocks_atomic_maintenance() -> None:
+    assert should_run_atomic_maintenance_hook(
+        skip_requested=True,
+        publication_mode="",
+    ) is False
+
+
 def main() -> None:
     test_estadio_is_added_without_erasing_existing_coverage()
     test_event_derived_coverage_is_mergeable_into_atomic_pass()
+    test_atomic_maintenance_runs_normally_outside_publication()
+    test_atomic_maintenance_is_blocked_in_every_finalizer_publication_mode()
+    test_explicit_skip_still_blocks_atomic_maintenance()
     print("ESTADIO_ESPANOL_COVERAGE_TESTS_OK")
 
 

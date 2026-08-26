@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime
@@ -32,6 +33,9 @@ REPORT_PATH = ROOT / "app/data/quality/visitavina-estadio-espanol.json"
 TARGET_SOURCE_ID = "estadio_espanol_recreo"
 TIMEZONE = "America/Santiago"
 MAINTENANCE_HOOK_PATH = "app/scripts/atomic_maintenance_hook.py"
+FINALIZER_PUBLICATION_MODES = frozenset(
+    {"manual", "push", "schedule", "rematerialize", "verification"}
+)
 
 
 def merged_coverage(coverage: dict, report: dict) -> dict[str, list[str]]:
@@ -71,6 +75,27 @@ def build() -> tuple[dict, dict, dict]:
     return coverage, quality, result
 
 
+def should_run_atomic_maintenance_hook(
+    *,
+    skip_requested: bool,
+    publication_mode: str | None = None,
+) -> bool:
+    """Keep global maintenance out of city-scoped finalizer transactions.
+
+    The protected finalizer binds PUBLICATION_MODE before it invokes this script.
+    Global maintenance intentionally touches shared multi-city outputs, so it must
+    not run inside a publication transaction for one selected city. Outside the
+    finalizer, the historical maintenance behavior remains unchanged.
+    """
+    mode = (
+        publication_mode
+        if publication_mode is not None
+        else os.environ.get("PUBLICATION_MODE", "")
+    )
+    normalized_mode = str(mode or "").strip().casefold()
+    return not skip_requested and normalized_mode not in FINALIZER_PUBLICATION_MODES
+
+
 def run_atomic_maintenance_hook() -> None:
     subprocess.run(
         [sys.executable, MAINTENANCE_HOOK_PATH],
@@ -95,8 +120,14 @@ def main() -> None:
     save(COVERAGE_PATH, coverage)
     save(EVENT_QUALITY_PATH, quality)
     print(json.dumps(report, ensure_ascii=False))
-    if not args.skip_maintenance_hook:
+    if should_run_atomic_maintenance_hook(skip_requested=args.skip_maintenance_hook):
         run_atomic_maintenance_hook()
+    else:
+        print(
+            "ESTADIO_GLOBAL_MAINTENANCE_SKIPPED "
+            f"publication_mode={os.environ.get('PUBLICATION_MODE') or 'none'} "
+            f"explicit={str(args.skip_maintenance_hook).lower()}"
+        )
 
 
 if __name__ == "__main__":
