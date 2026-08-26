@@ -1,36 +1,7 @@
-const LOS_FANTASMAS_EVENT_ID = "agenda_bc147abef119a17edb8a9770";
+import { canonicalPublicCategory } from "../app/public-category-rules.mjs";
+import { PUBLIC_CATEGORIES } from "../app/public-category-taxonomy.generated.mjs";
 
-const CATEGORY = Object.freeze({
-  exposiciones: { id: "exposiciones", label: "Exposiciones y museos" },
-  cine: { id: "cine", label: "Cine" },
-  musica: { id: "musica", label: "Música" },
-  teatro: { id: "teatro", label: "Teatro" },
-  talleres: { id: "cursos-talleres", label: "Cursos y talleres" },
-  ferias: { id: "ferias-gastronomia", label: "Ferias y gastronomía" },
-  naturaleza: { id: "naturaleza-deportes", label: "Naturaleza y deportes" },
-  otros: { id: "otros", label: "Otros panoramas" },
-});
-
-const SOURCE_CATEGORY_ALIASES = new Map([
-  ["museo", CATEGORY.exposiciones],
-  ["museos", CATEGORY.exposiciones],
-  ["exposicion", CATEGORY.exposiciones],
-  ["exposiciones", CATEGORY.exposiciones],
-  ["feria", CATEGORY.ferias],
-  ["ferias", CATEGORY.ferias],
-  ["gastronomia", CATEGORY.ferias],
-  ["ferias-gastronomia", CATEGORY.ferias],
-  ["naturaleza", CATEGORY.naturaleza],
-  ["naturaleza-montana", CATEGORY.naturaleza],
-  ["deportes", CATEGORY.naturaleza],
-  ["naturaleza-deportes", CATEGORY.naturaleza],
-  ["cursos-talleres", CATEGORY.talleres],
-  ["talleres", CATEGORY.talleres],
-  ["musica", CATEGORY.musica],
-  ["cine", CATEGORY.cine],
-  ["teatro", CATEGORY.teatro],
-  ["otros", CATEGORY.otros],
-]);
+const ROOT_FALLBACK_CATEGORY = Object.freeze({ id: "unclassified", label: "Otros panoramas" });
 
 export const ROOT_SEARCH_ALIASES = Object.freeze({
   valpo: ["valpo", "valparaiso"],
@@ -52,19 +23,6 @@ export const ROOT_SEARCH_ALIASES = Object.freeze({
   infantil: ["familiar", "familia", "infantil", "ninos", "ninas"],
 });
 
-const CATEGORY_ALIASES = new Map([
-  ["museo", "exposiciones"],
-  ["museos", "exposiciones"],
-  ["exposicion", "exposiciones"],
-  ["feria", "ferias-gastronomia"],
-  ["ferias", "ferias-gastronomia"],
-  ["gastronomia", "ferias-gastronomia"],
-  ["naturaleza", "naturaleza-deportes"],
-  ["naturaleza-montana", "naturaleza-deportes"],
-  ["deportes", "naturaleza-deportes"],
-  ["talleres", "cursos-talleres"],
-]);
-
 export function normalizeRootSearchText(value) {
   return String(value || "")
     .normalize("NFD")
@@ -75,66 +33,33 @@ export function normalizeRootSearchText(value) {
     .replace(/\s+/g, " ");
 }
 
-function categoryFold(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es")
-    .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+function rawPrimaryCategory(event) {
+  const primary = event?.primary_category ?? event?.categories?.[0] ?? null;
+  if (primary && typeof primary === "object") {
+    return {
+      id: String(primary.id || "").trim(),
+      label: String(primary.label || event?.primary_category_label || "").trim(),
+    };
+  }
 
-function sourceCategory(event) {
-  const source = event?.primary_category || event?.categories?.[0] || null;
-  const label = String(source?.label || "").trim();
-  const id = String(source?.id || categoryFold(label).replace(/\s+/g, "-")).trim().toLocaleLowerCase("es");
+  const id = String(primary || "").trim();
+  let label = String(event?.primary_category_label || "").trim();
+  if (!label && id && Array.isArray(event?.categories) && Array.isArray(event?.category_labels)) {
+    const index = event.categories.findIndex((category) => (
+      typeof category === "string"
+        ? category === id
+        : String(category?.id || "") === id
+    ));
+    if (index >= 0) label = String(event.category_labels[index] || "").trim();
+  }
   return { id, label };
 }
 
-function categoryEvidenceText(event) {
-  return categoryFold([
-    event?.title,
-    event?.description,
-    event?.organizer,
-    event?.source_name,
-    ...(event?.tags || []),
-  ].filter(Boolean).join(" "));
-}
-
-function explicitTitleCategory(event) {
-  const title = categoryFold(event?.title);
-  if (!title) return null;
-  if (/\b(exposicion|exposiciones|muestra|muestras|visita guiada exposicion|visita guiada muestra)\b/u.test(title)) return CATEGORY.exposiciones;
-  if (/\b(cine|pelicula|film|filme|documental|cortometraje|largometraje|proyeccion)\b/u.test(title)) return CATEGORY.cine;
-  if (/\b(concierto|recital|jazz|coro|coral|orquesta|musica)\b/u.test(title)) return CATEGORY.musica;
-  if (/\b(teatro|danza|ballet|circo|performance|funcion|espectaculo)\b/u.test(title)) return CATEGORY.teatro;
-  if (/\b(taller|curso|clase|seminario|laboratorio|workshop|capacitacion)\b/u.test(title)) return CATEGORY.talleres;
-  if (/\b(presentacion de?l? libro|presentacion libro|lanzamiento de?l? libro|lectura|poesia|encuentro literario|conversatorio literario)\b/u.test(title)) return CATEGORY.otros;
-  return null;
-}
-
-function inferPublicCategory(event) {
-  const explicit = explicitTitleCategory(event);
-  if (explicit) return explicit;
-
-  const text = categoryEvidenceText(event);
-  if (/\b(exposicion|exposiciones|muestra|muestras|museo|museos|galeria|fotografia|artes visuales|arte contemporaneo|instalacion artistica)\b/u.test(text)) return CATEGORY.exposiciones;
-  if (/\b(cine|pelicula|peliculas|film|filme|audiovisual|documental|documentales|cortometraje|cortometrajes|largometraje|proyeccion)\b/u.test(text)) return CATEGORY.cine;
-  if (/\b(musica|musical|concierto|conciertos|recital|recitales|jazz|coro|coral|orquesta|cantautor|cantautora|dj|sonidos)\b/u.test(text)) return CATEGORY.musica;
-  if (/\b(teatro|teatral|obra|obras|danza|ballet|circo|escenicas|escenico|performance|funcion|espectaculo)\b/u.test(text)) return CATEGORY.teatro;
-  if (/\b(taller|talleres|curso|cursos|clase|clases|formacion|seminario|laboratorio|workshop|capacitacion)\b/u.test(text)) return CATEGORY.talleres;
-  if (/\b(feria|ferias|mercado|mercados|gastronomia|gastronomico|gastronomica|cocina|culinario|culinaria|comida|cerveza|vino|degustacion)\b/u.test(text)) return CATEGORY.ferias;
-  if (/\b(naturaleza|natural|senderismo|trekking|excursion|excursiones|deporte|deportes|ciclismo|running|kayak|bicicleta|caminata|caminatas|aire libre)\b/u.test(text)) return CATEGORY.naturaleza;
-  return CATEGORY.otros;
-}
-
-function resolveRootPublicCategory(event) {
-  const source = sourceCategory(event);
-  const aliased = SOURCE_CATEGORY_ALIASES.get(source.id);
-  if (aliased) return aliased;
-  if (source.id === "cultura" || categoryFold(source.label) === "cultura" || !source.id) return inferPublicCategory(event);
-  return inferPublicCategory(event);
+function authoritativeRootPublicCategory(event) {
+  const raw = rawPrimaryCategory(event);
+  const canonical = canonicalPublicCategory(raw);
+  if (canonical?.id && PUBLIC_CATEGORIES[canonical.id]) return canonical;
+  return ROOT_FALLBACK_CATEGORY;
 }
 
 function hasRegistration(event) {
@@ -168,12 +93,13 @@ function isFamilyFriendly(event) {
   return /\bfamiliar(?:es)?\b|\bfamilias?\b|\binfantil(?:es)?\b|\bninos?\b|\bninas?\b|\btodo publico\b|\btodas las edades\b/.test(text);
 }
 
+// The root WEB is a consumer of the publication taxonomy, never a classifier.
+// Classification happens upstream in the shared category authority before the
+// public dataset is written. Runtime presentation/filtering may canonicalize
+// aliases, but it must not reinterpret an already-published event from prose,
+// venue names, source names, or event-specific exceptions.
 export function rootEventPublicCategories(event) {
-  if (String(event?.id || "") === LOS_FANTASMAS_EVENT_ID) {
-    return [{ id: "teatro", label: "Teatro" }];
-  }
-  const category = resolveRootPublicCategory(event);
-  return [category || CATEGORY.otros];
+  return [authoritativeRootPublicCategory(event)];
 }
 
 export function rootEventCategoryIds(event) {
@@ -221,8 +147,9 @@ export function rootEventMatchesQuery(event, query) {
 
 function canonicalCategoryId(value) {
   const id = String(value || "").trim().toLocaleLowerCase("es-CL");
-  if (id === "cultura") return "";
-  return CATEGORY_ALIASES.get(id) || id;
+  if (!id || id === "cultura") return "";
+  const canonical = canonicalPublicCategory(id);
+  return canonical?.id && PUBLIC_CATEGORIES[canonical.id] ? canonical.id : id;
 }
 
 export function rootEventMatchesCategories(event, selectedCategories) {
