@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 24
     concurrency:
-      group: release-integration-queue
+      group: release-integration-queue-v2
       cancel-in-progress: false
     env:
       FINALIZER_REF: ${{ github.event.pull_request.head.sha || github.sha }}
