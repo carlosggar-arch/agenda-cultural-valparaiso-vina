@@ -14,6 +14,8 @@ find . -mindepth 1 -maxdepth 1 \
   -exec cp -R {} "$OUT"/ \;
 
 # This deployment is a parallel validation copy, not the canonical production site.
+# Touching this canonical build entry point is also the bounded recovery trigger when
+# an App-authored public write cannot emit GitHub's normal push workflow event.
 cat > "$OUT/_headers" <<'EOF'
 /*
   X-Robots-Tag: noindex, nofollow
