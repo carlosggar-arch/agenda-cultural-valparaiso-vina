@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "756b809592bfc353b9b39534bdc65cc3edcbc515b6d08133abe3023808214961",
-  "generated_at": "2026-08-26T07:15:32Z",
+  "fingerprint": "cb30b57733b5b8719578b085c0b0c9eabb6a0bb752e764f05d2e4ef0402f6513",
+  "generated_at": "2026-08-26T11:56:00Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -50,37 +50,37 @@
     },
     "gijon::camara de comercio de gijon recinto ferial y palacio de congresos": {
       "category_distribution": {
-        "ferias-vida-local": 0.6,
-        "musica": 0.2,
-        "teatro": 0.2
+        "ferias-vida-local": 0.714286,
+        "musica": 0.142857,
+        "teatro": 0.142857
       },
       "city_id": "gijon",
       "dominant_category": "ferias-vida-local",
-      "dominant_share": 0.6,
+      "dominant_share": 0.714286,
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "total": 5,
+      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.181818,
-        "cine": 0.227273,
-        "exposiciones": 0.181818,
-        "literatura": 0.181818,
-        "musica": 0.045455,
-        "teatro": 0.136364,
-        "unclassified": 0.045455
+        "charlas-conferencias": 0.173913,
+        "cine": 0.217391,
+        "exposiciones": 0.217391,
+        "literatura": 0.173913,
+        "musica": 0.043478,
+        "teatro": 0.130435,
+        "unclassified": 0.043478
       },
       "city_id": "gijon",
       "dominant_category": "cine",
-      "dominant_share": 0.227273,
+      "dominant_share": 0.217391,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 22,
+      "total": 23,
       "unclassified": 1,
-      "unclassified_rate": 0.045455
+      "unclassified_rate": 0.043478
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -205,19 +205,19 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.026316,
-        "cine": 0.026316,
-        "cursos-talleres-campus": 0.236842,
-        "exposiciones": 0.552632,
-        "musica": 0.131579,
-        "teatro": 0.026316
+        "charlas-conferencias": 0.025641,
+        "cine": 0.025641,
+        "cursos-talleres-campus": 0.230769,
+        "exposiciones": 0.564103,
+        "musica": 0.128205,
+        "teatro": 0.025641
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.552632,
+      "dominant_share": 0.564103,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 38,
+      "total": 39,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -628,14 +628,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "ad0a0d24ca0b08a774e6686f64c51f5157c15cc8",
+  "source_ref": "b17f0cc0f510e8d24e30cfb971910164f8502540",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 45,
-    "total_events": 313,
+    "total_events": 317,
     "unclassified_count": 1,
-    "unclassified_rate": 0.003195
+    "unclassified_rate": 0.003155
   },
   "unclassified_queue": [
     {
