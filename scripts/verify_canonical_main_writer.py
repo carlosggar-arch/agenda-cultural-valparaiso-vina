@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 CLOUDFLARE_SYNC = WORKFLOWS / "publish.yml"
+CLOUDFLARE_BUILD = ROOT / "cloudflare-build.sh"
 CERTIFICATION_WATCHDOG = WORKFLOWS / "production-certification-watchdog.yml"
 CERTIFICATION_STATE_BRANCH = "state/production-certifications"
 
@@ -43,8 +44,27 @@ def _destructive_pushes_branch(text: str, branch: str) -> bool:
 def verify() -> None:
     if not CLOUDFLARE_SYNC.is_file():
         raise SystemExit("CANONICAL_MAIN_BOUNDARY_MISSING_CLOUDFLARE_SYNC")
+    if not CLOUDFLARE_BUILD.is_file():
+        raise SystemExit("CANONICAL_MAIN_BOUNDARY_MISSING_CLOUDFLARE_BUILD")
     if not CERTIFICATION_WATCHDOG.is_file():
         raise SystemExit("PRODUCTION_CERTIFICATION_WATCHDOG_MISSING")
+
+    build = CLOUDFLARE_BUILD.read_text(encoding="utf-8")
+    required_build = (
+        'OUT="_cloudflare_site"',
+        "find . -mindepth 1 -maxdepth 1",
+        "! -name '.git'",
+        "! -name '.github'",
+        "! -name 'cloudflare-build.sh'",
+        'test -f "$OUT/index.html"',
+        'test -f "$OUT/app/index.html"',
+        'test -f "$OUT/agenda_web.json"',
+        'test -f "$OUT/app/data/gijon/agenda_web.json"',
+        "CLOUDFLARE_PREVIEW_BUILD_OK surfaces=web,app",
+    )
+    missing_build = [marker for marker in required_build if marker not in build]
+    if missing_build:
+        raise SystemExit("CANONICAL_CLOUDFLARE_BUILD_CONTRACT_MISSING=" + repr(missing_build))
 
     main_writers: list[str] = []
     cloudflare_writers: list[str] = []
@@ -73,13 +93,14 @@ def verify() -> None:
     sync = CLOUDFLARE_SYNC.read_text(encoding="utf-8")
     required_sync = (
         "branches: [main]",
+        '- "cloudflare-build.sh"',
         "CANDIDATE_SHA: ${{ github.sha }}",
         "ref: cloudflare-preview",
         "git fetch origin main",
         'git merge --no-edit "$CANDIDATE_SHA"',
         "git push origin HEAD:cloudflare-preview",
-        "Guard Cloudflare-only divergence from exact candidate",
-        "grep -v '^cloudflare-build\\.sh$'",
+        "Require exact deployment-branch parity with candidate",
+        'unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"',
         'ref: ${{ github.sha }}',
         'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"',
         f"ref: {CERTIFICATION_STATE_BRANCH}",
