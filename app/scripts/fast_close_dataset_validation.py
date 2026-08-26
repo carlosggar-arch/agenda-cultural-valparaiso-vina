@@ -104,8 +104,8 @@ def validate_payload(
 
 
 def validate_permanent_page_sync() -> None:
-    """Require committed permanent pages and sitemap to be reproducible from canonical datasets."""
-    subprocess.run([sys.executable, "scripts/generate_event_pages.py"], cwd=ROOT, check=True)
+    """Require final Stage 3.1 pages and sitemap to reproduce from canonical datasets."""
+    subprocess.run([sys.executable, "scripts/stage31_site_generator.py"], cwd=ROOT, check=True)
     status = subprocess.check_output(
         ["git", "status", "--porcelain", "--", "evento", "sitemap.xml"],
         cwd=ROOT,
@@ -113,8 +113,8 @@ def validate_permanent_page_sync() -> None:
     ).strip()
     if status:
         print(status)
-        raise SystemExit("FAST_CLOSE_PERMANENT_PAGES_STALE: regenerate permanent pages from canonical datasets")
-    print("FAST_CLOSE_PERMANENT_PAGES_OK")
+        raise SystemExit("FAST_CLOSE_PERMANENT_PAGES_STALE: regenerate final permanent pages from canonical datasets")
+    print("FAST_CLOSE_PERMANENT_PAGES_OK writer=stage31")
 
 
 def main() -> int:
