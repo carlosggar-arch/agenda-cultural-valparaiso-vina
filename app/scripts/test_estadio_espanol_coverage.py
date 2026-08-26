@@ -63,6 +63,7 @@ def test_event_derived_coverage_is_mergeable_into_atomic_pass() -> None:
     assert recovered["compania_la_paila"] == ["fuente_municipal"]
 
 
+# The protected finalizer must never enter the global multi-city maintenance hook.
 def test_atomic_maintenance_runs_normally_outside_publication() -> None:
     assert should_run_atomic_maintenance_hook(
         skip_requested=False,
