@@ -48,12 +48,11 @@ jobs:
           node --test tests/root-combined-filters.test.mjs tests/root-public-presentation-rules.test.mjs tests/event-data-corrections.test.mjs
           python scripts/generate_public_category_module.py --check
           python scripts/generate_event_semantics_module.py --check
-      - name: Validate generated pages when affected
+      - name: Validate final generated pages when affected
         if: steps.impact.outputs.generated == 'true'
         run: |
-          python scripts/generate_event_pages.py
+          python scripts/stage31_site_generator.py
           git diff --exit-code -- evento sitemap.xml
-          python scripts/stage31_site_generator.py --check
       - name: Document-only change
         if: steps.impact.outputs.product != 'true'
         run: echo "No product contract can be affected; structural CI checks passed."
