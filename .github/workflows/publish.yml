@@ -69,14 +69,16 @@ jobs:
           ref: cloudflare-preview
           fetch-depth: 0
 
-      - name: Merge exact approved candidate without rewriting deployment history
+      - name: Create exact-tree handoff preserving deployment history
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
+          git fetch origin cloudflare-preview main
           git cat-file -e "${CANDIDATE_SHA}^{commit}"
-          git merge --no-edit "$CANDIDATE_SHA"
+          git cat-file -e "origin/cloudflare-preview^{commit}"
+          git checkout --detach "$CANDIDATE_SHA"
+          git merge --no-edit -s ours origin/cloudflare-preview
 
       - name: Require exact deployment-branch parity with candidate
         run: |
