@@ -1,0 +1,73 @@
+name: Temporary materialize conflict-free Cloudflare handoff
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-mirror-handoff-no-conflict-20260826
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v7
+        with:
+          ref: fix/cloudflare-mirror-handoff-no-conflict-20260826
+          fetch-depth: 0
+
+      - name: Patch publisher deterministically
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/workflows/publish.yml')
+          text = path.read_text(encoding='utf-8')
+          replacements = (
+              ('      - name: Merge exact approved candidate without rewriting deployment history',
+               '      - name: Create exact-tree handoff preserving deployment history'),
+              ('          git fetch origin main',
+               '          git fetch origin cloudflare-preview main'),
+              ('          git cat-file -e "${CANDIDATE_SHA}^{commit}"\n          git merge --no-edit "$CANDIDATE_SHA"',
+               '          git cat-file -e "${CANDIDATE_SHA}^{commit}"\n          git cat-file -e "origin/cloudflare-preview^{commit}"\n          git checkout --detach "$CANDIDATE_SHA"\n          git merge --no-edit -s ours origin/cloudflare-preview'),
+          )
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'publisher marker count={count} marker={old!r}')
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          Path('tmp-publish-patched.yml.txt').write_text(text, encoding='utf-8')
+          PY
+
+      - name: Validate writer contract and exact-tree handoff semantics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/verify_canonical_main_writer.py
+          bash cloudflare-build.sh
+          test -f _cloudflare_site/fuentes_publicas.json
+          candidate="$(git rev-parse HEAD)"
+          mirror="$(git rev-parse origin/cloudflare-preview)"
+          rm -rf /tmp/cloudflare-handoff
+          git worktree add --detach /tmp/cloudflare-handoff "$candidate"
+          git -C /tmp/cloudflare-handoff config user.name "github-actions[bot]"
+          git -C /tmp/cloudflare-handoff config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C /tmp/cloudflare-handoff merge --no-edit -s ours "$mirror"
+          test -z "$(git -C /tmp/cloudflare-handoff diff --name-only "$candidate" HEAD)"
+          git -C /tmp/cloudflare-handoff merge-base --is-ancestor "$mirror" HEAD
+          echo "CLOUDFLARE_HANDOFF_SIMULATION_OK candidate=$candidate mirror=$mirror"
+
+      - name: Publish only validated non-workflow materialization
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tmp-publish-patched.yml.txt
+          git commit -m "Materialize validated Cloudflare handoff publisher"
+          git push origin HEAD:fix/cloudflare-mirror-handoff-no-conflict-20260826
