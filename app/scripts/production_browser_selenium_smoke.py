@@ -50,6 +50,10 @@ VALPO_FORBIDDEN_TEXT = (
     "Más de 50 mil personas visitaron museos",
 )
 
+GIJON_SEMANTIC_EVENT_ID = "agenda_gijon_32d73fb96b746f95"
+GIJON_SEMANTIC_TITLE = 'Instalación. Ficción sonora. CÁPSULA RADIO: "La tercera Luz"'
+GIJON_SEMANTIC_CATEGORY_ID = "exposiciones"
+GIJON_SEMANTIC_CATEGORY_LABEL = "Exposiciones"
 GIJON_SEMANTIC_TITLE_TOKEN = "CÁPSULA RADIO"
 GIJON_SEMANTIC_WORK_TOKEN = "tercera luz"
 GIJON_FORBIDDEN_TITLE_FRAGMENT = "00 y las 07:30h"
@@ -360,69 +364,116 @@ def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> Non
 
 def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> None:
     root_base = base[:-4] if base.endswith("app/") else base
-    surfaces = (
-        ("app", f"{base}?city=gijon&when=todos"),
-        ("web", f"{root_base}?city=gijon&periodo=todos"),
-    )
-    for surface, base_url in surfaces:
-        with tempfile.TemporaryDirectory(prefix=f"vivamos-gijon-semantic-{origin}-{surface}-") as profile:
-            driver = webdriver.Chrome(options=chrome_options(profile, 1280, 1000))
-            driver.set_page_load_timeout(45)
-            try:
-                driver.get(f"{base_url}&semantic={uuid.uuid4().hex}")
-                if surface == "app":
-                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-                        lambda current: runtime_ready(current, "gijon", expected_release)
-                    )
-                else:
-                    WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
-                        lambda current: current.execute_script(
-                            "return Number(globalThis.__VIVAMOS_RELEASE__) === arguments[0] "
-                            "&& document.querySelectorAll('.event-card').length > 0",
-                            expected_release,
-                        )
-                    )
-                evidence = driver.execute_script(
-                    r"""
-                    const titleToken = arguments[0].toLocaleLowerCase('es');
-                    const workToken = arguments[1].toLocaleLowerCase('es');
-                    const forbidden = arguments[2].toLocaleLowerCase('es');
-                    const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
-                    const cards = [...document.querySelectorAll('.event-card')].map(card => {
-                      const heading = compact(card.querySelector('h3,h4')?.innerText);
-                      const category = card.dataset.category || card.querySelector('[data-category]')?.dataset.category || '';
-                      return {heading, category, text: compact(card.innerText)};
-                    });
-                    const matches = cards.filter(item => {
-                      const value = item.text.toLocaleLowerCase('es');
-                      return value.includes(titleToken) && value.includes(workToken);
-                    });
-                    const forbiddenHits = cards.filter(item => item.heading.toLocaleLowerCase('es').includes(forbidden));
-                    return {matches, forbiddenHits, safeMode: document.documentElement.dataset.vivamosSafeMode || ''};
-                    """,
-                    GIJON_SEMANTIC_TITLE_TOKEN,
-                    GIJON_SEMANTIC_WORK_TOKEN,
-                    GIJON_FORBIDDEN_TITLE_FRAGMENT,
+
+    # The APP is a list/card surface: require the canonical event exactly once.
+    with tempfile.TemporaryDirectory(prefix=f"vivamos-gijon-semantic-{origin}-app-") as profile:
+        driver = webdriver.Chrome(options=chrome_options(profile, 1280, 1000))
+        driver.set_page_load_timeout(45)
+        try:
+            driver.get(f"{base}?city=gijon&when=todos&semantic={uuid.uuid4().hex}")
+            WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                lambda current: runtime_ready(current, "gijon", expected_release)
+            )
+            evidence = driver.execute_script(
+                r"""
+                const titleToken = arguments[0].toLocaleLowerCase('es');
+                const workToken = arguments[1].toLocaleLowerCase('es');
+                const forbidden = arguments[2].toLocaleLowerCase('es');
+                const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
+                const cards = [...document.querySelectorAll('.event-card')].map(card => {
+                  const heading = compact(card.querySelector('h3,h4')?.innerText);
+                  const category = card.dataset.category || card.querySelector('[data-category]')?.dataset.category || '';
+                  return {heading, category, text: compact(card.innerText)};
+                });
+                const matches = cards.filter(item => {
+                  const value = item.text.toLocaleLowerCase('es');
+                  return value.includes(titleToken) && value.includes(workToken);
+                });
+                const forbiddenHits = cards.filter(item => item.heading.toLocaleLowerCase('es').includes(forbidden));
+                return {matches, forbiddenHits, safeMode: document.documentElement.dataset.vivamosSafeMode || ''};
+                """,
+                GIJON_SEMANTIC_TITLE_TOKEN,
+                GIJON_SEMANTIC_WORK_TOKEN,
+                GIJON_FORBIDDEN_TITLE_FRAGMENT,
+            )
+            if evidence.get("safeMode") == "active":
+                raise SystemExit(f"Gijón semantic verification entered safe mode for {origin}/app")
+            matches = evidence.get("matches") or []
+            if len(matches) != 1:
+                raise SystemExit(f"Gijón Cápsula Radio must render exactly once in {origin}/app: {matches}")
+            if matches[0].get("category") != GIJON_SEMANTIC_CATEGORY_ID:
+                raise SystemExit(
+                    f"Wrong Gijón Cápsula Radio category in {origin}/app: {matches[0].get('category')}"
                 )
-                if evidence.get("safeMode") == "active":
-                    raise SystemExit(f"Gijón semantic verification entered safe mode for {origin}/{surface}")
-                matches = evidence.get("matches") or []
-                if len(matches) != 1:
-                    raise SystemExit(f"Gijón Cápsula Radio must render exactly once in {origin}/{surface}: {matches}")
-                if matches[0].get("category") != "exposiciones":
-                    raise SystemExit(
-                        f"Wrong Gijón Cápsula Radio category in {origin}/{surface}: {matches[0].get('category')}"
-                    )
-                if evidence.get("forbiddenHits"):
-                    raise SystemExit(
-                        f"Malformed Gijón caption title visible in {origin}/{surface}: {evidence.get('forbiddenHits')}"
-                    )
-                print(
-                    f"PRODUCTION_GIJON_SEMANTICS_OK origin={origin} surface={surface} "
-                    "capsula_radio=1 category=exposiciones malformed=0 safe_mode=off"
+            if evidence.get("forbiddenHits"):
+                raise SystemExit(
+                    f"Malformed Gijón caption title visible in {origin}/app: {evidence.get('forbiddenHits')}"
                 )
-            finally:
-                driver.quit()
+            print(
+                f"PRODUCTION_GIJON_SEMANTICS_OK origin={origin} surface=app "
+                "capsula_radio=1 category=exposiciones malformed=0 safe_mode=off"
+            )
+        finally:
+            driver.quit()
+
+    # Root WEB is not a Gijón card-list surface. Its canonical public WEB
+    # representation is the permanent event route generated from the same
+    # dataset. Validate that route directly, exactly as Valpo semantic fixtures
+    # are validated through their permanent detail surface.
+    with tempfile.TemporaryDirectory(prefix=f"vivamos-gijon-semantic-{origin}-web-") as profile:
+        driver = webdriver.Chrome(options=chrome_options(profile, 1280, 1000))
+        driver.set_page_load_timeout(45)
+        try:
+            permanent_url = (
+                f"{root_base}evento/gijon/{GIJON_SEMANTIC_EVENT_ID}/"
+                f"?semantic={uuid.uuid4().hex}"
+            )
+            driver.get(permanent_url)
+            WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
+                lambda current: current.execute_script(
+                    "return document.body?.hasAttribute('data-event-page') "
+                    "&& document.body?.dataset.eventId === arguments[0] "
+                    "&& document.body?.dataset.city === 'gijon' "
+                    "&& document.querySelectorAll('.event-main h1').length === 1 "
+                    "&& Boolean(document.querySelector('.event-kicker'))",
+                    GIJON_SEMANTIC_EVENT_ID,
+                )
+            )
+            detail = driver.execute_script(
+                r"""
+                const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
+                const headings = [...document.querySelectorAll('.event-main h1')];
+                return {
+                  count: headings.length,
+                  title: compact(headings[0]?.innerText),
+                  category: compact(document.querySelector('.event-kicker')?.innerText),
+                };
+                """
+            )
+            if detail.get("count") != 1:
+                raise SystemExit(
+                    f"Gijón Cápsula Radio permanent WEB detail must render exactly once in {origin}/web: {detail}"
+                )
+            if detail.get("title") != GIJON_SEMANTIC_TITLE:
+                raise SystemExit(
+                    f"Wrong Gijón Cápsula Radio title in {origin}/web permanent detail: "
+                    f"expected={GIJON_SEMANTIC_TITLE!r} actual={detail.get('title')!r}"
+                )
+            if str(detail.get("category") or "").casefold() != GIJON_SEMANTIC_CATEGORY_LABEL.casefold():
+                raise SystemExit(
+                    f"Wrong Gijón Cápsula Radio category in {origin}/web permanent detail: "
+                    f"expected={GIJON_SEMANTIC_CATEGORY_LABEL!r} actual={detail.get('category')!r}"
+                )
+            if GIJON_FORBIDDEN_TITLE_FRAGMENT.casefold() in str(detail.get("title") or "").casefold():
+                raise SystemExit(
+                    f"Malformed Gijón caption title visible in {origin}/web permanent detail: {detail.get('title')!r}"
+                )
+            print(
+                f"PRODUCTION_GIJON_SEMANTICS_OK origin={origin} surface=web "
+                "capsula_radio=1 category=exposiciones malformed=0 safe_mode=off route=permanent-detail"
+            )
+        finally:
+            driver.quit()
 
 
 def main() -> None:
