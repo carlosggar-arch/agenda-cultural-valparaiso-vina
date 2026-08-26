@@ -6,13 +6,52 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: pr-fast-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
+  materialize-pr489-once:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 489 && github.head_ref == 'fix/permanent-pages-current-main-v243' }}
+    name: canonical-pages-and-finalizer-once
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact PR branch
+        uses: actions/checkout@v7
+        with:
+          ref: fix/permanent-pages-current-main-v243
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Regenerate permanent pages and canonical release
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "ac5c48a32d2edd8f8d880b03c4a26397a9dc4619"
+
+          # Restore the permanent PR gate before writing any product artifact.
+          git show 8fe04d66d8dc93846c8da7098c261059619493ee:.github/workflows/pr-fast.yml > .github/workflows/pr-fast.yml
+
+          python scripts/generate_event_pages.py
+          python scripts/stage31_site_generator.py
+          git add .github/workflows/pr-fast.yml evento sitemap.xml
+          git diff --cached --quiet && { echo 'Permanent-page writer produced no changes'; exit 1; }
+          git commit -m "Regenerate permanent pages from canonical datasets"
+
+          SOURCE_SHA="$(git rev-parse HEAD)"
+          python app/scripts/release_finalizer.py --prepare --base-ref origin/main --source-sha "$SOURCE_SHA" --source-pr 489
+          git add app/release-version.js app/service-worker-assets.generated.js app/venue-registry.generated.mjs app/data/release-bundle.json app/data/release-provenance.json app/index.html
+          git diff --cached --quiet && { echo 'Canonical finalizer produced no release changes'; exit 1; }
+          git commit -m "[release-finalized] Finalize PR 489 canonical release"
+          python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref HEAD
+          git push origin HEAD:fix/permanent-pages-current-main-v243
+
   fast-contracts:
     name: fast-contracts
     runs-on: ubuntu-latest
