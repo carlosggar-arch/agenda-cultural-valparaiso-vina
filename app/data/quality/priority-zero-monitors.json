@@ -13,8 +13,8 @@
       "name": "Sala Teatro IPA",
       "url": "https://telonticket.cl/mep_cat/performance/",
       "evidence": "specialized_theatre_calendar",
-      "state": "verified_no_publishable_future",
-      "verified_inactive": true,
+      "state": "reclassified_by_final_coverage",
+      "verified_inactive": false,
       "verification_reason": "specialized_calendar_has_no_future_sala_ipa_entry",
       "future_candidates": [],
       "future_candidates_count": 0,
@@ -24,7 +24,8 @@
       "explicit_empty_state": false,
       "fetch_ok": true,
       "http_status": 200,
-      "error": null
+      "error": null,
+      "reclassified_status": "producing"
     },
     {
       "id": "teatro_la_peste",
