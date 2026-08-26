@@ -235,6 +235,64 @@ def test_quarantines_description_led_submission_call_without_attendance_schedule
     assert changes["quarantined"][0]["reason"] == "call_for_submissions_deadline_not_event"
 
 
+
+def test_quarantines_administrative_application_support_without_event_schedule() -> None:
+    admin = event(
+        id="fund-support-valpo",
+        title="¿Quieres postular a los Fondos de Cultura 2027 y necesitas nuestra carta de apoyo?",
+        location={"venue_id": None, "venue": "Valpo Cultura", "city": "Valparaíso"},
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Fecha por confirmar"},
+        description="Ya se encuentra abierta la convocatoria para solicitar cartas de apoyo municipal. Este respaldo puede fortalecer tu propuesta.",
+    )
+    dataset = {"events": [admin], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"] == [{
+        "id": "fund-support-valpo",
+        "title": "¿Quieres postular a los Fondos de Cultura 2027 y necesitas nuestra carta de apoyo?",
+        "reason": "administrative_application_support_not_event",
+    }]
+
+
+def test_quarantines_equivalent_application_support_in_another_city() -> None:
+    admin = event(
+        id="fund-support-gijon",
+        title="¿Vas a postular a ayudas culturales y necesitas carta de apoyo?",
+        location={"venue_id": None, "venue": "Centro Municipal", "city": "Gijón"},
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Fecha por confirmar"},
+        description="Solicita una carta de apoyo institucional para tu postulación.",
+    )
+    dataset = {"events": [admin], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "administrative_application_support_not_event"
+
+
+def test_keeps_scheduled_information_session_about_applications() -> None:
+    real = event(
+        id="scheduled-funding-talk",
+        title="Charla: Cómo postular a Fondos de Cultura 2027",
+        schedule={"mode": "single", "start": "2026-09-03T18:00:00-04:00", "end": "2026-09-03T19:30:00-04:00", "occurrences": []},
+        description="Sesión informativa para postular y solicitar cartas de apoyo. La charla se realizará el 03/09 a las 18:00.",
+    )
+    dataset = {"events": [real], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert [item["id"] for item in dataset["events"]] == ["scheduled-funding-talk"]
+    assert changes["quarantined"] == []
+
+
+def test_keeps_cultural_event_that_only_mentions_funding_support() -> None:
+    real = event(
+        id="funded-cultural-event",
+        title="Concierto Nuevas Voces",
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Horario por confirmar"},
+        description="Proyecto financiado por Fondos de Cultura y respaldado mediante una carta de apoyo municipal.",
+    )
+    dataset = {"events": [real], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert [item["id"] for item in dataset["events"]] == ["funded-cultural-event"]
+    assert changes["quarantined"] == []
+
 def test_keeps_real_scheduled_activity_with_application_deadline() -> None:
     real = event(
         id="scheduled-workshop",
@@ -283,6 +341,10 @@ def main() -> None:
     test_quarantines_visitation_statistics_news_without_concrete_event()
     test_quarantines_deadline_only_submission_call_even_if_deadline_was_parsed_as_schedule()
     test_quarantines_description_led_submission_call_without_attendance_schedule()
+    test_quarantines_administrative_application_support_without_event_schedule()
+    test_quarantines_equivalent_application_support_in_another_city()
+    test_keeps_scheduled_information_session_about_applications()
+    test_keeps_cultural_event_that_only_mentions_funding_support()
     test_keeps_real_scheduled_activity_with_application_deadline()
     test_does_not_quarantine_real_scheduled_anniversary_event()
     test_registry_exposes_both_current_city_datasets()
