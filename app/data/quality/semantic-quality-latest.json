@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "30ea344d893befec0e0e8351591eec93c6e9ed733f279ca89e33a052a42b2f66",
-  "generated_at": "2026-08-26T18:12:26Z",
+  "fingerprint": "7d7a9d45dffcae92a140ba710f2256564d0778a33c675d35fdb88fa89f82562e",
+  "generated_at": "2026-08-26T20:10:04Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -236,16 +236,17 @@
     },
     "gijon::teatro albeniz gijon": {
       "category_distribution": {
-        "musica": 1.0
+        "musica": 0.857143,
+        "unclassified": 0.142857
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 1.0,
+      "dominant_share": 0.857143,
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "total": 6,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
+      "total": 7,
+      "unclassified": 1,
+      "unclassified_rate": 0.142857
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
@@ -886,14 +887,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "21726431de7c409ac0641deaeca7c5f947991f8e",
+  "source_ref": "67fbf849284873910ec7dc3f30ed07422f254e1a",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 63,
-    "total_events": 403,
-    "unclassified_count": 7,
-    "unclassified_rate": 0.01737
+    "total_events": 404,
+    "unclassified_count": 8,
+    "unclassified_rate": 0.019802
   },
   "unclassified_queue": [
     {
@@ -905,6 +906,16 @@
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
       "title": "Encuentro Internacional de Fotoperiodismo de Asturias"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_teatro_albeniz_gijon_ee2c59319ca5d5c3",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Teatro Albéniz Gijón",
+      "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
+      "title": "Fiesta Blanca 2026- Regreso a los 80"
     },
     {
       "candidates": [],
