@@ -19,20 +19,42 @@ cat > "$OUT/_headers" <<'EOF'
   X-Robots-Tag: noindex, nofollow
 EOF
 
-# Cloudflare's public root is the branded Vivamos PWA. Preserve the legacy
-# root WEB shell under /web/ so production semantic/image verification can
-# continue to exercise it without exposing a different visual identity at /.
-mkdir -p "$OUT/web"
-cp "$OUT/index.html" "$OUT/web/index.html"
-cat > "$OUT/_redirects" <<'EOF'
-/ /app/ 302
+# Public Cloudflare entrypoint contract:
+# - normal visits to vivamos.pages.dev/ enter the branded PWA at /app/;
+# - the historical root WEB remains byte-addressable for the existing production
+#   verification probes, which use explicit technical query markers;
+# - direct files such as /index.html remain untouched for exact-byte attestation.
+#
+# Keeping this routing in the deploy artifact prevents a data publication from
+# silently making the legacy root WEB the public landing experience again.
+cat > "$OUT/_worker.js" <<'EOF'
+const VERIFICATION_QUERY_KEYS = new Set(["periodo", "evento", "semantic", "smoke"]);
+
+function isVerificationRequest(url) {
+  for (const key of VERIFICATION_QUERY_KEYS) {
+    if (url.searchParams.has(key)) return true;
+  }
+  return false;
+}
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === "/" && !isVerificationRequest(url)) {
+      const target = new URL("/app/", url);
+      target.search = url.search;
+      return Response.redirect(target.toString(), 302);
+    }
+    return env.ASSETS.fetch(request);
+  },
+};
 EOF
 
-# Fail the build if the essential public/PWA and verification entry points are missing.
+# Fail the build if the essential WEB/PWA entry points or root-routing contract are missing.
 test -f "$OUT/index.html"
-test -f "$OUT/web/index.html"
-test -f "$OUT/_redirects"
-grep -qx '/ /app/ 302' "$OUT/_redirects"
+test -f "$OUT/_worker.js"
+grep -q 'url.pathname === "/"' "$OUT/_worker.js"
+grep -q 'new URL("/app/", url)' "$OUT/_worker.js"
 test -f "$OUT/assets/root-agenda-bootstrap.mjs"
 test -f "$OUT/app/index.html"
 test -f "$OUT/app/manifest.webmanifest"
@@ -43,4 +65,4 @@ test -f "$OUT/app/image-quality-guard.js"
 test -f "$OUT/app/formation-cycle-classifier.js"
 test -f "$OUT/app/artequin-session-correction.js"
 
-echo "CLOUDFLARE_PREVIEW_BUILD_OK public_root=app verification_web=/web/"
+echo "CLOUDFLARE_PREVIEW_BUILD_OK surfaces=web,app public_root=app"
