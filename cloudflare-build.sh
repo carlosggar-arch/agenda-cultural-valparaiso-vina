@@ -19,11 +19,20 @@ cat > "$OUT/_headers" <<'EOF'
   X-Robots-Tag: noindex, nofollow
 EOF
 
-# Preserve both canonical publication surfaces: WEB at / and App at /app/.
-# A root-to-App redirect would make WEB verification inspect the wrong shell.
+# Cloudflare's public root is the branded Vivamos PWA. Preserve the legacy
+# root WEB shell under /web/ so production semantic/image verification can
+# continue to exercise it without exposing a different visual identity at /.
+mkdir -p "$OUT/web"
+cp "$OUT/index.html" "$OUT/web/index.html"
+cat > "$OUT/_redirects" <<'EOF'
+/ /app/ 302
+EOF
 
-# Fail the build if the essential WEB/PWA entry points are missing.
+# Fail the build if the essential public/PWA and verification entry points are missing.
 test -f "$OUT/index.html"
+test -f "$OUT/web/index.html"
+test -f "$OUT/_redirects"
+grep -qx '/ /app/ 302' "$OUT/_redirects"
 test -f "$OUT/assets/root-agenda-bootstrap.mjs"
 test -f "$OUT/app/index.html"
 test -f "$OUT/app/manifest.webmanifest"
@@ -34,4 +43,4 @@ test -f "$OUT/app/image-quality-guard.js"
 test -f "$OUT/app/formation-cycle-classifier.js"
 test -f "$OUT/app/artequin-session-correction.js"
 
-echo "CLOUDFLARE_PREVIEW_BUILD_OK surfaces=web,app"
+echo "CLOUDFLARE_PREVIEW_BUILD_OK public_root=app verification_web=/web/"
