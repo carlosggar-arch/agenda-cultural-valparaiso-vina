@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "d49eb8de09b4d6a2271b550a35fcc0713745bcac5e113ee1a5cc849e88c44399",
-  "generated_at": "2026-08-27T10:48:46Z",
+  "fingerprint": "669db28ea9618c73933a04d450c606ec427fc131070db8c6ccac0f935b0884d7",
+  "generated_at": "2026-08-27T17:45:33Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -17,7 +17,7 @@
       "dominant_share": 1.0,
       "source_name": "Agenda Gijón",
       "source_url": "https://agendagijon.com/",
-      "total": 2,
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -50,37 +50,37 @@
     },
     "gijon::camara de comercio de gijon recinto ferial y palacio de congresos": {
       "category_distribution": {
-        "ferias-vida-local": 0.714286,
-        "musica": 0.142857,
-        "teatro": 0.142857
+        "ferias-vida-local": 0.75,
+        "musica": 0.125,
+        "teatro": 0.125
       },
       "city_id": "gijon",
       "dominant_category": "ferias-vida-local",
-      "dominant_share": 0.714286,
+      "dominant_share": 0.75,
       "source_name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
       "source_url": "https://recintoferialasturias.camaragijon.es/es/tratarAplicacionAgenda.do",
-      "total": 7,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.173913,
-        "cine": 0.217391,
-        "exposiciones": 0.217391,
-        "literatura": 0.173913,
-        "musica": 0.043478,
-        "teatro": 0.130435,
-        "unclassified": 0.043478
+        "charlas-conferencias": 0.166667,
+        "cine": 0.166667,
+        "exposiciones": 0.25,
+        "literatura": 0.208333,
+        "musica": 0.041667,
+        "teatro": 0.125,
+        "unclassified": 0.041667
       },
       "city_id": "gijon",
-      "dominant_category": "cine",
-      "dominant_share": 0.217391,
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.25,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 23,
+      "total": 24,
       "unclassified": 1,
-      "unclassified_rate": 0.043478
+      "unclassified_rate": 0.041667
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -190,6 +190,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "gijon::meidinerz jazz club": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Meidinerz Jazz Club",
+      "source_url": "https://meidinerzjazzclub.com/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "gijon::museo evaristo valle": {
       "category_distribution": {
         "exposiciones": 1.0
@@ -205,19 +218,20 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.025641,
-        "cine": 0.025641,
-        "cursos-talleres-campus": 0.230769,
-        "exposiciones": 0.564103,
-        "musica": 0.128205,
-        "teatro": 0.025641
+        "charlas-conferencias": 0.047619,
+        "cine": 0.02381,
+        "cursos-talleres-campus": 0.214286,
+        "exposiciones": 0.571429,
+        "literatura": 0.02381,
+        "musica": 0.095238,
+        "teatro": 0.02381
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.564103,
+      "dominant_share": 0.571429,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 39,
+      "total": 42,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -262,6 +276,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "gijon::toma 3 xixon": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Toma 3 Xixón",
+      "source_url": "https://www.instagram.com/toma3_xixon/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "gijon::turismo asturias agenda deportiva": {
       "category_distribution": {
         "deportes-actividad-fisica": 1.0
@@ -271,7 +298,7 @@
       "dominant_share": 1.0,
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "total": 1,
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -937,14 +964,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "6100715e0e1935385565fa704d537606fc5154af",
+  "source_ref": "2d38380706748bb4d0a8361e9e902f4c7bc48d2d",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 66,
-    "total_events": 443,
+    "source_count": 68,
+    "total_events": 452,
     "unclassified_count": 11,
-    "unclassified_rate": 0.024831
+    "unclassified_rate": 0.024336
   },
   "unclassified_queue": [
     {
