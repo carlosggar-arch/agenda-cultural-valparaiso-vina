@@ -1,11 +1,11 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-27T21:39:18+00:00",
+  "generated_at": "2026-08-27T22:50:39+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-27",
-      "generated_at": "2026-08-27T17:31:53-04:00",
+      "generated_at": "2026-08-27T18:43:16-04:00",
       "summary": {
         "total_events": 265,
         "average_quality_score": 89.7,
@@ -1232,114 +1232,107 @@
     },
     "gijon": {
       "city_id": "gijon",
-      "publication_date": "2026-08-27",
-      "generated_at": "2026-08-27T19:42:48+02:00",
+      "publication_date": "2026-08-28",
+      "generated_at": "2026-08-28T00:23:15+02:00",
       "summary": {
-        "total_events": 206,
+        "total_events": 201,
         "average_quality_score": 97.3,
         "quality_class": "excellent",
         "sources_catalogued": 50,
-        "sources_producing": 21,
-        "sources_zero": 29,
-        "review_priority_zero_sources": 29,
+        "sources_producing": 20,
+        "sources_zero": 30,
+        "review_priority_zero_sources": 30,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 57.3,
+        "top3_source_share_pct": 56.7,
         "unattributed_events": 0
       },
       "field_coverage": {
         "date_pct": 100.0,
-        "time_pct": 73.3,
+        "time_pct": 72.6,
         "venue_pct": 100.0,
         "image_pct": 100.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 97.6,
+        "official_source_pct": 97.5,
         "price_known_pct": 100.0
       },
       "category_distribution": [
         {
           "id": "teatro",
           "label": "Teatro / artes escénicas",
-          "count": 72,
-          "share_pct": 35.0,
+          "count": 71,
+          "share_pct": 35.3,
           "underrepresented": false
         },
         {
           "id": "musica",
           "label": "Música",
           "count": 41,
-          "share_pct": 19.9,
+          "share_pct": 20.4,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 30,
-          "share_pct": 14.6,
+          "count": 28,
+          "share_pct": 13.9,
           "underrepresented": false
         },
         {
           "id": "museos",
           "label": "Museos",
-          "count": 17,
-          "share_pct": 8.3,
+          "count": 16,
+          "share_pct": 8.0,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
           "count": 14,
-          "share_pct": 6.8,
+          "share_pct": 7.0,
           "underrepresented": false
         },
         {
           "id": "deporte-bienestar",
           "label": "Deporte / bienestar",
           "count": 8,
-          "share_pct": 3.9,
+          "share_pct": 4.0,
           "underrepresented": true
         },
         {
           "id": "actividad-panorama",
           "label": "Actividad / panorama",
           "count": 8,
-          "share_pct": 3.9,
+          "share_pct": 4.0,
           "underrepresented": true
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 7,
-          "share_pct": 3.4,
+          "count": 6,
+          "share_pct": 3.0,
           "underrepresented": true
         },
         {
           "id": "gastronomia-ferias",
           "label": "Gastronomía / ferias",
           "count": 6,
-          "share_pct": 2.9,
+          "share_pct": 3.0,
           "underrepresented": true
         },
         {
           "id": "formacion-taller",
           "label": "Formación / taller",
-          "count": 2,
-          "share_pct": 1.0,
-          "underrepresented": true
-        },
-        {
-          "id": "artes-visuales-museo",
-          "label": "Artes visuales / museo",
-          "count": 1,
-          "share_pct": 0.5,
+          "count": 3,
+          "share_pct": 1.5,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Gijón",
-          "count": 199,
-          "share_pct": 96.6
+          "count": 194,
+          "share_pct": 96.5
         },
         {
           "area": "NAVA",
@@ -1383,8 +1376,7 @@
           "actividad-panorama",
           "cine",
           "gastronomia-ferias",
-          "formacion-taller",
-          "artes-visuales-museo"
+          "formacion-taller"
         ],
         "source_concentration_high": false,
         "review_priority_zero_sources": [
@@ -1400,6 +1392,7 @@
           "laboral_cinemateca",
           "mercado_artesano_ecologico_gijon",
           "museo_barjola",
+          "museo_evaristo_valle",
           "universidad_popular_gijon",
           "museo_ferrocarril_asturias",
           "libreria_de_bolsillo_gijon",
@@ -1429,8 +1422,8 @@
         {
           "id": "gijon_opendata_events",
           "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-          "count": 48,
-          "quality_score": 96.9,
+          "count": 44,
+          "quality_score": 96.6,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -1439,7 +1432,7 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 68.8,
+            "time_pct": 65.9,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
@@ -1449,10 +1442,10 @@
           "categories": {
             "cine": 2,
             "teatro": 3,
-            "museos": 16,
-            "exposiciones": 19,
+            "museos": 15,
+            "exposiciones": 17,
             "cultura": 4,
-            "musica": 4
+            "musica": 3
           }
         },
         {
@@ -1508,8 +1501,8 @@
         {
           "id": "centro_cultura_antiguo_instituto",
           "name": "Centro de Cultura Antiguo Instituto",
-          "count": 27,
-          "quality_score": 96.7,
+          "count": 26,
+          "quality_score": 96.5,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -1518,7 +1511,7 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 66.7,
+            "time_pct": 65.4,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
@@ -1528,7 +1521,7 @@
           "categories": {
             "teatro": 5,
             "exposiciones": 6,
-            "cine": 5,
+            "cine": 4,
             "cultura": 9,
             "museos": 1,
             "musica": 1
@@ -1707,30 +1700,6 @@
           }
         },
         {
-          "id": "el_percebe_gijon",
-          "name": "El Percebe Comedy",
-          "count": 3,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "teatro": 3
-          }
-        },
-        {
           "id": "bola8_rock_club",
           "name": "Bola 8 Rock Club",
           "count": 2,
@@ -1752,6 +1721,30 @@
           },
           "categories": {
             "musica": 2
+          }
+        },
+        {
+          "id": "el_percebe_gijon",
+          "name": "El Percebe Comedy",
+          "count": 2,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 0.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "teatro": 2
           }
         },
         {
@@ -1777,6 +1770,54 @@
           "categories": {
             "exposiciones": 1,
             "teatro": 1
+          }
+        },
+        {
+          "id": "juventud_gijon",
+          "name": "Juventud Gijón/Xixón — Oficina de Juventud",
+          "count": 2,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 50.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "formacion-taller": 2
+          }
+        },
+        {
+          "id": "meidinerz_jazz_club",
+          "name": "Meidinerz Jazz Club",
+          "count": 2,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "musica": 2
           }
         },
         {
@@ -1849,78 +1890,6 @@
           },
           "categories": {
             "teatro": 1
-          }
-        },
-        {
-          "id": "juventud_gijon",
-          "name": "Juventud Gijón/Xixón — Oficina de Juventud",
-          "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "formacion-taller": 1
-          }
-        },
-        {
-          "id": "meidinerz_jazz_club",
-          "name": "Meidinerz Jazz Club",
-          "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "musica": 1
-          }
-        },
-        {
-          "id": "museo_evaristo_valle",
-          "name": "Museo Evaristo Valle",
-          "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "artes-visuales-museo": 1
           }
         },
         {
