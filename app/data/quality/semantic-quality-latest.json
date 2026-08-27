@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "669db28ea9618c73933a04d450c606ec427fc131070db8c6ccac0f935b0884d7",
-  "generated_at": "2026-08-27T17:45:33Z",
+  "fingerprint": "73c7df993c8009f861ef413f4ecebc068177352f94f516f1eb3abfa4963580a5",
+  "generated_at": "2026-08-27T20:53:26Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -318,31 +318,32 @@
     },
     "valparaiso::balmaceda arte joven valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.5,
-        "exposiciones": 0.5
+        "cursos-talleres-campus": 0.4,
+        "exposiciones": 0.4,
+        "teatro": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.5,
+      "dominant_share": 0.4,
       "source_name": "Balmaceda Arte Joven Valparaíso",
       "source_url": "https://www.instagram.com/p/DcPK07ej4A0/",
-      "total": 4,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::casa de la cultura de valparaiso": {
       "category_distribution": {
-        "musica": 0.666667,
-        "unclassified": 0.333333
+        "musica": 0.75,
+        "unclassified": 0.25
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.666667,
+      "dominant_share": 0.75,
       "source_name": "Casa de la Cultura de Valparaíso",
       "source_url": "https://www.instagram.com/p/DcGo3vAumzV/",
-      "total": 3,
+      "total": 4,
       "unclassified": 1,
-      "unclassified_rate": 0.333333
+      "unclassified_rate": 0.25
     },
     "valparaiso::casa prisma valpo": {
       "category_distribution": {
@@ -395,7 +396,7 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-los-domingos-2025-cine-arte-vina-del-mar",
+      "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar",
       "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -769,16 +770,16 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "ferias-vida-local": 0.018868,
-        "musica": 0.962264,
-        "teatro": 0.018868
+        "ferias-vida-local": 0.018519,
+        "musica": 0.962963,
+        "teatro": 0.018519
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.962264,
+      "dominant_share": 0.962963,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/lucybriceoenteatromauriscdvalparaiso",
-      "total": 53,
+      "total": 54,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -879,16 +880,16 @@
     },
     "valparaiso::trotamundos valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.047619,
-        "musica": 0.904762,
-        "teatro": 0.047619
+        "cursos-talleres-campus": 0.034483,
+        "musica": 0.931034,
+        "teatro": 0.034483
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.904762,
+      "dominant_share": 0.931034,
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://www.instagram.com/p/DchYzahRGpi/",
-      "total": 21,
+      "total": 29,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -964,14 +965,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "2d38380706748bb4d0a8361e9e902f4c7bc48d2d",
+  "source_ref": "f2aa62bb788bbc223454213f155db34684373cc1",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 68,
-    "total_events": 452,
+    "total_events": 463,
     "unclassified_count": 11,
-    "unclassified_rate": 0.024336
+    "unclassified_rate": 0.023758
   },
   "unclassified_queue": [
     {
