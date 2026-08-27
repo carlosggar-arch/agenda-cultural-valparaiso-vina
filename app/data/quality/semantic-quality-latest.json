@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "7d7a9d45dffcae92a140ba710f2256564d0778a33c675d35fdb88fa89f82562e",
-  "generated_at": "2026-08-26T20:10:04Z",
+  "fingerprint": "d49eb8de09b4d6a2271b550a35fcc0713745bcac5e113ee1a5cc849e88c44399",
+  "generated_at": "2026-08-27T10:48:46Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -277,14 +277,15 @@
     },
     "valparaiso::artequin vina del mar": {
       "category_distribution": {
-        "cursos-talleres-campus": 1.0
+        "cursos-talleres-campus": 0.75,
+        "exposiciones": 0.25
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 1.0,
+      "dominant_share": 0.75,
       "source_name": "Artequin Viña del Mar",
       "source_url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
-      "total": 1,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -324,24 +325,27 @@
       "dominant_category": "musica",
       "dominant_share": 1.0,
       "source_name": "Casa Prisma Valpo",
-      "source_url": "https://www.instagram.com/p/DcWsHKFmCMP/",
-      "total": 3,
+      "source_url": "https://www.instagram.com/p/DciJOkGONcV/",
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::centro de extension duoc uc valparaiso": {
       "category_distribution": {
-        "cine": 0.5,
-        "unclassified": 0.5
+        "cine": 0.428571,
+        "ferias-vida-local": 0.142857,
+        "musica": 0.142857,
+        "teatro": 0.142857,
+        "unclassified": 0.142857
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.5,
+      "dominant_share": 0.428571,
       "source_name": "Centro de Extensión Duoc UC Valparaíso",
-      "source_url": "https://www.instagram.com/p/DcPghTSOOAF/",
-      "total": 2,
+      "source_url": "https://luma.com/extensionduocuc",
+      "total": 7,
       "unclassified": 1,
-      "unclassified_rate": 0.5
+      "unclassified_rate": 0.142857
     },
     "valparaiso::cine arte vina del mar": {
       "category_distribution": {
@@ -351,8 +355,21 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-546173",
-      "total": 11,
+      "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
+      "total": 4,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::cineartevina cl": {
+      "category_distribution": {
+        "cine": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 1.0,
+      "source_name": "cineartevina.cl",
+      "source_url": "https://cineartevina.cl/#funcion-los-domingos-2025-cine-arte-vina-del-mar",
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -371,31 +388,47 @@
     },
     "valparaiso::cultura pucv": {
       "category_distribution": {
-        "cine": 0.285714,
-        "cursos-talleres-campus": 0.428571,
-        "musica": 0.285714
+        "cine": 0.2,
+        "cursos-talleres-campus": 0.6,
+        "musica": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.428571,
+      "dominant_share": 0.6,
       "source_name": "Cultura PUCV",
-      "source_url": "https://teatrovina.cl/evento/concierto-noche-de-opera/",
-      "total": 7,
+      "source_url": "https://www.pucv.cl/pucv/site/tax/port/fil_evento/taxport_28___1.html",
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::cultura usm": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.083333,
-        "musica": 0.833333,
-        "teatro": 0.083333
+        "cursos-talleres-campus": 0.153846,
+        "musica": 0.769231,
+        "teatro": 0.076923
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.833333,
+      "dominant_share": 0.769231,
       "source_name": "Cultura USM",
       "source_url": "https://www.instagram.com/p/DcR49rrREly/",
-      "total": 12,
+      "total": 13,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::culturas vina": {
+      "category_distribution": {
+        "cursos-talleres-campus": 0.454545,
+        "deportes-actividad-fisica": 0.090909,
+        "exposiciones": 0.363636,
+        "literatura": 0.090909
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cursos-talleres-campus",
+      "dominant_share": 0.454545,
+      "source_name": "Culturas Viña",
+      "source_url": "https://www.instagram.com/p/DcRIocOxXrs/",
+      "total": 11,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -412,6 +445,20 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::deportes vina del mar": {
+      "category_distribution": {
+        "exposiciones": 0.5,
+        "teatro": 0.5
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.5,
+      "source_name": "Deportes Viña del Mar",
+      "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::destino valparaiso": {
       "category_distribution": {
         "teatro": 1.0
@@ -421,6 +468,19 @@
       "dominant_share": 1.0,
       "source_name": "Destino Valparaíso",
       "source_url": "https://www.instagram.com/p/DceTb1mCrQF/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::destinovalpo cl": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "destinovalpo.cl",
+      "source_url": "https://destinovalpo.cl/cartelera/",
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -466,31 +526,32 @@
     },
     "valparaiso::enjoy vina del mar": {
       "category_distribution": {
-        "teatro": 1.0
+        "musica": 0.6,
+        "teatro": 0.4
       },
       "city_id": "valparaiso",
-      "dominant_category": "teatro",
-      "dominant_share": 1.0,
+      "dominant_category": "musica",
+      "dominant_share": 0.6,
       "source_name": "Enjoy Viña del Mar",
       "source_url": "https://www.instagram.com/p/DcJ_ZpEiC7E/",
-      "total": 2,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::estadio espanol recreo": {
       "category_distribution": {
-        "cine": 0.2,
-        "ferias-vida-local": 0.2,
-        "musica": 0.6
+        "ferias-vida-local": 0.166667,
+        "musica": 0.666667,
+        "unclassified": 0.166667
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.6,
+      "dominant_share": 0.666667,
       "source_name": "Estadio Español Recreo",
-      "source_url": "https://www.instagram.com/p/DcTgLWJDKOj/",
-      "total": 5,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
+      "source_url": "https://www.instagram.com/p/DcbcSW4D9Hf/",
+      "total": 6,
+      "unclassified": 1,
+      "unclassified_rate": 0.166667
     },
     "valparaiso::estrella negra club de jazz": {
       "category_distribution": {
@@ -500,8 +561,22 @@
       "dominant_category": "musica",
       "dominant_share": 1.0,
       "source_name": "Estrella Negra Club de Jazz",
-      "source_url": "https://www.instagram.com/p/DcRnPCKhs_7/",
-      "total": 4,
+      "source_url": "https://www.instagram.com/p/DcUP9u9Ae-Q/",
+      "total": 3,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::insomnia cine": {
+      "category_distribution": {
+        "cine": 0.857143,
+        "cursos-talleres-campus": 0.142857
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 0.857143,
+      "source_name": "Insomnia Cine",
+      "source_url": "https://www.passline.com/eventos/los-pajaros-1963-alfred-hitchcock",
+      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -518,25 +593,11 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "valparaiso::instituto le chat": {
-      "category_distribution": {
-        "cursos-talleres-campus": 1.0
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 1.0,
-      "source_name": "Instituto Le Chat",
-      "source_url": "https://lechat.cl/taller-de-ceramica-en-recreo-vina-del-mar/",
-      "total": 1,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
     "valparaiso::ipanema club vina": {
       "category_distribution": {
-        "ferias-vida-local": 0.2,
         "musica": 0.4,
         "teatro": 0.2,
-        "unclassified": 0.2
+        "unclassified": 0.4
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
@@ -544,8 +605,8 @@
       "source_name": "Ipanema Club Viña",
       "source_url": "https://www.instagram.com/p/DccJUrRR_S1/",
       "total": 5,
-      "unclassified": 1,
-      "unclassified_rate": 0.2
+      "unclassified": 2,
+      "unclassified_rate": 0.4
     },
     "valparaiso::jardin botanico nacional de vina del mar": {
       "category_distribution": {
@@ -574,6 +635,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::luma com": {
+      "category_distribution": {
+        "cursos-talleres-campus": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cursos-talleres-campus",
+      "dominant_share": 1.0,
+      "source_name": "luma.com",
+      "source_url": "https://luma.com/huertosurbanos",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::masita rica": {
       "category_distribution": {
         "musica": 0.5,
@@ -590,30 +664,31 @@
     },
     "valparaiso::museo baburizza": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.25,
-        "exposiciones": 0.75
+        "cursos-talleres-campus": 0.2,
+        "exposiciones": 0.8
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.75,
+      "dominant_share": 0.8,
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "total": 4,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo de historia natural de valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.125,
-        "exposiciones": 0.75,
-        "literatura": 0.125
+        "charlas-conferencias": 0.090909,
+        "cursos-talleres-campus": 0.090909,
+        "exposiciones": 0.727273,
+        "literatura": 0.090909
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.75,
+      "dominant_share": 0.727273,
       "source_name": "Museo de Historia Natural de Valparaíso",
       "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "total": 8,
+      "total": 11,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -633,60 +708,50 @@
     },
     "valparaiso::museo palacio rioja": {
       "category_distribution": {
-        "cine": 0.1,
-        "cursos-talleres-campus": 0.4,
-        "exposiciones": 0.2,
-        "literatura": 0.2,
-        "musica": 0.1
+        "cursos-talleres-campus": 0.375,
+        "exposiciones": 0.25,
+        "literatura": 0.25,
+        "musica": 0.125
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.4,
+      "dominant_share": 0.375,
       "source_name": "Museo Palacio Rioja",
       "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-      "total": 10,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
-    "valparaiso::natalia paz saldias donoso": {
-      "category_distribution": {
-        "cursos-talleres-campus": 1.0
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 1.0,
-      "source_name": "Natalia Paz Saldías Donoso",
-      "source_url": "https://www.nataliasaldias.com/clases-particulares/",
-      "total": 1,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::parque cultural de valparaiso": {
       "category_distribution": {
-        "exposiciones": 0.666667,
-        "teatro": 0.333333
+        "cine": 0.111111,
+        "exposiciones": 0.333333,
+        "literatura": 0.111111,
+        "musica": 0.111111,
+        "teatro": 0.222222,
+        "unclassified": 0.111111
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.666667,
+      "dominant_share": 0.333333,
       "source_name": "Parque Cultural de Valparaíso",
       "source_url": "https://parquecultural.cl/events/ddhh-exposicion-operacion-colombo-2026-07-10-2026-07-11-2026-07-12-2026-07-14-2026-07-15-2026-07-16-2026-07-17-2026-07-18-2026-07-19-2026-07-21-2026-07-22-2026-07-23-2026-07-24-2026-07-2-12-2026-08-13/",
-      "total": 3,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
+      "total": 9,
+      "unclassified": 1,
+      "unclassified_rate": 0.111111
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "ferias-vida-local": 0.020833,
-        "musica": 0.958333,
-        "teatro": 0.020833
+        "ferias-vida-local": 0.018868,
+        "musica": 0.962264,
+        "teatro": 0.018868
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.958333,
+      "dominant_share": 0.962264,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/lucybriceoenteatromauriscdvalparaiso",
-      "total": 48,
+      "total": 53,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -716,30 +781,17 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "valparaiso::red studio": {
-      "category_distribution": {
-        "musica": 1.0
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 1.0,
-      "source_name": "RED Studio",
-      "source_url": "https://www.redstudio.cl/",
-      "total": 1,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
     "valparaiso::sala teatro ipa": {
       "category_distribution": {
-        "musica": 0.75,
-        "teatro": 0.25
+        "musica": 0.6,
+        "teatro": 0.4
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.75,
+      "dominant_share": 0.6,
       "source_name": "Sala Teatro IPA",
       "source_url": "https://www.instagram.com/p/Dcb1hh0O_7_/",
-      "total": 4,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -771,44 +823,45 @@
     },
     "valparaiso::teatro municipal de vina del mar": {
       "category_distribution": {
-        "musica": 0.777778,
-        "teatro": 0.222222
+        "musica": 0.7,
+        "teatro": 0.3
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.777778,
+      "dominant_share": 0.7,
       "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/concierto-te-mana/",
-      "total": 9,
+      "source_url": "https://teatrovina.cl/evento/tomas-va-a-morir-ley-de-murphy/",
+      "total": 10,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::teatromuseo": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.25,
-        "exposiciones": 0.5,
-        "teatro": 0.25
+        "cursos-talleres-campus": 0.2,
+        "exposiciones": 0.4,
+        "teatro": 0.4
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.5,
+      "dominant_share": 0.4,
       "source_name": "TeatroMuseo",
       "source_url": "https://www.instagram.com/p/DccLnu9jg6P/",
-      "total": 4,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::trotamundos valparaiso": {
       "category_distribution": {
-        "musica": 0.941176,
-        "teatro": 0.058824
+        "cursos-talleres-campus": 0.047619,
+        "musica": 0.904762,
+        "teatro": 0.047619
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.941176,
+      "dominant_share": 0.904762,
       "source_name": "Trotamundos Valparaíso",
-      "source_url": "https://linktr.ee/trotavalparaiso",
-      "total": 17,
+      "source_url": "https://www.instagram.com/p/DchYzahRGpi/",
+      "total": 21,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -827,17 +880,18 @@
     },
     "valparaiso::valpo cultura": {
       "category_distribution": {
-        "cine": 0.2,
-        "exposiciones": 0.2,
-        "literatura": 0.2,
-        "musica": 0.4
+        "cine": 0.142857,
+        "cursos-talleres-campus": 0.285714,
+        "exposiciones": 0.142857,
+        "literatura": 0.142857,
+        "musica": 0.285714
       },
       "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 0.4,
+      "dominant_category": "cursos-talleres-campus",
+      "dominant_share": 0.285714,
       "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/destino-valparaiso-agosto-2026/",
-      "total": 5,
+      "source_url": "https://www.instagram.com/p/DcB2cjWOC9W/",
+      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -856,45 +910,41 @@
     },
     "valparaiso::visita vina municipalidad de vina del mar": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.333333,
-        "exposiciones": 0.333333,
-        "literatura": 0.166667,
-        "musica": 0.166667
+        "exposiciones": 1.0
       },
       "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.333333,
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
       "source_name": "Visita Viña — Municipalidad de Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2/",
-      "total": 6,
+      "source_url": "https://www.instagram.com/p/Db_p9-OCLFl/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::visita vina museo palacio rioja": {
       "category_distribution": {
-        "cine": 0.25,
-        "cursos-talleres-campus": 0.375,
-        "literatura": 0.25,
-        "musica": 0.125
+        "cursos-talleres-campus": 0.25,
+        "literatura": 0.5,
+        "musica": 0.25
       },
       "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.375,
+      "dominant_category": "literatura",
+      "dominant_share": 0.5,
       "source_name": "Visita Viña — Museo Palacio Rioja",
       "source_url": "https://visitavina.munivina.cl/actividades/",
-      "total": 8,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "67fbf849284873910ec7dc3f30ed07422f254e1a",
+  "source_ref": "6100715e0e1935385565fa704d537606fc5154af",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 63,
-    "total_events": 404,
-    "unclassified_count": 8,
-    "unclassified_rate": 0.019802
+    "source_count": 66,
+    "total_events": 443,
+    "unclassified_count": 11,
+    "unclassified_rate": 0.024831
   },
   "unclassified_queue": [
     {
@@ -970,12 +1020,42 @@
     {
       "candidates": [],
       "city_id": "valparaiso",
+      "event_id": "agenda_d222f814bfe6ed49899ad8a9",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Estadio Español Recreo",
+      "source_url": "https://www.instagram.com/p/DchYNRbjg6F/",
+      "title": "La guerra en el desierto"
+    },
+    {
+      "candidates": [],
+      "city_id": "valparaiso",
       "event_id": "agenda_5c73be2934bf553e6bf2a663",
       "evidence": [],
       "score": 0,
       "source_name": "Ipanema Club Viña",
       "source_url": "https://www.instagram.com/p/DcUvWnMOvy2/",
       "title": "Brasil en ipanema club"
+    },
+    {
+      "candidates": [],
+      "city_id": "valparaiso",
+      "event_id": "agenda_cc6f38f76357b482ee0e16d0",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Ipanema Club Viña",
+      "source_url": "https://www.instagram.com/ipanemaclubvina/",
+      "title": "Llegó la gran final! 🎤"
+    },
+    {
+      "candidates": [],
+      "city_id": "valparaiso",
+      "event_id": "agenda_853eefb14e985f3f6a9ace5a",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Parque Cultural de Valparaíso",
+      "source_url": "https://parquecultural.cl/events/ddhh-presentacion-del-libro-impunidad-en-chile-derechos-humanos-y-protesta-social-la-historia-vuelve-a-repetirse/",
+      "title": "Organiza: Parque Cultural de Valparaíso"
     }
   ]
 }
