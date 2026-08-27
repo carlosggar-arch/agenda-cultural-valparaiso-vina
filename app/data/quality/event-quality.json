@@ -1,14 +1,14 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-08-27T20:53:24+00:00",
+  "generated_at": "2026-08-27T21:39:18+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-08-27",
-      "generated_at": "2026-08-27T16:44:45-04:00",
+      "generated_at": "2026-08-27T17:31:53-04:00",
       "summary": {
         "total_events": 265,
-        "average_quality_score": 89.8,
+        "average_quality_score": 89.7,
         "quality_class": "correct",
         "sources_catalogued": 50,
         "sources_producing": 42,
@@ -23,11 +23,11 @@
         "date_pct": 87.2,
         "time_pct": 78.9,
         "venue_pct": 97.7,
-        "image_pct": 83.4,
+        "image_pct": 82.3,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
         "official_source_pct": 53.6,
-        "price_known_pct": 76.2
+        "price_known_pct": 76.6
       },
       "category_distribution": [
         {
@@ -129,7 +129,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 83.4,
+        "relevant_image_pct": 82.3,
         "removed_events": {}
       },
       "sources": [
@@ -137,7 +137,7 @@
           "id": "portaltickets_valparaiso",
           "name": "PortalTickets — Región de Valparaíso",
           "count": 53,
-          "quality_score": 96.0,
+          "quality_score": 95.7,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -148,7 +148,7 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 66.0,
+            "image_pct": 62.3,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 96.2
@@ -625,7 +625,7 @@
           "id": "sala_teatro_ipa",
           "name": "Sala Teatro IPA",
           "count": 5,
-          "quality_score": 96.0,
+          "quality_score": 94.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -636,7 +636,7 @@
             "date_pct": 100.0,
             "time_pct": 80.0,
             "venue_pct": 100.0,
-            "image_pct": 80.0,
+            "image_pct": 60.0,
             "official_link_pct": 100.0,
             "official_source_pct": 80.0,
             "price_known_pct": 100.0
@@ -678,7 +678,7 @@
           "id": "artequinvina",
           "name": "Artequin Viña del Mar",
           "count": 4,
-          "quality_score": 96.2,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -692,7 +692,7 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 75.0
+            "price_known_pct": 100.0
           },
           "categories": {
             "cursos-talleres": 3,
