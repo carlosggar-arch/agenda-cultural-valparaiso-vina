@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "c24d3d809da5a563a6ae3e0f3b784f0c15b0ccf7dfb30dc9c7fa97cf5f361f4b",
-  "generated_at": "2026-08-27T22:50:41Z",
+  "fingerprint": "373897c659dab599e3ff7b4f3a2f4c7202bb311f698f66241a2cd292d223767f",
+  "generated_at": "2026-08-28T00:03:42Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -462,15 +462,14 @@
     },
     "valparaiso::deportes vina del mar": {
       "category_distribution": {
-        "exposiciones": 0.5,
-        "teatro": 0.5
+        "teatro": 1.0
       },
       "city_id": "valparaiso",
-      "dominant_category": "exposiciones",
-      "dominant_share": 0.5,
+      "dominant_category": "teatro",
+      "dominant_share": 1.0,
       "source_name": "Deportes Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2/",
-      "total": 2,
+      "source_url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -723,17 +722,17 @@
     },
     "valparaiso::museo palacio rioja": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.375,
-        "exposiciones": 0.25,
-        "literatura": 0.25,
-        "musica": 0.125
+        "cursos-talleres-campus": 0.333333,
+        "exposiciones": 0.333333,
+        "literatura": 0.222222,
+        "musica": 0.111111
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.375,
+      "dominant_share": 0.333333,
       "source_name": "Museo Palacio Rioja",
-      "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-      "total": 8,
+      "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2/",
+      "total": 9,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -952,7 +951,7 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "38ce16e152ab3f40b041b3e8de94272f5427e754",
+  "source_ref": "79e63d883114ee85609e15bf95e3958af3bdfc34",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
