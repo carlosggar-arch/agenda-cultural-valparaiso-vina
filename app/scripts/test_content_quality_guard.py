@@ -141,6 +141,46 @@ def test_removes_expired_event_against_publication_date() -> None:
     assert changes["expired_removed"][0]["id"] == "past-campus"
 
 
+def test_official_occurrence_expiration_overrides_contaminated_future_schedule() -> None:
+    dataset = {"events": [event(
+        id="expired-official-occurrence",
+        title="Comedia internacional",
+        description="Fecha 31-julio-2026 Finalizdo. Presentación de comedia.",
+        source_url="https://official.example/actividad/comedia/?occurrence=2026-07-31",
+        links={"official": "https://official.example/actividad/comedia/?occurrence=2026-07-31"},
+        schedule={"mode": "multi_day", "start": "2026-08-28T09:00:00-04:00", "end": "2026-09-05", "occurrences": []},
+        provenance={"official_metadata": [{"url": "https://official.example/actividad/comedia/?occurrence=2026-07-31", "fields": ["date"]}]},
+    )], "publication_date": "2026-08-29", "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    receipt = changes["expired_removed"][0]
+    assert receipt["reason"] == "official_occurrence_expired_schedule_conflict"
+    assert receipt["official_occurrence_date"] == "2026-07-31"
+    assert receipt["source_host"] == "official.example"
+    assert receipt["provenance"]["official_metadata"][0]["fields"] == ["date"]
+
+
+def test_official_occurrence_rule_does_not_remove_future_or_series_event() -> None:
+    future = event(
+        id="future-official-occurrence",
+        title="Comedia futura",
+        description="Presentación confirmada.",
+        source_url="https://official.example/actividad/comedia/?occurrence=2026-09-02",
+        schedule={"mode": "single", "start": "2026-09-02T20:00:00-04:00", "end": None, "occurrences": []},
+    )
+    series = event(
+        id="valid-series",
+        title="Ciclo de comedia",
+        description="Una sesión anterior ha finalizado; quedan nuevas funciones.",
+        source_url="https://official.example/actividad/ciclo/?occurrence=2026-07-31",
+        schedule={"mode": "recurring", "start": "2026-07-31T20:00:00-04:00", "end": "2026-09-02", "occurrences": [{"start": "2026-09-02T20:00:00-04:00"}]},
+    )
+    dataset = {"events": [future, series], "publication_date": "2026-08-29", "counts": {"total": 2}}
+    changes = apply_guard(dataset)
+    assert {item["id"] for item in dataset["events"]} == {"future-official-occurrence", "valid-series"}
+    assert changes["expired_removed"] == []
+
+
 def test_prunes_past_occurrences_and_keeps_future_session() -> None:
     recurring = event(
         id="recurring",
@@ -395,6 +435,8 @@ def main() -> None:
     test_quarantines_unrecoverable_generic_title()
     test_quarantines_calendar_navigation_copy()
     test_removes_expired_event_against_publication_date()
+    test_official_occurrence_expiration_overrides_contaminated_future_schedule()
+    test_official_occurrence_rule_does_not_remove_future_or_series_event()
     test_prunes_past_occurrences_and_keeps_future_session()
     test_quarantines_monthly_program_overview_without_concrete_event()
     test_quarantines_anniversary_news_without_concrete_event()

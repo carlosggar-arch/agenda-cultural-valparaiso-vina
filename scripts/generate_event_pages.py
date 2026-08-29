@@ -731,7 +731,7 @@ def generate(*, check: bool = False) -> dict[str, int]:
             if not check:
                 directory = ROOT / relative
                 directory.mkdir(parents=True, exist_ok=True)
-                (directory / "index.html").write_text(page, encoding="utf-8")
+                (directory / "index.html").write_text(page, encoding="utf-8", newline="\n")
                 if ics:
                     (directory / "evento.ics").write_text(ics, encoding="utf-8", newline="")
 
@@ -739,7 +739,7 @@ def generate(*, check: bool = False) -> dict[str, int]:
         if len(event_urls) != sum(counts.values()):
             raise SystemExit("Event URL count does not match generated event count")
     else:
-        SITEMAP.write_text(render_sitemap(event_urls), encoding="utf-8")
+        SITEMAP.write_text(render_sitemap(event_urls), encoding="utf-8", newline="\n")
     return counts
 
 

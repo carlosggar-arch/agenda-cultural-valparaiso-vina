@@ -1,0 +1,36 @@
+{
+  "status": "ok",
+  "dataset": "agenda_web.json",
+  "events_before": 256,
+  "events_after": 255,
+  "removed": 1,
+  "html_cleaned": [],
+  "titles_recovered": [],
+  "duplicates_consolidated": [],
+  "quarantined": [],
+  "expired_removed": [
+    {
+      "id": "agenda_b17a70d8d6c3ba9e3f1a6a49",
+      "title": "Stand up // Pugliese y Barraza",
+      "reason": "official_occurrence_expired_schedule_conflict",
+      "official_occurrence_date": "2026-07-31",
+      "source_url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+      "source_host": "visitavina.munivina.cl",
+      "scheduled_start": "2026-08-28T09:00:00-04:00",
+      "provenance": {
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_jsonld_or_metadata",
+            "fields": [
+              "price"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "past_occurrences_pruned": [],
+  "city_id": "dataset"
+}

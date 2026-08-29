@@ -4,11 +4,12 @@
   "publication_date": "2026-08-28",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 263,
-    "events": 259,
+    "total": 255,
+    "events": 251,
     "courses": 0,
     "flexible_offers": 1,
-    "programs": 3
+    "programs": 3,
+    "calls_for_submissions": 0
   },
   "events": [
     {
@@ -290,106 +291,17 @@
             "title": "Exposición temporal // A veces un mar dulce",
             "source_name": "Culturas Viña",
             "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
+          },
+          {
+            "id": "agenda_rioja_exhibition_mar_dulce_2026",
+            "title": "Exposición temporal // A veces un mar dulce",
+            "source_name": "Museo Palacio Rioja",
+            "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
           }
         ],
-        "duplicates_consolidated": 1
+        "duplicates_consolidated": 2
       },
       "source_id": "museo_palacio_rioja"
-    },
-    {
-      "id": "agenda_rioja_exhibition_mar_dulce_2026",
-      "title": "Exposición temporal // A veces un mar dulce",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-07-17",
-        "end": "2026-08-30",
-        "timezone": "America/Santiago",
-        "display_text": "2026-07-17 – 2026-08-30",
-        "occurrences": [],
-        "opening_time": "10:00",
-        "closing_time": "17:30",
-        "opening_hours": {
-          "display_text": "Martes a domingo · 10:00–17:30",
-          "opening_time": "10:00",
-          "closing_time": "17:30"
-        },
-        "start_confidence": "official_revalidation",
-        "end_confidence": "official_revalidation",
-        "hours_confidence": "official_event_page"
-      },
-      "location": {
-        "venue_id": "museo-palacio-rioja",
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja",
-        "address": "Quillota 214, Viña del Mar",
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
-      },
-      "organizer": "Museo Palacio Rioja",
-      "source_id": "museo_palacio_rioja",
-      "source_name": "Museo Palacio Rioja",
-      "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
-      "public_status": {
-        "source_official": true,
-        "cancelled": false,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": "Exposición confirmada en la cartelera oficial municipal Visita Viña. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-        "last_verified_at": "2026-08-26T13:13:00-04:00",
-        "registration_open": null
-      },
-      "description": "Exposición temporal de Josefina Acevedo, Rocio Mercado, Rosario Sotomayor, Krishna Escovedo y Javiera Sepúlveda, con el balneario y la memoria del litoral como eje curatorial.",
-      "tags": [
-        "Exposiciones",
-        "Museos",
-        "Museo Palacio Rioja",
-        "Visita Viña"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": "Exposición temporal // A veces un mar dulce"
-      },
-      "editorial": {
-        "classification": "event",
-        "reason": "official_revalidation:visitavina_rioja",
-        "covered_source_ids": [
-          "museo_palacio_rioja"
-        ],
-        "verified_public_event_overlay": true
-      },
-      "last_verified_at": "2026-08-26T13:13:00-04:00"
     },
     {
       "location": {
@@ -1315,80 +1227,6 @@
       "source_id": "valpocultura"
     },
     {
-      "id": "agenda_6a62b556b781a210a35f6599",
-      "title": "El Mesón Nerudiano (Dominica 35, Recoleta)",
-      "event_type": "event",
-      "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
-      },
-      "categories": [
-        {
-          "id": "otros",
-          "label": "Otros panoramas"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-22T20:30:00-04:00",
-        "end": "2026-08-28",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-22 · 20:30",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Casa de la Cultura de Valparaíso",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 8000,
-        "max_amount": 12000,
-        "display_text": "$8.000 · $10.000 · $12.000"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcGo3vAumzV/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcGo3vAumzV/"
-      },
-      "organizer": "Casa de la Cultura de Valparaíso",
-      "source_name": "Casa de la Cultura de Valparaíso",
-      "source_url": "https://www.instagram.com/p/DcGo3vAumzV/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Chile de mi corazón allá va, allá voy! Prontito nos encontramos en dos encuentros que serán toda mi dicha🥹 Miren, lean ahí les cuento: 🍇El primerito Sábado 22 de Agosto | 20:30H 🎟️ Entradas: Ticketnet.cl 🍇El segundito junto al querido Julian Herreros Rivera Vi...",
-      "tags": [
-        "cupos",
-        "entradas"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "./assets/event-images/valparaiso/d73966d39c6f860b65d8ad5c.webp",
-        "alt": "El Mesón Nerudiano (Dominica 35, Recoleta)"
-      },
-      "source_id": "casa_cultura_valparaiso"
-    },
-    {
       "id": "agenda_a336722c8e43e639f7d9891b",
       "title": "Nos vemos para juntos divertirnos y reírnos",
       "event_type": "event",
@@ -1913,77 +1751,6 @@
       "original_title": "PROGRAMACIÓN INSOMNIA"
     },
     {
-      "id": "agenda_6467e133788da5112c653367",
-      "title": "Las bases en historia destacada !",
-      "event_type": "event",
-      "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
-      },
-      "categories": [
-        {
-          "id": "otros",
-          "label": "Otros panoramas"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-28",
-        "end": "2026-10-31",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "El Pasaje Café",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DccS2CzlOLs/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DccS2CzlOLs/"
-      },
-      "organizer": "El Pasaje Café Viña",
-      "source_name": "El Pasaje Café Viña",
-      "source_url": "https://www.instagram.com/p/DccS2CzlOLs/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Gentes de buen corazón, poetas, jóvenes público en general amigos y amigas, acuartelarse cuanto sea posible, cuanto sea necesario. 7 días para el cierre de la segunda edición de SE BUSCA POETA. Nos vemos junto a @editorial_plo el 31 de octubre , en nuestra cel...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-man2-1.cdninstagram.com/v/t51.82787-15/785280934_18009353411957532_2488734928402567634_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzk3MTEyOTM0MzA1OTYyODM4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6Z0r1ZmHm2sQ7kNvwE55B7v&_nc_oc=AdrA1ooXgkEFwRqipRcCDBXQRlMYdk69BxPXovQ3rhH0Zv55p9sjEC9EZ5g7Iom5r6iaJRrebnGYi6WIF8By1dt8&_nc_zt=23&_nc_ht=scontent-man2-1.cdninstagram.com&_nc_gid=iqAVZ-cs-TfhyxUBbCy8Uw&_nc_ss=72a8c&oh=00_AQEeYe1f_M3ZpaM46D7FCLW6Az5MkW3pJRC6_hCUa3O5MQ&oe=6A94BC7D",
-        "alt": "Las bases en historia destacada !"
-      },
-      "source_id": "el_pasaje_cafe_vina"
-    },
-    {
       "location": {
         "online": false,
         "commune": "Viña del Mar",
@@ -2135,91 +1902,6 @@
         "rejection_reason": "generic_schedule_not_event_specific"
       },
       "source_id": "valpocultura"
-    },
-    {
-      "id": "agenda_b17a70d8d6c3ba9e3f1a6a49",
-      "title": "Stand up // Pugliese y Barraza",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro"
-        }
-      ],
-      "schedule": {
-        "mode": "multi_day",
-        "start": "2026-08-28T09:00:00-04:00",
-        "end": "2026-09-05",
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-28 · 09:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Deportes Viña del Mar",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
-        "tickets": null,
-        "registration": null,
-        "source": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31"
-      },
-      "organizer": "Deportes Viña del Mar",
-      "source_name": "Deportes Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
-      "last_verified_at": "2026-08-28T06:17:51-04:00",
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": "2026-08-28T06:17:51-04:00",
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Stand up // Pugliese y Barraza - Visita Viña Inicio Eventos Tours Tours Visita Viña Playas Museos y Palacios Plano de Viña Bus VisitaViña Teatro Municipal Idioma Español Inglés Portuguese Inicio actividad - Visita Viña Stand up // Pugliese y Barraza Fecha 31-julio-2026 Finalizdo! Hora 8:00 pm Stand up // Pugliese y Barraza Martin Pugliese y Juan Barraza, dos referentes de la comedia argentina aterrizan en Chile para una breve pero potente gira. Martín Pugliese, referente indiscutido del Stand Up en Argentina tanto para el público como para sus colegas, después de 25 años en el género y una carrera que combina éxito y prestigio, presenta su Nuevo Material con la solidez de siempre y las ganas de hacernos delirar con un show del más puro stand up especialmente preparado para acompañar tu verano. Juan Barraza, es egresado de la Escuela de Teatro de Buenos Aires (E.T.B.A.), también realizó talleres y seminarios de actuación, improvisación, máscara balinesa y clown en la ciudad de Buenos Aires. Ha realizado trabajos en cine, publicidad y teatro y ha transitado distintos géneros como el drama, el realismo, la comedia, el grotesco criollo y el absurdo. Como comediante de Stand Up participó de numerosos ciclos en las principales salas y bares del circuito. En televisión participó de “Comedy Central Presenta” latinoamérica, y también fue parte de “Stand Up Sin Fronteras”, emitido por el",
-      "tags": [
-        "Teatro",
-        "Deportes Viña del Mar"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "provenance": {
-        "official_metadata": [
-          {
-            "url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
-            "host": "visitavina.munivina.cl",
-            "method": "official_page_jsonld_or_metadata",
-            "fields": [
-              "price"
-            ]
-          }
-        ]
-      }
     },
     {
       "id": "agenda_578d0aac9b5a07a075f7178b",
@@ -8920,154 +8602,6 @@
       "source_id": "teatro_municipal_vina"
     },
     {
-      "id": "agenda_b60e2916477b5b0b95ef712d",
-      "title": "Pronto…",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-29T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-29 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": null,
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 100,
-        "max_amount": 700,
-        "display_text": "$500 · $600 · $700 · $100 · $150 · $200 · $250"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DcgJkh7txn7/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DcgJkh7txn7/"
-      },
-      "organizer": null,
-      "source_name": "Compañía La Paila",
-      "source_url": "https://www.instagram.com/p/DcgJkh7txn7/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": null,
-      "tags": [
-        "función",
-        "teatro"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "./assets/event-images/valparaiso/284408c5eac2c112c23a1e9d.webp",
-        "alt": "Pronto…"
-      },
-      "source_id": "compania_la_paila"
-    },
-    {
-      "id": "agenda_51c72abb046065810d84d45d",
-      "title": "Se llena, recomendamos reservar",
-      "event_type": "event",
-      "primary_category": {
-        "id": "teatro",
-        "label": "Teatro"
-      },
-      "categories": [
-        {
-          "id": "teatro",
-          "label": "Teatro"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-08-29T19:00:00-04:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-29 · 19:00",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": null,
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": false,
-        "currency": "CLP",
-        "min_amount": 100,
-        "max_amount": 700,
-        "display_text": "$500 · $600 · $700 · $100 · $150 · $200 · $250"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DbtJ2wGtNPv/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DbtJ2wGtNPv/"
-      },
-      "organizer": null,
-      "source_name": "Compañía La Paila",
-      "source_url": "https://www.instagram.com/p/DbtJ2wGtNPv/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "🤗",
-      "tags": [
-        "función",
-        "teatro"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-hou1-1.cdninstagram.com/v/t51.82787-15/766052931_17939184039296894_1243312992387786743_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ig_cache_key=Mzk1Nzg2Mjk5MjQ1MDk5OTI3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=eSGliU5CoqgQ7kNvwF0p809&_nc_oc=AdoT2QHTiAZsWTyBvAb0ZW4idxc2BiUXJbqGRPHfUUDI-NRkIPeSkJcjZ3EgH4Yfqb0&_nc_zt=23&_nc_ht=scontent-hou1-1.cdninstagram.com&_nc_gid=WqXevWuUGVr0p0If3pgXDw&_nc_ss=7ca8c&oh=00_AQEO7IVXIvOQUFZNqJQk53RiagHbtZ01JwH7n6nhVxuxvg&oe=6A8E08D2",
-        "alt": "Se llena, recomendamos reservar"
-      },
-      "source_id": "compania_la_paila"
-    },
-    {
       "id": "agenda_portaltickets_valparaiso_794dcfc84878d488",
       "title": "PUERTO ORQUESTA",
       "event_type": "event",
@@ -13388,77 +12922,6 @@
         "title_recovered_from_official_url": true
       },
       "original_title": "CABA ROCK en Trotamundos: 50 años de El jardín de los presentes con Leo Sujatovich y El Diluvio y los Pasajeros"
-    },
-    {
-      "id": "agenda_d09f5a9206985455342c5be8",
-      "title": "Junto a Enjoy Viña queremos regalarte una escapada para dos. Sí, UNA ESTADÍA DOBLE EN ENJOY VIÑA",
-      "event_type": "event",
-      "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
-      },
-      "categories": [
-        {
-          "id": "otros",
-          "label": "Otros panoramas"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-09-07",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-07",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": null,
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DckMq3do_qj/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DckMq3do_qj/"
-      },
-      "organizer": null,
-      "source_name": "Enjoy Viña del Mar",
-      "source_url": "https://www.instagram.com/p/DckMq3do_qj/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "🫢 El trato es simple: Tú compartes este reel en tus historias, etiquetas a @enjoy_vina en la publicación y quedas participando 🎰✨ Nosotros ponemos el panorama, tú eliges a tu partner. 📅 El lunes 7 de septiembre sabremos quién se va a disfrutar la escapada. ¿Qu...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://scontent-waw2-2.cdninstagram.com/v/t51.82787-15/785710138_17957808168207176_5767148534488522257_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk3MzM1NjQ5MzU3Njg2MjM3MTE3OTU3ODA4MTY1MjA3MTc2.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=MNFC9LamYk0Q7kNvwFuKK5f&_nc_oc=AdotNUZb_WqQljQB7NRrQ72eonu08kQCoUagbrsN_NtoLgV3s3eCQWEUQQgNC3c032U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-waw2-2.cdninstagram.com&_nc_gid=LLPmp2XrqWw51j97F_Edfw&_nc_ss=7a22e&oh=00_AQESHe3N9GzGlbX-whRlhoIdg6ZB94_tubJVbVfQOSMs2g&oe=6A9726BE",
-        "alt": "Junto a Enjoy Viña queremos regalarte una escapada para dos. Sí, UNA ESTADÍA DOBLE EN ENJOY VIÑA"
-      },
-      "source_id": "enjoy_vina"
     },
     {
       "id": "agenda_portaltickets_valparaiso_7156e9cdf9ba86c1",
@@ -19517,79 +18980,6 @@
         "rejection_reason": "generic_schedule_not_event_specific"
       },
       "source_id": "estrella_negra_jazz"
-    },
-    {
-      "id": "agenda_b4e33a3e573b09d76186da6c",
-      "title": "#cerroalegre",
-      "event_type": "event",
-      "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
-      },
-      "categories": [
-        {
-          "id": "otros",
-          "label": "Otros panoramas"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": null,
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "Horario por confirmar",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": null,
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/Dbv4MlaltpJ/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/Dbv4MlaltpJ/"
-      },
-      "organizer": null,
-      "source_name": "El Internado Valpo",
-      "source_url": "https://www.instagram.com/p/Dbv4MlaltpJ/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Agosto lo vivimos en @elinternadovalpo en una nueva programación para las noches de viernes y sábado. Les esperamos.",
-      "tags": [
-        "programación"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fmel14-1.fna.fbcdn.net/v/t51.82787-15/769051353_18085835663668632_1979053011884156481_n.webp?_nc_cat=105&ig_cache_key=Mzk1ODYyNTIxNjE3OTE4NTQxNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMiJ9&_nc_ohc=StRrdcGELCEQ7kNvwGKPs7O&_nc_oc=Adp-2jaNF2gawW3n64ahGr1eYNlXwpUTC6FGKFITUWWkgzvrwjQ2-eZR_hQTzDJukWs&_nc_zt=23&_nc_ht=instagram.fmel14-1.fna&_nc_gid=WDzgohcG1JO_XGEFGB5g6g&_nc_ss=72289&oh=00_AQGv_J7vbK90wdxv7t9lVIC5_yeqfNW3DFIdHkpLjIEnQg&oe=6A934DD8",
-        "alt": "#cerroalegre"
-      },
-      "source_id": "el_internado_valpo"
     },
     {
       "id": "agenda_5a573cfb7a82eb5f371aa3ce",

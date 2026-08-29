@@ -996,6 +996,1236 @@
             "count": 8
           }
         }
+      },
+      {
+        "date": "2026-08-28",
+        "metrics": {
+          "total_events": 255,
+          "attributed_events": 255,
+          "unattributed_events": 0
+        },
+        "sources": {
+          "artequinvina": {
+            "name": "Artequin Viña del Mar",
+            "role": "primary",
+            "source_type": "jsonld",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "artequinvina:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://www.artequinvina.cl",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 4
+          },
+          "balmaceda_arte_joven_valpo": {
+            "name": "Balmaceda Arte Joven Valparaíso",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "balmaceda_arte_joven_valpo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/bajvalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 5
+          },
+          "casa_cultura_valparaiso": {
+            "name": "Casa de la Cultura de Valparaíso",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "casa_cultura_valparaiso:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/casaculturavalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 3
+          },
+          "casa_prisma_valpo": {
+            "name": "Casa Prisma Valpo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "casa_prisma_valpo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/casaprismavalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 4
+          },
+          "centex": {
+            "name": "CENTEX",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "centex:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/centexvalparaiso/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 0
+          },
+          "centro_extension_duoc_valpo": {
+            "name": "Centro de Extensión Duoc UC Valparaíso",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "centro_extension_duoc_valpo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/centroextensionduocvalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 7
+          },
+          "cinearte_vina": {
+            "name": "Cine Arte Viña del Mar",
+            "role": "primary",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "cinearte_vina:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://cineartevina.cl/",
+                "enabled": true
+              },
+              {
+                "id": "cinearte_vina:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/cinearte.vina/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 9
+          },
+          "compania_la_paila": {
+            "name": "Compañía La Paila",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "compania_la_paila:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/teatrolapaila/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-11",
+            "count": 0
+          },
+          "cultura_pucv": {
+            "name": "Cultura PUCV",
+            "role": "discovery_only",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "cultura_pucv:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/cultura.pucv/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 6
+          },
+          "cultura_usm": {
+            "name": "Cultura USM",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "cultura_usm:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://cultura.usm.cl",
+                "enabled": true
+              },
+              {
+                "id": "cultura_usm:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://cultura.usm.cl/programacion/",
+                "enabled": true
+              },
+              {
+                "id": "cultura_usm:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/cultura_usm/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 13
+          },
+          "culturasvina": {
+            "name": "Culturas Viña",
+            "role": "discovery_only",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "culturasvina:website",
+                "kind": "web",
+                "role": "discovery_only",
+                "url": "https://visitavina.munivina.cl",
+                "enabled": true
+              },
+              {
+                "id": "culturasvina:agenda_url",
+                "kind": "agenda",
+                "role": "discovery_only",
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "enabled": true
+              },
+              {
+                "id": "culturasvina:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/culturasvina/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 11
+          },
+          "culturaviva_vina": {
+            "name": "Espacio Cultural Viña del Mar",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "culturaviva_vina:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://www.culturaviva.cl/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-23",
+            "count": 0
+          },
+          "del_barrio_valpo": {
+            "name": "Del Barrio Valpo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "del_barrio_valpo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/delbarriovalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 1
+          },
+          "deportes_vina": {
+            "name": "Deportes Viña del Mar",
+            "role": "primary",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "deportes_vina:linktree",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://linktr.ee/deportesvina",
+                "enabled": true
+              },
+              {
+                "id": "deportes_vina:visitavina",
+                "kind": "agenda",
+                "role": "corroborating",
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "enabled": true
+              },
+              {
+                "id": "deportes_vina:instagram",
+                "kind": "instagram",
+                "role": "primary",
+                "url": "https://www.instagram.com/deportesvina/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-23",
+            "count": 0
+          },
+          "destino_valparaiso": {
+            "name": "Destino Valparaíso",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "destino_valparaiso:cartelera",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://destinovalpo.cl/cartelera/",
+                "enabled": true
+              },
+              {
+                "id": "destino_valparaiso:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/destinovalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-24",
+            "count": 2
+          },
+          "duoc_extension_vina": {
+            "name": "Duoc UC Extensión — Sede Viña del Mar",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "duoc_extension_vina:website",
+                "kind": "web",
+                "role": "enrichment_only",
+                "url": "https://extension.duoc.cl/",
+                "enabled": false
+              },
+              {
+                "id": "duoc_extension_vina:luma",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://luma.com/extensionduocuc",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-24",
+            "count": 1
+          },
+          "ecoliderazgo": {
+            "name": "EcoLiderazgo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "ecoliderazgo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/ecoliderazgo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 1
+          },
+          "el_internado_valpo": {
+            "name": "El Internado Valpo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "el_internado_valpo:instagram",
+                "kind": "instagram",
+                "role": "primary",
+                "url": "https://www.instagram.com/elinternadovalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-24",
+            "count": 0
+          },
+          "el_pasaje_cafe_vina": {
+            "name": "El Pasaje Café Viña",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "el_pasaje_cafe_vina:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://elpasaje.cl/",
+                "enabled": true
+              },
+              {
+                "id": "el_pasaje_cafe_vina:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/elpasajecafe.vina/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 1
+          },
+          "enjoy_vina": {
+            "name": "Enjoy Viña del Mar",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "enjoy_vina:ticketplus",
+                "kind": "ticketing",
+                "role": "primary",
+                "url": "https://enjoy.ticketplus.cl/taxons/vina-del-mar",
+                "enabled": true
+              },
+              {
+                "id": "enjoy_vina:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/enjoy_vina/",
+                "enabled": true
+              },
+              {
+                "id": "enjoy_vina:puntoticket",
+                "kind": "ticketing",
+                "role": "corroborating",
+                "url": "https://www.puntoticket.com/enjoy",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-23",
+            "count": 5
+          },
+          "estadio_espanol_recreo": {
+            "name": "Estadio Español Recreo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "estadio_espanol_recreo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/estadioespanolrecreo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 4
+          },
+          "estrella_negra_jazz": {
+            "name": "Estrella Negra Club de Jazz",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "estrella_negra_jazz:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/estrellanegraclubdejazz/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 5
+          },
+          "insomniacine": {
+            "name": "Insomnia Cine",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "insomniacine:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://www.insomniacine.cl",
+                "enabled": true
+              },
+              {
+                "id": "insomniacine:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://www.insomniacine.cl/cartelera/",
+                "enabled": true
+              },
+              {
+                "id": "insomniacine:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/insomniacine/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 10
+          },
+          "ipanema_club_vina": {
+            "name": "Ipanema Club Viña",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "ipanema_club_vina:website",
+                "kind": "instagram",
+                "role": "primary",
+                "url": "https://www.instagram.com/ipanemaclubvina/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-19",
+            "count": 4
+          },
+          "jardin_botanico_vina": {
+            "name": "Jardín Botánico Nacional de Viña del Mar",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "jardin_botanico_vina:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://jbn.cl/",
+                "enabled": true
+              },
+              {
+                "id": "jardin_botanico_vina:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://jbn.cl/calendario-actividades/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-18",
+            "count": 5
+          },
+          "la_escala_galeria": {
+            "name": "La Escala Galería",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "la_escala_galeria:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/laescalagaleria/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 0
+          },
+          "maraton_vina_official": {
+            "name": "Itaú Maratón de Viña — sitio oficial",
+            "role": "primary",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "maraton_vina_official:url",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://maratonvina.cl/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-07-16",
+            "count": 1
+          },
+          "masita_rica": {
+            "name": "Masita Rica",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "masita_rica:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/masitarica/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-11",
+            "count": 2
+          },
+          "media_maraton_tps_official": {
+            "name": "media_maraton_tps_official",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 1
+          },
+          "mhnvalpo": {
+            "name": "Museo de Historia Natural de Valparaíso",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "mhnvalpo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/mhnvalpo/",
+                "enabled": true
+              },
+              {
+                "id": "mhnvalpo:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://www.mhnv.gob.cl",
+                "enabled": true
+              },
+              {
+                "id": "mhnvalpo:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://www.mhnv.gob.cl/cartelera",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 11
+          },
+          "munivina_deportes_news": {
+            "name": "Municipalidad de Viña del Mar — Deportes",
+            "role": "corroborating",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "munivina_deportes_news:url",
+                "kind": "web",
+                "role": "discovery_only",
+                "url": "https://www.munivina.cl/category/deportes/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-07-16",
+            "count": 0
+          },
+          "museo_fonck": {
+            "name": "Museo Fonck",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "museo_fonck:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://museofonck.cl/",
+                "enabled": true
+              },
+              {
+                "id": "museo_fonck:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/museofonck/",
+                "enabled": true
+              },
+              {
+                "id": "museo_fonck:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://www.museofonck.cl/new_site/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 4
+          },
+          "museo_palacio_rioja": {
+            "name": "Museo Palacio Rioja",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "museo_palacio_rioja:visitavina",
+                "kind": "agenda",
+                "role": "corroborating",
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "enabled": true
+              },
+              {
+                "id": "museo_palacio_rioja:instagram",
+                "kind": "instagram",
+                "role": "primary",
+                "url": "https://www.instagram.com/museopalaciorioja/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 8
+          },
+          "museobaburizza": {
+            "name": "Museo Baburizza",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "museobaburizza:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://museobaburizza.cl",
+                "enabled": true
+              },
+              {
+                "id": "museobaburizza:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/museobaburizza/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 5
+          },
+          "pcdv": {
+            "name": "Parque Cultural de Valparaíso",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "pcdv:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://parquecultural.cl",
+                "enabled": true
+              },
+              {
+                "id": "pcdv:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/parqueculturalvalparaiso/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 8
+          },
+          "portaltickets_valparaiso": {
+            "name": "portaltickets_valparaiso",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 52
+          },
+          "puerto_escena": {
+            "name": "Puerto Escena",
+            "role": "discovery_only",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "puerto_escena:cartelera",
+                "kind": "agenda",
+                "role": "discovery_only",
+                "url": "https://puertoescena.cl/cartelera",
+                "enabled": true
+              },
+              {
+                "id": "puerto_escena:instagram",
+                "kind": "instagram",
+                "role": "discovery_only",
+                "url": "https://www.instagram.com/puertoescena/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-24",
+            "count": 0
+          },
+          "puerto_valparaiso_eventos": {
+            "name": "Puerto Valparaíso — Calendario de Eventos",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "puerto_valparaiso_eventos:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://www.puertovalparaiso.cl/",
+                "enabled": true
+              },
+              {
+                "id": "puerto_valparaiso_eventos:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://www.puertovalparaiso.cl/calendario-de-eventos",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-18",
+            "count": 0
+          },
+          "sala_secreta": {
+            "name": "Sala Secreta",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "sala_secreta:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/salasecreta.cl/",
+                "enabled": true
+              },
+              {
+                "id": "sala_secreta:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://www.salasecreta.cl/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-11",
+            "count": 1
+          },
+          "sala_teatro_ipa": {
+            "name": "Sala Teatro IPA",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "sala_teatro_ipa:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/salateatroipa/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-11",
+            "count": 2
+          },
+          "teatro_desastre": {
+            "name": "Teatro Desastre",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources_supplemental.json"
+            ],
+            "channels": [
+              {
+                "id": "teatro_desastre:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/desastreteatro/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 0
+          },
+          "teatro_la_peste": {
+            "name": "Teatro La Peste",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "teatro_la_peste:formacion_instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/lapesteformacion/",
+                "enabled": true
+              },
+              {
+                "id": "teatro_la_peste:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/teatrolapeste/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 3
+          },
+          "teatro_mauri_scd": {
+            "name": "Teatro Mauri SCD",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "teatro_mauri_scd:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://salasscd.cl/sitio/teatro-mauri/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 0
+          },
+          "teatro_municipal_valparaiso": {
+            "name": "Teatro Municipal de Valparaíso",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "teatro_municipal_valparaiso:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/municipalvalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-17",
+            "count": 2
+          },
+          "teatro_municipal_vina": {
+            "name": "Teatro Municipal de Viña del Mar",
+            "role": "primary",
+            "source_type": "web",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "teatro_municipal_vina:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://teatrovina.cl",
+                "enabled": true
+              },
+              {
+                "id": "teatro_municipal_vina:agenda_url",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://teatrovina.cl/cartelera/",
+                "enabled": true
+              },
+              {
+                "id": "teatro_municipal_vina:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/teatro.munivina/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 7
+          },
+          "teatromuseo": {
+            "name": "TeatroMuseo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "teatromuseo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/teatromuseo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 5
+          },
+          "trotamundosvalpo": {
+            "name": "Trotamundos Valparaíso",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "trotamundosvalpo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/trotamundosvalpo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 29
+          },
+          "valparaiso_municipal_news": {
+            "name": "Municipalidad de Valparaíso — noticias y carteleras",
+            "role": "corroborating",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "valparaiso_municipal_news:url",
+                "kind": "web",
+                "role": "discovery_only",
+                "url": "https://municipalidaddevalparaiso.cl/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-07-16",
+            "count": 0
+          },
+          "valparaiso_profundo": {
+            "name": "Valparaíso Profundo",
+            "role": "primary",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "valparaiso_profundo:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://valparaisoprofundo.cl/",
+                "enabled": true
+              },
+              {
+                "id": "valparaiso_profundo:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/valparaisoprofundo/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 0
+          },
+          "valparaiso_trekking": {
+            "name": "valparaiso_trekking",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 1
+          },
+          "valpo_deportes": {
+            "name": "ValpoDeportes — Municipalidad de Valparaíso",
+            "role": "primary",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "valpo_deportes:municipal",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://municipalidaddevalparaiso.cl/category/deportes/",
+                "enabled": true
+              },
+              {
+                "id": "valpo_deportes:instagram",
+                "kind": "instagram",
+                "role": "primary",
+                "url": "https://www.instagram.com/valpodeportes/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-23",
+            "count": 0
+          },
+          "valpocultura": {
+            "name": "Valpo Cultura",
+            "role": "discovery_only",
+            "source_type": "instagram",
+            "registry_paths": [
+              "data/sources/cultural_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "valpocultura:website",
+                "kind": "web",
+                "role": "discovery_only",
+                "url": "https://valpocultura.cl/agenda-cultural",
+                "enabled": true
+              },
+              {
+                "id": "valpocultura:instagram",
+                "kind": "instagram",
+                "role": "secondary_channel",
+                "url": "https://www.instagram.com/valpocultura/",
+                "enabled": true
+              }
+            ],
+            "verification_date": null,
+            "count": 12
+          },
+          "visita_vina_activities": {
+            "name": "Visita Viña — actividades",
+            "role": "primary",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "visita_vina_activities:url",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-07-16",
+            "count": 0
+          },
+          "yacht_club_chile": {
+            "name": "Yacht Club de Chile",
+            "role": "primary",
+            "source_type": null,
+            "registry_paths": [
+              "data/sources/sports_sources.json"
+            ],
+            "channels": [
+              {
+                "id": "yacht_club_chile:website",
+                "kind": "web",
+                "role": "primary",
+                "url": "https://yachtclubdechile.cl/",
+                "enabled": true
+              },
+              {
+                "id": "yacht_club_chile:calendar",
+                "kind": "agenda",
+                "role": "primary",
+                "url": "https://yachtclubdechile.cl/blog/",
+                "enabled": true
+              }
+            ],
+            "verification_date": "2026-08-23",
+            "count": 0
+          }
+        }
       }
     ],
     "gijon": [
@@ -1599,6 +2829,466 @@
             "name": "Universidad Popular de Gijón/Xixón — Cursos y talleres",
             "role": null,
             "source_type": null,
+            "count": 0
+          }
+        }
+      },
+      {
+        "date": "2026-08-29",
+        "metrics": {
+          "total_events": 201,
+          "attributed_events": 201,
+          "unattributed_events": 0
+        },
+        "sources": {
+          "agenda_gijon": {
+            "name": "Agenda Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 3
+          },
+          "album_club_gijon": {
+            "name": "Álbum Club",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "ateneo_jovellanos": {
+            "name": "Ateneo Jovellanos — Actividades",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "bioparc_acuario_gijon": {
+            "name": "BIOPARC Acuario de Gijón — Actividades y talleres",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 7
+          },
+          "bola8_rock_club": {
+            "name": "Bola 8 Rock Club",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 2
+          },
+          "cafe_dindurra": {
+            "name": "Café Dindurra",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "camara_recinto_ferial_gijon": {
+            "name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 8
+          },
+          "centro_cultura_antiguo_instituto": {
+            "name": "Centro de Cultura Antiguo Instituto",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 25
+          },
+          "ciclismo_asturias": {
+            "name": "Federación de Ciclismo del Principado de Asturias — Calendario",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 8
+          },
+          "danza_xixon": {
+            "name": "Danza Xixón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "dilema_indie_club_gijon": {
+            "name": "DILEMA Indie Club",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "el_huerto_gijon": {
+            "name": "El Huerto Espacio Escénico",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 1
+          },
+          "el_percebe_gijon": {
+            "name": "El Percebe Comedy",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 2
+          },
+          "felix_gijon": {
+            "name": "FeLiX — Feria del Libro de Gijón/Xixón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "festival_piano_gijon": {
+            "name": "Festival Internacional de Piano de Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "feten_gijon": {
+            "name": "FETEN — Feria Internacional de Artes Escénicas",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "ficx": {
+            "name": "Festival Internacional de Cine de Gijón/Xixón (FICX)",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "foro_jovellanos": {
+            "name": "Fundación Foro Jovellanos — Agenda de actividades",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "gijon_arena": {
+            "name": "Gijón Arena — Próximos eventos",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 9
+          },
+          "gijon_life": {
+            "name": "Gijón Life",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "gijon_opendata_events": {
+            "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 42
+          },
+          "grupo_montana_picu_urriellu": {
+            "name": "Grupo de Montaña Picu Urriellu",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 1
+          },
+          "indian_cafe_gijon": {
+            "name": "Indian Café",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "jardin_botanico_atlantico": {
+            "name": "Jardín Botánico Atlántico — programación oficial",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 2
+          },
+          "juventud_gijon": {
+            "name": "Juventud Gijón/Xixón — Oficina de Juventud",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 1
+          },
+          "la_buena_letra_gijon": {
+            "name": "La Buena Letra",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "la_caja_de_musicos": {
+            "name": "La Caja de Músicos",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "la_habitacion_propia_gijon": {
+            "name": "La Habitación Propia",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "la_mar_y_morena_gijon": {
+            "name": "La Mar y Morena",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "la_revoltosa_gijon": {
+            "name": "La Revoltosa Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "laboral_centro_arte": {
+            "name": "LABoral Centro de Arte y Creación Industrial",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 5
+          },
+          "laboral_cinemateca": {
+            "name": "Laboral Cinemateca — Programación",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "laboral_ciudad_cultura": {
+            "name": "Laboral Ciudad de la Cultura — Agenda",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 29
+          },
+          "libreria_de_bolsillo_gijon": {
+            "name": "Librería de Bolsillo",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "meidinerz_jazz_club": {
+            "name": "Meidinerz Jazz Club",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 3
+          },
+          "mercado_artesano_ecologico_gijon": {
+            "name": "Mercado Artesano y Ecológico de Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "museo_barjola": {
+            "name": "Museo Barjola",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "museo_evaristo_valle": {
+            "name": "Museo Evaristo Valle",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "museo_ferrocarril_asturias": {
+            "name": "Museo del Ferrocarril de Asturias",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "pdm_gijon": {
+            "name": "Patronato Deportivo Municipal de Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "planomato_gijon": {
+            "name": "Planomato Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "sala_acapulco_conciertos": {
+            "name": "Sala Acapulco — Conciertos",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 3
+          },
+          "semana_negra_gijon": {
+            "name": "Semana Negra de Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "sociedad_cultural_gijonesa": {
+            "name": "Sociedad Cultural Gijonesa",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "surf_asturias": {
+            "name": "Federación de Surf del Principado de Asturias",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "teatro_albeniz_gijon": {
+            "name": "Teatro Albéniz Gijón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 7
+          },
+          "teatro_jovellanos": {
+            "name": "Teatro Jovellanos — programación oficial",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 40
+          },
+          "toma3_xixon": {
+            "name": "Toma 3 Xixón",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 0
+          },
+          "turismo_asturias_deporte": {
+            "name": "Turismo Asturias — Agenda deportiva",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
+            "count": 3
+          },
+          "universidad_popular_gijon": {
+            "name": "Universidad Popular de Gijón/Xixón — Cursos y talleres",
+            "role": null,
+            "source_type": null,
+            "registry_paths": [],
+            "channels": [],
+            "verification_date": null,
             "count": 0
           }
         }

@@ -469,7 +469,7 @@ def generate(*, check: bool = False) -> dict[str, int]:
             if not check:
                 directory = ROOT / relative
                 directory.mkdir(parents=True, exist_ok=True)
-                (directory / "index.html").write_text(page, encoding="utf-8")
+                (directory / "index.html").write_text(page, encoding="utf-8", newline="\n")
                 if ics:
                     (directory / "evento.ics").write_text(ics, encoding="utf-8", newline="")
 
@@ -492,11 +492,11 @@ def generate(*, check: bool = False) -> dict[str, int]:
         raise SystemExit("SEO sitemap canonical city contract failed")
 
     if not check:
-        (ROOT / "index.html").write_text(root_landing, encoding="utf-8")
+        (ROOT / "index.html").write_text(root_landing, encoding="utf-8", newline="\n")
         gijon_dir = ROOT / "gijon"
         gijon_dir.mkdir(parents=True, exist_ok=True)
-        (gijon_dir / "index.html").write_text(gijon_landing, encoding="utf-8")
-        SITEMAP.write_text(sitemap, encoding="utf-8")
+        (gijon_dir / "index.html").write_text(gijon_landing, encoding="utf-8", newline="\n")
+        SITEMAP.write_text(sitemap, encoding="utf-8", newline="\n")
     return counts
 
 

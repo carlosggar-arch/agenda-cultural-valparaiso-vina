@@ -9,7 +9,7 @@ import unicodedata
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 APP_ROOT = ROOT / "app"
@@ -117,6 +117,7 @@ OUTER_QUOTES = re.compile(r"^[\s'\"“”«»]+|[\s'\"“”«»]+$")
 HTML_TAG = re.compile(r"<[^>]+>")
 SPACE = re.compile(r"\s+")
 DATE_PREFIX = re.compile(r"^(\d{4}-\d{2}-\d{2})")
+OFFICIAL_EXPIRED_TEXT = re.compile(r"\bfinaliz(?:ad[oa]s?|do|o)\b", re.I)
 
 
 def clean_space(value: object) -> str:
@@ -405,6 +406,36 @@ def parse_schedule_date(value: object) -> date | None:
         return None
 
 
+def official_occurrence_expiration(event: dict, reference: date) -> dict | None:
+    """Return provenance when a specific official URL disproves a derived schedule.
+
+    A dated official occurrence is authoritative only for a single record: do
+    not apply it to explicit occurrence series. Requiring the official page's
+    completed-state text prevents arbitrary query parameters from suppressing
+    otherwise valid future events.
+    """
+    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+    if schedule.get("occurrences"):
+        return None
+    url = source_url(event)
+    try:
+        parsed = urlparse(url)
+        raw_date = (parse_qs(parsed.query).get("occurrence") or [""])[0]
+        occurrence_date = date.fromisoformat(raw_date)
+    except (TypeError, ValueError):
+        return None
+    if occurrence_date >= reference or not OFFICIAL_EXPIRED_TEXT.search(clean_html_text(event.get("description"))):
+        return None
+    scheduled = parse_schedule_date(schedule.get("start"))
+    if scheduled == occurrence_date:
+        return None
+    return {
+        "official_occurrence_date": occurrence_date.isoformat(),
+        "source_url": url,
+        "source_host": parsed.hostname,
+        "scheduled_start": clean_space(schedule.get("start")) or None,
+        "provenance": copy.deepcopy(event.get("provenance") or {}),
+    }
 def reference_date(dataset: dict) -> date | None:
     value = clean_space(dataset.get("publication_date"))
     try:
@@ -524,6 +555,15 @@ def apply_guard(dataset: dict) -> dict:
             continue
 
         if publication_day is not None:
+            official_expiration = official_occurrence_expiration(event, publication_day)
+            if official_expiration:
+                changes["expired_removed"].append({
+                    "id": event_id,
+                    "title": event.get("title"),
+                    "reason": "official_occurrence_expired_schedule_conflict",
+                    **official_expiration,
+                })
+                continue
             keep, pruned = prune_expired_schedule(event, publication_day)
             if pruned:
                 changes["past_occurrences_pruned"].append({"id": event_id, "count": pruned})
