@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "f47a269e77b238bd097f1055d4568b36fda45267b3931e337d8f25aeb1ddfdd2",
-  "generated_at": "2026-08-29T12:48:09Z",
+  "fingerprint": "b35ee7f62197298168eefc83c043f6070f0f434777cc7dbf6841a00a9dd3c894",
+  "generated_at": "2026-08-29T21:03:30Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -131,6 +131,19 @@
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
       "total": 9,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "gijon::grupo de montana picu urriellu": {
+      "category_distribution": {
+        "deportes-actividad-fisica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "deportes-actividad-fisica",
+      "dominant_share": 1.0,
+      "source_name": "Grupo de Montaña Picu Urriellu",
+      "source_url": "https://picu-urriellu.blogspot.com/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -928,10 +941,10 @@
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 65,
-    "total_events": 449,
+    "source_count": 66,
+    "total_events": 450,
     "unclassified_count": 10,
-    "unclassified_rate": 0.022272
+    "unclassified_rate": 0.022222
   },
   "unclassified_queue": [
     {
