@@ -8,7 +8,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 TAXONOMY_PATH = ROOT / "shared" / "public-category-taxonomy.json"
+SOURCE_EVIDENCE_PATH = ROOT / "shared" / "official-source-category-evidence.json"
 TAXONOMY = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
+SOURCE_EVIDENCE = json.loads(SOURCE_EVIDENCE_PATH.read_text(encoding="utf-8"))
 CATEGORIES: dict[str, dict[str, Any]] = TAXONOMY["categories"]
 ALIASES: dict[str, str] = TAXONOMY["aliases"]
 LABEL_ALIASES: dict[str, str] = TAXONOMY["label_aliases"]
@@ -36,7 +38,7 @@ SOURCE_EVIDENCE_RULES = [
 ]
 SOURCE_TITLE_EVIDENCE_RULES = [
     {**rule, "weight": int(rule["weight"]), "regex": re.compile(rule["pattern"])}
-    for rule in RULES.get("source_title_evidence", [])
+    for rule in SOURCE_EVIDENCE.get("source_title_evidence", [])
 ]
 SEMANTIC_NOISE_FIELDS = tuple(RULES.get("semantic_noise_fields", []))
 SEMANTIC_NOISE_PHRASES = tuple(RULES.get("semantic_noise_phrases", []))

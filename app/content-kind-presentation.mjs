@@ -17,6 +17,10 @@ export const CONTENT_KIND_PRESENTATION = Object.freeze({
     label: "Disponible",
     detail: "Actividad u oportunidad disponible de forma estable.",
   }),
+  call_for_submissions: Object.freeze({
+    label: "Convocatoria",
+    detail: "Convocatoria cultural con plazo de participación; no es una función presencial.",
+  }),
   undated: Object.freeze({
     label: "Fecha por confirmar",
     detail: "La fecha concreta todavía no está confirmada.",

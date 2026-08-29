@@ -389,8 +389,10 @@ function renderRichCard(card, event) {
   const actions = document.createElement("div");
   actions.className = "event-card-actions";
   const official = safeHttpUrl(event?.links?.official || event?.links?.source);
-  const registration = safeHttpUrl(event?.links?.registration || event?.links?.tickets);
-  if (registration && registration !== official) actions.append(buildAction(registration, "Inscribirme", "card-action--secondary"));
+  const participation = safeHttpUrl(event?.links?.participation);
+  const registration = safeHttpUrl(event?.links?.registration || event?.links?.tickets || participation);
+  const registrationLabel = event?.content_kind === "call_for_submissions" ? "Ver bases / Participar" : "Inscribirme";
+  if (registration && registration !== official) actions.append(buildAction(registration, registrationLabel, "card-action--secondary"));
   actions.append(buildDetailAction(event, {
     category: primaryCategory(event),
     type,

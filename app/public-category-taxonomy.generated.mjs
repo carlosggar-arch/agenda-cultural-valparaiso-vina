@@ -6,10 +6,8 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "actividad-panorama": "unclassified",
     "artes-visuales-museo": "exposiciones",
     "charlas": "charlas-conferencias",
-    "charlas-conferencias": "charlas-conferencias",
     "cursos": "cursos-talleres-campus",
     "cursos-talleres": "cursos-talleres-campus",
-    "cursos-talleres-campus": "cursos-talleres-campus",
     "cursos-talleres-experiencias": "cursos-talleres-campus",
     "cursos-talleres-y-experiencias": "cursos-talleres-campus",
     "deporte-bienestar": "deportes-actividad-fisica",
@@ -20,7 +18,6 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "formacion-taller": "cursos-talleres-campus",
     "gastronomia": "ferias-vida-local",
     "gastronomia-ferias": "ferias-vida-local",
-    "literatura": "literatura",
     "literatura-charlas-encuentros": "unclassified",
     "museos": "exposiciones",
     "naturaleza": "naturaleza-aire-libre",
@@ -228,7 +225,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)\\b",
+        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
         "weight": 35
       },
       {
@@ -248,12 +245,12 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "charlas-conferencias",
-        "pattern": "\\b(?:conversatorio|charla|coloquio|conferencia|mesa redonda|ponencia|debate|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
+        "pattern": "\\b(?:conversatorios?|charlas?|charlita|coloquios?|conferencias?|mesas? redondas?|ponencias?|debates?|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
         "weight": 40
       },
       {
         "category": "literatura",
-        "pattern": "\\b(?:libro|literatura|literario|lectura|poesia|recital poetico|encuentro literario)\\b",
+        "pattern": "\\b(?:libro|literatura|literari[oa]s?|lectura|poesia|recital poetico|encuentro literario)\\b",
         "weight": 35
       },
       {
@@ -294,99 +291,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ],
     "source_category_weight": 90,
     "source_evidence": [],
-    "source_title_evidence": [
-      {
-        "category": "cursos-talleres-campus",
-        "pattern": ".+",
-        "reason": "official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override",
-        "source_id": "bioparc_acuario_gijon",
-        "weight": 65
-      },
-      {
-        "category": "musica",
-        "pattern": "^homenaje dire straits$",
-        "reason": "verified_sparse_official_event_music",
-        "source_id": "camara_recinto_ferial_gijon",
-        "weight": 180
-      },
-      {
-        "category": "teatro",
-        "pattern": "^el gran showman$",
-        "reason": "verified_sparse_official_event_stage_musical",
-        "source_id": "camara_recinto_ferial_gijon",
-        "weight": 180
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bcarolina de la muela\\b",
-        "reason": "verified_sparse_music_artist_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bcalathea club\\b",
-        "reason": "verified_sparse_electronic_music_series_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bchaisen ?room\\b",
-        "reason": "verified_sparse_music_series_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bsofia alvez\\b",
-        "reason": "verified_sparse_music_artist_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bseba(?: y)? el monstruo\\b",
-        "reason": "verified_sparse_music_artist_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\besstelar bday\\b",
-        "reason": "verified_sparse_music_event_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bspecial anniversary show placebo 30 anos\\b",
-        "reason": "verified_sparse_music_event_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bprevia aniversario\\b",
-        "reason": "verified_sparse_music_event_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "musica",
-        "pattern": "\\bla fiesta de ritoque fm\\b",
-        "reason": "verified_sparse_music_event_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      },
-      {
-        "category": "ferias-vida-local",
-        "pattern": "\\boshikatsu party oshifonda\\b",
-        "reason": "verified_sparse_fandom_party_portaltickets",
-        "source_id": "portaltickets_valparaiso",
-        "weight": 120
-      }
-    ],
+    "source_title_evidence": [],
     "summer_program_event_types": [
       "program",
       "registration_period"
@@ -445,7 +350,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamen(?:c)?os?|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?)\\b",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamen(?:c)?os?|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
         "weight": 140
       },
       {
@@ -475,7 +380,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "charlas-conferencias",
-        "pattern": "\\b(?:conversatorio|charla|coloquio|mesa redonda|conferencia|ponencia|debate|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
+        "pattern": "\\b(?:conversatorios?|charlas?|charlita|coloquios?|mesas? redondas?|conferencias?|ponencias?|debates?|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
         "weight": 145
       },
       {
@@ -506,6 +411,102 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     ]
   },
   "schema_version": "2.6.0"
+});
+
+export const OFFICIAL_SOURCE_CATEGORY_EVIDENCE = Object.freeze({
+  "source_title_evidence": [
+    {
+      "category": "cursos-talleres-campus",
+      "pattern": ".+",
+      "reason": "official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override",
+      "source_id": "bioparc_acuario_gijon",
+      "weight": 65
+    },
+    {
+      "category": "musica",
+      "pattern": "^homenaje dire straits$",
+      "reason": "verified_sparse_official_event_music",
+      "source_id": "camara_recinto_ferial_gijon",
+      "weight": 180
+    },
+    {
+      "category": "teatro",
+      "pattern": "^el gran showman$",
+      "reason": "verified_sparse_official_event_stage_musical",
+      "source_id": "camara_recinto_ferial_gijon",
+      "weight": 180
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bcarolina de la muela\\b",
+      "reason": "verified_sparse_music_artist_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bcalathea club\\b",
+      "reason": "verified_sparse_electronic_music_series_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bchaisen ?room\\b",
+      "reason": "verified_sparse_music_series_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bsofia alvez\\b",
+      "reason": "verified_sparse_music_artist_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bseba(?: y)? el monstruo\\b",
+      "reason": "verified_sparse_music_artist_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\besstelar bday\\b",
+      "reason": "verified_sparse_music_event_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bspecial anniversary show placebo 30 anos\\b",
+      "reason": "verified_sparse_music_event_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bprevia aniversario\\b",
+      "reason": "verified_sparse_music_event_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bla fiesta de ritoque fm\\b",
+      "reason": "verified_sparse_music_event_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
+      "category": "ferias-vida-local",
+      "pattern": "\\boshikatsu party oshifonda\\b",
+      "reason": "verified_sparse_fandom_party_portaltickets",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    }
+  ]
 });
 
 export const PUBLIC_CATEGORIES = Object.freeze(PUBLIC_CATEGORY_TAXONOMY.categories);

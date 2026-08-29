@@ -24,6 +24,11 @@ GENERIC_TITLE_PATTERNS = (
     re.compile(r"^estamos de celebraci[oó]n(?:\b|$)", re.I),
     re.compile(r"^no (?:te|se) lo pierd(?:as|an)(?:\b|$)", re.I),
     re.compile(r"^ven a (?:disfrutar|conocer|visitarnos)(?:\b|$)", re.I),
+    re.compile(r"^las? bases?\b.*\bhistoria\b", re.I),
+    re.compile(r"^(?:link|enlace) en (?:la )?bio(?:grafia)?\b", re.I),
+    re.compile(r"^pronto(?:\b|[.…!])", re.I),
+    re.compile(r"^se llena\b.*\breserv", re.I),
+    re.compile(r"^#[\w.-]+$", re.I),
 )
 
 # Calendar shells, empty-state copy and navigation labels are never public events.
@@ -65,8 +70,18 @@ SUBMISSION_CALL_LEAD = re.compile(
 SUBMISSION_DEADLINE_TEXT = re.compile(
     r"\b(?:hasta el|fecha limite|plazo (?:de )?(?:envio|postulacion|recepcion)|"
     r"cierre (?:de la |de )?(?:convocatoria|postulaciones|recepcion)|"
-    r"postulaciones? (?:abiertas? )?hasta|recepcion (?:de \w+ ){0,3}hasta)\b"
+    r"postulaciones? (?:abiertas? )?hasta|recepcion (?:de \w+ ){0,3}hasta|"
+    r"cierre de (?:la )?(?:edicion|concurso|certamen).{0,80}\b(?:poeta|poesia|relato|obra))\b"
 )
+SUBMISSION_CONTEST_TEXT = re.compile(
+    r"\b(?:bases?|convocatoria|se busca)\b.{0,80}\b(?:poeta|poesia|relato|obra|postulacion)\b|"
+    r"\b(?:poeta|poesia|relato|obra)\b.{0,80}\b(?:bases?|convocatoria|se busca)\b"
+)
+GIVEAWAY_ACTION = re.compile(r"\b(?:sorteo|particip(?:a|ar|ando)|etiquet(?:a|as)|compart(?:e|es)|seguir la cuenta)\b")
+GIVEAWAY_PRIZE = re.compile(r"\b(?:ganador|ganadora|premio|regalarte|estad[ií]a|escapada para dos)\b")
+MULTI_EVENT_DECLARATION = re.compile(r"\b(?:dos|tres|varios|varias)\s+(?:encuentros?|eventos?|actividades?|funciones?)\b")
+MULTI_EVENT_SEGMENTS = re.compile(r"\b(?:primer(?:o|a|ito|ita)|segund(?:o|a|ito|ita))\b")
+ADDRESS_PARENTHETICAL = re.compile(r"\([^)]*\b\d{1,5}\b[^)]*\)")
 
 
 # Administrative application support is useful information, but it is not an
@@ -154,6 +169,8 @@ def is_deadline_only_submission_call(event: dict) -> bool:
     title = fold(event.get("title"))
     description = fold(event.get("description"))
     combined = f"{title} {description}".strip()
+    if SUBMISSION_CONTEST_TEXT.search(combined) and re.search(r"\b(?:cierre|bases?|convocatoria)\b", combined):
+        return True
     if not SUBMISSION_DEADLINE_TEXT.search(combined):
         return False
     # Title-level intent is authoritative even when a scraper promoted the
@@ -164,6 +181,62 @@ def is_deadline_only_submission_call(event: dict) -> bool:
         return True
     description_lead = description[:240]
     return bool(SUBMISSION_CALL_LEAD.search(description_lead) and not has_concrete_schedule(event))
+
+
+def materialize_submission_call(event: dict) -> bool:
+    """Turn a verified cultural call into a non-attendance public opportunity."""
+    if not is_deadline_only_submission_call(event):
+        return False
+    status = event.get("public_status") if isinstance(event.get("public_status"), dict) else {}
+    if status.get("source_official") is not True or not source_url(event):
+        return False
+    description = clean_html_text(event.get("description"))
+    title_match = re.search(
+        r"(?:edici.n|convocatoria|concurso)\s+(?:de\s+)?[“\"]?([A-ZÁÉÍÓÚÑ][A-ZÁÉÍÓÚÑ0-9 ]{3,80})[”\"]?",
+        description,
+    )
+    if title_match and is_generic_title(event.get("title")):
+        event["title"] = _clean_recovered_title(title_match.group(1))
+    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+    deadline = clean_space(schedule.get("end") or schedule.get("start"))
+    deadline_day = deadline[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", deadline) else None
+    event["content_kind"] = "call_for_submissions"
+    event["event_type"] = "call_for_submissions"
+    event["schedule"] = {
+        "mode": "deadline", "start": None, "end": deadline_day, "occurrences": [],
+        "display_text": f"Postulaciones hasta el {deadline_day}" if deadline_day else "Consulta las bases",
+    }
+    event["submission"] = {"deadline": deadline_day, "attendance_occurrence": False}
+    links = copy.deepcopy(event.get("links") or {})
+    links["participation"] = links.get("registration") or links.get("official") or links.get("source") or source_url(event)
+    event["links"] = links
+    editorial = copy.deepcopy(event.get("editorial") or {})
+    editorial["content_kind_authority"] = "verified_official_submission_call"
+    event["editorial"] = editorial
+    return True
+
+
+def is_promotional_giveaway(event: dict) -> bool:
+    combined = f"{fold(event.get('title'))} {fold(event.get('description'))}".strip()
+    return bool(GIVEAWAY_ACTION.search(combined) and GIVEAWAY_PRIZE.search(combined))
+
+
+def is_contaminated_multi_event_record(event: dict) -> bool:
+    """Detect inseparable composites; require all signals to avoid truncation false positives."""
+    title = clean_space(event.get("title"))
+    description_raw = clean_space(event.get("description"))
+    description = fold(description_raw)
+    location = event.get("location") if isinstance(event.get("location"), dict) else {}
+    expected_place = fold(location.get("city") or location.get("commune"))
+    title_place = fold(title)
+    has_foreign_address_segment = bool(ADDRESS_PARENTHETICAL.search(title) and expected_place and expected_place not in title_place)
+    is_truncated = description_raw.endswith("...") or description_raw.endswith("…")
+    return bool(
+        MULTI_EVENT_DECLARATION.search(description)
+        and len(MULTI_EVENT_SEGMENTS.findall(description)) >= 2
+        and has_foreign_address_segment
+        and is_truncated
+    )
 
 
 
@@ -183,12 +256,19 @@ def non_event_context_reason(event: dict) -> str | None:
         return None
     if is_deadline_only_submission_call(event):
         return "call_for_submissions_deadline_not_event"
+    if is_promotional_giveaway(event):
+        return "promotional_giveaway_not_attendance_event"
+    if is_contaminated_multi_event_record(event):
+        return "multi_event_geography_conflict_with_truncated_segment"
     if is_administrative_application_support(event):
         return "administrative_application_support_not_event"
-    if has_concrete_schedule(event):
-        return None
     title = fold(event.get("title"))
     description = fold(event.get("description"))
+    if clean_space(event.get("title")).startswith("#") and not has_concrete_schedule(event):
+        if re.search(r"\b(?:programacion|cartelera)\b", description):
+            return "promotional_carousel_without_verified_children"
+    if has_concrete_schedule(event):
+        return None
     combined = f"{title} {description}".strip()
     if MONTHLY_PROGRAM_TITLE.search(title) and PROGRAM_OVERVIEW_TEXT.search(combined):
         return "monthly_program_overview_without_event_schedule"
@@ -370,6 +450,7 @@ def refresh_counts(dataset: dict) -> None:
     counts["courses"] = sum(1 for event in events if event.get("event_type") == "course")
     counts["flexible_offers"] = sum(1 for event in events if event.get("event_type") == "flexible_offer")
     counts["programs"] = sum(1 for event in events if event.get("event_type") == "program")
+    counts["calls_for_submissions"] = sum(1 for event in events if event.get("content_kind") == "call_for_submissions")
     dataset["counts"] = counts
 
 
@@ -400,6 +481,8 @@ def apply_guard(dataset: dict) -> dict:
         if old_title and old_title != event.get("title"):
             event["title"] = old_title
 
+        materialize_submission_call(event)
+
         if is_non_event_title(event.get("title")):
             changes["quarantined"].append({
                 "id": event_id,
@@ -410,11 +493,16 @@ def apply_guard(dataset: dict) -> dict:
 
         context_reason = non_event_context_reason(event)
         if context_reason:
-            changes["quarantined"].append({
+            receipt = {
                 "id": event_id,
                 "title": event.get("title"),
                 "reason": context_reason,
-            })
+            }
+            if context_reason == "multi_event_geography_conflict_with_truncated_segment":
+                receipt["source_url"] = source_url(event)
+                receipt["location"] = copy.deepcopy(event.get("location") or {})
+                receipt["provenance"] = copy.deepcopy(event.get("provenance") or {})
+            changes["quarantined"].append(receipt)
             continue
 
         recovered, reason = recover_generic_title(event)
