@@ -181,6 +181,39 @@ def test_official_occurrence_rule_does_not_remove_future_or_series_event() -> No
     assert changes["expired_removed"] == []
 
 
+def test_exhibition_without_verified_end_is_quarantined_not_expired_by_venue_hours() -> None:
+    exhibition = event(
+        id="exhibition-with-venue-hours",
+        title="Exposición temporal del museo",
+        schedule={
+            "mode": "dated",
+            "start": "2026-08-28T10:00:00-04:00",
+            "end": None,
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair",
+        },
+        source_url="https://official.example/exhibitions/current",
+        provenance={"evidence": [{"source": "official_event_page"}]},
+    )
+    dataset = {"publication_date": "2026-08-30", "events": [exhibition], "counts": {"total": 1}}
+
+    changes = apply_guard(dataset)
+
+    assert dataset["events"] == []
+    assert changes["expired_removed"] == []
+    receipt = changes["quarantined"][0]
+    assert receipt["reason"] == "venue_hours_contaminated_event_schedule_missing_verified_end"
+    assert receipt["missing_evidence"] == ["verified_event_end_date_or_occurrence"]
+    canonical_receipt = next(
+        row for row in changes["receipt_ledger"]["receipts"]
+        if row["source_record_id"] == "exhibition-with-venue-hours"
+    )
+    assert canonical_receipt["action"] == "quarantine"
+    assert canonical_receipt["provenance"]["evidence"]
+
+
 def test_prunes_past_occurrences_and_keeps_future_session() -> None:
     recurring = event(
         id="recurring",
@@ -201,7 +234,19 @@ def test_prunes_past_occurrences_and_keeps_future_session() -> None:
     occurrences = dataset["events"][0]["schedule"]["occurrences"]
     assert len(occurrences) == 1
     assert occurrences[0]["start"].startswith("2026-08-20")
-    assert changes["past_occurrences_pruned"] == [{"id": "recurring", "count": 1}]
+    pruned = changes["past_occurrences_pruned"]
+    assert len(pruned) == 1
+    assert pruned[0]["id"] == "recurring"
+    assert pruned[0]["count"] == 1
+    assert len(pruned[0]["occurrence_ids"]) == 1
+    receipt = next(
+        row for row in changes["receipt_ledger"]["receipts"]
+        if row["reason"] == "past_occurrence_pruned_from_active_series"
+    )
+    assert receipt["occurrence_id"] == pruned[0]["occurrence_ids"][0]
+    assert receipt["destination"] == {
+        "state": "series_preserved", "canonical_event_id": "recurring"
+    }
 
 
 def test_quarantines_monthly_program_overview_without_concrete_event() -> None:
@@ -275,7 +320,13 @@ def test_unverified_submission_call_remains_quarantined() -> None:
     dataset = {"events": [call], "counts": {"total": 1}}
     changes = apply_guard(dataset)
     assert dataset["events"] == []
-    assert changes["quarantined"][0]["reason"] == "call_for_submissions_deadline_not_event"
+    quarantined = changes["quarantined"][0]
+    assert quarantined["reason"] == "unverified_call_for_submissions_missing_official_bases"
+    assert quarantined["missing_evidence"] == [
+        "verified_official_source",
+        "field_provenance",
+    ]
+    assert "calls_for_submissions" not in dataset["counts"]
 
 
 
@@ -437,6 +488,7 @@ def main() -> None:
     test_removes_expired_event_against_publication_date()
     test_official_occurrence_expiration_overrides_contaminated_future_schedule()
     test_official_occurrence_rule_does_not_remove_future_or_series_event()
+    test_exhibition_without_verified_end_is_quarantined_not_expired_by_venue_hours()
     test_prunes_past_occurrences_and_keeps_future_session()
     test_quarantines_monthly_program_overview_without_concrete_event()
     test_quarantines_anniversary_news_without_concrete_event()

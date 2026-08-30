@@ -22,9 +22,17 @@ from scripts.public_category_rules import (
     source_category,
 )
 from app.scripts.apply_content_quality_guard import materialize_submission_call, non_event_context_reason
+from app.scripts.transformation_receipt_ledger import (
+    append_receipt,
+    load_ledger,
+    make_receipt,
+    semantic_payload,
+    write_ledger,
+)
 
 DEFAULT_DATASETS = (ROOT / "agenda_web.json", ROOT / "app/data/gijon/agenda_web.json")
 CONTRACT_VERSION = "shared-canonical-category-migration-v1"
+DEFAULT_LEDGER = ROOT / "app/data/quality/transformation-receipts.json"
 PROGRAM_SHELL_TITLE = re.compile(r"\b(?:programaci[oó]n|cartelera|agenda|inscripciones?)\b", re.I)
 
 
@@ -95,7 +103,12 @@ def _historical_legacy_inventory_scope(event: dict, payload: dict) -> bool:
     return False
 
 
-def migrate_payload(payload: dict) -> tuple[dict, dict]:
+def migrate_payload(
+    payload: dict,
+    *,
+    ledger: dict | None = None,
+    generated_at: str | None = None,
+) -> tuple[dict, dict]:
     """Converge source taxonomies to the shared public taxonomy without guessing.
 
     Already thematic categories are preserved (and registered aliases are
@@ -164,17 +177,42 @@ def migrate_payload(payload: dict) -> tuple[dict, dict]:
             "historical_37_scope": in_historical_scope,
         })
         if action == "excluded":
+            if ledger is not None:
+                receipt_action = "non_event_exclusion" if exclusion_reason == "promotional_giveaway_not_attendance_event" else "quarantine"
+                append_receipt(ledger, make_receipt(
+                    stage="canonical_category_materializer",
+                    action=receipt_action,
+                    reason=str(exclusion_reason),
+                    source_event=event,
+                    canonical_event_id=None,
+                    destination={"state": receipt_action, "canonical_event_id": None},
+                    evidence={"classification": classification},
+                ))
             continue
         retained_events.append(event)
         if action == "blocked":
             continue
         event["primary_category"] = proposed
         event["categories"] = [proposed]
+        if ledger is not None and action in {"normalized", "reclassified"}:
+            append_receipt(ledger, make_receipt(
+                stage="canonical_category_materializer",
+                action="reclassification",
+                reason=f"canonical_category_{action}",
+                source_event=event,
+                canonical_event_id=str(event.get("id") or ""),
+                destination={"state": "published", "canonical_event_id": event.get("id"), "category": proposed},
+                evidence={"classification": classification, "previous_category": current},
+            ))
         semantics = event.get("semantics")
         if isinstance(semantics, dict) and "canonical_category" in semantics:
             semantics["canonical_category"] = proposed
 
     migrated["events"] = retained_events
+    if semantic_payload(migrated) != semantic_payload(payload):
+        migrated["generated_at"] = generated_at or datetime.now().astimezone().isoformat(timespec="seconds")
+        if ledger is not None:
+            ledger["generated_at"] = migrated["generated_at"]
 
     report = {
         "contract": CONTRACT_VERSION,
@@ -190,19 +228,32 @@ def migrate_payload(payload: dict) -> tuple[dict, dict]:
     return migrated, report
 
 
-def materialize(path: Path, *, report_path: Path | None = None, require_classified: bool = False) -> tuple[int, int, dict]:
+def materialize(
+    path: Path,
+    *,
+    report_path: Path | None = None,
+    require_classified: bool = False,
+    ledger: dict | None = None,
+    generated_at: str | None = None,
+) -> tuple[int, int, dict]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     normalize_publication_metadata(payload)
-    migrated, report = migrate_payload(payload)
+    migrated, report = migrate_payload(payload, ledger=ledger, generated_at=generated_at)
     if report_path:
         report_path.parent.mkdir(parents=True, exist_ok=True)
-        report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        report_path.write_text(
+            json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8", newline="\n",
+        )
     blockers = report["counts"]["blocked"]
     if require_classified and blockers:
         raise ValueError(f"PUBLIC_CATEGORY_MIGRATION_BLOCKED count={blockers}")
     changed = sum(1 for before, after in zip(payload.get("events") or [], migrated.get("events") or []) if before != after)
     if migrated != payload:
-        path.write_text(json.dumps(migrated, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        path.write_text(
+            json.dumps(migrated, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8", newline="\n",
+        )
     return len(migrated.get("events") or []), changed, report
 
 
@@ -212,30 +263,42 @@ def main() -> int:
     parser.add_argument("--report-dir", type=Path)
     parser.add_argument("--require-classified", action="store_true")
     parser.add_argument("--contract", choices=[CONTRACT_VERSION])
+    parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
+    parser.add_argument("--generated-at")
     args = parser.parse_args()
     paths = args.paths or list(DEFAULT_DATASETS)
-    prepared: list[tuple[Path, dict, dict, dict]] = []
+    ledger = load_ledger(args.ledger)
+    prepared: list[tuple[Path, dict, dict, dict, Path | None]] = []
     for raw in paths:
         path = raw if raw.is_absolute() else ROOT / raw
         payload = json.loads(path.read_text(encoding="utf-8"))
         normalize_publication_metadata(payload)
-        migrated, report = migrate_payload(payload)
+        migrated, report = migrate_payload(payload, ledger=ledger, generated_at=args.generated_at)
         report_path = args.report_dir / f"{path.stem}-{path.parent.name}.json" if args.report_dir else None
+        prepared.append((path, payload, migrated, report, report_path))
+
+    for _path, _payload, _migrated, report, report_path in prepared:
         if report_path:
             report_path.parent.mkdir(parents=True, exist_ok=True)
-            report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        prepared.append((path, payload, migrated, report))
+            report_path.write_text(
+                json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+                newline="\n",
+            )
 
     blockers = sum(item[3]["counts"]["blocked"] for item in prepared)
     if args.require_classified and blockers:
         print(f"PUBLIC_CATEGORY_MIGRATION_BLOCKED count={blockers}", file=sys.stderr)
         return 1
 
-    for path, payload, migrated, report in prepared:
+    for path, payload, migrated, report, _report_path in prepared:
         total = len(migrated.get("events") or [])
         changed = sum(1 for before, after in zip(payload.get("events") or [], migrated.get("events") or []) if before != after)
         if migrated != payload:
-            path.write_text(json.dumps(migrated, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            path.write_text(
+                json.dumps(migrated, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8", newline="\n",
+            )
         counts = report["counts"]
         display_path = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
         print(
@@ -243,6 +306,7 @@ def main() -> int:
             f"preserved={counts['preserved']} normalized={counts['normalized']} "
             f"reclassified={counts['reclassified']} blocked={counts['blocked']}"
         )
+    write_ledger(args.ledger, ledger)
     return 0
 
 

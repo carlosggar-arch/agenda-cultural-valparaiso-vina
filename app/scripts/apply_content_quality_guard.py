@@ -4,18 +4,29 @@ import argparse
 import copy
 import html
 import json
+import os
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+
+try:
+    from app.scripts.transformation_receipt_ledger import (
+        append_receipt, empty_ledger, load_ledger, make_receipt, occurrence_id, semantic_payload,
+    )
+except ModuleNotFoundError:  # Direct script execution used by repository contracts.
+    from transformation_receipt_ledger import (
+        append_receipt, empty_ledger, load_ledger, make_receipt, occurrence_id, semantic_payload,
+    )
 
 ROOT = Path(__file__).resolve().parents[2]
 APP_ROOT = ROOT / "app"
 CITY_REGISTRY = APP_ROOT / "cities.json"
 DEFAULT_DATASET = ROOT / "agenda_web.json"
 DEFAULT_REPORT = ROOT / "app/data/quality/content-quality.json"
+DEFAULT_LEDGER = ROOT / "app/data/quality/transformation-receipts.json"
 
 SOCIAL_HOSTS = {"instagram.com", "www.instagram.com", "facebook.com", "www.facebook.com", "tiktok.com", "www.tiktok.com"}
 GENERIC_TITLE_PATTERNS = (
@@ -217,6 +228,25 @@ def materialize_submission_call(event: dict) -> bool:
     return True
 
 
+def submission_call_missing_evidence(event: dict) -> list[str]:
+    """Explain why a detected call cannot become a public opportunity yet."""
+    if not is_deadline_only_submission_call(event):
+        return []
+    status = event.get("public_status") if isinstance(event.get("public_status"), dict) else {}
+    links = event.get("links") if isinstance(event.get("links"), dict) else {}
+    provenance = event.get("provenance") if isinstance(event.get("provenance"), dict) else {}
+    missing: list[str] = []
+    if status.get("source_official") is not True:
+        missing.append("verified_official_source")
+    if not source_url(event):
+        missing.append("source_url")
+    if not (links.get("registration") or links.get("participation") or links.get("official")):
+        missing.append("official_bases_or_participation_url")
+    if not provenance:
+        missing.append("field_provenance")
+    return missing
+
+
 def is_promotional_giveaway(event: dict) -> bool:
     combined = f"{fold(event.get('title'))} {fold(event.get('description'))}".strip()
     return bool(GIVEAWAY_ACTION.search(combined) and GIVEAWAY_PRIZE.search(combined))
@@ -256,7 +286,7 @@ def non_event_context_reason(event: dict) -> str | None:
     if str(event.get("event_type") or "event") != "event":
         return None
     if is_deadline_only_submission_call(event):
-        return "call_for_submissions_deadline_not_event"
+        return "unverified_call_for_submissions_missing_official_bases"
     if is_promotional_giveaway(event):
         return "promotional_giveaway_not_attendance_event"
     if is_contaminated_multi_event_record(event):
@@ -481,12 +511,121 @@ def refresh_counts(dataset: dict) -> None:
     counts["courses"] = sum(1 for event in events if event.get("event_type") == "course")
     counts["flexible_offers"] = sum(1 for event in events if event.get("event_type") == "flexible_offer")
     counts["programs"] = sum(1 for event in events if event.get("event_type") == "program")
-    counts["calls_for_submissions"] = sum(1 for event in events if event.get("content_kind") == "call_for_submissions")
     dataset["counts"] = counts
 
 
-def apply_guard(dataset: dict) -> dict:
+def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, str] | None:
+    """Identify duplicate records for one occurrence from one canonical source."""
+    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+    location = event.get("location") if isinstance(event.get("location"), dict) else {}
+    url = source_url(event)
+    host = (urlparse(url).hostname or "").casefold() if url else ""
+    source_identity = (
+        host if host and host not in SOCIAL_HOSTS and host != "linktr.ee"
+        else fold(event.get("source_id") or event.get("source_name"))
+    )
+    key = (
+        source_identity,
+        fold(event.get("title")),
+        fold(location.get("city") or location.get("commune")),
+        fold(location.get("venue")),
+        clean_space(schedule.get("start")),
+    )
+    return key if all(key) else None
+
+
+def venue_hours_contamination_reason(event: dict) -> str | None:
+    """Do not use venue opening hours as an exhibition occurrence or end date."""
+    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+    categories = {
+        str(item.get("id")) for item in (event.get("categories") or [])
+        if isinstance(item, dict)
+    }
+    has_venue_hours = bool(
+        schedule.get("venue_hours")
+        or (
+            schedule.get("opening_time")
+            and schedule.get("closing_time")
+            and str(schedule.get("hours_confidence") or "").strip()
+        )
+    )
+    semantic_text = fold(" ".join((
+        clean_space(event.get("title")),
+        clean_space(event.get("description")),
+    )))
+    is_long_running_exhibition = any(
+        token in semantic_text
+        for token in ("exposicion", "exhibicion", "muestra temporal", "muestra transitoria")
+    )
+    if (
+        str(event.get("event_type") or "event") == "event"
+        and "exposiciones" in categories
+        and is_long_running_exhibition
+        and has_venue_hours
+        and schedule.get("start")
+        and not schedule.get("end")
+        and not schedule.get("occurrences")
+    ):
+        return "venue_hours_contaminated_event_schedule_missing_verified_end"
+    return None
+
+
+def consolidate_exact_source_occurrences(
+    events: list[dict], *, ledger: dict, changes: dict[str, list]
+) -> list[dict]:
+    groups: dict[tuple[str, str, str, str, str], list[dict]] = defaultdict(list)
+    ungrouped: list[dict] = []
+    for event in events:
+        key = exact_source_occurrence_key(event)
+        if key is None:
+            ungrouped.append(event)
+        else:
+            groups[key].append(event)
+
+    consolidated = list(ungrouped)
+    for key, members in groups.items():
+        if len(members) == 1:
+            consolidated.extend(members)
+            continue
+        preferred = max(members, key=event_score)
+        duplicates = [event for event in members if event is not preferred]
+        for duplicate in duplicates:
+            merge_missing(preferred, duplicate)
+            append_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action="deduplication",
+                reason="same_source_title_venue_city_and_start", source_event=duplicate,
+                canonical_event_id=str(preferred.get("id") or ""),
+                destination={"state": "merged", "canonical_event_id": preferred.get("id")},
+                evidence={
+                    "source_identity": key[0], "title": key[1], "city": key[2],
+                    "venue": key[3], "start": key[4],
+                },
+                preserved_fields=[
+                    field for field in (
+                        "title", "description", "schedule", "location", "image", "price", "links", "primary_category"
+                    ) if preferred.get(field) not in (None, "", [], {})
+                ],
+                combined_provenance={
+                    "canonical": copy.deepcopy(preferred.get("provenance") or {}),
+                    "duplicate": copy.deepcopy(duplicate.get("provenance") or {}),
+                    "sources": sorted(filter(None, [source_url(preferred), source_url(duplicate)])),
+                },
+            ))
+        changes["duplicates_consolidated"].append({
+            "kind": "exact_source_occurrence",
+            "kept_id": preferred.get("id"),
+            "removed_ids": [event.get("id") for event in duplicates],
+            "start": key[4],
+        })
+        consolidated.append(preferred)
+    return consolidated
+
+
+def apply_guard(dataset: dict, *, ledger: dict | None = None, generated_at: str | None = None) -> dict:
+    before_semantic = semantic_payload(dataset)
+    ledger = ledger if ledger is not None else empty_ledger(generated_at=dataset.get("generated_at"))
     events = list(dataset.get("events") or [])
+    events_by_id = {str(event.get("id") or ""): copy.deepcopy(event) for event in events}
     changes: dict[str, list] = {
         "html_cleaned": [],
         "titles_recovered": [],
@@ -495,6 +634,10 @@ def apply_guard(dataset: dict) -> dict:
         "expired_removed": [],
         "past_occurrences_pruned": [],
     }
+    events = consolidate_exact_source_occurrences(events, ledger=ledger, changes=changes)
+    if generated_at:
+        generated = datetime.fromisoformat(generated_at.replace("Z", "+00:00"))
+        dataset["publication_date"] = generated.date().isoformat()
     publication_day = reference_date(dataset)
 
     sanitized: list[dict] = []
@@ -520,6 +663,12 @@ def apply_guard(dataset: dict) -> dict:
                 "title": event.get("title"),
                 "reason": "calendar_navigation_or_empty_state",
             })
+            append_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action="quarantine",
+                reason="calendar_navigation_or_empty_state", source_event=event,
+                canonical_event_id=None,
+                destination={"state": "quarantine", "canonical_event_id": None},
+            ))
             continue
 
         context_reason = non_event_context_reason(event)
@@ -533,7 +682,16 @@ def apply_guard(dataset: dict) -> dict:
                 receipt["source_url"] = source_url(event)
                 receipt["location"] = copy.deepcopy(event.get("location") or {})
                 receipt["provenance"] = copy.deepcopy(event.get("provenance") or {})
+            elif context_reason == "unverified_call_for_submissions_missing_official_bases":
+                receipt["missing_evidence"] = submission_call_missing_evidence(event)
             changes["quarantined"].append(receipt)
+            action = "non_event_exclusion" if context_reason == "promotional_giveaway_not_attendance_event" else "quarantine"
+            append_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action=action, reason=context_reason,
+                source_event=event, canonical_event_id=None,
+                destination={"state": action, "canonical_event_id": None},
+                evidence={key: value for key, value in receipt.items() if key not in {"id", "title", "reason"}},
+            ))
             continue
 
         recovered, reason = recover_generic_title(event)
@@ -551,10 +709,51 @@ def apply_guard(dataset: dict) -> dict:
             event["editorial"] = editorial
             changes["titles_recovered"].append({"id": event_id, "from": original, "to": recovered, "reason": reason})
         elif is_generic_title(event.get("title")):
-            changes["quarantined"].append({"id": event_id, "title": event.get("title"), "reason": "generic_title_without_explicit_recovery"})
+            missing = [
+                field for field, value in (
+                    ("recoverable_title", None),
+                    ("description", clean_html_text(event.get("description"))),
+                    ("venue", clean_space((event.get("location") or {}).get("venue"))),
+                    ("occurrence", (event.get("schedule") or {}).get("start")),
+                ) if not value
+            ]
+            changes["quarantined"].append({
+                "id": event_id, "title": event.get("title"),
+                "reason": "generic_title_without_explicit_recovery", "missing_evidence": missing,
+            })
+            append_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action="quarantine",
+                reason="generic_title_without_explicit_recovery", source_event=event,
+                canonical_event_id=None,
+                destination={"state": "quarantine", "canonical_event_id": None},
+                evidence={"missing_evidence": missing},
+            ))
             continue
 
         if publication_day is not None:
+            contamination_reason = venue_hours_contamination_reason(event)
+            if contamination_reason:
+                evidence = {
+                    "schedule": copy.deepcopy(event.get("schedule") or {}),
+                    "source_url": source_url(event),
+                    "missing_evidence": ["verified_event_end_date_or_occurrence"],
+                }
+                changes["quarantined"].append({
+                    "id": event_id,
+                    "title": event.get("title"),
+                    "reason": contamination_reason,
+                    "missing_evidence": evidence["missing_evidence"],
+                })
+                append_receipt(ledger, make_receipt(
+                    stage="content_quality_guard",
+                    action="quarantine",
+                    reason=contamination_reason,
+                    source_event=event,
+                    canonical_event_id=event_id,
+                    destination={"state": "quarantine", "canonical_event_id": event_id},
+                    evidence=evidence,
+                ))
+                continue
             official_expiration = official_occurrence_expiration(event, publication_day)
             if official_expiration:
                 changes["expired_removed"].append({
@@ -563,17 +762,52 @@ def apply_guard(dataset: dict) -> dict:
                     "reason": "official_occurrence_expired_schedule_conflict",
                     **official_expiration,
                 })
+                append_receipt(ledger, make_receipt(
+                    stage="content_quality_guard", action="expiration",
+                    reason="official_occurrence_expired_schedule_conflict", source_event=event,
+                    canonical_event_id=None,
+                    destination={"state": "expired", "canonical_event_id": None},
+                    evidence=official_expiration,
+                ))
                 continue
             keep, pruned = prune_expired_schedule(event, publication_day)
-            if pruned:
-                changes["past_occurrences_pruned"].append({"id": event_id, "count": pruned})
             if not keep:
                 changes["expired_removed"].append({
                     "id": event_id,
                     "title": event.get("title"),
                     "reason": "schedule_ended_before_publication_date",
                 })
+                append_receipt(ledger, make_receipt(
+                    stage="content_quality_guard", action="expiration",
+                    reason="schedule_ended_before_publication_date", source_event=event,
+                    canonical_event_id=None,
+                    destination={"state": "expired", "canonical_event_id": None},
+                ))
                 continue
+            if pruned:
+                original_schedule = (events_by_id.get(event_id) or {}).get("schedule") or {}
+                retained = {
+                    occurrence_id(event, item)
+                    for item in (event.get("schedule") or {}).get("occurrences") or []
+                    if isinstance(item, dict)
+                }
+                removed_occurrences = [
+                    item for item in original_schedule.get("occurrences") or []
+                    if isinstance(item, dict) and occurrence_id(event, item) not in retained
+                ]
+                changes["past_occurrences_pruned"].append({
+                    "id": event_id, "count": len(removed_occurrences),
+                    "occurrence_ids": [occurrence_id(event, item) for item in removed_occurrences],
+                })
+                for removed_occurrence in removed_occurrences:
+                    append_receipt(ledger, make_receipt(
+                        stage="content_quality_guard", action="occurrence_pruning",
+                        reason="past_occurrence_pruned_from_active_series", source_event=event,
+                        canonical_event_id=event_id,
+                        destination={"state": "series_preserved", "canonical_event_id": event_id},
+                        evidence={"occurrence": removed_occurrence},
+                        occurrence=removed_occurrence,
+                    ))
 
         sanitized.append(event)
 
@@ -599,6 +833,28 @@ def apply_guard(dataset: dict) -> dict:
         for duplicate in duplicates:
             merge_missing(preferred, duplicate)
             removed_ids.add(str(duplicate.get("id") or ""))
+            preserved = [
+                field for field in ("title", "description", "schedule", "location", "image", "price", "links", "primary_category")
+                if preferred.get(field) not in (None, "", [], {})
+            ]
+            append_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action="deduplication",
+                reason="same_venue_title_and_occurrence", source_event=duplicate,
+                canonical_event_id=str(preferred.get("id") or ""),
+                destination={"state": "merged", "canonical_event_id": preferred.get("id")},
+                evidence={
+                    "same_venue": key,
+                    "same_canonical_title": canonical,
+                    "source_occurrence_id": occurrence_id(duplicate),
+                    "canonical_occurrence_id": occurrence_id(preferred),
+                },
+                preserved_fields=preserved,
+                combined_provenance={
+                    "canonical": copy.deepcopy(preferred.get("provenance") or {}),
+                    "duplicate": copy.deepcopy(duplicate.get("provenance") or {}),
+                    "sources": sorted(filter(None, [source_url(preferred), source_url(duplicate)])),
+                },
+            ))
         changes["duplicates_consolidated"].append({
             "venue_key": key,
             "canonical_title": canonical,
@@ -608,6 +864,10 @@ def apply_guard(dataset: dict) -> dict:
 
     dataset["events"] = [event for event in sanitized if str(event.get("id") or "") not in removed_ids]
     refresh_counts(dataset)
+    if semantic_payload(dataset) != before_semantic:
+        dataset["generated_at"] = generated_at or datetime.now().astimezone().isoformat(timespec="seconds")
+        ledger["generated_at"] = dataset["generated_at"]
+    changes["receipt_ledger"] = ledger
     return changes
 
 
@@ -638,10 +898,15 @@ def configured_datasets(registry_path: Path = CITY_REGISTRY) -> list[tuple[str, 
     return result
 
 
-def sanitize_dataset(dataset_path: Path) -> tuple[dict, dict]:
+def sanitize_dataset(
+    dataset_path: Path,
+    *,
+    ledger: dict | None = None,
+    generated_at: str | None = None,
+) -> tuple[dict, dict]:
     dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
     before = len(dataset.get("events") or [])
-    changes = apply_guard(dataset)
+    changes = apply_guard(dataset, ledger=ledger, generated_at=generated_at)
     after = len(dataset.get("events") or [])
     report = {
         "status": "ok",
@@ -660,6 +925,9 @@ def main() -> None:
     parser.add_argument("--report", default=str(DEFAULT_REPORT))
     parser.add_argument("--all-cities", action="store_true", help="Apply the same guard to every dataset registered in app/cities.json.")
     parser.add_argument("--no-write", action="store_true")
+    parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
+    parser.add_argument("--new-ledger", action="store_true")
+    parser.add_argument("--generated-at")
     args = parser.parse_args()
 
     report_path = Path(args.report)
@@ -667,8 +935,11 @@ def main() -> None:
     city_reports: list[dict] = []
     sanitized_payloads: list[tuple[Path, dict]] = []
 
+    ledger = empty_ledger() if args.new_ledger else load_ledger(args.ledger)
     for city_id, dataset_path in targets:
-        dataset, report = sanitize_dataset(dataset_path)
+        dataset, report = sanitize_dataset(
+            dataset_path, ledger=ledger, generated_at=args.generated_at
+        )
         report["city_id"] = city_id
         city_reports.append(report)
         sanitized_payloads.append((dataset_path, dataset))
@@ -687,12 +958,28 @@ def main() -> None:
         report = city_reports[0]
 
     if not args.no_write:
-        for dataset_path, dataset in sanitized_payloads:
-            dataset_path.write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        report_path.parent.mkdir(parents=True, exist_ok=True)
-        report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        writes = [
+            (path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+            for path, payload in sanitized_payloads
+        ]
+        writes.extend([
+            (report_path, json.dumps(report, ensure_ascii=False, indent=2) + "\n"),
+            (args.ledger, json.dumps(ledger, ensure_ascii=False, indent=2, sort_keys=True) + "\n"),
+        ])
+        staged: list[tuple[Path, Path]] = []
+        try:
+            for path, content in writes:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                temporary = path.with_name(path.name + ".tmp")
+                temporary.write_text(content, encoding="utf-8", newline="\n")
+                staged.append((temporary, path))
+            for temporary, path in staged:
+                os.replace(temporary, path)
+        finally:
+            for temporary, _path in staged:
+                temporary.unlink(missing_ok=True)
 
-    print(json.dumps(report, ensure_ascii=False))
+    print(json.dumps(report, ensure_ascii=True))
 
 
 if __name__ == "__main__":
