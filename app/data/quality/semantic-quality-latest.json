@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "b35ee7f62197298168eefc83c043f6070f0f434777cc7dbf6841a00a9dd3c894",
-  "generated_at": "2026-08-29T21:03:30Z",
+  "fingerprint": "56cc021caf53956c3799aab1ca2b2a9ec2fa0084edd117c7781875ca023e5965",
+  "generated_at": "2026-08-30T12:00:01Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -17,21 +17,21 @@
       "dominant_share": 1.0,
       "source_name": "Agenda Gijón",
       "source_url": "https://agendagijon.com/",
-      "total": 3,
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.714286,
-        "musica": 0.285714
+        "cursos-talleres-campus": 0.666667,
+        "musica": 0.333333
       },
       "city_id": "gijon",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.714286,
+      "dominant_share": 0.666667,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "total": 7,
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -65,22 +65,22 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.181818,
-        "cine": 0.090909,
-        "exposiciones": 0.272727,
-        "literatura": 0.227273,
-        "musica": 0.045455,
-        "teatro": 0.136364,
-        "unclassified": 0.045455
+        "charlas-conferencias": 0.190476,
+        "cine": 0.047619,
+        "exposiciones": 0.285714,
+        "literatura": 0.238095,
+        "musica": 0.047619,
+        "teatro": 0.142857,
+        "unclassified": 0.047619
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.272727,
+      "dominant_share": 0.285714,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 22,
+      "total": 21,
       "unclassified": 1,
-      "unclassified_rate": 0.045455
+      "unclassified_rate": 0.047619
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -117,7 +117,7 @@
       "dominant_share": 1.0,
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "total": 8,
+      "total": 10,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -189,48 +189,49 @@
     },
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
-        "exposiciones": 0.034483,
-        "musica": 0.448276,
-        "teatro": 0.517241
+        "exposiciones": 0.035714,
+        "musica": 0.464286,
+        "teatro": 0.5
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.517241,
+      "dominant_share": 0.5,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "total": 29,
+      "total": 28,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::meidinerz jazz club": {
       "category_distribution": {
-        "musica": 1.0
+        "exposiciones": 0.25,
+        "musica": 0.75
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 1.0,
+      "dominant_share": 0.75,
       "source_name": "Meidinerz Jazz Club",
       "source_url": "https://meidinerzjazzclub.com/",
-      "total": 3,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.055556,
-        "cine": 0.027778,
-        "cursos-talleres-campus": 0.194444,
-        "exposiciones": 0.611111,
-        "literatura": 0.027778,
-        "musica": 0.055556,
-        "teatro": 0.027778
+        "charlas-conferencias": 0.060606,
+        "cine": 0.030303,
+        "cursos-talleres-campus": 0.181818,
+        "exposiciones": 0.636364,
+        "literatura": 0.030303,
+        "musica": 0.030303,
+        "teatro": 0.030303
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.611111,
+      "dominant_share": 0.636364,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 36,
+      "total": 33,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -937,14 +938,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "f680324214d87365fc830b4d5a0f8b15668e91af",
+  "source_ref": "0f5c8622d60c74ec749ed850901889e8a091a9d7",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 66,
-    "total_events": 450,
+    "total_events": 446,
     "unclassified_count": 10,
-    "unclassified_rate": 0.022222
+    "unclassified_rate": 0.022422
   },
   "unclassified_queue": [
     {
