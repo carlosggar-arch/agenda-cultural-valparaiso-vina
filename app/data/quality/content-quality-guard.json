@@ -1,14 +1,182 @@
 {
   "status": "ok",
   "dataset": "agenda_web.json",
-  "events_before": 256,
-  "events_after": 255,
-  "removed": 1,
+  "events_before": 263,
+  "events_after": 168,
+  "removed": 95,
   "html_cleaned": [],
   "titles_recovered": [],
-  "duplicates_consolidated": [],
-  "quarantined": [],
+  "duplicates_consolidated": [
+    {
+      "kind": "exact_source_occurrence",
+      "kept_id": "agenda_57758d36275f8f549b01d342",
+      "removed_ids": [
+        "agenda_rioja_20260828_consome"
+      ],
+      "start": "2026-08-28T18:00:00-04:00"
+    },
+    {
+      "kind": "exact_source_occurrence",
+      "kept_id": "agenda_rioja_20260829_hilos",
+      "removed_ids": [
+        "agenda_a6809c36efee0be02ad7108d"
+      ],
+      "start": "2026-08-29T15:00:00-04:00"
+    },
+    {
+      "kind": "exact_source_occurrence",
+      "kept_id": "agenda_d17e03da03c19d81a3409b4f",
+      "removed_ids": [
+        "agenda_rioja_20260829_moncho"
+      ],
+      "start": "2026-08-29T19:00:00-04:00"
+    },
+    {
+      "venue_key": "museo palacio rioja|vina del mar",
+      "canonical_title": "a veces un mar dulce",
+      "kept_id": "agenda_8c2b6ba0de30c34fe3529930",
+      "removed_ids": [
+        "agenda_rioja_exhibition_mar_dulce_2026"
+      ]
+    }
+  ],
+  "quarantined": [
+    {
+      "id": "agenda_b60e2916477b5b0b95ef712d",
+      "title": "Pronto…",
+      "reason": "generic_title_without_explicit_recovery",
+      "missing_evidence": [
+        "recoverable_title",
+        "description",
+        "venue"
+      ]
+    },
+    {
+      "id": "agenda_51c72abb046065810d84d45d",
+      "title": "Se llena, recomendamos reservar",
+      "reason": "generic_title_without_explicit_recovery",
+      "missing_evidence": [
+        "recoverable_title",
+        "venue"
+      ]
+    },
+    {
+      "id": "agenda_d09f5a9206985455342c5be8",
+      "title": "Junto a Enjoy Viña queremos regalarte una escapada para dos. Sí, UNA ESTADÍA DOBLE EN ENJOY VIÑA",
+      "reason": "promotional_giveaway_not_attendance_event"
+    },
+    {
+      "id": "agenda_b4e33a3e573b09d76186da6c",
+      "title": "#cerroalegre",
+      "reason": "promotional_carousel_without_verified_children"
+    },
+    {
+      "id": "agenda_6a62b556b781a210a35f6599",
+      "title": "El Mesón Nerudiano (Dominica 35, Recoleta)",
+      "reason": "multi_event_geography_conflict_with_truncated_segment",
+      "source_url": "https://www.instagram.com/p/DcGo3vAumzV/",
+      "location": {
+        "venue_id": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Casa de la Cultura de Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "provenance": {}
+    },
+    {
+      "id": "agenda_6467e133788da5112c653367",
+      "title": "Las bases en historia destacada !",
+      "reason": "unverified_call_for_submissions_missing_official_bases",
+      "missing_evidence": [
+        "verified_official_source",
+        "field_provenance"
+      ]
+    },
+    {
+      "id": "agenda_433161ef9c546be7beadbeac",
+      "title": "Exhibición temporal // Historias Mínimas",
+      "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+      "missing_evidence": [
+        "verified_event_end_date_or_occurrence"
+      ]
+    },
+    {
+      "id": "agenda_eeea936319edc98db3c75f29",
+      "title": "Exposición // Horario de verano: Memorias fuera de temporada",
+      "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+      "missing_evidence": [
+        "verified_event_end_date_or_occurrence"
+      ]
+    },
+    {
+      "id": "agenda_a933180663b5f1d4af1ec329",
+      "title": "Exposición transitoria // “Entre mareas",
+      "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+      "missing_evidence": [
+        "verified_event_end_date_or_occurrence"
+      ]
+    }
+  ],
   "expired_removed": [
+    {
+      "id": "agenda_a336722c8e43e639f7d9891b",
+      "title": "Nos vemos para juntos divertirnos y reírnos",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_3a5a2240ba3d37060ffc72c6",
+      "title": "Cerro Conchalí - La Dehesa - Región Metropolitana",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_6bc3608f03049011771d1877",
+      "title": "21.00 horas",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_638dec715936bfac718647d6",
+      "title": "Valparaíso Profundo – Programación Agosto",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_d0d72d4145daccc191b7c56b",
+      "title": "Club de Jazz Estrella Negra – Cartelera Agosto",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_650e95f9b205b8665b0bce6d",
+      "title": "Ciclo taller EL ARTE ES NATURAL",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_736146bf3ae28424cc8b6da6",
+      "title": "¡La cueca se vive en Viña del Mar!",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_01860dc696a7f7516641d084",
+      "title": "La guerra de los últimos - The Dog Stars",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_20020b2f753b3f7375340f2d",
+      "title": "Cachate la fecha que te traigo!",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_f09024745eeb42469b7255f7",
+      "title": "Grupo ultra",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_bf979b10daaa96af6392621b",
+      "title": "Taller de Huertos Urbanos: Cultiva tus propios alimentos en casa",
+      "reason": "schedule_ended_before_publication_date"
+    },
     {
       "id": "agenda_b17a70d8d6c3ba9e3f1a6a49",
       "title": "Stand up // Pugliese y Barraza",
@@ -29,8 +197,2632 @@
           }
         ]
       }
+    },
+    {
+      "id": "agenda_578d0aac9b5a07a075f7178b",
+      "title": "Audiovisual \"15º Festival de Cine Internacional Ojo de Pescado",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_1ab6c734ae86ade9a9c209d8",
+      "title": "IMA PUCV organizará Math Rocks Fest Chile en Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_1f4027a4aa48bd2502c18aec",
+      "title": "La batalla de Argel",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_fa5f6345caa0042f0edeec2b",
+      "title": "¡Sensación arácnida activada!",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_da7223728fdd8e4c662f30d4",
+      "title": "Spider-Man: Un nuevo día",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_46abf546d2944cf6ea0339d0",
+      "title": "Tensiones entre el derecho y la ciencia en la Ley de humedales urbanos",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_42a37a9c0902e3e1d7668267",
+      "title": "Taller // El arte es natural",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_b3ddcd98d53a623b79d0cef6",
+      "title": "No dejes pasar el día y ven desde las 16 HRS al recurrente Anticuario.",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_a8399df282da79faf07146da",
+      "title": "Cuentacuentos en el Fonck: “La leyenda de Make Make, el Dios creador",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_42a74ad2758fbb9e4bd8d237",
+      "title": "Tertulia sobre Miyazaki y su influencia en el cine chileno",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_ffec605015840bafa9a42844",
+      "title": "Conversatorio sobre Émile Dubois y su vínculo con la historia porteña",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_74bfe3a82d7b6e40c26cb08c",
+      "title": "Función por los Derechos Humanos de niños, niñas y adolescentes",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_5ad5ae4191271859e66a0733",
+      "title": "La voz de Hind Rajab",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_5922f66e55d465d584fe82bc",
+      "title": "Pedro Montt 2302, Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_4d92d860e06bff4eecd171d2",
+      "title": "centinelas del mar",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_1c7a0b828731a816a0ce73c4",
+      "title": "Little Miss Sunshine (2006)",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_57758d36275f8f549b01d342",
+      "title": "Presentación libro // “Consomé Punk”",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_7218ae37a79aacfe4c65f3ca",
+      "title": "Agosto suena en BAJ Valpo",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_f49fa727f83b40e0",
+      "title": "SONIDOS DE CASA: CONCIERTOS GRATUITOS 2026",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_84f62dd431e161067edca8f8",
+      "title": "Concierto de Aniversario",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_6352ba44896e05b6606b1028",
+      "title": "junto a Daniel Cheul🥁, Axel Cornejo🎻, José González🎹, Nico Reyes 🎸 y José Moraga🪊",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_b2bbf788a8683fd5",
+      "title": "MATRIARCAS",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_9007884dd819ed9a575ebda9",
+      "title": "Teatro \"Matriarcas: Poesía, Papel y Tinta",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_94b1a32c6d0376cb",
+      "title": "CASI PASANDO AGOSTO EN LA COLOMBINA",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_trotamundos_4805a06ce5a6b3fca873",
+      "title": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_71d819cd37fe37da",
+      "title": "LOS CRACK DEL PUERTO",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_fd00d50d5e56bb31",
+      "title": "CAROLINA DE LA MUELA EN EL PASAJE",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_8c69cd737b4fcccce0fc4498",
+      "title": "encuentro pasajero con Caro de la Muela",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_d4218ad90c2bf9c052a1cfbd",
+      "title": "Tomás Va a Morir – Ley de Murphy",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_966ea4ada9cfab2c3d1b5545",
+      "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_574432f86945f20bd8bd50c2",
+      "title": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_a08db69b4515d2446e9134e3",
+      "title": "Funny Games (1997) - Puerto Bizarro",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_544a90cadec9dd9f",
+      "title": "ESSTELAR BDAY",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_2b3de8a59e3e1949",
+      "title": "VIERNES CEBOLLA",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_15aea203910e1fe5",
+      "title": "LILLIA: GIRA 2026 CAMPO SINTETICO",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_trotamundos_ae409957a50da0cf7255",
+      "title": "Black Music Party por Dj Lalo en Trotamundos Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_f0ee533bbc0557eb892953af",
+      "title": "Atención valparaíso!!",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_d1b5bea9dc9bcbfdc33dcffc",
+      "title": "Brian Johnson + AC/DC Chile Band",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_b76f5435a13962157176a70c",
+      "title": "Una noche, tres íconos de la V Región",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_414ad83c8677894b43e4d12a",
+      "title": "Teatro Aula Magna USM, Campus Casa Central, Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_7d6db81df72c46da7e8e3849",
+      "title": "Concierto “Camino al Último Vals",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_bdeeb33b91baec73d91f6284",
+      "title": "Taller // “Fluir con la Acuarela: profundización en paisaje urbano y natural",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_72a7926be460ab979bf2cab9",
+      "title": "Tercer Encuentro de Bibliotecas Comunitarias de Viña del Mar",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_f80fdf35e613ff3f1b593302",
+      "title": "Actividades // Juega y explora el Museo Palacio Vergara",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_d710e9788b9a18d19945d9ba",
+      "title": "Yoga todos los sábados",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_c226b71278c136da5618b030",
+      "title": "Día Mensual de la Tierra abordará los terremotos en Venezuela y Colombia",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_0abfa83cf72008bef8cfe20e",
+      "title": "Feria Shonen",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_c235f3d24c1eea1a2c3fcb2f",
+      "title": "Yoga y meditación",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_9e451c6f21f16ac7f285540d",
+      "title": "Aprendices: TRENZANDO EL BOSQUE",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_2d6d7c46b5bbcc4c018b8a9d",
+      "title": "Concierto La Otra Otra Banda",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_272b3673c529d095127ade00",
+      "title": "DDHH \"10 años resistiendo memoria",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_rioja_20260829_hilos",
+      "title": "Taller // Expresión textil: Moviendo Hilos",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_a9110202781144c98af47089",
+      "title": "El Amor Bruja",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_f44693179231e93c30400434",
+      "title": "Mapache",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_ce7998cb583f845825dcf72b",
+      "title": "Literatura Presentación del libro \"Ciudad de tinta y viento",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_7f61e26b57bb79fc2d63bdd4",
+      "title": "La guerra de los últimos - The Dog Stars",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_trotamundos_b1acc54c76a84572cb7d",
+      "title": "Distorsión jurásica valpo",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_738a464c120c73aecfe90622",
+      "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_e618225b133c8eea1b11f69a",
+      "title": "Notas que transforman",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
+      "title": "notas que transforman",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_f69059abbf5199b363c27fa4",
+      "title": "Teatro Aula Magna USM, Campus Casa Central, Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_d17e03da03c19d81a3409b4f",
+      "title": "Concierto jazz // Moncho Pérez",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_a9cc6314176a192a3cb4c6b0",
+      "title": "High School Musical Sing Along (2006)",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_02c1e5677751940add72499e",
+      "title": "la Orquesta Sinfónica Nacional Juvenil",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_794dcfc84878d488",
+      "title": "PUERTO ORQUESTA",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_f99c5529e8adebf20acbe080",
+      "title": "Adolescencia, sexo y muerte en Campamento Miasma",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_trotamundos_2e8bb678f8714e4d2097",
+      "title": "ACDC Chile Band Junto a Ivan Gac + Fiesta en Trotamundos Valparaíso",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_63840931958ea8c6",
+      "title": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_81b6c9487d65dc6f",
+      "title": "ANIVERSARIO CALATHEA CLUB",
+      "reason": "schedule_ended_before_publication_date"
+    },
+    {
+      "id": "agenda_trotamundos_2828754d86a6c0e3749b",
+      "title": "Fiesta Porteña de Sabado por la Noche por Dj Sarc en Trotamundos",
+      "reason": "schedule_ended_before_publication_date"
     }
   ],
-  "past_occurrences_pruned": [],
+  "past_occurrences_pruned": [
+    {
+      "id": "agenda_cb7af7110e2e232a3ef8fd2b",
+      "count": 2,
+      "occurrence_ids": [
+        "occurrence:21bf301ea74452ade9b2",
+        "occurrence:a8bb17ccfb1d309b39b8"
+      ]
+    },
+    {
+      "id": "agenda_32eb4f7c367992c80e767c05",
+      "count": 1,
+      "occurrence_ids": [
+        "occurrence:7d63d0b8477ff776a343"
+      ]
+    },
+    {
+      "id": "agenda_7ecb7751a290204d98783bc6",
+      "count": 2,
+      "occurrence_ids": [
+        "occurrence:21bf301ea74452ade9b2",
+        "occurrence:a8bb17ccfb1d309b39b8"
+      ]
+    }
+  ],
+  "receipt_ledger": {
+    "schema_version": "1.0.0",
+    "contract": "canonical-transformation-receipt-ledger",
+    "generated_at": "2026-08-30T18:00:00-04:00",
+    "receipts": [
+      {
+        "stage": "content_quality_guard",
+        "action": "deduplication",
+        "reason": "same_source_title_venue_city_and_start",
+        "source_record_id": "agenda_a6809c36efee0be02ad7108d",
+        "canonical_event_id": "agenda_rioja_20260829_hilos",
+        "occurrence_id": "occurrence:9331b9899a4ce438d420",
+        "source_url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/",
+        "title": "Taller // Expresión textil: Moviendo Hilos",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "merged",
+          "canonical_event_id": "agenda_rioja_20260829_hilos"
+        },
+        "evidence": {
+          "source_identity": "visitavina.munivina.cl",
+          "title": "taller expresion textil moviendo hilos",
+          "city": "vina del mar",
+          "venue": "palacio rioja",
+          "start": "2026-08-29T15:00:00-04:00"
+        },
+        "preserved_fields": [
+          "description",
+          "image",
+          "links",
+          "location",
+          "price",
+          "primary_category",
+          "schedule",
+          "title"
+        ],
+        "combined_provenance": {
+          "canonical": {
+            "official_metadata": [
+              {
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "host": "visitavina.munivina.cl",
+                "method": "official_page_jsonld_or_metadata",
+                "fields": [
+                  "price"
+                ]
+              }
+            ]
+          },
+          "duplicate": {
+            "official_metadata": [
+              {
+                "url": "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/",
+                "host": "visitavina.munivina.cl",
+                "method": "official_page_jsonld_or_metadata",
+                "fields": [
+                  "price"
+                ]
+              }
+            ]
+          },
+          "sources": [
+            "https://visitavina.munivina.cl/actividad/taller-expresion-textil-moviendo-hilos/",
+            "https://visitavina.munivina.cl/actividades/"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "deduplication",
+        "reason": "same_source_title_venue_city_and_start",
+        "source_record_id": "agenda_rioja_20260828_consome",
+        "canonical_event_id": "agenda_57758d36275f8f549b01d342",
+        "occurrence_id": "occurrence:786108323641ebd6a272",
+        "source_url": "https://visitavina.munivina.cl/actividades/",
+        "title": "Presentación libro // “Consomé Punk”",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividades/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "merged",
+          "canonical_event_id": "agenda_57758d36275f8f549b01d342"
+        },
+        "evidence": {
+          "source_identity": "visitavina.munivina.cl",
+          "title": "presentacion libro consome punk",
+          "city": "vina del mar",
+          "venue": "palacio rioja sala aldo francia",
+          "start": "2026-08-28T18:00:00-04:00"
+        },
+        "preserved_fields": [
+          "description",
+          "image",
+          "links",
+          "location",
+          "price",
+          "primary_category",
+          "schedule",
+          "title"
+        ],
+        "combined_provenance": {
+          "canonical": {},
+          "duplicate": {
+            "official_metadata": [
+              {
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "host": "visitavina.munivina.cl",
+                "method": "official_page_jsonld_or_metadata",
+                "fields": [
+                  "price"
+                ]
+              }
+            ]
+          },
+          "sources": [
+            "https://visitavina.munivina.cl/actividades/",
+            "https://visitavina.munivina.cl/actividades/"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "deduplication",
+        "reason": "same_source_title_venue_city_and_start",
+        "source_record_id": "agenda_rioja_20260829_moncho",
+        "canonical_event_id": "agenda_d17e03da03c19d81a3409b4f",
+        "occurrence_id": "occurrence:3c732f430a1a09b51268",
+        "source_url": "https://visitavina.munivina.cl/actividades/",
+        "title": "Concierto jazz // Moncho Pérez",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividades/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "merged",
+          "canonical_event_id": "agenda_d17e03da03c19d81a3409b4f"
+        },
+        "evidence": {
+          "source_identity": "visitavina.munivina.cl",
+          "title": "concierto jazz moncho perez",
+          "city": "vina del mar",
+          "venue": "palacio rioja sala aldo francia",
+          "start": "2026-08-29T19:00:00-04:00"
+        },
+        "preserved_fields": [
+          "description",
+          "image",
+          "links",
+          "location",
+          "price",
+          "primary_category",
+          "schedule",
+          "title"
+        ],
+        "combined_provenance": {
+          "canonical": {},
+          "duplicate": {
+            "official_metadata": [
+              {
+                "url": "https://visitavina.munivina.cl/actividades/",
+                "host": "visitavina.munivina.cl",
+                "method": "official_page_jsonld_or_metadata",
+                "fields": [
+                  "price"
+                ]
+              }
+            ]
+          },
+          "sources": [
+            "https://visitavina.munivina.cl/actividades/",
+            "https://visitavina.munivina.cl/actividades/"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "deduplication",
+        "reason": "same_venue_title_and_occurrence",
+        "source_record_id": "agenda_rioja_exhibition_mar_dulce_2026",
+        "canonical_event_id": "agenda_8c2b6ba0de30c34fe3529930",
+        "occurrence_id": "occurrence:050e7eaca910bd4aca58",
+        "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+        "title": "Exposición temporal // A veces un mar dulce",
+        "provenance": {
+          "source_url": "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "merged",
+          "canonical_event_id": "agenda_8c2b6ba0de30c34fe3529930"
+        },
+        "evidence": {
+          "same_venue": "museo palacio rioja|vina del mar",
+          "same_canonical_title": "a veces un mar dulce",
+          "source_occurrence_id": "occurrence:050e7eaca910bd4aca58",
+          "canonical_occurrence_id": "occurrence:050e7eaca910bd4aca58"
+        },
+        "preserved_fields": [
+          "description",
+          "image",
+          "links",
+          "location",
+          "price",
+          "primary_category",
+          "schedule",
+          "title"
+        ],
+        "combined_provenance": {
+          "canonical": {},
+          "duplicate": {},
+          "sources": [
+            "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/",
+            "https://visitavina.munivina.cl/actividad/exposicion-temporal-a-veces-un-mar-dulce/"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "official_occurrence_expired_schedule_conflict",
+        "source_record_id": "agenda_b17a70d8d6c3ba9e3f1a6a49",
+        "canonical_event_id": "agenda_b17a70d8d6c3ba9e3f1a6a49",
+        "occurrence_id": "occurrence:2026-07-31",
+        "source_url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+        "title": "Stand up // Pugliese y Barraza",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        },
+        "evidence": {
+          "official_occurrence_date": "2026-07-31",
+          "source_url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+          "source_host": "visitavina.munivina.cl",
+          "scheduled_start": "2026-08-28T09:00:00-04:00",
+          "provenance": {
+            "official_metadata": [
+              {
+                "url": "https://visitavina.munivina.cl/actividad/stand-up-pugliese-y-barraza/?occurrence=2026-07-31",
+                "host": "visitavina.munivina.cl",
+                "method": "official_page_jsonld_or_metadata",
+                "fields": [
+                  "price"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_01860dc696a7f7516641d084",
+        "canonical_event_id": "agenda_01860dc696a7f7516641d084",
+        "occurrence_id": "occurrence:e344d0917869d12719ac",
+        "source_url": "https://www.passline.com/eventos/la-guerra-de-los-ultimos-the-dog-stars",
+        "title": "La guerra de los últimos - The Dog Stars",
+        "provenance": {
+          "source_url": "https://www.passline.com/eventos/la-guerra-de-los-ultimos-the-dog-stars",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_02c1e5677751940add72499e",
+        "canonical_event_id": "agenda_02c1e5677751940add72499e",
+        "occurrence_id": "occurrence:fdb218d55cedea247756",
+        "source_url": "https://www.instagram.com/p/Dcd-x67Eaf3/",
+        "title": "la Orquesta Sinfónica Nacional Juvenil",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/Dcd-x67Eaf3/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_0abfa83cf72008bef8cfe20e",
+        "canonical_event_id": "agenda_0abfa83cf72008bef8cfe20e",
+        "occurrence_id": "occurrence:dde160d57b58d7858680",
+        "source_url": "https://jbn.cl/calendario-actividades/",
+        "title": "Feria Shonen",
+        "provenance": {
+          "source_url": "https://jbn.cl/calendario-actividades/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_1ab6c734ae86ade9a9c209d8",
+        "canonical_event_id": "agenda_1ab6c734ae86ade9a9c209d8",
+        "occurrence_id": "occurrence:4f453ecff7c17825f6a5",
+        "source_url": "https://www.pucv.cl/pucv/site/tax/port/fil_evento/taxport_28___1.html",
+        "title": "IMA PUCV organizará Math Rocks Fest Chile en Valparaíso",
+        "provenance": {
+          "source_url": "https://www.pucv.cl/pucv/site/tax/port/fil_evento/taxport_28___1.html",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_1c7a0b828731a816a0ce73c4",
+        "canonical_event_id": "agenda_1c7a0b828731a816a0ce73c4",
+        "occurrence_id": "occurrence:66df2548bf239bd04ceb",
+        "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
+        "title": "Little Miss Sunshine (2006)",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-little-miss-sunshine-2006-cine-arte-vina-del-mar",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_1f4027a4aa48bd2502c18aec",
+        "canonical_event_id": "agenda_1f4027a4aa48bd2502c18aec",
+        "occurrence_id": "occurrence:a157e5557c548755af24",
+        "source_url": "https://www.instagram.com/p/DcjObr7RB4t/",
+        "title": "La batalla de Argel",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcjObr7RB4t/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_20020b2f753b3f7375340f2d",
+        "canonical_event_id": "agenda_20020b2f753b3f7375340f2d",
+        "occurrence_id": "occurrence:a7efabcde9134555c515",
+        "source_url": "https://www.instagram.com/p/DcR5QT4xSqS/",
+        "title": "Cachate la fecha que te traigo!",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcR5QT4xSqS/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_272b3673c529d095127ade00",
+        "canonical_event_id": "agenda_272b3673c529d095127ade00",
+        "occurrence_id": "occurrence:1ae728591c5e0b88a81b",
+        "source_url": "https://parquecultural.cl/events/ddhh-10-anos-resistiendo-memoria/",
+        "title": "DDHH \"10 años resistiendo memoria",
+        "provenance": {
+          "source_url": "https://parquecultural.cl/events/ddhh-10-anos-resistiendo-memoria/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_2d6d7c46b5bbcc4c018b8a9d",
+        "canonical_event_id": "agenda_2d6d7c46b5bbcc4c018b8a9d",
+        "occurrence_id": "occurrence:210e6dc62d7d9918bc6e",
+        "source_url": "https://luma.com/extensionduocuc",
+        "title": "Concierto La Otra Otra Banda",
+        "provenance": {
+          "source_url": "https://luma.com/extensionduocuc",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_3a5a2240ba3d37060ffc72c6",
+        "canonical_event_id": "agenda_3a5a2240ba3d37060ffc72c6",
+        "occurrence_id": "occurrence:c37253392309a75f7094",
+        "source_url": "https://www.instagram.com/p/DcaCscUjXmI/",
+        "title": "Cerro Conchalí - La Dehesa - Región Metropolitana",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcaCscUjXmI/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_414ad83c8677894b43e4d12a",
+        "canonical_event_id": "agenda_414ad83c8677894b43e4d12a",
+        "occurrence_id": "occurrence:23634357e4877c42212e",
+        "source_url": "https://www.instagram.com/p/DckD9o8xOJ3/",
+        "title": "Teatro Aula Magna USM, Campus Casa Central, Valparaíso",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DckD9o8xOJ3/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_42a37a9c0902e3e1d7668267",
+        "canonical_event_id": "agenda_42a37a9c0902e3e1d7668267",
+        "occurrence_id": "occurrence:379921a6ae9a8635bcf6",
+        "source_url": "https://visitavina.munivina.cl/actividad/taller-el-arte-es-natural/",
+        "title": "Taller // El arte es natural",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividad/taller-el-arte-es-natural/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_42a74ad2758fbb9e4bd8d237",
+        "canonical_event_id": "agenda_42a74ad2758fbb9e4bd8d237",
+        "occurrence_id": "occurrence:8d6553cf1be659cd8f82",
+        "source_url": "https://luma.com/extensionduocuc",
+        "title": "Tertulia sobre Miyazaki y su influencia en el cine chileno",
+        "provenance": {
+          "source_url": "https://luma.com/extensionduocuc",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_46abf546d2944cf6ea0339d0",
+        "canonical_event_id": "agenda_46abf546d2944cf6ea0339d0",
+        "occurrence_id": "occurrence:c8860e3d933dbcadee3a",
+        "source_url": "https://www.instagram.com/p/DcbKWZJRuqm/",
+        "title": "Tensiones entre el derecho y la ciencia en la Ley de humedales urbanos",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcbKWZJRuqm/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_4d92d860e06bff4eecd171d2",
+        "canonical_event_id": "agenda_4d92d860e06bff4eecd171d2",
+        "occurrence_id": "occurrence:246ba172fa5a2c4fe53b",
+        "source_url": "https://www.instagram.com/p/DckBoviieu7/",
+        "title": "centinelas del mar",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DckBoviieu7/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_574432f86945f20bd8bd50c2",
+        "canonical_event_id": "agenda_574432f86945f20bd8bd50c2",
+        "occurrence_id": "occurrence:3ae89c34e546bfe04c98",
+        "source_url": "https://www.instagram.com/p/DchSk-Ik07X/",
+        "title": "Casa de la Cultura de Valparaíso (Serrano 567, Barrio Puerto)",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DchSk-Ik07X/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_57758d36275f8f549b01d342",
+        "canonical_event_id": "agenda_57758d36275f8f549b01d342",
+        "occurrence_id": "occurrence:786108323641ebd6a272",
+        "source_url": "https://visitavina.munivina.cl/actividades/",
+        "title": "Presentación libro // “Consomé Punk”",
+        "provenance": {
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_578d0aac9b5a07a075f7178b",
+        "canonical_event_id": "agenda_578d0aac9b5a07a075f7178b",
+        "occurrence_id": "occurrence:4720bccec0f8f5735f8b",
+        "source_url": "https://parquecultural.cl/events/audiovisual-15o-festival-de-cine-internacional-ojo-de-pescado/",
+        "title": "Audiovisual \"15º Festival de Cine Internacional Ojo de Pescado",
+        "provenance": {
+          "source_url": "https://parquecultural.cl/events/audiovisual-15o-festival-de-cine-internacional-ojo-de-pescado/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_5922f66e55d465d584fe82bc",
+        "canonical_event_id": "agenda_5922f66e55d465d584fe82bc",
+        "occurrence_id": "occurrence:1f92d42db05cd434d52a",
+        "source_url": "https://www.instagram.com/p/Dcb5wbLqqwy/",
+        "title": "Pedro Montt 2302, Valparaíso",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/Dcb5wbLqqwy/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_5ad5ae4191271859e66a0733",
+        "canonical_event_id": "agenda_5ad5ae4191271859e66a0733",
+        "occurrence_id": "occurrence:b39eba8f856f9c2eaf7e",
+        "source_url": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/",
+        "title": "La voz de Hind Rajab",
+        "provenance": {
+          "source_url": "https://valpocultura.cl/evento/cine-insomnia-ojo-de-pescado/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_6352ba44896e05b6606b1028",
+        "canonical_event_id": "agenda_6352ba44896e05b6606b1028",
+        "occurrence_id": "occurrence:3030f010bb6d6e44ce58",
+        "source_url": "https://www.instagram.com/p/DcUP9u9Ae-Q/",
+        "title": "junto a Daniel Cheul🥁, Axel Cornejo🎻, José González🎹, Nico Reyes 🎸 y José Moraga🪊",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcUP9u9Ae-Q/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_638dec715936bfac718647d6",
+        "canonical_event_id": "agenda_638dec715936bfac718647d6",
+        "occurrence_id": "occurrence:5c4c14186b2dc92b7743",
+        "source_url": "https://valpocultura.cl/evento/valparaiso-profundo-programacion-agosto/",
+        "title": "Valparaíso Profundo – Programación Agosto",
+        "provenance": {
+          "source_url": "https://valpocultura.cl/evento/valparaiso-profundo-programacion-agosto/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_650e95f9b205b8665b0bce6d",
+        "canonical_event_id": "agenda_650e95f9b205b8665b0bce6d",
+        "occurrence_id": "occurrence:e70b5c57022f9c2e491e",
+        "source_url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
+        "title": "Ciclo taller EL ARTE ES NATURAL",
+        "provenance": {
+          "source_url": "https://artequinvina.cl/events/ciclo-taller-el-arte-es-natural/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_6bc3608f03049011771d1877",
+        "canonical_event_id": "agenda_6bc3608f03049011771d1877",
+        "occurrence_id": "occurrence:350498b142ef4f37a6d8",
+        "source_url": "https://www.instagram.com/p/DcZf-OWyZT0/",
+        "title": "21.00 horas",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcZf-OWyZT0/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_7218ae37a79aacfe4c65f3ca",
+        "canonical_event_id": "agenda_7218ae37a79aacfe4c65f3ca",
+        "occurrence_id": "occurrence:4eca3f447b3098ddbc2a",
+        "source_url": "https://www.instagram.com/p/DcPK07ej4A0/",
+        "title": "Agosto suena en BAJ Valpo",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcPK07ej4A0/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_72a7926be460ab979bf2cab9",
+        "canonical_event_id": "agenda_72a7926be460ab979bf2cab9",
+        "occurrence_id": "occurrence:3a2c54d036f914a5f080",
+        "source_url": "https://www.instagram.com/p/DcMg2ypPyyA/",
+        "title": "Tercer Encuentro de Bibliotecas Comunitarias de Viña del Mar",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcMg2ypPyyA/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_736146bf3ae28424cc8b6da6",
+        "canonical_event_id": "agenda_736146bf3ae28424cc8b6da6",
+        "occurrence_id": "occurrence:12c872ccd70ce2941d97",
+        "source_url": "https://www.instagram.com/p/DcRIocOxXrs/",
+        "title": "¡La cueca se vive en Viña del Mar!",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcRIocOxXrs/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_738a464c120c73aecfe90622",
+        "canonical_event_id": "agenda_738a464c120c73aecfe90622",
+        "occurrence_id": "occurrence:c6057b7ff86f8f035f6b",
+        "source_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+        "title": "Gala Lírica: Ópera y Canción con Christian Senn y Tabita Martínez",
+        "provenance": {
+          "source_url": "https://cultura.usm.cl/eventos/gala-lirica-opera-y-cancion-con-christian-senn-y-tabita-martinez/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_74bfe3a82d7b6e40c26cb08c",
+        "canonical_event_id": "agenda_74bfe3a82d7b6e40c26cb08c",
+        "occurrence_id": "occurrence:e25a08ceb21db1d57d7d",
+        "source_url": "https://www.instagram.com/p/DcjHraBlvPn/",
+        "title": "Función por los Derechos Humanos de niños, niñas y adolescentes",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcjHraBlvPn/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_7d6db81df72c46da7e8e3849",
+        "canonical_event_id": "agenda_7d6db81df72c46da7e8e3849",
+        "occurrence_id": "occurrence:40ce37458cdd9e46e018",
+        "source_url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
+        "title": "Concierto “Camino al Último Vals",
+        "provenance": {
+          "source_url": "https://teatrovina.cl/evento/concierto-camino-al-ultimo-vals/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_7f61e26b57bb79fc2d63bdd4",
+        "canonical_event_id": "agenda_7f61e26b57bb79fc2d63bdd4",
+        "occurrence_id": "occurrence:cbd116139ccf5d216588",
+        "source_url": "https://www.passline.com/eventos/la-guerra-de-los-ultimos-the-dog-stars-548091",
+        "title": "La guerra de los últimos - The Dog Stars",
+        "provenance": {
+          "source_url": "https://www.passline.com/eventos/la-guerra-de-los-ultimos-the-dog-stars-548091",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_84f62dd431e161067edca8f8",
+        "canonical_event_id": "agenda_84f62dd431e161067edca8f8",
+        "occurrence_id": "occurrence:4f6d974cae2ed3e9e2c0",
+        "source_url": "https://www.instagram.com/p/Db4p1qDBJs4/",
+        "title": "Concierto de Aniversario",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/Db4p1qDBJs4/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_8c69cd737b4fcccce0fc4498",
+        "canonical_event_id": "agenda_8c69cd737b4fcccce0fc4498",
+        "occurrence_id": "occurrence:c1f0baf9923d54769148",
+        "source_url": "https://www.instagram.com/p/DcY0dHqFmqi/",
+        "title": "encuentro pasajero con Caro de la Muela",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcY0dHqFmqi/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_9007884dd819ed9a575ebda9",
+        "canonical_event_id": "agenda_9007884dd819ed9a575ebda9",
+        "occurrence_id": "occurrence:60c0f74229b02d40799a",
+        "source_url": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/",
+        "title": "Teatro \"Matriarcas: Poesía, Papel y Tinta",
+        "provenance": {
+          "source_url": "https://parquecultural.cl/events/teatro-matriarcas-poesia-papel-y-tinta/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_966ea4ada9cfab2c3d1b5545",
+        "canonical_event_id": "agenda_966ea4ada9cfab2c3d1b5545",
+        "occurrence_id": "occurrence:18cbe0e5ee9d8054a6ff",
+        "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+        "title": "Casa de la Cultura de Valparaíso – Luciana Jury en Chile",
+        "provenance": {
+          "source_url": "https://valpocultura.cl/evento/casa-de-la-cultura-de-valparaiso-luciana-jury-en-chile/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_9e451c6f21f16ac7f285540d",
+        "canonical_event_id": "agenda_9e451c6f21f16ac7f285540d",
+        "occurrence_id": "occurrence:435a6613c97a4d224faf",
+        "source_url": "https://artequinvina.cl/events/aprendices-trenzando-el-bosque/",
+        "title": "Aprendices: TRENZANDO EL BOSQUE",
+        "provenance": {
+          "source_url": "https://artequinvina.cl/events/aprendices-trenzando-el-bosque/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_a08db69b4515d2446e9134e3",
+        "canonical_event_id": "agenda_a08db69b4515d2446e9134e3",
+        "occurrence_id": "occurrence:9a1861a98b5bd8103061",
+        "source_url": "https://www.passline.com/eventos/funny-games-1997-puerto-bizarro",
+        "title": "Funny Games (1997) - Puerto Bizarro",
+        "provenance": {
+          "source_url": "https://www.passline.com/eventos/funny-games-1997-puerto-bizarro",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_a336722c8e43e639f7d9891b",
+        "canonical_event_id": "agenda_a336722c8e43e639f7d9891b",
+        "occurrence_id": "occurrence:5cd0ccec3e7259b00850",
+        "source_url": "https://www.instagram.com/p/DcJ_ZpEiC7E/",
+        "title": "Nos vemos para juntos divertirnos y reírnos",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcJ_ZpEiC7E/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_a8399df282da79faf07146da",
+        "canonical_event_id": "agenda_a8399df282da79faf07146da",
+        "occurrence_id": "occurrence:659af99a03151e21b4e5",
+        "source_url": "https://www.instagram.com/p/DcUky1rj1PH/",
+        "title": "Cuentacuentos en el Fonck: “La leyenda de Make Make, el Dios creador",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcUky1rj1PH/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_a9110202781144c98af47089",
+        "canonical_event_id": "agenda_a9110202781144c98af47089",
+        "occurrence_id": "occurrence:c5c4a1a6befa05e008fa",
+        "source_url": "https://www.instagram.com/p/DceTb1mCrQF/",
+        "title": "El Amor Bruja",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DceTb1mCrQF/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_a9cc6314176a192a3cb4c6b0",
+        "canonical_event_id": "agenda_a9cc6314176a192a3cb4c6b0",
+        "occurrence_id": "occurrence:67bc31b63af9c6edcaa8",
+        "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
+        "title": "High School Musical Sing Along (2006)",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-high-school-musical-sing-along-2006-cine-arte-vina-del-mar",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_b3ddcd98d53a623b79d0cef6",
+        "canonical_event_id": "agenda_b3ddcd98d53a623b79d0cef6",
+        "occurrence_id": "occurrence:9888935b6f00b75faa2e",
+        "source_url": "https://www.instagram.com/p/DciJOkGONcV/",
+        "title": "No dejes pasar el día y ven desde las 16 HRS al recurrente Anticuario.",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DciJOkGONcV/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_b76f5435a13962157176a70c",
+        "canonical_event_id": "agenda_b76f5435a13962157176a70c",
+        "occurrence_id": "occurrence:1f144821681e0803a9bf",
+        "source_url": "https://www.instagram.com/p/DcSUHy3uLxt/",
+        "title": "Una noche, tres íconos de la V Región",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcSUHy3uLxt/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_bdeeb33b91baec73d91f6284",
+        "canonical_event_id": "agenda_bdeeb33b91baec73d91f6284",
+        "occurrence_id": "occurrence:ae9e4b4f331c16dd87d4",
+        "source_url": "https://visitavina.munivina.cl/actividad/taller-fluir-con-la-acuarela-profundizacion-en-paisaje-urbano-y-natural-2/",
+        "title": "Taller // “Fluir con la Acuarela: profundización en paisaje urbano y natural",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividad/taller-fluir-con-la-acuarela-profundizacion-en-paisaje-urbano-y-natural-2/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_bf979b10daaa96af6392621b",
+        "canonical_event_id": "agenda_bf979b10daaa96af6392621b",
+        "occurrence_id": "occurrence:10ea2979266061cfc2d0",
+        "source_url": "https://luma.com/huertosurbanos",
+        "title": "Taller de Huertos Urbanos: Cultiva tus propios alimentos en casa",
+        "provenance": {
+          "source_url": "https://luma.com/huertosurbanos",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_c226b71278c136da5618b030",
+        "canonical_event_id": "agenda_c226b71278c136da5618b030",
+        "occurrence_id": "occurrence:2ef5db01337ddff2333b",
+        "source_url": "https://www.mhnv.gob.cl/cartelera/dia-mensual-de-la-tierra-abordara-los-terremotos-en-venezuela-y-colombia",
+        "title": "Día Mensual de la Tierra abordará los terremotos en Venezuela y Colombia",
+        "provenance": {
+          "source_url": "https://www.mhnv.gob.cl/cartelera/dia-mensual-de-la-tierra-abordara-los-terremotos-en-venezuela-y-colombia",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_c235f3d24c1eea1a2c3fcb2f",
+        "canonical_event_id": "agenda_c235f3d24c1eea1a2c3fcb2f",
+        "occurrence_id": "occurrence:45dc245e4ba3f8ee3409",
+        "source_url": "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/",
+        "title": "Yoga y meditación",
+        "provenance": {
+          "source_url": "https://visitavina.munivina.cl/actividad/yoga-y-meditacion-7/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_ce7998cb583f845825dcf72b",
+        "canonical_event_id": "agenda_ce7998cb583f845825dcf72b",
+        "occurrence_id": "occurrence:26179ec5ceba8b5b6942",
+        "source_url": "https://parquecultural.cl/events/literatura-presentacion-del-libro-ciudad-de-tinta-y-viento/",
+        "title": "Literatura Presentación del libro \"Ciudad de tinta y viento",
+        "provenance": {
+          "source_url": "https://parquecultural.cl/events/literatura-presentacion-del-libro-ciudad-de-tinta-y-viento/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_d0d72d4145daccc191b7c56b",
+        "canonical_event_id": "agenda_d0d72d4145daccc191b7c56b",
+        "occurrence_id": "occurrence:876f25ba6fff7a172e22",
+        "source_url": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
+        "title": "Club de Jazz Estrella Negra – Cartelera Agosto",
+        "provenance": {
+          "source_url": "https://valpocultura.cl/evento/club-de-jazz-estrella-negra-cartelera-agosto/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_d17e03da03c19d81a3409b4f",
+        "canonical_event_id": "agenda_d17e03da03c19d81a3409b4f",
+        "occurrence_id": "occurrence:3c732f430a1a09b51268",
+        "source_url": "https://visitavina.munivina.cl/actividades/",
+        "title": "Concierto jazz // Moncho Pérez",
+        "provenance": {
+          "source_url": "https://visitavina.munivina.cl/actividades/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_d1b5bea9dc9bcbfdc33dcffc",
+        "canonical_event_id": "agenda_d1b5bea9dc9bcbfdc33dcffc",
+        "occurrence_id": "occurrence:7445b70febaeff3c3c30",
+        "source_url": "https://www.instagram.com/p/DcR3hm4xOtF/",
+        "title": "Brian Johnson + AC/DC Chile Band",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcR3hm4xOtF/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_d4218ad90c2bf9c052a1cfbd",
+        "canonical_event_id": "agenda_d4218ad90c2bf9c052a1cfbd",
+        "occurrence_id": "occurrence:2dbdda322ebc1c3bb760",
+        "source_url": "https://teatrovina.cl/evento/tomas-va-a-morir-ley-de-murphy-2/",
+        "title": "Tomás Va a Morir – Ley de Murphy",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://teatrovina.cl/evento/tomas-va-a-morir-ley-de-murphy-2/",
+              "host": "teatrovina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_d710e9788b9a18d19945d9ba",
+        "canonical_event_id": "agenda_d710e9788b9a18d19945d9ba",
+        "occurrence_id": "occurrence:eed8b1b25ac2de08c734",
+        "source_url": "https://jbn.cl/calendario-actividades/",
+        "title": "Yoga todos los sábados",
+        "provenance": {
+          "source_url": "https://jbn.cl/calendario-actividades/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_da7223728fdd8e4c662f30d4",
+        "canonical_event_id": "agenda_da7223728fdd8e4c662f30d4",
+        "occurrence_id": "occurrence:29fad7d4af16280a15e2",
+        "source_url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-548088",
+        "title": "Spider-Man: Un nuevo día",
+        "provenance": {
+          "source_url": "https://www.passline.com/eventos/spiderman-un-nuevo-dia-548088",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_e618225b133c8eea1b11f69a",
+        "canonical_event_id": "agenda_e618225b133c8eea1b11f69a",
+        "occurrence_id": "occurrence:0666ca4c2945c3a93fa3",
+        "source_url": "https://parquecultural.cl/events/musica-musica-ensamble-presenta-notas-que-transforman/",
+        "title": "Notas que transforman",
+        "provenance": {
+          "source_url": "https://parquecultural.cl/events/musica-musica-ensamble-presenta-notas-que-transforman/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_f09024745eeb42469b7255f7",
+        "canonical_event_id": "agenda_f09024745eeb42469b7255f7",
+        "occurrence_id": "occurrence:28e6df6edb98a4f4ab4e",
+        "source_url": "https://www.instagram.com/p/DccJUrRR_S1/",
+        "title": "Grupo ultra",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DccJUrRR_S1/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_f0ee533bbc0557eb892953af",
+        "canonical_event_id": "agenda_f0ee533bbc0557eb892953af",
+        "occurrence_id": "occurrence:7445b70febaeff3c3c30",
+        "source_url": "https://www.instagram.com/p/DcbMtBSxlfc/",
+        "title": "Atención valparaíso!!",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcbMtBSxlfc/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_f44693179231e93c30400434",
+        "canonical_event_id": "agenda_f44693179231e93c30400434",
+        "occurrence_id": "occurrence:5353f2c048c3a21e2254",
+        "source_url": "https://www.instagram.com/p/DcMGC5vAq9O/",
+        "title": "Mapache",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcMGC5vAq9O/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_f69059abbf5199b363c27fa4",
+        "canonical_event_id": "agenda_f69059abbf5199b363c27fa4",
+        "occurrence_id": "occurrence:1ac77f8d85f62d52753a",
+        "source_url": "https://www.instagram.com/p/DccCyH8xEDj/",
+        "title": "Teatro Aula Magna USM, Campus Casa Central, Valparaíso",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DccCyH8xEDj/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_f80fdf35e613ff3f1b593302",
+        "canonical_event_id": "agenda_f80fdf35e613ff3f1b593302",
+        "occurrence_id": "occurrence:352fd4d8ecab0e48fc50",
+        "source_url": "https://visitavina.munivina.cl/actividad/actividades-juega-y-explora-el-museo-palacio-vergara/",
+        "title": "Actividades // Juega y explora el Museo Palacio Vergara",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividad/actividades-juega-y-explora-el-museo-palacio-vergara/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_f99c5529e8adebf20acbe080",
+        "canonical_event_id": "agenda_f99c5529e8adebf20acbe080",
+        "occurrence_id": "occurrence:13d8f70871c0d2873d77",
+        "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-548082",
+        "title": "Adolescencia, sexo y muerte en Campamento Miasma",
+        "provenance": {
+          "source_url": "https://www.passline.com/eventos/adolescencia-sexo-y-muerte-en-campamento-miasma-548082",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_fa5f6345caa0042f0edeec2b",
+        "canonical_event_id": "agenda_fa5f6345caa0042f0edeec2b",
+        "occurrence_id": "occurrence:ede0ee64c363797f77d0",
+        "source_url": "https://www.instagram.com/p/DchgGe_jEdL/",
+        "title": "¡Sensación arácnida activada!",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DchgGe_jEdL/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_ffec605015840bafa9a42844",
+        "canonical_event_id": "agenda_ffec605015840bafa9a42844",
+        "occurrence_id": "occurrence:6d485a7978be3322574b",
+        "source_url": "https://www.mhnv.gob.cl/cartelera/conversatorio-sobre-emile-dubois-y-su-vinculo-con-la-historia-portena",
+        "title": "Conversatorio sobre Émile Dubois y su vínculo con la historia porteña",
+        "provenance": {
+          "source_url": "https://www.mhnv.gob.cl/cartelera/conversatorio-sobre-emile-dubois-y-su-vinculo-con-la-historia-portena",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_15aea203910e1fe5",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_15aea203910e1fe5",
+        "occurrence_id": "occurrence:5f791c3faaedbd3c5e52",
+        "source_url": "https://www.portaldisc.com/evento/lilliaenvalparaso",
+        "title": "LILLIA: GIRA 2026 CAMPO SINTETICO",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/lilliaenvalparaso",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_2b3de8a59e3e1949",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_2b3de8a59e3e1949",
+        "occurrence_id": "occurrence:c2bc8cc5277ecf02feaf",
+        "source_url": "https://www.portaldisc.com/evento/viernescebollalemutt",
+        "title": "VIERNES CEBOLLA",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/viernescebollalemutt",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_2c4fdf4d63db1c16",
+        "occurrence_id": "occurrence:c35cac8b3b12e6486592",
+        "source_url": "https://www.portaldisc.com/evento/musica-ensamble-notas-que-transforman-en-el-teatro-del-pcdv",
+        "title": "notas que transforman",
+        "provenance": {
+          "source_url": "https://www.portaldisc.com/evento/musica-ensamble-notas-que-transforman-en-el-teatro-del-pcdv",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_544a90cadec9dd9f",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_544a90cadec9dd9f",
+        "occurrence_id": "occurrence:c2bc8cc5277ecf02feaf",
+        "source_url": "https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso",
+        "title": "ESSTELAR BDAY",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/esstelarbdayenclubsegundopisovalparaiso",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_63840931958ea8c6",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_63840931958ea8c6",
+        "occurrence_id": "occurrence:43ced87813d17de35128",
+        "source_url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
+        "title": "SPECIAL ANNIVERSARY SHOW PLACEBO 30 AÑOS",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/specialanniversaryshowplaceboenclubsegundopiso",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_71d819cd37fe37da",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_71d819cd37fe37da",
+        "occurrence_id": "occurrence:640177bb2c11f26640b4",
+        "source_url": "https://www.portaldisc.com/evento/loscrackdelpuertoenteatromauriscd",
+        "title": "LOS CRACK DEL PUERTO",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/loscrackdelpuertoenteatromauriscd",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_794dcfc84878d488",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_794dcfc84878d488",
+        "occurrence_id": "occurrence:10cb0e72dec20e5c95f0",
+        "source_url": "https://www.portaldisc.com/evento/puertoorquestaenteatromauriscd",
+        "title": "PUERTO ORQUESTA",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/puertoorquestaenteatromauriscd",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_81b6c9487d65dc6f",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_81b6c9487d65dc6f",
+        "occurrence_id": "occurrence:9b6e3c123d8844af58c9",
+        "source_url": "https://www.portaldisc.com/evento/aniversariocalatheaclub",
+        "title": "ANIVERSARIO CALATHEA CLUB",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/aniversariocalatheaclub",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_94b1a32c6d0376cb",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_94b1a32c6d0376cb",
+        "occurrence_id": "occurrence:a9d8d03a7a66fa0e2b96",
+        "source_url": "https://www.portaldisc.com/evento/cuentoscasipasandoagosto",
+        "title": "CASI PASANDO AGOSTO EN LA COLOMBINA",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/cuentoscasipasandoagosto",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_b2bbf788a8683fd5",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_b2bbf788a8683fd5",
+        "occurrence_id": "occurrence:f6481cfba2b41c5cd95c",
+        "source_url": "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso",
+        "title": "MATRIARCAS",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/matriarcas-en-parque-cultural-devalparaiso",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_f49fa727f83b40e0",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_f49fa727f83b40e0",
+        "occurrence_id": "occurrence:af9179c259ca8d0dee15",
+        "source_url": "https://www.portaldisc.com/evento/sonidosdecasa-agosto2026",
+        "title": "SONIDOS DE CASA: CONCIERTOS GRATUITOS 2026",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/sonidosdecasa-agosto2026",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_portaltickets_valparaiso_fd00d50d5e56bb31",
+        "canonical_event_id": "agenda_portaltickets_valparaiso_fd00d50d5e56bb31",
+        "occurrence_id": "occurrence:640177bb2c11f26640b4",
+        "source_url": "https://www.portaldisc.com/evento/carolinadelamuelasesionespasajeras",
+        "title": "CAROLINA DE LA MUELA EN EL PASAJE",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://www.portaldisc.com/evento/carolinadelamuelasesionespasajeras",
+              "host": "portaldisc.com",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "image"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_rioja_20260829_hilos",
+        "canonical_event_id": "agenda_rioja_20260829_hilos",
+        "occurrence_id": "occurrence:44fe4566239c3e2e4272",
+        "source_url": "https://visitavina.munivina.cl/actividades/",
+        "title": "Taller // Expresión textil: Moviendo Hilos",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividades/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_trotamundos_2828754d86a6c0e3749b",
+        "canonical_event_id": "agenda_trotamundos_2828754d86a6c0e3749b",
+        "occurrence_id": "occurrence:4433bd81ea337c5c2d5a",
+        "source_url": "https://linktr.ee/trotavalparaiso",
+        "title": "Fiesta Porteña de Sabado por la Noche por Dj Sarc en Trotamundos",
+        "provenance": {
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_trotamundos_2e8bb678f8714e4d2097",
+        "canonical_event_id": "agenda_trotamundos_2e8bb678f8714e4d2097",
+        "occurrence_id": "occurrence:24a8076b5d80f4a8a0e1",
+        "source_url": "https://linktr.ee/trotavalparaiso",
+        "title": "ACDC Chile Band Junto a Ivan Gac + Fiesta en Trotamundos Valparaíso",
+        "provenance": {
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_trotamundos_4805a06ce5a6b3fca873",
+        "canonical_event_id": "agenda_trotamundos_4805a06ce5a6b3fca873",
+        "occurrence_id": "occurrence:8d1401ae83842d5be3e2",
+        "source_url": "https://linktr.ee/trotavalparaiso",
+        "title": "Liricistas + Adickta Sinfonia + Deones is Flying + Dehlone en Trotamundos Valparaíso",
+        "provenance": {
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_trotamundos_ae409957a50da0cf7255",
+        "canonical_event_id": "agenda_trotamundos_ae409957a50da0cf7255",
+        "occurrence_id": "occurrence:a46aa8764ef0ad68f632",
+        "source_url": "https://linktr.ee/trotavalparaiso",
+        "title": "Black Music Party por Dj Lalo en Trotamundos Valparaíso",
+        "provenance": {
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "expiration",
+        "reason": "schedule_ended_before_publication_date",
+        "source_record_id": "agenda_trotamundos_b1acc54c76a84572cb7d",
+        "canonical_event_id": "agenda_trotamundos_b1acc54c76a84572cb7d",
+        "occurrence_id": "occurrence:f6877b13a48709e799ed",
+        "source_url": "https://linktr.ee/trotavalparaiso",
+        "title": "Distorsión jurásica valpo",
+        "provenance": {
+          "source_url": "https://linktr.ee/trotavalparaiso",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "expired",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "non_event_exclusion",
+        "reason": "promotional_giveaway_not_attendance_event",
+        "source_record_id": "agenda_d09f5a9206985455342c5be8",
+        "canonical_event_id": "agenda_d09f5a9206985455342c5be8",
+        "occurrence_id": "occurrence:883c98e5a70a8be3b8eb",
+        "source_url": "https://www.instagram.com/p/DckMq3do_qj/",
+        "title": "Junto a Enjoy Viña queremos regalarte una escapada para dos. Sí, UNA ESTADÍA DOBLE EN ENJOY VIÑA",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DckMq3do_qj/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "non_event_exclusion",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "occurrence_pruning",
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_32eb4f7c367992c80e767c05",
+        "canonical_event_id": "agenda_32eb4f7c367992c80e767c05",
+        "occurrence_id": "occurrence:7d63d0b8477ff776a343",
+        "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-548256",
+        "title": "La Odisea (2026)",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-la-odisea-2026-cine-arte-vina-del-mar-548256",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "series_preserved",
+          "canonical_event_id": "agenda_32eb4f7c367992c80e767c05"
+        },
+        "evidence": {
+          "occurrence": {
+            "start": "2026-08-28T15:00:00-04:00",
+            "end": null
+          }
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "occurrence_pruning",
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_7ecb7751a290204d98783bc6",
+        "canonical_event_id": "agenda_7ecb7751a290204d98783bc6",
+        "occurrence_id": "occurrence:21bf301ea74452ade9b2",
+        "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar-548009",
+        "title": "La Guerra de los Últimos",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar-548009",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "series_preserved",
+          "canonical_event_id": "agenda_7ecb7751a290204d98783bc6"
+        },
+        "evidence": {
+          "occurrence": {
+            "start": "2026-08-28T20:00:00-04:00",
+            "end": null
+          }
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "occurrence_pruning",
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_7ecb7751a290204d98783bc6",
+        "canonical_event_id": "agenda_7ecb7751a290204d98783bc6",
+        "occurrence_id": "occurrence:a8bb17ccfb1d309b39b8",
+        "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar-548009",
+        "title": "La Guerra de los Últimos",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar-548009",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "series_preserved",
+          "canonical_event_id": "agenda_7ecb7751a290204d98783bc6"
+        },
+        "evidence": {
+          "occurrence": {
+            "start": "2026-08-29T20:45:00-04:00",
+            "end": null
+          }
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "occurrence_pruning",
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_cb7af7110e2e232a3ef8fd2b",
+        "canonical_event_id": "agenda_cb7af7110e2e232a3ef8fd2b",
+        "occurrence_id": "occurrence:21bf301ea74452ade9b2",
+        "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar",
+        "title": "La Guerra de los Últimos",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "series_preserved",
+          "canonical_event_id": "agenda_cb7af7110e2e232a3ef8fd2b"
+        },
+        "evidence": {
+          "occurrence": {
+            "start": "2026-08-28T20:00:00-04:00",
+            "end": null
+          }
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "occurrence_pruning",
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_cb7af7110e2e232a3ef8fd2b",
+        "canonical_event_id": "agenda_cb7af7110e2e232a3ef8fd2b",
+        "occurrence_id": "occurrence:a8bb17ccfb1d309b39b8",
+        "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar",
+        "title": "La Guerra de los Últimos",
+        "provenance": {
+          "source_url": "https://cineartevina.cl/#funcion-la-guerra-de-los-ultimos-cine-arte-vina-del-mar",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "series_preserved",
+          "canonical_event_id": "agenda_cb7af7110e2e232a3ef8fd2b"
+        },
+        "evidence": {
+          "occurrence": {
+            "start": "2026-08-29T20:45:00-04:00",
+            "end": null
+          }
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "generic_title_without_explicit_recovery",
+        "source_record_id": "agenda_51c72abb046065810d84d45d",
+        "canonical_event_id": "agenda_51c72abb046065810d84d45d",
+        "occurrence_id": "occurrence:0ccd59b49a5e3574c770",
+        "source_url": "https://www.instagram.com/p/DbtJ2wGtNPv/",
+        "title": "Se llena, recomendamos reservar",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DbtJ2wGtNPv/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": null
+        },
+        "evidence": {
+          "missing_evidence": [
+            "recoverable_title",
+            "venue"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "generic_title_without_explicit_recovery",
+        "source_record_id": "agenda_b60e2916477b5b0b95ef712d",
+        "canonical_event_id": "agenda_b60e2916477b5b0b95ef712d",
+        "occurrence_id": "occurrence:0ccd59b49a5e3574c770",
+        "source_url": "https://www.instagram.com/p/DcgJkh7txn7/",
+        "title": "Pronto…",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcgJkh7txn7/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": null
+        },
+        "evidence": {
+          "missing_evidence": [
+            "recoverable_title",
+            "description",
+            "venue"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "multi_event_geography_conflict_with_truncated_segment",
+        "source_record_id": "agenda_6a62b556b781a210a35f6599",
+        "canonical_event_id": "agenda_6a62b556b781a210a35f6599",
+        "occurrence_id": "occurrence:a7500225b2e0c046cf28",
+        "source_url": "https://www.instagram.com/p/DcGo3vAumzV/",
+        "title": "El Mesón Nerudiano (Dominica 35, Recoleta)",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DcGo3vAumzV/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": null
+        },
+        "evidence": {
+          "source_url": "https://www.instagram.com/p/DcGo3vAumzV/",
+          "location": {
+            "venue_id": null,
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Casa de la Cultura de Valparaíso",
+            "address": null,
+            "online": false,
+            "latitude": null,
+            "longitude": null
+          },
+          "provenance": {}
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "promotional_carousel_without_verified_children",
+        "source_record_id": "agenda_b4e33a3e573b09d76186da6c",
+        "canonical_event_id": "agenda_b4e33a3e573b09d76186da6c",
+        "occurrence_id": "occurrence:d8fb119e58af9217a795",
+        "source_url": "https://www.instagram.com/p/Dbv4MlaltpJ/",
+        "title": "#cerroalegre",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/Dbv4MlaltpJ/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": null
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "unverified_call_for_submissions_missing_official_bases",
+        "source_record_id": "agenda_6467e133788da5112c653367",
+        "canonical_event_id": "agenda_6467e133788da5112c653367",
+        "occurrence_id": "occurrence:d6d2731f47b6437dd555",
+        "source_url": "https://www.instagram.com/p/DccS2CzlOLs/",
+        "title": "Las bases en historia destacada !",
+        "provenance": {
+          "source_url": "https://www.instagram.com/p/DccS2CzlOLs/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": null
+        },
+        "evidence": {
+          "missing_evidence": [
+            "verified_official_source",
+            "field_provenance"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+        "source_record_id": "agenda_433161ef9c546be7beadbeac",
+        "canonical_event_id": "agenda_433161ef9c546be7beadbeac",
+        "occurrence_id": "occurrence:3b0e6c161f895748dfba",
+        "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-historias-minimas/",
+        "title": "Exhibición temporal // Historias Mínimas",
+        "provenance": {
+          "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-historias-minimas/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": "agenda_433161ef9c546be7beadbeac"
+        },
+        "evidence": {
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-28T10:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-28 · 10:00–17:30",
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair"
+          },
+          "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-historias-minimas/",
+          "missing_evidence": [
+            "verified_event_end_date_or_occurrence"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+        "source_record_id": "agenda_a933180663b5f1d4af1ec329",
+        "canonical_event_id": "agenda_a933180663b5f1d4af1ec329",
+        "occurrence_id": "occurrence:3b0e6c161f895748dfba",
+        "source_url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
+        "title": "Exposición transitoria // “Entre mareas",
+        "provenance": {
+          "official_metadata": [
+            {
+              "url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
+              "host": "visitavina.munivina.cl",
+              "method": "official_page_jsonld_or_metadata",
+              "fields": [
+                "price"
+              ]
+            }
+          ]
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": "agenda_a933180663b5f1d4af1ec329"
+        },
+        "evidence": {
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-28T10:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-28 · 10:00–17:30",
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair"
+          },
+          "source_url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/",
+          "missing_evidence": [
+            "verified_event_end_date_or_occurrence"
+          ]
+        }
+      },
+      {
+        "stage": "content_quality_guard",
+        "action": "quarantine",
+        "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+        "source_record_id": "agenda_eeea936319edc98db3c75f29",
+        "canonical_event_id": "agenda_eeea936319edc98db3c75f29",
+        "occurrence_id": "occurrence:3b0e6c161f895748dfba",
+        "source_url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/",
+        "title": "Exposición // Horario de verano: Memorias fuera de temporada",
+        "provenance": {
+          "source_url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/",
+          "method": "source_record_provenance"
+        },
+        "destination": {
+          "state": "quarantine",
+          "canonical_event_id": "agenda_eeea936319edc98db3c75f29"
+        },
+        "evidence": {
+          "schedule": {
+            "mode": "dated",
+            "start": "2026-08-28T10:00:00-04:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "2026-08-28 · 10:00–17:30",
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair"
+          },
+          "source_url": "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada/",
+          "missing_evidence": [
+            "verified_event_end_date_or_occurrence"
+          ]
+        }
+      }
+    ]
+  },
   "city_id": "dataset"
 }
