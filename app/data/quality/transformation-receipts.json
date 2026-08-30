@@ -1,6 +1,6 @@
 {
   "contract": "canonical-transformation-receipt-ledger",
-  "generated_at": "2026-08-30T16:40:39-04:00",
+  "generated_at": "2026-08-30T18:00:00-04:00",
   "receipts": [
     {
       "action": "reclassification",
@@ -5347,96 +5347,6 @@
       "source_url": "https://maratonvina.cl/",
       "stage": "canonical_category_materializer",
       "title": "Itaú Maratón de Viña 2026"
-    },
-    {
-      "action": "reclassification",
-      "canonical_event_id": "agenda_fixture_1234567890abcdef",
-      "destination": {
-        "canonical_event_id": "agenda_fixture_1234567890abcdef",
-        "category": {
-          "id": "musica",
-          "label": "Música"
-        },
-        "state": "published"
-      },
-      "evidence": {
-        "classification": {
-          "candidates": [
-            {
-              "category": {
-                "id": "musica",
-                "label": "Música"
-              },
-              "confidence": "high",
-              "evidence": [
-                {
-                  "category": "musica",
-                  "kind": "description",
-                  "value": "\\b(?:conciertos?|recital(?:es)?|tocatas?|festival de musica|concierto homenaje|concierto tributo|homenaje musical|tributo musical|banda tributo|tribute band)\\b",
-                  "weight": 80
-                },
-                {
-                  "category": "musica",
-                  "kind": "description",
-                  "value": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
-                  "weight": 35
-                },
-                {
-                  "category": "musica",
-                  "kind": "description",
-                  "value": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamen(?:c)?os?|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
-                  "weight": 35
-                }
-              ],
-              "score": 150
-            }
-          ],
-          "category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "confidence": "high",
-          "evidence": [
-            {
-              "category": "musica",
-              "kind": "description",
-              "value": "\\b(?:conciertos?|recital(?:es)?|tocatas?|festival de musica|concierto homenaje|concierto tributo|homenaje musical|tributo musical|banda tributo|tribute band)\\b",
-              "weight": 80
-            },
-            {
-              "category": "musica",
-              "kind": "description",
-              "value": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
-              "weight": 35
-            },
-            {
-              "category": "musica",
-              "kind": "description",
-              "value": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamen(?:c)?os?|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
-              "weight": 35
-            }
-          ],
-          "score": 150,
-          "source_category": {
-            "id": "otros",
-            "label": "Otros"
-          }
-        },
-        "previous_category": {
-          "id": "otros",
-          "label": "Otros"
-        }
-      },
-      "occurrence_id": "occurrence:2bf2996360390e4f1af3",
-      "provenance": {
-        "method": "source_record_provenance",
-        "source_url": "https://example.org/evento"
-      },
-      "reason": "canonical_category_reclassified",
-      "source_record_id": "agenda_fixture_1234567890abcdef",
-      "source_url": "https://example.org/evento",
-      "stage": "canonical_category_materializer",
-      "title": "Actividad cultural"
     },
     {
       "action": "reclassification",

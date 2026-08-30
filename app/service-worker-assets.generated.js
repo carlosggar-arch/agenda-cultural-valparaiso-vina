@@ -156,7 +156,6 @@
     "./venue-identity.mjs",
     "./venue-registry.generated.mjs",
     "./visibility-owner-core.mjs",
-    "./visible-display-card-core.mjs",
     "./vivamos-brand.js",
     "./web-actions-below-mosaic.js"
   ]);

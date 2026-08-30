@@ -84,12 +84,13 @@ def test_cli_contract_success_reports_and_multi_dataset_failure_is_atomic(tmp_pa
     good = tmp_path / "good.json"
     blocked = tmp_path / "blocked.json"
     reports = tmp_path / "reports"
+    ledger = tmp_path / "transformation-receipts.json"
     good_payload = {"publication_date": "2026-08-28", "events": [event("otros", "Otros", description="Concierto de jazz")]}
     blocked_payload = {"publication_date": "2026-08-28", "events": [event("otros", "Otros")]}
     good.write_text(json.dumps(good_payload), encoding="utf-8")
     blocked.write_text(json.dumps(blocked_payload), encoding="utf-8")
     result = subprocess.run(
-        [sys.executable, str(script), "--contract", "shared-canonical-category-migration-v1", "--require-classified", "--report-dir", str(reports), str(good), str(blocked)],
+        [sys.executable, str(script), "--contract", "shared-canonical-category-migration-v1", "--require-classified", "--report-dir", str(reports), "--ledger", str(ledger), str(good), str(blocked)],
         capture_output=True,
         text=True,
         check=False,
@@ -100,7 +101,7 @@ def test_cli_contract_success_reports_and_multi_dataset_failure_is_atomic(tmp_pa
     assert len(list(reports.glob("*.json"))) == 2
 
     success = subprocess.run(
-        [sys.executable, str(script), "--contract", "shared-canonical-category-migration-v1", "--require-classified", str(good)],
+        [sys.executable, str(script), "--contract", "shared-canonical-category-migration-v1", "--require-classified", "--ledger", str(ledger), str(good)],
         capture_output=True,
         text=True,
         check=False,
