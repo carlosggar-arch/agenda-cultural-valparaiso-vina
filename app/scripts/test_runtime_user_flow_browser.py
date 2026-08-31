@@ -26,27 +26,60 @@ def open_visible_detail_with_loaded_relevant_media(driver) -> str | None:
     expose a loaded direct relevant image for the same event before control
     returns to the original strict assertions.
     """
-    opened = driver.execute_script(
+    opened = driver.execute_async_script(
         r'''
+        const done = arguments[arguments.length - 1];
         const visible = (node) => {
           if (!node || node.hidden || node.closest('[hidden]')) return false;
           const style = getComputedStyle(node);
           return style.display !== 'none' && style.visibility !== 'hidden' && node.getClientRects().length > 0;
         };
-        const cards = [...document.querySelectorAll('.event-card[data-event-id]')].filter(visible);
-        const card = cards.find((candidate) => {
-          const image = candidate.querySelector('img[data-event-image="relevant"]');
-          const trigger = candidate.querySelector('[data-open-event]');
-          return Boolean(image && trigger && image.complete && image.naturalWidth > 0);
-        });
-        if (!card) return null;
-        const trigger = card.querySelector('[data-open-event]');
-        const eventId = card.dataset.eventId || null;
-        trigger.click();
-        return eventId;
+        Promise.all([
+          import('./agenda-runtime-state.mjs'),
+          import('./image-resolver-core.mjs'),
+        ]).then(([runtime, images]) => {
+          const city = document.documentElement.dataset.city || '';
+          const snapshot = runtime.getAgendaRuntimeSnapshot(city);
+          const indexed = new Map((snapshot?.events || []).map((event) => [String(event?.id || ''), event]));
+          const cards = [...document.querySelectorAll('.event-card[data-event-id]')].filter(visible);
+          const directMedia = (card) => {
+            const event = indexed.get(String(card.dataset.eventId || ''));
+            return event ? images.relevantEventImageUrl(event, { baseUrl: location.href }) : null;
+          };
+
+          // A legitimate event without direct media must still open a usable
+          // detail. Card-only representative/category fallbacks must not turn
+          // into invented detail media.
+          const noMediaCard = cards.find((candidate) =>
+            !directMedia(candidate) && candidate.querySelector('[data-open-event]')
+          );
+          if (noMediaCard) {
+            noMediaCard.querySelector('[data-open-event]').click();
+            const noMediaDialog = document.querySelector('dialog[data-event-detail][open]');
+            if (!noMediaDialog || noMediaDialog.querySelector('.event-detail-media')
+                || !noMediaDialog.querySelector('.event-detail-content')) {
+              return done({ error: 'detail without direct media is not renderable' });
+            }
+            noMediaDialog.remove();
+          }
+
+          const card = cards.find((candidate) => {
+            const direct = directMedia(candidate);
+            const image = candidate.querySelector('img[data-event-image="relevant"]');
+            const trigger = candidate.querySelector('[data-open-event]');
+            return Boolean(direct && image && trigger && image.src === direct
+              && image.complete && image.naturalWidth > 0);
+          });
+          if (!card) return done({ error: 'no loaded canonical direct card media' });
+          const eventId = card.dataset.eventId || null;
+          card.querySelector('[data-open-event]').click();
+          return done({ eventId });
+        }).catch((error) => done({ error: String(error?.stack || error) }));
         '''
     )
-    event_id = str(opened or "").strip()
+    if isinstance(opened, dict) and opened.get("error"):
+        raise AssertionError(str(opened["error"]))
+    event_id = str((opened or {}).get("eventId") if isinstance(opened, dict) else opened or "").strip()
     if not event_id:
         return None
 
