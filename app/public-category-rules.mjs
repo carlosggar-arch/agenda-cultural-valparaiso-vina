@@ -5,6 +5,7 @@ import {
   PUBLIC_CATEGORY_LABEL_ALIASES,
   PUBLIC_CATEGORY_TAXONOMY,
   PUBLIC_EVENT_TYPE_LABELS,
+  OFFICIAL_SOURCE_CATEGORY_EVIDENCE,
 } from "./public-category-taxonomy.generated.mjs";
 
 const RULES = PUBLIC_CATEGORY_TAXONOMY.rules;
@@ -21,7 +22,7 @@ const DESCRIPTION_EVIDENCE_RULES = RULES.description_evidence.map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
 }));
-const SOURCE_TITLE_EVIDENCE_RULES = (RULES.source_title_evidence || []).map((rule) => ({
+const SOURCE_TITLE_EVIDENCE_RULES = (OFFICIAL_SOURCE_CATEGORY_EVIDENCE.source_title_evidence || []).map((rule) => ({
   ...rule,
   regex: new RegExp(rule.pattern, "u"),
 }));

@@ -64,8 +64,16 @@ def main() -> None:
     # Publication is pinned to one immutable candidate. Release-delta enforcement
     # happens before deployment; production verification never jumps to a newer main.
     assert "CANDIDATE_SHA: ${{ github.sha }}" in WORKFLOW
-    assert "Merge exact approved candidate without rewriting deployment history" in sync
-    assert 'git merge --no-edit "$CANDIDATE_SHA"' in sync
+    # The deployment branch keeps its history while adopting the immutable
+    # candidate tree: checkout the candidate, then attach the previous
+    # deployment head with an ``ours`` merge.  Assert the mechanics rather
+    # than a human-facing step label so wording changes cannot weaken or break
+    # this contract.
+    assert "Create exact-tree handoff preserving deployment history" in sync
+    assert 'git checkout --detach "$CANDIDATE_SHA"' in sync
+    assert "git merge --no-edit -s ours origin/cloudflare-preview" in sync
+    assert "Require exact deployment-branch parity with candidate" in sync
+    assert 'unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"' in sync
     assert "Require release bump for runtime pushes" in sync
     assert "if: github.event_name == 'push'" in sync
     assert "app/release-version.js" in sync

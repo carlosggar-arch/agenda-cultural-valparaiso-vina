@@ -141,6 +141,79 @@ def test_removes_expired_event_against_publication_date() -> None:
     assert changes["expired_removed"][0]["id"] == "past-campus"
 
 
+def test_official_occurrence_expiration_overrides_contaminated_future_schedule() -> None:
+    dataset = {"events": [event(
+        id="expired-official-occurrence",
+        title="Comedia internacional",
+        description="Fecha 31-julio-2026 Finalizdo. Presentación de comedia.",
+        source_url="https://official.example/actividad/comedia/?occurrence=2026-07-31",
+        links={"official": "https://official.example/actividad/comedia/?occurrence=2026-07-31"},
+        schedule={"mode": "multi_day", "start": "2026-08-28T09:00:00-04:00", "end": "2026-09-05", "occurrences": []},
+        provenance={"official_metadata": [{"url": "https://official.example/actividad/comedia/?occurrence=2026-07-31", "fields": ["date"]}]},
+    )], "publication_date": "2026-08-29", "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    receipt = changes["expired_removed"][0]
+    assert receipt["reason"] == "official_occurrence_expired_schedule_conflict"
+    assert receipt["official_occurrence_date"] == "2026-07-31"
+    assert receipt["source_host"] == "official.example"
+    assert receipt["provenance"]["official_metadata"][0]["fields"] == ["date"]
+
+
+def test_official_occurrence_rule_does_not_remove_future_or_series_event() -> None:
+    future = event(
+        id="future-official-occurrence",
+        title="Comedia futura",
+        description="Presentación confirmada.",
+        source_url="https://official.example/actividad/comedia/?occurrence=2026-09-02",
+        schedule={"mode": "single", "start": "2026-09-02T20:00:00-04:00", "end": None, "occurrences": []},
+    )
+    series = event(
+        id="valid-series",
+        title="Ciclo de comedia",
+        description="Una sesión anterior ha finalizado; quedan nuevas funciones.",
+        source_url="https://official.example/actividad/ciclo/?occurrence=2026-07-31",
+        schedule={"mode": "recurring", "start": "2026-07-31T20:00:00-04:00", "end": "2026-09-02", "occurrences": [{"start": "2026-09-02T20:00:00-04:00"}]},
+    )
+    dataset = {"events": [future, series], "publication_date": "2026-08-29", "counts": {"total": 2}}
+    changes = apply_guard(dataset)
+    assert {item["id"] for item in dataset["events"]} == {"future-official-occurrence", "valid-series"}
+    assert changes["expired_removed"] == []
+
+
+def test_exhibition_without_verified_end_is_quarantined_not_expired_by_venue_hours() -> None:
+    exhibition = event(
+        id="exhibition-with-venue-hours",
+        title="Exposición temporal del museo",
+        schedule={
+            "mode": "dated",
+            "start": "2026-08-28T10:00:00-04:00",
+            "end": None,
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "source_schedule_pair",
+        },
+        source_url="https://official.example/exhibitions/current",
+        provenance={"evidence": [{"source": "official_event_page"}]},
+    )
+    dataset = {"publication_date": "2026-08-30", "events": [exhibition], "counts": {"total": 1}}
+
+    changes = apply_guard(dataset)
+
+    assert dataset["events"] == []
+    assert changes["expired_removed"] == []
+    receipt = changes["quarantined"][0]
+    assert receipt["reason"] == "venue_hours_contaminated_event_schedule_missing_verified_end"
+    assert receipt["missing_evidence"] == ["verified_event_end_date_or_occurrence"]
+    canonical_receipt = next(
+        row for row in changes["receipt_ledger"]["receipts"]
+        if row["source_record_id"] == "exhibition-with-venue-hours"
+    )
+    assert canonical_receipt["action"] == "quarantine"
+    assert canonical_receipt["provenance"]["evidence"]
+
+
 def test_prunes_past_occurrences_and_keeps_future_session() -> None:
     recurring = event(
         id="recurring",
@@ -161,7 +234,19 @@ def test_prunes_past_occurrences_and_keeps_future_session() -> None:
     occurrences = dataset["events"][0]["schedule"]["occurrences"]
     assert len(occurrences) == 1
     assert occurrences[0]["start"].startswith("2026-08-20")
-    assert changes["past_occurrences_pruned"] == [{"id": "recurring", "count": 1}]
+    pruned = changes["past_occurrences_pruned"]
+    assert len(pruned) == 1
+    assert pruned[0]["id"] == "recurring"
+    assert pruned[0]["count"] == 1
+    assert len(pruned[0]["occurrence_ids"]) == 1
+    receipt = next(
+        row for row in changes["receipt_ledger"]["receipts"]
+        if row["reason"] == "past_occurrence_pruned_from_active_series"
+    )
+    assert receipt["occurrence_id"] == pruned[0]["occurrence_ids"][0]
+    assert receipt["destination"] == {
+        "state": "series_preserved", "canonical_event_id": "recurring"
+    }
 
 
 def test_quarantines_monthly_program_overview_without_concrete_event() -> None:
@@ -203,7 +288,7 @@ def test_quarantines_visitation_statistics_news_without_concrete_event() -> None
     assert changes["quarantined"][0]["reason"] == "institutional_news_or_retrospective_without_event_schedule"
 
 
-def test_quarantines_deadline_only_submission_call_even_if_deadline_was_parsed_as_schedule() -> None:
+def test_materializes_verified_submission_call_without_attendance_occurrence() -> None:
     call = event(
         id="photo-call-valpo",
         title="Envía tu foto hasta el: 24/08",
@@ -213,26 +298,35 @@ def test_quarantines_deadline_only_submission_call_even_if_deadline_was_parsed_a
     )
     dataset = {"events": [call], "counts": {"total": 1}}
     changes = apply_guard(dataset)
-    assert dataset["events"] == []
-    assert changes["quarantined"] == [{
-        "id": "photo-call-valpo",
-        "title": "Envía tu foto hasta el: 24/08",
-        "reason": "call_for_submissions_deadline_not_event",
-    }]
+    published = dataset["events"][0]
+    assert published["content_kind"] == "call_for_submissions"
+    assert published["event_type"] == "call_for_submissions"
+    assert published["schedule"]["start"] is None
+    assert published["schedule"]["occurrences"] == []
+    assert published["submission"] == {"deadline": "2026-08-24", "attendance_occurrence": False}
+    assert published["links"]["participation"] == "https://example.org/event"
+    assert changes["quarantined"] == []
 
 
-def test_quarantines_description_led_submission_call_without_attendance_schedule() -> None:
+def test_unverified_submission_call_remains_quarantined() -> None:
     call = event(
         id="story-call-gijon",
         title="Premio de relato 2026",
         location={"venue_id": None, "venue": "Centro Cultural Municipal", "city": "Gijón"},
         schedule={"mode": "dated", "start": None, "end": None, "occurrences": [], "display_text": "Fecha por confirmar"},
         description="Nueva convocatoria para autores. Postulaciones abiertas hasta el 30/09. Presenta tu relato en línea.",
+        public_status={"source_official": False, "information_completeness": "partial"},
     )
     dataset = {"events": [call], "counts": {"total": 1}}
     changes = apply_guard(dataset)
     assert dataset["events"] == []
-    assert changes["quarantined"][0]["reason"] == "call_for_submissions_deadline_not_event"
+    quarantined = changes["quarantined"][0]
+    assert quarantined["reason"] == "unverified_call_for_submissions_missing_official_bases"
+    assert quarantined["missing_evidence"] == [
+        "verified_official_source",
+        "field_provenance",
+    ]
+    assert "calls_for_submissions" not in dataset["counts"]
 
 
 
@@ -319,12 +413,69 @@ def test_does_not_quarantine_real_scheduled_anniversary_event() -> None:
     assert changes["quarantined"] == []
 
 
+def test_quarantines_contaminated_multievent_with_geography_conflict_and_receipt() -> None:
+    bad = event(
+        id="composite",
+        title="Recital (Dominica 35, Recoleta)",
+        description="Nos encontramos en dos encuentros: el primerito el sábado. El segundito junto a otra persona Vi...",
+        schedule={"start": "2026-08-30", "end": "2026-09-02"},
+        location={"city": "Valparaíso", "commune": "Valparaíso"},
+        source_url="https://official.example/post",
+        provenance={"evidence": [{"source": "official"}]},
+    )
+    dataset = {"events": [bad], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    receipt = changes["quarantined"][0]
+    assert receipt["reason"] == "multi_event_geography_conflict_with_truncated_segment"
+    assert receipt["source_url"] == "https://official.example/post"
+    assert receipt["location"]["city"] == "Valparaíso"
+    assert receipt["provenance"]["evidence"]
+
+
+def test_does_not_quarantine_single_event_merely_because_description_is_truncated() -> None:
+    real = event(
+        id="single-truncated",
+        title="Concierto (Sala 2)",
+        description="Concierto único con banda en vivo...",
+        schedule={"start": "2026-08-30"},
+        location={"city": "Valparaíso", "commune": "Valparaíso"},
+    )
+    dataset = {"events": [real], "counts": {"total": 1}}
+    changes = apply_guard(dataset)
+    assert [item["id"] for item in dataset["events"]] == ["single-truncated"]
+    assert changes["quarantined"] == []
+
+
 def test_registry_exposes_both_current_city_datasets() -> None:
     configured = dict(configured_datasets())
     assert "valparaiso" in configured
     assert "gijon" in configured
     assert configured["valparaiso"].name == "agenda_web.json"
     assert configured["gijon"].as_posix().endswith("app/data/gijon/agenda_web.json")
+
+
+def test_promotional_reminders_without_rich_evidence_are_quarantined() -> None:
+    for title in ("Pronto…", "Se llena, recomendamos reservar"):
+        dataset = {"events": [event(title=title, description=None)], "counts": {"total": 1}}
+        changes = apply_guard(dataset)
+        assert dataset["events"] == []
+        assert changes["quarantined"][0]["reason"] == "generic_title_without_explicit_recovery"
+
+
+def test_generic_carousel_parent_is_excluded_without_hiding_verified_children() -> None:
+    parent = event(
+        id="carousel-parent", title="#cerroalegre", description="Nueva programación para viernes y sábado.",
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": []},
+    )
+    child = event(id="carousel-child", title="Concierto del Puerto")
+    dataset = {"events": [parent, child], "counts": {"total": 2}}
+    changes = apply_guard(dataset)
+    assert [item["id"] for item in dataset["events"]] == ["carousel-child"]
+    assert changes["quarantined"] == [{
+        "id": "carousel-parent", "title": "#cerroalegre",
+        "reason": "promotional_carousel_without_verified_children",
+    }]
 
 
 def main() -> None:
@@ -335,19 +486,26 @@ def main() -> None:
     test_quarantines_unrecoverable_generic_title()
     test_quarantines_calendar_navigation_copy()
     test_removes_expired_event_against_publication_date()
+    test_official_occurrence_expiration_overrides_contaminated_future_schedule()
+    test_official_occurrence_rule_does_not_remove_future_or_series_event()
+    test_exhibition_without_verified_end_is_quarantined_not_expired_by_venue_hours()
     test_prunes_past_occurrences_and_keeps_future_session()
     test_quarantines_monthly_program_overview_without_concrete_event()
     test_quarantines_anniversary_news_without_concrete_event()
     test_quarantines_visitation_statistics_news_without_concrete_event()
-    test_quarantines_deadline_only_submission_call_even_if_deadline_was_parsed_as_schedule()
-    test_quarantines_description_led_submission_call_without_attendance_schedule()
+    test_materializes_verified_submission_call_without_attendance_occurrence()
+    test_unverified_submission_call_remains_quarantined()
     test_quarantines_administrative_application_support_without_event_schedule()
     test_quarantines_equivalent_application_support_in_another_city()
     test_keeps_scheduled_information_session_about_applications()
     test_keeps_cultural_event_that_only_mentions_funding_support()
     test_keeps_real_scheduled_activity_with_application_deadline()
     test_does_not_quarantine_real_scheduled_anniversary_event()
+    test_quarantines_contaminated_multievent_with_geography_conflict_and_receipt()
+    test_does_not_quarantine_single_event_merely_because_description_is_truncated()
     test_registry_exposes_both_current_city_datasets()
+    test_promotional_reminders_without_rich_evidence_are_quarantined()
+    test_generic_carousel_parent_is_excluded_without_hiding_verified_children()
     print("CONTENT_QUALITY_GUARD_TESTS_OK")
 
 

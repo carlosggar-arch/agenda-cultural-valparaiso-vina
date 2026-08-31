@@ -19,6 +19,7 @@ export const CONTENT_KINDS = Object.freeze([
   "long_running_event",
   "recurring_offer",
   "permanent_offer",
+  "call_for_submissions",
   "undated",
 ]);
 

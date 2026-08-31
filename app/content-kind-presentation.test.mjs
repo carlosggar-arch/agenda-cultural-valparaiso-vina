@@ -56,3 +56,9 @@ test("same content-kind presentation contract applies in Gijón", () => {
   assert.equal(presentation.kind, "long_running_event");
   assert.equal(presentation.label, "En curso");
 });
+
+test("verified cultural calls have a distinct non-attendance presentation", () => {
+  const presentation = contentKindPresentation(event({ content_kind: "call_for_submissions" }), valpo);
+  assert.equal(presentation.kind, "call_for_submissions");
+  assert.equal(presentation.label, "Convocatoria");
+});

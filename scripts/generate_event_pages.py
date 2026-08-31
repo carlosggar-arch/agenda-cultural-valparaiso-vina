@@ -671,6 +671,10 @@ def render_page(
 </body>
 </html>
 '''
+    # Generated HTML is a versioned artifact. Keep empty interpolations from
+    # leaving whitespace-only lines that make otherwise deterministic output
+    # fail the repository's diff hygiene gate.
+    page = normalize_generated_html(page)
     return page, ics
 
 
@@ -691,6 +695,11 @@ def render_sitemap(event_urls: list[str]) -> str:
     for url in sorted(set(event_urls)):
         rows.append(f"  <url>\n    <loc>{xml_escape(url)}</loc>\n    <changefreq>daily</changefreq>\n  </url>")
     return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(rows) + "\n</urlset>\n"
+
+
+def normalize_generated_html(value: str) -> str:
+    """Return stable LF HTML without trailing whitespace on generated lines."""
+    return "\n".join(line.rstrip() for line in value.splitlines()) + "\n"
 
 
 def generate(*, check: bool = False) -> dict[str, int]:
@@ -731,7 +740,7 @@ def generate(*, check: bool = False) -> dict[str, int]:
             if not check:
                 directory = ROOT / relative
                 directory.mkdir(parents=True, exist_ok=True)
-                (directory / "index.html").write_text(page, encoding="utf-8")
+                (directory / "index.html").write_text(page, encoding="utf-8", newline="\n")
                 if ics:
                     (directory / "evento.ics").write_text(ics, encoding="utf-8", newline="")
 
@@ -739,7 +748,7 @@ def generate(*, check: bool = False) -> dict[str, int]:
         if len(event_urls) != sum(counts.values()):
             raise SystemExit("Event URL count does not match generated event count")
     else:
-        SITEMAP.write_text(render_sitemap(event_urls), encoding="utf-8")
+        SITEMAP.write_text(render_sitemap(event_urls), encoding="utf-8", newline="\n")
     return counts
 
 

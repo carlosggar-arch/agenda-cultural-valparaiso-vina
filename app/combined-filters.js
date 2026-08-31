@@ -3,6 +3,7 @@ import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260823-
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
 import { directCardVisibilityState, groupedCardVisibilityState } from "./visibility-owner-core.mjs?v=20260822-visibility1";
 import { eventMatchesCanonicalSection } from "./public-selection-core.mjs?v=20260823-selection1";
+import { countDisplayCards, displayCardLookup } from "./visible-display-card-core.mjs?v=20260829-card1";
 import { semanticSearchTerms } from "./semantic-search.mjs";
 
 const CITY_REGISTRY = await loadCityRegistry();
@@ -348,10 +349,11 @@ function renderCategoryFilters() {
   if (!dom.categories) return;
   const catalog = categoryCatalog();
   const contextual = datasetEvents.filter((event) => eventMatches(event, { ignore: ["categories"] }));
-  const counts = new Map(catalog.map(({ id }) => [id, 0]));
-  for (const event of contextual) {
-    for (const id of eventCategories(event).keys()) counts.set(id, (counts.get(id) || 0) + 1);
-  }
+  const cardLookup = currentDisplayCardLookup();
+  const counts = new Map(catalog.map(({ id }) => [
+    id,
+    countDisplayCards(contextual.filter((event) => eventCategories(event).has(id)), cardLookup),
+  ]));
 
   const rows = catalog
     .map((category) => ({
@@ -437,13 +439,12 @@ function visibleCards(grid) {
   return [...(grid?.querySelectorAll(".event-card") || [])].filter((card) => !card.hidden);
 }
 
+function currentDisplayCardLookup() {
+  return displayCardLookup(document.querySelectorAll(".event-card[data-event-id],.event-card[data-event-group]"));
+}
+
 function visibleActivityCount(grid) {
-  return visibleCards(grid).reduce((count, card) => {
-    if (!card.dataset.eventGroup) return count + 1;
-    const rows = [...card.querySelectorAll(".grouped-exhibition-item")];
-    if (rows.length) return count + rows.filter((item) => !item.hidden).length;
-    return count + String(card.dataset.eventGroup || "").split(",").filter(Boolean).length;
-  }, 0);
+  return visibleCards(grid).length;
 }
 
 function patchGroup(section, total, grid) {
@@ -534,6 +535,7 @@ function patchResults(filtered) {
 }
 
 function updateDimensionCounts() {
+  const cardLookup = currentDisplayCardLookup();
   const matchers = {
     when: eventMatchesWhen,
     area: eventMatchesArea,
@@ -552,9 +554,10 @@ function updateDimensionCounts() {
     const matcher = matchers[dimension];
     for (const button of container?.querySelectorAll("[data-filter-value]") || []) {
       const value = button.dataset.filterValue;
-      const count = datasetEvents.filter((event) => (
+      const matching = datasetEvents.filter((event) => (
         eventMatches(event, { ignore: [dimension] }) && matcher(event, value)
-      )).length;
+      ));
+      const count = countDisplayCards(matching, cardLookup);
       setText(button.querySelector("[data-combined-count]"), count);
     }
   }

@@ -77,6 +77,11 @@ DESCRIPTION_TEMPLATE_PREFIX = re.compile(
 # PortalTickets uses "ARTISTAS Y TAGS RELACIONADOS" for music, theatre and
 # other formats, so that section alone must never decide the public category.
 RECORD_LABEL_PRODUCER = re.compile(r"\b(?:records?|recordings?|discos?|music)\b", re.I)
+MUSIC_STYLE = re.compile(
+    r"\b(?:rock|pop|punk|metal|jazz|blues|folk|rap|hip\s*hop|reggae|soul|funk|"
+    r"electronica|techno|house|cumbia|salsa|clasica|musica)\b",
+    re.I,
+)
 
 
 class PortalTokenParser(HTMLParser):
@@ -449,6 +454,37 @@ def _structured_category_signals(producer: str | None) -> list[dict[str, str]]:
     return signals
 
 
+def _related_content_urls(tokens: list[dict[str, str | None]]) -> list[str]:
+    urls: list[str] = []
+    for token in tokens:
+        href = str(token.get("href") or "").strip()
+        if not href or not urlparse(urljoin(SOURCE_URL, href)).path.startswith("/contenido/"):
+            continue
+        url = urljoin(SOURCE_URL, href)
+        if url not in urls:
+            urls.append(url)
+    return urls
+
+
+def official_content_style_signal(markup: str, *, source_url: str) -> dict[str, str] | None:
+    """Convert PortalDisc's explicit content style into reusable category evidence."""
+    parser = PortalTokenParser(); parser.feed(markup); parser.close()
+    texts = [str(token.get("text") or "").strip() for token in parser.tokens]
+    for index, text in enumerate(texts):
+        if norm(text) not in {"estilo", "estilos"}:
+            continue
+        for candidate in texts[index + 1:index + 4]:
+            if MUSIC_STYLE.search(candidate):
+                return {
+                    "kind": "official_related_content_style",
+                    "category": "musica",
+                    "value": candidate,
+                    "source_url": source_url,
+                    "evidence_text": f"musica estilo {candidate}",
+                }
+    return None
+
+
 def parse_detail_markup(markup: str) -> dict:
     parser = PortalTokenParser(); parser.feed(markup); parser.close()
     texts = [str(token.get("text") or "").strip() for token in parser.tokens if str(token.get("text") or "").strip()]
@@ -499,6 +535,7 @@ def parse_detail_markup(markup: str) -> dict:
         "semantic_text": semantic_text,
         "producer": producer,
         "category_signals": category_signals,
+        "related_content_urls": _related_content_urls(parser.tokens),
         "sold_out": sold_out if (tiers or explicit_sold) else None,
         "registration_open": False if sold_out else (True if tiers and any_available else None),
         "price_stage": "Últimos tickets" if last_tickets else ("Disponibilidad parcial" if partial else None),
@@ -636,6 +673,24 @@ def enrich_candidates(candidates: list[dict]) -> tuple[list[dict], dict]:
 
         stats["fetched"] += 1
         detail = parse_detail_markup(response[2])
+        if not detail.get("category_signals"):
+            for content_url in list(detail.get("related_content_urls") or [])[:3]:
+                content_ok, _content_status, content_markup, _content_error = fetch_url(content_url)
+                if not content_ok:
+                    continue
+                signal = official_content_style_signal(content_markup, source_url=content_url)
+                if signal:
+                    detail["category_signals"] = [signal]
+                    semantic_text = " ".join(
+                        value
+                        for value in (
+                            str(detail.get("semantic_text") or "").strip(),
+                            signal["evidence_text"],
+                        )
+                        if value
+                    )
+                    detail["semantic_text"] = semantic_text[:1800] or None
+                    break
         apply_detail(event, detail, verified_at=verified_at)
         if cleaned_title != old_title:
             stats["titles_shortened"] += 1

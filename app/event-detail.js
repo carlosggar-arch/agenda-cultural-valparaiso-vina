@@ -305,7 +305,12 @@ export function openEventDetail(event, presentation = {}) {
   const calendar = calendarFileUrl(event);
 
   if (tickets) addExternalAction(actions, tickets, "Entradas ↗", "primary");
-  else if (registration) addExternalAction(actions, registration, "Inscribirme ↗", "primary");
+  else if (registration) addExternalAction(
+    actions,
+    registration,
+    event?.content_kind === "call_for_submissions" ? "Ver bases / Participar ↗" : "Inscribirme ↗",
+    "primary",
+  );
 
   if (calendar && hasCalendarDate(event)) {
     addExternalAction(actions, calendar, "Añadir al calendario", "secondary", { newTab: false });

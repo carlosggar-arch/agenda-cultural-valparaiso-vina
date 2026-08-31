@@ -1,0 +1,17 @@
+{
+  "source_title_evidence": [
+    {"category":"cursos-talleres-campus","pattern":".+","reason":"official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override","source_id":"bioparc_acuario_gijon","weight":65},
+    {"category":"musica","pattern":"^homenaje dire straits$","reason":"verified_sparse_official_event_music","source_id":"camara_recinto_ferial_gijon","weight":180},
+    {"category":"teatro","pattern":"^el gran showman$","reason":"verified_sparse_official_event_stage_musical","source_id":"camara_recinto_ferial_gijon","weight":180},
+    {"category":"musica","pattern":"\\bcarolina de la muela\\b","reason":"verified_sparse_music_artist_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bcalathea club\\b","reason":"verified_sparse_electronic_music_series_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bchaisen ?room\\b","reason":"verified_sparse_music_series_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bsofia alvez\\b","reason":"verified_sparse_music_artist_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bseba(?: y)? el monstruo\\b","reason":"verified_sparse_music_artist_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\besstelar bday\\b","reason":"verified_sparse_music_event_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bspecial anniversary show placebo 30 anos\\b","reason":"verified_sparse_music_event_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bprevia aniversario\\b","reason":"verified_sparse_music_event_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"musica","pattern":"\\bla fiesta de ritoque fm\\b","reason":"verified_sparse_music_event_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
+    {"category":"ferias-vida-local","pattern":"\\boshikatsu party oshifonda\\b","reason":"verified_sparse_fandom_party_portaltickets","source_id":"portaltickets_valparaiso","weight":120}
+  ]
+}
