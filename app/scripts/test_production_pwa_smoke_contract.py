@@ -31,6 +31,8 @@ def main() -> None:
     assert "pull_request:" not in triggers, "Production smoke must be post-merge/manual only after D4"
     assert "push:" in triggers and "branches: [main]" in triggers
     assert "workflow_dispatch:" in triggers, "Production smoke must remain manually rerunnable against main"
+    assert "GH_TOKEN: ${{ github.token }}" in WORKFLOW, "published squash attestation must receive authenticated PR metadata"
+    assert WORKFLOW.count("pull-requests: read") >= 3, "every published-lineage job must retain read-only PR evidence access"
     assert '      - "app/**"' not in triggers, "Production smoke must not wake for every app file"
     for marker in (
         '      - "app/*.js"',
