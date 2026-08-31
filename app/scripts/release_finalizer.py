@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -255,17 +256,146 @@ def find_published_finalizer(source_sha: str, head_ref: str = "HEAD") -> str:
     raise SystemExit(f"PUBLISHED_FINALIZER_NOT_FOUND source={source_sha} head={git('rev-parse', head_ref)}")
 
 
+def repository_name() -> str:
+    configured = os.environ.get("GITHUB_REPOSITORY", "").strip()
+    if configured:
+        return configured
+    remote = git("remote", "get-url", "origin")
+    match = re.search(r"github\.com[/:]([^/]+/[^/]+?)(?:\.git)?$", remote)
+    if not match:
+        raise SystemExit("PUBLISHED_SQUASH_REPOSITORY_UNKNOWN")
+    return match.group(1)
+
+
+def load_squash_pr_evidence(source_pr: int, repository: str) -> dict[str, object]:
+    fields = "number,state,mergeCommit,headRefOid,headRefName,headRepository,statusCheckRollup"
+    try:
+        raw = subprocess.check_output(
+            ["gh", "pr", "view", str(source_pr), "--repo", repository, "--json", fields],
+            cwd=ROOT,
+            text=True,
+            stderr=subprocess.PIPE,
+        )
+        evidence = json.loads(raw)
+    except (OSError, subprocess.CalledProcessError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"PUBLISHED_SQUASH_METADATA_UNAVAILABLE pr={source_pr}") from exc
+    if not isinstance(evidence, dict):
+        raise SystemExit(f"PUBLISHED_SQUASH_METADATA_INVALID pr={source_pr}")
+    return evidence
+
+
+def validate_squash_pr_evidence(
+    evidence: dict[str, object], *, source_pr: int, published_sha: str, published_tree: str
+) -> tuple[str, str, str]:
+    if int(evidence.get("number") or -1) != source_pr:
+        raise SystemExit("PUBLISHED_SQUASH_PR_MISMATCH")
+    if evidence.get("state") != "MERGED":
+        raise SystemExit("PUBLISHED_SQUASH_PR_NOT_MERGED")
+    merge_commit = evidence.get("mergeCommit") or {}
+    if not isinstance(merge_commit, dict) or str(merge_commit.get("oid") or "") != published_sha:
+        raise SystemExit("PUBLISHED_SQUASH_MERGE_COMMIT_MISMATCH")
+    approved_head = str(evidence.get("headRefOid") or "")
+    if not re.fullmatch(r"[0-9a-f]{40}", approved_head):
+        raise SystemExit("PUBLISHED_SQUASH_HEAD_INVALID")
+    head_ref = str(evidence.get("headRefName") or "").strip()
+    head_repository = evidence.get("headRepository") or {}
+    head_repository_name = str(head_repository.get("nameWithOwner") or "") if isinstance(head_repository, dict) else ""
+    if not head_ref or not head_repository_name:
+        raise SystemExit("PUBLISHED_SQUASH_HEAD_METADATA_MISSING")
+    checks = evidence.get("statusCheckRollup")
+    if not isinstance(checks, list) or not checks:
+        raise SystemExit("PUBLISHED_SQUASH_CHECKS_MISSING")
+    def successful(row: object) -> bool:
+        if not isinstance(row, dict):
+            return False
+        if row.get("__typename") == "StatusContext":
+            return row.get("state") == "SUCCESS"
+        return row.get("status") == "COMPLETED" and row.get("conclusion") == "SUCCESS"
+
+    incomplete = sorted(
+        str(row.get("name") or row.get("context") or "unnamed") if isinstance(row, dict) else "unnamed"
+        for row in checks
+        if not successful(row)
+    )
+    if incomplete:
+        raise SystemExit("PUBLISHED_SQUASH_CHECKS_INCOMPLETE checks=" + ",".join(incomplete))
+    if not re.fullmatch(r"[0-9a-f]{40}", published_tree):
+        raise SystemExit("PUBLISHED_SQUASH_TREE_INVALID")
+    return approved_head, head_ref, head_repository_name
+
+
+def validate_fetched_head(*, approved_head: str, fetched_head: str) -> None:
+    if fetched_head != approved_head:
+        raise SystemExit(f"PUBLISHED_SQUASH_HEAD_MOVED expected={approved_head} actual={fetched_head}")
+
+
+def validate_matching_trees(*, published_tree: str, approved_tree: str) -> None:
+    if approved_tree != published_tree:
+        raise SystemExit(
+            f"PUBLISHED_SQUASH_TREE_MISMATCH published={published_tree} approved={approved_tree}"
+        )
+
+
+def fetch_approved_head(*, repository: str, head_ref: str, approved_head: str) -> None:
+    remote = f"https://github.com/{repository}.git"
+    try:
+        subprocess.check_call(
+            ["git", "fetch", "--no-tags", "--quiet", remote, f"refs/heads/{head_ref}"],
+            cwd=ROOT,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit(f"PUBLISHED_SQUASH_HEAD_UNAVAILABLE repository={repository} ref={head_ref}") from exc
+    fetched = git("rev-parse", "FETCH_HEAD")
+    validate_fetched_head(approved_head=approved_head, fetched_head=fetched)
+
+
+def verify_exact_squash_publication(
+    *, payload: dict[str, object], base_sha: str, source_sha: str, published_sha: str
+) -> str:
+    source_pr = int(payload.get("source_pr") or 0)
+    if source_pr <= 0:
+        raise SystemExit("PUBLISHED_SQUASH_SOURCE_PR_MISSING")
+    published_tree = git("rev-parse", f"{published_sha}^{{tree}}")
+    evidence = load_squash_pr_evidence(source_pr, repository_name())
+    approved_head, head_ref, head_repository = validate_squash_pr_evidence(
+        evidence,
+        source_pr=source_pr,
+        published_sha=published_sha,
+        published_tree=published_tree,
+    )
+    fetch_approved_head(repository=head_repository, head_ref=head_ref, approved_head=approved_head)
+    approved_tree = git("rev-parse", f"{approved_head}^{{tree}}")
+    validate_matching_trees(published_tree=published_tree, approved_tree=approved_tree)
+    assert_finalizer_boundary(
+        base_sha=base_sha,
+        source_sha=source_sha,
+        finalizer_ref=approved_head,
+    )
+    print(
+        f"PUBLISHED_EXACT_SQUASH_OK pr={source_pr} merge={published_sha} "
+        f"approved_head={approved_head} tree={published_tree}"
+    )
+    return approved_head
+
+
 def check_published(head_ref: str = "HEAD") -> dict[str, object]:
     payload = load_provenance()
     base_sha, source_sha = validate_provenance_shape(payload)
     head_sha = git("rev-parse", head_ref)
-    for label, sha in (("base", base_sha), ("source", source_sha)):
-        if not git_check("merge-base", "--is-ancestor", sha, head_sha):
-            raise SystemExit(f"PUBLISHED_{label.upper()}_NOT_ANCESTOR sha={sha} head={head_sha}")
-    finalizer_sha = find_published_finalizer(source_sha, head_ref)
-    assert_finalizer_boundary(base_sha=base_sha, source_sha=source_sha, finalizer_ref=finalizer_sha)
-    if not git_check("merge-base", "--is-ancestor", finalizer_sha, head_sha):
-        raise SystemExit("PUBLISHED_FINALIZER_NOT_ANCESTOR")
+    if not git_check("merge-base", "--is-ancestor", base_sha, head_sha):
+        raise SystemExit(f"PUBLISHED_BASE_NOT_ANCESTOR sha={base_sha} head={head_sha}")
+    if git_check("merge-base", "--is-ancestor", source_sha, head_sha):
+        finalizer_sha = find_published_finalizer(source_sha, head_ref)
+        assert_finalizer_boundary(base_sha=base_sha, source_sha=source_sha, finalizer_ref=finalizer_sha)
+        if not git_check("merge-base", "--is-ancestor", finalizer_sha, head_sha):
+            raise SystemExit("PUBLISHED_FINALIZER_NOT_ANCESTOR")
+    else:
+        finalizer_sha = verify_exact_squash_publication(
+            payload=payload,
+            base_sha=base_sha,
+            source_sha=source_sha,
+            published_sha=head_sha,
+        )
     current_release = validate_release_math(payload, base_sha)
     bundle = deterministic_checks()
     print(f"PUBLISHED_RELEASE_CHAIN_OK pr={payload.get('source_pr') or 'n/a'} base={base_sha} source={source_sha} finalizer={finalizer_sha} main={head_sha} release=v{current_release} release_id={bundle['release_id']}")
