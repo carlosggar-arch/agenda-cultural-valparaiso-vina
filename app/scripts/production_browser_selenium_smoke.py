@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+import json
 import re
+import subprocess
 import tempfile
 import time
+import urllib.parse
+import urllib.request
 import uuid
 
 from selenium import webdriver
@@ -15,6 +19,12 @@ from production_pwa_smoke import (
     assert_loaded_dom,
     expected_shell,
     release_number,
+)
+from production_semantic_capabilities import (
+    VALPO_CATEGORY_LABELS,
+    assert_semantic_dataset_identity,
+    select_gijon_semantic_case,
+    select_valpo_semantic_cases,
 )
 
 READY_TIMEOUT_SECONDS = 25
@@ -35,28 +45,66 @@ OFFICIAL_IMAGE_CASES = (
     ),
 )
 
-VALPO_SEMANTIC_CASES = (
-    ("agenda_9007884dd819ed9a575ebda9", "teatro", "Matriarcas: Poesía, Papel y Tinta"),
-    ("agenda_cb11de3205743209b185176a", "literatura", "La Flor de Nieve y los secretos del desierto"),
-    ("agenda_visitavina_rioja_8c01d0d993729991bf", "literatura", "Presentación libro // “Consomé Punk”"),
-)
-VALPO_CATEGORY_LABELS = {
-    "teatro": "Teatro",
-    "literatura": "Literatura",
-}
 VALPO_FORBIDDEN_TEXT = (
     "AGOSTO EN CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
     "Un Año de Cultura y Reencuentro en el Teatro Municipal de Viña del Mar",
     "Más de 50 mil personas visitaron museos",
 )
 
-GIJON_SEMANTIC_EVENT_ID = "agenda_gijon_32d73fb96b746f95"
-GIJON_SEMANTIC_TITLE = 'Instalación. Ficción sonora. CÁPSULA RADIO: "La tercera Luz"'
-GIJON_SEMANTIC_CATEGORY_ID = "exposiciones"
-GIJON_SEMANTIC_CATEGORY_LABEL = "Exposiciones"
-GIJON_SEMANTIC_TITLE_TOKEN = "CÁPSULA RADIO"
-GIJON_SEMANTIC_WORK_TOKEN = "tercera luz"
 GIJON_FORBIDDEN_TITLE_FRAGMENT = "00 y las 07:30h"
+
+
+def load_semantic_datasets(
+    *, repository_path: str, public_path: str, contract: str
+) -> dict[str, dict[str, object]]:
+    repository_body = subprocess.check_output(["git", "show", f"HEAD:{repository_path}"])
+    bodies = {"canonical-main": repository_body}
+    payloads = {}
+    for origin, app_base in ORIGINS.items():
+        url = urllib.parse.urljoin(app_base, public_path) + f"?semantic_dataset={uuid.uuid4().hex}"
+        request = urllib.request.Request(
+            url,
+            headers={
+                "Cache-Control": "no-cache",
+                "Pragma": "no-cache",
+                "Accept": "application/json",
+                "User-Agent": "VivamosReleaseContract/1.0",
+            },
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=25) as response:
+                if response.status != 200:
+                    raise SystemExit(f"PRODUCTION_SEMANTIC_DATASET_UNAVAILABLE contract={contract} origin={origin}")
+                body = response.read()
+        except OSError as exc:
+            raise SystemExit(f"PRODUCTION_SEMANTIC_DATASET_UNAVAILABLE contract={contract} origin={origin}") from exc
+        bodies[origin] = body
+        try:
+            payloads[origin] = json.loads(body.decode("utf-8-sig"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise SystemExit(f"PRODUCTION_SEMANTIC_DATASET_INVALID contract={contract} origin={origin}") from exc
+    identity = assert_semantic_dataset_identity(bodies)
+    print(
+        f"PRODUCTION_SEMANTIC_DATASET_IDENTITY_OK contract={contract} sha256={identity} "
+        f"origins={','.join(sorted(bodies))}"
+    )
+    return payloads
+
+
+def load_valpo_semantic_datasets() -> dict[str, dict[str, object]]:
+    return load_semantic_datasets(
+        repository_path="agenda_web.json",
+        public_path="../agenda_web.json",
+        contract="valparaiso",
+    )
+
+
+def load_gijon_semantic_datasets() -> dict[str, dict[str, object]]:
+    return load_semantic_datasets(
+        repository_path="app/data/gijon/agenda_web.json",
+        public_path="data/gijon/agenda_web.json",
+        contract="gijon",
+    )
 
 
 def chrome_options(profile: str, width: int, height: int) -> Options:
@@ -276,7 +324,12 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
             )
 
 
-def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> None:
+def verify_valpo_semantics(
+    origin: str,
+    base: str,
+    expected_release: int,
+    semantic_cases: list[dict[str, str]],
+) -> None:
     root_base = base[:-4] if base.endswith("app/") else base
 
     with tempfile.TemporaryDirectory(prefix=f"vivamos-semantic-{origin}-app-") as profile:
@@ -292,7 +345,7 @@ def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> Non
                 const cases = arguments[0];
                 const forbidden = arguments[1].map(x => x.toLocaleLowerCase('es'));
                 const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
-                const actual = cases.map(([id]) => {
+                const actual = cases.map(({id}) => {
                   const card = document.querySelector(`[data-event-id="${id}"]`);
                   if (!card) return {id, missing: true};
                   const category = card.dataset.category
@@ -305,13 +358,15 @@ def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> Non
                   .filter(text => forbidden.some(value => text.toLocaleLowerCase('es').includes(value)));
                 return {actual, forbiddenHits, safeMode: document.documentElement.dataset.vivamosSafeMode || ''};
                 """,
-                VALPO_SEMANTIC_CASES,
+                semantic_cases,
                 VALPO_FORBIDDEN_TEXT,
             )
             if evidence.get("safeMode") == "active":
                 raise SystemExit(f"Production semantic verification entered safe mode for {origin}/app")
-            for expected, actual in zip(VALPO_SEMANTIC_CASES, evidence.get("actual") or []):
-                event_id, category_id, title = expected
+            for expected, actual in zip(semantic_cases, evidence.get("actual") or []):
+                event_id = expected["id"]
+                category_id = expected["category_id"]
+                title = expected["title"]
                 if actual.get("missing"):
                     raise SystemExit(f"Required semantic event missing in {origin}/app: {event_id}")
                 if actual.get("category") != category_id:
@@ -328,7 +383,7 @@ def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> Non
                 raise SystemExit(f"Non-event content visible in {origin}/app: {evidence.get('forbiddenHits')}")
             print(
                 f"PRODUCTION_VALPO_SEMANTICS_OK origin={origin} surface=app "
-                f"required={len(VALPO_SEMANTIC_CASES)} forbidden=0 safe_mode=off"
+                f"required={len(semantic_cases)} forbidden=0 safe_mode=off selection=capability"
             )
         finally:
             driver.quit()
@@ -358,7 +413,10 @@ def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> Non
             if forbidden_hits:
                 raise SystemExit(f"Non-event content visible in {origin}/web: {forbidden_hits}")
 
-            for event_id, category_id, title in VALPO_SEMANTIC_CASES:
+            for expected in semantic_cases:
+                event_id = expected["id"]
+                category_id = expected["category_id"]
+                title = expected["title"]
                 driver.get(f"{root_base}?evento={event_id}&semantic={uuid.uuid4().hex}")
                 WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
                     lambda current: current.execute_script(
@@ -391,13 +449,19 @@ def verify_valpo_semantics(origin: str, base: str, expected_release: int) -> Non
                     )
             print(
                 f"PRODUCTION_VALPO_SEMANTICS_OK origin={origin} surface=web "
-                f"required={len(VALPO_SEMANTIC_CASES)} forbidden=0 safe_mode=off route=permanent-detail"
+                f"required={len(semantic_cases)} forbidden=0 safe_mode=off "
+                "route=permanent-detail selection=capability"
             )
         finally:
             driver.quit()
 
 
-def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> None:
+def verify_gijon_semantics(
+    origin: str,
+    base: str,
+    expected_release: int,
+    semantic_case: dict[str, str],
+) -> None:
     root_base = base[:-4] if base.endswith("app/") else base
 
     # The APP is a list/card surface: require the canonical event exactly once.
@@ -411,42 +475,48 @@ def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> Non
             )
             evidence = driver.execute_script(
                 r"""
-                const titleToken = arguments[0].toLocaleLowerCase('es');
-                const workToken = arguments[1].toLocaleLowerCase('es');
-                const forbidden = arguments[2].toLocaleLowerCase('es');
+                const eventId = arguments[0];
+                const forbidden = arguments[1].toLocaleLowerCase('es');
                 const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
-                const cards = [...document.querySelectorAll('.event-card')].map(card => {
-                  const heading = compact(card.querySelector('h3,h4')?.innerText);
-                  const category = card.dataset.category || card.querySelector('[data-category]')?.dataset.category || '';
-                  return {heading, category, text: compact(card.innerText)};
+                const roots = [
+                  ...document.querySelectorAll('.event-card[data-event-id]'),
+                  ...document.querySelectorAll('[data-grouped-event-id]'),
+                ];
+                const cards = roots.map(root => {
+                  const id = root.dataset.eventId || root.dataset.groupedEventId || '';
+                  const heading = compact(root.querySelector('h3,h4,strong')?.innerText);
+                  const categoryOwner = root.closest('[data-category]');
+                  const category = root.dataset.category || categoryOwner?.dataset.category || '';
+                  return {id, heading, category, text: compact(root.innerText)};
                 });
-                const matches = cards.filter(item => {
-                  const value = item.text.toLocaleLowerCase('es');
-                  return value.includes(titleToken) && value.includes(workToken);
-                });
+                const matches = cards.filter(item => item.id === eventId);
                 const forbiddenHits = cards.filter(item => item.heading.toLocaleLowerCase('es').includes(forbidden));
                 return {matches, forbiddenHits, safeMode: document.documentElement.dataset.vivamosSafeMode || ''};
                 """,
-                GIJON_SEMANTIC_TITLE_TOKEN,
-                GIJON_SEMANTIC_WORK_TOKEN,
+                semantic_case["id"],
                 GIJON_FORBIDDEN_TITLE_FRAGMENT,
             )
             if evidence.get("safeMode") == "active":
                 raise SystemExit(f"Gijón semantic verification entered safe mode for {origin}/app")
             matches = evidence.get("matches") or []
             if len(matches) != 1:
-                raise SystemExit(f"Gijón Cápsula Radio must render exactly once in {origin}/app: {matches}")
-            if matches[0].get("category") != GIJON_SEMANTIC_CATEGORY_ID:
                 raise SystemExit(
-                    f"Wrong Gijón Cápsula Radio category in {origin}/app: {matches[0].get('category')}"
+                    f"Gijón semantic capability must render exactly once in {origin}/app: "
+                    f"id={semantic_case['id']} matches={matches}"
                 )
+            if matches[0].get("category") != semantic_case["category_id"]:
+                raise SystemExit(
+                    f"Wrong Gijón semantic category in {origin}/app: {matches[0].get('category')}"
+                )
+            if matches[0].get("heading") != semantic_case["title"]:
+                raise SystemExit(f"Wrong Gijón semantic title in {origin}/app: {matches[0].get('heading')!r}")
             if evidence.get("forbiddenHits"):
                 raise SystemExit(
                     f"Malformed Gijón caption title visible in {origin}/app: {evidence.get('forbiddenHits')}"
                 )
             print(
                 f"PRODUCTION_GIJON_SEMANTICS_OK origin={origin} surface=app "
-                "capsula_radio=1 category=exposiciones malformed=0 safe_mode=off"
+                "required=1 category=exposiciones malformed=0 safe_mode=off selection=capability"
             )
         finally:
             driver.quit()
@@ -460,7 +530,7 @@ def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> Non
         driver.set_page_load_timeout(45)
         try:
             permanent_url = (
-                f"{root_base}evento/gijon/{GIJON_SEMANTIC_EVENT_ID}/"
+                f"{root_base}evento/gijon/{semantic_case['id']}/"
                 f"?semantic={uuid.uuid4().hex}"
             )
             driver.get(permanent_url)
@@ -471,7 +541,7 @@ def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> Non
                     "&& document.body?.dataset.city === 'gijon' "
                     "&& document.querySelectorAll('.event-main h1').length === 1 "
                     "&& Boolean(document.querySelector('.event-kicker'))",
-                    GIJON_SEMANTIC_EVENT_ID,
+                    semantic_case["id"],
                 )
             )
             detail = driver.execute_script(
@@ -487,17 +557,17 @@ def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> Non
             )
             if detail.get("count") != 1:
                 raise SystemExit(
-                    f"Gijón Cápsula Radio permanent WEB detail must render exactly once in {origin}/web: {detail}"
+                    f"Gijón semantic permanent WEB detail must render exactly once in {origin}/web: {detail}"
                 )
-            if detail.get("title") != GIJON_SEMANTIC_TITLE:
+            if detail.get("title") != semantic_case["title"]:
                 raise SystemExit(
-                    f"Wrong Gijón Cápsula Radio title in {origin}/web permanent detail: "
-                    f"expected={GIJON_SEMANTIC_TITLE!r} actual={detail.get('title')!r}"
+                    f"Wrong Gijón semantic title in {origin}/web permanent detail: "
+                    f"expected={semantic_case['title']!r} actual={detail.get('title')!r}"
                 )
-            if str(detail.get("category") or "").casefold() != GIJON_SEMANTIC_CATEGORY_LABEL.casefold():
+            if str(detail.get("category") or "").casefold() != semantic_case["category_label"].casefold():
                 raise SystemExit(
-                    f"Wrong Gijón Cápsula Radio category in {origin}/web permanent detail: "
-                    f"expected={GIJON_SEMANTIC_CATEGORY_LABEL!r} actual={detail.get('category')!r}"
+                    f"Wrong Gijón semantic category in {origin}/web permanent detail: "
+                    f"expected={semantic_case['category_label']!r} actual={detail.get('category')!r}"
                 )
             if GIJON_FORBIDDEN_TITLE_FRAGMENT.casefold() in str(detail.get("title") or "").casefold():
                 raise SystemExit(
@@ -505,7 +575,8 @@ def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> Non
                 )
             print(
                 f"PRODUCTION_GIJON_SEMANTICS_OK origin={origin} surface=web "
-                "capsula_radio=1 category=exposiciones malformed=0 safe_mode=off route=permanent-detail"
+                "required=1 category=exposiciones malformed=0 safe_mode=off "
+                "route=permanent-detail selection=capability"
             )
         finally:
             driver.quit()
@@ -514,8 +585,12 @@ def verify_gijon_semantics(origin: str, base: str, expected_release: int) -> Non
 def main() -> None:
     expected_release = release_number()
     expected = expected_shell()
+    valpo_datasets = load_valpo_semantic_datasets()
+    gijon_datasets = load_gijon_semantic_datasets()
 
     for origin, base in ORIGINS.items():
+        semantic_cases = select_valpo_semantic_cases(valpo_datasets[origin])
+        gijon_semantic_case = select_gijon_semantic_case(gijon_datasets[origin])
         for city, label, width, height in CASES:
             dom = cold_dom(origin, base, city, width, height, expected_release)
             assert_loaded_dom(
@@ -533,8 +608,8 @@ def main() -> None:
                 f"viewport={width}x{height} transport=selenium"
             )
         verify_official_images(origin, base, expected_release)
-        verify_valpo_semantics(origin, base, expected_release)
-        verify_gijon_semantics(origin, base, expected_release)
+        verify_valpo_semantics(origin, base, expected_release, semantic_cases)
+        verify_gijon_semantics(origin, base, expected_release, gijon_semantic_case)
 
     base = ORIGINS[PRIMARY_ORIGIN]
     with tempfile.TemporaryDirectory(prefix="vivamos-roundtrip-") as profile:
