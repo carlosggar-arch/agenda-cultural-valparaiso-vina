@@ -1,13 +1,26 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "6fcaffed94bc0c97be3f8f7962945d40d416a86e3c7f29676b7b72a0966838bf",
-  "generated_at": "2026-08-31T13:56:34Z",
+  "fingerprint": "5ad6896ed96abb043628807980489a4ac1080a7babdafbced7d5a5cc0844ae25",
+  "generated_at": "2026-08-31T22:57:36Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
   "source_anomalies": [],
   "source_metrics": {
+    "gijon::ateneo jovellanos actividades": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Ateneo Jovellanos — Actividades",
+      "source_url": "https://ateneojovellanos.es/actividades/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
         "cursos-talleres-campus": 1.0
@@ -17,7 +30,7 @@
       "dominant_share": 1.0,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "total": 2,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -203,20 +216,20 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.064516,
-        "cine": 0.032258,
-        "cursos-talleres-campus": 0.225806,
-        "exposiciones": 0.580645,
-        "literatura": 0.032258,
-        "musica": 0.032258,
-        "teatro": 0.032258
+        "charlas-conferencias": 0.060606,
+        "cine": 0.030303,
+        "cursos-talleres-campus": 0.242424,
+        "exposiciones": 0.575758,
+        "literatura": 0.030303,
+        "musica": 0.030303,
+        "teatro": 0.030303
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.580645,
+      "dominant_share": 0.575758,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 31,
+      "total": 33,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -763,10 +776,10 @@
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 54,
-    "total_events": 342,
+    "source_count": 55,
+    "total_events": 348,
     "unclassified_count": 3,
-    "unclassified_rate": 0.008772
+    "unclassified_rate": 0.008621
   },
   "unclassified_queue": [
     {
