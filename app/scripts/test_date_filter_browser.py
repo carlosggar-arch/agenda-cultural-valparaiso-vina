@@ -22,6 +22,17 @@ DATASET = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
 GROUPED_CINEMA_ID: dict[str, str] = {}
 
 
+def controlled_reference_instant(dataset: dict) -> str:
+    """Return the dataset's own effective instant for historical browser checks."""
+    generated_at = str(dataset.get("generated_at") or "").strip()
+    if generated_at:
+        return generated_at
+    publication_date = str(dataset.get("publication_date") or "")[:10]
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", publication_date):
+        return f"{publication_date}T12:00:00-04:00"
+    raise AssertionError("date-filter dataset has no controlled reference instant")
+
+
 def chrome_binary() -> str:
     for candidate in ("google-chrome-stable", "google-chrome", "chromium", "chromium-browser"):
         path = shutil.which(candidate)
@@ -38,9 +49,25 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 def make_test_page() -> None:
     source = (APP / "index.html").read_text(encoding="utf-8")
     source = re.sub(r'\s*<script type="module" src="[^"]+"></script>', "", source)
-    isolated_boot = r'''
+    reference_instant = json.dumps(controlled_reference_instant(DATASET))
+    isolated_boot = rf'''
+  <script>
+    (() => {{
+      const fixed = new Date({reference_instant}).getTime();
+      const RealDate = Date;
+      class FixedDate extends RealDate {{
+        constructor(...args) {{ super(...(args.length ? args : [fixed])); }}
+        static now() {{ return fixed; }}
+      }}
+      FixedDate.parse = RealDate.parse;
+      FixedDate.UTC = RealDate.UTC;
+      Object.setPrototypeOf(FixedDate, RealDate);
+      globalThis.Date = FixedDate;
+      document.documentElement.dataset.dateFilterReferenceNow = new RealDate(fixed).toISOString();
+    }})();
+  </script>
   <script type="module">
-    const { coreReady } = await import("./app-core.js?v=20260819-core1");
+    const {{ coreReady }} = await import("./app-core.js?v=20260819-core1");
     await coreReady;
     await import("./combined-filters-bootstrap.js?v=20260819-date-test1");
     document.documentElement.dataset.dateFilterTestReady = "true";
@@ -202,6 +229,8 @@ def assert_selected_date(dom: str, selected: str) -> None:
         raise AssertionError(f"core did not reach ready state for {selected}")
     if 'data-date-filter-test-ready="true"' not in dom:
         raise AssertionError(f"combined filters did not finish for {selected}")
+    if 'data-date-filter-reference-now=' not in dom:
+        raise AssertionError(f"controlled date-filter clock was not installed for {selected}")
     stale = maybe_card_tag(dom, STALE_EVENT_ID)
     if stale is not None and not is_hidden(stale):
         raise AssertionError(f"stale event is visible while filtering {selected}")
