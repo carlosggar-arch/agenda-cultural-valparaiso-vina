@@ -66,10 +66,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Checkout deployment branch
+      - name: Checkout immutable deployment candidate
         uses: actions/checkout@v7
         with:
-          ref: cloudflare-preview
+          ref: ${{ github.sha }}
           fetch-depth: 0
 
       - name: Create exact-tree handoff preserving deployment history

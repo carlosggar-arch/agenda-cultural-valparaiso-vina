@@ -72,6 +72,9 @@ def main() -> None:
     # than a human-facing step label so wording changes cannot weaken or break
     # this contract.
     assert "Create exact-tree handoff preserving deployment history" in sync
+    assert "Checkout immutable deployment candidate" in sync
+    assert "ref: ${{ github.sha }}" in sync
+    assert "ref: cloudflare-preview" not in sync
     assert 'git checkout --detach "$CANDIDATE_SHA"' in sync
     assert "git merge --no-edit -s ours origin/cloudflare-preview" in sync
     assert "Require exact deployment-branch parity with candidate" in sync
@@ -194,6 +197,8 @@ def main() -> None:
     assert "scrollIntoView" not in BROWSER_SMOKE, "Official-image verification must not mutate WEB scroll state"
     assert "image.loading = 'eager'" in BROWSER_SMOKE
     assert "rect.width < 1 || rect.height < 1" in BROWSER_SMOKE
+    assert "data-grouped-event-id" in BROWSER_SMOKE
+    assert "image_diagnostics" in BROWSER_SMOKE
     assert "--dump-dom" not in BROWSER_SMOKE, "Cold-browser production smoke must not regress to direct Chrome dump-dom"
 
     for marker in (

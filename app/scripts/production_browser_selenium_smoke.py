@@ -147,15 +147,16 @@ def cold_dom(
 def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> dict[str, object] | None:
     return driver.execute_script(
         """
-        const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
-        if (!card) return null;
-        const image = card.querySelector('img[data-event-image="relevant"]');
+        const root = document.querySelector(`[data-event-id="${arguments[0]}"]`)
+          || document.querySelector(`[data-grouped-event-id="${arguments[0]}"]`);
+        if (!root) return null;
+        const image = root.querySelector(`img[data-event-image="relevant"][data-event-image-id="${arguments[0]}"]`);
         if (!image || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return null;
         const rect = image.getBoundingClientRect();
         if (rect.width < 1 || rect.height < 1) return null;
         const currentSrc = image.currentSrc || image.src || '';
         if (!currentSrc.endsWith('/app/assets/event-images/valparaiso/' + arguments[1])) return null;
-        if (card.querySelector('.placeholder, .event-card-media--placeholder, [data-generated-event-image="true"]')) return null;
+        if (root.querySelector('.placeholder, .event-card-media--placeholder, [data-generated-event-image="true"]')) return null;
         return {
           currentSrc,
           naturalWidth: image.naturalWidth,
@@ -163,6 +164,7 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
           layoutWidth: rect.width,
           layoutHeight: rect.height,
           eventImageId: image.dataset.eventImageId,
+          presentation: root.matches('[data-grouped-event-id]') ? 'grouped-exhibition' : 'direct-card',
         };
         """,
         event_id,
@@ -174,14 +176,39 @@ def prepare_image_evidence(driver: webdriver.Chrome, event_id: str) -> bool:
     """Trigger one lazy image without mutating the page scroll state."""
     return bool(driver.execute_script(
         """
-        const card = document.querySelector(`[data-event-id="${arguments[0]}"]`);
-        const image = card?.querySelector('img[data-event-image="relevant"]');
-        if (!card || !image) return false;
+        const root = document.querySelector(`[data-event-id="${arguments[0]}"]`)
+          || document.querySelector(`[data-grouped-event-id="${arguments[0]}"]`);
+        const image = root?.querySelector(`img[data-event-image="relevant"][data-event-image-id="${arguments[0]}"]`);
+        if (!root || !image) return false;
         image.loading = 'eager';
         return true;
         """,
         event_id,
     ))
+
+
+def image_diagnostics(driver: webdriver.Chrome, event_id: str, filename: str) -> dict[str, object]:
+    return driver.execute_script(
+        """
+        const direct = document.querySelector(`[data-event-id="${arguments[0]}"]`);
+        const grouped = document.querySelector(`[data-grouped-event-id="${arguments[0]}"]`);
+        const root = direct || grouped;
+        const image = root?.querySelector('img');
+        const rect = image?.getBoundingClientRect();
+        return {
+          eventId: arguments[0], expectedFile: arguments[1],
+          presentation: direct ? 'direct-card' : grouped ? 'grouped-exhibition' : 'missing',
+          hasImage: Boolean(image), src: image?.getAttribute('src') || null,
+          currentSrc: image?.currentSrc || null, complete: image?.complete || false,
+          naturalWidth: image?.naturalWidth || 0, naturalHeight: image?.naturalHeight || 0,
+          layoutWidth: rect?.width || 0, layoutHeight: rect?.height || 0,
+          relevance: image?.dataset?.eventImage || null,
+          imageEventId: image?.dataset?.eventImageId || null,
+        };
+        """,
+        event_id,
+        filename,
+    )
 
 
 def verify_official_images(origin: str, base: str, expected_release: int) -> None:
@@ -223,11 +250,19 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
                             f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} "
                             f"event={event_id} file={filename} natural={evidence['naturalWidth']}x{evidence['naturalHeight']} "
                             f"layout={evidence['layoutWidth']:.0f}x{evidence['layoutHeight']:.0f} "
-                            f"title={title!r}"
+                            f"presentation={evidence['presentation']} title={title!r}"
                         )
                     break
                 except Exception as exc:
-                    last_error = f"attempt {attempt}: {type(exc).__name__}: {exc}"
+                    diagnostics = []
+                    try:
+                        diagnostics = [image_diagnostics(driver, event_id, filename) for event_id, filename, _title in OFFICIAL_IMAGE_CASES]
+                    except Exception as diagnostic_exc:
+                        diagnostics = [{"diagnostic_error": f"{type(diagnostic_exc).__name__}: {diagnostic_exc}"}]
+                    last_error = (
+                        f"attempt {attempt}: {type(exc).__name__}: {exc}; "
+                        f"diagnostics={diagnostics!r}"
+                    )
                 finally:
                     try:
                         driver.quit()

@@ -36,6 +36,15 @@ test("one pure resolver owns image selection across cards, groups, detail and gu
   assert.doesNotMatch(detail, /presentation\?\.imageRelevant === false \? null : safeHttpUrl\(event\?\.image\?\.url\)/);
 });
 
+test("grouped exhibitions resolve owned images under the active app base and fail visibly to fallback", () => {
+  assert.match(groups, /resolveEventImage\(event, \{ surface: "group", baseUrl: location\.href \}\)/);
+  assert.match(groups, /img\.src = url \|\| FALLBACK_IMAGE/);
+  assert.match(groups, /if \(eventId && url\)/);
+  assert.match(groups, /img\.dataset\.eventImage = "relevant"/);
+  assert.match(groups, /img\.dataset\.eventImageId = eventId/);
+  assert.match(groups, /img\.addEventListener\("error", \(\) => \{ img\.src = FALLBACK_IMAGE; \}/);
+});
+
 test("generated event fallback keeps explicit runtime presentation markers", () => {
   assert.match(imageGuard, /image\.dataset\.imageKind = "generated-fallback"/);
   assert.match(imageGuard, /image\.dataset\.imageQualityFallback = "true"/);

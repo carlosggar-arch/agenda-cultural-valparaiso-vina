@@ -70,15 +70,19 @@ function directCards() {
 }
 
 function eventImage(event) {
-  return resolveEventImage(event, { surface: "group" }).url;
+  return resolveEventImage(event, { surface: "group", baseUrl: location.href }).url;
 }
 
-function imageElement(url, alt = "") {
+function imageElement(url, alt = "", eventId = null) {
   const img = document.createElement("img");
   img.src = url || FALLBACK_IMAGE;
   img.alt = alt;
   img.loading = "lazy";
   img.decoding = "async";
+  if (eventId && url) {
+    img.dataset.eventImage = "relevant";
+    img.dataset.eventImageId = eventId;
+  }
   if (url) img.addEventListener("error", () => { img.src = FALLBACK_IMAGE; }, { once: true });
   return img;
 }
@@ -126,7 +130,7 @@ function buildRow(event, config) {
 
   const media = document.createElement("div");
   media.className = "grouped-exhibition-media";
-  media.append(imageElement(eventImage(event)));
+  media.append(imageElement(eventImage(event), event?.title || "", String(event?.id || "")));
 
   const copy = document.createElement("div");
   copy.className = "grouped-exhibition-copy";

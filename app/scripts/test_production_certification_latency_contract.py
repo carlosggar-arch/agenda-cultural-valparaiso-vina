@@ -28,6 +28,9 @@ def main() -> None:
     smoke = job_block(publish, "production-smoke", "refresh-open-release-prs")
 
     assert "CANDIDATE_SHA: ${{ github.sha }}" in publish, "production runs must be pinned to their triggering SHA"
+    assert "Checkout immutable deployment candidate" in sync
+    assert "ref: ${{ github.sha }}" in sync, "sync must check out the immutable candidate before attaching mirror history"
+    assert "ref: cloudflare-preview" not in sync, "mirror-first checkout reintroduces EOL-normalization dirtiness"
     assert "git fetch origin cloudflare-preview main" in sync, "handoff must pin both deployment history and candidate source"
     assert 'git cat-file -e "${CANDIDATE_SHA}^{commit}"' in sync, "candidate commit must exist before handoff"
     assert 'git cat-file -e "origin/cloudflare-preview^{commit}"' in sync, "deployment parent must exist before handoff"
