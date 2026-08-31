@@ -65,6 +65,7 @@ jobs:
           set -euo pipefail
           python app/scripts/test_release_guard.py
           python app/scripts/test_production_pwa_smoke_contract.py
+          python app/scripts/test_production_series_contract.py
 
       - name: Install browser test dependency
         if: steps.impact.outputs.release == 'true'

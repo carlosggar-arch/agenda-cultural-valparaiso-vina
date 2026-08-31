@@ -5,6 +5,25 @@
       "id": "gijon-bioparc-candlelight-repertoires-2026",
       "city": "gijon",
       "section": "todos",
+      "dataset_path": "data/gijon/agenda_web.json",
+      "lifecycle": "active_occurrences",
+      "timezone": "Europe/Madrid",
+      "evidence_scope": {
+        "source_id": "bioparc_acuario_gijon",
+        "venue": "Auditorio del BIOPARC Acuario de Gijón",
+        "official_host": "acuariogijon.es",
+        "ticket_host": "luzdelasvelas.com"
+      },
+      "official_evidence": {
+        "url": "https://luzdelasvelas.com/bioparc-acuario-de-gijon-3/",
+        "occurrences": [
+          {"start": "2026-08-29T17:30:00+02:00", "kind": "preserved"},
+          {"start": "2026-08-29T19:00:00+02:00", "kind": "repertoire"},
+          {"start": "2026-08-29T20:30:00+02:00", "kind": "repertoire"},
+          {"start": "2026-08-30T18:00:00+02:00", "kind": "preserved"},
+          {"start": "2026-08-30T19:30:00+02:00", "kind": "repertoire"}
+        ]
+      },
       "expected_titles": [
         "Piano a la luz de las velas — Grandes bandas sonoras",
         "Piano a la luz de las velas — Tributo a ABBA, Queen, The Beatles y Mecano",

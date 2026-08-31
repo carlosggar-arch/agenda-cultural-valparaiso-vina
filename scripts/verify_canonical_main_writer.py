@@ -100,7 +100,7 @@ def verify() -> None:
         "branches: [main]",
         '- "cloudflare-build.sh"',
         "CANDIDATE_SHA: ${{ github.sha }}",
-        "ref: cloudflare-preview",
+        "Checkout immutable deployment candidate",
         "git fetch origin cloudflare-preview main",
         'git checkout --detach "$CANDIDATE_SHA"',
         'git merge --no-edit -s ours origin/cloudflare-preview',
@@ -116,6 +116,12 @@ def verify() -> None:
     missing = [marker for marker in required_sync if marker not in sync]
     if missing:
         raise SystemExit("PUBLICATION_WRITER_CONTRACT_MISSING=" + repr(missing))
+
+    sync_job = sync.split("  sync-cloudflare:\n", 1)[1].split("  production-smoke:\n", 1)[0]
+    if "ref: cloudflare-preview" in sync_job:
+        raise SystemExit("PUBLICATION_MIRROR_FIRST_CHECKOUT_FORBIDDEN")
+    if "ref: ${{ github.sha }}" not in sync_job:
+        raise SystemExit("PUBLICATION_IMMUTABLE_CANDIDATE_CHECKOUT_MISSING")
 
     for stale_dynamic_candidate in (
         "git merge --no-edit origin/main",
