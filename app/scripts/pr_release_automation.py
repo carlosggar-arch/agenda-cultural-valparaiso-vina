@@ -85,6 +85,30 @@ def changed_paths(base: str, head: str) -> set[str]:
     return {line for line in output.splitlines() if line}
 
 
+def status_paths(root: Path = ROOT) -> set[str]:
+    """Return exact paths from porcelain status without trimming its XY prefix."""
+    output = subprocess.check_output(
+        ["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"], cwd=root
+    )
+    records = output.split(b"\0")
+    paths: set[str] = set()
+    index = 0
+    while index < len(records):
+        record = records[index]
+        index += 1
+        if not record:
+            continue
+        if len(record) < 4 or record[2:3] != b" ":
+            raise SystemExit("PR_FINALIZATION_INVALID_GIT_STATUS")
+        status = record[:2]
+        paths.add(record[3:].decode("utf-8", errors="surrogateescape"))
+        if b"R" in status or b"C" in status:
+            if index >= len(records) or not records[index]:
+                raise SystemExit("PR_FINALIZATION_INVALID_GIT_STATUS_RENAME")
+            index += 1  # The source path is informational; the destination is authoritative.
+    return paths
+
+
 def is_finalizer_commit(subject: str) -> bool:
     return release_finalizer.FINALIZER_MARKER in subject
 
@@ -140,12 +164,7 @@ def prepare(*, base: str, source: str, source_pr: int, commit: bool) -> str:
     source_paths = changed_paths(base, source)
     require_automatic_scope(source_paths)
     release_finalizer.prepare_release(base_ref=base, source_sha=source, source_pr=source_pr)
-    generated = {
-        line
-        for line in git("status", "--short").splitlines()
-        if line
-        for line in [line[3:]]
-    }
+    generated = status_paths()
     require_generated_only(generated)
     if not commit:
         print(f"PR_FINALIZATION_PREPARED_TRANSIENT source={source} pr={source_pr}")
