@@ -1,0 +1,231 @@
+name: Finalize validated PR candidate
+
+on:
+  workflow_run:
+    workflows: ["PR release gate"]
+    types: [completed]
+
+concurrency:
+  group: pr-finalize-${{ github.event.workflow_run.pull_requests[0].number || github.event.workflow_run.id }}
+  cancel-in-progress: true
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
+jobs:
+  finalize-validated-pr:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.pull_requests[0]
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout trusted automation authority
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Capture trusted finalization tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pr-finalization-tools
+          cp app/scripts/{pr_release_automation.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} /tmp/pr-finalization-tools/
+
+      - name: Resolve immutable PR snapshot
+        id: snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+          VALIDATED_HEAD: ${{ github.event.workflow_run.pull_requests[0].head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          metadata="$(gh api "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}")"
+          state="$(jq -r .state <<<"$metadata")"
+          draft="$(jq -r .draft <<<"$metadata")"
+          base_ref="$(jq -r .base.ref <<<"$metadata")"
+          head_ref="$(jq -r .head.ref <<<"$metadata")"
+          head_sha="$(jq -r .head.sha <<<"$metadata")"
+          head_repo="$(jq -r .head.repo.full_name <<<"$metadata")"
+          test "$state" = open
+          test "$base_ref" = main
+          test "$head_repo" = "$GITHUB_REPOSITORY"
+          git fetch --no-tags origin main "refs/heads/${head_ref}:refs/remotes/origin/pr-finalization-head"
+          base_sha="$(git rev-parse origin/main)"
+          test "$(git rev-parse origin/pr-finalization-head)" = "$head_sha"
+          subject="$(git log -1 --format=%s "$head_sha")"
+          parent="$(git rev-parse "${head_sha}^" 2>/dev/null || true)"
+          finalized=false
+          if grep -Fq '[release-finalized]' <<<"$subject"; then finalized=true; fi
+          replay=false
+          if test "$head_sha" != "$VALIDATED_HEAD"; then
+            if test "$finalized" = true && test "$parent" = "$VALIDATED_HEAD"; then
+              replay=true
+            else
+              echo "::error title=PR head changed concurrently::validated=$VALIDATED_HEAD current=$head_sha"
+              exit 1
+            fi
+          fi
+          {
+            echo "pr_number=$PR_NUMBER"
+            echo "draft=$draft"
+            echo "base_sha=$base_sha"
+            echo "head_ref=$head_ref"
+            echo "head_sha=$head_sha"
+            echo "finalized=$finalized"
+            echo "replay=$replay"
+            echo "validation=${{ github.event.workflow_run.conclusion }}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Mint narrowly scoped PR finalizer token
+        id: app-token
+        if: steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.replay != 'true'
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.PR_FINALIZER_APP_ID }}
+          private-key: ${{ secrets.PR_FINALIZER_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: agenda-cultural-valparaiso-vina
+
+      - name: Refresh safely when main advanced
+        id: refresh
+        if: steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.replay != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_NUMBER: ${{ steps.snapshot.outputs.pr_number }}
+          HEAD_SHA: ${{ steps.snapshot.outputs.head_sha }}
+          BASE_SHA: ${{ steps.snapshot.outputs.base_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e "${HEAD_SHA}^{commit}"
+          if git merge-base --is-ancestor "$BASE_SHA" "$HEAD_SHA"; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! merge_diagnostics="$(git merge-tree --write-tree "$HEAD_SHA" "$BASE_SHA" 2>&1)"; then
+            echo "::error title=PR requires conflict resolution::Automatic update found conflicts; no branch was modified."
+            printf '%s\n' "$merge_diagnostics"
+            exit 1
+          fi
+          if gh api --method PUT "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/update-branch" -f expected_head_sha="$HEAD_SHA"; then
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+            echo "PR_FINALIZATION_BASE_REFRESH_REQUESTED pr=$PR_NUMBER source=$HEAD_SHA base=$BASE_SHA"
+            exit 0
+          fi
+          echo "::error title=PR update changed concurrently::PR #$PR_NUMBER could not be updated with expected head $HEAD_SHA. No finalization was attempted."
+          exit 1
+
+      - name: Verify successful source-validation handoff
+        id: handoff
+        if: steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.finalized != 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          PR_NUMBER: ${{ steps.snapshot.outputs.pr_number }}
+          SOURCE_SHA: ${{ steps.snapshot.outputs.head_sha }}
+          BASE_SHA: ${{ steps.snapshot.outputs.base_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only "${BASE_SHA}...${SOURCE_SHA}")"
+          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
+          if grep -E "$protected" <<<"$changed"; then
+            echo "::notice title=Manual finalization required::The PR changes trusted finalization machinery."
+            exit 78
+          fi
+          rm -rf /tmp/pr-finalization-handoff
+          gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name "pr-finalization-ready-${PR_NUMBER}" --dir /tmp/pr-finalization-handoff
+          handoff=/tmp/pr-finalization-handoff/handoff.json
+          test -f "$handoff"
+          test "$(jq -r .schema_version "$handoff")" = 1
+          test "$(jq -r .repository "$handoff")" = "$GITHUB_REPOSITORY"
+          test "$(jq -r .workflow "$handoff")" = "PR release gate"
+          test "$(jq -r .workflow_ref "$handoff")" = "$GITHUB_REPOSITORY/.github/workflows/pr-release.yml@refs/pull/${PR_NUMBER}/merge"
+          test "$(jq -r .pr "$handoff")" = "$PR_NUMBER"
+          test "$(jq -r .source_sha "$handoff")" = "$SOURCE_SHA"
+          test "$(jq -r .base_sha "$handoff")" = "$BASE_SHA"
+          test "$(jq -r .workflow_run_id "$handoff")" = "$RUN_ID"
+          test "$(jq -r .run_attempt "$handoff")" = "$RUN_ATTEMPT"
+          test "$(jq -r .diagnostics "$handoff")" = passed
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare exact finalizer commit without credentials
+        if: steps.handoff.outputs.ready == 'true'
+        env:
+          SOURCE_SHA: ${{ steps.snapshot.outputs.head_sha }}
+          BASE_SHA: ${{ steps.snapshot.outputs.base_sha }}
+          SOURCE_PR: ${{ steps.snapshot.outputs.pr_number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git checkout --detach "$SOURCE_SHA"
+          changed="$(git diff --name-only "${BASE_SHA}...${SOURCE_SHA}")"
+          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
+          if grep -E "$protected" <<<"$changed"; then
+            echo "::notice title=Manual finalization required::The PR changes trusted finalization machinery."
+            exit 78
+          fi
+          cp /tmp/pr-finalization-tools/{pr_release_automation.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} app/scripts/
+          git diff --quiet "$SOURCE_SHA" -- app/scripts
+          git config user.name "vivamos-pr-finalizer[bot]"
+          git config user.email "vivamos-pr-finalizer[bot]@users.noreply.github.com"
+          python -S app/scripts/pr_release_automation.py prepare \
+            --base "$BASE_SHA" \
+            --source "$SOURCE_SHA" \
+            --source-pr "$SOURCE_PR" \
+            --commit
+
+      - name: Revalidate immutable head and base
+        if: steps.handoff.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.snapshot.outputs.pr_number }}
+          SOURCE_SHA: ${{ steps.snapshot.outputs.head_sha }}
+          BASE_SHA: ${{ steps.snapshot.outputs.base_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}" --jq .head.sha)" = "$SOURCE_SHA"
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$BASE_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_SHA"
+          python -S app/scripts/release_finalizer.py --check --base-ref "$BASE_SHA" --finalizer-ref HEAD
+
+      - name: Fast-forward the PR branch to the validated finalizer
+        if: steps.handoff.outputs.ready == 'true'
+        env:
+          PR_FINALIZER_TOKEN: ${{ steps.app-token.outputs.token }}
+          HEAD_REF: ${{ steps.snapshot.outputs.head_ref }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          basic="$(printf 'x-access-token:%s' "$PR_FINALIZER_TOKEN" | base64 -w0)"
+          git -c core.hooksPath=/dev/null -c http.extraheader="AUTHORIZATION: basic $basic" push origin "HEAD:refs/heads/${HEAD_REF}"
+          finalizer="$(git rev-parse HEAD)"
+          test "$(git ls-remote origin "refs/heads/${HEAD_REF}" | cut -f1)" = "$finalizer"
+          echo "PR_FINALIZATION_PUSHED finalizer=$finalizer branch=$HEAD_REF credential=github-app downstream_checks=pull_request_synchronize"
+
+      - name: Draft PR remains intentionally untouched
+        if: steps.snapshot.outputs.draft == 'true'
+        run: echo "PR_FINALIZATION_DEFERRED_DRAFT pr=${{ steps.snapshot.outputs.pr_number }}"
+
+      - name: Finalized PR does not loop
+        if: steps.snapshot.outputs.finalized == 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true'
+        run: echo "PR_FINALIZATION_ALREADY_COMPLETE head=${{ steps.snapshot.outputs.head_sha }}"
+
+      - name: Repeated source run does not create another commit
+        if: steps.snapshot.outputs.replay == 'true'
+        run: echo "PR_FINALIZATION_EXACT_REPLAY head=${{ steps.snapshot.outputs.head_sha }} source=${{ github.event.workflow_run.pull_requests[0].head.sha }}"
+
+      - name: Failed validation remains blocking
+        if: steps.snapshot.outputs.finalized != 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true' && steps.handoff.outputs.ready != 'true'
+        run: |
+          echo "PR_FINALIZATION_BLOCKED_BY_VALIDATION head=${{ steps.snapshot.outputs.head_sha }}"
+          exit 1

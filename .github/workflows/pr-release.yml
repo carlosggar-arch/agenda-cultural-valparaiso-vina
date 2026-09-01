@@ -3,6 +3,7 @@ name: PR release gate
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
 concurrency:
@@ -30,11 +31,16 @@ jobs:
           fetch-depth: 0
 
       - name: Fetch current integration base
+        id: queue
         run: |
           set -euo pipefail
           git fetch --no-tags origin main
+          git cat-file -e "${FINALIZER_REF}^{commit}"
+          git checkout --detach "$FINALIZER_REF"
+          test "$(git rev-parse HEAD)" = "$FINALIZER_REF"
           echo "RELEASE_QUEUE_BASE=$(git rev-parse origin/main)"
           echo "RELEASE_QUEUE_CANDIDATE=$FINALIZER_REF"
+          echo "base_sha=$(git rev-parse origin/main)" >> "$GITHUB_OUTPUT"
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -47,19 +53,49 @@ jobs:
         id: impact
         run: python app/scripts/ci_change_impact.py --base "$(git rev-parse origin/main)" --head "$FINALIZER_REF" --github-output "$GITHUB_OUTPUT"
 
-      - name: Compile canonical release finalizer
+      - name: Run independent release diagnostics and aggregate failures
+        id: diagnostics
         run: |
-          set -euo pipefail
+          set +e
           python -m py_compile app/scripts/release_finalizer.py app/scripts/release_bundle.py app/scripts/test_release_finalizer.py app/scripts/production_release_chain.py app/scripts/production_series_contract.py
+          syntax_result=$?
           python app/scripts/test_release_finalizer.py
+          finalizer_result=$?
+          python app/scripts/test_atomic_publication_contract.py
+          atomic_result=$?
+          python scripts/verify_canonical_main_writer.py
+          writer_result=$?
+          status() { if [[ "$1" -eq 0 ]]; then echo success; else echo failure; fi; }
+          python app/scripts/pr_release_automation.py summarize \
+            --result "syntax=$(status "$syntax_result")" \
+            --result "finalizer=$(status "$finalizer_result")" \
+            --result "atomic-publication=$(status "$atomic_result")" \
+            --result "single-writer=$(status "$writer_result")"
 
-      - name: Require fresh canonical finalization
+      - name: Require or transiently prepare canonical finalization
+        id: finalization
         if: steps.impact.outputs.release == 'true'
+        env:
+          SOURCE_PR: ${{ github.event.pull_request.number || 0 }}
         run: |
           set -euo pipefail
-          python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref "$FINALIZER_REF"
+          if git log -1 --format=%s "$FINALIZER_REF" | grep -Fq '[release-finalized]'; then
+            echo "transient=false" >> "$GITHUB_OUTPUT"
+            python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref "$FINALIZER_REF"
+          else
+            echo "transient=true" >> "$GITHUB_OUTPUT"
+            git config user.name "vivamos-pr-finalizer[validation]"
+            git config user.email "vivamos-pr-finalizer-validation@users.noreply.github.com"
+            python app/scripts/pr_release_automation.py prepare \
+              --base "$(git rev-parse origin/main)" \
+              --source "$FINALIZER_REF" \
+              --source-pr "$SOURCE_PR" \
+              --commit
+            python app/scripts/release_finalizer.py --check --base-ref origin/main --finalizer-ref HEAD
+          fi
 
       - name: Preflight release workflow contracts before browser setup
+        id: preflight
         if: steps.impact.outputs.release == 'true'
         run: |
           set -euo pipefail
@@ -68,10 +104,12 @@ jobs:
           python app/scripts/test_production_series_contract.py
 
       - name: Install browser test dependency
+        id: browser_setup
         if: steps.impact.outputs.release == 'true'
         run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
 
       - name: Compile guarded shell
+        id: compile_shell
         if: steps.impact.outputs.release == 'true'
         run: |
           set -euo pipefail
@@ -160,6 +198,7 @@ jobs:
           node --check app/mobile-experience.js
 
       - name: Run required release and architecture contracts
+        id: contracts
         if: steps.impact.outputs.release == 'true'
         run: |
           set -euo pipefail
@@ -191,10 +230,12 @@ jobs:
           python app/scripts/test_multicity_source_registry_coverage.py
 
       - name: Run canonical browser scenarios
+        id: browser
         if: steps.impact.outputs.release == 'true'
         run: python app/scripts/run_browser_scenarios.py --all
 
       - name: Require local WEB versus cached PWA ordered presentation parity
+        id: parity
         if: steps.impact.outputs.release == 'true'
         run: python app/scripts/test_web_pwa_visibility_parity.py --local
 
@@ -215,5 +256,65 @@ jobs:
           echo "A candidate is mergeable only when latest main is an ancestor, the canonical finalizer owns generated outputs, release == current-main+1, and all release/browser/parity contracts are green."
           echo "Production network, series semantics and exact source-to-production chain certification run after merge."
       - name: No release surface affected
+        id: no_release
         if: steps.impact.outputs.release != 'true'
         run: echo "Release browser gate skipped by deterministic path classification; canonical finalizer unit contracts still ran."
+
+      - name: Publish one aggregate diagnostic summary
+        id: summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          normalize() {
+            case "$1" in
+              success|failure|skipped) printf '%s' "$1" ;;
+              *) printf 'skipped' ;;
+            esac
+          }
+          python app/scripts/pr_release_automation.py summarize \
+            --result "diagnostics=$(normalize '${{ steps.diagnostics.outcome }}')" \
+            --result "finalization=$(normalize '${{ steps.finalization.outcome }}')" \
+            --result "preflight=$(normalize '${{ steps.preflight.outcome }}')" \
+            --result "browser-setup=$(normalize '${{ steps.browser_setup.outcome }}')" \
+            --result "compile-shell=$(normalize '${{ steps.compile_shell.outcome }}')" \
+            --result "contracts=$(normalize '${{ steps.contracts.outcome }}')" \
+            --result "browser=$(normalize '${{ steps.browser.outcome }}')" \
+            --result "parity=$(normalize '${{ steps.parity.outcome }}')"
+
+      - name: Bind successful source validation to an immutable handoff
+        if: always() && steps.summary.outcome == 'success' && steps.finalization.outputs.transient == 'true'
+        env:
+          SOURCE_PR: ${{ github.event.pull_request.number }}
+          SOURCE_SHA: ${{ env.FINALIZER_REF }}
+          BASE_SHA: ${{ steps.queue.outputs.base_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pr-finalization-ready
+          jq -n \
+            --argjson pr "$SOURCE_PR" \
+            --arg source "$SOURCE_SHA" \
+            --arg base "$BASE_SHA" \
+            --arg workflow_run "$GITHUB_RUN_ID" \
+            --arg run_attempt "$GITHUB_RUN_ATTEMPT" \
+            --arg repository "$GITHUB_REPOSITORY" \
+            --arg workflow "$GITHUB_WORKFLOW" \
+            --arg workflow_ref "$GITHUB_WORKFLOW_REF" \
+            '{schema_version: 1, repository: $repository, workflow: $workflow, workflow_ref: $workflow_ref, pr: $pr, source_sha: $source, base_sha: $base, workflow_run_id: $workflow_run, run_attempt: $run_attempt, diagnostics: "passed"}' \
+            > /tmp/pr-finalization-ready/handoff.json
+
+      - name: Upload immutable finalization handoff
+        if: always() && steps.summary.outcome == 'success' && steps.finalization.outputs.transient == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: pr-finalization-ready-${{ github.event.pull_request.number }}
+          path: /tmp/pr-finalization-ready/handoff.json
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Keep source-only candidate blocked until final commit exists
+        if: always() && steps.summary.outcome == 'success' && steps.finalization.outputs.transient == 'true'
+        run: |
+          echo "PR_FINALIZATION_COMMIT_PENDING source=$FINALIZER_REF"
+          exit 1

@@ -12,6 +12,7 @@ EXPECTED = {
     "publish.yml",
     "scheduled-audit.yml",
     "production-certification-watchdog.yml",
+    "pr-finalize.yml",
 }
 
 
@@ -41,6 +42,18 @@ def main() -> None:
     assert "contents: write" not in watchdog
     assert "PRODUCTION_UNCERTIFIED" in watchdog
     assert "production_certification_watchdog.py" in watchdog
+    pr_finalize = texts["pr-finalize.yml"]
+    finalize_triggers = trigger_block(pr_finalize)
+    assert "workflow_run:" in finalize_triggers
+    assert 'workflows: ["PR release gate"]' in finalize_triggers
+    assert "pull_request:" not in finalize_triggers and "push:" not in finalize_triggers
+    assert "persist-credentials: false" in pr_finalize
+    assert "PR_FINALIZATION_ALREADY_COMPLETE" in pr_finalize
+    assert "update-branch" in pr_finalize and "expected_head_sha" in pr_finalize
+    assert "git push --force" not in pr_finalize and "--admin" not in pr_finalize
+    assert "release_finalizer.py --prepare" not in pr_finalize, (
+        "privileged workflow must use the trusted orchestration wrapper"
+    )
     assert sum("-r requirements-ci.txt" in text for name, text in texts.items() if name.startswith("pr-")) == 1
     assert (ROOT / "requirements-ci.txt").read_text(encoding="utf-8").strip() == "selenium==4.35.0"
     assert (ROOT / "requirements-image-cache.txt").read_text(encoding="utf-8").strip() == "Pillow==12.3.0"
@@ -80,11 +93,11 @@ def main() -> None:
         assert "actions/upload-artifact@v4" not in workflow, f"{name} still uses the Node 20 upload action"
     budget = json.loads((ROOT / ".github/actions-budget.json").read_text(encoding="utf-8"))
     assert budget["workflow_count"] == len(paths)
-    assert budget["runs_per_pr_update_max"] <= 3
+    assert budget["runs_per_pr_update_max"] <= 4
     assert budget["browser_suites_per_pr"] == 1
     assert budget["automatic_publish_runs_per_merge"] == 1
     assert budget["automatic_certification_watchdog_runs_per_publish"] == 1
-    print("CI_ECONOMY_OK workflows=6 pr_runs_max=3 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped release_preflight=before_browser_setup")
+    print("CI_ECONOMY_OK workflows=7 pr_runs_max=4 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped release_preflight=before_browser_setup automatic_pr_finalization=workflow_run")
 
 
 if __name__ == "__main__":
