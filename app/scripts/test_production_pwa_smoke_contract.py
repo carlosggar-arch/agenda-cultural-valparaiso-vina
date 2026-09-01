@@ -9,6 +9,7 @@ REQUIRED = (ROOT / ".github/workflows/pr-release.yml").read_text(encoding="utf-8
 TOPOLOGY = json.loads((ROOT / "tests/contract-topology.json").read_text(encoding="utf-8"))
 SMOKE = (ROOT / "app/scripts/production_pwa_smoke.py").read_text(encoding="utf-8")
 BROWSER_SMOKE = (ROOT / "app/scripts/production_browser_selenium_smoke.py").read_text(encoding="utf-8")
+SEMANTIC_CAPABILITIES = (ROOT / "app/scripts/production_semantic_capabilities.py").read_text(encoding="utf-8")
 WARM_SMOKE = (ROOT / "app/scripts/production_warm_start_smoke.py").read_text(encoding="utf-8")
 PWA_PARITY = (ROOT / "app/scripts/test_web_pwa_visibility_parity.py").read_text(encoding="utf-8")
 ATTESTATION = (ROOT / "app/scripts/production_release_attestation.py").read_text(encoding="utf-8")
@@ -199,6 +200,12 @@ def main() -> None:
     assert "rect.width < 1 || rect.height < 1" in BROWSER_SMOKE
     assert "data-grouped-event-id" in BROWSER_SMOKE
     assert "image_diagnostics" in BROWSER_SMOKE
+    assert "load_valpo_semantic_datasets" in BROWSER_SMOKE
+    assert "load_gijon_semantic_datasets" in BROWSER_SMOKE
+    assert "select_valpo_semantic_cases" in BROWSER_SMOKE
+    assert "select_gijon_semantic_case" in BROWSER_SMOKE
+    assert "PRODUCTION_SEMANTIC_DATASET_DIVERGENCE" in SEMANTIC_CAPABILITIES
+    assert "active_schedule,canonical_title,official_provenance" in SEMANTIC_CAPABILITIES
     assert "--dump-dom" not in BROWSER_SMOKE, "Cold-browser production smoke must not regress to direct Chrome dump-dom"
 
     for marker in (
