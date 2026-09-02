@@ -106,11 +106,47 @@ def test_exact_source_occurrence_merges_but_distinct_sources_do_not() -> None:
     assert any(item["id"] == "other" for item in dataset["events"])
 
 
+def test_candidate_only_duplicate_does_not_claim_baseline_loss() -> None:
+    canonical = event("canonical", "Taller textil", start="2026-09-01T15:00:00-04:00")
+    duplicate = event("new-duplicate", "Taller textil", start="2026-09-01T15:00:00-04:00")
+    dataset = {"publication_date": "2026-08-30", "events": [canonical, duplicate], "counts": {"total": 2}}
+    ledger = empty_ledger()
+    changes = apply_guard(dataset, ledger=ledger, baseline_events=[copy.deepcopy(canonical)])
+    assert changes["duplicates_consolidated"]
+    assert ledger["receipts"] == []
+
+
+def test_valid_baseline_alias_points_to_retained_destination() -> None:
+    canonical = event("canonical", "Taller textil", start="2026-09-01T15:00:00-04:00")
+    alias = event("historical-alias", "Taller textil", start="2026-09-01T15:00:00-04:00")
+    canonical["description"] += " Con información ampliada."
+    dataset = {"publication_date": "2026-08-30", "events": [canonical, alias], "counts": {"total": 2}}
+    ledger = empty_ledger()
+    apply_guard(dataset, ledger=ledger, baseline_events=[copy.deepcopy(alias)])
+    assert len(ledger["receipts"]) == 1
+    assert ledger["receipts"][0]["source_record_id"] == "historical-alias"
+    assert ledger["receipts"][0]["destination"]["canonical_event_id"] == "canonical"
+
+
+def test_many_baseline_aliases_emit_many_to_one_receipts() -> None:
+    canonical = event("canonical", "Taller textil", start="2026-09-01T15:00:00-04:00")
+    canonical["description"] += " Registro canónico más completo."
+    aliases = [event(f"alias-{index}", "Taller textil", start="2026-09-01T15:00:00-04:00") for index in (1, 2)]
+    dataset = {"publication_date": "2026-08-30", "events": [canonical, *aliases], "counts": {"total": 3}}
+    ledger = empty_ledger()
+    apply_guard(dataset, ledger=ledger, baseline_events=copy.deepcopy(aliases))
+    assert {row["source_record_id"] for row in ledger["receipts"]} == {"alias-1", "alias-2"}
+    assert {row["canonical_event_id"] for row in ledger["receipts"]} == {"canonical"}
+
+
 def main() -> None:
     test_append_only_and_idempotent_identity()
     test_every_disappearance_has_receipt_and_merge_has_destination()
     test_generated_at_changes_only_when_semantic_content_changes()
     test_exact_source_occurrence_merges_but_distinct_sources_do_not()
+    test_candidate_only_duplicate_does_not_claim_baseline_loss()
+    test_valid_baseline_alias_points_to_retained_destination()
+    test_many_baseline_aliases_emit_many_to_one_receipts()
     print("TRANSFORMATION_RECEIPT_LEDGER_TESTS_OK")
 
 

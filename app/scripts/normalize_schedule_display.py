@@ -158,7 +158,22 @@ def normalize_schedule(schedule: dict) -> list[str]:
     return sorted(set(changes))
 
 
-def normalize_dataset(dataset: dict) -> tuple[dict, list[dict]]:
+def strip_private_editorial(value: object) -> int:
+    """Remove private review metadata at the canonical public projection."""
+    removed = 0
+    if isinstance(value, dict):
+        if "editorial" in value:
+            value.pop("editorial")
+            removed += 1
+        for child in value.values():
+            removed += strip_private_editorial(child)
+    elif isinstance(value, list):
+        for child in value:
+            removed += strip_private_editorial(child)
+    return removed
+
+
+def normalize_dataset(dataset: dict) -> tuple[dict, list[dict], int]:
     output = copy.deepcopy(dataset)
     rows: list[dict] = []
     for event in output.get("events") or []:
@@ -170,7 +185,8 @@ def normalize_dataset(dataset: dict) -> tuple[dict, list[dict]]:
         fields = normalize_schedule(schedule)
         if fields:
             rows.append({"id": event.get("id"), "title": event.get("title"), "fields": fields})
-    return output, rows
+    removed_editorial = strip_private_editorial(output)
+    return output, rows, removed_editorial
 
 
 def dataset_targets(primary: Path, *, include_sibling_cities: bool = False) -> list[Path]:
@@ -216,11 +232,21 @@ def main() -> None:
     summaries: list[dict] = []
     for dataset_path in dataset_targets(args.dataset, include_sibling_cities=args.all_datasets):
         dataset = json.loads(dataset_path.read_text(encoding="utf-8"))
-        normalized, rows = normalize_dataset(dataset)
-        summaries.append({"dataset": dataset_label(dataset_path), "normalized_events": len(rows), "rows": rows})
-        changed_any = changed_any or bool(rows)
-        if rows and not args.check:
-            dataset_path.write_text(json.dumps(normalized, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        normalized, rows, removed_editorial = normalize_dataset(dataset)
+        summaries.append({
+            "dataset": dataset_label(dataset_path),
+            "normalized_events": len(rows),
+            "private_editorial_fields_removed": removed_editorial,
+            "rows": rows,
+        })
+        changed = bool(rows) or bool(removed_editorial)
+        changed_any = changed_any or changed
+        if changed and not args.check:
+            dataset_path.write_text(
+                json.dumps(normalized, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+                newline="\n",
+            )
 
     print(json.dumps({"datasets": summaries}, ensure_ascii=False, indent=2))
     if args.check and changed_any:
