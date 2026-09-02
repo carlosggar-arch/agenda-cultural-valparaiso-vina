@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 RELEASE = (ROOT / ".github/workflows/pr-release.yml").read_text(encoding="utf-8")
 FINALIZE = (ROOT / ".github/workflows/pr-finalize.yml").read_text(encoding="utf-8")
+PUBLISH = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
 
 
 def block(text: str, start: str, end: str | None = None) -> str:
@@ -80,6 +81,26 @@ def main() -> None:
     assert "--admin" not in FINALIZE
     assert "gh pr merge" not in FINALIZE and "gh pr review" not in FINALIZE
     assert "agenda_web.json" not in FINALIZE and "evento/" not in FINALIZE and ".ics" not in FINALIZE
+
+    refresh = block(PUBLISH, "  refresh-open-release-prs:\n")
+    assert "actions/create-github-app-token@v2" in refresh
+    assert "PR_FINALIZER_APP_ID" in refresh and "PR_FINALIZER_APP_PRIVATE_KEY" in refresh
+    assert "repositories: agenda-cultural-valparaiso-vina" in refresh
+    assert "permission-contents: write" in refresh and "permission-pull-requests: write" in refresh
+    assert "      contents: read" in refresh and "      pull-requests: read" in refresh
+    assert "      contents: write" not in refresh and "      pull-requests: write" not in refresh
+    assert 'GH_TOKEN: ""' in refresh, "job must shadow the workflow-level GITHUB_TOKEN alias"
+    assert "skip-token-revoke" not in refresh, "App token must be revoked automatically after the job"
+    update = block(refresh, "Refresh open same-repository PR candidates onto published main")
+    assert "GH_TOKEN: ${{ steps.app-token.outputs.token }}" in update
+    assert "GH_TOKEN: ${{ github.token }}" not in update, "PR refresh must never fall back to GITHUB_TOKEN"
+    assert ".draft == false" in update and ".head.repo.full_name == .base.repo.full_name" in update
+    assert "expected_head_sha=\"$head_sha\"" in update, "PR refresh must reject concurrent head changes"
+    assert "HTTP (409|422)" in update and "continue" in update
+    assert "PR finalizer App update failed" in update and "exit 1" in update
+    assert "without fallback credentials" in update
+    assert "actions/checkout" not in refresh, "App token job must not execute code from a PR checkout"
+    assert "git push" not in refresh and "gh pr merge" not in refresh
     print("PR_FINALIZATION_WORKFLOW_TESTS_OK security=split validation=read-only update=fast-forward")
 
 
