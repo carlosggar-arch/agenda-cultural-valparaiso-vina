@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "57fe197e7e683cc9bc90b5348890e8a5f9a219361ea3c3518c8b8714fa0767f9",
-  "generated_at": "2026-09-01T11:45:50Z",
+  "fingerprint": "8c075266dea56f5be0b14833df1d01fe3d80d1a046e7a239dad0158a6dc1ea98",
+  "generated_at": "2026-09-01T21:15:44Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -248,17 +248,18 @@
     },
     "gijon::teatro albeniz gijon": {
       "category_distribution": {
-        "musica": 0.875,
-        "unclassified": 0.125
+        "cursos-talleres-campus": 0.111111,
+        "musica": 0.777778,
+        "unclassified": 0.111111
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 0.875,
+      "dominant_share": 0.777778,
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "total": 8,
+      "total": 9,
       "unclassified": 1,
-      "unclassified_rate": 0.125
+      "unclassified_rate": 0.111111
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
@@ -777,9 +778,9 @@
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 55,
-    "total_events": 350,
+    "total_events": 351,
     "unclassified_count": 3,
-    "unclassified_rate": 0.008571
+    "unclassified_rate": 0.008547
   },
   "unclassified_queue": [
     {
