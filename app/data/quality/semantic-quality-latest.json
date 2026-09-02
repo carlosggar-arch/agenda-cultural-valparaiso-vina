@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "8c075266dea56f5be0b14833df1d01fe3d80d1a046e7a239dad0158a6dc1ea98",
-  "generated_at": "2026-09-01T21:15:44Z",
+  "fingerprint": "3502871bd086713ad582de33287018918853a6a84007338de4893a820d02217a",
+  "generated_at": "2026-09-02T11:26:09Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -64,21 +64,22 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.210526,
-        "exposiciones": 0.263158,
-        "literatura": 0.263158,
-        "musica": 0.052632,
-        "teatro": 0.157895,
-        "unclassified": 0.052632
+        "charlas-conferencias": 0.148148,
+        "cine": 0.296296,
+        "exposiciones": 0.185185,
+        "literatura": 0.185185,
+        "musica": 0.037037,
+        "teatro": 0.111111,
+        "unclassified": 0.037037
       },
       "city_id": "gijon",
-      "dominant_category": "exposiciones",
-      "dominant_share": 0.263158,
+      "dominant_category": "cine",
+      "dominant_share": 0.296296,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 19,
+      "total": 27,
       "unclassified": 1,
-      "unclassified_rate": 0.052632
+      "unclassified_rate": 0.037037
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -181,22 +182,22 @@
       "dominant_share": 1.0,
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "total": 4,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
-        "exposiciones": 0.035714,
-        "musica": 0.464286,
-        "teatro": 0.5
+        "exposiciones": 0.034483,
+        "musica": 0.482759,
+        "teatro": 0.482759
       },
       "city_id": "gijon",
-      "dominant_category": "teatro",
-      "dominant_share": 0.5,
+      "dominant_category": "musica",
+      "dominant_share": 0.482759,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "total": 28,
+      "total": 29,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -216,20 +217,20 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.060606,
-        "cine": 0.030303,
-        "cursos-talleres-campus": 0.242424,
-        "exposiciones": 0.575758,
-        "literatura": 0.030303,
-        "musica": 0.030303,
-        "teatro": 0.030303
+        "charlas-conferencias": 0.058824,
+        "cine": 0.029412,
+        "cursos-talleres-campus": 0.235294,
+        "exposiciones": 0.558824,
+        "literatura": 0.058824,
+        "musica": 0.029412,
+        "teatro": 0.029412
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.575758,
+      "dominant_share": 0.558824,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 33,
+      "total": 34,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -284,7 +285,7 @@
       "dominant_share": 1.0,
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "total": 3,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -778,9 +779,9 @@
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 55,
-    "total_events": 351,
+    "total_events": 363,
     "unclassified_count": 3,
-    "unclassified_rate": 0.008547
+    "unclassified_rate": 0.008264
   },
   "unclassified_queue": [
     {
