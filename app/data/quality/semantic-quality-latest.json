@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "c2543c921cd71803d4aa719bcb7899bea2047c9da32382c2d505b99c045caa89",
-  "generated_at": "2026-09-02T21:10:18Z",
+  "fingerprint": "8aedd72674cde0f43b0711f70e6a99f3e008e22afcb7d8cd4fd7b8c64428776a",
+  "generated_at": "2026-09-03T11:21:39Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -10,16 +10,17 @@
   "source_metrics": {
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "musica": 1.0
+        "musica": 0.5,
+        "unclassified": 0.5
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 1.0,
+      "dominant_share": 0.5,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 1,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
+      "total": 2,
+      "unclassified": 1,
+      "unclassified_rate": 0.5
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -64,22 +65,22 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.148148,
-        "cine": 0.296296,
-        "exposiciones": 0.185185,
-        "literatura": 0.185185,
-        "musica": 0.037037,
-        "teatro": 0.111111,
-        "unclassified": 0.037037
+        "charlas-conferencias": 0.115385,
+        "cine": 0.307692,
+        "exposiciones": 0.192308,
+        "literatura": 0.192308,
+        "musica": 0.038462,
+        "teatro": 0.115385,
+        "unclassified": 0.038462
       },
       "city_id": "gijon",
       "dominant_category": "cine",
-      "dominant_share": 0.296296,
+      "dominant_share": 0.307692,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 27,
+      "total": 26,
       "unclassified": 1,
-      "unclassified_rate": 0.037037
+      "unclassified_rate": 0.038462
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -217,20 +218,20 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.058824,
-        "cine": 0.029412,
-        "cursos-talleres-campus": 0.235294,
-        "exposiciones": 0.558824,
-        "literatura": 0.058824,
-        "musica": 0.029412,
-        "teatro": 0.029412
+        "charlas-conferencias": 0.052632,
+        "cine": 0.026316,
+        "cursos-talleres-campus": 0.210526,
+        "exposiciones": 0.605263,
+        "literatura": 0.052632,
+        "musica": 0.026316,
+        "teatro": 0.026316
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.558824,
+      "dominant_share": 0.605263,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 34,
+      "total": 38,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -276,6 +277,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "gijon::toma 3 xixon": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Toma 3 Xixón",
+      "source_url": "https://www.instagram.com/toma3_xixon/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "gijon::turismo asturias agenda deportiva": {
       "category_distribution": {
         "deportes-actividad-fisica": 1.0
@@ -285,7 +299,7 @@
       "dominant_share": 1.0,
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "total": 4,
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -774,16 +788,26 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "9cc94a3d797016c3000bab4e7c5ccb9e2afae717",
+  "source_ref": "7cfb9d17430e9e9156c5eec81e2c0dce40fe5b71",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 55,
-    "total_events": 364,
-    "unclassified_count": 3,
-    "unclassified_rate": 0.008242
+    "source_count": 56,
+    "total_events": 371,
+    "unclassified_count": 4,
+    "unclassified_rate": 0.010782
   },
   "unclassified_queue": [
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_ateneo_jovellanos_956c9f231c0fa870",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Ateneo Jovellanos — Actividades",
+      "source_url": "https://ateneojovellanos.es/actividades/",
+      "title": "EL CEREBRO NECESITA ABRAZOS: EL AMOR, LA CONEXIÓN Y EL VÍNCULO COMO MEDICINA DE VIDA"
+    },
     {
       "candidates": [],
       "city_id": "gijon",
