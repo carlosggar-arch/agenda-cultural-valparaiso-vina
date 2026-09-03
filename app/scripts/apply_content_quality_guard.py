@@ -309,6 +309,18 @@ def non_event_context_reason(event: dict) -> str | None:
     return None
 
 
+def explicit_publication_review_reason(event: dict) -> tuple[str, list[str]] | None:
+    """Honor an upstream evidence review without encoding editorial cases here."""
+    editorial = event.get("editorial") if isinstance(event.get("editorial"), dict) else {}
+    if editorial.get("publication_review_required") is not True:
+        return None
+    reason = clean_space(editorial.get("publication_review_reason"))
+    missing = editorial.get("publication_review_missing_evidence")
+    if not reason or not isinstance(missing, list) or not all(clean_space(item) for item in missing):
+        return None
+    return reason, [clean_space(item) for item in missing]
+
+
 def _clean_recovered_title(value: str) -> str:
     title = clean_html_text(value)
     title = title.rstrip(" .,:;–—-").strip()
@@ -789,6 +801,27 @@ def apply_guard(
                 reason="calendar_navigation_or_empty_state", source_event=event,
                 canonical_event_id=None,
                 destination={"state": "quarantine", "canonical_event_id": None},
+            ), baseline_by_id=baseline_by_id)
+            continue
+
+        review = explicit_publication_review_reason(event)
+        if review:
+            review_reason, missing_evidence = review
+            reason = f"upstream_publication_review:{review_reason}"
+            changes["quarantined"].append({
+                "id": event_id,
+                "title": event.get("title"),
+                "reason": reason,
+                "missing_evidence": missing_evidence,
+            })
+            append_baseline_receipt(ledger, make_receipt(
+                stage="content_quality_guard",
+                action="quarantine",
+                reason=reason,
+                source_event=event,
+                canonical_event_id=None,
+                destination={"state": "quarantine", "canonical_event_id": None},
+                evidence={"missing_evidence": missing_evidence},
             ), baseline_by_id=baseline_by_id)
             continue
 

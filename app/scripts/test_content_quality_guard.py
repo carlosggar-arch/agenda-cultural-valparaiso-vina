@@ -9,6 +9,7 @@ from apply_content_quality_guard import (
     configured_datasets,
     recover_generic_title,
 )
+from transformation_receipt_ledger import empty_ledger
 
 
 def event(**overrides):
@@ -114,6 +115,57 @@ def test_quarantines_unrecoverable_generic_title() -> None:
     assert dataset["events"] == []
     assert changes["quarantined"][0]["id"] == "bad"
     assert dataset["counts"]["total"] == 0
+
+
+def test_quarantines_explicit_upstream_review_without_case_specific_matching() -> None:
+    reviewed = event(
+        id="reviewed",
+        title="Informational museum post",
+        schedule={"mode": "dated", "start": None, "end": None, "occurrences": []},
+    )
+    reviewed["editorial"] = {
+        "publication_review_required": True,
+        "publication_review_reason": "official_source_does_not_establish_public_event",
+        "publication_review_missing_evidence": ["event_occurrence", "event_category"],
+    }
+    baseline = [copy.deepcopy(reviewed)]
+
+    dataset = {"events": [reviewed], "generated_at": "2026-09-02T12:00:00-04:00"}
+    ledger = empty_ledger(generated_at=dataset["generated_at"])
+    changes = apply_guard(dataset, baseline_events=baseline, ledger=ledger)
+
+    assert dataset["events"] == []
+    assert changes["quarantined"] == [{
+        "id": "reviewed",
+        "title": "Informational museum post",
+        "reason": "upstream_publication_review:official_source_does_not_establish_public_event",
+        "missing_evidence": ["event_occurrence", "event_category"],
+    }]
+    assert ledger["receipts"][0]["source_record_id"] == "reviewed"
+    assert ledger["receipts"][0]["destination"]["state"] == "quarantine"
+
+
+def test_ignores_incomplete_or_false_upstream_review_metadata() -> None:
+    rows = []
+    for event_id, editorial in (
+        ("false", {"publication_review_required": False}),
+        ("missing-reason", {"publication_review_required": True}),
+    ):
+        item = event(
+            id=event_id,
+            title=f"Scheduled event {event_id}",
+            schedule={"mode": "single", "start": "2026-09-03T18:00:00-04:00", "end": None, "occurrences": []},
+        )
+        item["editorial"] = editorial
+        rows.append(item)
+
+    dataset = {"events": rows, "generated_at": "2026-09-02T12:00:00-04:00"}
+    ledger = empty_ledger(generated_at=dataset["generated_at"])
+    changes = apply_guard(dataset, ledger=ledger)
+
+    assert {item["id"] for item in dataset["events"]} == {"false", "missing-reason"}
+    assert changes["quarantined"] == []
+    assert ledger["receipts"] == []
 
 
 def test_quarantines_calendar_navigation_copy() -> None:
