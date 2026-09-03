@@ -150,6 +150,40 @@ def test_multicity_targeting_requires_explicit_opt_in() -> None:
         assert targets == [normalizer.DATASET_PATH, normalizer.GIJON_DATASET_PATH]
 
 
+def test_public_projection_removes_editorial_recursively_and_is_idempotent() -> None:
+    dataset = {
+        "events": [
+            {
+                "id": "normal",
+                "schedule": {"start": "2026-09-03T18:00:00-04:00"},
+                "editorial": {"review": "private"},
+                "provenance": {"evidence": [{"editorial": {"note": "private"}, "url": "https://example.test"}]},
+            },
+            {
+                "id": "consolidated",
+                "schedule": {"start": "2026-09-04T18:00:00-04:00"},
+                "editorial": {"duplicate_sources": ["one"]},
+                "image": {"url": "https://example.test/image.jpg"},
+            },
+            {
+                "id": "corrected",
+                "schedule": {"start": "2026-09-05T18:00:00-04:00"},
+                "editorial": {"title_recovered": True},
+                "links": {"official": "https://example.test/event"},
+            },
+        ]
+    }
+    projected, _, removed = normalizer.normalize_dataset(dataset)
+    assert removed == 4
+    assert "editorial" not in repr(projected)
+    assert projected["events"][0]["provenance"]["evidence"][0]["url"] == "https://example.test"
+    assert projected["events"][1]["image"]["url"].endswith("image.jpg")
+    assert projected["events"][2]["links"]["official"].endswith("event")
+    second, _, removed_again = normalizer.normalize_dataset(projected)
+    assert second == projected
+    assert removed_again == 0
+
+
 def main() -> None:
     test_gallery_flattened_hours_become_ranges()
     test_artequin_flattened_hours_become_ranges()
@@ -164,6 +198,7 @@ def main() -> None:
     test_relative_dataset_path_has_stable_repo_label()
     test_valpo_target_does_not_implicitly_include_gijon()
     test_multicity_targeting_requires_explicit_opt_in()
+    test_public_projection_removes_editorial_recursively_and_is_idempotent()
     print("SCHEDULE_PRESENTATION_NORMALIZER_TESTS_OK")
 
 
