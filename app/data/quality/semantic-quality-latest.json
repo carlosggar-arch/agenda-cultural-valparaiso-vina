@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "149c60847ff08804f048e24c4240e83c3e49737752239949018e3467463d3a28",
-  "generated_at": "2026-09-04T10:10:03Z",
+  "fingerprint": "f788fd5e2300aff8138820898bb8c738e1fdddc0b7a8b41e9db170b43b940c15",
+  "generated_at": "2026-09-04T15:27:04Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -352,15 +352,15 @@
     },
     "valparaiso::cine arte vina del mar": {
       "category_distribution": {
-        "cine": 0.857143,
-        "cursos-talleres-campus": 0.142857
+        "cine": 0.875,
+        "cursos-talleres-campus": 0.125
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.857143,
+      "dominant_share": 0.875,
       "source_name": "Cine Arte Viña del Mar",
       "source_url": "https://www.instagram.com/p/DcjCouRkRnY/",
-      "total": 7,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -421,6 +421,19 @@
       "source_name": "Culturas Viña",
       "source_url": "https://visitavina.munivina.cl/actividad/taller-del-talento-al-producto-estampado/",
       "total": 8,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::deportes vina del mar": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "Deportes Viña del Mar",
+      "source_url": "https://visitavina.munivina.cl/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -718,14 +731,15 @@
     },
     "valparaiso::teatro la peste": {
       "category_distribution": {
-        "cursos-talleres-campus": 1.0
+        "cursos-talleres-campus": 0.8,
+        "exposiciones": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 1.0,
+      "dominant_share": 0.8,
       "source_name": "Teatro La Peste",
-      "source_url": "https://www.instagram.com/p/DYdDz0jgV45/",
-      "total": 4,
+      "source_url": "https://www.instagram.com/p/DcyeOv3lXpP/",
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -836,10 +850,10 @@
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 58,
-    "total_events": 481,
+    "source_count": 59,
+    "total_events": 484,
     "unclassified_count": 8,
-    "unclassified_rate": 0.016632
+    "unclassified_rate": 0.016529
   },
   "unclassified_queue": [
     {

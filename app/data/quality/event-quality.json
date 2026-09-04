@@ -1,32 +1,32 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-04T10:13:27+00:00",
+  "generated_at": "2026-09-04T15:26:50+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-09-04",
-      "generated_at": "2026-09-04T10:13:26+00:00",
+      "generated_at": "2026-09-04T15:26:48+00:00",
       "summary": {
-        "total_events": 279,
+        "total_events": 282,
         "average_quality_score": 86.7,
         "quality_class": "correct",
         "sources_catalogued": 55,
-        "sources_producing": 37,
-        "sources_zero": 16,
-        "review_priority_zero_sources": 16,
+        "sources_producing": 38,
+        "sources_zero": 15,
+        "review_priority_zero_sources": 15,
         "zero_sources_covered_elsewhere": 2,
-        "top3_source_share_pct": 36.2,
+        "top3_source_share_pct": 35.8,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
-        "date_pct": 78.5,
-        "time_pct": 73.1,
+        "date_pct": 78.4,
+        "time_pct": 73.0,
         "venue_pct": 99.6,
-        "image_pct": 82.8,
+        "image_pct": 83.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 54.5,
+        "official_source_pct": 54.6,
         "price_known_pct": 69.9
       },
       "category_distribution": [
@@ -34,49 +34,49 @@
           "id": "musica",
           "label": "Música",
           "count": 118,
-          "share_pct": 42.3,
+          "share_pct": 41.8,
+          "underrepresented": false
+        },
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones",
+          "count": 33,
+          "share_pct": 11.7,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 33,
-          "share_pct": 11.8,
+          "share_pct": 11.7,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 33,
-          "share_pct": 11.8,
-          "underrepresented": false
-        },
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones",
-          "count": 31,
-          "share_pct": 11.1,
+          "share_pct": 11.7,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 27,
-          "share_pct": 9.7,
+          "count": 28,
+          "share_pct": 9.9,
           "underrepresented": false
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
           "count": 19,
-          "share_pct": 6.8,
+          "share_pct": 6.7,
           "underrepresented": false
         },
         {
           "id": "ferias-gastronomia",
           "label": "Ferias y gastronomía",
           "count": 10,
-          "share_pct": 3.6,
+          "share_pct": 3.5,
           "underrepresented": true
         },
         {
@@ -104,13 +104,13 @@
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 185,
-          "share_pct": 66.3
+          "count": 186,
+          "share_pct": 66.0
         },
         {
           "area": "Viña del Mar",
-          "count": 94,
-          "share_pct": 33.7
+          "count": 96,
+          "share_pct": 34.0
         }
       ],
       "coverage_gaps": {
@@ -124,7 +124,6 @@
         "review_priority_zero_sources": [
           "compania_la_paila",
           "del_barrio_valpo",
-          "deportes_vina",
           "duoc_extension_vina",
           "ecoliderazgo",
           "el_internado_valpo",
@@ -147,7 +146,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 82.8,
+        "relevant_image_pct": 83.0,
         "removed_events": {}
       },
       "sources": [
@@ -344,6 +343,32 @@
           "verified_inactive": false
         },
         {
+          "id": "cinearte_vina",
+          "name": "Cine Arte Viña del Mar",
+          "count": 11,
+          "quality_score": 74.1,
+          "quality_class": "partial",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 45.5,
+            "time_pct": 45.5,
+            "venue_pct": 90.9,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 45.5
+          },
+          "categories": {
+            "cine": 10,
+            "cursos-talleres": 1
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "centro_extension_duoc_valpo",
           "name": "Centro de Extensión Duoc UC Valparaíso",
           "count": 10,
@@ -370,32 +395,6 @@
             "cine": 2,
             "cursos-talleres": 1,
             "exposiciones": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "cinearte_vina",
-          "name": "Cine Arte Viña del Mar",
-          "count": 10,
-          "quality_score": 76.0,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 50.0,
-            "time_pct": 50.0,
-            "venue_pct": 90.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 50.0
-          },
-          "categories": {
-            "cine": 9,
-            "cursos-talleres": 1
           },
           "verified_inactive": false
         },
@@ -646,6 +645,32 @@
           "verified_inactive": false
         },
         {
+          "id": "teatro_la_peste",
+          "name": "Teatro La Peste",
+          "count": 5,
+          "quality_score": 64.0,
+          "quality_class": "partial",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 20.0,
+            "time_pct": 20.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 80.0,
+            "price_known_pct": 20.0
+          },
+          "categories": {
+            "cursos-talleres": 4,
+            "exposiciones": 1
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "casa_prisma_valpo",
           "name": "Casa Prisma Valpo",
           "count": 4,
@@ -667,31 +692,6 @@
           },
           "categories": {
             "musica": 4
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "teatro_la_peste",
-          "name": "Teatro La Peste",
-          "count": 4,
-          "quality_score": 55.0,
-          "quality_class": "review",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 75.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {
-            "cursos-talleres": 4
           },
           "verified_inactive": false
         },
@@ -977,6 +977,31 @@
           "verified_inactive": false
         },
         {
+          "id": "deportes_vina",
+          "name": "Deportes Viña del Mar",
+          "count": 1,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 1
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "destino_valparaiso",
           "name": "destinovalpo.cl",
           "count": 1,
@@ -1131,7 +1156,7 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-09-04",
-      "generated_at": "2026-09-04T06:53:24+02:00",
+      "generated_at": "2026-09-04T13:22:18+02:00",
       "summary": {
         "total_events": 212,
         "average_quality_score": 97.3,
