@@ -1,68 +1,68 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-04T05:24:43+00:00",
+  "generated_at": "2026-09-04T10:09:48+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-09-04",
-      "generated_at": "2026-09-04T05:24:41+00:00",
+      "generated_at": "2026-09-04T10:09:46+00:00",
       "summary": {
-        "total_events": 278,
+        "total_events": 279,
         "average_quality_score": 86.7,
         "quality_class": "correct",
         "sources_catalogued": 55,
-        "sources_producing": 38,
-        "sources_zero": 15,
-        "review_priority_zero_sources": 15,
+        "sources_producing": 37,
+        "sources_zero": 16,
+        "review_priority_zero_sources": 16,
         "zero_sources_covered_elsewhere": 2,
-        "top3_source_share_pct": 35.6,
+        "top3_source_share_pct": 36.2,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
-        "date_pct": 78.8,
-        "time_pct": 73.4,
+        "date_pct": 78.5,
+        "time_pct": 73.1,
         "venue_pct": 99.6,
-        "image_pct": 82.4,
+        "image_pct": 82.8,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 54.3,
-        "price_known_pct": 69.8
+        "official_source_pct": 54.5,
+        "price_known_pct": 69.9
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
           "count": 118,
-          "share_pct": 42.4,
+          "share_pct": 42.3,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 33,
-          "share_pct": 11.9,
+          "share_pct": 11.8,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 33,
-          "share_pct": 11.9,
+          "share_pct": 11.8,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 31,
-          "share_pct": 11.2,
+          "share_pct": 11.1,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 26,
-          "share_pct": 9.4,
+          "count": 27,
+          "share_pct": 9.7,
           "underrepresented": false
         },
         {
@@ -105,12 +105,12 @@
         {
           "area": "Valparaíso",
           "count": 185,
-          "share_pct": 66.5
+          "share_pct": 66.3
         },
         {
           "area": "Viña del Mar",
-          "count": 93,
-          "share_pct": 33.5
+          "count": 94,
+          "share_pct": 33.7
         }
       ],
       "coverage_gaps": {
@@ -136,7 +136,8 @@
           "teatro_mauri_scd",
           "valpo_deportes",
           "visita_vina_activities",
-          "yacht_club_chile"
+          "yacht_club_chile",
+          "visitavina_palacio_rioja_recovery"
         ],
         "zero_sources_covered_elsewhere": [
           "centex",
@@ -146,7 +147,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 82.4,
+        "relevant_image_pct": 82.8,
         "removed_events": {}
       },
       "sources": [
@@ -206,8 +207,8 @@
         {
           "id": "museo_palacio_rioja",
           "name": "Museo Palacio Rioja",
-          "count": 20,
-          "quality_score": 99.2,
+          "count": 22,
+          "quality_score": 99.3,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -221,14 +222,14 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 95.0
+            "price_known_pct": 95.5
           },
           "categories": {
             "cursos-talleres": 1,
-            "otros": 9,
+            "otros": 10,
             "musica": 4,
             "cine": 5,
-            "exposiciones": 1
+            "exposiciones": 2
           },
           "verified_inactive": false
         },
@@ -236,7 +237,7 @@
           "id": "teatro_municipal_vina",
           "name": "Teatro Municipal de Viña del Mar",
           "count": 16,
-          "quality_score": 88.8,
+          "quality_score": 89.1,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -247,10 +248,10 @@
             "date_pct": 75.0,
             "time_pct": 75.0,
             "venue_pct": 100.0,
-            "image_pct": 100.0,
+            "image_pct": 93.8,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 75.0
+            "price_known_pct": 81.2
           },
           "categories": {
             "musica": 7,
@@ -373,6 +374,32 @@
           "verified_inactive": false
         },
         {
+          "id": "cinearte_vina",
+          "name": "Cine Arte Viña del Mar",
+          "count": 10,
+          "quality_score": 76.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 50.0,
+            "time_pct": 50.0,
+            "venue_pct": 90.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 50.0
+          },
+          "categories": {
+            "cine": 9,
+            "cursos-talleres": 1
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "mhnvalpo",
           "name": "Museo de Historia Natural de Valparaíso",
           "count": 10,
@@ -397,32 +424,6 @@
             "literatura": 1,
             "exposiciones": 7,
             "ferias-gastronomia": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "cinearte_vina",
-          "name": "Cine Arte Viña del Mar",
-          "count": 9,
-          "quality_score": 78.3,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 55.6,
-            "time_pct": 55.6,
-            "venue_pct": 88.9,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 55.6
-          },
-          "categories": {
-            "cine": 8,
-            "cursos-talleres": 1
           },
           "verified_inactive": false
         },
@@ -972,32 +973,6 @@
           },
           "categories": {
             "musica": 2
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "visitavina_palacio_rioja_recovery",
-          "name": "Visita Viña — Museo Palacio Rioja",
-          "count": 2,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 0.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "exposiciones": 1,
-            "otros": 1
           },
           "verified_inactive": false
         },
