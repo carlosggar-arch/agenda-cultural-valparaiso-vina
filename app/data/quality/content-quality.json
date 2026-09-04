@@ -1,30 +1,96 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 267,
-  "events_after": 264,
-  "removed": 3,
+  "events_before": 287,
+  "events_after": 280,
+  "removed": 7,
   "html_cleaned": [],
   "titles_recovered": [],
   "duplicates_consolidated": [],
   "quarantined": [
     {
+      "id": "agenda_d09f5a9206985455342c5be8",
+      "title": "Junto a Enjoy Viña queremos regalarte una escapada para dos. Sí, UNA ESTADÍA DOBLE EN ENJOY VIÑA",
+      "reason": "promotional_giveaway_not_attendance_event"
+    },
+    {
+      "id": "agenda_b4e33a3e573b09d76186da6c",
+      "title": "#cerroalegre",
+      "reason": "promotional_carousel_without_verified_children"
+    },
+    {
       "id": "agenda_8c05e052afa28b14b89d1da4",
       "title": "Les esperamos!",
-      "reason": "generic_title_without_explicit_recovery"
+      "reason": "generic_title_without_explicit_recovery",
+      "missing_evidence": [
+        "recoverable_title",
+        "venue",
+        "occurrence"
+      ]
     },
     {
       "id": "agenda_3abd380517e302745ec16075",
       "title": "Les invitamos a probar nuestra carta de cocina, carta de vinos y carta de coctelería. Viernes y sábados, cocina disponible de 12 a 21.30 horas.",
-      "reason": "generic_title_without_explicit_recovery"
+      "reason": "generic_title_without_explicit_recovery",
+      "missing_evidence": [
+        "recoverable_title",
+        "description",
+        "venue",
+        "occurrence"
+      ]
+    },
+    {
+      "id": "agenda_ec3a66f2e9442f466201a6f3",
+      "title": "SEPTIEMBRE EN EL CENTRO DE INVESTIGACIÓN TEATRO LA PESTE",
+      "reason": "monthly_program_overview_without_event_schedule"
     },
     {
       "id": "agenda_31fa4e83e77420f8d918d78c",
       "title": "¡Un Año de Cultura y Reencuentro en el Teatro Municipal de Viña del Mar!",
       "reason": "institutional_news_or_retrospective_without_event_schedule"
+    },
+    {
+      "id": "agenda_6467e133788da5112c653367",
+      "title": "Las bases en historia destacada !",
+      "reason": "unverified_call_for_submissions_missing_official_bases",
+      "missing_evidence": [
+        "verified_official_source",
+        "field_provenance"
+      ]
     }
   ],
   "expired_removed": [],
   "past_occurrences_pruned": [],
+  "receipt_ledger": {
+    "contract": "canonical-transformation-receipt-ledger",
+    "generated_at": "2026-09-04T00:08:53+00:00",
+    "receipts": [
+      {
+        "action": "quarantine",
+        "canonical_event_id": "agenda_91e916f69649b0552d224318",
+        "destination": {
+          "canonical_event_id": null,
+          "state": "quarantine"
+        },
+        "evidence": {
+          "missing_evidence": [
+            "event_occurrence",
+            "event_category"
+          ]
+        },
+        "occurrence_id": "occurrence:cd3e9615d589947d9166",
+        "provenance": {
+          "method": "public_baseline_record_provenance",
+          "source_url": "https://www.instagram.com/p/DccTLlJicxE/"
+        },
+        "reason": "upstream_publication_review:official_source_does_not_establish_public_event",
+        "source_record_id": "agenda_91e916f69649b0552d224318",
+        "source_url": "https://www.instagram.com/p/DccTLlJicxE/",
+        "stage": "content_quality_guard",
+        "title": "Arqueología en el fonck"
+      }
+    ],
+    "schema_version": "1.0.0"
+  },
   "city_id": "dataset"
 }
