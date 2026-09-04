@@ -8,6 +8,7 @@ import re
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from production_pwa_smoke import CRITICAL_ASSETS, ORIGINS, ROOT, fetch_bytes, release_number
 
@@ -163,31 +164,123 @@ def remote_hash_attestation() -> tuple[dict[str, str], dict[str, dict[str, str]]
     return local_hashes, origins
 
 
+def _git_bytes(*args: str) -> bytes:
+    try:
+        return subprocess.check_output(["git", *args], cwd=ROOT, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit("Image provenance Git evidence unavailable") from exc
+
+
+def _http_origin(value: object) -> bool:
+    if not isinstance(value, str) or any(char.isspace() for char in value):
+        return False
+    try:
+        parsed = urlsplit(value)
+        return parsed.scheme in {"http", "https"} and bool(parsed.hostname) and not parsed.username and not parsed.password
+    except ValueError:
+        return False
+
+
+def _owned_path(relative: str) -> str:
+    if not re.fullmatch(r"\./assets/event-images/[a-z0-9-]+/[0-9a-f]{24}\.webp", relative):
+        raise SystemExit(f"Invalid owned image path: {relative}")
+    return "app/" + relative.removeprefix("./")
+
+
+def _committed_image(revision: str, path: str) -> bytes:
+    tree = _git_bytes("ls-tree", revision, "--", path).decode("utf-8")
+    if not re.fullmatch(r"100644 blob [0-9a-f]+\t" + re.escape(path) + r"\n", tree):
+        raise SystemExit(f"Owned image is not a committed regular file: {revision}:{path}")
+    return _git_bytes("show", f"{revision}:{path}")
+
+
+def image_provenance(images: list[dict], *, dataset_path: str = "agenda_web.json") -> dict[str, dict]:
+    """Resolve owned transport against immutable first-parent dataset evidence.
+
+    External fallbacks remain external, never an owned-image attestation. The
+    browser contract separately requires the official visual fixtures to load
+    owned bytes. No network, working-tree metadata or unanchored ref is trusted.
+    """
+    evidence: dict[str, dict] = {}
+    pending: dict[str, tuple[str, str]] = {}
+    head = _git_bytes("rev-parse", "HEAD").decode().strip()
+    for image in images:
+        relative = str(image.get("url") or "")
+        if _http_origin(relative):
+            evidence[relative] = {"kind": "external", "origin_url": relative}
+            continue
+        path = _owned_path(relative)
+        local = ROOT / path
+        if not local.is_file() or local.is_symlink() or not local.resolve().is_relative_to(ROOT.resolve()):
+            raise SystemExit(f"Owned image file missing or unsafe: {path}")
+        body = local.read_bytes()
+        if body != _committed_image(head, path):
+            raise SystemExit(f"Owned image differs from committed bytes: {path}")
+        digest = hashlib.sha256(body).hexdigest()
+        if Path(path).stem != digest[:24]:
+            raise SystemExit(f"Owned image filename/hash mismatch: {path}")
+        pending[relative] = (path, digest)
+    if not pending:
+        return evidence
+    if _git_bytes("rev-parse", "--is-shallow-repository").strip() != b"false":
+        raise SystemExit("Image provenance requires complete immutable history")
+    revisions = _git_bytes("log", "--first-parent", "--format=%H", head, "--", dataset_path).decode().splitlines()
+    for revision in revisions:
+        try:
+            historical = json.loads(_git_bytes("show", f"{revision}:{dataset_path}"))
+        except (ValueError, UnicodeError) as exc:
+            raise SystemExit("Invalid historical image evidence dataset") from exc
+        events = historical.get("events", []) if isinstance(historical, dict) else []
+        for event in events:
+            image = event.get("image") or {}
+            relative = image.get("url")
+            if relative not in pending:
+                continue
+            # Core's public projection intentionally omits both legacy fields.
+            if "origin_url" not in image and "cache" not in image:
+                continue
+            cache = image.get("cache") or {}
+            path, digest = pending[relative]
+            origin = image.get("origin_url")
+            dimensions = [cache.get("width"), cache.get("height")]
+            if (not _http_origin(origin) or cache.get("source_url") != origin
+                    or cache.get("repository_path") != path or cache.get("sha256") != digest
+                    or any(type(value) is not int or value <= 0 for value in dimensions)):
+                raise SystemExit(f"Invalid historical image provenance: {revision}:{path}")
+            if hashlib.sha256(_committed_image(revision, path)).hexdigest() != digest:
+                raise SystemExit(f"Historical owned image hash mismatch: {revision}:{path}")
+            row = {"kind": "owned", "origin_url": origin, "repository_path": path,
+                   "sha256": digest, "dimensions": dimensions}
+            existing = evidence.get(relative)
+            if existing and {key: existing[key] for key in row} != row:
+                raise SystemExit(f"Ambiguous historical image provenance: {path}")
+            if not existing:
+                evidence[relative] = {**row, "evidence_commit": revision}
+    missing = sorted(set(pending) - set(evidence))
+    if missing:
+        raise SystemExit(f"Missing historical image provenance: {missing}")
+    return evidence
+
+
 def official_image_attestation(*, verify_network: bool) -> dict[str, dict[str, object]]:
     payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
+    if payload != json.loads(_git_bytes("show", "HEAD:agenda_web.json")):
+        raise SystemExit("Image attestation dataset differs from committed publication")
     indexed = {str(event.get("id") or ""): event for event in payload.get("events") or []}
     evidence: dict[str, dict[str, object]] = {}
+    bindings = image_provenance([indexed[event_id].get("image") or {}
+                                 for event_id in OFFICIAL_IMAGE_EVENT_IDS if event_id in indexed])
     for event_id in OFFICIAL_IMAGE_EVENT_IDS:
         event = indexed.get(event_id)
         if not event:
             raise SystemExit(f"Official image fixture disappeared from dataset: {event_id}")
         image = event.get("image") or {}
         relative = str(image.get("url") or "")
-        origin_url = str(image.get("origin_url") or "")
-        cache = image.get("cache") or {}
-        source_url = str(cache.get("source_url") or "")
-        repository_path = str(cache.get("repository_path") or "")
-        if not relative.startswith("./assets/event-images/valparaiso/"):
+        binding = bindings[relative]
+        if binding["kind"] != "owned":
             raise SystemExit(f"Official image fixture is not repository-owned: {event_id} {relative}")
-        if not origin_url.startswith("http") or source_url != origin_url:
-            raise SystemExit(f"Official image provenance is incomplete: {event_id}")
-        expected_repository_path = f"app/{relative.removeprefix('./')}"
-        if repository_path != expected_repository_path:
-            raise SystemExit(
-                f"Official image repository path mismatch: {event_id} {repository_path} != {expected_repository_path}"
-            )
-        local = ROOT / repository_path
-        local_sha = hashlib.sha256(local.read_bytes()).hexdigest()
+        repository_path = binding["repository_path"]
+        local_sha = binding["sha256"]
         origin_hashes: dict[str, str] = {}
         if verify_network:
             for origin, base in ORIGINS.items():
@@ -201,10 +294,11 @@ def official_image_attestation(*, verify_network: bool) -> dict[str, dict[str, o
         evidence[event_id] = {
             "title": event.get("title"),
             "published_url": relative,
-            "origin_url": origin_url,
+            "origin_url": binding["origin_url"],
             "repository_path": repository_path,
             "sha256": local_sha,
-            "dimensions": [cache.get("width"), cache.get("height")],
+            "dimensions": binding["dimensions"],
+            "evidence_commit": binding["evidence_commit"],
             "origins_sha256": origin_hashes,
             "visually_verified_surfaces": ["app", "web"],
         }
