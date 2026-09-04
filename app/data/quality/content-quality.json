@@ -1,8 +1,8 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 287,
-  "events_after": 280,
+  "events_before": 289,
+  "events_after": 282,
   "removed": 7,
   "html_cleaned": [],
   "titles_recovered": [],
@@ -63,7 +63,7 @@
   "past_occurrences_pruned": [],
   "receipt_ledger": {
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-09-04T00:08:53+00:00",
+    "generated_at": "2026-09-04T05:24:41+00:00",
     "receipts": [
       {
         "action": "quarantine",
@@ -87,7 +87,81 @@
         "source_record_id": "agenda_91e916f69649b0552d224318",
         "source_url": "https://www.instagram.com/p/DccTLlJicxE/",
         "stage": "content_quality_guard",
-        "title": "Arqueología en el fonck"
+        "title": "ARQUEOLOGÍA EN EL FONCK"
+      },
+      {
+        "action": "quarantine",
+        "canonical_event_id": "agenda_7069b0dd5520141e7bab8702",
+        "destination": {
+          "canonical_event_id": "agenda_7069b0dd5520141e7bab8702",
+          "state": "quarantine"
+        },
+        "evidence": {
+          "missing_evidence": [
+            "verified_event_end_date_or_occurrence"
+          ],
+          "schedule": {
+            "closing_time": "18:00",
+            "display_text": "2026-09-11 · 12:00",
+            "end": null,
+            "hours_confidence": "official_venue_schedule",
+            "mode": "dated",
+            "occurrences": [],
+            "opening_hours": {
+              "closing_time": "18:00",
+              "display_text": "Martes a domingo · 10:00–18:00",
+              "is_open_on_reference_date": true,
+              "mode": "weekly",
+              "open_weekdays": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "opening_time": "10:00",
+              "reference_date": "2026-09-11",
+              "source_name": "Museo Baburizza",
+              "source_url": "https://www.museobaburizza.cl/visita/",
+              "verified_at": "2026-08-16"
+            },
+            "opening_time": "10:00",
+            "start": "2026-09-11T12:00:00-03:00",
+            "timezone": "America/Santiago",
+            "venue_hours": {
+              "closing_time": "18:00",
+              "display_text": "Martes a domingo · 10:00–18:00",
+              "hours_confidence": "official_venue_schedule",
+              "is_open_on_reference_date": true,
+              "mode": "weekly",
+              "open_weekdays": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "opening_time": "10:00",
+              "reference_date": "2026-09-11",
+              "source_name": "Museo Baburizza",
+              "source_url": "https://www.museobaburizza.cl/visita/",
+              "verified_at": "2026-08-16"
+            }
+          },
+          "source_url": "https://www.instagram.com/p/DczDpsSvPte/"
+        },
+        "occurrence_id": "occurrence:98eeb190bb3aee01f86c",
+        "provenance": {
+          "method": "public_baseline_record_provenance",
+          "source_url": "https://www.instagram.com/p/DczDpsSvPte/"
+        },
+        "reason": "venue_hours_contaminated_event_schedule_missing_verified_end",
+        "source_record_id": "agenda_7069b0dd5520141e7bab8702",
+        "source_url": "https://www.instagram.com/p/DczDpsSvPte/",
+        "stage": "content_quality_guard",
+        "title": "¡Te invitamos a ser parte de esta experiencia!"
       }
     ],
     "schema_version": "1.0.0"
