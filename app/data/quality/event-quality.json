@@ -1,11 +1,11 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-05T09:00:19+00:00",
+  "generated_at": "2026-09-05T13:59:07+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-09-05",
-      "generated_at": "2026-09-05T09:00:17+00:00",
+      "generated_at": "2026-09-05T13:59:05+00:00",
       "summary": {
         "total_events": 274,
         "average_quality_score": 85.8,
@@ -22,8 +22,8 @@
       "field_coverage": {
         "date_pct": 75.9,
         "time_pct": 71.5,
-        "venue_pct": 99.3,
-        "image_pct": 82.5,
+        "venue_pct": 99.6,
+        "image_pct": 81.8,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
         "official_source_pct": 55.1,
@@ -146,7 +146,7 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 82.5,
+        "relevant_image_pct": 81.8,
         "removed_events": {}
       },
       "sources": [
@@ -154,7 +154,7 @@
           "id": "portaltickets_valparaiso",
           "name": "PortalTickets — Región de Valparaíso",
           "count": 48,
-          "quality_score": 94.2,
+          "quality_score": 94.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -165,7 +165,7 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 41.7,
+            "image_pct": 39.6,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
@@ -263,8 +263,8 @@
           "id": "teatro_municipal_vina",
           "name": "Teatro Municipal de Viña del Mar",
           "count": 16,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
+          "quality_score": 89.4,
+          "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -274,7 +274,7 @@
             "date_pct": 75.0,
             "time_pct": 75.0,
             "venue_pct": 100.0,
-            "image_pct": 93.8,
+            "image_pct": 87.5,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 87.5
@@ -289,7 +289,7 @@
           "id": "cinearte_vina",
           "name": "Cine Arte Viña del Mar",
           "count": 11,
-          "quality_score": 67.3,
+          "quality_score": 68.6,
           "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -299,15 +299,15 @@
           "coverage": {
             "date_pct": 27.3,
             "time_pct": 27.3,
-            "venue_pct": 90.9,
+            "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
             "price_known_pct": 36.4
           },
           "categories": {
-            "cine": 10,
-            "cursos-talleres": 1
+            "cursos-talleres": 1,
+            "cine": 10
           },
           "verified_inactive": false
         },
@@ -1156,7 +1156,7 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-09-05",
-      "generated_at": "2026-09-05T06:51:15+02:00",
+      "generated_at": "2026-09-05T12:39:38+02:00",
       "summary": {
         "total_events": 208,
         "average_quality_score": 97.3,
