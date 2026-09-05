@@ -1,8 +1,8 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 293,
-  "events_after": 286,
+  "events_before": 283,
+  "events_after": 276,
   "removed": 7,
   "html_cleaned": [],
   "titles_recovered": [],
@@ -63,8 +63,56 @@
   "past_occurrences_pruned": [],
   "receipt_ledger": {
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-09-04T15:26:48+00:00",
+    "generated_at": "2026-09-05T05:18:40+00:00",
     "receipts": [
+      {
+        "action": "occurrence_pruning",
+        "canonical_event_id": "agenda_560c7836183e5c2c33734302",
+        "destination": {
+          "canonical_event_id": "agenda_560c7836183e5c2c33734302",
+          "state": "series_preserved"
+        },
+        "evidence": {
+          "occurrence": {
+            "end": null,
+            "start": "2026-09-04T15:00:00-04:00"
+          }
+        },
+        "occurrence_id": "occurrence:e0ae090a45755df03610",
+        "provenance": {
+          "method": "public_baseline_record_provenance",
+          "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-551366"
+        },
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_560c7836183e5c2c33734302",
+        "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-551366",
+        "stage": "content_quality_guard",
+        "title": "Calle Malaga (2025)"
+      },
+      {
+        "action": "occurrence_pruning",
+        "canonical_event_id": "agenda_da30d1657a0d67e0bc91d39a",
+        "destination": {
+          "canonical_event_id": "agenda_da30d1657a0d67e0bc91d39a",
+          "state": "series_preserved"
+        },
+        "evidence": {
+          "occurrence": {
+            "end": null,
+            "start": "2026-09-04T19:30:00-04:00"
+          }
+        },
+        "occurrence_id": "occurrence:e47437acf543f9616481",
+        "provenance": {
+          "method": "public_baseline_record_provenance",
+          "source_url": "https://cineartevina.cl/#funcion-juan-gabriel-mi-primer-bellas-artes-cine-arte-vina-del-mar"
+        },
+        "reason": "past_occurrence_pruned_from_active_series",
+        "source_record_id": "agenda_da30d1657a0d67e0bc91d39a",
+        "source_url": "https://cineartevina.cl/#funcion-juan-gabriel-mi-primer-bellas-artes-cine-arte-vina-del-mar",
+        "stage": "content_quality_guard",
+        "title": "Juan Gabriel: Mi Primer Bellas Artes"
+      },
       {
         "action": "quarantine",
         "canonical_event_id": "agenda_91e916f69649b0552d224318",
