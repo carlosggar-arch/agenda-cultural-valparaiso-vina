@@ -138,6 +138,11 @@ export function applyContentKindBadge(card, event, city) {
   const presentation = contentKindPresentation(event, city);
   card.dataset.contentKind = presentation.kind;
   let badge = meta.querySelector(".content-kind-badge");
+  if (!presentation.label) {
+    if (!badge) return false;
+    badge.remove();
+    return true;
+  }
   let changed = false;
   if (!badge) {
     badge = document.createElement("span");
