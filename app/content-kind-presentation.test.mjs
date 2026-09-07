@@ -17,13 +17,24 @@ function event(overrides = {}) {
   };
 }
 
-test("dated event has one shared public meaning", () => {
-  const presentation = contentKindPresentation(event(), valpo);
+test("dated event keeps its classification without a redundant public label", () => {
+  const dated = event();
+  const scheduleBefore = structuredClone(dated.schedule);
+  const presentation = contentKindPresentation(dated, valpo);
   assert.deepEqual(presentation, {
     kind: "dated_event",
-    label: "Fecha concreta",
-    detail: "Actividad con una fecha u horario concreto.",
+    label: null,
+    detail: null,
   });
+  assert.deepEqual(dated.schedule, scheduleBefore);
+});
+
+test("undated content retains the explicit pending-date label", () => {
+  const presentation = contentKindPresentation(event({
+    schedule: { start: null, end: null, occurrences: [] },
+  }), valpo);
+  assert.equal(presentation.kind, "undated");
+  assert.equal(presentation.label, "Fecha por confirmar");
 });
 
 test("long running event is visually distinguished from one-date event", () => {

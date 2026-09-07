@@ -2,8 +2,8 @@ import { classifyContentKind } from "./temporal-priority-core.mjs?v=20260821-tem
 
 export const CONTENT_KIND_PRESENTATION = Object.freeze({
   dated_event: Object.freeze({
-    label: "Fecha concreta",
-    detail: "Actividad con una fecha u horario concreto.",
+    label: null,
+    detail: null,
   }),
   long_running_event: Object.freeze({
     label: "En curso",
