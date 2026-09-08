@@ -66,7 +66,10 @@ def main() -> None:
 
     # Publication is pinned to one immutable candidate. Release-delta enforcement
     # happens before deployment; production verification never jumps to a newer main.
-    assert "CANDIDATE_SHA: ${{ github.sha }}" in WORKFLOW
+    assert "CANDIDATE_SHA: ${{ github.event.client_payload.public_sha || github.sha }}" in WORKFLOW
+    assert WORKFLOW.count("ref: ${{ env.CANDIDATE_SHA }}") >= 2
+    assert "repository_dispatch:" in WORKFLOW and "core_publication_lineage" in WORKFLOW
+    assert "gh attestation verify /tmp/core-publication-lineage/attestation.json" in WORKFLOW
     # The deployment branch keeps its history while adopting the immutable
     # candidate tree: checkout the candidate, then attach the previous
     # deployment head with an ``ours`` merge.  Assert the mechanics rather
@@ -74,7 +77,7 @@ def main() -> None:
     # this contract.
     assert "Create exact-tree handoff preserving deployment history" in sync
     assert "Checkout immutable deployment candidate" in sync
-    assert "ref: ${{ github.sha }}" in sync
+    assert "ref: ${{ env.CANDIDATE_SHA }}" in sync
     assert "ref: cloudflare-preview" not in sync
     assert 'git checkout --detach "$CANDIDATE_SHA"' in sync
     assert "git merge --no-edit -s ours origin/cloudflare-preview" in sync
@@ -107,7 +110,7 @@ def main() -> None:
     # Deep certification runs against the exact published SHA and parallelizes
     # independent browser/offline/semantic probes after byte readiness.
     assert "Checkout immutable published candidate" in production
-    assert "ref: ${{ github.sha }}" in production
+    assert "ref: ${{ env.CANDIDATE_SHA }}" in production
     assert "Install browser timing dependency" in production
     assert "-r requirements-ci.txt" in production
     assert "cache-dependency-path: requirements-ci.txt" in production
