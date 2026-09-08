@@ -252,8 +252,9 @@ def check_workflow_guard() -> None:
     assert "pull_request:" not in production_triggers, "production smoke must be post-merge/manual only"
     assert "push:" in production_triggers and "branches: [main]" in production_triggers
     assert "git reset --hard origin/main" not in production, "production verification must stay pinned to its immutable candidate"
-    assert "CANDIDATE_SHA: ${{ github.event.client_payload.public_sha || github.sha }}" in production, "production workflow must bind the triggering candidate SHA"
-    assert "ref: ${{ env.CANDIDATE_SHA }}" in production, "production smoke must checkout the immutable triggering candidate"
+    assert "CANDIDATE_SHA: ${{ github.sha }}" in production, "production workflow must bind ordinary runs to the triggering candidate SHA"
+    assert "ref: ${{ github.event.client_payload.public_sha }}" in production, "Core publication smoke must checkout its attested immutable candidate"
+    assert 'echo "CANDIDATE_SHA=${{ github.event.client_payload.public_sha }}" >> "$GITHUB_ENV"' in production, "Core publication smoke must bind later verification to its attested candidate"
     assert 'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"' in production, "production smoke must reject a mutated checkout"
     assert 'release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA"' in production, (
         "production smoke must verify the exact published release lineage"

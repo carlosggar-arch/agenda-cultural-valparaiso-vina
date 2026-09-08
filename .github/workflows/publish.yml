@@ -48,7 +48,7 @@ permissions:
   pull-requests: read
 
 env:
-  CANDIDATE_SHA: ${{ github.event.client_payload.public_sha || github.sha }}
+  CANDIDATE_SHA: ${{ github.sha }}
   GH_TOKEN: ${{ github.token }}
 
 # Never cancel an already-started publication. Main releases are serialized so
@@ -69,10 +69,23 @@ jobs:
     timeout-minutes: 3
     steps:
       - name: Checkout immutable deployment candidate
+        if: github.event_name != 'repository_dispatch'
         uses: actions/checkout@v7
         with:
-          ref: ${{ env.CANDIDATE_SHA }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
+
+      - name: Checkout immutable Core publication candidate
+        if: github.event_name == 'repository_dispatch'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.client_payload.public_sha }}
+          fetch-depth: 0
+
+      - name: Bind immutable Core publication candidate
+        if: github.event_name == 'repository_dispatch'
+        shell: bash
+        run: echo "CANDIDATE_SHA=${{ github.event.client_payload.public_sha }}" >> "$GITHUB_ENV"
 
       - name: Verify detached Core publication lineage
         if: github.event_name == 'repository_dispatch'
@@ -215,10 +228,23 @@ jobs:
 
     steps:
       - name: Checkout immutable published candidate
+        if: github.event_name != 'repository_dispatch'
         uses: actions/checkout@v7
         with:
-          ref: ${{ env.CANDIDATE_SHA }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
+
+      - name: Checkout immutable Core published candidate
+        if: github.event_name == 'repository_dispatch'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.client_payload.public_sha }}
+          fetch-depth: 0
+
+      - name: Bind immutable Core published candidate
+        if: github.event_name == 'repository_dispatch'
+        shell: bash
+        run: echo "CANDIDATE_SHA=${{ github.event.client_payload.public_sha }}" >> "$GITHUB_ENV"
 
       - name: Verify detached Core publication lineage
         if: github.event_name == 'repository_dispatch'
