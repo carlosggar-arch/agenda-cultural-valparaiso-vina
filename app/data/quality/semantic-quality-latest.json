@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "9b83f1f92f7bb85b495361c03835e4bd8c38417f9b1989420e5c146fc7c6df74",
-  "generated_at": "2026-09-06T13:50:28Z",
+  "fingerprint": "afa060a98311658685c94c1ebdafee77d8a1a53c220c7a1d58b8e946f4b84c75",
+  "generated_at": "2026-09-08T11:25:27Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -10,17 +10,18 @@
   "source_metrics": {
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "musica": 0.666667,
-        "unclassified": 0.333333
+        "literatura": 0.2,
+        "musica": 0.6,
+        "unclassified": 0.2
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 0.666667,
+      "dominant_share": 0.6,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 3,
+      "total": 5,
       "unclassified": 1,
-      "unclassified_rate": 0.333333
+      "unclassified_rate": 0.2
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -103,7 +104,7 @@
       "dominant_share": 1.0,
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "total": 9,
+      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -135,16 +136,17 @@
     },
     "gijon::jardin botanico atlantico": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "exposiciones": 0.5,
+        "unclassified": 0.5
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_share": 0.5,
       "source_name": "Jardín Botánico Atlántico",
       "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
-      "total": 1,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
+      "total": 2,
+      "unclassified": 1,
+      "unclassified_rate": 0.5
     },
     "gijon::juventud gijon xixon oficina de juventud": {
       "category_distribution": {
@@ -203,20 +205,20 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.054054,
-        "cine": 0.054054,
-        "cursos-talleres-campus": 0.135135,
-        "exposiciones": 0.648649,
-        "literatura": 0.054054,
-        "musica": 0.027027,
-        "teatro": 0.027027
+        "charlas-conferencias": 0.068182,
+        "cine": 0.227273,
+        "cursos-talleres-campus": 0.113636,
+        "exposiciones": 0.5,
+        "literatura": 0.045455,
+        "musica": 0.022727,
+        "teatro": 0.022727
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.648649,
+      "dominant_share": 0.5,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 37,
+      "total": 44,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -271,7 +273,7 @@
       "dominant_share": 1.0,
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "total": 6,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -845,14 +847,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "17bdaa72126dcbf0c57c82a945bdebb27506625d",
+  "source_ref": "d1aa46d087da2e95f21748d9ccb1a7404103971b",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 59,
-    "total_events": 467,
-    "unclassified_count": 6,
-    "unclassified_rate": 0.012848
+    "total_events": 474,
+    "unclassified_count": 7,
+    "unclassified_rate": 0.014768
   },
   "unclassified_queue": [
     {
@@ -874,6 +876,16 @@
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
       "title": "Encuentro Internacional de Fotoperiodismo de Asturias"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "agenda_gijon_1770f9a2dcdaf753",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Jardín Botánico Atlántico",
+      "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
+      "title": "Días del profesorado en el Botánico: Educar entre hojas"
     },
     {
       "candidates": [],
