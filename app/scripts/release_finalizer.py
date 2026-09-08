@@ -15,6 +15,7 @@ if str(SCRIPTS) not in sys.path:
 
 import generate_runtime_contracts as runtime_contracts  # noqa: E402
 import release_bundle  # noqa: E402
+from core_publication_lineage import validate as validate_core_lineage  # noqa: E402
 
 RELEASE_PATH = ROOT / "app" / "release-version.js"
 INDEX_PATH = ROOT / "app" / "index.html"
@@ -378,13 +379,31 @@ def verify_exact_squash_publication(
     return approved_head
 
 
-def check_published(head_ref: str = "HEAD") -> dict[str, object]:
+def check_published(
+    head_ref: str = "HEAD", *, core_attestation: Path | None = None,
+    core_receipt: Path | None = None,
+) -> dict[str, object]:
     payload = load_provenance()
     base_sha, source_sha = validate_provenance_shape(payload)
     head_sha = git("rev-parse", head_ref)
     if not git_check("merge-base", "--is-ancestor", base_sha, head_sha):
         raise SystemExit(f"PUBLISHED_BASE_NOT_ANCESTOR sha={base_sha} head={head_sha}")
-    if git_check("merge-base", "--is-ancestor", source_sha, head_sha):
+    lineage_mode = "PR_WEB_FINALIZATION"
+    if core_attestation is not None or core_receipt is not None:
+        if core_attestation is None or core_receipt is None:
+            raise SystemExit("CORE_PUBLICATION_LINEAGE_EVIDENCE_INCOMPLETE")
+        try:
+            core = validate_core_lineage(
+                attestation_bytes=core_attestation.read_bytes(),
+                receipt_bytes=core_receipt.read_bytes(),
+                repository=ROOT,
+                expected_public_sha=head_sha,
+            )
+        except (OSError, ValueError, RuntimeError) as exc:
+            raise SystemExit(str(exc)) from exc
+        finalizer_sha = head_sha
+        lineage_mode = "CORE_PUBLICATION_FINALIZER"
+    elif git_check("merge-base", "--is-ancestor", source_sha, head_sha):
         finalizer_sha = find_published_finalizer(source_sha, head_ref)
         assert_finalizer_boundary(base_sha=base_sha, source_sha=source_sha, finalizer_ref=finalizer_sha)
         if not git_check("merge-base", "--is-ancestor", finalizer_sha, head_sha):
@@ -398,8 +417,8 @@ def check_published(head_ref: str = "HEAD") -> dict[str, object]:
         )
     current_release = validate_release_math(payload, base_sha)
     bundle = deterministic_checks()
-    print(f"PUBLISHED_RELEASE_CHAIN_OK pr={payload.get('source_pr') or 'n/a'} base={base_sha} source={source_sha} finalizer={finalizer_sha} main={head_sha} release=v{current_release} release_id={bundle['release_id']}")
-    return {**payload, "finalizer_sha": finalizer_sha, "main_sha": head_sha, "release_id": bundle["release_id"]}
+    print(f"PUBLISHED_RELEASE_CHAIN_OK mode={lineage_mode} pr={payload.get('source_pr') or 'n/a'} base={base_sha} source={source_sha} finalizer={finalizer_sha} main={head_sha} release=v{current_release} release_id={bundle['release_id']}")
+    return {**payload, "lineage_mode": lineage_mode, "finalizer_sha": finalizer_sha, "main_sha": head_sha, "release_id": bundle["release_id"]}
 
 
 def main() -> None:
@@ -413,6 +432,8 @@ def main() -> None:
     parser.add_argument("--source-sha", default=None)
     parser.add_argument("--source-pr", type=int, default=None)
     parser.add_argument("--finalizer-ref", default="HEAD")
+    parser.add_argument("--core-attestation", type=Path)
+    parser.add_argument("--core-receipt", type=Path)
     args = parser.parse_args()
     if args.fresh:
         assert_fresh(args.base_ref, args.finalizer_ref)
@@ -421,7 +442,7 @@ def main() -> None:
     elif args.check:
         check_candidate(base_ref=args.base_ref, finalizer_ref=args.finalizer_ref)
     else:
-        check_published(args.finalizer_ref)
+        check_published(args.finalizer_ref, core_attestation=args.core_attestation, core_receipt=args.core_receipt)
 
 
 if __name__ == "__main__":
