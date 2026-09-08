@@ -70,6 +70,8 @@ def main() -> None:
     assert WORKFLOW.count("ref: ${{ env.CANDIDATE_SHA }}") >= 2
     assert "repository_dispatch:" in WORKFLOW and "core_publication_lineage" in WORKFLOW
     assert "gh attestation verify /tmp/core-publication-lineage/attestation.json" in WORKFLOW
+    assert WORKFLOW.count("--signer-workflow carlosggar-arch/agenda-cultural-core/.github/workflows/finalize-public-agenda.yml") == 2
+    assert WORKFLOW.count("--source-ref refs/heads/main") == 2
     # The deployment branch keeps its history while adopting the immutable
     # candidate tree: checkout the candidate, then attach the previous
     # deployment head with an ``ours`` merge.  Assert the mechanics rather

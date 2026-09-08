@@ -88,7 +88,10 @@ jobs:
           printf '%s' "$RECEIPT_BASE64" | base64 --decode > /tmp/core-publication-lineage/receipt.json
           test "$(sha256sum /tmp/core-publication-lineage/attestation.json | cut -d' ' -f1)" = "$ATTESTATION_SHA256"
           gh attestation verify /tmp/core-publication-lineage/attestation.json \
-            --repo carlosggar-arch/agenda-cultural-core
+            --repo carlosggar-arch/agenda-cultural-core \
+            --signer-workflow carlosggar-arch/agenda-cultural-core/.github/workflows/finalize-public-agenda.yml \
+            --source-digest "$(jq -r .core_sha /tmp/core-publication-lineage/attestation.json)" \
+            --source-ref refs/heads/main
 
       - name: Create exact-tree handoff preserving deployment history
         run: |
@@ -231,7 +234,10 @@ jobs:
           printf '%s' "$RECEIPT_BASE64" | base64 --decode > /tmp/core-publication-lineage/receipt.json
           test "$(sha256sum /tmp/core-publication-lineage/attestation.json | cut -d' ' -f1)" = "$ATTESTATION_SHA256"
           gh attestation verify /tmp/core-publication-lineage/attestation.json \
-            --repo carlosggar-arch/agenda-cultural-core
+            --repo carlosggar-arch/agenda-cultural-core \
+            --signer-workflow carlosggar-arch/agenda-cultural-core/.github/workflows/finalize-public-agenda.yml \
+            --source-digest "$(jq -r .core_sha /tmp/core-publication-lineage/attestation.json)" \
+            --source-ref refs/heads/main
 
       - name: Set up Python
         uses: actions/setup-python@v6
