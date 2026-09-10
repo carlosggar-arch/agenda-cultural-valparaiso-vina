@@ -125,7 +125,7 @@ def test_does_not_merge_same_title_when_clock_or_knowledge_differs() -> None:
     dataset = {"events": [extracted, placeholder, unknown], "counts": {"total": 3}}
     changes = apply_guard(dataset)
 
-    assert [row["id"] for row in dataset["events"]] == ["extracted", "placeholder", "unknown"]
+    assert {row["id"] for row in dataset["events"]} == {"extracted", "placeholder", "unknown"}
     assert changes["duplicates_consolidated"] == []
     assert temporal_identity(unknown) is None
 
@@ -152,6 +152,101 @@ def test_equivalent_recurring_schedules_merge_without_losing_functions() -> None
     assert len(dataset["events"]) == 1
     assert temporal_identity(dataset["events"][0]) == temporal_identity(first)
     assert len(changes["duplicates_consolidated"]) == 1
+
+
+def temporal_pair(route: str) -> tuple[dict, dict]:
+    first = event(id="first", title="Muestra de artes escénicas")
+    first["schedule"] = {
+        "mode": "recurring", "start": "2026-09-11T19:00:00-03:00",
+        "end": "2026-09-13T20:00:00-03:00",
+        "occurrences": [
+            {"start": f"2026-09-{day}T19:00:00-03:00", "end": f"2026-09-{day}T20:00:00-03:00"}
+            for day in (11, 12, 13)
+        ],
+    }
+    if route == "exact_source_occurrence":
+        first["primary_category"] = {"id": "teatro", "label": "Teatro"}
+        first["categories"] = [first["primary_category"]]
+    second = copy.deepcopy(first)
+    second["id"] = "second"
+    if route == "exhibition":
+        second["source_url"] = "https://another.example/announcement"
+        second["links"] = {"source": second["source_url"], "official": second["source_url"]}
+    return first, second
+
+
+def test_both_dedup_paths_preserve_different_modes_ranges_and_occurrences() -> None:
+    mutations = (
+        lambda schedule: schedule.update(mode="dated"),
+        lambda schedule: schedule.update(start="2026-09-11T19:30:00-03:00"),
+        lambda schedule: schedule.update(end="2026-09-13T21:00:00-03:00"),
+        lambda schedule: schedule["occurrences"][0].update(end="2026-09-11T21:00:00-03:00"),
+        lambda schedule: schedule["occurrences"].pop(),
+        lambda schedule: schedule["occurrences"].append({"start": "2026-09-14T19:00:00-03:00", "end": None}),
+    )
+    for route in ("exact_source_occurrence", "exhibition"):
+        for mutate in mutations:
+            first, second = temporal_pair(route)
+            mutate(second["schedule"])
+            expected = {row["id"]: copy.deepcopy(row["schedule"]) for row in (first, second)}
+            dataset = {"events": [first, second]}
+            changes = apply_guard(dataset)
+            assert {row["id"]: row["schedule"] for row in dataset["events"]} == expected, route
+            assert changes["duplicates_consolidated"] == [], route
+
+
+def test_both_dedup_paths_require_complete_consistent_temporal_evidence() -> None:
+    mutations = (
+        lambda schedule: schedule.update(mode="unknown"),
+        lambda schedule: schedule.update(mode="unrecognized"),
+        lambda schedule: schedule.update(start=None),
+        lambda schedule: schedule.update(start="2026-09-11"),
+        lambda schedule: schedule.update(start="2026-09-11T19:00:00"),
+        lambda schedule: schedule.update(start="2026-09-11T19:00:00-00:00"),
+        lambda schedule: schedule.update(start="2026-09-11T19:00:00+01:99"),
+        lambda schedule: schedule.update(start="2026-09-11T19:00:00+24:00"),
+        lambda schedule: schedule.update(end="2026-09-10T19:00:00-03:00"),
+        lambda schedule: schedule.update(end="2026-09-13"),
+        lambda schedule: schedule.update(occurrences="unverified"),
+        lambda schedule: schedule["occurrences"].append(copy.deepcopy(schedule["occurrences"][0])),
+        lambda schedule: schedule["occurrences"][0].update(start="2026-09-11"),
+        lambda schedule: schedule["occurrences"][0].update(end="2026-09-10T20:00:00-03:00"),
+    )
+    for route in ("exact_source_occurrence", "exhibition"):
+        for mutate in mutations:
+            first, second = temporal_pair(route)
+            mutate(first["schedule"])
+            second["schedule"] = copy.deepcopy(first["schedule"])
+            assert temporal_identity(first) is None, (route, first["schedule"])
+            dataset = {"events": [first, second]}
+            changes = apply_guard(dataset)
+            assert {row["id"] for row in dataset["events"]} == {"first", "second"}, route
+            assert changes["duplicates_consolidated"] == [], route
+
+
+def test_both_dedup_paths_accept_utc_equivalence_without_combining_functions() -> None:
+    for route in ("exact_source_occurrence", "exhibition"):
+        first, second = temporal_pair(route)
+        expected_schedule = copy.deepcopy(first["schedule"])
+        second["schedule"]["start"] = "2026-09-11T22:00:00Z"
+        second["schedule"]["end"] = "2026-09-13T23:00:00Z"
+        second["schedule"]["occurrences"] = [
+            {"start": f"2026-09-{day}T22:00:00Z", "end": f"2026-09-{day}T23:00:00Z"}
+            for day in (13, 12, 11)
+        ]
+        assert temporal_identity(first) == temporal_identity(second)
+        dataset = {"events": [first, second]}
+        ledger = empty_ledger()
+        changes = apply_guard(dataset, ledger=ledger)
+        assert len(dataset["events"]) == 1, route
+        assert dataset["events"][0]["schedule"] == expected_schedule, route
+        expected_reason = "same_source_title_venue_city_and_start" if route == "exact_source_occurrence" else "same_venue_title_and_occurrence"
+        assert ledger["receipts"][0]["reason"] == expected_reason, route
+        assert len(changes["duplicates_consolidated"]) == 1, route
+        snapshot = copy.deepcopy(dataset)
+        receipts = copy.deepcopy(ledger)
+        assert apply_guard(dataset, ledger=ledger)["duplicates_consolidated"] == []
+        assert dataset == snapshot and ledger == receipts
 
 
 def test_quarantines_unrecoverable_generic_title() -> None:
@@ -616,6 +711,11 @@ def main() -> None:
     test_recovers_les_esperamos_from_explicit_activity_phrase()
     test_consolidates_same_exhibition_same_venue_and_keeps_image()
     test_does_not_merge_same_title_in_different_venues()
+    test_does_not_merge_same_title_when_clock_or_knowledge_differs()
+    test_equivalent_recurring_schedules_merge_without_losing_functions()
+    test_both_dedup_paths_preserve_different_modes_ranges_and_occurrences()
+    test_both_dedup_paths_require_complete_consistent_temporal_evidence()
+    test_both_dedup_paths_accept_utc_equivalence_without_combining_functions()
     test_quarantines_unrecoverable_generic_title()
     test_quarantines_calendar_navigation_copy()
     test_removes_expired_event_against_publication_date()

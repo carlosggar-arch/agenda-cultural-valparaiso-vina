@@ -34,8 +34,10 @@ DEFAULT_DATASET = ROOT / "agenda_web.json"
 DEFAULT_REPORT = ROOT / "app/data/quality/content-quality.json"
 DEFAULT_LEDGER = ROOT / "app/data/quality/transformation-receipts.json"
 ZONED_INSTANT_RE = re.compile(
-    r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,6})?)?(?:Z|[+-]\d{2}:\d{2})"
+    r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)"
 )
+TemporalPair = tuple[datetime, datetime | None]
+TemporalIdentity = tuple[str, TemporalPair, frozenset[TemporalPair]]
 
 SOCIAL_HOSTS = {"instagram.com", "www.instagram.com", "facebook.com", "www.facebook.com", "tiktok.com", "www.tiktok.com"}
 GENERIC_TITLE_PATTERNS = (
@@ -380,33 +382,48 @@ def is_exhibition(event: dict) -> bool:
     return category_id in {"exposiciones", "museos"} or label in {"exposiciones", "museos"}
 
 
-def temporal_identity(event: dict) -> frozenset[datetime] | None:
-    """Return all proven occurrence instants, or None for incomplete evidence."""
+def temporal_identity(event: dict) -> TemporalIdentity | None:
+    """Match Core's recovery contract before either guard deduplication path.
+
+    Identity includes mode, primary range and every occurrence range. Unknown
+    or contradictory evidence is not an equivalence proof; offsets may differ
+    only when they describe the same UTC instants. Keep this local consumer
+    independent of a Core checkout at runtime.
+    """
     schedule = event.get("schedule")
-    if not isinstance(schedule, dict) or schedule.get("mode") in {"unknown", "flexible", "on_demand"}:
+    if not isinstance(schedule, dict) or schedule.get("mode") not in {
+        "dated", "recurring", "multi_day", "program", "flexible", "on_demand",
+    }:
         return None
-    rows = [schedule.get("start")]
-    occurrences = schedule.get("occurrences")
-    if occurrences not in (None, []) and not isinstance(occurrences, list):
-        return None
-    if isinstance(occurrences, list):
-        for occurrence in occurrences:
-            if not isinstance(occurrence, dict):
-                return None
-            rows.append(occurrence.get("start"))
-    instants: set[datetime] = set()
-    for value in rows:
-        text = str(value or "").strip()
-        if not ZONED_INSTANT_RE.fullmatch(text) or text.endswith("-00:00"):
-            return None
-        try:
-            parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
-        except (ValueError, OverflowError):
-            return None
+
+    def moment(value: object) -> datetime:
+        if not isinstance(value, str) or not ZONED_INSTANT_RE.fullmatch(value) or value.endswith("-00:00"):
+            raise ValueError("complete unambiguous ISO instant required")
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
         if parsed.utcoffset() is None:
+            raise ValueError("unambiguous offset required")
+        return parsed.astimezone(timezone.utc)
+
+    def pair(row: object) -> TemporalPair:
+        if not isinstance(row, dict):
+            raise ValueError("occurrence required")
+        start = moment(row.get("start"))
+        end = moment(row["end"]) if row.get("end") is not None else None
+        if end is not None and end < start:
+            raise ValueError("contradictory range")
+        return start, end
+
+    try:
+        primary = pair(schedule)
+        occurrences = schedule.get("occurrences")
+        if occurrences is not None and not isinstance(occurrences, list):
             return None
-        instants.add(parsed.astimezone(timezone.utc))
-    return frozenset(instants) if instants else None
+        pairs = [pair(row) for row in occurrences] if occurrences else [primary]
+        if len(set(pairs)) != len(pairs):
+            return None
+        return schedule["mode"], primary, frozenset(pairs)
+    except (ValueError, TypeError, OverflowError):
+        return None
 
 
 def source_url(event: dict) -> str:
@@ -681,9 +698,11 @@ def refresh_counts(dataset: dict) -> None:
     dataset["counts"] = counts
 
 
-def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, str] | None:
-    """Identify duplicate records for one occurrence from one canonical source."""
-    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, TemporalIdentity] | None:
+    """Identify duplicate records only after proving the entire schedule."""
+    temporal = temporal_identity(event)
+    if temporal is None:
+        return None
     location = event.get("location") if isinstance(event.get("location"), dict) else {}
     url = source_url(event)
     host = (urlparse(url).hostname or "").casefold() if url else ""
@@ -696,7 +715,7 @@ def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, str] |
         fold(event.get("title")),
         fold(location.get("city") or location.get("commune")),
         fold(location.get("venue")),
-        clean_space(schedule.get("start")),
+        temporal,
     )
     return key if all(key) else None
 
@@ -742,7 +761,7 @@ def consolidate_exact_source_occurrences(
     baseline_by_id: dict[str, dict] | None = None,
     recovery_transformations: list[dict] | None = None,
 ) -> list[dict]:
-    groups: dict[tuple[str, str, str, str, str], list[dict]] = defaultdict(list)
+    groups: dict[tuple[str, str, str, str, TemporalIdentity], list[dict]] = defaultdict(list)
     ungrouped: list[dict] = []
     for event in events:
         key = exact_source_occurrence_key(event)
@@ -767,7 +786,7 @@ def consolidate_exact_source_occurrences(
                 destination={"state": "merged", "canonical_event_id": preferred.get("id")},
                 evidence={
                     "source_identity": key[0], "title": key[1], "city": key[2],
-                    "venue": key[3], "start": key[4],
+                    "venue": key[3], "start": (duplicate.get("schedule") or {}).get("start"),
                 },
                 preserved_fields=[
                     field for field in (
@@ -784,7 +803,7 @@ def consolidate_exact_source_occurrences(
             "kind": "exact_source_occurrence",
             "kept_id": preferred.get("id"),
             "removed_ids": [event.get("id") for event in duplicates],
-            "start": key[4],
+            "start": (preferred.get("schedule") or {}).get("start"),
         })
         consolidated.append(preferred)
     return consolidated
@@ -1003,7 +1022,7 @@ def apply_guard(
 
         sanitized.append(event)
 
-    groups: dict[tuple[str, str, frozenset[datetime]], list[dict]] = defaultdict(list)
+    groups: dict[tuple[str, str, TemporalIdentity], list[dict]] = defaultdict(list)
     for event in sanitized:
         if not is_exhibition(event):
             continue
