@@ -8,6 +8,7 @@ from apply_content_quality_guard import (
     clean_html_text,
     configured_datasets,
     recover_generic_title,
+    temporal_identity,
 )
 from transformation_receipt_ledger import empty_ledger
 
@@ -106,6 +107,51 @@ def test_does_not_merge_same_title_in_different_venues() -> None:
     dataset = {"events": [first, second], "counts": {"total": 2}}
     apply_guard(dataset)
     assert len(dataset["events"]) == 2
+
+
+def test_does_not_merge_same_title_when_clock_or_knowledge_differs() -> None:
+    extracted = event(id="extracted", title="Muestra de artes escénicas")
+    extracted["schedule"] = {
+        "mode": "dated", "start": "2026-09-11T04:48:00-03:00", "end": None,
+        "occurrences": [],
+    }
+    placeholder = copy.deepcopy(extracted)
+    placeholder["id"] = "placeholder"
+    placeholder["schedule"]["start"] = "2026-09-11T00:00:00-03:00"
+    unknown = copy.deepcopy(extracted)
+    unknown["id"] = "unknown"
+    unknown["schedule"]["start"] = "2026-09-11"
+
+    dataset = {"events": [extracted, placeholder, unknown], "counts": {"total": 3}}
+    changes = apply_guard(dataset)
+
+    assert [row["id"] for row in dataset["events"]] == ["extracted", "placeholder", "unknown"]
+    assert changes["duplicates_consolidated"] == []
+    assert temporal_identity(unknown) is None
+
+
+def test_equivalent_recurring_schedules_merge_without_losing_functions() -> None:
+    starts = [
+        "2026-09-11T19:00:00-03:00",
+        "2026-09-12T19:00:00-03:00",
+        "2026-09-13T19:00:00-03:00",
+    ]
+    first = event(id="first", title="Muestra de artes escénicas")
+    first["schedule"] = {
+        "mode": "recurring", "start": starts[0], "end": starts[-1],
+        "occurrences": [{"start": value, "end": None} for value in starts],
+    }
+    second = copy.deepcopy(first)
+    second["id"] = "second"
+    second["schedule"]["start"] = "2026-09-11T22:00:00Z"
+    second["schedule"]["occurrences"] = list(reversed(second["schedule"]["occurrences"]))
+
+    dataset = {"events": [first, second], "counts": {"total": 2}}
+    changes = apply_guard(dataset)
+
+    assert len(dataset["events"]) == 1
+    assert temporal_identity(dataset["events"][0]) == temporal_identity(first)
+    assert len(changes["duplicates_consolidated"]) == 1
 
 
 def test_quarantines_unrecoverable_generic_title() -> None:

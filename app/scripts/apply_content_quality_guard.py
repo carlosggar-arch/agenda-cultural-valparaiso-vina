@@ -9,7 +9,7 @@ import re
 import subprocess
 import unicodedata
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
@@ -33,6 +33,9 @@ CITY_REGISTRY = APP_ROOT / "cities.json"
 DEFAULT_DATASET = ROOT / "agenda_web.json"
 DEFAULT_REPORT = ROOT / "app/data/quality/content-quality.json"
 DEFAULT_LEDGER = ROOT / "app/data/quality/transformation-receipts.json"
+ZONED_INSTANT_RE = re.compile(
+    r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,6})?)?(?:Z|[+-]\d{2}:\d{2})"
+)
 
 SOCIAL_HOSTS = {"instagram.com", "www.instagram.com", "facebook.com", "www.facebook.com", "tiktok.com", "www.tiktok.com"}
 GENERIC_TITLE_PATTERNS = (
@@ -375,6 +378,35 @@ def is_exhibition(event: dict) -> bool:
     category_id = fold(category.get("id"))
     label = fold(category.get("label"))
     return category_id in {"exposiciones", "museos"} or label in {"exposiciones", "museos"}
+
+
+def temporal_identity(event: dict) -> frozenset[datetime] | None:
+    """Return all proven occurrence instants, or None for incomplete evidence."""
+    schedule = event.get("schedule")
+    if not isinstance(schedule, dict) or schedule.get("mode") in {"unknown", "flexible", "on_demand"}:
+        return None
+    rows = [schedule.get("start")]
+    occurrences = schedule.get("occurrences")
+    if occurrences not in (None, []) and not isinstance(occurrences, list):
+        return None
+    if isinstance(occurrences, list):
+        for occurrence in occurrences:
+            if not isinstance(occurrence, dict):
+                return None
+            rows.append(occurrence.get("start"))
+    instants: set[datetime] = set()
+    for value in rows:
+        text = str(value or "").strip()
+        if not ZONED_INSTANT_RE.fullmatch(text) or text.endswith("-00:00"):
+            return None
+        try:
+            parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        except (ValueError, OverflowError):
+            return None
+        if parsed.utcoffset() is None:
+            return None
+        instants.add(parsed.astimezone(timezone.utc))
+    return frozenset(instants) if instants else None
 
 
 def source_url(event: dict) -> str:
@@ -971,17 +1003,18 @@ def apply_guard(
 
         sanitized.append(event)
 
-    groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    groups: dict[tuple[str, str, frozenset[datetime]], list[dict]] = defaultdict(list)
     for event in sanitized:
         if not is_exhibition(event):
             continue
         canonical = canonical_exhibition_title(event.get("title"))
         key = venue_key(event)
-        if canonical and key:
-            groups[(key, canonical)].append(event)
+        temporal = temporal_identity(event)
+        if canonical and key and temporal:
+            groups[(key, canonical, temporal)].append(event)
 
     removed_ids: set[str] = set()
-    for (key, canonical), members in groups.items():
+    for (key, canonical, _temporal), members in groups.items():
         if len(members) < 2:
             continue
         preferred = max(members, key=event_score)
