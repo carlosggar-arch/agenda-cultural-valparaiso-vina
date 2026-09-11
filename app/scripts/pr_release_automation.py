@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
 import release_finalizer
+import ci_change_impact
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -24,6 +27,8 @@ TRUSTED_AUTOMATION_PATHS = frozenset(
         ".github/workflows/pr-finalize.yml",
         ".github/workflows/pr-release.yml",
         "app/scripts/generate_runtime_contracts.py",
+        "app/scripts/ci_change_impact.py",
+        "app/scripts/core_publication_lineage.py",
         "app/scripts/pr_release_automation.py",
         "app/scripts/release_bundle.py",
         "app/scripts/release_finalizer.py",
@@ -68,6 +73,124 @@ def decide_lifecycle(
 
 def require_finalizer_boundary(*, source: str, parent: str) -> None:
     require_snapshot(expected=source, actual=parent, label="PARENT")
+
+
+def verify_source_impact(
+    *, root: Path, repository: str, pr_number: int, run_id: int, run_attempt: int,
+    validated_head: str, current_head: str, current_base: str, authority_sha: str,
+    run: dict, jobs: dict, log: str,
+) -> dict[str, object]:
+    """Recompute a run's exact diff using trusted tools, without PR execution/writes.
+
+    The existing gate logs its fetched integration base and classification. Neither
+    an absent handoff nor a boolean supplied by PR code is sufficient authority.
+    This function must be loaded from main, along with ci_change_impact.py.
+    """
+    def require(condition: bool, reason: str) -> None:
+        if not condition:
+            raise SystemExit("PR_FINALIZATION_IMPACT_INVALID:" + reason)
+
+    def read_git(*args: str) -> str:
+        try:
+            return subprocess.check_output(["git", *args], cwd=root, text=True, stderr=subprocess.DEVNULL).strip()
+        except subprocess.CalledProcessError as exc:
+            raise SystemExit("PR_FINALIZATION_IMPACT_INVALID:unverifiable_git_evidence") from exc
+
+    def only(values: list, reason: str):
+        require(len(values) == 1, reason)
+        return values[0]
+
+    for value in (validated_head, current_head, current_base, authority_sha):
+        require(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{40}", value) is not None, "sha")
+    require(authority_sha == current_base, "authority_base_moved")
+    require(run.get("id") == run_id and type(run.get("id")) is int, "run_id")
+    require(run.get("run_attempt") == run_attempt and type(run.get("run_attempt")) is int, "run_attempt")
+    require(run.get("name") == "PR release gate", "workflow_name")
+    require(run.get("path") == ".github/workflows/pr-release.yml", "workflow_path")
+    require(run.get("event") == "pull_request" and run.get("status") == "completed", "run_state")
+    require(run.get("repository", {}).get("full_name") == repository, "repository")
+    require(run.get("head_repository", {}).get("full_name") == repository, "head_repository")
+    require(run.get("head_sha") == validated_head, "run_head")
+    source_pr = only(run.get("pull_requests", []), "source_pr_count")
+    require(source_pr.get("number") == pr_number and type(source_pr.get("number")) is int, "pr_number")
+    require(source_pr.get("head", {}).get("sha") == validated_head, "pr_head")
+    require(source_pr.get("base", {}).get("ref") == "main", "base_ref")
+    require(source_pr.get("head", {}).get("repo", {}).get("id") == source_pr.get("base", {}).get("repo", {}).get("id")
+            and type(source_pr.get("head", {}).get("repo", {}).get("id")) is int, "fork")
+
+    job = only([item for item in jobs.get("jobs", []) if item.get("name") == "release-guard"], "release_job_count")
+    require(job.get("run_id") == run_id and job.get("run_attempt") == run_attempt, "job_run")
+    require(job.get("head_sha") == validated_head and job.get("status") == "completed", "job_head_state")
+    steps = job.get("steps", [])
+    def step_result(name: str) -> str:
+        step = only([item for item in steps if item.get("name") == name], "step:" + name)
+        require(step.get("status") == "completed", "step_state:" + name)
+        return step.get("conclusion", "")
+
+    require(step_result("Fetch current integration base") == "success", "queue_failed")
+    require(step_result("Classify release impact against current main") == "success", "classification_failed")
+    # gh job logs may lack step labels (UNKNOWN STEP); use only exact timestamped
+    # payloads, never echoed shell commands. Duplicate/ambiguous markers fail closed.
+    payloads = []
+    for line in log.splitlines():
+        fields = line.split("\t", 2)
+        require(len(fields) == 3 and fields[0] == job["name"], "log_job")
+        match = re.fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z ?(.*)", fields[2].removeprefix("\ufeff"))
+        require(match is not None, "log_timestamp")
+        payloads.append(match.group(1))
+    source_base = only([line.removeprefix("RELEASE_QUEUE_BASE=") for line in payloads
+                        if line.startswith("RELEASE_QUEUE_BASE=")], "queue_base_count")
+    require(re.fullmatch(r"[0-9a-f]{40}", source_base) is not None, "queue_base_sha")
+    candidate = only([line.removeprefix("RELEASE_QUEUE_CANDIDATE=") for line in payloads
+                      if line.startswith("RELEASE_QUEUE_CANDIDATE=")], "queue_head_count")
+    require(candidate == validated_head, "queue_head")
+    position = only([index for index, line in enumerate(payloads) if line == "CI_IMPACT"], "classification_count")
+    classification = payloads[position + 1:position + 5]
+    require(len(classification) == 4, "classification_missing")
+    declared: dict[str, object] = {}
+    for key, line in zip(("product", "generated", "release", "changed_count"), classification):
+        name, separator, value = line.partition("=")
+        require(separator == "=" and name == key, "classification_field")
+        if key == "changed_count":
+            require(re.fullmatch(r"0|[1-9][0-9]*", value) is not None, "classification_count_type")
+            declared[key] = int(value)
+        else:
+            require(value in {"true", "false"}, "classification_boolean")
+            declared[key] = value == "true"
+
+    for sha in (source_base, validated_head, authority_sha):
+        require(read_git("rev-parse", "--verify", sha + "^{commit}") == sha, "unverifiable_commit")
+    # The logs' meaning must come from the same workflow and classifier as the
+    # trusted authority, not from a PR changing how those markers are produced.
+    for path in (".github/workflows/pr-release.yml", "app/scripts/ci_change_impact.py"):
+        require(read_git("rev-parse", validated_head + ":" + path) ==
+                read_git("rev-parse", authority_sha + ":" + path), "untrusted_classification_code:" + path)
+    paths = [path for path in read_git("diff", "--name-only", source_base + "..." + validated_head).splitlines() if path]
+    recomputed = ci_change_impact.classify(paths)
+    require(set(recomputed) == {"product", "generated", "release"}
+            and all(type(value) is bool for value in recomputed.values()), "unknown_classification")
+    require(declared == {**recomputed, "changed_count": len(paths)}, "classification_contradiction")
+    release = recomputed["release"]
+    require(step_result("No release surface affected") == ("skipped" if release else "success"), "classification_step_contradiction")
+    if not release:
+        require(current_head == validated_head, "current_head_moved")
+        require(current_base == source_base, "current_base_moved")
+        require(run.get("conclusion") == "success" and job.get("conclusion") == "success", "validation_failed")
+        require(step_result("Run independent release diagnostics and aggregate failures") == "success", "diagnostics_failed")
+        require(step_result("Publish one aggregate diagnostic summary") == "success", "summary_failed")
+        require(step_result("Require or transiently prepare canonical finalization") == "skipped", "unexpected_finalization")
+        require(subprocess.run(["git", "merge-base", "--is-ancestor", source_base, validated_head],
+                               cwd=root, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0,
+                "base_not_ancestor")
+    # release=true still goes through the existing refresh, full handoff and
+    # finalizer checks. A pending source-finalizer gate is not a no-release proof.
+    return {
+        "release": release, "no_release": not release, "source_base": source_base,
+        "source_head": validated_head, "authority_sha": authority_sha,
+        "run_id": run_id, "run_attempt": run_attempt, "pr": pr_number,
+        "changed_count": len(paths),
+        "paths_sha256": hashlib.sha256(json.dumps(sorted(paths), ensure_ascii=True, separators=(",", ":")).encode()).hexdigest(),
+    }
 
 
 def git(*args: str) -> str:
@@ -197,9 +320,34 @@ def main() -> None:
     prepare_parser.add_argument("--commit", action="store_true")
     summary_parser = subparsers.add_parser("summarize")
     summary_parser.add_argument("--result", action="append", default=[])
+    impact_parser = subparsers.add_parser("verify-impact")
+    impact_parser.add_argument("--root", required=True, type=Path)
+    impact_parser.add_argument("--repository", required=True)
+    impact_parser.add_argument("--pr-number", required=True, type=int)
+    impact_parser.add_argument("--run-id", required=True, type=int)
+    impact_parser.add_argument("--run-attempt", required=True, type=int)
+    for name in ("validated-head", "current-head", "current-base", "authority-sha"):
+        impact_parser.add_argument("--" + name, required=True)
+    for name in ("run-json", "jobs-json", "log", "github-output"):
+        impact_parser.add_argument("--" + name, required=True, type=Path)
     args = parser.parse_args()
     if args.command == "prepare":
         prepare(base=args.base, source=args.source, source_pr=args.source_pr, commit=args.commit)
+        return
+    if args.command == "verify-impact":
+        result = verify_source_impact(
+            root=args.root, repository=args.repository, pr_number=args.pr_number,
+            run_id=args.run_id, run_attempt=args.run_attempt,
+            validated_head=args.validated_head, current_head=args.current_head,
+            current_base=args.current_base, authority_sha=args.authority_sha,
+            run=json.loads(args.run_json.read_text(encoding="utf-8")),
+            jobs=json.loads(args.jobs_json.read_text(encoding="utf-8")),
+            log=args.log.read_text(encoding="utf-8"),
+        )
+        print("PR_FINALIZATION_IMPACT_VERIFIED " + json.dumps(result, sort_keys=True))
+        with args.github_output.open("a", encoding="utf-8") as handle:
+            for key in ("release", "no_release"):
+                handle.write(f"{key}={str(result[key]).lower()}\n")
         return
     report = aggregate_diagnostics([parse_diagnostic(value) for value in args.result])
     print(json.dumps(report, ensure_ascii=False, sort_keys=True))
