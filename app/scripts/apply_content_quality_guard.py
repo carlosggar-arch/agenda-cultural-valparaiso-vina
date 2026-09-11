@@ -24,8 +24,10 @@ except ModuleNotFoundError:  # Direct script execution used by repository contra
 
 try:
     from app.scripts.recovery_disposition_ledger import append_recovery_dispositions
+    from app.scripts.candidate_quality_disposition_ledger import append_candidate_quality_dispositions
 except ModuleNotFoundError:
     from recovery_disposition_ledger import append_recovery_dispositions
+    from candidate_quality_disposition_ledger import append_candidate_quality_dispositions
 
 ROOT = Path(__file__).resolve().parents[2]
 APP_ROOT = ROOT / "app"
@@ -1080,6 +1082,11 @@ def apply_guard(
         before_events=recovery_before_events,
         attempted_transformations=recovery_transformations,
         after_events=dataset["events"],
+    )
+    append_candidate_quality_dispositions(
+        ledger, before_events=recovery_before_events, after_events=dataset["events"],
+        attempted_transformations=recovery_transformations, changes=changes,
+        publication_date=publication_day.isoformat() if publication_day is not None else None,
     )
     refresh_counts(dataset)
     if semantic_payload(dataset) != before_semantic:
