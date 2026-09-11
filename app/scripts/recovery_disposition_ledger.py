@@ -11,6 +11,8 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import re
+import unicodedata
 from typing import Any
 
 try:
@@ -30,6 +32,7 @@ ENVELOPE_FIELDS = {
 BINDING_FIELDS = {"id", "source_id", "source_urls", "title", "city", "venue", "schedule"}
 SCHEDULE_FIELDS = {"mode", "start", "end", "occurrences"}
 TERMINAL_ACTIONS = {"quarantine", "non_event_exclusion", "deduplication"}
+OBSERVATION_EVIDENCE_FIELDS = {"transformation_class", "observation_binding", "canonical_binding"}
 
 
 def canonical_json_bytes(value: Any) -> bytes:
@@ -70,6 +73,87 @@ def _fail(reason: str) -> None:
     raise ValueError("RECOVERY_DISPOSITION_" + reason)
 
 
+def _fold(value: str) -> str:
+    return " ".join("".join(char for char in unicodedata.normalize("NFKD", str(value))
+                            if not unicodedata.combining(char)).casefold().split())
+
+
+def _valid_binding(binding: Any) -> bool:
+    if not isinstance(binding, dict) or set(binding) != BINDING_FIELDS:
+        return False
+    if any(not isinstance(binding.get(key), str) for key in ("id", "source_id", "title", "city", "venue")):
+        return False
+    urls, schedule = binding.get("source_urls"), binding.get("schedule")
+    return bool(
+        binding["id"] and binding["source_id"]
+        and isinstance(urls, list) and urls
+        and all(isinstance(value, str) and value and _url(value) == value for value in urls)
+        and urls == sorted(set(urls))
+        and isinstance(schedule, dict) and set(schedule) == SCHEDULE_FIELDS
+    )
+
+
+def _same_observation_projection(observed: dict, canonical: dict, *, shared_capture: bool = False) -> bool:
+    """An exact repeated post is not a temporal deduplication inference.
+
+    Distinct URLs must instead prove a complete, known function identity through
+    the same validator as the guard. Import lazily because the guard calls this
+    module only after its own definitions have loaded.
+    """
+    if set(observed["source_urls"]) & set(canonical["source_urls"]):
+        fields = ("title", "city", "schedule") if shared_capture else ("title", "city", "venue", "schedule")
+        return all(observed[key] == canonical[key] for key in fields)
+    if shared_capture:
+        return False
+    if any(not _fold(observed[key]) or _fold(observed[key]) != _fold(canonical[key])
+           for key in ("title", "city", "venue")):
+        return False
+    try:
+        from app.scripts.apply_content_quality_guard import temporal_identity
+    except ModuleNotFoundError:
+        from apply_content_quality_guard import temporal_identity
+    observed_time = temporal_identity({"schedule": observed["schedule"]})
+    canonical_time = temporal_identity({"schedule": canonical["schedule"]})
+    return observed_time is not None and observed_time == canonical_time
+
+
+def _observation_proof(recovery: dict) -> tuple[dict, dict] | None:
+    evidence = recovery.get("evidence") or {}
+    if not isinstance(evidence, dict):
+        _fail("RECOVERY_BINDING_INVALID")
+    if not ({"observation_binding", "canonical_binding", "shared_capture"} & set(evidence)):
+        return None  # Legacy single-observation parents remain compatible.
+    shared = evidence.get("shared_capture")
+    # Core independently reprojects both captured observations and checks this
+    # material hash. Here it may bypass only account-derived venue differences
+    # for the same post, never a distinct title, city, or complete schedule.
+    if "shared_capture" in evidence and (
+        not isinstance(shared, dict) or set(shared) != {"canonical_observation_id", "material_sha256"}
+        or not re.fullmatch(r"obs_[a-zA-Z0-9_]+", str(shared.get("canonical_observation_id") or ""))
+        or shared.get("canonical_observation_id") == recovery.get("observation_id")
+        or not re.fullmatch(r"[0-9a-f]{64}", str(shared.get("material_sha256") or ""))
+    ):
+        _fail("RECOVERY_BINDING_INVALID")
+    observed, canonical = evidence.get("observation_binding"), evidence.get("canonical_binding")
+    if (set(evidence) not in (OBSERVATION_EVIDENCE_FIELDS, OBSERVATION_EVIDENCE_FIELDS | {"shared_capture"})
+            or evidence.get("transformation_class") != "recovered"
+            or not _valid_binding(observed) or not _valid_binding(canonical)
+            or canonical["id"] != recovery.get("canonical_event_id")
+            or _url(recovery.get("source_url")) not in observed["source_urls"]
+            or not _same_observation_projection(observed, canonical, shared_capture=shared is not None)):
+        _fail("RECOVERY_BINDING_INVALID")
+    return observed, canonical
+
+
+def _parent_matches_binding(recovery: dict, binding: dict) -> bool:
+    proof = _observation_proof(recovery)
+    if proof is None:
+        return _url(recovery.get("source_url")) in binding["source_urls"]
+    if proof[1] != binding:
+        _fail("RECOVERY_BINDING_INVALID")
+    return True
+
+
 def _recoveries(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     result: dict[str, dict[str, Any]] = {}
     for row in rows:
@@ -88,6 +172,7 @@ def _recoveries(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
             _fail("RECOVERY_BINDING_INVALID")
         if observation in result:
             _fail("RECOVERY_AMBIGUOUS")
+        _observation_proof(row)
         result[observation] = row
     return result
 
@@ -118,6 +203,8 @@ def _existing_dispositions(
             _fail("EXISTING_EVIDENCE_INVALID")
         if observation in result:
             _fail("MULTIPLE_ACCOUNTING")
+        if _observation_proof(recovery) is not None and not _parent_matches_binding(recovery, binding):
+            _fail("EXISTING_EVIDENCE_INVALID")
         result[observation] = row
     return result
 
@@ -166,6 +253,10 @@ def append_recovery_dispositions(
                     if survivor not in after:
                         _fail("SURVIVOR_INVALID")
             continue
+        binding = source_binding(before[original_id])
+        # Proof-bearing parents bind retained observations too. A guard that
+        # takes no action must not silently accept a crossed canonical proof.
+        parent_matches = _parent_matches_binding(recovery, binding)
         operations = attempted.get(original_id, [])
         if not operations:
             if previous:
@@ -178,11 +269,10 @@ def append_recovery_dispositions(
         operation = operations[0]
         action = operation.get("action")
         destination = operation.get("destination")
-        binding = source_binding(before[original_id])
         if (
             operation.get("stage") != DISPOSITION_STAGE or action not in TERMINAL_ACTIONS
             or not _text(operation.get("reason")) or not isinstance(destination, dict)
-            or not binding["source_id"] or _url(recovery.get("source_url")) not in binding["source_urls"]
+            or not binding["source_id"] or not parent_matches
             or _url(operation.get("source_url")) not in binding["source_urls"]
             or original_id in after
         ):
@@ -202,6 +292,15 @@ def append_recovery_dispositions(
             or destination.get("canonical_event_id") not in (None, original_id)
         ):
             _fail("TERMINAL_DESTINATION_INVALID")
+        recorded_operation = copy.deepcopy(operation)
+        if action == "deduplication" and _observation_proof(recovery) is not None:
+            combined = recorded_operation.get("combined_provenance")
+            sources = combined.get("sources") if isinstance(combined, dict) else None
+            if not isinstance(sources, list) or any(not isinstance(value, str) for value in sources):
+                _fail("TRANSFORMATION_INVALID")
+            own_url = _url(recovery["source_url"])
+            if own_url not in {_url(value) for value in sources}:
+                sources.append(own_url)
         envelope = {
             "schema_version": DISPOSITION_VERSION,
             "stage": DISPOSITION_STAGE,
@@ -210,7 +309,7 @@ def append_recovery_dispositions(
             "recovery_receipt_sha256": recovery_receipt_sha256(recovery),
             "source_record_id": original_id,
             "source_binding": binding,
-            "transformations": [copy.deepcopy(operation)],
+            "transformations": [recorded_operation],
         }
         if previous is not None:
             if canonical_json_bytes(previous) != canonical_json_bytes(envelope):

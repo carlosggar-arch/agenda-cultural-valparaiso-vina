@@ -51,11 +51,186 @@ def fixture(item: dict) -> tuple[dict, dict]:
     return dataset, ledger
 
 
+def linked_recovery(observed: dict, canonical: dict, observation: str = "obs_linked") -> dict:
+    parent = recovery(canonical, observation)
+    parent["source_id"] = "other_registered_account"
+    parent["source_url"] = observed["source_url"].rstrip("/")
+    parent["provenance"]["source_url"] = parent["source_url"]
+    parent["evidence"] = {
+        "transformation_class": "recovered",
+        "observation_binding": source_binding(observed),
+        "canonical_binding": source_binding(canonical),
+    }
+    return parent
+
+
 def dispositions(ledger: dict) -> list[dict]:
     return [row for row in ledger["receipts"] if row["action"] == "recovery_disposition"]
 
 
 class RecoveryDispositionTests(unittest.TestCase):
+    def test_shared_capture_proof_accounts_for_source_default_venue_without_changing_it(self) -> None:
+        for title in ("Concierto de cámara", "#programacion"):
+            with self.subTest(title=title):
+                canonical = event("shared-post", title=title)
+                observed = copy.deepcopy(canonical)
+                observed["source_id"] = "other_cultural_venue"
+                observed["location"].update(venue="Otra cuenta cultural", venue_id="otra")
+                dataset, ledger = fixture(canonical)
+                parent = linked_recovery(observed, canonical)
+                parent["evidence"]["shared_capture"] = {
+                    "canonical_observation_id": "obs_example", "material_sha256": "a" * 64,
+                }
+                ledger["receipts"].append(parent)
+                originals = copy.deepcopy(ledger["receipts"])
+                apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+                self.assertTrue(all(row in ledger["receipts"] for row in originals))
+                if title == "#programacion":
+                    self.assertEqual(len(dispositions(ledger)), 2)
+                    for row in dispositions(ledger):
+                        self.assertEqual(row["source_binding"], source_binding(canonical))
+                else:
+                    self.assertEqual(dataset["events"][0]["location"], canonical["location"])
+                    self.assertEqual(dispositions(ledger), [])
+                expected = (canonical_json_bytes(dataset), canonical_json_bytes(ledger))
+                apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+                self.assertEqual(expected, (canonical_json_bytes(dataset), canonical_json_bytes(ledger)))
+
+    def test_shared_capture_proof_is_closed_and_never_authorizes_schedule_or_post_changes(self) -> None:
+        canonical = event("shared-post")
+        observed = copy.deepcopy(canonical)
+        observed["location"].update(venue="Otra cuenta cultural", venue_id="otra")
+        for change in (
+            lambda evidence: evidence.update(shared_capture=None),
+            lambda evidence: evidence["shared_capture"].update(material_sha256="invalid"),
+            lambda evidence: evidence["shared_capture"].update(material_sha256="A" * 64),
+            lambda evidence: evidence["shared_capture"].update(canonical_observation_id="obs_linked"),
+            lambda evidence: evidence["shared_capture"].update(canonical_observation_id="not an observation"),
+            lambda evidence: evidence["shared_capture"].update(unexpected=True),
+            lambda evidence: evidence.pop("observation_binding"),
+            lambda evidence: [evidence.pop(key) for key in ("observation_binding", "canonical_binding")],
+            lambda evidence: evidence["observation_binding"]["schedule"].update(start="2026-09-15T21:00:00-03:00"),
+            lambda evidence: evidence["observation_binding"].update(title="Otro concierto"),
+            lambda evidence: evidence["observation_binding"].update(city="Otra ciudad"),
+            lambda evidence: evidence["canonical_binding"].update(source_urls=["https://www.instagram.com/p/different"]),
+        ):
+            with self.subTest(change=change):
+                dataset, ledger = fixture(canonical)
+                parent = linked_recovery(observed, canonical)
+                parent["evidence"]["shared_capture"] = {
+                    "canonical_observation_id": "obs_example", "material_sha256": "a" * 64,
+                }
+                change(parent["evidence"])
+                ledger["receipts"].append(parent)
+                originals = copy.deepcopy(ledger["receipts"])
+                with self.assertRaisesRegex(ValueError, "RECOVERY_DISPOSITION_RECOVERY_BINDING_INVALID"):
+                    apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+                self.assertEqual(ledger["receipts"], originals)
+
+    def test_multiple_observations_retained_keep_their_own_immutable_parents(self) -> None:
+        canonical, observed = event("canonical"), event("other-post")
+        observed["source_id"] = "other_cultural_venue"
+        dataset, ledger = fixture(canonical)
+        ledger["receipts"].append(linked_recovery(observed, canonical))
+        parents = copy.deepcopy(ledger["receipts"])
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(ledger["receipts"], parents)
+        self.assertEqual(dataset["events"][0]["schedule"], canonical["schedule"])
+
+    def test_shared_unknown_post_quarantine_has_separate_hashed_envelopes(self) -> None:
+        canonical = event("shared-post", title="#programacion")
+        canonical["schedule"].update(start=None, end=None, occurrences=[])
+        canonical["location"].update(venue=None, venue_id=None)
+        observed = copy.deepcopy(canonical)
+        observed["source_id"] = "other_cultural_venue"
+        dataset, ledger = fixture(canonical)
+        ledger["receipts"].append(linked_recovery(observed, canonical))
+        parents = copy.deepcopy(ledger["receipts"])
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(dataset["events"], [])
+        envelopes = dispositions(ledger)
+        self.assertEqual(len(envelopes), 2)
+        for parent in parents:
+            envelope = next(row for row in envelopes if row["observation_id"] == parent["observation_id"])
+            self.assertEqual(envelope["recovery_receipt_sha256"], recovery_receipt_sha256(parent))
+            self.assertEqual(envelope["source_binding"], source_binding(canonical))
+            self.assertEqual(envelope["transformations"][0]["action"], "quarantine")
+            self.assertIn(parent, ledger["receipts"])
+        expected = (canonical_json_bytes(dataset), canonical_json_bytes(ledger))
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(expected, (canonical_json_bytes(dataset), canonical_json_bytes(ledger)))
+
+    def test_multiple_observation_dedup_adds_only_proven_own_url_to_operation_copy(self) -> None:
+        duplicate, survivor, observed = event("duplicate"), event("survivor"), event("other-post")
+        observed["source_id"] = "other_cultural_venue"
+        survivor["description"] += " Más información de la función." * 10
+        dataset, ledger = fixture(duplicate)
+        dataset["events"].insert(0, survivor)
+        ledger["receipts"].append(linked_recovery(observed, duplicate))
+        parents = copy.deepcopy(ledger["receipts"])
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual([row["id"] for row in dataset["events"]], [survivor["id"]])
+        envelopes = {row["observation_id"]: row for row in dispositions(ledger)}
+        own_url = observed["source_url"].rstrip("/")
+        self.assertIn(own_url, envelopes["obs_linked"]["transformations"][0]["combined_provenance"]["sources"])
+        self.assertNotIn(own_url, envelopes["obs_example"]["transformations"][0]["combined_provenance"]["sources"])
+        self.assertTrue(all(parent in ledger["receipts"] for parent in parents))
+        expected = canonical_json_bytes(ledger)
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(canonical_json_bytes(ledger), expected)
+
+    def test_crossed_or_contradictory_linked_proof_rejected_even_when_retained(self) -> None:
+        canonical, observed = event("canonical"), event("other-post")
+        for change in (
+            lambda row: row["evidence"]["canonical_binding"].update(id="crossed"),
+            lambda row: row["evidence"]["canonical_binding"].update(source_id="crossed"),
+            lambda row: row["evidence"]["observation_binding"].update(source_urls=["https://example.invalid/crossed"]),
+            lambda row: row["evidence"]["observation_binding"]["schedule"].update(start="2026-09-15T21:00:00-03:00"),
+            lambda row: row["evidence"]["observation_binding"]["schedule"]["occurrences"].append(
+                {"start": "2026-09-16T18:00:00-03:00", "end": None}),
+            lambda row: row["evidence"]["observation_binding"]["schedule"].update(end="2026-09-15T17:00:00-03:00"),
+            lambda row: row["evidence"].update(unexpected=True),
+            lambda row: row["evidence"].pop("canonical_binding"),
+        ):
+            with self.subTest(change=change):
+                dataset, ledger = fixture(canonical)
+                alias = linked_recovery(observed, canonical)
+                change(alias)
+                ledger["receipts"].append(alias)
+                parents = copy.deepcopy(ledger["receipts"])
+                with self.assertRaisesRegex(ValueError, "RECOVERY_DISPOSITION_RECOVERY_BINDING_INVALID"):
+                    apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+                self.assertEqual(ledger["receipts"], parents)
+
+    def test_unknown_different_posts_cannot_prove_equivalence(self) -> None:
+        canonical, observed = event("canonical", title="Pronto…"), event("other-post", title="Pronto…")
+        for item in (canonical, observed):
+            item["schedule"].update(start=None, occurrences=[])
+        dataset, ledger = fixture(canonical)
+        ledger["receipts"].append(linked_recovery(observed, canonical))
+        with self.assertRaisesRegex(ValueError, "RECOVERY_DISPOSITION_RECOVERY_BINDING_INVALID"):
+            apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(dispositions(ledger), [])
+
+    def test_different_posts_with_punctuation_difference_are_not_the_same_title(self) -> None:
+        canonical = event("canonical", title="Cámara: conversación")
+        observed = event("other-post", title="Camara conversacion")
+        dataset, ledger = fixture(canonical)
+        ledger["receipts"].append(linked_recovery(observed, canonical))
+        with self.assertRaisesRegex(ValueError, "RECOVERY_DISPOSITION_RECOVERY_BINDING_INVALID"):
+            apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(dispositions(ledger), [])
+
+    def test_existing_linked_envelope_cannot_be_crossed_to_another_parent_hash(self) -> None:
+        canonical = event("canonical", title="Pronto…")
+        dataset, ledger = fixture(canonical)
+        ledger["receipts"].append(linked_recovery(copy.deepcopy(canonical), canonical))
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+        envelopes = dispositions(ledger)
+        envelopes[0]["recovery_receipt_sha256"] = envelopes[1]["recovery_receipt_sha256"]
+        with self.assertRaisesRegex(ValueError, "RECOVERY_DISPOSITION_EXISTING_EVIDENCE_INVALID"):
+            apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+
     def test_retained_recovery_preserves_occurrences_without_terminal_evidence(self) -> None:
         item = event("retained")
         item["schedule"]["occurrences"].append({"start": "2026-09-15T21:00:00-03:00", "end": None})
