@@ -9,7 +9,7 @@ import re
 import subprocess
 import unicodedata
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
@@ -22,12 +22,22 @@ except ModuleNotFoundError:  # Direct script execution used by repository contra
         append_receipt, empty_ledger, load_ledger, make_receipt, occurrence_id, semantic_payload,
     )
 
+try:
+    from app.scripts.recovery_disposition_ledger import append_recovery_dispositions
+except ModuleNotFoundError:
+    from recovery_disposition_ledger import append_recovery_dispositions
+
 ROOT = Path(__file__).resolve().parents[2]
 APP_ROOT = ROOT / "app"
 CITY_REGISTRY = APP_ROOT / "cities.json"
 DEFAULT_DATASET = ROOT / "agenda_web.json"
 DEFAULT_REPORT = ROOT / "app/data/quality/content-quality.json"
 DEFAULT_LEDGER = ROOT / "app/data/quality/transformation-receipts.json"
+ZONED_INSTANT_RE = re.compile(
+    r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)"
+)
+TemporalPair = tuple[datetime, datetime | None]
+TemporalIdentity = tuple[str, TemporalPair, frozenset[TemporalPair]]
 
 SOCIAL_HOSTS = {"instagram.com", "www.instagram.com", "facebook.com", "www.facebook.com", "tiktok.com", "www.tiktok.com"}
 GENERIC_TITLE_PATTERNS = (
@@ -372,6 +382,50 @@ def is_exhibition(event: dict) -> bool:
     return category_id in {"exposiciones", "museos"} or label in {"exposiciones", "museos"}
 
 
+def temporal_identity(event: dict) -> TemporalIdentity | None:
+    """Match Core's recovery contract before either guard deduplication path.
+
+    Identity includes mode, primary range and every occurrence range. Unknown
+    or contradictory evidence is not an equivalence proof; offsets may differ
+    only when they describe the same UTC instants. Keep this local consumer
+    independent of a Core checkout at runtime.
+    """
+    schedule = event.get("schedule")
+    if not isinstance(schedule, dict) or schedule.get("mode") not in {
+        "dated", "recurring", "multi_day", "program", "flexible", "on_demand",
+    }:
+        return None
+
+    def moment(value: object) -> datetime:
+        if not isinstance(value, str) or not ZONED_INSTANT_RE.fullmatch(value) or value.endswith("-00:00"):
+            raise ValueError("complete unambiguous ISO instant required")
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if parsed.utcoffset() is None:
+            raise ValueError("unambiguous offset required")
+        return parsed.astimezone(timezone.utc)
+
+    def pair(row: object) -> TemporalPair:
+        if not isinstance(row, dict):
+            raise ValueError("occurrence required")
+        start = moment(row.get("start"))
+        end = moment(row["end"]) if row.get("end") is not None else None
+        if end is not None and end < start:
+            raise ValueError("contradictory range")
+        return start, end
+
+    try:
+        primary = pair(schedule)
+        occurrences = schedule.get("occurrences")
+        if occurrences is not None and not isinstance(occurrences, list):
+            return None
+        pairs = [pair(row) for row in occurrences] if occurrences else [primary]
+        if len(set(pairs)) != len(pairs):
+            return None
+        return schedule["mode"], primary, frozenset(pairs)
+    except (ValueError, TypeError, OverflowError):
+        return None
+
+
 def source_url(event: dict) -> str:
     links = event.get("links") or {}
     return clean_space(event.get("source_url") or links.get("official") or links.get("source"))
@@ -599,6 +653,7 @@ def append_baseline_receipt(
     ledger: dict, receipt: dict, *, baseline_by_id: dict[str, dict] | None,
     occurrence_must_exist: bool = False,
     baseline_occurrences: dict[str, set[str]] | None = None,
+    recovery_transformations: list[dict] | None = None,
 ) -> bool:
     """Append only receipts that explain a protected baseline transformation.
 
@@ -606,6 +661,9 @@ def append_baseline_receipt(
     Candidate-only duplicates and quarantines remain in the private change
     report but cannot masquerade as public-baseline loss receipts.
     """
+    if recovery_transformations is not None:
+        # Capture the unmodified decision separately from baseline-loss proof.
+        recovery_transformations.append(copy.deepcopy(receipt))
     if baseline_by_id is None:
         return append_receipt(ledger, receipt)
     source = baseline_by_id.get(clean_space(receipt.get("source_record_id")))
@@ -640,9 +698,11 @@ def refresh_counts(dataset: dict) -> None:
     dataset["counts"] = counts
 
 
-def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, str] | None:
-    """Identify duplicate records for one occurrence from one canonical source."""
-    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, TemporalIdentity] | None:
+    """Identify duplicate records only after proving the entire schedule."""
+    temporal = temporal_identity(event)
+    if temporal is None:
+        return None
     location = event.get("location") if isinstance(event.get("location"), dict) else {}
     url = source_url(event)
     host = (urlparse(url).hostname or "").casefold() if url else ""
@@ -655,7 +715,7 @@ def exact_source_occurrence_key(event: dict) -> tuple[str, str, str, str, str] |
         fold(event.get("title")),
         fold(location.get("city") or location.get("commune")),
         fold(location.get("venue")),
-        clean_space(schedule.get("start")),
+        temporal,
     )
     return key if all(key) else None
 
@@ -699,8 +759,9 @@ def venue_hours_contamination_reason(event: dict) -> str | None:
 def consolidate_exact_source_occurrences(
     events: list[dict], *, ledger: dict, changes: dict[str, list],
     baseline_by_id: dict[str, dict] | None = None,
+    recovery_transformations: list[dict] | None = None,
 ) -> list[dict]:
-    groups: dict[tuple[str, str, str, str, str], list[dict]] = defaultdict(list)
+    groups: dict[tuple[str, str, str, str, TemporalIdentity], list[dict]] = defaultdict(list)
     ungrouped: list[dict] = []
     for event in events:
         key = exact_source_occurrence_key(event)
@@ -725,7 +786,7 @@ def consolidate_exact_source_occurrences(
                 destination={"state": "merged", "canonical_event_id": preferred.get("id")},
                 evidence={
                     "source_identity": key[0], "title": key[1], "city": key[2],
-                    "venue": key[3], "start": key[4],
+                    "venue": key[3], "start": (duplicate.get("schedule") or {}).get("start"),
                 },
                 preserved_fields=[
                     field for field in (
@@ -737,12 +798,12 @@ def consolidate_exact_source_occurrences(
                     "duplicate": copy.deepcopy(duplicate.get("provenance") or {}),
                     "sources": sorted(filter(None, [source_url(preferred), source_url(duplicate)])),
                 },
-            ), baseline_by_id=baseline_by_id)
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
         changes["duplicates_consolidated"].append({
             "kind": "exact_source_occurrence",
             "kept_id": preferred.get("id"),
             "removed_ids": [event.get("id") for event in duplicates],
-            "start": key[4],
+            "start": (preferred.get("schedule") or {}).get("start"),
         })
         consolidated.append(preferred)
     return consolidated
@@ -755,6 +816,8 @@ def apply_guard(
     before_semantic = semantic_payload(dataset)
     ledger = ledger if ledger is not None else empty_ledger(generated_at=dataset.get("generated_at"))
     events = list(dataset.get("events") or [])
+    recovery_before_events = copy.deepcopy(events)
+    recovery_transformations: list[dict] = []
     changes: dict[str, list] = {
         "html_cleaned": [],
         "titles_recovered": [],
@@ -766,7 +829,8 @@ def apply_guard(
     baseline_by_id = baseline_event_map(baseline_events)
     baseline_occurrences = baseline_occurrence_map(baseline_events)
     events = consolidate_exact_source_occurrences(
-        events, ledger=ledger, changes=changes, baseline_by_id=baseline_by_id
+        events, ledger=ledger, changes=changes, baseline_by_id=baseline_by_id,
+        recovery_transformations=recovery_transformations,
     )
     if generated_at:
         generated = datetime.fromisoformat(generated_at.replace("Z", "+00:00"))
@@ -801,7 +865,7 @@ def apply_guard(
                 reason="calendar_navigation_or_empty_state", source_event=event,
                 canonical_event_id=None,
                 destination={"state": "quarantine", "canonical_event_id": None},
-            ), baseline_by_id=baseline_by_id)
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
             continue
 
         review = explicit_publication_review_reason(event)
@@ -822,7 +886,7 @@ def apply_guard(
                 canonical_event_id=None,
                 destination={"state": "quarantine", "canonical_event_id": None},
                 evidence={"missing_evidence": missing_evidence},
-            ), baseline_by_id=baseline_by_id)
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
             continue
 
         context_reason = non_event_context_reason(event)
@@ -845,7 +909,7 @@ def apply_guard(
                 source_event=event, canonical_event_id=None,
                 destination={"state": action, "canonical_event_id": None},
                 evidence={key: value for key, value in receipt.items() if key not in {"id", "title", "reason"}},
-            ), baseline_by_id=baseline_by_id)
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
             continue
 
         recovered, reason = recover_generic_title(event)
@@ -881,7 +945,7 @@ def apply_guard(
                 canonical_event_id=None,
                 destination={"state": "quarantine", "canonical_event_id": None},
                 evidence={"missing_evidence": missing},
-            ), baseline_by_id=baseline_by_id)
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
             continue
 
         if publication_day is not None:
@@ -906,7 +970,7 @@ def apply_guard(
                     canonical_event_id=event_id,
                     destination={"state": "quarantine", "canonical_event_id": event_id},
                     evidence=evidence,
-                ), baseline_by_id=baseline_by_id)
+                ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
                 continue
             official_expiration = official_occurrence_expiration(event, publication_day)
             if official_expiration:
@@ -922,7 +986,7 @@ def apply_guard(
                     canonical_event_id=None,
                     destination={"state": "expired", "canonical_event_id": None},
                     evidence=official_expiration,
-                ), baseline_by_id=baseline_by_id)
+                ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
                 continue
             keep, removed_moments = prune_expired_schedule(event, publication_day)
             if not keep:
@@ -936,7 +1000,7 @@ def apply_guard(
                     reason="schedule_ended_before_publication_date", source_event=event,
                     canonical_event_id=None,
                     destination={"state": "expired", "canonical_event_id": None},
-                ), baseline_by_id=baseline_by_id)
+                ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
                 continue
             if removed_moments:
                 removed_occurrences = removed_moments
@@ -953,21 +1017,23 @@ def apply_guard(
                         evidence={"occurrence": removed_occurrence},
                         occurrence=removed_occurrence,
                     ), baseline_by_id=baseline_by_id, occurrence_must_exist=True,
-                        baseline_occurrences=baseline_occurrences)
+                        baseline_occurrences=baseline_occurrences,
+                        recovery_transformations=recovery_transformations)
 
         sanitized.append(event)
 
-    groups: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    groups: dict[tuple[str, str, TemporalIdentity], list[dict]] = defaultdict(list)
     for event in sanitized:
         if not is_exhibition(event):
             continue
         canonical = canonical_exhibition_title(event.get("title"))
         key = venue_key(event)
-        if canonical and key:
-            groups[(key, canonical)].append(event)
+        temporal = temporal_identity(event)
+        if canonical and key and temporal:
+            groups[(key, canonical, temporal)].append(event)
 
     removed_ids: set[str] = set()
-    for (key, canonical), members in groups.items():
+    for (key, canonical, _temporal), members in groups.items():
         if len(members) < 2:
             continue
         preferred = max(members, key=event_score)
@@ -1000,7 +1066,7 @@ def apply_guard(
                     "duplicate": copy.deepcopy(duplicate.get("provenance") or {}),
                     "sources": sorted(filter(None, [source_url(preferred), source_url(duplicate)])),
                 },
-            ), baseline_by_id=baseline_by_id)
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
         changes["duplicates_consolidated"].append({
             "venue_key": key,
             "canonical_title": canonical,
@@ -1009,6 +1075,12 @@ def apply_guard(
         })
 
     dataset["events"] = [event for event in sanitized if str(event.get("id") or "") not in removed_ids]
+    append_recovery_dispositions(
+        ledger,
+        before_events=recovery_before_events,
+        attempted_transformations=recovery_transformations,
+        after_events=dataset["events"],
+    )
     refresh_counts(dataset)
     if semantic_payload(dataset) != before_semantic:
         dataset["generated_at"] = generated_at or datetime.now().astimezone().isoformat(timespec="seconds")

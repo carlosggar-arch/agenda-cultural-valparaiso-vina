@@ -1,6 +1,12 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -12,6 +18,108 @@ PUBLISH = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
 def block(text: str, start: str, end: str | None = None) -> str:
     value = text.split(start, 1)[1]
     return value.split(end, 1)[0] if end else value
+
+
+def workflow_steps(text: str) -> dict[str, str]:
+    """Read the existing named-step layout without a runtime YAML dependency."""
+    matches = list(re.finditer(r"^      - name: (.+)$", text, flags=re.MULTILINE))
+    return {
+        match.group(1).strip(): text[match.start():matches[index + 1].start() if index + 1 < len(matches) else len(text)]
+        for index, match in enumerate(matches)
+    }
+
+
+def step_condition(step: str) -> str:
+    match = re.search(r"^        if: (.+(?:\n          .+)*)", step, flags=re.MULTILINE)
+    assert match, "a protected finalization step lost its condition"
+    return " ".join(match.group(1).replace(">-", "").split())
+
+
+def require_conjunct(step: str, predicate: str) -> None:
+    condition = step_condition(step)
+    assert "||" not in condition, "a permissive alternative bypasses the finalization boundary"
+    assert predicate in {part.strip() for part in condition.split("&&")}, predicate
+
+
+def validate_no_release_boundary(text: str) -> None:
+    steps = workflow_steps(text)
+    authority = steps["Verify release impact from trusted authority"]
+    capture = steps["Capture trusted finalization tools"]
+    assert text.index("Capture trusted finalization tools") < text.index("Verify release impact from trusted authority")
+    assert text.index("Resolve immutable PR snapshot") < text.index("Verify release impact from trusted authority")
+    assert text.index("Verify release impact from trusted authority") < text.index("Mint narrowly scoped PR finalizer token")
+    assert "ci_change_impact.py" in capture and "/tmp/pr-finalization-tools/" in capture
+    assert "id: impact" in authority
+    assert "python -S /tmp/pr-finalization-tools/pr_release_automation.py verify-impact" in authority
+    assert "gh api" in authority and "/actions/runs/" in authority and "/jobs" in authority
+    assert "/logs" in authority or "--log" in authority, "impact must be bound to the source job's explicit logged result"
+    assert "github.event.workflow_run.id" in authority and "github.event.workflow_run.run_attempt" in authority
+    assert "steps.snapshot.outputs.head_sha" in authority and "steps.snapshot.outputs.base_sha" in authority
+    assert "steps.snapshot.outputs.pr_number" in authority
+    assert '"$GITHUB_OUTPUT"' in authority
+    for forbidden in (
+        "actions/create-github-app-token", "steps.app-token.outputs.token", "PR_FINALIZER_TOKEN",
+        "secrets.", "actions/checkout", "gh run download", "update-branch", " prepare ",
+        "git push", "--method POST", "--method PUT", "--method PATCH", "--method DELETE",
+        "workflow_dispatch", "repository_dispatch",
+    ):
+        assert forbidden not in authority, f"read-only impact verification performs {forbidden}"
+
+    for name in (
+        "Mint narrowly scoped PR finalizer token",
+        "Refresh safely when main advanced",
+        "Verify successful source-validation handoff",
+    ):
+        require_conjunct(steps[name], "steps.impact.outputs.release == 'true'")
+        require_conjunct(steps[name], "steps.snapshot.outputs.draft != 'true'")
+        require_conjunct(steps[name], "steps.snapshot.outputs.replay != 'true'")
+    for name in (
+        "Prepare exact finalizer commit without credentials",
+        "Revalidate immutable head and base",
+        "Fast-forward the PR branch to the validated finalizer",
+    ):
+        require_conjunct(steps[name], "steps.handoff.outputs.ready == 'true'")
+
+    noop = steps["Validated no-release candidate needs no finalizer"]
+    require_conjunct(noop, "steps.impact.outputs.no_release == 'true'")
+    assert "run: echo " in noop, "the no-release terminal step must remain declarative"
+    statement = noop.split("        run:", 1)[1].strip()
+    assert len(statement.splitlines()) == 1
+    assert not any(token in statement for token in (";", "&&", "||", "$(", "`")), "the no-op must not run shell substitutions or chained commands"
+    for forbidden in (
+        "uses:", "env:", "gh ", "python ", "download", "update-branch",
+        "PR_FINALIZER", "prepare", "push", "dispatch", "commit",
+    ):
+        assert forbidden not in noop, f"the no-release path performs {forbidden}"
+    require_conjunct(steps["Failed validation remains blocking"], "steps.impact.outputs.no_release != 'true'")
+    assert "exit 1" in steps["Failed validation remains blocking"]
+
+
+def validate_trusted_bundle_imports(text: str) -> None:
+    capture = workflow_steps(text)["Capture trusted finalization tools"]
+    match = re.search(r"cp app/scripts/\{([^}]+)\} /tmp/pr-finalization-tools/", capture)
+    assert match, "the captured trusted bundle must be explicit"
+    names = {name.strip() for name in match.group(1).split(",")}
+    assert "ci_change_impact.py" in names
+    assert "core_publication_lineage.py" in names, "release_finalizer imports its lineage verifier before CLI dispatch"
+    assert all(Path(name).name == name and name.endswith(".py") for name in names)
+    for name in ("Verify successful source-validation handoff", "Prepare exact finalizer commit without credentials"):
+        guard = re.search(r"protected='([^']+)'", workflow_steps(text)[name])
+        assert guard, "trusted tools require the existing manual-finalization boundary"
+        assert all(re.fullmatch(guard.group(1), f"app/scripts/{filename}") for filename in names), "a trusted dependency is missing from the protected paths"
+    environment = dict(os.environ)
+    environment.pop("PYTHONPATH", None)
+    environment["PYTHONNOUSERSITE"] = "1"
+    with tempfile.TemporaryDirectory(prefix="pr-finalizer-trusted-bundle-") as temporary:
+        bundle = Path(temporary)
+        for name in names:
+            shutil.copy2(ROOT / "app/scripts" / name, bundle / name)
+        result = subprocess.run(
+            [sys.executable, "-S", str(bundle / "pr_release_automation.py"), "--help"],
+            cwd=bundle, env=environment, capture_output=True, text=True, check=False,
+        )
+        assert result.returncode == 0, f"isolated trusted bundle failed before verification: {result.stderr}"
+        assert "verify-impact" in result.stdout
 
 
 def main() -> None:
@@ -35,6 +143,8 @@ def main() -> None:
     assert "pr-finalization-ready-${{ github.event.pull_request.number }}" in RELEASE
     assert "Keep source-only candidate blocked until final commit exists" in RELEASE
     assert "PR_FINALIZATION_COMMIT_PENDING" in RELEASE
+    validate_no_release_boundary(FINALIZE)
+    validate_trusted_bundle_imports(FINALIZE)
 
     triggers = FINALIZE.split("permissions:", 1)[0]
     assert "workflow_run:" in triggers and 'workflows: ["PR release gate"]' in triggers

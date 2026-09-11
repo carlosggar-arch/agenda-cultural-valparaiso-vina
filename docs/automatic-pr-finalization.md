@@ -23,6 +23,44 @@ este repositorio. Su identificador y clave privada se configuran como
 el evento `pull_request.synchronize`, por lo que los checks normales se ejecutan
 sobre el SHA final.
 
+## Candidatos sin impacto de release
+
+`release=false` es un resultado positivo verificable, no la ausencia de un
+handoff. Antes de obtener credenciales o actualizar una rama, el consumidor
+captura el clasificador y sus dependencias desde el `main` confiable. Recalcula
+el diff de los commits exactos y contrasta la clasificación con el log del job
+`release-guard` del mismo PR, repositorio, HEAD, run e intento. La base de ese
+diff es `RELEASE_QUEUE_BASE`, registrada después del fetch por el gate; no se
+supone que sea la base del evento PR.
+
+La ruta sin release exige run/job y diagnósticos correctos, clasificación
+explícita y concordante, workflow/clasificador iguales a la autoridad, HEAD
+actual idéntico, base actual idéntica a la evaluada y ya incorporada al candidato.
+Termina con `PR_FINALIZATION_NO_RELEASE_VERIFIED`: no descarga handoff, no
+obtiene token de la App, no actualiza ramas, no prepara commits y no publica.
+La evidencia ausente, expirada, cruzada, contradictoria o no verificable bloquea.
+Si avanzó la base, se debe validar una actualización normal antes del no-op.
+
+Para `release=true` siguen siendo obligatorios el handoff original, la autoridad
+de finalización, las comprobaciones del padre/base y todos los gates anteriores.
+El marcador no-release no concede autoridad para generar o publicar un release.
+No cambia el clasificador de paths ni los triggers, permisos o schedules.
+
+### Integración inicial de esta corrección
+
+La corrección del consumidor puede integrarse como cambio de herramientas sin
+release por el PR protegido existente. El consumidor antiguo de `main` no puede
+aplicar automáticamente un cambio de su propia maquinaria: conserva la salida
+`Manual finalization required`. Este bootstrap se revisa explícitamente, con los
+gates obligatorios y squash ligado al HEAD exacto, sin `--admin` ni artefactos
+de release fabricados. El código del PR no se usa como autoridad confiable para
+aprobarse. Sólo después del merge pasa a ser la autoridad de futuros runs.
+
+Para Web #517, los cuatro archivos originales de contabilización y los cambios
+de este contrato continúan siendo `release=false`. Su integración de código no
+es una regeneración editorial ni dispara por sí misma la publicación canónica.
+Core #575 se integra primero; la evidencia funcional conjunta anterior se conserva.
+
 La automatización se detiene y conserva el procedimiento manual cuando hay
 conflictos con `main`, cambia concurrentemente la base o el head, el PR procede
 de un fork, sigue en draft, falla un control obligatorio o modifica la propia

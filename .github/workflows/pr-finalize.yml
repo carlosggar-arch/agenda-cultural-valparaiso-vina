@@ -30,11 +30,13 @@ jobs:
           persist-credentials: false
 
       - name: Capture trusted finalization tools
+        id: authority
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p /tmp/pr-finalization-tools
-          cp app/scripts/{pr_release_automation.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} /tmp/pr-finalization-tools/
+          cp app/scripts/{pr_release_automation.py,ci_change_impact.py,core_publication_lineage.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} /tmp/pr-finalization-tools/
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Resolve immutable PR snapshot
         id: snapshot
@@ -82,9 +84,37 @@ jobs:
             echo "validation=${{ github.event.workflow_run.conclusion }}"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Verify release impact from trusted authority
+        id: impact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.snapshot.outputs.pr_number }}
+          VALIDATED_HEAD: ${{ github.event.workflow_run.pull_requests[0].head.sha }}
+          HEAD_SHA: ${{ steps.snapshot.outputs.head_sha }}
+          BASE_SHA: ${{ steps.snapshot.outputs.base_sha }}
+          AUTHORITY_SHA: ${{ steps.authority.outputs.sha }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pr-finalization-source
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/attempts/${RUN_ATTEMPT}" > /tmp/pr-finalization-source/run.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/attempts/${RUN_ATTEMPT}/jobs?per_page=100" > /tmp/pr-finalization-source/jobs.json
+          job_id="$(jq -er '[.jobs[] | select(.name == "release-guard")] | if length == 1 then .[0].id else error("ambiguous release job") end' /tmp/pr-finalization-source/jobs.json)"
+          gh run view "$RUN_ID" --repo "$GITHUB_REPOSITORY" --attempt "$RUN_ATTEMPT" --job "$job_id" --log > /tmp/pr-finalization-source/source.log
+          python -S /tmp/pr-finalization-tools/pr_release_automation.py verify-impact \
+            --root "$GITHUB_WORKSPACE" --repository "$GITHUB_REPOSITORY" \
+            --pr-number "$PR_NUMBER" --run-id "$RUN_ID" --run-attempt "$RUN_ATTEMPT" \
+            --validated-head "$VALIDATED_HEAD" --current-head "$HEAD_SHA" \
+            --current-base "$BASE_SHA" --authority-sha "$AUTHORITY_SHA" \
+            --run-json /tmp/pr-finalization-source/run.json \
+            --jobs-json /tmp/pr-finalization-source/jobs.json \
+            --log /tmp/pr-finalization-source/source.log --github-output "$GITHUB_OUTPUT"
+
       - name: Mint narrowly scoped PR finalizer token
         id: app-token
-        if: steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.replay != 'true'
+        if: steps.impact.outputs.release == 'true' && steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.replay != 'true'
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.PR_FINALIZER_APP_ID }}
@@ -94,7 +124,7 @@ jobs:
 
       - name: Refresh safely when main advanced
         id: refresh
-        if: steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.replay != 'true'
+        if: steps.impact.outputs.release == 'true' && steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.replay != 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_NUMBER: ${{ steps.snapshot.outputs.pr_number }}
@@ -123,7 +153,7 @@ jobs:
 
       - name: Verify successful source-validation handoff
         id: handoff
-        if: steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.finalized != 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true'
+        if: steps.impact.outputs.release == 'true' && steps.snapshot.outputs.draft != 'true' && steps.snapshot.outputs.finalized != 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.event.workflow_run.id }}
@@ -135,7 +165,7 @@ jobs:
         run: |
           set -euo pipefail
           changed="$(git diff --name-only "${BASE_SHA}...${SOURCE_SHA}")"
-          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
+          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|ci_change_impact|core_publication_lineage|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
           if grep -E "$protected" <<<"$changed"; then
             echo "::notice title=Manual finalization required::The PR changes trusted finalization machinery."
             exit 78
@@ -167,12 +197,12 @@ jobs:
           set -euo pipefail
           git checkout --detach "$SOURCE_SHA"
           changed="$(git diff --name-only "${BASE_SHA}...${SOURCE_SHA}")"
-          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
+          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|ci_change_impact|core_publication_lineage|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
           if grep -E "$protected" <<<"$changed"; then
             echo "::notice title=Manual finalization required::The PR changes trusted finalization machinery."
             exit 78
           fi
-          cp /tmp/pr-finalization-tools/{pr_release_automation.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} app/scripts/
+          cp /tmp/pr-finalization-tools/{pr_release_automation.py,ci_change_impact.py,core_publication_lineage.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} app/scripts/
           git diff --quiet "$SOURCE_SHA" -- app/scripts
           git config user.name "vivamos-pr-finalizer[bot]"
           git config user.email "vivamos-pr-finalizer[bot]@users.noreply.github.com"
@@ -216,6 +246,10 @@ jobs:
         if: steps.snapshot.outputs.draft == 'true'
         run: echo "PR_FINALIZATION_DEFERRED_DRAFT pr=${{ steps.snapshot.outputs.pr_number }}"
 
+      - name: Validated no-release candidate needs no finalizer
+        if: steps.impact.outputs.no_release == 'true'
+        run: echo "PR_FINALIZATION_NO_RELEASE_VERIFIED head=${{ steps.snapshot.outputs.head_sha }} base=${{ steps.snapshot.outputs.base_sha }} writes=none publication=none"
+
       - name: Finalized PR does not loop
         if: steps.snapshot.outputs.finalized == 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true'
         run: echo "PR_FINALIZATION_ALREADY_COMPLETE head=${{ steps.snapshot.outputs.head_sha }}"
@@ -225,7 +259,7 @@ jobs:
         run: echo "PR_FINALIZATION_EXACT_REPLAY head=${{ steps.snapshot.outputs.head_sha }} source=${{ github.event.workflow_run.pull_requests[0].head.sha }}"
 
       - name: Failed validation remains blocking
-        if: steps.snapshot.outputs.finalized != 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true' && steps.handoff.outputs.ready != 'true'
+        if: steps.impact.outputs.no_release != 'true' && steps.snapshot.outputs.finalized != 'true' && steps.snapshot.outputs.replay != 'true' && steps.refresh.outputs.updated != 'true' && steps.handoff.outputs.ready != 'true'
         run: |
           echo "PR_FINALIZATION_BLOCKED_BY_VALIDATION head=${{ steps.snapshot.outputs.head_sha }}"
           exit 1
