@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from production_pwa_smoke import CRITICAL_ASSETS, ORIGINS, ROOT, fetch_bytes, release_number
+from core_publication_lineage import PENDING_PATHS, coverage_from_bundle
 
 SCHEMA_VERSION = "1.0.0"
 CITIES = ("valparaiso", "gijon")
@@ -162,6 +163,26 @@ def remote_hash_attestation() -> tuple[dict[str, str], dict[str, dict[str, str]]
             hashes[local] = actual
         origins[origin] = hashes
     return local_hashes, origins
+
+
+def technical_coverage_attestation(bundle: dict, *, verify_network: bool) -> dict:
+    coverage = coverage_from_bundle(ROOT, bundle)
+    if coverage is None:
+        return {}
+    origins: dict[str, dict[str, str]] = {}
+    for city, expected in coverage["manifests"].items():
+        relative = PENDING_PATHS[city]
+        if (ROOT / relative).read_bytes() != _git_bytes("show", f"HEAD:{relative}"):
+            raise SystemExit("PRODUCTION_COVERAGE_NOT_COMMITTED")
+        if verify_network:
+            for origin, base in ORIGINS.items():
+                digest = hashlib.sha256(fetch_bytes(base, relative.removeprefix("app/"))).hexdigest()
+                if digest != expected:
+                    raise SystemExit(f"PRODUCTION_COVERAGE_BYTE_MISMATCH origin={origin} city={city}")
+                origins.setdefault(origin, {})[city] = digest
+    return {"coverage": coverage, "coverage_delivery": {
+        "network_reverified": verify_network, "origins_sha256": origins,
+    }}
 
 
 def _git_bytes(*args: str) -> bytes:
@@ -333,6 +354,7 @@ def build_attestation(
         }
         origin_hashes = {}
     official_images = official_image_attestation(verify_network=verify_network)
+    coverage_evidence = technical_coverage_attestation(bundle, verify_network=verify_network)
 
     head = git_head()
     return {
@@ -367,6 +389,7 @@ def build_attestation(
             "rows": parity_rows,
         },
         "publication_state": "published_and_visually_verified",
+        **coverage_evidence,
     }
 
 
@@ -388,6 +411,12 @@ def write_markdown(path: Path, payload: dict[str, object]) -> None:
         "| Origin | City | State | IDs |",
         "| --- | --- | --- | ---: |",
     ]
+    if "coverage" in payload:
+        coverage = payload["coverage"]
+        lines[3:3] = [
+            f"- Technical coverage: `{coverage['status']}`; technical pending units: {coverage['pending_units']}",
+            "- Visual certification does not declare pending editorial inputs published.",
+        ]
     for row in rows:
         lines.append(f"| {row['origin']} | {row['city']} | {row['state']} | {row['count']} |")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -426,6 +455,7 @@ def main() -> int:
             f"head={payload['head_sha']} release=v{payload['release']} release_id={payload['release_id']} "
             f"assets={payload['critical_assets']['count']} official_images={len(payload['official_event_images'])} "
             f"parity_rows={len(payload['web_pwa_exact_id_parity']['rows'])} state={payload['publication_state']}"
+            + (f" technical_coverage={payload['coverage']['status']} pending_units={payload['coverage']['pending_units']}" if "coverage" in payload else "")
         )
     return 0
 

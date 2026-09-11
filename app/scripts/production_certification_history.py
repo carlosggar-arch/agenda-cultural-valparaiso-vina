@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
+from core_publication_lineage import CoreLineageError, validate_coverage
 
 SCHEMA_VERSION = "1.1.0"
 CONTRACT = "vivamos-production-certification-history"
@@ -41,6 +42,11 @@ def _sha256_path(path: Path) -> str:
 
 
 def _identity(payload: dict) -> tuple[int, str, str, str, str]:
+    if "coverage" in payload:
+        try:
+            validate_coverage(payload["coverage"])
+        except CoreLineageError as exc:
+            raise CertificationHistoryError("CERTIFICATION_COVERAGE_INVALID") from exc
     try:
         release = int(payload.get("release") or 0)
     except (TypeError, ValueError) as exc:
@@ -84,11 +90,12 @@ def _record(payload: dict, path: str, archive_sha256: str) -> dict:
         "previous_path": chain.get("previous_path"),
         "previous_archive_sha256": chain.get("previous_archive_sha256"),
         "chain_algorithm": chain.get("algorithm") or (CHAIN_ALGORITHM if chain else None),
+        **({"coverage": validate_coverage(payload["coverage"])} if "coverage" in payload else {}),
     }
 
 
 def _validate_existing(existing: dict, incoming: dict) -> None:
-    if _identity(existing) != _identity(incoming):
+    if _identity(existing) != _identity(incoming) or existing.get("coverage") != incoming.get("coverage"):
         raise CertificationHistoryError("CERTIFICATION_IMMUTABLE_PATH_CONFLICT")
 
 
@@ -143,6 +150,8 @@ def _hydrate_and_validate_records(state_root: Path, records: list[dict]) -> list
         for field in ("release_id", "release_fingerprint", "publication_state"):
             if row.get(field) is not None and row.get(field) != canonical.get(field):
                 raise CertificationHistoryError("CERTIFICATION_HISTORY_INDEX_CONFLICT")
+        if row.get("coverage") != canonical.get("coverage"):
+            raise CertificationHistoryError("CERTIFICATION_HISTORY_COVERAGE_CONFLICT")
         hydrated.append(canonical)
 
     oldest_to_newest = sorted(hydrated, key=_chronological_key)
@@ -245,6 +254,7 @@ def persist_certification(attestation_path: Path, state_root: Path) -> tuple[Pat
             "archive_sha256",
             "previous_path",
             "previous_archive_sha256",
+            "coverage",
         ):
             if matched[0].get(field) != record.get(field):
                 raise CertificationHistoryError("CERTIFICATION_HISTORY_INDEX_CONFLICT")
@@ -287,6 +297,7 @@ def main() -> int:
             f"release=v{payload['release']} head={payload['head_sha']} archive={archive} index={index} "
             f"created={str(created).lower()} immutable=true chain={CHAIN_ALGORITHM} "
             f"chain_length={verified['chain']['length']} environment={ENVIRONMENT}"
+            + (f" technical_coverage={payload['coverage']['status']} pending_units={payload['coverage']['pending_units']}" if "coverage" in payload else "")
         )
         return 0
     except (CertificationHistoryError, json.JSONDecodeError, OSError) as exc:

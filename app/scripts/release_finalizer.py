@@ -16,6 +16,7 @@ if str(SCRIPTS) not in sys.path:
 import generate_runtime_contracts as runtime_contracts  # noqa: E402
 import release_bundle  # noqa: E402
 from core_publication_lineage import validate as validate_core_lineage  # noqa: E402
+from core_publication_lineage import coverage_from_bundle  # noqa: E402
 
 RELEASE_PATH = ROOT / "app" / "release-version.js"
 INDEX_PATH = ROOT / "app" / "index.html"
@@ -418,7 +419,9 @@ def check_published(
     current_release = validate_release_math(payload, base_sha)
     bundle = deterministic_checks()
     print(f"PUBLISHED_RELEASE_CHAIN_OK mode={lineage_mode} pr={payload.get('source_pr') or 'n/a'} base={base_sha} source={source_sha} finalizer={finalizer_sha} main={head_sha} release=v{current_release} release_id={bundle['release_id']}")
-    return {**payload, "lineage_mode": lineage_mode, "finalizer_sha": finalizer_sha, "main_sha": head_sha, "release_id": bundle["release_id"]}
+    coverage = coverage_from_bundle(ROOT, bundle)
+    return {**payload, "lineage_mode": lineage_mode, "finalizer_sha": finalizer_sha, "main_sha": head_sha,
+            "release_id": bundle["release_id"], **({"coverage": coverage} if coverage is not None else {})}
 
 
 def main() -> None:

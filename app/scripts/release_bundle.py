@@ -6,6 +6,8 @@ import json
 import re
 from pathlib import Path
 
+from core_publication_lineage import PENDING_PATHS, coverage_from_bundle
+
 ROOT = Path(__file__).resolve().parents[2]
 # This verifier is an audited publication trigger for recovery runs that need
 # a full production re-certification without changing public runtime bytes.
@@ -49,6 +51,12 @@ def build_release_bundle() -> dict:
         name: {"path": str(path.relative_to(ROOT)).replace("\\", "/"), "sha": git_blob_sha(path)}
         for name, path in COMPONENTS.items()
     }
+    # An empty resolved manifest remains evidence and remains in the bundle.
+    for city, relative in PENDING_PATHS.items():
+        path = ROOT / relative
+        if path.exists():
+            components[f"technical_pending_{city}"] = {"path": relative, "sha": git_blob_sha(path)}
+    coverage_from_bundle(ROOT, {"components": components})
     digest_input = json.dumps({name: row["sha"] for name, row in components.items()}, sort_keys=True, separators=(",", ":")).encode("utf-8")
     fingerprint = hashlib.sha256(digest_input).hexdigest()
     release = release_number()

@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 
 from release_finalizer import check_published, git, git_check
+from core_publication_lineage import validate_coverage
 
 SCHEMA_VERSION = "1.0.0"
 
@@ -25,6 +26,10 @@ def validate_visual_attestation(attestation: dict[str, object], published: dict[
         raise SystemExit("RELEASE_CHAIN_ATTESTATION_HEAD_MISMATCH")
     if attestation.get("publication_state") != "published_and_visually_verified":
         raise SystemExit("RELEASE_CHAIN_VISUAL_ATTESTATION_INCOMPLETE")
+    if "coverage" in attestation or "coverage" in published:
+        if ("coverage" not in attestation or "coverage" not in published
+                or validate_coverage(attestation["coverage"]) != validate_coverage(published["coverage"])):
+            raise SystemExit("RELEASE_CHAIN_COVERAGE_MISMATCH")
 
 
 def build_chain(*, cloudflare_ref: str, attestation_path: Path) -> dict[str, object]:
@@ -50,6 +55,7 @@ def build_chain(*, cloudflare_ref: str, attestation_path: Path) -> dict[str, obj
         "release_id": published["release_id"],
         "production_attestation_head": attestation["head_sha"],
         "publication_state": "source_to_production_certified",
+        **({"coverage": validate_coverage(attestation["coverage"])} if "coverage" in attestation else {}),
     }
 
 
@@ -68,6 +74,7 @@ def main() -> None:
         f"pr={payload.get('source_pr') or 'n/a'} source={payload['source_sha']} finalizer={payload['finalizer_sha']} "
         f"main={payload['main_sha']} cloudflare={payload['cloudflare_sha']} release=v{payload['release']} "
         f"release_id={payload['release_id']} state={payload['publication_state']}"
+        + (f" technical_coverage={payload['coverage']['status']} pending_units={payload['coverage']['pending_units']}" if "coverage" in payload else "")
     )
 
 
