@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import unittest
+
+from test_verify_core_publication_bundle import BundleConsumerTests
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = ROOT / ".github" / "workflows"
@@ -33,6 +36,9 @@ def main() -> None:
     assert "git push origin HEAD:main" not in PUBLISH
     assert "test_web_pwa_visibility_parity.py" in PUBLISH
     assert "production_release_attestation.py" in PUBLISH
+    # This owner runs even for no-release changes to publication machinery.
+    result = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(BundleConsumerTests))
+    assert result.wasSuccessful(), "Core publication bundle consumer contract failed"
     print(
         "ATOMIC_PUBLICATION_CONTRACT_OK "
         f"protected_writer={FINALIZER_MARKER} secondary_public_main_writers=0"

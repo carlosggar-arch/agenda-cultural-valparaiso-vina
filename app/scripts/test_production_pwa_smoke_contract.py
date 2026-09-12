@@ -71,9 +71,12 @@ def main() -> None:
     assert WORKFLOW.count("ref: ${{ github.event.client_payload.public_sha }}") == 2
     assert WORKFLOW.count('echo "CANDIDATE_SHA=${{ github.event.client_payload.public_sha }}" >> "$GITHUB_ENV"') == 2
     assert "repository_dispatch:" in WORKFLOW and "core_publication_lineage" in WORKFLOW
-    assert "gh attestation verify /tmp/core-publication-lineage/attestation.json" in WORKFLOW
-    assert WORKFLOW.count("--signer-workflow carlosggar-arch/agenda-cultural-core/.github/workflows/finalize-public-agenda.yml") == 2
-    assert WORKFLOW.count("--source-ref refs/heads/main") == 2
+    # The same authenticated consumer owns both entry points; execute its
+    # signature-policy/semantic regressions, not just a shell substring check.
+    for route in (sync, production):
+        assert "python app/scripts/verify_core_publication_bundle.py" in route
+        assert '--event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA"' in route
+        assert '--repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage' in route
     # The deployment branch keeps its history while adopting the immutable
     # candidate tree: checkout the candidate, then attach the previous
     # deployment head with an ``ours`` merge.  Assert the mechanics rather

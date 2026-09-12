@@ -95,22 +95,12 @@ jobs:
 
       - name: Verify detached Core publication lineage
         if: github.event_name == 'repository_dispatch'
-        env:
-          ATTESTATION_BASE64: ${{ github.event.client_payload.attestation_base64 }}
-          ATTESTATION_SHA256: ${{ github.event.client_payload.attestation_sha256 }}
-          RECEIPT_BASE64: ${{ github.event.client_payload.receipt_base64 }}
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/core-publication-lineage
-          printf '%s' "$ATTESTATION_BASE64" | base64 --decode > /tmp/core-publication-lineage/attestation.json
-          printf '%s' "$RECEIPT_BASE64" | base64 --decode > /tmp/core-publication-lineage/receipt.json
-          test "$(sha256sum /tmp/core-publication-lineage/attestation.json | cut -d' ' -f1)" = "$ATTESTATION_SHA256"
-          gh attestation verify /tmp/core-publication-lineage/attestation.json \
-            --repo carlosggar-arch/agenda-cultural-core \
-            --signer-workflow carlosggar-arch/agenda-cultural-core/.github/workflows/finalize-public-agenda.yml \
-            --source-digest "$(jq -r .core_sha /tmp/core-publication-lineage/attestation.json)" \
-            --source-ref refs/heads/main
+          python app/scripts/verify_core_publication_bundle.py \
+            --event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA" \
+            --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage
 
       - name: Verify exact release decision before deployment
         id: release-decision
@@ -287,22 +277,14 @@ jobs:
 
       - name: Verify detached Core publication lineage
         if: github.event_name == 'repository_dispatch'
-        env:
-          ATTESTATION_BASE64: ${{ github.event.client_payload.attestation_base64 }}
-          ATTESTATION_SHA256: ${{ github.event.client_payload.attestation_sha256 }}
-          RECEIPT_BASE64: ${{ github.event.client_payload.receipt_base64 }}
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/core-publication-lineage
-          printf '%s' "$ATTESTATION_BASE64" | base64 --decode > /tmp/core-publication-lineage/attestation.json
-          printf '%s' "$RECEIPT_BASE64" | base64 --decode > /tmp/core-publication-lineage/receipt.json
-          test "$(sha256sum /tmp/core-publication-lineage/attestation.json | cut -d' ' -f1)" = "$ATTESTATION_SHA256"
-          gh attestation verify /tmp/core-publication-lineage/attestation.json \
-            --repo carlosggar-arch/agenda-cultural-core \
-            --signer-workflow carlosggar-arch/agenda-cultural-core/.github/workflows/finalize-public-agenda.yml \
-            --source-digest "$(jq -r .core_sha /tmp/core-publication-lineage/attestation.json)" \
-            --source-ref refs/heads/main
+          python app/scripts/verify_core_publication_bundle.py \
+            --event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA" \
+            --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage
+          mkdir -p /tmp/production-release-verification
+          cp -R /tmp/core-publication-lineage /tmp/production-release-verification/core-publication-lineage
 
       - name: Set up Python
         uses: actions/setup-python@v6
