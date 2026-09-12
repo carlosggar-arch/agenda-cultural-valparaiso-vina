@@ -123,6 +123,8 @@ def validate_trusted_bundle_imports(text: str) -> None:
 
 
 def main() -> None:
+    from test_publication_release_decision import main as routing_contract
+    routing_contract()
     assert "permissions:\n  contents: read" in RELEASE
     assert "contents: write" not in RELEASE
     assert "Run independent release diagnostics and aggregate failures" in RELEASE
