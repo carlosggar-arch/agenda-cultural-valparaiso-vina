@@ -114,6 +114,14 @@ def require_non_deployment(run: dict, jobs: dict, *, action: str) -> None:
 def watchdog(*, root: Path, state_root: Path, run_id: int, reader: GithubReader) -> dict:
     run = reader.api(f"{reader.prefix}/actions/runs/{run_id}")
     jobs = {"jobs": reader.pages(f"{reader.prefix}/actions/runs/{run_id}/attempts/{run['run_attempt']}/jobs", "jobs")}
+    if run.get("event") == "workflow_dispatch":
+        snapshot_jobs = [row for row in jobs["jobs"] if row.get("name") == "verify-snapshot"
+                         and row.get("conclusion") != "skipped"]
+        if snapshot_jobs:
+            from snapshot_verification_cli import read_verification
+            proof = read_verification(reader, root=root, run=run, jobs=jobs["jobs"])
+            return {"no_release": False, "delegated": False, "snapshot_verification": True,
+                    "effective_head": proof["original_core_execution"]["binding"]["public_sha"]}
     if run.get("event") == "push":
         release_routing.require_run(run, repository=reader.repository, workflow="publish.yml", event="push", head=run.get("head_sha"))
         sync = release_routing.exact_job(run, jobs, "sync-cloudflare")
@@ -207,7 +215,7 @@ def main() -> None:
             result = {**result, "execution_index": encoded}
     if args.github_output:
         with args.github_output.open("a", encoding="utf-8") as stream:
-            for key in ("action", "execution_index", "no_release", "delegated", "effective_head", "attestation_sha256"):
+            for key in ("action", "execution_index", "no_release", "delegated", "effective_head", "attestation_sha256", "snapshot_verification"):
                 if key in result:
                     value = str(result[key]).lower() if type(result[key]) is bool else result[key]
                     stream.write(f"{key}={value}\n")

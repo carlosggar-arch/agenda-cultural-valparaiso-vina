@@ -1,0 +1,113 @@
+"""Run the existing complete production probes against an immutable snapshot.
+
+No deployment, release creation, acquisition or durable write is performed by
+this runner. The publish workflow retains the sole certification-history writer.
+"""
+from __future__ import annotations
+
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+import publication_execution_binding as binding
+import publication_snapshot_verification as contract
+from snapshot_verification_cli import GithubReader, require_overlay, require_same_surfaces, write_json
+
+
+PROBE_GROUPS = {
+    "semantics": (("production_admin_staging_smoke.py", "admin-staging.log", ()),
+                  ("production_series_contract.py", "series.log", ())),
+    "browser": (("production_browser_selenium_smoke.py", "browser.log", ()),),
+    "warm-pwa": (("production_warm_start_smoke.py", "warm.log", ()),),
+    "web-pwa-parity": (("test_web_pwa_visibility_parity.py", "parity.log", ("--production",)),),
+}
+
+
+def run(snapshot: Path, evidence: Path, script: str, log: str, arguments=()) -> None:
+    with (evidence / log).open("wb") as stream:
+        result = subprocess.run([sys.executable, "app/scripts/" + script, *arguments],
+                                cwd=snapshot, stdout=stream, stderr=subprocess.STDOUT, check=False)
+    print((evidence / log).read_text(encoding="utf-8"), flush=True)
+    contract.require(result.returncode == 0, "PROBE_FAILED:" + script)
+
+
+def run_groups(snapshot: Path, evidence: Path) -> None:
+    def group(rows):
+        for script, log, arguments in rows:
+            if script == "test_web_pwa_visibility_parity.py":
+                arguments = (*arguments, "--json-output", str(evidence / "web-pwa-parity.json"))
+            run(snapshot, evidence, script, log, arguments)
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        futures = [pool.submit(group, rows) for rows in PROBE_GROUPS.values()]
+        errors = []
+        for future in futures:
+            try:
+                future.result()
+            except Exception as exc:
+                errors.append(str(exc))
+        contract.require(not errors, "PRODUCTION_PROBES_FAILED:" + ";".join(errors))
+    contract.require("PRODUCTION_SERIES_CONTRACTS_VERIFIED " in (evidence / "series.log").read_text(),
+                     "SERIES_MARKER_MISSING")
+    contract.require("PRODUCTION_ADMIN_STAGING_VERIFIED " in (evidence / "admin-staging.log").read_text(),
+                     "ADMIN_MARKER_MISSING")
+    print("PRODUCTION_PROBES_PARALLEL_OK groups=4")
+
+
+def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
+    proof = contract.validate(binding.parse_json((evidence / "snapshot-verification.json").read_bytes()))
+    public_sha = proof["original_core_execution"]["binding"]["public_sha"]
+    verifier_sha = proof["execution"]["workflow_head_sha"]
+    contract.require(proof["execution"] == {"run_id": int(os.environ["GITHUB_RUN_ID"]),
+        "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]), "workflow_head_sha": os.environ["GITHUB_SHA"]},
+        "EXECUTION_CONTEXT_CHANGED")
+    require_overlay(snapshot, verifier, public_sha, verifier_sha)
+    reader = GithubReader(verifier)
+    for ref in ("main", "cloudflare-preview"):
+        current = reader.api(f"{reader.prefix}/git/ref/heads/{ref}")["object"]["sha"]
+        require_same_surfaces(verifier, public_sha, current)
+    raw = evidence / "original/extracted/core-publication-lineage"
+    lineage = ("--core-attestation", str(raw / "attestation.json"), "--core-receipt", str(raw / "receipt.json"))
+    run(snapshot, evidence, "release_finalizer.py", "release-lineage.log",
+        ("--check-published", "--finalizer-ref", public_sha, *lineage))
+    run(snapshot, evidence, "production_pwa_smoke.py", "local-contracts.log", ("local",))
+    # One bounded wait, including the corrected consecutive confirmation probe.
+    run(snapshot, evidence, "deployment_readiness.py", "http.log",
+        ("--wait", "--candidate-sha", public_sha, "--timeout-seconds", "90", "--poll-seconds", "2",
+         "--output", str(evidence / "deployment-readiness.json")))
+    run_groups(snapshot, evidence)
+    shutil.copyfile(evidence / "original/extracted/core-execution.json", evidence / "core-execution.json")
+    run(snapshot, evidence, "production_release_attestation.py", "attestation.log",
+        ("--core-execution-index", str(evidence / "core-execution.json"),
+         "--snapshot-verification", str(evidence / "snapshot-verification.json"),
+         "--http-log", str(evidence / "http.log"), "--browser-log", str(evidence / "browser.log"),
+         "--warm-log", str(evidence / "warm.log"), "--parity-report", str(evidence / "web-pwa-parity.json"),
+         "--output", str(evidence / "production-release-attestation.json"),
+         "--markdown-output", str(evidence / "summary.md")))
+    subprocess.run(["git", "fetch", "origin", "cloudflare-preview"], cwd=snapshot, check=True)
+    run(snapshot, evidence, "production_release_chain.py", "release-chain.log",
+        (*lineage, "--cloudflare-ref", "origin/cloudflare-preview",
+         "--attestation", str(evidence / "production-release-attestation.json"),
+         "--output", str(evidence / "production-release-chain.json")))
+    require_overlay(snapshot, verifier, public_sha, verifier_sha)
+    current = reader.api(f"{reader.prefix}/git/ref/heads/main")["object"]["sha"]
+    contract.require(current == verifier_sha, "VERIFIER_REF_MOVED")
+    write_json(evidence / "snapshot-context.json", {"public_sha": public_sha, "verifier_sha": verifier_sha,
+        "publication_created": False, "datasets_changed": False, "production_probes": list(PROBE_GROUPS)})
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--snapshot", type=Path, required=True)
+    parser.add_argument("--verifier", type=Path, required=True)
+    parser.add_argument("--evidence", type=Path, required=True)
+    args = parser.parse_args()
+    verify(args.snapshot.resolve(), args.verifier.resolve(), args.evidence.resolve())
+    print("SNAPSHOT_PRODUCTION_VISUALLY_VERIFIED writes=none")
+
+
+if __name__ == "__main__":
+    main()
