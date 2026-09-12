@@ -35,6 +35,7 @@ jobs:
           python app/scripts/test_ci_domain_selection.py
           python app/scripts/test_pr_release_automation.py
           python app/scripts/test_pr_finalization_workflow.py
+          python app/scripts/test_publication_technical_coverage.py
           python scripts/verify_canonical_main_writer.py
           python app/scripts/test_contract_topology.py
           python app/scripts/test_fast_production_close_contract.py

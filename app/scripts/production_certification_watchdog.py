@@ -49,6 +49,7 @@ def main() -> int:
             "PRODUCTION_CERTIFICATION_WATCHDOG_OK "
             f"head={args.expected_head} release=v{args.expected_release} "
             f"archive={match['path']} sha256={match['archive_sha256']} environment={ENVIRONMENT}"
+            + (f" technical_coverage={match['coverage']['status']} pending_units={match['coverage']['pending_units']}" if "coverage" in match else "")
         )
         return 0
     except (CertificationHistoryError, json.JSONDecodeError, OSError, ValueError) as exc:
