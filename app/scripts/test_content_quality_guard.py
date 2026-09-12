@@ -705,8 +705,10 @@ def test_generic_carousel_parent_is_excluded_without_hiding_verified_children() 
 
 def main() -> None:
     from test_recovery_disposition_ledger import run_contract_tests
+    from test_candidate_quality_disposition_ledger import run_contract_tests as run_candidate_quality_contracts
 
     run_contract_tests()
+    run_candidate_quality_contracts()
     test_html_is_removed()
     test_recovers_les_esperamos_from_explicit_activity_phrase()
     test_consolidates_same_exhibition_same_venue_and_keeps_image()
