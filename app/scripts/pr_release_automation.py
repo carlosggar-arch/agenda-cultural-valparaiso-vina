@@ -10,6 +10,7 @@ from pathlib import Path
 
 import release_finalizer
 import ci_change_impact
+from release_decision import bind_source_decision
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -30,6 +31,8 @@ TRUSTED_AUTOMATION_PATHS = frozenset(
         "app/scripts/ci_change_impact.py",
         "app/scripts/core_publication_lineage.py",
         "app/scripts/pr_release_automation.py",
+        "app/scripts/release_decision.py",
+        "app/scripts/publication_release_decision.py",
         "app/scripts/release_bundle.py",
         "app/scripts/release_finalizer.py",
     }
@@ -184,13 +187,13 @@ def verify_source_impact(
                 "base_not_ancestor")
     # release=true still goes through the existing refresh, full handoff and
     # finalizer checks. A pending source-finalizer gate is not a no-release proof.
-    return {
+    return bind_source_decision(root=root, repository=repository, impact={
         "release": release, "no_release": not release, "source_base": source_base,
         "source_head": validated_head, "authority_sha": authority_sha,
         "run_id": run_id, "run_attempt": run_attempt, "pr": pr_number,
         "changed_count": len(paths),
         "paths_sha256": hashlib.sha256(json.dumps(sorted(paths), ensure_ascii=True, separators=(",", ":")).encode()).hexdigest(),
-    }
+    })
 
 
 def git(*args: str) -> str:

@@ -92,7 +92,7 @@ def main() -> None:
     assert "Require exact deployment-branch parity with candidate" in sync
     assert 'unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"' in sync
     assert "Require release bump for runtime pushes" in sync
-    assert "if: github.event_name == 'push'" in sync
+    assert "if: steps.release-decision.outputs.release == 'true' && github.event_name == 'push'" in sync
     assert "app/release-version.js" in sync
     assert "python app/scripts/runtime_release_guard.py" in sync
     assert '--base-ref "$before"' in sync
