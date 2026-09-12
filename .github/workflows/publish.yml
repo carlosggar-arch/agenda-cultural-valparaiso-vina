@@ -38,6 +38,9 @@ on:
       - "app/scripts/release_bundle.py"
       - "app/scripts/publication_release_decision.py"
       - "app/scripts/release_decision.py"
+      - "app/scripts/publication_execution_binding.py"
+      - "app/scripts/publication_execution_github.py"
+      - "app/scripts/publication_execution_routing.py"
       - ".github/workflows/publish.yml"
       - "cloudflare-build.sh"
   workflow_dispatch:
@@ -67,6 +70,8 @@ jobs:
     name: sync-cloudflare
     outputs:
       release: ${{ steps.release-decision.outputs.release }}
+      action: ${{ steps.execution.outputs.action }}
+      execution_index: ${{ steps.execution.outputs.execution_index }}
     permissions:
       actions: read
       contents: write
@@ -114,11 +119,27 @@ jobs:
             --event-name "$EVENT_NAME" --candidate "$CANDIDATE_SHA" --before "$BEFORE_SHA" \
             --output /tmp/publication-release-decision/decision.json --github-output "$GITHUB_OUTPUT"
 
+      - name: Read existing canonical certification before claiming deployment
+        if: github.event_name == 'repository_dispatch'
+        uses: actions/checkout@v7
+        with:
+          ref: state/production-certifications
+          path: .production-certification-state
+          fetch-depth: 1
+
+      - name: Bind authenticated Core execution before deployment
+        id: execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/publication_execution_routing.py \
+            --decision /tmp/publication-release-decision/decision.json --github-output "$GITHUB_OUTPUT"
+
       - name: Preserve verified deployment routing evidence
         uses: actions/upload-artifact@v6
         with:
           name: publication-release-decision-${{ github.run_id }}-${{ github.run_attempt }}
-          path: /tmp/publication-release-decision/decision.json
+          path: /tmp/publication-release-decision/
           if-no-files-found: error
           retention-days: 30
 
@@ -126,20 +147,31 @@ jobs:
         if: steps.release-decision.outputs.release == 'false'
         run: echo "PUBLICATION_NO_RELEASE_VERIFIED head=$CANDIDATE_SHA deployed=false certified=false writes=none"
 
+      - name: Await authenticated publication authority without deployment
+        if: steps.execution.outputs.action == 'awaiting_authenticated_lineage'
+        run: echo "PUBLICATION_AUTHORITY_PENDING head=$CANDIDATE_SHA state=NOT_CERTIFIED authority=unverified deployed=false writes=none"
+
+      - name: Delegate duplicate to exact canonical certification
+        if: steps.execution.outputs.action == 'delegated'
+        run: echo "CORE_PUBLICATION_EXECUTION_DELEGATED head=$CANDIDATE_SHA deployed=false writes=none certification=checked-by-watchdog"
+
       - name: Create exact-tree handoff preserving deployment history
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin cloudflare-preview main
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            test "$(git rev-parse origin/main)" = "$CANDIDATE_SHA"
+          fi
           git cat-file -e "${CANDIDATE_SHA}^{commit}"
           git cat-file -e "origin/cloudflare-preview^{commit}"
           git checkout --detach "$CANDIDATE_SHA"
           git merge --no-edit -s ours origin/cloudflare-preview
 
       - name: Require exact deployment-branch parity with candidate
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         run: |
           set -euo pipefail
           unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"
@@ -150,7 +182,7 @@ jobs:
           fi
 
       - name: Require release bump for runtime pushes
-        if: steps.release-decision.outputs.release == 'true' && github.event_name == 'push'
+        if: steps.release-decision.outputs.release == 'true' && github.event_name == 'push' && steps.execution.outputs.action == 'publish'
         shell: bash
         run: |
           set -euo pipefail
@@ -168,7 +200,7 @@ jobs:
             --head-ref "$CANDIDATE_SHA"
 
       - name: Validate Cloudflare build snapshot and exact release lineage
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         run: |
           set -euo pipefail
           bash cloudflare-build.sh
@@ -187,13 +219,13 @@ jobs:
           python app/scripts/release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA" "${lineage_args[@]}"
 
       - name: Push synchronized deployment branch
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         run: |
           set -euo pipefail
           git push origin HEAD:cloudflare-preview
 
       - name: Fast-close changed dataset freshness and identity
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         shell: bash
         run: |
           set -euo pipefail
@@ -204,7 +236,7 @@ jobs:
           python app/scripts/fast_close_dataset_validation.py --base-ref "$before"
 
       - name: Fast-close deterministic runtime contracts
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         run: |
           set -euo pipefail
           node app/runtime-past-event-guard.test.mjs
@@ -212,7 +244,7 @@ jobs:
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait once for both production origins in parallel
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         shell: bash
         run: |
           set -euo pipefail
@@ -229,7 +261,7 @@ jobs:
           grep -q '^PRODUCTION_ORIGIN_PARITY_OK origin=cloudflare ' /tmp/production-fast-close/http.log
 
       - name: Mark byte deployment, pending visual verification
-        if: steps.release-decision.outputs.release == 'true'
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         shell: bash
         run: |
           set -euo pipefail
@@ -248,7 +280,7 @@ jobs:
 
   production-smoke:
     needs: sync-cloudflare
-    if: needs.sync-cloudflare.outputs.release == 'true'
+    if: needs.sync-cloudflare.outputs.release == 'true' && needs.sync-cloudflare.outputs.action == 'publish'
     permissions:
       contents: write
       pull-requests: read
@@ -285,6 +317,16 @@ jobs:
             --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage
           mkdir -p /tmp/production-release-verification
           cp -R /tmp/core-publication-lineage /tmp/production-release-verification/core-publication-lineage
+
+      - name: Restore exact authenticated execution in visual evidence
+        if: github.event_name == 'repository_dispatch'
+        env:
+          CORE_EXECUTION_INDEX: ${{ needs.sync-cloudflare.outputs.execution_index }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/publication_execution_routing.py \
+            --restore-index "$CORE_EXECUTION_INDEX" --output-dir /tmp/production-release-verification
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -396,7 +438,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          execution_args=()
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            execution_args+=(--core-execution-index /tmp/production-release-verification/core-execution.json)
+          fi
           python app/scripts/production_release_attestation.py \
+            "${execution_args[@]}" \
             --http-log /tmp/production-release-verification/http.log \
             --browser-log /tmp/production-release-verification/browser.log \
             --warm-log /tmp/production-release-verification/warm.log \
@@ -414,7 +461,13 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
           git fetch origin cloudflare-preview
+          lineage_args=()
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            lineage_args+=(--core-attestation /tmp/core-publication-lineage/attestation.json)
+            lineage_args+=(--core-receipt /tmp/core-publication-lineage/receipt.json)
+          fi
           python app/scripts/production_release_chain.py \
+            "${lineage_args[@]}" \
             --cloudflare-ref origin/cloudflare-preview \
             --attestation /tmp/production-release-verification/production-release-attestation.json \
             --output /tmp/production-release-verification/production-release-chain.json \

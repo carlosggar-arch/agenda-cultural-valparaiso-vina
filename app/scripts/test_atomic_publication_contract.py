@@ -4,6 +4,10 @@ from pathlib import Path
 import unittest
 
 from test_verify_core_publication_bundle import BundleConsumerTests
+from test_production_release_chain import ProductionReleaseChainTests
+from test_publication_execution_github import PublicationExecutionGithubTests
+from test_publication_execution_history import PublicationExecutionHistoryTests
+from test_publication_execution_routing import PublicationExecutionRoutingTests
 
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = ROOT / ".github" / "workflows"
@@ -37,7 +41,11 @@ def main() -> None:
     assert "test_web_pwa_visibility_parity.py" in PUBLISH
     assert "production_release_attestation.py" in PUBLISH
     # This owner runs even for no-release changes to publication machinery.
-    result = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(BundleConsumerTests))
+    suite = unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromTestCase(case)
+                               for case in (BundleConsumerTests, ProductionReleaseChainTests,
+                                            PublicationExecutionGithubTests, PublicationExecutionHistoryTests,
+                                            PublicationExecutionRoutingTests))
+    result = unittest.TextTestRunner().run(suite)
     assert result.wasSuccessful(), "Core publication bundle consumer contract failed"
     print(
         "ATOMIC_PUBLICATION_CONTRACT_OK "

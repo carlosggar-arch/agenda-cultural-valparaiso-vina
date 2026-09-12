@@ -27,8 +27,18 @@ def validate_visual_attestation(attestation: dict[str, object], published: dict[
         raise SystemExit("RELEASE_CHAIN_VISUAL_ATTESTATION_INCOMPLETE")
 
 
-def build_chain(*, cloudflare_ref: str, attestation_path: Path) -> dict[str, object]:
-    published = check_published("HEAD")
+def build_chain(
+    *, cloudflare_ref: str, attestation_path: Path,
+    core_attestation: Path | None = None, core_receipt: Path | None = None,
+) -> dict[str, object]:
+    # These are the original bytes authenticated earlier by the consumer. Keep
+    # their semantic checks through the final chain, never fall back to PR mode.
+    if (core_attestation is None) != (core_receipt is None):
+        raise SystemExit("CORE_PUBLICATION_LINEAGE_EVIDENCE_INCOMPLETE")
+    if core_attestation is not None:
+        published = check_published("HEAD", core_attestation=core_attestation, core_receipt=core_receipt)
+    else:
+        published = check_published("HEAD")
     main_sha = str(published["main_sha"])
     try:
         cloudflare_sha = git("rev-parse", cloudflare_ref)
@@ -40,6 +50,7 @@ def build_chain(*, cloudflare_ref: str, attestation_path: Path) -> dict[str, obj
     validate_visual_attestation(attestation, published)
     return {
         "schema_version": SCHEMA_VERSION,
+        "lineage_mode": published["lineage_mode"],
         "source_pr": published.get("source_pr"),
         "base_sha": published["base_sha"],
         "source_sha": published["source_sha"],
@@ -57,9 +68,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Certify source PR -> finalizer -> main -> Cloudflare -> production.")
     parser.add_argument("--cloudflare-ref", default="origin/cloudflare-preview")
     parser.add_argument("--attestation", required=True)
+    parser.add_argument("--core-attestation", type=Path)
+    parser.add_argument("--core-receipt", type=Path)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    payload = build_chain(cloudflare_ref=args.cloudflare_ref, attestation_path=Path(args.attestation))
+    payload = build_chain(cloudflare_ref=args.cloudflare_ref, attestation_path=Path(args.attestation),
+                          core_attestation=args.core_attestation, core_receipt=args.core_receipt)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")

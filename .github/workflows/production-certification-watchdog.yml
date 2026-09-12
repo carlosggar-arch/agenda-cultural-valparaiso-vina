@@ -62,11 +62,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python app/scripts/publication_release_decision.py \
+          python app/scripts/publication_execution_routing.py \
             --watchdog-run "$SOURCE_RUN_ID" --github-output "$GITHUB_OUTPUT"
 
       - name: Inspect synchronized deployment outcome
-        if: steps.routing.outputs.no_release != 'true'
+        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true'
         id: jobs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -116,7 +116,7 @@ jobs:
           fi
 
       - name: Download source production attestation
-        if: steps.routing.outputs.no_release != 'true'
+        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
@@ -138,14 +138,24 @@ jobs:
           cp "$attestation" /tmp/production-release-attestation.json
 
       - name: Require exact attestation lineage and durable chained certification
-        if: steps.routing.outputs.no_release != 'true'
+        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+          EXPECTED_CORE_INDEX: ${{ steps.routing.outputs.execution_index }}
+          EXPECTED_ATTESTATION_SHA: ${{ steps.routing.outputs.attestation_sha256 }}
         shell: bash
         run: |
           set -euo pipefail
-          source_head="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" --jq '.head_sha')"
+          if [[ -n "$EXPECTED_CORE_INDEX" ]]; then
+            python app/scripts/publication_execution_routing.py \
+              --check-attestation /tmp/production-release-attestation.json \
+              --expected-index "$EXPECTED_CORE_INDEX" --expected-attestation-sha "$EXPECTED_ATTESTATION_SHA"
+          fi
+          source_head="${{ steps.routing.outputs.effective_head }}"
+          if [[ -z "$source_head" ]]; then
+            source_head="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" --jq '.head_sha')"
+          fi
           expected_head="$(jq -r '.head_sha' /tmp/production-release-attestation.json)"
           expected_release="$(jq -r '.release' /tmp/production-release-attestation.json)"
           publication_state="$(jq -r '.publication_state' /tmp/production-release-attestation.json)"

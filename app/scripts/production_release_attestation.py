@@ -11,6 +11,8 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from production_pwa_smoke import CRITICAL_ASSETS, ORIGINS, ROOT, fetch_bytes, release_number
+from publication_execution_binding import parse_json
+from production_certification_history import validated_core_execution
 
 SCHEMA_VERSION = "1.0.0"
 CITIES = ("valparaiso", "gijon")
@@ -312,6 +314,7 @@ def build_attestation(
     parity_report: Path,
     *,
     verify_network: bool = True,
+    core_execution_index: Path | None = None,
 ) -> dict[str, object]:
     release = release_number()
     bundle = release_bundle()
@@ -335,7 +338,7 @@ def build_attestation(
     official_images = official_image_attestation(verify_network=verify_network)
 
     head = git_head()
-    return {
+    payload = {
         "schema_version": SCHEMA_VERSION,
         "verified_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "head_sha": head,
@@ -368,6 +371,12 @@ def build_attestation(
         },
         "publication_state": "published_and_visually_verified",
     }
+    if core_execution_index is not None:
+        payload["core_execution"] = parse_json(core_execution_index.read_bytes())
+        validated_core_execution(payload)
+    elif os.getenv("GITHUB_EVENT_NAME") == "repository_dispatch":
+        raise SystemExit("PRODUCTION_CORE_EXECUTION_EVIDENCE_MISSING")
+    return payload
 
 
 def write_markdown(path: Path, payload: dict[str, object]) -> None:
@@ -402,6 +411,7 @@ def main() -> int:
     parser.add_argument("--parity-report", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--markdown-output", default=None)
+    parser.add_argument("--core-execution-index", type=Path)
     parser.add_argument("--no-network", action="store_true", help="Unit-test only: validate evidence without refetching production assets.")
     args = parser.parse_args()
 
@@ -411,6 +421,7 @@ def main() -> int:
         Path(args.warm_log),
         Path(args.parity_report),
         verify_network=not args.no_network,
+        core_execution_index=args.core_execution_index,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
