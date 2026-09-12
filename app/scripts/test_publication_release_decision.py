@@ -74,6 +74,7 @@ def test_event_routing():
                   "head": {"sha": head, "repo": {"full_name": repository, "id": 31}},
                   "base": {"ref": "main", "repo": {"full_name": repository, "id": 31}}}
             run = {"id": 101, "run_attempt": 1, "name": "PR release gate", "path": ".github/workflows/pr-release.yml",
+                   "run_started_at": "2026-09-12T12:00:00Z",
                    "event": "pull_request", "head_sha": head, "status": "completed", "conclusion": "success",
                    "repository": {"full_name": repository}, "head_repository": {"full_name": repository},
                    "pull_requests": [{"number": 23, "head": pr["head"], "base": pr["base"]}]}
@@ -90,18 +91,24 @@ def test_event_routing():
             log = "\n".join(f"release-guard\tUNKNOWN STEP\t2026-09-12T12:00:00.123Z {line}" for line in payloads)
             responses = {
                 f"repos/{repository}/commits/{candidate}/pulls": [pr], f"repos/{repository}/pulls/23": pr,
-                f"repos/{repository}/actions/workflows/pr-release.yml/runs?head_sha={head}&event=pull_request&per_page=100": {"workflow_runs": [run]},
-                f"repos/{repository}/actions/runs/101/attempts/1": run,
+                f"repos/{repository}/actions/workflows/pr-release.yml/runs?head_sha={head}&event=pull_request&per_page=100": {"workflow_runs": [run], "total_count": 1},
+                f"repos/{repository}/actions/runs/101": run,
                 f"repos/{repository}/actions/runs/101/attempts/1/jobs?per_page=100": jobs,
             }
             real_check_output = subprocess.check_output
+            final_logs = {}
             def transport(command, *args, **kwargs):
                 if command[0] == "gh":
+                    if command[3] in final_logs:
+                        assert command == ["gh", "run", "view", command[3], "--repo", repository,
+                                           "--attempt", str(responses[f"repos/{repository}/actions/runs/{command[3]}"]["run_attempt"]),
+                                           "--job", "601", "--log"], command
+                        return final_logs[command[3]]
                     assert command == ["gh", "run", "view", "101", "--repo", repository,
                                        "--attempt", "1", "--job", "201", "--log"], command
                     return log
                 return real_check_output(command, *args, **kwargs)
-            with patch.object(routing, "gh", side_effect=lambda endpoint: deepcopy(responses[endpoint])), \
+            with patch.object(routing, "gh", side_effect=lambda endpoint, *flags: deepcopy([responses[endpoint]] if flags else responses[endpoint])), \
                  patch.object(routing.subprocess, "check_output", side_effect=transport):
                 args = dict(root=root, repository=repository, candidate=candidate, before=base)
                 decision = routing.resolve_push(**args)
@@ -137,6 +144,97 @@ def test_event_routing():
                 else:
                     reject(lambda: routing.resolve_push(**args))
                 responses[associated_path] = [pr]
+                # GitHub's captured post-merge shape is pull_requests=[]. The
+                # following authority v1 is a LOCAL fixture, not a remote run.
+                run["pull_requests"] = []
+                final = {"id": 501, "run_attempt": 1, "run_started_at": "2026-09-12T12:01:00Z",
+                         "name": "Finalize validated PR candidate", "path": ".github/workflows/pr-finalize.yml",
+                         "event": "workflow_run", "head_sha": base, "status": "completed", "conclusion": "success",
+                         "repository": {"full_name": repository}, "head_repository": {"full_name": repository}}
+                final_step_names = ["Checkout trusted automation authority", "Capture trusted finalization tools",
+                                    "Resolve immutable PR snapshot", "Verify release impact from trusted authority"]
+                final_steps = [{"name": name, "status": "completed", "conclusion": "success"} for name in final_step_names]
+                if not is_release:
+                    final_steps.append({"name": "Validated no-release candidate needs no finalizer", "status": "completed", "conclusion": "success"})
+                    final_steps += [{"name": name, "status": "completed", "conclusion": "skipped"} for name in
+                        ("Mint narrowly scoped PR finalizer token", "Refresh safely when main advanced",
+                         "Verify successful source-validation handoff", "Prepare exact finalizer commit without credentials",
+                         "Revalidate immutable head and base", "Fast-forward the PR branch to the validated finalizer")]
+                final_jobs = {"jobs": [{"id": 601, "run_id": 501, "run_attempt": 1, "head_sha": base,
+                                       "name": "finalize-validated-pr", "status": "completed", "conclusion": "success", "steps": final_steps}]}
+                final_list = f"repos/{repository}/actions/workflows/pr-finalize.yml/runs?head_sha={base}&event=workflow_run&per_page=100"
+                responses[final_list] = {"total_count": 1, "workflow_runs": [final]}
+                responses[f"repos/{repository}/actions/runs/501"] = final
+                responses[f"repos/{repository}/actions/runs/501/attempts/1/jobs?per_page=100"] = final_jobs
+                env = {"PR_NUMBER": "23", "VALIDATED_HEAD": head, "HEAD_SHA": head, "BASE_SHA": base,
+                       "AUTHORITY_SHA": base, "RUN_ID": "101", "RUN_ATTEMPT": "1"}
+                def authority_log(proof=pr_decision, *, values=env):
+                    payloads = [f"  {key}: {value}" for key, value in values.items()]
+                    if proof is not None:
+                        payloads.append("PR_FINALIZATION_IMPACT_VERIFIED " + json.dumps(proof))
+                    return "\n".join(f"finalize-validated-pr\tUNKNOWN STEP\t2026-09-12T12:01:01Z {line}" for line in payloads)
+                final_logs["501"] = authority_log()
+                immutable = deepcopy(run)
+                assert routing.resolve_push(**args) == decision
+                assert run == immutable, "Never rehydrate or replace the original empty association"
+                assert routing.resolve_push(**args) == decision
+                for key, bad in (("schema_version", True), ("schema_version", 0), ("diff_sha256", "0" * 64),
+                                 ("source_head", base), ("source_base", head), ("authority_sha", head),
+                                 ("repository", "other/repo"), ("pr", 24), ("run_id", 102), ("run_attempt", 2),
+                                 ("release", not is_release), ("no_release", is_release)):
+                    bad_proof = deepcopy(pr_decision)
+                    bad_proof[key] = bad
+                    final_logs["501"] = authority_log(bad_proof)
+                    reject(lambda: routing.resolve_push(**args))
+                legacy = {key: value for key, value in pr_decision.items() if key not in ("contract", "schema_version", "repository", "diff_sha256")}
+                for bad_log in (authority_log(None), authority_log(legacy), authority_log() + "\n" + authority_log(),
+                                authority_log() + "\nfinalize-validated-pr\tUNKNOWN STEP\t2026-09-12T12:01:01Z   RUN_ID: 999"):
+                    final_logs["501"] = bad_log
+                    reject(lambda: routing.resolve_push(**args))
+                final_logs["501"] = authority_log()
+                for key, bad in (("path", ".github/workflows/other.yml"), ("event", "pull_request"),
+                                 ("head_sha", head), ("repository", {"full_name": "other/repo"}), ("conclusion", "failure")):
+                    previous = final[key]
+                    final[key] = bad
+                    reject(lambda: routing.resolve_push(**args))
+                    final[key] = previous
+                final_jobs["jobs"][0]["run_attempt"] = 2
+                reject(lambda: routing.resolve_push(**args))
+                final_jobs["jobs"][0]["run_attempt"] = 1
+                for step in final_steps:
+                    old = step["conclusion"]
+                    step["conclusion"] = "failure"
+                    reject(lambda: routing.resolve_push(**args))
+                    step["conclusion"] = old
+                # A rerun of a LOWER id can be the newest attempt. Its failure
+                # and absence of proof must not disappear behind id=501 success.
+                later = dict(final, id=499, run_attempt=2, run_started_at="2026-09-12T12:02:00Z", conclusion="failure")
+                later_jobs = deepcopy(final_jobs)
+                later_jobs["jobs"][0].update(run_id=499, run_attempt=2, conclusion="failure")
+                responses[final_list] = {"total_count": 2, "workflow_runs": [final, later]}
+                responses[f"repos/{repository}/actions/runs/499"] = later
+                responses[f"repos/{repository}/actions/runs/499/attempts/2/jobs?per_page=100"] = later_jobs
+                final_logs["499"] = authority_log(None)
+                reject(lambda: routing.resolve_push(**args), "latest_finalizer_failed")
+                responses[final_list] = {"total_count": 1, "workflow_runs": [final]}
+                source_list = f"repos/{repository}/actions/workflows/pr-release.yml/runs?head_sha={head}&event=pull_request&per_page=100"
+                later_source = dict(run, id=99, run_attempt=2, run_started_at="2026-09-12T12:03:00Z", conclusion="failure")
+                responses[source_list] = {"total_count": 2, "workflow_runs": [run, later_source]}
+                responses[f"repos/{repository}/actions/runs/99"] = later_source
+                reject(lambda: routing.resolve_push(**args), "source_gate_not_successful")
+                responses[source_list] = {"total_count": 1, "workflow_runs": [run]}
+                responses[f"repos/{repository}/actions/runs/101"] = dict(run, run_attempt=2, run_started_at="2026-09-12T12:04:00Z")
+                reject(lambda: routing.resolve_push(**args), "source_attempt_moved")
+                responses[f"repos/{repository}/actions/runs/101"] = run
+                for value in (None, {}, "", [dict(number=999, head={"sha": head})]):
+                    run["pull_requests"] = value
+                    reject(lambda: routing.resolve_push(**args))
+                run.pop("pull_requests")
+                reject(lambda: routing.resolve_push(**args))
+                run["pull_requests"] = []
+                responses[final_list]["total_count"] = 101
+                reject(lambda: routing.resolve_push(**args), "run_pages_incomplete")
+                responses[final_list]["total_count"] = 1
             assert run_git(root, "status", "--porcelain") == ""
             assert not (root / "handoff.json").exists()
             assert not (root / "app/data/release-provenance.json").exists()
@@ -181,6 +279,8 @@ def test_event_routing():
 def test_workflow_path():
     workflow = (ROOT / ".github/workflows/publish.yml").read_text(encoding="utf-8")
     assert '      - ".github/workflows/publish.yml"' in workflow.split("permissions:")[0]
+    for name in ("publication_release_decision.py", "release_decision.py"):
+        assert f'      - "app/scripts/{name}"' in workflow.split("permissions:")[0]
     sync = workflow.split("  sync-cloudflare:", 1)[1].split("  production-smoke:", 1)[0]
     assert sync.index("Verify exact release decision before deployment") < sync.index(routing.DEPLOYMENT_STEPS[0])
     for name in routing.DEPLOYMENT_STEPS:

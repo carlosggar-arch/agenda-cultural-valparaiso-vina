@@ -36,6 +36,8 @@ on:
       - "app/scripts/production_series_contract.py"
       - "app/scripts/release_finalizer.py"
       - "app/scripts/release_bundle.py"
+      - "app/scripts/publication_release_decision.py"
+      - "app/scripts/release_decision.py"
       - ".github/workflows/publish.yml"
       - "cloudflare-build.sh"
   workflow_dispatch:
