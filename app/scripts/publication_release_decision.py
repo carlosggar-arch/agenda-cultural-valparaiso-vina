@@ -6,6 +6,8 @@ logs authorize the decision. Candidate-controlled classifications are not used.
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -28,6 +30,159 @@ def git(root: Path, *args: str) -> str:
 
 def gh(*args: str):
     return json.loads(subprocess.check_output(["gh", "api", *args], text=True))
+
+
+def workflow_runs(repository: str, workflow: str, query: str) -> list[dict]:
+    pages = gh(f"repos/{repository}/actions/workflows/{workflow}/runs?{query}&per_page=100", "--paginate", "--slurp")
+    require(isinstance(pages, list) and bool(pages), "run_pages_missing")
+    runs = []
+    for page in pages:
+        require(isinstance(page, dict) and isinstance(page.get("workflow_runs"), list), "run_page_shape")
+        runs.extend(page["workflow_runs"])
+    require(len({run.get("id") for run in runs}) == len(runs), "run_pages_ambiguous")
+    require(all(type(page.get("total_count")) is int and page["total_count"] == len(runs) for page in pages), "run_pages_incomplete")
+    return runs
+
+
+def run_time(run: dict) -> datetime:
+    try:
+        value = datetime.fromisoformat(run["run_started_at"].replace("Z", "+00:00"))
+    except (KeyError, TypeError, ValueError) as exc:
+        raise SystemExit("PUBLICATION_RELEASE_DECISION_INVALID:run_time") from exc
+    require(value.tzinfo is not None, "run_time_timezone")
+    return value
+
+
+def latest_run(runs: list[dict]) -> dict:
+    require(bool(runs), "source_gate_missing")
+    times = [run_time(run) for run in runs]
+    require(times.count(max(times)) == 1, "latest_attempt_ambiguous")
+    return runs[times.index(max(times))]
+
+
+def require_run(run: dict, *, repository: str, workflow: str, event: str, head: str) -> None:
+    require(type(run.get("id")) is int and run["id"] > 0
+            and type(run.get("run_attempt")) is int and run["run_attempt"] > 0, "run_identity")
+    require(run.get("path") == ".github/workflows/" + workflow and run.get("event") == event, "run_workflow")
+    require(run.get("head_sha") == head, "run_head")
+    require(all(run.get(key, {}).get("full_name") == repository for key in ("repository", "head_repository")), "run_repository")
+
+
+def exact_job(run: dict, jobs: dict, name: str) -> dict:
+    selected = [job for job in jobs.get("jobs", []) if job.get("name") == name]
+    require(len(selected) == 1, "job_count:" + name)
+    job = selected[0]
+    require(job.get("run_id") == run["id"] and job.get("run_attempt") == run["run_attempt"]
+            and job.get("head_sha") == run["head_sha"], "job_identity")
+    return job
+
+
+def require_step(job: dict, name: str, expected: str = "success") -> None:
+    steps = [step for step in job.get("steps", []) if step.get("name") == name]
+    require(len(steps) == 1 and steps[0].get("status") == "completed" and steps[0].get("conclusion") == expected,
+            "step:" + name)
+
+
+def log_payloads(log: str, job_name: str) -> list[str]:
+    payloads = []
+    for line in log.splitlines():
+        fields = line.split("\t", 2)
+        require(len(fields) == 3 and fields[0] == job_name, "log_job")
+        match = re.fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z ?(.*)", fields[2].removeprefix("\ufeff"))
+        require(match is not None, "log_timestamp")
+        payloads.append(match.group(1))
+    return payloads
+
+
+def closed_source_proof(*, root: Path, repository: str, before: str, head: str, pr: dict,
+                        run: dict, jobs: dict, log: str, required: dict) -> dict:
+    """Consume a pre-merge authority proof without rewriting GitHub run metadata."""
+    require(type(run.get("pull_requests")) is list and run["pull_requests"] == [], "closed_association_shape")
+    require_run(run, repository=repository, workflow="pr-release.yml", event="pull_request", head=head)
+    require(run.get("name") == "PR release gate" and run.get("status") == "completed"
+            and run.get("conclusion") == "success", "source_gate_not_successful")
+    job = exact_job(run, jobs, "release-guard")
+    require(job.get("status") == "completed" and job.get("conclusion") == "success", "source_job_failed")
+    for name in ("Fetch current integration base", "Classify release impact against current main",
+                 "Run independent release diagnostics and aggregate failures", "Publish one aggregate diagnostic summary"):
+        require_step(job, name)
+    require_step(job, "No release surface affected", "skipped" if required["release"] else "success")
+    require_step(job, "Require or transiently prepare canonical finalization", "success" if required["release"] else "skipped")
+    payloads = log_payloads(log, "release-guard")
+    for prefix, value in (("RELEASE_QUEUE_BASE=", before), ("RELEASE_QUEUE_CANDIDATE=", head)):
+        require([line for line in payloads if line.startswith(prefix)] == [prefix + value], "closed_source_snapshot")
+    positions = [index for index, line in enumerate(payloads) if line == "CI_IMPACT"]
+    require(len(positions) == 1, "closed_source_classification_missing")
+    fields = required["classification"]
+    expected_lines = [key + "=" + fields[key] for key in ("product", "generated", "release", "changed_count")]
+    require(payloads[positions[0] + 1:positions[0] + 5] == expected_lines, "closed_source_classification_contradiction")
+    require(subprocess.run(["git", "merge-base", "--is-ancestor", before, head], cwd=root,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0, "closed_base_not_ancestor")
+    for path in (".github/workflows/pr-release.yml", "app/scripts/ci_change_impact.py"):
+        require(git(root, "rev-parse", head + ":" + path) == git(root, "rev-parse", before + ":" + path), "closed_untrusted_source_tools")
+    paths = git(root, "diff", "--name-only", before, head).splitlines()
+    expected = bind_source_decision(root=root, repository=repository, impact={
+        "release": required["release"], "no_release": not required["release"],
+        "source_base": before, "source_head": head, "authority_sha": before,
+        "run_id": run["id"], "run_attempt": run["run_attempt"], "pr": pr["number"],
+        "changed_count": len(paths),
+        "paths_sha256": hashlib.sha256(json.dumps(sorted(paths), ensure_ascii=True, separators=(",", ":")).encode()).hexdigest(),
+    })
+    candidates = workflow_runs(repository, "pr-finalize.yml", f"head_sha={before}&event=workflow_run")
+    matching = []
+    for listed in candidates:
+        if run_time(listed) < run_time(run):
+            continue
+        final = gh(f"repos/{repository}/actions/runs/{listed['id']}")
+        require(final.get("run_attempt") == listed.get("run_attempt") and run_time(final) == run_time(listed), "finalizer_attempt_moved")
+        require_run(final, repository=repository, workflow="pr-finalize.yml", event="workflow_run", head=before)
+        require(final.get("name") == "Finalize validated PR candidate", "finalizer_name")
+        final_jobs = gh(f"repos/{repository}/actions/runs/{final['id']}/attempts/{final['run_attempt']}/jobs?per_page=100")
+        final_job = exact_job(final, final_jobs, "finalize-validated-pr")
+        final_log = subprocess.check_output(["gh", "run", "view", str(final["id"]), "--repo", repository,
+                    "--attempt", str(final["run_attempt"]), "--job", str(final_job["id"]), "--log"], text=True)
+        final_payloads = log_payloads(final_log, "finalize-validated-pr")
+        bindings = {}
+        for line in final_payloads:
+            value = re.fullmatch(r"  (PR_NUMBER|VALIDATED_HEAD|RUN_ID|RUN_ATTEMPT|BASE_SHA|AUTHORITY_SHA|HEAD_SHA): (.+)", line)
+            if value:
+                bindings.setdefault(value.group(1), set()).add(value.group(2))
+        require(all(len(values) == 1 for values in bindings.values()), "finalizer_binding_contradiction")
+        bindings = {key: next(iter(values)) for key, values in bindings.items()}
+        require("PR_NUMBER" in bindings and "VALIDATED_HEAD" in bindings, "finalizer_binding_unverifiable")
+        if bindings["PR_NUMBER"] != str(pr["number"]) or bindings["VALIDATED_HEAD"] != head:
+            continue  # An explicitly different PR/head is not evidence for this gate.
+        if "RUN_ID" in bindings and bindings["RUN_ID"] != str(run["id"]):
+            continue
+        # Bind before looking for success/proof. A later failed attempt without
+        # proof remains in this set and must not be hidden by an older success.
+        matching.append((final, final_job, final_payloads, bindings))
+    final = latest_run([entry[0] for entry in matching])
+    final, final_job, final_payloads, bindings = next(entry for entry in matching if entry[0]["id"] == final["id"])
+    require(final.get("status") == "completed" and final.get("conclusion") == "success"
+            and final_job.get("status") == "completed" and final_job.get("conclusion") == "success", "latest_finalizer_failed")
+    require(bindings == {"PR_NUMBER": str(pr["number"]), "VALIDATED_HEAD": head, "HEAD_SHA": head,
+                         "RUN_ID": str(run["id"]), "RUN_ATTEMPT": str(run["run_attempt"]),
+                         "BASE_SHA": before, "AUTHORITY_SHA": before}, "finalizer_source_binding")
+    for name in ("Checkout trusted automation authority", "Capture trusted finalization tools",
+                 "Resolve immutable PR snapshot", "Verify release impact from trusted authority"):
+        require_step(final_job, name)
+    if not required["release"]:
+        require_step(final_job, "Validated no-release candidate needs no finalizer")
+        for name in ("Mint narrowly scoped PR finalizer token", "Refresh safely when main advanced",
+                     "Verify successful source-validation handoff", "Prepare exact finalizer commit without credentials",
+                     "Revalidate immutable head and base", "Fast-forward the PR branch to the validated finalizer"):
+            require_step(final_job, name, "skipped")
+    markers = [line.removeprefix("PR_FINALIZATION_IMPACT_VERIFIED ") for line in final_payloads if line.startswith("PR_FINALIZATION_IMPACT_VERIFIED ")]
+    require(len(markers) == 1, "finalizer_proof_missing")
+    proof = json.loads(markers[0])
+    # Do not upgrade legacy proofs or fill source metadata: v1 must have been
+    # emitted by the prior-main authority, including the original binary digest.
+    require(isinstance(proof, dict) and set(proof) == set(expected)
+            and all(type(proof[key]) is type(expected[key]) for key in expected)
+            and proof == expected, "finalizer_proof_contradiction_or_legacy")
+    print(f"PR_CLOSED_SOURCE_PROOF_VERIFIED finalizer_run={final['id']} finalizer_attempt={final['run_attempt']} source_run={run['id']} source_attempt={run['run_attempt']}")
+    return proof
 
 
 def require_exact_push(*, root: Path, candidate: str, before: str) -> None:
@@ -123,18 +278,24 @@ def resolve_push(*, root: Path, repository: str, candidate: str, before: str) ->
                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode:
         subprocess.check_call(["git", "fetch", "--no-tags", "origin", source_head], cwd=root)
     head = verify_push_binding(root=root, repository=repository, candidate=candidate, before=before, pr=pr)
-    runs = gh(f"repos/{repository}/actions/workflows/pr-release.yml/runs?head_sha={head}&event=pull_request&per_page=100").get("workflow_runs", [])
-    require(bool(runs), "source_gate_missing")
+    runs = workflow_runs(repository, "pr-release.yml", f"head_sha={head}&event=pull_request")
     # A later failed/pending run may not be hidden by an earlier successful one.
-    latest = max(runs, key=lambda value: value["id"])
-    run = gh(f"repos/{repository}/actions/runs/{latest['id']}/attempts/{latest['run_attempt']}")
+    latest = latest_run(runs)
+    run = gh(f"repos/{repository}/actions/runs/{latest['id']}")
+    require(run.get("id") == latest["id"] and run.get("run_attempt") == latest["run_attempt"]
+            and run_time(run) == run_time(latest), "source_attempt_moved")
     require(run.get("conclusion") == "success" and run.get("status") == "completed", "source_gate_not_successful")
     jobs = gh(f"repos/{repository}/actions/runs/{run['id']}/attempts/{run['run_attempt']}/jobs?per_page=100")
     guards = [job for job in jobs.get("jobs", []) if job.get("name") == "release-guard"]
     require(len(guards) == 1, "release_guard_count")
     log = subprocess.check_output(["gh", "run", "view", str(run["id"]), "--repo", repository,
                                    "--attempt", str(run["run_attempt"]), "--job", str(guards[0]["id"]), "--log"], text=True)
-    decision = trusted_impact(root=root, repository=repository, before=before, head=head, pr=pr, run=run, jobs=jobs, log=log)
+    require(type(run.get("pull_requests")) is list, "source_pr_association_shape")
+    if run["pull_requests"] == []:
+        decision = closed_source_proof(root=root, repository=repository, before=before, head=head,
+                                       pr=pr, run=run, jobs=jobs, log=log, required=required)
+    else:
+        decision = trusted_impact(root=root, repository=repository, before=before, head=head, pr=pr, run=run, jobs=jobs, log=log)
     require(decision["source_base"] == before, "source_base")
     require(decision["source_head"] == head, "source_head")
     require(decision["release"] == required["release"] and decision["diff_sha256"] == required["diff_sha256"], "push_diff_contradiction")

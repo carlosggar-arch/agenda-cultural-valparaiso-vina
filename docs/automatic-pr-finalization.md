@@ -44,7 +44,7 @@ Si avanzó la base, se debe validar una actualización normal antes del no-op.
 Para `release=true` siguen siendo obligatorios el handoff original, la autoridad
 de finalización, las comprobaciones del padre/base y todos los gates anteriores.
 El marcador no-release no concede autoridad para generar o publicar un release.
-No cambia el clasificador de paths ni los triggers o schedules.
+No cambia el clasificador de paths ni los schedules.
 
 ### Enrutamiento del push después del squash
 
@@ -61,6 +61,35 @@ HEAD aprobado y la base registrada por el gate debe ser ese mismo padre. No se
 aceptan el autor, mensaje, una descendencia genérica ni la certificación de un
 SHA histórico. El último run/intento del gate debe estar completo y aprobado;
 evidencia ausente, ambigua, cruzada o contradictoria bloquea antes de sincronizar.
+
+GitHub puede devolver `pull_requests=[]` en un run del gate después del merge.
+Sólo para esa lista vacía literal se consume la prueba **versión 1 ya emitida**
+por `Finalize validated PR candidate` antes de integrar. No se reconstruye la
+asociación ni se completan pruebas antiguas. El run de finalización debe proceder
+del workflow oficial del padre `before`, con repositorio, HEAD, job, pasos y
+bindings de PR/gate/intento exactos; su JSON original debe coincidir por completo
+con la clasificación y los hashes de paths y diff recalculados. Una asociación
+ausente, de otro tipo o contradictoria sigue bloqueando.
+
+Se selecciona el intento más reciente por `run_started_at`, no por el número de
+run: un rerun de un ID anterior puede ser posterior. Se compara también el
+intento actual con el listado. Un intento posterior fallido, sin prueba o sin
+binding verificable no se oculta detrás de un éxito anterior. La enumeración
+debe ser completa; paginación truncada, límites de la API, referencias móviles
+o empates ambiguos bloquean de forma conservadora, sin disparar nuevos runs.
+
+El bootstrap de esta ruta requiere la autoridad que ya emite versión 1,
+introducida en `e2fae07e8890dbf6b3c24561a38bc5dbeeb05364`. La evidencia legacy
+del gate `34697626001/1` y finalización `34697637385/1` de #520 se conserva y
+sigue rechazada: no incluye el contrato, versión, repositorio ni digest del diff.
+El fallo posterior `34697682707/1` ocurrió en routing, antes de cualquier paso
+de despliegue; no se reejecuta ni se convierte en una certificación válida.
+
+El trigger push existente incluye los dos consumidores
+`publication_release_decision.py` y `release_decision.py`, para comprobar esta
+ruta automáticamente al integrarlos. No se añaden jobs, schedules, dispatches ni
+permisos. Hay lecturas y almacenamiento adicionales de evidencia, y una ejecución
+normal para cambios en esos paths; no se atribuye ningún ahorro medido.
 
 Un no-release demostrado termina con `PUBLICATION_NO_RELEASE_VERIFIED`:
 `sync-cloudflare` no hace handoff, build, push, sondas ni escrituras; los jobs de
