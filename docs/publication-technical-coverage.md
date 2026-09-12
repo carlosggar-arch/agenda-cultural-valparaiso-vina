@@ -47,4 +47,58 @@ explícito para ejecutar sus guards de calidad y semántica reales hasta el rece
 obligatorio, sin red. No es una certificación remota ni un release finalizado.
 
 No se incluyen datasets generados, recibos de producción o artefactos históricos.
-No se ha hecho push, modificado PR, disparado workflows ni publicado contenido.
+La autorización posterior permite push normal y PR draft tras la validación,
+no ready, merge, publicación ni certificación remota.
+
+## Contrato oficial y coexistencia comprobados
+
+La matriz local importa productores/lectores de los cuatro checkouts, con Git
+real y receipts sintéticos explícitos. Core base + Web base, Core base + Web
+nuevo y Core nuevo + Web nuevo aceptan lineage 1.0 sin sidecars. Core nuevo + Web
+nuevo acepta 1.1 con coverage ligado; Core nuevo sin capability falla antes del
+aislamiento. Se ejecutaron los siete vectores, 21 contratos lineage Core y 12
+contratos coverage Web. No constituyen certificación de una release remota.
+
+Antes del primer snapshot técnico pendiente deben haber terminado **todos** los
+publishers y finalizers activos o en cola fijados a Core anterior. Un finalizer
+antiguo conserva `source_head_sha` aunque `main` avance. Con cola ya presente,
+el productor anterior emite 1.0 y este consumidor lo rechaza downstream por
+`CORE_LINEAGE_BUNDLE_COVERAGE_MISMATCH`; no se afirma bloqueo previo al push.
+No se desactivan schedules: esta condición exige un preflight operativo futuro.
+
+La clasificación permanece `release=true`, tanto incrementalmente sobre #518
+como contra `main`. No se cambian paths ni clasificador. El diff modifica tres
+herramientas protegidas (`core_publication_lineage.py`, `release_bundle.py` y
+`release_finalizer.py`): el consumidor de `pr-finalize.yml` usa herramientas
+confiables de `main` y detiene la autofinalización de su propia maquinaria.
+La preparación transitoria y el handoff del gate oficial, si llegan a producirse,
+no equivalen al commit canónico ni al despliegue. El draft permanece draft.
+`PR_FINALIZATION_COMMIT_PENDING` y la pausa por draft no se resuelven con reruns,
+artefactos inventados o autoautoridad. La finalización protegida/manual documentada
+requiere revisión en una fase de integración posterior autorizada.
+
+El PR nuevo tiene base `main` para que corran los checks normales, cuyos triggers
+están limitados a esa base, y dependencia explícita de #518 (y Core #576).
+Orden: reparaciones base → este consumidor finalizado y certificado → productor
+Core, con la condición de drenaje de runs antiguos descrita. No se modifica #518.
+
+## Cierre del navegador local
+
+Los 11 owners del runner browser pasan en la ampliación. La primera carga se
+comparó contra #518 bajo el mismo entorno: cuatro casos ciudad/viewport por
+versión, logs idénticos SHA-256
+`0c918322b6ca9badf6b9f1a52fa61aa1f19b904a4acb481e99cefb3217a012d0`.
+El transporte nativo Chrome Windows `--dump-dom` se bloquea también en la base
+y con `about:blank`; WebDriver/CDP con el mismo binario sí devuelve DOM.
+Se utilizó un adaptador temporal fuera del repositorio, sin ampliar timeouts ni
+presupuesto virtual y sin cambiar assertions, fixtures o producto. Los fallos
+iniciales del adaptador y sus correcciones de lifecycle/ruta de screenshot se
+conservan separados de los resultados finales. La ejecución nativa Linux sigue
+correspondiendo al CI automático; no se afirma certificación remota.
+
+Pasan startup normal/seguro, cambio de ciudad, flujo de usuario y funciones,
+fechas, visibilidad estructural, aislamiento/paridad de exposiciones, prioridad
+temporal, instalación iOS y contratos UI computados. Se reutilizan sin repetir
+las seis comparaciones WEB/PWA previas, pues la ampliación no cambia interfaz ni
+datasets. La evidencia está en
+`C:/AgendaCultural/tmp/publication-isolation-pr-validation-20260911/browser/`.
