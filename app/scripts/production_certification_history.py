@@ -6,6 +6,10 @@ import json
 import re
 from pathlib import Path
 
+from publication_execution_binding import (
+    ExecutionBindingError, WEB_REPOSITORY, run_key, validate_index,
+)
+
 SCHEMA_VERSION = "1.1.0"
 CONTRACT = "vivamos-production-certification-history"
 ENVIRONMENT = "production"
@@ -40,7 +44,30 @@ def _sha256_path(path: Path) -> str:
     return _sha256_bytes(path.read_bytes())
 
 
+def validated_core_execution(payload: dict) -> dict | None:
+    """Preserve exact Core authority in new records; legacy PR records stay valid."""
+    if "core_execution" not in payload:
+        return None
+    try:
+        index = validate_index(payload["core_execution"])
+    except ExecutionBindingError as exc:
+        raise CertificationHistoryError(str(exc)) from exc
+    if index["role"] != "canonical":
+        raise CertificationHistoryError("CERTIFICATION_DELEGATED_EXECUTION_CANNOT_CREATE_RECORD")
+    if (index["binding"]["public_sha"] != payload.get("head_sha")
+            or index["binding"]["release_id"] != payload.get("release_id")):
+        raise CertificationHistoryError("CERTIFICATION_CORE_PUBLICATION_IDENTITY_MISMATCH")
+    workflow = payload.get("workflow") or {}
+    expected_run, expected_attempt = run_key(index["canonical"])
+    if (workflow.get("repository") != WEB_REPOSITORY
+            or str(workflow.get("run_id")) != str(expected_run)
+            or str(workflow.get("run_attempt")) != str(expected_attempt)):
+        raise CertificationHistoryError("CERTIFICATION_CORE_EXECUTION_IDENTITY_MISMATCH")
+    return index
+
+
 def _identity(payload: dict) -> tuple[int, str, str, str, str]:
+    validated_core_execution(payload)
     try:
         release = int(payload.get("release") or 0)
     except (TypeError, ValueError) as exc:
@@ -90,6 +117,8 @@ def _record(payload: dict, path: str, archive_sha256: str) -> dict:
 def _validate_existing(existing: dict, incoming: dict) -> None:
     if _identity(existing) != _identity(incoming):
         raise CertificationHistoryError("CERTIFICATION_IMMUTABLE_PATH_CONFLICT")
+    if validated_core_execution(existing) != validated_core_execution(incoming):
+        raise CertificationHistoryError("CERTIFICATION_CORE_EXECUTION_CONFLICT_OR_DOWNGRADE")
 
 
 def _load_index(state_root: Path) -> tuple[Path, dict, list[dict]]:

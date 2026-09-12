@@ -207,8 +207,13 @@ class BundleConsumerTests(unittest.TestCase):
         self.assertNotIn("gh attestation verify", workflow)
         self.assertLess(workflow.index("python app/scripts/verify_core_publication_bundle.py"),
                         workflow.index("git push origin HEAD:cloudflare-preview"))
-        self.assertEqual(workflow.count("--core-attestation /tmp/core-publication-lineage/attestation.json"), 2)
-        self.assertEqual(workflow.count("--core-receipt /tmp/core-publication-lineage/receipt.json"), 2)
+        # Authentication still runs in both jobs. The same original inputs
+        # now reach all three semantic closes, including the final chain.
+        self.assertEqual(workflow.count("--core-attestation /tmp/core-publication-lineage/attestation.json"), 3)
+        self.assertEqual(workflow.count("--core-receipt /tmp/core-publication-lineage/receipt.json"), 3)
+        close = workflow.split("name: Certify exact source-to-production chain", 1)[1].split("      - name:", 1)[0]
+        self.assertIn("--core-attestation /tmp/core-publication-lineage/attestation.json", close)
+        self.assertIn("--core-receipt /tmp/core-publication-lineage/receipt.json", close)
         self.assertIn("cp -R /tmp/core-publication-lineage /tmp/production-release-verification/core-publication-lineage", workflow)
         self.assertIn("path: /tmp/production-release-verification/", workflow)
 
