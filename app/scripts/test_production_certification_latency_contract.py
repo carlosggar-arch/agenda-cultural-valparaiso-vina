@@ -22,6 +22,9 @@ def timeout_minutes(block: str) -> int:
 
 
 def main() -> None:
+    from test_deployment_readiness import run_contract
+
+    run_contract()
     publish = PUBLISH.read_text(encoding="utf-8")
     readiness = READINESS.read_text(encoding="utf-8")
     sync = job_block(publish, "sync-cloudflare", "production-smoke")

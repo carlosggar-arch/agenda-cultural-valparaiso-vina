@@ -31,6 +31,14 @@ MAX_PARALLEL_FETCHES = 8
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
+class DeploymentNotReady(SystemExit):
+    def __init__(self, rows: dict[str, dict[str, object]]):
+        self.rows = rows
+        missing = [name for name in ORIGINS if not rows.get(name, {}).get("ready")]
+        details = "; ".join(f"{name}={rows.get(name)}" for name in missing)
+        super().__init__(f"DEPLOYMENT_NOT_READY {details}")
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
@@ -97,6 +105,11 @@ def probe_origin(name: str, base: str, expected_release: int) -> dict[str, objec
                 "ready": False,
                 "reason": "content-mismatch",
                 "mismatches": mismatches,
+                "hashes": {
+                    remote: {"expected_sha256": expected_hashes[remote],
+                             "observed_sha256": actual_hashes.get(remote)}
+                    for remote in mismatches
+                },
             }
         return {
             "origin": name,
@@ -200,8 +213,7 @@ def assert_all_ready(expected_release: int) -> dict[str, dict[str, object]]:
     rows = probe_all(expected_release)
     missing = [name for name in ORIGINS if not rows.get(name, {}).get("ready")]
     if missing:
-        details = "; ".join(f"{name}={rows.get(name)}" for name in missing)
-        raise SystemExit(f"DEPLOYMENT_NOT_READY {details}")
+        raise DeploymentNotReady(rows)
     with ThreadPoolExecutor(max_workers=len(ORIGINS)) as pool:
         futures = [
             pool.submit(verify_shell_once, name, base, expected_release)
@@ -227,11 +239,20 @@ def wait_until_ready(expected_release: int, timeout_seconds: int, poll_seconds: 
         pending = [name for name in ORIGINS if not last.get(name, {}).get("ready")]
         elapsed = time.monotonic() - started
         if not pending:
-            rows = assert_all_ready(expected_release)
-            print(
-                f"DEPLOYMENT_READY release=v{expected_release} attempts={attempt} elapsed_seconds={elapsed:.2f} origins={','.join(ORIGINS)}"
-            )
-            return rows, elapsed
+            try:
+                rows = assert_all_ready(expected_release)
+            except DeploymentNotReady as exc:
+                # The confirmation is another network observation, not a new
+                # wait. Keep it inside the same deadline; shell failures remain
+                # fatal and --assert-ready stays strictly one-shot.
+                last = exc.rows
+                pending = [name for name in ORIGINS if not last.get(name, {}).get("ready")]
+            else:
+                elapsed = time.monotonic() - started
+                print(
+                    f"DEPLOYMENT_READY release=v{expected_release} attempts={attempt} elapsed_seconds={elapsed:.2f} origins={','.join(ORIGINS)}"
+                )
+                return rows, elapsed
         if time.monotonic() >= deadline:
             details = "; ".join(f"{name}={last.get(name)}" for name in pending)
             raise SystemExit(
