@@ -44,33 +44,83 @@ Si avanzó la base, se debe validar una actualización normal antes del no-op.
 Para `release=true` siguen siendo obligatorios el handoff original, la autoridad
 de finalización, las comprobaciones del padre/base y todos los gates anteriores.
 El marcador no-release no concede autoridad para generar o publicar un release.
-No cambia el clasificador de paths ni los triggers, permisos o schedules.
+No cambia el clasificador de paths ni los triggers o schedules.
+
+### Enrutamiento del push después del squash
+
+La decisión compartida `verified-release-decision`, versión 1, liga repositorio,
+base, HEAD fuente, run/intento del gate, clasificación y SHA-256 del diff binario
+completo. La finalización del PR y `publish.yml` usan este mismo contrato. No es
+una firma ni sustituye la evidencia: el consumidor verifica el gate oficial y
+recalcula su clasificación usando herramientas extraídas del **padre anterior**
+de main. El candidato no suministra su propia autoridad de clasificación.
+
+Para un push se exige además el PR fusionado exacto: `merge_commit_sha` debe ser
+el candidato, su único padre debe ser `before`, su árbol debe ser idéntico al
+HEAD aprobado y la base registrada por el gate debe ser ese mismo padre. No se
+aceptan el autor, mensaje, una descendencia genérica ni la certificación de un
+SHA histórico. El último run/intento del gate debe estar completo y aprobado;
+evidencia ausente, ambigua, cruzada o contradictoria bloquea antes de sincronizar.
+
+Un no-release demostrado termina con `PUBLICATION_NO_RELEASE_VERIFIED`:
+`sync-cloudflare` no hace handoff, build, push, sondas ni escrituras; los jobs de
+producción y refresh no se ejecutan. La decisión queda como artefacto de Actions
+durante 30 días. El watchdog la recompone independientemente, comprueba el mismo
+run/intento y que todos los pasos de despliegue se omitieron; no exige ni emite
+certificación para ese SHA. Sus lecturas requieren `actions: read`, sin añadir
+jobs, schedules ni permisos de escritura nuevos.
+
+Un release conserva íntegra la ruta previa: bump, finalización canónica,
+`check_published`, sincronización exacta, producción, attestation y certificación
+durable. Los eventos explícitos `workflow_dispatch` y `repository_dispatch`
+siempre requieren esa ruta completa; nunca demuestran no-release. El artefacto
+de enrutamiento no sustituye el handoff ni la autoridad Core.
+
+El writer Core usa su App, no `GITHUB_TOKEN`: puede emitir push y después el
+`repository_dispatch` con lineage detached. Un push directo sin PR sólo puede
+seleccionar la ruta completa cuando el clasificador de la base demuestra
+`release=true`; no evita ninguno de sus verificadores. Si falta la evidencia
+detached, el gate de lineage sigue bloqueando antes del mirror write. La ausencia
+de PR jamás autoriza no-release, y una asociación PR contradictoria bloquea.
+
+**Límite del servicio Pages:** la configuración observada es `legacy`, fuente
+`main /`. GitHub puede reconstruir Pages automáticamente al fusionar, fuera de
+este workflow. La ruta no-release no intenta un despliegue y no certifica una
+nueva release; tampoco afirma que haya impedido ese rebuild del servicio. No se
+modifica la configuración Pages. Hay que observar cualquier build automático y
+comparar las superficies/release efectivas sin atribuir la certificación antigua
+al nuevo SHA del repositorio. Un build del mismo contenido no equivale a una
+regeneración editorial ni a una nueva certificación.
 
 ### Integración inicial de esta corrección
 
 La corrección del consumidor puede integrarse como cambio de herramientas sin
-release por el PR protegido existente. El consumidor antiguo de `main` no puede
-aplicar automáticamente un cambio de su propia maquinaria: conserva la salida
-`Manual finalization required`. Este bootstrap se revisa explícitamente, con los
-gates obligatorios y squash ligado al HEAD exacto, sin `--admin` ni artefactos
-de release fabricados. El código del PR no se usa como autoridad confiable para
-aprobarse. Sólo después del merge pasa a ser la autoridad de futuros runs.
+release por un PR protegido. Las guardas `Manual finalization required` impiden
+generar automáticamente una **release** que cambia su propia maquinaria. No
+obligan a inventar una release para un no-release demostrado por la autoridad
+anterior: éste termina sin finalización de release. Ese resultado tampoco aprueba
+el PR ni autoriza su merge. El bootstrap se revisa explícitamente, con los gates
+obligatorios y squash ligado al HEAD exacto, sin `--admin` ni artefactos fabricados.
+El código del PR no se usa como autoridad confiable para aprobarse. Sólo después
+del merge pasa a ser la autoridad de futuros runs.
 
 Para Web #517, los cuatro archivos originales de contabilización y los cambios
 de este contrato continúan siendo `release=false`. Su integración de código no
 es una regeneración editorial ni dispara por sí misma la publicación canónica.
 Core #575 se integra primero; la evidencia funcional conjunta anterior se conserva.
 
-La automatización se detiene y conserva el procedimiento manual cuando hay
+La ruta `release=true` se detiene y conserva el procedimiento manual cuando hay
 conflictos con `main`, cambia concurrentemente la base o el head, el PR procede
 de un fork, sigue en draft, falla un control obligatorio o modifica la propia
-maquinaria confiable de finalización. Nunca aprueba, fusiona ni publica.
+maquinaria confiable de finalización. La ruta no-release sólo cierra si satisface
+su prueba confiable exacta; no escribe aunque el PR siga draft. Ninguna ruta
+aprueba, fusiona ni publica por sí sola.
 
-El PR que introduce esta automatización modifica precisamente esa maquinaria
-confiable y debe finalizarse con el procedimiento manual existente. Sólo los PR
-posteriores a su merge pueden usarla. Un marcador antiguo no basta para omitir
-trabajo: se comprueban padre, head y base exactos; si `main` avanza, la
-certificación anterior se invalida y se solicita la actualización segura.
+Un PR que cambia esta maquinaria y exige release debe finalizarse con el
+procedimiento manual existente; un no-release probado no necesita ese commit.
+Sólo los PR posteriores al merge pueden usar la nueva autoridad. Un marcador
+antiguo no basta para omitir trabajo: se comprueban padre, head y base exactos;
+si `main` avanza, la evidencia del candidato debe actualizarse de forma segura.
 
 Para desactivarla, se deshabilita únicamente el workflow **Finalize validated
 PR candidate**. Los gates existentes y `release_finalizer.py` permanecen

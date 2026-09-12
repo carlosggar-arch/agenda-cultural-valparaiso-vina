@@ -44,6 +44,7 @@ on:
     types: [core_publication_lineage]
 
 permissions:
+  actions: read
   contents: read
   pull-requests: read
 
@@ -62,7 +63,10 @@ concurrency:
 jobs:
   sync-cloudflare:
     name: sync-cloudflare
+    outputs:
+      release: ${{ steps.release-decision.outputs.release }}
     permissions:
+      actions: read
       contents: write
       pull-requests: read
     runs-on: ubuntu-latest
@@ -106,7 +110,32 @@ jobs:
             --source-digest "$(jq -r .core_sha /tmp/core-publication-lineage/attestation.json)" \
             --source-ref refs/heads/main
 
+      - name: Verify exact release decision before deployment
+        id: release-decision
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python app/scripts/publication_release_decision.py \
+            --event-name "$EVENT_NAME" --candidate "$CANDIDATE_SHA" --before "$BEFORE_SHA" \
+            --output /tmp/publication-release-decision/decision.json --github-output "$GITHUB_OUTPUT"
+
+      - name: Preserve verified deployment routing evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-release-decision-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/publication-release-decision/decision.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Verified no-release completes without deployment
+        if: steps.release-decision.outputs.release == 'false'
+        run: echo "PUBLICATION_NO_RELEASE_VERIFIED head=$CANDIDATE_SHA deployed=false certified=false writes=none"
+
       - name: Create exact-tree handoff preserving deployment history
+        if: steps.release-decision.outputs.release == 'true'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -118,6 +147,7 @@ jobs:
           git merge --no-edit -s ours origin/cloudflare-preview
 
       - name: Require exact deployment-branch parity with candidate
+        if: steps.release-decision.outputs.release == 'true'
         run: |
           set -euo pipefail
           unexpected="$(git diff --name-only "$CANDIDATE_SHA" HEAD)"
@@ -128,7 +158,7 @@ jobs:
           fi
 
       - name: Require release bump for runtime pushes
-        if: github.event_name == 'push'
+        if: steps.release-decision.outputs.release == 'true' && github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
@@ -146,6 +176,7 @@ jobs:
             --head-ref "$CANDIDATE_SHA"
 
       - name: Validate Cloudflare build snapshot and exact release lineage
+        if: steps.release-decision.outputs.release == 'true'
         run: |
           set -euo pipefail
           bash cloudflare-build.sh
@@ -164,11 +195,13 @@ jobs:
           python app/scripts/release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA" "${lineage_args[@]}"
 
       - name: Push synchronized deployment branch
+        if: steps.release-decision.outputs.release == 'true'
         run: |
           set -euo pipefail
           git push origin HEAD:cloudflare-preview
 
       - name: Fast-close changed dataset freshness and identity
+        if: steps.release-decision.outputs.release == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -179,6 +212,7 @@ jobs:
           python app/scripts/fast_close_dataset_validation.py --base-ref "$before"
 
       - name: Fast-close deterministic runtime contracts
+        if: steps.release-decision.outputs.release == 'true'
         run: |
           set -euo pipefail
           node app/runtime-past-event-guard.test.mjs
@@ -186,6 +220,7 @@ jobs:
           python app/scripts/production_pwa_smoke.py local
 
       - name: Wait once for both production origins in parallel
+        if: steps.release-decision.outputs.release == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -202,6 +237,7 @@ jobs:
           grep -q '^PRODUCTION_ORIGIN_PARITY_OK origin=cloudflare ' /tmp/production-fast-close/http.log
 
       - name: Mark byte deployment, pending visual verification
+        if: steps.release-decision.outputs.release == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -220,6 +256,7 @@ jobs:
 
   production-smoke:
     needs: sync-cloudflare
+    if: needs.sync-cloudflare.outputs.release == 'true'
     permissions:
       contents: write
       pull-requests: read
