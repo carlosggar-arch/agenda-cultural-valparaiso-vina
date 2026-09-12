@@ -35,7 +35,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/pr-finalization-tools
-          cp app/scripts/{pr_release_automation.py,ci_change_impact.py,core_publication_lineage.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} /tmp/pr-finalization-tools/
+          cp app/scripts/{pr_release_automation.py,release_decision.py,ci_change_impact.py,core_publication_lineage.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} /tmp/pr-finalization-tools/
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Resolve immutable PR snapshot
@@ -165,7 +165,7 @@ jobs:
         run: |
           set -euo pipefail
           changed="$(git diff --name-only "${BASE_SHA}...${SOURCE_SHA}")"
-          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|ci_change_impact|core_publication_lineage|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
+          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|release_decision|publication_release_decision|ci_change_impact|core_publication_lineage|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
           if grep -E "$protected" <<<"$changed"; then
             echo "::notice title=Manual finalization required::The PR changes trusted finalization machinery."
             exit 78
@@ -197,12 +197,12 @@ jobs:
           set -euo pipefail
           git checkout --detach "$SOURCE_SHA"
           changed="$(git diff --name-only "${BASE_SHA}...${SOURCE_SHA}")"
-          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|ci_change_impact|core_publication_lineage|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
+          protected='^(\.github/workflows/pr-(release|finalize)\.yml|app/scripts/(pr_release_automation|release_decision|publication_release_decision|ci_change_impact|core_publication_lineage|release_finalizer|release_bundle|generate_runtime_contracts)\.py)$'
           if grep -E "$protected" <<<"$changed"; then
             echo "::notice title=Manual finalization required::The PR changes trusted finalization machinery."
             exit 78
           fi
-          cp /tmp/pr-finalization-tools/{pr_release_automation.py,ci_change_impact.py,core_publication_lineage.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} app/scripts/
+          cp /tmp/pr-finalization-tools/{pr_release_automation.py,release_decision.py,ci_change_impact.py,core_publication_lineage.py,release_finalizer.py,release_bundle.py,generate_runtime_contracts.py} app/scripts/
           git diff --quiet "$SOURCE_SHA" -- app/scripts
           git config user.name "vivamos-pr-finalizer[bot]"
           git config user.email "vivamos-pr-finalizer[bot]@users.noreply.github.com"
