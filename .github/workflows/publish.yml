@@ -45,6 +45,19 @@ on:
       - "cloudflare-build.sh"
   workflow_dispatch:
     # Explicit recovery path when an automated merge does not emit a push run.
+    inputs:
+      snapshot_public_sha:
+        description: "Existing immutable publication to verify; never deploys or regenerates it"
+        type: string
+        required: false
+      original_run_id:
+        description: "Original authenticated canonical Web publication run"
+        type: string
+        required: false
+      original_run_attempt:
+        description: "Exact original canonical Web attempt"
+        type: string
+        required: false
   repository_dispatch:
     types: [core_publication_lineage]
 
@@ -66,8 +79,124 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  verify-snapshot:
+    name: verify-snapshot
+    if: github.event_name == 'workflow_dispatch' && (inputs.snapshot_public_sha != '' || inputs.original_run_id != '' || inputs.original_run_attempt != '')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: Checkout exact verifier
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Checkout existing immutable publication
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.snapshot_public_sha }}
+          path: .snapshot
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify original publication evidence
+        env:
+          PUBLIC_SHA: ${{ inputs.snapshot_public_sha }}
+          ORIGINAL_RUN_ID: ${{ inputs.original_run_id }}
+          ORIGINAL_RUN_ATTEMPT: ${{ inputs.original_run_attempt }}
+        run: |
+          python app/scripts/snapshot_verification_cli.py prepare \
+            --public-sha "$PUBLIC_SHA" --original-run-id "$ORIGINAL_RUN_ID" \
+            --original-run-attempt "$ORIGINAL_RUN_ATTEMPT" --output /tmp/snapshot-verification
+      - name: Bind exact snapshot verification
+        run: python app/scripts/snapshot_verification_cli.py emit --output /tmp/snapshot-verification
+      - name: Preserve original and new verification identities separately
+        uses: actions/upload-artifact@v6
+        with:
+          name: snapshot-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/snapshot-verification/
+          retention-days: 30
+          if-no-files-found: error
+
+  snapshot-production-smoke:
+    name: snapshot-production-smoke
+    needs: verify-snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    permissions:
+      contents: write
+      actions: read
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: Checkout exact verifier
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Checkout existing immutable publication
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.snapshot_public_sha }}
+          path: .snapshot
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Restore same-run authenticated historical bytes
+        uses: actions/download-artifact@v7
+        with:
+          name: snapshot-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/snapshot-verification
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - name: Install declared browser dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-ci.txt
+      - name: Install reviewed verifier over immutable data checkout
+        run: python app/scripts/snapshot_verification_cli.py install --output /tmp/snapshot-verification
+      - name: Run complete immutable snapshot production verification
+        run: |
+          python .snapshot/app/scripts/snapshot_production_smoke.py \
+            --snapshot .snapshot --verifier "$GITHUB_WORKSPACE" --evidence /tmp/snapshot-verification
+      - name: Checkout permanent production certification history
+        uses: actions/checkout@v7
+        with:
+          ref: state/production-certifications
+          path: .production-certification-state
+          fetch-depth: 1
+      - name: Persist exact snapshot certification without publishing
+        env:
+          PUBLIC_SHA: ${{ inputs.snapshot_public_sha }}
+        run: |
+          set -euo pipefail
+          python app/scripts/snapshot_verification_cli.py check-context --output /tmp/snapshot-verification
+          python app/scripts/production_certification_history.py \
+            --attestation /tmp/snapshot-verification/production-release-attestation.json \
+            --state-root .production-certification-state
+          git -C .production-certification-state config user.name "vivamos-production-certification[bot]"
+          git -C .production-certification-state config user.email "vivamos-production-certification[bot]@users.noreply.github.com"
+          git -C .production-certification-state add data/index.json data/releases
+          if ! git -C .production-certification-state diff --cached --quiet; then
+            git -C .production-certification-state commit -m "Certify existing snapshot ${PUBLIC_SHA:0:12} verification ${GITHUB_RUN_ID}/${GITHUB_RUN_ATTEMPT}"
+            git -C .production-certification-state push origin HEAD:state/production-certifications
+          fi
+      - name: Preserve complete snapshot verification evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: snapshot-production-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/snapshot-verification/
+          retention-days: 30
+          if-no-files-found: error
+
   sync-cloudflare:
     name: sync-cloudflare
+    if: inputs.snapshot_public_sha == '' && inputs.original_run_id == '' && inputs.original_run_attempt == ''
     outputs:
       release: ${{ steps.release-decision.outputs.release }}
       action: ${{ steps.execution.outputs.action }}

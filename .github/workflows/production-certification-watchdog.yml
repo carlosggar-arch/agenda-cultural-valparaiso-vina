@@ -17,13 +17,20 @@ concurrency:
 jobs:
   certification-watchdog:
     name: certification-watchdog
+    outputs:
+      snapshot_verification: ${{ steps.routing.outputs.snapshot_verification }}
+      finalizer_run_id: ${{ steps.snapshot.outputs.finalizer_run_id }}
+      finalizer_run_attempt: ${{ steps.snapshot.outputs.finalizer_run_attempt }}
+      intent_id: ${{ steps.snapshot.outputs.intent_id }}
+      verification_run_id: ${{ steps.snapshot.outputs.verification_run_id }}
+      verification_run_attempt: ${{ steps.snapshot.outputs.verification_run_attempt }}
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
       - name: Checkout current verifier
         uses: actions/checkout@v7
         with:
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
 
       - name: Checkout permanent certification history
@@ -66,7 +73,7 @@ jobs:
             --watchdog-run "$SOURCE_RUN_ID" --github-output "$GITHUB_OUTPUT"
 
       - name: Inspect synchronized deployment outcome
-        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true'
+        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true' && steps.routing.outputs.snapshot_verification != 'true'
         id: jobs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -116,7 +123,7 @@ jobs:
           fi
 
       - name: Download source production attestation
-        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true'
+        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true' && steps.routing.outputs.snapshot_verification != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
@@ -138,7 +145,7 @@ jobs:
           cp "$attestation" /tmp/production-release-attestation.json
 
       - name: Require exact attestation lineage and durable chained certification
-        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true'
+        if: steps.routing.outputs.no_release != 'true' && steps.routing.outputs.delegated != 'true' && steps.routing.outputs.snapshot_verification != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
@@ -222,3 +229,75 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
           echo "PRODUCTION_CERTIFICATION_STATE=DATA_CERTIFIED run=$SOURCE_RUN_ID head=$expected_head release=v$expected_release valpo_hash=$valpo_hash gijon_hash=$gijon_hash"
           echo "PRODUCTION_CERTIFICATION_WATCHDOG_COMPLETE run=$SOURCE_RUN_ID head=$expected_head release=v$expected_release"
+
+      - name: Checkout exact already-published snapshot
+        if: steps.routing.outputs.snapshot_verification == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.routing.outputs.effective_head }}
+          path: .snapshot
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify exact snapshot certification
+        id: snapshot
+        if: steps.routing.outputs.snapshot_verification == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ steps.source.outputs.run_id }}
+        run: |
+          python app/scripts/snapshot_verification_cli.py watchdog \
+            --source-run-id "$SOURCE_RUN_ID" --output /tmp/snapshot-watchdog \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: Preserve new watchdog identity and original evidence
+        if: always() && steps.routing.outputs.snapshot_verification == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: snapshot-watchdog-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/snapshot-watchdog/
+          retention-days: 30
+          if-no-files-found: error
+
+  dispatch-snapshot-certification:
+    name: dispatch-snapshot-certification
+    needs: certification-watchdog
+    if: needs.certification-watchdog.outputs.snapshot_verification == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Require dedicated Core certification callback credentials
+        env:
+          APP_ID: ${{ secrets.CORE_CERTIFICATION_APP_ID }}
+          APP_KEY: ${{ secrets.CORE_CERTIFICATION_APP_PRIVATE_KEY }}
+        run: |
+          if [[ -z "$APP_ID" || -z "$APP_KEY" ]]; then
+            echo "::error::Core certification callback App is not configured; no fallback authority is allowed."
+            exit 1
+          fi
+      - name: Mint Core Actions-only callback token
+        id: callback-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_CERTIFICATION_APP_ID }}
+          private-key: ${{ secrets.CORE_CERTIFICATION_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: agenda-cultural-core
+          permission-actions: write
+      - name: Request official Core certification of the verified snapshot
+        env:
+          GH_TOKEN: ${{ steps.callback-token.outputs.token }}
+          FINALIZER_RUN_ID: ${{ needs.certification-watchdog.outputs.finalizer_run_id }}
+          FINALIZER_ATTEMPT: ${{ needs.certification-watchdog.outputs.finalizer_run_attempt }}
+          INTENT_ID: ${{ needs.certification-watchdog.outputs.intent_id }}
+          VERIFICATION_RUN_ID: ${{ needs.certification-watchdog.outputs.verification_run_id }}
+          VERIFICATION_ATTEMPT: ${{ needs.certification-watchdog.outputs.verification_run_attempt }}
+        run: |
+          gh workflow run certify-publication-post-finalizer.yml \
+            --repo carlosggar-arch/agenda-cultural-core --ref main \
+            -f finalizer_run_id="$FINALIZER_RUN_ID" -f finalizer_run_attempt="$FINALIZER_ATTEMPT" \
+            -f intent_id="$INTENT_ID" \
+            -f web_verification_run_id="$VERIFICATION_RUN_ID" -f web_verification_run_attempt="$VERIFICATION_ATTEMPT" \
+            -f web_watchdog_run_id="$GITHUB_RUN_ID" -f web_watchdog_run_attempt="$GITHUB_RUN_ATTEMPT"
