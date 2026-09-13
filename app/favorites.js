@@ -1,5 +1,5 @@
 import { FAVORITES_CHANGED_EVENT, FAVORITES_STORAGE_KEY, favoritesForCity } from "../assets/favorites-core.mjs?v=20260817";
-import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButtons } from "../assets/favorites-view.mjs?v=20260817";
+import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButtons } from "../assets/favorites-view.mjs?v=20260913-pending-time1";
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 

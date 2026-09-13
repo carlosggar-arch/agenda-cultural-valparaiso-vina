@@ -5,6 +5,14 @@ const TRAILING_DATE_RANGE = /\s[–-]\s(?:\d{4}-\d{2}-\d{2}|\d{1,2}-\d{1,2}-\d{4
 const FOUR_TIME_LIST = /\b(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\s*,\s*(?:[01]\d|2[0-3]):[0-5]\d\b/;
 const TWO_TIME_COMMA_LIST = /\b((?:[01]\d|2[0-3]):[0-5]\d)\s*,\s*((?:[01]\d|2[0-3]):[0-5]\d)\b/;
 
+export function isPendingEventTime(schedule) {
+  if (!schedule || typeof schedule !== "object") return false;
+  const display = String(schedule.display_text || "").replace(/\s+/g, " ").trim().toLocaleLowerCase("es");
+  const confidence = [schedule.start_confidence, schedule.end_confidence]
+    .map((value) => String(value || "").trim().toLocaleLowerCase("en"));
+  return display === "horario por confirmar" || confidence.some((value) => value.includes("conflicting"));
+}
+
 function validTime(value) {
   const match = String(value || "").match(/^([01]\d|2[0-3]):([0-5]\d)$/);
   return match ? match[0] : null;
@@ -292,6 +300,10 @@ export function formatSchedule(schedule, options = {}) {
   if (!schedule || typeof schedule !== "object") return "Horario por confirmar";
   const settings = { ...DEFAULTS, now: new Date(), ...options };
   const range = dateRangeLabel(schedule, settings);
+
+  if (isPendingEventTime(schedule)) {
+    return [range, "Horario por confirmar"].filter(Boolean).join(" · ");
+  }
 
   // Point 8 contract: event sessions always outrank venue/visit hours.
   const canonicalSession = canonicalSessionLabel(schedule, settings);

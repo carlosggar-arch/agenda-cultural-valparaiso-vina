@@ -1,4 +1,5 @@
 import { eventMatchesCanonicalSection } from "../app/public-selection-core.mjs?v=20260823-selection1";
+import { isPendingEventTime } from "./event-schedule-display.mjs?v=20260913-pending-time1";
 
 export const DATASET_PATH = "./agenda_web.json";
 export const CHANGES_DATASET_PATH = "./agenda_changes.json";
@@ -238,7 +239,7 @@ export function scheduleLabel(schedule) {
   if (!schedule || typeof schedule !== "object") return null;
   if (schedule.start) {
     const formatted = formatContractDate(schedule.start);
-    if (formatted) return formatted;
+    if (formatted) return isPendingEventTime(schedule) ? `${formatted} · Horario por confirmar` : formatted;
   }
   if (Array.isArray(schedule.occurrences) && schedule.occurrences.length) {
     const formatted = formatContractDate(schedule.occurrences[0]?.start);
@@ -265,6 +266,7 @@ function isStructuredCalendarStart(value) {
 
 export function calendarOccurrences(event) {
   if (!event || event.event_type === "flexible_offer" || event.event_type === "program") return [];
+  if (isPendingEventTime(event.schedule)) return [];
   const occurrences = event.schedule?.occurrences?.length
     ? event.schedule.occurrences
     : [{ start: event.schedule?.start, end: event.schedule?.end }];

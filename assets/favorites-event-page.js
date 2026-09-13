@@ -1,5 +1,5 @@
 import { FAVORITES_CHANGED_EVENT, FAVORITES_STORAGE_KEY } from "./favorites-core.mjs?v=20260817";
-import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButton } from "./favorites-view.mjs?v=20260817";
+import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButton } from "./favorites-view.mjs?v=20260913-pending-time1";
 
 function start() {
   const body = document.body;

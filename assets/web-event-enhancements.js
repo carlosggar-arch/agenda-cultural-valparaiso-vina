@@ -1,4 +1,4 @@
-import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260819-hours3";
+import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260913-pending-time1";
 import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-parity2";
 import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity2";
 import "./root-combined-filters.js?v=20260820-category-ui";

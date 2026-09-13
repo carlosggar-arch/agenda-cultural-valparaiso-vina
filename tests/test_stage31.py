@@ -131,6 +131,20 @@ class ScheduleRenderingTests(unittest.TestCase):
             "14 de agosto de 2026 – 4 de octubre de 2026 · Martes a domingo · 10:00–18:00",
         )
 
+    def test_conflicting_time_keeps_date_without_fake_all_day_calendar(self):
+        event = sample_event(schedule={
+            "mode": "dated",
+            "start": "2026-09-15",
+            "end": "2026-09-15",
+            "display_text": "Horario por confirmar",
+            "occurrences": [],
+            "start_confidence": "explicit_date_conflicting_time",
+            "end_confidence": "explicit_date_conflicting_time",
+        })
+        self.assertEqual(base.schedule_text(event), "15 de septiembre de 2026 · Horario por confirmar")
+        self.assertIsNone(base.build_ics("valparaiso", event, "https://example.org/evento/", None))
+        self.assertIsNone(base.google_calendar_url(event, "https://example.org/evento/"))
+
 
 class AccessibilitySeoRenderingTests(unittest.TestCase):
     def test_event_page_has_skip_link_focus_target_and_regional_metadata(self):

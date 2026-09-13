@@ -195,6 +195,16 @@ def schedule_start(event: dict[str, Any]) -> Any:
     return occurrences[0].get("start") if occurrences else None
 
 
+def has_pending_event_time(event: dict[str, Any]) -> bool:
+    schedule = event.get("schedule") or {}
+    display = " ".join(str(schedule.get("display_text") or "").split()).casefold()
+    confidences = (
+        str(schedule.get("start_confidence") or "").strip().casefold(),
+        str(schedule.get("end_confidence") or "").strip().casefold(),
+    )
+    return display == "horario por confirmar" or any("conflicting" in value for value in confidences)
+
+
 def schedule_date_span(start: Any, end: Any) -> str | None:
     start_text = human_date(start)
     end_text = human_date(end)
@@ -224,6 +234,9 @@ def schedule_text(event: dict[str, Any]) -> str:
         if isinstance(opening_hours, dict)
         else ""
     )
+
+    if has_pending_event_time(event):
+        return " · ".join(part for part in (span, "Horario por confirmar") if part)
 
     if opening_text:
         return " · ".join(part for part in (span, opening_text) if part) or opening_text
@@ -378,6 +391,8 @@ def ics_escape(value: Any) -> str:
 
 
 def build_ics(city_id: str, event: dict[str, Any], event_url: str, stamp: datetime | None) -> str | None:
+    if has_pending_event_time(event):
+        return None
     start = schedule_start(event)
     start_ics = to_ics(start)
     if not start_ics:
@@ -417,6 +432,8 @@ def build_ics(city_id: str, event: dict[str, Any], event_url: str, stamp: dateti
 
 
 def google_calendar_url(event: dict[str, Any], event_url: str) -> str | None:
+    if has_pending_event_time(event):
+        return None
     start = schedule_start(event)
     start_ics = to_ics(start)
     if not start_ics:

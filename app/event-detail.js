@@ -1,4 +1,5 @@
 import { resolveEventImage } from "./image-resolver-core.mjs?v=20260824-owned-images2";
+import { isPendingEventTime } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
 
 function safeHttpUrl(value) {
   if (!value) return null;
@@ -154,7 +155,8 @@ function calendarFileUrl(event) {
 }
 
 function hasCalendarDate(event) {
-  return Boolean(event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start);
+  return !isPendingEventTime(event?.schedule)
+    && Boolean(event?.schedule?.start || event?.schedule?.occurrences?.[0]?.start);
 }
 
 function statusNotices(event) {

@@ -6,7 +6,7 @@ import {
   removeFavorite,
   toggleFavorite,
 } from "./favorites-core.mjs";
-import { downloadReminderIcs, reminderOptionsForEvent } from "./favorites-reminders.mjs?v=20260817-reminders";
+import { downloadReminderIcs, reminderOptionsForEvent } from "./favorites-reminders.mjs?v=20260913-pending-time1";
 
 function text(value) {
   return String(value ?? "").trim();

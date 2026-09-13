@@ -144,7 +144,7 @@ assert 'object-fit: contain !important' in media_layout
 assert '.event-card-media > button' in media_layout
 assert 'export function formatSchedule' in schedule_module
 assert 'schedule?.opening_hours' in schedule_module
-assert 'event-schedule-display.mjs?v=20260821-point8-v2' in app_schedule
+assert 'event-schedule-display.mjs?v=20260913-pending-time1' in app_schedule
 assert 'sessionScheduleLabelForDate' in app_schedule
 assert 'referenceDate: referenceDateKey || undefined' in app_schedule
 assert 'delete clean.venue_hours' in app_schedule

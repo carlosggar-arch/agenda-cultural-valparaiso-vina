@@ -16,7 +16,7 @@ import {
   publicStatusLabels,
   safeHttpUrl,
   scheduleLabel,
-} from "./agenda-core.mjs?v=20260823-selection1";
+} from "./agenda-core.mjs?v=20260913-pending-time1";
 import { selectFeatured } from "./featured.mjs";
 import { getAgendaRuntimeSnapshot } from "../app/agenda-runtime-state.mjs?v=20260823-reference1";
 import { relevantEventImageUrl } from "../app/image-resolver-core.mjs?v=20260824-owned-images2";

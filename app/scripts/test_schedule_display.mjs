@@ -247,4 +247,18 @@ const noTime = {
 };
 assert.doesNotMatch(formatSchedule(noTime, valpo), /00:00/);
 
+const conflictingTime = {
+  mode: "dated",
+  start: "2026-09-15",
+  end: "2026-09-15",
+  display_text: "Horario por confirmar",
+  occurrences: [],
+  start_confidence: "explicit_date_conflicting_time",
+  end_confidence: "explicit_date_conflicting_time",
+};
+const conflictingTimeLabel = formatSchedule(conflictingTime, { ...valpo, referenceDate: "2026-09-15" });
+assert.match(conflictingTimeLabel, /15 sept/);
+assert.match(conflictingTimeLabel, /Horario por confirmar/);
+assert.doesNotMatch(conflictingTimeLabel, /00:00|20:00|20:30|todo el d[ií]a/i);
+
 console.log("Shared schedule formatter runtime tests: OK");

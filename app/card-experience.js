@@ -1,4 +1,4 @@
-import { openEventDetail } from "./event-detail.js";
+import { openEventDetail } from "./event-detail.js?v=20260913-pending-time1";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
 import {
   canonicalPublicCategoryId,

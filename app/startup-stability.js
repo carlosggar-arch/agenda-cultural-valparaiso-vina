@@ -32,7 +32,7 @@ async function startSafeMode() {
   if (ready()) return;
   document.documentElement.dataset.vivamosSafeMode = "starting";
   try {
-    const module = await import("./app-safe-mode.js?v=20260819-safe1");
+    const module = await import("./app-safe-mode.js?v=20260913-pending-time1");
     if (!ready()) await module.startSafeMode();
   } catch (error) {
     if (!ready()) showFallbackFailure(error);

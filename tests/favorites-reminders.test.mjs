@@ -67,6 +67,21 @@ test("events without a usable date do not get reminders", () => {
   assert.equal(buildReminderIcs({ city: "valparaiso", event: { title: "Sin fecha" }, lead: "1d" }), null);
 });
 
+test("a dated event with a conflicting time is not exported as all-day", () => {
+  const event = {
+    id: "secreto-montana",
+    title: "Secreto en la Montaña (2005)",
+    schedule: {
+      start: "2026-09-15",
+      end: "2026-09-15",
+      display_text: "Horario por confirmar",
+      start_confidence: "explicit_date_conflicting_time",
+    },
+  };
+  assert.deepEqual(reminderOptionsForEvent(event, new Date("2026-09-13T12:00:00-03:00")), []);
+  assert.equal(buildReminderIcs({ city: "valparaiso", event, lead: "1d" }), null);
+});
+
 test("uses a safe descriptive .ics filename", () => {
   assert.equal(reminderFilename(timedEvent), "recordatorio-media-maraton-tps-valparaiso.ics");
 });
