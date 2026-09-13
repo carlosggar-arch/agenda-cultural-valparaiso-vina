@@ -315,6 +315,7 @@ def build_attestation(
     *,
     verify_network: bool = True,
     core_execution_index: Path | None = None,
+    snapshot_verification: Path | None = None,
 ) -> dict[str, object]:
     release = release_number()
     bundle = release_bundle()
@@ -373,7 +374,11 @@ def build_attestation(
     }
     if core_execution_index is not None:
         payload["core_execution"] = parse_json(core_execution_index.read_bytes())
+        if snapshot_verification is not None:
+            payload["snapshot_verification"] = parse_json(snapshot_verification.read_bytes())
         validated_core_execution(payload)
+    elif snapshot_verification is not None:
+        raise SystemExit("PRODUCTION_SNAPSHOT_ORIGINAL_EXECUTION_MISSING")
     elif os.getenv("GITHUB_EVENT_NAME") == "repository_dispatch":
         raise SystemExit("PRODUCTION_CORE_EXECUTION_EVIDENCE_MISSING")
     return payload
@@ -412,6 +417,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--markdown-output", default=None)
     parser.add_argument("--core-execution-index", type=Path)
+    parser.add_argument("--snapshot-verification", type=Path)
     parser.add_argument("--no-network", action="store_true", help="Unit-test only: validate evidence without refetching production assets.")
     args = parser.parse_args()
 
@@ -422,6 +428,7 @@ def main() -> int:
         Path(args.parity_report),
         verify_network=not args.no_network,
         core_execution_index=args.core_execution_index,
+        snapshot_verification=args.snapshot_verification,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

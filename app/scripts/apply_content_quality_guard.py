@@ -79,6 +79,19 @@ RETROSPECTIVE_OR_NEWS_TEXT = re.compile(
     r"durante estas vacaciones|durante las vacaciones)\b"
 )
 
+STRONG_RETROSPECTIVE_TEXT = re.compile(
+    r"^(?:el dia de ayer disfrutamos|una velada que reunio).{0,500}"
+    r"(?:fueron dos semanas|ante un teatro lleno|fueron parte de esta experiencia)\b"
+)
+TEMPORARY_CLOSURE_NOTICE = re.compile(
+    r"\b(?:nuestras sedes|nuestro espacio|nuestro recinto)\s+estara(?:n)?\s+cerrad[oa]s?\b"
+)
+OPERATIONAL_TITLE = re.compile(r"^organiza\s*:", re.I)
+CONFIRMED_FUNCTION_TITLE = re.compile(
+    r"^(.{3,110}?)(?:\s+-\s+[^.]{3,80}\.)?\s+funci[oó]n\s+confirmada\b",
+    re.I,
+)
+
 # Calls for submissions/applications are opportunities, not attendance events.
 # A strong call-to-submit signal in the title may carry a parsed deadline in
 # schedule.start; therefore this semantic check intentionally runs before the
@@ -308,12 +321,19 @@ def non_event_context_reason(event: dict) -> str | None:
         return "administrative_application_support_not_event"
     title = fold(event.get("title"))
     description = fold(event.get("description"))
+    combined = f"{title} {description}".strip()
+    if STRONG_RETROSPECTIVE_TEXT.search(combined):
+        return "retrospective_post"
+    if (
+        TEMPORARY_CLOSURE_NOTICE.search(combined)
+        and re.search(r"\b(?:receso|pausa|cierre)\b", combined)
+    ):
+        return "administrative_notice"
     if clean_space(event.get("title")).startswith("#") and not has_concrete_schedule(event):
         if re.search(r"\b(?:programacion|cartelera)\b", description):
             return "promotional_carousel_without_verified_children"
     if has_concrete_schedule(event):
         return None
-    combined = f"{title} {description}".strip()
     if MONTHLY_PROGRAM_TITLE.search(title) and PROGRAM_OVERVIEW_TEXT.search(combined):
         return "monthly_program_overview_without_event_schedule"
     if RETROSPECTIVE_OR_NEWS_TEXT.search(combined):
@@ -340,11 +360,20 @@ def _clean_recovered_title(value: str) -> str:
 
 
 def recover_generic_title(event: dict) -> tuple[str | None, str | None]:
-    if not is_generic_title(event.get("title")):
+    original = clean_space(event.get("title"))
+    operational = bool(OPERATIONAL_TITLE.search(original))
+    if not is_generic_title(original) and not operational:
         return None, None
     description = clean_html_text(event.get("description"))
     if not description:
         return None, None
+
+    if operational:
+        match = CONFIRMED_FUNCTION_TITLE.search(description)
+        if match:
+            candidate = _clean_recovered_title(match.group(1))
+            if 2 <= len(fold(candidate).split()) <= 18:
+                return candidate, "explicit_confirmed_function_identity"
 
     for pattern in RECOVERY_PATTERNS:
         match = pattern.search(description)
@@ -905,7 +934,15 @@ def apply_guard(
             elif context_reason == "unverified_call_for_submissions_missing_official_bases":
                 receipt["missing_evidence"] = submission_call_missing_evidence(event)
             changes["quarantined"].append(receipt)
-            action = "non_event_exclusion" if context_reason == "promotional_giveaway_not_attendance_event" else "quarantine"
+            action = (
+                "non_event_exclusion"
+                if context_reason in {
+                    "promotional_giveaway_not_attendance_event",
+                    "retrospective_post",
+                    "administrative_notice",
+                }
+                else "quarantine"
+            )
             append_baseline_receipt(ledger, make_receipt(
                 stage="content_quality_guard", action=action, reason=context_reason,
                 source_event=event, canonical_event_id=None,

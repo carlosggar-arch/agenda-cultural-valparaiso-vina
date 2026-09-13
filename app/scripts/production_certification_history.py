@@ -46,6 +46,12 @@ def _sha256_path(path: Path) -> str:
 
 def validated_core_execution(payload: dict) -> dict | None:
     """Preserve exact Core authority in new records; legacy PR records stay valid."""
+    if "snapshot_verification" in payload:
+        from publication_snapshot_verification import SnapshotVerificationError, validate_attestation
+        try:
+            return validate_attestation(payload)["original_core_execution"]
+        except (SnapshotVerificationError, ExecutionBindingError) as exc:
+            raise CertificationHistoryError(str(exc)) from exc
     if "core_execution" not in payload:
         return None
     try:
@@ -119,6 +125,8 @@ def _validate_existing(existing: dict, incoming: dict) -> None:
         raise CertificationHistoryError("CERTIFICATION_IMMUTABLE_PATH_CONFLICT")
     if validated_core_execution(existing) != validated_core_execution(incoming):
         raise CertificationHistoryError("CERTIFICATION_CORE_EXECUTION_CONFLICT_OR_DOWNGRADE")
+    if existing.get("snapshot_verification") != incoming.get("snapshot_verification"):
+        raise CertificationHistoryError("CERTIFICATION_SNAPSHOT_VERIFICATION_CONFLICT_OR_DOWNGRADE")
 
 
 def _load_index(state_root: Path) -> tuple[Path, dict, list[dict]]:
