@@ -66,6 +66,58 @@ def test_recovers_les_esperamos_from_explicit_activity_phrase() -> None:
     assert changes["titles_recovered"][0]["id"] == "bonsai"
 
 
+def test_recovers_cinearte_operational_heading_without_changing_functions() -> None:
+    samples = [
+        ("cine-foro", "El Deshielo + Cine Foro con Manuela Martelli - Cine Arte Viña del Mar. Función confirmada de Cine Arte Viña del Mar.", "El Deshielo + Cine Foro con Manuela Martelli"),
+        ("secreto", "Secreto en la Montaña (2005) Función confirmada de Cine Arte Viña del Mar.", "Secreto en la Montaña (2005)"),
+        ("amanecer", "Antes del Amanecer (1995) Función confirmada de Cine Arte Viña del Mar.", "Antes del Amanecer (1995)"),
+    ]
+    for event_id, description, expected in samples:
+        sample = event(
+            id=event_id,
+            title="Organiza: Cine Arte Viña del Mar",
+            description=description,
+            schedule={"mode": "dated", "start": "2026-09-16T19:30:00-03:00", "end": None},
+        )
+        original_schedule = copy.deepcopy(sample["schedule"])
+        dataset = {"events": [sample], "counts": {"total": 1}}
+        changes = apply_guard(dataset)
+        assert dataset["events"][0]["title"] == expected
+        assert dataset["events"][0]["schedule"] == original_schedule
+        assert changes["titles_recovered"][0]["reason"] == "explicit_confirmed_function_identity"
+
+
+def test_retrospective_captions_and_closure_notice_are_excluded() -> None:
+    samples = [
+        event(
+            id="residency-recap",
+            title="El día de ayer disfrutamos de la muestra del proceso de residencia internacional",
+            description="El día de ayer disfrutamos de la muestra. Fueron dos semanas de trabajo.",
+            schedule={"mode": "dated", "start": None, "end": None},
+        ),
+        event(
+            id="concert-recap",
+            title="Una velada que reunió música, talento y una gran convocatoria",
+            description="Una velada que reunió música y talento ante un teatro lleno.",
+            schedule={"mode": "dated", "start": None, "end": None},
+        ),
+        event(
+            id="closure",
+            title="Nos tomamos un breve receso por Fiestas Patrias",
+            description="Durante la pausa nuestras sedes estarán cerradas.",
+            schedule={"mode": "dated", "start": "2026-09-20", "end": None},
+        ),
+    ]
+    dataset = {"events": samples, "counts": {"total": len(samples)}}
+    changes = apply_guard(dataset)
+    assert dataset["events"] == []
+    assert [item["reason"] for item in changes["quarantined"]] == [
+        "retrospective_post",
+        "retrospective_post",
+        "administrative_notice",
+    ]
+
+
 def test_consolidates_same_exhibition_same_venue_and_keeps_image() -> None:
     official = event(
         id="official",
