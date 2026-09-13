@@ -102,4 +102,23 @@ const timeOnlyInDisplay = {
 assert.equal(hasEventSpecificTime(timeOnlyInDisplay), true);
 assert.equal(withMissingEventTimeFallback("21–30 ago · 22:00", timeOnlyInDisplay), "21–30 ago · 22:00");
 
+const conflictingSecretoMontana = {
+  description: "Funciones: martes 15 de septiembre de 2026, 20:00 hrs; martes 15 de septiembre de 2026, 20:30 hrs.",
+  schedule: {
+    mode: "dated",
+    start: "2026-09-15",
+    end: "2026-09-15",
+    display_text: "Horario por confirmar",
+    occurrences: [],
+    start_confidence: "explicit_date_conflicting_time",
+    end_confidence: "explicit_date_conflicting_time",
+  },
+};
+const secretoOptions = { ...valpo, now: new Date("2026-09-15T12:00:00-03:00") };
+assert.equal(todaySessionScheduleLabel(conflictingSecretoMontana, secretoOptions), null);
+assert.equal(
+  withMissingEventTimeFallback("mar, 15 sept", conflictingSecretoMontana.schedule),
+  "mar, 15 sept · Horario por confirmar",
+);
+
 console.log("TODAY_SESSION_PRESENTATION_OK");

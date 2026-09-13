@@ -50,7 +50,10 @@ function scheduleText(event, city) {
     if (dateKey(start) && dateKey(end) && dateKey(start) !== dateKey(end)) {
       return `${formatter.format(new Date(start))} – ${dateKey(end)}`;
     }
-    return formatter.format(new Date(start));
+    const formatted = formatter.format(new Date(start));
+    return text(schedule.display_text).toLocaleLowerCase("es") === "horario por confirmar"
+      ? `${formatted} · Horario por confirmar`
+      : formatted;
   } catch {
     return text(schedule.display_text, text(start, "Horario por confirmar"));
   }

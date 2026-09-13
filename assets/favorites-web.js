@@ -7,7 +7,7 @@ import {
   buildFavoriteToggle,
   installFavoritesStyles,
   syncFavoriteButtons,
-} from "./favorites-view.mjs?v=20260817";
+} from "./favorites-view.mjs?v=20260913-pending-time1";
 
 const CITY = "valparaiso";
 const DATASET_URL = "./agenda_web.json";

@@ -1,3 +1,5 @@
+import { isPendingEventTime } from "./event-schedule-display.mjs?v=20260913-pending-time1";
+
 const REMINDER_OPTIONS = Object.freeze({
   "2h": Object.freeze({ id: "2h", label: "2 horas antes", trigger: "-PT2H", milliseconds: 2 * 60 * 60 * 1000 }),
   "1d": Object.freeze({ id: "1d", label: "1 día antes", trigger: "-P1D", milliseconds: 24 * 60 * 60 * 1000 }),
@@ -64,6 +66,7 @@ function uidFor(city, event) {
 }
 
 export function reminderOptionsForEvent(event, now = new Date()) {
+  if (isPendingEventTime(event?.schedule)) return [];
   const startRaw = scheduleValue(event, "start");
   const start = parseDate(startRaw);
   if (!start || Number.isNaN(now?.getTime?.()) || start <= now) return [];
@@ -79,7 +82,7 @@ export function buildReminderIcs({ city, event, pageUrl = null, lead = "1d", now
   const option = REMINDER_OPTIONS[lead];
   const title = text(event?.title);
   const startRaw = scheduleValue(event, "start");
-  if (!option || !title || !startRaw) return null;
+  if (!option || !title || !startRaw || isPendingEventTime(event?.schedule)) return null;
 
   const start = parseDate(startRaw);
   if (!start) return null;

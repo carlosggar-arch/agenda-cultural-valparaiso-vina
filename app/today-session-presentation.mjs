@@ -1,5 +1,8 @@
+import { isPendingEventTime } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
+
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
 export const MISSING_EVENT_TIME_LABEL = "Consultar horario en la fuente";
+export const PENDING_EVENT_TIME_LABEL = "Horario por confirmar";
 
 const MONTHS = Object.freeze({
   enero: 1,
@@ -184,6 +187,11 @@ export function hasEventSpecificTime(schedule) {
 export function withMissingEventTimeFallback(formattedSchedule, schedule) {
   const formatted = String(formattedSchedule || "").trim();
   if (hasEventSpecificTime(schedule)) return formatted;
+  if (isPendingEventTime(schedule)) {
+    if (!formatted) return PENDING_EVENT_TIME_LABEL;
+    if (formatted.includes(PENDING_EVENT_TIME_LABEL)) return formatted;
+    return `${formatted} · ${PENDING_EVENT_TIME_LABEL}`;
+  }
   if (!formatted) return MISSING_EVENT_TIME_LABEL;
   if (formatted.includes(MISSING_EVENT_TIME_LABEL)) return formatted;
   return `${formatted} · ${MISSING_EVENT_TIME_LABEL}`;
@@ -196,6 +204,7 @@ export function withMissingEventTimeFallback(formattedSchedule, schedule) {
  */
 export function sessionScheduleLabelForDate(event, options = {}) {
   if (!event || typeof event !== "object") return null;
+  if (isPendingEventTime(event.schedule)) return null;
   const settings = { ...DEFAULTS, now: new Date(), ...options };
   const referenceDate = dateKey(settings.referenceDate || settings.now, settings.timezone);
   if (!referenceDate) return null;

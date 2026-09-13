@@ -1,6 +1,6 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260821-point8-v2";
+import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-point8-v2";
-import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260821-point8-v2";
+import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260913-pending-time1";
 import { dailyExhibitionHours, nextDailyExhibitionOpening } from "./date-aware-exhibition-hours.mjs?v=20260822-next-opening1";
 import { visibleReferenceDateKey } from "./filter-reference-date.mjs?v=20260821-visible-date1";
 import { nextVenueOpeningForDate, venueHoursForDate } from "./venue-hours.mjs?v=20260821-next-hours1";
