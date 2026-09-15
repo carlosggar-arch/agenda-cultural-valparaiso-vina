@@ -161,6 +161,52 @@ def require_same_surfaces(root: Path, public_sha: str, other_sha: str) -> None:
                          for path in paths), "PUBLICATION_SURFACES_CHANGED")
 
 
+def _release_identity(root: Path, sha: str) -> dict:
+    bundle = binding.parse_json(git(root, "show", f"{sha}:app/data/release-bundle.json"))
+    return {
+        "head_sha": sha,
+        "release_id": bundle.get("release_id"),
+        "tree_sha": git(root, "rev-parse", sha + "^{tree}").decode().strip(),
+    }
+
+
+def build_runtime_composition(root: Path, public_sha: str, runtime_sha: str) -> dict:
+    """Bind preserved historical data to a separately verified later runtime.
+
+    This does not claim that the historical release passed production checks.
+    It proves instead that every data-bearing surface is byte-identical while
+    an exact later runtime, release and whole tree are verified in their own
+    right. Unreviewed data, media or generated-content changes fail closed.
+    """
+    contract.digest(public_sha, 40, "PUBLIC_SHA")
+    contract.digest(runtime_sha, 40, "RUNTIME_SHA")
+    changed = sorted(git(root, "diff", "--name-only", public_sha, runtime_sha).decode().splitlines())
+    contract.require(bool(changed), "COMPOSITION_NOT_DISTINCT")
+    preserved = {}
+    for path in contract.PRESERVED_SURFACES:
+        old = git(root, "rev-parse", f"{public_sha}:{path}").decode().strip()
+        new = git(root, "rev-parse", f"{runtime_sha}:{path}").decode().strip()
+        contract.require(old == new, "PRESERVED_SURFACE_CHANGED:" + path)
+        preserved[path] = old
+    contract.require(all(contract.runtime_path(path) for path in changed), "COMPOSITION_PATH_NOT_RUNTIME_ONLY")
+    return contract.composition({
+        "contract": "historical-data-current-runtime-composition",
+        "version": "1.0.0",
+        "historical": _release_identity(root, public_sha),
+        "runtime": _release_identity(root, runtime_sha),
+        "preserved_blobs": preserved,
+        "changed_paths": changed,
+    })
+
+
+def require_runtime_composition(root: Path, proof: dict, runtime_sha: str) -> dict:
+    value = contract.validate(proof)
+    expected = build_runtime_composition(
+        root, value["original_core_execution"]["binding"]["public_sha"], runtime_sha)
+    contract.require(expected == value["composition"], "COMPOSITION_CHANGED")
+    return expected
+
+
 def require_snapshot_context(snapshot: Path, verifier: Path, public_sha: str, verifier_sha: str) -> None:
     contract.require(git(snapshot, "rev-parse", "HEAD").decode().strip() == public_sha, "SNAPSHOT_HEAD_CHANGED")
     contract.require(git(verifier, "rev-parse", "HEAD").decode().strip() == verifier_sha, "VERIFIER_HEAD_CHANGED")
@@ -205,7 +251,7 @@ def require_overlay(snapshot: Path, verifier: Path, public_sha: str, verifier_sh
 
 def install_verifier(snapshot: Path, verifier: Path, public_sha: str, verifier_sha: str) -> None:
     require_snapshot_context(snapshot, verifier, public_sha, verifier_sha)
-    require_same_surfaces(verifier, public_sha, verifier_sha)
+    build_runtime_composition(verifier, public_sha, verifier_sha)
     approved = approved_scripts(verifier, verifier_sha)
     existing = {path.relative_to(snapshot).as_posix() for path in (snapshot / "app/scripts").rglob("*.py")}
     contract.require(existing <= approved, "UNAPPROVED_HISTORICAL_SCRIPT")
@@ -234,7 +280,7 @@ def prepare(args, reader: GithubReader) -> dict:
     require_snapshot_context(args.snapshot, args.verifier, args.public_sha, identity["workflow_head_sha"])
     current = reader.api(f"{reader.prefix}/git/ref/heads/main")["object"]["sha"]
     contract.require(current == identity["workflow_head_sha"], "VERIFIER_REF_MOVED")
-    require_same_surfaces(args.verifier, args.public_sha, current)
+    composed = build_runtime_composition(args.verifier, args.public_sha, current)
     original_run = exact_run(reader, args.original_run_id, args.original_run_attempt)
     artifact = download_artifact(reader, run=original_run,
         name=f"publication-release-decision-{args.original_run_id}-{args.original_run_attempt}",
@@ -256,7 +302,8 @@ def prepare(args, reader: GithubReader) -> dict:
     exact_run(reader, args.original_run_id, args.original_run_attempt)
     proof = contract.validate({"contract": contract.CONTRACT, "version": contract.VERSION,
         "original_core_execution": index, "execution": identity,
-        "verifier": local_policy(args.verifier, identity["workflow_head_sha"]), "original_artifact": artifact},
+        "verifier": local_policy(args.verifier, identity["workflow_head_sha"]), "original_artifact": artifact,
+        "composition": composed},
         expected_binding=expected)
     write_json(args.output / "original-run.json", original_run)
     write_json(args.output / "snapshot-verification.json", proof)
@@ -276,7 +323,7 @@ def verify_watchdog(args, reader: GithubReader) -> dict:
     proof = read_verification(reader, root=args.verifier, run=run, jobs=jobs)
     contract.require(event_run.get("head_sha") == run["head_sha"], "WATCHDOG_SOURCE_HEAD_MISMATCH")
     expected = proof["original_core_execution"]["binding"]
-    require_same_surfaces(args.verifier, expected["public_sha"], os.environ["GITHUB_SHA"])
+    require_runtime_composition(args.verifier, proof, os.environ["GITHUB_SHA"])
     contract.require(git(args.snapshot, "rev-parse", "HEAD").decode().strip() == expected["public_sha"],
                      "SNAPSHOT_HEAD_CHANGED")
     download_artifact(reader, run=run,
@@ -310,7 +357,8 @@ def verify_watchdog(args, reader: GithubReader) -> dict:
     for name in ("attestation.json", "receipt.json", "bundle.json"):
         contract.require((original_dir / "core-publication-lineage" / name).read_bytes()
                          == (raw_dir / name).read_bytes(), "ORIGINAL_BYTES_CHANGED")
-    retained = check_certification(args.state_root, expected["public_sha"], payload["release"])
+    retained = check_certification(
+        args.state_root, proof["composition"]["runtime"]["head_sha"], payload["release"])
     archive = binding.parse_json((args.state_root / retained["path"]).read_bytes())
     contract.require(contract.validate_attestation(archive) == proof
                      and archive["history_chain"]["attestation_sha256"] == binding.sha256(payload_bytes),
@@ -372,6 +420,7 @@ def main() -> None:
         require_overlay(args.snapshot, args.verifier, public, verifier_sha)
         current = GithubReader(args.verifier).api("repos/" + binding.WEB_REPOSITORY + "/git/ref/heads/main")["object"]["sha"]
         contract.require(current == verifier_sha, "VERIFIER_REF_MOVED")
+        require_runtime_composition(args.verifier, proof, current)
     print("SNAPSHOT_VERIFICATION_CONTEXT_OK public=" + public + " verifier=" + verifier_sha + " writes=none")
 
 

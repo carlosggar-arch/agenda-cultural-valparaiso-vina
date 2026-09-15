@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import base64
 import re
+from pathlib import PurePosixPath
 from typing import Any, Mapping
 
 try:
@@ -15,7 +16,7 @@ except ImportError:
     import publication_execution_binding as original
 
 CONTRACT = "core-publication-snapshot-verification"
-VERSION = "1.0.0"
+VERSION = "2.0.0"
 WORKFLOW = ".github/workflows/publish.yml"
 VERIFY_JOB = "verify-snapshot"
 SMOKE_JOB = "snapshot-production-smoke"
@@ -42,7 +43,20 @@ CODE_PATHS = tuple(dict.fromkeys((*original.CODE_PATHS,
     "app/scripts/generate_runtime_contracts.py",
     "requirements-ci.txt",
 )))
-FIELDS = {"contract", "version", "original_core_execution", "execution", "verifier", "original_artifact"}
+PRESERVED_SURFACES = (
+    "agenda_web.json",
+    "app/data/gijon/agenda_web.json",
+    "fuentes_publicas.json",
+    "app/data/source-registry.json",
+    "app/data/quality/source-coverage.json",
+    "app/data/quality/event-quality.json",
+    "app/data/quality/release-readiness.json",
+    "app/data/venue-registry.json",
+)
+FIELDS = {
+    "contract", "version", "original_core_execution", "execution", "verifier",
+    "original_artifact", "composition",
+}
 
 
 class SnapshotVerificationError(RuntimeError):
@@ -78,6 +92,54 @@ def code_policy(value: Any) -> dict:
     return value
 
 
+def release_identity(value: Any, label: str) -> dict:
+    require(isinstance(value, dict) and set(value) == {"head_sha", "release_id", "tree_sha"},
+            label + "_IDENTITY_INVALID")
+    digest(value["head_sha"], 40, label + "_HEAD")
+    digest(value["tree_sha"], 40, label + "_TREE")
+    require(isinstance(value["release_id"], str)
+            and re.fullmatch(r"v[1-9][0-9]*-[0-9a-f]{12}", value["release_id"]) is not None,
+            label + "_RELEASE_ID_INVALID")
+    return value
+
+
+def composition(value: Any) -> dict:
+    fields = {"contract", "version", "historical", "runtime", "preserved_blobs", "changed_paths"}
+    require(isinstance(value, dict) and set(value) == fields, "COMPOSITION_FIELDS_INVALID")
+    require(value["contract"] == "historical-data-current-runtime-composition"
+            and value["version"] == "1.0.0", "COMPOSITION_CONTRACT_INVALID")
+    historical = release_identity(value["historical"], "HISTORICAL")
+    runtime = release_identity(value["runtime"], "RUNTIME")
+    require(historical["head_sha"] != runtime["head_sha"]
+            and historical["release_id"] != runtime["release_id"], "COMPOSITION_NOT_DISTINCT")
+    preserved = value["preserved_blobs"]
+    require(isinstance(preserved, dict) and set(preserved) == set(PRESERVED_SURFACES),
+            "PRESERVED_SURFACES_INVALID")
+    for blob in preserved.values():
+        digest(blob, 40, "PRESERVED_BLOB")
+    paths = value["changed_paths"]
+    require(isinstance(paths, list) and paths == sorted(set(paths)) and bool(paths)
+            and all(isinstance(path, str) and path and not path.startswith("/") and ".." not in path.split("/")
+                    for path in paths), "CHANGED_PATHS_INVALID")
+    return value
+
+
+def runtime_path(path: str) -> bool:
+    if path.startswith((".github/", "app/scripts/", "docs/", "tests/", "scripts/")):
+        return True
+    if path in {
+        "AGENTS.md", "requirements-ci.txt", "app/data/release-bundle.json",
+        "app/data/release-provenance.json", "app/service-worker-assets.generated.js",
+    }:
+        return True
+    item = PurePosixPath(path)
+    if item.parent == PurePosixPath("app"):
+        return item.suffix in {".css", ".html", ".js", ".mjs", ".webmanifest"}
+    if item.parent == PurePosixPath("assets"):
+        return item.suffix in {".css", ".html", ".js", ".mjs"}
+    return False
+
+
 def validate(value: Any, *, expected_binding: Mapping | None = None) -> dict:
     require(isinstance(value, dict) and set(value) == FIELDS, "FIELDS_INVALID")
     require(value["contract"] == CONTRACT and value["version"] == VERSION, "CONTRACT_INVALID")
@@ -87,6 +149,14 @@ def validate(value: Any, *, expected_binding: Mapping | None = None) -> dict:
     require(new_key[1] == 1, "RERUN_NOT_SUPPORTED")
     require(new_key[0] != original.run_key(index["canonical"])[0], "ORIGINAL_RUN_REUSED")
     code_policy(value["verifier"])
+    composed = composition(value["composition"])
+    binding = index["binding"]
+    require(composed["historical"]["head_sha"] == binding["public_sha"]
+            and composed["historical"]["release_id"] == binding["release_id"],
+            "HISTORICAL_COMPOSITION_IDENTITY_MISMATCH")
+    require(composed["runtime"]["head_sha"] == value["execution"]["workflow_head_sha"]
+            and composed["runtime"]["tree_sha"] == value["verifier"]["tree_sha"],
+            "RUNTIME_COMPOSITION_IDENTITY_MISMATCH")
     artifact = value["original_artifact"]
     require(isinstance(artifact, dict) and set(artifact) == {"id", "sha256"}
             and type(artifact["id"]) is int and artifact["id"] > 0, "ARTIFACT_INVALID")
@@ -114,9 +184,9 @@ def validate_attestation(payload: dict) -> dict:
     proof = validate(payload.get("snapshot_verification"))
     index = proof["original_core_execution"]
     require(payload.get("core_execution") == index, "HISTORICAL_INDEX_CHANGED")
-    binding = index["binding"]
-    require(payload.get("head_sha") == binding["public_sha"]
-            and payload.get("release_id") == binding["release_id"], "SNAPSHOT_IDENTITY_MISMATCH")
+    runtime = proof["composition"]["runtime"]
+    require(payload.get("head_sha") == runtime["head_sha"]
+            and payload.get("release_id") == runtime["release_id"], "SNAPSHOT_RUNTIME_IDENTITY_MISMATCH")
     workflow = payload.get("workflow") or {}
     require(workflow.get("repository") == original.WEB_REPOSITORY
             and str(workflow.get("run_id")) == str(proof["execution"]["run_id"])

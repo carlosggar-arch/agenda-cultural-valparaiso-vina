@@ -34,10 +34,20 @@ There are no new schedules or automatic publishers.
 The verifier and data are separate checkouts. The data checkout retains the
 original Git HEAD. Only reviewed Python verifier files are overlaid, byte-checked
 against the executing verifier commit before and after every sequence. New
-untracked Python helpers and symlinks are checked too. No runtime, dataset,
-image, release or other surface is changed. The executing GitHub SHA is never
-overridden with the publication SHA. Moving main, changed surfaces, a different
+untracked Python helpers and symlinks are checked too. The executing GitHub SHA
+is never overridden with the publication SHA. Moving main, changed data/media, a different
 attempt, expired/missing/ambiguous artifacts or changed signature bytes block.
+
+When the public runtime has advanced after the immutable data publication, the
+proof uses an explicit `historical-data-current-runtime-composition`. It binds
+both full Git trees, both release identities, the exact changed-path set and the
+Git blobs of the Valparaíso/Gijón datasets, source catalog/registry, three
+quality reports and venue registry. Runtime-only code and generated release
+metadata may differ; data, diagnostics, registries and media may not. The
+historical release remains a failed historical deployment. All current
+readiness, byte, browser, warm-start and WEB/APP probes run against the later
+runtime/release, and the new attestation is archived under that runtime identity
+while embedding the original signed Core execution.
 
 The original artifact is resolved by run/attempt-qualified name, time window,
 GitHub artifact ID and SHA-256 of the downloaded ZIP. Safe extraction preserves
@@ -55,8 +65,10 @@ run/attempt-bound proof. No skipped legacy synchronization job is called green.
 
 ## Complete route and sole writers
 
-1. `verify-snapshot`: original signature, original execution and immutable data.
-2. `snapshot-production-smoke`: existing lineage/local checks, bounded origin
+1. `verify-snapshot`: original signature, original execution, immutable data and
+   the exact historical/current composition.
+2. `snapshot-production-smoke`: historical lineage checks followed by current
+   runtime/local checks, bounded origin
    readiness, admin and series checks, full browser/cold-load/city-roundtrip/
    official-image checks, warm PWA, exact WEB/APP parity, network revalidation,
    source-to-production chain, then immutable Web certification history.
@@ -69,7 +81,8 @@ run/attempt-bound proof. No skipped legacy synchronization job is called green.
 
 Only `publish.yml` writes `state/production-certifications`, via normal
 fast-forward push. This mode does not synchronize Cloudflare or write Web main.
-If both origins no longer serve the same snapshot, it blocks rather than
+If both origins no longer serve the exact approved runtime over the preserved
+data, it blocks rather than
 silently deploying something else. There is no publisher/finalizer/recovery
 dispatch here. The watchdog remains contents-read-only and never waits for
 Core; Core can wait for the callback's watchdog run to become terminal without
@@ -93,7 +106,11 @@ configured by this change, and there is no fallback to publisher/writer keys.
 Actions write is repository-wide, not restricted by GitHub to one workflow;
 the reviewed callback code restricts its use to the certifier. Provisioning and
 review of this capability remain an explicit prerequisite before any remote
-attempt. Missing credentials fail closed, including the watchdog run.
+attempt. Missing credentials fail closed, including the watchdog run. A
+separate manual-only authentication diagnostic may dispatch only Core's bounded
+private-attestation diagnostic with a run-bound nonce. It neither exercises nor
+consumes the snapshot-verification attempt and cannot write Web or durable Core
+state.
 
 The existing trusted-impact/finalization contract remains intact. This diff
 changes verifier scripts and workflows, not runtime/data or the protected PR
