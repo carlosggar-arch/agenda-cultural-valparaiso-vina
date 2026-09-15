@@ -13,6 +13,7 @@ EXPECTED = {
     "scheduled-audit.yml",
     "production-certification-watchdog.yml",
     "pr-finalize.yml",
+    "core-certification-app-auth-diagnostic.yml",
 }
 
 
@@ -42,6 +43,12 @@ def main() -> None:
     assert "contents: write" not in watchdog
     assert "PRODUCTION_UNCERTIFIED" in watchdog
     assert "production_certification_watchdog.py" in watchdog
+    app_diagnostic = texts["core-certification-app-auth-diagnostic.yml"]
+    diagnostic_triggers = trigger_block(app_diagnostic)
+    assert "workflow_dispatch:" in diagnostic_triggers
+    assert all(trigger not in diagnostic_triggers for trigger in ("push:", "pull_request:", "schedule:"))
+    assert "permission-actions: write" in app_diagnostic and "contents: write" not in app_diagnostic
+    assert app_diagnostic.count("gh workflow run") == 1
     pr_finalize = texts["pr-finalize.yml"]
     finalize_triggers = trigger_block(pr_finalize)
     assert "workflow_run:" in finalize_triggers
@@ -97,7 +104,7 @@ def main() -> None:
     assert budget["browser_suites_per_pr"] == 1
     assert budget["automatic_publish_runs_per_merge"] == 1
     assert budget["automatic_certification_watchdog_runs_per_publish"] == 1
-    print("CI_ECONOMY_OK workflows=7 pr_runs_max=4 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped release_preflight=before_browser_setup automatic_pr_finalization=workflow_run")
+    print("CI_ECONOMY_OK workflows=8 pr_runs_max=4 browser_suites=1 publish_runs=1 certification_watchdog_runs=1 image_cache_deps=impact_scoped release_preflight=before_browser_setup automatic_pr_finalization=workflow_run")
 
 
 if __name__ == "__main__":
