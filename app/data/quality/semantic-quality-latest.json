@@ -1,27 +1,43 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "6f0d26126a1a9dbcc845ec65be47a3a4def53a5e538361d4d71b39511f1fbff5",
-  "generated_at": "2026-09-12T19:36:43Z",
+  "fingerprint": "445b023c2d7cce36baff0b0f8c8ba78a5e521ea260b64498e4eac33f7d6c3428",
+  "generated_at": "2026-09-19T20:47:54Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
   "source_anomalies": [],
   "source_metrics": {
-    "gijon::ateneo jovellanos actividades": {
+    "gijon::agenda gijon": {
       "category_distribution": {
-        "literatura": 0.2,
-        "musica": 0.6,
-        "unclassified": 0.2
+        "cine": 0.5,
+        "musica": 0.5
       },
       "city_id": "gijon",
-      "dominant_category": "musica",
-      "dominant_share": 0.6,
+      "dominant_category": "cine",
+      "dominant_share": 0.5,
+      "source_name": "Agenda Gijón",
+      "source_url": "https://agendagijon.com/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "gijon::ateneo jovellanos actividades": {
+      "category_distribution": {
+        "charlas-conferencias": 0.25,
+        "literatura": 0.375,
+        "musica": 0.125,
+        "naturaleza-aire-libre": 0.125,
+        "unclassified": 0.125
+      },
+      "city_id": "gijon",
+      "dominant_category": "literatura",
+      "dominant_share": 0.375,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 5,
+      "total": 8,
       "unclassified": 1,
-      "unclassified_rate": 0.2
+      "unclassified_rate": 0.125
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -66,21 +82,34 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.125,
-        "cine": 0.333333,
-        "exposiciones": 0.208333,
-        "literatura": 0.166667,
-        "teatro": 0.125,
-        "unclassified": 0.041667
+        "charlas-conferencias": 0.222222,
+        "cine": 0.388889,
+        "exposiciones": 0.222222,
+        "literatura": 0.111111,
+        "unclassified": 0.055556
       },
       "city_id": "gijon",
       "dominant_category": "cine",
-      "dominant_share": 0.333333,
+      "dominant_share": 0.388889,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 24,
+      "total": 18,
       "unclassified": 1,
-      "unclassified_rate": 0.041667
+      "unclassified_rate": 0.055556
+    },
+    "gijon::el huerto espacio escenico": {
+      "category_distribution": {
+        "cursos-talleres-campus": 0.2,
+        "teatro": 0.8
+      },
+      "city_id": "gijon",
+      "dominant_category": "teatro",
+      "dominant_share": 0.8,
+      "source_name": "El Huerto Espacio Escénico",
+      "source_url": "https://zigzagdanza.com/el-huerto-gijon/",
+      "total": 5,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "gijon::el percebe comedy": {
       "category_distribution": {
@@ -91,7 +120,7 @@
       "dominant_share": 1.0,
       "source_name": "El Percebe Comedy",
       "source_url": "https://elpercebecomedy.com/percebe/",
-      "total": 2,
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -104,7 +133,20 @@
       "dominant_share": 1.0,
       "source_name": "Federación de Ciclismo del Principado de Asturias — Calendario",
       "source_url": "https://ciclismoasturiano.es/es/smartweb/seccion/seccion/asturias/CALENDARIO",
-      "total": 7,
+      "total": 6,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "gijon::felix feria del libro de gijon xixon": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "gijon",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "FeLiX — Feria del Libro de Gijón/Xixón",
+      "source_url": "https://www.gijon.es/es/eventos/feria-del-libro-de-gijonxixon",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -117,7 +159,7 @@
       "dominant_share": 1.0,
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "total": 11,
+      "total": 14,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -136,91 +178,108 @@
     },
     "gijon::jardin botanico atlantico": {
       "category_distribution": {
-        "exposiciones": 0.5,
-        "unclassified": 0.5
+        "exposiciones": 0.142857,
+        "literatura": 0.714286,
+        "unclassified": 0.142857
       },
       "city_id": "gijon",
-      "dominant_category": "exposiciones",
-      "dominant_share": 0.5,
+      "dominant_category": "literatura",
+      "dominant_share": 0.714286,
       "source_name": "Jardín Botánico Atlántico",
       "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
-      "total": 2,
+      "total": 7,
       "unclassified": 1,
-      "unclassified_rate": 0.5
+      "unclassified_rate": 0.142857
     },
-    "gijon::juventud gijon xixon oficina de juventud": {
+    "gijon::la revoltosa gijon": {
       "category_distribution": {
-        "cursos-talleres-campus": 1.0
+        "literatura": 1.0
       },
       "city_id": "gijon",
-      "dominant_category": "cursos-talleres-campus",
+      "dominant_category": "literatura",
       "dominant_share": 1.0,
-      "source_name": "Juventud Gijón/Xixón — Oficina de Juventud",
-      "source_url": "https://juventudgijon.wordpress.com/2026/05/06/ofertas-de-empleo-destacadas-de-la-semana-y-recursos-de-orientacion-laboral-293/",
+      "source_name": "La Revoltosa Gijón",
+      "source_url": "https://www.instagram.com/larevoltosagijon/",
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::laboral centro de arte y creacion industrial": {
       "category_distribution": {
-        "exposiciones": 1.0
+        "exposiciones": 0.909091,
+        "teatro": 0.090909
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
+      "dominant_share": 0.909091,
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "total": 6,
+      "total": 11,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
-        "exposiciones": 0.033333,
-        "musica": 0.5,
-        "teatro": 0.466667
+        "cursos-talleres-campus": 0.111111,
+        "exposiciones": 0.022222,
+        "musica": 0.266667,
+        "teatro": 0.511111,
+        "unclassified": 0.088889
       },
       "city_id": "gijon",
-      "dominant_category": "musica",
-      "dominant_share": 0.5,
+      "dominant_category": "teatro",
+      "dominant_share": 0.511111,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "total": 30,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
+      "total": 45,
+      "unclassified": 4,
+      "unclassified_rate": 0.088889
     },
     "gijon::meidinerz jazz club": {
       "category_distribution": {
-        "exposiciones": 0.25,
-        "musica": 0.75
+        "musica": 1.0
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 0.75,
+      "dominant_share": 1.0,
       "source_name": "Meidinerz Jazz Club",
       "source_url": "https://meidinerzjazzclub.com/",
       "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
+    "gijon::museo del ferrocarril de asturias": {
       "category_distribution": {
-        "charlas-conferencias": 0.068182,
-        "cine": 0.227273,
-        "cursos-talleres-campus": 0.113636,
-        "exposiciones": 0.5,
-        "literatura": 0.045455,
-        "musica": 0.022727,
-        "teatro": 0.022727
+        "exposiciones": 1.0
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.5,
-      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 44,
+      "dominant_share": 1.0,
+      "source_name": "Museo del Ferrocarril de Asturias",
+      "source_url": "https://www.gijon.es/es/directorio/museo-del-ferrocarril-de-asturias",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
+    },
+    "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
+      "category_distribution": {
+        "charlas-conferencias": 0.046875,
+        "cine": 0.21875,
+        "cursos-talleres-campus": 0.09375,
+        "exposiciones": 0.53125,
+        "literatura": 0.015625,
+        "musica": 0.0625,
+        "teatro": 0.015625,
+        "unclassified": 0.015625
+      },
+      "city_id": "gijon",
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.53125,
+      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "total": 64,
+      "unclassified": 1,
+      "unclassified_rate": 0.015625
     },
     "gijon::sala acapulco conciertos": {
       "category_distribution": {
@@ -231,24 +290,24 @@
       "dominant_share": 1.0,
       "source_name": "Sala Acapulco — Conciertos",
       "source_url": "https://www.instagram.com/sala_acapulco_conciertos/",
-      "total": 1,
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::teatro albeniz gijon": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.111111,
-        "musica": 0.777778,
-        "unclassified": 0.111111
+        "cursos-talleres-campus": 0.066667,
+        "musica": 0.6,
+        "unclassified": 0.333333
       },
       "city_id": "gijon",
       "dominant_category": "musica",
-      "dominant_share": 0.777778,
+      "dominant_share": 0.6,
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "total": 9,
-      "unclassified": 1,
-      "unclassified_rate": 0.111111
+      "total": 15,
+      "unclassified": 5,
+      "unclassified_rate": 0.333333
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
@@ -273,7 +332,7 @@
       "dominant_share": 1.0,
       "source_name": "Turismo Asturias — Agenda deportiva",
       "source_url": "https://www.turismoasturias.es/agenda-de-asturias/deporte",
-      "total": 5,
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -856,25 +915,25 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "dcc8ac9bf344eb624727281c6c15ef75ad7849da",
+  "source_ref": "b53c17ed0e3158a588a32519a4eaf20929a9ba54",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 59,
-    "total_events": 525,
-    "unclassified_count": 8,
-    "unclassified_rate": 0.015238
+    "source_count": 63,
+    "total_events": 581,
+    "unclassified_count": 17,
+    "unclassified_rate": 0.02926
   },
   "unclassified_queue": [
     {
       "candidates": [],
       "city_id": "gijon",
-      "event_id": "gijon_ateneo_jovellanos_956c9f231c0fa870",
+      "event_id": "gijon_ateneo_jovellanos_d3747ef616c9c71f",
       "evidence": [],
       "score": 0,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "title": "EL CEREBRO NECESITA ABRAZOS: EL AMOR, LA CONEXIÓN Y EL VÍNCULO COMO MEDICINA DE VIDA"
+      "title": "EL PRIORATO DE FANO Y EL ANTIGUO VALLE DE RANÓN DE GIJÓN"
     },
     {
       "candidates": [],
@@ -899,12 +958,102 @@
     {
       "candidates": [],
       "city_id": "gijon",
-      "event_id": "gijon_teatro_albeniz_gijon_ee2c59319ca5d5c3",
+      "event_id": "gijon_laboral_ciudad_cultura_82d1c65a43fbe094",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "El Arrebato. El viaje inesperado"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_8a21b57651be6fd7",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Melody. El bosque encantado"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_1bb4ea65efc7e612",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Vamos, ¡dale al play!"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_laboral_ciudad_cultura_de01acfd79cb6455",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Laboral Ciudad de la Cultura — Agenda",
+      "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
+      "title": "Ángel Martín. Somos monos"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "agenda_gijon_444fa5043c0e6866",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "title": "DESCUBRIENDO LA HESTORIA DE XIXÓN AL TRAVIÉS DE LOS SOS NOMES"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_teatro_albeniz_gijon_a4cba9d37e873c0d",
       "evidence": [],
       "score": 0,
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
-      "title": "Fiesta Blanca 2026- Regreso a los 80"
+      "title": "Halloween con Skatman – 31 octubre"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_teatro_albeniz_gijon_d96ad471868fb562",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Teatro Albéniz Gijón",
+      "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
+      "title": "Real Ravers – Fatima Hajji – 24 octubre"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_teatro_albeniz_gijon_190728e9a00ca256",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Teatro Albéniz Gijón",
+      "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
+      "title": "Real Ravers – SNTS – 7 Noviembre"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_teatro_albeniz_gijon_73796f392cdaa35f",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Teatro Albéniz Gijón",
+      "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
+      "title": "Real Ravers – Skryption 3h Set – 3 octubre"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_teatro_albeniz_gijon_dff4c8c532c803a1",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Teatro Albéniz Gijón",
+      "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
+      "title": "The Reina Club – Ingenieros 9 Octubre"
     },
     {
       "candidates": [],
