@@ -19,7 +19,8 @@ import re
 import subprocess
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from urllib.parse import urlsplit
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 import zipfile
 
 from core_publication_lineage import (
@@ -49,6 +50,27 @@ PROOF_FILES = {
 
 class BundleVerificationError(RuntimeError):
     pass
+
+
+class _ScopedCredentialRedirectHandler(HTTPRedirectHandler):
+    """Keep the GitHub bearer token on GitHub, never on its signed blob URL."""
+
+    def redirect_request(self, request, fp, code, msg, headers, new_url):
+        redirected = super().redirect_request(request, fp, code, msg, headers, new_url)
+        if redirected is None:
+            return None
+        source = urlsplit(request.full_url)
+        target = urlsplit(new_url)
+        require(target.scheme == "https" and bool(target.hostname), "ARTIFACT_REDIRECT_INVALID")
+        if (source.scheme.casefold(), (source.hostname or "").casefold()) != (
+            target.scheme.casefold(), (target.hostname or "").casefold()
+        ):
+            # The artifact REST endpoint returns a short-lived signed storage
+            # URL.  Forwarding GitHub's bearer token makes Azure treat the
+            # request as OAuth instead of SAS and fail with HTTP 401.  The SAS
+            # query authenticates the exact immutable archive by itself.
+            redirected.remove_header("Authorization")
+        return redirected
 
 
 def require(condition: bool, reason: str) -> None:
@@ -93,10 +115,11 @@ def _request(url: str, token: str, *, json_response: bool) -> Any:
         "User-Agent": "agenda-core-lineage-verifier",
     })
     try:
-        with urlopen(request, timeout=30) as response:
+        with build_opener(_ScopedCredentialRedirectHandler()).open(request, timeout=30) as response:
             raw = response.read()
     except (HTTPError, URLError, TimeoutError, OSError) as exc:
-        raise BundleVerificationError("CORE_LINEAGE_BUNDLE_ARTIFACT_DOWNLOAD_FAILED") from exc
+        code = f":HTTP_{exc.code}" if isinstance(exc, HTTPError) else ""
+        raise BundleVerificationError("CORE_LINEAGE_BUNDLE_ARTIFACT_DOWNLOAD_FAILED" + code) from exc
     return parse_json(raw) if json_response else raw
 
 
