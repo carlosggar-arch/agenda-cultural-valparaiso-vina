@@ -19,6 +19,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from urllib.error import URLError
+from urllib.request import Request
 import zipfile
 
 from core_publication_lineage import CoreLineageError, canonical_hash
@@ -166,6 +167,41 @@ class BundleConsumerTests(unittest.TestCase):
         self.assertEqual((proof / "receipt.json").read_bytes(), self.receipt)
         self.assertEqual((proof / "bundle.json").read_bytes(), large_bundle)
         self.assertEqual(len(self.reference_requests), 3)
+
+    def test_cross_origin_artifact_redirect_does_not_leak_github_credentials(self):
+        request = Request(
+            "https://api.github.com/repos/example/private/actions/artifacts/901/zip",
+            headers={
+                "Accept": "application/vnd.github+json",
+                "Authorization": "Bearer secret-token",
+                "X-GitHub-Api-Version": "2022-11-28",
+                "User-Agent": "agenda-core-lineage-verifier",
+            },
+        )
+        redirected = consumer._ScopedCredentialRedirectHandler().redirect_request(
+            request, None, 302, "Found", {},
+            "https://results.blob.core.windows.net/actions-results/proof.zip?sig=signed",
+        )
+        self.assertIsNotNone(redirected)
+        self.assertEqual(redirected.full_url, "https://results.blob.core.windows.net/actions-results/proof.zip?sig=signed")
+        headers = {key.casefold(): value for key, value in redirected.header_items()}
+        self.assertNotIn("authorization", headers)
+        self.assertEqual(headers["user-agent"], "agenda-core-lineage-verifier")
+
+    def test_same_origin_redirect_retains_github_credentials_and_insecure_redirect_blocks(self):
+        request = Request(
+            "https://api.github.com/repos/example/private/actions/artifacts/901/zip",
+            headers={"Authorization": "Bearer secret-token", "X-GitHub-Api-Version": "2022-11-28"},
+        )
+        redirected = consumer._ScopedCredentialRedirectHandler().redirect_request(
+            request, None, 302, "Found", {}, "https://api.github.com/signed/archive",
+        )
+        headers = {key.casefold(): value for key, value in redirected.header_items()}
+        self.assertEqual(headers["authorization"], "Bearer secret-token")
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "ARTIFACT_REDIRECT_INVALID"):
+            consumer._ScopedCredentialRedirectHandler().redirect_request(
+                request, None, 302, "Found", {}, "http://results.example/proof.zip",
+            )
 
     def test_reference_transport_rejects_missing_substituted_or_crossed_artifact(self):
         payload, artifact, run, archive = self.reference_payload()
