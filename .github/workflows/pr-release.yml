@@ -57,7 +57,7 @@ jobs:
         id: diagnostics
         run: |
           set +e
-          python -m py_compile app/scripts/release_finalizer.py app/scripts/release_bundle.py app/scripts/test_release_finalizer.py app/scripts/production_release_chain.py app/scripts/production_series_contract.py
+          python -m py_compile app/scripts/release_finalizer.py app/scripts/release_bundle.py app/scripts/test_release_finalizer.py app/scripts/production_release_chain.py app/scripts/production_series_contract.py app/scripts/verify_core_publication_bundle.py app/scripts/test_verify_core_publication_bundle.py
           syntax_result=$?
           python app/scripts/test_release_finalizer.py
           finalizer_result=$?
@@ -65,12 +65,15 @@ jobs:
           atomic_result=$?
           python scripts/verify_canonical_main_writer.py
           writer_result=$?
+          python app/scripts/test_verify_core_publication_bundle.py
+          lineage_consumer_result=$?
           status() { if [[ "$1" -eq 0 ]]; then echo success; else echo failure; fi; }
           python app/scripts/pr_release_automation.py summarize \
             --result "syntax=$(status "$syntax_result")" \
             --result "finalizer=$(status "$finalizer_result")" \
             --result "atomic-publication=$(status "$atomic_result")" \
-            --result "single-writer=$(status "$writer_result")"
+            --result "single-writer=$(status "$writer_result")" \
+            --result "core-lineage-consumer=$(status "$lineage_consumer_result")"
 
       - name: Require or transiently prepare canonical finalization
         id: finalization
