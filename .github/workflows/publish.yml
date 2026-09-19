@@ -227,14 +227,37 @@ jobs:
         shell: bash
         run: echo "CANDIDATE_SHA=${{ github.event.client_payload.public_sha }}" >> "$GITHUB_ENV"
 
+      - name: Mint read-only Core artifact token
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.lineage_transport == 'github-actions-artifact-sigstore-bundle-v2'
+        id: core-artifact-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_CERTIFICATION_APP_ID }}
+          private-key: ${{ secrets.CORE_CERTIFICATION_APP_PRIVATE_KEY }}
+          owner: carlosggar-arch
+          repositories: agenda-cultural-core
+          permission-actions: read
+
       - name: Verify detached Core publication lineage
         if: github.event_name == 'repository_dispatch'
+        id: core-lineage
+        env:
+          CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}
         shell: bash
         run: |
           set -euo pipefail
           python app/scripts/verify_core_publication_bundle.py \
             --event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA" \
             --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage
+
+      - name: Preserve Core lineage transport evidence
+        if: always() && github.event_name == 'repository_dispatch'
+        uses: actions/upload-artifact@v6
+        with:
+          name: core-lineage-transport-${{ github.run_id }}-${{ github.run_attempt }}-sync
+          path: /tmp/core-publication-lineage/
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Verify exact release decision before deployment
         id: release-decision
@@ -436,8 +459,21 @@ jobs:
         shell: bash
         run: echo "CANDIDATE_SHA=${{ github.event.client_payload.public_sha }}" >> "$GITHUB_ENV"
 
+      - name: Mint read-only Core artifact token
+        if: github.event_name == 'repository_dispatch' && github.event.client_payload.lineage_transport == 'github-actions-artifact-sigstore-bundle-v2'
+        id: core-artifact-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CORE_CERTIFICATION_APP_ID }}
+          private-key: ${{ secrets.CORE_CERTIFICATION_APP_PRIVATE_KEY }}
+          owner: carlosggar-arch
+          repositories: agenda-cultural-core
+          permission-actions: read
+
       - name: Verify detached Core publication lineage
         if: github.event_name == 'repository_dispatch'
+        env:
+          CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}
         shell: bash
         run: |
           set -euo pipefail

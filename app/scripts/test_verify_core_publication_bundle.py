@@ -10,12 +10,15 @@ from __future__ import annotations
 import base64
 from copy import deepcopy
 import hashlib
+import io
 import json
 from pathlib import Path
 import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
+from urllib.error import URLError
+import zipfile
 
 from core_publication_lineage import CoreLineageError, canonical_hash
 from test_core_publication_lineage import evidence
@@ -77,6 +80,59 @@ class BundleConsumerTests(unittest.TestCase):
             finally:
                 self.calls = called.call_args_list
 
+    def reference_payload(self, *, bundle=None):
+        bundle = self.bundle if bundle is None else bundle
+        archive_bytes = io.BytesIO()
+        with zipfile.ZipFile(archive_bytes, "w", zipfile.ZIP_DEFLATED) as archive:
+            archive.writestr("attestation.json", self.raw)
+            archive.writestr("receipt.json", self.receipt)
+            archive.writestr("bundle.sigstore.json", bundle)
+        payload = {
+            "public_sha": "c" * 40,
+            "lineage_transport": consumer.LINEAGE_REFERENCE_TRANSPORT,
+            "artifact_repository": consumer.CORE_REPOSITORY,
+            "artifact_run_id": 22,
+            "artifact_run_attempt": 1,
+            "artifact_id": 901,
+            "artifact_name": "publication-lineage-11-22-1",
+            "artifact_digest": "sha256:" + "d" * 64,
+            "attestation_sha256": hashlib.sha256(self.raw).hexdigest(),
+            "receipt_sha256": hashlib.sha256(self.receipt).hexdigest(),
+            "sigstore_bundle_sha256": hashlib.sha256(bundle).hexdigest(),
+        }
+        artifact = {
+            "id": 901, "name": payload["artifact_name"], "expired": False,
+            "digest": payload["artifact_digest"], "workflow_run": {"id": 22},
+        }
+        run = {
+            "id": 22, "run_attempt": 1, "repository": {"full_name": consumer.CORE_REPOSITORY},
+            "path": consumer.FINALIZER_WORKFLOW, "event": "workflow_dispatch", "head_branch": "main",
+            "head_sha": "a" * 40, "status": "in_progress", "conclusion": None,
+        }
+        return payload, artifact, run, archive_bytes.getvalue()
+
+    def run_reference(self, *, payload=None, artifact=None, run=None, archive=None, request_error=None):
+        defaults = self.reference_payload()
+        payload = defaults[0] if payload is None else payload
+        artifact = defaults[1] if artifact is None else artifact
+        run = defaults[2] if run is None else run
+        archive = defaults[3] if archive is None else archive
+        process = subprocess.CompletedProcess([], 0, json.dumps(self.verified).encode(), b"")
+        side_effect = request_error or [artifact, run, archive]
+        with patch.object(consumer, "_request", side_effect=side_effect) as requested, patch.object(
+            consumer.subprocess, "run", return_value=process,
+        ) as called, patch(
+            "core_publication_lineage.subprocess.check_output", side_effect=["b" * 40 + "\n", "1\n"],
+        ):
+            try:
+                return consumer.verify_event(
+                    event={"client_payload": payload}, expected_public_sha="c" * 40,
+                    repository=self.root, output_dir=self.root / "proof-reference", artifact_token="token",
+                )
+            finally:
+                self.reference_requests = requested.call_args_list
+                self.calls = called.call_args_list
+
     def test_modern_strict_policy_and_exact_original_bytes(self):
         result = self.run_consumer()
         self.assertEqual(result["transport"], consumer.LINEAGE_TRANSPORT)
@@ -95,6 +151,39 @@ class BundleConsumerTests(unittest.TestCase):
         self.assertEqual((self.root / "proof/receipt.json").read_bytes(), self.receipt)
         self.assertEqual((self.root / "proof/bundle.json").read_bytes(), self.bundle)
         self.assertEqual(json.loads((self.root / "proof/verification.json").read_bytes()), self.verified)
+
+    def test_reference_transport_downloads_large_exact_proof_from_in_progress_run(self):
+        large_bundle = (b'{"dsseEnvelope":{"payloadType":"application/vnd.in-toto+json"},'
+                        b'"padding":"' + b"x" * 102309 + b'"}\n')
+        payload, artifact, run, archive = self.reference_payload(bundle=large_bundle)
+        result = self.run_reference(payload=payload, artifact=artifact, run=run, archive=archive)
+        self.assertEqual(result["transport"], consumer.LINEAGE_REFERENCE_TRANSPORT)
+        self.assertLess(len(json.dumps({"event_type": "core_publication_lineage", "client_payload": payload})), 2048)
+        self.assertGreater(len(large_bundle), 102309)
+        proof = self.root / "proof-reference"
+        self.assertEqual((proof / "attestation.json").read_bytes(), self.raw)
+        self.assertEqual((proof / "receipt.json").read_bytes(), self.receipt)
+        self.assertEqual((proof / "bundle.json").read_bytes(), large_bundle)
+        self.assertEqual(len(self.reference_requests), 3)
+
+    def test_reference_transport_rejects_missing_substituted_or_crossed_artifact(self):
+        payload, artifact, run, archive = self.reference_payload()
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "DOWNLOAD_FAILED"):
+            self.run_reference(payload=payload, request_error=consumer.BundleVerificationError(
+                "CORE_LINEAGE_BUNDLE_ARTIFACT_DOWNLOAD_FAILED"
+            ))
+        crossed = deepcopy(artifact); crossed["name"] = "publication-lineage-99-22-1"
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "ARTIFACT_NAME_MISMATCH"):
+            self.run_reference(payload=payload, artifact=crossed, run=run, archive=archive)
+        crossed = deepcopy(run); crossed["repository"]["full_name"] = "attacker/other"
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "ARTIFACT_REPOSITORY_MISMATCH"):
+            self.run_reference(payload=payload, artifact=artifact, run=crossed, archive=archive)
+        crossed = deepcopy(run); crossed["run_attempt"] = 2
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "ARTIFACT_ATTEMPT_MISMATCH"):
+            self.run_reference(payload=payload, artifact=artifact, run=crossed, archive=archive)
+        changed = bytearray(archive); changed[-20] ^= 1
+        with self.assertRaises(consumer.BundleVerificationError):
+            self.run_reference(payload=payload, artifact=artifact, run=run, archive=bytes(changed))
 
     def test_legacy_uses_real_api_verifier_policy_not_missing_bundle_as_proof(self):
         legacy = {key: value for key, value in self.payload.items() if key in consumer.LEGACY_FIELDS}
@@ -204,6 +293,10 @@ class BundleConsumerTests(unittest.TestCase):
         workflow = (Path(__file__).resolve().parents[2] / ".github/workflows/publish.yml").read_text()
         self.assertEqual(workflow.count("python app/scripts/verify_core_publication_bundle.py"), 2)
         self.assertEqual(workflow.count('--event "$GITHUB_EVENT_PATH"'), 2)
+        self.assertEqual(workflow.count("permission-actions: read"), 2)
+        self.assertEqual(workflow.count("repositories: agenda-cultural-core"), 2)
+        self.assertEqual(workflow.count("CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}"), 2)
+        self.assertNotIn("permission-actions: write", workflow)
         self.assertNotIn("gh attestation verify", workflow)
         self.assertLess(workflow.index("python app/scripts/verify_core_publication_bundle.py"),
                         workflow.index("git push origin HEAD:cloudflare-preview"))
