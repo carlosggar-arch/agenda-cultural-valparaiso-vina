@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import subprocess
+import tempfile
 import zipfile
 
 import publication_execution_binding as binding
@@ -66,12 +67,20 @@ def exact_run(reader: GithubReader, run_id: int, attempt: int) -> dict:
 
 
 def read_verification(reader: GithubReader, *, root: Path, run: dict, jobs: list) -> dict:
+    contract.require(run.get("status") == "completed" and run.get("conclusion") == "success",
+                     "VERIFICATION_NOT_SUCCESSFUL")
     job = exact_job(jobs, contract.VERIFY_JOB)
     endpoint = checked_endpoint(reader, job)
     annotations = reader.pages(endpoint + "/annotations")
     notices = [row for row in annotations if row.get("title") == contract.NOTICE_TITLE]
     contract.require(len(notices) == 1, "NOTICE_MISSING_OR_AMBIGUOUS")
-    proof = contract.decode(notices[0]["message"])
+    notice = contract.decode_notice(notices[0]["message"])
+    with tempfile.TemporaryDirectory(prefix="snapshot-verification-") as directory:
+        destination = Path(directory) / "artifact"
+        download_artifact(reader, run=run, name=notice["artifact_name"], destination=destination)
+        proof = contract.validate(binding.parse_json(
+            (destination / "extracted/snapshot-verification.json").read_bytes()))
+    contract.require(notice == contract.proof_notice(proof), "NOTICE_PROOF_MISMATCH")
     # This watchdog is executing the independently installed current verifier,
     # not code or an approval document supplied by a downloaded artifact.
     installed_sha = git(root, "rev-parse", "HEAD").decode().strip()
@@ -80,8 +89,6 @@ def read_verification(reader: GithubReader, *, root: Path, run: dict, jobs: list
         approved_policy=local_policy(root, installed_sha), actual_policy=remote_policy(reader, run["head_sha"]),
         run=run, job=job, check_run=reader.api(endpoint), annotations=annotations,
         workflow_id=reader.api(f"{reader.prefix}/actions/workflows/publish.yml")["id"])
-    contract.require(run.get("status") == "completed" and run.get("conclusion") == "success",
-                     "VERIFICATION_NOT_SUCCESSFUL")
     for name in (contract.VERIFY_JOB, contract.SMOKE_JOB):
         item = exact_job(jobs, name)
         contract.require(item.get("conclusion") == "success" and item.get("status") == "completed"
@@ -413,7 +420,7 @@ def main() -> None:
         "EXECUTION_CONTEXT_CHANGED")
     contract.require(local_policy(args.verifier, verifier_sha) == proof["verifier"], "VERIFIER_POLICY_CHANGED")
     if args.mode == "emit":
-        print(f"::notice file={contract.WORKFLOW},line=1,title={contract.NOTICE_TITLE}::{contract.encode(proof)}")
+        print(f"::notice file={contract.WORKFLOW},line=1,title={contract.NOTICE_TITLE}::{contract.encode_notice(proof)}")
     elif args.mode == "install":
         install_verifier(args.snapshot, args.verifier, public, verifier_sha)
     else:

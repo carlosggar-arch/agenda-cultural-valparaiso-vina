@@ -23,6 +23,8 @@ SMOKE_JOB = "snapshot-production-smoke"
 VERIFY_STEP = "Verify original publication evidence"
 EMIT_STEP = "Bind exact snapshot verification"
 NOTICE_TITLE = "SNAPSHOT_PUBLICATION_VERIFICATION_V1"
+NOTICE_CONTRACT = "core-publication-snapshot-verification-index"
+NOTICE_VERSION = "1.0.0"
 WATCHDOG_WORKFLOW = ".github/workflows/production-certification-watchdog.yml"
 WATCHDOG_JOB = "certification-watchdog"
 WATCHDOG_STEP = "Verify exact snapshot certification"
@@ -180,6 +182,40 @@ def proof_hash(proof: dict) -> str:
     return original.sha256(original.canonical_bytes(validate(proof)))
 
 
+def proof_notice(proof: dict) -> dict:
+    value = validate(proof)
+    run_id, attempt = execution(value["execution"])
+    return {
+        "artifact_name": f"snapshot-verification-{run_id}-{attempt}",
+        "contract": NOTICE_CONTRACT,
+        "execution": value["execution"],
+        "proof_sha256": proof_hash(value),
+        "version": NOTICE_VERSION,
+    }
+
+
+def encode_notice(proof: dict) -> str:
+    return base64.b64encode(original.canonical_bytes(proof_notice(proof))).decode("ascii")
+
+
+def decode_notice(message: str) -> dict:
+    require(isinstance(message, str) and 0 < len(message) <= 2048, "NOTICE_INVALID")
+    try:
+        value = original.parse_json(base64.b64decode(message, validate=True))
+    except (ValueError, TypeError) as exc:
+        raise SnapshotVerificationError("SNAPSHOT_VERIFICATION_NOTICE_ENCODING_INVALID") from exc
+    require(isinstance(value, dict) and set(value) == {
+        "artifact_name", "contract", "execution", "proof_sha256", "version",
+    }, "NOTICE_FIELDS_INVALID")
+    require(value["contract"] == NOTICE_CONTRACT and value["version"] == NOTICE_VERSION,
+            "NOTICE_CONTRACT_INVALID")
+    run_id, attempt = execution(value["execution"])
+    require(value["artifact_name"] == f"snapshot-verification-{run_id}-{attempt}",
+            "NOTICE_ARTIFACT_INVALID")
+    digest(value["proof_sha256"], 64, "NOTICE_PROOF_DIGEST")
+    return value
+
+
 def validate_attestation(payload: dict) -> dict:
     proof = validate(payload.get("snapshot_verification"))
     index = proof["original_core_execution"]
@@ -248,7 +284,7 @@ def verify_github_proof(proof: dict, *, expected_binding: Mapping, approved_poli
     verify_metadata(run=run, job=job, check_run=check_run, annotations=annotations,
                     execution_identity=value["execution"], workflow=WORKFLOW, event="workflow_dispatch",
                     workflow_id=workflow_id, job_name=VERIFY_JOB, marker=NOTICE_TITLE,
-                    marker_message=encode(value), steps=(VERIFY_STEP, EMIT_STEP))
+                    marker_message=encode_notice(value), steps=(VERIFY_STEP, EMIT_STEP))
     return value
 
 

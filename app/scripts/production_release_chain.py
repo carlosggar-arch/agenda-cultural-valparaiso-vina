@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 from pathlib import Path
@@ -32,6 +33,7 @@ def build_chain(
     *, cloudflare_ref: str, attestation_path: Path,
     core_attestation: Path | None = None, core_receipt: Path | None = None,
     snapshot_verification: Path | None = None,
+    historical_validation: Path | None = None,
 ) -> dict[str, object]:
     # These are the original bytes authenticated earlier by the consumer. Keep
     # their semantic checks through the final chain, never fall back to PR mode.
@@ -42,14 +44,14 @@ def build_chain(
         proof = snapshot_contract.validate(proof)
         if core_attestation is None:
             raise SystemExit("SNAPSHOT_HISTORICAL_LINEAGE_EVIDENCE_REQUIRED")
+        if historical_validation is None:
+            raise SystemExit("SNAPSHOT_HISTORICAL_VALIDATION_REQUIRED")
         composition = proof["composition"]
-        historical = check_published(
-            composition["historical"]["head_sha"],
-            core_attestation=core_attestation,
-            core_receipt=core_receipt,
-        )
+        historical_bytes = historical_validation.read_bytes()
+        historical = load_json(historical_validation)
         if (str(historical["main_sha"]) != composition["historical"]["head_sha"]
-                or str(historical["release_id"]) != composition["historical"]["release_id"]):
+                or str(historical["release_id"]) != composition["historical"]["release_id"]
+                or historical.get("lineage_mode") != "CORE_PUBLICATION_FINALIZER"):
             raise SystemExit("SNAPSHOT_HISTORICAL_RELEASE_IDENTITY_MISMATCH")
         # The original signed lineage authenticates the preserved data object.
         # Current runtime authority comes from the exact reviewed tree and its
@@ -61,6 +63,8 @@ def build_chain(
     elif core_attestation is not None:
         published = check_published("HEAD", core_attestation=core_attestation, core_receipt=core_receipt)
     else:
+        if historical_validation is not None:
+            raise SystemExit("UNEXPECTED_HISTORICAL_VALIDATION")
         published = check_published("HEAD")
     main_sha = str(published["main_sha"])
     try:
@@ -91,6 +95,7 @@ def build_chain(
             "historical_public_sha": proof["composition"]["historical"]["head_sha"],
             "historical_release_id": proof["composition"]["historical"]["release_id"],
             "historical_success_claimed": False,
+            "historical_validation_sha256": hashlib.sha256(historical_bytes).hexdigest(),
             "snapshot_verification_sha256": snapshot_contract.proof_hash(proof),
         })
     return result
@@ -103,12 +108,15 @@ def main() -> None:
     parser.add_argument("--core-attestation", type=Path)
     parser.add_argument("--core-receipt", type=Path)
     parser.add_argument("--snapshot-verification", type=Path)
+    parser.add_argument("--historical-validation", type=Path)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     arguments = {"cloudflare_ref": args.cloudflare_ref, "attestation_path": Path(args.attestation),
                  "core_attestation": args.core_attestation, "core_receipt": args.core_receipt}
     if args.snapshot_verification is not None:
         arguments["snapshot_verification"] = args.snapshot_verification
+    if args.historical_validation is not None:
+        arguments["historical_validation"] = args.historical_validation
     payload = build_chain(**arguments)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

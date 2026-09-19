@@ -78,8 +78,10 @@ def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
     require_same_surfaces(verifier, verifier_sha, cloudflare)
     raw = evidence / "original/extracted/core-publication-lineage"
     lineage = ("--core-attestation", str(raw / "attestation.json"), "--core-receipt", str(raw / "receipt.json"))
+    historical_validation = evidence / "historical-release-validation.json"
     run(snapshot, evidence, "release_finalizer.py", "release-lineage.log",
-        ("--check-published", "--finalizer-ref", public_sha, *lineage))
+        ("--check-published", "--finalizer-ref", public_sha, *lineage,
+         "--output", str(historical_validation)))
     run(verifier, evidence, "production_pwa_smoke.py", "local-contracts.log", ("local",))
     # One bounded wait, including the corrected consecutive confirmation probe.
     run(verifier, evidence, "deployment_readiness.py", "http.log",
@@ -98,6 +100,7 @@ def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
     run(verifier, evidence, "production_release_chain.py", "release-chain.log",
         (*lineage, "--cloudflare-ref", "origin/cloudflare-preview",
          "--snapshot-verification", str(evidence / "snapshot-verification.json"),
+         "--historical-validation", str(historical_validation),
          "--attestation", str(evidence / "production-release-attestation.json"),
          "--output", str(evidence / "production-release-chain.json")))
     require_overlay(snapshot, verifier, public_sha, verifier_sha)

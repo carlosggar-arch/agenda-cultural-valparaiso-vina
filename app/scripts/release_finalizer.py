@@ -434,7 +434,10 @@ def main() -> None:
     parser.add_argument("--finalizer-ref", default="HEAD")
     parser.add_argument("--core-attestation", type=Path)
     parser.add_argument("--core-receipt", type=Path)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    if args.output is not None and not args.check_published:
+        parser.error("--output is valid only with --check-published")
     if args.fresh:
         assert_fresh(args.base_ref, args.finalizer_ref)
     elif args.prepare:
@@ -442,7 +445,17 @@ def main() -> None:
     elif args.check:
         check_candidate(base_ref=args.base_ref, finalizer_ref=args.finalizer_ref)
     else:
-        check_published(args.finalizer_ref, core_attestation=args.core_attestation, core_receipt=args.core_receipt)
+        published = check_published(
+            args.finalizer_ref,
+            core_attestation=args.core_attestation,
+            core_receipt=args.core_receipt,
+        )
+        if args.output is not None:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(
+                json.dumps(published, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
 
 
 if __name__ == "__main__":

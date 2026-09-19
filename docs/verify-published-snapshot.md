@@ -63,6 +63,13 @@ the new run, all required jobs, the complete immutable history, original private
 signature again, and the exact archived attestation hash. It emits its own
 run/attempt-bound proof. No skipped legacy synchronization job is called green.
 
+GitHub annotations carry only a compact run/attempt-bound index and the SHA-256
+of the proof. The full proof remains in the run-qualified
+`snapshot-verification-<run>-<attempt>` artifact. The watchdog downloads that
+exact artifact and requires its bytes to match the annotation digest before it
+uses the proof. This avoids annotation truncation without moving authority into
+an unauthenticated message or accepting a proof from another run.
+
 ## Complete route and sole writers
 
 1. `verify-snapshot`: original signature, original execution, immutable data and
@@ -72,6 +79,11 @@ run/attempt-bound proof. No skipped legacy synchronization job is called green.
    readiness, admin and series checks, full browser/cold-load/city-roundtrip/
    official-image checks, warm PWA, exact WEB/APP parity, network revalidation,
    source-to-production chain, then immutable Web certification history.
+   The historical release check executes inside the immutable historical
+   checkout and emits a structured, content-addressed result. The current
+   runtime chain consumes that result while validating the current release in
+   the current checkout; it never evaluates historical provenance against the
+   later runtime metadata.
 3. Existing watchdog: validates that exact result, then a separate callback job
    requests Core's existing `certify-publication-post-finalizer.yml` with the
    original finalizer plus the new verification and watchdog run/attempt pairs.
