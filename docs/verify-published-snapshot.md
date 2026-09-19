@@ -70,6 +70,19 @@ exact artifact and requires its bytes to match the annotation digest before it
 uses the proof. This avoids annotation truncation without moving authority into
 an unauthenticated message or accepting a proof from another run.
 
+A verification-only merge is not falsely presented as a deployed runtime
+commit. If that merge is not an ancestor of `cloudflare-preview`, the chain
+accepts only a complete Git diff confined to the same non-public verifier,
+workflow, test and documentation paths checked before the probes. The chain
+records that relation and the exact changed-path set. Any dataset, generated
+release, runtime, page or asset difference still blocks.
+
+Likewise, the current release is validated at the commit that last changed its
+canonical provenance, not by pretending a later verification-only commit was
+the release finalizer. That release owner must be an ancestor of the approved
+verifier tree, and every intervening path must be non-public verification
+machinery. The certificate records both identities and the intervening paths.
+
 ## Complete route and sole writers
 
 1. `verify-snapshot`: original signature, original execution, immutable data and

@@ -29,6 +29,31 @@ def validate_visual_attestation(attestation: dict[str, object], published: dict[
         raise SystemExit("RELEASE_CHAIN_VISUAL_ATTESTATION_INCOMPLETE")
 
 
+def validate_cloudflare_relation(main_sha: str, cloudflare_sha: str, *, snapshot_mode: bool) -> tuple[str, list[str]]:
+    if git_check("merge-base", "--is-ancestor", main_sha, cloudflare_sha):
+        return "ancestor", []
+    if not snapshot_mode:
+        raise SystemExit(f"RELEASE_CHAIN_CLOUDFLARE_STALE main={main_sha} cloudflare={cloudflare_sha}")
+    changed = sorted(set(filter(None, git("diff", "--name-only", main_sha, cloudflare_sha).splitlines())))
+    if not changed or not all(snapshot_contract.non_public_verification_path(path) for path in changed):
+        raise SystemExit(f"RELEASE_CHAIN_CLOUDFLARE_SURFACES_CHANGED main={main_sha} cloudflare={cloudflare_sha}")
+    return "verified-non-public-diff", changed
+
+
+def validate_runtime_release(runtime_sha: str) -> tuple[dict[str, object], str, list[str]]:
+    release_owner = git("log", "-1", "--format=%H", runtime_sha, "--", "app/data/release-provenance.json")
+    if len(release_owner) != 40 or not git_check("merge-base", "--is-ancestor", release_owner, runtime_sha):
+        raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_INVALID")
+    changed = [] if release_owner == runtime_sha else sorted(set(filter(None,
+        git("diff", "--name-only", release_owner, runtime_sha).splitlines())))
+    if not all(snapshot_contract.non_public_verification_path(path) for path in changed):
+        raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_SURFACES_CHANGED")
+    published = check_published(release_owner)
+    if str(published["main_sha"]) != release_owner:
+        raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_MISMATCH")
+    return published, release_owner, changed
+
+
 def build_chain(
     *, cloudflare_ref: str, attestation_path: Path,
     core_attestation: Path | None = None, core_receipt: Path | None = None,
@@ -56,25 +81,28 @@ def build_chain(
         # The original signed lineage authenticates the preserved data object.
         # Current runtime authority comes from the exact reviewed tree and its
         # own release contract, never by pretending the old Core claim signed it.
-        published = check_published("HEAD")
-        if (str(published["main_sha"]) != composition["runtime"]["head_sha"]
-                or str(published["release_id"]) != composition["runtime"]["release_id"]):
+        runtime_sha = composition["runtime"]["head_sha"]
+        published, runtime_release_owner, runtime_verification_paths = validate_runtime_release(runtime_sha)
+        if str(published["release_id"]) != composition["runtime"]["release_id"]:
             raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_IDENTITY_MISMATCH")
+        effective_published = {**published, "main_sha": runtime_sha}
     elif core_attestation is not None:
         published = check_published("HEAD", core_attestation=core_attestation, core_receipt=core_receipt)
+        effective_published = published
     else:
         if historical_validation is not None:
             raise SystemExit("UNEXPECTED_HISTORICAL_VALIDATION")
         published = check_published("HEAD")
-    main_sha = str(published["main_sha"])
+        effective_published = published
+    main_sha = str(effective_published["main_sha"])
     try:
         cloudflare_sha = git("rev-parse", cloudflare_ref)
     except subprocess.CalledProcessError as exc:
         raise SystemExit(f"RELEASE_CHAIN_CLOUDFLARE_REF_MISSING ref={cloudflare_ref}") from exc
-    if not git_check("merge-base", "--is-ancestor", main_sha, cloudflare_sha):
-        raise SystemExit(f"RELEASE_CHAIN_CLOUDFLARE_STALE main={main_sha} cloudflare={cloudflare_sha}")
+    cloudflare_relation, cloudflare_changed_paths = validate_cloudflare_relation(
+        main_sha, cloudflare_sha, snapshot_mode=proof is not None)
     attestation = load_json(attestation_path)
-    validate_visual_attestation(attestation, published)
+    validate_visual_attestation(attestation, effective_published)
     result = {
         "schema_version": SCHEMA_VERSION,
         "lineage_mode": published["lineage_mode"],
@@ -84,6 +112,7 @@ def build_chain(
         "finalizer_sha": published["finalizer_sha"],
         "main_sha": main_sha,
         "cloudflare_sha": cloudflare_sha,
+        "cloudflare_relation": cloudflare_relation,
         "release": published["release"],
         "release_id": published["release_id"],
         "production_attestation_head": attestation["head_sha"],
@@ -97,6 +126,9 @@ def build_chain(
             "historical_success_claimed": False,
             "historical_validation_sha256": hashlib.sha256(historical_bytes).hexdigest(),
             "snapshot_verification_sha256": snapshot_contract.proof_hash(proof),
+            "cloudflare_non_public_changed_paths": cloudflare_changed_paths,
+            "runtime_release_owner_sha": runtime_release_owner,
+            "runtime_verification_changed_paths": runtime_verification_paths,
         })
     return result
 

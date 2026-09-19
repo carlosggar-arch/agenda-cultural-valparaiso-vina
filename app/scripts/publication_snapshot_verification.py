@@ -29,6 +29,8 @@ WATCHDOG_WORKFLOW = ".github/workflows/production-certification-watchdog.yml"
 WATCHDOG_JOB = "certification-watchdog"
 WATCHDOG_STEP = "Verify exact snapshot certification"
 WATCHDOG_NOTICE = "SNAPSHOT_PUBLICATION_WATCHDOG_V1"
+NON_PUBLIC_VERIFICATION_PREFIXES = (".github/", "app/scripts/", "docs/", "tests/", "scripts/")
+NON_PUBLIC_VERIFICATION_FILES = frozenset({"AGENTS.md", "requirements-ci.txt"})
 CODE_PATHS = tuple(dict.fromkeys((*original.CODE_PATHS,
     "app/scripts/publication_snapshot_verification.py",
     "app/scripts/snapshot_verification_cli.py",
@@ -68,6 +70,12 @@ class SnapshotVerificationError(RuntimeError):
 def require(condition: bool, code: str) -> None:
     if not condition:
         raise SnapshotVerificationError("SNAPSHOT_VERIFICATION_" + code)
+
+
+def non_public_verification_path(path: str) -> bool:
+    return (isinstance(path, str) and path
+            and (path.startswith(NON_PUBLIC_VERIFICATION_PREFIXES)
+                 or path in NON_PUBLIC_VERIFICATION_FILES))
 
 
 def digest(value: Any, size: int, label: str) -> None:

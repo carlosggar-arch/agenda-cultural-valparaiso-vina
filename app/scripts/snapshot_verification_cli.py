@@ -163,9 +163,8 @@ def require_same_surfaces(root: Path, public_sha: str, other_sha: str) -> None:
     contract.digest(public_sha, 40, "PUBLIC_SHA")
     contract.digest(other_sha, 40, "OTHER_SHA")
     paths = git(root, "diff", "--name-only", public_sha, other_sha).decode().splitlines()
-    allowed = (".github/", "app/scripts/", "docs/", "tests/", "scripts/")
-    contract.require(all(path.startswith(allowed) or path in {"AGENTS.md", "requirements-ci.txt"}
-                         for path in paths), "PUBLICATION_SURFACES_CHANGED")
+    contract.require(all(contract.non_public_verification_path(path) for path in paths),
+                     "PUBLICATION_SURFACES_CHANGED")
 
 
 def _release_identity(root: Path, sha: str) -> dict:
