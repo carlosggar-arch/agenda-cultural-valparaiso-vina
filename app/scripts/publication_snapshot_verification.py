@@ -24,7 +24,7 @@ VERIFY_STEP = "Verify original publication evidence"
 EMIT_STEP = "Bind exact snapshot verification"
 NOTICE_TITLE = "SNAPSHOT_PUBLICATION_VERIFICATION_V1"
 NOTICE_CONTRACT = "core-publication-snapshot-verification-index"
-NOTICE_VERSION = "1.0.0"
+NOTICE_VERSION = "2.0.0"
 WATCHDOG_WORKFLOW = ".github/workflows/production-certification-watchdog.yml"
 WATCHDOG_JOB = "certification-watchdog"
 WATCHDOG_STEP = "Verify exact snapshot certification"
@@ -198,6 +198,7 @@ def proof_notice(proof: dict) -> dict:
         "contract": NOTICE_CONTRACT,
         "execution": value["execution"],
         "proof_sha256": proof_hash(value),
+        "repository": original.WEB_REPOSITORY,
         "version": NOTICE_VERSION,
     }
 
@@ -213,13 +214,14 @@ def decode_notice(message: str) -> dict:
     except (ValueError, TypeError) as exc:
         raise SnapshotVerificationError("SNAPSHOT_VERIFICATION_NOTICE_ENCODING_INVALID") from exc
     require(isinstance(value, dict) and set(value) == {
-        "artifact_name", "contract", "execution", "proof_sha256", "version",
+        "artifact_name", "contract", "execution", "proof_sha256", "repository", "version",
     }, "NOTICE_FIELDS_INVALID")
     require(value["contract"] == NOTICE_CONTRACT and value["version"] == NOTICE_VERSION,
             "NOTICE_CONTRACT_INVALID")
     run_id, attempt = execution(value["execution"])
     require(value["artifact_name"] == f"snapshot-verification-{run_id}-{attempt}",
             "NOTICE_ARTIFACT_INVALID")
+    require(value["repository"] == original.WEB_REPOSITORY, "NOTICE_REPOSITORY_INVALID")
     digest(value["proof_sha256"], 64, "NOTICE_PROOF_DIGEST")
     return value
 

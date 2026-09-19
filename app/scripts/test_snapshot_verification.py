@@ -6,6 +6,7 @@ writes are performed. Existing cryptographic tests own signature validation.
 """
 from __future__ import annotations
 
+import base64
 from copy import deepcopy
 from io import BytesIO
 import json
@@ -90,6 +91,12 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertGreater(len(contract.encode(proof)), 4096)
         self.assertLessEqual(len(encoded), 2048)
         self.assertEqual(contract.decode_notice(encoded), contract.proof_notice(proof))
+        self.assertEqual(contract.decode_notice(encoded)["repository"], original.WEB_REPOSITORY)
+        crossed = contract.proof_notice(proof)
+        crossed["repository"] = "other/repository"
+        message = base64.b64encode(original.canonical_bytes(crossed)).decode("ascii")
+        with self.assertRaisesRegex(contract.SnapshotVerificationError, "NOTICE_REPOSITORY_INVALID"):
+            contract.decode_notice(message)
 
     def test_new_proof_rejects_original_run_reuse_and_rerun(self):
         for key, value in (("run_id", 201), ("run_attempt", 2)):
@@ -328,12 +335,14 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertIn("/actions/artifacts/401/zip", download.call_args.args[0][-1])
 
     def test_artifact_wrong_attempt_digest_or_duplicate_blocks(self):
-        for mode in ("time", "digest", "duplicate", "head", "expired"):
+        for mode in ("missing", "time", "digest", "duplicate", "run", "head", "expired"):
             with self.subTest(mode=mode):
                 reader, run, artifact, rows, raw = self.artifact_fixture()
-                if mode == "time": artifact["created_at"] = "2026-09-12T11:00:00Z"
+                if mode == "missing": rows.clear()
+                elif mode == "time": artifact["created_at"] = "2026-09-12T11:00:00Z"
                 elif mode == "digest": artifact["digest"] = "sha256:" + "0" * 64
                 elif mode == "duplicate": rows.append(deepcopy(artifact))
+                elif mode == "run": artifact["workflow_run"]["id"] = 999
                 elif mode == "head": artifact["workflow_run"]["head_sha"] = "a" * 40
                 else: artifact["expired"] = True
                 with patch.object(cli.subprocess, "check_output", return_value=raw):

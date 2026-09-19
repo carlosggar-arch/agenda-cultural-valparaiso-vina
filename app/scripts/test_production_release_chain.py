@@ -136,14 +136,17 @@ class ProductionReleaseChainTests(unittest.TestCase):
         self.assertEqual(result["cloudflare_non_public_changed_paths"],
                          ["app/scripts/verifier.py", "docs/route.md"])
 
-        with patch.object(chain.snapshot_contract, "validate", return_value=proof), \
-             patch.object(chain, "validate_runtime_release",
-                          return_value=(self.published, "c" * 40, [])), \
-             patch.object(chain, "git", side_effect=["d" * 40, "agenda_web.json"]), \
-             patch.object(chain, "git_check", return_value=False):
-            with self.assertRaisesRegex(SystemExit, "RELEASE_CHAIN_CLOUDFLARE_SURFACES_CHANGED"):
-                chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
-                                  attestation_path=self.visual, **arguments)
+        for path in ("agenda_web.json", "app/index.html", "assets/agenda.js",
+                     "app/data/release-bundle.json"):
+            with self.subTest(path=path), \
+                 patch.object(chain.snapshot_contract, "validate", return_value=proof), \
+                 patch.object(chain, "validate_runtime_release",
+                              return_value=(self.published, "c" * 40, [])), \
+                 patch.object(chain, "git", side_effect=["d" * 40, path]), \
+                 patch.object(chain, "git_check", return_value=False):
+                with self.assertRaisesRegex(SystemExit, "RELEASE_CHAIN_CLOUDFLARE_SURFACES_CHANGED"):
+                    chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
+                                      attestation_path=self.visual, **arguments)
 
     def test_runtime_release_owner_allows_only_later_verification_files(self):
         published = {**self.published, "main_sha": "2" * 40}
@@ -156,12 +159,15 @@ class ProductionReleaseChainTests(unittest.TestCase):
         self.assertEqual(owner, "2" * 40)
         self.assertEqual(changed, ["app/scripts/verifier.py", "docs/route.md"])
 
-        with patch.object(chain, "git", side_effect=["2" * 40, "agenda_web.json"]), \
-             patch.object(chain, "git_check", return_value=True), \
-             patch.object(chain, "check_published") as check:
-            with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_RELEASE_SURFACES_CHANGED"):
-                chain.validate_runtime_release("3" * 40)
-        check.assert_not_called()
+        for path in ("agenda_web.json", "app/index.html", "assets/agenda.js",
+                     "app/data/release-bundle.json"):
+            with self.subTest(path=path), \
+                 patch.object(chain, "git", side_effect=["2" * 40, path]), \
+                 patch.object(chain, "git_check", return_value=True), \
+                 patch.object(chain, "check_published") as check:
+                with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_RELEASE_SURFACES_CHANGED"):
+                    chain.validate_runtime_release("3" * 40)
+            check.assert_not_called()
 
     def test_cli_preserves_the_explicit_core_paths(self):
         output = self.root / "chain.json"
