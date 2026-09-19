@@ -19,6 +19,7 @@ class ProductionReleaseChainTests(unittest.TestCase):
         self.core = self.root / "original-core-attestation.json"
         self.receipt = self.root / "original-receipt.json"
         self.snapshot = self.root / "snapshot-verification.json"
+        self.historical_validation = self.root / "historical-release-validation.json"
         self.published = {
             "base_sha": "a" * 40, "source_sha": "b" * 40,
             "finalizer_sha": "c" * 40, "main_sha": "c" * 40,
@@ -79,18 +80,94 @@ class ProductionReleaseChainTests(unittest.TestCase):
             "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
             "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
         self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
+        self.historical_validation.write_text(json.dumps(historical), encoding="utf-8")
         with patch.object(chain.snapshot_contract, "validate", return_value=proof), \
              patch.object(chain.snapshot_contract, "proof_hash", return_value="f" * 64), \
-             patch.object(chain, "check_published", side_effect=[historical, self.published]) as check:
+             patch.object(chain, "validate_runtime_release",
+                          return_value=(self.published, "c" * 40, [])) as release, \
+             patch.object(chain, "check_published", return_value=self.published) as check:
             result = self.build(core_attestation=self.core, core_receipt=self.receipt,
-                                snapshot_verification=self.snapshot)
-        self.assertEqual(check.call_args_list[0].args, ("1" * 40,))
-        self.assertEqual(check.call_args_list[0].kwargs,
-                         {"core_attestation": self.core, "core_receipt": self.receipt})
-        self.assertEqual(check.call_args_list[1].args, ("HEAD",))
+                                snapshot_verification=self.snapshot,
+                                historical_validation=self.historical_validation)
+        release.assert_called_once_with("c" * 40)
+        check.assert_not_called()
         self.assertEqual(result["lineage_mode"], "historical-data-current-runtime-composition")
         self.assertEqual(result["historical_public_sha"], "1" * 40)
         self.assertFalse(result["historical_success_claimed"])
+        self.assertEqual(len(result["historical_validation_sha256"]), 64)
+
+    def test_snapshot_composition_rejects_missing_or_crossed_historical_validation(self):
+        proof = {"composition": {
+            "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
+            "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
+        self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
+        arguments = {"core_attestation": self.core, "core_receipt": self.receipt,
+                     "snapshot_verification": self.snapshot}
+        with patch.object(chain.snapshot_contract, "validate", return_value=proof):
+            with self.assertRaisesRegex(SystemExit, "SNAPSHOT_HISTORICAL_VALIDATION_REQUIRED"):
+                self.build(**arguments)
+        crossed = {**self.published, "main_sha": "2" * 40,
+                   "release_id": "v251-aaaaaaaaaaaa", "lineage_mode": "CORE_PUBLICATION_FINALIZER"}
+        self.historical_validation.write_text(json.dumps(crossed), encoding="utf-8")
+        with patch.object(chain.snapshot_contract, "validate", return_value=proof):
+            with self.assertRaisesRegex(SystemExit, "SNAPSHOT_HISTORICAL_RELEASE_IDENTITY_MISMATCH"):
+                self.build(**arguments, historical_validation=self.historical_validation)
+
+    def test_snapshot_allows_only_verified_non_public_cloudflare_difference(self):
+        historical = {**self.published, "main_sha": "1" * 40,
+                      "release": 251, "release_id": "v251-aaaaaaaaaaaa"}
+        proof = {"composition": {
+            "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
+            "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
+        self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
+        self.historical_validation.write_text(json.dumps(historical), encoding="utf-8")
+        arguments = {"core_attestation": self.core, "core_receipt": self.receipt,
+                     "snapshot_verification": self.snapshot,
+                     "historical_validation": self.historical_validation}
+        with patch.object(chain.snapshot_contract, "validate", return_value=proof), \
+             patch.object(chain.snapshot_contract, "proof_hash", return_value="f" * 64), \
+             patch.object(chain, "validate_runtime_release",
+                          return_value=(self.published, "c" * 40, [])), \
+             patch.object(chain, "git", side_effect=["d" * 40, "app/scripts/verifier.py\ndocs/route.md"]), \
+             patch.object(chain, "git_check", return_value=False):
+            result = chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
+                                       attestation_path=self.visual, **arguments)
+        self.assertEqual(result["cloudflare_relation"], "verified-non-public-diff")
+        self.assertEqual(result["cloudflare_non_public_changed_paths"],
+                         ["app/scripts/verifier.py", "docs/route.md"])
+
+        for path in ("agenda_web.json", "app/index.html", "assets/agenda.js",
+                     "app/data/release-bundle.json"):
+            with self.subTest(path=path), \
+                 patch.object(chain.snapshot_contract, "validate", return_value=proof), \
+                 patch.object(chain, "validate_runtime_release",
+                              return_value=(self.published, "c" * 40, [])), \
+                 patch.object(chain, "git", side_effect=["d" * 40, path]), \
+                 patch.object(chain, "git_check", return_value=False):
+                with self.assertRaisesRegex(SystemExit, "RELEASE_CHAIN_CLOUDFLARE_SURFACES_CHANGED"):
+                    chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
+                                      attestation_path=self.visual, **arguments)
+
+    def test_runtime_release_owner_allows_only_later_verification_files(self):
+        published = {**self.published, "main_sha": "2" * 40}
+        with patch.object(chain, "git", side_effect=["2" * 40, "app/scripts/verifier.py\ndocs/route.md"]), \
+             patch.object(chain, "git_check", return_value=True), \
+             patch.object(chain, "check_published", return_value=published) as check:
+            result, owner, changed = chain.validate_runtime_release("3" * 40)
+        check.assert_called_once_with("2" * 40)
+        self.assertEqual(result, published)
+        self.assertEqual(owner, "2" * 40)
+        self.assertEqual(changed, ["app/scripts/verifier.py", "docs/route.md"])
+
+        for path in ("agenda_web.json", "app/index.html", "assets/agenda.js",
+                     "app/data/release-bundle.json"):
+            with self.subTest(path=path), \
+                 patch.object(chain, "git", side_effect=["2" * 40, path]), \
+                 patch.object(chain, "git_check", return_value=True), \
+                 patch.object(chain, "check_published") as check:
+                with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_RELEASE_SURFACES_CHANGED"):
+                    chain.validate_runtime_release("3" * 40)
+            check.assert_not_called()
 
     def test_cli_preserves_the_explicit_core_paths(self):
         output = self.root / "chain.json"

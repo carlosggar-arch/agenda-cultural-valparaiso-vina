@@ -6,6 +6,7 @@ writes are performed. Existing cryptographic tests own signature validation.
 """
 from __future__ import annotations
 
+import base64
 from copy import deepcopy
 from io import BytesIO
 import json
@@ -54,7 +55,7 @@ def proof_metadata(proof):
         {"name": name, "number": number, "status": "completed", "conclusion": "success"}
         for number, name in enumerate((contract.VERIFY_STEP, contract.EMIT_STEP), 1)])
     model["check"]["name"] = contract.VERIFY_JOB
-    model["annotations"] = [{"title": contract.NOTICE_TITLE, "message": contract.encode(proof),
+    model["annotations"] = [{"title": contract.NOTICE_TITLE, "message": contract.encode_notice(proof),
                              "path": contract.WORKFLOW, "annotation_level": "notice"}]
     return {"run": model["run"], "job": model["job"], "check_run": model["check"],
             "annotations": model["annotations"], "workflow_id": 55}
@@ -79,7 +80,23 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertEqual(self.verify(), self.proof)
         self.assertEqual(self.proof["original_core_execution"], self.fixture.index)
         self.assertNotEqual(self.proof["execution"]["run_id"], self.fixture.index["execution"]["run_id"])
-        self.assertEqual(contract.decode(contract.encode(self.proof)), self.proof)
+        self.assertEqual(contract.decode_notice(contract.encode_notice(self.proof)),
+                         contract.proof_notice(self.proof))
+
+    def test_compact_notice_binds_large_proof_without_annotation_truncation(self):
+        proof = deepcopy(self.proof)
+        proof["composition"]["changed_paths"] = [f"app/generated/runtime-{number:04d}.js"
+                                                  for number in range(500)]
+        encoded = contract.encode_notice(proof)
+        self.assertGreater(len(contract.encode(proof)), 4096)
+        self.assertLessEqual(len(encoded), 2048)
+        self.assertEqual(contract.decode_notice(encoded), contract.proof_notice(proof))
+        self.assertEqual(contract.decode_notice(encoded)["repository"], original.WEB_REPOSITORY)
+        crossed = contract.proof_notice(proof)
+        crossed["repository"] = "other/repository"
+        message = base64.b64encode(original.canonical_bytes(crossed)).decode("ascii")
+        with self.assertRaisesRegex(contract.SnapshotVerificationError, "NOTICE_REPOSITORY_INVALID"):
+            contract.decode_notice(message)
 
     def test_new_proof_rejects_original_run_reuse_and_rerun(self):
         for key, value in (("run_id", 201), ("run_attempt", 2)):
@@ -318,12 +335,14 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertIn("/actions/artifacts/401/zip", download.call_args.args[0][-1])
 
     def test_artifact_wrong_attempt_digest_or_duplicate_blocks(self):
-        for mode in ("time", "digest", "duplicate", "head", "expired"):
+        for mode in ("missing", "time", "digest", "duplicate", "run", "head", "expired"):
             with self.subTest(mode=mode):
                 reader, run, artifact, rows, raw = self.artifact_fixture()
-                if mode == "time": artifact["created_at"] = "2026-09-12T11:00:00Z"
+                if mode == "missing": rows.clear()
+                elif mode == "time": artifact["created_at"] = "2026-09-12T11:00:00Z"
                 elif mode == "digest": artifact["digest"] = "sha256:" + "0" * 64
                 elif mode == "duplicate": rows.append(deepcopy(artifact))
+                elif mode == "run": artifact["workflow_run"]["id"] = 999
                 elif mode == "head": artifact["workflow_run"]["head_sha"] = "a" * 40
                 else: artifact["expired"] = True
                 with patch.object(cli.subprocess, "check_output", return_value=raw):
@@ -473,6 +492,12 @@ class SnapshotVerificationTests(unittest.TestCase):
         api.overrides[f"{prefix}/git/ref/heads/main"] = {"object": {"sha": "8" * 40}}
         api.overrides[f"{prefix}/actions/runs/201/artifacts?per_page=100&page=1"] = {
             "total_count": 1, "artifacts": [old_artifact]}
+        _, _, verification_artifact, _, verification_zip = self.artifact_fixture({
+            "snapshot-verification.json": original.canonical_bytes(proof)})
+        verification_artifact.update(id=450, name="snapshot-verification-301-1",
+                                     workflow_run={"id": 301, "head_sha": "8" * 40})
+        api.overrides[f"{prefix}/actions/runs/301/artifacts?per_page=100&page=1"] = {
+            "total_count": 1, "artifacts": [verification_artifact]}
         reader = cli.GithubReader(api=api, code_resolver=lambda sha, paths: {
             path: proof["verifier"]["code_hashes"][path] if sha == "8" * 40 else "9" * 40 for path in paths})
         payload = self.snapshot_payload()
@@ -494,12 +519,13 @@ class SnapshotVerificationTests(unittest.TestCase):
             artifact.update(id=501, name="snapshot-production-verification-301-1",
                             workflow_run={"id": 301, "head_sha": "8" * 40})
             api.overrides[f"{prefix}/actions/runs/301/artifacts?per_page=100&page=1"] = {
-                "total_count": 1, "artifacts": [artifact]}
+                "total_count": 2, "artifacts": [verification_artifact, artifact]}
             return raw
         zipped = production_archive()
         def transport(command, **kwargs):
             self.assertEqual(command[:2], ["gh", "api"])
             if command[-1].endswith("/actions/artifacts/401/zip"): return original_zip
+            if command[-1].endswith("/actions/artifacts/450/zip"): return verification_zip
             self.assertTrue(command[-1].endswith("/actions/artifacts/501/zip"))
             return zipped
         def git_identity(root, *arguments):
@@ -537,6 +563,17 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertEqual((args.output / "original-check/original.zip").read_bytes(), original_zip)
         self.assertEqual(invoke("watchdog-repeat")[1], notice)
         self.assertEqual(self.fixture.files_under(self.fixture.state), state_before)
+        original_verification_zip = verification_zip
+        original_verification_digest = verification_artifact["digest"]
+        changed_proof = deepcopy(proof)
+        changed_proof["composition"]["changed_paths"].append("app/tampered-after-notice.js")
+        _, _, changed_artifact, _, verification_zip = self.artifact_fixture({
+            "snapshot-verification.json": original.canonical_bytes(changed_proof)})
+        verification_artifact["digest"] = changed_artifact["digest"]
+        with self.assertRaisesRegex(contract.SnapshotVerificationError, "NOTICE_PROOF_MISMATCH"):
+            invoke("changed-proof-after-notice")
+        verification_zip = original_verification_zip
+        verification_artifact["digest"] = original_verification_digest
         original_state = self.fixture.state
         self.fixture.state = self.root / "crossed-history"
         crossed = deepcopy(payload)
