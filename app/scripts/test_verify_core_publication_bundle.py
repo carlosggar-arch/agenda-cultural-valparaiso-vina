@@ -14,6 +14,7 @@ import io
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -184,6 +185,22 @@ class BundleConsumerTests(unittest.TestCase):
         changed = bytearray(archive); changed[-20] ^= 1
         with self.assertRaises(consumer.BundleVerificationError):
             self.run_reference(payload=payload, artifact=artifact, run=run, archive=bytes(changed))
+
+    def test_cli_preserves_structured_failure_before_artifact_download(self):
+        event = self.root / "event.json"
+        event.write_text(json.dumps({"client_payload": {
+            "public_sha": "c" * 40,
+            "lineage_transport": consumer.LINEAGE_REFERENCE_TRANSPORT,
+        }}), encoding="utf-8")
+        output = self.root / "blocked-proof"
+        argv = ["verify_core_publication_bundle.py", "--event", str(event),
+                "--expected-public-sha", "c" * 40, "--repository", str(self.root),
+                "--output-dir", str(output)]
+        with patch.object(sys, "argv", argv):
+            self.assertEqual(consumer.main(), 2)
+        result = json.loads((output / "transport-result.json").read_text(encoding="utf-8"))
+        self.assertEqual(result["status"], "blocked")
+        self.assertIn("PAYLOAD_FIELDS_INVALID", result["error"])
 
     def test_legacy_uses_real_api_verifier_policy_not_missing_bundle_as_proof(self):
         legacy = {key: value for key, value in self.payload.items() if key in consumer.LEGACY_FIELDS}
