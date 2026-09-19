@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 
 from release_finalizer import check_published, git, git_check
+import publication_snapshot_verification as snapshot_contract
 
 SCHEMA_VERSION = "1.0.0"
 
@@ -30,12 +31,34 @@ def validate_visual_attestation(attestation: dict[str, object], published: dict[
 def build_chain(
     *, cloudflare_ref: str, attestation_path: Path,
     core_attestation: Path | None = None, core_receipt: Path | None = None,
+    snapshot_verification: Path | None = None,
 ) -> dict[str, object]:
     # These are the original bytes authenticated earlier by the consumer. Keep
     # their semantic checks through the final chain, never fall back to PR mode.
     if (core_attestation is None) != (core_receipt is None):
         raise SystemExit("CORE_PUBLICATION_LINEAGE_EVIDENCE_INCOMPLETE")
-    if core_attestation is not None:
+    proof = load_json(snapshot_verification) if snapshot_verification is not None else None
+    if proof is not None:
+        proof = snapshot_contract.validate(proof)
+        if core_attestation is None:
+            raise SystemExit("SNAPSHOT_HISTORICAL_LINEAGE_EVIDENCE_REQUIRED")
+        composition = proof["composition"]
+        historical = check_published(
+            composition["historical"]["head_sha"],
+            core_attestation=core_attestation,
+            core_receipt=core_receipt,
+        )
+        if (str(historical["main_sha"]) != composition["historical"]["head_sha"]
+                or str(historical["release_id"]) != composition["historical"]["release_id"]):
+            raise SystemExit("SNAPSHOT_HISTORICAL_RELEASE_IDENTITY_MISMATCH")
+        # The original signed lineage authenticates the preserved data object.
+        # Current runtime authority comes from the exact reviewed tree and its
+        # own release contract, never by pretending the old Core claim signed it.
+        published = check_published("HEAD")
+        if (str(published["main_sha"]) != composition["runtime"]["head_sha"]
+                or str(published["release_id"]) != composition["runtime"]["release_id"]):
+            raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_IDENTITY_MISMATCH")
+    elif core_attestation is not None:
         published = check_published("HEAD", core_attestation=core_attestation, core_receipt=core_receipt)
     else:
         published = check_published("HEAD")
@@ -48,7 +71,7 @@ def build_chain(
         raise SystemExit(f"RELEASE_CHAIN_CLOUDFLARE_STALE main={main_sha} cloudflare={cloudflare_sha}")
     attestation = load_json(attestation_path)
     validate_visual_attestation(attestation, published)
-    return {
+    result = {
         "schema_version": SCHEMA_VERSION,
         "lineage_mode": published["lineage_mode"],
         "source_pr": published.get("source_pr"),
@@ -62,6 +85,15 @@ def build_chain(
         "production_attestation_head": attestation["head_sha"],
         "publication_state": "source_to_production_certified",
     }
+    if proof is not None:
+        result.update({
+            "lineage_mode": "historical-data-current-runtime-composition",
+            "historical_public_sha": proof["composition"]["historical"]["head_sha"],
+            "historical_release_id": proof["composition"]["historical"]["release_id"],
+            "historical_success_claimed": False,
+            "snapshot_verification_sha256": snapshot_contract.proof_hash(proof),
+        })
+    return result
 
 
 def main() -> None:
@@ -70,10 +102,14 @@ def main() -> None:
     parser.add_argument("--attestation", required=True)
     parser.add_argument("--core-attestation", type=Path)
     parser.add_argument("--core-receipt", type=Path)
+    parser.add_argument("--snapshot-verification", type=Path)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    payload = build_chain(cloudflare_ref=args.cloudflare_ref, attestation_path=Path(args.attestation),
-                          core_attestation=args.core_attestation, core_receipt=args.core_receipt)
+    arguments = {"cloudflare_ref": args.cloudflare_ref, "attestation_path": Path(args.attestation),
+                 "core_attestation": args.core_attestation, "core_receipt": args.core_receipt}
+    if args.snapshot_verification is not None:
+        arguments["snapshot_verification"] = args.snapshot_verification
+    payload = build_chain(**arguments)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")

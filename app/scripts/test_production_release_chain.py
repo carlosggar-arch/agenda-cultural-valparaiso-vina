@@ -18,6 +18,7 @@ class ProductionReleaseChainTests(unittest.TestCase):
         self.visual = self.root / "visual.json"
         self.core = self.root / "original-core-attestation.json"
         self.receipt = self.root / "original-receipt.json"
+        self.snapshot = self.root / "snapshot-verification.json"
         self.published = {
             "base_sha": "a" * 40, "source_sha": "b" * 40,
             "finalizer_sha": "c" * 40, "main_sha": "c" * 40,
@@ -70,6 +71,26 @@ class ProductionReleaseChainTests(unittest.TestCase):
         with patch.object(chain, "check_published", return_value=self.published):
             with self.assertRaisesRegex(SystemExit, "RELEASE_CHAIN_ATTESTATION_HEAD_MISMATCH"):
                 self.build(core_attestation=self.core, core_receipt=self.receipt)
+
+    def test_snapshot_composition_authenticates_old_lineage_and_current_runtime_separately(self):
+        historical = {**self.published, "main_sha": "1" * 40,
+                      "release": 251, "release_id": "v251-aaaaaaaaaaaa"}
+        proof = {"composition": {
+            "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
+            "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
+        self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
+        with patch.object(chain.snapshot_contract, "validate", return_value=proof), \
+             patch.object(chain.snapshot_contract, "proof_hash", return_value="f" * 64), \
+             patch.object(chain, "check_published", side_effect=[historical, self.published]) as check:
+            result = self.build(core_attestation=self.core, core_receipt=self.receipt,
+                                snapshot_verification=self.snapshot)
+        self.assertEqual(check.call_args_list[0].args, ("1" * 40,))
+        self.assertEqual(check.call_args_list[0].kwargs,
+                         {"core_attestation": self.core, "core_receipt": self.receipt})
+        self.assertEqual(check.call_args_list[1].args, ("HEAD",))
+        self.assertEqual(result["lineage_mode"], "historical-data-current-runtime-composition")
+        self.assertEqual(result["historical_public_sha"], "1" * 40)
+        self.assertFalse(result["historical_success_claimed"])
 
     def test_cli_preserves_the_explicit_core_paths(self):
         output = self.root / "chain.json"

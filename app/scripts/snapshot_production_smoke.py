@@ -15,7 +15,9 @@ import sys
 
 import publication_execution_binding as binding
 import publication_snapshot_verification as contract
-from snapshot_verification_cli import GithubReader, require_overlay, require_same_surfaces, write_json
+from snapshot_verification_cli import (
+    GithubReader, require_overlay, require_runtime_composition, require_same_surfaces, write_json,
+)
 
 
 PROBE_GROUPS = {
@@ -65,38 +67,47 @@ def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
         "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]), "workflow_head_sha": os.environ["GITHUB_SHA"]},
         "EXECUTION_CONTEXT_CHANGED")
     require_overlay(snapshot, verifier, public_sha, verifier_sha)
+    require_runtime_composition(verifier, proof, verifier_sha)
     reader = GithubReader(verifier)
-    for ref in ("main", "cloudflare-preview"):
-        current = reader.api(f"{reader.prefix}/git/ref/heads/{ref}")["object"]["sha"]
-        require_same_surfaces(verifier, public_sha, current)
+    main = reader.api(f"{reader.prefix}/git/ref/heads/main")["object"]["sha"]
+    contract.require(main == verifier_sha, "VERIFIER_REF_MOVED")
+    cloudflare = reader.api(f"{reader.prefix}/git/ref/heads/cloudflare-preview")["object"]["sha"]
+    # The deployed branch may carry verification-only commits, but it must
+    # expose the exact same runtime/data surfaces as the independently approved
+    # current runtime. This is separate from the historical data composition.
+    require_same_surfaces(verifier, verifier_sha, cloudflare)
     raw = evidence / "original/extracted/core-publication-lineage"
     lineage = ("--core-attestation", str(raw / "attestation.json"), "--core-receipt", str(raw / "receipt.json"))
     run(snapshot, evidence, "release_finalizer.py", "release-lineage.log",
         ("--check-published", "--finalizer-ref", public_sha, *lineage))
-    run(snapshot, evidence, "production_pwa_smoke.py", "local-contracts.log", ("local",))
+    run(verifier, evidence, "production_pwa_smoke.py", "local-contracts.log", ("local",))
     # One bounded wait, including the corrected consecutive confirmation probe.
-    run(snapshot, evidence, "deployment_readiness.py", "http.log",
-        ("--wait", "--candidate-sha", public_sha, "--timeout-seconds", "90", "--poll-seconds", "2",
+    run(verifier, evidence, "deployment_readiness.py", "http.log",
+        ("--wait", "--candidate-sha", verifier_sha, "--timeout-seconds", "90", "--poll-seconds", "2",
          "--output", str(evidence / "deployment-readiness.json")))
-    run_groups(snapshot, evidence)
+    run_groups(verifier, evidence)
     shutil.copyfile(evidence / "original/extracted/core-execution.json", evidence / "core-execution.json")
-    run(snapshot, evidence, "production_release_attestation.py", "attestation.log",
+    run(verifier, evidence, "production_release_attestation.py", "attestation.log",
         ("--core-execution-index", str(evidence / "core-execution.json"),
          "--snapshot-verification", str(evidence / "snapshot-verification.json"),
          "--http-log", str(evidence / "http.log"), "--browser-log", str(evidence / "browser.log"),
          "--warm-log", str(evidence / "warm.log"), "--parity-report", str(evidence / "web-pwa-parity.json"),
          "--output", str(evidence / "production-release-attestation.json"),
          "--markdown-output", str(evidence / "summary.md")))
-    subprocess.run(["git", "fetch", "origin", "cloudflare-preview"], cwd=snapshot, check=True)
-    run(snapshot, evidence, "production_release_chain.py", "release-chain.log",
+    subprocess.run(["git", "fetch", "origin", "cloudflare-preview"], cwd=verifier, check=True)
+    run(verifier, evidence, "production_release_chain.py", "release-chain.log",
         (*lineage, "--cloudflare-ref", "origin/cloudflare-preview",
+         "--snapshot-verification", str(evidence / "snapshot-verification.json"),
          "--attestation", str(evidence / "production-release-attestation.json"),
          "--output", str(evidence / "production-release-chain.json")))
     require_overlay(snapshot, verifier, public_sha, verifier_sha)
     current = reader.api(f"{reader.prefix}/git/ref/heads/main")["object"]["sha"]
     contract.require(current == verifier_sha, "VERIFIER_REF_MOVED")
     write_json(evidence / "snapshot-context.json", {"public_sha": public_sha, "verifier_sha": verifier_sha,
-        "publication_created": False, "datasets_changed": False, "production_probes": list(PROBE_GROUPS)})
+        "historical_release_id": proof["composition"]["historical"]["release_id"],
+        "runtime_release_id": proof["composition"]["runtime"]["release_id"],
+        "publication_created": False, "datasets_changed": False, "historical_success_claimed": False,
+        "production_probes": list(PROBE_GROUPS)})
 
 
 def main() -> None:

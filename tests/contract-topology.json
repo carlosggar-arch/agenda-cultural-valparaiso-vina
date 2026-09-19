@@ -273,6 +273,20 @@
       "workflow": ".github/workflows/pr-fast.yml"
     },
     {
+      "id": "architecture.snapshot-verification",
+      "domain": "publication-certification",
+      "layer": "architecture",
+      "owner": "app/scripts/test_snapshot_verification.py",
+      "workflow": ".github/workflows/publish.yml"
+    },
+    {
+      "id": "architecture.snapshot-verification-workflow",
+      "domain": "publication-certification",
+      "layer": "architecture",
+      "owner": "app/scripts/test_snapshot_verification_workflow.py",
+      "workflow": ".github/workflows/publish.yml"
+    },
+    {
       "id": "architecture.core-certification-app-auth-diagnostic",
       "domain": "publication-certification",
       "layer": "architecture",
@@ -359,6 +373,8 @@
       "architecture.multicity-ui",
       "architecture.contextual-filters",
       "release.pre-release",
+      "architecture.snapshot-verification",
+      "architecture.snapshot-verification-workflow",
       "architecture.core-certification-app-auth-diagnostic"
     ]
   },

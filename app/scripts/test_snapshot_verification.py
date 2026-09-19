@@ -29,12 +29,20 @@ import test_publication_execution_history as history_fixtures
 
 
 def proof_fixture(index):
+    runtime_release = "v999-" + "d" * 12
     return contract.validate({"contract": contract.CONTRACT, "version": contract.VERSION,
         "original_core_execution": deepcopy(index),
         "execution": {"run_id": 301, "run_attempt": 1, "workflow_head_sha": "8" * 40},
         "verifier": {"tree_sha": "9" * 40,
             "code_hashes": {path: f"{number:040x}" for number, path in enumerate(contract.CODE_PATHS, 1)}},
-        "original_artifact": {"id": 401, "sha256": "a" * 64}})
+        "original_artifact": {"id": 401, "sha256": "a" * 64},
+        "composition": {"contract": "historical-data-current-runtime-composition", "version": "1.0.0",
+            "historical": {"head_sha": index["binding"]["public_sha"],
+                "release_id": index["binding"]["release_id"], "tree_sha": "7" * 40},
+            "runtime": {"head_sha": "8" * 40, "release_id": runtime_release, "tree_sha": "9" * 40},
+            "preserved_blobs": {path: f"{number + 1000:040x}"
+                for number, path in enumerate(contract.PRESERVED_SURFACES, 1)},
+            "changed_paths": ["app/app.js", "app/data/release-bundle.json"]}})
 
 
 def proof_metadata(proof):
@@ -139,6 +147,9 @@ class SnapshotVerificationTests(unittest.TestCase):
         payload = deepcopy(self.fixture.payload)
         payload["snapshot_verification"] = self.proof
         payload["workflow"].update(run_id="301", run_attempt="1")
+        payload["head_sha"] = self.proof["composition"]["runtime"]["head_sha"]
+        payload["release_id"] = self.proof["composition"]["runtime"]["release_id"]
+        payload["release"] = 999
         return payload
 
     def test_snapshot_history_retains_original_owner_and_is_byte_idempotent(self):
@@ -170,12 +181,23 @@ class SnapshotVerificationTests(unittest.TestCase):
     def test_real_attestation_builder_retains_later_verifier_and_original_core_index(self):
         self.fixture.write_json(self.fixture.incoming, self.fixture.index)
         proof_path = self.root / "snapshot-verification.json"
-        self.fixture.write_json(proof_path, self.proof)
+        local_proof = deepcopy(self.proof)
+        head, tree, runtime_release = "8" * 40, "9" * 40, "v300-" + "d" * 12
+        local_proof["execution"]["workflow_head_sha"] = head
+        local_proof["verifier"]["tree_sha"] = tree
+        local_proof["composition"]["runtime"].update(
+            head_sha=head, tree_sha=tree, release_id=runtime_release)
+        self.fixture.write_json(proof_path, local_proof)
         with self.fixture.local_attestation_inputs(event="workflow_dispatch") as paths:
-            with patch.dict(os.environ, {"GITHUB_RUN_ID": "301", "GITHUB_RUN_ATTEMPT": "1"}):
+            with patch.dict(os.environ, {"GITHUB_RUN_ID": "301", "GITHUB_RUN_ATTEMPT": "1"}), \
+                    patch.object(attestation, "git_head", return_value=head), \
+                    patch.object(attestation, "release_bundle", return_value={
+                        "release": 300, "release_id": runtime_release, "fingerprint": "1" * 64}):
                 result = attestation.build_attestation(*paths, verify_network=False,
                     core_execution_index=self.fixture.incoming, snapshot_verification=proof_path)
-        self.assertEqual(contract.validate_attestation(result), self.proof)
+        self.assertEqual(result["head_sha"], local_proof["composition"]["runtime"]["head_sha"])
+        self.assertEqual(result["release_id"], local_proof["composition"]["runtime"]["release_id"])
+        self.assertEqual(contract.validate_attestation(result), local_proof)
         self.assertEqual(result["core_execution"], self.fixture.index)
         self.assertEqual(result["workflow"]["run_id"], "301")
 
@@ -183,8 +205,10 @@ class SnapshotVerificationTests(unittest.TestCase):
         return subprocess.check_output(["git", "-c", "core.autocrlf=false", "-c", "user.name=Local Fixture",
             "-c", "user.email=fixture@example.invalid", *args], cwd=root, stderr=subprocess.PIPE).decode().strip()
 
-    def repositories(self):
-        verifier, snapshot = self.root / "verifier", self.root / "snapshot"
+    def repositories(self, label=""):
+        base = self.root / label if label else self.root
+        base.mkdir(parents=True, exist_ok=True)
+        verifier, snapshot = base / "verifier", base / "snapshot"
         verifier.mkdir()
         self.git(verifier, "init")
         scripts = verifier / "app/scripts"
@@ -197,6 +221,11 @@ class SnapshotVerificationTests(unittest.TestCase):
         (verifier / "agenda_web.json").write_text('[{"fixture":"not-public-data"}]\n')
         (verifier / "app/data").mkdir(parents=True, exist_ok=True)
         (verifier / "app/data/release-bundle.json").write_text(json.dumps({"release_id": self.fixture.binding["release_id"]}) + "\n")
+        for path in contract.PRESERVED_SURFACES:
+            target = verifier / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.exists():
+                target.write_text('{"fixture":"preserved"}\n')
         self.git(verifier, "add", ".")
         self.git(verifier, "commit", "-m", "local parent fixture")
         (verifier / "agenda_web.json").write_text('[{"fixture":"not-public-data","snapshot":true}]\n')
@@ -206,6 +235,8 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.git(self.root, "clone", "--no-hardlinks", str(verifier), str(snapshot))
         (scripts / "old.py").write_text("VALUE = 'reviewed'\n")
         (scripts / "new.py").write_text("NEW = 'reviewed'\n")
+        (verifier / "app/data/release-bundle.json").write_text(
+            json.dumps({"release_id": "v999-" + "d" * 12}) + "\n")
         self.git(verifier, "add", ".")
         self.git(verifier, "commit", "-m", "local verifier fixture")
         return snapshot, verifier, public, self.git(verifier, "rev-parse", "HEAD")
@@ -237,6 +268,30 @@ class SnapshotVerificationTests(unittest.TestCase):
         (args[0] / "app/scripts/injected.py").write_text("BAD = True\n")
         with self.assertRaisesRegex(contract.SnapshotVerificationError, "UNAPPROVED_SCRIPT"):
             cli.require_overlay(*args)
+
+    def test_historical_release_is_not_declared_equal_to_later_runtime(self):
+        snapshot, verifier, public, runtime = self.repositories()
+        with self.assertRaisesRegex(contract.SnapshotVerificationError, "PUBLICATION_SURFACES_CHANGED"):
+            cli.require_same_surfaces(verifier, public, runtime)
+        composed = cli.build_runtime_composition(verifier, public, runtime)
+        self.assertEqual(composed["historical"]["head_sha"], public)
+        self.assertEqual(composed["runtime"]["head_sha"], runtime)
+        self.assertNotEqual(composed["historical"]["release_id"], composed["runtime"]["release_id"])
+        self.assertFalse(composed.get("historical_success_claimed", False))
+
+    def test_runtime_composition_blocks_changed_data_and_unreviewed_media(self):
+        for path in ("agenda_web.json", "assets/event-images/injected.webp"):
+            with self.subTest(path=path):
+                _snapshot, verifier, public, _runtime = self.repositories(path.replace("/", "-"))
+                target = verifier / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b"changed-data-or-media")
+                self.git(verifier, "add", path)
+                self.git(verifier, "commit", "-m", "untrusted composition fixture")
+                runtime = self.git(verifier, "rev-parse", "HEAD")
+                expected = "PRESERVED_SURFACE_CHANGED" if path == "agenda_web.json" else "PATH_NOT_RUNTIME_ONLY"
+                with self.assertRaisesRegex(contract.SnapshotVerificationError, expected):
+                    cli.build_runtime_composition(verifier, public, runtime)
 
     def artifact_fixture(self, members=None):
         buffer = BytesIO()
@@ -420,7 +475,7 @@ class SnapshotVerificationTests(unittest.TestCase):
             "total_count": 1, "artifacts": [old_artifact]}
         reader = cli.GithubReader(api=api, code_resolver=lambda sha, paths: {
             path: proof["verifier"]["code_hashes"][path] if sha == "8" * 40 else "9" * 40 for path in paths})
-        payload = deepcopy(self.fixture.payload)
+        payload = self.snapshot_payload()
         payload.update(core_execution=old_index, snapshot_verification=proof)
         payload["workflow"].update(run_id="301", run_attempt="1")
         self.fixture.write_json(self.fixture.incoming, payload)
@@ -464,6 +519,7 @@ class SnapshotVerificationTests(unittest.TestCase):
                 github_output=self.root / (label + "-outputs"))
             with patch.dict(os.environ, env), patch.object(cli, "git", side_effect=git_identity), \
                  patch.object(cli, "local_policy", return_value=proof["verifier"]), \
+                 patch.object(cli, "require_runtime_composition", return_value=proof["composition"]), \
                  patch.object(cli, "verify_event", side_effect=crypto_double) as crypto, \
                  patch.object(cli.subprocess, "check_output", side_effect=transport):
                 notice = cli.verify_watchdog(args, reader)
@@ -485,6 +541,7 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.fixture.state = self.root / "crossed-history"
         crossed = deepcopy(payload)
         crossed["snapshot_verification"]["verifier"]["tree_sha"] = "f" * 40
+        crossed["snapshot_verification"]["composition"]["runtime"]["tree_sha"] = "f" * 40
         self.fixture.write_json(self.fixture.incoming, crossed)
         history.persist_certification(self.fixture.incoming, self.fixture.state)
         with self.assertRaisesRegex(contract.SnapshotVerificationError, "DURABLE_CERTIFICATE_MISMATCH"):
