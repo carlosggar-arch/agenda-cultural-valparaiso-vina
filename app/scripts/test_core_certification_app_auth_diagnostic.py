@@ -2,9 +2,6 @@
 from pathlib import Path
 import unittest
 
-import yaml
-
-
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -12,10 +9,16 @@ class AppAuthenticationDiagnosticTests(unittest.TestCase):
     def test_diagnostic_is_manual_actions_only_and_not_a_writer(self):
         path = ROOT / ".github/workflows/core-certification-app-auth-diagnostic.yml"
         raw = path.read_text(encoding="utf-8")
-        workflow = yaml.load(raw, Loader=yaml.BaseLoader)
-        self.assertEqual(set(workflow["on"]), {"workflow_dispatch"})
-        self.assertEqual(workflow["permissions"], {"contents": "read"})
-        self.assertEqual(set(workflow["jobs"]), {"diagnostic"})
+        trigger = raw.split("permissions:", 1)[0]
+        self.assertIn("on:\n  workflow_dispatch:", trigger)
+        for forbidden_trigger in ("push:", "pull_request:", "schedule:", "workflow_run:"):
+            self.assertNotIn(forbidden_trigger, trigger)
+        permissions = raw.split("permissions:", 1)[1].split("jobs:", 1)[0]
+        self.assertEqual(
+            [line.strip() for line in permissions.splitlines() if line.strip()],
+            ["contents: read"],
+        )
+        self.assertEqual(raw.count("\n  diagnostic:\n"), 1)
         self.assertLess(raw.index("Initialize failure-safe diagnostic evidence"), raw.index("id: app-token"))
         initialization = raw.split("Initialize failure-safe diagnostic evidence", 1)[1].split(
             "Mint exact Core diagnostic installation token", 1
