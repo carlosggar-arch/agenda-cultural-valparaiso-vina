@@ -9,7 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Mint exact Core Actions-only installation token
+      - name: Initialize failure-safe diagnostic evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p diagnostic
+          jq -n \
+            --arg contract core-certification-app-auth-diagnostic \
+            --arg repository "$GITHUB_REPOSITORY" \
+            --arg workflow_ref "$GITHUB_WORKFLOW_REF" \
+            --arg workflow_sha "$GITHUB_SHA" \
+            --argjson run_id "$GITHUB_RUN_ID" \
+            --argjson run_attempt "$GITHUB_RUN_ATTEMPT" \
+            '{contract:$contract, repository:$repository, workflow_ref:$workflow_ref,
+              workflow_sha:$workflow_sha, run_id:$run_id, run_attempt:$run_attempt,
+              result:"authentication_pending"}' > diagnostic/web-execution.json
+          printf '%s\n' authentication_pending > diagnostic/result.txt
+
+      - name: Mint exact Core diagnostic installation token
         id: app-token
         uses: actions/create-github-app-token@v2
         with:
@@ -18,6 +35,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: agenda-cultural-core
           permission-actions: write
+          permission-contents: read
 
       - name: Dispatch and verify one bounded Core diagnostic
         env:
@@ -28,9 +46,10 @@ jobs:
           set -euo pipefail
           test "$APP_SLUG" = agenda-core-certification
           test -n "$GH_TOKEN"
-          mkdir diagnostic
           core_sha="$(gh api repos/carlosggar-arch/agenda-cultural-core/git/ref/heads/main --jq .object.sha)"
           test "${#core_sha}" = 40
+          printf '%s\n' "$core_sha" > diagnostic/core-sha.txt
+          printf '%s\n' "$APP_SLUG" > diagnostic/app-slug.txt
           gh api installation/repositories --jq \
             '.repositories | map(.full_name) | sort | if . == ["carlosggar-arch/agenda-cultural-core"] then .[] else error("unexpected App installation repositories") end' \
             > diagnostic/installation-repositories.txt
@@ -38,24 +57,38 @@ jobs:
             --workflow private-attestation-diagnostic.yml --event workflow_dispatch \
             --limit 100 --json databaseId --jq '.[].databaseId' > diagnostic/before-run-ids.txt
           nonce="$(printf '%s' "${GITHUB_REPOSITORY}:${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}:${GITHUB_SHA}" | sha256sum | cut -d' ' -f1)"
+          printf '%s\n' "$nonce" > diagnostic/request-nonce.txt
           gh workflow run private-attestation-diagnostic.yml \
             --repo carlosggar-arch/agenda-cultural-core --ref main -f request_nonce="$nonce"
           matched=""
+          mkdir -p diagnostic/candidates
           for _ in $(seq 1 32); do
             while read -r run_id; do
               [[ -n "$run_id" ]] || continue
               if grep -qx "$run_id" diagnostic/before-run-ids.txt; then continue; fi
               status="$(gh run view "$run_id" --repo carlosggar-arch/agenda-cultural-core --json status --jq .status)"
               [[ "$status" = completed ]] || continue
-              rm -rf diagnostic/candidate
-              mkdir diagnostic/candidate
+              run_dir="diagnostic/candidates/$run_id"
+              [[ ! -e "$run_dir/processed" ]] || continue
+              mkdir -p "$run_dir"
+              gh run view "$run_id" --repo carlosggar-arch/agenda-cultural-core \
+                --json databaseId,attempt,conclusion,event,headSha,status,url > "$run_dir/run.json"
+              candidate_dir="$(mktemp -d "$run_dir/artifact.XXXXXX")"
               if gh run download "$run_id" --repo carlosggar-arch/agenda-cultural-core \
-                   -n "private-attestation-diagnostic-${run_id}-1" -D diagnostic/candidate; then
-                observed="$(python -c 'import json; print(json.load(open("diagnostic/candidate/subject.json", encoding="utf-8"))["request_nonce"])')"
-                if [[ "$observed" = "$nonce" ]]; then
+                   -n "private-attestation-diagnostic-${run_id}-1" -D "$candidate_dir"; then
+                if jq -e --arg nonce "$nonce" --arg core_sha "$core_sha" --argjson run_id "$run_id" \
+                     '.request_nonce == $nonce and .core_sha == $core_sha
+                      and .signer == {run_id:$run_id, run_attempt:1}' \
+                     "$candidate_dir/subject.json" >/dev/null \
+                   && jq -e --arg core_sha "$core_sha" --argjson run_id "$run_id" \
+                     '.databaseId == $run_id and .attempt == 1 and .conclusion == "success"
+                      and .event == "workflow_dispatch" and .headSha == $core_sha
+                      and .status == "completed"' "$run_dir/run.json" >/dev/null; then
                   [[ -z "$matched" ]] || { echo 'ambiguous matching diagnostic'; exit 1; }
+                  mv "$candidate_dir" "$run_dir/artifact"
                   matched="$run_id"
                 fi
+                touch "$run_dir/processed"
               fi
             done < <(gh run list --repo carlosggar-arch/agenda-cultural-core \
               --workflow private-attestation-diagnostic.yml --event workflow_dispatch \
@@ -64,19 +97,23 @@ jobs:
             sleep 10
           done
           test -n "$matched"
-          gh run view "$matched" --repo carlosggar-arch/agenda-cultural-core \
-            --json attempt,conclusion,event,headSha,status,url > diagnostic/core-run.json
-          test "$(jq -r .attempt diagnostic/core-run.json)" = 1
-          test "$(jq -r .conclusion diagnostic/core-run.json)" = success
-          test "$(jq -r .event diagnostic/core-run.json)" = workflow_dispatch
-          test "$(jq -r .headSha diagnostic/core-run.json)" = "$core_sha"
-          cp diagnostic/candidate/subject.json diagnostic/core-subject.json
-          cp diagnostic/candidate/bundle.json diagnostic/core-bundle.json
+          matched_dir="diagnostic/candidates/$matched"
+          cp -R "$matched_dir" diagnostic/matched-core-run
+          cp "$matched_dir/run.json" diagnostic/core-run.json
+          cp "$matched_dir/artifact/subject.json" diagnostic/core-subject.json
+          cp "$matched_dir/artifact/bundle.json" diagnostic/core-bundle.json
+          jq -e --arg nonce "$nonce" --arg core_sha "$core_sha" --argjson run_id "$matched" \
+            '.request_nonce == $nonce and .core_sha == $core_sha
+             and .signer == {run_id:$run_id, run_attempt:1}' \
+            diagnostic/core-subject.json >/dev/null
+          jq -e --arg core_sha "$core_sha" --argjson run_id "$matched" \
+            '.databaseId == $run_id and .attempt == 1 and .conclusion == "success"
+             and .event == "workflow_dispatch" and .headSha == $core_sha
+             and .status == "completed"' diagnostic/core-run.json >/dev/null
           sha256sum diagnostic/core-subject.json diagnostic/core-bundle.json diagnostic/core-run.json \
             > diagnostic/sha256sums.txt
-          printf '%s\n' "$core_sha" > diagnostic/core-sha.txt
           printf '%s\n' "$matched" > diagnostic/core-run-id.txt
-          printf '%s\n' "$nonce" > diagnostic/request-nonce.txt
+          printf '%s\n' authenticated > diagnostic/result.txt
           echo "CORE_CERTIFICATION_APP_AUTHENTICATED app=$APP_SLUG core_sha=$core_sha run=$matched/1"
 
       - name: Retain authentication evidence only
