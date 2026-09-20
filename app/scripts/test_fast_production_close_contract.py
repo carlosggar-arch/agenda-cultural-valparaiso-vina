@@ -115,7 +115,7 @@ def main() -> None:
     assert "test_web_pwa_visibility_parity.py" in production
     assert "production_series_contract.py" in production
     assert "production_admin_staging_smoke.py" in production
-    assert "PRODUCTION_PROBES_PARALLEL_OK groups=4" in production
+    assert "PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized" in production
     assert "PRODUCTION_RELEASE_VERIFIED" in production
 
     print("FAST_PRODUCTION_CLOSE_CONTRACT_OK readiness=parallel wait_budget=90s candidate_sha=immutable release_guard=generated-data-aware")

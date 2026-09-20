@@ -593,17 +593,18 @@ jobs:
           ) &
           semantic_pid=$!
 
-          python app/scripts/production_browser_selenium_smoke.py >"$evidence/browser.log" 2>&1 &
-          browser_pid=$!
-
-          python app/scripts/production_warm_start_smoke.py >"$evidence/warm.log" 2>&1 &
-          warm_pid=$!
-
-          python app/scripts/test_web_pwa_visibility_parity.py \
-            --production \
-            --json-output "$evidence/web-pwa-parity.json" \
-            >"$evidence/parity.log" 2>&1 &
-          parity_pid=$!
+          (
+            set +e
+            browser_suite_failed=0
+            python app/scripts/production_browser_selenium_smoke.py >"$evidence/browser.log" 2>&1 || browser_suite_failed=1
+            python app/scripts/production_warm_start_smoke.py >"$evidence/warm.log" 2>&1 || browser_suite_failed=1
+            python app/scripts/test_web_pwa_visibility_parity.py \
+              --production \
+              --json-output "$evidence/web-pwa-parity.json" \
+              >"$evidence/parity.log" 2>&1 || browser_suite_failed=1
+            exit "$browser_suite_failed"
+          ) &
+          browser_suite_pid=$!
 
           failed=0
           wait_probe() {
@@ -618,9 +619,7 @@ jobs:
           }
 
           wait_probe semantics "$semantic_pid"
-          wait_probe browser "$browser_pid"
-          wait_probe warm-pwa "$warm_pid"
-          wait_probe web-pwa-parity "$parity_pid"
+          wait_probe browser-suite "$browser_suite_pid"
 
           for log in admin-staging.log series.log browser.log warm.log parity.log; do
             echo "===== $log ====="
@@ -630,7 +629,7 @@ jobs:
           if [[ "$failed" -ne 0 ]]; then
             exit 1
           fi
-          echo "PRODUCTION_PROBES_PARALLEL_OK groups=4"
+          echo "PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized"
 
       - name: Create auditable production release attestation
         shell: bash

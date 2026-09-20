@@ -10,6 +10,7 @@ import urllib.request
 import uuid
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -20,6 +21,7 @@ from production_pwa_smoke import (
     expected_shell,
     release_number,
 )
+from production_probe_retry import retry_call
 from production_semantic_capabilities import (
     VALPO_CATEGORY_LABELS,
     assert_semantic_dataset_identity,
@@ -28,6 +30,7 @@ from production_semantic_capabilities import (
 )
 
 READY_TIMEOUT_SECONDS = 25
+ROUNDTRIP_READY_ATTEMPTS = 2
 CASES = (
     ("valparaiso", "Valparaíso / Viña del Mar", 390, 844),
     ("gijon", "Gijón / Xixón", 1280, 900),
@@ -165,6 +168,42 @@ def load_dom(
         lambda current: runtime_ready(current, city, expected_release)
     )
     return driver.page_source
+
+
+def load_roundtrip_dom(
+    driver: webdriver.Chrome,
+    base: str,
+    city: str,
+    width: int,
+    height: int,
+    expected_release: int,
+    extra: str = "",
+) -> str:
+    """Retry one transient readiness timeout without weakening the assertion."""
+    def operation() -> str:
+        return load_dom(
+            driver,
+            base,
+            city,
+            width,
+            height,
+            expected_release,
+            extra,
+        )
+
+    def on_retry(attempt: int, total: int) -> None:
+        print(
+            "PRODUCTION_ROUNDTRIP_NAVIGATION_RETRY "
+            f"city={city} attempt={attempt}/{total}"
+        )
+        time.sleep(2)
+
+    return retry_call(
+        operation,
+        attempts=ROUNDTRIP_READY_ATTEMPTS,
+        retry_on=(TimeoutException,),
+        on_retry=on_retry,
+    )
 
 
 def cold_dom(
@@ -615,7 +654,7 @@ def main() -> None:
     with tempfile.TemporaryDirectory(prefix="vivamos-roundtrip-") as profile:
         driver = webdriver.Chrome(options=chrome_options(profile, 390, 844))
         try:
-            first_valpo = load_dom(
+            first_valpo = load_roundtrip_dom(
                 driver, base, "valparaiso", 390, 844, expected_release
             )
             assert_loaded_dom(
@@ -629,7 +668,9 @@ def main() -> None:
                 expected,
             )
 
-            gijon = load_dom(driver, base, "gijon", 1280, 900, expected_release)
+            gijon = load_roundtrip_dom(
+                driver, base, "gijon", 1280, 900, expected_release
+            )
             assert_loaded_dom(
                 gijon,
                 PRIMARY_ORIGIN,
@@ -641,7 +682,7 @@ def main() -> None:
                 expected,
             )
 
-            final_valpo = load_dom(
+            final_valpo = load_roundtrip_dom(
                 driver,
                 base,
                 "valparaiso",

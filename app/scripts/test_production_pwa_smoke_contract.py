@@ -28,6 +28,9 @@ def block(start_marker: str, end_marker: str | None = None) -> str:
 
 
 def main() -> None:
+    from test_production_probe_retry import run_contract as retry_contract
+
+    retry_contract()
     triggers = WORKFLOW.split("permissions:", 1)[0]
     assert "pull_request:" not in triggers, "Production smoke must be post-merge/manual only after D4"
     assert "push:" in triggers and "branches: [main]" in triggers
@@ -131,7 +134,11 @@ def main() -> None:
     assert "--assert-ready" in production
     assert "--wait" not in production
     assert "Run independent production probes in parallel" in production
-    assert "PRODUCTION_PROBES_PARALLEL_OK groups=4" in production
+    assert "PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized" in production
+    assert "browser_suite_pid=$!" in production
+    assert 'wait_probe browser-suite "$browser_suite_pid"' in production
+    for competing_pid in ("browser_pid=$!", "warm_pid=$!", "parity_pid=$!"):
+        assert competing_pid not in production, "Chrome owners must not compete on one runner"
     assert "python app/scripts/production_browser_selenium_smoke.py" in production
     assert "python app/scripts/production_pwa_smoke.py browser" not in production
     assert "python app/scripts/production_pwa_smoke.py http" not in production
@@ -204,6 +211,10 @@ def main() -> None:
         "vivamos-images-{origin}-{surface}-{attempt}",
         "driver.set_page_load_timeout(45)",
         "for attempt in range(1, 3)",
+        "ROUNDTRIP_READY_ATTEMPTS = 2",
+        "load_roundtrip_dom",
+        "retry_on=(TimeoutException,)",
+        "PRODUCTION_ROUNDTRIP_NAVIGATION_RETRY",
         "transport=selenium",
         "after retry",
     ):
