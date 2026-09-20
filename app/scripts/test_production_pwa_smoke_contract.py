@@ -213,7 +213,7 @@ def main() -> None:
         "for attempt in range(1, 3)",
         "ROUNDTRIP_READY_ATTEMPTS = 2",
         "load_roundtrip_dom",
-        "retry_on=(TimeoutException,)",
+        "except TimeoutException",
         "PRODUCTION_ROUNDTRIP_NAVIGATION_RETRY",
         "transport=selenium",
         "after retry",

@@ -21,7 +21,6 @@ from production_pwa_smoke import (
     expected_shell,
     release_number,
 )
-from production_probe_retry import retry_call
 from production_semantic_capabilities import (
     VALPO_CATEGORY_LABELS,
     assert_semantic_dataset_identity,
@@ -180,30 +179,27 @@ def load_roundtrip_dom(
     extra: str = "",
 ) -> str:
     """Retry one transient readiness timeout without weakening the assertion."""
-    def operation() -> str:
-        return load_dom(
-            driver,
-            base,
-            city,
-            width,
-            height,
-            expected_release,
-            extra,
-        )
+    for attempt in range(1, ROUNDTRIP_READY_ATTEMPTS + 1):
+        try:
+            return load_dom(
+                driver,
+                base,
+                city,
+                width,
+                height,
+                expected_release,
+                extra,
+            )
+        except TimeoutException:
+            if attempt == ROUNDTRIP_READY_ATTEMPTS:
+                raise
+            print(
+                "PRODUCTION_ROUNDTRIP_NAVIGATION_RETRY "
+                f"city={city} attempt={attempt + 1}/{ROUNDTRIP_READY_ATTEMPTS}"
+            )
+            time.sleep(2)
 
-    def on_retry(attempt: int, total: int) -> None:
-        print(
-            "PRODUCTION_ROUNDTRIP_NAVIGATION_RETRY "
-            f"city={city} attempt={attempt}/{total}"
-        )
-        time.sleep(2)
-
-    return retry_call(
-        operation,
-        attempts=ROUNDTRIP_READY_ATTEMPTS,
-        retry_on=(TimeoutException,),
-        on_retry=on_retry,
-    )
+    raise AssertionError("unreachable roundtrip retry state")
 
 
 def cold_dom(
