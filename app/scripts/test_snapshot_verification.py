@@ -305,6 +305,43 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertNotEqual(composed["historical"]["release_id"], composed["runtime"]["release_id"])
         self.assertFalse(composed.get("historical_success_claimed", False))
 
+    def test_no_release_verifier_runtime_is_distinct_without_inventing_release(self):
+        _snapshot, verifier, public, _runtime = self.repositories("same-release-verifier")
+        historical_bundle = self.git(
+            verifier, "show", f"{public}:app/data/release-bundle.json"
+        )
+        (verifier / "app/data/release-bundle.json").write_text(
+            historical_bundle + "\n", encoding="utf-8"
+        )
+        self.git(verifier, "add", "app/data/release-bundle.json")
+        self.git(verifier, "commit", "-m", "keep product release for verifier-only runtime")
+        runtime = self.git(verifier, "rev-parse", "HEAD")
+
+        composed = cli.build_runtime_composition(verifier, public, runtime)
+
+        self.assertNotEqual(composed["historical"]["head_sha"], composed["runtime"]["head_sha"])
+        self.assertNotEqual(composed["historical"]["tree_sha"], composed["runtime"]["tree_sha"])
+        self.assertEqual(composed["historical"]["release_id"], composed["runtime"]["release_id"])
+        self.assertTrue(all(contract.non_public_verification_path(path)
+                            for path in composed["changed_paths"]))
+        self.assertFalse(composed.get("historical_success_claimed", False))
+
+    def test_public_runtime_change_without_release_still_blocks(self):
+        _snapshot, verifier, public, _runtime = self.repositories("same-release-public-runtime")
+        historical_bundle = self.git(
+            verifier, "show", f"{public}:app/data/release-bundle.json"
+        )
+        (verifier / "app/data/release-bundle.json").write_text(
+            historical_bundle + "\n", encoding="utf-8"
+        )
+        (verifier / "app/app.js").write_text("// changed without release\n", encoding="utf-8")
+        self.git(verifier, "add", "app/data/release-bundle.json", "app/app.js")
+        self.git(verifier, "commit", "-m", "unreleased public runtime fixture")
+        runtime = self.git(verifier, "rev-parse", "HEAD")
+
+        with self.assertRaisesRegex(contract.SnapshotVerificationError, "RUNTIME_RELEASE_NOT_ADVANCED"):
+            cli.build_runtime_composition(verifier, public, runtime)
+
     def test_runtime_composition_blocks_changed_data_and_unreviewed_media(self):
         for path in ("agenda_web.json", "assets/event-images/injected.webp"):
             with self.subTest(path=path):
