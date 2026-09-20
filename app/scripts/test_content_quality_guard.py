@@ -426,6 +426,70 @@ def test_official_occurrence_rule_does_not_remove_future_or_series_event() -> No
     assert changes["expired_removed"] == []
 
 
+def test_expired_official_single_session_binds_the_exact_baseline_schedule() -> None:
+    baseline = event(
+        id="official-session",
+        title="Seminario: una pregunta concreta",
+        source_url="https://official.example/cartelera/seminario",
+        links={"official": "https://official.example/cartelera/seminario"},
+        schedule={
+            "mode": "multi_day",
+            "start": "2026-09-12T11:45:00-03:00",
+            "end": "2026-11-07",
+            "occurrences": [],
+        },
+    )
+    corrected = copy.deepcopy(baseline)
+    corrected["schedule"] = {
+        "mode": "single",
+        "start": "2026-09-12",
+        "end": None,
+        "occurrences": [],
+        "display_text": "2026-09-12 · Horario por confirmar",
+    }
+    corrected["provenance"] = {
+        "official_schedule": {
+            "method": "official_event_session_scope",
+            "kind": "single_session",
+            "source_url": corrected["source_url"],
+            "event_date": "2026-09-12",
+            "session_evidence": ["El encuentro se realizará el sábado 12 de septiembre."],
+            "previous_schedule": copy.deepcopy(baseline["schedule"]),
+        }
+    }
+    dataset = {"events": [corrected], "publication_date": "2026-09-20", "counts": {"total": 1}}
+    ledger = empty_ledger()
+    changes = apply_guard(dataset, baseline_events=[baseline], ledger=ledger)
+
+    assert dataset["events"] == []
+    assert changes["expired_removed"][0]["official_occurrence_date"] == "2026-09-12"
+    receipt = ledger["receipts"][0]
+    chain = receipt["evidence"]["schedule_rectification"]
+    assert chain["before_schedule"] == baseline["schedule"]
+    assert chain["after_schedule"] == corrected["schedule"]
+
+
+def test_official_session_rectification_requires_the_exact_baseline_schedule() -> None:
+    baseline = event(
+        id="official-session-mismatch",
+        source_url="https://official.example/cartelera/seminario",
+        schedule={"mode": "multi_day", "start": "2026-09-12", "end": "2026-11-07", "occurrences": []},
+    )
+    corrected = copy.deepcopy(baseline)
+    corrected["schedule"] = {"mode": "single", "start": "2026-09-12", "end": None, "occurrences": []}
+    corrected["provenance"] = {"official_schedule": {
+        "method": "official_event_session_scope", "kind": "single_session",
+        "source_url": corrected["source_url"], "event_date": "2026-09-12",
+        "session_evidence": ["Sesión del 12 de septiembre."],
+        "previous_schedule": {**baseline["schedule"], "end": "2026-10-10"},
+    }}
+    ledger = empty_ledger()
+    dataset = {"events": [corrected], "publication_date": "2026-09-20", "counts": {"total": 1}}
+    apply_guard(dataset, baseline_events=[baseline], ledger=ledger)
+
+    assert "evidence" not in ledger["receipts"][0]
+
+
 def test_exhibition_without_verified_end_is_quarantined_not_expired_by_venue_hours() -> None:
     exhibition = event(
         id="exhibition-with-venue-hours",
