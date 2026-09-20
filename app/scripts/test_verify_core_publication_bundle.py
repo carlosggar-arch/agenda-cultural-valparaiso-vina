@@ -98,9 +98,11 @@ class BundleConsumerTests(unittest.TestCase):
             "artifact_id": 901,
             "artifact_name": "publication-lineage-11-22-1",
             "artifact_digest": "sha256:" + "d" * 64,
-            "attestation_sha256": hashlib.sha256(self.raw).hexdigest(),
-            "receipt_sha256": hashlib.sha256(self.receipt).hexdigest(),
-            "sigstore_bundle_sha256": hashlib.sha256(bundle).hexdigest(),
+            "content_hashes": {
+                "attestation": hashlib.sha256(self.raw).hexdigest(),
+                "receipt": hashlib.sha256(self.receipt).hexdigest(),
+                "sigstore_bundle": hashlib.sha256(bundle).hexdigest(),
+            },
         }
         artifact = {
             "id": 901, "name": payload["artifact_name"], "expired": False,
@@ -167,6 +169,27 @@ class BundleConsumerTests(unittest.TestCase):
         self.assertEqual((proof / "receipt.json").read_bytes(), self.receipt)
         self.assertEqual((proof / "bundle.json").read_bytes(), large_bundle)
         self.assertEqual(len(self.reference_requests), 3)
+
+    def test_reference_transport_accepts_previous_flat_hash_index_without_downgrade(self):
+        payload, artifact, run, archive = self.reference_payload()
+        hashes = payload.pop("content_hashes")
+        payload.update(
+            attestation_sha256=hashes["attestation"],
+            receipt_sha256=hashes["receipt"],
+            sigstore_bundle_sha256=hashes["sigstore_bundle"],
+        )
+        result = self.run_reference(payload=payload, artifact=artifact, run=run, archive=archive)
+        self.assertEqual(result["transport"], consumer.LINEAGE_REFERENCE_TRANSPORT)
+
+    def test_reference_transport_rejects_mixed_or_malformed_hash_index(self):
+        payload, artifact, run, archive = self.reference_payload()
+        payload["attestation_sha256"] = payload["content_hashes"]["attestation"]
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "PAYLOAD_FIELDS_INVALID"):
+            self.run_reference(payload=payload, artifact=artifact, run=run, archive=archive)
+        payload, artifact, run, archive = self.reference_payload()
+        payload["content_hashes"]["unexpected"] = "a" * 64
+        with self.assertRaisesRegex(consumer.BundleVerificationError, "CONTENT_HASH_FIELDS_INVALID"):
+            self.run_reference(payload=payload, artifact=artifact, run=run, archive=archive)
 
     def test_cross_origin_artifact_redirect_does_not_leak_github_credentials(self):
         request = Request(
@@ -344,14 +367,16 @@ class BundleConsumerTests(unittest.TestCase):
 
     def test_workflow_both_jobs_authenticate_before_writes_and_semantic_validation_remains(self):
         workflow = (Path(__file__).resolve().parents[2] / ".github/workflows/publish.yml").read_text()
-        self.assertEqual(workflow.count("python app/scripts/verify_core_publication_bundle.py"), 2)
+        self.assertEqual(workflow.count("python .lineage-verifier/app/scripts/verify_core_publication_bundle.py"), 2)
+        self.assertEqual(workflow.count("Checkout trusted lineage verifier"), 2)
+        self.assertEqual(workflow.count('test "$(git -C .lineage-verifier rev-parse HEAD)" = "$GITHUB_SHA"'), 2)
         self.assertEqual(workflow.count('--event "$GITHUB_EVENT_PATH"'), 2)
         self.assertEqual(workflow.count("permission-actions: read"), 2)
         self.assertEqual(workflow.count("repositories: agenda-cultural-core"), 2)
         self.assertEqual(workflow.count("CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}"), 2)
         self.assertNotIn("permission-actions: write", workflow)
         self.assertNotIn("gh attestation verify", workflow)
-        self.assertLess(workflow.index("python app/scripts/verify_core_publication_bundle.py"),
+        self.assertLess(workflow.index("python .lineage-verifier/app/scripts/verify_core_publication_bundle.py"),
                         workflow.index("git push origin HEAD:cloudflare-preview"))
         # Authentication still runs in both jobs. The same original inputs
         # now reach all three semantic closes, including the final chain.

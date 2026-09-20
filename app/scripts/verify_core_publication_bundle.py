@@ -35,11 +35,15 @@ CORE_URI = "https://github.com/" + CORE_REPOSITORY
 SIGNER_IDENTITY = CORE_URI + "/" + CANONICAL_WRITER + "@refs/heads/main"
 LEGACY_FIELDS = {"public_sha", "attestation_base64", "attestation_sha256", "receipt_base64"}
 BUNDLE_FIELDS = LEGACY_FIELDS | {"lineage_transport", "sigstore_bundle_base64"}
-REFERENCE_FIELDS = {
+REFERENCE_IDENTITY_FIELDS = {
     "public_sha", "lineage_transport", "artifact_repository", "artifact_run_id",
     "artifact_run_attempt", "artifact_id", "artifact_name", "artifact_digest",
+}
+REFERENCE_LEGACY_FIELDS = REFERENCE_IDENTITY_FIELDS | {
     "attestation_sha256", "receipt_sha256", "sigstore_bundle_sha256",
 }
+REFERENCE_FIELDS = REFERENCE_IDENTITY_FIELDS | {"content_hashes"}
+REFERENCE_HASH_FIELDS = {"attestation", "receipt", "sigstore_bundle"}
 FINALIZER_WORKFLOW = ".github/workflows/finalize-public-agenda.yml"
 PROOF_FILES = {
     "attestation": "attestation.json",
@@ -123,8 +127,9 @@ def _request(url: str, token: str, *, json_response: bool) -> Any:
     return parse_json(raw) if json_response else raw
 
 
-def _require_reference_index(payload: dict[str, Any]) -> None:
-    require(set(payload) == REFERENCE_FIELDS, "PAYLOAD_FIELDS_INVALID")
+def _require_reference_index(payload: dict[str, Any]) -> dict[str, str]:
+    fields = set(payload)
+    require(fields in (REFERENCE_FIELDS, REFERENCE_LEGACY_FIELDS), "PAYLOAD_FIELDS_INVALID")
     require(payload.get("lineage_transport") == LINEAGE_REFERENCE_TRANSPORT, "TRANSPORT_UNSUPPORTED")
     require(payload.get("artifact_repository") == CORE_REPOSITORY, "ARTIFACT_REPOSITORY_MISMATCH")
     for field in ("artifact_run_id", "artifact_run_attempt", "artifact_id"):
@@ -134,14 +139,25 @@ def _require_reference_index(payload: dict[str, Any]) -> None:
             "ARTIFACT_NAME_INVALID")
     require(re.fullmatch(r"sha256:[0-9a-f]{64}", str(payload.get("artifact_digest") or "")) is not None,
             "ARTIFACT_DIGEST_INVALID")
-    for field in ("attestation_sha256", "receipt_sha256", "sigstore_bundle_sha256"):
-        require(re.fullmatch(r"[0-9a-f]{64}", str(payload.get(field) or "")) is not None,
+    if fields == REFERENCE_FIELDS:
+        hashes = payload.get("content_hashes")
+        require(isinstance(hashes, dict) and set(hashes) == REFERENCE_HASH_FIELDS,
+                "CONTENT_HASH_FIELDS_INVALID")
+    else:
+        hashes = {
+            "attestation": payload.get("attestation_sha256"),
+            "receipt": payload.get("receipt_sha256"),
+            "sigstore_bundle": payload.get("sigstore_bundle_sha256"),
+        }
+    for field in REFERENCE_HASH_FIELDS:
+        require(re.fullmatch(r"[0-9a-f]{64}", str(hashes.get(field) or "")) is not None,
                 "CONTENT_HASH_INVALID:" + field)
+    return hashes
 
 
 def download_reference(*, payload: dict[str, Any], output_dir: Path, token: str) -> tuple[bytes, bytes, bytes, dict[str, Any]]:
     """Download one exact private Core artifact without requiring its run to be terminal."""
-    _require_reference_index(payload)
+    content_hashes = _require_reference_index(payload)
     output_dir.mkdir(parents=True, exist_ok=True)
     api = "https://api.github.com/repos/" + CORE_REPOSITORY
     artifact = _request(api + "/actions/artifacts/" + str(payload["artifact_id"]), token, json_response=True)
@@ -180,9 +196,9 @@ def download_reference(*, payload: dict[str, Any], output_dir: Path, token: str)
             bundle = bundle_zip.read(PROOF_FILES["bundle"])
     except (zipfile.BadZipFile, KeyError, OSError) as exc:
         raise BundleVerificationError("CORE_LINEAGE_BUNDLE_ARTIFACT_ARCHIVE_INVALID") from exc
-    require(_sha256(attestation) == payload["attestation_sha256"], "CONTENT_HASH_MISMATCH:attestation")
-    require(_sha256(receipt) == payload["receipt_sha256"], "CONTENT_HASH_MISMATCH:receipt")
-    require(_sha256(bundle) == payload["sigstore_bundle_sha256"], "CONTENT_HASH_MISMATCH:bundle")
+    require(_sha256(attestation) == content_hashes["attestation"], "CONTENT_HASH_MISMATCH:attestation")
+    require(_sha256(receipt) == content_hashes["receipt"], "CONTENT_HASH_MISMATCH:receipt")
+    require(_sha256(bundle) == content_hashes["sigstore_bundle"], "CONTENT_HASH_MISMATCH:bundle")
     return attestation, receipt, bundle, run
 
 

@@ -222,7 +222,8 @@ class PublicationExecutionRoutingTests(unittest.TestCase):
         self.assertIn("  production-smoke:", jobs)
         self.assertIn("  refresh-open-release-prs:", jobs)
         self.assertNotIn("schedule:", workflow)
-        self.assertEqual(workflow.count("python app/scripts/verify_core_publication_bundle.py"), 2)
+        self.assertEqual(workflow.count("python .lineage-verifier/app/scripts/verify_core_publication_bundle.py"), 2)
+        self.assertEqual(workflow.count("Checkout trusted lineage verifier"), 2)
         self.assertEqual(workflow.count("name: " + binding.EMIT_STEP), 1)
         sync = workflow.split("  sync-cloudflare:", 1)[1].split("  production-smoke:", 1)[0]
         for name in routing.release_routing.DEPLOYMENT_STEPS:
