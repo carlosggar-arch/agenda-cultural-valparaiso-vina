@@ -37,6 +37,23 @@ class ProductionReleaseChainTests(unittest.TestCase):
             return chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
                                      attestation_path=self.visual, **arguments)
 
+    @staticmethod
+    def snapshot_proof(*, historical_sha="1" * 40, historical_release="v251-aaaaaaaaaaaa",
+                       runtime_sha="c" * 40, runtime_release="v300-fixture", paths=None):
+        return {
+            "composition": {
+                "historical": {"head_sha": historical_sha, "release_id": historical_release},
+                "runtime": {"head_sha": runtime_sha, "release_id": runtime_release},
+                "changed_paths": paths or ["app/scripts/verifier.py"],
+            },
+            "original_core_execution": {"binding": {
+                "parent_sha": "0" * 40,
+                "public_sha": historical_sha,
+                "receipt_sha256": "9" * 64,
+                "release_id": historical_release,
+            }},
+        }
+
     def test_core_evidence_reaches_final_published_validation_unchanged(self):
         with patch.object(chain, "check_published", return_value=self.published) as check:
             result = self.build(core_attestation=self.core, core_receipt=self.receipt)
@@ -76,30 +93,29 @@ class ProductionReleaseChainTests(unittest.TestCase):
     def test_snapshot_composition_authenticates_old_lineage_and_current_runtime_separately(self):
         historical = {**self.published, "main_sha": "1" * 40,
                       "release": 251, "release_id": "v251-aaaaaaaaaaaa"}
-        proof = {"composition": {
-            "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
-            "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
+        proof = self.snapshot_proof()
         self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
         self.historical_validation.write_text(json.dumps(historical), encoding="utf-8")
         with patch.object(chain.snapshot_contract, "validate", return_value=proof), \
              patch.object(chain.snapshot_contract, "proof_hash", return_value="f" * 64), \
              patch.object(chain, "validate_runtime_release",
                           return_value=(self.published, "c" * 40, [])) as release, \
-             patch.object(chain, "check_published", return_value=self.published) as check:
+             patch.object(chain, "check_published", return_value=historical) as check:
             result = self.build(core_attestation=self.core, core_receipt=self.receipt,
                                 snapshot_verification=self.snapshot,
                                 historical_validation=self.historical_validation)
-        release.assert_called_once_with("c" * 40)
-        check.assert_not_called()
+        release.assert_called_once_with(
+            "c" * 40, composition=proof["composition"],
+            historical_binding=proof["original_core_execution"]["binding"])
+        check.assert_called_once_with(
+            "1" * 40, core_attestation=self.core, core_receipt=self.receipt)
         self.assertEqual(result["lineage_mode"], "historical-data-current-runtime-composition")
         self.assertEqual(result["historical_public_sha"], "1" * 40)
         self.assertFalse(result["historical_success_claimed"])
         self.assertEqual(len(result["historical_validation_sha256"]), 64)
 
     def test_snapshot_composition_rejects_missing_or_crossed_historical_validation(self):
-        proof = {"composition": {
-            "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
-            "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
+        proof = self.snapshot_proof()
         self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
         arguments = {"core_attestation": self.core, "core_receipt": self.receipt,
                      "snapshot_verification": self.snapshot}
@@ -116,9 +132,7 @@ class ProductionReleaseChainTests(unittest.TestCase):
     def test_snapshot_allows_only_verified_non_public_cloudflare_difference(self):
         historical = {**self.published, "main_sha": "1" * 40,
                       "release": 251, "release_id": "v251-aaaaaaaaaaaa"}
-        proof = {"composition": {
-            "historical": {"head_sha": "1" * 40, "release_id": "v251-aaaaaaaaaaaa"},
-            "runtime": {"head_sha": "c" * 40, "release_id": "v300-fixture"}}}
+        proof = self.snapshot_proof()
         self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
         self.historical_validation.write_text(json.dumps(historical), encoding="utf-8")
         arguments = {"core_attestation": self.core, "core_receipt": self.receipt,
@@ -128,6 +142,7 @@ class ProductionReleaseChainTests(unittest.TestCase):
              patch.object(chain.snapshot_contract, "proof_hash", return_value="f" * 64), \
              patch.object(chain, "validate_runtime_release",
                           return_value=(self.published, "c" * 40, [])), \
+             patch.object(chain, "check_published", return_value=historical), \
              patch.object(chain, "git", side_effect=["d" * 40, "app/scripts/verifier.py\ndocs/route.md"]), \
              patch.object(chain, "git_check", return_value=False):
             result = chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
@@ -142,32 +157,77 @@ class ProductionReleaseChainTests(unittest.TestCase):
                  patch.object(chain.snapshot_contract, "validate", return_value=proof), \
                  patch.object(chain, "validate_runtime_release",
                               return_value=(self.published, "c" * 40, [])), \
+                 patch.object(chain, "check_published", return_value=historical), \
                  patch.object(chain, "git", side_effect=["d" * 40, path]), \
                  patch.object(chain, "git_check", return_value=False):
                 with self.assertRaisesRegex(SystemExit, "RELEASE_CHAIN_CLOUDFLARE_SURFACES_CHANGED"):
                     chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
                                       attestation_path=self.visual, **arguments)
 
-    def test_runtime_release_owner_allows_only_later_verification_files(self):
-        published = {**self.published, "main_sha": "2" * 40}
-        with patch.object(chain, "git", side_effect=["2" * 40, "app/scripts/verifier.py\ndocs/route.md"]), \
+    def test_runtime_release_owner_allows_authenticated_historical_data_then_verifier_files(self):
+        owner = "2" * 40
+        historical = "3" * 40
+        runtime = "4" * 40
+        paths = ["app/scripts/verifier.py", "docs/route.md"]
+        composition = self.snapshot_proof(
+            historical_sha=historical, historical_release="v300-fixture",
+            runtime_sha=runtime, runtime_release="v300-fixture", paths=paths)["composition"]
+        binding = {"parent_sha": owner, "public_sha": historical,
+                   "release_id": "v300-fixture"}
+        published = {**self.published, "main_sha": owner}
+        with patch.object(chain, "git", side_effect=[owner, "\n".join(paths), owner]), \
              patch.object(chain, "git_check", return_value=True), \
              patch.object(chain, "check_published", return_value=published) as check:
-            result, owner, changed = chain.validate_runtime_release("3" * 40)
-        check.assert_called_once_with("2" * 40)
+            result, actual_owner, changed = chain.validate_runtime_release(
+                runtime, composition=composition, historical_binding=binding)
+        check.assert_called_once_with(owner)
         self.assertEqual(result, published)
-        self.assertEqual(owner, "2" * 40)
-        self.assertEqual(changed, ["app/scripts/verifier.py", "docs/route.md"])
+        self.assertEqual(actual_owner, owner)
+        self.assertEqual(changed, paths)
 
         for path in ("agenda_web.json", "app/index.html", "assets/agenda.js",
                      "app/data/release-bundle.json"):
+            invalid = {**composition, "changed_paths": [path]}
             with self.subTest(path=path), \
-                 patch.object(chain, "git", side_effect=["2" * 40, path]), \
+                 patch.object(chain, "git", side_effect=[owner, path, owner]), \
                  patch.object(chain, "git_check", return_value=True), \
                  patch.object(chain, "check_published") as check:
                 with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_RELEASE_SURFACES_CHANGED"):
-                    chain.validate_runtime_release("3" * 40)
+                    chain.validate_runtime_release(
+                        runtime, composition=invalid, historical_binding=binding)
             check.assert_not_called()
+
+    def test_runtime_release_rejects_crossed_snapshot_or_unapproved_runtime(self):
+        owner = "2" * 40
+        historical = "3" * 40
+        runtime = "4" * 40
+        composition = self.snapshot_proof(
+            historical_sha=historical, historical_release="v300-fixture",
+            runtime_sha=runtime, runtime_release="v300-fixture")["composition"]
+        binding = {"parent_sha": owner, "public_sha": "5" * 40,
+                   "release_id": "v300-fixture"}
+        with self.assertRaisesRegex(SystemExit, "SNAPSHOT_HISTORICAL_BINDING_IDENTITY_MISMATCH"):
+            chain.validate_runtime_release(runtime, composition=composition, historical_binding=binding)
+
+        binding["public_sha"] = historical
+        with patch.object(chain, "git", return_value=owner), \
+             patch.object(chain, "git_check", return_value=False):
+            with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_NOT_DESCENDANT_OF_HISTORICAL"):
+                chain.validate_runtime_release(runtime, composition=composition, historical_binding=binding)
+
+    def test_snapshot_rejects_recomputed_historical_result_that_differs_from_evidence(self):
+        historical = {**self.published, "main_sha": "1" * 40,
+                      "release": 251, "release_id": "v251-aaaaaaaaaaaa"}
+        proof = self.snapshot_proof()
+        self.snapshot.write_text(json.dumps(proof), encoding="utf-8")
+        self.historical_validation.write_text(json.dumps(historical), encoding="utf-8")
+        altered = {**historical, "source_sha": "e" * 40}
+        with patch.object(chain.snapshot_contract, "validate", return_value=proof), \
+             patch.object(chain, "check_published", return_value=altered):
+            with self.assertRaisesRegex(SystemExit, "SNAPSHOT_HISTORICAL_VALIDATION_CHANGED"):
+                self.build(core_attestation=self.core, core_receipt=self.receipt,
+                           snapshot_verification=self.snapshot,
+                           historical_validation=self.historical_validation)
 
     def test_cli_preserves_the_explicit_core_paths(self):
         output = self.root / "chain.json"

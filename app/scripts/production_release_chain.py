@@ -40,17 +40,59 @@ def validate_cloudflare_relation(main_sha: str, cloudflare_sha: str, *, snapshot
     return "verified-non-public-diff", changed
 
 
-def validate_runtime_release(runtime_sha: str) -> tuple[dict[str, object], str, list[str]]:
+def validate_runtime_release(
+    runtime_sha: str,
+    *,
+    composition: dict[str, object],
+    historical_binding: dict[str, object],
+) -> tuple[dict[str, object], str, list[str]]:
+    """Authenticate the product release, historical data, and verifier runtime.
+
+    The release owner proves the product release.  The signed Core binding proves
+    the separate editorial commit from its exact parent.  Finally, the approved
+    composition proves every path between that historical snapshot and the
+    verifier runtime.  Collapsing those ranges makes a legitimate historical
+    data commit look like unreviewed runtime drift.
+    """
+    historical = composition["historical"]
+    runtime = composition["runtime"]
+    historical_sha = str(historical["head_sha"])
+    historical_release_id = str(historical["release_id"])
+    runtime_release_id = str(runtime["release_id"])
+    if str(runtime["head_sha"]) != runtime_sha:
+        raise SystemExit("SNAPSHOT_RUNTIME_COMPOSITION_HEAD_MISMATCH")
+    if (str(historical_binding.get("public_sha") or "") != historical_sha
+            or str(historical_binding.get("release_id") or "") != historical_release_id):
+        raise SystemExit("SNAPSHOT_HISTORICAL_BINDING_IDENTITY_MISMATCH")
+    parent_sha = str(historical_binding.get("parent_sha") or "")
+    if len(parent_sha) != 40 or git("rev-parse", historical_sha + "^") != parent_sha:
+        raise SystemExit("SNAPSHOT_HISTORICAL_PARENT_MISMATCH")
+    if not git_check("merge-base", "--is-ancestor", historical_sha, runtime_sha):
+        raise SystemExit("SNAPSHOT_RUNTIME_NOT_DESCENDANT_OF_HISTORICAL")
+    composition_paths = sorted(set(filter(None,
+        git("diff", "--name-only", historical_sha, runtime_sha).splitlines())))
+    if composition_paths != composition["changed_paths"]:
+        raise SystemExit("SNAPSHOT_RUNTIME_COMPOSITION_PATHS_CHANGED")
+
     release_owner = git("log", "-1", "--format=%H", runtime_sha, "--", "app/data/release-provenance.json")
     if len(release_owner) != 40 or not git_check("merge-base", "--is-ancestor", release_owner, runtime_sha):
         raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_INVALID")
-    changed = [] if release_owner == runtime_sha else sorted(set(filter(None,
-        git("diff", "--name-only", release_owner, runtime_sha).splitlines())))
+    if historical_release_id == runtime_release_id:
+        if release_owner != parent_sha:
+            raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_BINDING_MISMATCH")
+        changed = composition_paths
+    else:
+        if not git_check("merge-base", "--is-ancestor", historical_sha, release_owner):
+            raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_NOT_AFTER_HISTORICAL")
+        changed = [] if release_owner == runtime_sha else sorted(set(filter(None,
+            git("diff", "--name-only", release_owner, runtime_sha).splitlines())))
     if not all(snapshot_contract.non_public_verification_path(path) for path in changed):
         raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_SURFACES_CHANGED")
     published = check_published(release_owner)
     if str(published["main_sha"]) != release_owner:
         raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_MISMATCH")
+    if str(published["release_id"]) != runtime_release_id:
+        raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_IDENTITY_MISMATCH")
     return published, release_owner, changed
 
 
@@ -78,14 +120,24 @@ def build_chain(
                 or str(historical["release_id"]) != composition["historical"]["release_id"]
                 or historical.get("lineage_mode") != "CORE_PUBLICATION_FINALIZER"):
             raise SystemExit("SNAPSHOT_HISTORICAL_RELEASE_IDENTITY_MISMATCH")
+        authenticated_historical = check_published(
+            composition["historical"]["head_sha"],
+            core_attestation=core_attestation,
+            core_receipt=core_receipt,
+        )
+        if authenticated_historical != historical:
+            raise SystemExit("SNAPSHOT_HISTORICAL_VALIDATION_CHANGED")
         # The original signed lineage authenticates the preserved data object.
         # Current runtime authority comes from the exact reviewed tree and its
         # own release contract, never by pretending the old Core claim signed it.
         runtime_sha = composition["runtime"]["head_sha"]
-        published, runtime_release_owner, runtime_verification_paths = validate_runtime_release(runtime_sha)
-        if str(published["release_id"]) != composition["runtime"]["release_id"]:
-            raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_IDENTITY_MISMATCH")
-        effective_published = {**published, "main_sha": runtime_sha}
+        release, runtime_release_owner, runtime_verification_paths = validate_runtime_release(
+            runtime_sha,
+            composition=composition,
+            historical_binding=proof["original_core_execution"]["binding"],
+        )
+        effective_published = {**authenticated_historical, "main_sha": runtime_sha,
+                               "release": release["release"], "release_id": release["release_id"]}
     elif core_attestation is not None:
         published = check_published("HEAD", core_attestation=core_attestation, core_receipt=core_receipt)
         effective_published = published
@@ -105,16 +157,16 @@ def build_chain(
     validate_visual_attestation(attestation, effective_published)
     result = {
         "schema_version": SCHEMA_VERSION,
-        "lineage_mode": published["lineage_mode"],
-        "source_pr": published.get("source_pr"),
-        "base_sha": published["base_sha"],
-        "source_sha": published["source_sha"],
-        "finalizer_sha": published["finalizer_sha"],
+        "lineage_mode": effective_published["lineage_mode"],
+        "source_pr": effective_published.get("source_pr"),
+        "base_sha": effective_published["base_sha"],
+        "source_sha": effective_published["source_sha"],
+        "finalizer_sha": effective_published["finalizer_sha"],
         "main_sha": main_sha,
         "cloudflare_sha": cloudflare_sha,
         "cloudflare_relation": cloudflare_relation,
-        "release": published["release"],
-        "release_id": published["release_id"],
+        "release": effective_published["release"],
+        "release_id": effective_published["release_id"],
         "production_attestation_head": attestation["head_sha"],
         "publication_state": "source_to_production_certified",
     }
@@ -129,6 +181,8 @@ def build_chain(
             "cloudflare_non_public_changed_paths": cloudflare_changed_paths,
             "runtime_release_owner_sha": runtime_release_owner,
             "runtime_verification_changed_paths": runtime_verification_paths,
+            "historical_parent_sha": proof["original_core_execution"]["binding"]["parent_sha"],
+            "historical_receipt_sha256": proof["original_core_execution"]["binding"]["receipt_sha256"],
         })
     return result
 
