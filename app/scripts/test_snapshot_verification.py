@@ -634,7 +634,7 @@ class SnapshotVerificationTests(unittest.TestCase):
         with patch.object(smoke, "run", side_effect=local_probe):
             with self.assertRaisesRegex(contract.SnapshotVerificationError, "PRODUCTION_PROBES_FAILED"):
                 smoke.run_groups(self.root, self.root)
-        self.assertEqual(len(calls), 4)
+        self.assertEqual(len(calls), 5)
 
 
 def run_contract():

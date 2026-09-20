@@ -67,7 +67,9 @@ def main() -> None:
     assert publish.count("--assert-ready \\") == 1, "post-readiness validation must be one-shot"
     assert "--timeout-seconds 90" in sync, "deployment wait must be bounded to 90 seconds"
     assert "production_pwa_smoke.py http" not in publish, "legacy sequential HTTP wait must not run in publish.yml"
-    assert "PRODUCTION_PROBES_PARALLEL_OK groups=4" in smoke, "independent production probes must remain parallel"
+    assert "PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized" in smoke
+    assert "browser_suite_pid=$!" in smoke
+    assert 'wait_probe browser-suite "$browser_suite_pid"' in smoke
     for probe in (
         "production_admin_staging_smoke.py",
         "production_series_contract.py",
@@ -90,7 +92,7 @@ def main() -> None:
     print(
         "PRODUCTION_CERTIFICATION_LATENCY_CONTRACT_OK "
         "candidate_sha=immutable handoff=exact-tree-fast-forward wait_budget=90s "
-        "sync_timeout=3m smoke_timeout=7m parallel_probe_groups=4"
+        "sync_timeout=3m smoke_timeout=7m parallel_probe_groups=2 chrome_owners=serialized"
     )
 
 

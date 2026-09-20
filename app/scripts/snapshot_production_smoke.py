@@ -23,9 +23,11 @@ from snapshot_verification_cli import (
 PROBE_GROUPS = {
     "semantics": (("production_admin_staging_smoke.py", "admin-staging.log", ()),
                   ("production_series_contract.py", "series.log", ())),
-    "browser": (("production_browser_selenium_smoke.py", "browser.log", ()),),
-    "warm-pwa": (("production_warm_start_smoke.py", "warm.log", ()),),
-    "web-pwa-parity": (("test_web_pwa_visibility_parity.py", "parity.log", ("--production",)),),
+    "browser-suite": (
+        ("production_browser_selenium_smoke.py", "browser.log", ()),
+        ("production_warm_start_smoke.py", "warm.log", ()),
+        ("test_web_pwa_visibility_parity.py", "parity.log", ("--production",)),
+    ),
 }
 
 
@@ -39,10 +41,15 @@ def run(snapshot: Path, evidence: Path, script: str, log: str, arguments=()) -> 
 
 def run_groups(snapshot: Path, evidence: Path) -> None:
     def group(rows):
+        errors = []
         for script, log, arguments in rows:
             if script == "test_web_pwa_visibility_parity.py":
                 arguments = (*arguments, "--json-output", str(evidence / "web-pwa-parity.json"))
-            run(snapshot, evidence, script, log, arguments)
+            try:
+                run(snapshot, evidence, script, log, arguments)
+            except Exception as exc:
+                errors.append(str(exc))
+        contract.require(not errors, "PROBE_GROUP_FAILED:" + ";".join(errors))
     with ThreadPoolExecutor(max_workers=4) as pool:
         futures = [pool.submit(group, rows) for rows in PROBE_GROUPS.values()]
         errors = []
@@ -56,7 +63,7 @@ def run_groups(snapshot: Path, evidence: Path) -> None:
                      "SERIES_MARKER_MISSING")
     contract.require("PRODUCTION_ADMIN_STAGING_VERIFIED " in (evidence / "admin-staging.log").read_text(),
                      "ADMIN_MARKER_MISSING")
-    print("PRODUCTION_PROBES_PARALLEL_OK groups=4")
+    print("PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized")
 
 
 def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
