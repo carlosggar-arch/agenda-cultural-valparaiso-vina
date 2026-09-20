@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "d3c4e470ff55d5c51cfc9e0861b209f927c352d6c1621414dac1385ed0ee24a2",
-  "generated_at": "2026-09-20T12:32:45Z",
+  "fingerprint": "465e42415b32e37b2b9c5e065ed89e720fca86582dd104a022df2fa799ac7977",
+  "generated_at": "2026-09-20T17:53:00Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -25,14 +25,13 @@
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
         "charlas-conferencias": 0.25,
-        "literatura": 0.375,
+        "literatura": 0.5,
         "musica": 0.125,
-        "naturaleza-aire-libre": 0.125,
         "unclassified": 0.125
       },
       "city_id": "gijon",
       "dominant_category": "literatura",
-      "dominant_share": 0.375,
+      "dominant_share": 0.5,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
       "total": 8,
@@ -338,11 +337,12 @@
     },
     "valparaiso::artequin vina del mar": {
       "category_distribution": {
-        "cursos-talleres-campus": 1.0
+        "cursos-talleres-campus": 0.5,
+        "exposiciones": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 1.0,
+      "dominant_share": 0.5,
       "source_name": "Artequin Viña del Mar",
       "source_url": "https://artequinvina.cl/events/fiestas-patrias-2026/",
       "total": 4,
@@ -395,9 +395,9 @@
         "cine": 0.222222,
         "exposiciones": 0.111111,
         "ferias-vida-local": 0.222222,
+        "literatura": 0.111111,
         "musica": 0.222222,
-        "teatro": 0.111111,
-        "unclassified": 0.111111
+        "teatro": 0.111111
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
@@ -405,8 +405,8 @@
       "source_name": "Centro de Extensión Duoc UC Valparaíso",
       "source_url": "https://luma.com/extensionduocuc",
       "total": 9,
-      "unclassified": 1,
-      "unclassified_rate": 0.111111
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "valparaiso::cine arte vina del mar": {
       "category_distribution": {
@@ -438,8 +438,8 @@
     "valparaiso::cultura pucv": {
       "category_distribution": {
         "cine": 0.4,
-        "cursos-talleres-campus": 0.4,
-        "musica": 0.2
+        "cursos-talleres-campus": 0.2,
+        "musica": 0.4
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
@@ -461,23 +461,6 @@
       "source_name": "Cultura USM",
       "source_url": "https://cultura.usm.cl/eventos/teatrocinema-presenta-la-aplaudida-obra-la-contadora-de-peliculas/",
       "total": 8,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
-    "valparaiso::culturas vina": {
-      "category_distribution": {
-        "cine": 0.142857,
-        "cursos-talleres-campus": 0.428571,
-        "exposiciones": 0.142857,
-        "musica": 0.142857,
-        "teatro": 0.142857
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.428571,
-      "source_name": "Culturas Viña",
-      "source_url": "https://www.instagram.com/p/Dc3xnG1IKLu/",
-      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -509,17 +492,16 @@
     },
     "valparaiso::el pasaje cafe vina": {
       "category_distribution": {
-        "musica": 0.666667,
-        "unclassified": 0.333333
+        "musica": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.666667,
+      "dominant_share": 1.0,
       "source_name": "El Pasaje Café Viña",
       "source_url": "https://www.instagram.com/p/DczjEAToDpX/",
       "total": 3,
-      "unclassified": 1,
-      "unclassified_rate": 0.333333
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "valparaiso::enjoy vina del mar": {
       "category_distribution": {
@@ -602,43 +584,38 @@
     },
     "valparaiso::museo baburizza": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.272727,
-        "exposiciones": 0.727273
+        "exposiciones": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.727273,
+      "dominant_share": 1.0,
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "total": 11,
+      "total": 10,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo de historia natural de valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.058824,
-        "exposiciones": 0.764706,
-        "ferias-vida-local": 0.058824,
-        "literatura": 0.058824,
-        "naturaleza-aire-libre": 0.058824
+        "exposiciones": 0.933333,
+        "literatura": 0.066667
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.764706,
+      "dominant_share": 0.933333,
       "source_name": "Museo de Historia Natural de Valparaíso",
       "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "total": 17,
+      "total": 15,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo fonck": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.375,
-        "exposiciones": 0.625
+        "exposiciones": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.625,
+      "dominant_share": 1.0,
       "source_name": "Museo Fonck",
       "source_url": "https://www.instagram.com/p/Dce3_FpDfpN/",
       "total": 8,
@@ -688,12 +665,13 @@
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
         "charlas-conferencias": 0.021277,
-        "musica": 0.957447,
+        "literatura": 0.021277,
+        "musica": 0.93617,
         "teatro": 0.021277
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.957447,
+      "dominant_share": 0.93617,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/conversacion-con-smiljan-radic-pcdv",
       "total": 47,
@@ -734,8 +712,8 @@
       "dominant_category": "teatro",
       "dominant_share": 1.0,
       "source_name": "Sala Secreta",
-      "source_url": "https://www.instagram.com/p/DdJvjlZxDJy/",
-      "total": 2,
+      "source_url": "https://www.instagram.com/p/DckL7oWNcI1/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -801,12 +779,12 @@
       "category_distribution": {
         "cursos-talleres-campus": 0.076923,
         "literatura": 0.076923,
-        "musica": 0.307692,
-        "teatro": 0.538462
+        "musica": 0.384615,
+        "teatro": 0.461538
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 0.538462,
+      "dominant_share": 0.461538,
       "source_name": "Teatro Municipal de Viña del Mar",
       "source_url": "https://teatrovina.cl/evento/mujeres-que-tejen-en-el-aire/",
       "total": 13,
@@ -815,31 +793,29 @@
     },
     "valparaiso::teatromuseo": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.111111,
-        "exposiciones": 0.333333,
-        "teatro": 0.555556
+        "cursos-talleres-campus": 0.125,
+        "teatro": 0.875
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 0.555556,
+      "dominant_share": 0.875,
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/vestigial-todo-afuera-nada-adentro_829",
-      "total": 9,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::trotamundos valparaiso": {
       "category_distribution": {
-        "ferias-vida-local": 0.035714,
-        "musica": 0.821429,
-        "teatro": 0.142857
+        "musica": 0.807692,
+        "teatro": 0.192308
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.821429,
+      "dominant_share": 0.807692,
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://www.instagram.com/p/DcfJwSLA_FJ/",
-      "total": 28,
+      "total": 26,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -872,6 +848,23 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::visita vina municipalidad de vina del mar": {
+      "category_distribution": {
+        "cine": 0.076923,
+        "cursos-talleres-campus": 0.230769,
+        "exposiciones": 0.538462,
+        "musica": 0.076923,
+        "teatro": 0.076923
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.538462,
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_url": "https://www.instagram.com/p/Dc3xnG1IKLu/",
+      "total": 13,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::visita vina museo palacio rioja": {
       "category_distribution": {
         "cine": 0.222222,
@@ -890,14 +883,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "fa0793112705fbfe58d4b6d5744905e44b78646c",
+  "source_ref": "62b0c2c49f9e658aa49b8a3a7bbfc03508859f25",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 62,
-    "total_events": 540,
-    "unclassified_count": 15,
-    "unclassified_rate": 0.027778
+    "total_events": 539,
+    "unclassified_count": 13,
+    "unclassified_rate": 0.024119
   },
   "unclassified_queue": [
     {
@@ -1029,26 +1022,6 @@
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
       "title": "The Reina Club – Ingenieros 9 Octubre"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_ac3dc1d300355949fc83cb64",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Centro de Extensión Duoc UC Valparaíso",
-      "source_url": "https://www.instagram.com/p/DcPghTSOOAF/",
-      "title": "Los Búnkers, en un lugar muy lejano"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_42f9eb38769510bdc814cf8a",
-      "evidence": [],
-      "score": 0,
-      "source_name": "El Pasaje Café Viña",
-      "source_url": "https://www.instagram.com/p/DczjEAToDpX/",
-      "title": "Sesiones pasajeras/ fernando cabrera en viña"
     }
   ]
 }
