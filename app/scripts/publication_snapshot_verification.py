@@ -128,7 +128,7 @@ def composition(value: Any) -> dict:
     historical = release_identity(value["historical"], "HISTORICAL")
     runtime = release_identity(value["runtime"], "RUNTIME")
     require(historical["head_sha"] != runtime["head_sha"]
-            and historical["release_id"] != runtime["release_id"], "COMPOSITION_NOT_DISTINCT")
+            and historical["tree_sha"] != runtime["tree_sha"], "COMPOSITION_NOT_DISTINCT")
     preserved = value["preserved_blobs"]
     require(isinstance(preserved, dict) and set(preserved) == set(PRESERVED_SURFACES),
             "PRESERVED_SURFACES_INVALID")
@@ -138,6 +138,9 @@ def composition(value: Any) -> dict:
     require(isinstance(paths, list) and paths == sorted(set(paths)) and bool(paths)
             and all(isinstance(path, str) and path and not path.startswith("/") and ".." not in path.split("/")
                     for path in paths), "CHANGED_PATHS_INVALID")
+    if historical["release_id"] == runtime["release_id"]:
+        require(all(non_public_verification_path(path) for path in paths),
+                "RUNTIME_RELEASE_NOT_ADVANCED")
     return value
 
 
