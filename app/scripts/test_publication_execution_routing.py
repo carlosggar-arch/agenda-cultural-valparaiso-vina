@@ -25,7 +25,10 @@ class PublicationExecutionRoutingTests(unittest.TestCase):
         self.reader.code_hashes.return_value = {path: "9" * 40 for path in binding.CODE_PATHS}
         self.reader.api.return_value = {"object": {"sha": self.expected["public_sha"]}}
         self.reader.observations.return_value = {"verified": [], "pending": [], "suspect": [], "unstarted": []}
-        self.verified = patch.object(routing, "verified_bytes", return_value=(self.expected, "2026-09-12T12:00:00Z"))
+        self.verified = patch.object(
+            routing, "verified_bytes",
+            return_value=(self.expected, "2026-09-12T12:00:00Z", binding.ordinary_authority()),
+        )
         self.retained = patch.object(routing, "existing_certification", return_value=None)
         self.verified.start()
         self.mock_retained = self.retained.start()
@@ -106,6 +109,64 @@ class PublicationExecutionRoutingTests(unittest.TestCase):
         self.reader.api.return_value = {"object": {"sha": "0" * 40}}
         with self.assertRaisesRegex(binding.ExecutionBindingError, "STALE_UNCERTIFIED_CANDIDATE"):
             self.prepare()
+
+    def test_authenticated_recovery_disposes_only_exact_pre_index_failure_and_allows_later_main(self):
+        hashes = {path: "9" * 40 for path in binding.CODE_PATHS}
+        reference = {
+            "contract": "post-write-recovery-authority-reference", "version": "1.0.0",
+            "repository": "carlosggar-arch/agenda-cultural-core", "run_id": 77,
+            "run_attempt": 1, "core_sha": "8" * 40, "approved_web_sha": "f" * 40,
+            "public_sha": self.expected["public_sha"], "artifact_id": 901,
+            "artifact_name": "post-write-transport-recovery-77-1",
+            "artifact_digest": "sha256:" + "4" * 64, "proof_sha256": "5" * 64,
+        }
+        prior = {
+            "repository": binding.WEB_REPOSITORY, "workflow": binding.WORKFLOW,
+            "run_id": 20, "run_attempt": 1, "workflow_head_sha": "7" * 40,
+            "disposition": "failed_before_canonical_authority_without_deployment",
+            "run_sha256": "1" * 64, "jobs_sha256": "2" * 64,
+            "artifact": {"id": 902, "name": "core-lineage-transport-20-1-sync",
+                         "digest": "sha256:" + "3" * 64},
+            "content_hashes": {"attestation": "4" * 64, "receipt": "5" * 64,
+                               "sigstore_bundle": "6" * 64},
+            "authority_emitted": False, "deployment_started": False,
+        }
+        authority = binding.validate_authority({
+            "mode": "post_write_recovery", "reference": reference,
+            "prior_execution": prior,
+            "runtime_composition": {
+                "historical_sha": self.expected["public_sha"],
+                "runtime": {"head_sha": "f" * 40, "tree_sha": "6" * 40,
+                            "code_hashes_sha256": binding.sha256(binding.canonical_bytes(hashes)),
+                            "policy_sha256": "7" * 64},
+                "changed_paths": [".github/workflows/publish.yml"],
+                "changed_paths_sha256": "8" * 64,
+                "preserved_surfaces_sha256": "9" * 64,
+            },
+        })
+        self.verified.stop()
+        with patch.object(routing, "verified_bytes", return_value=(
+                self.expected, "2026-09-12T12:00:00Z", authority)):
+            self.reader.code_hashes.return_value = hashes
+            self.reader.observations.return_value = {
+                "verified": [], "pending": [], "unstarted": [],
+                "suspect": [{"run": {"id": 20, "run_attempt": 1}}],
+            }
+            self.reader.api.return_value = {"object": {"sha": "f" * 40}}
+            self.reader.validate_prior_disposition.return_value = prior
+            value = self.prepare(runtime_root=ROOT)
+        self.assertEqual(value["action"], "publish")
+        self.assertEqual(value["core_execution"]["authority"], authority)
+        self.reader.validate_prior_disposition.assert_called_once_with(prior)
+
+    def test_recovery_never_disposes_a_different_suspect(self):
+        authority = binding.ordinary_authority()
+        # The ordinary route remains fail-closed; a recovery authority must be
+        # present and must name the exact suspect before any disposition occurs.
+        self.reader.observations.return_value["suspect"] = [{"run": {"id": 999, "run_attempt": 1}}]
+        with self.assertRaisesRegex(binding.ExecutionBindingError, "PRIOR_EXECUTION_UNPROVEN"):
+            self.prepare()
+        self.assertEqual(authority, {"mode": "ordinary"})
 
     def test_late_workflow_with_changed_verifier_code_blocks(self):
         self.reader.code_hashes.side_effect = [{path: "8" * 40 for path in binding.CODE_PATHS},

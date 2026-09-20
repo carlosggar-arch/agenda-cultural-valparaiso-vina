@@ -13,7 +13,8 @@ import re
 from typing import Any, Mapping
 
 CONTRACT = "core-publication-execution-binding"
-VERSION = "1.0.0"
+VERSION = "2.0.0"
+LEGACY_VERSION = "1.0.0"
 NOTICE_TITLE = "CORE_PUBLICATION_EXECUTION_V1"
 VERIFY_STEP = "Verify detached Core publication lineage"
 EMIT_STEP = "Bind authenticated Core execution before deployment"
@@ -26,6 +27,7 @@ CODE_PATHS = (
     "app/scripts/publication_execution_binding.py",
     "app/scripts/publication_execution_github.py",
     "app/scripts/publication_execution_routing.py",
+    "app/scripts/post_write_recovery_authority.py",
     "app/scripts/verify_core_publication_bundle.py",
     "app/scripts/core_publication_lineage.py",
     "app/scripts/release_finalizer.py",
@@ -38,7 +40,8 @@ BINDING_FIELDS = {
     "release_id", "acquisition_shas", "fence_sha256", "lineage_sha256",
     "receipt_sha256", "release_bundle_sha256", "sigstore_bundle_sha256",
 }
-INDEX_FIELDS = {"contract", "version", "binding", "binding_sha256", "execution", "canonical", "role"}
+LEGACY_INDEX_FIELDS = {"contract", "version", "binding", "binding_sha256", "execution", "canonical", "role"}
+INDEX_FIELDS = LEGACY_INDEX_FIELDS | {"authority"}
 RUN_FIELDS = {"run_id", "run_attempt"}
 EXECUTION_FIELDS = RUN_FIELDS | {"workflow_head_sha"}
 
@@ -131,8 +134,47 @@ def binding_from_verified_bytes(*, lineage: bytes, receipt: bytes,
     })
 
 
+def ordinary_authority() -> dict[str, str]:
+    return {"mode": "ordinary"}
+
+
+def validate_authority(value: Any) -> dict[str, Any]:
+    require(isinstance(value, dict) and isinstance(value.get("mode"), str), "AUTHORITY_INVALID")
+    if value["mode"] == "ordinary":
+        require(value == ordinary_authority(), "AUTHORITY_FIELDS_INVALID")
+        return dict(value)
+    require(value["mode"] == "post_write_recovery"
+            and set(value) == {"mode", "reference", "prior_execution", "runtime_composition"},
+            "AUTHORITY_FIELDS_INVALID")
+    try:
+        from post_write_recovery_authority import validate_prior_disposition, validate_reference
+    except ImportError:
+        from .post_write_recovery_authority import validate_prior_disposition, validate_reference
+    reference = validate_reference(value["reference"])
+    prior = validate_prior_disposition(value["prior_execution"])
+    composition = value["runtime_composition"]
+    require(isinstance(composition, dict)
+            and set(composition) == {"historical_sha", "runtime", "changed_paths",
+                                    "changed_paths_sha256", "preserved_surfaces_sha256"},
+            "AUTHORITY_COMPOSITION_FIELDS_INVALID")
+    for field in ("historical_sha",):
+        _digest(composition[field], 40, "AUTHORITY_" + field.upper())
+    for field in ("changed_paths_sha256", "preserved_surfaces_sha256"):
+        _digest(composition[field], 64, "AUTHORITY_" + field.upper())
+    paths = composition["changed_paths"]
+    require(isinstance(paths, list) and paths == sorted(set(paths)) and bool(paths)
+            and all(isinstance(path, str) and path for path in paths), "AUTHORITY_CHANGED_PATHS_INVALID")
+    runtime = composition["runtime"]
+    require(isinstance(runtime, dict)
+            and runtime.get("head_sha") == reference["approved_web_sha"], "AUTHORITY_RUNTIME_MISMATCH")
+    require(composition["historical_sha"] == reference["public_sha"], "AUTHORITY_SNAPSHOT_MISMATCH")
+    require(prior["run_id"] != reference["run_id"], "AUTHORITY_REPOSITORY_RUN_CROSSED")
+    return dict(value)
+
+
 def build_index(*, binding: dict[str, Any], run_id: int, run_attempt: int,
-                workflow_head_sha: str, canonical: Mapping[str, Any] | None = None) -> dict[str, Any]:
+                workflow_head_sha: str, canonical: Mapping[str, Any] | None = None,
+                authority: Mapping[str, Any] | None = None) -> dict[str, Any]:
     execution = {"run_id": run_id, "run_attempt": run_attempt, "workflow_head_sha": workflow_head_sha}
     owner = dict(canonical) if canonical is not None else {"run_id": run_id, "run_attempt": run_attempt}
     return validate_index({
@@ -140,16 +182,24 @@ def build_index(*, binding: dict[str, Any], run_id: int, run_attempt: int,
         "binding_sha256": sha256(canonical_bytes(validate_binding(binding))),
         "execution": execution, "canonical": owner,
         "role": "canonical" if run_key(owner) == run_key(execution) else "delegated",
+        "authority": dict(authority) if authority is not None else ordinary_authority(),
     })
 
 
-def validate_index(value: Any, *, expected_binding: Mapping[str, Any] | None = None) -> dict[str, Any]:
-    require(isinstance(value, dict) and set(value) == INDEX_FIELDS, "INDEX_FIELDS_INVALID")
-    require(value["contract"] == CONTRACT and value["version"] == VERSION, "CONTRACT_INVALID")
+def validate_index(value: Any, *, expected_binding: Mapping[str, Any] | None = None,
+                   expected_authority: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    require(isinstance(value, dict), "INDEX_FIELDS_INVALID")
+    legacy = value.get("version") == LEGACY_VERSION
+    require(set(value) == (LEGACY_INDEX_FIELDS if legacy else INDEX_FIELDS), "INDEX_FIELDS_INVALID")
+    require(value["contract"] == CONTRACT and value["version"] in {LEGACY_VERSION, VERSION},
+            "CONTRACT_INVALID")
     binding = validate_binding(value["binding"])
     require(value["binding_sha256"] == sha256(canonical_bytes(binding)), "BINDING_HASH_MISMATCH")
     if expected_binding is not None:
         require(binding == dict(expected_binding), "BINDING_MISMATCH")
+    authority = ordinary_authority() if legacy else validate_authority(value["authority"])
+    if expected_authority is not None:
+        require(authority == validate_authority(dict(expected_authority)), "AUTHORITY_MISMATCH")
     execution, owner = value["execution"], value["canonical"]
     require(isinstance(execution, dict) and set(execution) == EXECUTION_FIELDS, "EXECUTION_FIELDS_INVALID")
     require(isinstance(owner, dict) and set(owner) == RUN_FIELDS, "OWNER_FIELDS_INVALID")
@@ -176,7 +226,8 @@ def verify_github_index(index: dict[str, Any], *, run: Mapping[str, Any],
                         job: Mapping[str, Any], check_run: Mapping[str, Any],
                         annotations: list[dict[str, Any]], expected_binding: Mapping[str, Any],
                         workflow_id: int, expected_code_hashes: Mapping[str, str],
-                        actual_code_hashes: Mapping[str, str]) -> dict[str, Any]:
+                        actual_code_hashes: Mapping[str, str],
+                        expected_authority: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """Authenticate an index's execution provenance, NOT its Core signature.
 
     The index is only a digest/reference transported by GitHub Checks. Authority
@@ -184,7 +235,8 @@ def verify_github_index(index: dict[str, Any], *, run: Mapping[str, Any],
     authorised workflow source and GitHub's own run/job/step metadata together.
     A failed later deployment does not erase its authenticated canonical claim.
     """
-    value = validate_index(index, expected_binding=expected_binding)
+    value = validate_index(index, expected_binding=expected_binding,
+                           expected_authority=expected_authority)
     run_id, attempt = run_key(value["execution"])
     head = value["execution"]["workflow_head_sha"]
     prefix = "https://api.github.com/repos/" + WEB_REPOSITORY
@@ -243,7 +295,8 @@ def verify_github_index(index: dict[str, Any], *, run: Mapping[str, Any],
     return value
 
 
-def select_root(indices: list[dict[str, Any]], *, expected_binding: Mapping[str, Any]) -> dict[str, Any] | None:
+def select_root(indices: list[dict[str, Any]], *, expected_binding: Mapping[str, Any],
+                expected_authority: Mapping[str, Any] | None = None) -> dict[str, Any] | None:
     """Choose an explicit unique authority graph, never chronology or greenness.
 
     All supplied indices MUST already have passed GitHub metadata/code/step
@@ -256,7 +309,8 @@ def select_root(indices: list[dict[str, Any]], *, expected_binding: Mapping[str,
         value = validate_index(candidate)
         if value["binding"]["public_sha"] != expected_binding["public_sha"]:
             continue
-        validate_index(value, expected_binding=expected_binding)
+        validate_index(value, expected_binding=expected_binding,
+                       expected_authority=expected_authority)
         key = run_key(value["execution"])
         require(key not in relevant or relevant[key] == value, "CONTRADICTORY_EXECUTION")
         relevant[key] = value

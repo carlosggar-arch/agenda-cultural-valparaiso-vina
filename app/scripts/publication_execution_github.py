@@ -84,7 +84,8 @@ class GithubReader:
             self._code_cache[sha] = self.code_resolver(sha, CODE_PATHS)
         return self._code_cache[sha]
 
-    def observations(self, expected_binding: dict, not_before: str, exclude_run=None) -> dict:
+    def observations(self, expected_binding: dict, not_before: str, exclude_run=None,
+                     expected_authority: dict | None = None) -> dict:
         binding_contract.validate_binding(expected_binding)
         lower = timestamp(not_before)
         workflow = self.api(f"{self.prefix}/actions/workflows/publish.yml")
@@ -145,14 +146,21 @@ class GithubReader:
                     waiting = True
                     continue
                 actual_binding = index["binding"]
-                expected_code = self.code_hashes(actual_binding["parent_sha"])
-                binding_contract.require(self.code_hashes(actual_binding["public_sha"]) == expected_code,
-                                         "UNAUTHORISED_CANDIDATE_CODE")
+                authority = binding_contract.validate_authority(
+                    index.get("authority", binding_contract.ordinary_authority()))
+                if authority["mode"] == "post_write_recovery":
+                    expected_code = self.code_hashes(authority["reference"]["approved_web_sha"])
+                else:
+                    expected_code = self.code_hashes(actual_binding["parent_sha"])
+                    binding_contract.require(self.code_hashes(actual_binding["public_sha"]) == expected_code,
+                                             "UNAUTHORISED_CANDIDATE_CODE")
                 binding_contract.verify_github_index(
                     index, run=run, job=job, check_run=check, annotations=annotations,
                     expected_binding=actual_binding, workflow_id=workflow["id"],
                     expected_code_hashes=expected_code,
                     actual_code_hashes=self.code_hashes(run["head_sha"]),
+                    expected_authority=(expected_authority
+                                        if actual_binding["public_sha"] == expected_binding["public_sha"] else None),
                 )
                 found = True
                 if actual_binding["public_sha"] != expected_binding["public_sha"]:
@@ -168,3 +176,34 @@ class GithubReader:
                 # callers must use its actual conclusion, never another green.
                 pass
         return output
+
+    def validate_prior_disposition(self, disposition: dict) -> dict:
+        try:
+            from .post_write_recovery_authority import (
+                validate_prior_disposition, validate_prior_metadata,
+            )
+        except ImportError:
+            from post_write_recovery_authority import (
+                validate_prior_disposition, validate_prior_metadata,
+            )
+        value = validate_prior_disposition(disposition)
+        run_id, attempt = value["run_id"], value["run_attempt"]
+        run = self.api(f"{self.prefix}/actions/runs/{run_id}")
+        jobs = self.api(f"{self.prefix}/actions/runs/{run_id}/attempts/{attempt}/jobs?per_page=100")
+        validate_prior_metadata(prior=value, run=run, jobs=jobs)
+        sync = next(row for row in jobs["jobs"] if row.get("name") == "sync-cloudflare")
+        endpoint = str(sync.get("check_run_url") or "").removeprefix("https://api.github.com/")
+        annotations = self.pages(endpoint + "/annotations")
+        binding_contract.require(
+            not any(row.get("title") == binding_contract.NOTICE_TITLE for row in annotations),
+            "PRIOR_AUTHORITY_WAS_EMITTED")
+        artifact = self.api(f"{self.prefix}/actions/artifacts/{value['artifact']['id']}")
+        binding_contract.require(
+            artifact.get("id") == value["artifact"]["id"]
+            and artifact.get("name") == value["artifact"]["name"]
+            and artifact.get("digest") == value["artifact"]["digest"]
+            and artifact.get("expired") is False
+            and (artifact.get("workflow_run") or {}).get("id") == run_id
+            and (artifact.get("workflow_run") or {}).get("head_sha") == value["workflow_head_sha"],
+            "PRIOR_ARTIFACT_IDENTITY_MISMATCH")
+        return value
