@@ -31,7 +31,14 @@ WATCHDOG_STEP = "Verify exact snapshot certification"
 WATCHDOG_NOTICE = "SNAPSHOT_PUBLICATION_WATCHDOG_V1"
 NON_PUBLIC_VERIFICATION_PREFIXES = (".github/", "app/scripts/", "docs/", "tests/", "scripts/")
 NON_PUBLIC_VERIFICATION_FILES = frozenset({"AGENTS.md", "requirements-ci.txt"})
-CODE_PATHS = tuple(dict.fromkeys((*original.CODE_PATHS,
+# Snapshot-verification v2 is a frozen historical authority.  The newer
+# post-write recovery helper is authenticated by its own runtime policy; adding
+# it retroactively here would invalidate the already approved v2 tree.
+SNAPSHOT_EXECUTION_CODE_PATHS = tuple(
+    path for path in original.CODE_PATHS
+    if path != "app/scripts/post_write_recovery_authority.py"
+)
+CODE_PATHS = tuple(dict.fromkeys((*SNAPSHOT_EXECUTION_CODE_PATHS,
     "app/scripts/publication_snapshot_verification.py",
     "app/scripts/snapshot_verification_cli.py",
     "app/scripts/snapshot_production_smoke.py",

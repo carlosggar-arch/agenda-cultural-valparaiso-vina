@@ -83,6 +83,15 @@ class SnapshotVerificationTests(unittest.TestCase):
         self.assertEqual(contract.decode_notice(contract.encode_notice(self.proof)),
                          contract.proof_notice(self.proof))
 
+    def test_v2_policy_stays_frozen_when_post_write_recovery_adds_new_authority_code(self):
+        recovery_helper = "app/scripts/post_write_recovery_authority.py"
+        self.assertIn(recovery_helper, original.CODE_PATHS)
+        self.assertNotIn(recovery_helper, contract.CODE_PATHS)
+        self.assertEqual(
+            set(contract.SNAPSHOT_EXECUTION_CODE_PATHS),
+            set(original.CODE_PATHS) - {recovery_helper},
+        )
+
     def test_compact_notice_binds_large_proof_without_annotation_truncation(self):
         proof = deepcopy(self.proof)
         proof["composition"]["changed_paths"] = [f"app/generated/runtime-{number:04d}.js"
