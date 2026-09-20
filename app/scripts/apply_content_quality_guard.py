@@ -564,6 +564,61 @@ def official_occurrence_expiration(event: dict, reference: date) -> dict | None:
         "scheduled_start": clean_space(schedule.get("start")) or None,
         "provenance": copy.deepcopy(event.get("provenance") or {}),
     }
+
+
+def official_session_rectification_expiration(
+    event: dict, baseline_event: dict | None, reference: date
+) -> dict | None:
+    """Bind an expired single session to the exact schedule it corrected.
+
+    Official event pages sometimes describe a programme in prose while their
+    event body identifies one concrete session.  The enricher keeps both the
+    previous public schedule and the scoped official evidence.  Preserve that
+    complete chain when the corrected session is already past; the downstream
+    preservation guard can then prove that an apparently future baseline was
+    rectified before it was expired.
+    """
+    if not isinstance(baseline_event, dict):
+        return None
+    provenance = event.get("provenance") if isinstance(event.get("provenance"), dict) else {}
+    official = provenance.get("official_schedule")
+    if not isinstance(official, dict):
+        return None
+    if official.get("method") != "official_event_session_scope" or official.get("kind") != "single_session":
+        return None
+    source = source_url(event).rstrip("/")
+    baseline_source = source_url(baseline_event).rstrip("/")
+    if not source or source != baseline_source or clean_space(official.get("source_url")).rstrip("/") != source:
+        return None
+    previous = official.get("previous_schedule")
+    if not isinstance(previous, dict) or previous != (baseline_event.get("schedule") or {}):
+        return None
+    if not isinstance(official.get("session_evidence"), list) or not official["session_evidence"]:
+        return None
+    try:
+        occurrence_date = date.fromisoformat(clean_space(official.get("event_date")))
+    except (TypeError, ValueError):
+        return None
+    schedule = event.get("schedule") if isinstance(event.get("schedule"), dict) else {}
+    if (
+        occurrence_date >= reference
+        or parse_schedule_date(schedule.get("start")) != occurrence_date
+        or schedule.get("occurrences")
+        or schedule.get("mode") not in {"dated", "single"}
+    ):
+        return None
+    return {
+        "official_occurrence_date": occurrence_date.isoformat(),
+        "source_url": source_url(event),
+        "schedule_rectification": {
+            "contract": "official-single-session-schedule-rectification/1",
+            "before_schedule": copy.deepcopy(previous),
+            "after_schedule": copy.deepcopy(schedule),
+            "official_schedule": copy.deepcopy(official),
+        },
+    }
+
+
 def reference_date(dataset: dict) -> date | None:
     value = clean_space(dataset.get("publication_date"))
     try:
@@ -1029,16 +1084,21 @@ def apply_guard(
                 continue
             keep, removed_moments = prune_expired_schedule(event, publication_day)
             if not keep:
+                rectification_evidence = official_session_rectification_expiration(
+                    event, (baseline_by_id or {}).get(event_id), publication_day
+                )
                 changes["expired_removed"].append({
                     "id": event_id,
                     "title": event.get("title"),
                     "reason": "schedule_ended_before_publication_date",
+                    **(rectification_evidence or {}),
                 })
                 append_baseline_receipt(ledger, make_receipt(
                     stage="content_quality_guard", action="expiration",
                     reason="schedule_ended_before_publication_date", source_event=event,
                     canonical_event_id=None,
                     destination={"state": "expired", "canonical_event_id": None},
+                    evidence=rectification_evidence,
                 ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
                 continue
             if removed_moments:

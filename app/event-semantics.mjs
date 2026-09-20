@@ -115,6 +115,11 @@ export function buildEventSemantics(event = {}) {
     : classification.category.id;
 
   return {
+    // Keep the source evidence used for classification. Descriptions may be
+    // excerpts; a later normalization must still see the complete source text.
+    ...(event?.semantics && typeof event.semantics === "object" && !Array.isArray(event.semantics)
+      ? event.semantics
+      : {}),
     schema_version: EVENT_SEMANTICS.schema_version,
     category: classification.category,
     classification_state: primaryDomain ? "classified" : "unclassified",

@@ -192,6 +192,9 @@ def build_event_semantics(event: dict[str, Any] | None = None) -> dict[str, Any]
     )
 
     return {
+        # Keep source evidence when rebuilding derived semantics. The public
+        # description can be shorter than the evidence used by classification.
+        **(event["semantics"] if isinstance(event.get("semantics"), dict) else {}),
         "schema_version": EVENT_SEMANTICS["schema_version"],
         "category": classification["category"],
         "classification_state": "classified" if primary_domain else "unclassified",

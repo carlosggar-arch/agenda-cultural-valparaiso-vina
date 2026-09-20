@@ -74,7 +74,8 @@ def main() -> None:
     # The same authenticated consumer owns both entry points; execute its
     # signature-policy/semantic regressions, not just a shell substring check.
     for route in (sync, production):
-        assert "python app/scripts/verify_core_publication_bundle.py" in route
+        assert 'test "$(git -C .lineage-verifier rev-parse HEAD)" = "$GITHUB_SHA"' in route
+        assert "python .lineage-verifier/app/scripts/verify_core_publication_bundle.py" in route
         assert '--event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA"' in route
         assert '--repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage' in route
     # The deployment branch keeps its history while adopting the immutable
@@ -138,7 +139,9 @@ def main() -> None:
     assert "python app/scripts/test_web_pwa_visibility_parity.py" in production
     assert "--production" in production and "--json-output" in production
     assert "Create auditable production release attestation" in production
-    assert "python app/scripts/production_release_attestation.py" in production
+    assert "attestation_script=app/scripts/production_release_attestation.py" in production
+    assert "attestation_script=.lineage-verifier/app/scripts/production_release_attestation.py" in production
+    assert 'python "$attestation_script"' in production
     assert "production-release-attestation.json" in production
     assert "grep -q '^PRODUCTION_RELEASE_VERIFIED '" in production
     assert "Certify exact source-to-production chain" in production

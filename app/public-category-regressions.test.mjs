@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import "./editorial-category-evidence.test.mjs";
+import { readFileSync } from "node:fs";
 import { resolvePublicCategory } from "./public-category-rules.mjs";
 import { deduplicateCrossSourceDataset } from "./cross-source-deduplication.mjs";
+import { normalizeAgendaCategories } from "./category-normalizer.js";
 
 function event(title, primary, { tags = [], description = "", venue = "", city = "Gijón" } = {}) {
   return {
@@ -158,5 +161,32 @@ expectCategory("merged category consensus beats prose-topic drift", {
     ],
   },
 }, "teatro");
+
+const editorialFixtures = JSON.parse(readFileSync(
+  new URL("../shared/editorial-category-evidence-fixtures.json", import.meta.url), "utf8",
+));
+const unrelated = editorialFixtures.cases
+  .filter((fixture) => fixture.kind === "published_caption")
+  .map((fixture) => fixture.event);
+const duplicate = {
+  title: "Concierto de prueba de reconciliación",
+  event_type: "event",
+  location: { venue: "Sala de prueba", city: "Valparaíso" },
+  schedule: { start: "2026-10-11T19:00:00-03:00", end: "2026-10-11T19:00:00-03:00" },
+  primary_category: { id: "musica", label: "Música" },
+};
+const firstPass = normalizeAgendaCategories({ events: [
+  ...unrelated,
+  { ...duplicate, id: "control-a", source_id: "source-a" },
+  { ...duplicate, id: "control-b", source_id: "source-b" },
+] });
+const deduped = deduplicateCrossSourceDataset(firstPass);
+assert.equal(deduped.events.length, firstPass.events.length - 1, "the control pair must merge");
+for (const before of firstPass.events.filter((item) => !item.id.startsWith("control-"))) {
+  const after = deduped.events.find((item) => item.id === before.id);
+  assert.ok(after, `${before.title}: unrelated event stays present`);
+  assert.deepEqual(after.primary_category, before.primary_category, `${before.title}: unrelated merge keeps category`);
+  assert.deepEqual(after.semantics, before.semantics, `${before.title}: unrelated merge keeps full semantic evidence`);
+}
 
 console.log("PUBLIC_CATEGORY_JS_REGRESSIONS_OK");
