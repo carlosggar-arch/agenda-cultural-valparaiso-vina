@@ -367,14 +367,16 @@ class BundleConsumerTests(unittest.TestCase):
 
     def test_workflow_both_jobs_authenticate_before_writes_and_semantic_validation_remains(self):
         workflow = (Path(__file__).resolve().parents[2] / ".github/workflows/publish.yml").read_text()
-        self.assertEqual(workflow.count("python app/scripts/verify_core_publication_bundle.py"), 2)
+        self.assertEqual(workflow.count("python .lineage-verifier/app/scripts/verify_core_publication_bundle.py"), 2)
+        self.assertEqual(workflow.count("Checkout trusted lineage verifier"), 2)
+        self.assertEqual(workflow.count('test "$(git -C .lineage-verifier rev-parse HEAD)" = "$GITHUB_SHA"'), 2)
         self.assertEqual(workflow.count('--event "$GITHUB_EVENT_PATH"'), 2)
         self.assertEqual(workflow.count("permission-actions: read"), 2)
         self.assertEqual(workflow.count("repositories: agenda-cultural-core"), 2)
         self.assertEqual(workflow.count("CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}"), 2)
         self.assertNotIn("permission-actions: write", workflow)
         self.assertNotIn("gh attestation verify", workflow)
-        self.assertLess(workflow.index("python app/scripts/verify_core_publication_bundle.py"),
+        self.assertLess(workflow.index("python .lineage-verifier/app/scripts/verify_core_publication_bundle.py"),
                         workflow.index("git push origin HEAD:cloudflare-preview"))
         # Authentication still runs in both jobs. The same original inputs
         # now reach all three semantic closes, including the final chain.
