@@ -233,7 +233,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           path: .lineage-verifier
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Mint read-only Core artifact token
@@ -252,13 +252,15 @@ jobs:
         id: core-lineage
         env:
           CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}
+          WEB_ARTIFACT_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           test "$(git -C .lineage-verifier rev-parse HEAD)" = "$GITHUB_SHA"
           python .lineage-verifier/app/scripts/verify_core_publication_bundle.py \
             --event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA" \
-            --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage
+            --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage \
+            --web-artifact-token-env WEB_ARTIFACT_TOKEN
 
       - name: Preserve Core lineage transport evidence
         if: always() && github.event_name == 'repository_dispatch'
@@ -294,8 +296,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python app/scripts/publication_execution_routing.py \
-            --decision /tmp/publication-release-decision/decision.json --github-output "$GITHUB_OUTPUT"
+          routing=app/scripts/publication_execution_routing.py
+          runtime_args=()
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            routing=.lineage-verifier/app/scripts/publication_execution_routing.py
+            runtime_args+=(--runtime-root .lineage-verifier)
+          fi
+          python "$routing" --root "$GITHUB_WORKSPACE" \
+            --decision /tmp/publication-release-decision/decision.json --github-output "$GITHUB_OUTPUT" \
+            "${runtime_args[@]}"
 
       - name: Preserve verified deployment routing evidence
         uses: actions/upload-artifact@v6
@@ -475,7 +484,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           path: .lineage-verifier
-          fetch-depth: 1
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Mint read-only Core artifact token
@@ -493,13 +502,15 @@ jobs:
         if: github.event_name == 'repository_dispatch'
         env:
           CORE_ARTIFACT_TOKEN: ${{ steps.core-artifact-token.outputs.token }}
+          WEB_ARTIFACT_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           test "$(git -C .lineage-verifier rev-parse HEAD)" = "$GITHUB_SHA"
           python .lineage-verifier/app/scripts/verify_core_publication_bundle.py \
             --event "$GITHUB_EVENT_PATH" --expected-public-sha "$CANDIDATE_SHA" \
-            --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage
+            --repository "$GITHUB_WORKSPACE" --output-dir /tmp/core-publication-lineage \
+            --web-artifact-token-env WEB_ARTIFACT_TOKEN
           mkdir -p /tmp/production-release-verification
           cp -R /tmp/core-publication-lineage /tmp/production-release-verification/core-publication-lineage
 
@@ -510,7 +521,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python app/scripts/publication_execution_routing.py \
+          python .lineage-verifier/app/scripts/publication_execution_routing.py \
+            --root "$GITHUB_WORKSPACE" --runtime-root .lineage-verifier \
+            --lineage-dir /tmp/core-publication-lineage \
             --restore-index "$CORE_EXECUTION_INDEX" --output-dir /tmp/production-release-verification
 
       - name: Set up Python
@@ -627,7 +640,11 @@ jobs:
           if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
             execution_args+=(--core-execution-index /tmp/production-release-verification/core-execution.json)
           fi
-          python app/scripts/production_release_attestation.py \
+          attestation_script=app/scripts/production_release_attestation.py
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            attestation_script=.lineage-verifier/app/scripts/production_release_attestation.py
+          fi
+          python "$attestation_script" \
             "${execution_args[@]}" \
             --http-log /tmp/production-release-verification/http.log \
             --browser-log /tmp/production-release-verification/browser.log \
@@ -651,7 +668,11 @@ jobs:
             lineage_args+=(--core-attestation /tmp/core-publication-lineage/attestation.json)
             lineage_args+=(--core-receipt /tmp/core-publication-lineage/receipt.json)
           fi
-          python app/scripts/production_release_chain.py \
+          chain_script=app/scripts/production_release_chain.py
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            chain_script=.lineage-verifier/app/scripts/production_release_chain.py
+          fi
+          python "$chain_script" \
             "${lineage_args[@]}" \
             --cloudflare-ref origin/cloudflare-preview \
             --attestation /tmp/production-release-verification/production-release-attestation.json \
@@ -678,7 +699,11 @@ jobs:
         run: |
           set -euo pipefail
           attestation=/tmp/production-release-verification/production-release-attestation.json
-          python app/scripts/production_certification_history.py \
+          history_script=app/scripts/production_certification_history.py
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            history_script=.lineage-verifier/app/scripts/production_certification_history.py
+          fi
+          python "$history_script" \
             --attestation "$attestation" \
             --state-root .production-certification-state
           release="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["release"])' "$attestation")"

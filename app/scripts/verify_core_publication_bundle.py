@@ -26,6 +26,11 @@ import zipfile
 from core_publication_lineage import (
     CANONICAL_WRITER, CORE_REPOSITORY, CoreLineageError, validate as validate_core_lineage,
 )
+from post_write_recovery_authority import (
+    PROOF_ARTIFACT_PREFIX, PRIOR_ARTIFACT_PREFIX, canonical_bytes as recovery_bytes,
+    sha256 as recovery_sha256, validate_prior_disposition, validate_prior_metadata,
+    validate_proof as validate_recovery_proof, validate_reference as validate_recovery_reference,
+)
 
 # The Core writer reads this literal capability from its immutable Web baseline.
 LINEAGE_TRANSPORT = "github-sigstore-bundle-v1"
@@ -43,6 +48,7 @@ REFERENCE_LEGACY_FIELDS = REFERENCE_IDENTITY_FIELDS | {
     "attestation_sha256", "receipt_sha256", "sigstore_bundle_sha256",
 }
 REFERENCE_FIELDS = REFERENCE_IDENTITY_FIELDS | {"content_hashes"}
+REFERENCE_RECOVERY_FIELDS = REFERENCE_FIELDS | {"recovery_authority"}
 REFERENCE_HASH_FIELDS = {"attestation", "receipt", "sigstore_bundle"}
 FINALIZER_WORKFLOW = ".github/workflows/finalize-public-agenda.yml"
 PROOF_FILES = {
@@ -129,7 +135,8 @@ def _request(url: str, token: str, *, json_response: bool) -> Any:
 
 def _require_reference_index(payload: dict[str, Any]) -> dict[str, str]:
     fields = set(payload)
-    require(fields in (REFERENCE_FIELDS, REFERENCE_LEGACY_FIELDS), "PAYLOAD_FIELDS_INVALID")
+    require(fields in (REFERENCE_FIELDS, REFERENCE_RECOVERY_FIELDS, REFERENCE_LEGACY_FIELDS),
+            "PAYLOAD_FIELDS_INVALID")
     require(payload.get("lineage_transport") == LINEAGE_REFERENCE_TRANSPORT, "TRANSPORT_UNSUPPORTED")
     require(payload.get("artifact_repository") == CORE_REPOSITORY, "ARTIFACT_REPOSITORY_MISMATCH")
     for field in ("artifact_run_id", "artifact_run_attempt", "artifact_id"):
@@ -139,7 +146,7 @@ def _require_reference_index(payload: dict[str, Any]) -> dict[str, str]:
             "ARTIFACT_NAME_INVALID")
     require(re.fullmatch(r"sha256:[0-9a-f]{64}", str(payload.get("artifact_digest") or "")) is not None,
             "ARTIFACT_DIGEST_INVALID")
-    if fields == REFERENCE_FIELDS:
+    if fields in (REFERENCE_FIELDS, REFERENCE_RECOVERY_FIELDS):
         hashes = payload.get("content_hashes")
         require(isinstance(hashes, dict) and set(hashes) == REFERENCE_HASH_FIELDS,
                 "CONTENT_HASH_FIELDS_INVALID")
@@ -153,6 +160,35 @@ def _require_reference_index(payload: dict[str, Any]) -> dict[str, str]:
         require(re.fullmatch(r"[0-9a-f]{64}", str(hashes.get(field) or "")) is not None,
                 "CONTENT_HASH_INVALID:" + field)
     return hashes
+
+
+def _artifact_metadata(reference: dict[str, Any], *, token: str, repository: str,
+                       output_dir: Path) -> tuple[dict[str, Any], dict[str, Any], bytes]:
+    api = "https://api.github.com/repos/" + repository
+    artifact = _request(api + "/actions/artifacts/" + str(reference["artifact_id"]), token,
+                        json_response=True)
+    require(isinstance(artifact, dict), "ARTIFACT_METADATA_INVALID")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "artifact-metadata.json").write_text(
+        json.dumps(artifact, sort_keys=True) + "\n", encoding="utf-8")
+    require(artifact.get("id") == reference["artifact_id"], "ARTIFACT_ID_MISMATCH")
+    require(artifact.get("name") == reference["artifact_name"], "ARTIFACT_NAME_MISMATCH")
+    require(artifact.get("expired") is False, "ARTIFACT_EXPIRED")
+    require(artifact.get("digest") == reference["artifact_digest"], "ARTIFACT_DIGEST_MISMATCH")
+    workflow_run = artifact.get("workflow_run")
+    require(isinstance(workflow_run, dict) and workflow_run.get("id") == reference["run_id"],
+            "ARTIFACT_RUN_MISMATCH")
+    run = _request(api + "/actions/runs/" + str(reference["run_id"]), token,
+                   json_response=True)
+    require(isinstance(run, dict), "ARTIFACT_RUN_METADATA_INVALID")
+    (output_dir / "run-metadata.json").write_text(
+        json.dumps(run, sort_keys=True) + "\n", encoding="utf-8")
+    require(run.get("id") == reference["run_id"]
+            and run.get("run_attempt") == reference["run_attempt"], "ARTIFACT_ATTEMPT_MISMATCH")
+    archive = _request(api + "/actions/artifacts/" + str(reference["artifact_id"]) + "/zip",
+                       token, json_response=False)
+    (output_dir / "artifact.zip").write_bytes(archive)
+    return artifact, run, archive
 
 
 def download_reference(*, payload: dict[str, Any], output_dir: Path, token: str) -> tuple[bytes, bytes, bytes, dict[str, Any]]:
@@ -202,6 +238,126 @@ def download_reference(*, payload: dict[str, Any], output_dir: Path, token: str)
     return attestation, receipt, bundle, run
 
 
+def download_recovery_authority(*, reference: dict[str, Any], output_dir: Path,
+                                core_token: str, web_token: str,
+                                attestation: bytes, receipt: bytes, bundle: bytes) -> dict[str, Any]:
+    """Authenticate the recovery run and dispose one exact pre-index Web failure."""
+    value = validate_recovery_reference(reference)
+    artifact, run, archive = _artifact_metadata(
+        {
+            "artifact_id": value["artifact_id"], "artifact_name": value["artifact_name"],
+            "artifact_digest": value["artifact_digest"], "run_id": value["run_id"],
+            "run_attempt": value["run_attempt"],
+        }, token=core_token, repository=value["repository"], output_dir=output_dir / "core-recovery")
+    require((run.get("repository") or {}).get("full_name") == CORE_REPOSITORY
+            and (run.get("head_repository") or {}).get("full_name") == CORE_REPOSITORY
+            and run.get("path") == FINALIZER_WORKFLOW and run.get("event") == "workflow_dispatch"
+            and run.get("head_branch") == "main" and run.get("head_sha") == value["core_sha"]
+            and run.get("status") in {"in_progress", "completed"}, "RECOVERY_RUN_IDENTITY_INVALID")
+    try:
+        with zipfile.ZipFile(io.BytesIO(archive)) as zipped:
+            names = {name for name in zipped.namelist() if not name.endswith("/")}
+            require("proof.json" in names, "RECOVERY_PROOF_MISSING")
+            proof_raw = zipped.read("proof.json")
+    except (zipfile.BadZipFile, KeyError, OSError) as exc:
+        raise BundleVerificationError("CORE_LINEAGE_BUNDLE_RECOVERY_ARCHIVE_INVALID") from exc
+    proof = validate_recovery_proof(parse_json(proof_raw))
+    validate_recovery_reference(value, proof=proof)
+    require(recovery_sha256(recovery_bytes(proof)) == value["proof_sha256"],
+            "RECOVERY_PROOF_HASH_MISMATCH")
+    require(value["approved_web_sha"] == os.environ.get("GITHUB_SHA"),
+            "RECOVERY_RUNTIME_NOT_APPROVED")
+    hashes = proof["content_hashes"]
+    require(hashes["attestation"] == _sha256(attestation)
+            and hashes["receipt"] == _sha256(receipt)
+            and hashes["sigstore_bundle"] == _sha256(bundle),
+            "RECOVERY_ORIGINAL_BYTES_MISMATCH")
+
+    core_api = "https://api.github.com/repos/" + CORE_REPOSITORY
+    jobs = _request(core_api + f"/actions/runs/{value['run_id']}/attempts/{value['run_attempt']}/jobs?per_page=100",
+                    core_token, json_response=True)
+    require(isinstance(jobs, dict) and isinstance(jobs.get("jobs"), list),
+            "RECOVERY_JOBS_INVALID")
+    recovery_jobs = [row for row in jobs["jobs"] if row.get("name") == "resume-written-lineage"]
+    require(len(recovery_jobs) == 1 and recovery_jobs[0].get("run_id") == value["run_id"]
+            and recovery_jobs[0].get("run_attempt") == value["run_attempt"]
+            and recovery_jobs[0].get("head_sha") == value["core_sha"],
+            "RECOVERY_JOB_IDENTITY_INVALID")
+    recovery_steps = {row.get("name"): row for row in recovery_jobs[0].get("steps") or []}
+    for name in (
+        "Prove post-write failure and build bounded retransmission",
+        "Verify exact proof cryptographically before retransmission",
+        "Preserve recovery evidence before external dispatch",
+        "Bind authenticated recovery authority",
+        "Preserve authenticated recovery dispatch",
+    ):
+        row = recovery_steps.get(name) or {}
+        require(row.get("status") == "completed" and row.get("conclusion") == "success",
+                "RECOVERY_REQUIRED_STEP_NOT_SUCCESS:" + name)
+
+    prior = proof["prior_web_execution"]
+    web_api = "https://api.github.com/repos/" + WEB_REPOSITORY
+    prior_run = _request(web_api + "/actions/runs/" + str(prior["run_id"]), web_token,
+                         json_response=True)
+    prior_jobs = _request(
+        web_api + f"/actions/runs/{prior['run_id']}/attempts/{prior['run_attempt']}/jobs?per_page=100",
+        web_token, json_response=True)
+    validate_prior_metadata(prior=prior, run=prior_run, jobs=prior_jobs)
+    sync = next(row for row in prior_jobs["jobs"] if row.get("name") == "sync-cloudflare")
+    check_url = str(sync.get("check_run_url") or "")
+    require(check_url.startswith(web_api + "/check-runs/"), "PRIOR_CHECK_URL_INVALID")
+    annotations = _request(check_url + "/annotations?per_page=100", web_token, json_response=True)
+    require(isinstance(annotations, list)
+            and not any(row.get("title") == "CORE_PUBLICATION_EXECUTION_V1" for row in annotations),
+            "PRIOR_AUTHORITY_WAS_EMITTED")
+    artifacts = _request(web_api + f"/actions/runs/{prior['run_id']}/artifacts?per_page=100",
+                         web_token, json_response=True)
+    expected_name = f"{PRIOR_ARTIFACT_PREFIX}{prior['run_id']}-{prior['run_attempt']}-sync"
+    matches = [row for row in (artifacts.get("artifacts") or []) if row.get("name") == expected_name]
+    require(len(matches) == 1 and matches[0].get("expired") is False,
+            "PRIOR_ARTIFACT_MISSING_OR_AMBIGUOUS")
+    prior_artifact = matches[0]
+    prior_reference = {
+        "artifact_id": prior_artifact.get("id"), "artifact_name": expected_name,
+        "artifact_digest": prior_artifact.get("digest"), "run_id": prior["run_id"],
+        "run_attempt": prior["run_attempt"],
+    }
+    _, artifact_run, prior_archive = _artifact_metadata(
+        prior_reference, token=web_token, repository=WEB_REPOSITORY,
+        output_dir=output_dir / "prior-web-execution")
+    require(artifact_run.get("head_sha") == prior["workflow_head_sha"],
+            "PRIOR_ARTIFACT_HEAD_MISMATCH")
+    try:
+        with zipfile.ZipFile(io.BytesIO(prior_archive)) as zipped:
+            names = {name for name in zipped.namelist() if not name.endswith("/")}
+            require({"attestation.json", "receipt.json", "bundle.json"}.issubset(names),
+                    "PRIOR_ARTIFACT_FILES_INVALID")
+            prior_lineage = zipped.read("attestation.json")
+            prior_receipt = zipped.read("receipt.json")
+            prior_bundle = zipped.read("bundle.json")
+    except (zipfile.BadZipFile, KeyError, OSError) as exc:
+        raise BundleVerificationError("CORE_LINEAGE_BUNDLE_PRIOR_ARCHIVE_INVALID") from exc
+    prior_hashes = {
+        "attestation": _sha256(prior_lineage), "receipt": _sha256(prior_receipt),
+        "sigstore_bundle": _sha256(prior_bundle),
+    }
+    require(prior_hashes == {"attestation": _sha256(attestation), "receipt": _sha256(receipt),
+                             "sigstore_bundle": _sha256(bundle)},
+            "PRIOR_ARTIFACT_ORIGINAL_BYTES_MISMATCH")
+    disposition = validate_prior_disposition({
+        **prior,
+        "artifact": {"id": prior_artifact["id"], "name": expected_name,
+                     "digest": prior_artifact["digest"]},
+        "content_hashes": prior_hashes,
+        "authority_emitted": False,
+        "deployment_started": False,
+    })
+    result = {"reference": value, "proof": proof, "prior_execution": disposition}
+    (output_dir / "recovery-authority.json").write_text(
+        json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
 def verify_certificate_policy(result: Any, lineage: dict[str, Any]) -> None:
     """Only consume gh's successfully verified certificate, never the predicate."""
     require(isinstance(result, list) and len(result) == 1, "VERIFIER_RESULT_AMBIGUOUS")
@@ -234,7 +390,8 @@ def verify_certificate_policy(result: Any, lineage: dict[str, Any]) -> None:
 
 
 def verify_event(*, event: dict[str, Any], expected_public_sha: str,
-                 repository: Path, output_dir: Path, artifact_token: str = "") -> dict[str, str]:
+                 repository: Path, output_dir: Path, artifact_token: str = "",
+                 web_artifact_token: str = "") -> dict[str, Any]:
     repository, output_dir = repository.resolve(), output_dir.resolve()
     require(isinstance(event, dict), "EVENT_INVALID")
     payload = event.get("client_payload")
@@ -311,10 +468,23 @@ def verify_event(*, event: dict[str, Any], expected_public_sha: str,
     # A signed but semantically crossed receipt, public SHA or bundle is invalid.
     validate_core_lineage(attestation_bytes=attestation, receipt_bytes=receipt,
                           repository=repository, expected_public_sha=expected_public_sha)
+    recovery = None
+    if reference and "recovery_authority" in payload:
+        recovery = download_recovery_authority(
+            reference=payload["recovery_authority"], output_dir=output_dir,
+            core_token=artifact_token, web_token=web_artifact_token,
+            attestation=attestation, receipt=receipt, bundle=bundle,
+        )
     if modern:
         (output_dir / "verification.json").write_bytes(result.stdout)
-    return {"transport": transport if modern else "legacy-github-attestation-api",
-            "public_sha": expected_public_sha, "core_sha": lineage["core_sha"]}
+    response: dict[str, Any] = {
+        "transport": transport if modern else "legacy-github-attestation-api",
+        "public_sha": expected_public_sha, "core_sha": lineage["core_sha"],
+    }
+    if recovery is not None:
+        response["recovery_authority_sha256"] = _sha256(
+            (output_dir / "recovery-authority.json").read_bytes())
+    return response
 
 
 def main() -> int:
@@ -324,12 +494,14 @@ def main() -> int:
     parser.add_argument("--repository", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--artifact-token-env", default="CORE_ARTIFACT_TOKEN")
+    parser.add_argument("--web-artifact-token-env", default="GITHUB_TOKEN")
     args = parser.parse_args()
     try:
         result = verify_event(event=parse_json(args.event.read_bytes()),
                               expected_public_sha=args.expected_public_sha,
                               repository=args.repository, output_dir=args.output_dir,
-                              artifact_token=os.environ.get(args.artifact_token_env, ""))
+                              artifact_token=os.environ.get(args.artifact_token_env, ""),
+                              web_artifact_token=os.environ.get(args.web_artifact_token_env, ""))
     except (BundleVerificationError, CoreLineageError, OSError, ValueError, subprocess.SubprocessError) as exc:
         args.output_dir.mkdir(parents=True, exist_ok=True)
         (args.output_dir / "transport-result.json").write_text(
