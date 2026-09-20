@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import runpy
 import sys
 from pathlib import Path
 
@@ -181,6 +182,7 @@ def main():
         "teatro",
     )
     audit_current_theatre_conflicts()
+    runpy.run_path(str(ROOT / "tests" / "test_editorial_category_evidence.py"))["main"]()
     print("PUBLIC_CATEGORY_REGRESSIONS_OK")
 
 

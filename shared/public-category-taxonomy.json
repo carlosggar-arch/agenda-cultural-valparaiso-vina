@@ -222,7 +222,7 @@
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautores?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
+        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautor(?:es)?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|cancion(?:es)?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
         "weight": 35
       },
       {
@@ -232,7 +232,7 @@
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:obra de teatro|pieza teatral|teatral|danza|ballet|circo|escenicas|performance|funcion teatral|comedia musical|teatro musical|obra musical|espectaculo musical|monologo|stand up|humor|comedia|show de magia|espectaculo de magia|ilusionismo|mago|maga|ilusionista)\\b",
+        "pattern": "\\b(?:obra de teatro|pieza teatral|teatral(?:es)?|danza|ballet|circo|escenic[oa]s?|performance|funcion teatral|comedia musical|teatro musical|obra musical|espectaculo musical|monologo|stand up|humor|comedia|show de magia|espectaculo de magia|ilusionismo|mago|maga|ilusionista)\\b",
         "weight": 40
       },
       {
@@ -247,12 +247,12 @@
       },
       {
         "category": "literatura",
-        "pattern": "\\b(?:libro|literatura|literari[oa]s?|lectura|poesia|recital poetico|encuentro literario)\\b",
+        "pattern": "\\b(?:libros?|novelas?|poemarios?|cuentos? original(?:es)?|literatura|literari[oa]s?|lectura|poesia|recital poetico|encuentro literario)\\b",
         "weight": 35
       },
       {
         "category": "naturaleza-aire-libre",
-        "pattern": "\\b(?:naturaleza|senderismo|trekking|excursion|caminata|aire libre|observacion de aves|avistamiento)\\b",
+        "pattern": "\\b(?:senderismo|trekking|excursion|caminata|aire libre|observacion de aves|avistamiento)\\b",
         "weight": 35
       },
       {
@@ -263,6 +263,11 @@
       {
         "category": "literatura",
         "pattern": "\\\\b(?:novela|novelas|obra literaria|narrativa literaria)\\\\b",
+        "weight": 120
+      },
+      {
+        "category": "literatura",
+        "pattern": "\\b(?:cuentacuentos?|narracion oral|narraciones orales|(?:escuchar|contar|narrar) (?:cuentos|historias|relatos))\\b",
         "weight": 120
       }
     ],
@@ -351,7 +356,7 @@
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|crossover|cantautor|cantautora|album(?:es)?|discos?|giras?|tour|bandas?|canciones?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?)\\b",
+        "pattern": "\\b(?:tributo|rock|pop|soul|funk|indie|crossover|cantautor|cantautora|album(?:es)?|discos?|giras?|tour|bandas?|cancion(?:es)?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?)\\b",
         "weight": 105
       },
       {
@@ -361,7 +366,7 @@
       },
       {
         "category": "teatro",
-        "pattern": "\\b(?:obra teatral|obra de teatro|teatro|danza|ballet|circo|performance|funcion teatral|espectaculo escenico)\\b",
+        "pattern": "\\b(?:teatral(?:es)?|obra teatral|obra de teatro|teatro|danza|ballet|circo|performance|funcion teatral|espectaculo escenico)\\b",
         "weight": 140
       },
       {
@@ -386,7 +391,7 @@
       },
       {
         "category": "naturaleza-aire-libre",
-        "pattern": "\\b(?:senderismo|trekking|excursion|caminata|ruta guiada|salida a terreno|observacion de aves|avistamiento|naturaleza|aire libre)\\b",
+        "pattern": "\\b(?:senderismo|trekking|excursion|caminata|ruta guiada|salida a terreno|observacion de aves|avistamiento|aire libre)\\b",
         "weight": 140
       },
       {
@@ -403,6 +408,11 @@
         "category": "teatro",
         "pattern": "\\b(?:obra|escenicas|escenico|espectaculo)\\b",
         "weight": 75
+      },
+      {
+        "category": "literatura",
+        "pattern": "\\b(?:cuentacuentos?|narracion oral|narraciones orales)\\b",
+        "weight": 140
       }
     ],
     "merged_category_consensus_weight": 180
