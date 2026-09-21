@@ -21,7 +21,7 @@ function overlap(range, start, end) {
 }
 
 export function canonicalCategoryId(event) {
-  return canonicalPublicCategory(event)?.id || "otros";
+  return canonicalPublicCategory(event?.primary_category || event?.categories?.[0])?.id || "unclassified";
 }
 
 export function eventMatchesCanonicalSection(event, sectionId, city, now = new Date(), custom = {}) {
@@ -30,7 +30,7 @@ export function eventMatchesCanonicalSection(event, sectionId, city, now = new D
   if (section === "gratis") return event?.price?.is_free === true;
   if (["talleres-cursos", "cursos-talleres"].includes(section)) {
     return ["course", "workshop"].includes(String(event?.event_type || ""))
-      || canonicalCategoryId(event) === "talleres-cursos";
+      || canonicalCategoryId(event) === "cursos-talleres-campus";
   }
   if (section === "programas") return event?.event_type === "program";
 

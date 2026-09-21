@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 import { loadAgendaDataset } from "./data-pipeline.js";
-import { canonicalSelectionSnapshot } from "./public-selection-core.mjs";
+import { canonicalCategoryId, canonicalSelectionSnapshot, eventMatchesCanonicalSection } from "./public-selection-core.mjs";
 
 const registry = JSON.parse(readFileSync(new URL("./cities.json", import.meta.url), "utf8"));
 const sections = ["hoy", "fin-de-semana", "proximos", "gratis", "talleres-cursos"];
@@ -13,6 +13,16 @@ const instants = [
   "2026-08-24T01:55:00Z",
   "2026-08-24T04:05:00Z",
 ];
+
+const theatreWorkshop = {
+  id: "workshop-category-is-not-an-event-id", event_type: "event",
+  primary_category: { id: "cursos-talleres-campus", label: "Cursos, talleres y experiencias" },
+};
+assert.equal(canonicalCategoryId(theatreWorkshop), "cursos-talleres-campus");
+assert.equal(eventMatchesCanonicalSection(theatreWorkshop, "talleres-cursos", registry.cities[0]), true);
+assert.equal(eventMatchesCanonicalSection({ ...theatreWorkshop,
+  primary_category: { id: "teatro", label: "Teatro y danza" },
+}, "talleres-cursos", registry.cities[0]), false);
 
 function payloadFor(city, requested) {
   const value = String(requested);

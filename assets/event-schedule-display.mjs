@@ -132,25 +132,34 @@ function occurrenceStartTimes(schedule, options) {
       start: occurrence?.start,
       key: dateKey(occurrence?.start, options.timezone),
       time: timeFromValue(occurrence?.start, options.timezone),
+      endKey: dateKey(occurrence?.end, options.timezone),
+      endTime: timeFromValue(occurrence?.end, options.timezone),
     }))
     .filter((item) => item.key && item.time);
 }
 
 function canonicalOccurrenceLabel(schedule, options) {
-  const dated = occurrenceStartTimes(schedule, options);
-  if (!dated.length) return null;
+  const occurrences = Array.isArray(schedule?.occurrences) ? schedule.occurrences : [];
   const requested = referenceKey(options);
-  const availableKeys = [...new Set(dated.map((item) => item.key))];
-  let selected = [];
-  if (requested) selected = dated.filter((item) => item.key === requested);
-  if (!selected.length && availableKeys.length === 1) selected = dated;
-  if (!selected.length && dated.length === 1) selected = dated;
-  if (!selected.length) return null;
-  const times = [...new Set(selected.map((item) => item.time))];
+  const availableKeys = [...new Set(occurrences.map((item) => dateKey(item?.start, options.timezone)).filter(Boolean))].sort();
+  const selectedKey = availableKeys.includes(requested) ? requested
+    : availableKeys.find((key) => key > requested) || availableKeys.at(-1);
+  if (!selectedKey) return null;
+  const dated = occurrenceStartTimes(schedule, options);
+  const selected = dated.filter((item) => item.key === selectedKey);
+  const pending = occurrences.some((item) => dateKey(item?.start, options.timezone) === selectedKey
+    && !timeFromValue(item?.start, options.timezone));
+  const date = formatDate(selectedKey, { ...options, time: false });
+  if (!selected.length) return [date, "Horario por confirmar"].filter(Boolean).join(" · ");
+  const times = [...new Set(selected.map((item) => (
+    item.endKey === item.key && item.endTime > item.time
+      ? `${item.time}–${item.endTime}` : item.time
+  )))];
   if (!times.length) return null;
-  const label = naturalTimeList(times);
-  const date = formatDate(selected[0].key, { ...options, time: false });
-  return [date, label].filter(Boolean).join(" · ");
+  const label = times.length === 1 ? times[0]
+    : times.length === 2 ? `${times[0]} y ${times[1]}`
+      : `${times.slice(0, -1).join(", ")} y ${times.at(-1)}`;
+  return [date, label, pending ? "Horario por confirmar" : null].filter(Boolean).join(" · ");
 }
 
 function canonicalSessionLabel(schedule, options) {
@@ -375,11 +384,20 @@ export function formatSchedule(schedule, options = {}) {
 export function compactScheduleDayLabel(schedule, options = {}) {
   if (!schedule || typeof schedule !== "object") return null;
   const settings = { ...DEFAULTS, now: new Date(), ...options };
-  const start = schedule.start || schedule.occurrences?.[0]?.start;
-  const end = schedule.end || schedule.occurrences?.[0]?.end || start;
+  const occurrences = Array.isArray(schedule.occurrences) ? schedule.occurrences : [];
+  const today = todayKey(settings.timezone, settings.now);
+  const dated = occurrences.map((occurrence) => ({
+    start: occurrence?.start,
+    end: occurrence?.end || occurrence?.start,
+    startKey: dateKey(occurrence?.start, settings.timezone),
+    endKey: dateKey(occurrence?.end || occurrence?.start, settings.timezone),
+  })).filter((item) => item.startKey).sort((a, b) => a.startKey.localeCompare(b.startKey));
+  const selected = dated.find((item) => item.startKey <= today && item.endKey >= today)
+    || dated.find((item) => item.startKey >= today) || dated.at(-1);
+  const start = selected?.start || schedule.start;
+  const end = selected?.end || schedule.end || start;
   const startKey = dateKey(start, settings.timezone);
   const endKey = dateKey(end, settings.timezone);
-  const today = todayKey(settings.timezone, settings.now);
   if (startKey && endKey && today && startKey <= today && today <= endKey) return { text: "Hoy", today: true };
   if (!startKey) return null;
   const text = formatDate(startKey, { ...settings, weekday: false, time: false });

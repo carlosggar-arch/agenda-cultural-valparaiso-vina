@@ -61,4 +61,5 @@ assert.ok(
   "venue identity must be finalized before schedule presentation contracts",
 );
 
+await import("./venue-identity-map.test.mjs");
 console.log("SINGLE_VENUE_AUTHORITY_OK");
