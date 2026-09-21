@@ -31,9 +31,15 @@ def main() -> int:
     strong = uncertainty_signals(build_event_semantics(item("Concierto de jazz")["event"]))
     assert strong["uncertain"] is False
 
+    # An explicit workshop prefix is stronger evidence than the incidental
+    # mention of a concert within its title.
+    workshop = uncertainty_signals(build_event_semantics(item("Taller de concierto")["event"]))
+    assert workshop["narrow_margin"] is False
+    assert workshop["uncertain"] is False
+
     # Two plausible domains with a 25-point difference are intentionally
     # reviewable even though the classifier still chooses one deterministically.
-    close = uncertainty_signals(build_event_semantics(item("Taller de concierto")["event"]))
+    close = uncertainty_signals(build_event_semantics(item("Concierto taller")["event"]))
     assert close["narrow_margin"] is True
     assert close["margin"] == 25.0
     assert close["uncertain"] is True
@@ -55,7 +61,7 @@ def main() -> int:
     snapshot = build_uncertainty_snapshot(
         [
             item("Concierto de jazz"),
-            item("Taller de concierto"),
+            item("Concierto taller"),
             item(
                 "Actividad de agosto",
                 "BIOPARC Acuario de Gijón — Actividades y talleres",
