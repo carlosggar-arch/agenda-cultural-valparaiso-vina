@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "5e576808a2893ab80433772c68863c4553f1d303ee931a26ad24f0bc4f32a12f",
-  "generated_at": "2026-09-21T12:57:07Z",
+  "fingerprint": "95486d72bd0db447b87efbf220877e9438578479d15bfc715dd878329840fe1c",
+  "generated_at": "2026-09-21T22:08:01Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -23,19 +23,19 @@
     },
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "charlas-conferencias": 0.222222,
-        "literatura": 0.444444,
-        "musica": 0.222222,
-        "unclassified": 0.111111
+        "charlas-conferencias": 0.25,
+        "literatura": 0.5,
+        "musica": 0.125,
+        "unclassified": 0.125
       },
       "city_id": "gijon",
       "dominant_category": "literatura",
-      "dominant_share": 0.444444,
+      "dominant_share": 0.5,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 9,
+      "total": 8,
       "unclassified": 1,
-      "unclassified_rate": 0.111111
+      "unclassified_rate": 0.125
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -46,7 +46,7 @@
       "dominant_share": 1.0,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "total": 6,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -97,15 +97,16 @@
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.2,
-        "teatro": 0.8
+        "cursos-talleres-campus": 0.0625,
+        "musica": 0.0625,
+        "teatro": 0.875
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.8,
+      "dominant_share": 0.875,
       "source_name": "El Huerto Espacio Escénico",
       "source_url": "https://zigzagdanza.com/el-huerto-gijon/",
-      "total": 5,
+      "total": 16,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -157,7 +158,7 @@
       "dominant_share": 1.0,
       "source_name": "Gijón Arena — Próximos eventos",
       "source_url": "https://gijonarena.com/conciertos/",
-      "total": 14,
+      "total": 15,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -218,17 +219,17 @@
     },
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.186047,
-        "exposiciones": 0.023256,
-        "musica": 0.348837,
-        "teatro": 0.44186
+        "cursos-talleres-campus": 0.177778,
+        "exposiciones": 0.022222,
+        "musica": 0.377778,
+        "teatro": 0.422222
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.44186,
+      "dominant_share": 0.422222,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "total": 43,
+      "total": 45,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -893,14 +894,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "878426072d647352ab9440dc9bbf89bbd98a9668",
+  "source_ref": "a23f2b94ba7afc984b53522e814fa7b2872782fd",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 63,
-    "total_events": 531,
+    "total_events": 543,
     "unclassified_count": 9,
-    "unclassified_rate": 0.016949
+    "unclassified_rate": 0.016575
   },
   "unclassified_queue": [
     {
