@@ -230,7 +230,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamen(?:c)?os?|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox)\\b",
+        "pattern": "\\b(?:rock|pop|soul|funk|indie|punk|hardcore|crossover|metal|jazz|blues|flamen(?:c)?os?|reggae|rap|hip hop|salsa|cumbia|electronica|techno|house|beatbox|rave)\\b",
         "weight": 35
       },
       {

@@ -4,7 +4,7 @@ import copy
 import json
 import sys
 from pathlib import Path
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -179,6 +179,30 @@ def test_related_artists_alone_do_not_imply_music() -> None:
     assert "category_evidence_sources" not in enriched["semantics"]
 
 
+def test_official_rave_description_classifies_sparse_ticket_title() -> None:
+    # Source: https://portaldisc.com/evento/sab03octcassot (2026-09-21).
+    # The title and venue alone do not establish a category; the detail does.
+    listing = '''<div><h3>FALSOCLUB | SAB 03 OCT | CASSOT BAR, VALPARAÍSO</h3>
+    <p>Sábado 3 de octubre 2026, 19:00</p><p>Cassot Bar, Valparaíso</p>
+    <a href="/evento/sab03octcassot">TICKETS AQUÍ</a></div>'''
+    events, _ = parse_markup(listing, today=date(2026, 9, 21))
+    assert len(events) == 1
+    event = events[0]
+    assert classify_public_category(event)["category"]["id"] == "unclassified"
+    detail = parse_detail_markup('''<h4>Descripción</h4>
+        <p>FIESTA POST RAVE | EN TU BAR FAVORITO</p>
+        <p>23:00 A 04:00</p><p>+PRONTO MÁS INFORMACIÓN</p>''')
+    enriched = apply_detail(event, detail, verified_at="2026-09-21T08:00:00-03:00")
+    assert enriched["primary_category"] == {"id": "musica", "label": "Música"}
+    assert classify_public_category(enriched)["category"]["id"] == "musica"
+    assert "RAVE" in enriched["semantics"]["category_evidence_text"]
+    assert enriched["schedule"]["start"].startswith("2026-10-03T19:00:00")
+    published, report = refresh_dataset({"events": []}, [enriched], fetch_ok=True)
+    assert report["corrected_published"] == 1
+    assert published["events"][0]["id"] == enriched["id"]
+    assert classify_public_category(published["events"][0])["category"]["id"] == "musica"
+
+
 def test_venue_name_is_not_preliminary_theatre_evidence() -> None:
     year = future_year()
     listing = f'''<div><h3>PAULA RIVAS EN TEATRO MAURI SCD, VALPARAISO</h3>
@@ -308,6 +332,7 @@ def main() -> None:
     test_late_music_evidence_drives_shared_category_without_polluting_public_copy()
     test_record_label_producer_is_structured_music_evidence()
     test_related_artists_alone_do_not_imply_music()
+    test_official_rave_description_classifies_sparse_ticket_title()
     test_venue_name_is_not_preliminary_theatre_evidence()
     test_shared_source_classifier_does_not_treat_bare_musical_as_music()
     test_preliminary_category_is_not_reused_as_source_authority()
