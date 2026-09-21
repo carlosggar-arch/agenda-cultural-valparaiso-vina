@@ -62,3 +62,16 @@ test("undated cards retain an accessible pending-date badge", () => {
   assert.equal(card.meta.appended.textContent, "Fecha por confirmar");
   delete globalThis.document;
 });
+
+test("long-running cards remove the retired ongoing badge without changing availability", () => {
+  for (const city of [{ id: "valparaiso", timezone: "America/Santiago" }, { id: "gijon", timezone: "Europe/Madrid" }]) {
+    const existing = badge("En curso");
+    const card = cardWith(existing);
+    const event = { event_type: "exhibition", schedule: { start: "2026-09-01", end: "2026-10-31", occurrences: [] } };
+    const original = structuredClone(event);
+    assert.equal(applyContentKindBadge(card, event, city), true);
+    assert.equal(existing.removed, true);
+    assert.equal(card.dataset.contentKind, "long_running_event");
+    assert.deepEqual(event, original);
+  }
+});

@@ -119,4 +119,5 @@ for (const [name, source] of [["app-core", core], ["combined-filters", combined]
   assert.doesNotMatch(source, /id\s*=\s*["']exposiciones["']/, `${name} must not assign canonical categories locally`);
 }
 
+await import("./editorial-category-evidence.test.mjs");
 console.log("SINGLE_PUBLIC_CATEGORY_AUTHORITY_OK");

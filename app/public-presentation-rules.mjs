@@ -308,6 +308,47 @@ function verifiedLocationEvidence(event) {
     || cleanSpace(verification?.status).toLocaleLowerCase("es") === "verified";
 }
 
+function evidenceUrl(value) {
+  try {
+    const url = new URL(value);
+    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) return null;
+    url.hash = "";
+    return url.href.replace(/\/$/u, "");
+  } catch {
+    return null;
+  }
+}
+
+function hasOfficialAddressEvidence(event) {
+  // Address evidence belongs to the event page, even when the ingestion source
+  // has not acquired a global source_official flag. A venue id is not evidence.
+  const sourceUrls = new Set([
+    event?.source_url, event?.links?.source, event?.links?.official,
+  ].map(evidenceUrl).filter(Boolean));
+  const records = event?.provenance?.official_metadata;
+  return Array.isArray(records) && records.some((item) => (
+    item?.method === "official_page_structured_or_event_local_evidence"
+    && Array.isArray(item?.fields) && item.fields.includes("address")
+    && sourceUrls.has(evidenceUrl(item?.url))
+  ));
+}
+
+function hasCanonicalAddressEvidence(event) {
+  const proof = event?.provenance?.verified_venue;
+  const location = event?.location || {};
+  const source = evidenceUrl(proof?.source_url);
+  return proof?.method === "canonical_venue_registry"
+    && !!cleanSpace(proof?.venue_id)
+    && (!location.venue_id || cleanSpace(location.venue_id) === cleanSpace(proof.venue_id))
+    && !!cleanSpace(proof?.address)
+    && cleanSpace(proof.address) === cleanSpace(location.address)
+    && !!cleanSpace(proof?.city)
+    && cleanSpace(proof.city) === cleanSpace(location.city || location.commune)
+    && !!source && source.startsWith("https:")
+    && /^\d{4}-\d{2}-\d{2}(?:T|$)/u.test(String(proof?.verified_at || ""))
+    && Number.isFinite(Date.parse(proof.verified_at));
+}
+
 function finiteCoordinate(value, min, max) {
   if (value === null || value === undefined || value === "") return null;
   const number = Number(value);
@@ -325,11 +366,12 @@ function usefulStreetAddress(value, city) {
 
 export function googleMapsDestination(event) {
   const location = event?.location || {};
-  if (location.online === true || !verifiedLocationEvidence(event)) return null;
+  const locationVerified = verifiedLocationEvidence(event);
+  if (location.online === true || !(locationVerified || hasOfficialAddressEvidence(event) || hasCanonicalAddressEvidence(event))) return null;
 
   const latitude = finiteCoordinate(location.latitude, -90, 90);
   const longitude = finiteCoordinate(location.longitude, -180, 180);
-  if (latitude !== null && longitude !== null && !(latitude === 0 && longitude === 0)) {
+  if (locationVerified && latitude !== null && longitude !== null && !(latitude === 0 && longitude === 0)) {
     return `${latitude},${longitude}`;
   }
 

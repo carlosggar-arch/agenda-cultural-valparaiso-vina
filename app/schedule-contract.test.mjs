@@ -50,4 +50,5 @@ assert.equal(bareBoundary.schedule.schedule_display,null);
 
 const first=normalizeScheduleContractDataset({events:[mixed,two,doors,interval,ambiguous,occ,multiDate,exhibition,caleta,arqueobus,convivium,recurring,split,bareBoundary]}); assert.deepEqual(normalizeScheduleContractDataset(first),first);
 const parsed=classifyClockRoles("Horario del museo 10:00–17:30 · función 19:00"); assert.deepEqual(parsed.raw_times,["10:00","17:30","19:00"]); assert.deepEqual(parsed.session_times,["19:00"]);
+await import("./scripts/test_schedule_display.mjs");
 console.log("SCHEDULE_CONTRACT_POINT8_OK");

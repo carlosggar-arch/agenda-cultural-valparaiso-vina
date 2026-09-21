@@ -227,7 +227,10 @@ const gijonRichRecurring = {
 };
 const gijonRichLabel = formatSchedule(gijonRichRecurring, gijon);
 assert.match(gijonRichLabel, /15:30 y 18:15/);
-assert.match(gijonRichLabel, /14:30 y 17:45/);
+assert.doesNotMatch(gijonRichLabel, /14:30|17:45/, "an upcoming card shows the next dated session, not the whole legacy paragraph");
+const gijonNextDay = formatSchedule(gijonRichRecurring, { ...gijon, referenceDate: "2026-08-26" });
+assert.match(gijonNextDay, /14:30/);
+assert.doesNotMatch(gijonNextDay, /15:30|18:15|17:45/, "dated occurrences outrank unverified legacy clocks");
 
 const malformedSameDayEnd = {
   mode: "dated",

@@ -1,4 +1,5 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260913-pending-time1";
+import { googleMapsDirectionsUrl } from "../app/public-presentation-rules.mjs?v=20260822-mapnav1";
 import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-parity2";
 import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity2";
 import "./root-combined-filters.js?v=20260820-category-ui";
@@ -424,12 +425,36 @@ function installPermalink(card, event) {
   card.append(link);
 }
 
+function installLocationNavigation(container, event) {
+  if (!container) return;
+  const existing = container.querySelector(".map-location-link");
+  const href = googleMapsDirectionsUrl(event);
+  if (!href) {
+    existing?.remove();
+    return;
+  }
+  if (existing?.href === href) return;
+  const link = existing || document.createElement("a");
+  link.className = "map-location-link";
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = " ↗";
+  link.title = "Abrir ubicación en Google Maps";
+  link.setAttribute("aria-label", `Abrir ${event?.location?.venue || "ubicación"} en Google Maps`);
+  if (!existing) {
+    link.addEventListener("click", (clickEvent) => clickEvent.stopPropagation());
+    container.append(link);
+  }
+}
+
 function enhanceCard(card, event) {
   applyCategoryPresentation(card, event);
   installImageTreatment(card, event);
   compactMetaRow(card, event);
   installPermalink(card, event);
   applyTextPresentation(card, event);
+  installLocationNavigation(card.querySelector(".card-place"), event);
   const date = card.querySelector(".card-date");
   setTextIfChanged(date, formatSchedule(event?.schedule, SCHEDULE_OPTIONS));
 }
@@ -449,6 +474,8 @@ function enhanceDetail(event) {
     setTextIfChanged(description, "Descripción no disponible.");
   }
   const terms = [...dialog.querySelectorAll("dt")];
+  const venueTerm = terms.find((node) => node.textContent.trim() === "Recinto");
+  installLocationNavigation(venueTerm?.nextElementSibling, event);
   const term = terms.find((node) => node.textContent.trim() === "Fecha y horario");
   if (term?.nextElementSibling) {
     setTextIfChanged(term.nextElementSibling, formatSchedule(event?.schedule, SCHEDULE_OPTIONS));

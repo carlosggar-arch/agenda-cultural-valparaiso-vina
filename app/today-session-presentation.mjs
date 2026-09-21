@@ -80,11 +80,13 @@ function dateFromParts(year, month, day) {
   return key;
 }
 
-function addSession(target, key, time) {
+function addSession(target, key, time, end = null) {
   const clock = validClock(time);
   if (!key || !clock) return;
-  const id = `${key}|${clock}`;
-  if (!target.some((item) => item.id === id)) target.push({ id, key, time: clock });
+  const closing = validClock(end);
+  const label = closing && closing > clock ? `${clock}–${closing}` : clock;
+  const id = `${key}|${label}`;
+  if (!target.some((item) => item.id === id)) target.push({ id, key, time: clock, label });
 }
 
 function inferredYear(event, timezone) {
@@ -98,7 +100,9 @@ function structuredSessions(event, options) {
   for (const occurrence of event?.schedule?.occurrences || []) {
     const key = dateKey(occurrence?.start, options.timezone);
     const time = localClock(occurrence?.start, options.timezone);
-    addSession(sessions, key, time);
+    const endKey = dateKey(occurrence?.end, options.timezone);
+    const end = endKey === key ? localClock(occurrence?.end, options.timezone) : null;
+    addSession(sessions, key, time, end);
   }
   return sessions;
 }
@@ -209,16 +213,21 @@ export function sessionScheduleLabelForDate(event, options = {}) {
   const referenceDate = dateKey(settings.referenceDate || settings.now, settings.timezone);
   if (!referenceDate) return null;
 
-  const sessions = [];
-  for (const session of structuredSessions(event, settings)) addSession(sessions, session.key, session.time);
-  for (const session of canonicalFlatSessions(event, settings, referenceDate)) addSession(sessions, session.key, session.time);
-  for (const session of listedSessions(event, settings)) addSession(sessions, session.key, session.time);
+  const hasOccurrences = Array.isArray(event?.schedule?.occurrences) && event.schedule.occurrences.length > 0;
+  // Canonical occurrences are authoritative. Do not re-add outdated clocks
+  // from display_text/description or replace explicitly date-only occurrences.
+  const sessions = hasOccurrences
+    ? structuredSessions(event, settings)
+    : canonicalFlatSessions(event, settings, referenceDate);
+  if (!hasOccurrences && !sessions.length && !event?.schedule?.schedule_contract_version) {
+    sessions.push(...listedSessions(event, settings));
+  }
 
   // Do not reinterpret one ordinary single event as a session list; its normal
   // start/end interval continues through the shared formatter.
   if (sessions.length < 2) return null;
 
-  const times = [...new Set(sessions.filter((item) => item.key === referenceDate).map((item) => item.time))];
+  const times = [...new Set(sessions.filter((item) => item.key === referenceDate).map((item) => item.label))];
   if (!times.length) return null;
 
   const date = formatDateKey(referenceDate, settings);

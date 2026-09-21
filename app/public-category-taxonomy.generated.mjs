@@ -324,6 +324,11 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "tag_category_weight": 145,
     "title_evidence": [
       {
+        "category": "cursos-talleres-campus",
+        "pattern": "^(?:taller(?:es)?|curso(?:s)?|clase(?:s)?|masterclass|workshop|escuelita)\\b",
+        "weight": 240
+      },
+      {
         "category": "literatura",
         "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro)\\b",
         "weight": 260

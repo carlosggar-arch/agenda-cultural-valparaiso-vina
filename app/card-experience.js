@@ -319,7 +319,6 @@ function renderRichCard(card, event) {
   body.className = "event-card-body";
 
   const labels = contextLabels(event, config);
-  if (featuredIds.has(event.id)) labels.push("No te lo pierdas");
   const uniqueLabels = [...new Set(labels)];
   const day = compactDayLabel(event, config);
 
@@ -340,7 +339,6 @@ function renderRichCard(card, event) {
   }
   for (const label of uniqueLabels.filter((label) => label !== "Hoy")) {
     const badge = addTextElement(right, "span", "context-badge", label);
-    if (label === "No te lo pierdas") badge.classList.add("context-badge--featured");
     if (label === "Termina pronto") badge.classList.add("context-badge--ending");
   }
   if (right.childElementCount) top.append(right);

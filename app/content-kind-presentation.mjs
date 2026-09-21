@@ -6,7 +6,7 @@ export const CONTENT_KIND_PRESENTATION = Object.freeze({
     detail: null,
   }),
   long_running_event: Object.freeze({
-    label: "En curso",
+    label: null,
     detail: "Actividad disponible durante un periodo de varios días.",
   }),
   recurring_offer: Object.freeze({

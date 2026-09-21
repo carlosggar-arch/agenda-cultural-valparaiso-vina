@@ -27,6 +27,12 @@ const exhibitionGroups = read("./exhibition-groups.js");
 const exhibitionCore = read("./exhibition-group-core.mjs");
 const dataQuality = read("./event-card-data-quality.mjs");
 const scheduleDisplay = read("./schedule-display.js");
+assert.doesNotMatch(read("./card-experience.js"), /No te lo pierdas/i, "retired promotional badge is absent from the renderer");
+const rootPresentation = read("../assets/web-event-enhancements.js");
+assert.match(rootPresentation, /import \{ googleMapsDirectionsUrl \} from "\.\.\/app\/public-presentation-rules\.mjs/,
+  "root WEB must reuse the same verified map destination as APP");
+assert.match(rootPresentation, /installLocationNavigation\(card\.querySelector\("\.card-place"\), event\)/);
+assert.match(rootPresentation, /installLocationNavigation\(venueTerm\?\.nextElementSibling, event\)/);
 const commonBlock = app.match(/const OPTIONAL_MODULES = \[([\s\S]*?)\];/)?.[1] || "";
 const sharedPresentationModules = [
   "./temporal-priority.js",

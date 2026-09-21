@@ -37,12 +37,12 @@ test("undated content retains the explicit pending-date label", () => {
   assert.equal(presentation.label, "Fecha por confirmar");
 });
 
-test("long running event is visually distinguished from one-date event", () => {
+test("long running event keeps classification without the removed public badge", () => {
   const presentation = contentKindPresentation(event({
     schedule: { start: "2026-08-01", end: "2026-08-31", occurrences: [] },
   }), valpo);
   assert.equal(presentation.kind, "long_running_event");
-  assert.equal(presentation.label, "En curso");
+  assert.equal(presentation.label, null);
 });
 
 test("permanent and recurring opportunities are not presented as dated events", () => {
@@ -65,7 +65,7 @@ test("same content-kind presentation contract applies in Gijón", () => {
     schedule: { start: "2026-08-01", end: "2026-08-31", occurrences: [] },
   }), gijon);
   assert.equal(presentation.kind, "long_running_event");
-  assert.equal(presentation.label, "En curso");
+  assert.equal(presentation.label, null);
 });
 
 test("verified cultural calls have a distinct non-attendance presentation", () => {
@@ -73,3 +73,5 @@ test("verified cultural calls have a distinct non-attendance presentation", () =
   assert.equal(presentation.kind, "call_for_submissions");
   assert.equal(presentation.label, "Convocatoria");
 });
+
+await import("./event-card-content-kind-badge.test.mjs");
