@@ -11,6 +11,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -227,23 +228,50 @@ def visible_records(driver: webdriver.Chrome, state: str) -> tuple[tuple[str, st
     )
 
 
-def wait_presentation_metadata(driver: webdriver.Chrome) -> None:
-    WebDriverWait(driver, 8, poll_frequency=0.05).until(
-        lambda current: current.execute_script(
-            """
-            const visible = (node) => node && !node.hidden && getComputedStyle(node).display !== 'none';
-            const cards = [...document.querySelectorAll('.event-card')].filter(visible);
-            return cards.length > 0 && cards.every((card) => card.dataset.category && card.dataset.temporalBucket);
-            """
-        )
+def presentation_metadata_state(driver: webdriver.Chrome) -> dict[str, object]:
+    return driver.execute_script(
+        """
+        const visible = (node) => node && !node.hidden && getComputedStyle(node).display !== 'none';
+        const cards = [...document.querySelectorAll('.event-card')].filter(visible);
+        const missing = cards.filter((card) => !card.dataset.category || !card.dataset.temporalBucket);
+        return {
+          ready: cards.length > 0 && missing.length === 0,
+          visible_cards: cards.length,
+          missing_metadata: missing.length,
+          missing_ids: missing.slice(0, 10).map((card) => card.dataset.eventId || ''),
+        };
+        """
     )
 
 
-def capture_states(driver: webdriver.Chrome) -> dict[str, tuple[tuple[str, str, str, str], ...]]:
+def wait_presentation_metadata(
+    driver: webdriver.Chrome, *, origin: str, city: str, phase: str, state: str,
+) -> None:
+    # Readiness and exhibition grouping already have a 25-second budget. The
+    # category/temporal pass can finish after those signals on a cold origin;
+    # keep the same bound without weakening the required metadata predicate.
+    try:
+        WebDriverWait(driver, READY_TIMEOUT, poll_frequency=0.05).until(
+            lambda current: presentation_metadata_state(current)["ready"]
+        )
+    except TimeoutException as exc:
+        diagnosis = presentation_metadata_state(driver)
+        raise AssertionError(
+            "PRESENTATION_METADATA_NOT_READY "
+            f"origin={origin} city={city} phase={phase} state={state} "
+            f"visible_cards={diagnosis['visible_cards']} "
+            f"missing_metadata={diagnosis['missing_metadata']} "
+            f"missing_ids={diagnosis['missing_ids']}"
+        ) from exc
+
+
+def capture_states(
+    driver: webdriver.Chrome, *, origin: str, city: str, phase: str,
+) -> dict[str, tuple[tuple[str, str, str, str], ...]]:
     captured: dict[str, tuple[tuple[str, str, str, str], ...]] = {}
     for state in STATES:
         set_state(driver, state)
-        wait_presentation_metadata(driver)
+        wait_presentation_metadata(driver, origin=origin, city=city, phase=phase, state=state)
         records = visible_records(driver, state)
         if state == "todos" and not records:
             raise AssertionError("Canonical 'todos' state rendered zero visible event IDs")
@@ -321,14 +349,14 @@ def exercise_origin(name: str, base: str, instant: str) -> list[dict[str, object
                 driver.get(f"{base}?city={city}&parity=online")
                 wait_ready(driver, city)
                 wait_stable_presentation(driver, city)
-                online = capture_states(driver)
+                online = capture_states(driver, origin=name, city=city, phase="online")
                 wait_service_worker(driver)
                 driver.get("about:blank")
                 set_offline(driver, True)
                 driver.get(f"{base}?city={city}&parity=pwa")
                 wait_ready(driver, city)
                 wait_stable_presentation(driver, city)
-                pwa = capture_states(driver)
+                pwa = capture_states(driver, origin=name, city=city, phase="pwa")
                 rows.extend(compare_snapshots(name, city, instant, online, pwa))
             finally:
                 try:
