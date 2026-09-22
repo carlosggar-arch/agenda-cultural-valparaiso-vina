@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "95486d72bd0db447b87efbf220877e9438578479d15bfc715dd878329840fe1c",
-  "generated_at": "2026-09-21T22:08:01Z",
+  "fingerprint": "452e940fbe5647d529ec055556bc2f2d77a9cfc8ee294fb7f0d7a0e77468f27b",
+  "generated_at": "2026-09-22T21:48:16Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -23,19 +23,20 @@
     },
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "charlas-conferencias": 0.25,
-        "literatura": 0.5,
-        "musica": 0.125,
-        "unclassified": 0.125
+        "charlas-conferencias": 0.222222,
+        "exposiciones": 0.111111,
+        "literatura": 0.444444,
+        "musica": 0.111111,
+        "unclassified": 0.111111
       },
       "city_id": "gijon",
       "dominant_category": "literatura",
-      "dominant_share": 0.5,
+      "dominant_share": 0.444444,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 8,
+      "total": 9,
       "unclassified": 1,
-      "unclassified_rate": 0.125
+      "unclassified_rate": 0.111111
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -46,7 +47,7 @@
       "dominant_share": 1.0,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "total": 5,
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -80,20 +81,37 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.222222,
-        "cine": 0.388889,
-        "exposiciones": 0.222222,
-        "literatura": 0.111111,
-        "unclassified": 0.055556
+        "charlas-conferencias": 0.093023,
+        "cine": 0.186047,
+        "cursos-talleres-campus": 0.209302,
+        "exposiciones": 0.093023,
+        "literatura": 0.046512,
+        "teatro": 0.348837,
+        "unclassified": 0.023256
       },
       "city_id": "gijon",
-      "dominant_category": "cine",
-      "dominant_share": 0.388889,
+      "dominant_category": "teatro",
+      "dominant_share": 0.348837,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 18,
+      "total": 43,
       "unclassified": 1,
-      "unclassified_rate": 0.055556
+      "unclassified_rate": 0.023256
+    },
+    "gijon::danza xixon": {
+      "category_distribution": {
+        "cine": 0.043478,
+        "exposiciones": 0.043478,
+        "teatro": 0.913043
+      },
+      "city_id": "gijon",
+      "dominant_category": "teatro",
+      "dominant_share": 0.913043,
+      "source_name": "Danza Xixón",
+      "source_url": "https://www.gijon.es/es/eventos/danza-xixon",
+      "total": 23,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
@@ -192,28 +210,29 @@
     },
     "gijon::la revoltosa gijon": {
       "category_distribution": {
-        "literatura": 1.0
+        "literatura": 0.333333,
+        "musica": 0.666667
       },
       "city_id": "gijon",
-      "dominant_category": "literatura",
-      "dominant_share": 1.0,
+      "dominant_category": "musica",
+      "dominant_share": 0.666667,
       "source_name": "La Revoltosa Gijón",
       "source_url": "https://www.instagram.com/larevoltosagijon/",
-      "total": 1,
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "gijon::laboral centro de arte y creacion industrial": {
       "category_distribution": {
-        "exposiciones": 0.888889,
-        "teatro": 0.111111
+        "exposiciones": 0.8,
+        "teatro": 0.2
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.888889,
+      "dominant_share": 0.8,
       "source_name": "LABoral Centro de Arte y Creación Industrial",
       "source_url": "https://laboralcentrodearte.org/es/",
-      "total": 9,
+      "total": 10,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -261,23 +280,23 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.052632,
-        "cine": 0.192982,
-        "cursos-talleres-campus": 0.105263,
-        "exposiciones": 0.508772,
-        "literatura": 0.035088,
-        "musica": 0.070175,
-        "teatro": 0.017544,
-        "unclassified": 0.017544
+        "charlas-conferencias": 0.04918,
+        "cine": 0.180328,
+        "cursos-talleres-campus": 0.114754,
+        "exposiciones": 0.491803,
+        "literatura": 0.032787,
+        "musica": 0.081967,
+        "teatro": 0.032787,
+        "unclassified": 0.016393
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.508772,
+      "dominant_share": 0.491803,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 57,
+      "total": 61,
       "unclassified": 1,
-      "unclassified_rate": 0.017544
+      "unclassified_rate": 0.016393
     },
     "gijon::sala acapulco conciertos": {
       "category_distribution": {
@@ -288,7 +307,7 @@
       "dominant_share": 1.0,
       "source_name": "Sala Acapulco — Conciertos",
       "source_url": "https://www.instagram.com/sala_acapulco_conciertos/",
-      "total": 3,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -309,15 +328,15 @@
     },
     "gijon::teatro jovellanos": {
       "category_distribution": {
-        "musica": 0.439024,
-        "teatro": 0.560976
+        "musica": 0.4,
+        "teatro": 0.6
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.560976,
+      "dominant_share": 0.6,
       "source_name": "Teatro Jovellanos",
       "source_url": "https://www.gijon.es/es/directorio/teatro-jovellanos",
-      "total": 41,
+      "total": 45,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -894,14 +913,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "a23f2b94ba7afc984b53522e814fa7b2872782fd",
+  "source_ref": "8570d8607119992d93f2fd8f15f5a2fb3b1a8dfa",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 63,
-    "total_events": 543,
+    "source_count": 64,
+    "total_events": 606,
     "unclassified_count": 9,
-    "unclassified_rate": 0.016575
+    "unclassified_rate": 0.014851
   },
   "unclassified_queue": [
     {
