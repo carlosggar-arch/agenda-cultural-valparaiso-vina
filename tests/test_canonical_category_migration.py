@@ -38,6 +38,25 @@ def test_valid_canonical_category_is_preserved_idempotently() -> None:
     assert second["counts"]["preserved"] == 1
 
 
+def test_materialization_does_not_rewrite_a_cross_midnight_selection_day(tmp_path) -> None:
+    payload = {"publication_date": "2026-09-21", "generated_at": "2026-09-22T00:04:11+02:00",
+               "timezone": "Europe/Madrid", "selection_started_at": "2026-09-21T23:58:44+02:00",
+               "counts": {"total": 1}, "events": [event("musica", "Música")]}
+    payload["events"][0]["schedule"] = {"start": "2026-09-22T19:00:00+02:00"}
+    assert payload["publication_date"] == "2026-09-21"
+    payload["events"][0]["primary_category"] = {"id": "formacion-taller", "label": "Formación / taller"}
+    migrated, _ = migrate_payload(payload)
+    assert migrated["publication_date"] == payload["publication_date"]
+    assert migrated["generated_at"] == payload["generated_at"]
+    assert migrated["selection_started_at"] == payload["selection_started_at"]
+    path = tmp_path / "candidate.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    materialize(path)
+    saved = json.loads(path.read_text(encoding="utf-8"))
+    assert saved["publication_date"] == payload["publication_date"]
+    assert saved["selection_started_at"] == payload["selection_started_at"]
+
+
 def test_registered_alias_is_normalized() -> None:
     migrated, report = migrate_one(event("formacion-taller", "Formación / taller"))
     assert migrated["events"][0]["primary_category"]["id"] == "cursos-talleres-campus"

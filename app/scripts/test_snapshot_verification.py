@@ -592,6 +592,7 @@ class SnapshotVerificationTests(unittest.TestCase):
             with patch.dict(os.environ, env), patch.object(cli, "git", side_effect=git_identity), \
                  patch.object(cli, "local_policy", return_value=proof["verifier"]), \
                  patch.object(cli, "require_runtime_composition", return_value=proof["composition"]), \
+                 patch("fast_close_dataset_validation.validate_reference_datasets"), \
                  patch.object(cli, "verify_event", side_effect=crypto_double) as crypto, \
                  patch.object(cli.subprocess, "check_output", side_effect=transport):
                 notice = cli.verify_watchdog(args, reader)

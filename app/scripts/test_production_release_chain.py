@@ -33,7 +33,8 @@ class ProductionReleaseChainTests(unittest.TestCase):
 
     def build(self, **arguments):
         with patch.object(chain, "git", return_value="d" * 40), \
-             patch.object(chain, "git_check", return_value=True):
+             patch.object(chain, "git_check", return_value=True), \
+             patch.object(chain, "validate_reference_datasets"):
             return chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
                                      attestation_path=self.visual, **arguments)
 
@@ -144,7 +145,8 @@ class ProductionReleaseChainTests(unittest.TestCase):
                           return_value=(self.published, "c" * 40, [])), \
              patch.object(chain, "check_published", return_value=historical), \
              patch.object(chain, "git", side_effect=["d" * 40, "app/scripts/verifier.py\ndocs/route.md"]), \
-             patch.object(chain, "git_check", return_value=False):
+             patch.object(chain, "git_check", return_value=False), \
+             patch.object(chain, "validate_reference_datasets"):
             result = chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
                                        attestation_path=self.visual, **arguments)
         self.assertEqual(result["cloudflare_relation"], "verified-non-public-diff")
@@ -159,7 +161,8 @@ class ProductionReleaseChainTests(unittest.TestCase):
                               return_value=(self.published, "c" * 40, [])), \
                  patch.object(chain, "check_published", return_value=historical), \
                  patch.object(chain, "git", side_effect=["d" * 40, path]), \
-                 patch.object(chain, "git_check", return_value=False):
+                 patch.object(chain, "git_check", return_value=False), \
+                 patch.object(chain, "validate_reference_datasets"):
                 with self.assertRaisesRegex(SystemExit, "RELEASE_CHAIN_CLOUDFLARE_SURFACES_CHANGED"):
                     chain.build_chain(cloudflare_ref="origin/cloudflare-preview",
                                       attestation_path=self.visual, **arguments)

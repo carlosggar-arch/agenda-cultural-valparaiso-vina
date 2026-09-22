@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -50,6 +50,46 @@ def requires_freshness(*, changed: bool, current_generated_at: str, previous_gen
     return current_generated_at != previous_generated_at
 
 
+def validate_reference_clock(city: str, payload: dict, generated: datetime, zone: ZoneInfo,
+                             *, content_day: date) -> date:
+    """Bind the selection day to its actual start, not to the later write time.
+
+    Legacy datasets have no such start instant and must keep the original
+    same-local-day rule. A self-declared one-day tolerance is never evidence.
+    """
+    publication_date = date.fromisoformat(str(payload["publication_date"]))
+    raw = payload.get("selection_started_at")
+    if "selection_started_at" not in payload:
+        if publication_date != generated.astimezone(zone).date():
+            raise ValueError(
+                f"FAST_CLOSE_PUBLICATION_DATE_MISMATCH city={city} publication_date={publication_date} "
+                f"generated_local={generated.astimezone(zone).date()}"
+            )
+    else:
+        if not isinstance(raw, str) or not raw.strip():
+            raise ValueError(f"FAST_CLOSE_SELECTION_START_INVALID city={city}")
+        try:
+            started = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError(f"FAST_CLOSE_SELECTION_START_INVALID city={city}") from exc
+        if started.tzinfo is None or started.utcoffset() != started.astimezone(zone).utcoffset():
+            raise ValueError(f"FAST_CLOSE_SELECTION_TIMEZONE_INVALID city={city}")
+        if publication_date != started.astimezone(zone).date():
+            raise ValueError(f"FAST_CLOSE_SELECTION_DATE_MISMATCH city={city}")
+        elapsed = generated.astimezone(timezone.utc) - started.astimezone(timezone.utc)
+        if elapsed < timedelta(0) or elapsed > timedelta(hours=6):
+            raise ValueError(f"FAST_CLOSE_SELECTION_WINDOW_INVALID city={city}")
+    for event in payload.get("events") or []:
+        schedule = event.get("schedule") or {}
+        deadlines = [schedule.get("end") or schedule.get("start")]
+        deadlines.extend(row.get("end") or row.get("start") for row in schedule.get("occurrences") or []
+                         if isinstance(row, dict))
+        dated = [date.fromisoformat(str(value)[:10]) for value in deadlines if value]
+        if dated and max(dated) < content_day:
+            raise ValueError(f"FAST_CLOSE_EVENT_EXPIRED city={city} id={event.get('id')}")
+    return publication_date
+
+
 def validate_payload(
     city: str,
     payload: dict,
@@ -69,25 +109,26 @@ def validate_payload(
         )
 
     generated_raw = str(payload.get("generated_at") or "").strip()
-    publication_date = str(payload.get("publication_date") or "")[:10]
+    publication_date = str(payload.get("publication_date") or "")
     timezone_name = str(payload.get("timezone") or "").strip()
     if not generated_raw or not publication_date or not timezone_name:
         raise ValueError(f"FAST_CLOSE_METADATA_MISSING city={city}")
 
-    generated = datetime.fromisoformat(generated_raw.replace("Z", "+00:00"))
-    if generated.tzinfo is None:
-        generated = generated.replace(tzinfo=ZoneInfo(timezone_name))
-    generated_local = generated.astimezone(ZoneInfo(timezone_name))
-    expected_publication_date = generated_local.date().isoformat()
-    if publication_date != expected_publication_date:
-        raise ValueError(
-            f"FAST_CLOSE_PUBLICATION_DATE_MISMATCH city={city} publication_date={publication_date} "
-            f"generated_local={expected_publication_date}"
-        )
+    try:
+        zone = ZoneInfo(timezone_name)
+        generated = datetime.fromisoformat(generated_raw.replace("Z", "+00:00"))
+        if generated.tzinfo is None:
+            raise ValueError("naive generation instant")
+        now = now_utc or datetime.now(timezone.utc)
+        content_day = max(generated.astimezone(zone).date(), now.astimezone(zone).date()) if require_fresh else generated.astimezone(zone).date()
+        validate_reference_clock(city, payload, generated, zone, content_day=content_day)
+    except (KeyError, ValueError) as exc:
+        if isinstance(exc, ValueError) and str(exc).startswith("FAST_CLOSE_"):
+            raise
+        raise ValueError(f"FAST_CLOSE_METADATA_INVALID city={city}") from exc
 
     age_label = "not-required"
     if require_fresh:
-        now = now_utc or datetime.now(timezone.utc)
         age_hours = (now - generated.astimezone(timezone.utc)).total_seconds() / 3600
         if age_hours < -0.25 or age_hours > 6:
             raise ValueError(f"FAST_CLOSE_DATASET_STALE city={city} age_hours={age_hours:.2f}")
@@ -99,6 +140,15 @@ def validate_payload(
         "age_hours": age_label,
         "freshness_required": require_fresh,
         "generated_at": generated_raw,
+    }
+
+
+def validate_reference_datasets(root: Path) -> dict[str, dict[str, object]]:
+    """Recheck the exact datasets in late release and watchdog consumers."""
+    return {
+        city: validate_payload(city, json.loads((root / path).read_text(encoding="utf-8")),
+                               require_fresh=False)
+        for city, path in DATASETS
     }
 
 

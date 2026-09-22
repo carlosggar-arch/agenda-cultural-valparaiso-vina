@@ -8,6 +8,7 @@ from pathlib import Path
 
 from release_finalizer import check_published, git, git_check
 import publication_snapshot_verification as snapshot_contract
+from fast_close_dataset_validation import validate_reference_datasets
 
 SCHEMA_VERSION = "1.0.0"
 
@@ -109,6 +110,7 @@ def build_chain(
     proof = load_json(snapshot_verification) if snapshot_verification is not None else None
     if proof is not None:
         proof = snapshot_contract.validate(proof)
+        validate_reference_datasets(Path.cwd())
         if core_attestation is None:
             raise SystemExit("SNAPSHOT_HISTORICAL_LINEAGE_EVIDENCE_REQUIRED")
         if historical_validation is None:
