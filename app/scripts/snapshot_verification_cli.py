@@ -319,6 +319,7 @@ def prepare(args, reader: GithubReader) -> dict:
 
 def verify_watchdog(args, reader: GithubReader) -> dict:
     from production_certification_watchdog import check_certification
+    from fast_close_dataset_validation import validate_reference_datasets
     contract.require(os.environ.get("GITHUB_EVENT_NAME") == "workflow_run", "WATCHDOG_AUTOMATIC_EVENT_REQUIRED")
     event = binding.parse_json(Path(os.environ["GITHUB_EVENT_PATH"]).read_bytes())
     event_run = event.get("workflow_run") or {}
@@ -332,6 +333,7 @@ def verify_watchdog(args, reader: GithubReader) -> dict:
     require_runtime_composition(args.verifier, proof, os.environ["GITHUB_SHA"])
     contract.require(git(args.snapshot, "rev-parse", "HEAD").decode().strip() == expected["public_sha"],
                      "SNAPSHOT_HEAD_CHANGED")
+    validate_reference_datasets(args.snapshot)
     download_artifact(reader, run=run,
         name=f"snapshot-production-verification-{run['id']}-{run['run_attempt']}",
         destination=args.output / "production")

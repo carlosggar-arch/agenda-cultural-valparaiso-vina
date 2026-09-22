@@ -389,12 +389,6 @@ jobs:
           fi
           python app/scripts/release_finalizer.py --check-published --finalizer-ref "$CANDIDATE_SHA" "${lineage_args[@]}"
 
-      - name: Push synchronized deployment branch
-        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
-        run: |
-          set -euo pipefail
-          git push origin HEAD:cloudflare-preview
-
       - name: Fast-close changed dataset freshness and identity
         if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
         shell: bash
@@ -405,6 +399,12 @@ jobs:
             before="$(git rev-parse "${CANDIDATE_SHA}^" 2>/dev/null || true)"
           fi
           python app/scripts/fast_close_dataset_validation.py --base-ref "$before"
+
+      - name: Push synchronized deployment branch
+        if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'
+        run: |
+          set -euo pipefail
+          git push origin HEAD:cloudflare-preview
 
       - name: Fast-close deterministic runtime contracts
         if: steps.release-decision.outputs.release == 'true' && steps.execution.outputs.action == 'publish'

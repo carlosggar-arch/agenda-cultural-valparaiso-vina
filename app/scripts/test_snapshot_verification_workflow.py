@@ -72,6 +72,14 @@ class SnapshotWorkflowTests(unittest.TestCase):
         routing = (ROOT / "app/scripts/publication_execution_routing.py").read_text(encoding="utf-8")
         self.assertIn('binding.require(run_attempt == 1, "UNSUPPORTED_RERUN_REQUIRES_ORIGINAL_EXECUTION")', routing)
 
+    def test_reference_clock_reaches_late_verifier_and_watchdog(self):
+        for path, expected in (
+            ("snapshot_production_smoke.py", "validate_reference_datasets(snapshot)"),
+            ("production_release_chain.py", "validate_reference_datasets(Path.cwd())"),
+            ("snapshot_verification_cli.py", "validate_reference_datasets(args.snapshot)"),
+        ):
+            self.assertIn(expected, (ROOT / "app/scripts" / path).read_text(encoding="utf-8"))
+
 
 def run_contract():
     result = unittest.TextTestRunner().run(unittest.defaultTestLoader.loadTestsFromTestCase(SnapshotWorkflowTests))

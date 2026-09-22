@@ -28,6 +28,7 @@ def main() -> None:
     assert "DEPLOYED_BYTE_VERIFIED" in sync
     assert "visual=pending" in sync
     assert "PUBLICATION_FAST_CLOSE_VERIFIED" not in sync
+    assert sync.index("Fast-close changed dataset freshness and identity") < sync.index("Push synchronized deployment branch")
     assert sync.index("Push synchronized deployment branch") < sync.index("DEPLOYMENT_READY")
     assert sync.index("DEPLOYMENT_READY") < sync.index("DEPLOYED_BYTE_VERIFIED")
 

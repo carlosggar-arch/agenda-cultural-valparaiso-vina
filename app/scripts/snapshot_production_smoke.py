@@ -15,6 +15,7 @@ import sys
 
 import publication_execution_binding as binding
 import publication_snapshot_verification as contract
+from fast_close_dataset_validation import validate_reference_datasets
 from snapshot_verification_cli import (
     GithubReader, require_overlay, require_runtime_composition, require_same_surfaces, write_json,
 )
@@ -67,6 +68,7 @@ def run_groups(snapshot: Path, evidence: Path) -> None:
 
 
 def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
+    validate_reference_datasets(snapshot)
     proof = contract.validate(binding.parse_json((evidence / "snapshot-verification.json").read_bytes()))
     public_sha = proof["original_core_execution"]["binding"]["public_sha"]
     verifier_sha = proof["execution"]["workflow_head_sha"]
