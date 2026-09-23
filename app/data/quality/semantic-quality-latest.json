@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "c0fdf2d56fb8801c61d770a272909649652af53eac53fb512d3af4a8b5a39542",
-  "generated_at": "2026-09-22T23:10:25Z",
+  "fingerprint": "9fdfbd5e572d6f0b8ce51b4a4f047c6bede0514a374bec760954b04c61453d33",
+  "generated_at": "2026-09-23T10:59:41Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -25,18 +25,18 @@
       "category_distribution": {
         "charlas-conferencias": 0.25,
         "exposiciones": 0.125,
-        "literatura": 0.375,
+        "literatura": 0.25,
         "musica": 0.125,
-        "unclassified": 0.125
+        "unclassified": 0.25
       },
       "city_id": "gijon",
-      "dominant_category": "literatura",
-      "dominant_share": 0.375,
+      "dominant_category": "charlas-conferencias",
+      "dominant_share": 0.25,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
       "total": 8,
-      "unclassified": 1,
-      "unclassified_rate": 0.125
+      "unclassified": 2,
+      "unclassified_rate": 0.25
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -100,16 +100,16 @@
     },
     "gijon::danza xixon": {
       "category_distribution": {
-        "cine": 0.043478,
-        "exposiciones": 0.043478,
-        "teatro": 0.913043
+        "cine": 0.041667,
+        "exposiciones": 0.041667,
+        "teatro": 0.916667
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.913043,
+      "dominant_share": 0.916667,
       "source_name": "Danza Xixón",
       "source_url": "https://www.gijon.es/es/eventos/danza-xixon",
-      "total": 23,
+      "total": 24,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -462,24 +462,24 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-556552",
-      "total": 14,
+      "source_url": "https://cineartevina.cl/#funcion-juan-gabriel-mi-primer-bellas-artes-cine-arte-vina-del-mar-556555",
+      "total": 19,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::cultura pucv": {
       "category_distribution": {
-        "cine": 0.428571,
-        "cursos-talleres-campus": 0.142857,
-        "exposiciones": 0.142857,
-        "musica": 0.285714
+        "cine": 0.333333,
+        "cursos-talleres-campus": 0.166667,
+        "exposiciones": 0.166667,
+        "musica": 0.333333
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.428571,
+      "dominant_share": 0.333333,
       "source_name": "Cultura PUCV",
-      "source_url": "https://www.instagram.com/p/DdkNUkzOyMz/",
-      "total": 7,
+      "source_url": "https://www.instagram.com/p/DdjlBHBxA8L/",
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -495,19 +495,6 @@
       "source_name": "Cultura USM",
       "source_url": "https://www.instagram.com/p/DdaBKMRx3R1/",
       "total": 10,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
-    "valparaiso::deportes vina del mar": {
-      "category_distribution": {
-        "exposiciones": 1.0
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "exposiciones",
-      "dominant_share": 1.0,
-      "source_name": "Deportes Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/",
-      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -593,15 +580,15 @@
     },
     "valparaiso::insomnia cine": {
       "category_distribution": {
-        "cine": 0.875,
-        "cursos-talleres-campus": 0.125
+        "cine": 0.947368,
+        "cursos-talleres-campus": 0.052632
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.875,
+      "dominant_share": 0.947368,
       "source_name": "Insomnia Cine",
       "source_url": "https://www.passline.com/eventos/resident-evil-noche-cero-556127",
-      "total": 8,
+      "total": 19,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -772,30 +759,30 @@
     },
     "valparaiso::sala teatro ipa": {
       "category_distribution": {
-        "exposiciones": 0.142857,
-        "musica": 0.142857,
-        "teatro": 0.714286
+        "exposiciones": 0.125,
+        "musica": 0.125,
+        "teatro": 0.75
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 0.714286,
+      "dominant_share": 0.75,
       "source_name": "Sala Teatro IPA",
       "source_url": "https://www.instagram.com/p/DdFQQnLPsb9/",
-      "total": 7,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::teatro la peste": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.8,
-        "teatro": 0.2
+        "cursos-talleres-campus": 0.714286,
+        "teatro": 0.285714
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.8,
+      "dominant_share": 0.714286,
       "source_name": "Teatro La Peste",
       "source_url": "https://www.instagram.com/p/DdJxaUSEags/",
-      "total": 10,
+      "total": 7,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -830,31 +817,30 @@
     },
     "valparaiso::teatro municipal de vina del mar": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.058824,
-        "literatura": 0.058824,
-        "musica": 0.411765,
-        "teatro": 0.470588
+        "cursos-talleres-campus": 0.066667,
+        "literatura": 0.066667,
+        "musica": 0.4,
+        "teatro": 0.466667
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 0.470588,
+      "dominant_share": 0.466667,
       "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://www.instagram.com/p/DdUiY3PBvIh/",
-      "total": 17,
+      "source_url": "https://www.instagram.com/p/DdW3UtPpKQW/",
+      "total": 15,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::teatromuseo": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.125,
-        "teatro": 0.875
+        "teatro": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 0.875,
+      "dominant_share": 1.0,
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/vestigial-todo-afuera-nada-adentro_829",
-      "total": 8,
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -934,30 +920,30 @@
     },
     "valparaiso::visita vina museo palacio rioja": {
       "category_distribution": {
-        "cine": 0.222222,
-        "cursos-talleres-campus": 0.222222,
-        "exposiciones": 0.111111,
-        "literatura": 0.111111,
-        "musica": 0.333333
+        "cine": 0.25,
+        "cursos-talleres-campus": 0.125,
+        "exposiciones": 0.125,
+        "literatura": 0.125,
+        "musica": 0.375
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.333333,
+      "dominant_share": 0.375,
       "source_name": "Visita Viña — Museo Palacio Rioja",
       "source_url": "https://visitavina.munivina.cl/actividades/",
-      "total": 9,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "7b52c8f9698f32b987133a8913c7d64709c1a197",
+  "source_ref": "aa0d37b1295e64bff684026059f19d9a22a04c43",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 66,
-    "total_events": 651,
-    "unclassified_count": 10,
-    "unclassified_rate": 0.015361
+    "source_count": 65,
+    "total_events": 659,
+    "unclassified_count": 11,
+    "unclassified_rate": 0.016692
   },
   "unclassified_queue": [
     {
@@ -969,6 +955,16 @@
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
       "title": "EL PRIORATO DE FANO Y EL ANTIGUO VALLE DE RANÓN DE GIJÓN"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "gijon_ateneo_jovellanos_c64b017fff31c227",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Ateneo Jovellanos — Actividades",
+      "source_url": "https://ateneojovellanos.es/actividades/",
+      "title": "GUARDIANAS DE LAS TIERRAS DEL NORTE"
     },
     {
       "candidates": [],

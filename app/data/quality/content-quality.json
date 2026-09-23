@@ -1,30 +1,13 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 342,
-  "events_after": 327,
-  "removed": 15,
+  "events_before": 346,
+  "events_after": 334,
+  "removed": 12,
   "html_cleaned": [],
   "titles_recovered": [],
-  "duplicates_consolidated": [
-    {
-      "kind": "exact_source_occurrence",
-      "kept_id": "agenda_762e5f9111bf3e0f940e35fe",
-      "removed_ids": [
-        "agenda_713c00cbecc92f394cec144b"
-      ],
-      "start": "2026-09-24T19:00:00-03:00"
-    }
-  ],
+  "duplicates_consolidated": [],
   "quarantined": [
-    {
-      "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-      "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*",
-      "reason": "upstream_publication_review:caption_programme_children_unresolved",
-      "missing_evidence": [
-        "individual_activity_projection"
-      ]
-    },
     {
       "id": "agenda_1d26f193cd916e4cff629c47",
       "title": "Recordar lo que nunca vivimos",
@@ -68,11 +51,6 @@
       "missing_evidence": [
         "verified_event_end_date_or_occurrence"
       ]
-    },
-    {
-      "id": "agenda_d2ecab24ed763f61dc9aff6d",
-      "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-      "reason": "retrospective_post"
     },
     {
       "id": "agenda_8c05e052afa28b14b89d1da4",
@@ -201,11 +179,11 @@
           },
           "registration_requirements": null,
           "schedule": {
-            "display_text": "2026-09-22",
+            "display_text": "2026-09-23",
             "end": "2026-10-03",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22",
+            "start": "2026-09-23",
             "timezone": "America/Santiago"
           },
           "source_id": "teatro_municipal_valparaiso",
@@ -234,7 +212,7 @@
             "end": "2026-10-03",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           },
           "source_id": "teatro_municipal_valparaiso",
           "source_urls": [
@@ -243,9 +221,9 @@
           "title": "Recordar lo que nunca vivimos",
           "venue": "teatro-municipal-valparaiso"
         },
-        "event_sha256": "cdc741f770ccf376ffcd1b049c6a6cb8365538eb878b6bfee1d7938e3056ce05",
+        "event_sha256": "0b2bf35c4ccd46bc9187dd2e3f269e5cab6405b9aaaeeb0c2f012c41991249a2",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -263,7 +241,7 @@
               "activity_venue"
             ]
           },
-          "occurrence_id": "occurrence:0f772dd0ede1f09a9393",
+          "occurrence_id": "occurrence:8add9540ab143a46bf5a",
           "provenance": {
             "method": "source_record_provenance",
             "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/"
@@ -382,7 +360,7 @@
         },
         "event_sha256": "200df0b94038ee1b3871e8067647ff0a008b8ac7990a626a015f04d1aa6718c3",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -518,7 +496,7 @@
         },
         "event_sha256": "6615b848d65590d3f96a341f68e885dae4f138a0d0c92bb8d34d58c68cab3c2f",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -699,7 +677,7 @@
         },
         "event_sha256": "057736c9c4a116fe039d838b6dfd991f767c83daa5c0bd9ac29d0341226e8083",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -847,11 +825,11 @@
           },
           "registration_requirements": null,
           "schedule": {
-            "display_text": "2026-09-22",
+            "display_text": "2026-09-23",
             "end": "2026-10-31",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22",
+            "start": "2026-09-23",
             "timezone": "America/Santiago"
           },
           "source_id": "el_pasaje_cafe_vina",
@@ -875,7 +853,7 @@
             "end": "2026-10-31",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           },
           "source_id": "el_pasaje_cafe_vina",
           "source_urls": [
@@ -884,9 +862,9 @@
           "title": "Las bases en historia destacada !",
           "venue": "el-pasaje-cafe-vina"
         },
-        "event_sha256": "cb5328b7292db8eadb3adbbf79725c507605e7bb44bcd0110c9352e145d59395",
+        "event_sha256": "919ea82e41a02306715c9b6e8332543c3f50c3d2469f4547d2d9c689ec575860",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -902,7 +880,7 @@
               "verified_official_source"
             ]
           },
-          "occurrence_id": "occurrence:b4ddd3e85c9b40d627bd",
+          "occurrence_id": "occurrence:7671fd0a9ccce8daa01a",
           "provenance": {
             "verified_venue": {
               "address": "9 Norte 907, Viña del Mar",
@@ -1022,7 +1000,7 @@
         },
         "event_sha256": "e2f194f1031453040d49f6e1110a29004b5e87a9d065ad279614e21efb6e52bf",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -1172,7 +1150,7 @@
         },
         "event_sha256": "250c2c834ba4f88fc49513023f98058785907ba3f5cddef971ff07a197a6b25a",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -1273,11 +1251,11 @@
           },
           "registration_requirements": null,
           "schedule": {
-            "display_text": "2026-09-22 · 18:30, 18:00",
+            "display_text": "2026-09-23 · 18:30, 18:00",
             "end": "2026-10-08",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22T18:30:00-03:00",
+            "start": "2026-09-23T18:30:00-03:00",
             "timezone": "America/Santiago"
           },
           "source_id": "balmaceda_arte_joven_valpo",
@@ -1303,7 +1281,7 @@
             "end": "2026-10-08",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22T18:30:00-03:00"
+            "start": "2026-09-23T18:30:00-03:00"
           },
           "source_id": "balmaceda_arte_joven_valpo",
           "source_urls": [
@@ -1312,9 +1290,9 @@
           "title": "Viento Sur",
           "venue": "Exposición “Viento Sur”"
         },
-        "event_sha256": "a7eab647c0ccdb26fbab3a563a9191a1fc4d76cc01eca256051178d3b635321f",
+        "event_sha256": "0e169deb1414f6c7042d2561b4e88f62f36ef20615d50d922dae31f038b3ec91",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -1330,7 +1308,7 @@
               "valparaiso_occurrence"
             ]
           },
-          "occurrence_id": "occurrence:4cbda7f4480dc9522c23",
+          "occurrence_id": "occurrence:b279a2885dbd013c8cfa",
           "provenance": {
             "method": "source_record_provenance",
             "source_url": "https://www.instagram.com/p/Dc32fhpjnV8/"
@@ -1340,157 +1318,6 @@
           "source_url": "https://www.instagram.com/p/Dc32fhpjnV8/",
           "stage": "content_quality_guard",
           "title": "Viento Sur"
-        }
-      },
-      {
-        "before_event": {
-          "audience": "Familiar",
-          "categories": [
-            {
-              "id": "teatro",
-              "label": "Teatro"
-            }
-          ],
-          "description": "En Destino Valparaíso siempre hay algo pasando Teatro, conciertos, exposiciones, charlas, ferias y más. Un espacio vivo, donde te encuentras con la cultura. Revisa la programación y haz tuyo el próximo encuentro. Explora los eventos que Destino Valparaíso tien...",
-          "editorial": {
-            "publication_review_missing_evidence": [
-              "single_activity_identity_for_container"
-            ],
-            "publication_review_reason": "programme_container_not_individual_event",
-            "publication_review_required": true
-          },
-          "event_type": "event",
-          "id": "agenda_de33e1806710e89926e7d00d",
-          "image": {
-            "alt": "Destino Valparaíso",
-            "relevance": "event_specific",
-            "source": "official_page_metadata",
-            "url": "./assets/event-images/valparaiso/47211e74e190d9ab4060e9ef.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://destinovalpo.cl/cartelera/",
-            "registration": null,
-            "source": "https://destinovalpo.cl/cartelera/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Concepción 499, Cerro Concepción, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Destino Valparaíso",
-            "venue_id": "destino-valparaiso"
-          },
-          "organizer": null,
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "teatro",
-            "label": "Teatro"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Concepción 499, Cerro Concepción, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://destinovalpo.cl/cartelera/",
-              "venue_id": "destino-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": false
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-09-12 · 16:00, 12:00",
-            "end": "2026-09-27",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-09-12T16:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "destino_valparaiso",
-          "source_name": "destinovalpo.cl",
-          "source_url": "https://destinovalpo.cl/cartelera/",
-          "tags": [],
-          "title": "Destino Valparaíso"
-        },
-        "decision": {
-          "id": "agenda_de33e1806710e89926e7d00d",
-          "missing_evidence": [
-            "single_activity_identity_for_container"
-          ],
-          "reason": "upstream_publication_review:programme_container_not_individual_event",
-          "title": "Destino Valparaíso"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_de33e1806710e89926e7d00d",
-          "schedule": {
-            "end": "2026-09-27",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-09-12T16:00:00-03:00"
-          },
-          "source_id": "destino_valparaiso",
-          "source_urls": [
-            "https://destinovalpo.cl/cartelera"
-          ],
-          "title": "Destino Valparaíso",
-          "venue": "destino-valparaiso"
-        },
-        "event_sha256": "aff81b5775dd5148c5735098fbe21b140c40d7ff34c4ee0fcb690e494ab09508",
-        "kind": "quarantined",
-        "publication_date": "2026-09-22",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "quarantine",
-          "canonical_event_id": "agenda_de33e1806710e89926e7d00d",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "quarantine"
-          },
-          "evidence": {
-            "missing_evidence": [
-              "single_activity_identity_for_container"
-            ]
-          },
-          "occurrence_id": "occurrence:8f992636c7d639c27f1f",
-          "provenance": {
-            "verified_venue": {
-              "address": "Concepción 499, Cerro Concepción, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://destinovalpo.cl/cartelera/",
-              "venue_id": "destino-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "reason": "upstream_publication_review:programme_container_not_individual_event",
-          "source_record_id": "agenda_de33e1806710e89926e7d00d",
-          "source_url": "https://destinovalpo.cl/cartelera/",
-          "stage": "content_quality_guard",
-          "title": "Destino Valparaíso"
         }
       },
       {
@@ -1591,7 +1418,7 @@
         },
         "event_sha256": "5b8a0623d5bc190b5263b5af04acf47c019e8f65ec37fb02ad9544e1c973146e",
         "kind": "quarantined",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -1618,7 +1445,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_1d26f193cd916e4cff629c47",
@@ -1633,10 +1460,10 @@
             "end": "2026-10-03",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           }
         },
-        "event_sha256": "a9c4ae86b25c34da43da05e93fb0f36f543e878ada7a829158c5ca17d3f3feb8",
+        "event_sha256": "dd9ac7ae4543414a644af5e53b87fd037c0cb746fed38fd011eda47d915b647f",
         "before_event": {
           "id": "agenda_1d26f193cd916e4cff629c47",
           "title": "Recordar lo que nunca vivimos",
@@ -1653,10 +1480,10 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-09-22",
+            "start": "2026-09-23",
             "end": "2026-10-03",
             "timezone": "America/Santiago",
-            "display_text": "2026-09-22",
+            "display_text": "2026-09-23",
             "occurrences": []
           },
           "location": {
@@ -1736,7 +1563,7 @@
           "reason": "upstream_publication_review:promotional_festival_spot_not_individual_event",
           "source_record_id": "agenda_1d26f193cd916e4cff629c47",
           "canonical_event_id": "agenda_1d26f193cd916e4cff629c47",
-          "occurrence_id": "occurrence:bfe2c9721deea3d82145",
+          "occurrence_id": "occurrence:2e1465b63b3e9468f371",
           "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/",
           "title": "Recordar lo que nunca vivimos",
           "provenance": {
@@ -1760,7 +1587,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_31fa4e83e77420f8d918d78c",
@@ -1880,7 +1707,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_3abd380517e302745ec16075",
@@ -2015,178 +1842,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
-        "kind": "quarantined",
-        "event_binding": {
-          "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-          "source_id": "insomniacine",
-          "source_urls": [
-            "https://www.instagram.com/p/Dc6dnu2Cdmk"
-          ],
-          "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*",
-          "city": "Valparaíso",
-          "venue": "insomnia-teatro-condell",
-          "schedule": {
-            "end": "2026-09-28",
-            "mode": "program",
-            "occurrences": [],
-            "start": "2026-09-20"
-          }
-        },
-        "event_sha256": "48072ce459537ccf2047d8ad419f98db82a209d1ea951f1afece1bc3af0469ac",
-        "before_event": {
-          "organizer": "Insomnia Cine",
-          "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-          "links": {
-            "tickets": null,
-            "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-            "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-            "registration": null
-          },
-          "source_name": "Insomnia Cine",
-          "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "public_status": {
-            "information_completeness": "partial",
-            "source_official": false,
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-            "registration_open": null,
-            "sold_out": null,
-            "cancelled": null,
-            "price_confirmed": null,
-            "last_verified_at": null,
-            "registration_closed": null,
-            "price_stage": null
-          },
-          "tags": [
-            "cine",
-            "película"
-          ],
-          "schedule": {
-            "end": "2026-09-28",
-            "start": "2026-09-20",
-            "timezone": "America/Santiago",
-            "display_text": "2026-09-20",
-            "mode": "program",
-            "occurrences": []
-          },
-          "location": {
-            "venue_id": "insomnia-teatro-condell",
-            "venue": "Insomnia Teatro Condell",
-            "online": false,
-            "longitude": null,
-            "address": null,
-            "commune": "Valparaíso",
-            "city": "Valparaíso",
-            "latitude": null
-          },
-          "image": {
-            "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-            "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-          },
-          "audience": null,
-          "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-          "registration_requirements": null,
-          "last_verified_at": null,
-          "event_type": "program",
-          "price": {
-            "max_amount": null,
-            "display_text": null,
-            "is_free": null,
-            "currency": null,
-            "min_amount": null
-          },
-          "source_id": "insomniacine",
-          "editorial": {
-            "publication_review_required": true,
-            "publication_review_reason": "caption_programme_children_unresolved",
-            "publication_review_missing_evidence": [
-              "individual_activity_projection"
-            ],
-            "program_activity_evidence": [
-              {
-                "title": "El buen patrón (2021)",
-                "date_text": "07 de septiembre",
-                "time_text": null,
-                "evidence_line": 5,
-                "source_line": "📅 *07 de septiembre* — “El buen patrón” (2021), Fernando León de Aranoa"
-              },
-              {
-                "title": "I, Daniel Blake (2016)",
-                "date_text": "14 de septiembre",
-                "time_text": null,
-                "evidence_line": 6,
-                "source_line": "📅 *14 de septiembre* — “I, Daniel Blake” (2016), Ken Loach"
-              },
-              {
-                "title": "Judas and the Black Messiah (2021)",
-                "date_text": "21 de septiembre",
-                "time_text": null,
-                "evidence_line": 7,
-                "source_line": "📅 *21 de septiembre* — “Judas and the Black Messiah” (2021), Shaka King"
-              },
-              {
-                "title": "Mala junta (2016)",
-                "date_text": "28 de septiembre",
-                "time_text": null,
-                "evidence_line": 8,
-                "source_line": "📅 *28 de septiembre* — “Mala junta” (2016), Claudia Huaiquimilla "
-              }
-            ],
-            "caption_identity_control": {
-              "contract": "caption-activity-identity/1",
-              "raw_sha256": "9d9d6bbd002f961da6c7c7e58cee6fd78cda779a79a95b0b0c6b2979d7a233bb",
-              "evidence_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/"
-            }
-          }
-        },
-        "decision": {
-          "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-          "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*",
-          "reason": "upstream_publication_review:caption_programme_children_unresolved",
-          "missing_evidence": [
-            "individual_activity_projection"
-          ]
-        },
-        "transformation": {
-          "stage": "content_quality_guard",
-          "action": "quarantine",
-          "reason": "upstream_publication_review:caption_programme_children_unresolved",
-          "source_record_id": "agenda_3ad3c2516afb32f6fdd3c29c",
-          "canonical_event_id": "agenda_3ad3c2516afb32f6fdd3c29c",
-          "occurrence_id": "occurrence:d559ebd1e2e26e8c3999",
-          "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-          "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*",
-          "provenance": {
-            "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-            "method": "source_record_provenance"
-          },
-          "destination": {
-            "state": "quarantine",
-            "canonical_event_id": null
-          },
-          "evidence": {
-            "missing_evidence": [
-              "individual_activity_projection"
-            ]
-          }
-        }
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_6467e133788da5112c653367",
@@ -2201,10 +1857,10 @@
             "end": "2026-10-31",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           }
         },
-        "event_sha256": "a958b7b1bffb9779fe0f43825b4e3b1a9a5522c4a557eaefecb53da9cdd09abc",
+        "event_sha256": "f9b34c2a94293dc08dfe9017105af7d525cab7c897fc2c4a6724a31ea863375e",
         "before_event": {
           "id": "agenda_6467e133788da5112c653367",
           "title": "Las bases en historia destacada !",
@@ -2221,10 +1877,10 @@
           ],
           "schedule": {
             "mode": "multi_day",
-            "start": "2026-09-22",
+            "start": "2026-09-23",
             "end": "2026-10-31",
             "timezone": "America/Santiago",
-            "display_text": "2026-09-22",
+            "display_text": "2026-09-23",
             "occurrences": []
           },
           "location": {
@@ -2291,7 +1947,7 @@
           "reason": "unverified_call_for_submissions_missing_official_bases",
           "source_record_id": "agenda_6467e133788da5112c653367",
           "canonical_event_id": "agenda_6467e133788da5112c653367",
-          "occurrence_id": "occurrence:69033915e0ebd8fd3455",
+          "occurrence_id": "occurrence:39aa92f5a713204f81cb",
           "source_url": "https://www.instagram.com/p/DccS2CzlOLs/",
           "title": "Las bases en historia destacada !",
           "provenance": {
@@ -2314,167 +1970,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
-        "kind": "duplicates_consolidated",
-        "event_binding": {
-          "id": "agenda_713c00cbecc92f394cec144b",
-          "source_id": "rec_region_valparaiso",
-          "source_urls": [
-            "https://www.instagram.com/p/Ddjc_S0zgYd"
-          ],
-          "title": "Cuestión de ubicación",
-          "city": "Valparaíso",
-          "venue": "Sala de Teatro IPA | Condell #1349",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "start": "2026-09-24T19:00:00-03:00",
-                "end": null
-              }
-            ],
-            "start": "2026-09-24T19:00:00-03:00"
-          }
-        },
-        "event_sha256": "079ff48aa4c2c68d5187af57694fe840da2e2ee82db7972217e13b5b9e91cfa9",
-        "before_event": {
-          "id": "agenda_713c00cbecc92f394cec144b",
-          "title": "Cuestión de ubicación",
-          "event_type": "event",
-          "primary_category": {
-            "id": "teatro",
-            "label": "Teatro"
-          },
-          "categories": [
-            {
-              "id": "teatro",
-              "label": "Teatro"
-            }
-          ],
-          "schedule": {
-            "mode": "dated",
-            "start": "2026-09-24T19:00:00-03:00",
-            "end": null,
-            "timezone": "America/Santiago",
-            "display_text": "2026-09-24 · 19:00",
-            "occurrences": [
-              {
-                "start": "2026-09-24T19:00:00-03:00",
-                "end": null
-              }
-            ]
-          },
-          "location": {
-            "venue_id": null,
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "Sala de Teatro IPA | Condell #1349",
-            "address": null,
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": null,
-            "currency": null,
-            "min_amount": null,
-            "max_amount": null,
-            "display_text": null
-          },
-          "links": {
-            "official": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-            "tickets": null,
-            "registration": null,
-            "source": "https://www.instagram.com/p/Ddjc_S0zgYd/"
-          },
-          "organizer": "Sala Teatro IPA",
-          "source_name": "Sala Teatro IPA",
-          "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-          "last_verified_at": null,
-          "public_status": {
-            "source_official": false,
-            "last_verified_at": null,
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": null,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": null,
-            "information_completeness": "partial",
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-          },
-          "description": "📣 Cierra el mes de septiembre junto a la @cia.teatroilucion y “Cuestión de ubicación” la obra en la que, con humor y tragedia a la chilena, Radrigán nos enfrenta a una pregunta que sigue doliendo: ¿Qué tan pobres somos como seres humanos? Una de sus protagonis...",
-          "tags": [
-            "función",
-            "obra",
-            "teatro"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://instagram.fykz1-1.fna.fbcdn.net/v/t51.82787-15/817456051_18162942028489234_3851048976616202548_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5MTE2MTE4OTYyMzAwNjc0OTE4MTYyOTQyMDIyNDg5MjM0.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fZGVmYXVsdF9jb3Zlcl9mcmFtZS5DMyJ9&_nc_ohc=W-lZrsU24wkQ7kNvwGQQfpP&_nc_oc=AdoiaNq_KpszTQ5xXy085MIe_S9sPgs8YcAsK6olD6So4Q2HDPpyDXeshx6pOfxYF1Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fykz1-1.fna&_nc_gid=2cadaH_ST6e2C0V_E-5I3A&_nc_ss=7a22e&oh=00_AQKxLZvY0pXhmwLqBInvbdqcpi_HFu31UuNUN9h3vuQAWA&oe=6AB7EA1A",
-            "alt": "Cuestión de ubicación"
-          },
-          "source_id": "rec_region_valparaiso"
-        },
-        "decision": {
-          "kind": "exact_source_occurrence",
-          "kept_id": "agenda_762e5f9111bf3e0f940e35fe",
-          "removed_ids": [
-            "agenda_713c00cbecc92f394cec144b"
-          ],
-          "start": "2026-09-24T19:00:00-03:00"
-        },
-        "transformation": {
-          "stage": "content_quality_guard",
-          "action": "deduplication",
-          "reason": "same_source_title_venue_city_and_start",
-          "source_record_id": "agenda_713c00cbecc92f394cec144b",
-          "canonical_event_id": "agenda_762e5f9111bf3e0f940e35fe",
-          "occurrence_id": "occurrence:ef8b1a9c174935c89507",
-          "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-          "title": "Cuestión de ubicación",
-          "provenance": {
-            "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-            "method": "source_record_provenance"
-          },
-          "destination": {
-            "state": "merged",
-            "canonical_event_id": "agenda_762e5f9111bf3e0f940e35fe"
-          },
-          "evidence": {
-            "source_identity": "rec region valparaiso",
-            "title": "cuestion de ubicacion",
-            "city": "valparaiso",
-            "venue": "sala de teatro ipa condell 1349",
-            "start": "2026-09-24T19:00:00-03:00"
-          },
-          "preserved_fields": [
-            "description",
-            "image",
-            "links",
-            "location",
-            "price",
-            "primary_category",
-            "schedule",
-            "title"
-          ],
-          "combined_provenance": {
-            "canonical": {},
-            "duplicate": {},
-            "sources": [
-              "https://www.instagram.com/p/Dc_YliJuJ0X/",
-              "https://www.instagram.com/p/Ddjc_S0zgYd/"
-            ]
-          }
-        }
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_91e916f69649b0552d224318",
@@ -2612,7 +2108,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_bfaa1d91e085fc4168d0a89e",
@@ -2732,127 +2228,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
-        "kind": "quarantined",
-        "event_binding": {
-          "id": "agenda_d2ecab24ed763f61dc9aff6d",
-          "source_id": "teatromuseo",
-          "source_urls": [
-            "https://www.instagram.com/p/DcW2CEdJKeq"
-          ],
-          "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-          "city": "Valparaíso",
-          "venue": "TeatroMuseo del Títere y el Payaso",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": null
-          }
-        },
-        "event_sha256": "f88fd64a0b5daba5562c9332db91c0125a52b8f5cf953822469f2773981a3af0",
-        "before_event": {
-          "id": "agenda_d2ecab24ed763f61dc9aff6d",
-          "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-          "event_type": "event",
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "schedule": {
-            "mode": "dated",
-            "start": null,
-            "end": null,
-            "timezone": "America/Santiago",
-            "display_text": "Horario por confirmar",
-            "occurrences": []
-          },
-          "location": {
-            "venue_id": null,
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "venue": "TeatroMuseo del Títere y el Payaso",
-            "address": null,
-            "online": false,
-            "latitude": null,
-            "longitude": null
-          },
-          "price": {
-            "is_free": null,
-            "currency": null,
-            "min_amount": null,
-            "max_amount": null,
-            "display_text": null
-          },
-          "links": {
-            "official": "https://www.instagram.com/p/DcW2CEdJKeq/",
-            "tickets": null,
-            "registration": null,
-            "source": "https://www.instagram.com/p/DcW2CEdJKeq/"
-          },
-          "organizer": "TeatroMuseo",
-          "source_name": "TeatroMuseo",
-          "source_url": "https://www.instagram.com/p/DcW2CEdJKeq/",
-          "last_verified_at": null,
-          "public_status": {
-            "source_official": true,
-            "last_verified_at": null,
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": null,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": null,
-            "information_completeness": "partial",
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-          },
-          "description": "✨ El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómi...",
-          "tags": [
-            "cine"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://instagram.fyxd4-1.fna.fbcdn.net/v/t51.82787-15/782876853_18619276453032301_3072089474571745944_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk2OTU5Nzc1ODMwODEzMjc3ODE4NjE5Mjc2NDQ3MDMyMzAx.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjExNzAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=CIb5mwvqwDgQ7kNvwENKist&_nc_oc=AdozcjMus6OJxHetozmYqbCt746cNDRMwJe_DJvXkreG9sB51WoxOl5fcj1CICFXMe4&_nc_zt=23&_nc_ht=instagram.fyxd4-1.fna&_nc_gid=nwQ2b5ObVlMTVm0vhkMldg&_nc_ss=72689&oh=00_AQEbLdrd7FuTWCkwTSapZIBhQV-7Vr4TahFa12CfnkEh1w&oe=6A925965",
-            "alt": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo"
-          },
-          "source_id": "teatromuseo"
-        },
-        "decision": {
-          "id": "agenda_d2ecab24ed763f61dc9aff6d",
-          "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-          "reason": "retrospective_post"
-        },
-        "transformation": {
-          "stage": "content_quality_guard",
-          "action": "non_event_exclusion",
-          "reason": "retrospective_post",
-          "source_record_id": "agenda_d2ecab24ed763f61dc9aff6d",
-          "canonical_event_id": "agenda_d2ecab24ed763f61dc9aff6d",
-          "occurrence_id": "occurrence:5fc383da9b852210672f",
-          "source_url": "https://www.instagram.com/p/DcW2CEdJKeq/",
-          "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-          "provenance": {
-            "source_url": "https://www.instagram.com/p/DcW2CEdJKeq/",
-            "method": "source_record_provenance"
-          },
-          "destination": {
-            "state": "non_event_exclusion",
-            "canonical_event_id": null
-          }
-        }
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_eacf8213e98d64f14df95cac",
@@ -2986,7 +2362,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-09-22",
+        "publication_date": "2026-09-23",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ec3a66f2e9442f466201a6f3",
@@ -3104,223 +2480,8 @@
       }
     ],
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-09-22T23:09:44+00:00",
+    "generated_at": "2026-09-23T10:59:01+00:00",
     "receipts": [
-      {
-        "action": "occurrence_pruning",
-        "canonical_event_id": "agenda_1386f75397ef45d038988588",
-        "destination": {
-          "canonical_event_id": "agenda_1386f75397ef45d038988588",
-          "state": "series_preserved"
-        },
-        "evidence": {
-          "occurrence": {
-            "end": null,
-            "start": "2026-09-20T19:30:00-03:00"
-          }
-        },
-        "occurrence_id": "occurrence:a5780a76df7e413eb847",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://cineartevina.cl/#funcion-oasis-dont-look-back-in-anger-cine-arte-vina-del-mar-556559"
-        },
-        "reason": "past_occurrence_pruned_from_active_series",
-        "source_record_id": "agenda_1386f75397ef45d038988588",
-        "source_url": "https://cineartevina.cl/#funcion-oasis-dont-look-back-in-anger-cine-arte-vina-del-mar-556559",
-        "stage": "content_quality_guard",
-        "title": "Oasis: Dont Look Back in Anger"
-      },
-      {
-        "action": "occurrence_pruning",
-        "canonical_event_id": "agenda_4d0fb2ad0f037e2df61d6249",
-        "destination": {
-          "canonical_event_id": "agenda_4d0fb2ad0f037e2df61d6249",
-          "state": "series_preserved"
-        },
-        "evidence": {
-          "occurrence": {
-            "end": null,
-            "start": "2026-09-21T15:00:00-03:00"
-          }
-        },
-        "occurrence_id": "occurrence:97c02cea7984c5de4963",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://cineartevina.cl/#funcion-juan-gabriel-mi-primer-bellas-artes-cine-arte-vina-del-mar-556555"
-        },
-        "reason": "past_occurrence_pruned_from_active_series",
-        "source_record_id": "agenda_4d0fb2ad0f037e2df61d6249",
-        "source_url": "https://cineartevina.cl/#funcion-juan-gabriel-mi-primer-bellas-artes-cine-arte-vina-del-mar-556555",
-        "stage": "content_quality_guard",
-        "title": "Juan Gabriel: Mi Primer Bellas Artes"
-      },
-      {
-        "action": "occurrence_pruning",
-        "canonical_event_id": "agenda_e31376dd2fb1923ea3d70ea5",
-        "destination": {
-          "canonical_event_id": "agenda_e31376dd2fb1923ea3d70ea5",
-          "state": "series_preserved"
-        },
-        "evidence": {
-          "occurrence": {
-            "end": null,
-            "start": "2026-09-20T15:00:00-03:00"
-          }
-        },
-        "occurrence_id": "occurrence:4055be95f06709a42312",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-556552"
-        },
-        "reason": "past_occurrence_pruned_from_active_series",
-        "source_record_id": "agenda_e31376dd2fb1923ea3d70ea5",
-        "source_url": "https://cineartevina.cl/#funcion-calle-malaga-2025-cine-arte-vina-del-mar-556552",
-        "stage": "content_quality_guard",
-        "title": "Calle Malaga (2025)"
-      },
-      {
-        "stage": "content_quality_guard",
-        "action": "quarantine",
-        "reason": "upstream_publication_review:caption_programme_children_unresolved",
-        "source_record_id": "agenda_3ad3c2516afb32f6fdd3c29c",
-        "canonical_event_id": "agenda_3ad3c2516afb32f6fdd3c29c",
-        "occurrence_id": "occurrence:d559ebd1e2e26e8c3999",
-        "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-        "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*",
-        "provenance": {
-          "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-          "method": "public_baseline_record_provenance"
-        },
-        "destination": {
-          "state": "quarantine",
-          "canonical_event_id": null
-        },
-        "evidence": {
-          "missing_evidence": [
-            "individual_activity_projection"
-          ]
-        }
-      },
-      {
-        "action": "quarantine",
-        "canonical_event_id": "agenda_aa7a971cdfa70311604bc72c",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "quarantine"
-        },
-        "evidence": {
-          "missing_evidence": [
-            "valparaiso_occurrence"
-          ]
-        },
-        "occurrence_id": "occurrence:4cbda7f4480dc9522c23",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.instagram.com/p/Dc32fhpjnV8/"
-        },
-        "reason": "upstream_publication_review:official_programme_wrong_city_scope",
-        "source_record_id": "agenda_aa7a971cdfa70311604bc72c",
-        "source_url": "https://www.instagram.com/p/Dc32fhpjnV8/",
-        "stage": "content_quality_guard",
-        "title": "Viento Sur"
-      },
-      {
-        "action": "quarantine",
-        "canonical_event_id": "agenda_de33e1806710e89926e7d00d",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "quarantine"
-        },
-        "evidence": {
-          "missing_evidence": [
-            "single_activity_identity_for_container"
-          ]
-        },
-        "occurrence_id": "occurrence:8f992636c7d639c27f1f",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://destinovalpo.cl/cartelera/"
-        },
-        "reason": "upstream_publication_review:programme_container_not_individual_event",
-        "source_record_id": "agenda_de33e1806710e89926e7d00d",
-        "source_url": "https://destinovalpo.cl/cartelera/",
-        "stage": "content_quality_guard",
-        "title": "Destino Valparaíso"
-      },
-      {
-        "action": "quarantine",
-        "canonical_event_id": "agenda_1d26f193cd916e4cff629c47",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "quarantine"
-        },
-        "evidence": {
-          "missing_evidence": [
-            "individual_activity_identity",
-            "individual_occurrence",
-            "activity_venue"
-          ]
-        },
-        "occurrence_id": "occurrence:0f772dd0ede1f09a9393",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/"
-        },
-        "reason": "upstream_publication_review:promotional_festival_spot_not_individual_event",
-        "source_record_id": "agenda_1d26f193cd916e4cff629c47",
-        "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/",
-        "stage": "content_quality_guard",
-        "title": "Recordar lo que nunca vivimos"
-      },
-      {
-        "stage": "content_quality_guard",
-        "action": "quarantine",
-        "reason": "upstream_publication_review:promotional_festival_spot_not_individual_event",
-        "source_record_id": "agenda_1d26f193cd916e4cff629c47",
-        "canonical_event_id": "agenda_1d26f193cd916e4cff629c47",
-        "occurrence_id": "occurrence:bfe2c9721deea3d82145",
-        "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/",
-        "title": "Recordar lo que nunca vivimos",
-        "provenance": {
-          "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/",
-          "method": "public_baseline_record_provenance"
-        },
-        "destination": {
-          "state": "quarantine",
-          "canonical_event_id": null
-        },
-        "evidence": {
-          "missing_evidence": [
-            "individual_activity_identity",
-            "individual_occurrence",
-            "activity_venue"
-          ]
-        }
-      },
-      {
-        "action": "quarantine",
-        "canonical_event_id": "agenda_328efa5ddea386bece0dce78",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "quarantine"
-        },
-        "evidence": {
-          "missing_evidence": [
-            "individual_festival_activity",
-            "individual_occurrence"
-          ]
-        },
-        "occurrence_id": "occurrence:73963d39bcaa2b5a3932",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.instagram.com/p/DdFd5dViZ8U/"
-        },
-        "reason": "upstream_publication_review:retrospective_press_conference_with_future_programme",
-        "source_record_id": "agenda_328efa5ddea386bece0dce78",
-        "source_url": "https://www.instagram.com/p/DdFd5dViZ8U/",
-        "stage": "content_quality_guard",
-        "title": "Hoy realizamos el punto de prensa del 30° Festival Internacional de Cine Recobrado de Valparaíso"
-      },
       {
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
@@ -3341,7 +2502,7 @@
             "end": "2026-10-03",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           }
         },
         "transformations": [
@@ -3351,7 +2512,7 @@
             "reason": "upstream_publication_review:promotional_festival_spot_not_individual_event",
             "source_record_id": "agenda_1d26f193cd916e4cff629c47",
             "canonical_event_id": "agenda_1d26f193cd916e4cff629c47",
-            "occurrence_id": "occurrence:bfe2c9721deea3d82145",
+            "occurrence_id": "occurrence:2e1465b63b3e9468f371",
             "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/",
             "title": "Recordar lo que nunca vivimos",
             "provenance": {
@@ -3377,7 +2538,7 @@
         "stage": "content_quality_guard",
         "action": "recovery_disposition",
         "observation_id": "obs_a17cc67420d02ed74775415c",
-        "recovery_receipt_sha256": "74e95fbf9c658cd4e48ced1a9e3e0051ab3d94bddf9584aab1c2a07aaf1625c6",
+        "recovery_receipt_sha256": "8279a0d87037e78991dd4303392bf5f136425653107682c7aaec6460fe84c1c5",
         "source_record_id": "agenda_1d26f193cd916e4cff629c47",
         "source_binding": {
           "id": "agenda_1d26f193cd916e4cff629c47",
@@ -3392,7 +2553,7 @@
             "end": "2026-10-03",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           }
         },
         "transformations": [
@@ -3402,7 +2563,7 @@
             "reason": "upstream_publication_review:promotional_festival_spot_not_individual_event",
             "source_record_id": "agenda_1d26f193cd916e4cff629c47",
             "canonical_event_id": "agenda_1d26f193cd916e4cff629c47",
-            "occurrence_id": "occurrence:bfe2c9721deea3d82145",
+            "occurrence_id": "occurrence:2e1465b63b3e9468f371",
             "source_url": "https://www.instagram.com/p/DdKi8n7qbpT/",
             "title": "Recordar lo que nunca vivimos",
             "provenance": {
@@ -3689,7 +2850,7 @@
             "end": "2026-10-31",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22"
+            "start": "2026-09-23"
           }
         },
         "transformations": [
@@ -3699,7 +2860,7 @@
             "reason": "unverified_call_for_submissions_missing_official_bases",
             "source_record_id": "agenda_6467e133788da5112c653367",
             "canonical_event_id": "agenda_6467e133788da5112c653367",
-            "occurrence_id": "occurrence:69033915e0ebd8fd3455",
+            "occurrence_id": "occurrence:39aa92f5a713204f81cb",
             "source_url": "https://www.instagram.com/p/DccS2CzlOLs/",
             "title": "Las bases en historia destacada !",
             "provenance": {
@@ -3714,154 +2875,6 @@
               "missing_evidence": [
                 "verified_official_source",
                 "field_provenance"
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "action": "recovery_disposition",
-        "observation_id": "obs_59afd11bb99f1e62ec78db6b",
-        "recovery_receipt_sha256": "ba3cbab1cf9e04c1220c0514ac3a6ad77661889dd4ddd64cad372f3628d5af9a",
-        "source_record_id": "agenda_713c00cbecc92f394cec144b",
-        "source_binding": {
-          "id": "agenda_713c00cbecc92f394cec144b",
-          "source_id": "rec_region_valparaiso",
-          "source_urls": [
-            "https://www.instagram.com/p/Ddjc_S0zgYd"
-          ],
-          "title": "Cuestión de ubicación",
-          "city": "Valparaíso",
-          "venue": "Sala de Teatro IPA | Condell #1349",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "start": "2026-09-24T19:00:00-03:00",
-                "end": null
-              }
-            ],
-            "start": "2026-09-24T19:00:00-03:00"
-          }
-        },
-        "transformations": [
-          {
-            "stage": "content_quality_guard",
-            "action": "deduplication",
-            "reason": "same_source_title_venue_city_and_start",
-            "source_record_id": "agenda_713c00cbecc92f394cec144b",
-            "canonical_event_id": "agenda_762e5f9111bf3e0f940e35fe",
-            "occurrence_id": "occurrence:ef8b1a9c174935c89507",
-            "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-            "title": "Cuestión de ubicación",
-            "provenance": {
-              "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-              "method": "source_record_provenance"
-            },
-            "destination": {
-              "state": "merged",
-              "canonical_event_id": "agenda_762e5f9111bf3e0f940e35fe"
-            },
-            "evidence": {
-              "source_identity": "rec region valparaiso",
-              "title": "cuestion de ubicacion",
-              "city": "valparaiso",
-              "venue": "sala de teatro ipa condell 1349",
-              "start": "2026-09-24T19:00:00-03:00"
-            },
-            "preserved_fields": [
-              "description",
-              "image",
-              "links",
-              "location",
-              "price",
-              "primary_category",
-              "schedule",
-              "title"
-            ],
-            "combined_provenance": {
-              "canonical": {},
-              "duplicate": {},
-              "sources": [
-                "https://www.instagram.com/p/Dc_YliJuJ0X/",
-                "https://www.instagram.com/p/Ddjc_S0zgYd/"
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "action": "recovery_disposition",
-        "observation_id": "obs_eb7d1bc2c909823e1e9df7ba",
-        "recovery_receipt_sha256": "bdceb12fce2f8697a3eed0a55dce0c77637522fd1b0555ce6f2561cdacdee537",
-        "source_record_id": "agenda_713c00cbecc92f394cec144b",
-        "source_binding": {
-          "id": "agenda_713c00cbecc92f394cec144b",
-          "source_id": "rec_region_valparaiso",
-          "source_urls": [
-            "https://www.instagram.com/p/Ddjc_S0zgYd"
-          ],
-          "title": "Cuestión de ubicación",
-          "city": "Valparaíso",
-          "venue": "Sala de Teatro IPA | Condell #1349",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "start": "2026-09-24T19:00:00-03:00",
-                "end": null
-              }
-            ],
-            "start": "2026-09-24T19:00:00-03:00"
-          }
-        },
-        "transformations": [
-          {
-            "stage": "content_quality_guard",
-            "action": "deduplication",
-            "reason": "same_source_title_venue_city_and_start",
-            "source_record_id": "agenda_713c00cbecc92f394cec144b",
-            "canonical_event_id": "agenda_762e5f9111bf3e0f940e35fe",
-            "occurrence_id": "occurrence:ef8b1a9c174935c89507",
-            "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-            "title": "Cuestión de ubicación",
-            "provenance": {
-              "source_url": "https://www.instagram.com/p/Ddjc_S0zgYd/",
-              "method": "source_record_provenance"
-            },
-            "destination": {
-              "state": "merged",
-              "canonical_event_id": "agenda_762e5f9111bf3e0f940e35fe"
-            },
-            "evidence": {
-              "source_identity": "rec region valparaiso",
-              "title": "cuestion de ubicacion",
-              "city": "valparaiso",
-              "venue": "sala de teatro ipa condell 1349",
-              "start": "2026-09-24T19:00:00-03:00"
-            },
-            "preserved_fields": [
-              "description",
-              "image",
-              "links",
-              "location",
-              "price",
-              "primary_category",
-              "schedule",
-              "title"
-            ],
-            "combined_provenance": {
-              "canonical": {},
-              "duplicate": {},
-              "sources": [
-                "https://www.instagram.com/p/Dc_YliJuJ0X/",
-                "https://www.instagram.com/p/Ddjc_S0zgYd/"
               ]
             }
           }
@@ -3988,7 +3001,7 @@
             "end": "2026-10-08",
             "mode": "multi_day",
             "occurrences": [],
-            "start": "2026-09-22T18:30:00-03:00"
+            "start": "2026-09-23T18:30:00-03:00"
           }
         },
         "transformations": [
@@ -3998,7 +3011,7 @@
             "reason": "upstream_publication_review:official_programme_wrong_city_scope",
             "source_record_id": "agenda_aa7a971cdfa70311604bc72c",
             "canonical_event_id": "agenda_aa7a971cdfa70311604bc72c",
-            "occurrence_id": "occurrence:4cbda7f4480dc9522c23",
+            "occurrence_id": "occurrence:b279a2885dbd013c8cfa",
             "source_url": "https://www.instagram.com/p/Dc32fhpjnV8/",
             "title": "Viento Sur",
             "provenance": {
@@ -4052,50 +3065,6 @@
             "title": "Una velada que reunió música, talento y una gran convocatoria. Ryutaro Suzuki llegó al Teatro Municipal de Viña del Mar con Amor y Pasión, cautivando al público con obras de Chopin y Liszt ante un teatro lleno.",
             "provenance": {
               "source_url": "https://www.instagram.com/p/DcMkZcWleJf/",
-              "method": "source_record_provenance"
-            },
-            "destination": {
-              "state": "non_event_exclusion",
-              "canonical_event_id": null
-            }
-          }
-        ]
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "action": "recovery_disposition",
-        "observation_id": "obs_38b21802c8d9f389065ba1a1",
-        "recovery_receipt_sha256": "f1488cffca567be1d7043c1842aaede1e751c76cd4037b26a1bd0cb1ec9a35f5",
-        "source_record_id": "agenda_d2ecab24ed763f61dc9aff6d",
-        "source_binding": {
-          "id": "agenda_d2ecab24ed763f61dc9aff6d",
-          "source_id": "teatromuseo",
-          "source_urls": [
-            "https://www.instagram.com/p/DcW2CEdJKeq"
-          ],
-          "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-          "city": "Valparaíso",
-          "venue": "TeatroMuseo del Títere y el Payaso",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": null
-          }
-        },
-        "transformations": [
-          {
-            "stage": "content_quality_guard",
-            "action": "non_event_exclusion",
-            "reason": "retrospective_post",
-            "source_record_id": "agenda_d2ecab24ed763f61dc9aff6d",
-            "canonical_event_id": "agenda_d2ecab24ed763f61dc9aff6d",
-            "occurrence_id": "occurrence:5fc383da9b852210672f",
-            "source_url": "https://www.instagram.com/p/DcW2CEdJKeq/",
-            "title": "El día de ayer disfrutamos de la muestra del proceso de residencia internacional que se ha desarrollado en Teatromuseo, fueron dos semanas de arduo trabajo donde por medio de distintos módulos guiados por el cuerpo docente de Teatromuseo, ambos artistas cómicos desarrollaron un espectáculo",
-            "provenance": {
-              "source_url": "https://www.instagram.com/p/DcW2CEdJKeq/",
               "method": "source_record_provenance"
             },
             "destination": {
@@ -4289,50 +3258,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_3f07ffc0daf1ed7ea352cd53",
-        "destination": {
-          "canonical_event_id": "agenda_3f07ffc0daf1ed7ea352cd53",
-          "state": "published"
-        },
-        "evidence": {
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_1d3dd0a5e14a40999e9af4b4",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DdCtqoSv-B_"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "teatromuseo",
-        "source_record_id": "obs_1d3dd0a5e14a40999e9af4b4",
-        "source_url": "https://www.instagram.com/p/DdCtqoSv-B_",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
-        "canonical_event_id": "agenda_6082d3b8b0d3977dd9b6fa55",
-        "destination": {
-          "canonical_event_id": "agenda_6082d3b8b0d3977dd9b6fa55",
-          "state": "published"
-        },
-        "evidence": {
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_21179318b6387ed592718558",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DdjzxpCN6wJ"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "casaprismavalpo",
-        "source_record_id": "obs_21179318b6387ed592718558",
-        "source_url": "https://www.instagram.com/p/DdjzxpCN6wJ",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_949c420aea5c8f91a41baca6",
         "destination": {
           "canonical_event_id": "agenda_949c420aea5c8f91a41baca6",
@@ -4391,24 +3316,46 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_d2ecab24ed763f61dc9aff6d",
+        "canonical_event_id": "agenda_26321680e3b911fbfacdc89b",
         "destination": {
-          "canonical_event_id": "agenda_d2ecab24ed763f61dc9aff6d",
+          "canonical_event_id": "agenda_26321680e3b911fbfacdc89b",
           "state": "published"
         },
         "evidence": {
           "transformation_class": "recovered"
         },
-        "observation_id": "obs_38b21802c8d9f389065ba1a1",
+        "observation_id": "obs_457c6499ceae6f32f8dc5a4b",
         "occurrence_id": null,
         "provenance": {
           "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DcW2CEdJKeq"
+          "source_url": "https://www.instagram.com/p/DcY81UBEZAQ"
         },
         "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "teatromuseo",
-        "source_record_id": "obs_38b21802c8d9f389065ba1a1",
-        "source_url": "https://www.instagram.com/p/DcW2CEdJKeq",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_457c6499ceae6f32f8dc5a4b",
+        "source_url": "https://www.instagram.com/p/DcY81UBEZAQ",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_80d87d959256abc1fbc9fac7",
+        "destination": {
+          "canonical_event_id": "agenda_80d87d959256abc1fbc9fac7",
+          "state": "published"
+        },
+        "evidence": {
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_4b1ad83ff563be867569533b",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DdfPCRcAPjk"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_4b1ad83ff563be867569533b",
+        "source_url": "https://www.instagram.com/p/DdfPCRcAPjk",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -4711,28 +3658,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_1281f983b4d34531e9739fb8",
-        "destination": {
-          "canonical_event_id": "agenda_1281f983b4d34531e9739fb8",
-          "state": "published"
-        },
-        "evidence": {
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_95e8fa9d7658e4f9f8681bd5",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/Ddh4pwHEp9Q"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "museofonck",
-        "source_record_id": "obs_95e8fa9d7658e4f9f8681bd5",
-        "source_url": "https://www.instagram.com/p/Ddh4pwHEp9Q",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_328efa5ddea386bece0dce78",
         "destination": {
           "canonical_event_id": "agenda_328efa5ddea386bece0dce78",
@@ -4755,24 +3680,24 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_ed3039ebf5a370350d4da1fc",
+        "canonical_event_id": "agenda_0cecc4dd2d6ffe2d6480b44e",
         "destination": {
-          "canonical_event_id": "agenda_ed3039ebf5a370350d4da1fc",
+          "canonical_event_id": "agenda_0cecc4dd2d6ffe2d6480b44e",
           "state": "published"
         },
         "evidence": {
           "transformation_class": "recovered"
         },
-        "observation_id": "obs_99b78d80e3fecc5624ec9b85",
+        "observation_id": "obs_9b6a600080c1b8dfb0451419",
         "occurrence_id": null,
         "provenance": {
           "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DdPRV-RCSCb"
+          "source_url": "https://www.instagram.com/p/DdSG4OIgdRU"
         },
         "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "teatromuseo",
-        "source_record_id": "obs_99b78d80e3fecc5624ec9b85",
-        "source_url": "https://www.instagram.com/p/DdPRV-RCSCb",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_9b6a600080c1b8dfb0451419",
+        "source_url": "https://www.instagram.com/p/DdSG4OIgdRU",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -4834,7 +3759,7 @@
               "end": "2026-10-03",
               "mode": "multi_day",
               "occurrences": [],
-              "start": "2026-09-22"
+              "start": "2026-09-23"
             },
             "source_id": "cultura_pucv",
             "source_urls": [
@@ -4850,7 +3775,7 @@
               "end": "2026-10-03",
               "mode": "multi_day",
               "occurrences": [],
-              "start": "2026-09-22"
+              "start": "2026-09-23"
             },
             "source_id": "teatro_municipal_valparaiso",
             "source_urls": [
@@ -4875,6 +3800,28 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_59e25397a29d0ebd2ae69a24",
+        "destination": {
+          "canonical_event_id": "agenda_59e25397a29d0ebd2ae69a24",
+          "state": "published"
+        },
+        "evidence": {
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_a49ec553236c93eb11ec7251",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DdPmi5sgzZj"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_a49ec553236c93eb11ec7251",
+        "source_url": "https://www.instagram.com/p/DdPmi5sgzZj",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_eacf8213e98d64f14df95cac",
         "destination": {
           "canonical_event_id": "agenda_eacf8213e98d64f14df95cac",
@@ -4893,6 +3840,28 @@
         "source_id": "museobaburizza",
         "source_record_id": "obs_af4c89f1557c30338a0f981d",
         "source_url": "https://www.instagram.com/p/DdL_AbciIeL",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_25806ed3e6fd8f91162e39da",
+        "destination": {
+          "canonical_event_id": "agenda_25806ed3e6fd8f91162e39da",
+          "state": "published"
+        },
+        "evidence": {
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_bf1f388d36cf33fe2f372bb8",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dc9g8qYRmCg"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_bf1f388d36cf33fe2f372bb8",
+        "source_url": "https://www.instagram.com/p/Dc9g8qYRmCg",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -4963,28 +3932,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_73b59c2ddec51c5c4830e9a9",
-        "destination": {
-          "canonical_event_id": "agenda_73b59c2ddec51c5c4830e9a9",
-          "state": "published"
-        },
-        "evidence": {
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_ee3a9e59c1cb69f1cb39e821",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DdhXjRTFX0y"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "museobaburizza",
-        "source_record_id": "obs_ee3a9e59c1cb69f1cb39e821",
-        "source_url": "https://www.instagram.com/p/DdhXjRTFX0y",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_6467e133788da5112c653367",
         "destination": {
           "canonical_event_id": "agenda_6467e133788da5112c653367",
@@ -5003,6 +3950,28 @@
         "source_id": "elpasajecafe_vina",
         "source_record_id": "obs_f14c6ef108784736812160de",
         "source_url": "https://www.instagram.com/p/DccS2CzlOLs",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_86c80b731f12e730bb117120",
+        "destination": {
+          "canonical_event_id": "agenda_86c80b731f12e730bb117120",
+          "state": "published"
+        },
+        "evidence": {
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_f7e93c80dbf482138cb02acd",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dc8-mqxxlbZ"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_f7e93c80dbf482138cb02acd",
+        "source_url": "https://www.instagram.com/p/Dc8-mqxxlbZ",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -5026,612 +3995,6 @@
         "source_record_id": "obs_ff60125fbd687ba3a724f192",
         "source_url": "https://www.instagram.com/p/DaIxsgnsOXP",
         "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "caption_editorial_rectification",
-        "canonical_event_id": "agenda_3ad3c2516afb32f6fdd3c29c",
-        "evidence": {
-          "after_event": {
-            "audience": null,
-            "categories": [
-              {
-                "id": "cine",
-                "label": "Cine"
-              }
-            ],
-            "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-            "editorial": {
-              "caption_identity_control": {
-                "contract": "caption-activity-identity/1",
-                "evidence_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                "raw_sha256": "9d9d6bbd002f961da6c7c7e58cee6fd78cda779a79a95b0b0c6b2979d7a233bb"
-              },
-              "program_activity_evidence": [
-                {
-                  "date_text": "07 de septiembre",
-                  "evidence_line": 5,
-                  "source_line": "📅 *07 de septiembre* — “El buen patrón” (2021), Fernando León de Aranoa",
-                  "time_text": null,
-                  "title": "El buen patrón (2021)"
-                },
-                {
-                  "date_text": "14 de septiembre",
-                  "evidence_line": 6,
-                  "source_line": "📅 *14 de septiembre* — “I, Daniel Blake” (2016), Ken Loach",
-                  "time_text": null,
-                  "title": "I, Daniel Blake (2016)"
-                },
-                {
-                  "date_text": "21 de septiembre",
-                  "evidence_line": 7,
-                  "source_line": "📅 *21 de septiembre* — “Judas and the Black Messiah” (2021), Shaka King",
-                  "time_text": null,
-                  "title": "Judas and the Black Messiah (2021)"
-                },
-                {
-                  "date_text": "28 de septiembre",
-                  "evidence_line": 8,
-                  "source_line": "📅 *28 de septiembre* — “Mala junta” (2016), Claudia Huaiquimilla ",
-                  "time_text": null,
-                  "title": "Mala junta (2016)"
-                }
-              ],
-              "publication_review_missing_evidence": [
-                "individual_activity_projection"
-              ],
-              "publication_review_reason": "caption_programme_children_unresolved",
-              "publication_review_required": true
-            },
-            "event_type": "program",
-            "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-            "image": {
-              "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-              "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-            },
-            "last_verified_at": null,
-            "links": {
-              "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-              "registration": null,
-              "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-              "tickets": null
-            },
-            "location": {
-              "address": null,
-              "city": "Valparaíso",
-              "commune": "Valparaíso",
-              "latitude": null,
-              "longitude": null,
-              "online": false,
-              "venue": "Insomnia Teatro Condell",
-              "venue_id": "insomnia-teatro-condell"
-            },
-            "organizer": "Insomnia Cine",
-            "price": {
-              "currency": null,
-              "display_text": null,
-              "is_free": null,
-              "max_amount": null,
-              "min_amount": null
-            },
-            "primary_category": {
-              "id": "cine",
-              "label": "Cine"
-            },
-            "public_status": {
-              "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-              "cancelled": null,
-              "information_completeness": "partial",
-              "last_verified_at": null,
-              "price_confirmed": null,
-              "price_stage": null,
-              "registration_closed": null,
-              "registration_open": null,
-              "sold_out": null,
-              "source_official": false
-            },
-            "registration_requirements": null,
-            "schedule": {
-              "display_text": "2026-09-20",
-              "end": "2026-09-28",
-              "mode": "program",
-              "occurrences": [],
-              "start": "2026-09-20",
-              "timezone": "America/Santiago"
-            },
-            "source_id": "insomniacine",
-            "source_name": "Insomnia Cine",
-            "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-            "tags": [
-              "cine",
-              "película"
-            ],
-            "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*"
-          },
-          "after_sha256": "48072ce459537ccf2047d8ad419f98db82a209d1ea951f1afece1bc3af0469ac",
-          "before_event": {
-            "audience": null,
-            "categories": [
-              {
-                "id": "cine",
-                "label": "Cine"
-              }
-            ],
-            "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-            "event_type": "event",
-            "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-            "image": {
-              "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-              "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-            },
-            "last_verified_at": null,
-            "links": {
-              "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-              "registration": null,
-              "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-              "tickets": null
-            },
-            "location": {
-              "address": null,
-              "city": "Valparaíso",
-              "commune": "Valparaíso",
-              "latitude": null,
-              "longitude": null,
-              "online": false,
-              "venue": "Insomnia Teatro Condell",
-              "venue_id": "insomnia-teatro-condell"
-            },
-            "organizer": "Insomnia Cine",
-            "price": {
-              "currency": null,
-              "display_text": null,
-              "is_free": null,
-              "max_amount": null,
-              "min_amount": null
-            },
-            "primary_category": {
-              "id": "cine",
-              "label": "Cine"
-            },
-            "public_status": {
-              "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-              "cancelled": null,
-              "information_completeness": "partial",
-              "last_verified_at": null,
-              "price_confirmed": null,
-              "price_stage": null,
-              "registration_closed": null,
-              "registration_open": null,
-              "sold_out": null,
-              "source_official": false
-            },
-            "registration_requirements": null,
-            "schedule": {
-              "display_text": "2026-09-20",
-              "end": "2026-09-28",
-              "mode": "multi_day",
-              "occurrences": [],
-              "start": "2026-09-20",
-              "timezone": "America/Santiago"
-            },
-            "source_id": "insomniacine",
-            "source_name": "Insomnia Cine",
-            "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-            "tags": [
-              "cine",
-              "película"
-            ],
-            "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*"
-          },
-          "before_sha256": "4cd00abb99e84029eb1f57fbed978da36ce8da23966efa2b57f1ecbea6fa659b",
-          "evaluation_at": "2026-09-22T20:09:08.804897-03:00",
-          "evaluation_date": "2026-09-22",
-          "input_lineage": {
-            "authority": "core_generation_projection",
-            "baseline_event": {
-              "audience": null,
-              "categories": [
-                {
-                  "id": "cine",
-                  "label": "Cine"
-                }
-              ],
-              "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-              "event_type": "event",
-              "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-              "image": {
-                "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-                "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-              },
-              "last_verified_at": null,
-              "links": {
-                "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                "registration": null,
-                "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                "tickets": null
-              },
-              "location": {
-                "address": null,
-                "city": "Valparaíso",
-                "commune": "Valparaíso",
-                "latitude": null,
-                "longitude": null,
-                "online": false,
-                "venue": "Insomnia Teatro Condell",
-                "venue_id": "insomnia-teatro-condell"
-              },
-              "organizer": "Insomnia Cine",
-              "original_title": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-              "price": {
-                "currency": null,
-                "display_text": null,
-                "is_free": null,
-                "max_amount": null,
-                "min_amount": null
-              },
-              "primary_category": {
-                "id": "cine",
-                "label": "Cine"
-              },
-              "public_status": {
-                "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-                "cancelled": null,
-                "information_completeness": "partial",
-                "last_verified_at": null,
-                "price_confirmed": null,
-                "price_stage": null,
-                "registration_closed": null,
-                "registration_open": null,
-                "sold_out": null,
-                "source_official": false
-              },
-              "registration_requirements": null,
-              "schedule": {
-                "display_text": "2026-09-20",
-                "end": "2026-09-28",
-                "mode": "multi_day",
-                "occurrences": [],
-                "start": "2026-09-20",
-                "timezone": "America/Santiago"
-              },
-              "source_id": "insomniacine",
-              "source_name": "Insomnia Cine",
-              "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-              "tags": [
-                "cine",
-                "película"
-              ],
-              "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*"
-            },
-            "baseline_sha256": "5b78fdbe10bb48648f2d063acd652ccd1cff30ceb151106ed7704ed798fcdb2f",
-            "contract": "caption-input-lineage/1",
-            "output_sha256": "4cd00abb99e84029eb1f57fbed978da36ce8da23966efa2b57f1ecbea6fa659b",
-            "steps": [
-              {
-                "action": "private_baseline_projection",
-                "after_event": {
-                  "audience": null,
-                  "categories": [
-                    {
-                      "id": "cine",
-                      "label": "Cine"
-                    }
-                  ],
-                  "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-                  "event_type": "event",
-                  "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-                  "image": {
-                    "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-                    "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-                  },
-                  "last_verified_at": null,
-                  "links": {
-                    "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                    "registration": null,
-                    "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                    "tickets": null
-                  },
-                  "location": {
-                    "address": null,
-                    "city": "Valparaíso",
-                    "commune": "Valparaíso",
-                    "latitude": null,
-                    "longitude": null,
-                    "online": false,
-                    "venue": "Insomnia Teatro Condell",
-                    "venue_id": "insomnia-teatro-condell"
-                  },
-                  "organizer": "Insomnia Cine",
-                  "price": {
-                    "currency": null,
-                    "display_text": null,
-                    "is_free": null,
-                    "max_amount": null,
-                    "min_amount": null
-                  },
-                  "primary_category": {
-                    "id": "cine",
-                    "label": "Cine"
-                  },
-                  "public_status": {
-                    "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-                    "cancelled": null,
-                    "information_completeness": "partial",
-                    "last_verified_at": null,
-                    "price_confirmed": null,
-                    "price_stage": null,
-                    "registration_closed": null,
-                    "registration_open": null,
-                    "sold_out": null,
-                    "source_official": false
-                  },
-                  "registration_requirements": null,
-                  "schedule": {
-                    "display_text": "2026-09-20",
-                    "end": "2026-09-28",
-                    "mode": "multi_day",
-                    "occurrences": [],
-                    "start": "2026-09-20",
-                    "timezone": "America/Santiago"
-                  },
-                  "source_name": "Insomnia Cine",
-                  "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                  "tags": [
-                    "cine",
-                    "película"
-                  ],
-                  "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*"
-                },
-                "after_sha256": "4e7e6f33880a6c4d64e5c0ab111826f99c1d145852db965483a9802743e3da19",
-                "authority": "prepare_web_generation_baseline",
-                "before_sha256": "5b78fdbe10bb48648f2d063acd652ccd1cff30ceb151106ed7704ed798fcdb2f"
-              },
-              {
-                "action": "canonical_source_attribution",
-                "after_event": {
-                  "audience": null,
-                  "categories": [
-                    {
-                      "id": "cine",
-                      "label": "Cine"
-                    }
-                  ],
-                  "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-                  "event_type": "event",
-                  "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-                  "image": {
-                    "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-                    "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-                  },
-                  "last_verified_at": null,
-                  "links": {
-                    "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                    "registration": null,
-                    "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                    "tickets": null
-                  },
-                  "location": {
-                    "address": null,
-                    "city": "Valparaíso",
-                    "commune": "Valparaíso",
-                    "latitude": null,
-                    "longitude": null,
-                    "online": false,
-                    "venue": "Insomnia Teatro Condell",
-                    "venue_id": "insomnia-teatro-condell"
-                  },
-                  "organizer": "Insomnia Cine",
-                  "price": {
-                    "currency": null,
-                    "display_text": null,
-                    "is_free": null,
-                    "max_amount": null,
-                    "min_amount": null
-                  },
-                  "primary_category": {
-                    "id": "cine",
-                    "label": "Cine"
-                  },
-                  "public_status": {
-                    "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-                    "cancelled": null,
-                    "information_completeness": "partial",
-                    "last_verified_at": null,
-                    "price_confirmed": null,
-                    "price_stage": null,
-                    "registration_closed": null,
-                    "registration_open": null,
-                    "sold_out": null,
-                    "source_official": false
-                  },
-                  "registration_requirements": null,
-                  "schedule": {
-                    "display_text": "2026-09-20",
-                    "end": "2026-09-28",
-                    "mode": "multi_day",
-                    "occurrences": [],
-                    "start": "2026-09-20",
-                    "timezone": "America/Santiago"
-                  },
-                  "source_id": "insomniacine",
-                  "source_name": "Insomnia Cine",
-                  "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                  "tags": [
-                    "cine",
-                    "película"
-                  ],
-                  "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*"
-                },
-                "after_sha256": "4cd00abb99e84029eb1f57fbed978da36ce8da23966efa2b57f1ecbea6fa659b",
-                "authority": "source_registry_and_exact_capture",
-                "before_sha256": "4e7e6f33880a6c4d64e5c0ab111826f99c1d145852db965483a9802743e3da19"
-              },
-              {
-                "action": "publication_title_guard",
-                "after_event": {
-                  "audience": null,
-                  "categories": [
-                    {
-                      "id": "cine",
-                      "label": "Cine"
-                    }
-                  ],
-                  "description": "Este mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas...",
-                  "event_type": "event",
-                  "id": "agenda_3ad3c2516afb32f6fdd3c29c",
-                  "image": {
-                    "alt": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL*",
-                    "url": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF"
-                  },
-                  "last_verified_at": null,
-                  "links": {
-                    "official": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                    "registration": null,
-                    "source": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                    "tickets": null
-                  },
-                  "location": {
-                    "address": null,
-                    "city": "Valparaíso",
-                    "commune": "Valparaíso",
-                    "latitude": null,
-                    "longitude": null,
-                    "online": false,
-                    "venue": "Insomnia Teatro Condell",
-                    "venue_id": "insomnia-teatro-condell"
-                  },
-                  "organizer": "Insomnia Cine",
-                  "price": {
-                    "currency": null,
-                    "display_text": null,
-                    "is_free": null,
-                    "max_amount": null,
-                    "min_amount": null
-                  },
-                  "primary_category": {
-                    "id": "cine",
-                    "label": "Cine"
-                  },
-                  "public_status": {
-                    "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-                    "cancelled": null,
-                    "information_completeness": "partial",
-                    "last_verified_at": null,
-                    "price_confirmed": null,
-                    "price_stage": null,
-                    "registration_closed": null,
-                    "registration_open": null,
-                    "sold_out": null,
-                    "source_official": false
-                  },
-                  "registration_requirements": null,
-                  "schedule": {
-                    "display_text": "2026-09-20",
-                    "end": "2026-09-28",
-                    "mode": "multi_day",
-                    "occurrences": [],
-                    "start": "2026-09-20",
-                    "timezone": "America/Santiago"
-                  },
-                  "source_id": "insomniacine",
-                  "source_name": "Insomnia Cine",
-                  "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-                  "tags": [
-                    "cine",
-                    "película"
-                  ],
-                  "title": "*butacas del reencuentro 🎬☕ | Módulo 2: democracia, equidad y justicia social*"
-                },
-                "after_sha256": "4cd00abb99e84029eb1f57fbed978da36ce8da23966efa2b57f1ecbea6fa659b",
-                "authority": "publication_title_guard",
-                "before_sha256": "4cd00abb99e84029eb1f57fbed978da36ce8da23966efa2b57f1ecbea6fa659b"
-              }
-            ]
-          },
-          "raw_post": {
-            "_account": "insomnia_teatro_condell",
-            "alt": "Photo by INSOMNIA Teatro Condell on September 05, 2026.",
-            "caption": "*BUTACAS DEL REENCUENTRO 🎬☕ | MÓDULO 2: DEMOCRACIA, EQUIDAD Y JUSTICIA SOCIAL* \n\nEste mes continúa en *INSOMNIA Teatro Condell* el programa desarrollado junto a la *Escuela de Psicología de la Universidad Adolfo Ibáñez*, con un segundo módulo pensado para conversar sobre trabajo, derechos, desigualdad, participación y las distintas formas en que las instituciones afectan la vida cotidiana. Cuatro películas para mirar estas tensiones desde el humor, la denuncia, la memoria y la experiencia personal.\n\n📅 *07 de septiembre* — “El buen patrón” (2021), Fernando León de Aranoa\n📅 *14 de septiembre* — “I, Daniel Blake” (2016), Ken Loach\n📅 *21 de septiembre* — “Judas and the Black Messiah” (2021), Shaka King\n📅 *28 de septiembre* — “Mala junta” (2016), Claudia Huaiquimilla \n\nUn nuevo bloque para encontrarnos, ver cine y abrir conversación sobre las formas de construir una sociedad más justa, equitativa y democrática. 🎞️🤝",
-            "childPosts": [],
-            "commentsCount": 3,
-            "dimensionsHeight": 1350,
-            "dimensionsWidth": 1080,
-            "displayUrl": "https://scontent-cdg4-2.cdninstagram.com/v/t39.30808-6/788461540_1508239538012828_4826524624018542181_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk3OTYyMzQ5NDQ0MjQwODM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UlGEGYMbg_IQ7kNvwGr2dy7&_nc_oc=Ado1UB7yzqX6MjI9gbINJski5lCSKJ42T2gwB3CkQuAjMQLIUEcjjzrTveeJiRaH2zgddeEa6mNu1Vb8yp5rkvaX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=wR7LFRqGGXpoUpbrWZkAAA&_nc_ss=7a22e&oh=00_AQKiBVHJbnMnFS04wGzTA3XWjozTtmbZnSW0rApY7vpMoQ&oe=6AA2D4AF",
-            "firstComment": "Es por orden de llegada o previa inscripción?",
-            "hashtags": [],
-            "id": "3979623494442408356",
-            "images": [],
-            "inputUrl": "https://www.instagram.com/insomnia_teatro_condell/",
-            "isCommentsDisabled": false,
-            "latestComments": [
-              {
-                "id": "17945459142315144",
-                "likesCount": 0,
-                "owner": {
-                  "full_name": null,
-                  "id": "4564684478",
-                  "is_mentionable": null,
-                  "is_private": null,
-                  "is_verified": false,
-                  "latest_reel_media": null,
-                  "profile_pic_id": null,
-                  "profile_pic_url": "https://scontent-cdg4-3.cdninstagram.com/v/t51.2885-19/286248704_2315283008624254_7784267314333061268_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43MjAuYzIifQ&_nc_ht=scontent-cdg4-3.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gGC1epuvnPH9VCPLkQd1Eo5jRBeiR3nQkPKCJNrAKh-VUuU1WFQm1lxgKf5jIW14dE&_nc_ohc=MwLjwyyLZawQ7kNvwFbRFRQ&_nc_gid=TPaB6Dj5PwNLWCeAQJVwYw&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQJOLfwwD_xyZUjX_SUo9NGFZ4Gv3YpX8VOHGnb8DiCoXQ&oe=6AA2C304&_nc_sid=10d13b",
-                  "username": "americopanzer"
-                },
-                "ownerProfilePicUrl": "https://scontent-cdg4-3.cdninstagram.com/v/t51.2885-19/286248704_2315283008624254_7784267314333061268_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43MjAuYzIifQ&_nc_ht=scontent-cdg4-3.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gGC1epuvnPH9VCPLkQd1Eo5jRBeiR3nQkPKCJNrAKh-VUuU1WFQm1lxgKf5jIW14dE&_nc_ohc=MwLjwyyLZawQ7kNvwFbRFRQ&_nc_gid=TPaB6Dj5PwNLWCeAQJVwYw&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQJOLfwwD_xyZUjX_SUo9NGFZ4Gv3YpX8VOHGnb8DiCoXQ&oe=6AA2C304&_nc_sid=10d13b",
-                "ownerUsername": "americopanzer",
-                "replies": null,
-                "repliesCount": null,
-                "text": "Es por orden de llegada o previa inscripción?",
-                "timestamp": "2026-09-05T18:41:01.000Z"
-              },
-              {
-                "id": "17922156126422152",
-                "likesCount": 1,
-                "owner": {
-                  "full_name": null,
-                  "id": "5920992759",
-                  "is_mentionable": null,
-                  "is_private": null,
-                  "is_verified": false,
-                  "latest_reel_media": null,
-                  "profile_pic_id": null,
-                  "profile_pic_url": "https://scontent-cdg4-2.cdninstagram.com/v/t51.2885-19/398238687_1049079046414341_2385182156885739181_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby41MDAuYzIifQ&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2gGC1epuvnPH9VCPLkQd1Eo5jRBeiR3nQkPKCJNrAKh-VUuU1WFQm1lxgKf5jIW14dE&_nc_ohc=cM_fvnsL0w8Q7kNvwHG8HQd&_nc_gid=TPaB6Dj5PwNLWCeAQJVwYw&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQKR0J5hnG_nf1WFbYUIP1BpJmZG57pTNU7-IeO8hhK5xA&oe=6AA2A870&_nc_sid=10d13b",
-                  "username": "sergiobazaescastillo"
-                },
-                "ownerProfilePicUrl": "https://scontent-cdg4-2.cdninstagram.com/v/t51.2885-19/398238687_1049079046414341_2385182156885739181_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby41MDAuYzIifQ&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2gGC1epuvnPH9VCPLkQd1Eo5jRBeiR3nQkPKCJNrAKh-VUuU1WFQm1lxgKf5jIW14dE&_nc_ohc=cM_fvnsL0w8Q7kNvwHG8HQd&_nc_gid=TPaB6Dj5PwNLWCeAQJVwYw&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQKR0J5hnG_nf1WFbYUIP1BpJmZG57pTNU7-IeO8hhK5xA&oe=6AA2A870&_nc_sid=10d13b",
-                "ownerUsername": "sergiobazaescastillo",
-                "replies": null,
-                "repliesCount": null,
-                "text": "Yo Daniel Blake es ufff para terminar con depresión uwu",
-                "timestamp": "2026-09-05T17:24:34.000Z"
-              }
-            ],
-            "likesCount": 61,
-            "mentions": [],
-            "originalHeight": 1350,
-            "originalWidth": 1080,
-            "ownerFullName": "INSOMNIA Teatro Condell",
-            "ownerId": "1737643034",
-            "ownerUsername": "insomnia_teatro_condell",
-            "paidPartnership": false,
-            "productType": "feed",
-            "shortCode": "Dc6dnu2Cdmk",
-            "timestamp": "2026-09-05T17:08:31.000Z",
-            "type": "Image",
-            "url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-            "videoViewCount": null
-          },
-          "raw_sha256": "9d9d6bbd002f961da6c7c7e58cee6fd78cda779a79a95b0b0c6b2979d7a233bb"
-        },
-        "provenance": {
-          "source_id": "insomniacine",
-          "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/"
-        },
-        "reason": "same_retained_post_explicit_activity_identity",
-        "schema_version": "1.1.0",
-        "source_record_id": "agenda_3ad3c2516afb32f6fdd3c29c",
-        "source_url": "https://www.instagram.com/p/Dc6dnu2Cdmk/",
-        "stage": "retained_caption_identity_control"
       }
     ],
     "schema_version": "1.0.0"
