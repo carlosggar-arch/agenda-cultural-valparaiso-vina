@@ -50,6 +50,23 @@ function isMainGijonMunicipalAlias(value) {
   return host === "gijon.es" || host === "www.gijon.es";
 }
 
+function sourceNameForDestination(event, value, verified) {
+  if (verified?.sourceName) return verified.sourceName;
+  const url = safeAbsoluteHttpUrl(value);
+  const source = safeAbsoluteHttpUrl(event?.source_url || event?.links?.source);
+  const name = String(event?.source_name || event?.organizer || "").trim();
+  if (!url) return null;
+  const host = url.hostname.toLowerCase().replace(/^www\./u, "");
+  if (host === "opendata.gijon.es") return "Open Data Ayuntamiento de Gijón/Xixón";
+  if (host === "gijon.es" || host.endsWith(".gijon.es")) return "Ayuntamiento de Gijón/Xixón";
+  const inheritedOpenData = event?.source_id === "gijon_opendata_events"
+    || /open\s*data/iu.test(name)
+    || source?.hostname === "opendata.gijon.es";
+  // The ingestion feed's label must never describe a different destination.
+  // A domain is an exact label when the feed does not supply its publisher.
+  return inheritedOpenData ? host : name || host;
+}
+
 function preferredGijonEvidence(event) {
   const links = event?.links || {};
   const quality = String(event?.public_status?.external_link_quality || "");
@@ -71,7 +88,7 @@ function preferredGijonEvidence(event) {
     role: corroborating ? "official" : "institutional",
     source_kind: corroborating ? "official" : "institutional",
     source_id: event?.source_id || null,
-    source_name: verified?.sourceName || event?.source_name || event?.organizer || null,
+    source_name: sourceNameForDestination(event, url, verified),
     presentation_preferred: true,
     evidence_origin: verified ? "verified_event_page" : corroborating ? "corroborating_link" : "gijon_public_fallback",
   };

@@ -67,7 +67,6 @@ function parsedInstant(value) {
 }
 
 function datedWindows(event) {
-  if (["program", "flexible_offer", "recurring_offer", "permanent_offer"].includes(event?.event_type)) return [];
   const occurrences = event?.schedule?.occurrences;
   if (Array.isArray(occurrences) && occurrences.some((occurrence) => occurrence?.start)) {
     return occurrences
@@ -77,6 +76,9 @@ function datedWindows(event) {
   if (event?.schedule?.start) {
     return [{ start: event.schedule.start, end: event.schedule.end || null }];
   }
+  // A published closing date is sufficient to expire a bounded programme;
+  // an unknown opening date must not make it permanently available.
+  if (event?.schedule?.end) return [{ start: event.schedule.end, end: event.schedule.end }];
   return [];
 }
 
@@ -131,7 +133,8 @@ export function eventLifecycle(event, {
   timeZone = event?.schedule?.timezone || "UTC",
 } = {}) {
   const type = String(event?.event_type || "").toLowerCase();
-  if (["program", "flexible_offer", "recurring_offer", "permanent_offer"].includes(type)) {
+  if (["program", "flexible_offer", "recurring_offer", "permanent_offer"].includes(type)
+      && !event?.schedule?.end && !event?.schedule?.occurrences?.length) {
     return { state: LIFECYCLE_STATES.ALWAYS_AVAILABLE, visible: true, timeZone };
   }
 
@@ -195,7 +198,6 @@ export function eventVisibilityDecision(event, {
 }
 
 function pruneExpiredOccurrences(event, { now, timeZone }) {
-  if (["program", "flexible_offer", "recurring_offer", "permanent_offer"].includes(event?.event_type)) return event;
   const schedule = event?.schedule;
   const occurrences = schedule?.occurrences;
   if (!Array.isArray(occurrences) || !occurrences.length) return event;

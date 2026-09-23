@@ -359,6 +359,7 @@ function usefulStreetAddress(value, city) {
   const address = cleanSpace(value);
   if (!address) return null;
   const normalized = fold(address);
+  if (/\blat(?:itude)?\s*:/iu.test(address) && /\b(?:lon|lng|longitude)\s*:/iu.test(address)) return null;
   if (!normalized || ["por confirmar", "sin direccion", "direccion por confirmar", "lugar por confirmar"].includes(normalized)) return null;
   if (city && normalized === fold(city)) return null;
   return address;
