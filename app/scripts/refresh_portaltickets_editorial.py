@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import html
 import json
@@ -93,6 +94,7 @@ class PortalTokenParser(HTMLParser):
         self.buffer: list[str] = []
         self.href: str | None = None
         self.skip = 0
+        self.event_images: list[str] = []
 
     def _flush(self) -> None:
         text = re.sub(r"\s+", " ", html.unescape(" ".join(self.buffer)).replace("\xa0", " ")).strip()
@@ -105,6 +107,13 @@ class PortalTokenParser(HTMLParser):
             self._flush(); self.skip += 1; return
         if self.skip:
             return
+        attributes = dict(attrs)
+        if tag == "meta" and (attributes.get("property") or attributes.get("name") or "").lower() in {
+            "og:image", "og:image:secure_url", "twitter:image", "twitter:image:src",
+        }:
+            self.event_images.append(attributes.get("content") or "")
+        elif tag == "img" and attributes.get("id") == "imgdisco":
+            self.event_images.insert(0, attributes.get("src") or "")
         if tag == "a":
             self._flush(); self.href = dict(attrs).get("href")
         elif tag in self.BLOCK_TAGS:
@@ -530,7 +539,17 @@ def parse_detail_markup(markup: str) -> dict:
     else:
         price_text = None
 
+    image_url = None
+    for value in parser.event_images:
+        candidate = urljoin(SOURCE_URL, html.unescape(value).strip())
+        parsed = urlparse(candidate)
+        if (parsed.scheme in {"http", "https"} and parsed.hostname and not parsed.username
+                and not re.search(r"(?:logo|favicon|placeholder|sin[-_]imagen)", parsed.path, re.I)):
+            image_url = candidate
+            break
+
     return {
+        "image_url": image_url,
         "description": description,
         "semantic_text": semantic_text,
         "producer": producer,
@@ -560,6 +579,11 @@ def apply_detail(event: dict, detail: dict, *, verified_at: str) -> dict:
 
     description = detail.get("description")
     event["description"] = description or None
+    if detail.get("image_url"):
+        event["image"] = {
+            "url": detail["image_url"], "alt": event.get("title"),
+            "source": "official_page_metadata", "relevance": "event_specific",
+        }
 
     price = event.setdefault("price", {})
     if detail.get("price_min") is not None:
@@ -774,6 +798,12 @@ def refresh_dataset(dataset: dict, candidates: list[dict], *, fetch_ok: bool) ->
                 dropped_semantic += 1
                 continue
             previous = previous_by_identity.get(event_identity(candidate))
+            if (previous is not None and previous.get("source_url") == candidate.get("source_url")
+                    and not (candidate.get("image") or {}).get("url")
+                    and (previous.get("image") or {}).get("url")):
+                # A temporarily incomplete detail response cannot erase the
+                # already acquired image of this exact event and source page.
+                candidate["image"] = copy.deepcopy(previous["image"])
             if previous is not None and stable_event(previous) == stable_event(candidate):
                 kept_portal.append(previous)
             else:

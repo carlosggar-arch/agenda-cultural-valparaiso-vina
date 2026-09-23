@@ -43,6 +43,17 @@ test("keeps programs and flexible offers outside the dated-event guard", () => {
   }), true);
 });
 
+test("expires programmes and offers with an explicit closing date in either city", () => {
+  for (const timeZone of ["America/Santiago", "Europe/Madrid"]) {
+    for (const type of ["program", "flexible_offer", "recurring_offer", "permanent_offer"]) {
+      assert.equal(eventIsCurrentOrFuture(event("closed", "2026-06-01", "2026-07-31", type), { now, timeZone }), false);
+      assert.equal(eventIsCurrentOrFuture(event("closing-only", null, "2026-07-31", type), { now, timeZone }), false);
+      assert.equal(eventIsCurrentOrFuture(event("ongoing", "2026-08-01", "2026-08-31", type), { now, timeZone }), true);
+      assert.equal(eventIsCurrentOrFuture(event("open-ended", null, null, type), { now, timeZone }), true);
+    }
+  }
+});
+
 test("filters only expired dated events from the runtime dataset", () => {
   const dataset = {
     timezone: "America/Santiago",

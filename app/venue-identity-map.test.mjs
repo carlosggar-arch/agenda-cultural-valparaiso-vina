@@ -69,6 +69,17 @@ const genericCity = normalized({
 });
 assert.equal(googleMapsDirectionsUrl(genericCity), null, "a city-wide label must not be turned into a false point destination");
 
+const tourSunny = {
+  title: "TOUR SUNNY 2026/27",
+  public_status: { source_official: true },
+  location: { venue: "SALA ACAPULCO — GIJÓN", city: "Gijón", address: "C/ Fernández Vallín, 5 33205 Gijón", online: false },
+};
+assert.equal(new URL(googleMapsDirectionsUrl(tourSunny)).searchParams.get('destination'),
+  'SALA ACAPULCO — GIJÓN, C/ Fernández Vallín, 5 33205 Gijón, Gijón');
+assert.equal(googleMapsDirectionsUrl({ ...tourSunny, location: {
+  ...tourSunny.location, venue: 'Galería ATM', address: 'lat: 43.544238031426, lon: -5.6922576391958',
+} }), null, 'municipal city-centre coordinates are not the gallery street address');
+
 console.log("VENUE_IDENTITY_MAP_ENRICHMENT_OK");
 
 for (const [title, venue, address, city] of [
