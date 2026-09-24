@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "ef0e0e5a8240ca2c8d98b4e638bd2fa5a5cadc0e4366cee86788cba8f0f29137",
-  "generated_at": "2026-09-24T11:58:43Z",
+  "fingerprint": "57789fe61bb2dadeab086e0b51589ffc57a067bc2a2012f3ed27921634164916",
+  "generated_at": "2026-09-24T21:44:55Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -115,16 +115,16 @@
     },
     "gijon::el huerto espacio escenico": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.0625,
-        "musica": 0.0625,
-        "teatro": 0.875
+        "cursos-talleres-campus": 0.111111,
+        "musica": 0.055556,
+        "teatro": 0.833333
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.875,
+      "dominant_share": 0.833333,
       "source_name": "El Huerto Espacio Escénico",
       "source_url": "https://zigzagdanza.com/el-huerto-gijon/",
-      "total": 16,
+      "total": 18,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -261,7 +261,7 @@
       "dominant_share": 1.0,
       "source_name": "Meidinerz Jazz Club",
       "source_url": "https://meidinerzjazzclub.com/",
-      "total": 4,
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -280,22 +280,22 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "cine": 0.203125,
-        "cursos-talleres-campus": 0.109375,
-        "exposiciones": 0.46875,
-        "literatura": 0.03125,
-        "musica": 0.09375,
-        "teatro": 0.0625,
-        "unclassified": 0.03125
+        "cine": 0.2,
+        "cursos-talleres-campus": 0.107692,
+        "exposiciones": 0.476923,
+        "literatura": 0.030769,
+        "musica": 0.092308,
+        "teatro": 0.061538,
+        "unclassified": 0.030769
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.46875,
+      "dominant_share": 0.476923,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 64,
+      "total": 65,
       "unclassified": 2,
-      "unclassified_rate": 0.03125
+      "unclassified_rate": 0.030769
     },
     "gijon::sala acapulco conciertos": {
       "category_distribution": {
@@ -940,9 +940,9 @@
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 65,
-    "total_events": 668,
+    "total_events": 672,
     "unclassified_count": 12,
-    "unclassified_rate": 0.017964
+    "unclassified_rate": 0.017857
   },
   "unclassified_queue": [
     {
