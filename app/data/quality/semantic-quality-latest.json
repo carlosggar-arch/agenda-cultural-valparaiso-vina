@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "6e7a30fee9162e9488babf761ca9e3ca050e66fb98668745dd4fbe1603e458c5",
-  "generated_at": "2026-09-23T21:41:51Z",
+  "fingerprint": "ef0e0e5a8240ca2c8d98b4e638bd2fa5a5cadc0e4366cee86788cba8f0f29137",
+  "generated_at": "2026-09-24T11:58:43Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -23,20 +23,20 @@
     },
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "charlas-conferencias": 0.25,
-        "exposiciones": 0.125,
-        "literatura": 0.25,
-        "musica": 0.125,
-        "unclassified": 0.25
+        "charlas-conferencias": 0.222222,
+        "exposiciones": 0.111111,
+        "literatura": 0.333333,
+        "musica": 0.111111,
+        "unclassified": 0.222222
       },
       "city_id": "gijon",
-      "dominant_category": "charlas-conferencias",
-      "dominant_share": 0.25,
+      "dominant_category": "literatura",
+      "dominant_share": 0.333333,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 8,
+      "total": 9,
       "unclassified": 2,
-      "unclassified_rate": 0.25
+      "unclassified_rate": 0.222222
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -238,17 +238,17 @@
     },
     "gijon::laboral ciudad de la cultura agenda": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.177778,
-        "exposiciones": 0.022222,
-        "musica": 0.377778,
-        "teatro": 0.422222
+        "cursos-talleres-campus": 0.181818,
+        "exposiciones": 0.022727,
+        "musica": 0.386364,
+        "teatro": 0.409091
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.422222,
+      "dominant_share": 0.409091,
       "source_name": "Laboral Ciudad de la Cultura — Agenda",
       "source_url": "https://www.laboralciudaddelacultura.com/agenda/",
-      "total": 45,
+      "total": 44,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -261,7 +261,7 @@
       "dominant_share": 1.0,
       "source_name": "Meidinerz Jazz Club",
       "source_url": "https://meidinerzjazzclub.com/",
-      "total": 3,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -280,23 +280,22 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "charlas-conferencias": 0.033333,
-        "cine": 0.2,
-        "cursos-talleres-campus": 0.116667,
-        "exposiciones": 0.483333,
-        "literatura": 0.033333,
-        "musica": 0.083333,
-        "teatro": 0.033333,
-        "unclassified": 0.016667
+        "cine": 0.203125,
+        "cursos-talleres-campus": 0.109375,
+        "exposiciones": 0.46875,
+        "literatura": 0.03125,
+        "musica": 0.09375,
+        "teatro": 0.0625,
+        "unclassified": 0.03125
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.483333,
+      "dominant_share": 0.46875,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 60,
-      "unclassified": 1,
-      "unclassified_rate": 0.016667
+      "total": 64,
+      "unclassified": 2,
+      "unclassified_rate": 0.03125
     },
     "gijon::sala acapulco conciertos": {
       "category_distribution": {
@@ -941,9 +940,9 @@
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 65,
-    "total_events": 663,
-    "unclassified_count": 11,
-    "unclassified_rate": 0.016591
+    "total_events": 668,
+    "unclassified_count": 12,
+    "unclassified_rate": 0.017964
   },
   "unclassified_queue": [
     {
@@ -995,6 +994,16 @@
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
       "title": "DESCUBRIENDO LA HESTORIA DE XIXÓN AL TRAVIÉS DE LOS SOS NOMES"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "agenda_gijon_b41cea67e1df44c8",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "title": "IUTALKS by Jovellanos 2026"
     },
     {
       "candidates": [],
