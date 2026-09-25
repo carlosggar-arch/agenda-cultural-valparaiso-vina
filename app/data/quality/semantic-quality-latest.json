@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "57789fe61bb2dadeab086e0b51589ffc57a067bc2a2012f3ed27921634164916",
-  "generated_at": "2026-09-24T21:44:55Z",
+  "fingerprint": "d509e662b928d8edb0673f848aca234e1ffb01a9e13987d8392ceb6993d7f03c",
+  "generated_at": "2026-09-25T12:03:38Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -23,20 +23,20 @@
     },
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "charlas-conferencias": 0.222222,
-        "exposiciones": 0.111111,
-        "literatura": 0.333333,
-        "musica": 0.111111,
-        "unclassified": 0.222222
+        "charlas-conferencias": 0.125,
+        "exposiciones": 0.125,
+        "literatura": 0.375,
+        "musica": 0.125,
+        "unclassified": 0.25
       },
       "city_id": "gijon",
       "dominant_category": "literatura",
-      "dominant_share": 0.333333,
+      "dominant_share": 0.375,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
-      "total": 9,
+      "total": 8,
       "unclassified": 2,
-      "unclassified_rate": 0.222222
+      "unclassified_rate": 0.25
     },
     "gijon::bioparc acuario de gijon actividades y talleres": {
       "category_distribution": {
@@ -81,22 +81,23 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.085106,
-        "cine": 0.170213,
-        "cursos-talleres-campus": 0.191489,
-        "exposiciones": 0.106383,
-        "literatura": 0.106383,
-        "teatro": 0.319149,
-        "unclassified": 0.021277
+        "charlas-conferencias": 0.074074,
+        "cine": 0.148148,
+        "cursos-talleres-campus": 0.166667,
+        "exposiciones": 0.092593,
+        "literatura": 0.12963,
+        "musica": 0.074074,
+        "teatro": 0.277778,
+        "unclassified": 0.037037
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.319149,
+      "dominant_share": 0.277778,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 47,
-      "unclassified": 1,
-      "unclassified_rate": 0.021277
+      "total": 54,
+      "unclassified": 2,
+      "unclassified_rate": 0.037037
     },
     "gijon::danza xixon": {
       "category_distribution": {
@@ -195,18 +196,17 @@
     },
     "gijon::jardin botanico atlantico": {
       "category_distribution": {
-        "exposiciones": 0.142857,
-        "literatura": 0.714286,
-        "unclassified": 0.142857
+        "exposiciones": 0.166667,
+        "literatura": 0.833333
       },
       "city_id": "gijon",
       "dominant_category": "literatura",
-      "dominant_share": 0.714286,
+      "dominant_share": 0.833333,
       "source_name": "Jardín Botánico Atlántico",
       "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
-      "total": 7,
-      "unclassified": 1,
-      "unclassified_rate": 0.142857
+      "total": 6,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     },
     "gijon::la revoltosa gijon": {
       "category_distribution": {
@@ -261,7 +261,7 @@
       "dominant_share": 1.0,
       "source_name": "Meidinerz Jazz Club",
       "source_url": "https://meidinerzjazzclub.com/",
-      "total": 5,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -280,22 +280,22 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "cine": 0.2,
-        "cursos-talleres-campus": 0.107692,
-        "exposiciones": 0.476923,
-        "literatura": 0.030769,
-        "musica": 0.092308,
-        "teatro": 0.061538,
-        "unclassified": 0.030769
+        "cine": 0.206349,
+        "cursos-talleres-campus": 0.095238,
+        "exposiciones": 0.492063,
+        "literatura": 0.031746,
+        "musica": 0.095238,
+        "teatro": 0.063492,
+        "unclassified": 0.015873
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.476923,
+      "dominant_share": 0.492063,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 65,
-      "unclassified": 2,
-      "unclassified_rate": 0.030769
+      "total": 63,
+      "unclassified": 1,
+      "unclassified_rate": 0.015873
     },
     "gijon::sala acapulco conciertos": {
       "category_distribution": {
@@ -940,9 +940,9 @@
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 65,
-    "total_events": 672,
-    "unclassified_count": 12,
-    "unclassified_rate": 0.017857
+    "total_events": 674,
+    "unclassified_count": 11,
+    "unclassified_rate": 0.01632
   },
   "unclassified_queue": [
     {
@@ -978,22 +978,12 @@
     {
       "candidates": [],
       "city_id": "gijon",
-      "event_id": "agenda_gijon_1770f9a2dcdaf753",
+      "event_id": "agenda_gijon_976f7f678e6e0f63",
       "evidence": [],
       "score": 0,
-      "source_name": "Jardín Botánico Atlántico",
-      "source_url": "https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon",
-      "title": "Días del profesorado en el Botánico: Educar entre hojas"
-    },
-    {
-      "candidates": [],
-      "city_id": "gijon",
-      "event_id": "agenda_gijon_444fa5043c0e6866",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "title": "DESCUBRIENDO LA HESTORIA DE XIXÓN AL TRAVIÉS DE LOS SOS NOMES"
+      "source_name": "Centro de Cultura Antiguo Instituto",
+      "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
+      "title": "Jornadas AVASI (Acción y voluntariado ante el Sida)"
     },
     {
       "candidates": [],
