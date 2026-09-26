@@ -87,7 +87,7 @@ STRONG_RETROSPECTIVE_TEXT = re.compile(
 TEMPORARY_CLOSURE_NOTICE = re.compile(
     r"\b(?:nuestras sedes|nuestro espacio|nuestro recinto)\s+estara(?:n)?\s+cerrad[oa]s?\b"
 )
-OPERATIONAL_TITLE = re.compile(r"^organiza\s*:", re.I)
+OPERATIONAL_TITLE = re.compile(r"^(?:organiza\s*:|hora(?:rio)?(?:\s+aprox\.?(?:imada(?:mente)?)?)?\s+(?:de\s+la\s+|del\s+|de\s+)(?:apertura|inicio|termino|fin|funcion|concierto|puertas)\b)", re.I)
 CONFIRMED_FUNCTION_TITLE = re.compile(
     r"^(.{3,110}?)(?:\s+-\s+[^.]{3,80}\.)?\s+funci[oó]n\s+confirmada\b",
     re.I,
@@ -412,6 +412,43 @@ def is_exhibition(event: dict) -> bool:
     category_id = fold(category.get("id"))
     label = fold(category.get("label"))
     return category_id in {"exposiciones", "museos"} or label in {"exposiciones", "museos"}
+
+
+def performance_evidence_gap(event: dict) -> list[str]:
+    """Cinema, music and theatre require dated showtimes, never a programme range."""
+    schedule = event.get("schedule") or {}
+    if (schedule.get("mode") in {"dated", "single"} and not schedule.get("start")
+            and not schedule.get("occurrences") and not is_exhibition(event)):
+        return ["verified_event_date"]
+    category = event.get("primary_category") or {}
+    category_id = fold(category.get("id"))
+    label = fold(category.get("label"))
+    if category_id not in {"cine", "musica", "teatro-danza", "teatro_y_danza", "teatro"} and label not in {
+        "cine", "musica", "teatro y danza", "teatro / artes escenicas",
+    }:
+        return []
+    if event.get("event_type") == "program" or schedule.get("mode") in {"program", "flexible", "on_demand"}:
+        return ["concrete_performance_occurrence"]
+    rows = schedule.get("occurrences") or [schedule]
+    for row in rows:
+        raw = row.get("start") if isinstance(row, dict) else None
+        if not isinstance(raw, str) or not ZONED_INSTANT_RE.fullmatch(raw):
+            return ["verified_performance_start_time"]
+        try:
+            start = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            end = row.get("end")
+            if end:
+                if len(str(end)) == 10:
+                    if str(end) != raw[:10]:
+                        return ["discrete_performance_occurrences"]
+                else:
+                    finish = datetime.fromisoformat(str(end).replace("Z", "+00:00"))
+                    duration = (finish - start).total_seconds()
+                    if duration < 0 or duration > 24 * 3600:
+                        return ["discrete_performance_occurrences"]
+        except (ValueError, TypeError):
+            return ["unambiguous_performance_occurrence"]
+    return []
 
 
 def temporal_identity(event: dict) -> TemporalIdentity | None:
@@ -1057,6 +1094,20 @@ def apply_guard(
                 source_event=event, canonical_event_id=None,
                 destination={"state": action, "canonical_event_id": None},
                 evidence={key: value for key, value in receipt.items() if key not in {"id", "title", "reason"}},
+            ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
+            continue
+
+        missing_performance = performance_evidence_gap(event)
+        if missing_performance:
+            reason = ("attendance_without_verified_date" if missing_performance == ["verified_event_date"]
+                      else "performance_without_verified_concrete_session")
+            changes["quarantined"].append({"id": event_id, "title": event.get("title"),
+                                            "reason": reason, "missing_evidence": missing_performance})
+            append_baseline_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action="quarantine", reason=reason,
+                source_event=event, canonical_event_id=None,
+                destination={"state": "quarantine", "canonical_event_id": None},
+                evidence={"missing_evidence": missing_performance},
             ), baseline_by_id=baseline_by_id, recovery_transformations=recovery_transformations)
             continue
 
