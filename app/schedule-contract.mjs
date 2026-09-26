@@ -175,11 +175,23 @@ function deriveScheduleDisplay(sessionTimes, eventEndTime, structured) {
   return naturalTimeList(sessionTimes);
 }
 
+function isOvernightEventInterval(event, schedule) {
+  if (isExhibition(event) || !["single", "dated"].includes(schedule.mode)) return false;
+  const startDay = datePart(schedule.start), endDay = datePart(schedule.end);
+  if (!startDay || !endDay || startDay === endDay || !timePart(schedule.start) || !timePart(schedule.end)) return false;
+  const nextDay = new Date(`${startDay}T00:00:00Z`);
+  if (Number.isNaN(nextDay.getTime())) return false;
+  nextDay.setUTCDate(nextDay.getUTCDate() + 1);
+  const elapsed = Date.parse(schedule.end) - Date.parse(schedule.start);
+  return nextDay.toISOString().slice(0, 10) === endDay && elapsed > 0 && elapsed <= 24 * 60 * 60 * 1000;
+}
+
 export function normalizeEventScheduleContract(event) {
   if (!event || typeof event !== "object") return event;
   const schedule = { ...(event.schedule || {}) };
   const parsed = classifyClockRoles([String(event.description || ""), String(schedule.display_text || "")].filter(Boolean).join(" · "));
   const structured = occurrenceSessions(schedule);
+  const overnightInterval = isOvernightEventInterval(event, schedule);
   let sessionTimes;
   if (structured.occurrences.length) {
     sessionTimes = structured.dateCount > 1 ? [] : structured.sessionTimes;
@@ -194,12 +206,12 @@ export function normalizeEventScheduleContract(event) {
     // A real structured start time on a one-day event is event-specific evidence.
     // Do not discard it because a source used a coarse legacy mode such as
     // "multi_day" or because a guided visit happens to carry an exhibition label.
-    if (!sessionTimes.length && sameDayTimedBoundary) sessionTimes = [timedStart];
+    if (!sessionTimes.length && (sameDayTimedBoundary || overnightInterval)) sessionTimes = [timedStart];
   }
   let eventEndTime = validClock(schedule.event_end_time || event.event_end_time) || occurrenceEndTime(structured.occurrences);
   if (!eventEndTime && structured.occurrences.length === 0 && sessionTimes.length === 1) {
     const startDay = datePart(schedule.start), endDay = datePart(schedule.end);
-    const startTime = timePart(schedule.start), endTime = startDay && endDay === startDay ? timePart(schedule.end) : null;
+    const startTime = timePart(schedule.start), endTime = startDay && (endDay === startDay || overnightInterval) ? timePart(schedule.end) : null;
     if (endTime && endTime !== startTime) eventEndTime = endTime;
   }
   if (!eventEndTime) eventEndTime = parsed.event_end_time;
