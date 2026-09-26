@@ -170,6 +170,18 @@
     },
     {
       "blocker": {
+        "evidence_url": "https://instagram.com/p/DdAuZzElsc3",
+        "kind": "unresolved_confirmed_event",
+        "ledger_state": "unaccounted",
+        "observation_id": "obs_1e80307b53581d9137611b23",
+        "reason": "canonical_web_projection_filtered_candidate",
+        "recovery_state": "pending",
+        "source_id": "panoramasvalparaiso"
+      },
+      "signature": "{\"kind\":\"unresolved_confirmed_event\",\"observation_id\":\"obs_1e80307b53581d9137611b23\",\"source_id\":\"panoramasvalparaiso\"}"
+    },
+    {
+      "blocker": {
         "evidence_url": "https://instagram.com/p/Dc8mlf9AHm-",
         "kind": "unresolved_confirmed_event",
         "ledger_state": "unaccounted",
@@ -371,18 +383,6 @@
         "source_id": "trotamundosvalpo"
       },
       "signature": "{\"kind\":\"unresolved_confirmed_event\",\"observation_id\":\"obs_41269392079d702764a57ed6\",\"source_id\":\"trotamundosvalpo\"}"
-    },
-    {
-      "blocker": {
-        "evidence_url": "https://instagram.com/p/DdesxB4nfzq",
-        "kind": "unresolved_confirmed_event",
-        "ledger_state": "unaccounted",
-        "observation_id": "obs_4161773780cd444f1ca9bbae",
-        "reason": "canonical_entry_still_requires_review",
-        "recovery_state": "pending",
-        "source_id": "casaculturavalpo"
-      },
-      "signature": "{\"kind\":\"unresolved_confirmed_event\",\"observation_id\":\"obs_4161773780cd444f1ca9bbae\",\"source_id\":\"casaculturavalpo\"}"
     },
     {
       "blocker": {
@@ -806,18 +806,6 @@
     },
     {
       "blocker": {
-        "evidence_url": "https://instagram.com/p/DdASZrVpL6w",
-        "kind": "unresolved_confirmed_event",
-        "ledger_state": "unaccounted",
-        "observation_id": "obs_a1afc03465c0422b682d7842",
-        "reason": "canonical_entry_still_requires_review",
-        "recovery_state": "pending",
-        "source_id": "cultura_pucv"
-      },
-      "signature": "{\"kind\":\"unresolved_confirmed_event\",\"observation_id\":\"obs_a1afc03465c0422b682d7842\",\"source_id\":\"cultura_pucv\"}"
-    },
-    {
-      "blocker": {
         "evidence_url": "https://instagram.com/p/Dc7O4yNu6St",
         "kind": "unresolved_confirmed_event",
         "ledger_state": "pending",
@@ -998,18 +986,6 @@
     },
     {
       "blocker": {
-        "evidence_url": "https://instagram.com/p/DdkS2NsgIQp",
-        "kind": "unresolved_confirmed_event",
-        "ledger_state": "unaccounted",
-        "observation_id": "obs_ddc893f259d57a46f53414fa",
-        "reason": "canonical_entry_still_requires_review",
-        "recovery_state": "pending",
-        "source_id": "municipalvalpo"
-      },
-      "signature": "{\"kind\":\"unresolved_confirmed_event\",\"observation_id\":\"obs_ddc893f259d57a46f53414fa\",\"source_id\":\"municipalvalpo\"}"
-    },
-    {
-      "blocker": {
         "evidence_url": "https://instagram.com/p/DcXGiP_juuW",
         "kind": "unresolved_confirmed_event",
         "ledger_state": "pending",
@@ -1187,15 +1163,15 @@
     "valparaiso_profundo": "uncertain",
     "valpocultura": "uncertain"
   },
-  "dataset_blob_sha": "6920bb69eb76a6b5b93275ba2495a0a304a32bcd",
+  "dataset_blob_sha": "1e829e6687c4b48dad4c485cb9bd23ae3baaaafa",
   "evidence": {
-    "dataset_publication_date": "2026-09-23",
-    "evaluation_date": "2026-09-23",
-    "observation_state_sha": "b6b5f34482d5ff4bc7b42991b7404511ee873a06",
-    "public_parent_sha": "30c3ab4ef6d2411b2621345c59aada1703800aa3",
-    "source_head_sha": "aa0d37b1295e64bff684026059f19d9a22a04c43",
-    "source_run_id": 35848759192
+    "dataset_publication_date": "2026-09-26",
+    "evaluation_date": "2026-09-26",
+    "observation_state_sha": "f1bfeaac3d889dc40798c84323956c0574d13066",
+    "public_parent_sha": "24f35e20a4c993c4f8d44e4dcdc58d14281266ef",
+    "source_head_sha": "91997039a60287febf130cf10809e78fa58d683d",
+    "source_run_id": 36274635310
   },
   "schema_version": "1.0.0",
-  "semantic_fingerprint": "f1e775506ba4a238db0aa86d980c2d9255089e7bdd76c7a616d7fa5f0c44cd5c"
+  "semantic_fingerprint": "91cebf66feb49b48e2691a89daadee71389cb0d635fd8952bfcb0d3c7a5da53f"
 }
