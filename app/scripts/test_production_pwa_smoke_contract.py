@@ -29,8 +29,10 @@ def block(start_marker: str, end_marker: str | None = None) -> str:
 
 def main() -> None:
     from test_production_probe_retry import run_contract as retry_contract
+    from test_production_image_selection import run_contract as image_selection_contract
 
     retry_contract()
+    image_selection_contract()
     triggers = WORKFLOW.split("permissions:", 1)[0]
     assert "pull_request:" not in triggers, "Production smoke must be post-merge/manual only after D4"
     assert "push:" in triggers and "branches: [main]" in triggers

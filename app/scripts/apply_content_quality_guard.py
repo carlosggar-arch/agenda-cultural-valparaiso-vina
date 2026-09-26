@@ -12,6 +12,7 @@ from collections import defaultdict
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+from zoneinfo import ZoneInfo
 
 try:
     from app.scripts.transformation_receipt_ledger import (
@@ -735,6 +736,59 @@ def baseline_occurrence_map(events: list[dict] | None) -> dict[str, set[str]] | 
     return result
 
 
+def account_previously_pruned_occurrences(
+    events: list[dict], *, baseline_events: list[dict] | None,
+    ledger: dict, publication_day: date | None, timezone_name: str | None = None,
+) -> None:
+    """Explain expired baseline functions already absent from a producer candidate.
+
+    The independent preservation guard still validates each receipt against the
+    accepted baseline and its local publication day. Missing current/future
+    functions receive no receipt and remain subject to recovery or rejection.
+    """
+    if baseline_events is None or publication_day is None:
+        return
+    baseline_by_id = baseline_event_map(baseline_events) or {}
+    for current in events:
+        event_id = clean_space(current.get("id"))
+        previous = baseline_by_id.get(event_id)
+        if previous is None:
+            continue
+        retained = {occurrence_id(previous, item)
+                    for item in (current.get("schedule") or {}).get("occurrences") or []
+                    if isinstance(item, dict)}
+        for occurrence in (previous.get("schedule") or {}).get("occurrences") or []:
+            if not isinstance(occurrence, dict):
+                continue
+            identity = occurrence_id(previous, occurrence)
+            if identity in retained:
+                continue
+            values = [value for value in (occurrence.get("start"), occurrence.get("end")) if value]
+            zone_name = timezone_name or (previous.get("schedule") or {}).get("timezone")
+            days = []
+            for value in values:
+                day = parse_schedule_date(value)
+                if day is not None and "T" in str(value) and zone_name:
+                    moment = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+                    if moment.tzinfo is not None:
+                        day = moment.astimezone(ZoneInfo(zone_name)).date()
+                days.append(day)
+            if not days or any(day is None or day >= publication_day for day in days):
+                continue
+            if any(row.get("action") == "occurrence_pruning"
+                   and row.get("source_record_id") == event_id
+                   and row.get("occurrence_id") == identity for row in ledger.get("receipts", [])):
+                continue
+            append_baseline_receipt(ledger, make_receipt(
+                stage="content_quality_guard", action="occurrence_pruning",
+                reason="past_occurrence_pruned_before_finalization", source_event=previous,
+                canonical_event_id=event_id,
+                destination={"state": "series_preserved", "canonical_event_id": event_id},
+                occurrence=occurrence,
+                evidence={"occurrence": occurrence, "publication_date": publication_day.isoformat()},
+            ), baseline_by_id=baseline_by_id)
+
+
 def append_baseline_receipt(
     ledger: dict, receipt: dict, *, baseline_by_id: dict[str, dict] | None,
     occurrence_must_exist: bool = False,
@@ -1174,6 +1228,10 @@ def apply_guard(
         })
 
     dataset["events"] = [event for event in sanitized if str(event.get("id") or "") not in removed_ids]
+    account_previously_pruned_occurrences(
+        dataset["events"], baseline_events=baseline_events, ledger=ledger,
+        publication_day=publication_day, timezone_name=dataset.get("timezone"),
+    )
     append_recovery_dispositions(
         ledger,
         before_events=recovery_before_events,
