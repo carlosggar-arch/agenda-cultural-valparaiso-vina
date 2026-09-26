@@ -184,6 +184,35 @@ def test_public_projection_removes_editorial_recursively_and_is_idempotent() -> 
     assert removed_again == 0
 
 
+
+def test_public_projection_preserves_reviewed_identity_proof_without_rewriting_hash_inputs() -> None:
+    import copy
+    import hashlib
+    import json
+
+    for city in ("valparaiso", "gijon"):
+        original = {"id": "alias", "location": {"city": city},
+                    "editorial": {"title_recovered": True}}
+        digest = hashlib.sha256(json.dumps(original, sort_keys=True).encode()).hexdigest()
+        proof = {
+            "reviewed_identity": {"contract": "reviewed-public-event-identity/1", "rule_id": "reviewed-group"},
+            "duplicate_sources": [{"id": "alias", "input_event": original,
+                                   "input_sha256": digest, "baseline_event": copy.deepcopy(original),
+                                   "baseline_sha256": digest}],
+        }
+        dataset = {"events": [{"id": "canonical", "schedule": {"start": "2026-09-26"},
+                               "editorial": {**copy.deepcopy(proof), "private_note": "remove"}}]}
+        before = copy.deepcopy(dataset)
+        projected, _, _ = normalizer.normalize_dataset(dataset)
+        assert projected["events"][0]["editorial"] == proof
+        assert dataset == before
+        assert normalizer.normalize_dataset(projected)[0] == projected
+
+    unversioned = {"events": [{"editorial": {
+        "reviewed_identity": {"contract": "untrusted"}, "duplicate_sources": [{"id": "alias"}]}}]}
+    assert "editorial" not in normalizer.normalize_dataset(unversioned)[0]["events"][0]
+
+
 def main() -> None:
     test_gallery_flattened_hours_become_ranges()
     test_artequin_flattened_hours_become_ranges()
@@ -199,6 +228,7 @@ def main() -> None:
     test_valpo_target_does_not_implicitly_include_gijon()
     test_multicity_targeting_requires_explicit_opt_in()
     test_public_projection_removes_editorial_recursively_and_is_idempotent()
+    test_public_projection_preserves_reviewed_identity_proof_without_rewriting_hash_inputs()
     print("SCHEDULE_PRESENTATION_NORMALIZER_TESTS_OK")
 
 
