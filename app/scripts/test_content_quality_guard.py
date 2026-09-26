@@ -919,6 +919,8 @@ def main() -> None:
     test_performances_require_concrete_sessions_with_loss_receipts()
     test_programme_ranges_are_not_sessions_but_overnight_and_discrete_functions_survive()
     test_exhibition_period_does_not_require_a_showtime()
+    test_uncategorized_music_announcement_still_requires_a_showtime()
+    test_music_theme_does_not_make_a_workshop_or_exhibition_a_performance()
     print("CONTENT_QUALITY_GUARD_TESTS_OK")
 
 
@@ -950,6 +952,37 @@ def test_programme_ranges_are_not_sessions_but_overnight_and_discrete_functions_
 def test_exhibition_period_does_not_require_a_showtime():
     from apply_content_quality_guard import performance_evidence_gap
     assert performance_evidence_gap(event(schedule={'mode': 'multi_day', 'start': '2026-09-01', 'end': '2026-10-30'})) == []
+
+
+def test_uncategorized_music_announcement_still_requires_a_showtime():
+    row = event(
+        title='ALBOROSIE × DJ ATENEA meets SUDAKA',
+        description='La fiesta sound system ya tiene fecha: viernes 2 de octubre. Reggae y dancehall.',
+        primary_category={'id': 'otros', 'label': 'Otros panoramas'},
+        categories=[{'id': 'otros', 'label': 'Otros panoramas'}],
+        schedule={'mode': 'dated', 'start': '2026-10-02', 'end': None},
+    )
+    dataset = {'publication_date': '2026-09-26', 'events': [copy.deepcopy(row)]}
+    ledger = empty_ledger()
+    changes = apply_guard(dataset, ledger=ledger, baseline_events=[row])
+    assert dataset['events'] == []
+    assert changes['quarantined'][0]['reason'] == 'performance_without_verified_concrete_session'
+    assert ledger['receipts'][0]['evidence']['missing_evidence'] == ['verified_performance_start_time']
+    row['schedule']['start'] = '2026-10-02T22:00:00-03:00'
+    dataset['events'] = [row]
+    assert apply_guard(dataset)['quarantined'] == []
+    assert len(dataset['events']) == 1
+
+
+def test_music_theme_does_not_make_a_workshop_or_exhibition_a_performance():
+    from apply_content_quality_guard import performance_evidence_gap
+    for category in ('exposiciones', 'talleres', 'cursos', 'otros'):
+        row = event(
+            title='Taller de producción musical: reggae y dancehall',
+            primary_category={'id': category},
+            schedule={'mode': 'dated', 'start': '2026-10-02', 'end': None},
+        )
+        assert performance_evidence_gap(row) == []
 
 
 if __name__ == "__main__":

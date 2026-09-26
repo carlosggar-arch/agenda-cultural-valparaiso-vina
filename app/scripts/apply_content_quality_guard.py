@@ -423,9 +423,18 @@ def performance_evidence_gap(event: dict) -> list[str]:
     category = event.get("primary_category") or {}
     category_id = fold(category.get("id"))
     label = fold(category.get("label"))
+    title = fold(event.get("title"))
+    text = title + " " + fold(event.get("description"))
+    # An unclassified music announcement still needs a showtime. Do not
+    # reinterpret explicitly classified courses/exhibitions or learning titles.
+    unclassified_performance = (
+        category_id in {"", "otros", "otros-panoramas"}
+        and not re.search(r"\b(?:taller|curso|clase|seminario|charla)\b", title)
+        and bool(re.search(r"\b(?:concierto|recital|tocata|dj|sound\s?system)\b", text))
+    )
     if category_id not in {"cine", "musica", "teatro-danza", "teatro_y_danza", "teatro"} and label not in {
         "cine", "musica", "teatro y danza", "teatro / artes escenicas",
-    }:
+    } and not unclassified_performance:
         return []
     if event.get("event_type") == "program" or schedule.get("mode") in {"program", "flexible", "on_demand"}:
         return ["concrete_performance_occurrence"]
