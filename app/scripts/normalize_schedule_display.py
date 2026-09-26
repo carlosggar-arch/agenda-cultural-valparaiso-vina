@@ -159,14 +159,29 @@ def normalize_schedule(schedule: dict) -> list[str]:
 
 
 def strip_private_editorial(value: object) -> int:
-    """Remove private review metadata at the canonical public projection."""
+    """Remove private notes, retaining the versioned preservation evidence.
+
+    The final preservation gate independently validates this envelope against
+    the checked-in identity registry and the immutable published baseline.
+    Its embedded events are hash inputs: recursively rewriting them would
+    destroy the evidence for an already consolidated event.
+    """
     removed = 0
     if isinstance(value, dict):
         if "editorial" in value:
-            value.pop("editorial")
-            removed += 1
-        for child in value.values():
-            removed += strip_private_editorial(child)
+            editorial = value.pop("editorial")
+            review = editorial.get("reviewed_identity") if isinstance(editorial, dict) else None
+            aliases = editorial.get("duplicate_sources") if isinstance(editorial, dict) else None
+            if (isinstance(review, dict)
+                    and review.get("contract") == "reviewed-public-event-identity/1"
+                    and isinstance(aliases, list) and aliases):
+                value["editorial"] = {"reviewed_identity": review, "duplicate_sources": aliases}
+                removed += int(set(editorial) != {"reviewed_identity", "duplicate_sources"})
+            else:
+                removed += 1
+        for key, child in value.items():
+            if key != "editorial":
+                removed += strip_private_editorial(child)
     elif isinstance(value, list):
         for child in value:
             removed += strip_private_editorial(child)
