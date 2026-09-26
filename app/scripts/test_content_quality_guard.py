@@ -320,7 +320,15 @@ def test_both_dedup_paths_require_complete_consistent_temporal_evidence() -> Non
             assert temporal_identity(first) is None, (route, first["schedule"])
             dataset = {"events": [first, second]}
             changes = apply_guard(dataset)
-            assert {row["id"] for row in dataset["events"]} == {"first", "second"}, route
+            # Unverifiable performances are withheld under the session policy,
+            # with both identities accounted for; they are never merged.
+            retained = {row["id"] for row in dataset["events"]}
+            quarantined = {row["id"] for row in changes["quarantined"]}
+            assert retained | quarantined == {"first", "second"}, route
+            if quarantined:
+                assert route == "exact_source_occurrence"
+                assert all(row["reason"] == "performance_without_verified_concrete_session"
+                           for row in changes["quarantined"])
             assert changes["duplicates_consolidated"] == [], route
 
 
@@ -908,7 +916,40 @@ def main() -> None:
     test_registry_exposes_both_current_city_datasets()
     test_promotional_reminders_without_rich_evidence_are_quarantined()
     test_generic_carousel_parent_is_excluded_without_hiding_verified_children()
+    test_performances_require_concrete_sessions_with_loss_receipts()
+    test_programme_ranges_are_not_sessions_but_overnight_and_discrete_functions_survive()
+    test_exhibition_period_does_not_require_a_showtime()
     print("CONTENT_QUALITY_GUARD_TESTS_OK")
+
+
+def test_performances_require_concrete_sessions_with_loss_receipts():
+    for category in ('cine', 'musica', 'teatro'):
+        row = event(primary_category={'id': category}, schedule={'mode': 'dated', 'start': '2026-09-26', 'end': None})
+        dataset = {'publication_date': '2026-09-26', 'events': [row]}
+        ledger = empty_ledger()
+        changes = apply_guard(dataset, ledger=ledger, baseline_events=[copy.deepcopy(row)])
+        assert not dataset['events']
+        assert changes['quarantined'][0]['reason'] == 'performance_without_verified_concrete_session'
+        assert ledger['receipts'][0]['action'] == 'quarantine'
+        assert ledger['receipts'][0]['evidence']['missing_evidence'] == ['verified_performance_start_time']
+
+
+def test_programme_ranges_are_not_sessions_but_overnight_and_discrete_functions_survive():
+    from apply_content_quality_guard import performance_evidence_gap
+    show = event(primary_category={'id': 'musica'}, schedule={'mode': 'multi_day', 'start': '2026-09-03T20:00:00+02:00', 'end': '2026-09-26'})
+    assert performance_evidence_gap(show) == ['discrete_performance_occurrences']
+    show['schedule'] = {'mode': 'dated', 'start': '2026-10-02T23:59:00+02:00', 'end': '2026-10-03T06:00:00+02:00'}
+    assert performance_evidence_gap(show) == []
+    show['schedule'] = {'mode': 'recurring', 'start': '2026-10-02', 'end': '2026-10-10', 'occurrences': [
+        {'start': '2026-10-02T19:00:00+02:00'}, {'start': '2026-10-10T19:00:00+02:00'}]}
+    assert performance_evidence_gap(show) == []
+    show['schedule']['occurrences'][1]['start'] = '2026-10-10'
+    assert performance_evidence_gap(show) == ['verified_performance_start_time']
+
+
+def test_exhibition_period_does_not_require_a_showtime():
+    from apply_content_quality_guard import performance_evidence_gap
+    assert performance_evidence_gap(event(schedule={'mode': 'multi_day', 'start': '2026-09-01', 'end': '2026-10-30'})) == []
 
 
 if __name__ == "__main__":
