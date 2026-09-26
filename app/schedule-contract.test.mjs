@@ -48,6 +48,30 @@ const bareBoundary=normalizeEventScheduleContract({event_type:"event",primary_ca
 assert.deepEqual(bareBoundary.schedule.session_times,[],"a timed exhibition boundary spanning several dates is not a session without semantic evidence");
 assert.equal(bareBoundary.schedule.schedule_display,null);
 
+// A single session may cross midnight; its closing clock is not another session.
+const { formatSchedule } = await import("../assets/event-schedule-display.mjs");
+for (const timezone of ["Europe/Madrid", "America/Santiago"]) {
+  const offset = timezone === "Europe/Madrid" ? "+02:00" : "-03:00";
+  const overnight = normalizeEventScheduleContract({event_type:"event", primary_category:{id:"musica"},
+    schedule:{mode:"dated", start:`2026-10-02T23:59:00${offset}`, end:`2026-10-03T06:00:00${offset}`,
+      timezone, display_text:"2026-10-02 · 23:59–06:00", occurrences:[]}});
+  assert.deepEqual(overnight.schedule.session_times, ["23:59"]);
+  assert.equal(overnight.schedule.event_end_time, "06:00");
+  assert.equal(overnight.schedule.schedule_display, "23:59–06:00");
+  assert.match(formatSchedule(overnight.schedule, {timezone, locale:"es"}), /23:59–06:00/);
+  assert.deepEqual(normalizeEventScheduleContract(overnight), overnight);
+}
+for (const [mode, category, end] of [
+  ["multi_day", "musica", "2026-10-03T06:00:00+02:00"],
+  ["dated", "exposiciones", "2026-10-03T06:00:00+02:00"],
+  ["dated", "musica", "2026-10-04T06:00:00+02:00"],
+  ["dated", "musica", "2026-10-03"],
+]) {
+  const period = normalizeEventScheduleContract({primary_category:{id:category}, schedule:{
+    mode, start:"2026-10-02T23:59:00+02:00", end, occurrences:[]}});
+  assert.deepEqual(period.schedule.session_times, []);
+}
+
 const first=normalizeScheduleContractDataset({events:[mixed,two,doors,interval,ambiguous,occ,multiDate,exhibition,caleta,arqueobus,convivium,recurring,split,bareBoundary]}); assert.deepEqual(normalizeScheduleContractDataset(first),first);
 const parsed=classifyClockRoles("Horario del museo 10:00–17:30 · función 19:00"); assert.deepEqual(parsed.raw_times,["10:00","17:30","19:00"]); assert.deepEqual(parsed.session_times,["19:00"]);
 await import("./scripts/test_schedule_display.mjs");
