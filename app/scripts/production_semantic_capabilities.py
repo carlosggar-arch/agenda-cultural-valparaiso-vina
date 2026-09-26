@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from datetime import datetime, time, timezone
 import hashlib
+import json
+from pathlib import Path
+import subprocess
 from zoneinfo import ZoneInfo
 
 
@@ -52,6 +55,31 @@ def _event_active_until(
     return max(future) if future else None
 
 
+def projected_public_title(event: dict[str, object]) -> str:
+    """Evaluate the snapshot's reviewed interactive title projection, never normalize observed DOM.
+
+    The canonical title remains the static-page expectation. APP and the
+    interactive WEB detail remove known
+    venue suffixes and presentation prefixes through its shared title module.
+    Keep strict equality on each surface instead of accepting fuzzy matches.
+    """
+    script = """
+import { readFileSync } from 'node:fs';
+import { normalizePublicEventTitle } from './app/public-title-normalizer.mjs';
+const event = JSON.parse(readFileSync(0, 'utf8'));
+process.stdout.write(JSON.stringify(normalizePublicEventTitle(event.title, event)));
+"""
+    result = subprocess.run(
+        ["node", "--input-type=module", "-e", script],
+        input=json.dumps(event, ensure_ascii=False), text=True, capture_output=True,
+        check=True, cwd=Path(__file__).resolve().parents[2],
+    )
+    title = json.loads(result.stdout)
+    if not isinstance(title, str) or not title.strip():
+        raise SystemExit("PRODUCTION_SEMANTIC_APP_TITLE_EMPTY")
+    return title
+
+
 def select_category_semantic_cases(
     dataset: dict[str, object],
     category_labels: dict[str, str],
@@ -79,19 +107,20 @@ def select_category_semantic_cases(
             active_until = _event_active_until(event, effective, default_timezone=default_timezone)
             if not event_id or not title or not source_id or not official.startswith("https://") or not active_until:
                 continue
-            eligible.append((active_until, event_id, title))
+            eligible.append((active_until, event_id, title, event))
         if not eligible:
             raise SystemExit(
                 f"PRODUCTION_VALPO_SEMANTIC_CAPABILITY_MISSING category={category_id} "
                 "requirements=active_schedule,canonical_title,official_provenance"
             )
-        active_until, event_id, title = max(eligible, key=lambda row: (row[0], row[1]))
+        active_until, event_id, title, event = max(eligible, key=lambda row: (row[0], row[1]))
         selected.append(
             {
                 "id": event_id,
                 "category_id": category_id,
                 "category_label": category_labels[category_id],
                 "title": title,
+                "display_title": projected_public_title(event),
                 "active_until": active_until.isoformat(),
             }
         )

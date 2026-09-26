@@ -408,7 +408,7 @@ def verify_valpo_semantics(
             for expected, actual in zip(semantic_cases, evidence.get("actual") or []):
                 event_id = expected["id"]
                 category_id = expected["category_id"]
-                title = expected["title"]
+                title = expected["display_title"]
                 if actual.get("missing"):
                     raise SystemExit(f"Required semantic event missing in {origin}/app: {event_id}")
                 if actual.get("category") != category_id:
@@ -458,7 +458,7 @@ def verify_valpo_semantics(
             for expected in semantic_cases:
                 event_id = expected["id"]
                 category_id = expected["category_id"]
-                title = expected["title"]
+                title = expected["display_title"]
                 driver.get(f"{root_base}?evento={event_id}&semantic={uuid.uuid4().hex}")
                 WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.05).until(
                     lambda current: current.execute_script(
@@ -550,7 +550,7 @@ def verify_gijon_semantics(
                 raise SystemExit(
                     f"Wrong Gijón semantic category in {origin}/app: {matches[0].get('category')}"
                 )
-            if matches[0].get("heading") != semantic_case["title"]:
+            if matches[0].get("heading") != semantic_case["display_title"]:
                 raise SystemExit(f"Wrong Gijón semantic title in {origin}/app: {matches[0].get('heading')!r}")
             if evidence.get("forbiddenHits"):
                 raise SystemExit(

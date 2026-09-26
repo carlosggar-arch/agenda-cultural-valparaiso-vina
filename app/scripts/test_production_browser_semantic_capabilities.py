@@ -46,6 +46,19 @@ class ProductionBrowserSemanticCapabilityTests(unittest.TestCase):
         )
         self.assertEqual([row["category_id"] for row in selected], ["teatro", "literatura"])
 
+    def test_display_title_uses_public_projection_and_retains_canonical_static_title(self) -> None:
+        title = "Tata barahona & lsd – fotografías 15 años en teatro mauri SCD, Valparaíso"
+        theatre = event("reviewed-concert", "teatro", end="2026-11-22", title=title)
+        theatre["location"] = {"venue": "Teatro Mauri SCD, Valparaíso", "city": "Valparaíso"}
+        selected = select_valpo_semantic_cases(
+            dataset(theatre, event("book", "literatura", end="2026-11-22")), reference=NOW)
+        self.assertEqual(selected[0]["title"], title)
+        self.assertEqual(selected[0]["display_title"], "Tata barahona & lsd – fotografías 15 años")
+        theatre["location"]["venue"] = "Otra sala"
+        unrelated = select_valpo_semantic_cases(
+            dataset(theatre, event("book", "literatura", end="2026-11-22")), reference=NOW)
+        self.assertEqual(unrelated[0]["display_title"], title)
+
     def test_expired_fixture_is_replaced_by_valid_current_capability(self) -> None:
         selected = select_valpo_semantic_cases(
             dataset(
