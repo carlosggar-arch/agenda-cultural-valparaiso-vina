@@ -227,11 +227,23 @@ def cold_dom(
     )
 
 
+IMAGE_ROOT_SCRIPT = """
+const roots = Array.from(document.querySelectorAll(
+  `[data-event-id="${arguments[0]}"], [data-grouped-event-id="${arguments[0]}"]`
+));
+// WEB can retain a hidden featured copy before the visible results card.
+const root = roots.find(card => {
+  const box = card.getBoundingClientRect();
+  const style = getComputedStyle(card);
+  return box.width > 0 && box.height > 0
+    && style.visibility !== 'hidden' && style.visibility !== 'collapse';
+});
+"""
+
+
 def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> dict[str, object] | None:
     return driver.execute_script(
-        """
-        const root = document.querySelector(`[data-event-id="${arguments[0]}"]`)
-          || document.querySelector(`[data-grouped-event-id="${arguments[0]}"]`);
+        IMAGE_ROOT_SCRIPT + """
         if (!root) return null;
         const image = root.querySelector(`img[data-event-image="relevant"][data-event-image-id="${arguments[0]}"]`);
         if (!image || !image.complete || image.naturalWidth < 1 || image.naturalHeight < 1) return null;
@@ -258,9 +270,7 @@ def image_evidence(driver: webdriver.Chrome, event_id: str, filename: str) -> di
 def prepare_image_evidence(driver: webdriver.Chrome, event_id: str) -> bool:
     """Trigger one lazy image without mutating the page scroll state."""
     return bool(driver.execute_script(
-        """
-        const root = document.querySelector(`[data-event-id="${arguments[0]}"]`)
-          || document.querySelector(`[data-grouped-event-id="${arguments[0]}"]`);
+        IMAGE_ROOT_SCRIPT + """
         const image = root?.querySelector(`img[data-event-image="relevant"][data-event-image-id="${arguments[0]}"]`);
         if (!root || !image) return false;
         image.loading = 'eager';
@@ -272,15 +282,12 @@ def prepare_image_evidence(driver: webdriver.Chrome, event_id: str) -> bool:
 
 def image_diagnostics(driver: webdriver.Chrome, event_id: str, filename: str) -> dict[str, object]:
     return driver.execute_script(
-        """
-        const direct = document.querySelector(`[data-event-id="${arguments[0]}"]`);
-        const grouped = document.querySelector(`[data-grouped-event-id="${arguments[0]}"]`);
-        const root = direct || grouped;
+        IMAGE_ROOT_SCRIPT + """
         const image = root?.querySelector('img');
         const rect = image?.getBoundingClientRect();
         return {
           eventId: arguments[0], expectedFile: arguments[1],
-          presentation: direct ? 'direct-card' : grouped ? 'grouped-exhibition' : 'missing',
+          presentation: root ? (root.matches('[data-grouped-event-id]') ? 'grouped-exhibition' : 'direct-card') : 'missing',
           hasImage: Boolean(image), src: image?.getAttribute('src') || null,
           currentSrc: image?.currentSrc || null, complete: image?.complete || false,
           naturalWidth: image?.naturalWidth || 0, naturalHeight: image?.naturalHeight || 0,

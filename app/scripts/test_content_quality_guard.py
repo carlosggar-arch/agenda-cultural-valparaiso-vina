@@ -10,7 +10,7 @@ from apply_content_quality_guard import (
     recover_generic_title,
     temporal_identity,
 )
-from transformation_receipt_ledger import empty_ledger
+from transformation_receipt_ledger import empty_ledger, occurrence_id
 
 
 def event(**overrides):
@@ -43,6 +43,54 @@ def test_html_is_removed() -> None:
     changes = apply_guard(dataset)
     assert dataset["events"][0]["description"] == '“Nebulosa carina” es una muestra.'
     assert changes["html_cleaned"] == ["event-1"]
+
+
+def test_receipts_cover_expired_functions_already_pruned_by_the_producer() -> None:
+    for city, zone, offset in [("Valparaíso", "America/Santiago", "-03:00"),
+                               ("Gijón", "Europe/Madrid", "+02:00")]:
+        functions = [{"start": f"2026-09-{day}T19:30:00{offset}", "end": None}
+                     for day in (23, 26, 27, 30)]
+        previous = event(
+            id="series", title="Resident Evil: Noche Cero",
+            primary_category={"id": "cine", "label": "Cine"}, categories=[{"id": "cine", "label": "Cine"}],
+            location={"city": city, "venue": "Cine local"},
+            schedule={"mode": "recurring", "start": functions[0]["start"],
+                      "end": functions[-1]["start"], "timezone": zone, "occurrences": functions},
+        )
+        current = copy.deepcopy(previous)
+        current["schedule"]["start"] = functions[-1]["start"]
+        current["schedule"]["occurrences"] = [copy.deepcopy(functions[-1])]
+        dataset = {"timezone": zone, "publication_date": "2026-09-26", "events": [current]}
+        proof = empty_ledger()
+        # A separate expired row is not an accepted occurrence of this series.
+        alias = copy.deepcopy(previous)
+        alias["id"] = "expired-alias"
+        alias["schedule"].update(start=f"2026-09-22T19:30:00{offset}", end=None, occurrences=[])
+        apply_guard(dataset, baseline_events=[previous, alias], ledger=proof)
+        receipts = [row for row in proof["receipts"] if row["action"] == "occurrence_pruning"]
+        assert len(receipts) == 1
+        assert receipts[0]["occurrence_id"] == occurrence_id(previous, functions[0])
+        assert receipts[0]["evidence"]["occurrence"] == functions[0]
+        # Today and future omissions are deliberately not justified as expiry.
+        assert all(row["occurrence_id"] not in {occurrence_id(previous, item) for item in functions[1:]}
+                   for row in receipts)
+        assert dataset["events"][0]["schedule"]["occurrences"] == [functions[-1]]
+        apply_guard(dataset, baseline_events=[previous], ledger=proof)
+        assert len([row for row in proof["receipts"] if row["action"] == "occurrence_pruning"]) == 1
+
+
+def test_previously_pruned_functions_use_the_city_local_day() -> None:
+    from apply_content_quality_guard import account_previously_pruned_occurrences
+    from datetime import date
+
+    for zone, instant, expected in [("America/Santiago", "2026-09-26T01:00:00Z", 1),
+                                     ("Europe/Madrid", "2026-09-25T23:00:00Z", 0)]:
+        previous = event(schedule={"occurrences": [{"start": instant, "end": None}]})
+        current = event(schedule={"occurrences": []})
+        proof = empty_ledger()
+        account_previously_pruned_occurrences([current], baseline_events=[previous], ledger=proof,
+                                             publication_day=date(2026, 9, 26), timezone_name=zone)
+        assert len(proof["receipts"]) == expected
 
 
 def test_recovers_les_esperamos_from_explicit_activity_phrase() -> None:
@@ -841,6 +889,8 @@ def main() -> None:
     test_official_occurrence_rule_does_not_remove_future_or_series_event()
     test_exhibition_without_verified_end_is_quarantined_not_expired_by_venue_hours()
     test_prunes_past_occurrences_and_keeps_future_session()
+    test_receipts_cover_expired_functions_already_pruned_by_the_producer()
+    test_previously_pruned_functions_use_the_city_local_day()
     test_la_guerra_documented_history_projects_only_current_function()
     test_quarantines_monthly_program_overview_without_concrete_event()
     test_quarantines_anniversary_news_without_concrete_event()
