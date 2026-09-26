@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -217,6 +218,65 @@ class ProductionReleaseChainTests(unittest.TestCase):
              patch.object(chain, "git_check", return_value=False):
             with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_NOT_DESCENDANT_OF_HISTORICAL"):
                 chain.validate_runtime_release(runtime, composition=composition, historical_binding=binding)
+
+    def test_runtime_release_owner_can_precede_multiple_data_publications(self):
+        repository = self.root / "repository"
+        repository.mkdir()
+
+        def git(*args):
+            return subprocess.check_output(
+                ["git", *args], cwd=repository, text=True, stderr=subprocess.DEVNULL).strip()
+
+        def git_check(*args):
+            return subprocess.call(["git", *args], cwd=repository,
+                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0
+
+        def commit(path, text):
+            target = repository / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8")
+            git("add", path)
+            git("commit", "-qm", "fixture")
+            return git("rev-parse", "HEAD")
+
+        git("init", "-q")
+        git("config", "user.name", "Release fixture")
+        git("config", "user.email", "fixture@example.invalid")
+        owner = commit("app/data/release-provenance.json", '{"release": 300}\n')
+        commit("agenda_web.json", '{"events": [1]}\n')
+        parent = commit("agenda_web.json", '{"events": [1, 2]}\n')
+        historical = commit("agenda_web.json", '{"events": [1, 2, 3]}\n')
+        runtime = commit("app/scripts/verifier.py", "# reviewed verifier\n")
+        proof = self.snapshot_proof(
+            historical_sha=historical, historical_release="v300-fixture",
+            runtime_sha=runtime, runtime_release="v300-fixture")
+        binding = {"parent_sha": parent, "public_sha": historical,
+                   "release_id": "v300-fixture"}
+        published = {**self.published, "main_sha": owner}
+        with patch.object(chain, "git", side_effect=git), \
+             patch.object(chain, "git_check", side_effect=git_check), \
+             patch.object(chain, "check_published", return_value=published) as check:
+            result, actual_owner, changed = chain.validate_runtime_release(
+                runtime, composition=proof["composition"], historical_binding=binding)
+        check.assert_called_once_with(owner)
+        self.assertEqual(result, published)
+        self.assertEqual(actual_owner, owner)
+        self.assertEqual(changed, ["app/scripts/verifier.py"])
+
+    def test_runtime_release_owner_must_belong_to_authenticated_parent_history(self):
+        parent, historical, runtime, owner = (value * 40 for value in "2345")
+        proof = self.snapshot_proof(
+            historical_sha=historical, historical_release="v300-fixture",
+            runtime_sha=runtime, runtime_release="v300-fixture")
+        binding = {"parent_sha": parent, "public_sha": historical,
+                   "release_id": "v300-fixture"}
+        with patch.object(chain, "git", side_effect=[parent, "app/scripts/verifier.py", owner]), \
+             patch.object(chain, "git_check", side_effect=lambda *args: args[-2:] != (owner, parent)), \
+             patch.object(chain, "check_published") as check:
+            with self.assertRaisesRegex(SystemExit, "SNAPSHOT_RUNTIME_RELEASE_OWNER_BINDING_MISMATCH"):
+                chain.validate_runtime_release(
+                    runtime, composition=proof["composition"], historical_binding=binding)
+        check.assert_not_called()
 
     def test_snapshot_rejects_recomputed_historical_result_that_differs_from_evidence(self):
         historical = {**self.published, "main_sha": "1" * 40,

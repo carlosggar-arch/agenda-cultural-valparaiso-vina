@@ -79,7 +79,11 @@ def validate_runtime_release(
     if len(release_owner) != 40 or not git_check("merge-base", "--is-ancestor", release_owner, runtime_sha):
         raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_INVALID")
     if historical_release_id == runtime_release_id:
-        if release_owner != parent_sha:
+        # Several signed data publications can share one product release.
+        # Its owner must belong to the authenticated parent's history, while
+        # the exact historical child and its unchanged verifier-only overlay
+        # retain their separate checks above and below.
+        if not git_check("merge-base", "--is-ancestor", release_owner, parent_sha):
             raise SystemExit("SNAPSHOT_RUNTIME_RELEASE_OWNER_BINDING_MISMATCH")
         changed = composition_paths
     else:
