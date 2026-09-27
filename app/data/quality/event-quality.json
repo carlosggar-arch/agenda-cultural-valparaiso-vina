@@ -1,21 +1,21 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-27T15:30:14+00:00",
+  "generated_at": "2026-09-27T15:59:29+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-09-27",
-      "generated_at": "2026-09-27T15:30:12+00:00",
+      "generated_at": "2026-09-27T15:59:27+00:00",
       "summary": {
-        "total_events": 177,
-        "average_quality_score": 94.8,
+        "total_events": 178,
+        "average_quality_score": 94.9,
         "quality_class": "excellent",
         "sources_catalogued": 58,
         "sources_producing": 27,
         "sources_zero": 27,
         "review_priority_zero_sources": 27,
         "zero_sources_covered_elsewhere": 4,
-        "top3_source_share_pct": 50.8,
+        "top3_source_share_pct": 51.1,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
@@ -23,53 +23,53 @@
         "date_pct": 99.4,
         "time_pct": 91.0,
         "venue_pct": 99.4,
-        "image_pct": 89.8,
+        "image_pct": 89.9,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 52.0,
-        "price_known_pct": 79.7
+        "official_source_pct": 51.7,
+        "price_known_pct": 79.8
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 82,
-          "share_pct": 46.3,
+          "count": 83,
+          "share_pct": 46.6,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 26,
-          "share_pct": 14.7,
+          "share_pct": 14.6,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 24,
-          "share_pct": 13.6,
+          "share_pct": 13.5,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
           "count": 18,
-          "share_pct": 10.2,
+          "share_pct": 10.1,
           "underrepresented": false
         },
         {
           "id": "teatro",
           "label": "Teatro",
           "count": 15,
-          "share_pct": 8.5,
+          "share_pct": 8.4,
           "underrepresented": false
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
           "count": 7,
-          "share_pct": 4.0,
+          "share_pct": 3.9,
           "underrepresented": true
         },
         {
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 117,
-          "share_pct": 66.1
+          "share_pct": 65.7
         },
         {
           "area": "Viña del Mar",
-          "count": 60,
-          "share_pct": 33.9
+          "count": 61,
+          "share_pct": 34.3
         }
       ],
       "coverage_gaps": {
@@ -153,14 +153,14 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 89.8,
+        "relevant_image_pct": 89.9,
         "removed_events": {}
       },
       "sources": [
         {
           "id": "portaltickets_valparaiso",
           "name": "PortalTickets — Región de Valparaíso",
-          "count": 51,
+          "count": 52,
           "quality_score": 99.8,
           "quality_class": "excellent",
           "attention": "none",
@@ -172,13 +172,13 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 98.0,
+            "image_pct": 98.1,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
           },
           "categories": {
-            "musica": 50,
+            "musica": 51,
             "teatro": 1
           },
           "verified_inactive": false
@@ -853,83 +853,83 @@
     "gijon": {
       "city_id": "gijon",
       "publication_date": "2026-09-27",
-      "generated_at": "2026-09-27T17:06:47+02:00",
+      "generated_at": "2026-09-27T15:30:20+00:00",
       "summary": {
-        "total_events": 326,
-        "average_quality_score": 98.3,
+        "total_events": 298,
+        "average_quality_score": 99.0,
         "quality_class": "excellent",
         "sources_catalogued": 50,
-        "sources_producing": 24,
-        "sources_zero": 26,
-        "review_priority_zero_sources": 26,
+        "sources_producing": 22,
+        "sources_zero": 28,
+        "review_priority_zero_sources": 28,
         "zero_sources_covered_elsewhere": 0,
-        "top3_source_share_pct": 49.1,
+        "top3_source_share_pct": 49.7,
         "unattributed_events": 0
       },
       "field_coverage": {
         "date_pct": 100.0,
-        "time_pct": 83.4,
+        "time_pct": 89.9,
         "venue_pct": 100.0,
-        "image_pct": 99.7,
+        "image_pct": 100.0,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 99.4,
+        "official_source_pct": 99.7,
         "price_known_pct": 100.0
       },
       "category_distribution": [
         {
           "id": "teatro",
           "label": "Teatro / artes escénicas",
-          "count": 120,
-          "share_pct": 36.8,
+          "count": 113,
+          "share_pct": 37.9,
           "underrepresented": false
         },
         {
           "id": "musica",
           "label": "Música",
-          "count": 57,
-          "share_pct": 17.5,
+          "count": 46,
+          "share_pct": 15.4,
           "underrepresented": false
         },
         {
           "id": "cultura",
           "label": "Cultura",
-          "count": 37,
-          "share_pct": 11.3,
+          "count": 36,
+          "share_pct": 12.1,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 23,
-          "share_pct": 7.1,
+          "share_pct": 7.7,
           "underrepresented": false
         },
         {
           "id": "actividad-panorama",
           "label": "Actividad / panorama",
-          "count": 20,
-          "share_pct": 6.1,
-          "underrepresented": false
-        },
-        {
-          "id": "cine",
-          "label": "Cine",
           "count": 19,
-          "share_pct": 5.8,
+          "share_pct": 6.4,
           "underrepresented": false
         },
         {
           "id": "museos",
           "label": "Museos",
-          "count": 15,
-          "share_pct": 4.6,
+          "count": 14,
+          "share_pct": 4.7,
+          "underrepresented": true
+        },
+        {
+          "id": "cine",
+          "label": "Cine",
+          "count": 14,
+          "share_pct": 4.7,
           "underrepresented": true
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
-          "count": 13,
+          "count": 12,
           "share_pct": 4.0,
           "underrepresented": true
         },
@@ -937,21 +937,21 @@
           "id": "formacion-taller",
           "label": "Formación / taller",
           "count": 9,
-          "share_pct": 2.8,
-          "underrepresented": true
-        },
-        {
-          "id": "gastronomia-ferias",
-          "label": "Gastronomía / ferias",
-          "count": 6,
-          "share_pct": 1.8,
+          "share_pct": 3.0,
           "underrepresented": true
         },
         {
           "id": "deporte-bienestar",
           "label": "Deporte / bienestar",
           "count": 6,
-          "share_pct": 1.8,
+          "share_pct": 2.0,
+          "underrepresented": true
+        },
+        {
+          "id": "gastronomia-ferias",
+          "label": "Gastronomía / ferias",
+          "count": 5,
+          "share_pct": 1.7,
           "underrepresented": true
         },
         {
@@ -965,8 +965,8 @@
       "area_distribution": [
         {
           "area": "Gijón",
-          "count": 321,
-          "share_pct": 98.5
+          "count": 293,
+          "share_pct": 98.3
         },
         {
           "area": "CANDAMO",
@@ -997,14 +997,16 @@
       "coverage_gaps": {
         "underrepresented_categories": [
           "museos",
+          "cine",
           "cursos-talleres",
           "formacion-taller",
-          "gastronomia-ferias",
           "deporte-bienestar",
+          "gastronomia-ferias",
           "artes-visuales-museo"
         ],
         "source_concentration_high": false,
         "review_priority_zero_sources": [
+          "agenda_gijon",
           "cafe_dindurra",
           "dilema_indie_club_gijon",
           "surf_asturias",
@@ -1019,6 +1021,7 @@
           "la_caja_de_musicos",
           "la_habitacion_propia_gijon",
           "la_mar_y_morena_gijon",
+          "la_revoltosa_gijon",
           "laboral_cinemateca",
           "libreria_de_bolsillo_gijon",
           "mercado_artesano_ecologico_gijon",
@@ -1036,15 +1039,15 @@
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 99.7,
+        "relevant_image_pct": 100.0,
         "removed_events": {}
       },
       "sources": [
         {
           "id": "gijon_opendata_events",
           "name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
-          "count": 65,
-          "quality_score": 96.9,
+          "count": 55,
+          "quality_score": 97.8,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -1053,7 +1056,7 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 69.2,
+            "time_pct": 78.2,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
@@ -1061,20 +1064,20 @@
             "price_known_pct": 100.0
           },
           "categories": {
-            "cine": 13,
-            "teatro": 5,
-            "museos": 13,
+            "museos": 12,
             "exposiciones": 14,
-            "cursos-talleres": 2,
-            "musica": 5,
-            "cultura": 13
+            "cine": 10,
+            "cursos-talleres": 1,
+            "musica": 4,
+            "cultura": 13,
+            "teatro": 1
           }
         },
         {
           "id": "centro_cultura_antiguo_instituto",
           "name": "Centro de Cultura Antiguo Instituto",
-          "count": 52,
-          "quality_score": 98.8,
+          "count": 50,
+          "quality_score": 99.2,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -1083,7 +1086,7 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 88.5,
+            "time_pct": 92.0,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
@@ -1091,9 +1094,9 @@
             "price_known_pct": 100.0
           },
           "categories": {
-            "teatro": 18,
             "exposiciones": 4,
             "cultura": 13,
+            "teatro": 16,
             "museos": 1,
             "cursos-talleres": 9,
             "musica": 4,
@@ -1154,7 +1157,7 @@
         {
           "id": "danza_xixon",
           "name": "Danza Xixón",
-          "count": 23,
+          "count": 21,
           "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
@@ -1172,8 +1175,8 @@
             "price_known_pct": 100.0
           },
           "categories": {
-            "teatro": 21,
-            "cine": 2
+            "teatro": 20,
+            "cine": 1
           }
         },
         {
@@ -1198,30 +1201,6 @@
           },
           "categories": {
             "teatro": 18
-          }
-        },
-        {
-          "id": "gijon_arena",
-          "name": "Gijón Arena — Próximos eventos",
-          "count": 15,
-          "quality_score": 95.3,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 53.3,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "musica": 15
           }
         },
         {
@@ -1276,10 +1255,10 @@
           }
         },
         {
-          "id": "camara_recinto_ferial_gijon",
-          "name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
+          "id": "gijon_arena",
+          "name": "Gijón Arena — Próximos eventos",
           "count": 8,
-          "quality_score": 91.2,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -1288,17 +1267,15 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 25.0,
+            "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 87.5,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
             "price_known_pct": 100.0
           },
           "categories": {
-            "gastronomia-ferias": 6,
-            "actividad-panorama": 1,
-            "musica": 1
+            "musica": 8
           }
         },
         {
@@ -1327,31 +1304,6 @@
           }
         },
         {
-          "id": "jardin_botanico_atlantico",
-          "name": "Jardín Botánico Atlántico",
-          "count": 7,
-          "quality_score": 97.1,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 71.4,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "exposiciones": 1,
-            "cultura": 6
-          }
-        },
-        {
           "id": "bioparc_acuario_gijon",
           "name": "BIOPARC Acuario de Gijón — Actividades y talleres",
           "count": 6,
@@ -1373,6 +1325,56 @@
           },
           "categories": {
             "actividad-panorama": 6
+          }
+        },
+        {
+          "id": "camara_recinto_ferial_gijon",
+          "name": "Cámara de Comercio de Gijón — Recinto Ferial y Palacio de Congresos",
+          "count": 6,
+          "quality_score": 93.3,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 33.3,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "gastronomia-ferias": 5,
+            "musica": 1
+          }
+        },
+        {
+          "id": "jardin_botanico_atlantico",
+          "name": "Jardín Botánico Atlántico",
+          "count": 6,
+          "quality_score": 98.3,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 83.3,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 1,
+            "cultura": 5
           }
         },
         {
@@ -1426,32 +1428,8 @@
         {
           "id": "sala_acapulco_conciertos",
           "name": "Sala Acapulco — Conciertos",
-          "count": 3,
-          "quality_score": 96.7,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 66.7,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "musica": 3
-          }
-        },
-        {
-          "id": "la_revoltosa_gijon",
-          "name": "La Revoltosa Gijón",
           "count": 2,
-          "quality_score": 90.0,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -1460,7 +1438,7 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 0.0,
+            "time_pct": 100.0,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
@@ -1469,30 +1447,6 @@
           },
           "categories": {
             "musica": 2
-          }
-        },
-        {
-          "id": "agenda_gijon",
-          "name": "Agenda Gijón",
-          "count": 1,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "cine": 1
           }
         },
         {
