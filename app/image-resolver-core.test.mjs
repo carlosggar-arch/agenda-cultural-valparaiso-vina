@@ -58,25 +58,6 @@ function legacyVenueKey(event) {
   return venue ? `${city}|${venue}` : null;
 }
 
-function legacyPools(events) {
-  const pools = new Map();
-  for (const event of events) {
-    const key = legacyVenueKey(event);
-    const url = legacyRelevant(event);
-    if (!key || !url) continue;
-    const pool = pools.get(key) || [];
-    if (!pool.includes(url)) pool.push(url);
-    pools.set(key, pool);
-  }
-  return pools;
-}
-
-function legacyRepresentative(event, pools) {
-  if (legacyGenericSchedule(event)) return null;
-  const key = legacyVenueKey(event);
-  return key ? pools.get(key)?.[0] || null : null;
-}
-
 const own = {
   id: "own",
   title: "Concierto de cámara",
@@ -114,28 +95,46 @@ const genericSchedule = {
 
 const events = [own, sibling, noImage, genericSchedule];
 const pools = buildVenueImagePools(events, { baseUrl: BASE });
-const oldPools = legacyPools(events);
 
-test("card direct and same-venue representative resolution remains stable where a real image exists", () => {
-  for (const event of [own, sibling, noImage]) {
+test("direct show posters remain unchanged, but cannot represent a different show", () => {
+  for (const event of [own, sibling]) {
     assert.equal(looksLikeGenericSchedule(event), legacyGenericSchedule(event));
     assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), legacyRelevant(event));
     assert.equal(venueImageKey(event), legacyVenueKey(event));
-    const expected = legacyRelevant(event) || legacyRepresentative(event, oldPools);
-    assert.equal(resolveEventImage(event, { surface: "card", venueImagePools: pools, baseUrl: BASE }).url, expected);
+    assert.equal(resolveEventImage(event, { surface: "card", venueImagePools: pools, baseUrl: BASE }).url,
+      legacyRelevant(event));
   }
+  assert.equal(pools.size, 0);
+  assert.deepEqual(resolveEventImage(noImage, { surface: "card", venueImagePools: pools, baseUrl: BASE }),
+    { ...categoryFallbackImage(noImage), genericSchedule: false });
 });
 
-test("failed direct card image still prefers the exact legacy same-venue URL", () => {
-  const expected = legacyRepresentative(own, oldPools);
+test("a film without a poster never borrows another film's poster in the same cinema", () => {
+  const location = { city: "Viña del Mar", venue: "Cine Arte" };
+  const film = { id: "film-a", title: "Película A", location,
+    image: { url: "https://img.example/film-a.jpg", relevance: "event_specific" },
+    primary_category: { id: "cine", label: "Cine" } };
+  const missing = { id: "film-b", title: "Película B", location,
+    image: { url: null }, primary_category: { id: "cine", label: "Cine" } };
+  const venuePools = buildVenueImagePools([film, missing], { baseUrl: BASE });
+  assert.deepEqual(resolveEventImage(missing, { surface: "card", venueImagePools: venuePools, baseUrl: BASE }),
+    { ...categoryFallbackImage(missing), genericSchedule: false });
+});
+
+test("a failed poster uses a category image instead of another show's poster", () => {
   const ownFallback = resolveCardImageAfterFailure(own, legacyRelevant(own), { venueImagePools: pools, baseUrl: BASE });
-  assert.equal(ownFallback.url,
-    expected === legacyRelevant(own) ? categoryFallbackImage(own).url : expected);
+  assert.deepEqual(ownFallback, { ...categoryFallbackImage(own), genericSchedule: false });
   const failing = { ...own, id: "failing", image: { url: "https://img.example/failing.jpg" } };
-  const expectedFallback = legacyRepresentative(failing, oldPools);
-  const resolvedFallback = resolveCardImageAfterFailure(failing, legacyRelevant(failing), { venueImagePools: oldPools, baseUrl: BASE });
-  assert.equal(resolvedFallback.url,
-    expectedFallback === legacyRelevant(failing) ? categoryFallbackImage(failing).url : expectedFallback);
+  const resolvedFallback = resolveCardImageAfterFailure(failing, legacyRelevant(failing), { venueImagePools: pools, baseUrl: BASE });
+  assert.deepEqual(resolvedFallback, { ...categoryFallbackImage(failing), genericSchedule: false });
+});
+
+test("an explicitly identified venue photo may represent other events at that venue", () => {
+  const venue = { ...own, id: "venue", image: { url: "https://img.example/building.jpg", relevance: "venue_specific" } };
+  const verifiedPools = buildVenueImagePools([...events, venue], { baseUrl: BASE });
+  assert.deepEqual(verifiedPools.get(venueImageKey(noImage)), [venue.image.url]);
+  assert.deepEqual(resolveEventImage(noImage, { surface: "card", venueImagePools: verifiedPools, baseUrl: BASE }),
+    { url: venue.image.url, kind: "representative", genericSchedule: false });
 });
 
 test("every ordinary card gets a graphical category image when no source or venue image exists", () => {

@@ -119,6 +119,9 @@ export function venueImageKey(event) {
 export function buildVenueImagePools(events, { baseUrl = null } = {}) {
   const pools = new Map();
   for (const event of events || []) {
+    // A poster from another show at this address does not depict the venue.
+    // Only an explicitly identified venue photo may represent another card.
+    if (event?.image?.relevance !== "venue_specific") continue;
     const key = venueImageKey(event);
     const url = relevantEventImageUrl(event, { baseUrl });
     if (!key || !url) continue;
