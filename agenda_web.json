@@ -1,11 +1,11 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-09-27T15:59:32+00:00",
+  "generated_at": "2026-09-27T18:24:53+00:00",
   "publication_date": "2026-09-27",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 178,
-    "events": 177,
+    "total": 179,
+    "events": 178,
     "courses": 0,
     "flexible_offers": 1,
     "programs": 0
@@ -62,10 +62,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/nebulosa-carina/",
-      "last_verified_at": "2026-09-27T12:50:48-03:00",
+      "last_verified_at": "2026-09-27T15:17:15-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:48-03:00",
+        "last_verified_at": "2026-09-27T15:17:15-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -187,10 +187,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/las-cumbias-que-escuchamos-alla-arriba/",
-      "last_verified_at": "2026-09-27T12:50:48-03:00",
+      "last_verified_at": "2026-09-27T15:17:15-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:48-03:00",
+        "last_verified_at": "2026-09-27T15:17:15-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -220,53 +220,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "image": {
-        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg",
-        "alt": "¿Cuáles serán los fósiles del futuro?"
-      },
-      "title": "¿Cuáles serán los fósiles del futuro?",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": null,
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
-        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
-        "end": "2026-11-07",
-        "start": "2026-08-15T11:30:00-04:00",
-        "mode": "multi_day"
-      },
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis",
-        "currency": "CLP",
-        "is_free": true
-      },
-      "links": {
-        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -274,20 +239,55 @@
           "label": "Exposiciones"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
       "location": {
-        "venue_id": "museo-historia-natural-valparaiso",
-        "online": false,
-        "city": "Valparaíso",
         "latitude": null,
-        "address": "Condell 1546, Valparaíso",
-        "longitude": null,
+        "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso"
+        "address": "Condell 1546, Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "venue_id": "museo-historia-natural-valparaiso",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_23e5e3f1e1e5d52f7f76d265",
+      "price": {
+        "max_amount": 0,
+        "is_free": true,
+        "min_amount": 0,
+        "currency": "CLP",
+        "display_text": "Gratis"
+      },
+      "title": "¿Cuáles serán los fósiles del futuro?",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "image": {
+        "alt": "¿Cuáles serán los fósiles del futuro?",
+        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-08/POST_3.jpeg"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
+        "official": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro"
+      },
+      "schedule": {
+        "display_text": "2026-08-15 · 11:30, 13:00, 11:45",
+        "occurrences": [],
+        "start": "2026-08-15T11:30:00-04:00",
+        "timezone": "America/Santiago",
+        "mode": "multi_day",
+        "end": "2026-11-07"
+      },
+      "tags": [],
+      "description": "Evento especial Charla 08 Ago 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Agosto/2026 Museo de Historia Natural de Valparaíso, segundo piso, Condell 1546, Valparaíso - Museo de Historia Natural de Valparaíso Pensar el futuro desde el diálogo: Museo de...",
       "source_id": "mhnvalpo",
       "provenance": {
         "verified_venue": {
@@ -301,37 +301,71 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "¡Fortalece tus herramientas para la gestión cultural! 🎭📚 El Municipio de Cuidados de Viña del Mar, a través del Departamento de Culturas, te invita a participar en el II Ciclo de Formación Cultural, un espacio pensado para gestores, artistas, agentes y organiz...",
-      "organizer": "Museo Palacio Rioja",
-      "image": {
-        "url": "https://instagram.frns1-1.fna.fbcdn.net/v/t51.82787-15/764855462_18401170309094191_5072454852139773972_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=instagram.frns1-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2gFAvNnBxgA5njSQacld3KM5vTXTAN3Hg2Ea8P0N3o3bropwdGbdcLa27CbfrSqW90_PvBDO1DoESz2fjz7DEy0y&_nc_ohc=b2_ghowYEXUQ7kNvwGsBG2W&_nc_gid=n1g_i4kvo6vITbr9QDo9HA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQGLE2QsCUBDQN_cBqQaONKLdt9Jzf1xi14J9LVMWionmw&oe=6A889C39&_nc_sid=c6f216",
-        "alt": "Fortalece tus herramientas para la gestión cultural"
+      "audience": null,
+      "public_status": {
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_stage": null,
+        "cancelled": null,
+        "sold_out": null,
+        "information_completeness": "partial",
+        "price_confirmed": null,
+        "registration_closed": null,
+        "registration_open": null,
+        "last_verified_at": null,
+        "source_official": true
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "location": {
+        "latitude": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "address": null,
+        "venue": "Museo Palacio Rioja",
+        "venue_id": null,
+        "longitude": null,
+        "online": false
+      },
+      "id": "agenda_fd3ddae09e1576497c5cb7d7",
+      "price": {
+        "max_amount": null,
+        "is_free": null,
+        "min_amount": null,
+        "currency": null,
+        "display_text": null
       },
       "title": "Fortalece tus herramientas para la gestión cultural",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.instagram.com/p/Dbq3J8wlpKk/",
+      "source_name": "Museo Palacio Rioja",
+      "organizer": "Museo Palacio Rioja",
       "primary_category": {
         "id": "cursos-talleres",
         "label": "Cursos y talleres"
       },
-      "public_status": {
-        "sold_out": null,
-        "information_completeness": "partial",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-        "registration_closed": null,
-        "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": null
+      "image": {
+        "alt": "Fortalece tus herramientas para la gestión cultural",
+        "url": "https://instagram.frns1-1.fna.fbcdn.net/v/t51.82787-15/764855462_18401170309094191_5072454852139773972_n.jpg?stp=dst-jpg_e15_tt6&_nc_ht=instagram.frns1-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2gFAvNnBxgA5njSQacld3KM5vTXTAN3Hg2Ea8P0N3o3bropwdGbdcLa27CbfrSqW90_PvBDO1DoESz2fjz7DEy0y&_nc_ohc=b2_ghowYEXUQ7kNvwGsBG2W&_nc_gid=n1g_i4kvo6vITbr9QDo9HA&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQGLE2QsCUBDQN_cBqQaONKLdt9Jzf1xi14J9LVMWionmw&oe=6A889C39&_nc_sid=c6f216"
+      },
+      "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.instagram.com/p/Dbq3J8wlpKk/",
+        "official": "https://www.instagram.com/p/Dbq3J8wlpKk/"
       },
       "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
         "display_text": "2026-08-20 – 2026-11-14",
-        "end": "2026-11-14",
+        "occurrences": [],
         "start": "2026-08-20T18:00:00-04:00",
+        "timezone": "America/Santiago",
         "mode": "multi_day",
+        "end": "2026-11-14",
         "venue_hours": {
           "mode": "weekly",
           "open_weekdays": [
@@ -375,45 +409,11 @@
         "closing_time": "17:30",
         "hours_confidence": "official_venue_schedule"
       },
-      "source_name": "Museo Palacio Rioja",
       "tags": [
         "formación",
         "taller"
       ],
-      "audience": null,
-      "price": {
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null,
-        "currency": null,
-        "is_free": null
-      },
-      "links": {
-        "source": "https://www.instagram.com/p/Dbq3J8wlpKk/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.instagram.com/p/Dbq3J8wlpKk/"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "last_verified_at": null,
-      "source_url": "https://www.instagram.com/p/Dbq3J8wlpKk/",
-      "location": {
-        "venue_id": null,
-        "online": false,
-        "city": "Viña del Mar",
-        "latitude": null,
-        "address": null,
-        "longitude": null,
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja"
-      },
-      "id": "agenda_fd3ddae09e1576497c5cb7d7",
-      "registration_requirements": null,
+      "description": "¡Fortalece tus herramientas para la gestión cultural! 🎭📚 El Municipio de Cuidados de Viña del Mar, a través del Departamento de Culturas, te invita a participar en el II Ciclo de Formación Cultural, un espacio pensado para gestores, artistas, agentes y organiz...",
       "source_id": "museo_palacio_rioja"
     },
     {
@@ -914,10 +914,10 @@
       "source_id": "museobaburizza",
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/pacheco-altamirano-redescubrir-a-un-maestro/",
-      "last_verified_at": "2026-09-27T12:50:48-03:00",
+      "last_verified_at": "2026-09-27T15:17:15-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:48-03:00",
+        "last_verified_at": "2026-09-27T15:17:15-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -942,53 +942,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Arte y naturaleza se encuentran en nueva exposición temporal. Artes gráficas Exposición 08 Jul 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Julio/2026 hasta el 03/Octubre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de...",
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "image": {
-        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-06/INSECTOS_IMAGINARIOS_imagen_afiche_Mesa%20de%20trabajo%201.jpg",
-        "alt": "Insectos Imaginarios"
-      },
-      "title": "Insectos Imaginarios",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": null,
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-06 · 11:00, 16:00, 15:00",
-        "end": "2026-10-03",
-        "start": "2026-09-06T11:00:00-03:00",
-        "mode": "multi_day"
-      },
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis",
-        "currency": "CLP",
-        "is_free": true
-      },
-      "links": {
-        "source": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -1000,20 +965,55 @@
           "label": "Museos"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
       "location": {
-        "venue_id": "museo-historia-natural-valparaiso",
-        "online": false,
-        "city": "Valparaíso",
         "latitude": null,
-        "address": "Condell 1546, Valparaíso",
-        "longitude": null,
+        "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso"
+        "address": "Condell 1546, Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "venue_id": "museo-historia-natural-valparaiso",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_54d56b27750666c06a32331b",
+      "price": {
+        "max_amount": 0,
+        "is_free": true,
+        "min_amount": 0,
+        "currency": "CLP",
+        "display_text": "Gratis"
+      },
+      "title": "Insectos Imaginarios",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "image": {
+        "alt": "Insectos Imaginarios",
+        "url": "https://www.mhnv.gob.cl/sites/www.mhnv.gob.cl/files/2026-06/INSECTOS_IMAGINARIOS_imagen_afiche_Mesa%20de%20trabajo%201.jpg"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal",
+        "official": "https://www.mhnv.gob.cl/cartelera/insectos-imaginarios-arte-y-naturaleza-se-encuentran-en-nueva-exposicion-temporal"
+      },
+      "schedule": {
+        "display_text": "2026-09-06 · 11:00, 16:00, 15:00",
+        "occurrences": [],
+        "start": "2026-09-06T11:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "multi_day",
+        "end": "2026-10-03"
+      },
+      "tags": [],
+      "description": "Arte y naturaleza se encuentran en nueva exposición temporal. Artes gráficas Exposición 08 Jul 2026 Condell 1546, Valparaíso, Chile. Presencial 08/Julio/2026 hasta el 03/Octubre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de...",
       "source_id": "mhnvalpo",
       "provenance": {
         "verified_venue": {
@@ -1027,37 +1027,75 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "🖼️El Municipio de Cuidados de Viña del Mar, a través de su Departamento de Cultura, invita a la inauguración de “La playa: todo tiempo pasado fue mejor”, exposición individual de Iva Susa Salazar, que se realizará el viernes 11 de septiembre, a las 17:00 horas...",
-      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
-      "image": {
-        "url": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794225822_18467242807113624_3183383223979419947_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk3ODg1Njg2Njk4NTMwNTM2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTAxMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UWMr1ZXVGcQQ7kNvwHAuGfU&_nc_oc=Adrsa8P9TQV_pEWYMmLaK5pYU73i7L1ljcPU_Erla3izHr4mmHdiMwwWaSapTy2CiOY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oDFiioZVsesLu-RBCGXehw&_nc_ss=7a22e&oh=00_AQKtL8MRThNHbNKNS3wTHYMWYcFJUxdop047NoeP-XSnHA&oe=6AA1561D",
-        "alt": "La playa: todo tiempo pasado fue mejor"
+      "audience": null,
+      "public_status": {
+        "advisory_text": "Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
+        "price_stage": null,
+        "cancelled": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "price_confirmed": true,
+        "registration_closed": null,
+        "registration_open": null,
+        "last_verified_at": null,
+        "source_official": false
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "location": {
+        "latitude": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "address": "Errázuriz 563, Viña del Mar",
+        "venue": "Palacio Vergara",
+        "venue_id": "palacio-vergara",
+        "longitude": null,
+        "online": false
+      },
+      "id": "agenda_7afeeaf27e8585c5161ed929",
+      "price": {
+        "max_amount": 0,
+        "is_free": true,
+        "min_amount": 0,
+        "currency": "CLP",
+        "display_text": "Gratis"
       },
       "title": "La playa: todo tiempo pasado fue mejor",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.instagram.com/p/Dc3xnG1IKLu/",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
       "primary_category": {
         "id": "exposiciones",
         "label": "Exposiciones"
       },
-      "public_status": {
-        "sold_out": null,
-        "information_completeness": "complete",
-        "source_official": false,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-        "registration_closed": null,
-        "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
+      "image": {
+        "alt": "La playa: todo tiempo pasado fue mejor",
+        "url": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/794225822_18467242807113624_3183383223979419947_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzk3ODg1Njg2Njk4NTMwNTM2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTAxMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UWMr1ZXVGcQQ7kNvwHAuGfU&_nc_oc=Adrsa8P9TQV_pEWYMmLaK5pYU73i7L1ljcPU_Erla3izHr4mmHdiMwwWaSapTy2CiOY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oDFiioZVsesLu-RBCGXehw&_nc_ss=7a22e&oh=00_AQKtL8MRThNHbNKNS3wTHYMWYcFJUxdop047NoeP-XSnHA&oe=6AA1561D"
+      },
+      "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.instagram.com/p/Dc3xnG1IKLu/",
+        "official": "https://www.instagram.com/p/Dc3xnG1IKLu/"
       },
       "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
         "display_text": "2026-09-11 – 2026-11-01",
-        "end": "2026-11-01",
+        "occurrences": [],
         "start": "2026-09-11T00:00:00-03:00",
+        "timezone": "America/Santiago",
         "mode": "multi_day",
+        "end": "2026-11-01",
         "venue_hours": {
           "mode": "weekly",
           "open_weekdays": [
@@ -1101,51 +1139,13 @@
         "closing_time": "17:30",
         "hours_confidence": "official_venue_schedule"
       },
-      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "tags": [
         "exposicion",
         "exposición",
         "muestra",
         "museo"
       ],
-      "audience": null,
-      "price": {
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis",
-        "currency": "CLP",
-        "is_free": true
-      },
-      "links": {
-        "source": "https://www.instagram.com/p/Dc3xnG1IKLu/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.instagram.com/p/Dc3xnG1IKLu/"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "last_verified_at": null,
-      "source_url": "https://www.instagram.com/p/Dc3xnG1IKLu/",
-      "location": {
-        "venue_id": "palacio-vergara",
-        "online": false,
-        "city": "Viña del Mar",
-        "latitude": null,
-        "address": "Errázuriz 563, Viña del Mar",
-        "longitude": null,
-        "commune": "Viña del Mar",
-        "venue": "Palacio Vergara"
-      },
-      "id": "agenda_7afeeaf27e8585c5161ed929",
-      "registration_requirements": null,
+      "description": "🖼️El Municipio de Cuidados de Viña del Mar, a través de su Departamento de Cultura, invita a la inauguración de “La playa: todo tiempo pasado fue mejor”, exposición individual de Iva Susa Salazar, que se realizará el viernes 11 de septiembre, a las 17:00 horas...",
       "source_id": "culturasvina",
       "editorial": {
         "verified_publication_patches": [
@@ -1154,59 +1154,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "🎨 El Museo de Historia Natural de Valparaíso presenta A través del espejo, exposición del artista autodidacta y psicólogo Ervin Echeverría Iturra, nacido en Valparaíso en 1989 y residente actualmente en Villa Alemana. La muestra está integrada por 18 obras rea...",
-      "organizer": "Museo de Historia Natural de Valparaíso",
-      "image": {
-        "url": "https://instagram.fcdg1-1.fna.fbcdn.net/v/t51.82787-15/780127115_18570957766068140_7765164674538753667_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzk2ODc3NTY5OTkwMTE3NTQ3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ehCfBTyY8wAQ7kNvwEWTFIJ&_nc_oc=AdqiBGahVj_lJle-LrQkiti4NH2sgdxN9_zaBcOImMDcVgVqjpvx8TGbEhOKp3FKSlI&_nc_zt=23&_nc_ht=instagram.fcdg1-1.fna&_nc_gid=ZIRGcjjXixwHFd5QLUsrIw&_nc_ss=7ca8c&oh=00_AQG1WqxXOD5al4gc1UnuGuioYWZlK3QQHw80DxzRgy78Kg&oe=6A922803",
-        "alt": "través del espejo"
-      },
-      "title": "través del espejo",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "partial",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_confirmed": null,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": null
-      },
-      "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-26 · 15:00",
-        "end": "2026-10-31",
-        "start": "2026-09-26T15:00:00-03:00",
-        "mode": "multi_day"
-      },
-      "source_name": "Museo de Historia Natural de Valparaíso",
-      "tags": [
-        "exposicion",
-        "exposición",
-        "muestra",
-        "museo",
-        "pintura"
-      ],
-      "audience": null,
-      "price": {
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null,
-        "currency": null,
-        "is_free": null
-      },
-      "links": {
-        "source": "https://www.instagram.com/p/DcT7Hi5z9ax/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.instagram.com/p/DcT7Hi5z9ax/"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -1218,20 +1177,61 @@
           "label": "Museos"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://www.instagram.com/p/DcT7Hi5z9ax/",
       "location": {
-        "venue_id": "museo-historia-natural-valparaiso",
-        "online": false,
-        "city": "Valparaíso",
         "latitude": null,
-        "address": "Condell 1546, Valparaíso",
-        "longitude": null,
+        "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Museo de Historia Natural de Valparaíso"
+        "address": "Condell 1546, Valparaíso",
+        "venue": "Museo de Historia Natural de Valparaíso",
+        "venue_id": "museo-historia-natural-valparaiso",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_4e30efb06ef7f3e203e0e58c",
+      "price": {
+        "max_amount": null,
+        "is_free": null,
+        "min_amount": null,
+        "currency": null,
+        "display_text": null
+      },
+      "title": "través del espejo",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.instagram.com/p/DcT7Hi5z9ax/",
+      "source_name": "Museo de Historia Natural de Valparaíso",
+      "organizer": "Museo de Historia Natural de Valparaíso",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "image": {
+        "alt": "través del espejo",
+        "url": "https://instagram.fcdg1-1.fna.fbcdn.net/v/t51.82787-15/780127115_18570957766068140_7765164674538753667_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzk2ODc3NTY5OTkwMTE3NTQ3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ehCfBTyY8wAQ7kNvwEWTFIJ&_nc_oc=AdqiBGahVj_lJle-LrQkiti4NH2sgdxN9_zaBcOImMDcVgVqjpvx8TGbEhOKp3FKSlI&_nc_zt=23&_nc_ht=instagram.fcdg1-1.fna&_nc_gid=ZIRGcjjXixwHFd5QLUsrIw&_nc_ss=7ca8c&oh=00_AQG1WqxXOD5al4gc1UnuGuioYWZlK3QQHw80DxzRgy78Kg&oe=6A922803"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.instagram.com/p/DcT7Hi5z9ax/",
+        "official": "https://www.instagram.com/p/DcT7Hi5z9ax/"
+      },
+      "schedule": {
+        "display_text": "2026-09-26 · 15:00",
+        "occurrences": [],
+        "start": "2026-09-26T15:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "multi_day",
+        "end": "2026-10-31"
+      },
+      "tags": [
+        "exposicion",
+        "exposición",
+        "muestra",
+        "museo",
+        "pintura"
+      ],
+      "description": "🎨 El Museo de Historia Natural de Valparaíso presenta A través del espejo, exposición del artista autodidacta y psicólogo Ervin Echeverría Iturra, nacido en Valparaíso en 1989 y residente actualmente en Villa Alemana. La muestra está integrada por 18 obras rea...",
       "source_id": "mhnvalpo",
       "provenance": {
         "verified_venue": {
@@ -1847,89 +1847,6 @@
       }
     },
     {
-      "id": "agenda_92a874e7250981478e40317d",
-      "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor",
-      "event_type": "event",
-      "primary_category": {
-        "id": "exposiciones",
-        "label": "Exposiciones"
-      },
-      "categories": [
-        {
-          "id": "exposiciones",
-          "label": "Exposiciones"
-        },
-        {
-          "id": "museos",
-          "label": "Museos"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-09-27T10:00:00-03:00",
-        "end": "2026-09-27T17:30:00-03:00",
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-27 · 10:00–17:30",
-        "occurrences": [],
-        "opening_time": "10:00",
-        "closing_time": "17:30",
-        "hours_confidence": "explicit"
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Viña del Mar",
-        "commune": "Viña del Mar",
-        "venue": "Museo Palacio Rioja",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/"
-      },
-      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
-      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "Inicio actividad - Visita Viña Exposición temporal // “La Playa: todo tiempo pasado fue mejor” Fecha 27-septiembre-2026 HoraMartes a Domingo de 10:00 a 17:30 Exposición temporal // “La Playa: todo tiempo pasado fue mejor” Exposición temporal “La Playa: todo ti...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "source_id": "culturasvina",
-      "editorial": {
-        "verified_publication_patches": [
-          "culturasvina_public_display_name"
-        ]
-      }
-    },
-    {
       "id": "agenda_a933180663b5f1d4af1ec329",
       "title": "Exposición transitoria // “Entre mareas",
       "event_type": "event",
@@ -1998,7 +1915,7 @@
         "information_completeness": "partial",
         "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
       },
-      "description": "Inicio actividad - Visita Viña Exposición transitoria // “Entre mareas” Fecha 27-septiembre-2026 Hora Exposición transitoria // “Entre mareas” Exposición transitoria “Entre mareas”, de Fernanda Larraín y Mari López. esta muestra utiliza imágenes de rocas y ave...",
+      "description": "Inicio actividad - Visita Viña Exposición transitoria // “Entre mareas” Fecha 27-septiembre-2026 En curso... Hora Exposición transitoria // “Entre mareas” Exposición transitoria “Entre mareas”, de Fernanda Larraín y Mari López. esta muestra utiliza imágenes de...",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -2305,89 +2222,6 @@
       }
     },
     {
-      "id": "agenda_ddfa179d533b849f19359232",
-      "title": "Viña al son de la cueca",
-      "event_type": "event",
-      "primary_category": {
-        "id": "naturaleza-deportes",
-        "label": "Naturaleza y deportes"
-      },
-      "categories": [
-        {
-          "id": "naturaleza-deportes",
-          "label": "Naturaleza y deportes"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-09-27T14:00:00-03:00",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-27 · 14:00",
-        "occurrences": [
-          {
-            "start": "2026-09-27T14:00:00-03:00",
-            "end": null
-          }
-        ]
-      },
-      "location": {
-        "venue_id": null,
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Culturas Viña",
-        "address": null,
-        "online": false,
-        "latitude": null,
-        "longitude": null
-      },
-      "price": {
-        "is_free": true,
-        "currency": "CLP",
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis"
-      },
-      "links": {
-        "official": "https://www.instagram.com/p/DdjhuLOR7QX/",
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DdjhuLOR7QX/"
-      },
-      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
-      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
-      "source_url": "https://www.instagram.com/p/DdjhuLOR7QX/",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": false,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": true,
-        "information_completeness": "complete",
-        "advisory_text": null
-      },
-      "description": "🇨🇱🙌 El Teatro Municipal de Viña del Mar se prepara para recibir la pasión y el talento de las nuevas generaciones cuequeras en el Campeonato Regional Juvenil de Paine - Región de Valparaíso. Te invitamos a vivir una tarde al ritmo de nuestra danza nacional, do...",
-      "tags": [
-        "campeonato"
-      ],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fcgh39-1.fna.fbcdn.net/v/t51.82787-15/819107300_18008384468985382_7690817827565830338_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ig_cache_key=Mzk5MTE4MjAwMzQ2MTkyNzk1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-zRaYGWAl-4Q7kNvwFLHjHh&_nc_oc=AdrFy5pGgqPAM_HHb-hHDfnN4EgCchC8ya-pE0sGvIokbgxqafOpyc0Bc1AIBj0vcZM&_nc_ad=z-m&_nc_cid=1138&_nc_zt=23&_nc_ht=instagram.fcgh39-1.fna&_nc_gid=2s-QCzS6KXO1DBt4HtY8gg&_nc_ss=7a22e&oh=00_AQLi5XN7oUwyBzCL54dH8Q3DAD0J6kAUsJmyBeLMeB7_Fw&oe=6AB7F582",
-        "alt": "Viña al son de la cueca"
-      },
-      "source_id": "culturasvina",
-      "editorial": {
-        "verified_publication_patches": [
-          "culturasvina_public_display_name"
-        ]
-      }
-    },
-    {
       "id": "agenda_1ab44badc2c828e791a0b388",
       "title": "Viña al son de la cueca",
       "event_type": "event",
@@ -2491,6 +2325,105 @@
       }
     },
     {
+      "audience": null,
+      "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "price_confirmed": true,
+        "registration_closed": null,
+        "registration_open": null,
+        "last_verified_at": null,
+        "source_official": false
+      },
+      "categories": [
+        {
+          "id": "naturaleza-deportes",
+          "label": "Naturaleza y deportes"
+        }
+      ],
+      "location": {
+        "latitude": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
+        "venue": "Teatro Municipal de Viña del Mar",
+        "venue_id": "teatro-municipal-vina-del-mar",
+        "longitude": null,
+        "online": false
+      },
+      "id": "agenda_ddfa179d533b849f19359232",
+      "price": {
+        "max_amount": 0,
+        "is_free": true,
+        "min_amount": 0,
+        "currency": "CLP",
+        "display_text": "Gratis"
+      },
+      "title": "Viña al son de la cueca",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.instagram.com/p/DdjhuLOR7QX/",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+      "primary_category": {
+        "id": "naturaleza-deportes",
+        "label": "Naturaleza y deportes"
+      },
+      "image": {
+        "alt": "Viña al son de la cueca",
+        "url": "https://instagram.fcgh39-1.fna.fbcdn.net/v/t51.82787-15/819107300_18008384468985382_7690817827565830338_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ig_cache_key=Mzk5MTE4MjAwMzQ2MTkyNzk1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM1MS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=-zRaYGWAl-4Q7kNvwFLHjHh&_nc_oc=AdrFy5pGgqPAM_HHb-hHDfnN4EgCchC8ya-pE0sGvIokbgxqafOpyc0Bc1AIBj0vcZM&_nc_ad=z-m&_nc_cid=1138&_nc_zt=23&_nc_ht=instagram.fcgh39-1.fna&_nc_gid=2s-QCzS6KXO1DBt4HtY8gg&_nc_ss=7a22e&oh=00_AQLi5XN7oUwyBzCL54dH8Q3DAD0J6kAUsJmyBeLMeB7_Fw&oe=6AB7F582"
+      },
+      "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.instagram.com/p/DdjhuLOR7QX/",
+        "official": "https://www.instagram.com/p/DdjhuLOR7QX/"
+      },
+      "schedule": {
+        "display_text": "2026-09-27 · 14:00",
+        "occurrences": [
+          {
+            "start": "2026-09-27T14:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start": "2026-09-27T14:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": null
+      },
+      "tags": [
+        "campeonato"
+      ],
+      "description": "🇨🇱🙌 El Teatro Municipal de Viña del Mar se prepara para recibir la pasión y el talento de las nuevas generaciones cuequeras en el Campeonato Regional Juvenil de Paine - Región de Valparaíso. Te invitamos a vivir una tarde al ritmo de nuestra danza nacional, do...",
+      "source_id": "culturasvina",
+      "provenance": {
+        "caption_verified_venue": {
+          "method": "exact_catalog_name_in_source_caption",
+          "venue_id": "teatro-municipal-vina-del-mar",
+          "catalog_source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
+          "caption_source_url": "https://www.instagram.com/p/DdjhuLOR7QX/"
+        },
+        "verified_venue": {
+          "method": "canonical_venue_registry",
+          "venue_id": "teatro-municipal-vina-del-mar",
+          "city": "Viña del Mar",
+          "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
+          "verified_at": "2026-09-20",
+          "address": "Plaza José Francisco Vergara s/n, Viña del Mar"
+        }
+      },
+      "editorial": {
+        "verified_publication_patches": [
+          "culturasvina_public_display_name"
+        ]
+      }
+    },
+    {
       "id": "agenda_d974f3a75d605cac6a65cc25",
       "title": "El hombre que cayó a la Tierra",
       "event_type": "event",
@@ -2556,7 +2489,7 @@
         "information_completeness": "complete",
         "advisory_text": null
       },
-      "description": "Dirección: Condell 1585, Valparaíso. Funciones: domingo 27 de septiembre de 2026, 15:00 hrs.",
+      "description": "Dirección: Condell 1585, Valparaíso. Funciones: Domingo 27 de septiembre, 15:00 hrs",
       "tags": [],
       "audience": null,
       "registration_requirements": null,
@@ -2756,10 +2689,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/extinciontotal1",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3099,10 +3032,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -3669,60 +3602,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 28 de septiembre de 2026, 19:15 hrs.Comprar entradas: https://www.passline.com/eventos/stop-making-sense-1984-cine-arte-vina-del-mar",
-      "organizer": null,
-      "image": {
-        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
-        "alt": "Stop Making Sense (1984)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "title": "Stop Making Sense (1984)",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "partial",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [
-          {
-            "end": null,
-            "start": "2026-09-28T19:15:00-03:00"
-          }
-        ],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-28 · 19:15",
-        "end": null,
-        "start": "2026-09-28T19:15:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "cineartevina.cl",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": 2000,
-        "max_amount": 2000,
-        "display_text": "$2.000",
-        "currency": "CLP",
-        "is_free": false
-      },
-      "links": {
-        "source": "https://cineartevina.cl/#funcion-stop-making-sense-1984-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/stop-making-sense-1984-cine-arte-vina-del-mar",
-        "registration": null,
-        "official": "https://cineartevina.cl/#funcion-stop-making-sense-1984-cine-arte-vina-del-mar"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -3730,20 +3621,62 @@
           "label": "Cine"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://cineartevina.cl/#funcion-stop-making-sense-1984-cine-arte-vina-del-mar",
       "location": {
-        "venue_id": "cine-arte-vina-del-mar",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar"
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "venue_id": "cine-arte-vina-del-mar",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_f311a63df32b38d375252839",
+      "price": {
+        "max_amount": 2000,
+        "is_free": false,
+        "min_amount": 2000,
+        "currency": "CLP",
+        "display_text": "$2.000"
+      },
+      "title": "Stop Making Sense (1984)",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://cineartevina.cl/#funcion-stop-making-sense-1984-cine-arte-vina-del-mar",
+      "source_name": "cineartevina.cl",
+      "organizer": null,
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "image": {
+        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
+        "alt": "Stop Making Sense (1984)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": "https://www.passline.com/eventos/stop-making-sense-1984-cine-arte-vina-del-mar",
+        "source": "https://cineartevina.cl/#funcion-stop-making-sense-1984-cine-arte-vina-del-mar",
+        "official": "https://cineartevina.cl/#funcion-stop-making-sense-1984-cine-arte-vina-del-mar"
+      },
+      "schedule": {
+        "display_text": "2026-09-28 · 19:15",
+        "occurrences": [
+          {
+            "start": "2026-09-28T19:15:00-03:00",
+            "end": null
+          }
+        ],
+        "start": "2026-09-28T19:15:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": null
+      },
+      "tags": [],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: lunes 28 de septiembre de 2026, 19:15 hrs.Comprar entradas: https://www.passline.com/eventos/stop-making-sense-1984-cine-arte-vina-del-mar",
       "source_id": "cinearte_vina",
       "provenance": {
         "verified_venue": {
@@ -4144,6 +4077,124 @@
       }
     },
     {
+      "id": "agenda_92a874e7250981478e40317d",
+      "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor",
+      "event_type": "event",
+      "primary_category": {
+        "id": "exposiciones",
+        "label": "Exposiciones"
+      },
+      "categories": [
+        {
+          "id": "exposiciones",
+          "label": "Exposiciones"
+        },
+        {
+          "id": "museos",
+          "label": "Museos"
+        }
+      ],
+      "schedule": {
+        "mode": "single",
+        "start": "2026-09-29T10:00:00-03:00",
+        "end": "2026-09-29T17:30:00-03:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-09-29 · 10:00–17:30",
+        "occurrences": [],
+        "opening_time": "10:00",
+        "closing_time": "17:30",
+        "hours_confidence": "explicit",
+        "start_confidence": "official_google_calendar_link"
+      },
+      "location": {
+        "venue_id": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "venue": "Museo Palacio Rioja",
+        "address": "Quillota 214, Viña del Mar, Valparaíso",
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": true,
+        "currency": "CLP",
+        "min_amount": 0,
+        "max_amount": 0,
+        "display_text": "Gratis"
+      },
+      "links": {
+        "official": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/",
+        "tickets": null,
+        "registration": null,
+        "source": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/"
+      },
+      "organizer": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_name": "Visita Viña — Municipalidad de Viña del Mar",
+      "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/",
+      "last_verified_at": null,
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": null,
+        "registration_open": null,
+        "registration_closed": null,
+        "cancelled": null,
+        "sold_out": null,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "Inicio actividad - Visita Viña Exposición temporal // “La Playa: todo tiempo pasado fue mejor” Fecha 29-septiembre-2026 HoraMartes a Domingo de 10:00 a 17:30 Exposición temporal // “La Playa: todo tiempo pasado fue mejor” Exposición temporal “La Playa: todo ti...",
+      "tags": [],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": null,
+        "alt": null
+      },
+      "source_id": "culturasvina",
+      "provenance": {
+        "official_schedule": {
+          "kind": "calendar_event",
+          "method": "official_google_calendar_link",
+          "start": "2026-09-29T10:00:00-03:00",
+          "end": "2026-09-29T17:30:00-03:00",
+          "event_date": "2026-09-29",
+          "timezone": "America/Santiago",
+          "calendar_url": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Exposici%C3%B3n+temporal+%2F%2F+%E2%80%9CLa+Playa%3A+todo+tiempo+pasado+fue+mejor%E2%80%9D&dates=20260929T130000Z/20260929T203000Z&details=Exposici%C3%B3n+temporal+%E2%80%9CLa+Playa%3A+todo+tiempo+pasado+fue+mejor%E2%80%9D+de+Iva+Susa%0D%0ALa+muestra+de+la+artista+Iva+Susa%2C+se+articula+como+un+recorrido+de+d%C3%ADa%2C+tarde+y+noche+por+el+verano+en+el+balneario.+La+comida+atraviesa+el+recorrido+como+un+lenguaje+afectivo%2C+mientras+la+cer%C3%A1mica+transforma+lo+ef%C3%ADmero+en+permanencia.+Desde+recuerdos+de+infancia+en+la+playa+Acapulco%2C+reconstruyo+un+territorio+compartido.+Me+pregunto+qu%C3%A9+significa+%E2%80%9Cestar+playa%E2%80%9D%3A+desconectarse%2C+gozar%2C+descansar+y+sentir+que+est%C3%A1+bien.%0D%0AEntrada+liberada%0D%0A%0D%0AM%C3%A1s+informaci%C3%B3n+en+Instagram+%7C+%40museopalaciorioja&location=Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Valpara%C3%ADso&recur=RRULE%3AFREQ%3DWEEKLY%3BUNTIL%3D20261101T203000Z%3BBYDAY%3DTU%2CWE%2CTH%2CFR%2CSA%2CSU",
+          "conflicts": [],
+          "source_url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/",
+          "previous_schedule": {
+            "mode": "dated",
+            "start": "2026-09-29T10:00:00-03:00",
+            "end": "2026-09-29T17:30:00-03:00",
+            "timezone": "America/Santiago",
+            "display_text": "2026-09-29 · 10:00–17:30",
+            "occurrences": [],
+            "opening_time": "10:00",
+            "closing_time": "17:30",
+            "hours_confidence": "explicit"
+          }
+        },
+        "official_metadata": [
+          {
+            "url": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/",
+            "host": "visitavina.munivina.cl",
+            "method": "official_page_structured_or_event_local_evidence",
+            "fields": [
+              "address"
+            ]
+          }
+        ]
+      },
+      "editorial": {
+        "verified_publication_patches": [
+          "culturasvina_public_display_name"
+        ]
+      }
+    },
+    {
       "id": "agenda_191cf1465d82d427232fd534",
       "title": "Del muro al proyecto: gestión y producción de iniciativas de muralismo",
       "event_type": "event",
@@ -4309,57 +4360,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-      "organizer": "Museo Palacio Rioja",
-      "image": {
-        "url": "https://secure.gravatar.com/avatar/22b6b8ebd9aa31e71cdbef9097fb9755b80fa625dfecc532eade50a78a4f7f0b?s=96&d=mm&r=g",
-        "alt": "Ciclo Formación de Público FICVIÑA"
-      },
-      "title": "Ciclo Formación de Público FICVIÑA",
-      "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja.",
+        "price_stage": null,
+        "cancelled": false,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": "2026-09-04T01:20:16-04:00",
-        "price_stage": null,
-        "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja.",
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": false,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-29 · 16:00–18:00",
-        "end": "2026-09-29T18:00:00-03:00",
-        "start": "2026-09-29T16:00:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "Visita Viña — Museo Palacio Rioja",
-      "tags": [
-        "Cultura",
-        "Museo Palacio Rioja",
-        "Visita Viña"
-      ],
-      "audience": null,
-      "price": {
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis",
-        "currency": "CLP",
-        "is_free": true
-      },
-      "links": {
-        "source": "https://visitavina.munivina.cl/actividades/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://visitavina.munivina.cl/actividad/ciclo-formacion-de-publico-ficvina/?occurrence=2026-09-29"
+        "last_verified_at": "2026-09-04T01:20:16-04:00",
+        "source_official": true
       },
       "categories": [
         {
@@ -4367,20 +4379,59 @@
           "label": "Otros panoramas"
         }
       ],
-      "last_verified_at": "2026-09-04T01:20:16-04:00",
-      "source_url": "https://visitavina.munivina.cl/actividades/",
       "location": {
-        "venue_id": "museo-palacio-rioja",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Quillota 214, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Sala Aldo Francia"
+        "address": "Quillota 214, Viña del Mar",
+        "venue": "Sala Aldo Francia",
+        "venue_id": "museo-palacio-rioja",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_9702a373b9d1766dd0957994",
+      "price": {
+        "max_amount": 0,
+        "is_free": true,
+        "min_amount": 0,
+        "currency": "CLP",
+        "display_text": "Gratis"
+      },
+      "title": "Ciclo Formación de Público FICVIÑA",
+      "event_type": "event",
+      "last_verified_at": "2026-09-04T01:20:16-04:00",
+      "source_url": "https://visitavina.munivina.cl/actividades/",
+      "source_name": "Visita Viña — Museo Palacio Rioja",
+      "organizer": "Museo Palacio Rioja",
+      "primary_category": {
+        "id": "otros",
+        "label": "Otros panoramas"
+      },
+      "image": {
+        "alt": "Ciclo Formación de Público FICVIÑA",
+        "url": "https://secure.gravatar.com/avatar/22b6b8ebd9aa31e71cdbef9097fb9755b80fa625dfecc532eade50a78a4f7f0b?s=96&d=mm&r=g"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://visitavina.munivina.cl/actividades/",
+        "official": "https://visitavina.munivina.cl/actividad/ciclo-formacion-de-publico-ficvina/?occurrence=2026-09-29"
+      },
+      "schedule": {
+        "display_text": "2026-09-29 · 16:00–18:00",
+        "occurrences": [],
+        "start": "2026-09-29T16:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": "2026-09-29T18:00:00-03:00"
+      },
+      "tags": [
+        "Cultura",
+        "Museo Palacio Rioja",
+        "Visita Viña"
+      ],
+      "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
       "source_id": "museo_palacio_rioja"
     },
     {
@@ -4653,60 +4704,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 29 de septiembre de 2026, 18:45 hrs.Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-558490",
-      "organizer": null,
-      "image": {
-        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
-        "alt": "Obsesión",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "title": "Obsesión",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "partial",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_confirmed": null,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": null
-      },
-      "schedule": {
-        "occurrences": [
-          {
-            "end": null,
-            "start": "2026-09-29T18:45:00-03:00"
-          }
-        ],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-29 · 18:45",
-        "end": null,
-        "start": "2026-09-29T18:45:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "cineartevina.cl",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null,
-        "currency": null,
-        "is_free": null
-      },
-      "links": {
-        "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-558490",
-        "tickets": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-558490",
-        "registration": null,
-        "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-558490"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -4714,20 +4723,62 @@
           "label": "Cine"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-558490",
       "location": {
-        "venue_id": "cine-arte-vina-del-mar",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar"
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "venue_id": "cine-arte-vina-del-mar",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_306f3ba847efbd124d186193",
+      "price": {
+        "max_amount": null,
+        "is_free": null,
+        "min_amount": null,
+        "currency": null,
+        "display_text": null
+      },
+      "title": "Obsesión",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-558490",
+      "source_name": "cineartevina.cl",
+      "organizer": null,
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "image": {
+        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
+        "alt": "Obsesión",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": "https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-558490",
+        "source": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-558490",
+        "official": "https://cineartevina.cl/#funcion-obsesion-subtitulada-cine-arte-vina-del-mar-558490"
+      },
+      "schedule": {
+        "display_text": "2026-09-29 · 18:45",
+        "occurrences": [
+          {
+            "start": "2026-09-29T18:45:00-03:00",
+            "end": null
+          }
+        ],
+        "start": "2026-09-29T18:45:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": null
+      },
+      "tags": [],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 29 de septiembre de 2026, 18:45 hrs.Comprar entradas: https://www.passline.com/eventos/obsesion-subtitulada-cine-arte-vina-del-mar-558490",
       "source_id": "cinearte_vina",
       "provenance": {
         "verified_venue": {
@@ -4930,58 +4981,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "🎖️ ¡Así comenzó nuestro ciclo de charlas sobre la II Guerra Mundial! En esta primera jornada, el investigador y especialista en temas bélicos Jorge Bernal Álamos nos llevó a conocer “La guerra en el desierto”, sus estrategias y algunas de sus historias y anécd...",
-      "organizer": "Estadio Español Recreo",
-      "image": {
-        "url": "https://instagram.fvix7-1.fna.fbcdn.net/v/t39.30808-6/787245703_1771864091366590_9104469962085309441_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ig_cache_key=Mzk3MjU2Mjc4ODczNjIxNzYzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SqiOT3vU8oEQ7kNvwHh2LOr&_nc_oc=AdpIPLwzaku_-Lf6GB7D2zf5W6N0jOWmJ-uaTRr0VXrhjathXKGoOy0-TLIgxvyUkjM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fvix7-1.fna&_nc_gid=bSh1r_in5dat5oEMt-i1zA&_nc_ss=7a22e&oh=00_AQHIOM8tw6MNoGkASH-zTdLOY1No9dEC50VI8HfLuiUfow&oe=6A95C9B0",
-        "alt": "La guerra en el desierto"
-      },
-      "title": "La guerra en el desierto",
-      "primary_category": {
-        "id": "otros",
-        "label": "Otros panoramas"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "partial",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+        "price_confirmed": null,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": null
-      },
-      "schedule": {
-        "occurrences": [
-          {
-            "end": null,
-            "start": "2026-09-29T19:00:00-03:00"
-          }
-        ],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-29 · 19:00",
-        "end": null,
-        "start": "2026-09-29T19:00:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "Estadio Español Recreo",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null,
-        "currency": null,
-        "is_free": null
-      },
-      "links": {
-        "source": "https://www.instagram.com/p/DchYNRbjg6F/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.instagram.com/p/DchYNRbjg6F/"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -4989,20 +5000,60 @@
           "label": "Otros panoramas"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://www.instagram.com/p/DchYNRbjg6F/",
       "location": {
-        "venue_id": "estadio-espanol-recreo",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Alonso de Ercilla 795, Recreo, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Estadio Español Recreo"
+        "address": "Alonso de Ercilla 795, Recreo, Viña del Mar",
+        "venue": "Estadio Español Recreo",
+        "venue_id": "estadio-espanol-recreo",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_d222f814bfe6ed49899ad8a9",
+      "price": {
+        "max_amount": null,
+        "is_free": null,
+        "min_amount": null,
+        "currency": null,
+        "display_text": null
+      },
+      "title": "La guerra en el desierto",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.instagram.com/p/DchYNRbjg6F/",
+      "source_name": "Estadio Español Recreo",
+      "organizer": "Estadio Español Recreo",
+      "primary_category": {
+        "id": "otros",
+        "label": "Otros panoramas"
+      },
+      "image": {
+        "alt": "La guerra en el desierto",
+        "url": "https://instagram.fvix7-1.fna.fbcdn.net/v/t39.30808-6/787245703_1771864091366590_9104469962085309441_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ig_cache_key=Mzk3MjU2Mjc4ODczNjIxNzYzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=SqiOT3vU8oEQ7kNvwHh2LOr&_nc_oc=AdpIPLwzaku_-Lf6GB7D2zf5W6N0jOWmJ-uaTRr0VXrhjathXKGoOy0-TLIgxvyUkjM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fvix7-1.fna&_nc_gid=bSh1r_in5dat5oEMt-i1zA&_nc_ss=7a22e&oh=00_AQHIOM8tw6MNoGkASH-zTdLOY1No9dEC50VI8HfLuiUfow&oe=6A95C9B0"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.instagram.com/p/DchYNRbjg6F/",
+        "official": "https://www.instagram.com/p/DchYNRbjg6F/"
+      },
+      "schedule": {
+        "display_text": "2026-09-29 · 19:00",
+        "occurrences": [
+          {
+            "start": "2026-09-29T19:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start": "2026-09-29T19:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": null
+      },
+      "tags": [],
+      "description": "🎖️ ¡Así comenzó nuestro ciclo de charlas sobre la II Guerra Mundial! En esta primera jornada, el investigador y especialista en temas bélicos Jorge Bernal Álamos nos llevó a conocer “La guerra en el desierto”, sus estrategias y algunas de sus historias y anécd...",
       "source_id": "estadio_espanol_recreo",
       "provenance": {
         "verified_venue": {
@@ -5016,60 +5067,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 29 de septiembre de 2026, 19:45 hrs.Comprar entradas: https://www.passline.com/eventos/poor-things-2024-cine-arte-vina-del-mar",
-      "organizer": null,
-      "image": {
-        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
-        "alt": "Poor Things (2024)",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "title": "Poor Things (2024)",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": "2026-09-23",
-        "price_stage": null,
-        "advisory_text": null,
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [
-          {
-            "end": null,
-            "start": "2026-09-29T19:45:00-03:00"
-          }
-        ],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-29 · 19:45",
-        "end": null,
-        "start": "2026-09-29T19:45:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "cineartevina.cl",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": 4000,
-        "max_amount": 4000,
-        "display_text": "Entrada General · $4.000",
-        "currency": "CLP",
-        "is_free": false
-      },
-      "links": {
-        "source": "https://cineartevina.cl/#funcion-poor-things-2024-cine-arte-vina-del-mar",
-        "tickets": "https://www.passline.com/eventos/poor-things-2024-cine-arte-vina-del-mar",
-        "registration": null,
-        "official": "https://cineartevina.cl/#funcion-poor-things-2024-cine-arte-vina-del-mar"
+        "last_verified_at": "2026-09-23",
+        "source_official": true
       },
       "categories": [
         {
@@ -5077,20 +5086,62 @@
           "label": "Cine"
         }
       ],
-      "last_verified_at": "2026-09-23",
-      "source_url": "https://cineartevina.cl/#funcion-poor-things-2024-cine-arte-vina-del-mar",
       "location": {
-        "venue_id": "cine-arte-vina-del-mar",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar"
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "venue_id": "cine-arte-vina-del-mar",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_060cfedc4c488ff45f24b568",
+      "price": {
+        "max_amount": 4000,
+        "is_free": false,
+        "min_amount": 4000,
+        "currency": "CLP",
+        "display_text": "Entrada General · $4.000"
+      },
+      "title": "Poor Things (2024)",
+      "event_type": "event",
+      "last_verified_at": "2026-09-23",
+      "source_url": "https://cineartevina.cl/#funcion-poor-things-2024-cine-arte-vina-del-mar",
+      "source_name": "cineartevina.cl",
+      "organizer": null,
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "image": {
+        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
+        "alt": "Poor Things (2024)",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": "https://www.passline.com/eventos/poor-things-2024-cine-arte-vina-del-mar",
+        "source": "https://cineartevina.cl/#funcion-poor-things-2024-cine-arte-vina-del-mar",
+        "official": "https://cineartevina.cl/#funcion-poor-things-2024-cine-arte-vina-del-mar"
+      },
+      "schedule": {
+        "display_text": "2026-09-29 · 19:45",
+        "occurrences": [
+          {
+            "start": "2026-09-29T19:45:00-03:00",
+            "end": null
+          }
+        ],
+        "start": "2026-09-29T19:45:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": null
+      },
+      "tags": [],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: martes 29 de septiembre de 2026, 19:45 hrs.Comprar entradas: https://www.passline.com/eventos/poor-things-2024-cine-arte-vina-del-mar",
       "source_id": "cinearte_vina",
       "provenance": {
         "verified_venue": {
@@ -5400,60 +5451,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 24 de septiembre de 2026, 15:00 hrs; miércoles 30 de septiembre de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar...",
-      "organizer": null,
-      "image": {
-        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
-        "alt": "La Invitación",
-        "source": "official_page_metadata",
-        "relevance": "event_specific"
-      },
-      "title": "La Invitación",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": "2026-09-23",
-        "price_stage": null,
-        "advisory_text": null,
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [
-          {
-            "end": null,
-            "start": "2026-09-30T15:00:00-03:00"
-          }
-        ],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-30 · 15:00",
-        "end": null,
-        "start": "2026-09-30T15:00:00-03:00",
-        "mode": "recurring"
-      },
-      "source_name": "cineartevina.cl",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": 4000,
-        "max_amount": 5500,
-        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000",
-        "currency": "CLP",
-        "is_free": false
-      },
-      "links": {
-        "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-558491",
-        "tickets": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-558491",
-        "registration": null,
-        "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-558491"
+        "last_verified_at": "2026-09-23",
+        "source_official": true
       },
       "categories": [
         {
@@ -5461,20 +5470,62 @@
           "label": "Cine"
         }
       ],
-      "last_verified_at": "2026-09-23",
-      "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-558491",
       "location": {
-        "venue_id": "cine-arte-vina-del-mar",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Plaza Vergara 142, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Cine Arte Viña del Mar"
+        "address": "Plaza Vergara 142, Viña del Mar",
+        "venue": "Cine Arte Viña del Mar",
+        "venue_id": "cine-arte-vina-del-mar",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_05b2564951852122aa5d0286",
+      "price": {
+        "max_amount": 5500,
+        "is_free": false,
+        "min_amount": 4000,
+        "currency": "CLP",
+        "display_text": "Entrada General · $5.500 · Estudiantes y Personas Mayores · $4.000"
+      },
+      "title": "La Invitación",
+      "event_type": "event",
+      "last_verified_at": "2026-09-23",
+      "source_url": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-558491",
+      "source_name": "cineartevina.cl",
+      "organizer": null,
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "image": {
+        "url": "./assets/event-images/valparaiso/de4a199238ec09af157eb64b.webp",
+        "alt": "La Invitación",
+        "source": "official_page_metadata",
+        "relevance": "event_specific"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": "https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar-558491",
+        "source": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-558491",
+        "official": "https://cineartevina.cl/#funcion-la-invitacion-cine-arte-vina-del-mar-558491"
+      },
+      "schedule": {
+        "display_text": "2026-09-30 · 15:00",
+        "occurrences": [
+          {
+            "start": "2026-09-30T15:00:00-03:00",
+            "end": null
+          }
+        ],
+        "start": "2026-09-30T15:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "recurring",
+        "end": null
+      },
+      "tags": [],
+      "description": "Función confirmada por la ticketera oficial de Cine Arte Viña del Mar. Funciones: jueves 24 de septiembre de 2026, 15:00 hrs; miércoles 30 de septiembre de 2026, 15:00 hrs.Comprar entradas: https://www.passline.com/eventos/la-invitacion-cine-arte-vina-del-mar...",
       "source_id": "cinearte_vina",
       "provenance": {
         "verified_venue": {
@@ -5574,57 +5625,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-      "organizer": "Museo Palacio Rioja",
-      "image": {
-        "url": "https://secure.gravatar.com/avatar/22b6b8ebd9aa31e71cdbef9097fb9755b80fa625dfecc532eade50a78a4f7f0b?s=96&d=mm&r=g",
-        "alt": "Ciclo Cine De Autor // Roberto Rossellini, “Europa ‘51”"
-      },
-      "title": "Ciclo Cine De Autor // Roberto Rossellini, “Europa ‘51”",
-      "primary_category": {
-        "id": "cine",
-        "label": "Cine"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja.",
+        "price_stage": null,
+        "cancelled": false,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": "2026-09-05T01:14:49-04:00",
-        "price_stage": null,
-        "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja.",
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": false,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
-        "display_text": "2026-09-30 · 16:00–18:00",
-        "end": "2026-09-30T18:00:00-03:00",
-        "start": "2026-09-30T16:00:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "Visita Viña — Museo Palacio Rioja",
-      "tags": [
-        "Cine",
-        "Museo Palacio Rioja",
-        "Visita Viña"
-      ],
-      "audience": null,
-      "price": {
-        "min_amount": 0,
-        "max_amount": 0,
-        "display_text": "Gratis",
-        "currency": "CLP",
-        "is_free": true
-      },
-      "links": {
-        "source": "https://visitavina.munivina.cl/actividades/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://visitavina.munivina.cl/actividad/ciclo-cine-de-autor-roberto-rossellini-europa-51/?occurrence=2026-09-30"
+        "last_verified_at": "2026-09-05T01:14:49-04:00",
+        "source_official": true
       },
       "categories": [
         {
@@ -5632,20 +5644,59 @@
           "label": "Cine"
         }
       ],
-      "last_verified_at": "2026-09-05T01:14:49-04:00",
-      "source_url": "https://visitavina.munivina.cl/actividades/",
       "location": {
-        "venue_id": "museo-palacio-rioja",
-        "online": false,
-        "city": "Viña del Mar",
         "latitude": null,
-        "address": "Quillota 214, Viña del Mar",
-        "longitude": null,
+        "city": "Viña del Mar",
         "commune": "Viña del Mar",
-        "venue": "Sala Aldo Francia"
+        "address": "Quillota 214, Viña del Mar",
+        "venue": "Sala Aldo Francia",
+        "venue_id": "museo-palacio-rioja",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_dfa6ae9af65b1cbe111cce36",
+      "price": {
+        "max_amount": 0,
+        "is_free": true,
+        "min_amount": 0,
+        "currency": "CLP",
+        "display_text": "Gratis"
+      },
+      "title": "Ciclo Cine De Autor // Roberto Rossellini, “Europa ‘51”",
+      "event_type": "event",
+      "last_verified_at": "2026-09-05T01:14:49-04:00",
+      "source_url": "https://visitavina.munivina.cl/actividades/",
+      "source_name": "Visita Viña — Museo Palacio Rioja",
+      "organizer": "Museo Palacio Rioja",
+      "primary_category": {
+        "id": "cine",
+        "label": "Cine"
+      },
+      "image": {
+        "alt": "Ciclo Cine De Autor // Roberto Rossellini, “Europa ‘51”",
+        "url": "https://secure.gravatar.com/avatar/22b6b8ebd9aa31e71cdbef9097fb9755b80fa625dfecc532eade50a78a4f7f0b?s=96&d=mm&r=g"
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://visitavina.munivina.cl/actividades/",
+        "official": "https://visitavina.munivina.cl/actividad/ciclo-cine-de-autor-roberto-rossellini-europa-51/?occurrence=2026-09-30"
+      },
+      "schedule": {
+        "display_text": "2026-09-30 · 16:00–18:00",
+        "occurrences": [],
+        "start": "2026-09-30T16:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": "2026-09-30T18:00:00-03:00"
+      },
+      "tags": [
+        "Cine",
+        "Museo Palacio Rioja",
+        "Visita Viña"
+      ],
+      "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
       "source_id": "museo_palacio_rioja"
     },
     {
@@ -5880,7 +5931,7 @@
               "source": "https://www.portaldisc.com/evento/enaries-20-anos-pcdv"
             },
             "description": "Trayectoria: circo, primavera y 20 años de Enaires es una varieté circense conmemorativa que celebra dos décadas de creación, formación y trabajo colectivo de Enaires. A través de un recorrido por distintas técnicas circenses y escenas inspiradas en montajes y personajes que han sido parte de la historia de la compañía, la propuesta reúne a artistas y colaboradores que han compartido este camino. Una celebración de los encuentros, las colaboraciones y las memorias que han construído la trayectoria de Enaires.",
-            "baseline_sha256": "8bede306d90b2666aee8f6fe466a6ff6f43bb18ae4ef05c33f463146f9f2874b",
+            "baseline_sha256": "e90ac6678401751e3823af97e682d77e470d5f4ffeb78f8b463f50c176b06c74",
             "input_event": {
               "id": "agenda_portaltickets_valparaiso_c0b46da6ede84c23",
               "title": "VARIETÉ, 20 AÑOS DE ENAIRES",
@@ -5940,10 +5991,10 @@
               "source_id": "portaltickets_valparaiso",
               "source_name": "PortalTickets — Región de Valparaíso",
               "source_url": "https://www.portaldisc.com/evento/enaries-20-anos-pcdv",
-              "last_verified_at": "2026-09-27T12:53:25-03:00",
+              "last_verified_at": "2026-09-27T15:19:12-03:00",
               "public_status": {
                 "source_official": false,
-                "last_verified_at": "2026-09-27T12:53:25-03:00",
+                "last_verified_at": "2026-09-27T15:19:12-03:00",
                 "registration_open": true,
                 "registration_closed": null,
                 "cancelled": false,
@@ -5974,10 +6025,10 @@
                 "category_classifier": "shared_public_category",
                 "category_confidence": "low",
                 "detail_enriched": true,
-                "detail_verified_at": "2026-09-27T12:53:25-03:00"
+                "detail_verified_at": "2026-09-27T15:19:12-03:00"
               }
             },
-            "input_sha256": "8bede306d90b2666aee8f6fe466a6ff6f43bb18ae4ef05c33f463146f9f2874b",
+            "input_sha256": "e90ac6678401751e3823af97e682d77e470d5f4ffeb78f8b463f50c176b06c74",
             "identity_rule": "variete_enaires_20260930",
             "baseline_event": {
               "id": "agenda_portaltickets_valparaiso_c0b46da6ede84c23",
@@ -6038,10 +6089,10 @@
               "source_id": "portaltickets_valparaiso",
               "source_name": "PortalTickets — Región de Valparaíso",
               "source_url": "https://www.portaldisc.com/evento/enaries-20-anos-pcdv",
-              "last_verified_at": "2026-09-27T12:53:25-03:00",
+              "last_verified_at": "2026-09-27T15:19:12-03:00",
               "public_status": {
                 "source_official": false,
-                "last_verified_at": "2026-09-27T12:53:25-03:00",
+                "last_verified_at": "2026-09-27T15:19:12-03:00",
                 "registration_open": true,
                 "registration_closed": null,
                 "cancelled": false,
@@ -6072,7 +6123,7 @@
                 "category_classifier": "shared_public_category",
                 "category_confidence": "low",
                 "detail_enriched": true,
-                "detail_verified_at": "2026-09-27T12:53:25-03:00"
+                "detail_verified_at": "2026-09-27T15:19:12-03:00"
               }
             },
             "baseline_authority": "published_baseline_at_source_fallback"
@@ -6917,10 +6968,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/mauricioredolesenteatromauriscd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7070,10 +7121,10 @@
       "organizer": "Centro de Extensión Duoc UC Valparaíso",
       "source_name": "Centro de Extensión Duoc UC Valparaíso",
       "source_url": "https://luma.com/extensionduocuc",
-      "last_verified_at": "2026-09-27T12:29:49-03:00",
+      "last_verified_at": "2026-09-27T14:56:27-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:29:49-03:00",
+        "last_verified_at": "2026-09-27T14:56:27-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -7091,7 +7142,7 @@
       "audience": null,
       "registration_requirements": null,
       "image": {
-        "url": "./assets/event-images/valparaiso/4b0cce15bc067df61cb1fda0.webp",
+        "url": "./assets/event-images/valparaiso/623ea3e32032ed48ca088ba3.webp",
         "alt": "Conmemoración del Día de la Música Chilena 2026"
       },
       "source_id": "centro_extension_duoc_valpo"
@@ -7163,10 +7214,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/alborosiesoundsystem",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -7346,29 +7397,63 @@
       "source_id": "panoramas_valparaiso"
     },
     {
-      "event_type": "event",
-      "description": "🎨 ESCUELITA APRENDICES Creadores Ancestrales: Descubriendo el Arte de Nuestros Pueblos Originarios Una experiencia artística para niñas y niños de 7 a 10 años, donde conoceremos expresiones artísticas de distintos pueblos originarios y exploraremos materiales,...",
-      "organizer": "Artequin Viña del Mar",
-      "image": {
-        "url": "https://artequinvina.cl/wp-content/uploads/2026/08/1.post_escuela-aprendices_septiembre-octubre.jpg",
-        "alt": "Escuelita Aprendices CREADORES ANCESTRALES"
+      "audience": "Familiar",
+      "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "price_confirmed": true,
+        "registration_closed": null,
+        "registration_open": null,
+        "last_verified_at": null,
+        "source_official": true
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "location": {
+        "latitude": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "address": "Alcalde Prieto Nieto Parque, Potrerillos 500",
+        "venue": "Museo Artequin Viña del Mar",
+        "venue_id": "museo-artequin-vina",
+        "longitude": null,
+        "online": false
+      },
+      "id": "agenda_fa66ee2019c155333c5ebf74",
+      "price": {
+        "max_amount": 52000,
+        "is_free": false,
+        "min_amount": 6500,
+        "currency": "CLP",
+        "display_text": "$6.500 · $45.000 · $52.000 · $7.000"
       },
       "title": "Escuelita Aprendices CREADORES ANCESTRALES",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
+      "source_name": "Artequin Viña del Mar",
+      "organizer": "Artequin Viña del Mar",
       "primary_category": {
         "id": "cursos-talleres",
         "label": "Cursos y talleres"
       },
-      "public_status": {
-        "sold_out": null,
-        "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": null,
-        "registration_closed": null,
-        "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
+      "image": {
+        "alt": "Escuelita Aprendices CREADORES ANCESTRALES",
+        "url": "https://artequinvina.cl/wp-content/uploads/2026/08/1.post_escuela-aprendices_septiembre-octubre.jpg"
+      },
+      "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
+        "official": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/"
       },
       "schedule": {
         "mode": "recurring",
@@ -7400,45 +7485,11 @@
         "start_confidence": "official_explicit_session_list",
         "display_text": "2026-10-03 · 11:00"
       },
-      "source_name": "Artequin Viña del Mar",
       "tags": [
         "exposición",
         "museo"
       ],
-      "audience": "Familiar",
-      "price": {
-        "min_amount": 6500,
-        "max_amount": 52000,
-        "display_text": "$6.500 · $45.000 · $52.000 · $7.000",
-        "currency": "CLP",
-        "is_free": false
-      },
-      "links": {
-        "source": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "last_verified_at": null,
-      "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
-      "location": {
-        "venue_id": "museo-artequin-vina",
-        "online": false,
-        "city": "Viña del Mar",
-        "latitude": null,
-        "address": "Alcalde Prieto Nieto Parque, Potrerillos 500",
-        "longitude": null,
-        "commune": "Viña del Mar",
-        "venue": "Museo Artequin Viña del Mar"
-      },
-      "id": "agenda_fa66ee2019c155333c5ebf74",
-      "registration_requirements": null,
+      "description": "🎨 ESCUELITA APRENDICES Creadores Ancestrales: Descubriendo el Arte de Nuestros Pueblos Originarios Una experiencia artística para niñas y niños de 7 a 10 años, donde conoceremos expresiones artísticas de distintos pueblos originarios y exploraremos materiales,...",
       "source_id": "artequinvina",
       "provenance": {
         "verified_venue": {
@@ -7519,37 +7570,33 @@
           },
           "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
           "previous_schedule": {
+            "display_text": "2026-10-03 · 11:00",
             "occurrences": [
               {
-                "end": "2026-09-26T12:30:00-03:00",
-                "start": "2026-09-26T11:00:00-03:00"
+                "start": "2026-10-03T11:00:00-03:00",
+                "end": "2026-10-03T12:30:00-03:00"
               },
               {
-                "end": "2026-10-03T12:30:00-03:00",
-                "start": "2026-10-03T11:00:00-03:00"
+                "start": "2026-10-10T11:00:00-03:00",
+                "end": "2026-10-10T12:30:00-03:00"
               },
               {
-                "end": "2026-10-10T12:30:00-03:00",
-                "start": "2026-10-10T11:00:00-03:00"
+                "start": "2026-10-17T11:00:00-03:00",
+                "end": "2026-10-17T12:30:00-03:00"
               },
               {
-                "end": "2026-10-17T12:30:00-03:00",
-                "start": "2026-10-17T11:00:00-03:00"
+                "start": "2026-10-24T11:00:00-03:00",
+                "end": "2026-10-24T12:30:00-03:00"
               },
               {
-                "end": "2026-10-24T12:30:00-03:00",
-                "start": "2026-10-24T11:00:00-03:00"
-              },
-              {
-                "end": "2026-10-31T12:30:00-03:00",
-                "start": "2026-10-31T11:00:00-03:00"
+                "start": "2026-10-31T11:00:00-03:00",
+                "end": "2026-10-31T12:30:00-03:00"
               }
             ],
+            "start": "2026-10-03T11:00:00-03:00",
             "timezone": "America/Santiago",
-            "display_text": "2026-09-26 · 11:00",
-            "end": "2026-09-26T12:30:00-03:00",
-            "start": "2026-09-26T11:00:00-03:00",
-            "mode": "recurring"
+            "mode": "recurring",
+            "end": "2026-10-03T12:30:00-03:00"
           }
         },
         "official_metadata": [
@@ -8451,10 +8498,10 @@
       "organizer": "Centro de Extensión Duoc UC Valparaíso",
       "source_name": "Centro de Extensión Duoc UC Valparaíso",
       "source_url": "https://luma.com/extensionduocuc",
-      "last_verified_at": "2026-09-27T12:29:49-03:00",
+      "last_verified_at": "2026-09-27T14:56:27-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:29:49-03:00",
+        "last_verified_at": "2026-09-27T14:56:27-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -8544,10 +8591,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/octubrazo",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8783,10 +8830,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/sab03octcassot",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -8953,10 +9000,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9528,10 +9575,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/pielmacrobia",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9622,10 +9669,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/miltamboresenclubsegundopiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9707,10 +9754,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/nochealmodovar2026",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -9734,30 +9781,64 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "Para niñas y niños de 4 a 6 años. Dinámicas pensadas como primeros acercamiento a la técnica artística. 🤲 “Manos a la Greda “🏺exploremos el arte de nuestros pueblos originarios usando nuestras manos, jugando con la tierra y creando con arcilla. 🌱 ESCUELITA EXP...",
-      "organizer": "Artequin Viña del Mar",
-      "image": {
-        "url": "https://artequinvina.cl/wp-content/uploads/2026/08/1.post_escuela-exploradores_septiembre-octubre.jpg",
-        "alt": "Escuelita Exploradores MANOS A LA GREDA"
+      "audience": "Familiar",
+      "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
+        "sold_out": null,
+        "information_completeness": "complete",
+        "price_confirmed": true,
+        "registration_closed": null,
+        "registration_open": null,
+        "last_verified_at": null,
+        "source_official": true,
+        "time_confirmed": false
+      },
+      "categories": [
+        {
+          "id": "cursos-talleres",
+          "label": "Cursos y talleres"
+        }
+      ],
+      "location": {
+        "latitude": null,
+        "city": "Viña del Mar",
+        "commune": "Viña del Mar",
+        "address": "Alcalde Prieto Nieto Parque, Potrerillos 500",
+        "venue": "Museo Artequin Viña del Mar",
+        "venue_id": "museo-artequin-vina",
+        "longitude": null,
+        "online": false
+      },
+      "id": "agenda_de805f9302d79e92a1a7a75c",
+      "price": {
+        "max_amount": 39000,
+        "is_free": false,
+        "min_amount": 6500,
+        "currency": "CLP",
+        "display_text": "$6.500 · $35.000 · $39.000"
       },
       "title": "Escuelita Exploradores MANOS A LA GREDA",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/",
+      "source_name": "Artequin Viña del Mar",
+      "organizer": "Artequin Viña del Mar",
       "primary_category": {
         "id": "cursos-talleres",
         "label": "Cursos y talleres"
       },
-      "public_status": {
-        "sold_out": null,
-        "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": null,
-        "registration_closed": null,
-        "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true,
-        "time_confirmed": false
+      "image": {
+        "alt": "Escuelita Exploradores MANOS A LA GREDA",
+        "url": "https://artequinvina.cl/wp-content/uploads/2026/08/1.post_escuela-exploradores_septiembre-octubre.jpg"
+      },
+      "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/",
+        "official": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/"
       },
       "schedule": {
         "mode": "recurring",
@@ -9781,45 +9862,11 @@
         "start_confidence": "official_explicit_session_list",
         "display_text": "2026-10-04"
       },
-      "source_name": "Artequin Viña del Mar",
       "tags": [
         "exposición",
         "museo"
       ],
-      "audience": "Familiar",
-      "price": {
-        "min_amount": 6500,
-        "max_amount": 39000,
-        "display_text": "$6.500 · $35.000 · $39.000",
-        "currency": "CLP",
-        "is_free": false
-      },
-      "links": {
-        "source": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/"
-      },
-      "categories": [
-        {
-          "id": "cursos-talleres",
-          "label": "Cursos y talleres"
-        }
-      ],
-      "last_verified_at": null,
-      "source_url": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/",
-      "location": {
-        "venue_id": "museo-artequin-vina",
-        "online": false,
-        "city": "Viña del Mar",
-        "latitude": null,
-        "address": "Alcalde Prieto Nieto Parque, Potrerillos 500",
-        "longitude": null,
-        "commune": "Viña del Mar",
-        "venue": "Museo Artequin Viña del Mar"
-      },
-      "id": "agenda_de805f9302d79e92a1a7a75c",
-      "registration_requirements": null,
+      "description": "Para niñas y niños de 4 a 6 años. Dinámicas pensadas como primeros acercamiento a la técnica artística. 🤲 “Manos a la Greda “🏺exploremos el arte de nuestros pueblos originarios usando nuestras manos, jugando con la tierra y creando con arcilla. 🌱 ESCUELITA EXP...",
       "source_id": "artequinvina",
       "provenance": {
         "verified_venue": {
@@ -9916,25 +9963,25 @@
           },
           "source_url": "https://artequinvina.cl/events/escuelita-exploradores-manos-a-la-greda/",
           "previous_schedule": {
+            "display_text": "2026-10-04",
             "occurrences": [
               {
-                "end": null,
-                "start": "2026-10-04"
+                "start": "2026-10-04",
+                "end": null
               },
               {
-                "end": "2026-10-11T12:30:00-03:00",
-                "start": "2026-10-11T11:00:00-03:00"
+                "start": "2026-10-11T11:00:00-03:00",
+                "end": "2026-10-11T12:30:00-03:00"
               },
               {
-                "end": "2026-10-18T12:30:00-03:00",
-                "start": "2026-10-18T11:00:00-03:00"
+                "start": "2026-10-18T11:00:00-03:00",
+                "end": "2026-10-18T12:30:00-03:00"
               }
             ],
-            "timezone": "America/Santiago",
-            "display_text": "2026-10-04",
-            "end": "2026-10-18T12:30:00-03:00",
             "start": "2026-10-04",
-            "mode": "recurring"
+            "timezone": "America/Santiago",
+            "mode": "recurring",
+            "end": "2026-10-18T12:30:00-03:00"
           }
         },
         "official_metadata": [
@@ -10856,10 +10903,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/vestigial-todo-afuera-nada-adentro_829",
-      "last_verified_at": "2026-09-27T12:50:45-03:00",
+      "last_verified_at": "2026-09-27T15:17:11-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:45-03:00",
+        "last_verified_at": "2026-09-27T15:17:11-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -10943,10 +10990,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11039,10 +11086,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/dekiruza-diadelamusicascd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11113,10 +11160,10 @@
       "organizer": "Enjoy Viña del Mar",
       "source_name": "Enjoy Viña del Mar",
       "source_url": "https://www.puntoticket.com/evento/SWG169",
-      "last_verified_at": "2026-09-27T12:29:49-03:00",
+      "last_verified_at": "2026-09-27T14:56:27-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:29:49-03:00",
+        "last_verified_at": "2026-09-27T14:56:27-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -11358,10 +11405,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/josemoragaoctetopresentatijerales",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11536,10 +11583,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/benjaminwalkerenvina",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11630,10 +11677,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/nicolebunoutvinasegundafecha",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11715,10 +11762,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/raulveracreoespecialpopmelancolico",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -11742,30 +11789,64 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "📚✨ CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS” 🌊📖 ¡Las historias están esperando por ti! 💫 Te invitamos a vivir una entretenida experiencia de lectura, juego, imaginación y creación en “Caleta de Historias”, un club pensado especialmente para niñas y...",
-      "organizer": "Valpo Cultura",
-      "image": {
-        "url": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772819232_18440915059193806_2025580751508280498_n.webp?stp=dst-jpg_e35_p1080x1080_sh2.08_tt6&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gEoP7r_p7hWAdrMTbGJqGuOYQoXhL8nTvKbUvic99l1tA2ngnn9z0m8Fa_QDkleDOk&_nc_ohc=RA_uJoz9aCoQ7kNvwF7pawZ&_nc_gid=0CSuxJr8K-2PcXnEKb8AMQ&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQEwk4zqRbvpH3txg7mc53o3hHQd9Swh5v3LJJTgJyx6HA&oe=6A88A0A9&_nc_sid=c6f216",
-        "alt": "CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS”"
+      "audience": "Familiar",
+      "public_status": {
+        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
+        "price_stage": null,
+        "cancelled": null,
+        "sold_out": null,
+        "information_completeness": "partial",
+        "price_confirmed": null,
+        "registration_closed": null,
+        "registration_open": null,
+        "last_verified_at": null,
+        "source_official": false,
+        "time_confirmed": false
+      },
+      "categories": [
+        {
+          "id": "literatura",
+          "label": "Literatura"
+        }
+      ],
+      "location": {
+        "latitude": null,
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "address": null,
+        "venue": "Biblioteca Municipal de Playa Ancha",
+        "venue_id": null,
+        "longitude": null,
+        "online": false
+      },
+      "id": "agenda_945f71310fa732b881b34f74",
+      "price": {
+        "max_amount": null,
+        "is_free": null,
+        "min_amount": null,
+        "currency": null,
+        "display_text": null
       },
       "title": "Club de lectura para la niñez | “caleta de historias”",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://www.instagram.com/p/DcB2cjWOC9W/",
+      "source_name": "Valpo Cultura",
+      "organizer": "Valpo Cultura",
       "primary_category": {
         "id": "literatura",
         "label": "Literatura"
       },
-      "public_status": {
-        "sold_out": null,
-        "information_completeness": "partial",
-        "source_official": false,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-        "registration_closed": null,
-        "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": null,
-        "time_confirmed": false
+      "image": {
+        "alt": "CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS”",
+        "url": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/772819232_18440915059193806_2025580751508280498_n.webp?stp=dst-jpg_e35_p1080x1080_sh2.08_tt6&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gEoP7r_p7hWAdrMTbGJqGuOYQoXhL8nTvKbUvic99l1tA2ngnn9z0m8Fa_QDkleDOk&_nc_ohc=RA_uJoz9aCoQ7kNvwF7pawZ&_nc_gid=0CSuxJr8K-2PcXnEKb8AMQ&edm=ADp7STQBAAAA&ccb=7-5&oh=00_AQEwk4zqRbvpH3txg7mc53o3hHQd9Swh5v3LJJTgJyx6HA&oe=6A88A0A9&_nc_sid=c6f216"
+      },
+      "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://www.instagram.com/p/DcB2cjWOC9W/",
+        "official": "https://www.instagram.com/p/DcB2cjWOC9W/"
       },
       "schedule": {
         "mode": "recurring",
@@ -11781,45 +11862,11 @@
         "start_confidence": "official_explicit_session_list",
         "display_text": "2026-10-10"
       },
-      "source_name": "Valpo Cultura",
       "tags": [
         "cupos",
         "inscripciones"
       ],
-      "audience": "Familiar",
-      "price": {
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": null,
-        "currency": null,
-        "is_free": null
-      },
-      "links": {
-        "source": "https://www.instagram.com/p/DcB2cjWOC9W/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://www.instagram.com/p/DcB2cjWOC9W/"
-      },
-      "categories": [
-        {
-          "id": "literatura",
-          "label": "Literatura"
-        }
-      ],
-      "last_verified_at": null,
-      "source_url": "https://www.instagram.com/p/DcB2cjWOC9W/",
-      "location": {
-        "venue_id": null,
-        "online": false,
-        "city": "Valparaíso",
-        "latitude": null,
-        "address": null,
-        "longitude": null,
-        "commune": "Valparaíso",
-        "venue": "Biblioteca Municipal de Playa Ancha"
-      },
-      "id": "agenda_945f71310fa732b881b34f74",
-      "registration_requirements": null,
+      "description": "📚✨ CLUB DE LECTURA PARA LA NIÑEZ | “CALETA DE HISTORIAS” 🌊📖 ¡Las historias están esperando por ti! 💫 Te invitamos a vivir una entretenida experiencia de lectura, juego, imaginación y creación en “Caleta de Historias”, un club pensado especialmente para niñas y...",
       "source_id": "valpocultura",
       "provenance": {
         "official_schedule": {
@@ -11874,17 +11921,17 @@
           },
           "source_url": "https://valpocultura.cl/evento/biblioteca-de-playa-ancha-caleta-de-historias/",
           "previous_schedule": {
+            "display_text": "2026-10-10",
             "occurrences": [
               {
-                "end": null,
-                "start": "2026-10-10"
+                "start": "2026-10-10",
+                "end": null
               }
             ],
-            "timezone": "America/Santiago",
-            "display_text": "2026-10-10",
-            "end": null,
             "start": "2026-10-10",
-            "mode": "recurring"
+            "timezone": "America/Santiago",
+            "mode": "recurring",
+            "end": null
           }
         },
         "official_metadata": [
@@ -11967,10 +12014,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/lalafest",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12061,10 +12108,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/asiamenorpresentavahoenvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12232,10 +12279,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/nicolebunoutvina",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12400,10 +12447,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/portaldisccomdanielcamposenconcierto",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12476,10 +12523,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12645,10 +12692,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/claro-de-luna_826",
-      "last_verified_at": "2026-09-27T12:50:45-03:00",
+      "last_verified_at": "2026-09-27T15:17:11-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:45-03:00",
+        "last_verified_at": "2026-09-27T15:17:11-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -12750,10 +12797,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/josealfredofuentes60goldenteatromauriscd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -12824,10 +12871,10 @@
       "organizer": "Enjoy Viña del Mar",
       "source_name": "Enjoy Viña del Mar",
       "source_url": "https://www.puntoticket.com/evento/PPR034",
-      "last_verified_at": "2026-09-27T12:29:49-03:00",
+      "last_verified_at": "2026-09-27T14:56:27-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:29:49-03:00",
+        "last_verified_at": "2026-09-27T14:56:27-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": null,
@@ -13151,10 +13198,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13248,10 +13295,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/coversolutionsenvivobarvienes",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13333,10 +13380,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/bailantaysapukai",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13418,10 +13465,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/subirenbuscadelairevalpo",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13512,10 +13559,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/llenode97",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13588,10 +13635,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13684,10 +13731,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/camilamorenolaultimaluzenteatromauri",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13769,10 +13816,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/shadowdance3",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -13846,10 +13893,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/maromas-de-alto-riesgo-y-peligrosidad_827",
-      "last_verified_at": "2026-09-27T12:50:45-03:00",
+      "last_verified_at": "2026-09-27T15:17:11-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:45-03:00",
+        "last_verified_at": "2026-09-27T15:17:11-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -13951,10 +13998,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/yorka-postales-sesiones-de-primavera-en-pcdv",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14036,10 +14083,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/madprofessorvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14112,10 +14159,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14199,10 +14246,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/almaadentroenteatromauriscdvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14293,10 +14340,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/fullylamusicadefulanoenteatromauriscd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14369,10 +14416,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14456,10 +14503,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/tchanglanzamientoep",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14610,10 +14657,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14853,10 +14900,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -14878,6 +14925,91 @@
         "url": "https://www.passline.com/imagenes/eventos/soda-xperience-presenta-dynamo-hits-en-trotamundos-valparaiso-556041-rec.jpg",
         "alt": "Soda Xperience Presenta Dynamo + Hits en Trotamundos Valparaíso",
         "source": "passline_og",
+        "relevance": "event_specific"
+      }
+    },
+    {
+      "id": "agenda_portaltickets_valparaiso_ce18004c05f00321",
+      "title": "PULSO: TRIBUTO A PINK FLOYD",
+      "event_type": "event",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "categories": [
+        {
+          "id": "musica",
+          "label": "Música"
+        }
+      ],
+      "semantics": {
+        "source_category": {
+          "id": "cultura",
+          "label": "Cultura"
+        },
+        "category_evidence_text": "🌌 ¡PULSO TRAE EL UNIVERSO DE PINK FLOYD A VALPARAÍSO! 🌌 Este sábado 24 de octubre a las 21:00 horas, vive una noche para cerrar los ojos, dejarte llevar y sentir la música. PULSO, tributo a Pink Floyd, llega a Club Segundo Piso con toda la fuerza y emoción de un legado que sigue marcando generaciones. 🎸✨ Un encuentro imperdible para los amantes de Pink Floyd, donde las guitarras y las atmósferas envolventes serán protagonistas. Además, IMPOSTOR se suma como banda invitada para completar esta gran jornada. 🎸 Banda invitada Impostor 🔥 ¡Una experiencia que merece un escenario a su altura! Ven a disfrutar en Club Segundo Piso, el mejor centro de eventos de la Quinta Región, con un sonido potente y definido, iluminación espectacular y una producción técnica para vivir la música con todos los sentidos. 🍸 Disfruta también de nuestra amplia barra y sus exquisitos cócteles, ideales para acompañar una noche de buena música junto a tus amigos. 🎟️ ¡Asegura tu entrada y aprovecha las preventas! ▪️ Preventa 1: $7.000 — entrada individual. ▪️ Preventa 2: $10.000 — entrada doble. ▪️ Entrada general en puerta: $10.000. 📲 Entradas por PortalTickets. 📍 Club Segundo Piso — Av. Brasil 1395, Valparaíso.",
+        "producer": "Independiente"
+      },
+      "schedule": {
+        "mode": "single",
+        "start": "2026-10-24T21:00:00-03:00",
+        "end": "2026-10-24T21:00:00-03:00",
+        "timezone": "America/Santiago",
+        "display_text": "2026-10-24 · 21:00",
+        "occurrences": [],
+        "start_confidence": "explicit",
+        "end_confidence": "explicit"
+      },
+      "location": {
+        "venue_id": "portaltickets-valparaiso",
+        "city": "Valparaíso",
+        "commune": "Valparaíso",
+        "venue": "Club Segundo Piso, Valparaíso",
+        "address": null,
+        "online": false,
+        "latitude": null,
+        "longitude": null
+      },
+      "price": {
+        "is_free": false,
+        "currency": "CLP",
+        "min_amount": 7000,
+        "max_amount": 10000,
+        "display_text": "$7.000–$10.000"
+      },
+      "links": {
+        "official": null,
+        "tickets": "https://www.portaldisc.com/evento/pulsotributoapinkfloydenclubsegundopiso",
+        "registration": null,
+        "source": "https://www.portaldisc.com/evento/pulsotributoapinkfloydenclubsegundopiso"
+      },
+      "organizer": null,
+      "source_id": "portaltickets_valparaiso",
+      "source_name": "PortalTickets — Región de Valparaíso",
+      "source_url": "https://www.portaldisc.com/evento/pulsotributoapinkfloydenclubsegundopiso",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
+      "public_status": {
+        "source_official": false,
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
+        "registration_open": true,
+        "registration_closed": null,
+        "cancelled": false,
+        "sold_out": false,
+        "price_stage": null,
+        "price_confirmed": true,
+        "information_completeness": "complete",
+        "advisory_text": null
+      },
+      "description": "🌌 ¡PULSO TRAE EL UNIVERSO DE PINK FLOYD A VALPARAÍSO! 🌌 Este sábado 24 de octubre a las 21:00 horas, vive una noche para cerrar los ojos, dejarte llevar y sentir la música. PULSO, tributo a Pink Floyd, llega a Club Segundo Piso con toda la fuerza y emoción de un legado que sigue marcando generaciones. 🎸✨",
+      "tags": [
+        "PortalTickets"
+      ],
+      "audience": null,
+      "registration_requirements": null,
+      "image": {
+        "url": "https://images.portaldisc.com/eventos/22948.jpg",
+        "alt": "PULSO: TRIBUTO A PINK FLOYD",
+        "source": "official_page_metadata",
         "relevance": "event_specific"
       }
     },
@@ -14940,10 +15072,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/qssayort24oct2026",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15017,10 +15149,10 @@
       "source_id": "teatromuseo",
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/pequeñas-historias-titiritescas_828",
-      "last_verified_at": "2026-09-27T12:50:45-03:00",
+      "last_verified_at": "2026-09-27T15:17:11-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:50:45-03:00",
+        "last_verified_at": "2026-09-27T15:17:11-03:00",
         "registration_open": null,
         "registration_closed": null,
         "cancelled": false,
@@ -15104,10 +15236,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15201,10 +15333,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/orquestamargamargasinfonian3enteatromauri",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15277,10 +15409,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15364,10 +15496,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/portaldiscbeatlesfiveclubaleman",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15440,10 +15572,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15536,10 +15668,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/profondosesdlfarg",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15621,10 +15753,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/gipsyvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15706,10 +15838,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/chaiseroom31oct2026",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15791,10 +15923,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/solylluvia-antologiaenteatromauriscd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15867,10 +15999,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -15946,10 +16078,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16120,10 +16252,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/camiloequegalopevalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16273,10 +16405,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16360,10 +16492,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/ratosdeporaoenvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16454,10 +16586,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/lossantosdumontcancioneschilenas",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16616,10 +16748,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/mevoypalcerro",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16701,10 +16833,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/hessekassellanzamientoalbummorirsaltando",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16777,10 +16909,10 @@
       "source_id": "trotamundosvalpo",
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "last_verified_at": "2026-09-27T12:49:11-03:00",
+      "last_verified_at": "2026-09-27T15:15:55-03:00",
       "public_status": {
         "source_official": true,
-        "last_verified_at": "2026-09-27T12:49:11-03:00",
+        "last_verified_at": "2026-09-27T15:15:55-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -16873,10 +17005,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/dulceyagrazsentimientosenteatromauriscd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17200,10 +17332,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/nanosternenteatromauriscdvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17364,10 +17496,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/quilapayunenteatromauriscd",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17449,10 +17581,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/lasmanosdefilippienvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17476,53 +17608,18 @@
       }
     },
     {
-      "event_type": "event",
-      "description": "La cantante Andrea Tessa presenta el concierto. La Temporada Artística de la Universidad Técnica Federico Santa María presentará el concierto “Música del mundo”, protagonizado por la reconocida cantante chilena Andrea Tessa, una de las voces más versátiles y e...",
-      "organizer": "Cultura USM",
-      "image": {
-        "url": null,
-        "alt": null
-      },
-      "title": "Música del mundo",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
+      "audience": null,
       "public_status": {
+        "advisory_text": null,
+        "price_stage": null,
+        "cancelled": null,
         "sold_out": null,
         "information_completeness": "complete",
-        "source_official": true,
-        "last_verified_at": null,
-        "price_stage": null,
-        "advisory_text": null,
+        "price_confirmed": true,
         "registration_closed": null,
         "registration_open": null,
-        "cancelled": null,
-        "price_confirmed": true
-      },
-      "schedule": {
-        "occurrences": [],
-        "timezone": "America/Santiago",
-        "display_text": "2026-12-05 · 19:00–21:00",
-        "end": null,
-        "start": "2026-12-05T19:00:00-03:00",
-        "mode": "dated"
-      },
-      "source_name": "Cultura USM",
-      "tags": [],
-      "audience": null,
-      "price": {
-        "min_amount": 3000,
-        "max_amount": 12000,
-        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000",
-        "currency": "CLP",
-        "is_free": false
-      },
-      "links": {
-        "source": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
-        "tickets": null,
-        "registration": null,
-        "official": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/"
+        "last_verified_at": null,
+        "source_official": true
       },
       "categories": [
         {
@@ -17530,20 +17627,55 @@
           "label": "Música"
         }
       ],
-      "last_verified_at": null,
-      "source_url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
       "location": {
-        "venue_id": "aula-magna-usm",
-        "online": false,
-        "city": "Valparaíso",
         "latitude": null,
-        "address": null,
-        "longitude": null,
+        "city": "Valparaíso",
         "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM"
+        "address": null,
+        "venue": "Teatro Aula Magna USM",
+        "venue_id": "aula-magna-usm",
+        "longitude": null,
+        "online": false
       },
       "id": "agenda_d8ec40944baa69699c7fe878",
+      "price": {
+        "max_amount": 12000,
+        "is_free": false,
+        "min_amount": 3000,
+        "currency": "CLP",
+        "display_text": "$12.000 · $10.000 · $8.000 · $6.000 · $3.000"
+      },
+      "title": "Música del mundo",
+      "event_type": "event",
+      "last_verified_at": null,
+      "source_url": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
+      "source_name": "Cultura USM",
+      "organizer": "Cultura USM",
+      "primary_category": {
+        "id": "musica",
+        "label": "Música"
+      },
+      "image": {
+        "alt": null,
+        "url": null
+      },
       "registration_requirements": null,
+      "links": {
+        "registration": null,
+        "tickets": null,
+        "source": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/",
+        "official": "https://cultura.usm.cl/eventos/la-cantante-andrea-tessa-presenta-el-concierto-musica-del-mundo/"
+      },
+      "schedule": {
+        "display_text": "2026-12-05 · 19:00–21:00",
+        "occurrences": [],
+        "start": "2026-12-05T19:00:00-03:00",
+        "timezone": "America/Santiago",
+        "mode": "dated",
+        "end": null
+      },
+      "tags": [],
+      "description": "La cantante Andrea Tessa presenta el concierto. La Temporada Artística de la Universidad Técnica Federico Santa María presentará el concierto “Música del mundo”, protagonizado por la reconocida cantante chilena Andrea Tessa, una de las voces más versátiles y e...",
       "source_id": "cultura_usm"
     },
     {
@@ -17682,10 +17814,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/fernandoubiergoenvalparaiso",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -17945,10 +18077,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/elmuluvina",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18030,10 +18162,10 @@
       "source_id": "portaltickets_valparaiso",
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/silviomanuelvina",
-      "last_verified_at": "2026-09-27T12:53:25-03:00",
+      "last_verified_at": "2026-09-27T15:19:12-03:00",
       "public_status": {
         "source_official": false,
-        "last_verified_at": "2026-09-27T12:53:25-03:00",
+        "last_verified_at": "2026-09-27T15:19:12-03:00",
         "registration_open": true,
         "registration_closed": null,
         "cancelled": false,
@@ -18259,6 +18391,19 @@
       },
       {
         "correction_id": "culturasvina_public_display_name",
+        "event_id": "agenda_92a874e7250981478e40317d",
+        "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor",
+        "action": "patch_verified_fields",
+        "patched_fields": [
+          "organizer",
+          "source_name"
+        ],
+        "previous_title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor",
+        "official_url": "https://visitavina.munivina.cl/actividades/",
+        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
+      },
+      {
+        "correction_id": "culturasvina_public_display_name",
         "event_id": "agenda_5484d39bf0844c41c4851f62",
         "title": "Taller // Qi Gong",
         "action": "patch_verified_fields",
@@ -18307,19 +18452,6 @@
           "source_name"
         ],
         "previous_title": "Exposición temporal // “estuvesiendopaisaje",
-        "official_url": "https://visitavina.munivina.cl/actividades/",
-        "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
-      },
-      {
-        "correction_id": "culturasvina_public_display_name",
-        "event_id": "agenda_92a874e7250981478e40317d",
-        "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor",
-        "action": "patch_verified_fields",
-        "patched_fields": [
-          "organizer",
-          "source_name"
-        ],
-        "previous_title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor",
         "official_url": "https://visitavina.munivina.cl/actividades/",
         "reason": "La identidad pública de la fuente se normaliza upstream para que WEB y PWA consuman el mismo dato y el runtime no mantenga un mapa específico de fuentes."
       },
@@ -18686,7 +18818,7 @@
     "source_text_repaired": []
   },
   "verified_public_events": {
-    "applied_at": "2026-09-27T12:29:49-03:00",
+    "applied_at": "2026-09-27T14:56:27-03:00",
     "added_count": 0,
     "added": [],
     "skipped": [
@@ -18762,7 +18894,7 @@
       "links_discovered": 24,
       "pages_fetched": 24,
       "events_detected": 17,
-      "refreshed_at": "2026-09-27T12:49:11-03:00",
+      "refreshed_at": "2026-09-27T15:15:55-03:00",
       "mode": "official_linktree_passline_refresh",
       "events_published": 17,
       "preserved_existing": false
@@ -18772,7 +18904,7 @@
       "links_discovered": 12,
       "pages_fetched": 12,
       "events_detected": 0,
-      "refreshed_at": "2026-09-27T12:50:38-03:00",
+      "refreshed_at": "2026-09-27T15:17:02-03:00",
       "mode": "official_museo_fonck_article_refresh",
       "events_published": 0,
       "preserved_existing": true
@@ -18784,7 +18916,7 @@
     "teatromuseo": {
       "events_detected": 4,
       "events_published": 4,
-      "refreshed_at": "2026-09-27T12:50:45-03:00",
+      "refreshed_at": "2026-09-27T15:17:11-03:00",
       "mode": "official_cartelera_refresh",
       "state": "query_succeeded_with_events",
       "coverage": "observed_events",
@@ -18796,7 +18928,7 @@
       "pages_fetched": 3,
       "pages_failed": 0,
       "events_detected": 3,
-      "refreshed_at": "2026-09-27T12:50:48-03:00",
+      "refreshed_at": "2026-09-27T15:17:15-03:00",
       "mode": "official_jsonld_agenda_refresh",
       "fetch_ok": true,
       "complete": true,
@@ -18887,11 +19019,6 @@
       "checked_at": "2026-09-27",
       "source": "official_page_metadata"
     },
-    "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/": {
-      "image_url": null,
-      "checked_at": "2026-09-27",
-      "source": "official_page_metadata"
-    },
     "https://visitavina.munivina.cl/actividad/exposicion-horario-de-verano-memorias-fuera-de-temporada-714/": {
       "image_url": null,
       "checked_at": "2026-09-27",
@@ -18912,6 +19039,11 @@
       "checked_at": "2026-09-27",
       "source": "official_page_metadata"
     },
+    "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/": {
+      "image_url": null,
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
     "https://visitavina.munivina.cl/actividad/taller-qi-gong-2-622-804/": {
       "image_url": null,
       "checked_at": "2026-09-27",
@@ -18922,8 +19054,43 @@
       "checked_at": "2026-09-27",
       "source": "official_page_metadata"
     },
+    "https://www.portaldisc.com/evento/mauricioredolesenteatromauriscd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20422.jpg?t=1788480992",
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/alborosiesoundsystem": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/22012.jpg",
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
     "https://visitavina.munivina.cl/actividad/taller-escuelita-aprendices/": {
       "image_url": null,
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/octubrazo": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/22487.jpg",
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/sab03octcassot": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/22716.jpg",
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/pielmacrobia": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/20915.jpg",
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/miltamboresenclubsegundopiso": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/22892.jpg?t=1790367812",
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/nochealmodovar2026": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/22465.jpg",
       "checked_at": "2026-09-27",
       "source": "official_page_metadata"
     },
@@ -18939,6 +19106,11 @@
     },
     "https://www.teatromuseo.cl/obra/vestigial-todo-afuera-nada-adentro_829": {
       "image_url": null,
+      "checked_at": "2026-09-27",
+      "source": "official_page_metadata"
+    },
+    "https://www.portaldisc.com/evento/dekiruza-diadelamusicascd": {
+      "image_url": "https://images.portaldisc.com/l/eventos/360/22737.jpg",
       "checked_at": "2026-09-27",
       "source": "official_page_metadata"
     },
@@ -18971,25 +19143,15 @@
       "image_url": null,
       "checked_at": "2026-09-27",
       "source": "official_page_metadata"
-    },
-    "https://serviciosturisticos.sernatur.cl/51286-valparaiso-trekking": {
-      "image_url": null,
-      "checked_at": "2026-09-27",
-      "source": "official_page_metadata"
-    },
-    "https://valparaisotrekking.cl/pages/servicios": {
-      "image_url": null,
-      "checked_at": "2026-09-27",
-      "source": "official_page_metadata"
     }
   },
   "media_diagnostics": {
-    "existing_images": 226,
+    "existing_images": 220,
     "images_from_cache": 0,
-    "images_fetched": 14,
+    "images_fetched": 22,
     "generic_schedule_images_rejected": 1,
-    "pages_fetched": 34,
-    "pages_skipped_by_limit": 0
+    "pages_fetched": 40,
+    "pages_skipped_by_limit": 2
   },
   "enrichment": {
     "valpo_municipal_quality": {
@@ -19004,26 +19166,26 @@
       "page_fetch_errors": {}
     },
     "official_event_metadata": {
-      "candidate_events": 124,
+      "candidate_events": 125,
       "pages_fetched": 60,
       "pages_failed": 0,
-      "events_enriched": 22,
+      "events_enriched": 23,
       "images_added": 0,
       "prices_added": 17,
       "times_added": 0,
       "times_withheld": 0,
-      "addresses_added": 2,
+      "addresses_added": 3,
       "session_scopes_corrected": 5,
       "schedule_conflicts": 3,
       "titles_recovered": 0,
-      "provenance_entries_added": 24,
+      "provenance_entries_added": 25,
       "page_limit": 60
     }
   },
   "publication_guard": {
     "review_preserving_policy": 1,
-    "titles_recovered": 8,
-    "venues_recovered": 117,
+    "titles_recovered": 9,
+    "venues_recovered": 119,
     "target_city_blocks_recovered": 0,
     "visit_hours_enriched": 13,
     "venue_hours_enriched": 5,

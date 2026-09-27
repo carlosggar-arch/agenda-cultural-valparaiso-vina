@@ -1,13 +1,13 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-09-27T15:59:29+00:00",
+  "generated_at": "2026-09-27T18:24:52+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
       "publication_date": "2026-09-27",
-      "generated_at": "2026-09-27T15:59:27+00:00",
+      "generated_at": "2026-09-27T18:24:49+00:00",
       "summary": {
-        "total_events": 178,
+        "total_events": 179,
         "average_quality_score": 94.9,
         "quality_class": "excellent",
         "sources_catalogued": 58,
@@ -15,40 +15,40 @@
         "sources_zero": 27,
         "review_priority_zero_sources": 27,
         "zero_sources_covered_elsewhere": 4,
-        "top3_source_share_pct": 51.1,
+        "top3_source_share_pct": 51.4,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
         "date_pct": 99.4,
-        "time_pct": 91.0,
+        "time_pct": 91.1,
         "venue_pct": 99.4,
         "image_pct": 89.9,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 51.7,
-        "price_known_pct": 79.8
+        "official_source_pct": 51.4,
+        "price_known_pct": 79.9
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 83,
-          "share_pct": 46.6,
+          "count": 84,
+          "share_pct": 46.9,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
           "count": 26,
-          "share_pct": 14.6,
+          "share_pct": 14.5,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
           "count": 24,
-          "share_pct": 13.5,
+          "share_pct": 13.4,
           "underrepresented": false
         },
         {
@@ -98,12 +98,12 @@
         {
           "area": "Valparaíso",
           "count": 117,
-          "share_pct": 65.7
+          "share_pct": 65.4
         },
         {
           "area": "Viña del Mar",
-          "count": 61,
-          "share_pct": 34.3
+          "count": 62,
+          "share_pct": 34.6
         }
       ],
       "coverage_gaps": {
@@ -160,7 +160,7 @@
         {
           "id": "portaltickets_valparaiso",
           "name": "PortalTickets — Región de Valparaíso",
-          "count": 52,
+          "count": 53,
           "quality_score": 99.8,
           "quality_class": "excellent",
           "attention": "none",
@@ -178,7 +178,7 @@
             "price_known_pct": 100.0
           },
           "categories": {
-            "musica": 51,
+            "musica": 52,
             "teatro": 1
           },
           "verified_inactive": false
