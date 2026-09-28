@@ -75,7 +75,7 @@ const tourSunny = {
   location: { venue: "SALA ACAPULCO — GIJÓN", city: "Gijón", address: "C/ Fernández Vallín, 5 33205 Gijón", online: false },
 };
 assert.equal(new URL(googleMapsDirectionsUrl(tourSunny)).searchParams.get('destination'),
-  'SALA ACAPULCO — GIJÓN, C/ Fernández Vallín, 5 33205 Gijón, Gijón');
+  'SALA ACAPULCO — GIJÓN, C/ Fernández Vallín, 5 33205 Gijón');
 assert.equal(googleMapsDirectionsUrl({ ...tourSunny, location: {
   ...tourSunny.location, venue: 'Galería ATM', address: 'lat: 43.544238031426, lon: -5.6922576391958',
 } }), null, 'municipal city-centre coordinates are not the gallery street address');
@@ -130,6 +130,24 @@ const catalogAddress = {
 };
 const catalogUrl = new URL(googleMapsDirectionsUrl(catalogAddress));
 assert.equal(catalogUrl.searchParams.get("destination"), "Museo Artequin, Alcalde Prieto Nieto 500, Viña del Mar");
+const projectedCatalogEvent = {
+  ...catalogAddress,
+  location: {
+    ...catalogAddress.location,
+    venue_id: "artequin-vina",
+    venue: "Museo Artequin, Alcalde Prieto Nieto 500",
+    verification: {
+      status: "verified",
+      method: "canonical_venue_registry",
+      venue_id: "artequin-vina",
+      official_name: "Museo Artequin",
+    },
+  },
+};
+assert.equal(
+  new URL(googleMapsDirectionsUrl(projectedCatalogEvent)).searchParams.get("destination"),
+  "Museo Artequin, Alcalde Prieto Nieto 500, Viña del Mar",
+);
 assert.equal(new URL(googleMapsDirectionsUrl({ ...catalogAddress,
   location: { ...catalogAddress.location, latitude: 1, longitude: 2 },
 })).searchParams.get("destination"), catalogUrl.searchParams.get("destination"));

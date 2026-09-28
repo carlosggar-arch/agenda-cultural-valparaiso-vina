@@ -380,7 +380,12 @@ export function googleMapsDestination(event) {
   const address = usefulStreetAddress(location.address, city);
   if (!(address && city)) return null;
 
-  const parts = [cleanSpace(location.venue), address, city].filter(Boolean);
+  const verifiedVenue = locationVerified
+    && cleanSpace(location.verification?.venue_id) === cleanSpace(location.venue_id)
+    ? cleanSpace(location.verification?.official_name)
+    : "";
+  const parts = [verifiedVenue || cleanSpace(location.venue), address];
+  if (!fold(address).endsWith(fold(city))) parts.push(city);
   const seen = new Set();
   return parts.filter((part) => {
     const key = fold(part);

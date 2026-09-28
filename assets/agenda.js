@@ -21,6 +21,7 @@ import { selectFeatured } from "./featured.mjs";
 import { getAgendaRuntimeSnapshot } from "../app/agenda-runtime-state.mjs?v=20260823-reference1";
 import { relevantEventImageUrl } from "../app/image-resolver-core.mjs?v=20260824-owned-images2";
 import { createEventImageElement } from "../app/event-image-renderer.mjs";
+import { googleMapsDirectionsUrl } from "../app/public-presentation-rules.mjs?v=20260822-mapnav1";
 
 const DATASET_PATH = "./agenda_web.json";
 const CHANGES_PATH = "./agenda_changes.json";
@@ -470,6 +471,7 @@ function openDetail(event, trigger, alertId) {
   const labels = publicStatusLabels(event, state.dataset.publication_date);
   const status = labels.length ? element("p", "pill", `Información actualizada: ${labels.join(" · ")}`) : null;
   const actions = element("div", "detail-actions");
+  appendExternalLink(actions, "Google Maps", googleMapsDirectionsUrl(event));
   appendExternalLink(actions, "Sitio oficial", event.links?.official || event.links?.source);
   appendExternalLink(actions, "Inscripción", event.links?.registration);
   appendExternalLink(actions, "Entradas", event.links?.tickets);

@@ -475,7 +475,9 @@ function enhanceDetail(event) {
   }
   const terms = [...dialog.querySelectorAll("dt")];
   const venueTerm = terms.find((node) => node.textContent.trim() === "Recinto");
-  installLocationNavigation(venueTerm?.nextElementSibling, event);
+  if (!dialog.querySelector('[data-detail-actions] a[href*="google.com/maps"]')) {
+    installLocationNavigation(venueTerm?.nextElementSibling, event);
+  }
   const term = terms.find((node) => node.textContent.trim() === "Fecha y horario");
   if (term?.nextElementSibling) {
     setTextIfChanged(term.nextElementSibling, formatSchedule(event?.schedule, SCHEDULE_OPTIONS));

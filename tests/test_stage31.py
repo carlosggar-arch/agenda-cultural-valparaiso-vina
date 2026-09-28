@@ -46,6 +46,23 @@ def sample_event(**overrides):
 
 
 class StructuredDataTests(unittest.TestCase):
+    def test_permanent_page_maps_requires_matching_verified_venue(self):
+        event = sample_event(location={
+            "venue_id": "teatro-prueba",
+            "venue": "Teatro de prueba",
+            "address": "Calle Cultura 123",
+            "city": "Valparaíso",
+            "online": False,
+            "verification": {"status": "verified", "venue_id": "teatro-prueba", "official_name": "Teatro de prueba"},
+        })
+        self.assertEqual(
+            base.maps_directions_url(event),
+            "https://www.google.com/maps/dir/?api=1&destination=Teatro+de+prueba%2C+Calle+Cultura+123%2C+Valpara%C3%ADso",
+        )
+        self.assertIsNone(base.maps_directions_url(sample_event()))
+        event["location"]["verification"]["venue_id"] = "otro-recinto"
+        self.assertIsNone(base.maps_directions_url(event))
+
     def test_physical_dated_activity_is_event_without_unverified_offer(self):
         event = sample_event()
         data = stage31.structured_document("valparaiso", event, "https://example.org/permalink/")
