@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "36cbea0ae4bc28287883c133a6b22c35ee0b809501afe4243f8b583cc7f1c917",
-  "generated_at": "2026-09-28T14:06:33Z",
+  "fingerprint": "6f59759116e2e9ebab7fc72695dbaf3ac036edde4fc4938e83ebf9e404184d37",
+  "generated_at": "2026-09-28T23:27:37Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -10,14 +10,14 @@
   "source_metrics": {
     "gijon::ateneo jovellanos actividades": {
       "category_distribution": {
-        "charlas-conferencias": 0.142857,
+        "charlas-conferencias": 0.285714,
         "exposiciones": 0.142857,
-        "literatura": 0.285714,
+        "literatura": 0.142857,
         "musica": 0.142857,
         "unclassified": 0.285714
       },
       "city_id": "gijon",
-      "dominant_category": "literatura",
+      "dominant_category": "charlas-conferencias",
       "dominant_share": 0.285714,
       "source_name": "Ateneo Jovellanos — Actividades",
       "source_url": "https://ateneojovellanos.es/actividades/",
@@ -34,7 +34,7 @@
       "dominant_share": 1.0,
       "source_name": "BIOPARC Acuario de Gijón — Actividades y talleres",
       "source_url": "https://acuariogijon.es/prepara-tu-visita/actividades-y-talleres/",
-      "total": 5,
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -67,23 +67,23 @@
     },
     "gijon::centro de cultura antiguo instituto": {
       "category_distribution": {
-        "charlas-conferencias": 0.083333,
-        "cine": 0.083333,
-        "cursos-talleres-campus": 0.1875,
-        "exposiciones": 0.0625,
-        "literatura": 0.145833,
-        "musica": 0.083333,
-        "teatro": 0.3125,
-        "unclassified": 0.041667
+        "charlas-conferencias": 0.085106,
+        "cine": 0.085106,
+        "cursos-talleres-campus": 0.191489,
+        "exposiciones": 0.06383,
+        "literatura": 0.12766,
+        "musica": 0.085106,
+        "teatro": 0.319149,
+        "unclassified": 0.042553
       },
       "city_id": "gijon",
       "dominant_category": "teatro",
-      "dominant_share": 0.3125,
+      "dominant_share": 0.319149,
       "source_name": "Centro de Cultura Antiguo Instituto",
       "source_url": "https://www.gijon.es/es/directorio/centro-de-cultura-antiguo-instituto",
-      "total": 48,
+      "total": 47,
       "unclassified": 2,
-      "unclassified_rate": 0.041667
+      "unclassified_rate": 0.042553
     },
     "gijon::danza xixon": {
       "category_distribution": {
@@ -238,22 +238,22 @@
     },
     "gijon::open data ayuntamiento de gijon xixon agenda de eventos": {
       "category_distribution": {
-        "cine": 0.153846,
-        "cursos-talleres-campus": 0.076923,
-        "exposiciones": 0.576923,
-        "literatura": 0.057692,
-        "musica": 0.096154,
-        "teatro": 0.019231,
-        "unclassified": 0.019231
+        "cine": 0.150943,
+        "cursos-talleres-campus": 0.075472,
+        "exposiciones": 0.566038,
+        "literatura": 0.056604,
+        "musica": 0.09434,
+        "teatro": 0.018868,
+        "unclassified": 0.037736
       },
       "city_id": "gijon",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.576923,
+      "dominant_share": 0.566038,
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
-      "total": 52,
-      "unclassified": 1,
-      "unclassified_rate": 0.019231
+      "total": 53,
+      "unclassified": 2,
+      "unclassified_rate": 0.037736
     },
     "gijon::sala acapulco conciertos": {
       "category_distribution": {
@@ -725,14 +725,14 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "972ca6cea89c89c6abaaa89ac1b05679212d208b",
+  "source_ref": "0a1e3aca122672ce8da27c0a94945caa7e616028",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 52,
-    "total_events": 466,
-    "unclassified_count": 10,
-    "unclassified_rate": 0.021459
+    "total_events": 465,
+    "unclassified_count": 11,
+    "unclassified_rate": 0.023656
   },
   "unclassified_queue": [
     {
@@ -784,6 +784,16 @@
       "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
       "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
       "title": "IUTALKS by Jovellanos 2026"
+    },
+    {
+      "candidates": [],
+      "city_id": "gijon",
+      "event_id": "agenda_gijon_c8f1eabd5d4c412a",
+      "evidence": [],
+      "score": 0,
+      "source_name": "Open Data Ayuntamiento de Gijón/Xixón — Agenda de Eventos",
+      "source_url": "https://opendata.gijon.es/descargar.php?id=728&tipo=XHTML",
+      "title": "Tertulia fotográfica \"Playas para recordar\""
     },
     {
       "candidates": [],
