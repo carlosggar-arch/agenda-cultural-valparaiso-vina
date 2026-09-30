@@ -317,3 +317,5 @@ assert.equal(
 );
 
 console.log("SHARED_PRESENTATION_RUNTIME_CONTRACT_OK");
+
+await import("./detail-map-owner.test.mjs");
