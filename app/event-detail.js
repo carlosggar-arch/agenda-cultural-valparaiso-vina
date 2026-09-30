@@ -1,5 +1,6 @@
 import { resolveEventImage } from "./image-resolver-core.mjs?v=20260824-owned-images2";
 import { isPendingEventTime } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
+import { googleMapsDirectionsUrl } from "./public-presentation-rules.mjs?v=20260822-mapnav1";
 
 function safeHttpUrl(value) {
   if (!value) return null;
@@ -305,6 +306,7 @@ export function openEventDetail(event, presentation = {}) {
   const source = safeHttpUrl(presentation.sourceUrl);
   const permanent = permanentEventUrl(event);
   const calendar = calendarFileUrl(event);
+  const maps = googleMapsDirectionsUrl(event);
 
   if (tickets) addExternalAction(actions, tickets, "Entradas ↗", "primary");
   else if (registration) addExternalAction(
@@ -313,6 +315,8 @@ export function openEventDetail(event, presentation = {}) {
     event?.content_kind === "call_for_submissions" ? "Ver bases / Participar ↗" : "Inscribirme ↗",
     "primary",
   );
+
+  if (maps) addExternalAction(actions, maps, "Google Maps ↗", "secondary");
 
   if (calendar && hasCalendarDate(event)) {
     addExternalAction(actions, calendar, "Añadir al calendario", "secondary", { newTab: false });

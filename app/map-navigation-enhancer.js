@@ -237,6 +237,7 @@ function enhanceGroupedCard(card) {
 function enhanceDetail(dialog) {
   const event = eventIndex.get(String(dialog.dataset.eventDetail || "").trim());
   if (!event) return;
+  if (dialog.querySelector('.event-detail-actions a[href*="google.com/maps"]')) return;
   const fact = [...dialog.querySelectorAll(".event-detail-fact")]
     .find((row) => row.querySelector("strong")?.textContent.trim() === "Lugar");
   const copy = fact?.querySelector("span:last-child");

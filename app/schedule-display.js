@@ -172,9 +172,9 @@ function mapLinkForEvent(event) {
   return link;
 }
 
-function replaceLocationCopy(copy, value, event, preserveScreenReader = false) {
+function replaceLocationCopy(copy, value, event, preserveScreenReader = false, includeMap = true) {
   if (!copy) return false;
-  const href = googleMapsDirectionsUrl(event) || "";
+  const href = includeMap ? (googleMapsDirectionsUrl(event) || "") : "";
   const existingLink = copy.querySelector(".map-location-link");
   if (
     copy.dataset.locationDisplay === value
@@ -186,7 +186,7 @@ function replaceLocationCopy(copy, value, event, preserveScreenReader = false) {
   copy.replaceChildren();
   if (sr) copy.append(sr);
   copy.append(document.createTextNode(value));
-  const link = mapLinkForEvent(event);
+  const link = includeMap ? mapLinkForEvent(event) : null;
   if (link) {
     copy.append(document.createTextNode(" "));
     copy.append(link);
@@ -378,7 +378,10 @@ function replaceDetailLocation(dialog, event) {
   const fact = [...dialog.querySelectorAll(".event-detail-fact")].find((row) => row.querySelector("strong")?.textContent.trim() === "Lugar");
   const copy = fact?.querySelector("span:last-child");
   if (!copy) return;
-  replaceLocationCopy(copy, locationForDisplay(event), event, false);
+  // The detail renderer owns its primary Maps action. Keep inline navigation
+  // only for legacy details that do not provide that action.
+  const includeMap = !dialog.querySelector('.event-detail-actions a[href*="google.com/maps"]');
+  replaceLocationCopy(copy, locationForDisplay(event), event, false, includeMap);
 }
 
 function enhanceDetail(dialog) {

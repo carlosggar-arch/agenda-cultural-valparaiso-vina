@@ -29,10 +29,18 @@ const dataQuality = read("./event-card-data-quality.mjs");
 const scheduleDisplay = read("./schedule-display.js");
 assert.doesNotMatch(read("./card-experience.js"), /No te lo pierdas/i, "retired promotional badge is absent from the renderer");
 const rootPresentation = read("../assets/web-event-enhancements.js");
+const rootAgenda = read("../assets/agenda.js");
+const eventDetail = read("./event-detail.js");
 assert.match(rootPresentation, /import \{ googleMapsDirectionsUrl \} from "\.\.\/app\/public-presentation-rules\.mjs/,
   "root WEB must reuse the same verified map destination as APP");
 assert.match(rootPresentation, /installLocationNavigation\(card\.querySelector\("\.card-place"\), event\)/);
 assert.match(rootPresentation, /installLocationNavigation\(venueTerm\?\.nextElementSibling, event\)/);
+assert.match(rootPresentation, /data-detail-actions.*google\.com\/maps/s);
+assert.match(rootAgenda, /import \{ googleMapsDirectionsUrl \} from "\.\.\/app\/public-presentation-rules\.mjs/);
+assert.match(rootAgenda, /appendExternalLink\(actions, "Google Maps", googleMapsDirectionsUrl\(event\)\)/);
+assert.match(eventDetail, /import \{ googleMapsDirectionsUrl \} from "\.\/public-presentation-rules\.mjs/);
+assert.match(eventDetail, /addExternalAction\(actions, maps, "Google Maps ↗", "secondary"\)/);
+assert.match(read("./map-navigation-enhancer.js"), /event-detail-actions.*google\.com\/maps/s);
 const commonBlock = app.match(/const OPTIONAL_MODULES = \[([\s\S]*?)\];/)?.[1] || "";
 const sharedPresentationModules = [
   "./temporal-priority.js",
@@ -309,3 +317,5 @@ assert.equal(
 );
 
 console.log("SHARED_PRESENTATION_RUNTIME_CONTRACT_OK");
+
+await import("./detail-map-owner.test.mjs");

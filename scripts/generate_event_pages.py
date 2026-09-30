@@ -72,6 +72,31 @@ def safe_http_url(value: Any) -> str | None:
     return text if re.match(r"^https?://", text, re.I) else None
 
 
+def maps_directions_url(event: dict[str, Any]) -> str | None:
+    location = event.get("location") if isinstance(event.get("location"), dict) else {}
+    verification = location.get("verification") if isinstance(location.get("verification"), dict) else {}
+    if location.get("online") is True or str(verification.get("status") or "").casefold() != "verified":
+        return None
+    venue_id = str(location.get("venue_id") or "").strip()
+    verified_venue_id = str(verification.get("venue_id") or "").strip()
+    if not venue_id or verified_venue_id != venue_id:
+        return None
+    latitude, longitude = location.get("latitude"), location.get("longitude")
+    if isinstance(latitude, (int, float)) and isinstance(longitude, (int, float)) and (latitude, longitude) != (0, 0):
+        destination = f"{latitude},{longitude}"
+    else:
+        address = str(location.get("address") or "").strip()
+        city = str(location.get("city") or location.get("commune") or "").strip()
+        if not address or not city or address.casefold() in {"por confirmar", "dirección por confirmar"}:
+            return None
+        official_name = str(verification.get("official_name") or "").strip()
+        parts = [official_name or str(location.get("venue") or "").strip(), address]
+        if not address.casefold().endswith(city.casefold()):
+            parts.append(city)
+        destination = ", ".join(dict.fromkeys(part for part in parts if part))
+    return "https://www.google.com/maps/dir/?" + urlencode({"api": 1, "destination": destination})
+
+
 def public_image_url(value: Any) -> str | None:
     """Return an absolute public URL for remote or repository-owned event art."""
     remote = safe_http_url(value)
@@ -588,6 +613,7 @@ def render_page(
     verified = human_temporal(status.get("last_verified_at") or event.get("last_verified_at"))
     ics = build_ics(city_id, event, event_url, stamp)
     google = google_calendar_url(event, event_url)
+    maps = maps_directions_url(event)
     whatsapp = "https://wa.me/?" + urlencode({"text": f"{title} · {schedule}\n{event_url}"})
 
     actions: list[str] = []
@@ -599,6 +625,8 @@ def render_page(
         actions.append('<a class="event-action" href="evento.ics" download>Añadir al calendario</a>')
     if google:
         actions.append(f'<a class="event-action" href="{html.escape(google, quote=True)}" target="_blank" rel="noopener noreferrer">Google Calendar ↗</a>')
+    if maps:
+        actions.append(f'<a class="event-action" href="{html.escape(maps, quote=True)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a>')
     if gijon_open_data:
         if public_source_url and public_source_url not in {tickets, registration}:
             action_label = "Open Data — último recurso ↗" if public_source_last_resort else "Fuente corroborante ↗"
