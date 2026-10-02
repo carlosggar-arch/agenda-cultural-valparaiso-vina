@@ -451,7 +451,7 @@ def _producer_from_tokens(texts: list[str]) -> str | None:
     return values[0] if values else None
 
 
-def _structured_category_signals(producer: str | None) -> list[dict[str, str]]:
+def _structured_category_signals(producer: str | None, description: str | None = None) -> list[dict[str, str]]:
     signals: list[dict[str, str]] = []
     if producer and RECORD_LABEL_PRODUCER.search(producer):
         signals.append({
@@ -460,6 +460,19 @@ def _structured_category_signals(producer: str | None) -> list[dict[str, str]]:
             "value": producer,
             "evidence_text": "sello discografico musica",
         })
+    # Musical performance competitions identify a format, not a named event.
+    text = norm(description)
+    contest = re.search(r"\bconcurso(?: [a-z]+){0,4} de (?:ejecucion|interpretacion) musical\b", text)
+    if contest:
+        signals.append({"kind": "musical_performance_competition", "category": "musica",
+                        "value": contest.group(0), "evidence_text": "competicion de interpretacion de musica"})
+    # A Spanish label name alone is ambiguous. Require a release presentation.
+    label = norm(producer)
+    release = re.search(r"\b(?:presentan?|lanzan?|lanzamiento)(?: [a-z]+){0,5} (?:split|ep|album|disco)\b", text)
+    if (not signals and re.match(r"^sello\s+\S", label) and release
+            and not re.search(r"\b(?:editorial|postal|filatelico)\b", label)):
+        signals.append({"kind": "record_label_release_presentation", "category": "musica",
+                        "value": release.group(0), "evidence_text": "presentacion de lanzamiento discografico musica"})
     return signals
 
 
@@ -500,7 +513,7 @@ def parse_detail_markup(markup: str) -> dict:
     description = _description_from_tokens(texts)
     description_semantic_text = _semantic_text_from_tokens(texts)
     producer = _producer_from_tokens(texts)
-    category_signals = _structured_category_signals(producer)
+    category_signals = _structured_category_signals(producer, description_semantic_text)
     semantic_parts = [description_semantic_text] if description_semantic_text else []
     semantic_parts.extend(signal["evidence_text"] for signal in category_signals)
     semantic_text = " ".join(semantic_parts)[:1800].rstrip(" ,;:") or None
