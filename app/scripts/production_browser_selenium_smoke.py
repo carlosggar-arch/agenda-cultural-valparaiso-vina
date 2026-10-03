@@ -301,7 +301,62 @@ def image_diagnostics(driver: webdriver.Chrome, event_id: str, filename: str) ->
     )
 
 
-def verify_official_images(origin: str, base: str, expected_release: int) -> None:
+def resolve_official_image_cases(payload: dict) -> tuple:
+    """Use current canonical IDs; a missing declared image is never a pass.
+
+    Existing reference works keep exact file expectations while present. When
+    they leave the canonical dataset, current official images exercise the same
+    visual contract instead of waiting forever for obsolete event IDs.
+    """
+    from datetime import date, datetime
+    from zoneinfo import ZoneInfo
+    def title_key(value):
+        return " ".join(str(value or "").strip(' “”\"').casefold().split())
+    def owned_file(event):
+        url = str((event.get("image") or {}).get("url") or "")
+        match = re.fullmatch(
+            r"(?:\./|/)?(?:app/)?assets/event-images/valparaiso/([0-9a-f]{24,64}\.webp)", url,
+        )
+        return match[1] if match else None
+    events = payload.get("events") or []
+    resolved = []
+    selected = set()
+    for _old_id, filename, title in OFFICIAL_IMAGE_CASES:
+        matches = [event for event in events if title_key(event.get("title")) == title_key(title)]
+        if matches:
+            if len(matches) != 1 or owned_file(matches[0]) != filename or not matches[0].get("id"):
+                raise ValueError(f"OFFICIAL_IMAGE_CASE_IDENTITY title={title!r} matches={len(matches)}")
+            resolved.append((matches[0]["id"], filename, title))
+            selected.add(matches[0]["id"])
+        elif any(owned_file(event) == filename for event in events):
+            raise ValueError(f"OFFICIAL_IMAGE_CASE_IDENTITY crossed work for {filename}")
+    if len(resolved) < 2:
+        today = datetime.now(ZoneInfo(str(payload.get("timezone") or "America/Santiago"))).date()
+        for event in sorted(events, key=lambda item: str(item.get("id") or "")):
+            identity, title = event.get("id"), event.get("title")
+            if not identity or not title or identity in selected or not owned_file(event):
+                continue
+            image, status = event.get("image") or {}, event.get("public_status") or {}
+            if status.get("cancelled") is True or not (image.get("relevance") == "event_specific" or status.get("source_official") is True):
+                continue
+            schedule = event.get("schedule") or {}
+            try:
+                last = date.fromisoformat(str(schedule.get("end") or schedule.get("start") or "")[:10])
+            except ValueError:
+                continue
+            if last < today:
+                continue
+            resolved.append((identity, owned_file(event), title))
+            selected.add(identity)
+            if len(resolved) == 2:
+                break
+    if len(resolved) != 2 or len(selected) != 2:
+        raise ValueError("OFFICIAL_IMAGE_CASE_IDENTITY insufficient distinct current capabilities")
+    return tuple(resolved)
+
+
+def verify_official_images(origin: str, base: str, expected_release: int,
+                           image_cases: tuple = OFFICIAL_IMAGE_CASES) -> None:
     root_base = base[:-4] if base.endswith("app/") else base
     surfaces = (
         ("app", f"{base}?city=valparaiso&when=todos"),
@@ -327,7 +382,7 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
                                 expected_release,
                             )
                         )
-                    for event_id, filename, title in OFFICIAL_IMAGE_CASES:
+                    for event_id, filename, title in image_cases:
                         WebDriverWait(driver, READY_TIMEOUT_SECONDS, poll_frequency=0.1).until(
                             lambda current, event_id=event_id: prepare_image_evidence(current, event_id)
                         )
@@ -346,7 +401,7 @@ def verify_official_images(origin: str, base: str, expected_release: int) -> Non
                 except Exception as exc:
                     diagnostics = []
                     try:
-                        diagnostics = [image_diagnostics(driver, event_id, filename) for event_id, filename, _title in OFFICIAL_IMAGE_CASES]
+                        diagnostics = [image_diagnostics(driver, event_id, filename) for event_id, filename, _title in image_cases]
                     except Exception as diagnostic_exc:
                         diagnostics = [{"diagnostic_error": f"{type(diagnostic_exc).__name__}: {diagnostic_exc}"}]
                     last_error = (
@@ -649,7 +704,8 @@ def main() -> None:
                 f"PRODUCTION_COLD_LOAD_OK origin={origin} city={city} "
                 f"viewport={width}x{height} transport=selenium"
             )
-        verify_official_images(origin, base, expected_release)
+        verify_official_images(origin, base, expected_release,
+                               image_cases=resolve_official_image_cases(valpo_datasets[origin]))
         verify_valpo_semantics(origin, base, expected_release, semantic_cases)
         verify_gijon_semantics(origin, base, expected_release, gijon_semantic_case)
 

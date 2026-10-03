@@ -67,13 +67,16 @@ jobs:
           writer_result=$?
           python app/scripts/test_verify_core_publication_bundle.py
           lineage_consumer_result=$?
+          python app/scripts/test_canonical_image_case_identity.py
+          image_identity_result=$?
           status() { if [[ "$1" -eq 0 ]]; then echo success; else echo failure; fi; }
           python app/scripts/pr_release_automation.py summarize \
             --result "syntax=$(status "$syntax_result")" \
             --result "finalizer=$(status "$finalizer_result")" \
             --result "atomic-publication=$(status "$atomic_result")" \
             --result "single-writer=$(status "$writer_result")" \
-            --result "core-lineage-consumer=$(status "$lineage_consumer_result")"
+            --result "core-lineage-consumer=$(status "$lineage_consumer_result")" \
+            --result "image-identity=$(status "$image_identity_result")"
 
       - name: Require or transiently prepare canonical finalization
         id: finalization
