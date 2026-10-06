@@ -132,9 +132,11 @@ class ImageProvenanceContract(unittest.TestCase):
         self.assertEqual(attestation.image_provenance([{"url": self.origin}]), {
             self.origin: {"kind": "external", "origin_url": self.origin}
         })
-        with patch.object(attestation, "OFFICIAL_IMAGE_EVENT_IDS", ("unrelated-fixture-id",)):
-            with self.assertRaisesRegex(SystemExit, "not repository-owned"):
-                attestation.official_image_attestation(verify_network=False)
+        with self.assertRaisesRegex(SystemExit, "Invalid owned image path"):
+            attestation.official_image_attestation(
+                {"unrelated-fixture-id": {"file": "fixture.webp", "dimensions": [1, 1]}},
+                verify_network=False,
+            )
 
     def test_non_http_fallback_is_blocked(self):
         self.commit({"url": self.origin})
@@ -161,10 +163,12 @@ class ImageProvenanceContract(unittest.TestCase):
 
     def test_published_origin_bytes_still_must_match_owned_hash(self):
         self.ready()
-        with patch.object(attestation, "OFFICIAL_IMAGE_EVENT_IDS", ("unrelated-fixture-id",)):
-            with patch.object(attestation, "fetch_bytes", return_value=b"wrong-origin-bytes"):
-                with self.assertRaisesRegex(SystemExit, "Official image byte mismatch"):
-                    attestation.official_image_attestation(verify_network=True)
+        with patch.object(attestation, "fetch_bytes", return_value=b"wrong-origin-bytes"):
+            with self.assertRaisesRegex(SystemExit, "Official image byte mismatch"):
+                attestation.official_image_attestation(
+                    {"unrelated-fixture-id": {"file": Path(self.path).name, "dimensions": [1, 1]}},
+                    verify_network=True,
+                )
 
     def test_uncommitted_dataset_is_not_attested(self):
         self.ready()
@@ -173,7 +177,10 @@ class ImageProvenanceContract(unittest.TestCase):
         payload["events"][0]["title"] = "Uncommitted mutation"
         path.write_text(json.dumps(payload), encoding="utf-8")
         with self.assertRaisesRegex(SystemExit, "differs from committed publication"):
-            attestation.official_image_attestation(verify_network=False)
+            attestation.official_image_attestation(
+                {"unrelated-fixture-id": {"file": Path(self.path).name, "dimensions": [1, 1]}},
+                verify_network=False,
+            )
 
 
 if __name__ == "__main__":

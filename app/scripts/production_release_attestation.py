@@ -17,10 +17,7 @@ from production_certification_history import validated_core_execution
 SCHEMA_VERSION = "1.0.0"
 CITIES = ("valparaiso", "gijon")
 STATES = ("hoy", "7-dias", "todos")
-OFFICIAL_IMAGE_EVENT_IDS = (
-    "agenda_baburizza_82ca6a27bc5861af85cb",
-    "agenda_baburizza_a37f94515515258cdea3",
-)
+OFFICIAL_IMAGE_COUNT = 2
 
 
 def read_text(path: Path) -> str:
@@ -82,7 +79,7 @@ def validate_http_log(text: str, release: int) -> None:
         require_marker(text, f"PUBLISHED_PWA_SHELL_OK origin={origin} release=v{release}", "published shell")
 
 
-def validate_browser_log(text: str) -> None:
+def validate_browser_log(text: str) -> dict[str, dict[str, object]]:
     viewports = {"valparaiso": "390x844", "gijon": "1280x900"}
     for origin in ORIGINS:
         for city in CITIES:
@@ -96,14 +93,43 @@ def validate_browser_log(text: str) -> None:
         "PRODUCTION_CITY_ROUNDTRIP_OK origin=github-pages valparaiso->gijon->valparaiso filter=7-dias transport=selenium",
         "city roundtrip",
     )
+    pattern = re.compile(
+        r"PRODUCTION_OFFICIAL_IMAGE_OK origin=(?P<origin>\S+) surface=(?P<surface>app|web) "
+        r"event=(?P<event>\S+) file=(?P<file>\S+) natural=(?P<width>[1-9]\d*)x(?P<height>[1-9]\d*)"
+    )
+    rows: dict[tuple[str, str], list[tuple[str, str]]] = {}
+    for match in pattern.finditer(text):
+        key = (match.group("origin"), match.group("surface"))
+        pair = (match.group("event"), match.group("file"))
+        if pair in rows.setdefault(key, []):
+            raise SystemExit(f"Duplicate rendered official image evidence: {key} {pair}")
+        rows[key].append(pair)
+    expected: list[tuple[str, str]] | None = None
     for origin in ORIGINS:
         for surface in ("app", "web"):
-            for event_id in OFFICIAL_IMAGE_EVENT_IDS:
-                require_marker(
-                    text,
-                    f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={event_id}",
-                    "rendered official image",
+            key = (origin, surface)
+            actual = rows.get(key, [])
+            if len(actual) != OFFICIAL_IMAGE_COUNT:
+                raise SystemExit(
+                    f"Incomplete rendered official image evidence: {key} "
+                    f"count={len(actual)} expected={OFFICIAL_IMAGE_COUNT}"
                 )
+            if len({event for event, _file in actual}) != OFFICIAL_IMAGE_COUNT:
+                raise SystemExit(f"Repeated rendered official image identity: {key}")
+            if expected is None:
+                expected = actual
+            elif set(actual) != set(expected):
+                raise SystemExit(f"Cross-surface official image evidence mismatch: {key}")
+    dimensions = {
+        (match.group("event"), match.group("file")): [
+            int(match.group("width")), int(match.group("height"))
+        ]
+        for match in pattern.finditer(text)
+    }
+    return {
+        event: {"file": filename, "dimensions": dimensions[(event, filename)]}
+        for event, filename in (expected or [])
+    }
 
 
 def validate_parity_report(path: Path) -> tuple[str, list[dict[str, object]]]:
@@ -264,25 +290,43 @@ def image_provenance(images: list[dict], *, dataset_path: str = "agenda_web.json
     return evidence
 
 
-def official_image_attestation(*, verify_network: bool) -> dict[str, dict[str, object]]:
+def official_image_attestation(
+    browser_images: dict[str, dict[str, object]], *, verify_network: bool
+) -> dict[str, dict[str, object]]:
     payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
     if payload != json.loads(_git_bytes("show", "HEAD:agenda_web.json")):
         raise SystemExit("Image attestation dataset differs from committed publication")
     indexed = {str(event.get("id") or ""): event for event in payload.get("events") or []}
     evidence: dict[str, dict[str, object]] = {}
-    bindings = image_provenance([indexed[event_id].get("image") or {}
-                                 for event_id in OFFICIAL_IMAGE_EVENT_IDS if event_id in indexed])
-    for event_id in OFFICIAL_IMAGE_EVENT_IDS:
+    for event_id, browser in browser_images.items():
         event = indexed.get(event_id)
         if not event:
             raise SystemExit(f"Official image fixture disappeared from dataset: {event_id}")
         image = event.get("image") or {}
         relative = str(image.get("url") or "")
-        binding = bindings[relative]
-        if binding["kind"] != "owned":
-            raise SystemExit(f"Official image fixture is not repository-owned: {event_id} {relative}")
-        repository_path = binding["repository_path"]
-        local_sha = binding["sha256"]
+        repository_path = _owned_path(relative)
+        if Path(repository_path).name != browser["file"]:
+            raise SystemExit(f"Rendered official image file mismatch: {event_id}")
+        body = _committed_image(git_head(), repository_path)
+        local_sha = hashlib.sha256(body).hexdigest()
+        if Path(repository_path).stem != local_sha[:24]:
+            raise SystemExit(f"Owned image filename/hash mismatch: {repository_path}")
+        try:
+            binding = image_provenance([image])[relative]
+        except SystemExit as exc:
+            if "Missing historical image provenance" not in str(exc):
+                raise
+            status = event.get("public_status") or {}
+            if status.get("source_official") is not True and image.get("relevance") != "event_specific":
+                raise SystemExit(f"Official image fixture lacks source authority: {event_id}") from exc
+            binding = {
+                "kind": "owned_publication",
+                "origin_url": None,
+                "repository_path": repository_path,
+                "sha256": local_sha,
+                "dimensions": browser["dimensions"],
+                "evidence_commit": git_head(),
+            }
         origin_hashes: dict[str, str] = {}
         if verify_network:
             for origin, base in ORIGINS.items():
@@ -299,7 +343,8 @@ def official_image_attestation(*, verify_network: bool) -> dict[str, dict[str, o
             "origin_url": binding["origin_url"],
             "repository_path": repository_path,
             "sha256": local_sha,
-            "dimensions": binding["dimensions"],
+            "dimensions": browser["dimensions"],
+            "provenance_kind": binding["kind"],
             "evidence_commit": binding["evidence_commit"],
             "origins_sha256": origin_hashes,
             "visually_verified_surfaces": ["app", "web"],
@@ -324,7 +369,7 @@ def build_attestation(
     warm_text = read_text(warm_log)
 
     validate_http_log(http_text, release)
-    validate_browser_log(browser_text)
+    official_browser_images = validate_browser_log(browser_text)
     warm = parse_warm_metrics(warm_text, release)
     parity_at, parity_rows = validate_parity_report(parity_report)
 
@@ -336,7 +381,9 @@ def build_attestation(
             for local, _remote in CRITICAL_ASSETS
         }
         origin_hashes = {}
-    official_images = official_image_attestation(verify_network=verify_network)
+    official_images = official_image_attestation(
+        official_browser_images, verify_network=verify_network
+    )
 
     head = git_head()
     payload = {
