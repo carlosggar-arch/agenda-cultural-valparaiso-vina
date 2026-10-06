@@ -1,6 +1,20 @@
 {
   "certifications": [
     {
+      "archive_sha256": "69e8d36b32ae9132aef47cc9f03faff22a55ab29d61a35dafd47126c4b9aee72",
+      "chain_algorithm": "sha256",
+      "head_sha": "4997ec8b5f34da4310e42024113b4eacabaf5c41",
+      "path": "data/releases/v260/4997ec8b5f34da4310e42024113b4eacabaf5c41.json",
+      "previous_archive_sha256": "4723abba5ea1d840df1e2305d9cc8c58c063f6c9360615cee40a51fca762d0ff",
+      "previous_path": "data/releases/v260/4c2ac7d2a24850836ad1f69bb7c22c85e3bda7d5.json",
+      "publication_state": "published_and_visually_verified",
+      "release": 260,
+      "release_fingerprint": "e011097eb07e517a0e2195436c98cc2d72e2fa892cf9a8bc080ef0f0debb2105",
+      "release_id": "v260-e011097eb07e",
+      "verified_at": "2026-10-06T22:48:33Z",
+      "workflow_run_id": "37542479013"
+    },
+    {
       "archive_sha256": "4723abba5ea1d840df1e2305d9cc8c58c063f6c9360615cee40a51fca762d0ff",
       "chain_algorithm": "sha256",
       "head_sha": "4c2ac7d2a24850836ad1f69bb7c22c85e3bda7d5",
@@ -1054,24 +1068,24 @@
   "chain": {
     "algorithm": "sha256",
     "anchor_path": "data/releases/v225/8c46f9e7a8497819248cf00a6b3c923f5c87652e.json",
-    "head_archive_sha256": "4723abba5ea1d840df1e2305d9cc8c58c063f6c9360615cee40a51fca762d0ff",
-    "length": 75
+    "head_archive_sha256": "69e8d36b32ae9132aef47cc9f03faff22a55ab29d61a35dafd47126c4b9aee72",
+    "length": 76
   },
   "contract": "vivamos-production-certification-history",
   "environment": "production",
   "latest": {
-    "archive_sha256": "4723abba5ea1d840df1e2305d9cc8c58c063f6c9360615cee40a51fca762d0ff",
+    "archive_sha256": "69e8d36b32ae9132aef47cc9f03faff22a55ab29d61a35dafd47126c4b9aee72",
     "chain_algorithm": "sha256",
-    "head_sha": "4c2ac7d2a24850836ad1f69bb7c22c85e3bda7d5",
-    "path": "data/releases/v260/4c2ac7d2a24850836ad1f69bb7c22c85e3bda7d5.json",
-    "previous_archive_sha256": "b9ae74a0481741aa38350ed240e995d32f6543bcb0825efed1c6bf725d922f09",
-    "previous_path": "data/releases/v259/53c3bcfb28ce520fb53b3a32536fdfcdea4917aa.json",
+    "head_sha": "4997ec8b5f34da4310e42024113b4eacabaf5c41",
+    "path": "data/releases/v260/4997ec8b5f34da4310e42024113b4eacabaf5c41.json",
+    "previous_archive_sha256": "4723abba5ea1d840df1e2305d9cc8c58c063f6c9360615cee40a51fca762d0ff",
+    "previous_path": "data/releases/v260/4c2ac7d2a24850836ad1f69bb7c22c85e3bda7d5.json",
     "publication_state": "published_and_visually_verified",
     "release": 260,
-    "release_fingerprint": "78a9670dd84ba4995a30f1adebd269ae96c8a615bc4d103ca9140ed4128595cf",
-    "release_id": "v260-78a9670dd84b",
-    "verified_at": "2026-09-30T11:31:01Z",
-    "workflow_run_id": "36708560730"
+    "release_fingerprint": "e011097eb07e517a0e2195436c98cc2d72e2fa892cf9a8bc080ef0f0debb2105",
+    "release_id": "v260-e011097eb07e",
+    "verified_at": "2026-10-06T22:48:33Z",
+    "workflow_run_id": "37542479013"
   },
   "schema_version": "1.1.0"
 }
