@@ -213,6 +213,33 @@ def test_public_projection_preserves_reviewed_identity_proof_without_rewriting_h
     assert "editorial" not in normalizer.normalize_dataset(unversioned)[0]["events"][0]
 
 
+def test_public_projection_preserves_only_hash_bound_generic_alias_proof() -> None:
+    import copy
+    import hashlib
+    import json
+
+    original = {"id": "absorbed", "title": "Same function", "source_url": "https://source.test/event"}
+    digest = hashlib.sha256(json.dumps(
+        original, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
+    claim = {
+        "id": "absorbed", "source_url": original["source_url"],
+        "input_event": original, "input_sha256": digest,
+        "identity_reason": "same complete dated functions",
+    }
+    dataset = {"events": [{
+        "id": "survivor", "schedule": {"start": "2026-10-15"},
+        "editorial": {"duplicate_sources": [copy.deepcopy(claim)], "private_note": "remove"},
+    }]}
+    projected, _, _ = normalizer.normalize_dataset(dataset)
+    assert projected["events"][0]["editorial"] == {"duplicate_sources": [claim]}
+    assert normalizer.normalize_dataset(projected)[0] == projected
+
+    invalid = copy.deepcopy(dataset)
+    invalid["events"][0]["editorial"]["duplicate_sources"][0]["input_sha256"] = "0" * 64
+    assert "editorial" not in normalizer.normalize_dataset(invalid)[0]["events"][0]
+
+
 def main() -> None:
     test_gallery_flattened_hours_become_ranges()
     test_artequin_flattened_hours_become_ranges()
@@ -229,6 +256,7 @@ def main() -> None:
     test_multicity_targeting_requires_explicit_opt_in()
     test_public_projection_removes_editorial_recursively_and_is_idempotent()
     test_public_projection_preserves_reviewed_identity_proof_without_rewriting_hash_inputs()
+    test_public_projection_preserves_only_hash_bound_generic_alias_proof()
     print("SCHEDULE_PRESENTATION_NORMALIZER_TESTS_OK")
 
 

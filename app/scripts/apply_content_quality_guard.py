@@ -1297,6 +1297,7 @@ def apply_guard(
         before_events=recovery_before_events,
         attempted_transformations=recovery_transformations,
         after_events=dataset["events"],
+        publication_date=publication_day,
     )
     append_candidate_quality_dispositions(
         ledger, before_events=recovery_before_events, after_events=dataset["events"],
