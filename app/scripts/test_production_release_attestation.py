@@ -5,7 +5,17 @@ import tempfile
 from pathlib import Path
 
 from production_pwa_smoke import CRITICAL_ASSETS, ORIGINS, release_number
-from production_release_attestation import CITIES, OFFICIAL_IMAGE_EVENT_IDS, STATES, build_attestation, write_markdown
+from production_release_attestation import CITIES, STATES, build_attestation, validate_browser_log, write_markdown
+
+
+OFFICIAL_IMAGE_EVENT_IDS = (
+    "agenda_03659e6e66f6d530eb04721c",
+    "agenda_040947b00f9418953022105b",
+)
+OFFICIAL_IMAGE_FILES = {
+    OFFICIAL_IMAGE_EVENT_IDS[0]: "89704be862d80238a9b0f685.webp",
+    OFFICIAL_IMAGE_EVENT_IDS[1]: "55bb134f8da56155ef5073bb.webp",
+}
 
 
 def write(path: Path, text: str) -> None:
@@ -75,7 +85,8 @@ def main() -> None:
                     "PRODUCTION_CITY_ROUNDTRIP_OK origin=github-pages valparaiso->gijon->valparaiso filter=7-dias transport=selenium",
                 ]
                 + [
-                    f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={event_id} file=fixture.webp natural=1600x1067"
+                    f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={event_id} "
+                    f"file={OFFICIAL_IMAGE_FILES[event_id]} natural=1600x1067"
                     for origin in ORIGINS
                     for surface in ("app", "web")
                     for event_id in OFFICIAL_IMAGE_EVENT_IDS
@@ -116,6 +127,38 @@ def main() -> None:
         assert len(payload["web_pwa_exact_id_parity"]["rows"]) == len(ORIGINS) * len(CITIES) * len(STATES)
         write_markdown(markdown, payload)
         assert "Production release verification" in markdown.read_text(encoding="utf-8")
+
+        browser_text = browser_log.read_text(encoding="utf-8")
+        assert tuple(validate_browser_log(browser_text)) == OFFICIAL_IMAGE_EVENT_IDS
+        expect_failure(
+            lambda: validate_browser_log(
+                browser_text.replace(
+                    "PRODUCTION_OFFICIAL_IMAGE_OK origin=cloudflare surface=web "
+                    f"event={OFFICIAL_IMAGE_EVENT_IDS[1]}",
+                    "MISSING_OFFICIAL_IMAGE",
+                )
+            ),
+            "missing dynamic image evidence on one surface must fail attestation",
+        )
+        expect_failure(
+            lambda: validate_browser_log(
+                browser_text.replace(
+                    "PRODUCTION_OFFICIAL_IMAGE_OK origin=cloudflare surface=web "
+                    f"event={OFFICIAL_IMAGE_EVENT_IDS[1]}",
+                    "PRODUCTION_OFFICIAL_IMAGE_OK origin=cloudflare surface=web event=agenda_other",
+                )
+            ),
+            "mismatched dynamic image identity across origins must fail attestation",
+        )
+        expect_failure(
+            lambda: validate_browser_log(
+                browser_text.replace(
+                    f"event={OFFICIAL_IMAGE_EVENT_IDS[1]} file={OFFICIAL_IMAGE_FILES[OFFICIAL_IMAGE_EVENT_IDS[1]]}",
+                    f"event={OFFICIAL_IMAGE_EVENT_IDS[0]} file={OFFICIAL_IMAGE_FILES[OFFICIAL_IMAGE_EVENT_IDS[0]]}",
+                )
+            ),
+            "repeated dynamic image identity must fail attestation",
+        )
 
         broken = json.loads(parity.read_text(encoding="utf-8"))
         for row in broken["rows"]:
