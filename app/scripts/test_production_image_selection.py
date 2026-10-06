@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import subprocess
 import unittest
+from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 
 from test_production_probe_retry import load_smoke_module
 
@@ -68,6 +70,22 @@ class ProductionImageSelectionTests(unittest.TestCase):
     def test_hidden_missing_or_wrong_official_image_never_passes(self):
         for options in ({"hiddenOnly": True}, {"wrongFile": True}, {"placeholder": True}):
             self.assertIsNone(self.module.image_evidence(FixtureDriver(**options), "event", "official.webp"))
+
+    def test_web_surface_does_not_filter_out_selected_image_cases(self):
+        payload = json.loads(Path("agenda_web.json").read_text(encoding="utf-8"))
+        cases = self.module.resolve_official_image_cases(payload)
+        selected = {event_id for event_id, _filename, _title in cases}
+        self.assertEqual(selected, {
+            "agenda_03659e6e66f6d530eb04721c",
+            "agenda_040947b00f9418953022105b",
+        })
+
+        surfaces = dict(self.module.official_image_surface_urls(
+            "https://example.test/app/",
+        ))
+        query = parse_qs(urlparse(surfaces["web"]).query)
+        self.assertEqual(query, {"periodo": ["todos"]})
+        self.assertNotIn("q", query)
 
 
 def run_contract():

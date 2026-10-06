@@ -207,9 +207,9 @@ def main() -> None:
         "PRODUCTION_OFFICIAL_IMAGE_OK",
         "OFFICIAL_IMAGE_CASES",
         "image.naturalWidth",
+        "official_image_surface_urls",
         '("app",',
         '("web",',
-        "q=Museo%20Baburizza",
         "vivamos-images-{origin}-{surface}-{attempt}",
         "driver.set_page_load_timeout(45)",
         "for attempt in range(1, 3)",
@@ -224,6 +224,7 @@ def main() -> None:
     evidence_poll = BROWSER_SMOKE.split("def image_evidence", 1)[1].split("def prepare_image_evidence", 1)[0]
     assert "scrollIntoView" not in evidence_poll, "Image readiness polling must not trigger repeated scroll/render churn"
     assert "scrollIntoView" not in BROWSER_SMOKE, "Official-image verification must not mutate WEB scroll state"
+    assert "q=Museo%20Baburizza" not in BROWSER_SMOKE, "Image cases must not be hidden by an unrelated WEB search"
     assert "image.loading = 'eager'" in BROWSER_SMOKE
     assert "rect.width < 1 || rect.height < 1" in BROWSER_SMOKE
     assert "data-grouped-event-id" in BROWSER_SMOKE
