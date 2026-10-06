@@ -218,9 +218,12 @@ class PublicationExecutionHistoryTests(unittest.TestCase):
         """Use real log/parity validators and explicit local identity/image doubles."""
         asset = self.root / "diagnostic-asset.txt"
         asset.write_bytes(b"LOCAL TEST FIXTURE - NOT PUBLICATION EVIDENCE\n")
-        image_id = "local-image-fixture"
-        official_images = {image_id: {"sha256": hashlib.sha256(asset.read_bytes()).hexdigest(),
-                                     "visually_verified_surfaces": ["app", "web"]}}
+        image_ids = ("local-image-fixture-a", "local-image-fixture-b")
+        official_images = {
+            image_id: {"sha256": hashlib.sha256(asset.read_bytes()).hexdigest(),
+                       "visually_verified_surfaces": ["app", "web"]}
+            for image_id in image_ids
+        }
         paths = tuple(self.root / name for name in ("http.log", "browser.log", "warm.log", "parity.json"))
         paths[0].write_text("\n".join(
             f"PRODUCTION_ORIGIN_PARITY_OK origin={origin} release=v300 assets=1\n"
@@ -230,8 +233,13 @@ class PublicationExecutionHistoryTests(unittest.TestCase):
                    for origin in attestation.ORIGINS
                    for city, viewport in (("valparaiso", "390x844"), ("gijon", "1280x900"))]
         markers.append("PRODUCTION_CITY_ROUNDTRIP_OK origin=github-pages valparaiso->gijon->valparaiso filter=7-dias transport=selenium")
-        markers.extend(f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={image_id}"
-                       for origin in attestation.ORIGINS for surface in ("app", "web"))
+        markers.extend(
+            f"PRODUCTION_OFFICIAL_IMAGE_OK origin={origin} surface={surface} event={image_id} "
+            f"file={image_id}.webp natural=10x10"
+            for origin in attestation.ORIGINS
+            for surface in ("app", "web")
+            for image_id in image_ids
+        )
         paths[1].write_text("\n".join(markers), encoding="utf-8")
         paths[2].write_text("\n".join(
             f"PRODUCTION_WARM_REOPEN_OK origin={origin} release=v300 viewport=390x844 "
@@ -246,7 +254,6 @@ class PublicationExecutionHistoryTests(unittest.TestCase):
             stack.enter_context(patch.dict(os.environ, environment, clear=True))
             stack.enter_context(patch.object(attestation, "ROOT", self.root))
             stack.enter_context(patch.object(attestation, "CRITICAL_ASSETS", [(asset.name, asset.name)]))
-            stack.enter_context(patch.object(attestation, "OFFICIAL_IMAGE_EVENT_IDS", (image_id,)))
             stack.enter_context(patch.object(attestation, "release_number", return_value=300))
             stack.enter_context(patch.object(attestation, "release_bundle", return_value={
                 "release": 300, "release_id": self.binding["release_id"], "fingerprint": "1" * 64,
@@ -257,7 +264,13 @@ class PublicationExecutionHistoryTests(unittest.TestCase):
             stack.enter_context(patch.object(attestation, "fetch_bytes", side_effect=AssertionError("network forbidden")))
             stack.enter_context(patch.object(attestation, "remote_hash_attestation", side_effect=AssertionError("network forbidden")))
             yield paths
-            image_check.assert_called_once_with(verify_network=False)
+            image_check.assert_called_once_with(
+                {
+                    image_id: {"file": f"{image_id}.webp", "dimensions": [10, 10]}
+                    for image_id in image_ids
+                },
+                verify_network=False,
+            )
 
     def test_attestation_builder_preserves_exact_core_execution_index(self):
         self.write_json(self.incoming, self.index)

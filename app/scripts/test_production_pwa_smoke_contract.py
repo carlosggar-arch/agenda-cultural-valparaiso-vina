@@ -291,7 +291,7 @@ def main() -> None:
         '"release_id": bundle.get("release_id")',
         '"publication_state": "published_and_visually_verified"',
         "official_image_attestation",
-        "OFFICIAL_IMAGE_EVENT_IDS",
+        "OFFICIAL_IMAGE_COUNT",
         "PRODUCTION_OFFICIAL_IMAGE_OK",
     ):
         assert marker in ATTESTATION, f"Production release attestation missing: {marker}"
