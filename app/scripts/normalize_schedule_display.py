@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import re
 from datetime import date
@@ -172,11 +173,30 @@ def strip_private_editorial(value: object) -> int:
             editorial = value.pop("editorial")
             review = editorial.get("reviewed_identity") if isinstance(editorial, dict) else None
             aliases = editorial.get("duplicate_sources") if isinstance(editorial, dict) else None
+            verified_aliases = (
+                isinstance(aliases, list)
+                and bool(aliases)
+                and all(
+                    isinstance(alias, dict)
+                    and isinstance(alias.get("input_event"), dict)
+                    and alias.get("id") == alias["input_event"].get("id")
+                    and isinstance(alias.get("identity_reason"), str)
+                    and bool(alias["identity_reason"].strip())
+                    and alias.get("input_sha256") == hashlib.sha256(json.dumps(
+                        alias["input_event"], ensure_ascii=False, sort_keys=True,
+                        separators=(",", ":"),
+                    ).encode("utf-8")).hexdigest()
+                    for alias in aliases
+                )
+            )
             if (isinstance(review, dict)
                     and review.get("contract") == "reviewed-public-event-identity/1"
                     and isinstance(aliases, list) and aliases):
                 value["editorial"] = {"reviewed_identity": review, "duplicate_sources": aliases}
                 removed += int(set(editorial) != {"reviewed_identity", "duplicate_sources"})
+            elif verified_aliases:
+                value["editorial"] = {"duplicate_sources": aliases}
+                removed += int(set(editorial) != {"duplicate_sources"})
             else:
                 removed += 1
         for key, child in value.items():

@@ -9,6 +9,7 @@ editorial predicates remain the responsibility of this guard's execution.
 from __future__ import annotations
 
 import copy
+from datetime import date
 import hashlib
 import json
 import re
@@ -31,7 +32,7 @@ ENVELOPE_FIELDS = {
 }
 BINDING_FIELDS = {"id", "source_id", "source_urls", "title", "city", "venue", "schedule"}
 SCHEDULE_FIELDS = {"mode", "start", "end", "occurrences"}
-TERMINAL_ACTIONS = {"quarantine", "non_event_exclusion", "deduplication"}
+TERMINAL_ACTIONS = {"quarantine", "non_event_exclusion", "deduplication", "expiration"}
 OBSERVATION_EVIDENCE_FIELDS = {"transformation_class", "observation_binding", "canonical_binding"}
 
 
@@ -71,6 +72,21 @@ def source_binding(event: dict[str, Any]) -> dict[str, Any]:
 def _fail(reason: str) -> None:
     # Values and source content never belong in exception messages.
     raise ValueError("RECOVERY_DISPOSITION_" + reason)
+
+
+def _schedule_expired(binding: dict[str, Any], publication_date: date | None) -> bool:
+    if publication_date is None:
+        return False
+    schedule = binding.get("schedule") or {}
+    rows = schedule.get("occurrences") or []
+    values = [row.get("end") or row.get("start") for row in rows if isinstance(row, dict)]
+    if not values:
+        values = [schedule.get("end") or schedule.get("start")]
+    try:
+        days = [date.fromisoformat(str(value)[:10]) for value in values if value]
+    except ValueError:
+        return False
+    return bool(days) and max(days) < publication_date
 
 
 def _fold(value: str) -> str:
@@ -212,6 +228,7 @@ def _existing_dispositions(
 def append_recovery_dispositions(
     ledger: dict[str, Any], *, before_events: list[dict[str, Any]],
     attempted_transformations: list[dict[str, Any]], after_events: list[dict[str, Any]],
+    publication_date: date | None = None,
 ) -> int:
     """Append one exact terminal operation per recovered observation.
 
@@ -287,6 +304,12 @@ def append_recovery_dispositions(
                 _fail("SURVIVOR_INVALID")
             if attempted.get(survivor):
                 _fail("CHAIN_UNSUPPORTED")
+        elif action == "expiration":
+            if (operation.get("reason") != "schedule_ended_before_publication_date"
+                    or destination != {"state": "expired", "canonical_event_id": None}
+                    or operation.get("canonical_event_id") != original_id
+                    or not _schedule_expired(binding, publication_date)):
+                _fail("EXPIRATION_INVALID")
         elif (
             destination.get("state") != action
             or destination.get("canonical_event_id") not in (None, original_id)

@@ -69,6 +69,44 @@ def dispositions(ledger: dict) -> list[dict]:
 
 
 class RecoveryDispositionTests(unittest.TestCase):
+    def test_expired_recovery_is_closed_with_temporal_proof_and_is_idempotent(self) -> None:
+        item = event("expired", start="2026-09-08T18:00:00-03:00")
+        item["schedule"].update(end="2026-09-09T20:00:00-03:00", occurrences=[])
+        item["event_type"] = "exhibition"
+        item["primary_category"] = {"id": "exposiciones", "label": "Exposiciones"}
+        item["categories"] = [copy.deepcopy(item["primary_category"])]
+        dataset, ledger = fixture(item)
+        dataset["publication_date"] = "2026-09-10"
+        parent = copy.deepcopy(ledger["receipts"][0])
+
+        apply_guard(dataset, ledger=ledger, baseline_events=[], generated_at=MOMENT)
+
+        self.assertEqual(dataset["events"], [])
+        envelope = dispositions(ledger)[0]
+        self.assertEqual(envelope["recovery_receipt_sha256"], recovery_receipt_sha256(parent))
+        self.assertEqual(envelope["transformations"][0]["action"], "expiration")
+        self.assertEqual(envelope["transformations"][0]["destination"], {
+            "state": "expired", "canonical_event_id": None,
+        })
+        expected = canonical_json_bytes(ledger)
+        apply_guard({"events": [], "publication_date": "2026-09-10"}, ledger=ledger,
+                    baseline_events=[], generated_at=MOMENT)
+        self.assertEqual(canonical_json_bytes(ledger), expected)
+
+    def test_recovery_expiration_requires_clock_after_the_function(self) -> None:
+        item = event("not-expired", start="2026-09-15T18:00:00-03:00")
+        _, ledger = fixture(item)
+        operation = make_receipt(
+            stage="content_quality_guard", action="expiration",
+            reason="schedule_ended_before_publication_date", source_event=item,
+            canonical_event_id=None, destination={"state": "expired", "canonical_event_id": None},
+        )
+        with self.assertRaisesRegex(ValueError, "RECOVERY_DISPOSITION_EXPIRATION_INVALID"):
+            append_recovery_dispositions(
+                ledger, before_events=[item], attempted_transformations=[operation], after_events=[],
+                publication_date=__import__("datetime").date(2026, 9, 10),
+            )
+
     def test_shared_capture_proof_accounts_for_source_default_venue_without_changing_it(self) -> None:
         for title in ("Concierto de cámara", "#programacion"):
             with self.subTest(title=title):
