@@ -355,13 +355,23 @@ def resolve_official_image_cases(payload: dict) -> tuple:
     return tuple(resolved)
 
 
+def official_image_surface_urls(base: str) -> tuple[tuple[str, str], ...]:
+    """Return unfiltered surfaces so every selected image case can be located.
+
+    The cases are resolved from the current canonical dataset and need not share
+    a title.  A fixed search term would test absence from filtered results rather
+    than image presentation on the web surface.
+    """
+    root_base = base[:-4] if base.endswith("app/") else base
+    return (
+        ("app", f"{base}?city=valparaiso&when=todos"),
+        ("web", f"{root_base}?periodo=todos"),
+    )
+
+
 def verify_official_images(origin: str, base: str, expected_release: int,
                            image_cases: tuple = OFFICIAL_IMAGE_CASES) -> None:
-    root_base = base[:-4] if base.endswith("app/") else base
-    surfaces = (
-        ("app", f"{base}?city=valparaiso&when=todos"),
-        ("web", f"{root_base}?periodo=todos&q=Museo%20Baburizza"),
-    )
+    surfaces = official_image_surface_urls(base)
     for surface, base_url in surfaces:
         last_error = ""
         for attempt in range(1, 3):
