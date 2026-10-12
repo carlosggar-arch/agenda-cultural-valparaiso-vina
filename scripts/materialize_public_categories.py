@@ -5,6 +5,7 @@ import copy
 import json
 import re
 import sys
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -87,9 +88,8 @@ def migrate_payload(
 ) -> tuple[dict, dict]:
     """Converge source taxonomies to the shared public taxonomy without guessing.
 
-    Already thematic categories are preserved (and registered aliases are
-    normalized).  Legacy/fallback categories are reclassified only when the
-    shared evidence classifier reaches its minimum score.  Unresolved rows stay
+    The stored category converges to the same reviewed evidence classifier
+    consumed by the PWA; registered aliases are normalized. Unresolved rows stay
     unchanged and are reported as blockers, making retries idempotent.
     """
     migrated = copy.deepcopy(payload)
@@ -101,6 +101,7 @@ def migrate_payload(
     publication_date = str(migrated.get("publication_date") or "")
     retained_events: list[dict] = []
     for event in migrated.get("events") or []:
+        before_event = copy.deepcopy(event)
         materialize_submission_call(event)
         current = source_category(event)
         canonical = canonical_public_category(current)
@@ -111,13 +112,11 @@ def migrate_payload(
         if exclusion_reason:
             proposed = dict(current)
             action = "excluded"
-        elif canonical and is_thematic_category(canonical.get("id")):
-            proposed = dict(canonical)
-            exact = event.get("primary_category") == proposed and event.get("categories") == [proposed]
-            action = "preserved" if exact else "normalized"
         elif classification["category"]["id"] != FALLBACK_ID:
             proposed = dict(classification["category"])
-            action = "reclassified"
+            exact = event.get("primary_category") == proposed and event.get("categories") == [proposed]
+            action = "preserved" if exact else (
+                "normalized" if canonical == proposed else "reclassified")
         elif _future_publicable_event(event, publication_date):
             proposed = dict(classification["category"])
             action = "blocked"
@@ -175,10 +174,11 @@ def migrate_payload(
                 stage="canonical_category_materializer",
                 action="reclassification",
                 reason=f"canonical_category_{action}",
-                source_event=event,
+                source_event=before_event,
                 canonical_event_id=str(event.get("id") or ""),
                 destination={"state": "published", "canonical_event_id": event.get("id"), "category": proposed},
-                evidence={"classification": classification, "previous_category": current},
+                evidence={"classification": classification, "previous_category": current,
+                          "before_event": before_event, "after_event": copy.deepcopy(event)},
             ))
         semantics = event.get("semantics")
         if isinstance(semantics, dict) and "canonical_category" in semantics:
@@ -235,6 +235,27 @@ def materialize(
     return len(migrated.get("events") or []), changed, report
 
 
+def verify_projection_parity(payload: dict) -> None:
+    """Compare installed consumers locally before any candidate file is written."""
+    script = """
+import {readFileSync} from 'node:fs';
+import {buildEventSemantics} from './app/event-semantics.mjs';
+import {rootEventPublicCategories} from './assets/root-combined-filter-core.mjs';
+const payload = JSON.parse(readFileSync(0, 'utf8'));
+process.stdout.write(JSON.stringify(payload.events.flatMap(event => {
+  const app = buildEventSemantics(event).category;
+  const web = rootEventPublicCategories(event)[0];
+  return app.id === web.id && app.label === web.label ? [] : [{id:event.id, app, web}];
+})));
+"""
+    result = subprocess.run(['node', '--input-type=module', '-e', script], cwd=ROOT,
+        input=json.dumps(payload, ensure_ascii=False), text=True, capture_output=True,
+        timeout=30, check=True)
+    differences = json.loads(result.stdout)
+    if not isinstance(differences, list) or differences:
+        raise ValueError(f"PUBLIC_CATEGORY_PROJECTION_DIVERGENCE:{differences}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Materialize the shared semantic public category into city datasets.")
     parser.add_argument("paths", nargs="*", type=Path)
@@ -243,6 +264,7 @@ def main() -> int:
     parser.add_argument("--contract", choices=[CONTRACT_VERSION])
     parser.add_argument("--ledger", type=Path, default=DEFAULT_LEDGER)
     parser.add_argument("--generated-at")
+    parser.add_argument("--require-projection-parity", action="store_true")
     args = parser.parse_args()
     paths = args.paths or list(DEFAULT_DATASETS)
     ledger = load_ledger(args.ledger)
@@ -251,6 +273,8 @@ def main() -> int:
         path = raw if raw.is_absolute() else ROOT / raw
         payload = json.loads(path.read_text(encoding="utf-8"))
         migrated, report = migrate_payload(payload, ledger=ledger, generated_at=args.generated_at)
+        if args.require_projection_parity:
+            verify_projection_parity(migrated)
         report_path = args.report_dir / f"{path.stem}-{path.parent.name}.json" if args.report_dir else None
         prepared.append((path, payload, migrated, report, report_path))
 
