@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -9,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 TOPOLOGY = ROOT / "tests" / "contract-topology.json"
 HISTORICAL_DATASET_REF = "54c8a58e17b283bc2f1fe7303738bc00fbc75e61"
+HISTORICAL_DATASET_CLOCKS = {'valparaiso': '2026-08-22T12:15:00-04:00'}
 HISTORICAL_DATASET_CONTRACTS = frozenset({
     "app/scripts/test_runtime_browser.py",
     "app/scripts/test_runtime_user_flow_browser.py",
@@ -41,7 +43,9 @@ def run_browser_contract(command: list[str], owner: str) -> None:
             f"BROWSER_HISTORICAL_DATASET_FIXTURE owner={owner} ref={HISTORICAL_DATASET_REF}",
             flush=True,
         )
-        subprocess.run(command, cwd=ROOT, check=True)
+        subprocess.run(command, cwd=ROOT, check=True,
+                       env={**os.environ, 'AGENDA_BROWSER_FIXTURE_CLOCKS':
+                            json.dumps(HISTORICAL_DATASET_CLOCKS)})
     finally:
         dataset_path.write_bytes(candidate_dataset)
 
