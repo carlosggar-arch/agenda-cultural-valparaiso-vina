@@ -49,7 +49,8 @@ def _event_active_until(
         if boundary:
             boundaries.append(boundary)
     end = _parse_instant(schedule.get("end"), zone, end_of_day=True)
-    start = _parse_instant(schedule.get("start"), zone)
+    # Date-only activities remain valid through their local calendar day.
+    start = _parse_instant(schedule.get("start"), zone, end_of_day=True)
     boundaries.extend(boundary for boundary in (end, start) if boundary)
     future = [boundary for boundary in boundaries if boundary >= reference]
     return max(future) if future else None
@@ -80,24 +81,51 @@ process.stdout.write(JSON.stringify(normalizePublicEventTitle(event.title, event
     return title
 
 
+def projected_public_categories(events: list) -> list[str]:
+    script = """
+import { readFileSync } from 'node:fs';
+import { resolvePublicCategory } from './app/public-category-rules.mjs';
+const events = JSON.parse(readFileSync(0, 'utf8'));
+process.stdout.write(JSON.stringify(events.map(event => resolvePublicCategory(event)?.id || '')));
+"""
+    result = subprocess.run(
+        ["node", "--input-type=module", "-e", script], input=json.dumps(events, ensure_ascii=False),
+        text=True, capture_output=True, check=True, cwd=Path(__file__).resolve().parents[2])
+    categories = json.loads(result.stdout)
+    if not isinstance(categories, list) or len(categories) != len(events):
+        raise SystemExit("PRODUCTION_SEMANTIC_CATEGORY_PROJECTION_INVALID")
+    return categories
+
+
 def select_category_semantic_cases(
     dataset: dict[str, object],
     category_labels: dict[str, str],
     *,
     default_timezone: str,
     reference: datetime | None = None,
+    verify_absent: bool = False,
 ) -> list[dict[str, str]]:
     events = dataset.get("events")
     if not isinstance(events, list):
         raise SystemExit("PRODUCTION_VALPO_SEMANTIC_DATASET_INVALID")
     effective = (reference or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    normalized_events = [event for event in events if isinstance(event, dict)]
+    categories = projected_public_categories(normalized_events)
+    categorized = list(zip(normalized_events, categories))
     selected = []
     for category_id in category_labels:
+        category_rows = [event for event, category in categorized if category == category_id]
+        if verify_absent and not category_rows:
+            # Authenticated byte-identical datasets supply a zero inventory, not
+            # permission to waive a positive case with invalid or expired rows.
+            selected.append({"category_id": category_id,
+                             "category_label": category_labels[category_id], "absence": True})
+            continue
         eligible = []
-        for event in events:
+        for event, resolved_category in categorized:
             if not isinstance(event, dict) or event.get("event_type") != "event":
                 continue
-            if str((event.get("primary_category") or {}).get("id") or "") != category_id:
+            if resolved_category != category_id:
                 continue
             event_id = str(event.get("id") or "").strip()
             title = str(event.get("title") or "").strip()
@@ -124,7 +152,23 @@ def select_category_semantic_cases(
                 "active_until": active_until.isoformat(),
             }
         )
+    if verify_absent and not any(not row.get("absence") for row in selected):
+        raise SystemExit("PRODUCTION_SEMANTIC_NO_ACTIVE_CAPABILITIES")
     return selected
+
+
+def assert_absent_category_inventory(cases: list[dict], inventory: list[dict]) -> None:
+    absent = {row["category_id"] for row in cases if row.get("absence")}
+    if not absent:
+        return
+    if not isinstance(inventory, list) or not inventory or any(
+        not isinstance(row, dict) or not str(row.get("category") or "").strip()
+        for row in inventory
+    ):
+        raise SystemExit("PRODUCTION_SEMANTIC_CATEGORY_INVENTORY_INVALID")
+    for row in inventory:
+        if row["category"] in absent:
+            raise SystemExit(f"PRODUCTION_SEMANTIC_ABSENT_CATEGORY_RENDERED category={row['category']}")
 
 
 def select_valpo_semantic_cases(
@@ -135,6 +179,7 @@ def select_valpo_semantic_cases(
         VALPO_CATEGORY_LABELS,
         default_timezone="America/Santiago",
         reference=reference,
+        verify_absent=True,
     )
 
 
