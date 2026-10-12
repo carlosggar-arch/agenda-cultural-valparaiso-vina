@@ -94,10 +94,29 @@ class ProductionBrowserSemanticCapabilityTests(unittest.TestCase):
 
     def test_generic_absence_contract_is_not_category_specific(self) -> None:
         selected = select_category_semantic_cases(
-            dataset(event("other", "other", end="2026-11-22")),
-            {"other": "Other", "seasonal": "Seasonal"}, default_timezone="UTC",
+            dataset(event("other", "musica", end="2026-11-22")),
+            {"musica": "Música", "seasonal": "Seasonal"}, default_timezone="UTC",
             reference=NOW, verify_absent=True)
         self.assertTrue(selected[1]["absence"])
+
+    def test_shared_category_projection_selects_current_literature(self) -> None:
+        book = event("book", "otros", end="2026-11-22", title="Presentación del libro nuevo")
+        selected = select_valpo_semantic_cases(dataset(
+            event("theatre", "teatro", end="2026-11-22"), book), reference=NOW)
+        self.assertEqual(selected[1]["id"], "book")
+        self.assertEqual(selected[1]["category_id"], "literatura")
+
+    def test_date_only_start_valid_until_local_day_end(self) -> None:
+        book = event("book", "literatura", end="", title="Presentación del libro nuevo")
+        book["schedule"].update(start="2026-08-31", end=None, mode="dated")
+        current = datetime(2026, 8, 31, 23, 59, tzinfo=timezone.utc)
+        selected = select_valpo_semantic_cases(dataset(
+            event("theatre", "teatro", end="2026-11-22"), book), reference=current)
+        self.assertEqual(selected[1]["id"], "book")
+        with self.assertRaisesRegex(SystemExit, "CAPABILITY_MISSING category=literatura"):
+            select_valpo_semantic_cases(dataset(
+                event("theatre", "teatro", end="2026-11-22"), book),
+                reference=datetime(2026, 9, 1, 4, 0, tzinfo=timezone.utc))
 
     def test_empty_positive_coverage_fails_closed(self) -> None:
         with self.assertRaisesRegex(SystemExit, "NO_ACTIVE_CAPABILITIES"):
