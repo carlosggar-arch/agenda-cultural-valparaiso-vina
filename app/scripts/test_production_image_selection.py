@@ -3,8 +3,10 @@ from __future__ import annotations
 import json
 import subprocess
 import unittest
+from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+from zoneinfo import ZoneInfo
 
 from test_production_probe_retry import load_smoke_module
 
@@ -72,13 +74,25 @@ class ProductionImageSelectionTests(unittest.TestCase):
             self.assertIsNone(self.module.image_evidence(FixtureDriver(**options), "event", "official.webp"))
 
     def test_web_surface_does_not_filter_out_selected_image_cases(self):
-        payload = json.loads(Path("agenda_web.json").read_text(encoding="utf-8"))
+        today = datetime.now(ZoneInfo('America/Santiago')).date()
+        def event(identity, image_hash, day):
+            return {'id': identity, 'title': 'Official programme ' + identity,
+                    'schedule': {'start': day.isoformat()},
+                    'image': {'url': './assets/event-images/valparaiso/' + image_hash + '.webp',
+                              'relevance': 'event_specific'}}
+        # Exercise current capabilities without depending on expired live IDs.
+        payload = {'timezone': 'America/Santiago', 'events': [
+            event('expired-first', '0' * 24, today - timedelta(days=1)),
+            event('current-a', 'a' * 24, today + timedelta(days=1)),
+            event('current-b', 'b' * 24, today + timedelta(days=2)),
+        ]}
         cases = self.module.resolve_official_image_cases(payload)
         selected = {event_id for event_id, _filename, _title in cases}
-        self.assertEqual(selected, {
-            "agenda_03659e6e66f6d530eb04721c",
-            "agenda_040947b00f9418953022105b",
-        })
+        self.assertEqual(selected, {'current-a', 'current-b'})
+        self.assertEqual({filename for _id, filename, _title in cases},
+                         {'a' * 24 + '.webp', 'b' * 24 + '.webp'})
+        with self.assertRaisesRegex(ValueError, 'insufficient distinct current capabilities'):
+            self.module.resolve_official_image_cases({**payload, 'events': payload['events'][:2]})
 
         surfaces = dict(self.module.official_image_surface_urls(
             "https://example.test/app/",

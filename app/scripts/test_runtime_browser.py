@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import http.server
+import json
 import os
 import shutil
 import socketserver
@@ -336,6 +337,9 @@ def run_city(city: str, base_url: str) -> dict[str, str | int | bool]:
             driver = None
             try:
                 driver = new_driver(profile)
+                clocks = json.loads(os.getenv('AGENDA_BROWSER_FIXTURE_CLOCKS') or '{}')
+                if city in clocks:
+                    freeze_browser_clock(driver, clocks[city])
                 wait = WebDriverWait(driver, 30, poll_frequency=0.1)
                 driver.get(f"{base_url}/app/{TEST_PAGE.name}?city={city}&when=todos")
 

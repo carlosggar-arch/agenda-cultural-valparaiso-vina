@@ -330,7 +330,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "literatura",
-        "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro)\\b",
+        "pattern": "\\b(?:presentacion (?:(?:de|del|de los|de las) )?libros?|lanzamiento (?:(?:de|del|de los|de las) )?libros?)\\b",
         "weight": 260
       },
       {
@@ -395,7 +395,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "literatura",
-        "pattern": "\\b(?:presentacion (?:del? )?libro|lanzamiento (?:del? )?libro|club de lectura|poesia|recital poetico|encuentro literario)\\b",
+        "pattern": "\\b(?:presentacion (?:(?:de|del|de los|de las) )?libros?|lanzamiento (?:(?:de|del|de los|de las) )?libros?|club de lectura|poesia|recital poetico|encuentro literario)\\b",
         "weight": 140
       },
       {
