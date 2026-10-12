@@ -2,11 +2,14 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 import unittest
+from unittest.mock import Mock
 
 from production_semantic_capabilities import (
     assert_semantic_dataset_identity,
     select_gijon_semantic_case,
     select_valpo_semantic_cases,
+    select_category_semantic_cases,
+    assert_absent_category_inventory,
 )
 
 
@@ -36,6 +39,19 @@ def dataset(*events: dict[str, object]) -> dict[str, object]:
 
 
 class ProductionBrowserSemanticCapabilityTests(unittest.TestCase):
+    def test_negative_probe_checks_both_surfaces_and_origins(self) -> None:
+        from production_browser_selenium_smoke import verify_absent_semantic_categories
+        driver = Mock()
+        driver.execute_script.return_value = [{"id": "theatre", "category": "teatro"}]
+        cases = [{"category_id": "literatura", "absence": True}]
+        for origin in ("github-pages", "cloudflare"):
+            for surface in ("app", "web"):
+                verify_absent_semantic_categories(driver, origin, surface, cases)
+                driver.execute_script.return_value = [{"id": "ghost", "category": "literatura"}]
+                with self.assertRaisesRegex(SystemExit, "ABSENT_CATEGORY_RENDERED"):
+                    verify_absent_semantic_categories(driver, origin, surface, cases)
+                driver.execute_script.return_value = [{"id": "theatre", "category": "teatro"}]
+
     def test_present_capabilities_are_selected_from_canonical_fields(self) -> None:
         selected = select_valpo_semantic_cases(
             dataset(
@@ -70,12 +86,43 @@ class ProductionBrowserSemanticCapabilityTests(unittest.TestCase):
         )
         self.assertEqual(selected[0]["id"], "current-replacement")
 
-    def test_absent_capability_fails_closed(self) -> None:
-        with self.assertRaisesRegex(SystemExit, "PRODUCTION_VALPO_SEMANTIC_CAPABILITY_MISSING category=teatro"):
-            select_valpo_semantic_cases(
-                dataset(event("literature-current", "literatura", end="2026-11-22")),
-                reference=NOW,
-            )
+    def test_absent_category_requires_explicit_negative_case(self) -> None:
+        selected = select_valpo_semantic_cases(
+            dataset(event("theatre", "teatro", end="2026-11-22")), reference=NOW)
+        self.assertEqual(selected[1], {
+            "category_id": "literatura", "category_label": "Literatura", "absence": True})
+
+    def test_generic_absence_contract_is_not_category_specific(self) -> None:
+        selected = select_category_semantic_cases(
+            dataset(event("other", "other", end="2026-11-22")),
+            {"other": "Other", "seasonal": "Seasonal"}, default_timezone="UTC",
+            reference=NOW, verify_absent=True)
+        self.assertTrue(selected[1]["absence"])
+
+    def test_empty_positive_coverage_fails_closed(self) -> None:
+        with self.assertRaisesRegex(SystemExit, "NO_ACTIVE_CAPABILITIES"):
+            select_valpo_semantic_cases(dataset(), reference=NOW)
+
+    def test_expired_present_category_cannot_be_claimed_absent(self) -> None:
+        with self.assertRaisesRegex(SystemExit, "CAPABILITY_MISSING category=literatura"):
+            select_valpo_semantic_cases(dataset(
+                event("theatre", "teatro", end="2026-11-22"),
+                event("expired", "literatura", end="2026-08-28")), reference=NOW)
+
+    def test_rendered_absent_category_fails_closed(self) -> None:
+        absent = [{"category_id": "literatura", "absence": True}]
+        assert_absent_category_inventory(absent, [{"id": "theatre", "category": "teatro"}])
+        with self.assertRaisesRegex(SystemExit, "ABSENT_CATEGORY_RENDERED"):
+            assert_absent_category_inventory(absent, [{"id": "ghost", "category": "literatura"}])
+
+    def test_unclassified_inventory_cannot_prove_absence(self) -> None:
+        with self.assertRaisesRegex(SystemExit, "CATEGORY_INVENTORY_INVALID"):
+            assert_absent_category_inventory(
+                [{"category_id": "literatura", "absence": True}], [{"id": "unknown", "category": ""}])
+
+    def test_strict_selector_still_rejects_absence_by_default(self) -> None:
+        with self.assertRaisesRegex(SystemExit, "CAPABILITY_MISSING"):
+            select_gijon_semantic_case(dataset(), reference=NOW)
 
     def test_divergent_datasets_fail_closed(self) -> None:
         with self.assertRaisesRegex(SystemExit, "PRODUCTION_SEMANTIC_DATASET_DIVERGENCE"):

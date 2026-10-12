@@ -86,6 +86,7 @@ def select_category_semantic_cases(
     *,
     default_timezone: str,
     reference: datetime | None = None,
+    verify_absent: bool = False,
 ) -> list[dict[str, str]]:
     events = dataset.get("events")
     if not isinstance(events, list):
@@ -93,6 +94,14 @@ def select_category_semantic_cases(
     effective = (reference or datetime.now(timezone.utc)).astimezone(timezone.utc)
     selected = []
     for category_id in category_labels:
+        category_rows = [event for event in events if isinstance(event, dict)
+                         and str((event.get("primary_category") or {}).get("id") or "") == category_id]
+        if verify_absent and not category_rows:
+            # Authenticated byte-identical datasets supply a zero inventory, not
+            # permission to waive a positive case with invalid or expired rows.
+            selected.append({"category_id": category_id,
+                             "category_label": category_labels[category_id], "absence": True})
+            continue
         eligible = []
         for event in events:
             if not isinstance(event, dict) or event.get("event_type") != "event":
@@ -124,7 +133,23 @@ def select_category_semantic_cases(
                 "active_until": active_until.isoformat(),
             }
         )
+    if verify_absent and not any(not row.get("absence") for row in selected):
+        raise SystemExit("PRODUCTION_SEMANTIC_NO_ACTIVE_CAPABILITIES")
     return selected
+
+
+def assert_absent_category_inventory(cases: list[dict], inventory: list[dict]) -> None:
+    absent = {row["category_id"] for row in cases if row.get("absence")}
+    if not absent:
+        return
+    if not isinstance(inventory, list) or not inventory or any(
+        not isinstance(row, dict) or not str(row.get("category") or "").strip()
+        for row in inventory
+    ):
+        raise SystemExit("PRODUCTION_SEMANTIC_CATEGORY_INVENTORY_INVALID")
+    for row in inventory:
+        if row["category"] in absent:
+            raise SystemExit(f"PRODUCTION_SEMANTIC_ABSENT_CATEGORY_RENDERED category={row['category']}")
 
 
 def select_valpo_semantic_cases(
@@ -135,6 +160,7 @@ def select_valpo_semantic_cases(
         VALPO_CATEGORY_LABELS,
         default_timezone="America/Santiago",
         reference=reference,
+        verify_absent=True,
     )
 
 

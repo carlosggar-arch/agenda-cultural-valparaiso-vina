@@ -24,6 +24,7 @@ from production_pwa_smoke import (
 from production_semantic_capabilities import (
     VALPO_CATEGORY_LABELS,
     assert_semantic_dataset_identity,
+    assert_absent_category_inventory,
     select_gijon_semantic_case,
     select_valpo_semantic_cases,
 )
@@ -431,6 +432,23 @@ def verify_official_images(origin: str, base: str, expected_release: int,
             )
 
 
+def verify_absent_semantic_categories(driver, origin, surface, cases):
+    absent = [case for case in cases if case.get("absence")]
+    if not absent:
+        return
+    inventory = driver.execute_script(r"""
+      return [...document.querySelectorAll('.event-card')].map(card => ({
+        id: card.dataset.eventId || '',
+        category: card.dataset.category
+          || card.querySelector('[data-category]')?.dataset.category
+          || card.closest('[data-category]')?.dataset.category || '',
+      }));
+    """)
+    assert_absent_category_inventory(absent, inventory)
+    print(f"PRODUCTION_SEMANTIC_ABSENCE_VERIFIED origin={origin} surface={surface} "
+          f"categories={','.join(case['category_id'] for case in absent)} cards={len(inventory)}")
+
+
 def verify_valpo_semantics(
     origin: str,
     base: str,
@@ -438,6 +456,8 @@ def verify_valpo_semantics(
     semantic_cases: list[dict[str, str]],
 ) -> None:
     root_base = base[:-4] if base.endswith("app/") else base
+    all_cases = semantic_cases
+    semantic_cases = [case for case in all_cases if not case.get("absence")]
 
     with tempfile.TemporaryDirectory(prefix=f"vivamos-semantic-{origin}-app-") as profile:
         driver = webdriver.Chrome(options=chrome_options(profile, 1280, 1000))
@@ -470,6 +490,9 @@ def verify_valpo_semantics(
             )
             if evidence.get("safeMode") == "active":
                 raise SystemExit(f"Production semantic verification entered safe mode for {origin}/app")
+            verify_absent_semantic_categories(driver, origin, "app", all_cases)
+            if len(evidence.get("actual") or []) != len(semantic_cases):
+                raise SystemExit("PRODUCTION_SEMANTIC_CASE_COVERAGE_INCOMPLETE")
             for expected, actual in zip(semantic_cases, evidence.get("actual") or []):
                 event_id = expected["id"]
                 category_id = expected["category_id"]
@@ -519,6 +542,7 @@ def verify_valpo_semantics(
             )
             if forbidden_hits:
                 raise SystemExit(f"Non-event content visible in {origin}/web: {forbidden_hits}")
+            verify_absent_semantic_categories(driver, origin, "web", all_cases)
 
             for expected in semantic_cases:
                 event_id = expected["id"]
