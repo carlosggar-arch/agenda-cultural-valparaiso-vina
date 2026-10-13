@@ -9,7 +9,12 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fetch_high_value_sources import extract_barjola, extract_laboral, is_delegated_source, merge
-from validate_high_value_refresh import DATASETS, selected_datasets, validate_dataset
+from validate_high_value_refresh import (
+    DATASETS,
+    canonical_digest,
+    selected_datasets,
+    validate_dataset,
+)
 
 
 def source(source_id: str, dataset: str, city: str, timezone: str, currency: str, category_id: str, category_label: str) -> dict:
@@ -107,6 +112,104 @@ def test_multicity_validation_requires_explicit_opt_in() -> None:
     assert selected_datasets("valparaiso", all_cities=True) == list(DATASETS.items())
 
 
+def _high_value_event(
+    event_id: str,
+    source_id: str,
+    title: str,
+    *,
+    day: str,
+) -> dict:
+    return {
+        "id": event_id,
+        "title": title,
+        "event_type": "event",
+        "source_id": source_id,
+        "source_url": f"https://example.test/{event_id}",
+        "schedule": {
+            "mode": "single",
+            "start": f"{day}T20:00:00-03:00",
+            "end": f"{day}T22:00:00-03:00",
+            "timezone": "America/Santiago",
+            "occurrences": [],
+        },
+        "location": {"city": "Valparaíso", "venue": "Sala de prueba"},
+        "editorial": {},
+    }
+
+
+def test_unique_high_value_duplicate_records_replayable_claim_idempotently() -> None:
+    year = future_year("America/Santiago")
+    day = f"{year}-11-20"
+    survivor = _high_value_event(
+        "agenda_survivor",
+        "independent_source",
+        "Full y la música de Fulano en Teatro Mauri",
+        day=day,
+    )
+    duplicate = _high_value_event(
+        "agenda_managed",
+        "portaltickets_valparaiso",
+        "Full y la música de Fulano",
+        day=day,
+    )
+    dataset = {"events": [copy.deepcopy(survivor), copy.deepcopy(duplicate)], "counts": {}}
+
+    first = validate_dataset("valparaiso", dataset)
+    second = validate_dataset("valparaiso", dataset)
+
+    assert first["dropped"]["duplicate"] == 1
+    assert second["dropped"]["duplicate"] == 0
+    assert [event["id"] for event in dataset["events"]] == ["agenda_survivor"]
+    claims = dataset["events"][0]["editorial"]["duplicate_sources"]
+    assert len(claims) == 1
+    assert claims[0]["id"] == "agenda_managed"
+    assert claims[0]["input_event"] == duplicate
+    assert claims[0]["input_sha256"] == canonical_digest(duplicate)
+
+
+def test_ambiguous_high_value_duplicate_is_preserved_fail_closed() -> None:
+    year = future_year("America/Santiago")
+    day = f"{year}-11-21"
+    duplicate = _high_value_event(
+        "agenda_managed",
+        "portaltickets_valparaiso",
+        "Concierto extraordinario",
+        day=day,
+    )
+    dataset = {
+        "events": [
+            _high_value_event(
+                "agenda_survivor_a",
+                "source_a",
+                "Concierto extraordinario en Valparaíso",
+                day=day,
+            ),
+            _high_value_event(
+                "agenda_survivor_b",
+                "source_b",
+                "Concierto extraordinario en sala central",
+                day=day,
+            ),
+            copy.deepcopy(duplicate),
+        ],
+        "counts": {},
+    }
+
+    report = validate_dataset("valparaiso", dataset)
+
+    assert report["dropped"]["duplicate"] == 0
+    assert report["ambiguous_duplicates_preserved"] == 1
+    assert {event["id"] for event in dataset["events"]} == {
+        "agenda_survivor_a",
+        "agenda_survivor_b",
+        "agenda_managed",
+    }
+    assert all(
+        not (event.get("editorial") or {}).get("duplicate_sources")
+        for event in dataset["events"]
+    )
+
+
 def main() -> None:
     test_laboral_requires_source_context_and_explicit_session()
     test_barjola_date_ranges()
@@ -115,6 +218,8 @@ def main() -> None:
     test_public_validator_does_not_manage_core_gijon_events()
     test_valpo_validation_target_does_not_include_gijon()
     test_multicity_validation_requires_explicit_opt_in()
+    test_unique_high_value_duplicate_records_replayable_claim_idempotently()
+    test_ambiguous_high_value_duplicate_is_preserved_fail_closed()
     print("HIGH_VALUE_SOURCE_TESTS_OK")
 
 
