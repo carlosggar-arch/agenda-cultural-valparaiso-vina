@@ -205,7 +205,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "description_evidence": [
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa|visita guiada|visita comentada|visita especial|recorrido tematico)\\b",
+        "pattern": "\\b(?:taller|talleres|curso|cursos|clase|clases|masterclass|formacion|seminario|laboratorio|workshop|capacitacion|actividad educativa|experiencia educativa|visita guiada|visita comentada|visita especial)\\b",
         "weight": 35
       },
       {
@@ -225,7 +225,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautor(?:es)?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|cancion(?:es)?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|flautas?|tunas?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
+        "pattern": "\\b(?:musica|conciertos?|recital(?:es)?|coros?|orquestas?|cantautor(?:es)?|cantautoras?|djs?|tributo|banda tributo|homenaje musical|album(?:es)?|discos?|giras?|tour|bandas?|cancion(?:es)?|cantantes?|vocalistas?|guitarras?|pianos?|violines?|saxofones?|baterias?|tocata|tocatas|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
         "weight": 35
       },
       {
@@ -245,7 +245,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "charlas-conferencias",
-        "pattern": "\\b(?:conversatorios?|conversaci(?:on|ones)|charlas?|charlita|coloquios?|conferencias?|mesas? redondas?|ponencias?|debates?|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
+        "pattern": "\\b(?:conversatorios?|charlas?|charlita|coloquios?|conferencias?|mesas? redondas?|ponencias?|debates?|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
         "weight": 40
       },
       {
@@ -272,6 +272,26 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "category": "literatura",
         "pattern": "\\b(?:cuentacuentos?|narracion oral|narraciones orales|(?:escuchar|contar|narrar) (?:cuentos|historias|relatos))\\b",
         "weight": 120
+      },
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\brecorrido tematico\\b",
+        "weight": 35
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:consort|flautas?)\\b",
+        "weight": 35
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:certamen|encuentro)(?: internacional| nacional| universitario)? de tunas\\b",
+        "weight": 80
+      },
+      {
+        "category": "literatura",
+        "pattern": "\\b(?:escritor(?:es|as|a)?|ensayistas?)\\b",
+        "weight": 35
       }
     ],
     "merged_category_consensus_weight": 180,
@@ -335,7 +355,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "cursos-talleres-campus",
-        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno|visita guiada|visita comentada|visita especial|recorrido tematico)\\b",
+        "pattern": "\\b(?:taller|curso|clase|masterclass|clase magistral|seminario|laboratorio|workshop|capacitacion|formacion|campus|campamento|escuela de verano|escuela de invierno|visita guiada|visita comentada|visita especial)\\b",
         "weight": 165
       },
       {
@@ -360,7 +380,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "musica",
-        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamen(?:c)?os?|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|flautas?|tunas?|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
+        "pattern": "\\b(?:concierto|recital|jazz|coro|coral|orquesta|tocata|festival de musica|blues|flamen(?:c)?os?|reggae|beatbox|punk|hardcore|metal|rap|hip hop|salsa|cumbia|electronica|techno|house|ensemble|gospel|choir|filarmonica|clasica|cuarteto|quartet|duo|trio|oratorio|cantata|sinfonia|sonata|acordeon|organetto|boleros?|vals(?:es)?|vinilos?|gipsy kings?|samba|batucada)\\b",
         "weight": 140
       },
       {
@@ -390,7 +410,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
       },
       {
         "category": "charlas-conferencias",
-        "pattern": "\\b(?:conversatorios?|conversaci(?:on|ones)|charlas?|charlita|coloquios?|mesas? redondas?|conferencias?|ponencias?|debates?|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
+        "pattern": "\\b(?:conversatorios?|charlas?|charlita|coloquios?|mesas? redondas?|conferencias?|ponencias?|debates?|jornadas? culturales|jornadas? cientificas|xornaes culturales)\\b",
         "weight": 145
       },
       {
@@ -422,6 +442,21 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
         "category": "literatura",
         "pattern": "\\b(?:cuentacuentos?|narracion oral|narraciones orales)\\b",
         "weight": 140
+      },
+      {
+        "category": "cursos-talleres-campus",
+        "pattern": "\\brecorrido tematico\\b",
+        "weight": 165
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:consort|flautas?)\\b",
+        "weight": 140
+      },
+      {
+        "category": "musica",
+        "pattern": "\\b(?:certamen|encuentro)(?: internacional| nacional| universitario)? de tunas\\b",
+        "weight": 140
       }
     ]
   },
@@ -436,13 +471,6 @@ export const OFFICIAL_SOURCE_CATEGORY_EVIDENCE = Object.freeze({
       "reason": "official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override",
       "source_id": "bioparc_acuario_gijon",
       "weight": 65
-    },
-    {
-      "category": "exposiciones",
-      "pattern": ".+",
-      "reason": "registered_official_current_exhibition_feed",
-      "source_id": "sala_el_farol_uv",
-      "weight": 180
     },
     {
       "category": "musica",

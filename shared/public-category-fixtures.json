@@ -31,6 +31,86 @@
     {"name":"generic_book_launch_27","event":{"title":"Presentación de libros de poesía","event_type":"event","primary_category":{"id":"otros","label":"Otros panoramas"}},"expected":{"id":"literatura","label":"Literatura"}},
     {"name":"generic_book_launch_28","event":{"title":"Lanzamiento de los libros nuevos","event_type":"event","primary_category":{"id":"otros","label":"Otros panoramas"}},"expected":{"id":"literatura","label":"Literatura"}},
     {"name":"generic_book_launch_29","event":{"title":"Lanzamiento del álbum nuevo","event_type":"event","primary_category":{"id":"otros","label":"Otros panoramas"}},"expected":{"id":"musica","label":"Música"}},
-    {"name":"generic_book_launch_30","event":{"title":"Encuentro en la Biblioteca Municipal","event_type":"event","primary_category":{"id":"otros","label":"Otros panoramas"}},"expected":{"id":"unclassified","label":"Otros panoramas"}}
+    {"name":"generic_book_launch_30","event":{"title":"Encuentro en la Biblioteca Municipal","event_type":"event","primary_category":{"id":"otros","label":"Otros panoramas"}},"expected":{"id":"unclassified","label":"Otros panoramas"}},
+    {
+      "name": "thematic_museum_tour",
+      "event": {
+        "title": "Recorrido temático por el museo: relojes",
+        "event_type": "event",
+        "primary_category": {
+          "id": "otros",
+          "label": "Otros panoramas"
+        },
+        "description": ""
+      },
+      "expected": {
+        "id": "cursos-talleres-campus",
+        "label": "Cursos, talleres y experiencias"
+      }
+    },
+    {
+      "name": "recorder_consort",
+      "event": {
+        "title": "Consort de flautas dulces",
+        "event_type": "event",
+        "primary_category": {
+          "id": "otros",
+          "label": "Otros panoramas"
+        },
+        "description": ""
+      },
+      "expected": {
+        "id": "musica",
+        "label": "Música"
+      }
+    },
+    {
+      "name": "university_tuna_contest",
+      "event": {
+        "title": "Actividad abierta",
+        "event_type": "event",
+        "primary_category": {
+          "id": "otros",
+          "label": "Otros panoramas"
+        },
+        "description": "Se realizará el primer certamen internacional de tunas universitarias."
+      },
+      "expected": {
+        "id": "musica",
+        "label": "Música"
+      }
+    },
+    {
+      "name": "writer_and_essayist_encounter",
+      "event": {
+        "title": "Ideas e incertidumbre",
+        "event_type": "event",
+        "primary_category": {
+          "id": "otros",
+          "label": "Otros panoramas"
+        },
+        "description": "Una escritora y ensayista participa en este encuentro."
+      },
+      "expected": {
+        "id": "literatura",
+        "label": "Literatura"
+      }
+    },
+    {
+      "name": "tunas_as_food_are_not_music",
+      "event": {
+        "title": "Degustación de tunas",
+        "event_type": "event",
+        "primary_category": {
+          "id": "otros",
+          "label": "Otros panoramas"
+        },
+        "description": "Feria gastronómica con productos locales."
+      },
+      "expected": {
+        "id": "ferias-vida-local",
+        "label": "Ferias y vida local"
+      }
+    }
   ]
 }
