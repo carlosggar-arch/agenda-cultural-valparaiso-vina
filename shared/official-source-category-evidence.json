@@ -1,6 +1,7 @@
 {
   "source_title_evidence": [
     {"category":"cursos-talleres-campus","pattern":".+","reason":"official_calendar_dedicated_to_activities_and_workshops; strong event semantics may override","source_id":"bioparc_acuario_gijon","weight":65},
+    {"category":"exposiciones","pattern":".+","reason":"registered_official_current_exhibition_feed","source_id":"sala_el_farol_uv","weight":180},
     {"category":"musica","pattern":"^homenaje dire straits$","reason":"verified_sparse_official_event_music","source_id":"camara_recinto_ferial_gijon","weight":180},
     {"category":"teatro","pattern":"^el gran showman$","reason":"verified_sparse_official_event_stage_musical","source_id":"camara_recinto_ferial_gijon","weight":180},
     {"category":"musica","pattern":"\\bcarolina de la muela\\b","reason":"verified_sparse_music_artist_portaltickets","source_id":"portaltickets_valparaiso","weight":120},
