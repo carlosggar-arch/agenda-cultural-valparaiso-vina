@@ -8,6 +8,7 @@ from pathlib import Path
 
 from scripts.materialize_public_categories import materialize, migrate_payload
 from scripts.materialize_public_categories import verify_projection_parity
+from app.scripts.apply_content_quality_guard import is_generic_title, recover_generic_title
 
 
 def event(category_id: str | None, label: str | None, *, description: str = "", city: str = "Valparaíso") -> dict:
@@ -61,6 +62,79 @@ def test_plural_book_presentations_are_materialized_without_source_exceptions(ti
     migrated, report = migrate_one(row)
     assert migrated["events"][0]["primary_category"]["id"] == "literatura"
     assert report["counts"]["blocked"] == 0
+
+
+@pytest.mark.parametrize(
+    "title,description,expected_category",
+    [
+        (
+            "Recorrido temático por el Museo // Muebles y herramientas de escritura",
+            "Actividad oficial del museo.",
+            "cursos-talleres-campus",
+        ),
+        ("Consort de Flautas Dulces UV", "Actividad oficial del museo.", "musica"),
+        (
+            "el arte de no saber», junto a la periodista Antonella Estévez",
+            "El escritor participa en una conversación sobre la incertidumbre.",
+            "charlas-conferencias",
+        ),
+    ],
+)
+def test_sparse_but_explicit_cultural_titles_are_classified_generically(
+    title: str, description: str, expected_category: str
+) -> None:
+    row = event("otros", "Otros panoramas", description=description)
+    row["title"] = title
+    migrated, report = migrate_one(row)
+    assert migrated["events"][0]["primary_category"]["id"] == expected_category
+    assert report["counts"]["blocked"] == 0
+
+
+def test_registered_current_exhibition_feed_classifies_sparse_artwork_titles() -> None:
+    row = event("otros", "Otros panoramas")
+    row.update(
+        title="“Tierra florecida” de Concepción Balmes",
+        source_id="sala_el_farol_uv",
+    )
+    row["links"]["official"] = "https://salaelfarol.uv.cl/muestra-actual"
+    migrated, report = migrate_one(row)
+    assert migrated["events"][0]["primary_category"]["id"] == "exposiciones"
+    assert report["inventory"][0]["official_evidence"]["signals"] == [
+        {
+            "category": "exposiciones",
+            "weight": 180,
+            "kind": "source_title",
+            "value": "registered_official_current_exhibition_feed",
+        }
+    ]
+
+    unregistered = dict(row, source_id="unrelated_sparse_feed")
+    unchanged, blocked = migrate_one(unregistered)
+    assert unchanged["events"][0]["primary_category"]["id"] == "otros"
+    assert blocked["counts"]["blocked"] == 1
+
+
+def test_url_only_title_is_recovered_only_from_an_explicit_activity_phrase() -> None:
+    row = event(
+        "otros",
+        "Otros panoramas",
+        description=(
+            "Acompáñanos en nuestro aniversario, donde celebraremos realizando el "
+            "primer certamen internacional de Tunas UTFSM Valparaíso."
+        ),
+    )
+    row["title"] = "https://forms.cloud.microsoft/r/i5Nfys6ZZ4"
+    assert is_generic_title(row["title"])
+    recovered, reason = recover_generic_title(row)
+    assert recovered == "certamen internacional de Tunas UTFSM Valparaíso"
+    assert reason == "explicit_activity_phrase_in_description"
+    row["title"] = recovered
+    migrated, report = migrate_one(row)
+    assert migrated["events"][0]["primary_category"]["id"] == "musica"
+    assert report["counts"]["blocked"] == 0
+
+    ambiguous = dict(row, title="https://example.org/form", description="Información general.")
+    assert recover_generic_title(ambiguous) == (None, None)
 
 
 def test_category_receipt_retains_the_before_event_not_the_modified_category():
