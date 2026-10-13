@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "8ea8f7e52749726a5c1b267fb291319b5fcb7fbf363a053e035f7626e27e69fe",
-  "generated_at": "2026-10-12T15:21:58Z",
+  "fingerprint": "cb93f4484ba3cbcc9bd2f10aac1cec94ce9a5c55f918a69cff03c3aa0e60c76b",
+  "generated_at": "2026-10-13T07:49:58Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -336,6 +336,21 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::centro de extension duoc uc valparaiso": {
+      "category_distribution": {
+        "cine": 0.333333,
+        "ferias-vida-local": 0.333333,
+        "teatro": 0.333333
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 0.333333,
+      "source_name": "Centro de Extensión Duoc UC Valparaíso",
+      "source_url": "https://luma.com/extensionduocuc",
+      "total": 3,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::cineartevina cl": {
       "category_distribution": {
         "cine": 1.0
@@ -344,34 +359,62 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-la-sociedad-de-los-poetas-muertos-1989-cine-arte-vina-del-mar-565145",
+      "source_url": "https://cineartevina.cl/#funcion-hangar-rojo-cine-arte-vina-del-mar-565115",
       "total": 6,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::cultura pucv": {
+      "category_distribution": {
+        "cine": 0.5,
+        "exposiciones": 0.5
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "cine",
+      "dominant_share": 0.5,
+      "source_name": "Cultura PUCV",
+      "source_url": "https://www.instagram.com/p/DePqwy5pdmt/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::cultura usm": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.142857,
-        "musica": 0.857143
+        "cursos-talleres-campus": 0.111111,
+        "musica": 0.888889
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.857143,
+      "dominant_share": 0.888889,
       "source_name": "Cultura USM",
       "source_url": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
-      "total": 7,
+      "total": 9,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::deportes vina del mar": {
       "category_distribution": {
-        "musica": 1.0
+        "deportes-actividad-fisica": 0.5,
+        "musica": 0.5
       },
       "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 1.0,
+      "dominant_category": "deportes-actividad-fisica",
+      "dominant_share": 0.5,
       "source_name": "Deportes Viña del Mar",
       "source_url": "https://visitavina.munivina.cl/",
+      "total": 2,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::destino valparaiso": {
+      "category_distribution": {
+        "charlas-conferencias": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "charlas-conferencias",
+      "dominant_share": 1.0,
+      "source_name": "Destino Valparaíso",
+      "source_url": "https://www.instagram.com/p/DeShzvwmiCk/",
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -389,16 +432,16 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "valparaiso::enjoy vina del mar": {
+    "valparaiso::estrella negra club de jazz": {
       "category_distribution": {
         "musica": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
       "dominant_share": 1.0,
-      "source_name": "Enjoy Viña del Mar",
-      "source_url": "https://www.puntoticket.com/evento/PPR034",
-      "total": 1,
+      "source_name": "Estrella Negra Club de Jazz",
+      "source_url": "https://www.instagram.com/p/DeXgK1ZgcrI/",
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -410,37 +453,50 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/hope-2026",
-      "total": 6,
+      "source_url": "https://www.passline.com/eventos/el-monstruo-de-la-laguna-negra-1954",
+      "total": 14,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::la escala galeria": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "La Escala Galería",
+      "source_url": "https://www.instagram.com/p/DeZhX0oRB05/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo baburizza": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.25,
-        "exposiciones": 0.75
+        "cursos-talleres-campus": 0.2,
+        "exposiciones": 0.8
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.75,
+      "dominant_share": 0.8,
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/pacheco-altamirano-redescubrir-a-un-maestro/",
-      "total": 8,
+      "total": 10,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo de historia natural de valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.076923,
-        "exposiciones": 0.846154,
-        "musica": 0.076923
+        "cursos-talleres-campus": 0.066667,
+        "exposiciones": 0.733333,
+        "musica": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.846154,
+      "dominant_share": 0.733333,
       "source_name": "Museo de Historia Natural de Valparaíso",
       "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "total": 13,
+      "total": 15,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -459,12 +515,11 @@
     },
     "valparaiso::museo palacio rioja": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.5,
-        "exposiciones": 0.5
+        "cursos-talleres-campus": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.5,
+      "dominant_share": 1.0,
       "source_name": "Museo Palacio Rioja",
       "source_url": "https://www.instagram.com/p/Dbq3J8wlpKk/",
       "total": 2,
@@ -486,15 +541,54 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "musica": 0.912281,
-        "teatro": 0.087719
+        "musica": 0.916667,
+        "teatro": 0.083333
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.912281,
+      "dominant_share": 0.916667,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/subhiraquintetogiranorteasurenteatromauriscd",
-      "total": 57,
+      "total": 60,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::puerto escena": {
+      "category_distribution": {
+        "teatro": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "teatro",
+      "dominant_share": 1.0,
+      "source_name": "Puerto Escena",
+      "source_url": "https://www.instagram.com/p/DeaLuecGVsj/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::sala el farol universidad de valparaiso": {
+      "category_distribution": {
+        "exposiciones": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
+      "source_name": "Sala El Farol — Universidad de Valparaíso",
+      "source_url": "https://salaelfarol.uv.cl/muestra-actual",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::sala teatro ipa": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Sala Teatro IPA",
+      "source_url": "https://www.instagram.com/p/DeaMgRKGa2w/",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -514,69 +608,71 @@
     },
     "valparaiso::teatro municipal de valparaiso": {
       "category_distribution": {
-        "musica": 0.5,
-        "teatro": 0.5
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 0.5,
-      "source_name": "Teatro Municipal de Valparaíso",
-      "source_url": "https://www.instagram.com/p/DeMRYNVHSHq/",
-      "total": 2,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
-    "valparaiso::teatro municipal de vina del mar": {
-      "category_distribution": {
         "musica": 0.666667,
         "teatro": 0.333333
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
       "dominant_share": 0.666667,
-      "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/eter-rojo-alquimia-en-movimiento/",
+      "source_name": "Teatro Municipal de Valparaíso",
+      "source_url": "https://www.instagram.com/p/DeMRYNVHSHq/",
       "total": 3,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::teatro municipal de vina del mar": {
+      "category_distribution": {
+        "musica": 0.4,
+        "teatro": 0.6
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "teatro",
+      "dominant_share": 0.6,
+      "source_name": "Teatro Municipal de Viña del Mar",
+      "source_url": "https://teatrovina.cl/evento/la-traviata-giuseppe-verdi/",
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::teatromuseo": {
       "category_distribution": {
-        "teatro": 1.0
+        "exposiciones": 0.333333,
+        "teatro": 0.666667
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 1.0,
+      "dominant_share": 0.666667,
       "source_name": "TeatroMuseo",
       "source_url": "https://www.teatromuseo.cl/obra/maromas-de-alto-riesgo-y-peligrosidad_827",
-      "total": 2,
+      "total": 3,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::trotamundos valparaiso": {
       "category_distribution": {
-        "musica": 0.793103,
-        "teatro": 0.206897
+        "musica": 0.8,
+        "teatro": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.793103,
+      "dominant_share": 0.8,
       "source_name": "Trotamundos Valparaíso",
       "source_url": "https://linktr.ee/trotavalparaiso",
-      "total": 29,
+      "total": 30,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::valparaiso profundo": {
       "category_distribution": {
-        "teatro": 1.0
+        "musica": 0.5,
+        "teatro": 0.5
       },
       "city_id": "valparaiso",
-      "dominant_category": "teatro",
-      "dominant_share": 1.0,
+      "dominant_category": "musica",
+      "dominant_share": 0.5,
       "source_name": "Valparaíso Profundo",
       "source_url": "https://www.instagram.com/p/DeO6sLyiIvO/",
-      "total": 1,
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -595,59 +691,61 @@
     },
     "valparaiso::valpo cultura": {
       "category_distribution": {
-        "literatura": 0.333333,
-        "musica": 0.333333,
-        "teatro": 0.333333
+        "musica": 0.4,
+        "teatro": 0.6
       },
       "city_id": "valparaiso",
-      "dominant_category": "literatura",
-      "dominant_share": 0.333333,
+      "dominant_category": "teatro",
+      "dominant_share": 0.6,
       "source_name": "Valpo Cultura",
-      "source_url": "https://www.instagram.com/p/Dd4qoMuvHLA/",
-      "total": 3,
+      "source_url": "https://valpocultura.cl/evento/sala-ipa-chango/",
+      "total": 5,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::visita vina municipalidad de vina del mar": {
       "category_distribution": {
+        "cine": 0.166667,
         "cursos-talleres-campus": 0.5,
-        "exposiciones": 0.5
+        "exposiciones": 0.083333,
+        "musica": 0.25
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
       "dominant_share": 0.5,
       "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "source_url": "https://www.instagram.com/p/Dc3xnG1IKLu/",
-      "total": 2,
+      "total": 12,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::visita vina museo palacio rioja": {
       "category_distribution": {
-        "charlas-conferencias": 0.125,
-        "cine": 0.25,
-        "cursos-talleres-campus": 0.125,
-        "musica": 0.25,
-        "unclassified": 0.25
+        "charlas-conferencias": 0.029412,
+        "cine": 0.147059,
+        "cursos-talleres-campus": 0.117647,
+        "exposiciones": 0.5,
+        "literatura": 0.058824,
+        "musica": 0.147059
       },
       "city_id": "valparaiso",
-      "dominant_category": "cine",
-      "dominant_share": 0.25,
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.5,
       "source_name": "Visita Viña — Museo Palacio Rioja",
       "source_url": "https://visitavina.munivina.cl/actividades/",
-      "total": 8,
-      "unclassified": 2,
-      "unclassified_rate": 0.25
+      "total": 34,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
     }
   },
-  "source_ref": "ad14047abb7105088e90fd48ec4666313140cc0c",
+  "source_ref": "39524eaa2173e9f99063b6e360a8a925905e456e",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 45,
-    "total_events": 449,
-    "unclassified_count": 13,
-    "unclassified_rate": 0.028953
+    "source_count": 52,
+    "total_events": 523,
+    "unclassified_count": 11,
+    "unclassified_rate": 0.021033
   },
   "unclassified_queue": [
     {
@@ -759,26 +857,6 @@
       "source_name": "Teatro Albéniz Gijón",
       "source_url": "https://www.teatroalbenizgijon.com/agenda/lista/",
       "title": "The Reina Club – Ingenieros 9 Octubre"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_visitavina_rioja_dae524b93044838a0b",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Visita Viña — Museo Palacio Rioja",
-      "source_url": "https://visitavina.munivina.cl/actividades/",
-      "title": "Presentación de libros de escritores SECH-V"
-    },
-    {
-      "candidates": [],
-      "city_id": "valparaiso",
-      "event_id": "agenda_0905061133d2f612bfa36a46",
-      "evidence": [],
-      "score": 0,
-      "source_name": "Visita Viña — Museo Palacio Rioja",
-      "source_url": "https://visitavina.munivina.cl/actividades/",
-      "title": "Presentación libros infantil // Denisse Holloway"
     }
   ]
 }
