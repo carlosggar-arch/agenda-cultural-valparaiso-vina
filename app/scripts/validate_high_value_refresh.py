@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import hashlib
 import json
 import re
 import unicodedata
@@ -79,12 +81,13 @@ def suspicious_geography(item: dict) -> bool:
     return any(marker in haystack for marker in OUT_OF_SCOPE_MARKERS)
 
 
-def near_duplicate(candidate: dict, existing: list[dict]) -> bool:
+def near_duplicate_matches(candidate: dict, existing: list[dict]) -> list[dict]:
     day = event_day(candidate)
     candidate_city = city(candidate)
     candidate_title = title(candidate)
     if not day or not candidate_title:
-        return True
+        return []
+    matches: list[dict] = []
     for other in existing:
         if event_day(other) != day or city(other) != candidate_city:
             continue
@@ -92,13 +95,59 @@ def near_duplicate(candidate: dict, existing: list[dict]) -> bool:
         if not other_title:
             continue
         if candidate_title == other_title:
-            return True
-        if candidate_title in other_title or other_title in candidate_title:
-            if min(len(candidate_title), len(other_title)) >= 12:
-                return True
+            matches.append(other)
+            continue
+        if (
+            (candidate_title in other_title or other_title in candidate_title)
+            and min(len(candidate_title), len(other_title)) >= 12
+        ):
+            matches.append(other)
+            continue
         if SequenceMatcher(None, candidate_title, other_title).ratio() >= SIMILARITY_THRESHOLD:
-            return True
-    return False
+            matches.append(other)
+    return matches
+
+
+def near_duplicate(candidate: dict, existing: list[dict]) -> bool:
+    return bool(near_duplicate_matches(candidate, existing))
+
+
+def canonical_digest(value: dict) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def attach_duplicate_claim(survivor: dict, duplicate: dict) -> None:
+    original = copy.deepcopy(duplicate)
+    claim = {
+        "id": original.get("id"),
+        "source_url": original.get("source_url"),
+        "input_event": original,
+        "input_sha256": canonical_digest(original),
+        "identity_rule": "same normalized date, city and high-value title identity",
+    }
+    editorial = survivor.setdefault("editorial", {})
+    sources = editorial.setdefault("duplicate_sources", [])
+    if not any(
+        isinstance(row, dict)
+        and row.get("id") == claim["id"]
+        and row.get("input_sha256") == claim["input_sha256"]
+        for row in sources
+    ):
+        sources.append(claim)
+        sources.sort(
+            key=lambda row: (
+                str(row.get("id") or "") if isinstance(row, dict) else "",
+                str(row.get("input_sha256") or "") if isinstance(row, dict) else "",
+            )
+        )
+    editorial["duplicates_consolidated"] = len(sources)
 
 
 def validate_dataset(name: str, dataset: dict) -> dict:
@@ -109,6 +158,7 @@ def validate_dataset(name: str, dataset: dict) -> dict:
     managed = [item for item in dataset.get("events", []) if source_id(item) in managed_ids]
     kept: list[dict] = []
     dropped = {"expired": 0, "geography": 0, "duplicate": 0, "invalid": 0}
+    ambiguous_duplicates_preserved = 0
 
     for item in managed:
         if not title(item) or not event_day(item):
@@ -123,9 +173,13 @@ def validate_dataset(name: str, dataset: dict) -> dict:
         if name == "gijon" and city(item) != "gijon":
             dropped["geography"] += 1
             continue
-        if near_duplicate(item, base + kept):
+        duplicate_matches = near_duplicate_matches(item, base + kept)
+        if len(duplicate_matches) == 1:
+            attach_duplicate_claim(duplicate_matches[0], item)
             dropped["duplicate"] += 1
             continue
+        if len(duplicate_matches) > 1:
+            ambiguous_duplicates_preserved += 1
         kept.append(item)
 
     dataset["events"] = sorted(base + kept, key=lambda item: (event_day(item), str(item.get("title") or "")))
@@ -133,7 +187,13 @@ def validate_dataset(name: str, dataset: dict) -> dict:
     if len(ids) != len(set(ids)):
         raise ValueError(f"{name}: duplicate event ids after supplemental validation")
     refresh_counts(dataset)
-    return {"dataset": name, "managed_before": len(managed), "managed_kept": len(kept), "dropped": dropped}
+    return {
+        "dataset": name,
+        "managed_before": len(managed),
+        "managed_kept": len(kept),
+        "dropped": dropped,
+        "ambiguous_duplicates_preserved": ambiguous_duplicates_preserved,
+    }
 
 
 def selected_datasets(city_name: str = "valparaiso", *, all_cities: bool = False) -> list[tuple[str, Path]]:
