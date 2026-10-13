@@ -44,6 +44,7 @@ TemporalIdentity = tuple[str, TemporalPair, frozenset[TemporalPair]]
 
 SOCIAL_HOSTS = {"instagram.com", "www.instagram.com", "facebook.com", "www.facebook.com", "tiktok.com", "www.tiktok.com"}
 GENERIC_TITLE_PATTERNS = (
+    re.compile(r"^https?://\S+$", re.I),
     re.compile(r"^(?:les|los|te) esperamos(?:\b|$)", re.I),
     re.compile(r"^(?:les|los|te) invitamos(?:\b|$)", re.I),
     re.compile(r"^estamos de celebraci[oó]n(?:\b|$)", re.I),
@@ -137,7 +138,7 @@ ADMIN_APPLICATION_SUPPORT = re.compile(
     r"\bapoyo\s+(?:municipal|institucional)\s+(?:para|a)\s+(?:(?:tu|su|la)\s+)?postulacion\b"
 )
 
-ACTIVITY_NOUN = r"(?:muestra|exposici[oó]n|exhibici[oó]n|concierto|recital|obra|taller|charla|conversatorio|festival|funci[oó]n|encuentro|seminario|curso)"
+ACTIVITY_NOUN = r"(?:muestra|exposici[oó]n|exhibici[oó]n|concierto|recital|obra|taller|charla|conversatorio|festival|certamen|funci[oó]n|encuentro|seminario|curso)"
 RECOVERY_PATTERNS = (
     re.compile(
         rf"(?:ceremonia\s+de\s+)?(?:inauguraci[oó]n|apertura|presentaci[oó]n)\s+de\s+(?:la|el)?\s*({ACTIVITY_NOUN}[^,.;\n]{{3,130}})",
@@ -145,6 +146,10 @@ RECOVERY_PATTERNS = (
     ),
     re.compile(rf"(?:en|para)\s+un(?:a)?\s+({ACTIVITY_NOUN}[^,.;\n]{{3,130}})", re.I),
     re.compile(rf"\b({ACTIVITY_NOUN}\s+(?:titulad[ao]\s+|llamad[ao]\s+)?[“\"«][^”\"»]{{3,120}}[”\"»])", re.I),
+    re.compile(
+        r"\b(?:primer\s+)?(certamen\s+(?:internacional\s+)?de\s+[^,.;\n]{3,100})",
+        re.I,
+    ),
 )
 
 CANONICAL_PREFIX = re.compile(
