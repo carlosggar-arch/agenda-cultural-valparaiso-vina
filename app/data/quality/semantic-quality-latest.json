@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "b8375eadb4a077328b5cd4676599e5992ff39e2d84c1ecc5242632e54ac31771",
-  "generated_at": "2026-10-13T19:59:35Z",
+  "fingerprint": "7f38bf8ff7f08568430361eaee54b745fa10f95f291c3a30c3c5449c393ae851",
+  "generated_at": "2026-10-14T22:31:34Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -359,22 +359,21 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "cineartevina.cl",
-      "source_url": "https://cineartevina.cl/#funcion-hangar-rojo-cine-arte-vina-del-mar-565115",
-      "total": 13,
+      "source_url": "https://cineartevina.cl/#funcion-el-deshielo-cine-arte-vina-del-mar-565141",
+      "total": 11,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::cultura pucv": {
       "category_distribution": {
-        "cine": 0.5,
-        "exposiciones": 0.5
+        "exposiciones": 1.0
       },
       "city_id": "valparaiso",
-      "dominant_category": "cine",
-      "dominant_share": 0.5,
+      "dominant_category": "exposiciones",
+      "dominant_share": 1.0,
       "source_name": "Cultura PUCV",
       "source_url": "https://www.instagram.com/p/DePqwy5pdmt/",
-      "total": 2,
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -395,13 +394,13 @@
     "valparaiso::deportes vina del mar": {
       "category_distribution": {
         "deportes-actividad-fisica": 0.5,
-        "exposiciones": 0.5
+        "musica": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "deportes-actividad-fisica",
       "dominant_share": 0.5,
       "source_name": "Deportes Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-historias-minimas/?occurrence=2026-10-13",
+      "source_url": "https://visitavina.munivina.cl/",
       "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -453,8 +452,8 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/el-monstruo-de-la-laguna-negra-1954",
-      "total": 14,
+      "source_url": "https://www.passline.com/eventos/la-profecia-563675",
+      "total": 12,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -473,30 +472,30 @@
     },
     "valparaiso::museo baburizza": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.222222,
-        "exposiciones": 0.777778
+        "cursos-talleres-campus": 0.125,
+        "exposiciones": 0.875
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.777778,
+      "dominant_share": 0.875,
       "source_name": "Museo Baburizza",
       "source_url": "https://www.museobaburizza.cl/actividad/pacheco-altamirano-redescubrir-a-un-maestro/",
-      "total": 9,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::museo de historia natural de valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.071429,
-        "exposiciones": 0.714286,
-        "musica": 0.214286
+        "cursos-talleres-campus": 0.133333,
+        "exposiciones": 0.666667,
+        "musica": 0.2
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.714286,
+      "dominant_share": 0.666667,
       "source_name": "Museo de Historia Natural de Valparaíso",
       "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "total": 14,
+      "total": 15,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -541,15 +540,15 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "musica": 0.918033,
-        "teatro": 0.081967
+        "musica": 0.920635,
+        "teatro": 0.079365
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.918033,
+      "dominant_share": 0.920635,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/subhiraquintetogiranorteasurenteatromauriscd",
-      "total": 61,
+      "total": 63,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -608,29 +607,29 @@
     },
     "valparaiso::teatro municipal de valparaiso": {
       "category_distribution": {
-        "musica": 0.5,
-        "teatro": 0.5
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "musica",
-      "dominant_share": 0.5,
-      "source_name": "Teatro Municipal de Valparaíso",
-      "source_url": "https://www.instagram.com/p/DeMRYNVHSHq/",
-      "total": 2,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
-    "valparaiso::teatro municipal de vina del mar": {
-      "category_distribution": {
         "musica": 0.666667,
         "teatro": 0.333333
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
       "dominant_share": 0.666667,
-      "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/eter-rojo-alquimia-en-movimiento/",
+      "source_name": "Teatro Municipal de Valparaíso",
+      "source_url": "https://www.instagram.com/p/DeMRYNVHSHq/",
       "total": 3,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::teatro municipal de vina del mar": {
+      "category_distribution": {
+        "musica": 0.5,
+        "teatro": 0.5
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 0.5,
+      "source_name": "Teatro Municipal de Viña del Mar",
+      "source_url": "https://teatrovina.cl/evento/ensayo-la-traviata-giuseppe-verdi/",
+      "total": 4,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -691,28 +690,28 @@
     },
     "valparaiso::valpo cultura": {
       "category_distribution": {
-        "musica": 0.4,
-        "teatro": 0.6
+        "musica": 0.333333,
+        "teatro": 0.666667
       },
       "city_id": "valparaiso",
       "dominant_category": "teatro",
-      "dominant_share": 0.6,
+      "dominant_share": 0.666667,
       "source_name": "Valpo Cultura",
-      "source_url": "https://valpocultura.cl/evento/universidad-de-valparaiso/",
-      "total": 5,
+      "source_url": "https://valpocultura.cl/evento/teatro-municipal-95-anos-de-historia-30-anos-de-vocacion-publica/",
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::visita vina municipalidad de vina del mar": {
       "category_distribution": {
-        "cine": 0.105263,
+        "cine": 0.052632,
         "cursos-talleres-campus": 0.368421,
-        "exposiciones": 0.368421,
+        "exposiciones": 0.421053,
         "musica": 0.157895
       },
       "city_id": "valparaiso",
-      "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.368421,
+      "dominant_category": "exposiciones",
+      "dominant_share": 0.421053,
       "source_name": "Visita Viña — Municipalidad de Viña del Mar",
       "source_url": "https://www.instagram.com/p/Dc3xnG1IKLu/",
       "total": 19,
@@ -721,31 +720,31 @@
     },
     "valparaiso::visita vina museo palacio rioja": {
       "category_distribution": {
-        "charlas-conferencias": 0.029412,
-        "cine": 0.147059,
-        "cursos-talleres-campus": 0.117647,
-        "exposiciones": 0.470588,
-        "literatura": 0.058824,
-        "musica": 0.176471
+        "charlas-conferencias": 0.03125,
+        "cine": 0.15625,
+        "cursos-talleres-campus": 0.125,
+        "exposiciones": 0.4375,
+        "literatura": 0.0625,
+        "musica": 0.1875
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.470588,
+      "dominant_share": 0.4375,
       "source_name": "Visita Viña — Museo Palacio Rioja",
       "source_url": "https://visitavina.munivina.cl/actividades/",
-      "total": 34,
+      "total": 32,
       "unclassified": 0,
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "1c6008b8b13df6ddc2cac7be8b0f2abdbdbe4e88",
+  "source_ref": "1988ad9556f6b3687aa028274a264490463f2a47",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
     "source_count": 52,
-    "total_events": 535,
+    "total_events": 533,
     "unclassified_count": 11,
-    "unclassified_rate": 0.020561
+    "unclassified_rate": 0.020638
   },
   "unclassified_queue": [
     {
