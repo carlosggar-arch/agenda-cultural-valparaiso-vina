@@ -2,6 +2,7 @@ import { FAVORITES_CHANGED_EVENT, FAVORITES_STORAGE_KEY, favoritesForCity } from
 import { buildFavoriteToggle, installFavoritesStyles, syncFavoriteButtons } from "../assets/favorites-view.mjs?v=20260913-pending-time1";
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-shared-runtime1";
+import { buildEventReferenceIndex } from "./event-reference-index.mjs";
 
 const CITY_REGISTRY = await loadCityRegistry();
 const CONFIG = CITY_REGISTRY.byId;
@@ -71,11 +72,7 @@ function syncRuntimeDataset() {
   if (!snapshot || !Array.isArray(snapshot.events)) return false;
   if (loadedCity === city && loadedRevision === snapshot.revision) return true;
 
-  eventMap = new Map(
-    snapshot.events
-      .map((event) => [String(event?.id || "").trim(), event])
-      .filter(([id]) => id),
-  );
+  eventMap = buildEventReferenceIndex(snapshot.events);
   loadedCity = city;
   loadedRevision = Number(snapshot.revision || 0);
   return true;

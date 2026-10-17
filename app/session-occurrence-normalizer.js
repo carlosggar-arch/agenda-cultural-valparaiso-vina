@@ -311,10 +311,111 @@ function recalculateCounts(events, originalCounts = {}) {
   return counts;
 }
 
+function exhibitionVisitIdentity(event) {
+  const schedule = event?.schedule || {};
+  const category = event?.primary_category?.id;
+  if (event?.event_type !== "event" || !["exposiciones", "museos"].includes(category)) return null;
+  if (event?.public_status?.source_official !== true || schedule.occurrences?.length) return null;
+  if (!["single", "dated"].includes(schedule.mode)) return null;
+  // Guided visits, openings and workshops remain independent appointments,
+  // including when their source assigned an exhibition category.
+  const activityTitles = [event.title, event.original_title].filter(Boolean).join(" ");
+  if (/\b(?:visita(?:s)? guiada(?:s)?|inauguracion|taller|charla|conversatorio|funcion)\b/.test(fold(activityTitles))) return null;
+
+  const title = String(event.title || "").normalize("NFC").replace(/\s+/g, " ").trim();
+  const source = String(event.source_id || "").trim();
+  const city = fold(event.location?.city);
+  const venue = locationKey(event);
+  const timezone = String(schedule.timezone || "").trim();
+  const day = datePart(schedule.start);
+  const opening = timePart(schedule.start);
+  const closing = timePart(schedule.end);
+  if (!(event.id && title && source && city && venue && timezone && day && opening && closing)) return null;
+  if (datePart(schedule.end) !== day || minutes(opening) >= minutes(closing)) return null;
+  if (schedule.opening_time !== opening || schedule.closing_time !== closing) return null;
+  if (!(Number.isFinite(Date.parse(schedule.start)) && Number.isFinite(Date.parse(schedule.end)))) return null;
+  try {
+    const formatter = new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+    for (const [value, clock] of [[schedule.start, opening], [schedule.end, closing]]) {
+      const parts = formatter.formatToParts(new Date(value));
+      const valueFor = (type) => parts.find((part) => part.type === type)?.value;
+      if (`${valueFor("year")}-${valueFor("month")}-${valueFor("day")}` !== day) return null;
+      if (`${valueFor("hour")}:${valueFor("minute")}` !== clock) return null;
+    }
+  } catch { return null; }
+
+  let official;
+  try {
+    official = new URL(event.links?.official);
+    if (!["https:", "http:"].includes(official.protocol)) return null;
+    if (official.searchParams.getAll("occurrence").length !== 1 || official.searchParams.get("occurrence") !== day) return null;
+    // An occurrence on a catalogue/homepage is not proof of one exhibition.
+    if (!/\/(?:actividad|actividades|evento|eventos|event|events|exhibition|exposicion|exposiciones)\/[^/]+/i.test(official.pathname)) return null;
+    official.searchParams.delete("occurrence");
+  } catch { return null; }
+
+  const status = event.public_status || {};
+  const state = ["cancelled", "sold_out", "registration_open", "registration_closed", "price_confirmed"]
+    .map((key) => status[key] ?? null);
+  return {
+    day,
+    key: JSON.stringify([title, source, city, venue, timezone, category, official.href,
+      opening, closing, priceKey(event), event.links?.tickets || "", event.links?.registration || "", state]),
+  };
+}
+
+export function mergeRepeatedExhibitionVisits(events) {
+  if (!Array.isArray(events) || events.length < 2) return events;
+  const groups = new Map();
+  events.forEach((event, index) => {
+    const identity = exhibitionVisitIdentity(event);
+    if (!identity) return;
+    const group = groups.get(identity.key) || [];
+    group.push({ event, index, day: identity.day });
+    groups.set(identity.key, group);
+  });
+  const replacements = new Map();
+  const removed = new Set();
+  for (const group of groups.values()) {
+    if (group.length < 2 || new Set(group.map((item) => item.day)).size !== group.length) continue;
+    const ordered = [...group].sort((a, b) => a.day.localeCompare(b.day) || String(a.event.id).localeCompare(String(b.event.id)));
+    const base = ordered[0].event;
+    const occurrences = ordered.map(({ event }) => ({ start: event.schedule.start, end: event.schedule.end }));
+    const firstIndex = Math.min(...group.map((item) => item.index));
+    replacements.set(firstIndex, {
+      ...base,
+      schedule: {
+        ...base.schedule,
+        mode: "multi_day",
+        occurrence_kind: "exhibition_visit",
+        start: occurrences[0].start,
+        end: occurrences.at(-1).end,
+        display_text: null,
+        occurrences,
+      },
+      editorial: {
+        ...(base.editorial || {}),
+        exhibition_visits: {
+          kind: "same_official_exhibition_dates",
+          source_event_ids: ordered.map(({ event }) => event.id),
+          sources: ordered.map(({ event }) => ({
+            event_id: event.id,
+            url: event.links.official,
+            schedule: { ...event.schedule },
+          })),
+        },
+      },
+    });
+    for (const { index } of group) if (index !== firstIndex) removed.add(index);
+  }
+  if (!replacements.size) return events;
+  return events.flatMap((event, index) => removed.has(index) ? [] : [replacements.get(index) || event]);
+}
+
 export function normalizeSessionOccurrences(dataset) {
   if (!dataset || !Array.isArray(dataset.events)) return dataset;
   const recovered = dataset.events.map(correctKnownExhibitions).map(recoverPajareandoOccurrences);
-  const merged = mergeRepeatedCinemaSessions(recovered);
+  const merged = mergeRepeatedExhibitionVisits(mergeRepeatedCinemaSessions(recovered));
   const changed = merged.length !== dataset.events.length || merged.some((event, index) => event !== dataset.events[index]);
   if (!changed) return dataset;
   return { ...dataset, events: merged, counts: recalculateCounts(merged, dataset.counts) };

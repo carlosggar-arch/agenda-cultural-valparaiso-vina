@@ -18,6 +18,9 @@ export const CATEGORY_IMAGE_PATHS = Object.freeze({
 const GENERIC_PROVIDER_HOSTS = /(^|\.)(passline\.com|eventrid\.cl|ticketplus\.(cl|com)|ticketmaster\.cl|puntoticket\.com|ticketpro\.(cl|com|net)|tickets\.cl|ticketera\.cl|ticketfacil\.cl|portaltickets\.cl|goignis\.cl)$/i;
 const GENERIC_PROVIDER_PATH = /(?:^|\/)(?:assets?\/(?:img|images?)\/)?(?:icon|logo|favicon|placeholder|default|no[-_]?image|sin[-_]?imagen)(?:[-_.\/]|$)/i;
 const GENERIC_AVATAR_HOSTS = /(^|\.)gravatar\.com$/i;
+// Site flags and favicons are page decoration even when scraped as event art.
+// Restrict this source-independent rule to utility vector/icon filenames.
+const GENERIC_SITE_DECORATION_PATH = /(?:^|\/)(?:(?:flag|bandera)(?:[-_][a-z]+)?|favicon(?:[-_]\d+x\d+)?|(?:site|app)[-_]icon)\.(?:svg|ico)$|\/(?:flags|banderas)\/[a-z]{2}(?:[-_][a-z]{2})?\.svg$/i;
 
 function foldWords(value) {
   return String(value || "")
@@ -105,7 +108,8 @@ export function looksLikeGenericSchedule(event) {
 export function relevantEventImageUrl(event, { baseUrl = null } = {}) {
   if (looksLikeGenericSchedule(event)) return null;
   if (event?.image?.visual_quality === "text_heavy") return null;
-  return safeHttpImageUrl(event?.image?.url, { baseUrl });
+  const direct = safeHttpImageUrl(event?.image?.url, { baseUrl });
+  return direct && !isGenericProviderImage(direct, { baseUrl }) ? direct : null;
 }
 
 export function venueImageKey(event) {
@@ -196,8 +200,10 @@ export function isGenericProviderImage(value, { baseUrl = null } = {}) {
     const url = baseUrl ? new URL(String(value), baseUrl) : new URL(String(value));
     const host = url.hostname.replace(/^www\./i, "");
     if (GENERIC_AVATAR_HOSTS.test(host)) return true;
+    const path = decodeURIComponent(url.pathname).toLocaleLowerCase("es");
+    if (GENERIC_SITE_DECORATION_PATH.test(path)) return true;
     if (!GENERIC_PROVIDER_HOSTS.test(host)) return false;
-    return GENERIC_PROVIDER_PATH.test(decodeURIComponent(url.pathname).toLocaleLowerCase("es"));
+    return GENERIC_PROVIDER_PATH.test(path);
   } catch {
     return false;
   }
@@ -217,7 +223,7 @@ export function resolveEventImage(event, {
 
   if (surface === "group") {
     const direct = safeHttpImageUrl(event?.image?.url, { baseUrl });
-    return direct
+    return direct && !isGenericProviderImage(direct, { baseUrl })
       ? { url: direct, kind: "relevant", genericSchedule: false }
       : { url: null, kind: "none", genericSchedule: false };
   }

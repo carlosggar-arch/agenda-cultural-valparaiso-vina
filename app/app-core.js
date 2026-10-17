@@ -4,7 +4,7 @@ import { renderProgramReferences } from "./program-visibility-policy.js?v=202608
 import { groupStandaloneExhibitions } from "./exhibition-group-core.mjs?v=20260822-exhibition-quality1";
 import { compareAgendaOrder } from "./agenda-order-core.mjs?v=20260822-order1";
 import { canonicalPublicCategory } from "./public-category-rules.mjs?v=20260821-shared-taxonomy1";
-import { formatSchedule as formatSharedSchedule } from "../assets/event-schedule-display.mjs";
+import { formatSchedule as formatSharedSchedule, isExhibitionVisitSchedule } from "../assets/event-schedule-display.mjs";
 import { eventMatchesCanonicalSection } from "./public-selection-core.mjs?v=20260823-selection1";
 import { localDayKey, millisecondsUntilNextLocalDay } from "./local-day-boundary.mjs?v=20260823-day1";
 
@@ -264,7 +264,7 @@ function formatSchedule(event, city) {
 
   const startDate = dateKeyForValue(start, city);
   const endDate = end ? dateKeyForValue(end, city) : null;
-  if (eventCategoryId(event) === EXHIBITION_CATEGORY_ID && startDate && endDate && startDate !== endDate) {
+  if (!isExhibitionVisitSchedule(event.schedule) && eventCategoryId(event) === EXHIBITION_CATEGORY_ID && startDate && endDate && startDate !== endDate) {
     const today = currentTimeContext().today;
     if (startDate <= today && endDate >= today) return `En exhibición hasta el ${formatDateOnly(end, city)}`;
     return `${formatDateOnly(start, city)} – ${formatDateOnly(end, city)}`;

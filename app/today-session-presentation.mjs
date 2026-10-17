@@ -1,4 +1,4 @@
-import { isPendingEventTime } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
+import { isExhibitionVisitSchedule, isPendingEventTime } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
 
 const DEFAULTS = Object.freeze({ locale: "es-CL", timezone: "America/Santiago" });
 export const MISSING_EVENT_TIME_LABEL = "Consultar horario en la fuente";
@@ -208,6 +208,7 @@ export function withMissingEventTimeFallback(formattedSchedule, schedule) {
  */
 export function sessionScheduleLabelForDate(event, options = {}) {
   if (!event || typeof event !== "object") return null;
+  if (isExhibitionVisitSchedule(event.schedule)) return null;
   if (isPendingEventTime(event.schedule)) return null;
   const settings = { ...DEFAULTS, now: new Date(), ...options };
   const referenceDate = dateKey(settings.referenceDate || settings.now, settings.timezone);

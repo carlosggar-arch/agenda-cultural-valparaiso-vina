@@ -1,4 +1,6 @@
 import { compactScheduleDayLabel, formatSchedule } from "./event-schedule-display.mjs?v=20260913-pending-time1";
+import { buildEventReferenceIndex } from "../app/event-reference-index.mjs";
+import { isGenericProviderImage } from "../app/image-resolver-core.mjs";
 import { googleMapsDirectionsUrl } from "../app/public-presentation-rules.mjs?v=20260822-mapnav1";
 import { rootEventPublicCategories } from "./root-combined-filter-core.mjs?v=20260820-category-parity2";
 import { isRootNonEventDescription, normalizeRootPublicEventTitle } from "./root-public-presentation-rules.mjs?v=20260820-webparity2";
@@ -323,7 +325,8 @@ function looksLikeGenericSchedule(event) {
 
 function relevantImageUrl(event) {
   if (looksLikeGenericSchedule(event)) return null;
-  return validHttpUrl(event?.image?.url);
+  const imageUrl = validHttpUrl(event?.image?.url);
+  return imageUrl && !isGenericProviderImage(imageUrl) ? imageUrl : null;
 }
 
 function fallbackArtwork(event, { genericSchedule = false } = {}) {
@@ -525,10 +528,9 @@ async function start() {
   const rejectedIds = new Set(
     sourceEvents.filter(isEditorialSocialFalsePositive).map((event) => String(event.id)),
   );
-  const events = new Map(
+  const events = buildEventReferenceIndex(
     publicEvents
-      .filter((event) => !rejectedIds.has(String(event.id)))
-      .map((event) => [String(event.id), event]),
+      .filter((event) => !rejectedIds.has(String(event.id))),
   );
 
   const apply = () => {

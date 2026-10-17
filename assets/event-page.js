@@ -18,6 +18,13 @@
   if (heroImage) {
     heroImage.addEventListener("error", removeBrokenHero, { once: true });
     if (heroImage.complete && heroImage.naturalWidth === 0) removeBrokenHero();
+    if (scriptUrl) {
+      import(new URL("../app/image-resolver-core.mjs", scriptUrl).href)
+        .then(({ isGenericProviderImage }) => {
+          if (isGenericProviderImage(heroImage.currentSrc || heroImage.src)) removeBrokenHero();
+        })
+        .catch((error) => console.warn("Agenda Cultural: no se pudo comprobar la imagen de esta ficha", error));
+    }
   }
 
   function safeHttpUrl(value) {
