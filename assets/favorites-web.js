@@ -8,6 +8,7 @@ import {
   installFavoritesStyles,
   syncFavoriteButtons,
 } from "./favorites-view.mjs?v=20260913-pending-time1";
+import { buildEventReferenceIndex } from "../app/event-reference-index.mjs";
 
 const CITY = "valparaiso";
 const DATASET_URL = "./agenda_web.json";
@@ -111,7 +112,7 @@ async function start() {
     const response = await fetch(DATASET_URL, { headers: { Accept: "application/json" }, cache: "no-store" });
     if (!response.ok) return;
     const payload = await response.json();
-    eventMap = new Map((payload?.events || []).map((event) => [String(event.id), event]));
+    eventMap = buildEventReferenceIndex(payload?.events);
   } catch { return; }
   new MutationObserver(queueEnhance).observe(document.body, { childList: true, subtree: true });
   window.addEventListener(FAVORITES_CHANGED_EVENT, refreshFavorites);

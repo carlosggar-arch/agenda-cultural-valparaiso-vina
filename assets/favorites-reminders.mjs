@@ -1,4 +1,4 @@
-import { isPendingEventTime } from "./event-schedule-display.mjs?v=20260913-pending-time1";
+import { isExhibitionVisitSchedule, isPendingEventTime } from "./event-schedule-display.mjs?v=20260913-pending-time1";
 
 const REMINDER_OPTIONS = Object.freeze({
   "2h": Object.freeze({ id: "2h", label: "2 horas antes", trigger: "-PT2H", milliseconds: 2 * 60 * 60 * 1000 }),
@@ -9,7 +9,11 @@ function text(value) {
   return String(value ?? "").trim();
 }
 
-function scheduleValue(event, field) {
+function scheduleValue(event, field, now) {
+  if (isExhibitionVisitSchedule(event?.schedule)) {
+    const nextVisit = event.schedule.occurrences.find((visit) => new Date(visit?.start) > now);
+    return nextVisit?.[field] || null;
+  }
   return event?.schedule?.[field] || event?.schedule?.occurrences?.[0]?.[field] || null;
 }
 
@@ -53,6 +57,25 @@ function safeHttpUrl(value) {
   return /^https?:\/\//i.test(candidate) ? candidate : null;
 }
 
+function reminderPageUrl(pageUrl, city, event, visit) {
+  if (!visit) return safeHttpUrl(pageUrl);
+  try {
+    const url = new URL(pageUrl);
+    if (["http:", "https:"].includes(url.protocol)) {
+      if (url.searchParams.get("evento") === String(event.id)) {
+        url.searchParams.set("evento", visit.event_id);
+        return url.href;
+      }
+      const suffix = `/evento/${encodeURIComponent(city)}/${encodeURIComponent(event.id)}/`;
+      if (url.pathname.endsWith(suffix)) {
+        url.pathname = `${url.pathname.slice(0, -suffix.length)}/evento/${encodeURIComponent(city)}/${encodeURIComponent(visit.event_id)}/`;
+        return url.href;
+      }
+    }
+  } catch {}
+  return safeHttpUrl(visit.url);
+}
+
 function locationText(event) {
   const location = event?.location || {};
   const parts = [location.venue, location.address, location.city].map(text).filter(Boolean);
@@ -67,7 +90,7 @@ function uidFor(city, event) {
 
 export function reminderOptionsForEvent(event, now = new Date()) {
   if (isPendingEventTime(event?.schedule)) return [];
-  const startRaw = scheduleValue(event, "start");
+  const startRaw = scheduleValue(event, "start", now);
   const start = parseDate(startRaw);
   if (!start || Number.isNaN(now?.getTime?.()) || start <= now) return [];
   const remaining = start.getTime() - now.getTime();
@@ -81,12 +104,16 @@ export function reminderOptionsForEvent(event, now = new Date()) {
 export function buildReminderIcs({ city, event, pageUrl = null, lead = "1d", now = new Date() } = {}) {
   const option = REMINDER_OPTIONS[lead];
   const title = text(event?.title);
-  const startRaw = scheduleValue(event, "start");
+  const startRaw = scheduleValue(event, "start", now);
   if (!option || !title || !startRaw || isPendingEventTime(event?.schedule)) return null;
 
   const start = parseDate(startRaw);
   if (!start) return null;
-  const endRaw = scheduleValue(event, "end");
+  const endRaw = scheduleValue(event, "end", now);
+  const visit = isExhibitionVisitSchedule(event?.schedule)
+    ? event?.editorial?.exhibition_visits?.sources?.find((source) => (
+      source?.schedule?.start === startRaw && source?.schedule?.end === endRaw
+    )) : null;
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -94,7 +121,7 @@ export function buildReminderIcs({ city, event, pageUrl = null, lead = "1d", now
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
-    `UID:${escapeIcs(uidFor(city, event))}`,
+    `UID:${escapeIcs(uidFor(city, visit ? { ...event, id: visit.event_id } : event))}`,
     `DTSTAMP:${utcStamp(now)}`,
   ];
 
@@ -113,7 +140,7 @@ export function buildReminderIcs({ city, event, pageUrl = null, lead = "1d", now
   lines.push(`SUMMARY:${escapeIcs(title)}`);
   const location = locationText(event);
   if (location) lines.push(`LOCATION:${escapeIcs(location)}`);
-  const safePage = safeHttpUrl(pageUrl);
+  const safePage = reminderPageUrl(pageUrl, city, event, visit);
   if (safePage) lines.push(`URL:${safePage}`);
   lines.push(
     "BEGIN:VALARM",

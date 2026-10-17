@@ -1,4 +1,4 @@
-import { formatSchedule } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
+import { formatSchedule, isExhibitionVisitSchedule } from "../assets/event-schedule-display.mjs?v=20260913-pending-time1";
 import { getAgendaRuntimeSnapshot } from "./agenda-runtime-state.mjs?v=20260821-point8-v2";
 import { sessionScheduleLabelForDate, withMissingEventTimeFallback } from "./today-session-presentation.mjs?v=20260913-pending-time1";
 import { dailyExhibitionHours, nextDailyExhibitionOpening } from "./date-aware-exhibition-hours.mjs?v=20260822-next-opening1";
@@ -101,6 +101,9 @@ export function scheduleForEventDisplay(event, options = {}) {
   if (!schedule) return isExhibition(event) ? "Horario de visita por confirmar" : "Consultar horario en la fuente";
 
   const visibleDate = options.referenceDate || referenceDate();
+  if (isExhibitionVisitSchedule(schedule)) {
+    return formatSchedule(schedule, { ...activeConfig, ...options, referenceDate: visibleDate });
+  }
   const eventSchedule = scheduleWithoutVisitHours(schedule);
   const datedSessions = sessionScheduleLabelForDate({ ...event, schedule: eventSchedule }, {
     ...activeConfig,
@@ -238,6 +241,9 @@ function closedWithNextOpening(nextOpening, dateField, hoursField) {
 
 export function exhibitionVisitHoursForDisplay(event, options = {}) {
   if (!isExhibition(event)) return null;
+  // The shared visit-date label already carries its exact hours. Do not add
+  // generic museum hours for a date absent from the advertised windows.
+  if (isExhibitionVisitSchedule(event.schedule)) return null;
   const visibleDate = options.referenceDate || referenceDate();
   const timezone = options.timezone || activeConfig.timezone;
   const cityId = options.cityId || activeCityId;

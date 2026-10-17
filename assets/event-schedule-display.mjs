@@ -172,6 +172,42 @@ function canonicalSessionLabel(schedule, options) {
   return [range, display].filter(Boolean).join(" · ");
 }
 
+export function isExhibitionVisitSchedule(schedule) {
+  return schedule?.occurrence_kind === "exhibition_visit"
+    && Array.isArray(schedule.occurrences) && schedule.occurrences.length > 0;
+}
+
+function exhibitionVisitScheduleLabel(schedule, options) {
+  if (!isExhibitionVisitSchedule(schedule)) return null;
+  const visits = occurrenceStartTimes(schedule, options);
+  if (visits.length !== schedule.occurrences.length || visits.some((item) => item.endKey !== item.key || !(item.endTime > item.time))) return null;
+  const hours = [...new Set(visits.map((item) => `${item.time}–${item.endTime}`))];
+  if (hours.length !== 1) return null;
+  const dates = [...new Set(visits.map((item) => item.key))].sort();
+  const months = new Map();
+  for (const key of dates) {
+    const month = key.slice(0, 7);
+    const days = months.get(month) || [];
+    days.push(Number(key.slice(8)));
+    months.set(month, days);
+  }
+  const dateLists = [...months].map(([month, days]) => {
+    const spans = [];
+    for (let i = 0; i < days.length; i += 1) {
+      const first = days[i];
+      while (i + 1 < days.length && days[i + 1] === days[i] + 1) i += 1;
+      spans.push(first === days[i] ? String(first) : `${first}–${days[i]}`);
+    }
+    const label = new Intl.DateTimeFormat(options.locale, {
+      timeZone: "UTC", month: "short", year: dates[0].slice(0, 4) !== dates.at(-1).slice(0, 4) ? "numeric" : undefined,
+    }).format(new Date(`${month}-01T12:00:00Z`));
+    return `${spans.join(", ")} ${label}`;
+  });
+  // These are advertised visit dates, not an inferred continuous exhibition
+  // period. Listing the exact dates keeps unannounced/closed days explicit.
+  return [`Fechas disponibles: ${dateRangeLabel(schedule, options)}`, hours[0], `Días: ${dateLists.join("; ")}`].join(" · ");
+}
+
 function hasMultipleStructuredSessions(schedule, options) {
   const dated = occurrenceStartTimes(schedule, options);
   return new Set(dated.map((item) => `${item.key}|${item.time}`)).size >= 2;
@@ -313,6 +349,9 @@ export function formatSchedule(schedule, options = {}) {
   if (isPendingEventTime(schedule)) {
     return [range, "Horario por confirmar"].filter(Boolean).join(" · ");
   }
+
+  const exhibitionVisits = exhibitionVisitScheduleLabel(schedule, settings);
+  if (exhibitionVisits) return exhibitionVisits;
 
   // Point 8 contract: event sessions always outrank venue/visit hours.
   const canonicalSession = canonicalSessionLabel(schedule, settings);

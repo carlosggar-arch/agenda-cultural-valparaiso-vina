@@ -1,5 +1,6 @@
 import { eventMatchesCanonicalSection } from "../app/public-selection-core.mjs?v=20260823-selection1";
 import { isPendingEventTime } from "./event-schedule-display.mjs?v=20260913-pending-time1";
+import { buildEventReferenceIndex } from "../app/event-reference-index.mjs";
 
 export const DATASET_PATH = "./agenda_web.json";
 export const CHANGES_DATASET_PATH = "./agenda_changes.json";
@@ -257,7 +258,7 @@ export function priceLabel(price) {
 
 export function findEventById(events, id) {
   if (!id || !Array.isArray(events)) return null;
-  return events.find((event) => event.id === id) || null;
+  return buildEventReferenceIndex(events).get(String(id)) || null;
 }
 
 function isStructuredCalendarStart(value) {

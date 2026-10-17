@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+// Keep permanent-page and legacy-detail consumers in the canonical image gate.
+import "../assets/event-page.test.mjs";
 import {
   buildVenueImagePools,
   categoryFallbackImage,
@@ -228,4 +230,51 @@ test("quality guard generic-provider replacement remains explicit", () => {
   assert.equal(shouldInstallCategoryFallback({ placeholder: true, hasImage: false }, { baseUrl: BASE }), true);
   assert.equal(shouldInstallCategoryFallback({ placeholder: false, hasImage: true, currentUrl: generic }, { baseUrl: BASE }), true);
   assert.equal(shouldInstallCategoryFallback({ placeholder: false, hasImage: true, currentUrl: specific }, { baseUrl: BASE }), false);
+});
+
+test("site flag assets never illustrate events even when metadata says event-specific", () => {
+  const event = {
+    id: "retained-exhibition",
+    title: "Exposición temporal",
+    location: { city: "Viña del Mar", venue: "Museo Palacio Rioja" },
+    primary_category: { id: "exposiciones", label: "Exposiciones" },
+    image: {
+      url: "https://visitavina.munivina.cl/wp-content/uploads/2023/02/bandera-chile.svg",
+      relevance: "event_specific",
+      association_evidence: "event_html_container",
+    },
+  };
+  const original = structuredClone(event);
+  assert.equal(isGenericProviderImage(event.image.url), true);
+  assert.equal(relevantEventImageUrl(event, { baseUrl: BASE }), null);
+  for (const surface of ["card", "detail"]) {
+    assert.deepEqual(resolveEventImage(event, { surface, baseUrl: BASE }),
+      { ...categoryFallbackImage(event), genericSchedule: false });
+  }
+  assert.equal(resolveEventImage(event, { surface: "group", baseUrl: BASE }).url, null);
+  assert.equal(shouldInstallCategoryFallback({ currentUrl: event.image.url }, { baseUrl: BASE }), true);
+  const mislabeledVenuePhoto = { ...event, image: { ...event.image, relevance: "venue_specific" } };
+  assert.equal(buildVenueImagePools([mislabeledVenuePhoto], { baseUrl: BASE }).size, 0);
+  assert.deepEqual(event, original, "presentation filtering must leave certified input unchanged");
+});
+
+test("site decoration detection is source-independent and limited to utility filenames", () => {
+  for (const url of [
+    "https://museum.example/assets/flag-es.svg?version=2",
+    "https://venue.example/assets/flags/cl.svg",
+    "https://city.example/wp-content/uploads/bandera%2Dcolombia.svg",
+    "https://venue.example/favicon.ico",
+  ]) {
+    assert.equal(isGenericProviderImage(url), true, url);
+    assert.equal(relevantEventImageUrl({ ...own, image: { url } }, { baseUrl: BASE }), null, url);
+  }
+  for (const url of [
+    "https://museum.example/uploads/exposicion-banderas-2026.jpg",
+    "https://museum.example/uploads/obra-bandera-chile.svg",
+    "https://venue.example/events/flag-day/poster.svg",
+    "https://venue.example/events/concierto.svg",
+  ]) {
+    assert.equal(isGenericProviderImage(url), false, url);
+    assert.equal(relevantEventImageUrl({ ...own, image: { url } }, { baseUrl: BASE }), url, url);
+  }
 });

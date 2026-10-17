@@ -1,3 +1,5 @@
+import { formatSchedule, isExhibitionVisitSchedule } from "../assets/event-schedule-display.mjs";
+
 function cleanSpace(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
@@ -278,6 +280,7 @@ export function groupedScheduleLabel(event, options = {}) {
   const timezone = options.timezone || "America/Santiago";
   const now = options.now instanceof Date ? options.now : new Date();
   const schedule = event?.schedule || {};
+  if (isExhibitionVisitSchedule(schedule)) return formatSchedule(schedule, { ...options, locale, timezone, now });
   const start = schedule.start || schedule.occurrences?.[0]?.start;
   const end = schedule.end;
   const hours = visitHours(event);
