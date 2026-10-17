@@ -82,6 +82,10 @@ form?.addEventListener("submit", async (event) => {
   for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) values[checkbox.name] = checkbox.checked;
   values.turnstile_token = values["cf-turnstile-response"] || "";
   delete values["cf-turnstile-response"];
+  if (!values.turnstile_token) {
+    if (!message.dataset.verificationError) message.textContent = "Espera a que termine la verificación de seguridad antes de enviar.";
+    return;
+  }
 
   const sourceUrls = [values.website_url, values.instagram_url, values.facebook_url, values.calendar_url, values.feed_url]
     .map((value) => String(value || "").trim())

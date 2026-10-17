@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./city-header.css">
   <link rel="stylesheet" href="./community-source.css">
   <title>Proponer una fuente · Agenda Cultural</title>
+  <script src="./community-verification.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
@@ -66,7 +67,7 @@
 
         <label class="checkbox-label full-row"><input required type="checkbox" name="consent"> <span>Consiento el uso privado de mi correo para revisar esta propuesta. <a href="../privacidad.html">Privacidad</a>.</span></label>
         <label class="honeypot" aria-hidden="true">Sitio web alternativo<input name="website" tabindex="-1" autocomplete="off"></label>
-        <div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2"></div>
+        <div class="cf-turnstile full-row" data-sitekey="0x4AAAAAAD3c_zu42ab7MLaM" data-action="turnstile-spin-v2" data-error-callback="communityVerificationError" data-callback="communityVerificationReady" data-expired-callback="communityVerificationExpired"></div>
         <button class="community-submit" type="submit">Enviar fuente</button>
         <p class="community-message" data-form-message aria-live="polite"></p>
       </form>

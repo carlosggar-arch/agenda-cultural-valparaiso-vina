@@ -58,6 +58,7 @@
     "./combined-filters.js",
     "./community-source.css",
     "./community-source.js",
+    "./community-verification.js",
     "./compact-top.css",
     "./compact-top.js",
     "./content-kind-presentation.mjs",
