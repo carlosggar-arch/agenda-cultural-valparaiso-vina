@@ -77,6 +77,7 @@
     "./event-detail.js",
     "./event-identity-core.mjs",
     "./event-image-renderer.mjs",
+    "./event-reference-index.mjs",
     "./event-semantics.generated.mjs",
     "./event-semantics.mjs",
     "./event-series-normalizer.mjs",
