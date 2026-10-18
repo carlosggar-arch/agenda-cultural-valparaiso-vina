@@ -1,9 +1,9 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 298,
+  "events_before": 299,
   "events_after": 174,
-  "removed": 124,
+  "removed": 125,
   "html_cleaned": [],
   "titles_recovered": [
     {
@@ -986,6 +986,14 @@
       "missing_evidence": [
         "verified_event_date"
       ]
+    },
+    {
+      "id": "agenda_53f93f855aa941b64bca5277",
+      "title": "Magia en Sala Secreta",
+      "reason": "upstream_publication_review:caption_programme_children_unresolved",
+      "missing_evidence": [
+        "individual_activity_projection"
+      ]
     }
   ],
   "expired_removed": [
@@ -1008,241 +1016,55 @@
           "audience": null,
           "categories": [
             {
-              "id": "literatura",
-              "label": "Literatura"
-            }
-          ],
-          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-          "editorial": {
-            "venue_hours_enriched": true
-          },
-          "event_type": "event",
-          "id": "agenda_0905061133d2f612bfa36a46",
-          "image": {
-            "alt": "Presentación libros infantil // Denisse Holloway",
-            "url": "https://visitavina.munivina.cl/wp-content/uploads/2023/02/bandera-chile.svg"
-          },
-          "last_verified_at": "2026-10-03T07:56:03-03:00",
-          "links": {
-            "official": "https://visitavina.munivina.cl/actividad/presentacion-libros-infantil-denisse-holloway/?occurrence=2026-10-17",
-            "registration": null,
-            "source": "https://visitavina.munivina.cl/actividades/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+Palacio+Rioja%2C+Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Museo Palacio Rioja",
-            "venue_id": "museo-palacio-rioja",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Museo Palacio Rioja",
-              "status": "verified",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Museo Palacio Rioja",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "literatura",
-            "label": "Literatura"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": false,
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-03T07:56:03-03:00",
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "17:30",
-            "display_text": "2026-10-17 · 12:00–14:00",
-            "end": "2026-10-17T14:00:00-03:00",
-            "hours_confidence": "official_venue_schedule",
-            "mode": "dated",
-            "occurrences": [],
-            "opening_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "start": "2026-10-17T12:00:00-03:00",
-            "timezone": "America/Santiago",
-            "venue_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "hours_confidence": "official_venue_schedule",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            }
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_name": "Visita Viña — Museo Palacio Rioja",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "tags": [
-            "Cultura",
-            "Museo Palacio Rioja",
-            "Visita Viña"
-          ],
-          "title": "Presentación libros infantil // Denisse Holloway"
-        },
-        "decision": {
-          "id": "agenda_0905061133d2f612bfa36a46",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Presentación libros infantil // Denisse Holloway"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_0905061133d2f612bfa36a46",
-          "schedule": {
-            "end": "2026-10-17T14:00:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T12:00:00-03:00"
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_urls": [
-            "https://visitavina.munivina.cl/actividad/presentacion-libros-infantil-denisse-holloway/?occurrence=2026-10-17",
-            "https://visitavina.munivina.cl/actividades"
-          ],
-          "title": "Presentación libros infantil // Denisse Holloway",
-          "venue": "museo-palacio-rioja"
-        },
-        "event_sha256": "2d3d4ae1fb82450e4c7cc56a09f0960ffc00f528757a6743d93d1f2b0e036a7e",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_0905061133d2f612bfa36a46",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:34dfde98c3db96659db4",
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_0905061133d2f612bfa36a46",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "stage": "content_quality_guard",
-          "title": "Presentación libros infantil // Denisse Holloway"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
               "id": "musica",
               "label": "Música"
             }
           ],
-          "description": "Ciencias Naturales Lanzamiento 17 Oct 2026 Condell 1546, Valparaíso, Chile. Presencial 17/Octubre/2026 Museo de Historia Natural de Valparaíso, Condell 1546, Valparaíso. - Museo de Historia Natural de Valparaíso La iniciativa, desarrollada por Fundación Mar y...",
+          "description": "Les traemos nueva información! 👀🙌 Acompañanos este Viernes 30 y Sabado 31 de Octubre en nuestro aniversario numero 12, donde celebraremos realizando el primer certamen internacional de Tunas UTFSM Valparaiso. Duante el viernes se realizarán las competencias de...",
+          "editorial": {
+            "title_original": "https://forms.cloud.microsoft/r/i5Nfys6ZZ4",
+            "title_recovered": true,
+            "title_recovery_reason": "explicit_activity_phrase_in_description"
+          },
           "event_type": "event",
-          "id": "agenda_0e202a9cd13b2a91f2e5d184",
+          "id": "agenda_df7eb7d55164b463bbae0ff5",
           "image": {
-            "alt": "Lanzamiento de “Refugio Coral”, juego de cartas sobre biodiversidad y conservación marina",
-            "url": "./assets/event-images/valparaiso/592584fa6083daa21f73e06c.webp"
+            "alt": "certamen internacional de Tunas UTFSM Valparaiso",
+            "url": "https://instagram.fpoz3-1.fna.fbcdn.net/v/t51.82787-15/838879820_18355595800301564_3449594354150292479_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAwMjIwMDc1NzE2NzAyMzQ4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTcxNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VWQG2RYfdo8Q7kNvwHLNnRi&_nc_oc=Adq7sIvyuTdOT3R4YzkNUmAwdEf9OG9T90LB1VhAqQR2k2cTnETKu462fzm0OxQCD2Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fpoz3-1.fna&_nc_gid=bCtDWUuaEKMfLBDxj5rZ5A&_nc_ss=7a22e&oh=00_AQPLGzOHSThC4V43u-lccsKgMODOH9t7ppzT7_4VpH65Ig&oe=6AD32A5B"
           },
           "last_verified_at": null,
           "links": {
-            "official": "https://www.mhnv.gob.cl/cartelera/lanzamiento-de-refugio-coral-juego-de-cartas-sobre-biodiversidad-y-conservacion-marina",
+            "official": null,
             "registration": null,
-            "source": "https://www.mhnv.gob.cl/cartelera/lanzamiento-de-refugio-coral-juego-de-cartas-sobre-biodiversidad-y-conservacion-marina",
+            "source": "https://www.instagram.com/p/DeKrGJSvWV-",
             "tickets": null
           },
           "location": {
-            "address": "Condell 1546, Valparaíso",
+            "address": "Avenida España 1680, Valparaíso",
             "city": "Valparaíso",
             "commune": "Valparaíso",
             "latitude": null,
             "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+de+Historia+Natural+de+Valpara%C3%ADso%2C+Condell+1546%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
+            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Aula+Magna+USM%2C+Avenida+Espa%C3%B1a+1680%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
             "online": false,
-            "venue": "Museo de Historia Natural de Valparaíso",
-            "venue_id": "museo-historia-natural-valparaiso",
+            "venue": "Teatro Aula Magna USM",
+            "venue_id": "aula-magna-usm",
             "verification": {
               "method": "canonical_venue_registry",
-              "official_name": "Museo de Historia Natural de Valparaíso",
+              "official_name": "Teatro Aula Magna USM",
               "status": "verified",
-              "venue_id": "museo-historia-natural-valparaiso",
-              "verified_at": "2026-09-21"
+              "venue_id": "aula-magna-usm",
+              "verified_at": "2026-10-03"
             }
           },
-          "organizer": "Museo de Historia Natural de Valparaíso",
+          "organizer": "Cultura USM",
+          "original_title": "certamen internacional de Tunas UTFSM Valparaiso",
           "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
+            "currency": null,
+            "display_text": "liberada",
+            "is_free": null,
+            "max_amount": null,
+            "min_amount": null
           },
           "primary_category": {
             "id": "musica",
@@ -1250,169 +1072,11 @@
           },
           "provenance": {
             "verified_venue": {
-              "address": "Condell 1546, Valparaíso",
+              "address": "Avenida España 1680, Valparaíso",
               "city": "Valparaíso",
               "method": "canonical_venue_registry",
-              "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
-              "venue_id": "museo-historia-natural-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-fb53fd5f00ce8c2d93db5c07",
-              "start": "2026-10-17",
-              "title": "lanzamiento de Refugio Coral",
-              "venue": "Museo de Historia Natural de Valparaíso"
-            }
-          ],
-          "schedule": {
-            "closing_time": "12:30",
-            "display_text": "2026-10-17 · 11:00–12:30",
-            "end": "2026-10-17T12:30:00-03:00",
-            "hours_confidence": "source_schedule_pair",
-            "mode": "dated",
-            "occurrences": [],
-            "opening_time": "11:00",
-            "start": "2026-10-17T11:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "mhnvalpo",
-          "source_name": "Museo de Historia Natural de Valparaíso",
-          "source_url": "https://www.mhnv.gob.cl/cartelera/lanzamiento-de-refugio-coral-juego-de-cartas-sobre-biodiversidad-y-conservacion-marina",
-          "tags": [
-            "museo"
-          ],
-          "title": "Lanzamiento de “Refugio Coral”, juego de cartas sobre biodiversidad y conservación marina"
-        },
-        "decision": {
-          "id": "agenda_0e202a9cd13b2a91f2e5d184",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Lanzamiento de “Refugio Coral”, juego de cartas sobre biodiversidad y conservación marina"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_0e202a9cd13b2a91f2e5d184",
-          "schedule": {
-            "end": "2026-10-17T12:30:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T11:00:00-03:00"
-          },
-          "source_id": "mhnvalpo",
-          "source_urls": [
-            "https://www.mhnv.gob.cl/cartelera/lanzamiento-de-refugio-coral-juego-de-cartas-sobre-biodiversidad-y-conservacion-marina"
-          ],
-          "title": "Lanzamiento de “Refugio Coral”, juego de cartas sobre biodiversidad y conservación marina",
-          "venue": "museo-historia-natural-valparaiso"
-        },
-        "event_sha256": "458457b2cae5434c86cf80dc3a56e76c8a5243398ac5a31daeed5b9a897252b5",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_0e202a9cd13b2a91f2e5d184",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:a992e84d7dbde4a4cf03",
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1546, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
-              "venue_id": "museo-historia-natural-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_0e202a9cd13b2a91f2e5d184",
-          "source_url": "https://www.mhnv.gob.cl/cartelera/lanzamiento-de-refugio-coral-juego-de-cartas-sobre-biodiversidad-y-conservacion-marina",
-          "stage": "content_quality_guard",
-          "title": "Lanzamiento de “Refugio Coral”, juego de cartas sobre biodiversidad y conservación marina"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "cursos-talleres",
-              "label": "Cursos y talleres"
-            }
-          ],
-          "description": "🎭Festival Siento 2026 II Festival de Artes Escénicas, Autocuidado y Salud Mental ✨Del 3 al 17 de octubre, Viña del Mar se llena de teatro, artes escénicas, autocuidado y conversaciones sobre salud mental. Un encuentro que se mueve por la ciudad y sus territori...",
-          "editorial": {
-            "venue_hours_enriched": true
-          },
-          "event_type": "event",
-          "id": "agenda_2372a3f9dff448aa3450f1dc",
-          "image": {
-            "alt": "II Festival de Artes Escénicas",
-            "url": "https://scontent-lga3-3.cdninstagram.com/v/t51.71878-15/829725839_1095960296659832_7234259466660176163_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Nzg3MzY2NjMwMDY2NDE0ODExMzAwMDIyMDI4MTc2NDc%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjY0MC5zZHIudmlkZW9fbmZyYW1lX2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=EgAdibROxZMQ7kNvwHMGm5e&_nc_oc=AdroLv43_t6W7fKBM9PFW0VnfwRfhJSutpq1NxJXSc5nq7N0Vx4s2A5_SbbC_cFFDkxN17BA0fzLlkZwd9uPdU4Z&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-lga3-3.cdninstagram.com&_nc_gid=rLIgWOAL570m2vhdCpbYgQ&_nc_ss=7a22e&oh=00_AQM4EkMZG_CUK1Tzci0WPKNAjSs06BFPtVQfoxDoY005GQ&oe=6ACD704F"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/Dd7TOr4vVlU/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/Dd7TOr4vVlU/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+Palacio+Rioja%2C+Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Museo Palacio Rioja",
-            "venue_id": "museo-palacio-rioja",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Museo Palacio Rioja",
-              "status": "verified",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Museo Palacio Rioja",
-          "price": {
-            "currency": null,
-            "display_text": null,
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "cursos-talleres",
-            "label": "Cursos y talleres"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
+              "source_url": "https://cultura.usm.cl/abonos/",
+              "venue_id": "aula-magna-usm",
               "verified_at": "2026-10-03"
             }
           },
@@ -1431,2241 +1095,84 @@
           "registration_requirements": null,
           "represented_functions": [
             {
-              "function_id": "observation-f53e6d477f5f9d1a878b7c26",
-              "start": "2026-10-07",
-              "title": "II Festival de Artes Escénicas",
-              "venue": "Museo Palacio Rioja"
+              "function_id": "observation-c5de9a51ad9179af0501e8b1",
+              "start": "2026-10-31",
+              "title": "https://forms.cloud.microsoft/r/i5Nfys6ZZ4",
+              "venue": "Aula Magna USM"
             }
           ],
           "schedule": {
-            "closing_time": "17:30",
-            "display_text": "2026-10-17 · 18:00",
-            "end": null,
-            "hours_confidence": "official_venue_schedule",
-            "mode": "recurring",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T18:00:00-03:00"
-              }
-            ],
-            "opening_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "start": "2026-10-17T18:00:00-03:00",
-            "timezone": "America/Santiago",
-            "venue_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "hours_confidence": "official_venue_schedule",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            }
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_name": "Museo Palacio Rioja",
-          "source_url": "https://www.instagram.com/p/Dd7TOr4vVlU/",
-          "tags": [
-            "taller"
-          ],
-          "title": "II Festival de Artes Escénicas"
-        },
-        "decision": {
-          "id": "agenda_2372a3f9dff448aa3450f1dc",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "II Festival de Artes Escénicas"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_2372a3f9dff448aa3450f1dc",
-          "schedule": {
-            "end": null,
-            "mode": "recurring",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T18:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T18:00:00-03:00"
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_urls": [
-            "https://www.instagram.com/p/Dd7TOr4vVlU"
-          ],
-          "title": "II Festival de Artes Escénicas",
-          "venue": "museo-palacio-rioja"
-        },
-        "event_sha256": "e21e0837d75adbaa32c9f88e6778f9effcc076280ce6602b0f9479344a8936ab",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_2372a3f9dff448aa3450f1dc",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:8a8a646fe19710738b44",
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_2372a3f9dff448aa3450f1dc",
-          "source_url": "https://www.instagram.com/p/Dd7TOr4vVlU/",
-          "stage": "content_quality_guard",
-          "title": "II Festival de Artes Escénicas"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "description": "Dirección: Condell 1585, Valparaíso. Funciones: sábado 17 de octubre de 2026, 15:00 hrs.",
-          "event_type": "event",
-          "id": "agenda_23c85705c3d9830bc6796d8c",
-          "image": {
-            "alt": "Snoopy, vuelve a casa + Ésta es la gran calabaza - ESPAÑOL.",
-            "url": "./assets/event-images/valparaiso/5e046ef31bd44b80e56298e0.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol",
-            "registration": null,
-            "source": "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol",
-            "tickets": "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol"
-          },
-          "location": {
-            "address": "Condell 1585, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Insomnia+Teatro+Condell%2C+Condell+1585%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
-            "online": false,
-            "venue": "Insomnia Teatro Condell",
-            "venue_id": "insomnia-teatro-condell",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Insomnia Teatro Condell",
-              "status": "verified",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Insomnia Cine",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$4.000",
-            "is_free": false,
-            "max_amount": 4000,
-            "min_amount": 4000
-          },
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1585, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.insomniacine.cl/quienes-somos/",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-10-17 · 15:00",
+            "display_text": "2026-10-31",
             "end": null,
             "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T15:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T15:00:00-03:00",
+            "occurrences": [],
+            "start": "2026-10-31",
             "timezone": "America/Santiago"
           },
-          "source_id": "insomniacine",
-          "source_name": "Insomnia Cine",
-          "source_url": "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol",
+          "source_id": "cultura_usm",
+          "source_name": "Cultura USM",
+          "source_url": "https://www.instagram.com/p/DeKrGJSvWV-",
           "tags": [],
-          "title": "Snoopy, vuelve a casa + Ésta es la gran calabaza - ESPAÑOL."
+          "title": "certamen internacional de Tunas UTFSM Valparaíso"
         },
         "decision": {
-          "id": "agenda_23c85705c3d9830bc6796d8c",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Snoopy, vuelve a casa + Ésta es la gran calabaza - ESPAÑOL."
+          "id": "agenda_df7eb7d55164b463bbae0ff5",
+          "missing_evidence": [
+            "verified_performance_start_time"
+          ],
+          "reason": "performance_without_verified_concrete_session",
+          "title": "certamen internacional de Tunas UTFSM Valparaíso"
         },
         "event_binding": {
           "city": "Valparaíso",
-          "id": "agenda_23c85705c3d9830bc6796d8c",
+          "id": "agenda_df7eb7d55164b463bbae0ff5",
           "schedule": {
             "end": null,
             "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T15:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T15:00:00-03:00"
+            "occurrences": [],
+            "start": "2026-10-31"
           },
-          "source_id": "insomniacine",
+          "source_id": "cultura_usm",
           "source_urls": [
-            "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol"
+            "https://www.instagram.com/p/DeKrGJSvWV-"
           ],
-          "title": "Snoopy, vuelve a casa + Ésta es la gran calabaza - ESPAÑOL.",
-          "venue": "insomnia-teatro-condell"
+          "title": "certamen internacional de Tunas UTFSM Valparaíso",
+          "venue": "aula-magna-usm"
         },
-        "event_sha256": "2420c6efc735271a4bca7effeaf7d9966636fc38673252539d6523705aa4ee26",
-        "kind": "expired_removed",
+        "event_sha256": "e3d402cf5f88b1fe0faa4046fbdd65f1e932191fb1ffe86b1cbb5232c02f332a",
+        "kind": "quarantined",
         "publication_date": "2026-10-18",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
         "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_23c85705c3d9830bc6796d8c",
+          "action": "quarantine",
+          "canonical_event_id": "agenda_df7eb7d55164b463bbae0ff5",
           "destination": {
             "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:c4c189f0eeb14188a66d",
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1585, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.insomniacine.cl/quienes-somos/",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_23c85705c3d9830bc6796d8c",
-          "source_url": "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol",
-          "stage": "content_quality_guard",
-          "title": "Snoopy, vuelve a casa + Ésta es la gran calabaza - ESPAÑOL."
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "teatro",
-              "label": "Teatro y danza"
-            }
-          ],
-          "description": "Camila Moreno llega a #TeatroMauriSCD con Última Luz, un espectáculo acústico que vuelve al origen de sus canciones. Un formato íntimo y orgánico, donde la voz y las cuerdas toman el protagonismo para recorrer canciones de La Primera Luz y momentos fundamental...",
-          "event_type": "event",
-          "id": "agenda_31b62c3f2ffd8eda7fb477cb",
-          "image": {
-            "alt": "SCD Teatro Mauri – Camila Moreno",
-            "url": "./assets/event-images/valparaiso/17bd122cf89492ae58472b1a.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/",
-            "registration": null,
-            "source": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/",
-            "tickets": null
-          },
-          "location": {
-            "address": null,
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Av. Alemania 6985",
-            "venue_id": null
-          },
-          "organizer": "Valpo Cultura",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$8.000 · $12.000",
-            "is_free": false,
-            "max_amount": 12000,
-            "min_amount": 8000
-          },
-          "primary_category": {
-            "id": "teatro",
-            "label": "Teatro y danza"
-          },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": false
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-10-17 · 20:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T20:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "valpocultura",
-          "source_name": "Valpo Cultura",
-          "source_url": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/",
-          "tags": [],
-          "title": "SCD Teatro Mauri – Camila Moreno"
-        },
-        "decision": {
-          "id": "agenda_31b62c3f2ffd8eda7fb477cb",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "SCD Teatro Mauri – Camila Moreno"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_31b62c3f2ffd8eda7fb477cb",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T20:00:00-03:00"
-          },
-          "source_id": "valpocultura",
-          "source_urls": [
-            "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno"
-          ],
-          "title": "SCD Teatro Mauri – Camila Moreno",
-          "venue": "Av. Alemania 6985"
-        },
-        "event_sha256": "abee5d30207c06a96edf1d63c9cbd089a98592047de26d85eb0b3b689b863b2a",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_31b62c3f2ffd8eda7fb477cb",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:50c2a83c87eb5b38e646",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_31b62c3f2ffd8eda7fb477cb",
-          "source_url": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/",
-          "stage": "content_quality_guard",
-          "title": "SCD Teatro Mauri – Camila Moreno"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "🪸 Ya llegó el momento más esperado del año ✨ ¡Te invitamos al lanzamiento de Refugio Coral! ¿Te animas a construir y proteger un arrecife de coral mientras enfrentas amenazas como el cambio climático y la contaminación? 🌊 Refugio Coral es un juego de mesa desa...",
-          "event_type": "event",
-          "id": "agenda_500b339b02d04929f1bc8966",
-          "image": {
-            "alt": "lanzamiento de Refugio Coral",
-            "url": "https://instagram.fngo1-1.fna.fbcdn.net/v/t51.82787-15/843167955_18429131632195976_8986591706564035425_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAwNTY1MTM2MzkzMTU5MjgzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lg4HuNm4bKUQ7kNvwHquZ0s&_nc_oc=Adrf3Dnaxtfks8lc-hd0fpSpaRJYpwv3zgF24Hbtlyy_IARGU-w-Db2Ni1t-X6jZ8X8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fngo1-1.fna&_nc_gid=cerzUoG3O158w5yxPHHIrQ&_nc_ss=7a22e&oh=00_AQPbGTRZhso9cKqkBso0_Dc20-SqOWIk4naAbPvNh-ysbA&oe=6AD35AA5"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/DeW7rFRM5iC/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/DeW7rFRM5iC/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Condell 1546, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+de+Historia+Natural+de+Valpara%C3%ADso%2C+Condell+1546%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
-            "online": false,
-            "venue": "Museo de Historia Natural de Valparaíso",
-            "venue_id": "museo-historia-natural-valparaiso",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Museo de Historia Natural de Valparaíso",
-              "status": "verified",
-              "venue_id": "museo-historia-natural-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "organizer": "Museo de Historia Natural de Valparaíso",
-          "price": {
-            "currency": null,
-            "display_text": null,
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1546, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
-              "venue_id": "museo-historia-natural-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-            "cancelled": null,
-            "information_completeness": "partial",
-            "last_verified_at": null,
-            "price_confirmed": null,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-fb53fd5f00ce8c2d93db5c07",
-              "start": "2026-10-17",
-              "title": "lanzamiento de Refugio Coral",
-              "venue": "Museo de Historia Natural de Valparaíso"
-            }
-          ],
-          "schedule": {
-            "display_text": "2026-10-17 · 11:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T11:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "mhnvalpo",
-          "source_name": "Museo de Historia Natural de Valparaíso",
-          "source_url": "https://www.instagram.com/p/DeW7rFRM5iC/",
-          "tags": [
-            "museo"
-          ],
-          "title": "lanzamiento de Refugio Coral"
-        },
-        "decision": {
-          "id": "agenda_500b339b02d04929f1bc8966",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "lanzamiento de Refugio Coral"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_500b339b02d04929f1bc8966",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T11:00:00-03:00"
-          },
-          "source_id": "mhnvalpo",
-          "source_urls": [
-            "https://www.instagram.com/p/DeW7rFRM5iC"
-          ],
-          "title": "lanzamiento de Refugio Coral",
-          "venue": "museo-historia-natural-valparaiso"
-        },
-        "event_sha256": "ffdfd0798b5f61b3f401c786d043e386d5bf6602d7ec8f1a87f81377f290c537",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_500b339b02d04929f1bc8966",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:0a2e33ceb10df04b4a8c",
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1546, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
-              "venue_id": "museo-historia-natural-valparaiso",
-              "verified_at": "2026-09-21"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_500b339b02d04929f1bc8966",
-          "source_url": "https://www.instagram.com/p/DeW7rFRM5iC/",
-          "stage": "content_quality_guard",
-          "title": "lanzamiento de Refugio Coral"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "description": "Dirección: Condell 1585, Valparaíso. Funciones: viernes 16 de octubre de 2026, 18:00 hrs; sábado 17 de octubre de 2026, 19:00 hrs.",
-          "event_type": "event",
-          "id": "agenda_548a87d01e7a4a7a0c2be106",
-          "image": {
-            "alt": "Hope (2026).",
-            "url": "./assets/event-images/valparaiso/8a2cc2b58d1a36414dc9fa98.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.passline.com/eventos/hope-2026-567325",
-            "registration": null,
-            "source": "https://www.passline.com/eventos/hope-2026-567325",
-            "tickets": "https://www.passline.com/eventos/hope-2026-567325"
-          },
-          "location": {
-            "address": "Condell 1585, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Insomnia+Teatro+Condell%2C+Condell+1585%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
-            "online": false,
-            "venue": "Insomnia Teatro Condell",
-            "venue_id": "insomnia-teatro-condell",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Insomnia Teatro Condell",
-              "status": "verified",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Insomnia Cine",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$4.000",
-            "is_free": false,
-            "max_amount": 4000,
-            "min_amount": 4000
-          },
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1585, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.insomniacine.cl/quienes-somos/",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-10-17 · 19:00",
-            "end": null,
-            "mode": "recurring",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T19:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T19:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "insomniacine",
-          "source_name": "Insomnia Cine",
-          "source_url": "https://www.passline.com/eventos/hope-2026-567325",
-          "tags": [],
-          "title": "Hope (2026)."
-        },
-        "decision": {
-          "id": "agenda_548a87d01e7a4a7a0c2be106",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Hope (2026)."
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_548a87d01e7a4a7a0c2be106",
-          "schedule": {
-            "end": null,
-            "mode": "recurring",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T19:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T19:00:00-03:00"
-          },
-          "source_id": "insomniacine",
-          "source_urls": [
-            "https://www.passline.com/eventos/hope-2026-567325"
-          ],
-          "title": "Hope (2026).",
-          "venue": "insomnia-teatro-condell"
-        },
-        "event_sha256": "d5d6fe501cb6c19d9fcab86e5afc2b41414ab2d09121861dde760c245dbdea05",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_548a87d01e7a4a7a0c2be106",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:5eb787831705159b68bf",
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1585, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.insomniacine.cl/quienes-somos/",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_548a87d01e7a4a7a0c2be106",
-          "source_url": "https://www.passline.com/eventos/hope-2026-567325",
-          "stage": "content_quality_guard",
-          "title": "Hope (2026)."
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-          "editorial": {
-            "venue_hours_enriched": true
-          },
-          "event_type": "event",
-          "id": "agenda_69cde9db93b15d349a4f75eb",
-          "image": {
-            "alt": "Lanzamiento de disco // Red Mojo",
-            "url": "https://visitavina.munivina.cl/wp-content/uploads/2023/02/bandera-chile.svg"
-          },
-          "last_verified_at": "2026-10-03T07:56:03-03:00",
-          "links": {
-            "official": "https://visitavina.munivina.cl/actividad/lanzamiento-de-disco-red-mojo/?occurrence=2026-10-17",
-            "registration": null,
-            "source": "https://visitavina.munivina.cl/actividades/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Palacio Rioja, Sala Aldo Francia",
-            "venue_id": "museo-palacio-rioja"
-          },
-          "organizer": "Museo Palacio Rioja",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "public_status": {
-            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja. Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": false,
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-03T07:56:03-03:00",
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "17:30",
-            "display_text": "2026-10-17 · 19:00–20:30",
-            "end": "2026-10-17T20:30:00-03:00",
-            "hours_confidence": "official_venue_schedule",
-            "mode": "dated",
-            "occurrences": [],
-            "opening_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "start": "2026-10-17T19:00:00-03:00",
-            "timezone": "America/Santiago",
-            "venue_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "hours_confidence": "official_venue_schedule",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            }
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_name": "Visita Viña — Museo Palacio Rioja",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "tags": [
-            "Cultura",
-            "Museo Palacio Rioja",
-            "Visita Viña"
-          ],
-          "title": "Lanzamiento de disco // Red Mojo"
-        },
-        "decision": {
-          "id": "agenda_69cde9db93b15d349a4f75eb",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Lanzamiento de disco // Red Mojo"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_69cde9db93b15d349a4f75eb",
-          "schedule": {
-            "end": "2026-10-17T20:30:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T19:00:00-03:00"
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_urls": [
-            "https://visitavina.munivina.cl/actividad/lanzamiento-de-disco-red-mojo/?occurrence=2026-10-17",
-            "https://visitavina.munivina.cl/actividades"
-          ],
-          "title": "Lanzamiento de disco // Red Mojo",
-          "venue": "museo-palacio-rioja"
-        },
-        "event_sha256": "373c459564317281a8d243aa80c10af5b5979ee4d73728b3e3b66abece98fe48",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_69cde9db93b15d349a4f75eb",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:1187bdcb5d2ec505ed3f",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://visitavina.munivina.cl/actividades/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_69cde9db93b15d349a4f75eb",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "stage": "content_quality_guard",
-          "title": "Lanzamiento de disco // Red Mojo"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "¿Cómo una canción de Broadway terminó convirtiéndose en uno de los grandes clásicos del jazz? 🎷 En 1960, John Coltrane tomó My Favorite Things, una composición de Rodgers y Hammerstein, y la transformó en una extensa exploración musical. Con el saxofón soprano...",
-          "event_type": "event",
-          "id": "agenda_8addc134179558d6aa03dfa3",
-          "image": {
-            "alt": "Jonathan Gatica",
-            "url": "https://scontent-cdg4-2.cdninstagram.com/v/t51.82787-15/842608890_18048148649819480_7226741883375520565_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=NDAwNTY1MDA4NDU4NjUxNjIyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=BsVwlduPFFoQ7kNvwFmGRI8&_nc_oc=Adozj5RfyFc4fcVlqF4ZGXNhETtwG0-jqurjg2fc81iffRjQMMe0cuy84-2lqapmPrAmQAUh8WdmDgEFifLLPfEW&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-cdg4-2.cdninstagram.com&_nc_gid=1nRfmBDJ_yAvDMerEHnNlQ&_nc_ss=7a22e&oh=00_AQPBv6LkLrhc2DMXqk7f9MG7HcOQp4niPnweLULBnS60BA&oe=6AD35442"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/DeW74SoFfkT/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/DeW74SoFfkT/",
-            "tickets": null
-          },
-          "location": {
-            "address": null,
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Carrera esquina Chacabuco",
-            "venue_id": null
-          },
-          "organizer": "Estrella Negra Club de Jazz",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$500 · $600",
-            "is_free": false,
-            "max_amount": 600,
-            "min_amount": 500
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-6caa71afbe3cbfe83f06534d",
-              "start": "2026-10-17",
-              "title": "Jonathan Gatica",
-              "venue": "Carrera esquina Chacabuco, Valparaíso"
-            }
-          ],
-          "schedule": {
-            "display_text": "2026-10-17 · 21:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T21:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "estrella_negra_jazz",
-          "source_name": "Estrella Negra Club de Jazz",
-          "source_url": "https://www.instagram.com/p/DeW74SoFfkT/",
-          "tags": [
-            "jazz",
-            "música"
-          ],
-          "title": "Jonathan Gatica"
-        },
-        "decision": {
-          "id": "agenda_8addc134179558d6aa03dfa3",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Jonathan Gatica"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_8addc134179558d6aa03dfa3",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T21:00:00-03:00"
-          },
-          "source_id": "estrella_negra_jazz",
-          "source_urls": [
-            "https://www.instagram.com/p/DeW74SoFfkT"
-          ],
-          "title": "Jonathan Gatica",
-          "venue": "Carrera esquina Chacabuco"
-        },
-        "event_sha256": "28906fff1a9b67a0719a4a840723ba97898ba40f7cd8099065c0c7343f55812c",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_8addc134179558d6aa03dfa3",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:0b7ff17d15aa61a40f3a",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://www.instagram.com/p/DeW74SoFfkT/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_8addc134179558d6aa03dfa3",
-          "source_url": "https://www.instagram.com/p/DeW74SoFfkT/",
-          "stage": "content_quality_guard",
-          "title": "Jonathan Gatica"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "exposiciones",
-              "label": "Exposiciones"
-            }
-          ],
-          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-          "event_type": "event",
-          "id": "agenda_8dc11bdd51c7883fc741bf53",
-          "image": {
-            "alt": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor”",
-            "association_evidence": "event_html_container",
-            "relevance": "event_specific",
-            "source": "official_page_metadata",
-            "url": "https://visitavina.munivina.cl/wp-content/uploads/2023/02/bandera-chile.svg"
-          },
-          "last_verified_at": "2026-10-13T04:44:45-03:00",
-          "links": {
-            "official": "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/?occurrence=2026-10-17",
-            "registration": null,
-            "source": "https://visitavina.munivina.cl/actividades/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+Palacio+Rioja%2C+Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Museo Palacio Rioja",
-            "venue_id": "museo-palacio-rioja",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Museo Palacio Rioja",
-              "status": "verified",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Museo Palacio Rioja",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "exposiciones",
-            "label": "Exposiciones"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja.",
-            "cancelled": false,
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-13T04:44:45-03:00",
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "17:30",
-            "display_text": "2026-10-17 · 10:00–17:30",
-            "end": "2026-10-17T17:30:00-03:00",
-            "hours_confidence": "source_schedule_pair",
-            "mode": "dated",
-            "occurrences": [],
-            "opening_time": "10:00",
-            "start": "2026-10-17T10:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_name": "Visita Viña — Museo Palacio Rioja",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "tags": [
-            "Exposiciones",
-            "Museo Palacio Rioja",
-            "Visita Viña"
-          ],
-          "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor”"
-        },
-        "decision": {
-          "id": "agenda_8dc11bdd51c7883fc741bf53",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor”"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_8dc11bdd51c7883fc741bf53",
-          "schedule": {
-            "end": "2026-10-17T17:30:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T10:00:00-03:00"
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_urls": [
-            "https://visitavina.munivina.cl/actividad/muestra-temporal-mis-objetos-mi-patrimonio-2-805-387/?occurrence=2026-10-17",
-            "https://visitavina.munivina.cl/actividades"
-          ],
-          "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor”",
-          "venue": "museo-palacio-rioja"
-        },
-        "event_sha256": "a2441f66ab7dbcd760c2bc6c3eaeab10855d74e10618c69a10e15b2a99ae4e20",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_8dc11bdd51c7883fc741bf53",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:64c470a55243d14380d8",
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_8dc11bdd51c7883fc741bf53",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "stage": "content_quality_guard",
-          "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor”"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "cursos-talleres",
-              "label": "Cursos y talleres"
-            }
-          ],
-          "description": "Inicio actividad - Visita Viña Taller // Biodanza Fecha 17-octubre-2026 Hora Taller de Biodanza Facilitadora: Viviana Cornejo Experiencia que invita a detenernos, conectar con nuestro cuerpo y encontrarnos con otros desde un lugar profundamente humano. No requ...",
-          "editorial": {
-            "venue_hours_enriched": true,
-            "verified_publication_patches": [
-              "culturasvina_public_display_name"
+            "state": "quarantine"
+          },
+          "evidence": {
+            "missing_evidence": [
+              "verified_performance_start_time"
             ]
           },
-          "event_type": "event",
-          "id": "agenda_a695d564b93dd626543d71a6",
-          "image": {
-            "alt": null,
-            "url": null
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://visitavina.munivina.cl/actividad/taller-biodanza/",
-            "registration": null,
-            "source": "https://visitavina.munivina.cl/actividad/taller-biodanza/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+Palacio+Rioja%2C+Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Museo Palacio Rioja",
-            "venue_id": "museo-palacio-rioja",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Museo Palacio Rioja",
-              "status": "verified",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Visita Viña — Municipalidad de Viña del Mar",
-          "price": {
-            "currency": null,
-            "display_text": null,
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "cursos-talleres",
-            "label": "Cursos y talleres"
-          },
+          "occurrence_id": "occurrence:15171dfa1147f79f08a1",
           "provenance": {
             "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-            "cancelled": null,
-            "information_completeness": "partial",
-            "last_verified_at": null,
-            "price_confirmed": null,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": false
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "17:30",
-            "display_text": "2026-10-17 · 11:00–12:00",
-            "end": "2026-10-17T12:00:00-03:00",
-            "hours_confidence": "official_venue_schedule",
-            "mode": "dated",
-            "occurrences": [],
-            "opening_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "start": "2026-10-17T11:00:00-03:00",
-            "timezone": "America/Santiago",
-            "venue_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "hours_confidence": "official_venue_schedule",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            }
-          },
-          "source_id": "culturasvina",
-          "source_name": "Visita Viña — Municipalidad de Viña del Mar",
-          "source_url": "https://visitavina.munivina.cl/actividad/taller-biodanza/",
-          "tags": [],
-          "title": "Taller // Biodanza"
-        },
-        "decision": {
-          "id": "agenda_a695d564b93dd626543d71a6",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Taller // Biodanza"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_a695d564b93dd626543d71a6",
-          "schedule": {
-            "end": "2026-10-17T12:00:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T11:00:00-03:00"
-          },
-          "source_id": "culturasvina",
-          "source_urls": [
-            "https://visitavina.munivina.cl/actividad/taller-biodanza"
-          ],
-          "title": "Taller // Biodanza",
-          "venue": "museo-palacio-rioja"
-        },
-        "event_sha256": "a5c0f492765d2e2addae95334a44beb65424a3e42e1d14d99d0f0c2ed3e9ea1b",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_a695d564b93dd626543d71a6",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:375625b05d018441750c",
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_a695d564b93dd626543d71a6",
-          "source_url": "https://visitavina.munivina.cl/actividad/taller-biodanza/",
-          "stage": "content_quality_guard",
-          "title": "Taller // Biodanza"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "exposiciones",
-              "label": "Exposiciones"
-            }
-          ],
-          "description": "El Museo Baburizza, Empresa Portuaria Valparaíso y El Mercurio de Valparaíso, realizarán este sábado 17 de octubre de 10:00 a 12:00 horas, la séptima versión del concurso de pintura infantil “Los colores del Puerto”, dirigido a niños y niñas de 5 a 12 años.",
-          "event_type": "event",
-          "id": "agenda_baburizza_bc6f22c78479af34c382",
-          "image": {
-            "alt": "Concurso de pintura infantil “Los colores del Puerto”",
-            "url": "./assets/event-images/valparaiso/92124f3034b87634e5e037cb.webp"
-          },
-          "last_verified_at": "2026-10-14T19:18:13-03:00",
-          "links": {
-            "official": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/",
-            "registration": null,
-            "source": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Paseo Yugoslavo 176, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Museo Baburizza",
-            "venue_id": "museo-baburizza"
-          },
-          "organizer": "Museo Baburizza",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Consultar condiciones",
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "exposiciones",
-            "label": "Exposiciones"
-          },
-          "public_status": {
-            "advisory_text": "Confirma condiciones de acceso en la fuente oficial.",
-            "cancelled": false,
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-14T19:18:13-03:00",
-            "price_confirmed": false,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "12:00",
-            "display_text": "2026-10-17 · 07:00",
-            "end": "2026-10-17T09:00:00-03:00",
-            "end_confidence": "explicit",
-            "hours_confidence": "explicit",
-            "mode": "single",
-            "occurrences": [],
-            "opening_time": "10:00",
-            "start": "2026-10-17T07:00:00-03:00",
-            "start_confidence": "explicit",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "museobaburizza",
-          "source_name": "Museo Baburizza",
-          "source_url": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/",
-          "tags": [
-            "Museos",
-            "Museo Baburizza"
-          ],
-          "title": "Concurso de pintura infantil “Los colores del Puerto”"
-        },
-        "decision": {
-          "id": "agenda_baburizza_bc6f22c78479af34c382",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Concurso de pintura infantil “Los colores del Puerto”"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_baburizza_bc6f22c78479af34c382",
-          "schedule": {
-            "end": "2026-10-17T09:00:00-03:00",
-            "mode": "single",
-            "occurrences": [],
-            "start": "2026-10-17T07:00:00-03:00"
-          },
-          "source_id": "museobaburizza",
-          "source_urls": [
-            "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto"
-          ],
-          "title": "Concurso de pintura infantil “Los colores del Puerto”",
-          "venue": "museo-baburizza"
-        },
-        "event_sha256": "4dc26482c6c4a61b6182fb57c49561ccb28d1fc1cd7cab4bb2fd37ff4b532d2e",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_baburizza_bc6f22c78479af34c382",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:df0d4cc6c0d26a0182a1",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_baburizza_bc6f22c78479af34c382",
-          "source_url": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/",
-          "stage": "content_quality_guard",
-          "title": "Concurso de pintura infantil “Los colores del Puerto”"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "cine",
-              "label": "Cine"
-            }
-          ],
-          "description": "Dirección: Condell 1585, Valparaíso. Funciones: sábado 17 de octubre de 2026, 17:00 hrs.",
-          "event_type": "event",
-          "id": "agenda_be8df3f2ec77d6cadc3936a3",
-          "image": {
-            "alt": "El espinazo del diablo - 2001.",
-            "url": "./assets/event-images/valparaiso/0f1850cc77f9b48891bebf6e.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.passline.com/eventos/el-espinazo-del-diablo-2001",
-            "registration": null,
-            "source": "https://www.passline.com/eventos/el-espinazo-del-diablo-2001",
-            "tickets": "https://www.passline.com/eventos/el-espinazo-del-diablo-2001"
-          },
-          "location": {
-            "address": "Condell 1585, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Insomnia+Teatro+Condell%2C+Condell+1585%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
-            "online": false,
-            "venue": "Insomnia Teatro Condell",
-            "venue_id": "insomnia-teatro-condell",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Insomnia Teatro Condell",
-              "status": "verified",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Insomnia Cine",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$4.000",
-            "is_free": false,
-            "max_amount": 4000,
-            "min_amount": 4000
-          },
-          "primary_category": {
-            "id": "cine",
-            "label": "Cine"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1585, Valparaíso",
+              "address": "Avenida España 1680, Valparaíso",
               "city": "Valparaíso",
               "method": "canonical_venue_registry",
-              "source_url": "https://www.insomniacine.cl/quienes-somos/",
-              "venue_id": "insomnia-teatro-condell",
+              "source_url": "https://cultura.usm.cl/abonos/",
+              "venue_id": "aula-magna-usm",
               "verified_at": "2026-10-03"
             }
           },
-          "public_status": {
-            "advisory_text": null,
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-10-17 · 17:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T17:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T17:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "insomniacine",
-          "source_name": "Insomnia Cine",
-          "source_url": "https://www.passline.com/eventos/el-espinazo-del-diablo-2001",
-          "tags": [],
-          "title": "El espinazo del diablo - 2001."
-        },
-        "decision": {
-          "id": "agenda_be8df3f2ec77d6cadc3936a3",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "El espinazo del diablo - 2001."
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_be8df3f2ec77d6cadc3936a3",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T17:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T17:00:00-03:00"
-          },
-          "source_id": "insomniacine",
-          "source_urls": [
-            "https://www.passline.com/eventos/el-espinazo-del-diablo-2001"
-          ],
-          "title": "El espinazo del diablo - 2001.",
-          "venue": "insomnia-teatro-condell"
-        },
-        "event_sha256": "c02b405ca110a802bc76893d42e23dfaf9555a59a726b9e4571cc3b3c1e89e2a",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_be8df3f2ec77d6cadc3936a3",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:848ecb455137c6a44699",
-          "provenance": {
-            "verified_venue": {
-              "address": "Condell 1585, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://www.insomniacine.cl/quienes-somos/",
-              "venue_id": "insomnia-teatro-condell",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_be8df3f2ec77d6cadc3936a3",
-          "source_url": "https://www.passline.com/eventos/el-espinazo-del-diablo-2001",
+          "reason": "performance_without_verified_concrete_session",
+          "source_record_id": "agenda_df7eb7d55164b463bbae0ff5",
+          "source_url": "https://www.instagram.com/p/DeKrGJSvWV-",
           "stage": "content_quality_guard",
-          "title": "El espinazo del diablo - 2001."
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "teatro",
-              "label": "Teatro y danza"
-            }
-          ],
-          "description": "📖✨ Hay historias que un día dejamos de contar, otras que cambian con los años, y algunas que simplemente estaban esperando el momento perfecto para volver a encontrarse. El sábado 17 de octubre, el escenario del Teatro Valparaíso Profundo se llena de complicid...",
-          "event_type": "event",
-          "id": "agenda_c61f21b091180c307ba8c4b3",
-          "image": {
-            "alt": "¡HASTA QUE NOS VOLVIMOS A CONTAR!",
-            "url": "https://instagram.fsod5-1.fna.fbcdn.net/v/t51.82787-15/839096159_17995538946061485_2410739812937494195_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ig_cache_key=NDAwMzM5NTI0MTc5MjUzOTU5ODE3OTk1NTM4OTQ5MDYxNDg1.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEyODQuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=Jw7ZbKWlZugQ7kNvwH--He4&_nc_oc=Adq8WpR3jVeiXMZzwWUsP0QXuurb18CDU-5PINknAP1lSPF4jxQzKswq04cNavOc4Rc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fsod5-1.fna&_nc_gid=Z_VV6SJ2mWyuc7O3p04Qrg&_nc_ss=7a22e&oh=00_AQOCuW8eISx94DIaP4gi3iAgydnwbz9l0rsdNik0TU9Umw&oe=6ACD5773"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/DeO6sLyiIvO/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/DeO6sLyiIvO/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Fisher 24, Cerro Concepción, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Valpara%C3%ADso+Profundo%2C+Fisher+24%2C+Cerro+Concepci%C3%B3n%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
-            "online": false,
-            "venue": "Teatro Valparaíso Profundo",
-            "venue_id": "valparaiso-profundo",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Teatro Valparaíso Profundo",
-              "status": "verified",
-              "venue_id": "valparaiso-profundo",
-              "verified_at": "2026-10-13"
-            }
-          },
-          "organizer": "Valparaíso Profundo",
-          "original_title": "¡HASTA QUE NOS VOLVIMOS A CONTAR!",
-          "price": {
-            "currency": null,
-            "display_text": null,
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "teatro",
-            "label": "Teatro y danza"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Fisher 24, Cerro Concepción, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://portaldisc.com/evento/juliopinatocatasntimasvalpo",
-              "venue_id": "valparaiso-profundo",
-              "verified_at": "2026-10-13"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-            "cancelled": null,
-            "information_completeness": "partial",
-            "last_verified_at": null,
-            "price_confirmed": null,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-636470c7251ec57e27bf143d",
-              "start": "2026-10-17",
-              "title": "¡HASTA QUE NOS VOLVIMOS A CONTAR!",
-              "venue": "Teatro Valparaíso Profundo (Pasaje Fisher 24, Cerro Concepción)"
-            }
-          ],
-          "schedule": {
-            "display_text": "2026-10-17 · 19:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T19:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T19:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "valparaiso_profundo",
-          "source_name": "Valparaíso Profundo",
-          "source_url": "https://www.instagram.com/p/DeO6sLyiIvO/",
-          "tags": [
-            "función",
-            "magia",
-            "teatro"
-          ],
-          "title": "¡Hasta que nos volvimos a contar!"
-        },
-        "decision": {
-          "id": "agenda_c61f21b091180c307ba8c4b3",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "¡Hasta que nos volvimos a contar!"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_c61f21b091180c307ba8c4b3",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T19:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T19:00:00-03:00"
-          },
-          "source_id": "valparaiso_profundo",
-          "source_urls": [
-            "https://www.instagram.com/p/DeO6sLyiIvO"
-          ],
-          "title": "¡Hasta que nos volvimos a contar!",
-          "venue": "valparaiso-profundo"
-        },
-        "event_sha256": "442b4b641634ef1a58c96b3e4b8a8d176f2bdf9b80d77f56f10e3cb6c8083be9",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_c61f21b091180c307ba8c4b3",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:24cb6402cccd0b29c4bd",
-          "provenance": {
-            "verified_venue": {
-              "address": "Fisher 24, Cerro Concepción, Valparaíso",
-              "city": "Valparaíso",
-              "method": "canonical_venue_registry",
-              "source_url": "https://portaldisc.com/evento/juliopinatocatasntimasvalpo",
-              "venue_id": "valparaiso-profundo",
-              "verified_at": "2026-10-13"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_c61f21b091180c307ba8c4b3",
-          "source_url": "https://www.instagram.com/p/DeO6sLyiIvO/",
-          "stage": "content_quality_guard",
-          "title": "¡Hasta que nos volvimos a contar!"
-        }
-      },
-      {
-        "before_event": {
-          "audience": "Familiar",
-          "categories": [
-            {
-              "id": "exposiciones",
-              "label": "Exposiciones"
-            }
-          ],
-          "description": "🤩 Invitamos a niños y niñas que tengan entre 5 a 12 años, a ser parte de “Los colores del Puerto” 🎨 ℹ️ Dividimos el concurso en dos categorías: de 5 a 8 años y de 9 a 12 años. Quienes resulten ganadores recibirán los siguientes premios: Grandes concursantes me...",
-          "event_type": "event",
-          "id": "agenda_f74090430bb0274d6805f31a",
-          "image": {
-            "alt": "¡Queda una semana para el concurso de pintura infantil!",
-            "url": "https://instagram.frtm1-2.fna.fbcdn.net/v/t51.82787-15/842529523_18632361079016496_4026199768812631812_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&_nc_map=urlgen_bucketless&ig_cache_key=NDAwNDgzNTU2OTU5MDEwNDU5MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjU2MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=InwUMg97yIIQ7kNvwHFaQ9P&_nc_oc=Adpj1EO6Q2Ke780DLGlu0OQngAPVCu6N_xWKK5s6bIukiKRhIwgapGCJYJ9RFdA_SVA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.frtm1-2.fna&_nc_gid=j1BmMmlpVqXqruCZC0N96w&_nc_ss=7a22e&oh=00_AQN9jn0ytxc9FzX25ZXE0ge8_jUunj_p-UehKUi7uwZEWA&oe=6AD34A74"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://www.instagram.com/p/DeUCLtlRHIP/",
-            "registration": null,
-            "source": "https://www.instagram.com/p/DeUCLtlRHIP/",
-            "tickets": null
-          },
-          "location": {
-            "address": null,
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "$100.000 en Gift card",
-            "venue_id": null
-          },
-          "organizer": "Museo Baburizza",
-          "price": {
-            "currency": "CLP",
-            "display_text": "$100.000 · $70.000 · $50.000",
-            "is_free": false,
-            "max_amount": 100000,
-            "min_amount": 50000
-          },
-          "primary_category": {
-            "id": "exposiciones",
-            "label": "Exposiciones"
-          },
-          "public_status": {
-            "advisory_text": "Se conserva la última versión pública verificada porque esta actualización no reprodujo el evento. Confirma posibles cambios en el enlace oficial.",
-            "cancelled": null,
-            "information_completeness": "complete",
-            "last_verified_at": null,
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "represented_functions": [
-            {
-              "function_id": "observation-2762c4b1b84889db5b7000fc",
-              "start": "2026-10-17",
-              "title": "¡Queda una semana para el concurso de pintura infantil!",
-              "venue": "$100.000 en Gift card"
-            }
-          ],
-          "schedule": {
-            "display_text": "2026-10-17 · 10:00",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T10:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T10:00:00-03:00",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "museobaburizza",
-          "source_name": "Museo Baburizza",
-          "source_url": "https://www.instagram.com/p/DeUCLtlRHIP/",
-          "tags": [
-            "museo",
-            "pintura"
-          ],
-          "title": "¡Queda una semana para el concurso de pintura infantil!"
-        },
-        "decision": {
-          "id": "agenda_f74090430bb0274d6805f31a",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "¡Queda una semana para el concurso de pintura infantil!"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_f74090430bb0274d6805f31a",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [
-              {
-                "end": null,
-                "start": "2026-10-17T10:00:00-03:00"
-              }
-            ],
-            "start": "2026-10-17T10:00:00-03:00"
-          },
-          "source_id": "museobaburizza",
-          "source_urls": [
-            "https://www.instagram.com/p/DeUCLtlRHIP"
-          ],
-          "title": "¡Queda una semana para el concurso de pintura infantil!",
-          "venue": "$100.000 en Gift card"
-        },
-        "event_sha256": "4f5ec47480f473a6a13c3d2bd95449efe7af224b5b244222143fae55fe711296",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_f74090430bb0274d6805f31a",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:3fbeb458050a18614414",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://www.instagram.com/p/DeUCLtlRHIP/"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_f74090430bb0274d6805f31a",
-          "source_url": "https://www.instagram.com/p/DeUCLtlRHIP/",
-          "stage": "content_quality_guard",
-          "title": "¡Queda una semana para el concurso de pintura infantil!"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "cursos-talleres",
-              "label": "Cursos y talleres"
-            }
-          ],
-          "description": "Actividad del Museo Palacio Rioja recuperada desde la cartelera oficial municipal de Viña del Mar.",
-          "editorial": {
-            "venue_hours_enriched": true
-          },
-          "event_type": "event",
-          "id": "agenda_fc196e74329791f881b2cb80",
-          "image": {
-            "alt": "Taller Literario",
-            "url": "https://visitavina.munivina.cl/wp-content/uploads/2023/02/bandera-chile.svg"
-          },
-          "last_verified_at": "2026-10-13T04:44:45-03:00",
-          "links": {
-            "official": "https://visitavina.munivina.cl/actividad/taller-literario-2/?occurrence=2026-10-17",
-            "registration": null,
-            "source": "https://visitavina.munivina.cl/actividades/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Museo+Palacio+Rioja%2C+Quillota+214%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Museo Palacio Rioja",
-            "venue_id": "museo-palacio-rioja",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Museo Palacio Rioja",
-              "status": "verified",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "organizer": "Museo Palacio Rioja",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Gratis",
-            "is_free": true,
-            "max_amount": 0,
-            "min_amount": 0
-          },
-          "primary_category": {
-            "id": "cursos-talleres",
-            "label": "Cursos y talleres"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Actividad recuperada desde la cartelera oficial municipal Visita Viña que enlaza la programación del Museo Palacio Rioja.",
-            "cancelled": false,
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-13T04:44:45-03:00",
-            "price_confirmed": true,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "closing_time": "17:30",
-            "display_text": "2026-10-17 · 11:00–13:00",
-            "end": "2026-10-17T13:00:00-03:00",
-            "hours_confidence": "official_venue_schedule",
-            "mode": "dated",
-            "occurrences": [],
-            "opening_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            },
-            "opening_time": "10:00",
-            "start": "2026-10-17T11:00:00-03:00",
-            "timezone": "America/Santiago",
-            "venue_hours": {
-              "closing_time": "17:30",
-              "display_text": "Martes a domingo · 10:00–17:30",
-              "hours_confidence": "official_venue_schedule",
-              "is_open_on_reference_date": true,
-              "mode": "weekly",
-              "open_weekdays": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-              ],
-              "opening_time": "10:00",
-              "reference_date": "2026-10-17",
-              "source_name": "Visita Viña / Municipalidad de Viña del Mar",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "verified_at": "2026-08-17"
-            }
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_name": "Visita Viña — Museo Palacio Rioja",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "tags": [
-            "Cursos y talleres",
-            "Museo Palacio Rioja",
-            "Visita Viña"
-          ],
-          "title": "Taller Literario"
-        },
-        "decision": {
-          "id": "agenda_fc196e74329791f881b2cb80",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Taller Literario"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_fc196e74329791f881b2cb80",
-          "schedule": {
-            "end": "2026-10-17T13:00:00-03:00",
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-10-17T11:00:00-03:00"
-          },
-          "source_id": "museo_palacio_rioja",
-          "source_urls": [
-            "https://visitavina.munivina.cl/actividad/taller-literario-2/?occurrence=2026-10-17",
-            "https://visitavina.munivina.cl/actividades"
-          ],
-          "title": "Taller Literario",
-          "venue": "museo-palacio-rioja"
-        },
-        "event_sha256": "d19493c9c1815431c94c99714740a21a828776b6f86641dd1848dcb03b0ed8cc",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_fc196e74329791f881b2cb80",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:ae186f67708f22486fc2",
-          "provenance": {
-            "verified_venue": {
-              "address": "Quillota 214, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-              "venue_id": "museo-palacio-rioja",
-              "verified_at": "2026-10-03"
-            }
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_fc196e74329791f881b2cb80",
-          "source_url": "https://visitavina.munivina.cl/actividades/",
-          "stage": "content_quality_guard",
-          "title": "Taller Literario"
-        }
-      },
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "description": "Programación de Trotamundos Valparaíso. Venta y detalles en Passline desde el enlace oficial del recinto.",
-          "event_type": "event",
-          "id": "agenda_trotamundos_0e10b1a4794d7199458a",
-          "image": {
-            "alt": "Alex Anwandter en Valparaíso + Fiesta - Trotamundos",
-            "url": "./assets/event-images/valparaiso/7b83669ba58f6b952fabe043.webp"
-          },
-          "last_verified_at": "2026-10-14T19:16:44-03:00",
-          "links": {
-            "official": "https://linktr.ee/trotavalparaiso",
-            "registration": null,
-            "source": "https://linktr.ee/trotavalparaiso",
-            "tickets": "https://www.passline.com/eventos/alex-anwandter-en-valparaiso-fiesta-trotamundos"
-          },
-          "location": {
-            "address": "Blanco 1253, Valparaíso",
-            "city": "Valparaíso",
-            "commune": "Valparaíso",
-            "latitude": null,
-            "longitude": null,
-            "online": false,
-            "venue": "Trotamundos Valparaíso",
-            "venue_id": "trotamundosvalpo"
-          },
-          "organizer": "Trotamundos Valparaíso",
-          "price": {
-            "currency": "CLP",
-            "display_text": "Consultar condiciones",
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "public_status": {
-            "advisory_text": "Confirma disponibilidad y condiciones en la ticketera enlazada por Trotamundos.",
-            "cancelled": false,
-            "external_link_quality": "direct_ticketing",
-            "information_completeness": "complete",
-            "last_verified_at": "2026-10-14T19:16:44-03:00",
-            "price_confirmed": false,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": true,
-            "sold_out": null,
-            "source_official": true
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-10-17 · 20:00",
-            "end": null,
-            "mode": "single",
-            "occurrences": [],
-            "start": "2026-10-17T20:00:00-03:00",
-            "start_confidence": "explicit",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "trotamundosvalpo",
-          "source_name": "Trotamundos Valparaíso",
-          "source_url": "https://linktr.ee/trotavalparaiso",
-          "tags": [
-            "Música",
-            "Trotamundos Valparaíso"
-          ],
-          "title": "Alex Anwandter en Valparaíso + Fiesta - Trotamundos"
-        },
-        "decision": {
-          "id": "agenda_trotamundos_0e10b1a4794d7199458a",
-          "reason": "schedule_ended_before_publication_date",
-          "title": "Alex Anwandter en Valparaíso + Fiesta - Trotamundos"
-        },
-        "event_binding": {
-          "city": "Valparaíso",
-          "id": "agenda_trotamundos_0e10b1a4794d7199458a",
-          "schedule": {
-            "end": null,
-            "mode": "single",
-            "occurrences": [],
-            "start": "2026-10-17T20:00:00-03:00"
-          },
-          "source_id": "trotamundosvalpo",
-          "source_urls": [
-            "https://linktr.ee/trotavalparaiso"
-          ],
-          "title": "Alex Anwandter en Valparaíso + Fiesta - Trotamundos",
-          "venue": "trotamundosvalpo"
-        },
-        "event_sha256": "741d669c78e1223b60ac1b006ffe8e560a85594049fe0d3024297eaad2cb823d",
-        "kind": "expired_removed",
-        "publication_date": "2026-10-18",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "expiration",
-          "canonical_event_id": "agenda_trotamundos_0e10b1a4794d7199458a",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "expired"
-          },
-          "occurrence_id": "occurrence:ed68ffd26b9dc89f39be",
-          "provenance": {
-            "method": "source_record_provenance",
-            "source_url": "https://linktr.ee/trotavalparaiso"
-          },
-          "reason": "schedule_ended_before_publication_date",
-          "source_record_id": "agenda_trotamundos_0e10b1a4794d7199458a",
-          "source_url": "https://linktr.ee/trotavalparaiso",
-          "stage": "content_quality_guard",
-          "title": "Alex Anwandter en Valparaíso + Fiesta - Trotamundos"
+          "title": "certamen internacional de Tunas UTFSM Valparaíso"
         }
       },
       {
@@ -8224,6 +5731,182 @@
           "evidence": {
             "missing_evidence": [
               "verified_exhibition_period_or_concrete_session"
+            ]
+          }
+        }
+      },
+      {
+        "schema_version": "1.0.0",
+        "stage": "content_quality_guard",
+        "scope": "candidate_input_only_not_baseline_loss",
+        "publication_date": "2026-10-18",
+        "kind": "quarantined",
+        "event_binding": {
+          "id": "agenda_53f93f855aa941b64bca5277",
+          "source_id": "sala_secreta",
+          "source_urls": [
+            "https://www.instagram.com/p/Dd2T2H8KDwj"
+          ],
+          "title": "Magia en Sala Secreta",
+          "city": "Valparaíso",
+          "venue": "sala-secreta-valparaiso",
+          "schedule": {
+            "end": null,
+            "mode": "program",
+            "occurrences": [],
+            "start": "2026-10-24T17:00:00-03:00"
+          }
+        },
+        "event_sha256": "852381024b2039be6fe06926436969de39c1a4bae2ecf106a73307874c527b60",
+        "before_event": {
+          "title": "Magia en Sala Secreta",
+          "event_type": "program",
+          "primary_category": {
+            "id": "teatro",
+            "label": "Teatro"
+          },
+          "categories": [
+            {
+              "id": "teatro",
+              "label": "Teatro"
+            }
+          ],
+          "schedule": {
+            "mode": "program",
+            "start": "2026-10-24T17:00:00-03:00",
+            "end": null,
+            "timezone": "America/Santiago",
+            "display_text": "Sábado 24 de octubre · 17:00",
+            "occurrences": [],
+            "start_confidence": "reviewed_operator_report_plus_official_monthly_program"
+          },
+          "location": {
+            "venue_id": "sala-secreta-valparaiso",
+            "city": "Valparaíso",
+            "commune": "Valparaíso",
+            "venue": "Sala Secreta",
+            "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso",
+            "online": false,
+            "latitude": null,
+            "longitude": null,
+            "map_url": "https://www.google.com/maps/search/?api=1&query=Paseo%20Dimalow%20167%2C%20Cerro%20Alegre%2C%20Valpara%C3%ADso",
+            "verification": {
+              "status": "verified",
+              "method": "canonical_venue_registry",
+              "venue_id": "sala-secreta-valparaiso",
+              "official_name": "Sala Secreta",
+              "verified_at": "2026-09-26"
+            }
+          },
+          "price": {
+            "is_free": null,
+            "currency": "CLP",
+            "min_amount": null,
+            "max_amount": null,
+            "display_text": "Consultar con Sala Secreta"
+          },
+          "links": {
+            "official": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+            "tickets": null,
+            "registration": "https://www.instagram.com/salasecreta.cl/",
+            "source": "https://www.instagram.com/p/Dd2T2H8KDwj/"
+          },
+          "organizer": "Sala Secreta",
+          "source_id": "sala_secreta",
+          "source_name": "Sala Secreta",
+          "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+          "last_verified_at": "2026-10-18T07:00:00-03:00",
+          "public_status": {
+            "source_official": false,
+            "last_verified_at": "2026-10-18T07:00:00-03:00",
+            "registration_open": null,
+            "registration_closed": null,
+            "cancelled": false,
+            "sold_out": null,
+            "price_stage": null,
+            "price_confirmed": false,
+            "information_completeness": "partial",
+            "advisory_text": "La cartelera oficial retenida confirma función el 24/10. Hora 17:00 incorporada por revisión editorial; artista y título específico por confirmar con Sala Secreta."
+          },
+          "description": "Función de magia en Sala Secreta. Se publica con título descriptivo para no perder una función concreta mientras el anuncio individual no está disponible en la captura retenida.",
+          "tags": [
+            "magia",
+            "Sala Secreta",
+            "Valparaíso"
+          ],
+          "audience": null,
+          "registration_requirements": "Reserva y condiciones directamente con Sala Secreta.",
+          "image": {
+            "url": null,
+            "alt": null
+          },
+          "editorial": {
+            "classification": "event",
+            "reason": "verified_date_plus_operator_reported_time_with_safe_title_fallback",
+            "duration_days": 0,
+            "title_fallback": {
+              "contract": "verified-event-title-fallback/1",
+              "reason": "specific_title_not_available_in_retained_official_evidence"
+            },
+            "verified_public_event_overlay": true,
+            "publication_review_required": true,
+            "publication_review_reason": "caption_programme_children_unresolved",
+            "publication_review_missing_evidence": [
+              "individual_activity_projection"
+            ],
+            "program_activity_evidence": [],
+            "caption_identity_control": {
+              "contract": "caption-activity-identity/1",
+              "raw_sha256": "ecc5ddcf7fc18618b60c575d6b4b506325d01e2672dfc1b5de70b2926faec5c2",
+              "evidence_url": "https://www.instagram.com/p/Dd2T2H8KDwj/"
+            }
+          },
+          "id": "agenda_53f93f855aa941b64bca5277",
+          "provenance": {
+            "verified_venue": {
+              "method": "canonical_venue_registry",
+              "venue_id": "sala-secreta-valparaiso",
+              "city": "Valparaíso",
+              "source_url": "https://www.instagram.com/p/DdtuL_kx01J/",
+              "verified_at": "2026-09-26",
+              "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso"
+            }
+          }
+        },
+        "decision": {
+          "id": "agenda_53f93f855aa941b64bca5277",
+          "title": "Magia en Sala Secreta",
+          "reason": "upstream_publication_review:caption_programme_children_unresolved",
+          "missing_evidence": [
+            "individual_activity_projection"
+          ]
+        },
+        "transformation": {
+          "stage": "content_quality_guard",
+          "action": "quarantine",
+          "reason": "upstream_publication_review:caption_programme_children_unresolved",
+          "source_record_id": "agenda_53f93f855aa941b64bca5277",
+          "canonical_event_id": "agenda_53f93f855aa941b64bca5277",
+          "occurrence_id": "occurrence:7327d28610999ed6f807",
+          "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+          "title": "Magia en Sala Secreta",
+          "provenance": {
+            "verified_venue": {
+              "method": "canonical_venue_registry",
+              "venue_id": "sala-secreta-valparaiso",
+              "city": "Valparaíso",
+              "source_url": "https://www.instagram.com/p/DdtuL_kx01J/",
+              "verified_at": "2026-09-26",
+              "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso"
+            }
+          },
+          "destination": {
+            "state": "quarantine",
+            "canonical_event_id": null
+          },
+          "evidence": {
+            "missing_evidence": [
+              "individual_activity_projection"
             ]
           }
         }
@@ -21228,530 +18911,36 @@
       }
     ],
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-10-18T09:38:42+00:00",
+    "generated_at": "2026-10-18T12:03:00+00:00",
     "receipts": [
       {
-        "action": "expiration",
-        "canonical_event_id": "agenda_0905061133d2f612bfa36a46",
+        "action": "quarantine",
+        "canonical_event_id": "agenda_df7eb7d55164b463bbae0ff5",
         "destination": {
           "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:34dfde98c3db96659db4",
-        "provenance": {
-          "verified_venue": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "method": "canonical_venue_registry",
-            "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-            "venue_id": "museo-palacio-rioja",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_0905061133d2f612bfa36a46",
-        "source_url": "https://visitavina.munivina.cl/actividades/",
-        "stage": "content_quality_guard",
-        "title": "Presentación libros infantil // Denisse Holloway"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_0e202a9cd13b2a91f2e5d184",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:a992e84d7dbde4a4cf03",
-        "provenance": {
-          "verified_venue": {
-            "address": "Condell 1546, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
-            "venue_id": "museo-historia-natural-valparaiso",
-            "verified_at": "2026-09-21"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_0e202a9cd13b2a91f2e5d184",
-        "source_url": "https://www.mhnv.gob.cl/cartelera/lanzamiento-de-refugio-coral-juego-de-cartas-sobre-biodiversidad-y-conservacion-marina",
-        "stage": "content_quality_guard",
-        "title": "Lanzamiento de “Refugio Coral”, juego de cartas sobre biodiversidad y conservación marina"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_2372a3f9dff448aa3450f1dc",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:8a8a646fe19710738b44",
-        "provenance": {
-          "verified_venue": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "method": "canonical_venue_registry",
-            "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-            "venue_id": "museo-palacio-rioja",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_2372a3f9dff448aa3450f1dc",
-        "source_url": "https://www.instagram.com/p/Dd7TOr4vVlU/",
-        "stage": "content_quality_guard",
-        "title": "II Festival de Artes Escénicas"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_23c85705c3d9830bc6796d8c",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:c4c189f0eeb14188a66d",
-        "provenance": {
-          "verified_venue": {
-            "address": "Condell 1585, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://www.insomniacine.cl/quienes-somos/",
-            "venue_id": "insomnia-teatro-condell",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_23c85705c3d9830bc6796d8c",
-        "source_url": "https://www.passline.com/eventos/snoopy-vuelve-a-casa-esta-es-la-gran-calabaza-espanol",
-        "stage": "content_quality_guard",
-        "title": "Snoopy, vuelve a casa + Ésta es la gran calabaza - ESPAÑOL."
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_31b62c3f2ffd8eda7fb477cb",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:50c2a83c87eb5b38e646",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_31b62c3f2ffd8eda7fb477cb",
-        "source_url": "https://valpocultura.cl/evento/scd-teatro-mauri-camila-moreno/",
-        "stage": "content_quality_guard",
-        "title": "SCD Teatro Mauri – Camila Moreno"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_500b339b02d04929f1bc8966",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:0a2e33ceb10df04b4a8c",
-        "provenance": {
-          "verified_venue": {
-            "address": "Condell 1546, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://www.mhnv.gob.cl/cartelera/traves-del-espejo-exposicion-de-ervin-echeverria-iturra",
-            "venue_id": "museo-historia-natural-valparaiso",
-            "verified_at": "2026-09-21"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_500b339b02d04929f1bc8966",
-        "source_url": "https://www.instagram.com/p/DeW7rFRM5iC/",
-        "stage": "content_quality_guard",
-        "title": "lanzamiento de Refugio Coral"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_548a87d01e7a4a7a0c2be106",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:5eb787831705159b68bf",
-        "provenance": {
-          "verified_venue": {
-            "address": "Condell 1585, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://www.insomniacine.cl/quienes-somos/",
-            "venue_id": "insomnia-teatro-condell",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_548a87d01e7a4a7a0c2be106",
-        "source_url": "https://www.passline.com/eventos/hope-2026-567325",
-        "stage": "content_quality_guard",
-        "title": "Hope (2026)."
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_69cde9db93b15d349a4f75eb",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:1187bdcb5d2ec505ed3f",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://visitavina.munivina.cl/actividades/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_69cde9db93b15d349a4f75eb",
-        "source_url": "https://visitavina.munivina.cl/actividades/",
-        "stage": "content_quality_guard",
-        "title": "Lanzamiento de disco // Red Mojo"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_8addc134179558d6aa03dfa3",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:0b7ff17d15aa61a40f3a",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.instagram.com/p/DeW74SoFfkT/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_8addc134179558d6aa03dfa3",
-        "source_url": "https://www.instagram.com/p/DeW74SoFfkT/",
-        "stage": "content_quality_guard",
-        "title": "Jonathan Gatica"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_8dc11bdd51c7883fc741bf53",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:64c470a55243d14380d8",
-        "provenance": {
-          "verified_venue": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "method": "canonical_venue_registry",
-            "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-            "venue_id": "museo-palacio-rioja",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_8dc11bdd51c7883fc741bf53",
-        "source_url": "https://visitavina.munivina.cl/actividades/",
-        "stage": "content_quality_guard",
-        "title": "Exposición temporal // “La Playa: todo tiempo pasado fue mejor”"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_a695d564b93dd626543d71a6",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:375625b05d018441750c",
-        "provenance": {
-          "verified_venue": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "method": "canonical_venue_registry",
-            "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-            "venue_id": "museo-palacio-rioja",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_a695d564b93dd626543d71a6",
-        "source_url": "https://visitavina.munivina.cl/actividad/taller-biodanza/",
-        "stage": "content_quality_guard",
-        "title": "Taller // Biodanza"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_baburizza_bc6f22c78479af34c382",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:df0d4cc6c0d26a0182a1",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_baburizza_bc6f22c78479af34c382",
-        "source_url": "https://www.museobaburizza.cl/actividad/concurso-de-pintura-infantil-los-colores-del-puerto/",
-        "stage": "content_quality_guard",
-        "title": "Concurso de pintura infantil “Los colores del Puerto”"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_be8df3f2ec77d6cadc3936a3",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:848ecb455137c6a44699",
-        "provenance": {
-          "verified_venue": {
-            "address": "Condell 1585, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://www.insomniacine.cl/quienes-somos/",
-            "venue_id": "insomnia-teatro-condell",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_be8df3f2ec77d6cadc3936a3",
-        "source_url": "https://www.passline.com/eventos/el-espinazo-del-diablo-2001",
-        "stage": "content_quality_guard",
-        "title": "El espinazo del diablo - 2001."
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_c61f21b091180c307ba8c4b3",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:24cb6402cccd0b29c4bd",
-        "provenance": {
-          "verified_venue": {
-            "address": "Fisher 24, Cerro Concepción, Valparaíso",
-            "city": "Valparaíso",
-            "method": "canonical_venue_registry",
-            "source_url": "https://portaldisc.com/evento/juliopinatocatasntimasvalpo",
-            "venue_id": "valparaiso-profundo",
-            "verified_at": "2026-10-13"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_c61f21b091180c307ba8c4b3",
-        "source_url": "https://www.instagram.com/p/DeO6sLyiIvO/",
-        "stage": "content_quality_guard",
-        "title": "¡Hasta que nos volvimos a contar!"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_f74090430bb0274d6805f31a",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:3fbeb458050a18614414",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://www.instagram.com/p/DeUCLtlRHIP/"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_f74090430bb0274d6805f31a",
-        "source_url": "https://www.instagram.com/p/DeUCLtlRHIP/",
-        "stage": "content_quality_guard",
-        "title": "¡Queda una semana para el concurso de pintura infantil!"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_fc196e74329791f881b2cb80",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:ae186f67708f22486fc2",
-        "provenance": {
-          "verified_venue": {
-            "address": "Quillota 214, Viña del Mar",
-            "city": "Viña del Mar",
-            "method": "canonical_venue_registry",
-            "source_url": "https://visitavina.munivina.cl/museo-palacio-rioja/",
-            "venue_id": "museo-palacio-rioja",
-            "verified_at": "2026-10-03"
-          }
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_fc196e74329791f881b2cb80",
-        "source_url": "https://visitavina.munivina.cl/actividades/",
-        "stage": "content_quality_guard",
-        "title": "Taller Literario"
-      },
-      {
-        "action": "expiration",
-        "canonical_event_id": "agenda_trotamundos_0e10b1a4794d7199458a",
-        "destination": {
-          "canonical_event_id": null,
-          "state": "expired"
-        },
-        "occurrence_id": "occurrence:ed68ffd26b9dc89f39be",
-        "provenance": {
-          "method": "public_baseline_record_provenance",
-          "source_url": "https://linktr.ee/trotavalparaiso"
-        },
-        "reason": "schedule_ended_before_publication_date",
-        "source_record_id": "agenda_trotamundos_0e10b1a4794d7199458a",
-        "source_url": "https://linktr.ee/trotavalparaiso",
-        "stage": "content_quality_guard",
-        "title": "Alex Anwandter en Valparaíso + Fiesta - Trotamundos"
-      },
-      {
-        "action": "occurrence_pruning",
-        "canonical_event_id": "agenda_fa66ee2019c155333c5ebf74",
-        "destination": {
-          "canonical_event_id": "agenda_fa66ee2019c155333c5ebf74",
-          "state": "series_preserved"
+          "state": "quarantine"
         },
         "evidence": {
-          "occurrence": {
-            "end": "2026-10-17T12:30:00-03:00",
-            "start": "2026-10-17T11:00:00-03:00"
-          }
+          "missing_evidence": [
+            "verified_performance_start_time"
+          ]
         },
-        "occurrence_id": "occurrence:58e209c92386998f568d",
+        "occurrence_id": "occurrence:15171dfa1147f79f08a1",
         "provenance": {
-          "official_metadata": [
-            {
-              "fields": [
-                "session_scope"
-              ],
-              "host": "artequinvina.cl",
-              "method": "official_page_structured_or_event_local_evidence",
-              "url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/"
-            }
-          ],
-          "official_schedule": {
-            "conflicts": [],
-            "end": "2026-10-31T12:30:00-03:00",
-            "event_date": "2026-09-05",
-            "kind": "explicit_sessions",
-            "method": "official_explicit_session_list",
-            "occurrences": [
-              {
-                "end": "2026-09-05T12:30:00-04:00",
-                "start": "2026-09-05T11:00:00-04:00"
-              },
-              {
-                "end": "2026-09-12T12:30:00-03:00",
-                "start": "2026-09-12T11:00:00-03:00"
-              },
-              {
-                "end": "2026-09-26T12:30:00-03:00",
-                "start": "2026-09-26T11:00:00-03:00"
-              },
-              {
-                "end": "2026-10-03T12:30:00-03:00",
-                "start": "2026-10-03T11:00:00-03:00"
-              },
-              {
-                "end": "2026-10-10T12:30:00-03:00",
-                "start": "2026-10-10T11:00:00-03:00"
-              },
-              {
-                "end": "2026-10-17T12:30:00-03:00",
-                "start": "2026-10-17T11:00:00-03:00"
-              },
-              {
-                "end": "2026-10-24T12:30:00-03:00",
-                "start": "2026-10-24T11:00:00-03:00"
-              },
-              {
-                "end": "2026-10-31T12:30:00-03:00",
-                "start": "2026-10-31T11:00:00-03:00"
-              }
-            ],
-            "pending_sessions": [],
-            "previous_schedule": {
-              "display_text": "2026-09-05 · 11:00–12:30; 2026-09-12 · 11:00–12:30; 2026-09-26 · 11:00–12:30; 2026-10-03 · 11:00–12:30; 2026-10-10 · 11:00–12:30; 2026-10-17 · 11:00–12:30; 2026-10-24 · 11:00–12:30; 2026-10-31 · 11:00–12:30",
-              "end": "2026-10-31T12:30:00-03:00",
-              "mode": "recurring",
-              "occurrences": [
-                {
-                  "end": "2026-09-05T12:30:00-04:00",
-                  "start": "2026-09-05T11:00:00-04:00"
-                },
-                {
-                  "end": "2026-09-12T12:30:00-03:00",
-                  "start": "2026-09-12T11:00:00-03:00"
-                },
-                {
-                  "end": "2026-09-26T12:30:00-03:00",
-                  "start": "2026-09-26T11:00:00-03:00"
-                },
-                {
-                  "end": "2026-10-03T12:30:00-03:00",
-                  "start": "2026-10-03T11:00:00-03:00"
-                },
-                {
-                  "end": "2026-10-10T12:30:00-03:00",
-                  "start": "2026-10-10T11:00:00-03:00"
-                },
-                {
-                  "end": "2026-10-17T12:30:00-03:00",
-                  "start": "2026-10-17T11:00:00-03:00"
-                },
-                {
-                  "end": "2026-10-24T12:30:00-03:00",
-                  "start": "2026-10-24T11:00:00-03:00"
-                },
-                {
-                  "end": "2026-10-31T12:30:00-03:00",
-                  "start": "2026-10-31T11:00:00-03:00"
-                }
-              ],
-              "start": "2026-09-05T11:00:00-04:00",
-              "timezone": "America/Santiago"
-            },
-            "reviewed_source_binding": {
-              "contract": "reviewed-official-session-sources/1",
-              "members": [
-                {
-                  "source_id": "artequinvina",
-                  "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
-                  "title": "Escuelita Aprendices CREADORES ANCESTRALES"
-                },
-                {
-                  "source_id": "culturasvina",
-                  "source_url": "https://visitavina.munivina.cl/actividad/taller-escuelita-aprendices/",
-                  "title": "Taller // Escuelita Aprendices"
-                }
-              ],
-              "reviewed_at": "2026-09-21",
-              "rule_id": "artequin_aprendices_2026",
-              "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/"
-            },
-            "session_date_evidence": [
-              "📆 Sábados 5, 12, 26 de septiembre y sábados 3, 10, 17, 24, 31 de octubre 🕰️ 11:00 a 12:30 h 🎟️ $6.500 por sesión | DESCUENTO Tarjeta Aprendices: $45.000 las 8 sesiones (Ref. $52.000)"
-            ],
-            "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
-            "start": "2026-09-05T11:00:00-04:00",
-            "time_policy": "shared_only_when_explicitly_scoped_to_session_list",
-            "timezone": "America/Santiago",
-            "year_evidence": [
-              "2026-10-17"
-            ]
-          },
           "verified_venue": {
-            "address": "Alcalde Prieto Nieto Parque, Potrerillos 500",
-            "city": "Viña del Mar",
+            "address": "Avenida España 1680, Valparaíso",
+            "city": "Valparaíso",
             "method": "canonical_venue_registry",
-            "source_url": "https://visitavina.munivina.cl/actividad/taller-escuelita-exploradores/",
-            "venue_id": "museo-artequin-vina",
-            "verified_at": "2026-09-21"
+            "source_url": "https://cultura.usm.cl/abonos/",
+            "venue_id": "aula-magna-usm",
+            "verified_at": "2026-10-03"
           }
         },
-        "reason": "past_occurrence_pruned_from_active_series",
-        "source_record_id": "agenda_fa66ee2019c155333c5ebf74",
-        "source_url": "https://artequinvina.cl/events/escuelita-aprendices-creadores-ancestrales/",
+        "reason": "performance_without_verified_concrete_session",
+        "source_record_id": "agenda_df7eb7d55164b463bbae0ff5",
+        "source_url": "https://www.instagram.com/p/DeKrGJSvWV-",
         "stage": "content_quality_guard",
-        "title": "Escuelita Aprendices CREADORES ANCESTRALES"
+        "title": "certamen internacional de Tunas UTFSM Valparaiso"
       },
       {
         "schema_version": "1.0.0",
@@ -35606,6 +32795,603 @@
         "source_record_id": "obs_ff60125fbd687ba3a724f192",
         "source_url": "https://www.instagram.com/p/DaIxsgnsOXP",
         "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "caption_editorial_rectification",
+        "canonical_event_id": "agenda_53f93f855aa941b64bca5277",
+        "evidence": {
+          "after_event": {
+            "audience": null,
+            "categories": [
+              {
+                "id": "teatro",
+                "label": "Teatro"
+              }
+            ],
+            "description": "Función de magia en Sala Secreta. Se publica con título descriptivo para no perder una función concreta mientras el anuncio individual no está disponible en la captura retenida.",
+            "editorial": {
+              "caption_identity_control": {
+                "contract": "caption-activity-identity/1",
+                "evidence_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+                "raw_sha256": "ecc5ddcf7fc18618b60c575d6b4b506325d01e2672dfc1b5de70b2926faec5c2"
+              },
+              "classification": "event",
+              "duration_days": 0,
+              "program_activity_evidence": [],
+              "publication_review_missing_evidence": [
+                "individual_activity_projection"
+              ],
+              "publication_review_reason": "caption_programme_children_unresolved",
+              "publication_review_required": true,
+              "reason": "verified_date_plus_operator_reported_time_with_safe_title_fallback",
+              "title_fallback": {
+                "contract": "verified-event-title-fallback/1",
+                "reason": "specific_title_not_available_in_retained_official_evidence"
+              },
+              "verified_public_event_overlay": true
+            },
+            "event_type": "program",
+            "id": "agenda_53f93f855aa941b64bca5277",
+            "image": {
+              "alt": null,
+              "url": null
+            },
+            "last_verified_at": "2026-10-18T07:00:00-03:00",
+            "links": {
+              "official": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+              "registration": "https://www.instagram.com/salasecreta.cl/",
+              "source": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+              "tickets": null
+            },
+            "location": {
+              "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso",
+              "city": "Valparaíso",
+              "commune": "Valparaíso",
+              "latitude": null,
+              "longitude": null,
+              "map_url": "https://www.google.com/maps/search/?api=1&query=Paseo%20Dimalow%20167%2C%20Cerro%20Alegre%2C%20Valpara%C3%ADso",
+              "online": false,
+              "venue": "Sala Secreta",
+              "venue_id": "sala-secreta-valparaiso",
+              "verification": {
+                "method": "canonical_venue_registry",
+                "official_name": "Sala Secreta",
+                "status": "verified",
+                "venue_id": "sala-secreta-valparaiso",
+                "verified_at": "2026-09-26"
+              }
+            },
+            "organizer": "Sala Secreta",
+            "price": {
+              "currency": "CLP",
+              "display_text": "Consultar con Sala Secreta",
+              "is_free": null,
+              "max_amount": null,
+              "min_amount": null
+            },
+            "primary_category": {
+              "id": "teatro",
+              "label": "Teatro"
+            },
+            "provenance": {
+              "verified_venue": {
+                "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso",
+                "city": "Valparaíso",
+                "method": "canonical_venue_registry",
+                "source_url": "https://www.instagram.com/p/DdtuL_kx01J/",
+                "venue_id": "sala-secreta-valparaiso",
+                "verified_at": "2026-09-26"
+              }
+            },
+            "public_status": {
+              "advisory_text": "La cartelera oficial retenida confirma función el 24/10. Hora 17:00 incorporada por revisión editorial; artista y título específico por confirmar con Sala Secreta.",
+              "cancelled": false,
+              "information_completeness": "partial",
+              "last_verified_at": "2026-10-18T07:00:00-03:00",
+              "price_confirmed": false,
+              "price_stage": null,
+              "registration_closed": null,
+              "registration_open": null,
+              "sold_out": null,
+              "source_official": false
+            },
+            "registration_requirements": "Reserva y condiciones directamente con Sala Secreta.",
+            "schedule": {
+              "display_text": "Sábado 24 de octubre · 17:00",
+              "end": null,
+              "mode": "program",
+              "occurrences": [],
+              "start": "2026-10-24T17:00:00-03:00",
+              "start_confidence": "reviewed_operator_report_plus_official_monthly_program",
+              "timezone": "America/Santiago"
+            },
+            "source_id": "sala_secreta",
+            "source_name": "Sala Secreta",
+            "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+            "tags": [
+              "magia",
+              "Sala Secreta",
+              "Valparaíso"
+            ],
+            "title": "Magia en Sala Secreta"
+          },
+          "after_sha256": "852381024b2039be6fe06926436969de39c1a4bae2ecf106a73307874c527b60",
+          "before_event": {
+            "audience": null,
+            "categories": [
+              {
+                "id": "teatro",
+                "label": "Teatro"
+              }
+            ],
+            "description": "Función de magia en Sala Secreta. Se publica con título descriptivo para no perder una función concreta mientras el anuncio individual no está disponible en la captura retenida.",
+            "editorial": {
+              "classification": "event",
+              "duration_days": 0,
+              "reason": "verified_date_plus_operator_reported_time_with_safe_title_fallback",
+              "title_fallback": {
+                "contract": "verified-event-title-fallback/1",
+                "reason": "specific_title_not_available_in_retained_official_evidence"
+              },
+              "verified_public_event_overlay": true
+            },
+            "event_type": "event",
+            "id": "agenda_53f93f855aa941b64bca5277",
+            "image": {
+              "alt": null,
+              "url": null
+            },
+            "last_verified_at": "2026-10-18T07:00:00-03:00",
+            "links": {
+              "official": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+              "registration": "https://www.instagram.com/salasecreta.cl/",
+              "source": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+              "tickets": null
+            },
+            "location": {
+              "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso",
+              "city": "Valparaíso",
+              "commune": "Valparaíso",
+              "latitude": null,
+              "longitude": null,
+              "map_url": "https://www.google.com/maps/search/?api=1&query=Paseo%20Dimalow%20167%2C%20Cerro%20Alegre%2C%20Valpara%C3%ADso",
+              "online": false,
+              "venue": "Sala Secreta",
+              "venue_id": "sala-secreta-valparaiso",
+              "verification": {
+                "method": "canonical_venue_registry",
+                "official_name": "Sala Secreta",
+                "status": "verified",
+                "venue_id": "sala-secreta-valparaiso",
+                "verified_at": "2026-09-26"
+              }
+            },
+            "organizer": "Sala Secreta",
+            "price": {
+              "currency": "CLP",
+              "display_text": "Consultar con Sala Secreta",
+              "is_free": null,
+              "max_amount": null,
+              "min_amount": null
+            },
+            "primary_category": {
+              "id": "teatro",
+              "label": "Teatro"
+            },
+            "provenance": {
+              "verified_venue": {
+                "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso",
+                "city": "Valparaíso",
+                "method": "canonical_venue_registry",
+                "source_url": "https://www.instagram.com/p/DdtuL_kx01J/",
+                "venue_id": "sala-secreta-valparaiso",
+                "verified_at": "2026-09-26"
+              }
+            },
+            "public_status": {
+              "advisory_text": "La cartelera oficial retenida confirma función el 24/10. Hora 17:00 incorporada por revisión editorial; artista y título específico por confirmar con Sala Secreta.",
+              "cancelled": false,
+              "information_completeness": "partial",
+              "last_verified_at": "2026-10-18T07:00:00-03:00",
+              "price_confirmed": false,
+              "price_stage": null,
+              "registration_closed": null,
+              "registration_open": null,
+              "sold_out": null,
+              "source_official": false
+            },
+            "registration_requirements": "Reserva y condiciones directamente con Sala Secreta.",
+            "schedule": {
+              "display_text": "Sábado 24 de octubre · 17:00",
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": "2026-10-24T17:00:00-03:00",
+              "start_confidence": "reviewed_operator_report_plus_official_monthly_program",
+              "timezone": "America/Santiago"
+            },
+            "source_id": "sala_secreta",
+            "source_name": "Sala Secreta",
+            "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+            "tags": [
+              "magia",
+              "Sala Secreta",
+              "Valparaíso"
+            ],
+            "title": "Magia en Sala Secreta"
+          },
+          "before_sha256": "0370b3acd18712767abb2875bd721b1059e1ecffa41d7f24dcabfdad4b6efee6",
+          "evaluation_at": "2026-10-18T09:01:33.775439-03:00",
+          "evaluation_date": "2026-10-18",
+          "raw_post": {
+            "_account": "salasecreta_cl",
+            "alt": "Photo by Sala Secreta on September 28, 2026.",
+            "caption": "Llega Octubre a nuestra @salasecreta.cl y obviamente que tendremos muuuuucha magia 🤩. Aquí les dejamos nuestra cartelera para que puedan comprar y reservar entradas por mensaje para el show que quieran (recuerden que son cupos limitados) 😊.\n\n03/10: @sc.lemus \n04/10: @magohectorvivallo\n10/10: 🪄🪄🪄\n16/10: @smaureira.a \n17/10: @elias.risk \n24/10: 🪄🪄🪄\n31/10: @arcano_mental y @elias.risk \n\nDesde el corazón del Cerro Alegre, del subterráneo de @elinternadovalpo, la invitación para el asombro está hecha. Les esperamos ✨.",
+            "childPosts": [],
+            "coauthorProducers": [
+              {
+                "__typename": "User",
+                "full_name": "Héctor Vivallo | Mago para eventos",
+                "id": "584617651",
+                "is_unpublished": false,
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/719189633_18596177584041652_1906581100825259111_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=vewYKrEAVsgQ7kNvwHkcHxW&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQNVW3pRmsa_2rUz1a7Y8OlHG3DU7EUQ2DiEreqjcQB3JA&oe=6AC5168E&_nc_sid=10d13b",
+                "username": "magohectorvivallo"
+              },
+              {
+                "__typename": "User",
+                "full_name": "Elias Risk",
+                "id": "1184783386",
+                "is_unpublished": false,
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/243519754_1629457480741375_108437776979798723_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=-kq1I691H8MQ7kNvwHj8MZe&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQP1c9Ux8x3MHocjQ0GKgfeOEPIh6qgyG8SQC26UQWjumA&oe=6AC514ED&_nc_sid=10d13b",
+                "username": "elias.risk"
+              },
+              {
+                "__typename": "User",
+                "full_name": "Sebastian Contreras Lemus",
+                "id": "266167052",
+                "is_unpublished": false,
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/334776996_1414339446004240_6460948895197092314_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=95XJg9WmeIkQ7kNvwFDnp8O&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMQFDgLknmO6m_h6hBZxWp-ZqkrXVub4hc7-bdhrZNq0w&oe=6AC50828&_nc_sid=10d13b",
+                "username": "sc.lemus"
+              },
+              {
+                "__typename": "User",
+                "full_name": "Sebastián Maureira",
+                "id": "515425433",
+                "is_unpublished": false,
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/302213052_1125825688336880_6146578934331340803_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=avhgzOTro1EQ7kNvwEHZw85&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQORsXaAkDT30DYjRiCk3HX7kjKdg7e0AZDqYlFTBxWldA&oe=6AC5055A&_nc_sid=10d13b",
+                "username": "smaureira.a"
+              },
+              {
+                "__typename": "User",
+                "full_name": "ENTRETELONES",
+                "id": "61378212820",
+                "is_unpublished": false,
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/386393150_544078107901842_6503050263206626111_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby40NTAuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=ENQEDfjMGGIQ7kNvwEnHA4k&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMvAEvq2KJ0ivhebYejtl9gZqP5GyZH0st0fWW_5i5Nbg&oe=6AC51B29&_nc_sid=10d13b",
+                "username": "entretelonesvalpo"
+              }
+            ],
+            "commentsCount": 21,
+            "dimensionsHeight": 3799,
+            "dimensionsWidth": 2880,
+            "displayUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-15/828227798_18094010111665361_2293565393545011833_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzk5NjQ2OTAwMTU5ODgxMTE3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjg4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Py808gofV0IQ7kNvwEulwKm&_nc_oc=AdrneCB0zxluZFARQzPYrl8QMbl6Djr1sPDWKcqQmkHFq1QaRA2c-25A_3Sse-d_4hA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&_nc_ss=7a22e&oh=00_AQMGcOefy1nc9yI3Boa6TPw3SYgiyeSAPwzWgic-QqM27Q&oe=6AC52368",
+            "firstComment": "🙌🙌🙌🙌🙌",
+            "hashtags": [],
+            "id": "3996469001598811171",
+            "images": [],
+            "inputUrl": "https://www.instagram.com/salasecreta.cl/",
+            "isCommentsDisabled": false,
+            "isPinned": true,
+            "latestComments": [
+              {
+                "id": "18097946597289274",
+                "likesCount": 0,
+                "owner": {
+                  "full_name": null,
+                  "id": "3178645182",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/671837329_18460327168109183_4371240201700422691_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=gyI8eGjT_bQQ7kNvwHPpwex&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPcvTRqgCPPZO8-mZEpOB1oNQSfygp1TbOZgY14_qja3w&oe=6AC50A1E&_nc_sid=10d13b",
+                  "username": "marcusmagus"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/671837329_18460327168109183_4371240201700422691_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=gyI8eGjT_bQQ7kNvwHPpwex&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPcvTRqgCPPZO8-mZEpOB1oNQSfygp1TbOZgY14_qja3w&oe=6AC50A1E&_nc_sid=10d13b",
+                "ownerUsername": "marcusmagus",
+                "replies": null,
+                "repliesCount": null,
+                "text": "🙌🙌🙌🙌🙌",
+                "timestamp": "2026-09-29T18:54:52.000Z"
+              },
+              {
+                "id": "18110968565171838",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "515425433",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/302213052_1125825688336880_6146578934331340803_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=avhgzOTro1EQ7kNvwFKdbI5&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMEFzotMeLWcH6PwlyPqsjuKEcAwTMZIJc9m9DG4LFjFA&oe=6AC5055A&_nc_sid=10d13b",
+                  "username": "smaureira.a"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/302213052_1125825688336880_6146578934331340803_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=avhgzOTro1EQ7kNvwFKdbI5&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMEFzotMeLWcH6PwlyPqsjuKEcAwTMZIJc9m9DG4LFjFA&oe=6AC5055A&_nc_sid=10d13b",
+                "ownerUsername": "smaureira.a",
+                "replies": null,
+                "repliesCount": null,
+                "text": "Esooooooo 🔥",
+                "timestamp": "2026-09-29T16:22:52.000Z"
+              },
+              {
+                "id": "17912688438495097",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "13146244144",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/632539879_18153355972436145_3540194887311618906_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDI0LmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=F3wbxaZond4Q7kNvwEYALpB&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPVNAudVM_joc_vvB2l_Zt3ryMoDcW9xmdLH3GBvzZUIA&oe=6AC50405&_nc_sid=10d13b",
+                  "username": "festivaldemagiaquilpue"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/632539879_18153355972436145_3540194887311618906_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDI0LmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=109&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=F3wbxaZond4Q7kNvwEYALpB&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPVNAudVM_joc_vvB2l_Zt3ryMoDcW9xmdLH3GBvzZUIA&oe=6AC50405&_nc_sid=10d13b",
+                "ownerUsername": "festivaldemagiaquilpue",
+                "replies": null,
+                "repliesCount": null,
+                "text": "🙌🪄",
+                "timestamp": "2026-09-29T14:15:12.000Z"
+              },
+              {
+                "id": "18128864836705304",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "59820057471",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/449804337_659736289706842_2345241163499136608_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby41NDAuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=4IJjOORvvgQQ7kNvwGxSWCA&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQOzB5qFXpDFBCf3hgPvkEqDyYGjOQaOSpRs1NGgrKTp7w&oe=6AC53128&_nc_sid=10d13b",
+                  "username": "festivaldemagia.va"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/449804337_659736289706842_2345241163499136608_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby41NDAuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=4IJjOORvvgQQ7kNvwGxSWCA&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQOzB5qFXpDFBCf3hgPvkEqDyYGjOQaOSpRs1NGgrKTp7w&oe=6AC53128&_nc_sid=10d13b",
+                "ownerUsername": "festivaldemagia.va",
+                "replies": null,
+                "repliesCount": null,
+                "text": "🔥🔥🔥",
+                "timestamp": "2026-09-29T14:14:42.000Z"
+              },
+              {
+                "id": "18105849940967641",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "23879608125",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/283362749_122397697130003_550157547848202737_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby42NDAuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=NiIEL58OYPgQ7kNvwE4iSKH&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPw0gutu6CyWdmGmu2LAhrTv3E0NWuKubotFF9vuVPMeA&oe=6AC4FF28&_nc_sid=10d13b",
+                  "username": "dimitribruning"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/283362749_122397697130003_550157547848202737_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby42NDAuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=111&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=NiIEL58OYPgQ7kNvwE4iSKH&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPw0gutu6CyWdmGmu2LAhrTv3E0NWuKubotFF9vuVPMeA&oe=6AC4FF28&_nc_sid=10d13b",
+                "ownerUsername": "dimitribruning",
+                "replies": null,
+                "repliesCount": null,
+                "text": "👏👏👏",
+                "timestamp": "2026-09-28T23:53:00.000Z"
+              },
+              {
+                "id": "18215589112357898",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "2066000437",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/480491802_816968023937872_3795293791648668123_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=3cz_CPS6IRQQ7kNvwHlq_vD&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQNiI7qlqwtJsjsBHicH1c3Glaibhnw3ij78at9AODsQ5w&oe=6AC5002D&_nc_sid=10d13b",
+                  "username": "arcano_mental"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/480491802_816968023937872_3795293791648668123_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=3cz_CPS6IRQQ7kNvwHlq_vD&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQNiI7qlqwtJsjsBHicH1c3Glaibhnw3ij78at9AODsQ5w&oe=6AC5002D&_nc_sid=10d13b",
+                "ownerUsername": "arcano_mental",
+                "replies": null,
+                "repliesCount": null,
+                "text": "Uffff que mesesito....vamonos...",
+                "timestamp": "2026-09-28T23:23:04.000Z"
+              },
+              {
+                "id": "18116340671059625",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "4303797613",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/751151686_18451499986141614_4252620658307278624_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDcwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=r_Z-9Bd-NFQQ7kNvwH4ElgY&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPif_SJI-njJs46uisYpmulw700Q19h8rq3363yB-2sLQ&oe=6AC51339&_nc_sid=10d13b",
+                  "username": "diegocamin"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/751151686_18451499986141614_4252620658307278624_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDcwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=r_Z-9Bd-NFQQ7kNvwH4ElgY&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPif_SJI-njJs46uisYpmulw700Q19h8rq3363yB-2sLQ&oe=6AC51339&_nc_sid=10d13b",
+                "ownerUsername": "diegocamin",
+                "replies": null,
+                "repliesCount": null,
+                "text": "Se fueron en volá",
+                "timestamp": "2026-09-28T23:21:17.000Z"
+              },
+              {
+                "id": "17997596763009675",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "13495304",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/652081652_18566595994055305_1013457399674989404_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby42MTEuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=cm9eWTqhp2EQ7kNvwHwNB12&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPjdiHkyPwwyclA95Xd7LsZ-PTFTemhvuD6fMrL3byXDA&oe=6AC514A5&_nc_sid=10d13b",
+                  "username": "emilhmagia"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/652081652_18566595994055305_1013457399674989404_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby42MTEuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=cm9eWTqhp2EQ7kNvwHwNB12&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQPjdiHkyPwwyclA95Xd7LsZ-PTFTemhvuD6fMrL3byXDA&oe=6AC514A5&_nc_sid=10d13b",
+                "ownerUsername": "emilhmagia",
+                "replies": null,
+                "repliesCount": null,
+                "text": "👏👏👏",
+                "timestamp": "2026-09-28T23:19:46.000Z"
+              },
+              {
+                "id": "18137962180624313",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "273897617",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/761628318_18613030033041618_4590381635791524854_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=b2p_ahBQoA0Q7kNvwFxrDZQ&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQOoXYOd5Wpz1XU90U2bHJPdFwwbnVsaz28uQt6VHgFmOQ&oe=6AC5342E&_nc_sid=10d13b",
+                  "username": "magocristiani"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/761628318_18613030033041618_4590381635791524854_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=b2p_ahBQoA0Q7kNvwFxrDZQ&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQOoXYOd5Wpz1XU90U2bHJPdFwwbnVsaz28uQt6VHgFmOQ&oe=6AC5342E&_nc_sid=10d13b",
+                "ownerUsername": "magocristiani",
+                "replies": null,
+                "repliesCount": null,
+                "text": "👏👏👏👏",
+                "timestamp": "2026-09-28T23:12:40.000Z"
+              },
+              {
+                "id": "17889802608453590",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "1184783386",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/243519754_1629457480741375_108437776979798723_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=-kq1I691H8MQ7kNvwGQpfnV&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMCBYv4TA9SlKWzseYcwjemwVn0c99Cunkm3dZdT6S5hw&oe=6AC514ED&_nc_sid=10d13b",
+                  "username": "elias.risk"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/243519754_1629457480741375_108437776979798723_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=-kq1I691H8MQ7kNvwGQpfnV&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMCBYv4TA9SlKWzseYcwjemwVn0c99Cunkm3dZdT6S5hw&oe=6AC514ED&_nc_sid=10d13b",
+                "ownerUsername": "elias.risk",
+                "replies": null,
+                "repliesCount": null,
+                "text": "Esooooo 🔥🔥",
+                "timestamp": "2026-09-28T23:07:55.000Z"
+              },
+              {
+                "id": "18171872752454545",
+                "likesCount": 1,
+                "owner": {
+                  "full_name": null,
+                  "id": "565290058",
+                  "is_mentionable": null,
+                  "is_private": null,
+                  "is_verified": false,
+                  "latest_reel_media": null,
+                  "profile_pic_id": null,
+                  "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/743933725_18601409806042059_8380189637556966446_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=103&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=3G0750OXUNkQ7kNvwFtcTBv&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMSyyHt5KprnL0hmRlRBvU9m3qSisotcRj9V96rES5uHw&oe=6AC5015F&_nc_sid=10d13b",
+                  "username": "baulmagico.13"
+                },
+                "ownerProfilePicUrl": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/743933725_18601409806042059_8380189637556966446_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=103&_nc_oc=Q6cZ2gEXqyZuw2SjlLr0J-lLeu1DzcNepBIQ7_miubaAG6tkL8p1Omgc9tiy5B1hM3_U0Gg&_nc_ohc=3G0750OXUNkQ7kNvwFtcTBv&_nc_gid=5ZY-2Rhe04xRXKiv_Kwc_Q&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMSyyHt5KprnL0hmRlRBvU9m3qSisotcRj9V96rES5uHw&oe=6AC5015F&_nc_sid=10d13b",
+                "ownerUsername": "baulmagico.13",
+                "replies": null,
+                "repliesCount": null,
+                "text": "Diseñon",
+                "timestamp": "2026-09-28T23:03:17.000Z"
+              }
+            ],
+            "likesCount": 128,
+            "locationId": 214881134,
+            "locationName": "Valparaíso, Chile",
+            "mentions": [
+              "salasecreta.cl",
+              "sc.lemus",
+              "magohectorvivallo",
+              "smaureira.a",
+              "elias.risk",
+              "arcano_mental",
+              "elinternadovalpo"
+            ],
+            "originalHeight": 3799,
+            "originalWidth": 2880,
+            "ownerFullName": "Sala Secreta",
+            "ownerId": "50131177360",
+            "ownerUsername": "salasecreta.cl",
+            "paidPartnership": false,
+            "productType": "feed",
+            "shortCode": "Dd2T2H8KDwj",
+            "taggedUsers": [
+              {
+                "full_name": "Sebastian Contreras Lemus",
+                "id": "266167052",
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/334776996_1414339446004240_6460948895197092314_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=95XJg9WmeIkQ7kNvwFDnp8O&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMQFDgLknmO6m_h6hBZxWp-ZqkrXVub4hc7-bdhrZNq0w&oe=6AC50828&_nc_sid=10d13b",
+                "username": "sc.lemus"
+              },
+              {
+                "full_name": "Sebastián Maureira",
+                "id": "515425433",
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/302213052_1125825688336880_6146578934331340803_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=108&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=avhgzOTro1EQ7kNvwEHZw85&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQORsXaAkDT30DYjRiCk3HX7kjKdg7e0AZDqYlFTBxWldA&oe=6AC5055A&_nc_sid=10d13b",
+                "username": "smaureira.a"
+              },
+              {
+                "full_name": "Héctor Vivallo | Mago para eventos",
+                "id": "584617651",
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.82787-19/719189633_18596177584041652_1906581100825259111_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=vewYKrEAVsgQ7kNvwHkcHxW&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQNVW3pRmsa_2rUz1a7Y8OlHG3DU7EUQ2DiEreqjcQB3JA&oe=6AC5168E&_nc_sid=10d13b",
+                "username": "magohectorvivallo"
+              },
+              {
+                "full_name": "Elias Risk",
+                "id": "1184783386",
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/243519754_1629457480741375_108437776979798723_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=-kq1I691H8MQ7kNvwHj8MZe&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQP1c9Ux8x3MHocjQ0GKgfeOEPIh6qgyG8SQC26UQWjumA&oe=6AC514ED&_nc_sid=10d13b",
+                "username": "elias.risk"
+              },
+              {
+                "full_name": "ENTRETELONES",
+                "id": "61378212820",
+                "is_verified": false,
+                "profile_pic_url": "https://scontent-yyz1-1.cdninstagram.com/v/t51.2885-19/386393150_544078107901842_6503050263206626111_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby40NTAuYzIifQ&_nc_ht=scontent-yyz1-1.cdninstagram.com&_nc_cat=106&_nc_oc=Q6cZ2gFexhigMUUH9SMcg8RUPrOFSDoOm2z6KQNJTvtAGvhBM3AVSoUXCh32h3iXgqafvJ0&_nc_ohc=ENQEDfjMGGIQ7kNvwEnHA4k&_nc_gid=CuN8xNo8k2wM8QYbgPBvCQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AQMvAEvq2KJ0ivhebYejtl9gZqP5GyZH0st0fWW_5i5Nbg&oe=6AC51B29&_nc_sid=10d13b",
+                "username": "entretelonesvalpo"
+              }
+            ],
+            "timestamp": "2026-09-28T23:02:28.000Z",
+            "type": "Image",
+            "url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+            "videoViewCount": null
+          },
+          "raw_sha256": "ecc5ddcf7fc18618b60c575d6b4b506325d01e2672dfc1b5de70b2926faec5c2"
+        },
+        "provenance": {
+          "source_id": "sala_secreta",
+          "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/"
+        },
+        "reason": "same_retained_post_explicit_activity_identity",
+        "schema_version": "1.0.0",
+        "source_record_id": "agenda_53f93f855aa941b64bca5277",
+        "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+        "stage": "retained_caption_identity_control"
       }
     ],
     "schema_version": "1.0.0"
