@@ -1,14 +1,14 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-10-19T14:14:04+00:00",
+  "generated_at": "2026-10-19T16:52:06+00:00",
   "publication_date": "2026-10-19",
   "timezone": "America/Santiago",
   "counts": {
-    "total": 161,
+    "total": 160,
     "events": 159,
     "courses": 0,
     "flexible_offers": 1,
-    "programs": 1
+    "programs": 0
   },
   "events": [
     {
@@ -6538,7 +6538,7 @@
     },
     {
       "title": "Magia en Sala Secreta",
-      "event_type": "program",
+      "event_type": "event",
       "primary_category": {
         "id": "teatro",
         "label": "Teatro y danza"
@@ -6550,7 +6550,7 @@
         }
       ],
       "schedule": {
-        "mode": "program",
+        "mode": "dated",
         "start": "2026-10-24T17:00:00-03:00",
         "end": null,
         "timezone": "America/Santiago",
@@ -6620,6 +6620,10 @@
       },
       "id": "agenda_53f93f855aa941b64bca5277",
       "provenance": {
+        "verified_public_event_overlay": {
+          "contract": "verified-public-event-overlay/1",
+          "authority": "verified_public_events"
+        },
         "verified_venue": {
           "method": "canonical_venue_registry",
           "venue_id": "sala-secreta-valparaiso",
@@ -6627,19 +6631,6 @@
           "source_url": "https://www.instagram.com/p/DdtuL_kx01J/",
           "verified_at": "2026-09-26",
           "address": "Paseo Dimalow 167, Cerro Alegre, Valparaíso"
-        }
-      },
-      "editorial": {
-        "publication_review_required": true,
-        "publication_review_reason": "caption_programme_children_unresolved",
-        "publication_review_missing_evidence": [
-          "individual_activity_projection"
-        ],
-        "program_activity_evidence": [],
-        "caption_identity_control": {
-          "contract": "caption-activity-identity/1",
-          "raw_sha256": "ecc5ddcf7fc18618b60c575d6b4b506325d01e2672dfc1b5de70b2926faec5c2",
-          "evidence_url": "https://www.instagram.com/p/Dd2T2H8KDwj/"
         }
       }
     },
@@ -10351,109 +10342,6 @@
         "source": "passline_og",
         "relevance": "event_specific"
       }
-    },
-    {
-      "id": "agenda_df7eb7d55164b463bbae0ff5",
-      "title": "certamen internacional de Tunas UTFSM Valparaiso",
-      "event_type": "event",
-      "primary_category": {
-        "id": "musica",
-        "label": "Música"
-      },
-      "categories": [
-        {
-          "id": "musica",
-          "label": "Música"
-        }
-      ],
-      "schedule": {
-        "mode": "dated",
-        "start": "2026-10-31",
-        "end": null,
-        "timezone": "America/Santiago",
-        "display_text": "2026-10-31",
-        "occurrences": []
-      },
-      "location": {
-        "venue_id": "aula-magna-usm",
-        "city": "Valparaíso",
-        "commune": "Valparaíso",
-        "venue": "Teatro Aula Magna USM",
-        "address": "Avenida España 1680, Valparaíso",
-        "online": false,
-        "latitude": null,
-        "longitude": null,
-        "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Aula+Magna+USM%2C+Avenida+Espa%C3%B1a+1680%2C+Valpara%C3%ADso%2C+Valpara%C3%ADso",
-        "verification": {
-          "status": "verified",
-          "method": "canonical_venue_registry",
-          "venue_id": "aula-magna-usm",
-          "official_name": "Teatro Aula Magna USM",
-          "verified_at": "2026-10-03"
-        }
-      },
-      "price": {
-        "is_free": null,
-        "currency": null,
-        "min_amount": null,
-        "max_amount": null,
-        "display_text": "liberada"
-      },
-      "links": {
-        "official": null,
-        "tickets": null,
-        "registration": null,
-        "source": "https://www.instagram.com/p/DeKrGJSvWV-"
-      },
-      "organizer": "Cultura USM",
-      "source_name": "Cultura USM",
-      "source_url": "https://www.instagram.com/p/DeKrGJSvWV-",
-      "last_verified_at": null,
-      "public_status": {
-        "source_official": true,
-        "last_verified_at": null,
-        "registration_open": null,
-        "registration_closed": null,
-        "cancelled": null,
-        "sold_out": null,
-        "price_stage": null,
-        "price_confirmed": null,
-        "information_completeness": "partial",
-        "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-      },
-      "description": "Les traemos nueva información! 👀🙌 Acompañanos este Viernes 30 y Sabado 31 de Octubre en nuestro aniversario numero 12, donde celebraremos realizando el primer certamen internacional de Tunas UTFSM Valparaiso. Duante el viernes se realizarán las competencias de...",
-      "tags": [],
-      "audience": null,
-      "registration_requirements": null,
-      "image": {
-        "url": "https://instagram.fpoz3-1.fna.fbcdn.net/v/t51.82787-15/838879820_18355595800301564_3449594354150292479_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&_nc_map=urlgen_bucketless&ig_cache_key=NDAwMjIwMDc1NzE2NzAyMzQ4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTcxNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=VWQG2RYfdo8Q7kNvwHLNnRi&_nc_oc=Adq7sIvyuTdOT3R4YzkNUmAwdEf9OG9T90LB1VhAqQR2k2cTnETKu462fzm0OxQCD2Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fpoz3-1.fna&_nc_gid=bCtDWUuaEKMfLBDxj5rZ5A&_nc_ss=7a22e&oh=00_AQPLGzOHSThC4V43u-lccsKgMODOH9t7ppzT7_4VpH65Ig&oe=6AD32A5B",
-        "alt": "certamen internacional de Tunas UTFSM Valparaiso"
-      },
-      "represented_functions": [
-        {
-          "function_id": "observation-c5de9a51ad9179af0501e8b1",
-          "title": "https://forms.cloud.microsoft/r/i5Nfys6ZZ4",
-          "start": "2026-10-31",
-          "venue": "Aula Magna USM"
-        }
-      ],
-      "source_id": "cultura_usm",
-      "editorial": {
-        "title_original": "https://forms.cloud.microsoft/r/i5Nfys6ZZ4",
-        "title_recovered": true,
-        "title_recovery_reason": "explicit_activity_phrase_in_description"
-      },
-      "provenance": {
-        "verified_venue": {
-          "method": "canonical_venue_registry",
-          "venue_id": "aula-magna-usm",
-          "city": "Valparaíso",
-          "source_url": "https://cultura.usm.cl/abonos/",
-          "verified_at": "2026-10-03",
-          "address": "Avenida España 1680, Valparaíso"
-        }
-      },
-      "original_title": "certamen internacional de Tunas UTFSM Valparaiso"
     },
     {
       "image": {
@@ -17168,7 +17056,7 @@
     ]
   },
   "verified_public_events": {
-    "applied_at": "2026-10-19T11:11:16-03:00",
+    "applied_at": "2026-10-19T13:49:55-03:00",
     "added_count": 1,
     "added": [
       {

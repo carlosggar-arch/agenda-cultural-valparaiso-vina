@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "a73c8277d80070ce35aac45548eb936b51a86520e25ac432208002acc9ae37aa",
-  "generated_at": "2026-10-19T14:16:54Z",
+  "fingerprint": "b3be7d712d033629a147b50ee0a37db02041b64b7f1d66ea9badabcc38043dff",
+  "generated_at": "2026-10-19T16:53:45Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -364,15 +364,15 @@
     },
     "valparaiso::cultura usm": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.111111,
-        "musica": 0.888889
+        "cursos-talleres-campus": 0.125,
+        "musica": 0.875
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.888889,
+      "dominant_share": 0.875,
       "source_name": "Cultura USM",
       "source_url": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
-      "total": 9,
+      "total": 8,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -509,6 +509,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::sala secreta": {
+      "category_distribution": {
+        "teatro": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "teatro",
+      "dominant_share": 1.0,
+      "source_name": "Sala Secreta",
+      "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::teatro mauri scd": {
       "category_distribution": {
         "musica": 1.0
@@ -636,11 +649,11 @@
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "46dc0ab437b64b9f879ec9aa0fa3832ae45661d4",
+  "source_ref": "980e03c29fec7d6d243ec7d92460be9fca80d9ab",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 45,
+    "source_count": 46,
     "total_events": 446,
     "unclassified_count": 11,
     "unclassified_rate": 0.024664
