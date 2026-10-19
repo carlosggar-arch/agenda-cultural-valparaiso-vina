@@ -118,8 +118,18 @@ function exactLocationSuffixMatches(value, event) {
   return exactLocationSuffixCandidates(event).some((candidate) => fold(candidate) === suffix);
 }
 
+export function preservesVerifiedDescriptiveLocation(event) {
+  const fallback = event?.provenance?.verified_event_title_fallback;
+  return Boolean(
+    fallback?.contract === "verified-event-title-fallback/1"
+    && fallback?.authority === "verified_public_events"
+    && fallback?.preserve_descriptive_location === true
+  );
+}
+
 function stripExactLocationSuffix(value, event) {
   const text = cleanSpace(value);
+  if (preservesVerifiedDescriptiveLocation(event)) return text;
   const patterns = [
     /^(.+)\s+(?:en|@)\s+(.+)$/iu,
     /^(.+)\s*(?:\/\/|[:|·/–—-])\s*(.+)$/u,
