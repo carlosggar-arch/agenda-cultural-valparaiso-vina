@@ -73,6 +73,26 @@ def test_event_routing():
             pr = {"number": 23, "merged": True, "state": "closed", "merge_commit_sha": candidate,
                   "head": {"sha": head, "repo": {"full_name": repository, "id": 31}},
                   "base": {"ref": "main", "repo": {"full_name": repository, "id": 31}}}
+            # A normal GitHub merge commit is also valid only when the previous
+            # main is the exact first parent, the reviewed PR head is the exact
+            # second parent, and the resulting tree is the reviewed head tree.
+            merge_candidate = subprocess.check_output(
+                ["git", "commit-tree", head + "^{tree}", "-p", base, "-p", head], cwd=root,
+                input="Fixture protected merge\n", text=True).strip()
+            merge_pr = deepcopy(pr)
+            merge_pr["merge_commit_sha"] = merge_candidate
+            routing.require_exact_push(root=root, candidate=merge_candidate, before=base)
+            assert routing.verify_push_binding(
+                root=root, repository=repository, candidate=merge_candidate, before=base, pr=merge_pr,
+            ) == head
+            rogue_merge = subprocess.check_output(
+                ["git", "commit-tree", head + "^{tree}", "-p", base, "-p", candidate], cwd=root,
+                input="Fixture wrong merge parent\n", text=True).strip()
+            rogue_pr = deepcopy(pr)
+            rogue_pr["merge_commit_sha"] = rogue_merge
+            reject(lambda: routing.verify_push_binding(
+                root=root, repository=repository, candidate=rogue_merge, before=base, pr=rogue_pr,
+            ), "merge_head_parent")
             run = {"id": 101, "run_attempt": 1, "name": "PR release gate", "path": ".github/workflows/pr-release.yml",
                    "run_started_at": "2026-09-12T12:00:00Z",
                    "event": "pull_request", "head_sha": head, "status": "completed", "conclusion": "success",

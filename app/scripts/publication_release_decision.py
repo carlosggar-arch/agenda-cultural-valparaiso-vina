@@ -186,9 +186,23 @@ def closed_source_proof(*, root: Path, repository: str, before: str, head: str, 
 
 
 def require_exact_push(*, root: Path, candidate: str, before: str) -> None:
+    """Bind the pushed commit to the exact previous main as first parent.
+
+    Protected integration may produce either a squash commit (one parent) or a
+    regular merge commit (two parents).  At this early routing stage we only
+    trust the previous public main as the exact first parent.  If a second
+    parent exists, ``verify_push_binding`` must later prove that it is exactly
+    the reviewed PR head and that the merge tree is byte-identical to that
+    reviewed head before any no-release or deployment decision is accepted.
+    """
     for value in (candidate, before):
         require(re.fullmatch(r"[0-9a-f]{40}", value or "") is not None, "commit_identity")
-    require(git(root, "rev-list", "--parents", "-n", "1", candidate).split() == [candidate, before], "exact_squash_parent")
+    parents = git(root, "rev-list", "--parents", "-n", "1", candidate).split()
+    require(len(parents) in {2, 3} and parents[0] == candidate and parents[1] == before,
+            "exact_first_parent")
+    if len(parents) == 3:
+        require(re.fullmatch(r"[0-9a-f]{40}", parents[2]) is not None and parents[2] != before,
+                "merge_second_parent")
 
 
 def classify_push(*, root: Path, repository: str, candidate: str, before: str) -> dict:
@@ -222,7 +236,11 @@ def verify_push_binding(*, root: Path, repository: str, candidate: str, before: 
         require(pr.get(side, {}).get("repo", {}).get("full_name") == repository, "repository")
     head = pr.get("head", {}).get("sha", "")
     require(re.fullmatch(r"[0-9a-f]{40}", head) is not None, "pr_head")
-    require(git(root, "rev-parse", candidate + "^{tree}") == git(root, "rev-parse", head + "^{tree}"), "squash_tree")
+    parents = git(root, "rev-list", "--parents", "-n", "1", candidate).split()
+    if len(parents) == 3:
+        require(parents[2] == head, "merge_head_parent")
+    require(git(root, "rev-parse", candidate + "^{tree}") == git(root, "rev-parse", head + "^{tree}"),
+            "integration_tree")
     return head
 
 
