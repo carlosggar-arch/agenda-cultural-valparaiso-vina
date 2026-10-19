@@ -48,9 +48,11 @@ def check_manifest_and_icons() -> None:
 def check_service_worker() -> None:
     sw = (APP / "service-worker.js").read_text(encoding="utf-8")
     shell_manifest = (APP / "service-worker-assets.generated.js").read_text(encoding="utf-8")
-    assert "cacheFirstDataset" in sw
+    assert "networkFirstDataset" in sw
     assert "cacheFirstNavigation" in sw
-    assert "networkFirstDataset" not in sw
+    assert "cacheFirstDataset" not in sw
+    dataset_block = sw.split("async function networkFirstDataset", 1)[1].split('self.addEventListener("fetch"', 1)[0]
+    assert dataset_block.index("fetchAndCacheDataset(cache, request)") < dataset_block.index("cache.match(request")
     assert "DATA_NETWORK_BUDGET_MS" not in sw
     assert "CITY_REGISTRY_URL" in sw
     assert "datasetUrls" in sw

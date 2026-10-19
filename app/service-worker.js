@@ -125,16 +125,18 @@ async function fetchAndCacheDataset(cache, request) {
   }
 }
 
-async function cacheFirstDataset(request, event) {
+async function networkFirstDataset(request) {
   const cache = await caches.open(DATA_CACHE);
-  const cached = await cache.match(request, { ignoreSearch: true });
-  if (cached) {
-    event.waitUntil(fetchAndCacheDataset(cache, request).then(() => undefined));
-    return cached;
-  }
 
+  // Agenda data is publication state, not an app-shell asset. Always prefer
+  // the network so a newly certified publication is visible on the first load
+  // after deployment. The cache remains an offline/error fallback only.
   const network = await fetchAndCacheDataset(cache, request);
   if (network?.ok) return network;
+
+  const cached = await cache.match(request, { ignoreSearch: true });
+  if (cached) return cached;
+
   return new Response(JSON.stringify({ error: "offline_dataset_unavailable" }), {
     status: 503,
     headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -157,7 +159,7 @@ self.addEventListener("fetch", (event) => {
   event.respondWith((async () => {
     const urls = await datasetUrls();
     const supplemental = requestUrl.pathname.endsWith("/supplemental-events.json");
-    if (urls.has(requestUrl.href) || supplemental) return cacheFirstDataset(request, event);
+    if (urls.has(requestUrl.href) || supplemental) return networkFirstDataset(request);
     return cacheFirstShell(request, event);
   })());
 });
