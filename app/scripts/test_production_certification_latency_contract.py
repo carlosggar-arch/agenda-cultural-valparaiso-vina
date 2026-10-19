@@ -63,9 +63,10 @@ def main() -> None:
     assert timeout_minutes(smoke) <= 7, "complete visual certification SLA exceeded"
     assert "timeout-minutes: 28" not in publish, "legacy 28-minute certification timeout returned"
 
-    assert publish.count("--wait \\") == 1, "there must be exactly one deployment wait"
-    assert publish.count("--assert-ready \\") == 1, "post-readiness validation must be one-shot"
+    assert publish.count("--wait \\") == 2, "deployment and certification re-check must each use one bounded wait"
+    assert publish.count("--assert-ready \\") == 0, "transient origin failures must not be fatal one-shot probes"
     assert "--timeout-seconds 90" in sync, "deployment wait must be bounded to 90 seconds"
+    assert "--timeout-seconds 30" in smoke, "post-readiness re-check must stay tightly bounded"
     assert "production_pwa_smoke.py http" not in publish, "legacy sequential HTTP wait must not run in publish.yml"
     assert "PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized" in smoke
     assert "browser_suite_pid=$!" in smoke

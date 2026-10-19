@@ -260,7 +260,9 @@ def check_workflow_guard() -> None:
         "production smoke must verify the exact published release lineage"
     )
     assert "production_pwa_smoke.py local" in production
-    assert "deployment_readiness.py" in production and "--assert-ready" in production
+    assert "deployment_readiness.py" in production and "--wait" in production
+    assert "--timeout-seconds 30" in production
+    assert "--assert-ready" not in production
     assert "production_pwa_smoke.py http" not in production, "legacy sequential HTTP smoke must stay removed"
     assert "production_browser_selenium_smoke.py" in production
     assert "production_pwa_smoke.py browser" not in production

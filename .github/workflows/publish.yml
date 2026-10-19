@@ -568,16 +568,22 @@ jobs:
             app/scripts/release_finalizer.py
           python app/scripts/production_pwa_smoke.py local
 
-      - name: Re-assert deployed bytes without waiting
+      - name: Re-assert deployed bytes with bounded retry
         shell: bash
         run: |
           set -euo pipefail
+          # The sync job already proved both origins byte-identical. A transient
+          # edge/origin 5xx between that proof and deep certification must not
+          # turn a valid publication into a failed certification, but we still
+          # require a second independent parity observation before browser probes.
           python app/scripts/deployment_readiness.py \
-            --assert-ready \
+            --wait \
             --candidate-sha "$CANDIDATE_SHA" \
+            --timeout-seconds 30 \
+            --poll-seconds 2 \
             --output /tmp/production-release-verification/deployment-readiness.json \
             | tee /tmp/production-release-verification/http.log
-          grep -q '^DEPLOYMENT_READY_ASSERTED ' /tmp/production-release-verification/http.log
+          grep -q '^DEPLOYMENT_READY ' /tmp/production-release-verification/http.log
 
       - name: Run independent production probes in parallel
         shell: bash

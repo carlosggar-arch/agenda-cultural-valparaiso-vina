@@ -132,9 +132,10 @@ def main() -> None:
     assert "Assert immutable candidate and local contracts" in production
     assert 'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"' in production
     assert "python app/scripts/production_pwa_smoke.py local" in production
-    assert "Re-assert deployed bytes without waiting" in production
-    assert "--assert-ready" in production
-    assert "--wait" not in production
+    assert "Re-assert deployed bytes with bounded retry" in production
+    assert "--wait" in production
+    assert "--timeout-seconds 30" in production
+    assert "--assert-ready" not in production
     assert "Run independent production probes in parallel" in production
     assert "PRODUCTION_PROBES_PARALLEL_OK groups=2 chrome_owners=serialized" in production
     assert "browser_suite_pid=$!" in production

@@ -94,18 +94,20 @@ def main() -> None:
     assert js_with_release.release_changed is True
     assert js_with_release.violation is False
 
-    # Deployment propagation has one bounded retry loop shared by both origins.
-    # The old per-origin sequential HTTP waiter must never return here.
+    # Deployment propagation and the later independent re-check each use one
+    # bounded retry loop shared by both origins. The old per-origin sequential
+    # HTTP waiter must never return here.
     assert "python app/scripts/production_pwa_smoke.py http" not in WORKFLOW
-    assert WORKFLOW.count("--wait \\") == 1
+    assert WORKFLOW.count("--wait \\") == 2
     assert "PRODUCTION_ORIGIN_PARITY_OK origin=github-pages" in sync
     assert "PRODUCTION_ORIGIN_PARITY_OK origin=cloudflare" in sync
 
-    # The post-readiness job may re-check bytes once, but it must not wait again
-    # and it must stay pinned to the triggering candidate SHA.
-    assert "Re-assert deployed bytes without waiting" in production
-    assert "--assert-ready" in production
-    assert "--wait" not in production
+    # The post-readiness job makes one second bounded observation. This absorbs
+    # transient edge 5xx responses without weakening byte parity or SHA pinning.
+    assert "Re-assert deployed bytes with bounded retry" in production
+    assert "--wait" in production
+    assert "--timeout-seconds 30" in production
+    assert "--assert-ready" not in production
     assert "git reset --hard origin/main" not in WORKFLOW
     assert 'test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"' in production
 
