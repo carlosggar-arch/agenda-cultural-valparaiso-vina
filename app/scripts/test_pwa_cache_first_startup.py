@@ -11,23 +11,26 @@ agenda_order = (APP / "agenda-order-core.mjs").read_text(encoding="utf-8")
 exhibition_guard = (APP / "exhibition-presentation-guard.js").read_text(encoding="utf-8")
 data_pipeline = (APP / "data-pipeline.js").read_text(encoding="utf-8")
 
-# Warm starts must not wait for the network: both the HTML navigation and
-# already-cached datasets are returned immediately while a refresh is attached
-# to the fetch event lifecycle.
+# Warm shell navigations remain cache-first for startup speed. Agenda datasets
+# are publication state and must be network-first so a certified publication is
+# visible on the first successful load; their cache is offline fallback only.
 assert "async function cacheFirstNavigation(request, event)" in sw
 assert "event.respondWith(cacheFirstNavigation(request, event));" in sw
 assert "event.waitUntil(refreshShell(cache, request).then(() => undefined));" in sw
 assert "async function networkFirstNavigation" not in sw
 
-assert "async function cacheFirstDataset(request, event)" in sw
-assert "return cacheFirstDataset(request, event);" in sw
-assert "event.waitUntil(fetchAndCacheDataset(cache, request).then(() => undefined));" in sw
+assert "async function networkFirstDataset(request)" in sw
+assert "return networkFirstDataset(request);" in sw
+assert "async function cacheFirstDataset" not in sw
+dataset_block = sw.split("async function networkFirstDataset", 1)[1].split('self.addEventListener("fetch"', 1)[0]
+assert dataset_block.index("fetchAndCacheDataset(cache, request)") < dataset_block.index("cache.match(request")
+assert "event.waitUntil(fetchAndCacheDataset(cache, request).then(() => undefined));" not in dataset_block
 assert "DATA_NETWORK_BUDGET_MS" not in sw
 assert "Promise.race" not in sw
 
 # release-version.js remains network-first so clients can discover a new PWA
-# generation even though ordinary shell/data startup is cache-first. The
-# cache-first contract was introduced in v170 and must survive later releases.
+# generation. Ordinary shell startup remains cache-first; dataset freshness is
+# independently network-first with offline fallback.
 assert 'requestUrl.pathname.endsWith("/release-version.js")' in sw
 assert "networkFirstFreshShell(request)" in sw
 match = re.search(r"const\s+RELEASE\s*=\s*(\d+)\s*;", release)
@@ -89,4 +92,4 @@ assert "renderCategories();" not in render_events
 assert "return sortAgendaEvents(allEvents.filter" not in app_core
 assert "allEvents.filter((event) => eventMatchesSection" not in app_core
 
-print("PWA cache-first startup regression: OK")
+print("PWA shell-cache and network-first dataset regression: OK")
