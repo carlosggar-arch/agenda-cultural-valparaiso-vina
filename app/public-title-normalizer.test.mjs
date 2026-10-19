@@ -115,4 +115,30 @@ assert.equal(
   "purely decorative outer quotes must be removed",
 );
 
+const verifiedFallback = {
+  primary_category: { id: "teatro", label: "Teatro y danza" },
+  categories: [{ id: "teatro", label: "Teatro y danza" }],
+  location: { venue: "Sala Secreta", city: "Valparaíso" },
+  provenance: {
+    verified_event_title_fallback: {
+      contract: "verified-event-title-fallback/1",
+      authority: "verified_public_events",
+      preserve_descriptive_location: true,
+    },
+  },
+};
+assert.equal(
+  normalizePublicEventTitle("Magia en Sala Secreta", verifiedFallback),
+  "Magia en Sala Secreta",
+  "a verified descriptive fallback must retain the venue because it carries event identity",
+);
+assert.equal(
+  normalizePublicEventTitle("Hamlet en Sala Secreta", {
+    ...verifiedFallback,
+    provenance: {},
+  }),
+  "Hamlet",
+  "ordinary titles must still drop redundant venue suffixes",
+);
+
 console.log("PUBLIC_TITLE_NORMALIZER_OK");

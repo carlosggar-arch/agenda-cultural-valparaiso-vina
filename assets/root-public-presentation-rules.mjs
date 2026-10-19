@@ -218,8 +218,18 @@ function stripTerminalPeriod(value) {
   return text.endsWith(".") && !text.endsWith("...") ? text.slice(0, -1).trim() : text;
 }
 
+function preservesVerifiedDescriptiveLocation(event) {
+  const fallback = event?.provenance?.verified_event_title_fallback;
+  return Boolean(
+    fallback?.contract === "verified-event-title-fallback/1"
+    && fallback?.authority === "verified_public_events"
+    && fallback?.preserve_descriptive_location === true
+  );
+}
+
 function stripKnownLocationSuffix(value, event) {
   const text = clean(value);
+  if (preservesVerifiedDescriptiveLocation(event)) return text;
   const venue = clean(event?.location?.venue);
   const city = clean(event?.location?.city);
   if (!venue) return text;
@@ -240,6 +250,7 @@ function stripKnownLocationSuffix(value, event) {
 function normalizeBasePresentationTitle(value, event) {
   let text = stripRedundantFormatPrefix(value, event);
   text = stripEmbeddedCityStop(text, event);
+  if (preservesVerifiedDescriptiveLocation(event)) return text;
   const city = clean(event?.location?.city);
   const cityRx = city ? flexibleLiteral(city) : null;
   for (let pass = 0; pass < 2; pass += 1) {

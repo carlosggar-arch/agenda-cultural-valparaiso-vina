@@ -1,4 +1,5 @@
 import { loadCityRegistry } from "../assets/city-registry.mjs?v=20260817-city-registry";
+import { preservesVerifiedDescriptiveLocation } from "./public-presentation-rules.mjs";
 
 const STYLE_ID = "agenda-presentation-normalizer";
 const CITY_REGISTRY = await loadCityRegistry();
@@ -123,6 +124,7 @@ function stripGenericPrefix(value) {
 
 function stripKnownLocationSuffix(value, event) {
   let text = value.trim();
+  if (preservesVerifiedDescriptiveLocation(event)) return text;
   const venue = String(event?.location?.venue || "").trim();
   const city = String(event?.location?.city || "").trim();
   if (!venue && !city) return text;

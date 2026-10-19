@@ -1,4 +1,4 @@
-import { normalizePublicTitle } from "./public-presentation-rules.mjs?v=20260821-title7";
+import { normalizePublicTitle, preservesVerifiedDescriptiveLocation } from "./public-presentation-rules.mjs?v=20260821-title7";
 
 const KNOWN_ACRONYMS = new Set([
   "AI", "CMI", "DJ", "DJS", "FETEN", "FICX", "FMCE", "IA", "LGBT", "LGBTQ", "MNHN", "ONU", "PUCV",
@@ -56,6 +56,7 @@ function stripTerminalPeriod(value) {
 
 function stripKnownLocationSuffix(value, event) {
   let text = clean(value);
+  if (preservesVerifiedDescriptiveLocation(event)) return text;
   const venue = clean(event?.location?.venue);
   const city = clean(event?.location?.city);
   if (!venue) return text;

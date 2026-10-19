@@ -61,6 +61,25 @@ test("WEB removes redundant venue and city from the public title", () => {
   );
 });
 
+test("WEB preserves venue text when it is part of a verified descriptive fallback title", () => {
+  const fallback = {
+    ...baseEvent,
+    location: { venue: "Sala Secreta", city: "Valparaíso" },
+    provenance: {
+      verified_event_title_fallback: {
+        contract: "verified-event-title-fallback/1",
+        authority: "verified_public_events",
+        preserve_descriptive_location: true,
+      },
+    },
+  };
+  assert.equal(normalizeRootPublicEventTitle("Magia en Sala Secreta", fallback), "Magia en Sala Secreta");
+  assert.equal(
+    normalizeRootPublicEventTitle("Hamlet en Sala Secreta", { ...fallback, provenance: {} }),
+    "Hamlet",
+  );
+});
+
 test("WEB uses sentence case for workshop/course all-caps titles", () => {
   const workshop = {
     ...baseEvent,
