@@ -367,7 +367,7 @@ def verify_watchdog(args, reader: GithubReader) -> dict:
         release_bundle=(args.snapshot / "app/data/release-bundle.json").read_bytes())
     contract.require(actual == expected, "HISTORICAL_BINDING_CHANGED")
     old_id, old_attempt = binding.run_key(proof["original_core_execution"]["canonical"])
-    old_run = exact_run(reader, old_id, old_attempt)
+    old_run = exact_run(reader, old_id, old_attempt, completed_historical_original=True)
     artifact = download_artifact(reader, run=old_run,
         name=f"publication-release-decision-{old_id}-{old_attempt}", destination=args.output / "original-check")
     contract.require(artifact == proof["original_artifact"], "HISTORICAL_ARTIFACT_CHANGED")
