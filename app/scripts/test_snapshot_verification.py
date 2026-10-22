@@ -409,6 +409,35 @@ class SnapshotVerificationTests(unittest.TestCase):
         with self.assertRaisesRegex(contract.SnapshotVerificationError, "RUN_ATTEMPT_ADVANCED"):
             cli.exact_run(SimpleNamespace(api=api, prefix="repos/example"), 201, 1)
 
+    def test_historical_original_attempt_uses_immutable_attempt_endpoint(self):
+        sha = "a" * 40
+        def api(path):
+            if "/attempts/" in path:
+                return {"id": 201, "run_attempt": 1, "status": "completed",
+                        "head_sha": sha, "path": ".github/workflows/publish.yml",
+                        "event": "repository_dispatch"}
+            return {"id": 201, "run_attempt": 2, "status": "completed",
+                    "head_sha": sha, "path": ".github/workflows/publish.yml",
+                    "event": "repository_dispatch"}
+        old = cli.exact_run(SimpleNamespace(api=api, prefix="repos/example"),
+                            201, 1, completed_historical_original=True)
+        self.assertEqual(old["run_attempt"], 1)
+
+    def test_historical_original_requires_completed_current_rerun_and_same_identity(self):
+        sha = "a" * 40
+        for changed in ({"status": "in_progress"}, {"head_sha": "b" * 40},
+                        {"event": "workflow_dispatch"}):
+            def api(path):
+                original = {"id": 201, "run_attempt": 1, "status": "completed",
+                            "head_sha": sha, "path": ".github/workflows/publish.yml",
+                            "event": "repository_dispatch"}
+                return original if "/attempts/" in path else {**original, "run_attempt": 2, **changed}
+            with self.subTest(changed=changed):
+                with self.assertRaisesRegex(contract.SnapshotVerificationError,
+                                             "ORIGINAL_RERUN_"):
+                    cli.exact_run(SimpleNamespace(api=api, prefix="repos/example"),
+                                  201, 1, completed_historical_original=True)
+
     def test_prepare_uses_real_local_git_and_api_contract_with_explicit_crypto_double(self):
         snapshot, verifier, public, _ = self.repositories()
         for path in contract.CODE_PATHS:
