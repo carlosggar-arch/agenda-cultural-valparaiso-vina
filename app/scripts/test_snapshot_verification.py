@@ -557,6 +557,9 @@ class SnapshotVerificationTests(unittest.TestCase):
         old_source["job"]["conclusion"] = "failure"
         api = FixtureAPI(old_source, source)
         prefix = "repos/" + original.WEB_REPOSITORY
+        # A later rerun must not erase the authenticated original attempt.
+        api.overrides[f"{prefix}/actions/runs/201"] = {
+            **old_source["run"], "run_attempt": 2, "status": "completed"}
         jobs = [source["job"], {**source["job"], "id": 3011, "name": contract.SMOKE_JOB}]
         jobs.extend({"name": name, "conclusion": "skipped"} for name in
                     ("sync-cloudflare", "production-smoke", "refresh-open-release-prs"))
