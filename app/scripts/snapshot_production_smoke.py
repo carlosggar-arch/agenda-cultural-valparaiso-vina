@@ -110,6 +110,7 @@ def verify(snapshot: Path, verifier: Path, evidence: Path) -> None:
         (*lineage, "--cloudflare-ref", "origin/cloudflare-preview",
          "--snapshot-verification", str(evidence / "snapshot-verification.json"),
          "--historical-validation", str(historical_validation),
+         "--historical-root", str(snapshot),
          "--attestation", str(evidence / "production-release-attestation.json"),
          "--output", str(evidence / "production-release-chain.json")))
     require_overlay(snapshot, verifier, public_sha, verifier_sha)

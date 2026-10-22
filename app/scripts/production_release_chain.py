@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 from release_finalizer import check_published, git, git_check
@@ -28,6 +30,54 @@ def validate_visual_attestation(attestation: dict[str, object], published: dict[
         raise SystemExit("RELEASE_CHAIN_ATTESTATION_HEAD_MISMATCH")
     if attestation.get("publication_state") != "published_and_visually_verified":
         raise SystemExit("RELEASE_CHAIN_VISUAL_ATTESTATION_INCOMPLETE")
+
+
+def verify_immutable_historical_release(
+    root: Path, sha: str, attestation: Path, receipt: Path,
+) -> dict[str, object]:
+    """Authenticate the old signed publication with its own immutable provenance.
+
+    The newer verifier checkout has a later release-provenance.json. Reading
+    that file while validating an older SHA gives a false ancestry failure.
+    The original checkout is pinned to the signed SHA and runs the existing
+    read-only --check-published contract; the result must exactly match the
+    separately captured historical validation.
+    """
+    snapshot_root = root.resolve()
+    if not snapshot_root.is_dir():
+        raise SystemExit("SNAPSHOT_HISTORICAL_ROOT_MISSING")
+    def head() -> str:
+        try:
+            return subprocess.check_output(
+                ["git", "-C", str(snapshot_root), "rev-parse", "HEAD"],
+                text=True, timeout=15,
+            ).strip()
+        except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+            raise SystemExit("SNAPSHOT_HISTORICAL_ROOT_INVALID") from exc
+    if head() != sha:
+        raise SystemExit("SNAPSHOT_HISTORICAL_ROOT_HEAD_MISMATCH")
+    with tempfile.TemporaryDirectory(prefix="historical-release-") as folder:
+        output = Path(folder) / "verified-historical-release.json"
+        command = [
+            sys.executable, "app/scripts/release_finalizer.py",
+            "--check-published", "--finalizer-ref", sha,
+            "--core-attestation", str(attestation.resolve()),
+            "--core-receipt", str(receipt.resolve()),
+            "--output", str(output),
+        ]
+        try:
+            result = subprocess.run(
+                command, cwd=snapshot_root, capture_output=True,
+                text=True, timeout=90, check=False,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            raise SystemExit("SNAPSHOT_HISTORICAL_READONLY_CHECK_UNAVAILABLE") from exc
+        if result.returncode != 0:
+            raise SystemExit("SNAPSHOT_HISTORICAL_READONLY_CHECK_FAILED")
+        verified = load_json(output)
+    if head() != sha:
+        raise SystemExit("SNAPSHOT_HISTORICAL_ROOT_MOVED")
+    return verified
 
 
 def validate_cloudflare_relation(main_sha: str, cloudflare_sha: str, *, snapshot_mode: bool) -> tuple[str, list[str]]:
@@ -106,6 +156,7 @@ def build_chain(
     core_attestation: Path | None = None, core_receipt: Path | None = None,
     snapshot_verification: Path | None = None,
     historical_validation: Path | None = None,
+    historical_root: Path | None = None,
 ) -> dict[str, object]:
     # These are the original bytes authenticated earlier by the consumer. Keep
     # their semantic checks through the final chain, never fall back to PR mode.
@@ -119,6 +170,8 @@ def build_chain(
             raise SystemExit("SNAPSHOT_HISTORICAL_LINEAGE_EVIDENCE_REQUIRED")
         if historical_validation is None:
             raise SystemExit("SNAPSHOT_HISTORICAL_VALIDATION_REQUIRED")
+        if historical_root is None:
+            raise SystemExit("SNAPSHOT_HISTORICAL_ROOT_REQUIRED")
         composition = proof["composition"]
         historical_bytes = historical_validation.read_bytes()
         historical = load_json(historical_validation)
@@ -126,10 +179,9 @@ def build_chain(
                 or str(historical["release_id"]) != composition["historical"]["release_id"]
                 or historical.get("lineage_mode") != "CORE_PUBLICATION_FINALIZER"):
             raise SystemExit("SNAPSHOT_HISTORICAL_RELEASE_IDENTITY_MISMATCH")
-        authenticated_historical = check_published(
-            composition["historical"]["head_sha"],
-            core_attestation=core_attestation,
-            core_receipt=core_receipt,
+        authenticated_historical = verify_immutable_historical_release(
+            historical_root, composition["historical"]["head_sha"],
+            core_attestation, core_receipt,
         )
         if authenticated_historical != historical:
             raise SystemExit("SNAPSHOT_HISTORICAL_VALIDATION_CHANGED")
@@ -144,6 +196,8 @@ def build_chain(
         )
         effective_published = {**authenticated_historical, "main_sha": runtime_sha,
                                "release": release["release"], "release_id": release["release_id"]}
+    elif historical_root is not None:
+        raise SystemExit("SNAPSHOT_HISTORICAL_ROOT_UNEXPECTED")
     elif core_attestation is not None:
         published = check_published("HEAD", core_attestation=core_attestation, core_receipt=core_receipt)
         effective_published = published
@@ -201,6 +255,7 @@ def main() -> None:
     parser.add_argument("--core-receipt", type=Path)
     parser.add_argument("--snapshot-verification", type=Path)
     parser.add_argument("--historical-validation", type=Path)
+    parser.add_argument("--historical-root", type=Path)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     arguments = {"cloudflare_ref": args.cloudflare_ref, "attestation_path": Path(args.attestation),
@@ -209,6 +264,8 @@ def main() -> None:
         arguments["snapshot_verification"] = args.snapshot_verification
     if args.historical_validation is not None:
         arguments["historical_validation"] = args.historical_validation
+    if args.historical_root is not None:
+        arguments["historical_root"] = args.historical_root
     payload = build_chain(**arguments)
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
