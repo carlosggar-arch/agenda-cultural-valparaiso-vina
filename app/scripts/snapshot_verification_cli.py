@@ -56,13 +56,26 @@ def checked_endpoint(reader: GithubReader, job: dict) -> str:
     return url.removeprefix("https://api.github.com/")
 
 
-def exact_run(reader: GithubReader, run_id: int, attempt: int) -> dict:
+def exact_run(reader: GithubReader, run_id: int, attempt: int, *,
+              completed_historical_original: bool = False) -> dict:
     current = reader.api(f"{reader.prefix}/actions/runs/{run_id}")
-    contract.require(current.get("id") == run_id and current.get("run_attempt") == attempt,
-                     "RUN_ATTEMPT_ADVANCED")
+    contract.require(current.get("id") == run_id, "RUN_ID_MISMATCH")
+    if completed_historical_original:
+        # Only the original publication may be read by its immutable attempt
+        # endpoint after a later rerun. New verification runs remain attempt-1
+        # only and retain the strict live-attempt check below.
+        contract.require(current.get("status") == "completed"
+                         and type(current.get("run_attempt")) is int
+                         and current["run_attempt"] >= attempt, "ORIGINAL_RERUN_NOT_TERMINAL")
+    else:
+        contract.require(current.get("run_attempt") == attempt, "RUN_ATTEMPT_ADVANCED")
     run = reader.api(f"{reader.prefix}/actions/runs/{run_id}/attempts/{attempt}")
     contract.require(run.get("id") == run_id and run.get("run_attempt") == attempt, "ATTEMPT_MISMATCH")
     contract.require(run.get("status") == "completed", "ORIGINAL_STILL_RUNNING")
+    if completed_historical_original:
+        contract.require(all(
+            current.get(key) == run.get(key) for key in ("head_sha", "path", "event")
+        ), "ORIGINAL_RERUN_IDENTITY_MISMATCH")
     return run
 
 
@@ -287,7 +300,7 @@ def prepare(args, reader: GithubReader) -> dict:
     current = reader.api(f"{reader.prefix}/git/ref/heads/main")["object"]["sha"]
     contract.require(current == identity["workflow_head_sha"], "VERIFIER_REF_MOVED")
     composed = build_runtime_composition(args.verifier, args.public_sha, current)
-    original_run = exact_run(reader, args.original_run_id, args.original_run_attempt)
+    original_run = exact_run(reader, args.original_run_id, args.original_run_attempt, completed_historical_original=True)
     artifact = download_artifact(reader, run=original_run,
         name=f"publication-release-decision-{args.original_run_id}-{args.original_run_attempt}",
         destination=args.output / "original")
@@ -305,7 +318,7 @@ def prepare(args, reader: GithubReader) -> dict:
     expected = binding.binding_from_verified_bytes(lineage=lineage, receipt=receipt, sigstore_bundle=signed,
         release_bundle=(args.snapshot / "app/data/release-bundle.json").read_bytes())
     authenticate_original(reader, run=original_run, index=index, expected=expected)
-    exact_run(reader, args.original_run_id, args.original_run_attempt)
+    exact_run(reader, args.original_run_id, args.original_run_attempt, completed_historical_original=True)
     proof = contract.validate({"contract": contract.CONTRACT, "version": contract.VERSION,
         "original_core_execution": index, "execution": identity,
         "verifier": local_policy(args.verifier, identity["workflow_head_sha"]), "original_artifact": artifact,
