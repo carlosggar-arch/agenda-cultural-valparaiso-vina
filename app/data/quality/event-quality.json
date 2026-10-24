@@ -1,123 +1,120 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-10-19T16:52:04+00:00",
+  "generated_at": "2026-10-24T15:02:12+00:00",
   "cities": {
     "valparaiso-vina": {
       "city_id": "valparaiso-vina",
-      "publication_date": "2026-10-19",
-      "generated_at": "2026-10-19T16:52:02+00:00",
+      "publication_date": "2026-10-24",
+      "generated_at": "2026-10-24T15:02:10+00:00",
       "summary": {
-        "total_events": 164,
-        "average_quality_score": 94.4,
+        "total_events": 205,
+        "average_quality_score": 93.2,
         "quality_class": "excellent",
         "sources_catalogued": 60,
-        "sources_producing": 25,
-        "sources_zero": 31,
-        "review_priority_zero_sources": 31,
-        "zero_sources_covered_elsewhere": 4,
-        "top3_source_share_pct": 64.6,
+        "sources_producing": 31,
+        "sources_zero": 26,
+        "review_priority_zero_sources": 26,
+        "zero_sources_covered_elsewhere": 3,
+        "top3_source_share_pct": 43.9,
         "unattributed_events": 0,
         "verified_inactive_zero_sources": 0
       },
       "field_coverage": {
-        "date_pct": 96.3,
-        "time_pct": 86.0,
-        "venue_pct": 100.0,
-        "image_pct": 93.3,
+        "date_pct": 94.6,
+        "time_pct": 85.4,
+        "venue_pct": 99.5,
+        "image_pct": 93.2,
         "official_link_pct": 100.0,
         "source_attribution_pct": 100.0,
-        "official_source_pct": 62.8,
-        "price_known_pct": 81.1
+        "official_source_pct": 60.0,
+        "price_known_pct": 76.6
       },
       "category_distribution": [
         {
           "id": "musica",
           "label": "Música",
-          "count": 83,
-          "share_pct": 50.6,
+          "count": 87,
+          "share_pct": 42.4,
           "underrepresented": false
         },
         {
           "id": "exposiciones",
           "label": "Exposiciones",
-          "count": 38,
-          "share_pct": 23.2,
-          "underrepresented": false
-        },
-        {
-          "id": "teatro",
-          "label": "Teatro y danza",
-          "count": 16,
-          "share_pct": 9.8,
+          "count": 46,
+          "share_pct": 22.4,
           "underrepresented": false
         },
         {
           "id": "cine",
           "label": "Cine",
-          "count": 12,
-          "share_pct": 7.3,
+          "count": 26,
+          "share_pct": 12.7,
+          "underrepresented": false
+        },
+        {
+          "id": "teatro",
+          "label": "Teatro",
+          "count": 22,
+          "share_pct": 10.7,
           "underrepresented": false
         },
         {
           "id": "cursos-talleres",
           "label": "Cursos y talleres",
-          "count": 9,
-          "share_pct": 5.5,
+          "count": 15,
+          "share_pct": 7.3,
           "underrepresented": false
         },
         {
           "id": "otros",
           "label": "Otros panoramas",
-          "count": 3,
-          "share_pct": 1.8,
+          "count": 7,
+          "share_pct": 3.4,
+          "underrepresented": true
+        },
+        {
+          "id": "museos",
+          "label": "Museos",
+          "count": 1,
+          "share_pct": 0.5,
           "underrepresented": true
         },
         {
           "id": "naturaleza-deportes",
           "label": "Naturaleza y deportes",
-          "count": 2,
-          "share_pct": 1.2,
-          "underrepresented": true
-        },
-        {
-          "id": "literatura",
-          "label": "Literatura",
           "count": 1,
-          "share_pct": 0.6,
+          "share_pct": 0.5,
           "underrepresented": true
         }
       ],
       "area_distribution": [
         {
           "area": "Valparaíso",
-          "count": 113,
-          "share_pct": 68.9
+          "count": 146,
+          "share_pct": 71.2
         },
         {
           "area": "Viña del Mar",
-          "count": 51,
-          "share_pct": 31.1
+          "count": 59,
+          "share_pct": 28.8
         }
       ],
       "coverage_gaps": {
         "underrepresented_categories": [
           "otros",
-          "naturaleza-deportes",
-          "literatura"
+          "museos",
+          "naturaleza-deportes"
         ],
-        "source_concentration_high": true,
+        "source_concentration_high": false,
         "review_priority_zero_sources": [
-          "casa_prisma_valpo",
-          "centro_extension_duoc_valpo",
+          "balmaceda_arte_joven_valpo",
           "compania_la_paila",
-          "del_barrio_valpo",
+          "deportes_vina",
           "duoc_extension_vina",
           "ecoliderazgo",
           "el_internado_valpo",
           "el_pasaje_cafe_vina",
-          "enjoy_vina",
           "culturaviva_vina",
-          "insomniacine",
           "ipanema_club_vina",
           "maraton_vina_official",
           "jardin_botanico_vina",
@@ -125,7 +122,6 @@
           "media_maraton_tps_official",
           "valparaiso_municipal_news",
           "munivina_deportes_news",
-          "puerto_escena",
           "puerto_valparaiso_eventos",
           "sala_teatro_ipa",
           "teatro_desastre",
@@ -134,7 +130,6 @@
           "visita_vina_activities",
           "yacht_club_chile",
           "visitavina_palacio_rioja_recovery",
-          "panoramas_valparaiso",
           "radio_ciudad_musical",
           "rec_region_valparaiso",
           "barrio_alegre_concepcion"
@@ -142,22 +137,21 @@
         "zero_sources_covered_elsewhere": [
           "casa_cultura_valparaiso",
           "centex",
-          "estadio_espanol_recreo",
           "estrella_negra_jazz"
         ],
         "verified_inactive_zero_sources": []
       },
       "pipeline_quality": {
         "duplicate_groups": 0,
-        "relevant_image_pct": 93.3,
+        "relevant_image_pct": 93.2,
         "removed_events": {}
       },
       "sources": [
         {
           "id": "portaltickets_valparaiso",
           "name": "PortalTickets — Región de Valparaíso",
-          "count": 50,
-          "quality_score": 99.7,
+          "count": 47,
+          "quality_score": 99.4,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -171,41 +165,11 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 98.0
+            "price_known_pct": 95.7
           },
           "categories": {
-            "teatro": 5,
-            "musica": 45
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "museo_palacio_rioja",
-          "name": "Museo Palacio Rioja",
-          "count": 29,
-          "quality_score": 96.7,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 96.6,
-            "venue_pct": 100.0,
-            "image_pct": 75.9,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 96.6
-          },
-          "categories": {
-            "cursos-talleres": 4,
-            "exposiciones": 13,
-            "cine": 5,
-            "otros": 1,
-            "literatura": 1,
-            "musica": 5
+            "musica": 44,
+            "teatro": 3
           },
           "verified_inactive": false
         },
@@ -213,7 +177,7 @@
           "id": "trotamundosvalpo",
           "name": "Trotamundos Valparaíso",
           "count": 27,
-          "quality_score": 97.8,
+          "quality_score": 98.3,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -227,7 +191,7 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 85.2
+            "price_known_pct": 88.9
           },
           "categories": {
             "musica": 21,
@@ -236,10 +200,38 @@
           "verified_inactive": false
         },
         {
+          "id": "museo_palacio_rioja",
+          "name": "Museo Palacio Rioja",
+          "count": 16,
+          "quality_score": 99.1,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 93.8
+          },
+          "categories": {
+            "cursos-talleres": 3,
+            "cine": 2,
+            "musica": 4,
+            "exposiciones": 7
+          },
+          "verified_inactive": false
+        },
+        {
           "id": "mhnvalpo",
           "name": "Museo de Historia Natural de Valparaíso",
-          "count": 11,
-          "quality_score": 85.5,
+          "count": 14,
+          "quality_score": 85.7,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -247,17 +239,94 @@
           "role": null,
           "source_type": null,
           "coverage": {
-            "date_pct": 90.9,
-            "time_pct": 27.3,
+            "date_pct": 92.9,
+            "time_pct": 35.7,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 63.6
+            "price_known_pct": 57.1
           },
           "categories": {
-            "exposiciones": 10,
-            "cursos-talleres": 1
+            "exposiciones": 11,
+            "cursos-talleres": 3
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "cinearte_vina",
+          "name": "cineartevina.cl",
+          "count": 13,
+          "quality_score": 95.8,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 92.3,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 76.9
+          },
+          "categories": {
+            "cine": 13
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "insomniacine",
+          "name": "Insomnia Cine",
+          "count": 11,
+          "quality_score": 99.1,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 90.9,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "cine": 10,
+            "teatro": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "culturasvina",
+          "name": "Visita Viña — Municipalidad de Viña del Mar",
+          "count": 10,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 0.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 100.0
+          },
+          "categories": {
+            "exposiciones": 6,
+            "cursos-talleres": 4
           },
           "verified_inactive": false
         },
@@ -289,35 +358,10 @@
           "verified_inactive": false
         },
         {
-          "id": "cinearte_vina",
-          "name": "cineartevina.cl",
-          "count": 7,
-          "quality_score": 97.9,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 85.7
-          },
-          "categories": {
-            "cine": 7
-          },
-          "verified_inactive": false
-        },
-        {
           "id": "museobaburizza",
           "name": "Museo Baburizza",
-          "count": 7,
-          "quality_score": 81.4,
+          "count": 8,
+          "quality_score": 78.1,
           "quality_class": "correct",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -325,26 +369,26 @@
           "role": null,
           "source_type": null,
           "coverage": {
-            "date_pct": 71.4,
-            "time_pct": 14.3,
+            "date_pct": 62.5,
+            "time_pct": 12.5,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 71.4
+            "price_known_pct": 62.5
           },
           "categories": {
-            "exposiciones": 6,
-            "cursos-talleres": 1
+            "exposiciones": 7,
+            "museos": 1
           },
           "verified_inactive": false
         },
         {
           "id": "teatro_municipal_vina",
           "name": "Teatro Municipal de Viña del Mar",
-          "count": 3,
-          "quality_score": 85.0,
-          "quality_class": "correct",
+          "count": 5,
+          "quality_score": 97.0,
+          "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
@@ -357,19 +401,19 @@
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
-            "price_known_pct": 0.0
+            "price_known_pct": 80.0
           },
           "categories": {
-            "teatro": 1,
-            "musica": 2
+            "musica": 4,
+            "teatro": 1
           },
           "verified_inactive": false
         },
         {
-          "id": "balmaceda_arte_joven_valpo",
-          "name": "Balmaceda Arte Joven Valparaíso",
-          "count": 2,
-          "quality_score": 92.5,
+          "id": "artequinvina",
+          "name": "Artequin Viña del Mar",
+          "count": 4,
+          "quality_score": 97.5,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -378,23 +422,23 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 100.0,
+            "time_pct": 75.0,
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 100.0,
-            "price_known_pct": 50.0
+            "price_known_pct": 100.0
           },
           "categories": {
-            "exposiciones": 1,
-            "cursos-talleres": 1
+            "cursos-talleres": 2,
+            "exposiciones": 2
           },
           "verified_inactive": false
         },
         {
-          "id": "pcdv",
-          "name": "Parque Cultural de Valparaíso",
-          "count": 2,
+          "id": "centro_extension_duoc_valpo",
+          "name": "Centro de Extensión Duoc UC Valparaíso",
+          "count": 4,
           "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
@@ -408,18 +452,121 @@
             "venue_pct": 100.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
+            "official_source_pct": 0.0,
             "price_known_pct": 100.0
           },
           "categories": {
-            "exposiciones": 2
+            "cursos-talleres": 2,
+            "teatro": 1,
+            "musica": 1
           },
           "verified_inactive": false
         },
         {
-          "id": "teatro_municipal_valparaiso",
-          "name": "Teatro Municipal de Valparaíso",
-          "count": 2,
+          "id": "destino_valparaiso",
+          "name": "Valpo Cultura",
+          "count": 4,
+          "quality_score": 83.8,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 75.0,
+            "venue_pct": 100.0,
+            "image_pct": 75.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 25.0
+          },
+          "categories": {
+            "exposiciones": 1,
+            "otros": 3
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "museo_fonck",
+          "name": "Museo Fonck",
+          "count": 4,
+          "quality_score": 55.0,
+          "quality_class": "review",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 0.0,
+            "time_pct": 0.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "exposiciones": 4
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "pcdv",
+          "name": "Parque Cultural de Valparaíso",
+          "count": 3,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 66.7
+          },
+          "categories": {
+            "exposiciones": 3
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "puerto_escena",
+          "name": "Puerto Escena",
+          "count": 3,
+          "quality_score": 95.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 66.7
+          },
+          "categories": {
+            "teatro": 3
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "teatro_mauri_scd",
+          "name": "Teatro Mauri SCD",
+          "count": 3,
           "quality_score": 85.0,
           "quality_class": "correct",
           "attention": "none",
@@ -438,6 +585,86 @@
           },
           "categories": {
             "musica": 1,
+            "teatro": 2
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "teatro_municipal_valparaiso",
+          "name": "Teatro Municipal de Valparaíso",
+          "count": 3,
+          "quality_score": 90.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 33.3
+          },
+          "categories": {
+            "cine": 1,
+            "musica": 1,
+            "teatro": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "valparaiso_profundo",
+          "name": "Valparaíso Profundo",
+          "count": 3,
+          "quality_score": 80.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 66.7,
+            "time_pct": 66.7,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 33.3
+          },
+          "categories": {
+            "exposiciones": 1,
+            "teatro": 1,
+            "musica": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "cultura_pucv",
+          "name": "Cultura PUCV",
+          "count": 2,
+          "quality_score": 80.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 50.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "exposiciones": 1,
             "teatro": 1
           },
           "verified_inactive": false
@@ -469,108 +696,8 @@
           "verified_inactive": false
         },
         {
-          "id": "artequinvina",
-          "name": "Artequin Viña del Mar",
-          "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "cursos-talleres": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "cultura_pucv",
-          "name": "Cultura PUCV",
-          "count": 1,
-          "quality_score": 75.0,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {
-            "exposiciones": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "culturasvina",
-          "name": "Culturas Viña",
-          "count": 1,
-          "quality_score": 90.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "exposiciones": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "deportes_vina",
-          "name": "Deportes Viña del Mar",
-          "count": 1,
-          "quality_score": 100.0,
-          "quality_class": "excellent",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
-            "price_known_pct": 100.0
-          },
-          "categories": {
-            "naturaleza-deportes": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "destino_valparaiso",
-          "name": "Destino Valparaíso",
+          "id": "casa_prisma_valpo",
+          "name": "Casa Prisma Valpo",
           "count": 1,
           "quality_score": 85.0,
           "quality_class": "correct",
@@ -587,6 +714,81 @@
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 0.0
+          },
+          "categories": {
+            "musica": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "del_barrio_valpo",
+          "name": "Del Barrio Valpo",
+          "count": 1,
+          "quality_score": 85.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "musica": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "enjoy_vina",
+          "name": "Enjoy Viña del Mar",
+          "count": 1,
+          "quality_score": 85.0,
+          "quality_class": "correct",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 0.0,
+            "price_known_pct": 0.0
+          },
+          "categories": {
+            "otros": 1
+          },
+          "verified_inactive": false
+        },
+        {
+          "id": "estadio_espanol_recreo",
+          "name": "Estadio Español Recreo",
+          "count": 1,
+          "quality_score": 100.0,
+          "quality_class": "excellent",
+          "attention": "none",
+          "covered_by_other_sources": [],
+          "priority": null,
+          "role": null,
+          "source_type": null,
+          "coverage": {
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 100.0,
+            "image_pct": 100.0,
+            "official_link_pct": 100.0,
+            "official_source_pct": 100.0,
+            "price_known_pct": 100.0
           },
           "categories": {
             "otros": 1
@@ -619,27 +821,27 @@
           "verified_inactive": false
         },
         {
-          "id": "museo_fonck",
-          "name": "Museo Fonck",
+          "id": "panoramas_valparaiso",
+          "name": "Panoramas Valparaíso",
           "count": 1,
-          "quality_score": 55.0,
-          "quality_class": "review",
+          "quality_score": 70.0,
+          "quality_class": "partial",
           "attention": "none",
           "covered_by_other_sources": [],
           "priority": null,
           "role": null,
           "source_type": null,
           "coverage": {
-            "date_pct": 0.0,
-            "time_pct": 0.0,
-            "venue_pct": 100.0,
+            "date_pct": 100.0,
+            "time_pct": 100.0,
+            "venue_pct": 0.0,
             "image_pct": 100.0,
             "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
+            "official_source_pct": 0.0,
             "price_known_pct": 0.0
           },
           "categories": {
-            "exposiciones": 1
+            "musica": 1
           },
           "verified_inactive": false
         },
@@ -672,7 +874,7 @@
           "id": "sala_secreta",
           "name": "Sala Secreta",
           "count": 1,
-          "quality_score": 90.0,
+          "quality_score": 100.0,
           "quality_class": "excellent",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -683,7 +885,7 @@
             "date_pct": 100.0,
             "time_pct": 100.0,
             "venue_pct": 100.0,
-            "image_pct": 0.0,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 100.0
@@ -694,60 +896,10 @@
           "verified_inactive": false
         },
         {
-          "id": "teatro_mauri_scd",
-          "name": "Teatro Mauri SCD",
-          "count": 1,
-          "quality_score": 85.0,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {
-            "musica": 1
-          },
-          "verified_inactive": false
-        },
-        {
-          "id": "valparaiso_profundo",
-          "name": "Valparaíso Profundo",
-          "count": 1,
-          "quality_score": 85.0,
-          "quality_class": "correct",
-          "attention": "none",
-          "covered_by_other_sources": [],
-          "priority": null,
-          "role": null,
-          "source_type": null,
-          "coverage": {
-            "date_pct": 100.0,
-            "time_pct": 100.0,
-            "venue_pct": 100.0,
-            "image_pct": 100.0,
-            "official_link_pct": 100.0,
-            "official_source_pct": 100.0,
-            "price_known_pct": 0.0
-          },
-          "categories": {
-            "musica": 1
-          },
-          "verified_inactive": false
-        },
-        {
           "id": "valparaiso_trekking",
           "name": "Valparaíso Trekking SpA",
           "count": 1,
-          "quality_score": 45.0,
+          "quality_score": 55.0,
           "quality_class": "review",
           "attention": "none",
           "covered_by_other_sources": [],
@@ -758,7 +910,7 @@
             "date_pct": 0.0,
             "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 0.0,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
             "official_source_pct": 0.0,
             "price_known_pct": 0.0
@@ -781,15 +933,15 @@
           "source_type": null,
           "coverage": {
             "date_pct": 100.0,
-            "time_pct": 100.0,
+            "time_pct": 0.0,
             "venue_pct": 100.0,
-            "image_pct": 0.0,
+            "image_pct": 100.0,
             "official_link_pct": 100.0,
-            "official_source_pct": 0.0,
+            "official_source_pct": 100.0,
             "price_known_pct": 100.0
           },
           "categories": {
-            "teatro": 1
+            "otros": 1
           },
           "verified_inactive": false
         }
