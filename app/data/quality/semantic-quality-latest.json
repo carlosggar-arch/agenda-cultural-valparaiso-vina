@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "0b58f5addffb1ff47447d5aa0b210c0ce1652af5fe0e68d3c09375c3dde2d566",
-  "generated_at": "2026-10-24T15:03:23Z",
+  "fingerprint": "9348b7aa95a763ace986125e7528c78cd873f8eb75d747b35c1e52368b60f76c",
+  "generated_at": "2026-10-25T21:08:08Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -311,27 +311,26 @@
     },
     "valparaiso::artequin vina del mar": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.5,
-        "exposiciones": 0.5
+        "cursos-talleres-campus": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
-      "dominant_share": 0.5,
+      "dominant_share": 1.0,
       "source_name": "Artequin Viña del Mar",
       "source_url": "https://artequinvina.cl/events/talleres-en-patota-tanzaku/",
-      "total": 4,
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "valparaiso::casa prisma valpo": {
+    "valparaiso::baile de mascaras chile es tuyo": {
       "category_distribution": {
         "musica": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
       "dominant_share": 1.0,
-      "source_name": "Casa Prisma Valpo",
-      "source_url": "https://www.instagram.com/p/DeiZGA3ANd5/",
+      "source_name": "Baile de Máscaras / Chile es Tuyo",
+      "source_url": "https://chileestuyo.cl/eventos/baile-de-mascaras-en-el-mercado-puerto/",
       "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -339,15 +338,14 @@
     "valparaiso::centro de extension duoc uc valparaiso": {
       "category_distribution": {
         "cursos-talleres-campus": 0.5,
-        "musica": 0.25,
-        "teatro": 0.25
+        "musica": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "cursos-talleres-campus",
       "dominant_share": 0.5,
       "source_name": "Centro de Extensión Duoc UC Valparaíso",
       "source_url": "https://luma.com/extensionduocuc",
-      "total": 4,
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -359,7 +357,7 @@
       "dominant_category": "cine",
       "dominant_share": 1.0,
       "source_name": "Cine Arte Viña del Mar",
-      "source_url": "https://www.instagram.com/p/DerV499M2ya/",
+      "source_url": "https://www.instagram.com/p/DeqCxXoOy72/",
       "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
@@ -373,7 +371,20 @@
       "dominant_share": 1.0,
       "source_name": "cineartevina.cl",
       "source_url": "https://cineartevina.cl/#funcion-kalkutun-juicio-a-los-brujos-2026-cine-arte-vina-del-mar",
-      "total": 11,
+      "total": 9,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
+    "valparaiso::circo kai passline": {
+      "category_distribution": {
+        "teatro": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "teatro",
+      "dominant_share": 1.0,
+      "source_name": "Circo KAI / Passline",
+      "source_url": "https://www.passline.com/eventos-plano/circo-kai-vina-del-mar",
+      "total": 1,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -393,15 +404,14 @@
     },
     "valparaiso::cultura usm": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.111111,
-        "musica": 0.888889
+        "musica": 1.0
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.888889,
+      "dominant_share": 1.0,
       "source_name": "Cultura USM",
-      "source_url": "https://cultura.usm.cl/eventos/orquesta-sinfonica-nacional-juvenil-junto-al-director-helmuth-reichel/",
-      "total": 9,
+      "source_url": "https://cultura.usm.cl/eventos/alberto-plaza-sinfonico-esencial-tour-2026/",
+      "total": 6,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -459,15 +469,15 @@
     },
     "valparaiso::insomnia cine": {
       "category_distribution": {
-        "cine": 0.909091,
-        "teatro": 0.090909
+        "cine": 0.888889,
+        "teatro": 0.111111
       },
       "city_id": "valparaiso",
       "dominant_category": "cine",
-      "dominant_share": 0.909091,
+      "dominant_share": 0.888889,
       "source_name": "Insomnia Cine",
-      "source_url": "https://www.passline.com/eventos/vuelvo-donde-nunca-estuve-569328",
-      "total": 11,
+      "source_url": "https://www.passline.com/eventos/digger-2026-569314",
+      "total": 9,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -500,15 +510,15 @@
     },
     "valparaiso::museo de historia natural de valparaiso": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.214286,
-        "exposiciones": 0.785714
+        "cursos-talleres-campus": 0.083333,
+        "exposiciones": 0.916667
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.785714,
+      "dominant_share": 0.916667,
       "source_name": "Museo de Historia Natural de Valparaíso",
       "source_url": "https://www.mhnv.gob.cl/cartelera/cuales-seran-los-fosiles-del-futuro",
-      "total": 14,
+      "total": 12,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -567,28 +577,15 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "musica": 0.93617,
-        "teatro": 0.06383
+        "musica": 0.928571,
+        "teatro": 0.071429
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.93617,
+      "dominant_share": 0.928571,
       "source_name": "PortalTickets — Región de Valparaíso",
-      "source_url": "https://www.portaldisc.com/evento/numetalhalloween-24-10-26",
-      "total": 47,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
-    "valparaiso::puerto escena": {
-      "category_distribution": {
-        "teatro": 1.0
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "teatro",
-      "dominant_share": 1.0,
-      "source_name": "Puerto Escena",
-      "source_url": "https://www.instagram.com/p/DeuFdpKlTsf",
-      "total": 1,
+      "source_url": "https://www.portaldisc.com/evento/orquestamargamargasinfonian3enteatromauri",
+      "total": 42,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -605,30 +602,17 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
-    "valparaiso::sala secreta": {
-      "category_distribution": {
-        "teatro": 1.0
-      },
-      "city_id": "valparaiso",
-      "dominant_category": "teatro",
-      "dominant_share": 1.0,
-      "source_name": "Sala Secreta",
-      "source_url": "https://www.instagram.com/p/Dd2T2H8KDwj/",
-      "total": 1,
-      "unclassified": 0,
-      "unclassified_rate": 0.0
-    },
     "valparaiso::teatro mauri scd": {
       "category_distribution": {
-        "musica": 0.666667,
-        "teatro": 0.333333
+        "musica": 0.5,
+        "teatro": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.666667,
+      "dominant_share": 0.5,
       "source_name": "Teatro Mauri SCD",
-      "source_url": "https://salasscd.cl/sitio/events/estoy-bien-en-teatro-mauri-scd-valparaiso-gira-nacional-2026-2027-segundo-lp/",
-      "total": 3,
+      "source_url": "https://salasscd.cl/sitio/events/soulfia/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -649,15 +633,15 @@
     },
     "valparaiso::teatro municipal de vina del mar": {
       "category_distribution": {
-        "musica": 0.8,
-        "teatro": 0.2
+        "musica": 0.5,
+        "teatro": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.8,
+      "dominant_share": 0.5,
       "source_name": "Teatro Municipal de Viña del Mar",
-      "source_url": "https://teatrovina.cl/evento/concierto-familiar-orquesta-filarmonica-de-santiago/",
-      "total": 5,
+      "source_url": "https://teatrovina.cl/evento/el-duende-azul-del-sinai-teatro-la-boveda-celeste/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -677,30 +661,29 @@
     },
     "valparaiso::trotamundos valparaiso": {
       "category_distribution": {
-        "musica": 0.777778,
-        "teatro": 0.222222
+        "musica": 0.791667,
+        "teatro": 0.208333
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.777778,
+      "dominant_share": 0.791667,
       "source_name": "Trotamundos Valparaíso",
-      "source_url": "https://www.instagram.com/p/Dd7kFv3xreq/",
-      "total": 27,
+      "source_url": "https://linktr.ee/trotavalparaiso",
+      "total": 24,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::valparaiso profundo": {
       "category_distribution": {
-        "exposiciones": 0.333333,
-        "musica": 0.333333,
-        "teatro": 0.333333
+        "exposiciones": 0.5,
+        "musica": 0.5
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.333333,
+      "dominant_share": 0.5,
       "source_name": "Valparaíso Profundo",
-      "source_url": "https://www.instagram.com/p/Denf4qSgUZT/",
-      "total": 3,
+      "source_url": "https://www.instagram.com/p/Dej9xdaCwQz/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -732,43 +715,42 @@
     },
     "valparaiso::visita vina municipalidad de vina del mar": {
       "category_distribution": {
-        "cursos-talleres-campus": 0.333333,
-        "exposiciones": 0.666667
+        "cursos-talleres-campus": 1.0
       },
       "city_id": "valparaiso",
-      "dominant_category": "exposiciones",
-      "dominant_share": 0.666667,
+      "dominant_category": "cursos-talleres-campus",
+      "dominant_share": 1.0,
       "source_name": "Visita Viña — Municipalidad de Viña del Mar",
-      "source_url": "https://visitavina.munivina.cl/actividad/exhibicion-temporal-historias-minimas/",
-      "total": 9,
+      "source_url": "https://visitavina.munivina.cl/actividad/taller-qi-gong-2-622-804-387/",
+      "total": 2,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
     "valparaiso::visita vina museo palacio rioja": {
       "category_distribution": {
-        "cine": 0.133333,
-        "cursos-talleres-campus": 0.133333,
-        "exposiciones": 0.466667,
-        "musica": 0.266667
+        "cine": 0.153846,
+        "cursos-talleres-campus": 0.076923,
+        "exposiciones": 0.538462,
+        "musica": 0.230769
       },
       "city_id": "valparaiso",
       "dominant_category": "exposiciones",
-      "dominant_share": 0.466667,
+      "dominant_share": 0.538462,
       "source_name": "Visita Viña — Museo Palacio Rioja",
       "source_url": "https://visitavina.munivina.cl/actividades/",
-      "total": 15,
+      "total": 13,
       "unclassified": 0,
       "unclassified_rate": 0.0
     }
   },
-  "source_ref": "b076dfda3a9eee6d59e33b85d59863248402f76f",
+  "source_ref": "9b88ddecd1e59738dcac9a6ec6927e110d00f5e3",
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 54,
-    "total_events": 487,
+    "source_count": 53,
+    "total_events": 451,
     "unclassified_count": 11,
-    "unclassified_rate": 0.022587
+    "unclassified_rate": 0.02439
   },
   "unclassified_queue": [
     {
