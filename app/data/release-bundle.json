@@ -1,13 +1,13 @@
 {
   "schema_version": "1.0.0",
   "release": 266,
-  "release_id": "v266-b7cf96f262a9",
-  "fingerprint": "b7cf96f262a99af1e90806ed56701d24e840a89bcc6b5ce53154c2c9edf095a8",
+  "release_id": "v266-c93e36a61ad2",
+  "fingerprint": "c93e36a61ad25e8e9185b6e603cb40b9761a7ea98cf5804cefc816b0f03662bc",
   "hash_algorithm": "git_blob_sha1",
   "components": {
     "dataset_valparaiso": {
       "path": "agenda_web.json",
-      "sha": "43c7da79d147b661749deab921b13ffa863eb2e2"
+      "sha": "c85c7585bfe28b8ba7548c5d1f44f694106aa313"
     },
     "dataset_gijon": {
       "path": "app/data/gijon/agenda_web.json",
@@ -15,7 +15,7 @@
     },
     "source_catalog": {
       "path": "fuentes_publicas.json",
-      "sha": "838848e402bf97709dd9c61b37951d9835c40476"
+      "sha": "9aa642ff9b6caa99c239b59d42b4b5205f0f6d45"
     },
     "source_registry": {
       "path": "app/data/source-registry.json",
@@ -23,15 +23,15 @@
     },
     "diagnostic_source_coverage": {
       "path": "app/data/quality/source-coverage.json",
-      "sha": "2c5912517d564a13023c3292be2df9be80085b15"
+      "sha": "f358df238b72ef425e6cca7c36c57484669f81ba"
     },
     "diagnostic_event_quality": {
       "path": "app/data/quality/event-quality.json",
-      "sha": "ec39c0c07e42d2502bf11ecb7f5d0d0bfa437c84"
+      "sha": "0bc2309d2a1bad52a208569aaf8413f077305fd3"
     },
     "diagnostic_release_readiness": {
       "path": "app/data/quality/release-readiness.json",
-      "sha": "856215903a9ea2f04fb1362953d42888508719b4"
+      "sha": "4aa6fdf6b61848f023560a026d79e2b201203553"
     },
     "venue_registry": {
       "path": "app/data/venue-registry.json",
