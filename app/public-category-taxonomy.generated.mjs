@@ -527,6 +527,13 @@ export const OFFICIAL_SOURCE_CATEGORY_EVIDENCE = Object.freeze({
       "reason": "verified_sparse_fandom_party_portaltickets",
       "source_id": "portaltickets_valparaiso",
       "weight": 120
+    },
+    {
+      "category": "musica",
+      "pattern": "\\bmorder la balsa afluente\\b",
+      "reason": "verified_official_portaldisc_live_band_show_2026_11_07",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
     }
   ]
 });

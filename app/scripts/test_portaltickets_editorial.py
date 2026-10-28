@@ -305,6 +305,26 @@ def test_validator_rejects_legacy_crossed_record() -> None:
     assert {"address_used_as_title", "secondary_source_marked_official", "legacy_editorial_reason", "missing_individual_ticket"} <= errors
 
 
+def test_official_morder_la_balsa_afluente_show_has_music_source_evidence() -> None:
+    # Official 2026-11-07 Portaldisc listing and detail:
+    # https://portaldisc.com/evento/morderlabalsaenelafluente
+    # The artist-only title is sparse. Do not infer music from the venue or
+    # unrelated "artists and tags" alone; use the narrow verified title rule.
+    event = {
+        "source_id": SOURCE_ID,
+        "title": "MORDER + LA BALSA + AFLUENTE EN JOURNAL",
+        "description": "Morder y La Balsa amenizan la noche; nos visitan Afluente desde Santiago.",
+        "location": {"venue": "Cafe Journal", "city": "Viña del Mar"},
+        "primary_category": {"id": "unclassified", "label": "Sin clasificar"},
+    }
+    result = classify_public_category(event)
+    assert result["category"] == {"id": "musica", "label": "Música"}
+    assert any(row["kind"] == "source_title" for row in result["evidence"])
+    different = dict(event, title="ENCUENTRO DE INVIERNO EN JOURNAL",
+                     description="Una jornada especial para compartir.")
+    assert classify_public_category(different)["category"]["id"] == "unclassified"
+
+
 def test_published_future_portaltickets_events_have_no_fallback_category() -> None:
     payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
     reference_day = str(payload.get("generated_at") or payload.get("publication_date") or "")[:10]
@@ -340,6 +360,7 @@ def main() -> None:
     test_refresh_removes_legacy_and_is_idempotent()
     test_fetch_failure_preserves_corrected_but_removes_legacy()
     test_validator_rejects_legacy_crossed_record()
+    test_official_morder_la_balsa_afluente_show_has_music_source_evidence()
     test_published_future_portaltickets_events_have_no_fallback_category()
     print("PORTALTICKETS_EDITORIAL_TESTS_OK")
 
