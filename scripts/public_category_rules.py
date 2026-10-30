@@ -4,6 +4,7 @@ import json
 import re
 import unicodedata
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -309,7 +310,44 @@ def _ranked_candidates(
     ]
 
 
+def _verified_category_evidence(event: dict[str, Any]) -> dict[str, str] | None:
+    """Only an exact occurrence-bound reviewed decision can outrank prose."""
+    provenance = event.get("provenance") or {}
+    semantics = event.get("semantics") or {}
+    if not isinstance(provenance, dict) or not isinstance(semantics, dict):
+        return None
+    marker = provenance.get("verified_category_evidence")
+    if not isinstance(marker, dict) or (marker.get("contract") != "verified-category-evidence/1"
+                                       or marker.get("authority") != "verified_public_events"):
+        return None
+    links = event.get("links") or {}
+    actual_url = links.get("official") or links.get("source") or event.get("source_url")
+    def url(value):
+        parsed = urlsplit(str(value or ""))
+        if parsed.scheme.lower() not in {"https", "http"} or not parsed.netloc:
+            return ""
+        return urlunsplit((parsed.scheme.lower(), parsed.netloc.lower(),
+                           parsed.path.rstrip("/"), parsed.query, parsed.fragment))
+    reviewed = canonical_public_category(marker.get("category"))
+    source = canonical_public_category(semantics.get("source_category"))
+    if (not reviewed or not source or not is_thematic_category(reviewed.get("id"))
+            or reviewed != source or marker.get("source_id") != event.get("source_id")
+            or url(marker.get("source_url")) != url(actual_url)
+            or not url(actual_url)
+            or marker.get("start") != (event.get("schedule") or {}).get("start")):
+        return None
+    return reviewed
+
+
 def classify_public_category(event: dict[str, Any]) -> dict[str, Any]:
+    reviewed = _verified_category_evidence(event)
+    if reviewed:
+        evidence = [{"category": reviewed["id"], "weight": 10_000,
+                     "kind": "verified_category_evidence", "value": "exact_official_occurrence"}]
+        return {"category": reviewed, "confidence": "high", "score": 10_000,
+                "evidence": evidence, "source_category": source_category(event),
+                "candidates": [{"category": reviewed, "score": 10_000,
+                                "confidence": "high", "evidence": evidence}]}
     scores: dict[str, int] = {}
     evidence: list[dict[str, Any]] = []
     source = source_category(event)
