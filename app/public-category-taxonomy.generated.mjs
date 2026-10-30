@@ -537,42 +537,42 @@ export const OFFICIAL_SOURCE_CATEGORY_EVIDENCE = Object.freeze({
     },
     {
       "category": "charlas-conferencias",
-      "pattern": "^la\\ arquitectura\\ de\\ la\\ desinformacion\\ y\\ la\\ realidad\\ sintetica$",
+      "pattern": "^la arquitectura de la desinformacion y la realidad sintetica$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
       "source_id": "puerto_de_ideas",
       "weight": 120
     },
     {
       "category": "charlas-conferencias",
-      "pattern": "^como\\ vivir\\ con\\ los\\ otros\\ la\\ amistad\\ la\\ comunidad\\ y\\ la\\ vida\\ buena$",
+      "pattern": "^como vivir con los otros la amistad la comunidad y la vida buena$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
       "source_id": "puerto_de_ideas",
       "weight": 120
     },
     {
       "category": "charlas-conferencias",
-      "pattern": "^las\\ raices\\ del\\ mal$",
+      "pattern": "^las raices del mal$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
       "source_id": "puerto_de_ideas",
       "weight": 120
     },
     {
       "category": "charlas-conferencias",
-      "pattern": "^que\\ buscamos\\ cuando\\ buscamos\\ sentido$",
+      "pattern": "^que buscamos cuando buscamos sentido$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
       "source_id": "puerto_de_ideas",
       "weight": 120
     },
     {
       "category": "charlas-conferencias",
-      "pattern": "^la\\ maquina\\ del\\ olvido$",
+      "pattern": "^la maquina del olvido$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
       "source_id": "puerto_de_ideas",
       "weight": 120
     },
     {
       "category": "charlas-conferencias",
-      "pattern": "^ia\\ generativas$",
+      "pattern": "^ia generativas$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
       "source_id": "puerto_de_ideas",
       "weight": 120
