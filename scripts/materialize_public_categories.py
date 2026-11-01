@@ -249,7 +249,7 @@ process.stdout.write(JSON.stringify(payload.events.flatMap(event => {
 })));
 """
     result = subprocess.run(['node', '--input-type=module', '-e', script], cwd=ROOT,
-        input=json.dumps(payload, ensure_ascii=False), text=True, capture_output=True,
+        input=json.dumps(payload, ensure_ascii=False), text=True, capture_output=True, encoding="utf-8",
         timeout=30, check=True)
     differences = json.loads(result.stdout)
     if not isinstance(differences, list) or differences:

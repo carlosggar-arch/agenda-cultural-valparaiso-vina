@@ -58,3 +58,11 @@ if __name__=="__main__":
     test_mismatched_or_untrusted_proof_cannot_claim_reviewed_priority()
     test_verified_dance_alias_converges_to_existing_shared_theatre_category()
     print("BOUND_VERIFIED_CATEGORY_EVIDENCE_OK")
+
+def test_verified_unicode_projection_parity_without_locale_assumptions():
+    from scripts.materialize_public_categories import migrate_payload, verify_projection_parity
+    sample=event()
+    sample["title"]="Festival \U0001F3AD de sonidos"
+    payload={"events":[sample], "publication_date":"2026-11-01", "timezone":"America/Santiago"}
+    migrated,_=migrate_payload(payload,generated_at="2026-10-30T14:00:00-03:00")
+    verify_projection_parity(migrated)
