@@ -260,7 +260,37 @@ function rankedCandidates(scores, evidence) {
     }));
 }
 
+function verifiedCategoryEvidence(event) {
+  const marker = event?.provenance?.verified_category_evidence;
+  const source = canonicalPublicCategory(event?.semantics?.source_category || null);
+  const reviewed = canonicalPublicCategory(marker?.category || null);
+  if (marker?.contract !== "verified-category-evidence/1"
+      || marker?.authority !== "verified_public_events"
+      || !source || !reviewed || !isThematicCategory(reviewed.id)
+      || source.id !== reviewed.id || source.label !== reviewed.label
+      || marker?.source_id !== event?.source_id
+      || marker?.start !== event?.schedule?.start) return null;
+  const official = event?.links?.official || event?.links?.source || event?.source_url;
+  const normalize = (value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol.toLowerCase() + "//" + url.host.toLowerCase()
+        + url.pathname.replace(/\/+$/, "") + url.search + url.hash;
+    } catch { return ""; }
+  };
+  if (!normalize(official) || normalize(official) !== normalize(marker?.source_url)) return null;
+  return reviewed;
+}
+
 export function classifyPublicCategory(event) {
+  const reviewed = verifiedCategoryEvidence(event);
+  if (reviewed) {
+    const evidence = [{ category: reviewed.id, weight: 10000,
+      kind: "verified_category_evidence", value: "exact_official_occurrence" }];
+    return { category: reviewed, confidence: "high", score: 10000, evidence,
+      source_category: sourceCategory(event),
+      candidates: [{ category: reviewed, score: 10000, confidence: "high", evidence }] };
+  }
   const scores = new Map();
   const evidence = [];
   const source = sourceCategory(event);

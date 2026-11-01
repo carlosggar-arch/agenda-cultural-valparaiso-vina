@@ -10,6 +10,7 @@ export const PUBLIC_CATEGORY_TAXONOMY = Object.freeze({
     "cursos-talleres": "cursos-talleres-campus",
     "cursos-talleres-experiencias": "cursos-talleres-campus",
     "cursos-talleres-y-experiencias": "cursos-talleres-campus",
+    "danza": "teatro",
     "deporte-bienestar": "deportes-actividad-fisica",
     "deportes": "deportes-actividad-fisica",
     "ferias": "ferias-vida-local",
