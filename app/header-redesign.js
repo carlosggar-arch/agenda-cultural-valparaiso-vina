@@ -153,14 +153,17 @@ function ensureInstalledAppActionStyles() {
 function ensureContributionButton(actions) {
   if (!actions) return null;
   let button = actions.querySelector("[data-contribute-source]");
-  if (button) return button;
-  button = document.createElement("a");
-  button.className = "contribute-source-button";
-  button.dataset.contributeSource = "true";
-  button.href = "./proponer-fuente.html";
-  button.setAttribute("aria-label", "Aportar una fuente cultural");
-  button.innerHTML = '<span class="contribute-source-icon" aria-hidden="true">＋</span><span>Aportar fuente</span>';
-  actions.append(button);
+  if (!button) {
+    button = document.createElement("a");
+    button.className = "contribute-source-button";
+    button.dataset.contributeSource = "true";
+    button.setAttribute("aria-label", "Aportar una fuente cultural");
+    button.innerHTML = '<span class="contribute-source-icon" aria-hidden="true">＋</span><span>Aportar fuente</span>';
+    actions.append(button);
+  }
+  const url = new URL("./proponer-fuente", import.meta.url);
+  url.searchParams.set("city", document.documentElement.dataset.city === "gijon" ? "gijon" : "valparaiso");
+  button.href = `${url.pathname}${url.search}`;
   return button;
 }
 
