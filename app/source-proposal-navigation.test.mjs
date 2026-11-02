@@ -84,3 +84,12 @@ test("missing offline form returns 503 instead of silently showing the agenda", 
   assert.equal(response.status, 503);
   assert.doesNotMatch(await response.text(), /AGENDA PRINCIPAL/);
 });
+test("both CTA entry points use canonical route and preserve the selected city", () => {
+  const community = readFileSync(new URL("./community-source.js", import.meta.url), "utf8");
+  const header = readFileSync(new URL("./header-redesign.js", import.meta.url), "utf8");
+  for (const js of [community, header]) {
+    assert.ok(js.includes('new URL("./proponer-fuente", import.meta.url)'));
+    assert.ok(js.includes('url.searchParams.set("city",'));
+    assert.ok(!js.includes('button.href = "./proponer-fuente.html"'));
+  }
+});
