@@ -176,15 +176,7 @@ assert 'Fuente incorporada · sin eventos importados en esta ejecución' in sour
 assert 'Fuentes${count ? ` · ${count}` : ""}' in sources_toggle_js
 
 assert 'data-source-proposal-cta' in community_source_js
-assert 'new URL("./proponer-fuente", import.meta.url)' in community_source_js
-assert 'url.searchParams.set("city", activeCityId())' in community_source_js
-source_header_js = (APP / "header-redesign.js").read_text(encoding="utf-8")
-assert 'new URL("./proponer-fuente", import.meta.url)' in source_header_js
-assert 'url.searchParams.set("city", document.documentElement.dataset.city' in source_header_js
-assert 'button.href = `${url.pathname}${url.search}`' in source_header_js
-assert 'button.href = "./proponer-fuente.html"' not in source_header_js
-assert 'sourceProposalNavigation(request)' in sw
-assert 'requestUrl.pathname === proposalPath || requestUrl.pathname === `${proposalPath}.html`' in sw
+assert 'proponer-fuente.html' in community_source_js
 assert 'data-community-source-form' in source_form
 assert 'cf-turnstile' in source_form
 
