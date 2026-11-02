@@ -48,6 +48,7 @@ jobs:
         run: |
           python app/scripts/run_impacted_contracts.py --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.sha }}"
           node --test tests/root-combined-filters.test.mjs tests/root-public-presentation-rules.test.mjs tests/event-data-corrections.test.mjs
+          node --test app/source-proposal-navigation.test.mjs
           python scripts/generate_public_category_module.py --check
           python scripts/generate_event_semantics_module.py --check
       - name: Validate generated pages when affected
