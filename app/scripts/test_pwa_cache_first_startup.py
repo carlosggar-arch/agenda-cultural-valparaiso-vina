@@ -19,6 +19,13 @@ assert "event.respondWith(cacheFirstNavigation(request, event));" in sw
 assert "event.waitUntil(refreshShell(cache, request).then(() => undefined));" in sw
 assert "async function networkFirstNavigation" not in sw
 
+# A proposal navigation must never silently resolve to index.html in an installed PWA.
+assert "async function sourceProposalNavigation(request)" in sw
+assert 'new URL("./proponer-fuente", self.registration.scope)' in sw
+assert 'requestUrl.pathname === proposalPath || requestUrl.pathname === `${proposalPath}.html`' in sw
+assert "event.respondWith(sourceProposalNavigation(request));" in sw
+assert 'cache.match(new URL("./proponer-fuente.html", self.registration.scope)' in sw
+
 assert "async function networkFirstDataset(request)" in sw
 assert "return networkFirstDataset(request);" in sw
 assert "async function cacheFirstDataset" not in sw
