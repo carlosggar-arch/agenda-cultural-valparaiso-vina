@@ -16,7 +16,7 @@ function activeCityId() {
 }
 
 function syncLink(link) {
-  const url = new URL("./proponer-fuente.html", window.location.href);
+  const url = new URL("./proponer-fuente", import.meta.url);
   url.searchParams.set("city", activeCityId());
   link.href = `${url.pathname}${url.search}`;
 }

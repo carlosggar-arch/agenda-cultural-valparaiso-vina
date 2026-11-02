@@ -77,6 +77,26 @@ async function refreshShell(cache, request) {
   }
 }
 
+// The source-form route must not fall back to the agenda's index.html shell.
+// Fetch the canonical extensionless URL, including for legacy .html links.
+async function sourceProposalNavigation(request) {
+  const target = new URL("./proponer-fuente", self.registration.scope);
+  target.search = new URL(request.url).search;
+  const cache = await caches.open(SHELL_CACHE);
+  try {
+    const response = await fetch(target.href, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Source proposal HTTP ${response.status}`);
+    await cache.put(target.href, response.clone());
+    return response;
+  } catch {
+    return (await cache.match(target.href, { ignoreSearch: true }))
+      || (await cache.match(new URL("./proponer-fuente.html", self.registration.scope).href, { ignoreSearch: true }))
+      || new Response("Formulario de fuentes no disponible sin conexion.", {
+        status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+  }
+}
+
 async function cacheFirstNavigation(request, event) {
   const cache = await caches.open(SHELL_CACHE);
   const cached = (await cache.match(request, { ignoreSearch: true }))
@@ -148,6 +168,12 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return;
   const requestUrl = new URL(request.url);
   if (request.mode === "navigate") {
+    const proposalPath = new URL("./proponer-fuente", self.registration.scope).pathname;
+    if (requestUrl.origin === self.location.origin
+      && (requestUrl.pathname === proposalPath || requestUrl.pathname === `${proposalPath}.html`)) {
+      event.respondWith(sourceProposalNavigation(request));
+      return;
+    }
     event.respondWith(cacheFirstNavigation(request, event));
     return;
   }
