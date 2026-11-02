@@ -325,6 +325,31 @@ def test_official_morder_la_balsa_afluente_show_has_music_source_evidence() -> N
     assert classify_public_category(different)["category"]["id"] == "unclassified"
 
 
+def test_official_young_warrior_soundsystem_has_bound_music_evidence() -> None:
+    # Official individual ticket for 12 December 2026, 22:00, Club Segundo Piso:
+    # https://www.portaldisc.com/evento/qssyw12dic2026
+    # The title and description are sparse; category is established by the
+    # verified PortalTickets source-specific event, not a generic venue guess.
+    event = {
+        "source_id": SOURCE_ID,
+        "title": "QUEBRADA SOUNDSYSTEM INTERNACIONAL PRESENTA YOUNG WARRIOR EN VALPARAÍSO",
+        "description": "Quebrada Soundsystem Internacional presenta Young Warrior en Valparaíso",
+        "location": {"venue": "Club Segundo Piso", "city": "Valparaíso"},
+        "schedule": {"start": "2026-12-12T22:00:00-03:00"},
+        "links": {"tickets": "https://www.portaldisc.com/evento/qssyw12dic2026"},
+        "primary_category": {"id": "cultura", "label": "Cultura"},
+    }
+    resolved = classify_public_category(event)
+    assert resolved["category"]["id"] == "musica", resolved
+    assert any(row["kind"] == "source_title" for row in resolved["evidence"])
+    for changed in (
+        dict(event, source_id="other"),
+        dict(event, title="VALPARAÍSO LUCHA LIBRE: QUEBRADAS CAPITULO 1"),
+    ):
+        result = classify_public_category(changed)
+        assert result["category"]["id"] != "musica", result
+
+
 def test_published_future_portaltickets_events_have_no_fallback_category() -> None:
     payload = json.loads((ROOT / "agenda_web.json").read_text(encoding="utf-8"))
     reference_day = str(payload.get("generated_at") or payload.get("publication_date") or "")[:10]
@@ -361,6 +386,7 @@ def main() -> None:
     test_fetch_failure_preserves_corrected_but_removes_legacy()
     test_validator_rejects_legacy_crossed_record()
     test_official_morder_la_balsa_afluente_show_has_music_source_evidence()
+    test_official_young_warrior_soundsystem_has_bound_music_evidence()
     test_published_future_portaltickets_events_have_no_fallback_category()
     print("PORTALTICKETS_EDITORIAL_TESTS_OK")
 

@@ -537,6 +537,13 @@ export const OFFICIAL_SOURCE_CATEGORY_EVIDENCE = Object.freeze({
       "weight": 120
     },
     {
+      "category": "musica",
+      "pattern": "^quebrada soundsystem internacional presenta young warrior en valparaiso$",
+      "reason": "verified_official_portaldisc_dub_reggae_show_2026_12_12_https://www.portaldisc.com/evento/qssyw12dic2026",
+      "source_id": "portaltickets_valparaiso",
+      "weight": 120
+    },
+    {
       "category": "charlas-conferencias",
       "pattern": "^la arquitectura de la desinformacion y la realidad sintetica$",
       "reason": "official_puerto_de_ideas_2026_individual_conference_programme_card",
