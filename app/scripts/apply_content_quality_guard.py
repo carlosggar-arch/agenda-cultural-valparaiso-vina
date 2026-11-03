@@ -53,6 +53,8 @@ GENERIC_TITLE_PATTERNS = (
     re.compile(r"^las? bases?\b.*\bhistoria\b", re.I),
     re.compile(r"^(?:link|enlace) en (?:la )?bio(?:grafia)?\b", re.I),
     re.compile(r"^pronto(?:\b|[.…!])", re.I),
+    # A promotional slogan alone is not evidence of a named event.
+    re.compile(r"^[¡!¿?]*se empieza a encender el match[!., ]*$", re.I),
     re.compile(r"^se llena\b.*\breserv", re.I),
     re.compile(r"^#[\w.-]+$", re.I),
 )
@@ -69,6 +71,13 @@ NON_EVENT_TITLE_PATTERNS = (
 )
 
 MONTH_NAMES = r"(?:enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)"
+# A dated post saying only "next Thursday at @venue" is a teaser, not
+# evidence of which cultural activity actually takes place there.
+DATE_VENUE_ONLY_TEASER = re.compile(
+    rf"^proxim[oa]s?\s+(?:lunes|martes|miercoles|jueves|viernes|sabado|domingo)"
+    rf"(?:\s+\d{{1,2}}\s+de\s+{MONTH_NAMES})?\s+en\s+[a-z0-9 ]+$"
+)
+HANDLE_ONLY_TRAILING = re.compile(r"@[A-Za-z0-9_.-]{3,}[.!]?$")
 MONTHLY_PROGRAM_TITLE = re.compile(rf"^(?:agenda\s+|programacion\s+|cartelera\s+)?{MONTH_NAMES}(?:\s+en\s+.+)?$")
 PROGRAM_OVERVIEW_TEXT = re.compile(
     r"\b(?:toda nuestra programacion|revisa (?:toda )?la programacion|programacion (?:de|del) mes|"
@@ -189,9 +198,20 @@ def clean_html_text(value: object) -> str:
     return text
 
 
+def is_bare_date_venue_teaser(value: object) -> bool:
+    title = re.sub(r"[\u200b-\u200d\ufeff]", "", clean_html_text(value)).strip()
+    return bool(
+        title and HANDLE_ONLY_TRAILING.search(title)
+        and DATE_VENUE_ONLY_TEASER.fullmatch(fold(title))
+    )
+
+
 def is_generic_title(value: object) -> bool:
     title = clean_space(value)
-    return bool(title and any(pattern.search(title) for pattern in GENERIC_TITLE_PATTERNS))
+    return bool(title and (
+        any(pattern.search(title) for pattern in GENERIC_TITLE_PATTERNS)
+        or is_bare_date_venue_teaser(title)
+    ))
 
 
 def is_non_event_title(value: object) -> bool:
