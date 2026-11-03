@@ -357,6 +357,99 @@ def test_both_dedup_paths_accept_utc_equivalence_without_combining_functions() -
         assert dataset == snapshot and ledger == receipts
 
 
+def test_unidentified_next_thursday_venue_teaser_is_quarantined_not_a_public_event() -> None:
+    from apply_content_quality_guard import is_bare_date_venue_teaser, is_generic_title
+
+    teaser = "Próximo jueves 5 de noviembre en @trotamundosvalpo" + "\u200d"
+    assert is_bare_date_venue_teaser(teaser)
+    assert is_generic_title(teaser)
+    venue = {"venue_id": "trotamundos", "venue": "Trotamundos Valparaíso", "city": "Valparaíso"}
+    when = {"mode": "dated", "timezone": "America/Santiago",
+            "start": "2026-11-05T20:00:00-03:00", "end": None,
+            "occurrences": [{"start": "2026-11-05T20:00:00-03:00", "end": None}]}
+    bad = event(
+        id="agenda_7dfa34342aa7eed627fb0e8f", title=teaser,
+        primary_category={"id": "otros", "label": "Otros panoramas"},
+        categories=[{"id": "otros", "label": "Otros panoramas"}],
+        source_name="Trotamundos Valparaíso", source_id="trotamundosvalpo",
+        description="Te esperamos en el recinto.",
+        links={"official": "https://www.instagram.com/p/DfIVP2YIV8N/",
+               "source": "https://www.instagram.com/p/DfIVP2YIV8N/"},
+        source_url="https://www.instagram.com/p/DfIVP2YIV8N/",
+        location=venue, schedule=copy.deepcopy(when),
+    )
+    good = event(
+        id="verified-show", title="Tributo a TOOL por Intermission",
+        primary_category={"id": "musica", "label": "Música"},
+        categories=[{"id": "musica", "label": "Música"}],
+        source_name="Trotamundos Valparaíso", source_id="trotamundosvalpo",
+        description="Tributo a TOOL por Intermission, función confirmada.",
+        links={"official": "https://official.example/tool-tributo",
+               "source": "https://official.example/tool-tributo"},
+        source_url="https://official.example/tool-tributo",
+        location=venue, schedule=copy.deepcopy(when),
+    )
+    dataset = {
+        "timezone": "America/Santiago", "publication_date": "2026-11-03",
+        "generated_at": "2026-11-03T05:30:00-03:00",
+        "events": [bad, good], "counts": {"total": 2},
+    }
+    ledger = empty_ledger(generated_at=dataset["generated_at"])
+    changes = apply_guard(dataset, ledger=ledger)
+    assert [item["id"] for item in dataset["events"]] == ["verified-show"]
+    assert changes["quarantined"] == [{
+        "id": "agenda_7dfa34342aa7eed627fb0e8f",
+        "title": teaser,
+        "reason": "generic_title_without_explicit_recovery",
+        "missing_evidence": ["recoverable_title"],
+    }]
+    receipt = next(row for row in ledger["receipts"] if row["source_record_id"] == bad["id"])
+    assert receipt["action"] == "quarantine"
+    assert receipt["destination"]["state"] == "quarantine"
+    assert dataset["counts"]["total"] == 1
+
+
+def test_named_cultural_activity_with_a_date_and_venue_is_not_a_generic_teaser() -> None:
+    from apply_content_quality_guard import is_bare_date_venue_teaser
+    assert not is_bare_date_venue_teaser(
+        "Próximo jueves 5 de noviembre en @trotamundosvalpo: concierto de jazz")
+    assert not is_bare_date_venue_teaser(
+        "Concierto próximo jueves 5 de noviembre en @trotamundosvalpo")
+    assert not is_bare_date_venue_teaser(
+        "Próximo jueves 5 de noviembre en Trotamundos Valparaíso con DJ Invitado")
+
+
+def test_unidentified_match_promotional_slogan_is_quarantined() -> None:
+    from apply_content_quality_guard import is_generic_title
+
+    title = "¡Se empieza a encender el MATCH!"
+    assert is_generic_title(title)
+    assert not is_generic_title("MATCH: batalla de DJ en Trotamundos")
+    assert not is_generic_title("Se empieza a encender el MATCH: concierto con DJ Invitado")
+    bad = event(
+        id="agenda_878f50cc4a1d866f17556d52",
+        title=title, source_name="Trotamundos Valparaíso", source_id="trotamundosvalpo",
+        source_url="https://www.instagram.com/p/DfI2Z5GuAYU/",
+        links={"official": "https://www.instagram.com/p/DfI2Z5GuAYU/",
+               "source": "https://www.instagram.com/p/DfI2Z5GuAYU/"},
+        primary_category={"id": "otros", "label": "Otros panoramas"},
+        categories=[{"id": "otros", "label": "Otros panoramas"}],
+        description="Se viene una noche muy especial; atento a las novedades.",
+        schedule={"mode": "dated", "timezone": "America/Santiago",
+                  "start": "2026-11-05T20:00:00-03:00", "end": None,
+                  "occurrences": [{"start": "2026-11-05T20:00:00-03:00", "end": None}]},
+    )
+    dataset = {"timezone": "America/Santiago", "publication_date": "2026-11-03",
+               "generated_at": "2026-11-03T05:30:00-03:00",
+               "events": [bad], "counts": {"total": 1}}
+    ledger = empty_ledger(generated_at=dataset["generated_at"])
+    changes = apply_guard(dataset, ledger=ledger)
+    assert dataset["events"] == []
+    assert changes["quarantined"][0]["reason"] == "generic_title_without_explicit_recovery"
+    assert ledger["receipts"][0]["source_record_id"] == bad["id"]
+    assert ledger["receipts"][0]["destination"]["state"] == "quarantine"
+
+
 def test_quarantines_unrecoverable_generic_title() -> None:
     bad = event(id="bad", title="Les esperamos", description="Visítanos este fin de semana.")
     dataset = {"events": [bad], "counts": {"total": 1}}
