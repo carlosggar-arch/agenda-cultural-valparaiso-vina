@@ -1,8 +1,8 @@
 {
   "baseline_error": null,
   "compare_ref": null,
-  "fingerprint": "c9096d3eef25dc4883a1cecdaccbcef14b32d61a96c64f0af6d26f57dc6f752d",
-  "generated_at": "2026-11-06T12:07:50Z",
+  "fingerprint": "9f7d89ad042761a7ebcfaa4b3770c99944db35f872e4252d5719fc985d3b6804",
+  "generated_at": "2026-11-06T18:27:08Z",
   "history_schema_version": "1.0.0",
   "schema_version": "1.0.0",
   "semantic_contract": "1.0.0",
@@ -361,6 +361,19 @@
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
+    "valparaiso::deportes vina del mar": {
+      "category_distribution": {
+        "musica": 1.0
+      },
+      "city_id": "valparaiso",
+      "dominant_category": "musica",
+      "dominant_share": 1.0,
+      "source_name": "Deportes Viña del Mar",
+      "source_url": "https://visitavina.munivina.cl/",
+      "total": 1,
+      "unclassified": 0,
+      "unclassified_rate": 0.0
+    },
     "valparaiso::destino valparaiso": {
       "category_distribution": {
         "charlas-conferencias": 0.75,
@@ -485,16 +498,16 @@
     },
     "valparaiso::portaltickets region de valparaiso": {
       "category_distribution": {
-        "ferias-vida-local": 0.020408,
-        "musica": 0.897959,
-        "teatro": 0.081633
+        "ferias-vida-local": 0.02,
+        "musica": 0.9,
+        "teatro": 0.08
       },
       "city_id": "valparaiso",
       "dominant_category": "musica",
-      "dominant_share": 0.897959,
+      "dominant_share": 0.9,
       "source_name": "PortalTickets — Región de Valparaíso",
       "source_url": "https://www.portaldisc.com/evento/camiloequegalopevalparaiso",
-      "total": 49,
+      "total": 50,
       "unclassified": 0,
       "unclassified_rate": 0.0
     },
@@ -667,10 +680,10 @@
   "summary": {
     "anomaly_count": 0,
     "critical_anomaly_count": 0,
-    "source_count": 47,
-    "total_events": 447,
+    "source_count": 48,
+    "total_events": 449,
     "unclassified_count": 11,
-    "unclassified_rate": 0.024609
+    "unclassified_rate": 0.024499
   },
   "unclassified_queue": [
     {

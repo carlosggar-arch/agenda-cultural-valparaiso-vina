@@ -1,8 +1,8 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 325,
-  "events_after": 165,
+  "events_before": 327,
+  "events_after": 167,
   "removed": 160,
   "html_cleaned": [],
   "titles_recovered": [],
@@ -24316,7 +24316,7 @@
       }
     ],
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-11-06T12:05:38+00:00",
+    "generated_at": "2026-11-06T18:24:49+00:00",
     "receipts": [
       {
         "schema_version": "1.0.0",
@@ -34310,6 +34310,60 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_fabc335aeeb932287df338b2",
+        "destination": {
+          "canonical_event_id": "agenda_fabc335aeeb932287df338b2",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_fabc335aeeb932287df338b2",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/Dec8DvkleF0"
+            ],
+            "title": "Nuestro ⌚ horario de atención de octubre en Museo Fonck",
+            "venue": "museo-fonck"
+          },
+          "observation_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_fabc335aeeb932287df338b2",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/Dec8DvkleF0"
+            ],
+            "title": "Nuestro ⌚ horario de atención de octubre en Museo Fonck",
+            "venue": "museo-fonck"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_24e5b797d5e21688b486f7cd",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dec8DvkleF0"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "museofonck",
+        "source_record_id": "obs_24e5b797d5e21688b486f7cd",
+        "source_url": "https://www.instagram.com/p/Dec8DvkleF0",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_878f50cc4a1d866f17556d52",
         "destination": {
           "canonical_event_id": "agenda_878f50cc4a1d866f17556d52",
@@ -34424,6 +34478,60 @@
         "source_id": "museofonck",
         "source_record_id": "obs_28754d7f5308bdfe7fea06b0",
         "source_url": "https://www.instagram.com/p/DdH959hDXiD",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_d257654c0963bc5199320142",
+        "destination": {
+          "canonical_event_id": "agenda_d257654c0963bc5199320142",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_d257654c0963bc5199320142",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "la_escala_galeria",
+            "source_urls": [
+              "https://www.instagram.com/p/DeZhX0oRB05"
+            ],
+            "title": "¡Buscamos diseñadores textiles!",
+            "venue": "Ubicados en pleno Barrio Puerto de Valparaíso, a pasos de la estación Puerto del metro, queremos abrir nuestras puertas a nuevas propuestas"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_d257654c0963bc5199320142",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "la_escala_galeria",
+            "source_urls": [
+              "https://www.instagram.com/p/DeZhX0oRB05"
+            ],
+            "title": "¡Buscamos diseñadores textiles!",
+            "venue": "Ubicados en pleno Barrio Puerto de Valparaíso, a pasos de la estación Puerto del metro, queremos abrir nuestras puertas a nuevas propuestas"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_29af5d4b11fe3beb710c9112",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeZhX0oRB05"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "laescalagaleria",
+        "source_record_id": "obs_29af5d4b11fe3beb710c9112",
+        "source_url": "https://www.instagram.com/p/DeZhX0oRB05",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -34640,6 +34748,70 @@
         "source_id": "trotamundosvalpo",
         "source_record_id": "obs_2be707f1f69ea745335e2ab9",
         "source_url": "https://www.instagram.com/p/DfIMslYBHMa",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_b8f4a11d10bb38b8a15b45a7",
+        "destination": {
+          "canonical_event_id": "agenda_b8f4a11d10bb38b8a15b45a7",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_b8f4a11d10bb38b8a15b45a7",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T12:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T12:30:00-03:00"
+            },
+            "source_id": "destino_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/Defcy2pDSs1"
+            ],
+            "title": "La ternura como fuerza transformadora",
+            "venue": "destino-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_b8f4a11d10bb38b8a15b45a7",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T12:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T12:30:00-03:00"
+            },
+            "source_id": "destino_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/Defcy2pDSs1"
+            ],
+            "title": "La ternura como fuerza transformadora",
+            "venue": "destino-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_2c599311745b47e384aca16f",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Defcy2pDSs1"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "destinovalpo",
+        "source_record_id": "obs_2c599311745b47e384aca16f",
+        "source_url": "https://www.instagram.com/p/Defcy2pDSs1",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -34964,6 +35136,124 @@
         "source_id": "destinovalpo",
         "source_record_id": "obs_3366ebecdd0de88399c215e5",
         "source_url": "https://www.instagram.com/p/De5J-6-CeoA",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_49515352724271a7b9e7fc9d",
+        "destination": {
+          "canonical_event_id": "agenda_49515352724271a7b9e7fc9d",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_49515352724271a7b9e7fc9d",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-25T21:00:00-03:00"
+                }
+              ],
+              "start": "2026-11-25T21:00:00-03:00"
+            },
+            "source_id": "trotamundosvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd7jj1uxE4h"
+            ],
+            "title": "Ser Humano: ¡El nuevo especial de comedia de Paola Molina!",
+            "venue": "Trotamundos Valparaíso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_49515352724271a7b9e7fc9d",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-25T21:00:00-03:00"
+                }
+              ],
+              "start": "2026-11-25T21:00:00-03:00"
+            },
+            "source_id": "trotamundosvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd7jj1uxE4h"
+            ],
+            "title": "Ser Humano: ¡El nuevo especial de comedia de Paola Molina!",
+            "venue": "Trotamundos Valparaíso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_352191c7f79e226862606c2c",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dd7jj1uxE4h"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_352191c7f79e226862606c2c",
+        "source_url": "https://www.instagram.com/p/Dd7jj1uxE4h",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_6050ef3675dca6309cd31d2b",
+        "destination": {
+          "canonical_event_id": "agenda_6050ef3675dca6309cd31d2b",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_6050ef3675dca6309cd31d2b",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museobaburizza",
+            "source_urls": [
+              "https://www.instagram.com/p/DemCRdhCMUw"
+            ],
+            "title": "Los colores del Puerto",
+            "venue": "museo-baburizza"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_6050ef3675dca6309cd31d2b",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museobaburizza",
+            "source_urls": [
+              "https://www.instagram.com/p/DemCRdhCMUw"
+            ],
+            "title": "Los colores del Puerto",
+            "venue": "museo-baburizza"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_355c041bd6e05a3f91797c0f",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DemCRdhCMUw"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "museobaburizza",
+        "source_record_id": "obs_355c041bd6e05a3f91797c0f",
+        "source_url": "https://www.instagram.com/p/DemCRdhCMUw",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -36406,6 +36696,70 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_9cd969a77e2743cc61d153bd",
+        "destination": {
+          "canonical_event_id": "agenda_9cd969a77e2743cc61d153bd",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_9cd969a77e2743cc61d153bd",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T18:15:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T18:15:00-03:00"
+            },
+            "source_id": "puerto_escena",
+            "source_urls": [
+              "https://www.instagram.com/p/DeuILQJDv8K"
+            ],
+            "title": "Función de cuentos de Javier Ceballos y Cucha del Águila",
+            "venue": "parque-cultural-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_9cd969a77e2743cc61d153bd",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T18:15:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T18:15:00-03:00"
+            },
+            "source_id": "puerto_escena",
+            "source_urls": [
+              "https://www.instagram.com/p/DeuILQJDv8K"
+            ],
+            "title": "Función de cuentos de Javier Ceballos y Cucha del Águila",
+            "venue": "parque-cultural-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_5bee2f00a2f28c9116f4d418",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeuILQJDv8K"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "puertoescena",
+        "source_record_id": "obs_5bee2f00a2f28c9116f4d418",
+        "source_url": "https://www.instagram.com/p/DeuILQJDv8K",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_42d25a6c3b9a92109887329a",
         "destination": {
           "canonical_event_id": "agenda_42d25a6c3b9a92109887329a",
@@ -36618,6 +36972,70 @@
         "source_id": "cinearte_vina",
         "source_record_id": "obs_5da036343ef3c232f71ef50b",
         "source_url": "https://www.instagram.com/p/Dcj-ImSDFxr",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_16dbdb091c41f1a90717ab35",
+        "destination": {
+          "canonical_event_id": "agenda_16dbdb091c41f1a90717ab35",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_16dbdb091c41f1a90717ab35",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-20T22:00:00-03:00"
+                }
+              ],
+              "start": "2026-11-20T22:00:00-03:00"
+            },
+            "source_id": "trotamundosvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd_beDiRIGa"
+            ],
+            "title": "Trotamundos Valpo se convierte en el epicentro de la psicodelia y el stoner rock",
+            "venue": "Trotamundos Valparaíso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_16dbdb091c41f1a90717ab35",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-20T22:00:00-03:00"
+                }
+              ],
+              "start": "2026-11-20T22:00:00-03:00"
+            },
+            "source_id": "trotamundosvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd_beDiRIGa"
+            ],
+            "title": "Trotamundos Valpo se convierte en el epicentro de la psicodelia y el stoner rock",
+            "venue": "Trotamundos Valparaíso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_5e3b9d5bd79ba70c0aa7f9cf",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dd_beDiRIGa"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "trotamundosvalpo",
+        "source_record_id": "obs_5e3b9d5bd79ba70c0aa7f9cf",
+        "source_url": "https://www.instagram.com/p/Dd_beDiRIGa",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -36838,6 +37256,60 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_ed99fc63ab56e2ffffa456cb",
+        "destination": {
+          "canonical_event_id": "agenda_ed99fc63ab56e2ffffa456cb",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_ed99fc63ab56e2ffffa456cb",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "valparaiso_profundo",
+            "source_urls": [
+              "https://www.instagram.com/p/DekyANDtRp4"
+            ],
+            "title": "¡VEN A VISITAR VALPARAÍSO PROFUNDO!",
+            "venue": "valparaiso-profundo"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_ed99fc63ab56e2ffffa456cb",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "valparaiso_profundo",
+            "source_urls": [
+              "https://www.instagram.com/p/DekyANDtRp4"
+            ],
+            "title": "¡VEN A VISITAR VALPARAÍSO PROFUNDO!",
+            "venue": "valparaiso-profundo"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_639cd9b2c7f1502e06a86444",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DekyANDtRp4"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "valparaisoprofundo",
+        "source_record_id": "obs_639cd9b2c7f1502e06a86444",
+        "source_url": "https://www.instagram.com/p/DekyANDtRp4",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_d410e9cdfc74395f68c4fe2a",
         "destination": {
           "canonical_event_id": "agenda_d410e9cdfc74395f68c4fe2a",
@@ -37050,6 +37522,60 @@
         "source_id": "museobaburizza",
         "source_record_id": "obs_668795bb7ba5aa00b838e8e7",
         "source_url": "https://www.instagram.com/p/DcwcVRDD-65",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_37d2d1d595d4e38b4c90c575",
+        "destination": {
+          "canonical_event_id": "agenda_37d2d1d595d4e38b4c90c575",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_37d2d1d595d4e38b4c90c575",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": "2026-11-07"
+            },
+            "source_id": "mhnvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/DeNVfsIz7OY"
+            ],
+            "title": "Visitas grupales",
+            "venue": "museo-historia-natural-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_37d2d1d595d4e38b4c90c575",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": "2026-11-07"
+            },
+            "source_id": "mhnvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/DeNVfsIz7OY"
+            ],
+            "title": "Visitas grupales",
+            "venue": "museo-historia-natural-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_66a6b965261588e9b55f000f",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeNVfsIz7OY"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "mhnvalpo",
+        "source_record_id": "obs_66a6b965261588e9b55f000f",
+        "source_url": "https://www.instagram.com/p/DeNVfsIz7OY",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -38522,6 +39048,134 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_16a3dfdf31a4b98d93937709",
+        "destination": {
+          "canonical_event_id": "agenda_16a3dfdf31a4b98d93937709",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_16a3dfdf31a4b98d93937709",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T16:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T16:30:00-03:00"
+            },
+            "source_id": "destino_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/DenTIuMDe08"
+            ],
+            "title": "La inteligencia del cuerpo: Hombres, animales y dioses en la antigüedad",
+            "venue": "destino-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_16a3dfdf31a4b98d93937709",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T16:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T16:30:00-03:00"
+            },
+            "source_id": "destino_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/DenTIuMDe08"
+            ],
+            "title": "La inteligencia del cuerpo: Hombres, animales y dioses en la antigüedad",
+            "venue": "destino-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_924e63087059ce79ea1704fc",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DenTIuMDe08"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "destinovalpo",
+        "source_record_id": "obs_924e63087059ce79ea1704fc",
+        "source_url": "https://www.instagram.com/p/DenTIuMDe08",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_86e02fe9f5d34298ea0c1182",
+        "destination": {
+          "canonical_event_id": "agenda_86e02fe9f5d34298ea0c1182",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_86e02fe9f5d34298ea0c1182",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T10:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T10:30:00-03:00"
+            },
+            "source_id": "destino_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/DeShzvwmiCk"
+            ],
+            "title": "Sospechar de la certeza: el arte de no saber",
+            "venue": "destino-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_86e02fe9f5d34298ea0c1182",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T10:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T10:30:00-03:00"
+            },
+            "source_id": "destino_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/DeShzvwmiCk"
+            ],
+            "title": "Sospechar de la certeza: el arte de no saber",
+            "venue": "destino-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_927798f584c709ee9e75506b",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeShzvwmiCk"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "destinovalpo",
+        "source_record_id": "obs_927798f584c709ee9e75506b",
+        "source_url": "https://www.instagram.com/p/DeShzvwmiCk",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_cd7a75a23af6db35b87ee534",
         "destination": {
           "canonical_event_id": "agenda_cd7a75a23af6db35b87ee534",
@@ -38954,6 +39608,60 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_fd4cba24b8a91a9a9e8f570d",
+        "destination": {
+          "canonical_event_id": "agenda_fd4cba24b8a91a9a9e8f570d",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_fd4cba24b8a91a9a9e8f570d",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/DeiFucygSW4"
+            ],
+            "title": "CIENCIAS NATURALES EN EL FONCK",
+            "venue": "¿Dónde nos encuentras? 4 Norte 784, esquina 1 Oriente"
+          },
+          "observation_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_fd4cba24b8a91a9a9e8f570d",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/DeiFucygSW4"
+            ],
+            "title": "CIENCIAS NATURALES EN EL FONCK",
+            "venue": "¿Dónde nos encuentras? 4 Norte 784, esquina 1 Oriente"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_9a42444909bfe25f56d8aa3e",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeiFucygSW4"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "museofonck",
+        "source_record_id": "obs_9a42444909bfe25f56d8aa3e",
+        "source_url": "https://www.instagram.com/p/DeiFucygSW4",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_0cecc4dd2d6ffe2d6480b44e",
         "destination": {
           "canonical_event_id": "agenda_0cecc4dd2d6ffe2d6480b44e",
@@ -39382,6 +40090,60 @@
         "source_id": "valpocultura",
         "source_record_id": "obs_a2192efd2a22cd526fc9ec05",
         "source_url": "https://www.instagram.com/p/De43MIaEcJ9",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_a3e68f365747660910f1fbf4",
+        "destination": {
+          "canonical_event_id": "agenda_a3e68f365747660910f1fbf4",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_a3e68f365747660910f1fbf4",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museobaburizza",
+            "source_urls": [
+              "https://www.instagram.com/p/DeMrrhaDnup"
+            ],
+            "title": "Muchas gracias.",
+            "venue": "Informamos que el Museo y las salas de exposiciones temporales estarán cerradas desde las 14:00 horas"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_a3e68f365747660910f1fbf4",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museobaburizza",
+            "source_urls": [
+              "https://www.instagram.com/p/DeMrrhaDnup"
+            ],
+            "title": "Muchas gracias.",
+            "venue": "Informamos que el Museo y las salas de exposiciones temporales estarán cerradas desde las 14:00 horas"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_a471ea22157fb0e47c2d8db1",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeMrrhaDnup"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "museobaburizza",
+        "source_record_id": "obs_a471ea22157fb0e47c2d8db1",
+        "source_url": "https://www.instagram.com/p/DeMrrhaDnup",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -39980,6 +40742,70 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_3abcac87d2e7f77b80bd94c9",
+        "destination": {
+          "canonical_event_id": "agenda_3abcac87d2e7f77b80bd94c9",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_3abcac87d2e7f77b80bd94c9",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-29T18:00:00-03:00"
+                }
+              ],
+              "start": "2026-11-29T18:00:00-03:00"
+            },
+            "source_id": "teatro_municipal_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/Dc90JHbAjbP"
+            ],
+            "title": "El asilo contra la opresión",
+            "venue": "teatro-municipal-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_3abcac87d2e7f77b80bd94c9",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-29T18:00:00-03:00"
+                }
+              ],
+              "start": "2026-11-29T18:00:00-03:00"
+            },
+            "source_id": "teatro_municipal_valparaiso",
+            "source_urls": [
+              "https://www.instagram.com/p/Dc90JHbAjbP"
+            ],
+            "title": "El asilo contra la opresión",
+            "venue": "teatro-municipal-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_b6a877e809fc2149a8a1c416",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dc90JHbAjbP"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "municipalvalpo",
+        "source_record_id": "obs_b6a877e809fc2149a8a1c416",
+        "source_url": "https://www.instagram.com/p/Dc90JHbAjbP",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_a3dad8af396c98b43c272c53",
         "destination": {
           "canonical_event_id": "agenda_a3dad8af396c98b43c272c53",
@@ -40250,6 +41076,70 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_87ff49ceea759fded35d5eff",
+        "destination": {
+          "canonical_event_id": "agenda_87ff49ceea759fded35d5eff",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_87ff49ceea759fded35d5eff",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T19:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T19:30:00-03:00"
+            },
+            "source_id": "cultura_usm",
+            "source_urls": [
+              "https://www.instagram.com/p/DeSHwLSJ1ru"
+            ],
+            "title": "Aventurera",
+            "venue": "aula-magna-usm"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_87ff49ceea759fded35d5eff",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T19:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T19:30:00-03:00"
+            },
+            "source_id": "cultura_usm",
+            "source_urls": [
+              "https://www.instagram.com/p/DeSHwLSJ1ru"
+            ],
+            "title": "Aventurera",
+            "venue": "aula-magna-usm"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_bd92b41a8f8adf855cad31af",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/DeSHwLSJ1ru"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "cultura_usm",
+        "source_record_id": "obs_bd92b41a8f8adf855cad31af",
+        "source_url": "https://www.instagram.com/p/DeSHwLSJ1ru",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_25806ed3e6fd8f91162e39da",
         "destination": {
           "canonical_event_id": "agenda_25806ed3e6fd8f91162e39da",
@@ -40354,6 +41244,60 @@
         "source_id": "cultura_pucv",
         "source_record_id": "obs_c08f7c8557f3ad617c0e423f",
         "source_url": "https://www.instagram.com/p/DdUZ051PaqD",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_3675588184f3dfeeb8ad5029",
+        "destination": {
+          "canonical_event_id": "agenda_3675588184f3dfeeb8ad5029",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_3675588184f3dfeeb8ad5029",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/Dep0GPBgY7c"
+            ],
+            "title": "Abrimos de lunes a domingo",
+            "venue": "museo-fonck"
+          },
+          "observation_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_3675588184f3dfeeb8ad5029",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/Dep0GPBgY7c"
+            ],
+            "title": "Abrimos de lunes a domingo",
+            "venue": "museo-fonck"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_c1b9b4c5b14648d1b503d859",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dep0GPBgY7c"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "museofonck",
+        "source_record_id": "obs_c1b9b4c5b14648d1b503d859",
+        "source_url": "https://www.instagram.com/p/Dep0GPBgY7c",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -41468,6 +42412,60 @@
         "source_id": "cultura_pucv",
         "source_record_id": "obs_d822d69a78796adfd660695a",
         "source_url": "https://www.instagram.com/p/DfF_bkHvsSi",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_23aed5eceedc7b76e8df9289",
+        "destination": {
+          "canonical_event_id": "agenda_23aed5eceedc7b76e8df9289",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_23aed5eceedc7b76e8df9289",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "mhnvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd9wVI6ko-X"
+            ],
+            "title": "La Palma y el degú",
+            "venue": "museo-historia-natural-valparaiso"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_23aed5eceedc7b76e8df9289",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "mhnvalpo",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd9wVI6ko-X"
+            ],
+            "title": "La Palma y el degú",
+            "venue": "museo-historia-natural-valparaiso"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_d9290566d0ad8eabd52ea9ff",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dd9wVI6ko-X"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "mhnvalpo",
+        "source_record_id": "obs_d9290566d0ad8eabd52ea9ff",
+        "source_url": "https://www.instagram.com/p/Dd9wVI6ko-X",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -42630,6 +43628,70 @@
       },
       {
         "action": "observation_recovery",
+        "canonical_event_id": "agenda_87ff49ceea759fded35d5eff",
+        "destination": {
+          "canonical_event_id": "agenda_87ff49ceea759fded35d5eff",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_87ff49ceea759fded35d5eff",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T19:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T19:30:00-03:00"
+            },
+            "source_id": "cultura_usm",
+            "source_urls": [
+              "https://www.instagram.com/p/DeSHwLSJ1ru"
+            ],
+            "title": "Aventurera",
+            "venue": "aula-magna-usm"
+          },
+          "observation_binding": {
+            "city": "Valparaíso",
+            "id": "agenda_bdf2770e5b9b4f411f5188a5",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [
+                {
+                  "end": null,
+                  "start": "2026-11-07T19:30:00-03:00"
+                }
+              ],
+              "start": "2026-11-07T19:30:00-03:00"
+            },
+            "source_id": "cultura_usm",
+            "source_urls": [
+              "https://www.instagram.com/p/De-CXgsJ7B3"
+            ],
+            "title": "Aventurera",
+            "venue": "aula-magna-usm"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_eb15509dbdf2fb21edf96fb7",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/De-CXgsJ7B3"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "cultura_usm",
+        "source_record_id": "obs_eb15509dbdf2fb21edf96fb7",
+        "source_url": "https://www.instagram.com/p/De-CXgsJ7B3",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
         "canonical_event_id": "agenda_f236f15b38eaf2e53d6069e9",
         "destination": {
           "canonical_event_id": "agenda_f236f15b38eaf2e53d6069e9",
@@ -43332,6 +44394,60 @@
         "source_id": "trotamundosvalpo",
         "source_record_id": "obs_fb9429eb51da99e60077314f",
         "source_url": "https://www.instagram.com/p/DfNmlxupVnZ",
+        "stage": "finalizer_completeness_recovery"
+      },
+      {
+        "action": "observation_recovery",
+        "canonical_event_id": "agenda_0c0b66b104dfc14d0d53f4dc",
+        "destination": {
+          "canonical_event_id": "agenda_0c0b66b104dfc14d0d53f4dc",
+          "state": "published"
+        },
+        "evidence": {
+          "canonical_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_0c0b66b104dfc14d0d53f4dc",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd2UI-JDVcs"
+            ],
+            "title": "¡EN OCTUBRE EL PIUCHÉN Y EL MICROBIOMA HUMANO PROTAGONIZARÁN LOS VIERNES DE CULTURA CIENTÍFICA!",
+            "venue": "museo-fonck"
+          },
+          "observation_binding": {
+            "city": "Viña del Mar",
+            "id": "agenda_0c0b66b104dfc14d0d53f4dc",
+            "schedule": {
+              "end": null,
+              "mode": "dated",
+              "occurrences": [],
+              "start": null
+            },
+            "source_id": "museo_fonck",
+            "source_urls": [
+              "https://www.instagram.com/p/Dd2UI-JDVcs"
+            ],
+            "title": "¡EN OCTUBRE EL PIUCHÉN Y EL MICROBIOMA HUMANO PROTAGONIZARÁN LOS VIERNES DE CULTURA CIENTÍFICA!",
+            "venue": "museo-fonck"
+          },
+          "transformation_class": "recovered"
+        },
+        "observation_id": "obs_fbc6136837a6d12656d2d0fb",
+        "occurrence_id": null,
+        "provenance": {
+          "method": "ledger_observation_exact_registry_identity",
+          "source_url": "https://www.instagram.com/p/Dd2UI-JDVcs"
+        },
+        "reason": "confirmed_observation_recovered_to_canonical_event",
+        "source_id": "museofonck",
+        "source_record_id": "obs_fbc6136837a6d12656d2d0fb",
+        "source_url": "https://www.instagram.com/p/Dd2UI-JDVcs",
         "stage": "finalizer_completeness_recovery"
       },
       {
