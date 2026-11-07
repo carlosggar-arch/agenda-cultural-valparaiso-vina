@@ -1,29 +1,13 @@
 {
   "status": "ok",
   "dataset": "/home/runner/work/agenda-cultural-core/agenda-cultural-core/public-main/agenda_web.json",
-  "events_before": 327,
-  "events_after": 167,
-  "removed": 160,
+  "events_before": 311,
+  "events_after": 153,
+  "removed": 158,
   "html_cleaned": [],
   "titles_recovered": [],
   "duplicates_consolidated": [],
   "quarantined": [
-    {
-      "id": "agenda_65f9ba90895b1bdbe4c32185",
-      "title": "¡Llega noviembre y con él, Mythodea!",
-      "reason": "performance_without_verified_concrete_session",
-      "missing_evidence": [
-        "verified_performance_start_time"
-      ]
-    },
-    {
-      "id": "agenda_e6252be6415a4773afddbea9",
-      "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-      "reason": "performance_without_verified_concrete_session",
-      "missing_evidence": [
-        "discrete_performance_occurrences"
-      ]
-    },
     {
       "id": "agenda_800ca10bfaa085acf464dff1",
       "title": "¡El Palacio Lyon se llena de luz y color!",
@@ -1281,159 +1265,17 @@
       "reason": "schedule_ended_before_publication_date"
     }
   ],
-  "past_occurrences_pruned": [],
+  "past_occurrences_pruned": [
+    {
+      "id": "agenda_69211fbb6583ae0c4f5f8320",
+      "count": 1,
+      "occurrence_ids": [
+        "occurrence:eafb989fe8ac96039c6b"
+      ]
+    }
+  ],
   "receipt_ledger": {
     "candidate_quality_dispositions": [
-      {
-        "before_event": {
-          "audience": null,
-          "categories": [
-            {
-              "id": "teatro",
-              "label": "Teatro"
-            }
-          ],
-          "description": "Inicio Eventos - Teatro Municipal Viña del Mar Teatro Noche de Reyes – Teatro Nacional Chileno Teatro El Teatro Nacional Chileno presenta Noche de Reyes, la reconocida comedia de William Shakespeare, bajo la dirección de Rodrigo Pérez. Una propuesta teatral qu...",
-          "event_type": "event",
-          "id": "agenda_420b8db787a02672b93878a0",
-          "image": {
-            "alt": "Noche de Reyes – Teatro Nacional Chileno",
-            "url": "./assets/event-images/valparaiso/bdc6da3aac79c3f1832d4aa3.webp"
-          },
-          "last_verified_at": null,
-          "links": {
-            "official": "https://teatrovina.cl/evento/noche-de-reyes-teatro-nacional-chileno/",
-            "registration": null,
-            "source": "https://teatrovina.cl/evento/noche-de-reyes-teatro-nacional-chileno/",
-            "tickets": null
-          },
-          "location": {
-            "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Municipal+de+Vi%C3%B1a+del+Mar%2C+Plaza+Jos%C3%A9+Francisco+Vergara+s%2Fn%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "online": false,
-            "venue": "Teatro Municipal de Viña del Mar",
-            "venue_id": "teatro-municipal-vina-del-mar",
-            "verification": {
-              "method": "canonical_venue_registry",
-              "official_name": "Teatro Municipal de Viña del Mar",
-              "status": "verified",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "organizer": "Teatro Municipal de Viña del Mar",
-          "price": {
-            "currency": null,
-            "display_text": null,
-            "is_free": null,
-            "max_amount": null,
-            "min_amount": null
-          },
-          "primary_category": {
-            "id": "teatro",
-            "label": "Teatro"
-          },
-          "provenance": {
-            "verified_venue": {
-              "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "public_status": {
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
-            "cancelled": null,
-            "information_completeness": "partial",
-            "last_verified_at": null,
-            "price_confirmed": null,
-            "price_stage": null,
-            "registration_closed": null,
-            "registration_open": null,
-            "sold_out": null,
-            "source_official": false
-          },
-          "registration_requirements": null,
-          "schedule": {
-            "display_text": "2026-11-08",
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-11-08",
-            "timezone": "America/Santiago"
-          },
-          "source_id": "teatro_municipal_vina",
-          "source_name": "Teatro Municipal de Viña del Mar",
-          "source_url": "https://teatrovina.cl/evento/noche-de-reyes-teatro-nacional-chileno/",
-          "tags": [],
-          "title": "Noche de Reyes – Teatro Nacional Chileno"
-        },
-        "decision": {
-          "id": "agenda_420b8db787a02672b93878a0",
-          "missing_evidence": [
-            "verified_performance_start_time"
-          ],
-          "reason": "performance_without_verified_concrete_session",
-          "title": "Noche de Reyes – Teatro Nacional Chileno"
-        },
-        "event_binding": {
-          "city": "Viña del Mar",
-          "id": "agenda_420b8db787a02672b93878a0",
-          "schedule": {
-            "end": null,
-            "mode": "dated",
-            "occurrences": [],
-            "start": "2026-11-08"
-          },
-          "source_id": "teatro_municipal_vina",
-          "source_urls": [
-            "https://teatrovina.cl/evento/noche-de-reyes-teatro-nacional-chileno"
-          ],
-          "title": "Noche de Reyes – Teatro Nacional Chileno",
-          "venue": "teatro-municipal-vina-del-mar"
-        },
-        "event_sha256": "6446936b4c5fa603a0a9f885401a4cbe78c0941bb30562e6980a09065356caf4",
-        "kind": "quarantined",
-        "publication_date": "2026-11-06",
-        "schema_version": "1.0.0",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "stage": "content_quality_guard",
-        "transformation": {
-          "action": "quarantine",
-          "canonical_event_id": "agenda_420b8db787a02672b93878a0",
-          "destination": {
-            "canonical_event_id": null,
-            "state": "quarantine"
-          },
-          "evidence": {
-            "missing_evidence": [
-              "verified_performance_start_time"
-            ]
-          },
-          "occurrence_id": "occurrence:11873ca119ba3ac68c73",
-          "provenance": {
-            "verified_venue": {
-              "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-              "city": "Viña del Mar",
-              "method": "canonical_venue_registry",
-              "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "reason": "performance_without_verified_concrete_session",
-          "source_record_id": "agenda_420b8db787a02672b93878a0",
-          "source_url": "https://teatrovina.cl/evento/noche-de-reyes-teatro-nacional-chileno/",
-          "stage": "content_quality_guard",
-          "title": "Noche de Reyes – Teatro Nacional Chileno"
-        }
-      },
       {
         "before_event": {
           "audience": null,
@@ -1550,7 +1392,7 @@
         },
         "event_sha256": "298d7fd7a4e4ec4e213d3145503bb976aedf1dcbb8b517198db6589a0c2698b7",
         "kind": "quarantined",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -1582,6 +1424,416 @@
           "source_url": "https://teatrovina.cl/evento/juan-pablo-lopez-un-poco-chill-2/",
           "stage": "content_quality_guard",
           "title": "Juan Pablo López – Un Poco Chill"
+        }
+      },
+      {
+        "before_event": {
+          "audience": null,
+          "categories": [
+            {
+              "id": "musica",
+              "label": "Música"
+            }
+          ],
+          "description": "Concierto // Guitarra Clásica - Visita Viña Inicio Eventos Tours Tours Visita Viña Playas Museos y Palacios Plano de Viña Bus VisitaViña Teatro Municipal Idioma Español Inglés Portuguese Inicio actividad - Visita Viña Concierto // Guitarra Clásica Fecha 29-octubre-2026 Finalizdo! Hora 6:30 pm - 9:30 pm Concierto // Guitarra Clásica Recital de Guitarra Clásica Prof. Pablo Palacios y Antonio Río Seco XVII Temporada de Conciertos, Carrera de Pedagogía en Música UV Actividad gratuita, acceso por orden llegada hasta completar el aforo. Más información en Instagram | @museopalaciorioja Compartir este evento Lugar Museo Palacio Rioja Quillota 214, Viña del Mar, Valparaíso Hora local Zona horaria: America/Los_Angeles Fecha: 29-octubre-2026 Hora: 2:30 pm - 5:30 pm Próximo Evento Talleres en Patota: Muñecas de trapo Fecha 07-noviembre-2026 Hora 4:15 pm - 5:15 pm Eventos relacionados 07 noviembre, 2026 sábado Muestra temporal // “Mis objetos, mi patrimonio” Quillota 214, Viña del Mar, Valparaíso 10:00 am - 5:30 pm Ver detalle Facebook Twitter WhatsApp Telegrama 14 noviembre, 2026 sábado Exposición Temporal // “El mar nos sostiene” Quillota 214, Viña del Mar, Valparaíso 10:00 am - 5:30 pm Ver detalle Facebook Twitter WhatsApp Telegrama 20 noviembre, 2026 viernes Recorridos temáticos // “¿Quién nos observa en el museo?” Quillota 214, Viña del Mar, Valparaíso 4:00 pm - 5:00 pm Ver detalle Fa",
+          "event_type": "event",
+          "id": "agenda_57f9d88bd243d9f78fdbc682",
+          "image": {
+            "alt": null,
+            "url": null
+          },
+          "last_verified_at": "2026-11-07T13:34:10-03:00",
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/concierto-guitarra-clasica/?occurrence=2026-10-29",
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividad/concierto-guitarra-clasica/?occurrence=2026-10-29",
+            "tickets": null
+          },
+          "location": {
+            "address": null,
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "latitude": null,
+            "longitude": null,
+            "online": false,
+            "venue": "Deportes Viña del Mar",
+            "venue_id": null
+          },
+          "organizer": "Deportes Viña del Mar",
+          "price": {
+            "currency": "CLP",
+            "display_text": "Gratis",
+            "is_free": true,
+            "max_amount": 0,
+            "min_amount": 0
+          },
+          "primary_category": {
+            "id": "musica",
+            "label": "Música"
+          },
+          "public_status": {
+            "advisory_text": null,
+            "cancelled": null,
+            "information_completeness": "complete",
+            "last_verified_at": "2026-11-07T13:34:10-03:00",
+            "price_confirmed": true,
+            "price_stage": null,
+            "registration_closed": null,
+            "registration_open": null,
+            "sold_out": null,
+            "source_official": false
+          },
+          "registration_requirements": null,
+          "schedule": {
+            "display_text": "2026-11-07 · 09:00",
+            "end": "2026-11-20",
+            "mode": "multi_day",
+            "occurrences": [],
+            "start": "2026-11-07T09:00:00-03:00",
+            "timezone": "America/Santiago"
+          },
+          "source_name": "Deportes Viña del Mar",
+          "source_url": "https://visitavina.munivina.cl/actividad/concierto-guitarra-clasica/?occurrence=2026-10-29",
+          "tags": [
+            "Música",
+            "Deportes Viña del Mar"
+          ],
+          "title": "Concierto // Guitarra Clásica"
+        },
+        "decision": {
+          "id": "agenda_57f9d88bd243d9f78fdbc682",
+          "missing_evidence": [
+            "discrete_performance_occurrences"
+          ],
+          "reason": "performance_without_verified_concrete_session",
+          "title": "Concierto // Guitarra Clásica"
+        },
+        "event_binding": {
+          "city": "Viña del Mar",
+          "id": "agenda_57f9d88bd243d9f78fdbc682",
+          "schedule": {
+            "end": "2026-11-20",
+            "mode": "multi_day",
+            "occurrences": [],
+            "start": "2026-11-07T09:00:00-03:00"
+          },
+          "source_id": "",
+          "source_urls": [
+            "https://visitavina.munivina.cl/actividad/concierto-guitarra-clasica/?occurrence=2026-10-29"
+          ],
+          "title": "Concierto // Guitarra Clásica",
+          "venue": "Deportes Viña del Mar"
+        },
+        "event_sha256": "08b8b50824cd8c0169737f52bf8be48e8991da66de2fa3f69cc1f93952962b3d",
+        "kind": "quarantined",
+        "publication_date": "2026-11-07",
+        "schema_version": "1.0.0",
+        "scope": "candidate_input_only_not_baseline_loss",
+        "stage": "content_quality_guard",
+        "transformation": {
+          "action": "quarantine",
+          "canonical_event_id": "agenda_57f9d88bd243d9f78fdbc682",
+          "destination": {
+            "canonical_event_id": null,
+            "state": "quarantine"
+          },
+          "evidence": {
+            "missing_evidence": [
+              "discrete_performance_occurrences"
+            ]
+          },
+          "occurrence_id": "occurrence:2026-10-29",
+          "provenance": {
+            "method": "source_record_provenance",
+            "source_url": "https://visitavina.munivina.cl/actividad/concierto-guitarra-clasica/?occurrence=2026-10-29"
+          },
+          "reason": "performance_without_verified_concrete_session",
+          "source_record_id": "agenda_57f9d88bd243d9f78fdbc682",
+          "source_url": "https://visitavina.munivina.cl/actividad/concierto-guitarra-clasica/?occurrence=2026-10-29",
+          "stage": "content_quality_guard",
+          "title": "Concierto // Guitarra Clásica"
+        }
+      },
+      {
+        "before_event": {
+          "audience": null,
+          "categories": [
+            {
+              "id": "otros",
+              "label": "Otros panoramas"
+            }
+          ],
+          "description": "Consort de Flautas Dulces UV - Visita Viña Inicio Eventos Tours Tours Visita Viña Playas Museos y Palacios Plano de Viña Bus VisitaViña Teatro Municipal Idioma Español Inglés Portuguese Inicio actividad - Visita Viña Consort de Flautas Dulces UV Fecha 30-octubre-2026 Finalizdo! Hora 6:30 pm - 8:00 pm Consort de Flautas Dulces UV Dir. Prof. Enrique Vasconcelos XVII Temporada de Conciertos, Carrera de Pedagogía en Música UV. Actividad gratuita, acceso por orden llegada hasta completar el aforo. Más información en Instagram | @museopalaciorioja Compartir este evento Lugar Museo Palacio Rioja Quillota 214, Viña del Mar, Valparaíso Hora local Zona horaria: America/Los_Angeles Fecha: 30-octubre-2026 Hora: 2:30 pm - 4:00 pm Próximo Evento Talleres en Patota: Muñecas de trapo Fecha 07-noviembre-2026 Hora 4:15 pm - 5:15 pm Eventos relacionados 07 noviembre, 2026 sábado Muestra temporal // “Mis objetos, mi patrimonio” Quillota 214, Viña del Mar, Valparaíso 10:00 am - 5:30 pm Ver detalle Facebook Twitter WhatsApp Telegrama 14 noviembre, 2026 sábado Exposición Temporal // “El mar nos sostiene” Quillota 214, Viña del Mar, Valparaíso 10:00 am - 5:30 pm Ver detalle Facebook Twitter WhatsApp Telegrama 20 noviembre, 2026 viernes Recorridos temáticos // “¿Quién nos observa en el museo?” Quillota 214, Viña del Mar, Valparaíso 4:00 pm - 5:00 pm Ver detalle Facebook Twitter WhatsApp Telegrama Event",
+          "event_type": "event",
+          "id": "agenda_6e754543ae10493f946f1670",
+          "image": {
+            "alt": null,
+            "url": null
+          },
+          "last_verified_at": "2026-11-07T13:34:10-03:00",
+          "links": {
+            "official": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30",
+            "registration": null,
+            "source": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30",
+            "tickets": null
+          },
+          "location": {
+            "address": null,
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "latitude": null,
+            "longitude": null,
+            "online": false,
+            "venue": "Deportes Viña del Mar",
+            "venue_id": null
+          },
+          "organizer": "Deportes Viña del Mar",
+          "price": {
+            "currency": "CLP",
+            "display_text": "Gratis",
+            "is_free": true,
+            "max_amount": 0,
+            "min_amount": 0
+          },
+          "primary_category": {
+            "id": "otros",
+            "label": "Otros panoramas"
+          },
+          "public_status": {
+            "advisory_text": null,
+            "cancelled": null,
+            "information_completeness": "complete",
+            "last_verified_at": "2026-11-07T13:34:10-03:00",
+            "price_confirmed": true,
+            "price_stage": null,
+            "registration_closed": null,
+            "registration_open": null,
+            "sold_out": null,
+            "source_official": false
+          },
+          "registration_requirements": null,
+          "schedule": {
+            "display_text": "2026-11-07 · 09:00",
+            "end": "2026-11-20",
+            "mode": "multi_day",
+            "occurrences": [],
+            "start": "2026-11-07T09:00:00-03:00",
+            "timezone": "America/Santiago"
+          },
+          "source_name": "Deportes Viña del Mar",
+          "source_url": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30",
+          "tags": [
+            "Cultura",
+            "Deportes Viña del Mar"
+          ],
+          "title": "Consort de Flautas Dulces UV"
+        },
+        "decision": {
+          "id": "agenda_6e754543ae10493f946f1670",
+          "official_occurrence_date": "2026-10-30",
+          "provenance": {},
+          "reason": "official_occurrence_expired_schedule_conflict",
+          "scheduled_start": "2026-11-07T09:00:00-03:00",
+          "source_host": "visitavina.munivina.cl",
+          "source_url": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30",
+          "title": "Consort de Flautas Dulces UV"
+        },
+        "event_binding": {
+          "city": "Viña del Mar",
+          "id": "agenda_6e754543ae10493f946f1670",
+          "schedule": {
+            "end": "2026-11-20",
+            "mode": "multi_day",
+            "occurrences": [],
+            "start": "2026-11-07T09:00:00-03:00"
+          },
+          "source_id": "",
+          "source_urls": [
+            "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30"
+          ],
+          "title": "Consort de Flautas Dulces UV",
+          "venue": "Deportes Viña del Mar"
+        },
+        "event_sha256": "aa178a84e723a4694dabaac616c9e3cc0c9ceed0a063eb81f6baeb0143633a5e",
+        "kind": "expired_removed",
+        "publication_date": "2026-11-07",
+        "schema_version": "1.0.0",
+        "scope": "candidate_input_only_not_baseline_loss",
+        "stage": "content_quality_guard",
+        "transformation": {
+          "action": "expiration",
+          "canonical_event_id": "agenda_6e754543ae10493f946f1670",
+          "destination": {
+            "canonical_event_id": null,
+            "state": "expired"
+          },
+          "evidence": {
+            "official_occurrence_date": "2026-10-30",
+            "provenance": {},
+            "scheduled_start": "2026-11-07T09:00:00-03:00",
+            "source_host": "visitavina.munivina.cl",
+            "source_url": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30"
+          },
+          "occurrence_id": "occurrence:2026-10-30",
+          "provenance": {
+            "method": "source_record_provenance",
+            "source_url": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30"
+          },
+          "reason": "official_occurrence_expired_schedule_conflict",
+          "source_record_id": "agenda_6e754543ae10493f946f1670",
+          "source_url": "https://visitavina.munivina.cl/actividad/consort-de-flautas-dulces-uv/?occurrence=2026-10-30",
+          "stage": "content_quality_guard",
+          "title": "Consort de Flautas Dulces UV"
+        }
+      },
+      {
+        "before_event": {
+          "audience": null,
+          "categories": [
+            {
+              "id": "teatro",
+              "label": "Teatro"
+            }
+          ],
+          "description": "Inicio Eventos - Teatro Municipal Viña del Mar Borja Vilaseca – Un Mentes Expertas El escritor y conferencista español Borja Vilaseca llega al Teatro Municipal de Viña del Mar con una conferencia dedicada al autoconocimiento, el desarrollo personal y la reflex...",
+          "event_type": "event",
+          "id": "agenda_7e9b7207fabc733578a23453",
+          "image": {
+            "alt": "Borja Vilaseca – Un Mentes Expertas",
+            "url": "./assets/event-images/valparaiso/e66e8df1b8f1fff2a806f08f.webp"
+          },
+          "last_verified_at": null,
+          "links": {
+            "official": "https://teatrovina.cl/evento/borja-vilaseca-un-mentes-expertas/",
+            "registration": null,
+            "source": "https://teatrovina.cl/evento/borja-vilaseca-un-mentes-expertas/",
+            "tickets": null
+          },
+          "location": {
+            "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
+            "city": "Viña del Mar",
+            "commune": "Viña del Mar",
+            "latitude": null,
+            "longitude": null,
+            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Municipal+de+Vi%C3%B1a+del+Mar%2C+Plaza+Jos%C3%A9+Francisco+Vergara+s%2Fn%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
+            "online": false,
+            "venue": "Teatro Municipal de Viña del Mar",
+            "venue_id": "teatro-municipal-vina-del-mar",
+            "verification": {
+              "method": "canonical_venue_registry",
+              "official_name": "Teatro Municipal de Viña del Mar",
+              "status": "verified",
+              "venue_id": "teatro-municipal-vina-del-mar",
+              "verified_at": "2026-09-20"
+            }
+          },
+          "organizer": "Teatro Municipal de Viña del Mar",
+          "price": {
+            "currency": null,
+            "display_text": null,
+            "is_free": null,
+            "max_amount": null,
+            "min_amount": null
+          },
+          "primary_category": {
+            "id": "teatro",
+            "label": "Teatro"
+          },
+          "provenance": {
+            "verified_venue": {
+              "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
+              "city": "Viña del Mar",
+              "method": "canonical_venue_registry",
+              "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
+              "venue_id": "teatro-municipal-vina-del-mar",
+              "verified_at": "2026-09-20"
+            }
+          },
+          "public_status": {
+            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir.",
+            "cancelled": null,
+            "information_completeness": "partial",
+            "last_verified_at": null,
+            "price_confirmed": null,
+            "price_stage": null,
+            "registration_closed": null,
+            "registration_open": null,
+            "sold_out": null,
+            "source_official": false
+          },
+          "registration_requirements": null,
+          "schedule": {
+            "display_text": "2026-11-21",
+            "end": null,
+            "mode": "dated",
+            "occurrences": [],
+            "start": "2026-11-21",
+            "timezone": "America/Santiago"
+          },
+          "source_id": "teatro_municipal_vina",
+          "source_name": "Teatro Municipal de Viña del Mar",
+          "source_url": "https://teatrovina.cl/evento/borja-vilaseca-un-mentes-expertas/",
+          "tags": [],
+          "title": "Borja Vilaseca – Un Mentes Expertas"
+        },
+        "decision": {
+          "id": "agenda_7e9b7207fabc733578a23453",
+          "missing_evidence": [
+            "verified_performance_start_time"
+          ],
+          "reason": "performance_without_verified_concrete_session",
+          "title": "Borja Vilaseca – Un Mentes Expertas"
+        },
+        "event_binding": {
+          "city": "Viña del Mar",
+          "id": "agenda_7e9b7207fabc733578a23453",
+          "schedule": {
+            "end": null,
+            "mode": "dated",
+            "occurrences": [],
+            "start": "2026-11-21"
+          },
+          "source_id": "teatro_municipal_vina",
+          "source_urls": [
+            "https://teatrovina.cl/evento/borja-vilaseca-un-mentes-expertas"
+          ],
+          "title": "Borja Vilaseca – Un Mentes Expertas",
+          "venue": "teatro-municipal-vina-del-mar"
+        },
+        "event_sha256": "b883bf8c93b8a2a4181a2ded99fe20280e30eb5ef6774b3c6a2f94779e42bb93",
+        "kind": "quarantined",
+        "publication_date": "2026-11-07",
+        "schema_version": "1.0.0",
+        "scope": "candidate_input_only_not_baseline_loss",
+        "stage": "content_quality_guard",
+        "transformation": {
+          "action": "quarantine",
+          "canonical_event_id": "agenda_7e9b7207fabc733578a23453",
+          "destination": {
+            "canonical_event_id": null,
+            "state": "quarantine"
+          },
+          "evidence": {
+            "missing_evidence": [
+              "verified_performance_start_time"
+            ]
+          },
+          "occurrence_id": "occurrence:5f23ae5aa93f2c23048b",
+          "provenance": {
+            "verified_venue": {
+              "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
+              "city": "Viña del Mar",
+              "method": "canonical_venue_registry",
+              "source_url": "https://teatrovina.cl/evento/stella-100-anos-de-poesia-y-rebeldia/",
+              "venue_id": "teatro-municipal-vina-del-mar",
+              "verified_at": "2026-09-20"
+            }
+          },
+          "reason": "performance_without_verified_concrete_session",
+          "source_record_id": "agenda_7e9b7207fabc733578a23453",
+          "source_url": "https://teatrovina.cl/evento/borja-vilaseca-un-mentes-expertas/",
+          "stage": "content_quality_guard",
+          "title": "Borja Vilaseca – Un Mentes Expertas"
         }
       },
       {
@@ -1700,7 +1952,7 @@
         },
         "event_sha256": "2c731d4270e63897fa69e2a3c318304e7dcac7e492a36736503ef60d6c2a1dc1",
         "kind": "quarantined",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "schema_version": "1.0.0",
         "scope": "candidate_input_only_not_baseline_loss",
         "stage": "content_quality_guard",
@@ -1738,7 +1990,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_016864e8c37e2d4e239fdca8",
@@ -1883,7 +2135,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_02b2a3382e6404f4cf95db97",
@@ -2030,7 +2282,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_02d372c295b0c23420b1607a",
@@ -2174,7 +2426,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_06d3a2e30bd446a83a74442c",
@@ -2310,7 +2562,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_07f56f15cff76e2165ef55a9",
@@ -2459,7 +2711,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_0b2a579e383097eb3495af1f",
@@ -2604,7 +2856,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_0b8dd0fc50ccdeb5781c1efb",
@@ -2740,7 +2992,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_0c2cd926998de33a15777b1c",
@@ -2885,7 +3137,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_0cecc4dd2d6ffe2d6480b44e",
@@ -3021,7 +3273,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_120310dc6a086259fb0d630d",
@@ -3168,7 +3420,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_190d49afb13307977b027762",
@@ -3304,7 +3556,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_1ac48fa93aa68f3e9a5ccbad",
@@ -3440,7 +3692,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_1af89f807a6a996029770550",
@@ -3587,7 +3839,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_1f06199cb1caa5dfdd3bed07",
@@ -3729,7 +3981,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_1f65bfa0c1824330139d62e0",
@@ -3873,7 +4125,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_22bb7d014a1afffd67f903ac",
@@ -4029,7 +4281,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_24f3c1495c859b2015f8da4d",
@@ -4174,7 +4426,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_25806ed3e6fd8f91162e39da",
@@ -4310,7 +4562,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_25dde84d113c8ebeb6124943",
@@ -4446,7 +4698,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_26321680e3b911fbfacdc89b",
@@ -4582,7 +4834,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_26bf28291ae6682e928a7853",
@@ -4726,7 +4978,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_2b0e8aadb430103cb0d76af0",
@@ -4863,7 +5115,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_30dfa9269f6f8af14e80c44f",
@@ -5007,7 +5259,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_310e27227dc579b33a7057f5",
@@ -5144,7 +5396,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_32f5b4c0d34e5e20676aa4e3",
@@ -5290,7 +5542,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_32fde88c6f2c23261c97fa0c",
@@ -5426,7 +5678,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_340e077b8ad47b78459145e0",
@@ -5570,7 +5822,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_381f9100f3291c4a16345f46",
@@ -5714,7 +5966,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_3abd380517e302745ec16075",
@@ -5851,7 +6103,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_3e463633aa0313f33d4d0cb8",
@@ -5987,7 +6239,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_3e6f06fa26f2d2e511577236",
@@ -6123,7 +6375,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_3f8f360b0e589a393bff4c03",
@@ -6259,7 +6511,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_42d25a6c3b9a92109887329a",
@@ -6395,7 +6647,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_431181a7d1aab2203d04d06a",
@@ -6551,7 +6803,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_447a208e4bb00757c2d11c38",
@@ -6687,7 +6939,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_44c9be26973ffd4a421314c9",
@@ -6829,7 +7081,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_4535479b7f9396e0e13c9224",
@@ -6984,7 +7236,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_46372ebba865568e63538e1a",
@@ -7128,7 +7380,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_4685ffd484729918113dd28f",
@@ -7264,7 +7516,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_4b55d15920b52e003ab8c7ba",
@@ -7400,7 +7652,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_513ef987f0e640da146775eb",
@@ -7536,7 +7788,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_53580774591a97fa1beee7a4",
@@ -7683,7 +7935,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_550a5929babb1b27ce05fd42",
@@ -7827,7 +8079,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_5582212505e7d2e753b91dba",
@@ -7963,7 +8215,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_59e25397a29d0ebd2ae69a24",
@@ -8099,7 +8351,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_5a3f1ec539032e5c55eba38d",
@@ -8236,7 +8488,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_5a573cfb7a82eb5f371aa3ce",
@@ -8381,7 +8633,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_5b11bb52b2d321cf129803ca",
@@ -8525,7 +8777,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_5b4b50701071ff34b395e975",
@@ -8669,7 +8921,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_5ba6fd72d5a7289e22487bc4",
@@ -8805,152 +9057,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
-        "kind": "quarantined",
-        "event_binding": {
-          "id": "agenda_65f9ba90895b1bdbe4c32185",
-          "source_id": "teatro_municipal_vina",
-          "source_urls": [
-            "https://www.instagram.com/p/DfBGHwqBvjN"
-          ],
-          "title": "¡Llega noviembre y con él, Mythodea!",
-          "city": "Viña del Mar",
-          "venue": "teatro-municipal-vina-del-mar",
-          "schedule": {
-            "end": "2026-11-07",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-11-06"
-          }
-        },
-        "event_sha256": "4e44158b8f8e8e1aa36a77fc43e086c4f32f20e21ac5964a12cf66c6576d1363",
-        "before_event": {
-          "id": "agenda_65f9ba90895b1bdbe4c32185",
-          "title": "¡Llega noviembre y con él, Mythodea!",
-          "event_type": "event",
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "schedule": {
-            "mode": "multi_day",
-            "start": "2026-11-06",
-            "end": "2026-11-07",
-            "timezone": "America/Santiago",
-            "display_text": "2026-11-06",
-            "occurrences": []
-          },
-          "location": {
-            "venue_id": "teatro-municipal-vina-del-mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Teatro Municipal de Viña del Mar",
-            "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-            "online": false,
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Municipal+de+Vi%C3%B1a+del+Mar%2C+Plaza+Jos%C3%A9+Francisco+Vergara+s%2Fn%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "verification": {
-              "status": "verified",
-              "method": "canonical_venue_registry",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "official_name": "Teatro Municipal de Viña del Mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "price": {
-            "is_free": null,
-            "currency": null,
-            "min_amount": null,
-            "max_amount": null,
-            "display_text": null
-          },
-          "links": {
-            "official": "https://www.instagram.com/p/DfBGHwqBvjN/",
-            "tickets": null,
-            "registration": null,
-            "source": "https://www.instagram.com/p/DfBGHwqBvjN/"
-          },
-          "organizer": "Teatro Municipal de Viña del Mar",
-          "source_name": "Teatro Municipal de Viña del Mar",
-          "source_url": "https://www.instagram.com/p/DfBGHwqBvjN/",
-          "last_verified_at": null,
-          "public_status": {
-            "source_official": false,
-            "last_verified_at": null,
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": null,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": null,
-            "information_completeness": "partial",
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-          },
-          "description": "🏛️🎼 ¿Qué sucede cuando la música sinfónica, las voces corales y los sonidos del espacio se encuentran en una misma obra? 🌌 Conversamos con Fabrizzio De Negri, director musical de nuestra tercera producción del Teatro Municipal de Viña del Mar, quien nos cuenta...",
-          "tags": [
-            "concierto",
-            "música"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://instagram.fvsa2-2.fna.fbcdn.net/v/t51.82787-15/869891480_18014236883985382_7069004844384788915_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ig_cache_key=NDAxNzUxOTI2NDE1MTMwNDM5NzE4MDE0MjM2ODgwOTg1Mzgy.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjk0MS5zZHIudmlkZW9fdXNlcl91cGxvYWRlZF90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=VZWSgHTIjOwQ7kNvwGAPMgA&_nc_oc=AdoKCuj5hwuQ3EN3WqliSRljnyJS7iy2yfP7HFCj3sKhkN2e7shaW-UWVJLnIHk7KdxxU0RwYkUYJ2hfoNrt0dl3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fvsa2-2.fna&_nc_gid=PeBQQs5TK6RumgHS-p8rEA&_nc_ss=7320f&oh=00_AQQUkObxXTeA8T1nbSvGuggkh48Ti20q14xyZuF1eXfslw&oe=6AEE7FC8",
-            "alt": "¡Llega noviembre y con él, Mythodea!"
-          },
-          "represented_functions": [
-            {
-              "function_id": "observation-890d553598311905dab97428",
-              "title": "¡Llega noviembre y con él, Mythodea!",
-              "start": "2026-11-06",
-              "venue": "Teatro Municipal de Viña del Mar"
-            }
-          ],
-          "source_id": "teatro_municipal_vina"
-        },
-        "decision": {
-          "id": "agenda_65f9ba90895b1bdbe4c32185",
-          "title": "¡Llega noviembre y con él, Mythodea!",
-          "reason": "performance_without_verified_concrete_session",
-          "missing_evidence": [
-            "verified_performance_start_time"
-          ]
-        },
-        "transformation": {
-          "stage": "content_quality_guard",
-          "action": "quarantine",
-          "reason": "performance_without_verified_concrete_session",
-          "source_record_id": "agenda_65f9ba90895b1bdbe4c32185",
-          "canonical_event_id": "agenda_65f9ba90895b1bdbe4c32185",
-          "occurrence_id": "occurrence:a20b163018060b3310e7",
-          "source_url": "https://www.instagram.com/p/DfBGHwqBvjN/",
-          "title": "¡Llega noviembre y con él, Mythodea!",
-          "provenance": {
-            "source_url": "https://www.instagram.com/p/DfBGHwqBvjN/",
-            "method": "source_record_provenance"
-          },
-          "destination": {
-            "state": "quarantine",
-            "canonical_event_id": null
-          },
-          "evidence": {
-            "missing_evidence": [
-              "verified_performance_start_time"
-            ]
-          }
-        }
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_660acc958eba8b8443c85c0a",
@@ -9105,7 +9212,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_667b4f1e4164286ed0398a0f",
@@ -9249,7 +9356,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_67a26daa2d5bd086ee1583b8",
@@ -9385,7 +9492,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_6c6b853b212977e87b1e7cae",
@@ -9529,7 +9636,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_6c8a64f3f2fef938a30c4fa0",
@@ -9665,7 +9772,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_6dd00dc87645cd81e7783003",
@@ -9801,7 +9908,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_6df5abcfd9d72d4d519b4cb6",
@@ -9937,7 +10044,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_6e84c19417a7be314a12bcd1",
@@ -10073,7 +10180,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_75ceea2fda8e2ccd8fec8498",
@@ -10218,7 +10325,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_7680a7eae7ef0ef47834c1bd",
@@ -10373,7 +10480,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_769eb6d107a36d6825f40d67",
@@ -10528,7 +10635,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_7915556c1277669c7b125f61",
@@ -10672,7 +10779,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_793a6b83c2e68fef1cec0ef5",
@@ -10816,7 +10923,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_7940d2c9d8696b5602875c08",
@@ -10953,7 +11060,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_7e5721d0bec3784ca70feade",
@@ -11097,7 +11204,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_7f585fc5ec16debcb9825f9a",
@@ -11234,7 +11341,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_800ca10bfaa085acf464dff1",
@@ -11378,7 +11485,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_800e72684c138daddb6bcddb",
@@ -11522,7 +11629,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_80ca53ac50120ec5e842441c",
@@ -11658,7 +11765,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_80d87d959256abc1fbc9fac7",
@@ -11794,7 +11901,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_815c97da89d873b7bdfdfdf6",
@@ -11938,7 +12045,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8225bb5da200255766bb969d",
@@ -12074,7 +12181,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_827acd3857d2a5a12f7d9a62",
@@ -12221,7 +12328,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_831cc9c5cc2f59e41ca364c3",
@@ -12357,7 +12464,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_845254a972315cb23d7be859",
@@ -12493,7 +12600,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_86c80b731f12e730bb117120",
@@ -12629,7 +12736,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8a03abea1d6f68c8802f63db",
@@ -12774,7 +12881,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8a8af90ea356ad8b0951ea95",
@@ -12918,7 +13025,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8c05e052afa28b14b89d1da4",
@@ -13054,7 +13161,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8c5fcf8313ce374090097d04",
@@ -13190,7 +13297,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8d0f94a120d0897600c6c775",
@@ -13334,7 +13441,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8d54c06ee11caaf3658bc66e",
@@ -13478,7 +13585,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8db062e94b7bbba710e5e56e",
@@ -13622,7 +13729,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8e529f06b80697fc861fae14",
@@ -13767,7 +13874,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_8f07f1fd70131c8fafbe038a",
@@ -13903,7 +14010,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_913eaef0d2645cc6b928656b",
@@ -14041,7 +14148,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_917209f85380e2fe8c9c5802",
@@ -14178,7 +14285,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_91e916f69649b0552d224318",
@@ -14332,7 +14439,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_9392353d4092876373a5e0ac",
@@ -14477,7 +14584,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "expired_removed",
         "event_binding": {
           "id": "agenda_949c420aea5c8f91a41baca6",
@@ -14617,7 +14724,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_97dae3fce5a67cc30aefb5c9",
@@ -14762,7 +14869,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_98ac4548f4ea44987cafbcd9",
@@ -14898,7 +15005,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_9acc0399c8b0f04b7499baaf",
@@ -15034,7 +15141,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_9c575929214007032f71c396",
@@ -15170,7 +15277,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_9c7998f35a7bbbb9ef4df7ac",
@@ -15306,7 +15413,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_9d96abb0abdb6f6107b0ff92",
@@ -15443,7 +15550,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_9e7aaf32592284474c9bf85d",
@@ -15587,7 +15694,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_a19a85dc4460ad8d5486fa27",
@@ -15734,7 +15841,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_a2f3eda4e151f47514af5c70",
@@ -15871,7 +15978,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_a38c5f0b3cf25e6d9d696d3b",
@@ -16007,7 +16114,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_a3a2ed3c59fd46e1008fc925",
@@ -16143,7 +16250,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_aa2a5d3933e176ec3d009898",
@@ -16287,7 +16394,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_aa3a8f92f0c0272bcf5a1010",
@@ -16423,7 +16530,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_aabc6751ae0ae8c204ed39c0",
@@ -16567,7 +16674,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_aad5651bbbd37996a4180fea",
@@ -16704,7 +16811,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ac3dc1d300355949fc83cb64",
@@ -16854,7 +16961,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ad65be5cf49e9e53a721250b",
@@ -16999,7 +17106,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ad6ce672b80fa80419b938d3",
@@ -17136,7 +17243,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "expired_removed",
         "event_binding": {
           "id": "agenda_ae30b00291848d8434f700af",
@@ -17276,7 +17383,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_aff6036e368b98e858d91d8c",
@@ -17420,7 +17527,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_b0a655ce74bfc4157599fd16",
@@ -17557,7 +17664,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_b22410e9b85f927845d0e7e5",
@@ -17694,7 +17801,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_b2471fc51519484def6efd65",
@@ -17830,7 +17937,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_b4c244c9f6384bedf2f04c0d",
@@ -17975,7 +18082,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_b643c20e2e56ea564e73437d",
@@ -18112,7 +18219,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_b8da7d1401152085055aad6b",
@@ -18256,7 +18363,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_bb9c24ba12c9e8ae1b8f7623",
@@ -18392,7 +18499,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_bc6e5abc39a1cdd7f457d59c",
@@ -18539,7 +18646,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_beade7cbe28cbdafdf506ff0",
@@ -18684,7 +18791,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_bfaa1d91e085fc4168d0a89e",
@@ -18820,7 +18927,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_c1e9676ec9a09814394b9c21",
@@ -18956,7 +19063,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_c2dc4e363169993d4f61cd4d",
@@ -19100,7 +19207,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_c45b41529c7adf7092a80b89",
@@ -19244,7 +19351,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_c4db9acee937dd09df99514c",
@@ -19380,7 +19487,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_c7632528321da8ded9e491b8",
@@ -19517,7 +19624,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_c9b298d56ec58bc223b5744b",
@@ -19662,7 +19769,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_cb065c4889efed3be2858466",
@@ -19806,7 +19913,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_cd51a46245a37ec15288c9e0",
@@ -19950,7 +20057,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_cd7a75a23af6db35b87ee534",
@@ -20086,7 +20193,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ceaa87d131de288e6492f8ea",
@@ -20230,7 +20337,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d014761adeacf56d6be534bc",
@@ -20367,7 +20474,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d36e1d2b1556521f55d65d5d",
@@ -20511,7 +20618,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d3c62a5b4443d1ad46cf5764",
@@ -20656,7 +20763,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d410e9cdfc74395f68c4fe2a",
@@ -20804,7 +20911,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d4757fd02937b82709d3d6e1",
@@ -20941,7 +21048,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d57ceb8b78742cc3f075eae1",
@@ -21085,7 +21192,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d64c97eefe5f2a668246cebf",
@@ -21230,7 +21337,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_d8602f13cbf4bd4821a1db07",
@@ -21367,7 +21474,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_dbcdaf3d0d530e0b6c902923",
@@ -21503,7 +21610,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ddd981662b490ce3c9d91388",
@@ -21639,7 +21746,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_de55c73a2b0fc9ce1ac5246f",
@@ -21776,7 +21883,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_e0eb8c1a958401039b640bb7",
@@ -21921,152 +22028,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
-        "kind": "quarantined",
-        "event_binding": {
-          "id": "agenda_e6252be6415a4773afddbea9",
-          "source_id": "teatro_municipal_vina",
-          "source_urls": [
-            "https://www.instagram.com/p/DfH1oByhhPr"
-          ],
-          "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-          "city": "Viña del Mar",
-          "venue": "teatro-municipal-vina-del-mar",
-          "schedule": {
-            "end": "2026-11-07",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-11-06T12:00:00-03:00"
-          }
-        },
-        "event_sha256": "55e99cb08e0070d04ca0ba3331a7f0ba0841ed626be0d880f308e5ec13f61025",
-        "before_event": {
-          "id": "agenda_e6252be6415a4773afddbea9",
-          "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-          "event_type": "event",
-          "primary_category": {
-            "id": "musica",
-            "label": "Música"
-          },
-          "categories": [
-            {
-              "id": "musica",
-              "label": "Música"
-            }
-          ],
-          "schedule": {
-            "mode": "multi_day",
-            "start": "2026-11-06T12:00:00-03:00",
-            "end": "2026-11-07",
-            "timezone": "America/Santiago",
-            "display_text": "2026-11-06 · 12:00",
-            "occurrences": []
-          },
-          "location": {
-            "venue_id": "teatro-municipal-vina-del-mar",
-            "city": "Viña del Mar",
-            "commune": "Viña del Mar",
-            "venue": "Teatro Municipal de Viña del Mar",
-            "address": "Plaza José Francisco Vergara s/n, Viña del Mar",
-            "online": false,
-            "latitude": null,
-            "longitude": null,
-            "map_url": "https://www.google.com/maps/search/?api=1&query=Teatro+Municipal+de+Vi%C3%B1a+del+Mar%2C+Plaza+Jos%C3%A9+Francisco+Vergara+s%2Fn%2C+Vi%C3%B1a+del+Mar%2C+Vi%C3%B1a+del+Mar",
-            "verification": {
-              "status": "verified",
-              "method": "canonical_venue_registry",
-              "venue_id": "teatro-municipal-vina-del-mar",
-              "official_name": "Teatro Municipal de Viña del Mar",
-              "verified_at": "2026-09-20"
-            }
-          },
-          "price": {
-            "is_free": null,
-            "currency": null,
-            "min_amount": null,
-            "max_amount": null,
-            "display_text": null
-          },
-          "links": {
-            "official": "https://www.instagram.com/p/DfH1oByhhPr/",
-            "tickets": null,
-            "registration": null,
-            "source": "https://www.instagram.com/p/DfH1oByhhPr/"
-          },
-          "organizer": "Teatro Municipal de Viña del Mar",
-          "source_name": "Teatro Municipal de Viña del Mar",
-          "source_url": "https://www.instagram.com/p/DfH1oByhhPr/",
-          "last_verified_at": null,
-          "public_status": {
-            "source_official": false,
-            "last_verified_at": null,
-            "registration_open": null,
-            "registration_closed": null,
-            "cancelled": null,
-            "sold_out": null,
-            "price_stage": null,
-            "price_confirmed": null,
-            "information_completeness": "partial",
-            "advisory_text": "Confirma los datos pendientes con el organizador antes de asistir."
-          },
-          "description": "🌌 Conversamos con Fabrizzio De Negri, director musical de esta gran producción, quien nos compartió su historia y vínculo con nuestro Teatro, destacando la importancia de Viña del Mar como uno de los grandes polos culturales de nuestro país y el valor de segui...",
-          "tags": [
-            "banda",
-            "música"
-          ],
-          "audience": null,
-          "registration_requirements": null,
-          "image": {
-            "url": "https://scontent-nrt1-2.cdninstagram.com/v/t51.82787-15/878083892_18014529956985382_4142539514445127660_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=NDAxOTQxNzAzOTYxNzAwNDUyMzE4MDE0NTI5OTUzOTg1Mzgy.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjcyMC5zZHIudmlkZW9fdXNlcl9zZWxlY3RlZF90aHVtYm5haWwuQzMifQ%3D%3D&_nc_ohc=MVeTD-p42DcQ7kNvwGWhR4K&_nc_oc=AdreacIifOW-gfzFMN3likZXxnl-XvaU8xliLigtsT_DfmnU7HKm2CWWnTnaR7Llh3o&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-nrt1-2.cdninstagram.com&_nc_gid=1n8s5FcWPysFG1aG5P3FLQ&_nc_ss=7f20f&oh=00_AQSGinSaKEbF0z3OFhE70l7MAxrgMgbsX77z_QLnLDntBA&oe=6AEE9E8C",
-            "alt": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!"
-          },
-          "represented_functions": [
-            {
-              "function_id": "observation-2b8f58b159b3b4ba796e7693",
-              "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-              "start": "2026-11-06",
-              "venue": "Teatro Municipal de Viña del Mar"
-            }
-          ],
-          "source_id": "teatro_municipal_vina"
-        },
-        "decision": {
-          "id": "agenda_e6252be6415a4773afddbea9",
-          "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-          "reason": "performance_without_verified_concrete_session",
-          "missing_evidence": [
-            "discrete_performance_occurrences"
-          ]
-        },
-        "transformation": {
-          "stage": "content_quality_guard",
-          "action": "quarantine",
-          "reason": "performance_without_verified_concrete_session",
-          "source_record_id": "agenda_e6252be6415a4773afddbea9",
-          "canonical_event_id": "agenda_e6252be6415a4773afddbea9",
-          "occurrence_id": "occurrence:bf9418ca3890263becb7",
-          "source_url": "https://www.instagram.com/p/DfH1oByhhPr/",
-          "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-          "provenance": {
-            "source_url": "https://www.instagram.com/p/DfH1oByhhPr/",
-            "method": "source_record_provenance"
-          },
-          "destination": {
-            "state": "quarantine",
-            "canonical_event_id": null
-          },
-          "evidence": {
-            "missing_evidence": [
-              "discrete_performance_occurrences"
-            ]
-          }
-        }
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_e6460d7a8a71f60e522c86b4",
@@ -22211,7 +22173,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ea2b7d7e355c54fa73183c02",
@@ -22347,7 +22309,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_eabd81ec6d650c12bd9f8b87",
@@ -22491,7 +22453,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_eacf8213e98d64f14df95cac",
@@ -22633,7 +22595,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_ec3a66f2e9442f466201a6f3",
@@ -22761,7 +22723,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_eee73fa37b262a5e7cb31ee5",
@@ -22916,7 +22878,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_eefd8de0d69a23ccb448a4bd",
@@ -23060,7 +23022,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f1fbfab66809c98913ccdc6c",
@@ -23196,7 +23158,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f236f15b38eaf2e53d6069e9",
@@ -23333,7 +23295,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f2da31bfc3ca90b56dc0cb59",
@@ -23467,7 +23429,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f3d745e92ed09693adf9653f",
@@ -23614,7 +23576,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f43b7ec3ca4b0cdc01c9c078",
@@ -23750,7 +23712,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f57c722b1c126e76a994fe9b",
@@ -23887,7 +23849,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f7c2930bda3c90fd72dd33ce",
@@ -24037,7 +23999,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_f8197bea9f39b6b408f051fc",
@@ -24173,7 +24135,7 @@
         "schema_version": "1.0.0",
         "stage": "content_quality_guard",
         "scope": "candidate_input_only_not_baseline_loss",
-        "publication_date": "2026-11-06",
+        "publication_date": "2026-11-07",
         "kind": "quarantined",
         "event_binding": {
           "id": "agenda_fa6c409cc997c2c1b9f859af",
@@ -24316,7 +24278,7 @@
       }
     ],
     "contract": "canonical-transformation-receipt-ledger",
-    "generated_at": "2026-11-06T18:24:49+00:00",
+    "generated_at": "2026-11-07T17:21:36+00:00",
     "receipts": [
       {
         "schema_version": "1.0.0",
@@ -26861,55 +26823,6 @@
             "evidence": {
               "missing_evidence": [
                 "verified_event_date"
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "action": "recovery_disposition",
-        "observation_id": "obs_9076e3155cca0cb1c8a615d9",
-        "recovery_receipt_sha256": "25fe2bee1559111c0fba3ffed527e53f7f90cd27532205e17ab80767387f623f",
-        "source_record_id": "agenda_65f9ba90895b1bdbe4c32185",
-        "source_binding": {
-          "id": "agenda_65f9ba90895b1bdbe4c32185",
-          "source_id": "teatro_municipal_vina",
-          "source_urls": [
-            "https://www.instagram.com/p/DfBGHwqBvjN"
-          ],
-          "title": "¡Llega noviembre y con él, Mythodea!",
-          "city": "Viña del Mar",
-          "venue": "teatro-municipal-vina-del-mar",
-          "schedule": {
-            "end": "2026-11-07",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-11-06"
-          }
-        },
-        "transformations": [
-          {
-            "stage": "content_quality_guard",
-            "action": "quarantine",
-            "reason": "performance_without_verified_concrete_session",
-            "source_record_id": "agenda_65f9ba90895b1bdbe4c32185",
-            "canonical_event_id": "agenda_65f9ba90895b1bdbe4c32185",
-            "occurrence_id": "occurrence:a20b163018060b3310e7",
-            "source_url": "https://www.instagram.com/p/DfBGHwqBvjN/",
-            "title": "¡Llega noviembre y con él, Mythodea!",
-            "provenance": {
-              "source_url": "https://www.instagram.com/p/DfBGHwqBvjN/",
-              "method": "source_record_provenance"
-            },
-            "destination": {
-              "state": "quarantine",
-              "canonical_event_id": null
-            },
-            "evidence": {
-              "missing_evidence": [
-                "verified_performance_start_time"
               ]
             }
           }
@@ -31737,55 +31650,6 @@
             "evidence": {
               "missing_evidence": [
                 "verified_event_date"
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "schema_version": "1.0.0",
-        "stage": "content_quality_guard",
-        "action": "recovery_disposition",
-        "observation_id": "obs_ce0f735143ecbc11b5009a7c",
-        "recovery_receipt_sha256": "e1eafe60397516e250419a8a1077c020cb43faee6cb162cc924cb004c81804f7",
-        "source_record_id": "agenda_e6252be6415a4773afddbea9",
-        "source_binding": {
-          "id": "agenda_e6252be6415a4773afddbea9",
-          "source_id": "teatro_municipal_vina",
-          "source_urls": [
-            "https://www.instagram.com/p/DfH1oByhhPr"
-          ],
-          "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-          "city": "Viña del Mar",
-          "venue": "teatro-municipal-vina-del-mar",
-          "schedule": {
-            "end": "2026-11-07",
-            "mode": "multi_day",
-            "occurrences": [],
-            "start": "2026-11-06T12:00:00-03:00"
-          }
-        },
-        "transformations": [
-          {
-            "stage": "content_quality_guard",
-            "action": "quarantine",
-            "reason": "performance_without_verified_concrete_session",
-            "source_record_id": "agenda_e6252be6415a4773afddbea9",
-            "canonical_event_id": "agenda_e6252be6415a4773afddbea9",
-            "occurrence_id": "occurrence:bf9418ca3890263becb7",
-            "source_url": "https://www.instagram.com/p/DfH1oByhhPr/",
-            "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-            "provenance": {
-              "source_url": "https://www.instagram.com/p/DfH1oByhhPr/",
-              "method": "source_record_provenance"
-            },
-            "destination": {
-              "state": "quarantine",
-              "canonical_event_id": null
-            },
-            "evidence": {
-              "missing_evidence": [
-                "discrete_performance_occurrences"
               ]
             }
           }
@@ -37202,60 +37066,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_44ff3d27c9c8fb115410d37a",
-        "destination": {
-          "canonical_event_id": "agenda_44ff3d27c9c8fb115410d37a",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_44ff3d27c9c8fb115410d37a",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [],
-              "start": "2026-11-06T19:00:00-03:00"
-            },
-            "source_id": "puerto_escena",
-            "source_urls": [
-              "https://www.instagram.com/p/DfCfIwoFUSA"
-            ],
-            "title": "BENEDETTO PACIFICO - DAME DE PIC / CIE KARINE PONTIES (BÉLGICA)",
-            "venue": "Teatro Municipal de Casablanca"
-          },
-          "observation_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_44ff3d27c9c8fb115410d37a",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [],
-              "start": "2026-11-06T19:00:00-03:00"
-            },
-            "source_id": "puerto_escena",
-            "source_urls": [
-              "https://www.instagram.com/p/DfCfIwoFUSA"
-            ],
-            "title": "BENEDETTO PACIFICO - DAME DE PIC / CIE KARINE PONTIES (BÉLGICA)",
-            "venue": "Teatro Municipal de Casablanca"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_633d2e513230c1a5ffaa9f74",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DfCfIwoFUSA"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "puertoescena",
-        "source_record_id": "obs_633d2e513230c1a5ffaa9f74",
-        "source_url": "https://www.instagram.com/p/DfCfIwoFUSA",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_ed99fc63ab56e2ffffa456cb",
         "destination": {
           "canonical_event_id": "agenda_ed99fc63ab56e2ffffa456cb",
@@ -38882,60 +38692,6 @@
         "source_id": "museofonck",
         "source_record_id": "obs_8f0bbfc0b3f9b842fc134ea8",
         "source_url": "https://www.instagram.com/p/DccTLlJicxE",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
-        "canonical_event_id": "agenda_65f9ba90895b1bdbe4c32185",
-        "destination": {
-          "canonical_event_id": "agenda_65f9ba90895b1bdbe4c32185",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Viña del Mar",
-            "id": "agenda_65f9ba90895b1bdbe4c32185",
-            "schedule": {
-              "end": "2026-11-07",
-              "mode": "multi_day",
-              "occurrences": [],
-              "start": "2026-11-06"
-            },
-            "source_id": "teatro_municipal_vina",
-            "source_urls": [
-              "https://www.instagram.com/p/DfBGHwqBvjN"
-            ],
-            "title": "¡Llega noviembre y con él, Mythodea!",
-            "venue": "teatro-municipal-vina-del-mar"
-          },
-          "observation_binding": {
-            "city": "Viña del Mar",
-            "id": "agenda_65f9ba90895b1bdbe4c32185",
-            "schedule": {
-              "end": "2026-11-07",
-              "mode": "multi_day",
-              "occurrences": [],
-              "start": "2026-11-06"
-            },
-            "source_id": "teatro_municipal_vina",
-            "source_urls": [
-              "https://www.instagram.com/p/DfBGHwqBvjN"
-            ],
-            "title": "¡Llega noviembre y con él, Mythodea!",
-            "venue": "teatro-municipal-vina-del-mar"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_9076e3155cca0cb1c8a615d9",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DfBGHwqBvjN"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "teatro_munivina",
-        "source_record_id": "obs_9076e3155cca0cb1c8a615d9",
-        "source_url": "https://www.instagram.com/p/DfBGHwqBvjN",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -40806,60 +40562,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_a3dad8af396c98b43c272c53",
-        "destination": {
-          "canonical_event_id": "agenda_a3dad8af396c98b43c272c53",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_a3dad8af396c98b43c272c53",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [],
-              "start": "2026-11-06T18:30:00-03:00"
-            },
-            "source_id": "panoramas_valparaiso",
-            "source_urls": [
-              "https://www.instagram.com/p/DemfXfNjjsY"
-            ],
-            "title": "15° Festival de la Canción Latinoamericana del Colegio Los Leones",
-            "venue": ""
-          },
-          "observation_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_a3dad8af396c98b43c272c53",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [],
-              "start": "2026-11-06T18:30:00-03:00"
-            },
-            "source_id": "panoramas_valparaiso",
-            "source_urls": [
-              "https://www.instagram.com/p/DemfXfNjjsY"
-            ],
-            "title": "15° Festival de la Canción Latinoamericana del Colegio Los Leones",
-            "venue": ""
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_b87816ea93fe0e86ae5b0817",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DemfXfNjjsY"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "panoramasvalparaiso",
-        "source_record_id": "obs_b87816ea93fe0e86ae5b0817",
-        "source_url": "https://www.instagram.com/p/DemfXfNjjsY",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_eabd81ec6d650c12bd9f8b87",
         "destination": {
           "canonical_event_id": "agenda_eabd81ec6d650c12bd9f8b87",
@@ -41680,70 +41382,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_86d79bf2452f744301592bad",
-        "destination": {
-          "canonical_event_id": "agenda_86d79bf2452f744301592bad",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_86d79bf2452f744301592bad",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T19:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T19:00:00-03:00"
-            },
-            "source_id": "valparaiso_profundo",
-            "source_urls": [
-              "https://www.instagram.com/p/De-Tn3vslxr"
-            ],
-            "title": "Sabina Íntimo, tributo oficial",
-            "venue": "Fisher 18, Escalera de Colores, Cerro Concepción"
-          },
-          "observation_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_86d79bf2452f744301592bad",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T19:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T19:00:00-03:00"
-            },
-            "source_id": "valparaiso_profundo",
-            "source_urls": [
-              "https://www.instagram.com/p/De-Tn3vslxr"
-            ],
-            "title": "Sabina Íntimo, tributo oficial",
-            "venue": "Fisher 18, Escalera de Colores, Cerro Concepción"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_c9538a4851c090de81c32b62",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/De-Tn3vslxr"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "valparaisoprofundo",
-        "source_record_id": "obs_c9538a4851c090de81c32b62",
-        "source_url": "https://www.instagram.com/p/De-Tn3vslxr",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_75ceea2fda8e2ccd8fec8498",
         "destination": {
           "canonical_event_id": "agenda_75ceea2fda8e2ccd8fec8498",
@@ -41910,60 +41548,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_e6252be6415a4773afddbea9",
-        "destination": {
-          "canonical_event_id": "agenda_e6252be6415a4773afddbea9",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Viña del Mar",
-            "id": "agenda_e6252be6415a4773afddbea9",
-            "schedule": {
-              "end": "2026-11-07",
-              "mode": "multi_day",
-              "occurrences": [],
-              "start": "2026-11-06T12:00:00-03:00"
-            },
-            "source_id": "teatro_municipal_vina",
-            "source_urls": [
-              "https://www.instagram.com/p/DfH1oByhhPr"
-            ],
-            "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-            "venue": "teatro-municipal-vina-del-mar"
-          },
-          "observation_binding": {
-            "city": "Viña del Mar",
-            "id": "agenda_e6252be6415a4773afddbea9",
-            "schedule": {
-              "end": "2026-11-07",
-              "mode": "multi_day",
-              "occurrences": [],
-              "start": "2026-11-06T12:00:00-03:00"
-            },
-            "source_id": "teatro_municipal_vina",
-            "source_urls": [
-              "https://www.instagram.com/p/DfH1oByhhPr"
-            ],
-            "title": "¡Cada vez queda menos para vivir Mythodea en el Teatro Municipal de Viña del Mar!",
-            "venue": "teatro-municipal-vina-del-mar"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_ce0f735143ecbc11b5009a7c",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DfH1oByhhPr"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "teatro_munivina",
-        "source_record_id": "obs_ce0f735143ecbc11b5009a7c",
-        "source_url": "https://www.instagram.com/p/DfH1oByhhPr",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_80ca53ac50120ec5e842441c",
         "destination": {
           "canonical_event_id": "agenda_80ca53ac50120ec5e842441c",
@@ -42126,70 +41710,6 @@
       },
       {
         "action": "observation_recovery",
-        "canonical_event_id": "agenda_ae4663af21d81fe6969d7af9",
-        "destination": {
-          "canonical_event_id": "agenda_ae4663af21d81fe6969d7af9",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Viña del Mar",
-            "id": "agenda_ae4663af21d81fe6969d7af9",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T17:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T17:00:00-03:00"
-            },
-            "source_id": "museo_fonck",
-            "source_urls": [
-              "https://www.instagram.com/p/DfPhieRI8By"
-            ],
-            "title": "Rongo, la historia oculta de Isla de Pascua",
-            "venue": "museo-fonck"
-          },
-          "observation_binding": {
-            "city": "Viña del Mar",
-            "id": "agenda_ae4663af21d81fe6969d7af9",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T17:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T17:00:00-03:00"
-            },
-            "source_id": "museo_fonck",
-            "source_urls": [
-              "https://www.instagram.com/p/DfPhieRI8By"
-            ],
-            "title": "Rongo, la historia oculta de Isla de Pascua",
-            "venue": "museo-fonck"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_d5b4f8b0524df5c5b7367659",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DfPhieRI8By"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "museofonck",
-        "source_record_id": "obs_d5b4f8b0524df5c5b7367659",
-        "source_url": "https://www.instagram.com/p/DfPhieRI8By",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
         "canonical_event_id": "agenda_f7c2930bda3c90fd72dd33ce",
         "destination": {
           "canonical_event_id": "agenda_f7c2930bda3c90fd72dd33ce",
@@ -42348,70 +41868,6 @@
         "source_id": "municipalvalpo",
         "source_record_id": "obs_d75b7de0820009b00b909c07",
         "source_url": "https://www.instagram.com/p/DeDK0KIGgOV",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
-        "canonical_event_id": "agenda_6bf7829b6d699312c4133400",
-        "destination": {
-          "canonical_event_id": "agenda_6bf7829b6d699312c4133400",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_6bf7829b6d699312c4133400",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T16:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T16:00:00-03:00"
-            },
-            "source_id": "cultura_pucv",
-            "source_urls": [
-              "https://www.instagram.com/p/DfF_bkHvsSi"
-            ],
-            "title": "El Museo Baburizza te visita",
-            "venue": "Escuela de Ingeniería Química PUCV, Aulario de Ingeniería Química (Av. Brasil 2162, Valparaíso)"
-          },
-          "observation_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_6bf7829b6d699312c4133400",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T16:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T16:00:00-03:00"
-            },
-            "source_id": "cultura_pucv",
-            "source_urls": [
-              "https://www.instagram.com/p/DfF_bkHvsSi"
-            ],
-            "title": "El Museo Baburizza te visita",
-            "venue": "Escuela de Ingeniería Química PUCV, Aulario de Ingeniería Química (Av. Brasil 2162, Valparaíso)"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_d822d69a78796adfd660695a",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DfF_bkHvsSi"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "cultura_pucv",
-        "source_record_id": "obs_d822d69a78796adfd660695a",
-        "source_url": "https://www.instagram.com/p/DfF_bkHvsSi",
         "stage": "finalizer_completeness_recovery"
       },
       {
@@ -43074,70 +42530,6 @@
         "source_id": "cultura_pucv",
         "source_record_id": "obs_e4696124a63acbc0b81d9373",
         "source_url": "https://www.instagram.com/p/Dc1OxsGRJvM",
-        "stage": "finalizer_completeness_recovery"
-      },
-      {
-        "action": "observation_recovery",
-        "canonical_event_id": "agenda_86d79bf2452f744301592bad",
-        "destination": {
-          "canonical_event_id": "agenda_86d79bf2452f744301592bad",
-          "state": "published"
-        },
-        "evidence": {
-          "canonical_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_86d79bf2452f744301592bad",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T19:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T19:00:00-03:00"
-            },
-            "source_id": "valparaiso_profundo",
-            "source_urls": [
-              "https://www.instagram.com/p/De-Tn3vslxr"
-            ],
-            "title": "Sabina Íntimo, tributo oficial",
-            "venue": "Fisher 18, Escalera de Colores, Cerro Concepción"
-          },
-          "observation_binding": {
-            "city": "Valparaíso",
-            "id": "agenda_03e49bc33f81dee22619ce46",
-            "schedule": {
-              "end": null,
-              "mode": "dated",
-              "occurrences": [
-                {
-                  "end": null,
-                  "start": "2026-11-06T19:00:00-03:00"
-                }
-              ],
-              "start": "2026-11-06T19:00:00-03:00"
-            },
-            "source_id": "valparaiso_profundo",
-            "source_urls": [
-              "https://www.instagram.com/p/DfLVtosMlR6"
-            ],
-            "title": "Sabina Íntimo, tributo oficial",
-            "venue": "Fisher 18, Escalera de Colores, Cerro Concepción"
-          },
-          "transformation_class": "recovered"
-        },
-        "observation_id": "obs_e4e434e3e259d7436671e5d3",
-        "occurrence_id": null,
-        "provenance": {
-          "method": "ledger_observation_exact_registry_identity",
-          "source_url": "https://www.instagram.com/p/DfLVtosMlR6"
-        },
-        "reason": "confirmed_observation_recovered_to_canonical_event",
-        "source_id": "valparaisoprofundo",
-        "source_record_id": "obs_e4e434e3e259d7436671e5d3",
-        "source_url": "https://www.instagram.com/p/DfLVtosMlR6",
         "stage": "finalizer_completeness_recovery"
       },
       {
